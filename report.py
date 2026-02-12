@@ -27,7 +27,7 @@ from typing import Optional, List, Dict, Any, Tuple
 # ============================================================
 PIPELINE_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver\data\pipeline_stages.db"
 CRYPTIC_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver\data\cryptic_new.db"
-CLUES_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db"
+CLUES_DB = r"C:\Users\shuteclaude\PycharmProjects\cryptic_solver_V2\data\clues_master.db"
 OUTPUT_FILE = r"C:\Users\shute\OneDrive\print\puzzle_report.txt"
 
 # API configuration
@@ -883,7 +883,6 @@ Respond with JSON only, no markdown:
 
     return prompt
 
-    return prompt
 
 
 def validate_api_response(response: Dict, answer: str) -> Tuple[bool, str]:

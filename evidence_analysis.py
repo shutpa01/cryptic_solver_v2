@@ -12,8 +12,6 @@ Architecture:
 4. Show ranking improvements
 """
 
-import sys
-import os
 
 # Add project root to path
 

@@ -14,7 +14,6 @@ import sys
 import sqlite3
 import json
 import re
-import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Set
 from datetime import datetime
@@ -26,7 +25,7 @@ from stages.compound import (
     CompoundWordplayAnalyzer, WordRole, norm_letters
 )
 from stages.unified_explanation import ExplanationBuilder
-
+from report import get_latest_run_id, get_puzzle_info, get_all_clue_ids, resolve_clue, format_report, PIPELINE_DB, CLUES_DB, OUTPUT_FILE
 # Database paths
 PIPELINE_DB_PATH = Path(
     r'C:\Users\shute\PycharmProjects\cryptic_solver\data\pipeline_stages.db')
@@ -492,219 +491,6 @@ class GeneralWordplayAnalyzer:
 # Unified Puzzle Report
 # ======================================================================
 
-def write_puzzle_report(run_id: int = 0):
-    """
-    Pull from ALL stage tables and write a unified puzzle report.
-    Groups clues by resolution method.
-    """
-    conn = get_pipeline_connection()
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-    # Get puzzle info from input stage
-    cursor.execute("""
-        SELECT DISTINCT source, puzzle_number FROM stage_input WHERE run_id = ?
-    """, (run_id,))
-    puzzle_info = cursor.fetchall()
-    source = puzzle_info[0]['source'] if puzzle_info else 'Unknown'
-    puzzle_num = puzzle_info[0]['puzzle_number'] if puzzle_info else 'Unknown'
-
-    # Total clue count
-    cursor.execute("SELECT COUNT(*) FROM stage_input WHERE run_id = ?", (run_id,))
-    total_clues = cursor.fetchone()[0]
-
-    # ---- DD hits ----
-    cursor.execute("""
-        SELECT clue_id, clue_text, answer, matched_answer, windows
-        FROM stage_dd WHERE run_id = ? AND hit_found = 1
-        ORDER BY clue_id
-    """, (run_id,))
-    dd_hits = cursor.fetchall()
-
-    # ---- Lurker hits ----
-    cursor.execute("""
-        SELECT clue_id, clue_text, answer, lurker_answer, container_text, start_pos, end_pos
-        FROM stage_lurker WHERE run_id = ? AND hit_found = 1
-        ORDER BY clue_id
-    """, (run_id,))
-    lurker_hits = cursor.fetchall()
-
-    # ---- Compound (anagram-based, only fully solved - rejects forwarded to general) ----
-    cursor.execute("""
-        SELECT clue_id, clue_text, answer, formula, quality, definition_window,
-               fully_resolved, letters_still_needed, breakdown, substitutions,
-               operation_indicators, unresolved_words
-        FROM stage_compound WHERE run_id = ? AND fully_resolved = 1
-        ORDER BY clue_id
-    """, (run_id,))
-    compound_rows = cursor.fetchall()
-
-    # ---- General (non-anagram wordplay) ----
-    cursor.execute("""
-        SELECT clue_id, clue_text, answer, formula, quality, definition_window,
-               fully_resolved, letters_still_needed, breakdown, substitutions,
-               operation_indicators, unresolved_words
-        FROM stage_general WHERE run_id = ?
-        ORDER BY clue_id
-    """, (run_id,))
-    general_rows = cursor.fetchall()
-
-    # ---- Definition gate failures ----
-    cursor.execute("""
-        SELECT clue_id, clue_text, answer
-        FROM stage_definition_failed WHERE run_id = ?
-        ORDER BY clue_id
-    """, (run_id,))
-    def_failed = cursor.fetchall()
-
-    conn.close()
-
-    # Counts
-    compound_solved = [r for r in compound_rows if r['fully_resolved'] == 1]
-    compound_partial = [r for r in compound_rows if r['fully_resolved'] != 1]
-    general_solved = [r for r in general_rows if r['fully_resolved'] == 1]
-    general_partial = [r for r in general_rows if r['fully_resolved'] != 1]
-    total_solved = len(dd_hits) + len(lurker_hits) + len(compound_solved) + len(
-        general_solved)
-
-    # Build report
-    lines = []
-    lines.append("=" * 80)
-    lines.append(f"PUZZLE REPORT: {source} #{puzzle_num}")
-    lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    lines.append(f"Total clues: {total_clues}")
-    lines.append("=" * 80)
-
-    lines.append("")
-    lines.append("SUMMARY")
-    lines.append("-" * 40)
-    lines.append(f"  Double definitions:       {len(dd_hits)}")
-    lines.append(f"  Lurkers:                  {len(lurker_hits)}")
-    lines.append(f"  Anagram/compound solved:  {len(compound_solved)}")
-    lines.append(f"  Anagram/compound partial: {len(compound_partial)}")
-    lines.append(f"  General wordplay solved:  {len(general_solved)}")
-    lines.append(f"  General wordplay partial: {len(general_partial)}")
-    lines.append(f"  Definition gate failed:   {len(def_failed)}")
-    lines.append(f"  ---")
-    lines.append(f"  TOTAL SOLVED:             {total_solved}/{total_clues}")
-
-    # ---- DD section ----
-    if dd_hits:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("DOUBLE DEFINITIONS")
-        lines.append("=" * 80)
-        for row in dd_hits:
-            windows = json.loads(row['windows']) if row['windows'] else []
-            lines.append(f"")
-            lines.append(f"  CLUE: {row['clue_text']}")
-            lines.append(f"  ANSWER: {row['answer']}")
-            lines.append(f"  DEFINITIONS: {', '.join(windows)}")
-
-    # ---- Lurker section ----
-    if lurker_hits:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("HIDDEN WORDS (LURKERS)")
-        lines.append("=" * 80)
-        for row in lurker_hits:
-            lines.append(f"")
-            lines.append(f"  CLUE: {row['clue_text']}")
-            lines.append(f"  ANSWER: {row['lurker_answer']}")
-
-            # Build "HIDDEN IN" display from clue text and span positions
-            hidden_display = row['container_text'] or ''
-            start_pos = row['start_pos'] if row['start_pos'] is not None else -1
-            end_pos = row['end_pos'] if row['end_pos'] is not None else -1
-
-            if start_pos >= 0 and end_pos > start_pos:
-                # Extract letters-only from clue (matching lurker detection logic)
-                clue_text = row['clue_text'] or ''
-                # Remove enumeration
-                clue_no_enum = re.sub(r'\s*\([\d,]+\)\s*$', '', clue_text)
-                letters_only = ''.join(c for c in clue_no_enum if c.isalpha())
-
-                # Build display: lowercase before, UPPERCASE hidden, lowercase after
-                if end_pos <= len(letters_only):
-                    before = letters_only[:start_pos].lower()
-                    hidden = letters_only[start_pos:end_pos].upper()
-                    after = letters_only[end_pos:].lower()
-                    hidden_display = f"{before}{hidden}{after}"
-
-            lines.append(f"  HIDDEN IN: {hidden_display}")
-
-    # ---- Compound (anagram-based) section ----
-    if compound_rows:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("ANAGRAM / COMPOUND WORDPLAY")
-        lines.append("=" * 80)
-        for row in compound_rows:
-            breakdown = json.loads(row['breakdown']) if row['breakdown'] else []
-            resolved = "SOLVED" if row['fully_resolved'] == 1 else "PARTIAL"
-            lines.append(f"")
-            lines.append(f"  [{resolved}] CLUE: {row['clue_text']}")
-            lines.append(f"  ANSWER: {row['answer']}")
-            lines.append(f"  DEFINITION: {row['definition_window'] or '(not found)'}")
-            lines.append(f"  FORMULA: {row['formula'] or '?'}")
-            if breakdown:
-                lines.append(f"  BREAKDOWN:")
-                for b in breakdown:
-                    lines.append(f"    {b}")
-            if row['letters_still_needed']:
-                lines.append(f"  LETTERS NEEDED: {row['letters_still_needed']}")
-
-    # ---- General wordplay section ----
-    if general_rows:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("GENERAL WORDPLAY (NON-ANAGRAM)")
-        lines.append("=" * 80)
-        for row in general_rows:
-            breakdown = json.loads(row['breakdown']) if row['breakdown'] else []
-            resolved = "SOLVED" if row['fully_resolved'] == 1 else "PARTIAL"
-            lines.append(f"")
-            lines.append(f"  [{resolved}] CLUE: {row['clue_text']}")
-            lines.append(f"  ANSWER: {row['answer']}")
-            lines.append(f"  DEFINITION: {row['definition_window'] or '(not found)'}")
-            lines.append(f"  FORMULA: {row['formula'] or '?'}")
-            if breakdown:
-                lines.append(f"  BREAKDOWN:")
-                for b in breakdown:
-                    lines.append(f"    {b}")
-            if row['letters_still_needed']:
-                lines.append(f"  LETTERS NEEDED: {row['letters_still_needed']}")
-
-    # ---- Definition gate failures ----
-    if def_failed:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("DEFINITION GATE FAILURES (no definition match found)")
-        lines.append("=" * 80)
-        for row in def_failed:
-            lines.append(f"")
-            lines.append(f"  CLUE: {row['clue_text']}")
-            lines.append(f"  ANSWER: {row['answer']}")
-
-    lines.append("")
-    lines.append("=" * 80)
-    lines.append("END OF REPORT")
-    lines.append("=" * 80)
-
-    report_text = "\n".join(lines)
-
-    # Write to file
-    with open(REPORT_PATH, 'w', encoding='utf-8') as f:
-        f.write(report_text)
-
-    print(f"\nPuzzle report written to: {REPORT_PATH}")
-    return report_text
-
-
-# ======================================================================
-# Main orchestrator
-# ======================================================================
-
 def run_general_analysis(run_id: int = 0):
     """Run general wordplay analysis on non-anagram clues."""
     init_general_table()
@@ -763,9 +549,13 @@ def main():
     print("STEP 3: Writing unified puzzle report...")
     print("-" * 60)
 
-    report = write_puzzle_report(run_id=0)
-
-    # Print report to console as well
+    puzzle_info = get_puzzle_info(PIPELINE_DB, 0)
+    clue_ids = get_all_clue_ids(PIPELINE_DB, 0)
+    results = [resolve_clue(PIPELINE_DB, CLUES_DB, 0, cid) for cid in clue_ids]
+    report = format_report(results, puzzle_info)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(report)
+    print(f"\nReport saved to {OUTPUT_FILE}")
     print("\n" + report)
 
 
