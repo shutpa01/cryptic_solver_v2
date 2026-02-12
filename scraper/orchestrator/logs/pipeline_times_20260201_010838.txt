@@ -1,0 +1,257 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-02-01 01:08:38
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (1 clues)
+======================================================================
+
+[DD] Pot from southern US states (5)
+  Answer: DIXIE
+  Wordplay: Double Definition
+  Definition 1: "Pot"
+  Definition 2: "southern US"
+
+======================================================================
+STAGE: HIDDEN (1 clues)
+======================================================================
+
+[HIDDEN] S American coin cashier's taken in
+  Answer: INCA
+  Wordplay: Hidden word 
+  Indicator: in
+
+======================================================================
+STAGE: ANAGRAM (3 clues)
+======================================================================
+
+[ANAGRAM] Swear GI slyly listens in
+  Answer: EARWIGS
+  Wordplay: Anagram
+  Fodder: Swear + GI
+  Definition: "slyly listens in"
+
+[ANAGRAM] Here quiet fan can run classic film
+  Answer: THE AFRICAN QUEEN
+  Wordplay: Anagram
+  Fodder: Here + quiet + fan + can
+  Indicator: run
+  Definition: "classic film"
+
+[ANAGRAM] Matches used when building is in flames? (10)
+  Answer: SEMIFINALS
+  Wordplay: Anagram
+  Fodder: is + in + flames?
+  Definition: "Matches used when building"
+
+======================================================================
+STAGE: COMPOUND (1 clues)
+======================================================================
+
+[COMPOUND] Crazy finance rules surrounding current protection product
+  Answer: LIFE INSURANCE
+  Wordplay: Compound Anagram
+  Substitution: current → I (single_letter)
+  Fodder: finance + rules
+  Derivation: current→I + anagram(FINANCERULES) = LIFE INSURANCE
+  Indicator: Crazy
+  Definition: "surrounding current protection product"
+
+======================================================================
+STAGE: UNSOLVED (44 clues)
+======================================================================
+
+[UNSOLVED] Course note published charges (5)
+  Answer: ROUTE
+
+[UNSOLVED] For example, a currency set up for animal accommodation
+  Answer: LAIRAGE
+
+[UNSOLVED] University housing area put at risk (8)
+  Answer: IMPERIAL
+
+[UNSOLVED] Athlete blowing top in US city convent
+  Answer: NUNNERY
+
+[UNSOLVED] Casual worker missing work to begin with (7)
+  Answer: OFFHAND
+
+[UNSOLVED] Ousted Democrat leaves very upset
+  Answer: EJECTED
+
+[UNSOLVED] Cat losing seconds repeatedly chasing shy rodent
+  Answer: COYPU
+
+[UNSOLVED] Enclosed crop before the beginning of December
+  Answer: CORNERED
+
+[UNSOLVED] Son certain about the present being kept in the house? (9)
+  Answer: SNOWBOUND
+
+[UNSOLVED] One single bathroom for e.g. King Edward in Asia (4)
+  Answer: ALOO
+
+[UNSOLVED] Was Cupid the first successful one?
+  Answer: DARTS PLAYER
+
+[UNSOLVED] Pitch marker clubs abandoned abruptly
+  Answer: CLEF
+  Definition (guess): "Pitch marker"
+  Found (25% of answer):
+    clubs → C (first_letter) [abruptly]
+  Explained: C
+
+[UNSOLVED] Learning assumed by one that runs a course in France (5)
+  Answer: LOIRE
+
+[UNSOLVED] Street right through area of land — unknown quantity — it may never be restored
+  Answer: LOST PROPERTY
+
+[UNSOLVED] Female artist round back of Tate, one regulating courses
+  Answer: DIETITIAN
+
+[UNSOLVED] Blokes who'd supply water heaters for some speakers
+  Answer: GEEZERS
+
+[UNSOLVED] Demanding hotel in capital
+  Answer: TALLINN
+
+[UNSOLVED] Blue dog in US space station
+  Answer: SKYLAB
+
+[UNSOLVED] Keep talking about poet’s end? This one’s was tragic (10)
+  Answer: CHATTERTON
+
+[UNSOLVED] Collects are primarily associated with church services (7)
+  Answer: AMASSES
+  Definition (guess): "Collects"
+  Found (14% of answer):
+    associated → A (first_letter) [primarily]
+  Explained: A
+  Unused words: church, services, 7
+
+[UNSOLVED] Delicious things and a lot of money, the best part of a racket (5,4)
+  Answer: SWEET SPOT
+
+[UNSOLVED] Current parliament returns early work (5)
+  Answer: ILIAD
+
+[UNSOLVED] In general, answer was recalled with difficulty (2,1,5)
+  Answer: AS A WHOLE
+  Definition (guess): "In general"
+  Found (12% of answer):
+    answer → A (substitution)
+  Explained: A
+  Unused words: difficulty, 2,1,5
+
+[UNSOLVED] Difficult day's ending in Hertfordshire town
+  Answer: TRYING
+
+[UNSOLVED] Brave and fortunate in pursuit of power
+  Answer: PLUCKY
+  Definition (guess): "Brave"
+  Found (17% of answer):
+    power → P (substitution)
+  Explained: P
+  Unused words: fortunate, pursuit
+
+[UNSOLVED] Decide to work out again (7)
+  Answer: RESOLVE
+
+[UNSOLVED] Large group equipped with members, might you say?
+  Answer: ARMY
+
+[UNSOLVED] Pay for current foreign-based stocks with euros
+  Answer: EXPIATE
+
+[UNSOLVED] Going along with engineers getting on ferries
+  Answer: AGREEING
+
+[UNSOLVED] Old German crossing Bali, free to express great happiness
+  Answer: JUBILATE
+
+[UNSOLVED] Maybe steely marine's outside, of great stature and in charge
+  Answer: METALLIC
+  Definition (guess): "Maybe"
+  Found (12% of answer):
+    marine's → M (first_letter) [outside]
+  Explained: M
+  Unused words: steely, great, stature, charge
+
+[UNSOLVED] Tree by a large expanse of water in a sorry state (7)
+  Answer: ASHAMED
+  Definition (guess): "Tree"
+  Found (0% of answer):
+    7 →  (anagram) [sorry]
+  Explained: 
+  Unused words: large, expanse, water
+
+[UNSOLVED] Generous with son in domestic situation (8)
+  Answer: HANDSOME
+
+[UNSOLVED] Be stuck with second class post (4)
+  Answer: JAMB
+
+[UNSOLVED] Retired woman concealing worry about written work (5)
+  Answer: ILIAD
+  Definition (guess): "Retired"
+  Found (0% of answer):
+    5 →  (anagram) [work]
+  Explained: 
+  Unused words: woman, concealing
+
+[UNSOLVED] Sound of jeers in court session
+  Answer: BOOZE-UP
+
+[UNSOLVED] Wader sometimes seen by reef
+  Answer: KNOT
+
+[UNSOLVED] Composer Bernstein is sorrowful, though not entirely upset
+  Answer: ROSSINI
+
+[UNSOLVED] Conveyors of blood belonging to relative in sanatorium (5)
+  Answer: VEINS
+
+[UNSOLVED] Having had the bill split?
+  Answer: DO A RUNNER
+
+[UNSOLVED] Fine letting on quietly
+  Answer: PLEASING
+  Definition (guess): "Fine"
+  Found (12% of answer):
+    quietly → P (substitution)
+  Explained: P
+  Unused words: letting
+
+[UNSOLVED] Irish officer touring eastern part of UK plant
+  Answer: GARDENIA
+
+[UNSOLVED] Ruse by Liberal Party that's raised game
+  Answer: DODGEBALL
+  Definition (guess): "game"
+  Found (22% of answer):
+    Party → DO (substitution)
+  Explained: DO
+  Unused words: Ruse, that's
+
+[UNSOLVED] Supporter very obviously just started cheer (5)
+  Answer: BRAVO
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       1
+  Solved by Hidden:   1
+  Solved by Anagram:  3
+  Solved by Compound: 1
+  Solved by General:  0
+  Unsolved:           44
+    (with partial progress: 7)
+
+Solve rate: 6/50 (12.0%)

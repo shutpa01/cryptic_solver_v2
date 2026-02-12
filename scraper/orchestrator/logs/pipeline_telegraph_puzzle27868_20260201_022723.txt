@@ -1,0 +1,249 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-02-01 02:27:23
+Cohort: source=telegraph, puzzle=27868, count=50, random
+Source: telegraph
+Puzzle: 27868
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (3 clues)
+======================================================================
+
+[DD] Discharge  energy (4)
+  Answer: FIRE
+  Wordplay: Double Definition
+  Definition 1: "Discharge"
+  Definition 2: "energy"
+
+[DD] Discharge energy
+  Answer: Fire
+  Wordplay: Double Definition
+  Definition 1: "Discharge"
+  Definition 2: "energy"
+
+[DD] A vehicle's following another – and some others
+  Answer: Caravans
+  Wordplay: Double Definition
+  Definition 1: "vehicle's"
+  Definition 2: "– and some others"
+
+======================================================================
+STAGE: COMPOUND (1 clues)
+======================================================================
+
+[COMPOUND] Plant with strange aroma is full of power
+  Answer: Mariposa
+  Wordplay: Compound Anagram
+  Substitution: power → P (single_letter)
+  Fodder: aroma + is
+  Derivation: power→P + anagram(AROMAIS) = Mariposa
+  Indicator: strange
+  Definition: "Plant full power"
+
+======================================================================
+STAGE: UNSOLVED (46 clues)
+======================================================================
+
+[UNSOLVED] More beloved member embraced by the German (6)
+  Answer: DEARER
+
+[UNSOLVED] Greek character and I can turn up after one in institute
+  Answer: Initiate
+  Definition (guess): "institute"
+  Found (12% of answer):
+    I → I (substitution)
+  Explained: I
+
+[UNSOLVED] Fruit around Australia gets praise (8)
+  Answer: APPLAUSE
+
+[UNSOLVED] Covering of long hair hiding end bits of tail
+  Answer: Mantle
+
+[UNSOLVED] Good person to encourage Scottish politician
+  Answer: Sturgeon
+
+[UNSOLVED] Asleep, Carol is interrupted by awful rumble (10)
+  Answer: SLUMBERING
+  Definition (guess): "Asleep"
+  Found (0% of answer):
+    10 →  (anagram) [rumble]
+  Explained: 
+  Unused words: Carol, interrupted
+
+[UNSOLVED] What’s less productive in Civil Service? They shouldn’t sweep things under the carpet! (8)
+  Answer: CLEANERS
+
+[UNSOLVED] Heartless son longing to be a telltale
+  Answer: Snitch
+  Definition (guess): "telltale"
+  Found (17% of answer):
+    son → S (substitution)
+  Explained: S
+  Unused words: longing
+
+[UNSOLVED] Rugby home a wreck (4)
+  Answer: RUIN
+
+[UNSOLVED] It's odd having parking behind
+  Answer: Rump
+
+[UNSOLVED] Instrument for shaping clay bed
+  Answer: Pallet
+
+[UNSOLVED] Ordered famous airman to finish prematurely (4)
+  Answer: BADE
+
+[UNSOLVED] Fruit around Australia gets praise
+  Answer: Applause
+
+[UNSOLVED] Nipping one flower spoils a plant (8)
+  Answer: MARIPOSA
+  Definition (guess): "Nipping"
+  Found (0% of answer):
+    8 →  (anagram) [plant]
+  Explained: 
+  Unused words: flower
+
+[UNSOLVED] Bit of food woman served up for dog maybe to eat (6)
+  Answer: PEANUT
+
+[UNSOLVED] Heartless son longing to be a telltale (6)
+  Answer: SNITCH
+  Definition (guess): "Heartless"
+  Found (17% of answer):
+    son → S (substitution)
+  Explained: S
+  Unused words: longing, telltale, 6
+
+[UNSOLVED] A vehicle’s following another — and some others (8)
+  Answer: CARAVANS
+
+[UNSOLVED] It’s odd having parking behind (4)
+  Answer: RUMP
+
+[UNSOLVED] Asleep, Carol is interrupted by awful rumble
+  Answer: Slumbering
+
+[UNSOLVED] Honoured person deceased, having swallowed chemical compound (8)
+  Answer: LAUREATE
+
+[UNSOLVED] A thing without love, miserable
+  Answer: Abject
+
+[UNSOLVED] Representative and politician engaged in commercial activity
+  Answer: Sample
+
+[UNSOLVED] Favouring dull layout (6)
+  Answer: FORMAT
+
+[UNSOLVED] Line worker put around church window (6)
+  Answer: LANCET
+
+[UNSOLVED] Line worker put around church window
+  Answer: Lancet
+  Definition (guess): "window"
+  Found (17% of answer):
+    Line → L (substitution)
+  Explained: L
+  Unused words: worker, put, church
+
+[UNSOLVED] Plant eaten up, releasing energy somehow
+  Answer: Peanut
+
+[UNSOLVED] Representative and politician engaged in commercial activity (6)
+  Answer: SAMPLE
+
+[UNSOLVED] Remark about exercise involving fifty members of crew
+  Answer: Complement
+
+[UNSOLVED] Good person to encourage Scottish politician (8)
+  Answer: STURGEON
+
+[UNSOLVED] President in the bathroom? Not to be disturbed (10)
+  Answer: WASHINGTON
+  Definition (guess): "President"
+  Found (0% of answer):
+    10 →  (anagram) [disturbed]
+  Explained: 
+  Unused words: bathroom
+
+[UNSOLVED] Greek character and I can turn up after one in institute (8)
+  Answer: INITIATE
+  Definition (guess): "Greek"
+  Found (12% of answer):
+    I → I (substitution)
+  Explained: I
+  Unused words: institute, 8
+
+[UNSOLVED] A thing without love, miserable (6)
+  Answer: ABJECT
+
+[UNSOLVED] More beloved member embraced by the German
+  Answer: Dearer
+
+[UNSOLVED] London banker
+  Answer: Thames
+
+[UNSOLVED] Ex-PM following two others in musical interval
+  Answer: Major third
+
+[UNSOLVED] Instrument for shaping clay  bed (6)
+  Answer: PALLET
+
+[UNSOLVED] Something precious in one group of stars
+  Answer: Gemini
+
+[UNSOLVED] Remark about exercise involving fifty members of crew (10)
+  Answer: COMPLEMENT
+
+[UNSOLVED] Something precious in one group of stars (6)
+  Answer: GEMINI
+
+[UNSOLVED] London banker (6)
+  Answer: THAMES
+
+[UNSOLVED] Bird publication with bits half missing
+  Answer: Magpie
+
+[UNSOLVED] Favouring dull layout
+  Answer: Format
+
+[UNSOLVED] Rugby home a wreck
+  Answer: Ruin
+  Definition (guess): "wreck"
+  Found (50% of answer):
+    Rugby → RU (substitution)
+  Explained: RU
+  Unused words: home
+
+[UNSOLVED] Poorer society under Conservative folk who shouldn't sweep things under the carpet!
+  Answer: Cleaners
+  Definition (guess): "Poorer"
+  Found (12% of answer):
+    Conservative → C (substitution)
+  Explained: C
+  Unused words: society, under, folk, shouldn't, sweep, things, under, carpet
+
+[UNSOLVED] President in the bathroom? Not to be disturbed
+  Answer: Washington
+
+[UNSOLVED] The fellow overdue comes round in the afternoon to be companion (8)
+  Answer: HELPMATE
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       3
+  Solved by Hidden:   0
+  Solved by Anagram:  0
+  Solved by Compound: 1
+  Solved by General:  0
+  Unsolved:           46
+    (with partial progress: 7)
+
+Solve rate: 4/50 (8.0%)

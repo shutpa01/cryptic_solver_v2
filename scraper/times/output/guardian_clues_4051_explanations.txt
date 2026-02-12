@@ -1,0 +1,361 @@
+============================================================
+EXPLANATIONS: guardian_clues #4051
+Generated: 2026-01-26 03:57:20
+============================================================
+
+
+========================================
+DOWN
+========================================
+
+1d. Struggle, insanely bored: it’s what you have to wear (8)
+Answer: WARDROBE
+Definition: what you have to wear
+Wordplay type: anagram
+Components:
+  - insanely = anagram indicator
+  - bored = fodder
+  - Struggle = WAR
+  - WAR + anagram of BORED = WAR + DROBE
+Derivation: WAR (struggle) + DROBE (anagram of 'bored') = WARDROBE
+Confidence: high
+
+2d. Bow stored in cedar chest (3)
+Answer: ARC
+Definition: Bow
+Wordplay type: hidden
+Components:
+  - stored in = hidden word indicator
+  - cedAR Chest = contains ARC
+Derivation: ARC is hidden within 'cedAR Chest'
+Confidence: high
+
+3d. Model wearing elaborate headgear: wow! (5,4)
+Answer: FANCYTHAT
+Definition: wow!
+Wordplay type: charade with container
+Components:
+  - FANCY = elaborate (adjective meaning ornate/elaborate)
+  - T = Model (Model T Ford)
+  - wearing = container indicator
+  - HAT = headgear
+  - T wearing HAT = THAT (T inside HAT)
+Derivation: FANCY + THAT (where THAT = T inside HAT) = FANCYTHAT
+Confidence: high
+
+5d. He’d gab and grumble affectedly – tried to subtly impress (6-7)
+Answer: HUMBLEBRAGGED
+Definition: tried to subtly impress
+Wordplay type: anagram
+Components:
+  - He'd gab and grumble = anagram fodder (13 letters)
+  - affectedly = anagram indicator
+Derivation: HE'D GAB AND GRUMBLE anagrammed = HUMBLEBRAGGED
+Confidence: high
+
+6d. More paintings etc by O’Keeffe finally put up (5)
+Answer: EXTRA
+Definition: More
+Wordplay type: charade with reversal
+Components:
+  - paintings etc = ART (art includes paintings)
+  - by = X (multiplication symbol)
+  - O'Keeffe finally = E (last letter of O'Keeffe)
+  - put up = reversal indicator (DOWN clue)
+  - ART + X + E = ARTXE reversed = EXTRA
+Derivation: ART (paintings etc) + X (by) + E (O'Keeffe finally) reversed = EXTRA
+Confidence: high
+
+7d. Sinking in Tigris, green, flailing (11)
+Answer: REGISTERING
+Definition: Sinking in
+Wordplay type: anagram
+Components:
+  - Tigris green = anagram fodder (11 letters)
+  - flailing = anagram indicator
+Derivation: TIGRIS + GREEN anagrammed = REGISTERING
+Confidence: high
+
+8d. Go back, not initially finding exit (6)
+Answer: EGRESS
+Definition: exit
+Wordplay type: charade with reversal and deletion
+Components:
+  - Go back = REGRESS reversed? No - rethinking
+  - REGRESS = go back (synonym)
+  - not initially = remove first letter
+  - REGRESS minus R = EGRESS
+Derivation: REGRESS (go back) with first letter removed (not initially) = EGRESS
+Confidence: high
+
+10d. Before perhaps, ladies in trouble (13)
+Answer: INCONVENIENCE
+Definition: trouble
+Wordplay type: charade
+Components:
+  - Before = IN ADVANCE, but here IN + CONVENIENCE rearranged
+  - Actually: IN + CONVENIENCE where CONVENIENCE = perhaps ladies
+  - Wait - let me verify: 'in' = IN
+  - CONVENIENCE = 'Before perhaps, ladies' anagrammed? No.
+  - IN + CON (perhaps = example) + VENI (came, Latin) + ENCE? No.
+  - IN = in
+  - CONVENE + I + NCE? No.
+  - IN + CONVENIENCE (ladies = public convenience/toilet)
+Derivation: IN + CONVENIENCE where 'ladies' = CONVENIENCE (euphemism for toilet/public convenience)
+Confidence: medium
+
+13d. Like forward planning a mass exodus (11)
+Answer: TAUTOLOGOUS
+Definition: Like forward planning a mass exodus
+Wordplay type: cryptic definition
+Components:
+  - The entire clue is a cryptic definition
+  - 'forward planning' is a tautology (planning is inherently forward-looking)
+  - 'mass exodus' is a tautology (exodus already implies mass departure)
+  - Both phrases are examples of tautological expressions
+Derivation: The clue defines TAUTOLOGOUS by giving two examples of tautologies - phrases containing redundant words
+Confidence: high
+
+16d. Seriously, I’m approaching Robin’s home (2,7)
+Answer: INEARNEST
+Definition: Seriously
+Wordplay type: charade
+Components:
+  - I'm = I
+  - approaching = NEAR
+  - Robin's home = NEST (bird's home)
+Derivation: I + NEAR + NEST = INEARNEST (IN EARNEST)
+Confidence: high
+
+17d. Goes to join with senior teachers’ backing (5,3)
+Answer: HEADSFOR
+Definition: Goes to
+Wordplay type: charade with reversal
+Components:
+  - senior teachers = HEADS
+  - backing = reversal indicator (valid in DOWN clue)
+  - join = FOR (as in 'for' meaning 'in favour of/supporting')
+  - FOR reversed = ROF... wait, checking: HEADS + FOR = HEADSFOR
+Derivation: HEADS (senior teachers) + FOR (join/support) = HEADSFOR
+Confidence: medium
+
+19d. In the wrong order, finally arrive in hilly area (6)
+Answer: UPLAND
+Definition: hilly area
+Wordplay type: charade with final letters
+Components:
+  - In the wrong order = UP (reversed/wrong way)
+  - finally arrive = E (last letter of 'arrive')
+  - Wait - let me recheck: UP + LAND
+  - In the wrong order = UP (things that are 'up' are disordered/wrong)
+  - finally arrive = E? No, that doesn't give LAND
+  - Actually: UP (wrong/out of order) + LAN (anagram?) + D (finally arrive)
+  - Simpler: UP (in the wrong order - things are 'up') + LAND (arrive)
+Derivation: UP (in the wrong order/disordered) + LAND (arrive) = UPLAND
+Confidence: medium
+
+21d. Conclude fashionable arbiter must be sent up (5)
+Answer: INFER
+Definition: Conclude
+Wordplay type: charade with reversal
+Components:
+  - fashionable = IN
+  - arbiter = REF
+  - sent up = reversal indicator (DOWN clue)
+  - REF reversed = FER
+Derivation: IN + FER (REF reversed) = INFER
+Confidence: high
+
+25d. Possess fancy item of clothing that’s no good (3)
+Answer: OWN
+Definition: Possess
+Wordplay type: charade with deletion
+Components:
+  - fancy item of clothing = GOWN
+  - that's no good = deletion indicator for G
+  - good = G
+  - GOWN minus G = OWN
+Derivation: GOWN (fancy item of clothing) - G (good) = OWN
+Confidence: high
+
+========================================
+ACROSS
+========================================
+
+1a. Topless stunts engrossing husband in dockers’ milieu (6)
+Answer: WHARFS
+Definition: dockers' milieu
+Wordplay type: container with deletion
+Components:
+  - topless = deletion indicator (remove first letter)
+  - stunts = WHARFS → topless stunts = HARFS? No...
+  - stunts = FEATS → topless = EATS? No...
+  - Reconsider: topless stunts = ARFS (stunts as WARFS minus W? No...)
+  - stunts = WARFS? No, try: stunts = LARFS (laughs)? No...
+  - Actually: WHarfS contains H (husband)
+  - W(H)ARFS where WARFS needs source...
+  - topless WHARFS = HARFS doesn't work
+  - engrossing = container indicator
+  - husband = H
+  - WARFS contains H = WHARFS
+Derivation: Topless stunts gives ARFS (from BARFS?), then engrossing H = not quite working
+Confidence: low
+
+4a. It must be approximately a foot in length (4,4)
+Answer: SHOETREE
+Definition: It must be approximately a foot in length
+Wordplay type: cryptic definition
+Components:
+  - The entire clue is a cryptic definition
+  - A shoe tree is literally about a foot in length (the size of a foot)
+  - It 'must be' approximately a foot because it's designed to fit inside a shoe
+  - Punning on 'foot' as both measurement and body part
+Derivation: A SHOETREE is a device inserted into shoes to maintain their shape - it must be approximately the length of a foot
+Confidence: high
+
+9a. Again give credence to description of Navy Seals outfit? (9)
+Answer: RECONFIRM
+Definition: Again give credence to
+Wordplay type: charade
+Components:
+  - description of Navy = RE (regarding) + CON (concerning) + FIR (for) + M (military abbreviation)
+  - Actually: RE (regarding/concerning) + CON (description/against) + FIRM (outfit/company)
+  - Seals outfit = FIRM (a business/company)
+Derivation: RE (again, as prefix) + CON (description meaning 'against' or from Navy context) + FIRM (outfit = company) = RECONFIRM
+Confidence: medium
+
+11a. Somewhat anti-German, this beast (5)
+Answer: TIGER
+Definition: beast
+Wordplay type: hidden
+Components:
+  - somewhat = hidden word indicator
+  - anti-German = anTI-GERman contains the hidden word
+  - TIGER is hidden within 'anTI-GERman'
+Derivation: TIGER is hidden in 'anTI-GERman'
+Confidence: high
+
+12a. Non-drinker wearing beam? No: irritable! (5)
+Answer: RATTY
+Definition: irritable
+Wordplay type: container
+Components:
+  - Non-drinker = TT (teetotal)
+  - beam = RAY
+  - wearing = container indicator (TT inside RAY)
+  - RAY containing TT = RA(TT)Y
+Derivation: RAY (beam) with TT (non-drinker) inside = RA+TT+Y = RATTY
+Confidence: high
+
+14a. Having chewed escallops, comes to premature end (9)
+Answer: COLLAPSES
+Definition: comes to premature end
+Wordplay type: anagram with hidden
+Components:
+  - chewed = anagram indicator
+  - escallops = anagram fodder
+  - escallops anagrammed = COLLAPSES
+Derivation: ESCALLOPS anagrammed (chewed) = COLLAPSES
+Confidence: high
+
+15a. Standard wedding feature in Britain: bold drunkard, first to trip (8,5)
+Answer: BLUSHINGBRIDE
+Definition: Standard wedding feature
+Wordplay type: hidden
+Components:
+  - 'in' = hidden word indicator
+  - 'Britain: bold drunkard, first to trip' contains the answer
+  - britaiN: BOLD DRUNKARD, FIRST TO trip = BLUSHINGBRIDE hidden within
+Derivation: BLUSHINGBRIDE is hidden in 'britaiN BOLD DRUNKARD FIRST TO trip' spanning across the words
+Confidence: medium
+
+18a. Avoiding adventurousness, having eaten dishes of bananas (2,3,4,4)
+Answer: ONTHESAFESIDE
+Definition: Avoiding adventurousness
+Wordplay type: anagram with container
+Components:
+  - bananas = anagram indicator
+  - dishes of = anagram fodder (DISHESOF = 8 letters)
+  - eaten = container indicator
+  - having eaten = THE SAFE contains anagram
+  - DISHES OF anagrammed = THE SAFES + ID? - let me reconsider
+  - Actually: 'having eaten dishes of' anagrammed gives ONTHESAFESIDE
+Derivation: HAVING EATEN DISHES OF (17 letters) is NOT an anagram of ONTHESAFESIDE (13 letters) - rechecking: 'dishes of' = 8 letters, answer needs 13. Full fodder 'having eaten dishes of' (without spaces) = HAVINGEATEN DISHESOF. Actually ON THE SAFE SIDE contains letters from: anagram of 'eaten dishes of' = 14 letters vs 13 in answer. Let me verify: E-A-T-E-N-D-I-S-H-E-S-O-F = 13 letters. ONTHESAFESIDE = 13 letters. Yes - anagram of 'eaten dishes of'
+Confidence: medium
+
+20a. Looking up and swearing (9)
+Answer: PROMISING
+Definition: Looking up
+Wordplay type: charade
+Components:
+  - Looking up = definition (improving prospects)
+  - and = connector
+  - swearing = PROMISING (making a promise/oath)
+Derivation: PROMISING means both 'looking up/hopeful' and 'swearing/making oaths'
+Confidence: high
+
+22a. Stiff clothing Everyman had (5)
+Answer: RIGID
+Definition: Stiff
+Wordplay type: charade
+Components:
+  - clothing = RIG (outfit/attire)
+  - Everyman = I
+  - had = D ('d = HAD contracted)
+Derivation: RIG + I + D = RIGID
+Confidence: high
+
+23a. Primarily antisocial, leerily offish or frosty? (5)
+Answer: ALOOF
+Definition: frosty
+Wordplay type: initial letters
+Components:
+  - Primarily = initial letters indicator
+  - A = first letter of Antisocial
+  - L = first letter of Leerily
+  - O = first letter of Offish
+  - O = first letter of Or
+  - F = first letter of Frosty
+Derivation: First letters of Antisocial Leerily Offish Or Frosty = A+L+O+O+F = ALOOF
+Confidence: high
+
+24a. Showed approval of France (wasn’t paying attention) (6,3)
+Answer: NODDEDOFF
+Definition: wasn't paying attention
+Wordplay type: charade
+Components:
+  - Showed approval = NODDED (nodding in agreement)
+  - of = O (homophone indicator, sounds like 'oh')
+  - France = F (standard abbreviation)
+Derivation: NODDED + O + F = NODDEDOFF
+Confidence: medium
+
+26a. Tactful and distinct in pronouncement (8)
+Answer: DISCREET
+Definition: Tactful
+Wordplay type: double definition with homophone
+Components:
+  - Definition 1: Tactful = DISCREET
+  - Definition 2: distinct in pronouncement = sounds like DISCRETE (meaning separate/distinct)
+Derivation: DISCREET (tactful) is a homophone of DISCRETE (distinct/separate)
+Confidence: high
+
+27a. Pot-head, one preparing apricots? (6)
+Answer: STONER
+Definition: Pot-head / one preparing apricots
+Wordplay type: double definition
+Components:
+  - Definition 1: Pot-head = STONER (slang for cannabis user, someone who smokes pot)
+  - Definition 2: one preparing apricots = STONER (person who removes stones from fruit)
+Derivation: Two definitions for the same word - both 'pot-head' and 'one preparing apricots' define STONER
+Confidence: high
+
+
+============================================================
+SUMMARY
+============================================================
+Total processed: 28
+  High confidence:   20
+  Medium confidence: 7
+  Low confidence:    1
+  Failed:            0

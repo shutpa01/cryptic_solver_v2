@@ -1,0 +1,587 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 21:34:56
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: HIDDEN (1 clues)
+======================================================================
+
+[HIDDEN] One included in his progeny?
+  Answer: SPROG
+  Wordplay: Hidden in "One included in his progeny?"
+  Hidden letters: ...sprog... 
+  Indicator: "in"
+  Definition: (remaining words)
+
+======================================================================
+STAGE: ANAGRAM (2 clues)
+======================================================================
+
+[ANAGRAM] Venetian dotard [in] Plato anon written out (9)
+  Answer: PANTALOON
+  Fodder: Plato + anon = PLATOANON
+  Anagram of: AALNNOOPT
+  Definition: "Venetian"
+  Unused words: dotard, [in], written, out
+
+[ANAGRAM] Ballet position found to be tricky
+  Answer: FONDU
+  Fodder: found = FOUND
+  Anagram of: DFNOU
+  Definition: "Ballet"
+  Unused words: position, to, be, tricky
+
+======================================================================
+STAGE: COMPOUND (13 clues)
+======================================================================
+
+[COMPOUND] Organise a drink for everyone in small saloon, perhaps
+  Answer: RUNAROUND
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "drink"
+  Unused words: everyone, small, saloon, perhaps
+
+[COMPOUND] Strange argot comprehended by reliable proxy
+  Answer: SURROGATE
+  Wordplay: Compound Anagram
+    Fodder: argot
+  Derivation: 
+  Definition: "comprehended"
+  Unused words: reliable, proxy
+
+[COMPOUND] Grumpy companion follows friends the wrong way — reckless! (4-5)
+  Answer: SLAP
+  Wordplay: Compound Anagram
+    Fodder: —
+  Derivation: 
+  Definition: "Grumpy"
+  Unused words: companion, follows, friends, wrong, reckless, 4-5
+
+[COMPOUND] Top English physician back in Massachusetts area (4,3)
+  Answer: CAPE COD
+  Wordplay: Compound Anagram
+    english → E (single_letter)
+    Fodder: 4,3
+  Derivation: english→E + anagram() = CAPE COD
+  Definition: "Top"
+  Unused words: English, physician, back, Massachusetts
+
+[COMPOUND] One apprehended by journalist with court order (5)
+  Answer: EDICT
+  Wordplay: Compound Anagram
+    journalist → ED (abbreviation)
+    Fodder: 5
+  Derivation: journalist→ED + anagram() = EDICT
+  Definition: "apprehended"
+  Unused words: journalist, court
+
+[COMPOUND] Confidence of a revolutionary faced with censure
+  Answer: PANACHE
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "Confidence"
+  Unused words: faced, censure
+
+[COMPOUND] Correspondence about a break in cloud (5-4)
+  Answer: MARES
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "Correspondence"
+  Unused words: break, cloud, 5-4
+
+[COMPOUND] The way a bishop enters a school
+  Answer: HARROW
+  Wordplay: Compound Anagram
+    bishop → RR (abbreviation)
+    Fodder: a
+  Derivation: bishop→RR + anagram(A) = HARROW
+  Definition: "bishop"
+  Unused words: enters, school
+
+[COMPOUND] Some student on ganja in a state
+  Answer: TONGA
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "student"
+  Unused words: ganja
+
+[COMPOUND] Grant airworthiness certificate perhaps, and send out (3,3)
+  Answer: LET FLY
+  Wordplay: Compound Anagram
+    Fodder: 3,3
+  Derivation: 
+  Definition: "Grant"
+  Unused words: airworthiness, certificate, perhaps, send
+
+[COMPOUND] Regret doll being picked up like a plant?
+  Answer: RHUBARBY
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "Regret"
+  Unused words: doll, picked, up, like
+
+[COMPOUND] Calm air disorientated true provider of courses (12)
+  Answer: RESTAURATEUR
+  Wordplay: Compound Anagram
+    Fodder: true
+  Derivation: 
+  Definition: "Calm"
+  Unused words: air, provider, courses, 12
+
+[COMPOUND] Stuff served with culture hasn't hurt, a relaxing discipline
+  Answer: YOGA
+  Wordplay: Compound Anagram
+    Fodder: a
+  Derivation: 
+  Definition: "Stuff"
+  Unused words: served, culture, hasn't, relaxing, discipline
+
+======================================================================
+STAGE: GENERAL (5 clues)
+======================================================================
+
+[GENERAL] Initially en route today to block Spanish port, causing complaint (7)
+  Answer: VERTIGO
+  Wordplay breakdown:
+    complaint → VERTIGO (synonym)
+  Definition: "Initially"
+  Unused words: en, route, today, block, Spanish, port, 7
+  Result: complaint=VERTIGO = VERTIGO
+
+[GENERAL] Issued blood without too much kept stored (7)
+  Answer: BOTTLED
+  Wordplay breakdown:
+    kept → BOTTLED (synonym)
+    too →  (deletion) [without]
+  Definition: "Issued"
+  Unused words: blood, stored, 7
+  Result: kept=BOTTLED + too(-much)→ = BOTTLED
+
+[GENERAL] Terminally overweight friend
+  Answer: FATALLY
+  Wordplay breakdown:
+    overweight → FAT (synonym)
+    friend → ALLY (synonym)
+  Definition: "Terminally"
+  Result: overweight=FAT + friend=ALLY = FATALLY
+
+[GENERAL] Face to show entertaining people
+  Answer: PANTO
+  Wordplay breakdown:
+    show → PANTO (synonym)
+  Definition: "Face"
+  Unused words: entertaining, people
+  Result: show=PANTO = PANTO
+
+[GENERAL] Dry old PM (not North) quit (6)
+  Answer: SECEDE
+  Wordplay breakdown:
+    quit → SECEDE (synonym)
+  Definition: "Dry"
+  Unused words: old, PM, 6
+  Result: quit=SECEDE = SECEDE
+
+======================================================================
+STAGE: UNSOLVED (29 clues)
+======================================================================
+
+[UNSOLVED] Places surfers go in mesh spectacles, I'm told
+  Answer: WEBSITES
+  Definition (guess): "Places"
+  Found (38% of answer):
+    mesh → WEB (synonym)
+  Explained: WEB
+  MISSING: SITES
+  Unused words: surfers, spectacles, I'm, told
+  --- Suggestions ---
+    surfers → SITES?
+    spectacles → SITES?
+    I'm → SITES?
+    told → SITES?
+
+[UNSOLVED] Left university unemployed, turning up to church optimistic
+  Answer: CHEERFUL
+  Definition (guess): "Left"
+  Found (25% of answer):
+    church → CH (substitution)
+  Explained: CH
+  MISSING: EERFUL
+  Unused words: university, unemployed, optimistic
+  --- Suggestions ---
+    unemployed → EERF?
+    optimistic → EERF?
+    unemployed → L?
+    optimistic → L?
+
+[UNSOLVED] Damned batting!
+  Answer: BLINKING
+  Definition (guess): "Damned"
+  Found (50% of answer):
+    batting → IN (synonym)
+    batting → IN (synonym)
+  Explained: ININ
+  MISSING: BLINKING
+
+[UNSOLVED] Favour bringing umpire in for each (6)
+  Answer: PREFER
+  Definition (guess): "Favour"
+  MISSING: PREFER
+  Unused words: bringing, umpire, each, 6
+  --- Suggestions ---
+    bringing → PREFER?
+    umpire → PREFER?
+    each → PREFER?
+    6 → PREFER?
+  No wordplay components identified
+
+[UNSOLVED] Cassandra’s edging away from Balearic island ward? (5)
+  Answer: MINOR
+  Definition (guess): "Cassandra’s"
+  Found (20% of answer):
+    island → M (synonym)
+  Explained: M
+  MISSING: INOR
+  Unused words: edging, Balearic, ward, 5
+
+[UNSOLVED] "Woo't drink up ____? Eat a crocodile?" (Hamlet)
+  Answer: EISEL
+  Definition (guess): "Woo't"
+  Found (0% of answer):
+    ____ →  (anagram) [drink]
+  Explained: 
+  MISSING: EISEL
+  Unused words: Eat, a, crocodile, Hamlet
+  --- Suggestions ---
+    ____ → EISEL?
+    Eat → EISEL?
+    a → EISEL?
+    crocodile → EISEL?
+    Hamlet → EISEL?
+
+[UNSOLVED] Mum is one old bird full of energy joining rave (9)
+  Answer: DEODORANT
+  Definition (guess): "Mum"
+  Found (11% of answer):
+    bird → D (synonym)
+  Explained: D
+  MISSING: EODORANT
+  Unused words: old, full, joining, rave, 9
+  --- Suggestions ---
+    full → E?
+    joining → E?
+    9 → E?
+    is → E?
+    one → E?
+
+[UNSOLVED] Roadside police may carry out this arrest after jam
+  Answer: SPOT CHECK
+  Definition (guess): "Roadside"
+  Found (56% of answer):
+    arrest → CHECK (synonym)
+  Explained: CHECK
+  MISSING: SPOTCHECK
+  Unused words: police, carry, may, this
+  --- Suggestions ---
+    police → SPOT?
+    carry → SPOT?
+    may → SPOT?
+    this → SPOT?
+
+[UNSOLVED] Confronted, this setter cried loudly (9)
+  Answer: EYEBALLED
+  Definition (guess): "Confronted"
+  MISSING: EYEBALLED
+  Unused words: setter, cried, loudly, 9, this
+  --- Suggestions ---
+    setter → EYEBALLED?
+    cried → EYEBALLED?
+    loudly → EYEBALLED?
+    9 → EYEBALLED?
+    this → EYEBALLED?
+  No wordplay components identified
+
+[UNSOLVED] Dreary toast the French consumed (9)
+  Answer: CHEERLESS
+  Definition (guess): "Dreary"
+  MISSING: CHEERLESS
+  Unused words: toast, French, consumed, 9
+  --- Suggestions ---
+    toast → CHEERLESS?
+    French → CHEERLESS?
+    consumed → CHEERLESS?
+    9 → CHEERLESS?
+  No wordplay components identified
+
+[UNSOLVED] Answer nothing in court cases around recess
+  Answer: ALCOVE
+  Definition (guess): "recess"
+  Found (17% of answer):
+    Answer → A (substitution)
+  Explained: A
+  MISSING: LCOVE
+  Unused words: nothing, court, cases
+  --- Suggestions ---
+    court → LC?
+    cases → LC?
+    court → VE?
+    cases → VE?
+
+[UNSOLVED] Private's pained expression, close to exhaustion
+  Answer: OWN
+  Definition (guess): "Private's"
+  MISSING: OWN
+  Unused words: pained, expression, exhaustion
+  --- Suggestions ---
+    pained → OWN?
+    expression → OWN?
+    exhaustion → OWN?
+  No wordplay components identified
+
+[UNSOLVED] Sanctions optical aids, including insurance cover to begin with (8)
+  Answer: LICENSES
+  Definition (guess): "Sanctions"
+  Found (12% of answer):
+    including → I (first_letter) [cover]
+  Explained: I
+  MISSING: LICENSES
+  Unused words: optical, aids, begin, 8, with
+  --- Suggestions ---
+    optical → L?
+    aids → L?
+    begin → L?
+    8 → L?
+    with → L?
+
+[UNSOLVED] The pain of Marcel Proust?
+  Answer: BRIOCHE
+  Definition (guess): "The"
+  MISSING: BRIOCHE
+  Unused words: pain, Marcel, Proust, of
+  --- Suggestions ---
+    pain → BRIOCHE?
+    Marcel → BRIOCHE?
+    Proust → BRIOCHE?
+    of → BRIOCHE?
+  No wordplay components identified
+
+[UNSOLVED] Garbage left abandoned staff finally collected in interval
+  Answer: FIFTH
+  Definition (guess): "interval"
+  MISSING: FIFTH
+  Unused words: Garbage, staff
+  --- Suggestions ---
+    Garbage → FIFTH?
+    staff → FIFTH?
+  No wordplay components identified
+
+[UNSOLVED] Be deceiving: a protracted row starts
+  Answer: STRING ALONG
+  Definition (guess): "Be deceiving"
+  Found (64% of answer):
+    row → STRING (synonym)
+    a → A (literal)
+  Explained: STRINGA
+  MISSING: LONG
+  Unused words: protracted, starts
+  --- Suggestions ---
+    protracted → LONG?
+    starts → LONG?
+
+[UNSOLVED] Good, fertile housing market initially in brief dip
+  Answer: ADMIRABLE
+  Definition (guess): "Good"
+  Found (22% of answer):
+    market → M (first_letter) [housing]
+    dip → D (first_letter) [initially]
+  Explained: MD
+  MISSING: ADMIRABLE
+  Unused words: fertile
+  --- Suggestions ---
+    fertile → A?
+    fertile → IRABLE?
+
+[UNSOLVED] Retired head plugging bleepers for travellers? (10)
+  Answer: PASSENGERS
+  Definition (guess): "Retired"
+  Found (10% of answer):
+    plugging → P (first_letter) [head]
+  Explained: P
+  MISSING: ASSENGERS
+  Unused words: bleepers, travellers, 10
+  --- Suggestions ---
+    bleepers → ASSENGERS?
+    travellers → ASSENGERS?
+    10 → ASSENGERS?
+
+[UNSOLVED] Returning every so often, rushes onto the island
+  Answer: HONSHU
+  Definition (guess): "island"
+  MISSING: HONSHU
+  Unused words: every, often, rushes, so, onto
+  --- Suggestions ---
+    every → HONSHU?
+    often → HONSHU?
+    rushes → HONSHU?
+    so → HONSHU?
+    onto → HONSHU?
+  No wordplay components identified
+
+[UNSOLVED] Pony disembowelled by Indian? That's disturbing
+  Answer: CREEPY
+  Definition (guess): "disturbing"
+  Found (83% of answer):
+    Indian → CREEP (synonym)
+  Explained: CREEP
+  MISSING: Y
+  Unused words: Pony, That's
+  --- Suggestions ---
+    That's → Y?
+    by → Y?
+
+[UNSOLVED] Worthless loco finally retired from sweet old railway (8)
+  Answer: NUGATORY
+  Definition (guess): "Worthless"
+  Found (12% of answer):
+    old → O (substitution)
+  Explained: O
+  MISSING: NUGATORY
+  Unused words: sweet, railway, 8
+  --- Suggestions ---
+    sweet → NUGAT?
+    railway → NUGAT?
+    8 → NUGAT?
+    sweet → RY?
+    railway → RY?
+
+[UNSOLVED] Part of America with ocean on East
+  Answer: MAINE
+  Definition (guess): "Part"
+  Found (80% of answer):
+    ocean → MAIN (synonym)
+  Explained: MAIN
+  MISSING: E
+  Unused words: America
+  --- Suggestions ---
+    America → E?
+    of → E?
+    with → E?
+    on → E?
+
+[UNSOLVED] Moon’s four states, all in the east (8)
+  Answer: GANYMEDE
+  Definition (guess): "Moon’s"
+  MISSING: GANYMEDE
+  Unused words: four, states, 8, all
+  --- Suggestions ---
+    four → GANYMEDE?
+    states → GANYMEDE?
+    8 → GANYMEDE?
+    all → GANYMEDE?
+  No wordplay components identified
+
+[UNSOLVED] Tramp's friend remained with daughter in custody
+  Answer: LADY
+  Definition (guess): "Tramp's friend"
+  Found (25% of answer):
+    daughter → D (substitution)
+  Explained: D
+  MISSING: LADY
+  Unused words: remained, custody, with
+  --- Suggestions ---
+    remained → LA?
+    custody → LA?
+    with → LA?
+    remained → Y?
+    custody → Y?
+
+[UNSOLVED] Jabber in front of MI6, providing possible explanation
+  Answer: HYPOTHESIS
+  Definition (guess): "possible explanation"
+  Found (40% of answer):
+    Jabber → HYPO (synonym)
+  Explained: HYPO
+  MISSING: THESIS
+  Unused words: MI6
+  --- Suggestions ---
+    MI6 → THESIS?
+    of → THESIS?
+
+[UNSOLVED] Simple duties can, when mixed with this absorbing work (15)
+  Answer: UNSOPHISTICATED  ANAGRAM MIXED OF DUTIES CAN THIS CONTAINING ABSORBING OP WORK
+  Definition (guess): "Simple"
+  MISSING: UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCAN THISCONTAININGABSORBINGOPWORK
+  Unused words: duties, absorbing, 15, when, with, this
+  --- Suggestions ---
+    duties → UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCANTHISCONTAININGABSORBINGOPWORK?
+    absorbing → UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCANTHISCONTAININGABSORBINGOPWORK?
+    15 → UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCANTHISCONTAININGABSORBINGOPWORK?
+    when → UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCANTHISCONTAININGABSORBINGOPWORK?
+    with → UNSOPHISTICATEDANAGRAMMIXEDOFDUTIESCANTHISCONTAININGABSORBINGOPWORK?
+  No wordplay components identified
+
+[UNSOLVED] Is one clever to welcome Conservative, it being civilised?
+  Answer: AMICABLE
+  Definition (guess): "civilised"
+  Found (12% of answer):
+    welcome → A (synonym)
+  Explained: A
+  MISSING: MICABLE
+  Unused words: Conservative
+  --- Suggestions ---
+    Is → MI?
+    one → MI?
+    it → MI?
+    being → MI?
+    Is → ABLE?
+
+[UNSOLVED] Mean measure of second French wine resulted in great anger
+  Answer: MOVING AVERAGE
+  Definition (guess): "Mean"
+  Found (38% of answer):
+    second → MO (synonym)
+    wine → VIN (synonym)
+  Explained: MOVIN
+  MISSING: GAVERAGE
+  Unused words: measure, French, resulted, great
+  --- Suggestions ---
+    measure → G?
+    French → G?
+    resulted → G?
+    of → G?
+    measure → VERAGE?
+
+[UNSOLVED] Hotel auditor's legal documents
+  Answer: RITZ
+  Definition (guess): "Hotel"
+  MISSING: RITZ
+  Unused words: auditor's, legal, documents
+  --- Suggestions ---
+    auditor's → RITZ?
+    legal → RITZ?
+    documents → RITZ?
+  No wordplay components identified
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       0
+  Solved by Hidden:   1
+  Solved by Anagram:  2
+  Solved by Compound: 13
+  Solved by General:  5
+  Unsolved:           29
+    (with partial progress: 18)
+
+Solve rate: 21/50 (42.0%)

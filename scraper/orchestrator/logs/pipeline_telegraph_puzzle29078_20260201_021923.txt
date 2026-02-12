@@ -1,0 +1,252 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-02-01 02:19:23
+Cohort: source=telegraph, puzzle=29078, count=50, random
+Source: telegraph
+Puzzle: 29078
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (8 clues)
+======================================================================
+
+[DD] Cutting down fat
+  Answer: Shortening
+  Wordplay: Double Definition
+  Definition 1: "Cutting"
+  Definition 2: "down fat"
+
+[DD] Surrender return on investment (5)
+  Answer: YIELD
+  Wordplay: Double Definition
+  Definition 1: "Surrender"
+  Definition 2: "return"
+
+[DD] Getting over the hill, some sherpas titter (4,2)
+  Answer: PAST IT
+  Wordplay: Double Definition
+  Definition 1: "Getting"
+  Definition 2: "over"
+
+[DD] Health resorts getting gullible people to return (4)
+  Answer: SPAS
+  Wordplay: Double Definition
+  Definition 1: "Health"
+  Definition 2: "resorts"
+
+[DD] Cutting down fat (10)
+  Answer: SHORTENING
+  Wordplay: Double Definition
+  Definition 1: "Cutting"
+  Definition 2: "down fat"
+
+[DD] Getting over the hill, some sherpas titter
+  Answer: Past it
+  Wordplay: Double Definition
+  Definition 1: "Getting"
+  Definition 2: "over"
+
+[DD] Surrender return on investment
+  Answer: Yield
+  Wordplay: Double Definition
+  Definition 1: "Surrender"
+  Definition 2: "return"
+
+[DD] Health resorts getting gullible people to return
+  Answer: Spas
+  Wordplay: Double Definition
+  Definition 1: "Health"
+  Definition 2: "resorts"
+
+======================================================================
+STAGE: ANAGRAM (6 clues)
+======================================================================
+
+[ANAGRAM] Scandalous bet incriminates member of government
+  Answer: Cabinet minister
+  Wordplay: Anagram
+  Fodder: bet + incriminates
+  Definition: "Scandalous member of government"
+
+[ANAGRAM] Snacks from recycling pasta
+  Answer: Tapas
+  Wordplay: Anagram
+  Fodder: pasta
+  Definition: "Snacks from recycling"
+
+[ANAGRAM] Settled a claim by not fighting?
+  Answer: Amicably
+  Wordplay: Anagram
+  Fodder: a + claim + by
+  Definition: "Settled not fighting?"
+
+[ANAGRAM] Block and close tab that's dodgy
+  Answer: Obstacle
+  Wordplay: Anagram
+  Fodder: close + tab
+  Definition: "Block and that's dodgy"
+
+[ANAGRAM] Scandalous bet incriminates member of government (7,8)
+  Answer: CABINET MINISTER
+  Wordplay: Anagram
+  Fodder: bet + incriminates
+  Definition: "Scandalous member of government"
+
+[ANAGRAM] Snacks from recycling pasta (5)
+  Answer: TAPAS
+  Wordplay: Anagram
+  Fodder: pasta
+  Definition: "Snacks from recycling"
+
+======================================================================
+STAGE: UNSOLVED (36 clues)
+======================================================================
+
+[UNSOLVED] Former president with influence means to get round America (10)
+  Answer: EXPRESSWAY
+
+[UNSOLVED] Stretcher case I left superficially injured (7)
+  Answer: ELASTIC
+
+[UNSOLVED] Stretcher case I left superficially injured
+  Answer: Elastic
+
+[UNSOLVED] Brazil's first and second then French XI in third place
+  Answer: Bronze
+  Definition (guess): "third place"
+  Found (17% of answer):
+    second → B (substitution)
+  Explained: B
+  Unused words: Brazil's, then, French, XI
+
+[UNSOLVED] Stay a week held in irons? That will do for conspirator
+  Answer: Guy Fawkes
+
+[UNSOLVED] Variety of salad vegetable – only its tip's usually taken in
+  Answer: Iceberg
+
+[UNSOLVED] Heather getting to grips with old Beethoven piece
+  Answer: Eroica
+
+[UNSOLVED] Brazil’s first and second then French XI in third place (6)
+  Answer: BRONZE
+  Definition (guess): "Brazil’s"
+  Found (17% of answer):
+    second → B (substitution)
+  Explained: B
+  Unused words: then, French, XI, third, place, 6
+
+[UNSOLVED] Fool blocking servant's way through
+  Answer: Passage
+
+[UNSOLVED] Disregard finished appearance
+  Answer: Overlook
+
+[UNSOLVED] European working a very long time
+  Answer: Eon
+
+[UNSOLVED] Impending threat that could make some old cowards start to flee
+  Answer: Sword of Damocles
+
+[UNSOLVED] Stay a week held in irons? That will do for conspirator (3,6)
+  Answer: GUY FAWKES
+
+[UNSOLVED] Wind instrument — blow me having score to follow (6)
+  Answer: CORNET
+
+[UNSOLVED] Trade sanction so engrossing business graduate
+  Answer: Embargo
+
+[UNSOLVED] Keeps in check worries about planet? (8)
+  Answer: FORBEARS
+
+[UNSOLVED] Yankee airborne flying erratically (6)
+  Answer: YAWING
+
+[UNSOLVED] European working a very long time (3)
+  Answer: EON
+
+[UNSOLVED] Cartel work with City (4)
+  Answer: OPEC
+  Definition (guess): "Cartel"
+  Found (0% of answer):
+    4 →  (anagram) [City]
+  Explained: 
+
+[UNSOLVED] What's left from burning tree
+  Answer: Ash
+
+[UNSOLVED] Detecting scent, see, rising over plant
+  Answer: Olfactory
+
+[UNSOLVED] Detecting scent, see, rising over plant (9)
+  Answer: OLFACTORY
+
+[UNSOLVED] Support for driver in popular car by junction, reportedly?
+  Answer: Golf tee
+
+[UNSOLVED] Keeps in check worries about planet?
+  Answer: Forbears
+
+[UNSOLVED] Support for driver in popular car by junction, reportedly? (4,3)
+  Answer: GOLF TEE
+
+[UNSOLVED] Clipped dunce's head with a spanner first
+  Answer: Abridged
+
+[UNSOLVED] Disregard finished appearance (8)
+  Answer: OVERLOOK
+
+[UNSOLVED] Heather getting to grips with old Beethoven piece (6)
+  Answer: EROICA
+
+[UNSOLVED] Former president with influence means to get round America
+  Answer: Expressway
+
+[UNSOLVED] Monk who is leader in artificial intelligence arguing from first principles (1,6)
+  Answer: A PRIORI
+  Definition (guess): "Monk"
+  Found (29% of answer):
+    artificial → A (first_letter) [leader]
+    principles → P (first_letter) [first]
+  Explained: AP
+  Unused words: intelligence, arguing, 1,6
+
+[UNSOLVED] Wind instrument – blow me having score to follow
+  Answer: Cornet
+
+[UNSOLVED] Trade sanction so engrossing business graduate (7)
+  Answer: EMBARGO
+
+[UNSOLVED] Fool blocking servant’s way through (7)
+  Answer: PASSAGE
+
+[UNSOLVED] Scientist heading away to have good time fairly soon
+  Answer: Offing
+
+[UNSOLVED] Yankee airborne flying erratically
+  Answer: Yawing
+  Definition (guess): "flying erratically"
+  Found (17% of answer):
+    Yankee → Y (substitution)
+  Explained: Y
+  Unused words: airborne
+
+[UNSOLVED] Variety of salad vegetable — only its tip’s usually taken in (7)
+  Answer: ICEBERG
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       8
+  Solved by Hidden:   0
+  Solved by Anagram:  6
+  Solved by Compound: 0
+  Solved by General:  0
+  Unsolved:           36
+    (with partial progress: 4)
+
+Solve rate: 14/50 (28.0%)

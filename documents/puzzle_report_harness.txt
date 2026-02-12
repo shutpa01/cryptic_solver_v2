@@ -1,0 +1,425 @@
+================================================================================
+PUZZLE REPORT: telegraph #30000
+Generated: 2026-02-12 00:55:23
+Total clues: 28
+================================================================================
+
+SUMMARY
+----------------------------------------
+  Double definitions:       1
+  Lurkers:                  1
+  Anagram/compound solved:  3
+  Anagram/compound partial: 0
+  General wordplay solved:  14
+  General wordplay partial: 12
+  Definition gate failed:   0
+  ---
+  TOTAL SOLVED:             19/28
+
+================================================================================
+DOUBLE DEFINITIONS
+================================================================================
+
+  CLUE: Practically everything  in contrast (3,3)
+  ANSWER: ALL BUT
+  DEFINITIONS: Practically, in contrast
+
+================================================================================
+HIDDEN WORDS (LURKERS)
+================================================================================
+
+  CLUE: Rope carried by mate — the reason? (6)
+  ANSWER: TETHER
+  HIDDEN IN: ropecarriedbymaTETHEReason
+
+================================================================================
+ANAGRAM / COMPOUND WORDPLAY
+================================================================================
+
+  [SOLVED] CLUE: Large one piano in intricate Hogarth print (10)
+  ANSWER: LITHOGRAPH|LITHOGRAPH
+  DEFINITION: print
+  FORMULA: anagram(HOGARTH) with L (Large) + I (one) + P (piano) inserted = LITHOGRAPH
+  BREAKDOWN:
+    • "Large" = L (database (single_letter))
+    • "one" = I (database (single_letter))
+    • "piano" = P (database (musical))
+    • "in" = hidden indicator
+    • "intricate" = anagram indicator
+    • "Hogarth" = anagram fodder
+    • "print" = definition for LITHOGRAPH
+
+  [SOLVED] CLUE: Drink it in retreat with a girl (3,5)
+  ANSWER: TIA MARIA|TIA MARIA
+  DEFINITION: Drink
+  FORMULA: anagram(IT + A) + MARIA (girl) = TIA MARIA
+  BREAKDOWN:
+    • "Drink" = definition for TIA MARIA
+    • "it" = anagram fodder
+    • "in" = anagram indicator
+    • "retreat" = anagram indicator
+    • "a" = anagram fodder
+    • "girl" = MARIA (database (synonym))
+
+  [SOLVED] CLUE: Savings primarily invested in another fresh source of oil and gas (5,3)
+  ANSWER: NORTH SEA|NORTH SEA
+  DEFINITION: source of oil and gas
+  FORMULA: anagram(ANOTHER) with S (Savings) inserted = NORTH SEA
+  BREAKDOWN:
+    • "Savings" = S (first letter of)
+    • "primarily" = letter selector
+    • "invested in" = insertion_indicator
+    • "another" = anagram fodder
+    • "fresh" = anagram indicator
+    • "source" = definition for NORTH SEA
+    • "of" = definition for NORTH SEA
+    • "oil" = definition for NORTH SEA
+    • "and" = definition for NORTH SEA
+    • "gas" = definition for NORTH SEA
+
+================================================================================
+GENERAL WORDPLAY (NON-ANAGRAM)
+================================================================================
+
+  [PARTIAL] CLUE: County‘s season picked up ahead of series (8)
+  ANSWER: SOMERSET
+  DEFINITION: county
+  FORMULA: SET (series) + ? = SOMERSET
+  BREAKDOWN:
+    "up" = reversal indicator
+    "series" = SET (database (synonym))
+    "County‘s" = unresolved
+    "season" = unresolved
+    "picked" = unresolved
+    "ahead" = unresolved
+    "of" = unresolved
+  LETTERS NEEDED: SOMER
+
+  [SOLVED] CLUE: Look at permit and small hole (6)
+  ANSWER: EYELET
+  DEFINITION: hole
+  FORMULA: EYE (Look) + LET (permit) (contained) = EYELET
+  BREAKDOWN:
+    "Look" = EYE (database (synonym))
+    "permit" = LET (database (synonym))
+    "hole" = definition for EYELET
+    "at" = link word
+    "and" = link word
+    "small" = wordplay connector
+
+  [PARTIAL] CLUE: Not quite prepared to study (4)
+  ANSWER: READ
+  DEFINITION: to study
+  FORMULA: ? = READ
+  BREAKDOWN:
+    "not quite" = deletion_indicator
+    "to" = definition for READ
+    "study" = definition for READ
+    "prepared" = unresolved
+  LETTERS NEEDED: READ
+
+  [SOLVED] CLUE: Large one piano in intricate Hogarth print (10)
+  ANSWER: LITHOGRAPH
+  DEFINITION: print
+  FORMULA: L (Large) + I (one) + P (piano) + HOGARTH = LITHOGRAPH
+  BREAKDOWN:
+    "Large" = L (database (single_letter))
+    "one" = I (database (single_letter))
+    "piano" = P (database (musical))
+    "in" = hidden indicator
+    "Hogarth" = anagram fodder
+    "print" = definition for LITHOGRAPH
+    "intricate" = wordplay connector
+
+  [PARTIAL] CLUE: Go back on one’s word right away in a city in Oregon (6)
+  ANSWER: EUGENE
+  DEFINITION: city in Oregon
+  FORMULA: TIN (a) + ? = EUGENE
+  BREAKDOWN:
+    "Go" = TI (to be removed)
+    "back" = reversal indicator
+    "word" = homophone indicator
+    "in" = definition for EUGENE
+    "a" = TIN (database (synonym))
+    "city" = definition for EUGENE
+    "Oregon" = definition for EUGENE
+    "one’s" = unresolved
+    "right" = unresolved
+    "away" = unresolved
+  LETTERS NEEDED: EUGEE
+
+  [PARTIAL] CLUE: The Spanish artist entertained by old-fashioned type in fabulous place (2,6)
+  ANSWER: ELDORADO
+  DEFINITION: place
+  FORMULA: RA (artist) + EL (the spanish) + ? = EL DORADO
+  BREAKDOWN:
+    "the spanish" = EL (database phrase (foreign_spanish))
+    "artist" = RA (database (abbreviation))
+    "in" = hidden indicator
+    "place" = definition for EL DORADO
+    "entertained" = unresolved
+    "by" = unresolved
+    "old-fashioned" = unresolved
+    "type" = unresolved
+    "fabulous" = unresolved
+  LETTERS NEEDED: DODO
+
+  [PARTIAL] CLUE: They go off in river craft, not quietly (6)
+  ANSWER: EXEUNT
+  DEFINITION: They go off
+  FORMULA: ? = EXEUNT
+  BREAKDOWN:
+    "They" = definition for EXEUNT
+    "go" = definition for EXEUNT
+    "off" = definition for EXEUNT
+    "in" = hidden indicator
+    "river" = unresolved
+    "craft," = unresolved
+    "not" = unresolved
+    "quietly" = unresolved
+  LETTERS NEEDED: EXEUNT
+
+  [SOLVED] CLUE: Professional model in good health (6)
+  ANSWER: PROSIT
+  DEFINITION: good health
+  FORMULA: PRO (Professional) + SIT (model) (contained) = PROSIT
+  BREAKDOWN:
+    "Professional" = PRO (database (synonym))
+    "model" = SIT (database (synonym))
+    "in" = hidden indicator
+    "good" = definition for PROSIT
+    "health" = definition for PROSIT
+
+  [PARTIAL] CLUE: Throaty, ultra poorly on vessel returning (8)
+  ANSWER: GUTTURAL
+  DEFINITION: Throaty
+  FORMULA: ULTRA + ? = GUTTURAL
+  BREAKDOWN:
+    "Throaty," = definition for GUTTURAL
+    "ultra" = anagram fodder
+    "returning" = reversal indicator
+    "poorly" = unresolved
+    "on" = unresolved
+    "vessel" = unresolved
+  LETTERS NEEDED: GUT
+
+  [SOLVED] CLUE: America backing party UK rejected? A puzzle (6)
+  ANSWER: SUDOKU
+  DEFINITION: A puzzle
+  FORMULA: DO (party) + US (America) + UK = SUDOKU
+  BREAKDOWN:
+    "America" = US (database (synonym))
+    "backing" = reversal indicator
+    "party" = DO (database (synonym))
+    "UK" = anagram fodder
+    "A" = definition for SUDOKU
+    "puzzle" = definition for SUDOKU
+    "rejected?" = wordplay connector
+
+  [SOLVED] CLUE: Dreadful chap, a boor I fear (10)
+  ANSWER: 
+  DEFINITION: (not found)
+  FORMULA: ? = 
+  BREAKDOWN:
+    "Dreadful" = anagram indicator
+    "chap," = unresolved
+    "boor" = unresolved
+    "I" = unresolved
+    "fear" = unresolved
+
+  [PARTIAL] CLUE: The Parisian approaching outskirts of Nantes, French city (4)
+  ANSWER: LENS
+  DEFINITION: French city
+  FORMULA: ? = LENS
+  BREAKDOWN:
+    "French" = definition for LENS
+    "city" = definition for LENS
+    "The" = unresolved
+    "Parisian" = unresolved
+    "approaching" = unresolved
+    "outskirts" = unresolved
+    "of" = unresolved
+    "Nantes," = unresolved
+  LETTERS NEEDED: LENS
+
+  [PARTIAL] CLUE: Power lift gets acclaim (6)
+  ANSWER: PRAISE
+  DEFINITION: acclaim
+  FORMULA: P (Power) + ? = PRAISE
+  BREAKDOWN:
+    "Power" = P (database (single_letter))
+    "acclaim" = definition for PRAISE
+    "lift" = unresolved
+    "gets" = unresolved
+  LETTERS NEEDED: RAISE
+
+  [SOLVED] CLUE: Drink it in retreat with a girl (3,5)
+  ANSWER: TIAMARIA
+  DEFINITION: Drink
+  FORMULA: A (a) + MARIA (girl) + IT = TIA MARIA
+  BREAKDOWN:
+    "Drink" = definition for TIA MARIA
+    "it" = anagram fodder
+    "in" = hidden indicator
+    "retreat" = reversal indicator
+    "a" = A (database (single_letter))
+    "girl" = MARIA (database (synonym))
+    "with" = link word
+
+  [PARTIAL] CLUE: Certainly true abroad, honours being involved (2,2,4)
+  ANSWER: TOBESURE
+  DEFINITION: Certainly
+  FORMULA: TRUE + ? = TO BE SURE
+  BREAKDOWN:
+    "Certainly" = definition for TO BE SURE
+    "true" = anagram fodder
+    "abroad," = unresolved
+    "honours" = unresolved
+    "being" = unresolved
+    "involved" = unresolved
+  LETTERS NEEDED: OBES
+
+  [SOLVED] CLUE: That woman and daughter’s stock of cattle (4)
+  ANSWER: HERD
+  DEFINITION: cattle
+  FORMULA: HER (woman) + D (daughter’s) (contained) = HERD
+  BREAKDOWN:
+    "woman" = HER (database (synonym))
+    "daughter’s" = D (database (single_letter))
+    "cattle" = definition for HERD
+    "That" = link word
+    "and" = link word
+    "stock" = wordplay connector
+    "of" = link word
+
+  [SOLVED] CLUE: I betrayed eastern princess of legend (6)
+  ANSWER: ISOLDE
+  DEFINITION: princess of legend
+  FORMULA: I (I) + SOLD (betrayed) + E (eastern) (contained) = ISOLDE
+  BREAKDOWN:
+    "I" = I (database (single_letter))
+    "betrayed" = SOLD (database (synonym))
+    "eastern" = E (database (single_letter))
+    "princess" = definition for ISOLDE
+    "of" = definition for ISOLDE
+    "legend" = definition for ISOLDE
+
+  [PARTIAL] CLUE: Instrument shown in first half of recipe book (8)
+  ANSWER: RECORDER
+  DEFINITION: Instrument
+  FORMULA: R (recipe) + CREATE (book) + O (first half of of) + ? = RECORDER
+  BREAKDOWN:
+    "Instrument" = definition for RECORDER
+    "shown" = reversal indicator
+    "in" = hidden indicator
+    "first" = positional indicator (construction order)
+    "half" = deletion indicator
+    "of" = O (first half of of)
+    "recipe" = R (database (single_letter))
+    "book" = CREATE (database (synonym))
+  LETTERS NEEDED: RD
+
+  [SOLVED] CLUE: Coerced by threats, mistake is concealed by tense editor (10)
+  ANSWER: TERRORISED
+  DEFINITION: Coerced by threats
+  FORMULA: ERROR (mistake) + t (tense) + ED (editor) + IS = TERRORISED
+  BREAKDOWN:
+    "Coerced" = definition for TERRORISED
+    "by" = definition for TERRORISED
+    "threats," = definition for TERRORISED
+    "mistake" = ERROR (database (synonym))
+    "is" = anagram fodder
+    "concealed" = hidden indicator
+    "tense" = T (database (abbreviation))
+    "editor" = ED (database (abbreviation))
+
+  [SOLVED] CLUE: Cried, deeply upset (6)
+  ANSWER: 
+  DEFINITION: (not found)
+  FORMULA: ? = 
+  BREAKDOWN:
+    "upset" = anagram indicator
+    "Cried," = unresolved
+    "deeply" = unresolved
+
+  [PARTIAL] CLUE: Using a computer, perhaps decide on grave overlooking church (10)
+  ANSWER: ELECTRONIC
+  DEFINITION: Using a computer, perhaps
+  FORMULA: ELECT (decide) + ON + ? = ELECTRONIC
+  BREAKDOWN:
+    "Using" = definition for ELECTRONIC
+    "a" = definition for ELECTRONIC
+    "computer," = definition for ELECTRONIC
+    "perhaps" = definition for ELECTRONIC
+    "decide" = ELECT (database (synonym))
+    "on" = anagram fodder
+    "grave" = unresolved
+    "overlooking" = unresolved
+    "church" = unresolved
+  LETTERS NEEDED: RIC
+
+  [SOLVED] CLUE: Savings primarily invested in another fresh source of oil and gas (5,3)
+  ANSWER: NORTHSEA
+  DEFINITION: source of oil and gas
+  FORMULA: S (Savings) + ANOTHER = NORTH SEA
+  BREAKDOWN:
+    "Savings" = S (first letter of)
+    "primarily" = letter selector
+    "invested in" = insertion_indicator
+    "another" = anagram fodder
+    "source" = definition for NORTH SEA
+    "of" = definition for NORTH SEA
+    "oil" = definition for NORTH SEA
+    "and" = definition for NORTH SEA
+    "gas" = definition for NORTH SEA
+    "fresh" = wordplay connector
+
+  [SOLVED] CLUE: Noticing a man piercing can (6,2)
+  ANSWER: TAKINGIN
+  DEFINITION: Noticing
+  FORMULA: A (a) + KING (man) + TIN (can) (with insertion) = TAKING IN
+  BREAKDOWN:
+    "Noticing" = definition for TAKING IN
+    "a" = A (database (single_letter))
+    "man" = KING (database (synonym))
+    "piercing" = container indicator
+    "can" = TIN (database (synonym))
+
+  [PARTIAL] CLUE: Open a French Chardonnay, initially, or last in rack (6)
+  ANSWER: UNCORK
+  DEFINITION: Open
+  FORMULA: C (Chardonnay,) + NK (in rack) + OR + ? = UNCORK
+  BREAKDOWN:
+    "Open" = definition for UNCORK
+    "Chardonnay," = C (first letter of)
+    "initially," = letter selector
+    "or" = anagram fodder
+    "last" = last letter indicator
+    "in rack" = NK (last letters of)
+    "French" = unresolved
+  LETTERS NEEDED: U
+
+  [SOLVED] CLUE: Small vehicle, a black Beetle? (6)
+  ANSWER: SCARAB
+  DEFINITION: Beetle?
+  FORMULA: S (Small) + CAR (vehicle,) + A (a) + B (black) (contained) = SCARAB
+  BREAKDOWN:
+    "Small" = S (database (single_letter))
+    "vehicle," = CAR (database (synonym))
+    "a" = A (database (single_letter))
+    "black" = B (database (single_letter))
+    "Beetle?" = definition for SCARAB
+
+  [SOLVED] CLUE: Charge youth pinching duck (4)
+  ANSWER: LOAD
+  DEFINITION: Charge
+  FORMULA: O (duck) + LAD (youth) (with insertion) = LOAD
+  BREAKDOWN:
+    "Charge" = definition for LOAD
+    "youth" = LAD (database (synonym))
+    "duck" = O (database (cricket))
+    "pinching" = wordplay connector
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,402 @@
+[
+  {
+    "pattern_id": "G01",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "14a", "18a", "21a", "22a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "15d", "16d", "17d", "19d", "20d", "23d", "24d"],
+    "total_clues": 30,
+    "puzzle_count": 112,
+    "example_puzzles": [{"number": "DT 31047", "date": "2025-10-02"}]
+  },
+  {
+    "pattern_id": "G02",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "15a", "18a", "19a", "21a", "23a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "16d", "17d", "18d", "20d", "22d", "24d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 92,
+    "example_puzzles": [{"number": "DT 30969", "date": "2025-07-03"}]
+  },
+  {
+    "pattern_id": "G03",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "14a", "15a", "17a", "19a", "21a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "13d", "16d", "18d", "20d", "22d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 71,
+    "example_puzzles": [{"number": "DT 31054", "date": "2025-10-10"}]
+  },
+  {
+    "pattern_id": "G04",
+    "across_clues": ["1a", "6a", "10a", "11a", "12a", "13a", "14a", "18a", "21a", "23a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "9d", "15d", "16d", "17d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 61,
+    "example_puzzles": [{"number": "DT 31078", "date": "2025-11-07"}]
+  },
+  {
+    "pattern_id": "G05",
+    "across_clues": ["1a", "6a", "10a", "11a", "12a", "13a", "15a", "17a", "19a", "21a", "22a", "24a", "27a", "28a", "29a", "30a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "9d", "14d", "16d", "18d", "20d", "21d", "23d", "25d", "26d"],
+    "total_clues": 32,
+    "puzzle_count": 54,
+    "example_puzzles": [{"number": "DT 31077", "date": "2025-11-06"}]
+  },
+  {
+    "pattern_id": "G06",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "13a", "15a", "18a", "19a", "21a", "23a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "16d", "17d", "20d", "22d", "24d"],
+    "total_clues": 29,
+    "puzzle_count": 38,
+    "example_puzzles": [{"number": "DT 30968", "date": "2025-07-02"}]
+  },
+  {
+    "pattern_id": "G07",
+    "across_clues": ["1a", "8a", "9a", "11a", "12a", "13a", "14a", "16a", "19a", "21a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "10d", "15d", "17d", "18d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 35,
+    "example_puzzles": [{"number": "DT 31088", "date": "2025-11-19"}]
+  },
+  {
+    "pattern_id": "G08",
+    "across_clues": ["1a", "4a", "9a", "10a", "11a", "13a", "14a", "17a", "21a", "23a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "12d", "15d", "16d", "18d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 32,
+    "example_puzzles": [{"number": "DT 30980", "date": "2025-07-16"}]
+  },
+  {
+    "pattern_id": "G09",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "15a", "16a", "21a", "22a", "24a", "25a", "27a", "28a", "29a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "11d", "14d", "17d", "18d", "19d", "20d", "23d", "26d"],
+    "total_clues": 30,
+    "puzzle_count": 30,
+    "example_puzzles": [{"number": "DT 31040", "date": "2025-09-24"}]
+  },
+  {
+    "pattern_id": "G10",
+    "across_clues": ["1a", "5a", "9a", "11a", "12a", "13a", "15a", "18a", "22a", "23a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "6d", "7d", "8d", "10d", "14d", "16d", "17d", "19d", "20d", "21d", "24d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 30,
+    "example_puzzles": [{"number": "DT 30778", "date": "2024-11-22"}]
+  },
+  {
+    "pattern_id": "G11",
+    "across_clues": ["1a", "3a", "9a", "10a", "11a", "13a", "14a", "18a", "21a", "22a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "4d", "5d", "6d", "7d", "8d", "12d", "15d", "16d", "17d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 29,
+    "example_puzzles": [{"number": "DT 31030", "date": "2025-09-12"}]
+  },
+  {
+    "pattern_id": "G12",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "13a", "15a", "17a", "19a", "21a", "22a", "24a", "27a", "28a", "29a", "30a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "14d", "16d", "18d", "20d", "21d", "23d", "25d", "26d"],
+    "total_clues": 32,
+    "puzzle_count": 29,
+    "example_puzzles": [{"number": "DT 31005", "date": "2025-08-14"}]
+  },
+  {
+    "pattern_id": "G13",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "14a", "16a", "19a", "21a", "23a", "25a", "26a", "27a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "15d", "17d", "18d", "20d", "22d", "24d"],
+    "total_clues": 28,
+    "puzzle_count": 28,
+    "example_puzzles": [{"number": "DT 30136", "date": "2022-11-04"}]
+  },
+  {
+    "pattern_id": "G14",
+    "across_clues": ["1a", "10a", "11a", "12a", "13a", "14a", "16a", "18a", "20a", "23a", "24a", "26a", "27a", "28a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "15d", "17d", "19d", "21d", "22d", "25d"],
+    "total_clues": 28,
+    "puzzle_count": 27,
+    "example_puzzles": [{"number": "DT 30948", "date": "2025-06-09"}]
+  },
+  {
+    "pattern_id": "G15",
+    "across_clues": ["1a", "7a", "8a", "10a", "11a", "13a", "14a", "16a", "18a", "21a", "22a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "9d", "12d", "15d", "17d", "19d", "20d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 27,
+    "example_puzzles": [{"number": "DT 30940", "date": "2025-05-30"}]
+  },
+  {
+    "pattern_id": "G16",
+    "across_clues": ["1a", "5a", "9a", "10a", "12a", "13a", "14a", "16a", "19a", "21a", "24a", "25a", "27a", "28a", "29a", "30a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "6d", "7d", "8d", "11d", "15d", "17d", "18d", "20d", "21d", "22d", "23d", "26d"],
+    "total_clues": 32,
+    "puzzle_count": 24,
+    "example_puzzles": [{"number": "DT 31087", "date": "2025-11-18"}]
+  },
+  {
+    "pattern_id": "G17",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "13a", "15a", "18a", "21a", "22a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "14d", "16d", "17d", "19d", "20d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 23,
+    "example_puzzles": [{"number": "DT 31060", "date": "2025-10-17"}]
+  },
+  {
+    "pattern_id": "G18",
+    "across_clues": ["1a", "7a", "9a", "10a", "11a", "12a", "14a", "15a", "17a", "20a", "22a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "8d", "13d", "16d", "18d", "19d", "21d", "22d", "24d"],
+    "total_clues": 28,
+    "puzzle_count": 23,
+    "example_puzzles": [{"number": "DT 30132", "date": "2022-10-31"}]
+  },
+  {
+    "pattern_id": "G19",
+    "across_clues": ["1a", "7a", "8a", "10a", "11a", "12a", "13a", "15a", "17a", "18a", "20a", "21a", "23a", "24a", "25a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "9d", "14d", "16d", "17d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 22,
+    "example_puzzles": [{"number": "DT 31066", "date": "2025-10-24"}]
+  },
+  {
+    "pattern_id": "G20",
+    "across_clues": ["1a", "5a", "10a", "11a", "12a", "13a", "14a", "17a", "18a", "19a", "21a", "23a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "15d", "16d", "17d", "18d", "20d", "22d", "23d", "24d"],
+    "total_clues": 32,
+    "puzzle_count": 22,
+    "example_puzzles": [{"number": "DT 31038", "date": "2025-09-22"}]
+  },
+  {
+    "pattern_id": "G21",
+    "across_clues": ["1a", "4a", "9a", "10a", "11a", "13a", "15a", "18a", "22a", "24a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "12d", "14d", "16d", "17d", "19d", "20d", "21d", "23d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 21,
+    "example_puzzles": [{"number": "DT 30988", "date": "2025-07-25"}]
+  },
+  {
+    "pattern_id": "G22",
+    "across_clues": ["1a", "4a", "9a", "10a", "12a", "13a", "15a", "18a", "22a", "24a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "11d", "14d", "16d", "17d", "19d", "20d", "21d", "23d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 21,
+    "example_puzzles": [{"number": "DT 30970", "date": "2025-07-04"}]
+  },
+  {
+    "pattern_id": "G23",
+    "across_clues": ["1a", "7a", "8a", "10a", "11a", "12a", "14a", "15a", "18a", "20a", "21a", "22a", "23a", "24a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "9d", "13d", "16d", "17d", "18d", "19d", "21d"],
+    "total_clues": 28,
+    "puzzle_count": 21,
+    "example_puzzles": [{"number": "DT 30934", "date": "2025-05-23"}]
+  },
+  {
+    "pattern_id": "G24",
+    "across_clues": ["1a", "4a", "10a", "11a", "12a", "13a", "14a", "15a", "18a", "20a", "23a", "25a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "9d", "16d", "17d", "19d", "21d", "22d", "24d"],
+    "total_clues": 30,
+    "puzzle_count": 20,
+    "example_puzzles": [{"number": "DT 30902", "date": "2025-04-16"}]
+  },
+  {
+    "pattern_id": "G25",
+    "across_clues": ["1a", "5a", "10a", "11a", "12a", "13a", "15a", "18a", "20a", "23a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "6d", "7d", "8d", "9d", "14d", "16d", "17d", "19d", "21d", "22d", "24d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 19,
+    "example_puzzles": [{"number": "DT 30898", "date": "2025-04-11"}]
+  },
+  {
+    "pattern_id": "G26",
+    "across_clues": ["1a", "4a", "9a", "10a", "11a", "12a", "13a", "15a", "18a", "20a", "23a", "24a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "16d", "17d", "19d", "21d", "22d", "23d", "25d"],
+    "total_clues": 32,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 31093", "date": "2025-11-25"}]
+  },
+  {
+    "pattern_id": "G27",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "13a", "15a", "17a", "19a", "22a", "23a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "16d", "17d", "18d", "20d", "21d", "23d", "24d"],
+    "total_clues": 32,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 31086", "date": "2025-11-17"}]
+  },
+  {
+    "pattern_id": "G28",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "15a", "18a", "19a", "22a", "23a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "16d", "17d", "18d", "20d", "21d", "24d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 31002", "date": "2025-08-11"}]
+  },
+  {
+    "pattern_id": "G29",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "13a", "15a", "16a", "18a", "20a", "23a", "24a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "14d", "17d", "19d", "21d", "22d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 30932", "date": "2025-05-21"}]
+  },
+  {
+    "pattern_id": "G30",
+    "across_clues": ["5a", "7a", "9a", "10a", "11a", "13a", "14a", "16a", "17a", "19a", "20a", "22a", "23a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "8d", "12d", "14d", "15d", "17d", "18d", "21d"],
+    "total_clues": 26,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 30204", "date": "2023-01-23"}]
+  },
+  {
+    "pattern_id": "G31",
+    "across_clues": ["1a", "4a", "8a", "10a", "11a", "12a", "13a", "16a", "20a", "21a", "22a", "23a", "24a", "25a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "9d", "14d", "15d", "17d", "18d", "19d", "21d"],
+    "total_clues": 27,
+    "puzzle_count": 17,
+    "example_puzzles": [{"number": "DT 30172", "date": "2022-12-16"}]
+  },
+  {
+    "pattern_id": "G32",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "14a", "16a", "19a", "21a", "23a", "25a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "15d", "17d", "18d", "20d", "22d", "24d", "26d"],
+    "total_clues": 29,
+    "puzzle_count": 16,
+    "example_puzzles": [{"number": "DT 30954", "date": "2025-06-16"}]
+  },
+  {
+    "pattern_id": "G33",
+    "across_clues": ["7a", "9a", "10a", "11a", "12a", "15a", "17a", "19a", "20a", "23a", "25a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "8d", "13d", "14d", "16d", "18d", "21d", "22d", "24d", "26d"],
+    "total_clues": 28,
+    "puzzle_count": 16,
+    "example_puzzles": [{"number": "DT 30198", "date": "2023-01-16"}]
+  },
+  {
+    "pattern_id": "G34",
+    "across_clues": ["1a", "6a", "9a", "10a", "11a", "12a", "13a", "16a", "19a", "21a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "14d", "15d", "17d", "18d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 16,
+    "example_puzzles": [{"number": "DT 29896", "date": "2022-01-28"}]
+  },
+  {
+    "pattern_id": "G35",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "13a", "15a", "16a", "18a", "20a", "21a", "23a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "14d", "17d", "19d", "20d", "22d", "24d"],
+    "total_clues": 30,
+    "puzzle_count": 15,
+    "example_puzzles": [{"number": "DT 30952", "date": "2025-06-13"}]
+  },
+  {
+    "pattern_id": "G36",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "13a", "15a", "17a", "19a", "20a", "21a", "22a", "23a", "24a", "25a"],
+    "down_clues": ["2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "15d", "16d", "17d", "18d", "19d"],
+    "total_clues": 29,
+    "puzzle_count": 14,
+    "example_puzzles": [{"number": "DT 31004", "date": "2025-08-13"}]
+  },
+  {
+    "pattern_id": "G37",
+    "across_clues": ["1a", "6a", "9a", "10a", "11a", "14a", "16a", "17a", "18a", "20a", "22a", "26a", "27a", "28a", "29a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "12d", "13d", "15d", "19d", "21d", "23d", "24d", "25d"],
+    "total_clues": 31,
+    "puzzle_count": 13,
+    "example_puzzles": [{"number": "DT 31014", "date": "2025-08-25"}]
+  },
+  {
+    "pattern_id": "G38",
+    "across_clues": ["1a", "6a", "9a", "10a", "12a", "14a", "15a", "17a", "19a", "22a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "7d", "8d", "11d", "13d", "16d", "18d", "20d", "21d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 13,
+    "example_puzzles": [{"number": "DT 30946", "date": "2025-06-06"}]
+  },
+  {
+    "pattern_id": "G39",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "14a", "15a", "16a", "18a", "21a", "22a", "23a", "24a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "14d", "15d", "17d", "19d", "20d"],
+    "total_clues": 28,
+    "puzzle_count": 13,
+    "example_puzzles": [{"number": "DT 30675", "date": "2024-07-25"}]
+  },
+  {
+    "pattern_id": "G40",
+    "across_clues": ["8a", "9a", "10a", "11a", "12a", "15a", "17a", "19a", "20a", "21a", "24a", "25a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "14d", "16d", "18d", "19d", "20d", "22d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 13,
+    "example_puzzles": [{"number": "DT 30543", "date": "2024-02-22"}]
+  },
+  {
+    "pattern_id": "G41",
+    "across_clues": ["1a", "4a", "9a", "10a", "12a", "13a", "14a", "17a", "20a", "23a", "24a", "25a", "28a", "29a", "30a", "31a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "11d", "15d", "16d", "18d", "19d", "21d", "22d", "26d", "27d"],
+    "total_clues": 32,
+    "puzzle_count": 12,
+    "example_puzzles": [{"number": "DT 31090", "date": "2025-11-21"}]
+  },
+  {
+    "pattern_id": "G42",
+    "across_clues": ["1a", "4a", "10a", "11a", "12a", "13a", "14a", "17a", "21a", "23a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "9d", "15d", "16d", "18d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 12,
+    "example_puzzles": [{"number": "DT 30984", "date": "2025-07-21"}]
+  },
+  {
+    "pattern_id": "G43",
+    "across_clues": ["1a", "7a", "8a", "10a", "11a", "12a", "13a", "16a", "18a", "19a", "22a", "23a", "24a", "25a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "9d", "14d", "15d", "17d", "18d", "20d", "21d"],
+    "total_clues": 28,
+    "puzzle_count": 11,
+    "example_puzzles": [{"number": "DT 31044", "date": "2025-09-29"}]
+  },
+  {
+    "pattern_id": "G44",
+    "across_clues": ["1a", "4a", "9a", "10a", "12a", "13a", "15a", "18a", "20a", "22a", "24a", "25a", "26a", "27a"],
+    "down_clues": ["1d", "2d", "3d", "5d", "6d", "7d", "8d", "11d", "14d", "16d", "17d", "19d", "21d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 11,
+    "example_puzzles": [{"number": "DT 30972", "date": "2025-07-07"}]
+  },
+  {
+    "pattern_id": "G45",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "14a", "17a", "19a", "22a", "24a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "15d", "16d", "17d", "18d", "20d", "21d", "23d", "25d"],
+    "total_clues": 30,
+    "puzzle_count": 11,
+    "example_puzzles": [{"number": "DT 30840", "date": "2025-02-03"}]
+  },
+  {
+    "pattern_id": "G46",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "14a", "15a", "17a", "18a", "21a", "22a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "13d", "16d", "17d", "19d", "20d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 11,
+    "example_puzzles": [{"number": "DT 30838", "date": "2025-01-31"}]
+  },
+  {
+    "pattern_id": "G47",
+    "across_clues": ["7a", "9a", "10a", "11a", "12a", "13a", "16a", "19a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "8d", "9d", "14d", "15d", "17d", "18d", "19d", "20d", "21d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 11,
+    "example_puzzles": [{"number": "DT 30210", "date": "2023-01-30"}]
+  },
+  {
+    "pattern_id": "G48",
+    "across_clues": ["1a", "9a", "10a", "11a", "12a", "13a", "14a", "16a", "19a", "21a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "15d", "17d", "18d", "19d", "20d", "22d"],
+    "total_clues": 28,
+    "puzzle_count": 10,
+    "example_puzzles": [{"number": "DT 31018", "date": "2025-08-29"}]
+  },
+  {
+    "pattern_id": "G49",
+    "across_clues": ["1a", "5a", "9a", "10a", "11a", "12a", "13a", "16a", "17a", "18a", "21a", "22a", "25a", "26a", "27a", "28a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "14d", "15d", "17d", "18d", "19d", "20d", "23d", "24d"],
+    "total_clues": 32,
+    "puzzle_count": 10,
+    "example_puzzles": [{"number": "DT 30820", "date": "2025-01-10"}]
+  },
+  {
+    "pattern_id": "G50",
+    "across_clues": ["3a", "8a", "9a", "10a", "11a", "12a", "14a", "20a", "22a", "23a", "24a", "25a", "26a"],
+    "down_clues": ["1d", "2d", "3d", "4d", "5d", "6d", "7d", "13d", "15d", "16d", "17d", "18d", "19d", "21d", "23d"],
+    "total_clues": 28,
+    "puzzle_count": 10,
+    "example_puzzles": [{"number": "DT 30216", "date": "2023-02-06"}]
+  }
+]

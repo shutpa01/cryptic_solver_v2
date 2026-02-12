@@ -2,38 +2,28 @@
 Unified Puzzle Report Generator
 
 Pulls clues from all pipeline stages, respects stage priority,
-validates explanations independently, and only sends genuinely
-unresolved clues to the API for review.
+and validates explanations independently.
 
 Usage:
-    python puzzle_report.py
-    python puzzle_report.py --run-id 0
-    python puzzle_report.py --no-api          # skip API calls
-    python puzzle_report.py --max-api 5       # limit API calls
+    python report.py
+    python report.py --run-id 0
 """
 
 import argparse
 import json
-import os
 import re
 import sqlite3
-import sys
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, List, Dict, Any, Tuple
+from typing import Optional, List, Dict, Any
 
 # ============================================================
 # USER CONFIGURATION
 # ============================================================
-PIPELINE_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver\data\pipeline_stages.db"
-CRYPTIC_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver\data\cryptic_new.db"
-CLUES_DB = r"C:\Users\shuteclaude\PycharmProjects\cryptic_solver_V2\data\clues_master.db"
-OUTPUT_FILE = r"C:\Users\shute\OneDrive\print\puzzle_report.txt"
-
-# API configuration
-USE_API = True
-MAX_API_CALLS = 50  # safety limit
-API_MODEL = "claude-sonnet-4-20250514"
+PIPELINE_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\pipeline_stages.db"
+CRYPTIC_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db"
+CLUES_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db"
+OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzle_report.txt"
 
 
 # ============================================================
@@ -52,7 +42,7 @@ class ClueResult:
 
     # Resolution
     solved: bool = False
-    solve_stage: str = ""  # dd, lurker, anagram, compound, general, api
+    solve_stage: str = ""  # dd, lurker, anagram, compound, general
     solve_quality: str = ""  # solved, partial, unsolved, cryptic_def, double_def
 
     # Explanation
@@ -67,11 +57,6 @@ class ClueResult:
     letters_needed: str = ""
     gaps: List[Dict] = field(default_factory=list)
 
-    # API review info
-    api_reviewed: bool = False
-    api_model: str = ""
-    api_retried: bool = False
-    api_confidence: float = 0.0
 
 
 # ============================================================
@@ -647,457 +632,6 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
 
 
 # ============================================================
-# API REVIEWER (for unresolved clues only)
-# ============================================================
-
-def get_db_context_for_clue(cryptic_db: str, clue_text: str) -> Dict[str, Any]:
-    """
-    Query ALL tables in cryptic_new.db for every word in the clue.
-    This is the fix for the original api_reviewer which only checked
-    unresolved_words.
-    """
-    conn = sqlite3.connect(cryptic_db)
-    cursor = conn.cursor()
-
-    # Split clue into words, strip punctuation
-    words = re.findall(r"[a-zA-Z]+", clue_text)
-
-    context = {
-        "synonyms": {},
-        "wordplay": {},
-        "indicators": {},
-        "homophones": {},
-        "definitions": {}
-    }
-
-    for word in words:
-        w = word.lower()
-        if len(w) < 2:
-            # Still check single letters
-            if len(w) == 1:
-                context["synonyms"][w] = [w.upper()]
-            continue
-
-        # synonyms_pairs
-        cursor.execute(
-            "SELECT synonym FROM synonyms_pairs WHERE LOWER(word) = ? LIMIT 10", (w,)
-        )
-        syns = [r[0] for r in cursor.fetchall()]
-        if syns:
-            context["synonyms"][w] = syns
-
-        # wordplay (abbreviations)
-        cursor.execute(
-            "SELECT substitution, category FROM wordplay WHERE LOWER(indicator) = ?", (w,)
-        )
-        abbrevs = cursor.fetchall()
-        if abbrevs:
-            context["wordplay"][w] = [{"sub": r[0], "cat": r[1]} for r in abbrevs]
-
-        # indicators
-        cursor.execute(
-            "SELECT wordplay_type, subtype FROM indicators WHERE LOWER(word) = ?", (w,)
-        )
-        ind = cursor.fetchone()
-        if ind:
-            context["indicators"][w] = {"type": ind[0], "subtype": ind[1]}
-
-        # homophones
-        cursor.execute(
-            "SELECT homophone FROM homophones WHERE LOWER(word) = ?", (w,)
-        )
-        homs = [r[0] for r in cursor.fetchall()]
-        if homs:
-            context["homophones"][w] = homs
-
-        # definition_answers_augmented
-        cursor.execute(
-            "SELECT answer FROM definition_answers_augmented WHERE LOWER(definition) = ? LIMIT 10",
-            (w,)
-        )
-        defs = [r[0] for r in cursor.fetchall()]
-        if defs:
-            context["definitions"][w] = defs
-
-    conn.close()
-    return context
-
-
-def build_api_prompt(clue_result: ClueResult, db_context: Dict) -> str:
-    """
-    Build API prompt that includes existing partial work
-    so the API fills gaps rather than starting from scratch.
-    """
-    # Build partial work summary
-    partial_work = ""
-    if clue_result.formula:
-        partial_work += f"\nExisting formula: {clue_result.formula}"
-    if clue_result.breakdown:
-        partial_work += "\nExisting breakdown:"
-        for b in clue_result.breakdown:
-            partial_work += f"\n  {b}"
-    if clue_result.unresolved_words:
-        partial_work += f"\nWords still unresolved: {', '.join(clue_result.unresolved_words)}"
-    if clue_result.letters_needed:
-        partial_work += f"\nLetters still needed: {clue_result.letters_needed}"
-
-    # Determine if this is an across or down clue for reversal guidance
-    direction = clue_result.direction.lower() if clue_result.direction else "unknown"
-
-    prompt = f"""You are an expert cryptic crossword solver. Your job is to explain how a cryptic clue produces its answer, with every word in the clue accounted for in a structured format.
-
-CRYPTIC CROSSWORD PRINCIPLES:
-- Every cryptic clue has a definition (usually at the start or end) and wordplay that builds the answer.
-- Common wordplay types: charade (concatenation), anagram, container (one thing inside another), hidden word, reversal, deletion, homophone, double definition, cryptic definition.
-- Abbreviations must be standard and widely recognised: cricket (C=caught, B=bowled, LBW), military (RE, RA, CO), music (P, PP, F, FF, MP), compass (N,S,E,W), NATO alphabet (Alpha=A, Charlie=C), units, Roman numerals, etc. Do NOT use "first letter of a random word" as a substitution unless there is an explicit first-letter indicator in the clue (e.g. "initially", "first", "head of").
-- Reversal indicators in Down clues can indicate upward direction: "up", "arise", "raised", "climbing", "ascending" etc.
-- Reversal indicators in Across clues indicate reading backwards: "back", "returning", "reflected" etc.
-- Container indicators: "in", "around", "about", "holding", "clutching", "swallowing" etc.
-- Anagram indicators suggest disorder: "wild", "broken", "crazy", "mixed", "drunk", "rewritten" etc.
-- Deletion indicators: "losing", "without", "lacking", "not", "dropping" etc.
-
-THIS IS A {direction.upper()} CLUE.
-
-DATABASE LOOKUPS FOR CLUE WORDS:
-{json.dumps(db_context, indent=2)}
-
-This database contains ~78,000 synonym pairs, ~2,700 indicators, and extensive abbreviation and homophone tables. It is comprehensive but not exhaustive.
-
-HOW TO USE THE DATABASE:
-1. SEARCH THOROUGHLY. If an exact word isn't found, look for close variants in the results provided. "deer" might not be there but "american deer" -> ELK will be. "mushroom" might appear as "mushrooms" or "type of mushroom" -> CEPS.
-2. TRUST THE DATABASE when it offers a match - prefer DB-backed substitutions over your own guesses.
-3. DON'T FREEZE when the DB has a genuine gap. If you're confident in a standard, well-known cryptic substitution that simply isn't in the DB, use it and flag it as a gap.
-4. If you can't find a substitution in the DB even approximately, treat that as a signal to question whether your approach is correct before assuming it's a gap.
-
-HONESTY RULES:
-- If you cannot confidently determine a word's role, assign it role "unknown". An honest unknown is far more valuable than a fabricated explanation.
-- Never invent nonsense abbreviations or obscure synonym chains to force an answer to work. If a word doesn't map to any recognised abbreviation or synonym that fits, don't force it.
-- If your confidence is below 50%, mark uncertain word roles as "unknown" rather than guessing.
-- It is better to return a partially explained clue than a fully explained wrong one.
-
-CLUE: {clue_result.clue_text}
-ANSWER: {clue_result.answer} ({len(extract_letters(clue_result.answer))} letters)
-
-{f"PARTIAL WORK ALREADY DONE:{partial_work}" if partial_work else ""}
-
-Respond with JSON only, no markdown:
-
-{{
-  "clue_type": "charade|anagram|container|deletion|reversal|homophone|hidden|double_definition|cryptic_definition",
-  "definition": "the definition word(s) from the clue",
-  "formula": "traces letter-by-letter to answer, e.g. CON + TACT = CONTACT or anagram(PARTIES) = TRAIPSE or P(ELIC)AN = PELICAN",
-  "word_roles": [
-    {{
-      "word": "exact word from clue",
-      "role": "definition|fodder|indicator|linker|unknown",
-      "produces": "LETTERS (required if role=fodder)",
-      "substitution_type": "synonym|abbreviation|literal|first_letter|last_letter|reversal|anagram|deletion|container|homophone (required if role=fodder)",
-      "in_db": true or false,
-      "explanation": "brief justification, e.g. 'caught = C in cricket' or 'not in DB but standard abbreviation'"
-    }}
-  ],
-  "gaps": [
-    {{
-      "table": "synonyms_pairs|wordplay|indicators|homophones",
-      "data": {{"word": "...", "synonym": "..."}}
-    }}
-  ],
-  "confidence": 0.0 to 1.0
-}}
-
-FORMULA NOTATION:
-- Charade: A + B + C = ANSWER
-- Anagram: anagram(FODDER) = ANSWER
-- Container: A(B)C = ANSWER where B is inside AC
-- Reversal: reverse(WORD) = DROW
-- Deletion: WORD - W = ORD
-- Homophone: homophone(PHRASE) = ANSWER
-- Combinations are fine: A + reverse(B) + C = ANSWER"""
-
-    return prompt
-
-
-def build_retry_prompt(clue_result: ClueResult, previous_response: Dict,
-                       validation_message: str, db_context: Dict) -> str:
-    """
-    Build retry prompt WITH db context and specific guidance for rethinking.
-    """
-    prev_formula = previous_response.get("formula", "N/A")
-    prev_roles = previous_response.get("word_roles", [])
-
-    direction = clue_result.direction.lower() if clue_result.direction else "unknown"
-
-    prompt = f"""You are an expert cryptic crossword solver. Your previous attempt to explain this clue failed validation.
-
-CLUE: {clue_result.clue_text}
-ANSWER: {clue_result.answer} ({len(extract_letters(clue_result.answer))} letters)
-THIS IS A {direction.upper()} CLUE.
-
-YOUR PREVIOUS ATTEMPT:
-Formula: {prev_formula}
-Word roles: {json.dumps(prev_roles, indent=2)}
-
-WHY IT FAILED:
-{validation_message}
-
-DATABASE LOOKUPS (search thoroughly for close matches):
-{json.dumps(db_context, indent=2)}
-
-BEFORE TRYING AGAIN, consider:
-- Is your clue type wrong? Could this be a container rather than a charade? A deletion rather than an anagram?
-- Are you using the right definition window? Try the other end of the clue.
-- In a Down clue, could a word like "up", "arise", "raised" be a reversal indicator?
-- Is the answer hidden inside consecutive words of the clue?
-- Could this be a homophone clue? Look for indicators like "heard", "say", "broadcast", "sounds like".
-- Are there standard abbreviations you're missing? Check the DB carefully for close matches.
-
-HONESTY RULES:
-- If you cannot confidently determine a word's role, assign it role "unknown".
-- Never invent nonsense abbreviations or obscure synonym chains to force an answer to work.
-- It is better to return a partially explained clue than a fully explained wrong one.
-
-Respond with JSON only, no markdown:
-
-{{
-  "clue_type": "charade|anagram|container|deletion|reversal|homophone|hidden|double_definition|cryptic_definition",
-  "definition": "the definition word(s) from the clue",
-  "formula": "traces letter-by-letter to answer, e.g. CON + TACT = CONTACT or P(ELIC)AN = PELICAN",
-  "word_roles": [
-    {{
-      "word": "exact word from clue",
-      "role": "definition|fodder|indicator|linker|unknown",
-      "produces": "LETTERS (required if role=fodder)",
-      "substitution_type": "type (required if role=fodder)",
-      "in_db": true or false,
-      "explanation": "brief justification"
-    }}
-  ],
-  "gaps": [
-    {{
-      "table": "synonyms_pairs|wordplay|indicators|homophones",
-      "data": {{"word": "...", "synonym": "..."}}
-    }}
-  ],
-  "confidence": 0.0 to 1.0
-}}"""
-
-    return prompt
-
-
-
-def validate_api_response(response: Dict, answer: str) -> Tuple[bool, str]:
-    """
-    Validate an API response's letter math.
-    Returns (valid, message).
-    """
-    answer_clean = extract_letters(answer)
-    clue_type = response.get("clue_type", "")
-    word_roles = response.get("word_roles", [])
-
-    # Skip validation for unvalidatable types
-    if clue_type in ("cryptic_definition", "double_definition", "homophone", "hidden"):
-        return True, f"? {clue_type} - cannot validate letter math"
-
-    # Extract fodder letters
-    fodder_letters = []
-    for wr in word_roles:
-        if wr.get("role") == "fodder" and wr.get("produces"):
-            fodder_letters.append(extract_letters(wr["produces"]))
-
-    if not fodder_letters:
-        return False, "No fodder words produce any letters"
-
-    combined = ''.join(fodder_letters)
-
-    # For anagrams, check sorted
-    if clue_type == "anagram":
-        if sorted(combined) == sorted(answer_clean):
-            return True, f"anagram({combined}) = {answer_clean}"
-        else:
-            return False, f"anagram({combined}) != {answer_clean}"
-
-    # For charades, check direct concatenation
-    if combined == answer_clean:
-        return True, f"{' + '.join(fodder_letters)} = {answer_clean}"
-
-    # Check if it's an anagram match (container, etc.)
-    if sorted(combined) == sorted(answer_clean):
-        return True, f"{' + '.join(fodder_letters)} (rearranged) = {answer_clean}"
-
-    return False, f"{' + '.join(fodder_letters)} = {combined} != {answer_clean}"
-
-
-def call_api(prompt: str, model: str) -> Optional[Dict]:
-    """Make a single API call and parse the JSON response."""
-    try:
-        import anthropic
-        from dotenv import load_dotenv
-        load_dotenv()
-
-        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-
-        response = client.messages.create(
-            model=model,
-            max_tokens=2000,
-            messages=[{"role": "user", "content": prompt}]
-        )
-
-        text = response.content[0].text.strip()
-
-        # Strip markdown wrapping if present
-        if "```json" in text:
-            text = text.split("```json")[1].split("```")[0]
-        elif "```" in text:
-            text = text.split("```")[1].split("```")[0]
-
-        # Find JSON object
-        text = text.strip()
-        if not text.startswith("{"):
-            start = text.find("{")
-            if start != -1:
-                depth = 0
-                end = start
-                for i, c in enumerate(text[start:], start):
-                    if c == "{":
-                        depth += 1
-                    elif c == "}":
-                        depth -= 1
-                        if depth == 0:
-                            end = i + 1
-                            break
-                text = text[start:end]
-
-        return json.loads(text)
-
-    except Exception as e:
-        return {"error": str(e)}
-
-
-def review_with_api(clue_result: ClueResult, cryptic_db: str, model: str) -> ClueResult:
-    """
-    Send a clue to the API for review. Includes validation + retry.
-    """
-    # Get DB context for ALL words in the clue
-    db_context = get_db_context_for_clue(cryptic_db, clue_result.clue_text)
-
-    # Pass 1
-    prompt = build_api_prompt(clue_result, db_context)
-    response = call_api(prompt, model)
-
-    if not response or "error" in response:
-        clue_result.api_reviewed = True
-        clue_result.api_model = model
-        return clue_result
-
-    # Validate
-    valid, message = validate_api_response(response, clue_result.answer)
-
-    if valid:
-        # Apply API result
-        apply_api_result(clue_result, response)
-        clue_result.api_reviewed = True
-        clue_result.api_model = model
-        return clue_result
-
-    # Pass 2: Retry with feedback + DB context
-    retry_prompt = build_retry_prompt(clue_result, response, message, db_context)
-    retry_response = call_api(retry_prompt, model)
-
-    if not retry_response or "error" in retry_response:
-        # Use pass 1 result anyway
-        apply_api_result(clue_result, response)
-        clue_result.api_reviewed = True
-        clue_result.api_model = model
-        return clue_result
-
-    retry_valid, retry_message = validate_api_response(retry_response, clue_result.answer)
-
-    if retry_valid:
-        apply_api_result(clue_result, retry_response)
-        clue_result.api_retried = True
-    else:
-        # Use whichever had higher confidence
-        p1_conf = response.get("confidence", 0)
-        p2_conf = retry_response.get("confidence", 0)
-        apply_api_result(clue_result, retry_response if p2_conf >= p1_conf else response)
-        clue_result.api_retried = True
-
-    clue_result.api_reviewed = True
-    clue_result.api_model = model
-    return clue_result
-
-
-def apply_api_result(clue_result: ClueResult, response: Dict):
-    """Apply API response data to the clue result."""
-    clue_result.clue_type = response.get("clue_type", clue_result.clue_type)
-    clue_result.formula = response.get("formula", clue_result.formula)
-    clue_result.definition = response.get("definition", clue_result.definition)
-    clue_result.api_confidence = response.get("confidence", 0)
-
-    word_roles = response.get("word_roles", [])
-    has_unknowns = False
-    if word_roles:
-        clue_result.word_roles = word_roles
-        # Rebuild breakdown from word_roles
-        clue_result.breakdown = []
-        for wr in word_roles:
-            word = wr.get("word", "?")
-            role = wr.get("role", "?")
-            in_db = wr.get("in_db", None)
-
-            # DB status symbol
-            if in_db is True:
-                db_sym = "✓"
-            elif in_db is False:
-                db_sym = "⚠️"
-            else:
-                db_sym = ""
-
-            if role == "definition":
-                clue_result.breakdown.append(
-                    f'"{word}" = definition for {clue_result.answer}')
-            elif role == "fodder":
-                produces = wr.get("produces", "?")
-                sub_type = wr.get("substitution_type", "")
-                explanation = wr.get("explanation", "")
-                db_note = f" {db_sym}" if db_sym else ""
-                clue_result.breakdown.append(
-                    f'{db_note} "{word}" → {produces} ({sub_type}){" — " + explanation if explanation else ""}')
-            elif role == "indicator":
-                ind_type = wr.get("explanation", wr.get("indicator_type", "indicator"))
-                db_note = f" {db_sym}" if db_sym else ""
-                clue_result.breakdown.append(f'{db_note} "{word}" = {ind_type}')
-            elif role == "linker":
-                clue_result.breakdown.append(f'"{word}" = linker')
-            elif role == "unknown":
-                has_unknowns = True
-                clue_result.breakdown.append(f'? "{word}" = unknown role')
-
-    # Collect gaps
-    gaps = response.get("gaps", [])
-    if gaps:
-        clue_result.gaps = gaps
-
-    # Determine if now solved — requires BOTH letter validation AND confidence >= 0.5
-    valid, _ = validate_api_response(response, clue_result.answer)
-    confidence = response.get("confidence", 0)
-
-    if valid and confidence >= 0.5 and not has_unknowns:
-        clue_result.solved = True
-        clue_result.solve_quality = "solved"
-        clue_result.solve_stage = "api"
-    elif valid and (confidence < 0.5 or has_unknowns):
-        # Letters work but low confidence or unknowns — partial
-        clue_result.solved = False
-        clue_result.solve_quality = "partial"
-        clue_result.solve_stage = "api"
-    else:
-        clue_result.solved = False
-        clue_result.solve_quality = "partial"
-        clue_result.solve_stage = "api"
-
-
-# ============================================================
 # REPORT FORMATTER
 # ============================================================
 
@@ -1141,9 +675,6 @@ def format_report(results: List[ClueResult], puzzle_info: Dict) -> str:
         1 for r in results if not r.solved and r.solve_quality == "partial")
     unsolved_count = sum(
         1 for r in results if not r.solved and r.solve_quality != "partial")
-    api_reviewed = sum(1 for r in results if r.api_reviewed)
-    api_retried = sum(1 for r in results if r.api_retried)
-
     lines.append("")
     lines.append("SOLVE SUMMARY")
     lines.append("-" * 40)
@@ -1152,15 +683,11 @@ def format_report(results: List[ClueResult], puzzle_info: Dict) -> str:
     lines.append(f"  Anagrams:                {stage_counts.get('anagram', 0)}")
     lines.append(f"  Compound wordplay:       {stage_counts.get('compound', 0)}")
     lines.append(f"  General wordplay:        {stage_counts.get('general', 0)}")
-    lines.append(f"  API reviewed:            {stage_counts.get('api', 0)}")
     lines.append(f"  ---")
     lines.append(
         f"  SOLVED:                  {solved_count}/{total} ({100 * solved_count // total}%)")
     lines.append(f"  Partial (needs work):    {partial_count}")
     lines.append(f"  Unsolved:                {unsolved_count}")
-    if api_reviewed:
-        lines.append(
-            f"  API calls made:          {api_reviewed} (retried: {api_retried})")
     lines.append("")
 
     # ---- PER-CLUE DETAIL ----
@@ -1239,8 +766,6 @@ def format_single_clue(r: ClueResult) -> str:
     # Status tag
     if r.solved:
         tag = "[SOLVED]"
-        if r.solve_stage == "api":
-            tag = "[SOLVED*]"  # solved by API
     else:
         tag = "[PARTIAL]" if r.solve_quality == "partial" else "[UNSOLVED]"
 
@@ -1250,7 +775,6 @@ def format_single_clue(r: ClueResult) -> str:
         "anagram": "anagram",
         "compound": "compound wordplay",
         "general": "general wordplay",
-        "api": "API review"
     }.get(r.solve_stage, r.solve_stage)
 
     lines.append(f"  {tag} {r.clue_number} CLUE: {r.clue_text}")
@@ -1280,13 +804,6 @@ def format_single_clue(r: ClueResult) -> str:
     if r.unresolved_words and not r.solved:
         lines.append(f"  UNRESOLVED: {', '.join(r.unresolved_words)}")
 
-    if r.api_reviewed:
-        model_label = "Sonnet"
-        conf = f"{r.api_confidence:.0%}" if r.api_confidence else "N/A"
-        retry_note = " (retried)" if r.api_retried else ""
-        conf_warning = " ⚠️ LOW CONFIDENCE" if r.api_confidence and r.api_confidence < 0.5 else ""
-        lines.append(f"  API: {model_label}{retry_note}, confidence: {conf}{conf_warning}")
-
     lines.append(f"  {'─' * 70}")
 
     return "\n".join(lines)
@@ -1300,58 +817,55 @@ def main():
     parser = argparse.ArgumentParser(description="Generate unified puzzle report")
     parser.add_argument("--run-id", type=int, default=None,
                         help="Pipeline run ID (default: latest)")
-    parser.add_argument("--no-api", action="store_true", help="Skip API calls")
-    parser.add_argument("--max-api", type=int, default=MAX_API_CALLS,
-                        help="Max API calls")
+    parser.add_argument("--report-only", action="store_true",
+                        help="Skip pipeline, just regenerate report from existing data")
     parser.add_argument("--output", type=str, default=OUTPUT_FILE, help="Output file")
     args = parser.parse_args()
 
-    # Get run ID
+    # Step 1: Run the pipeline (unless --report-only)
+    if not args.report_only:
+        print("=" * 60)
+        print("COMPLETE PUZZLE SOLVER")
+        print("=" * 60)
+
+        print("\nSTEP 1: Running pipeline (DD, lurker, anagram, compound)...")
+        print("-" * 60)
+        import anagram_analysis
+        anagram_analysis.main()
+
+        print("\n" + "-" * 60)
+        print("STEP 2: Running general wordplay analysis...")
+        print("-" * 60)
+        from stages.general import run_general_analysis
+        run_general_analysis(run_id=0)
+
+        print("\n" + "-" * 60)
+        print("STEP 3: Writing unified puzzle report...")
+        print("-" * 60)
+
+    # Step 2: Generate report
     run_id = args.run_id if args.run_id is not None else get_latest_run_id(PIPELINE_DB)
     print(f"Using run_id: {run_id}")
 
-    # Get puzzle info
     puzzle_info = get_puzzle_info(PIPELINE_DB, run_id)
     print(
         f"Puzzle: {puzzle_info.get('source', '?')} #{puzzle_info.get('puzzle_number', '?')}")
 
-    # Get all clue IDs
     clue_ids = get_all_clue_ids(PIPELINE_DB, run_id)
     print(f"Total clues: {len(clue_ids)}")
 
-    # Resolve each clue through cascade
     results = []
     for cid in clue_ids:
         result = resolve_clue(PIPELINE_DB, CLUES_DB, run_id, cid)
         results.append(result)
 
-    # Report pre-API status
-    solved_pre = sum(1 for r in results if r.solved)
-    unsolved = [r for r in results if not r.solved]
-    print(f"\nPre-API: {solved_pre}/{len(results)} solved")
-    print(f"Clues needing API review: {len(unsolved)}")
-
-    # API review for unresolved clues
-    if not args.no_api and unsolved:
-        api_count = min(len(unsolved), args.max_api)
-        print(f"\nSending {api_count} clues to API ({API_MODEL})...")
-
-        for i, r in enumerate(unsolved[:api_count]):
-            print(f"  [{i + 1}/{api_count}] {r.clue_number} {r.answer}...", end=" ")
-            review_with_api(r, CRYPTIC_DB, API_MODEL)
-            status = "SOLVED" if r.solved else "partial"
-            retry = " (retried)" if r.api_retried else ""
-            print(f"{status}{retry}")
-
-    # Generate report
     report = format_report(results, puzzle_info)
 
-    # Write to file
     with open(args.output, "w", encoding="utf-8") as f:
         f.write(report)
     print(f"\nReport saved to {args.output}")
+    print("\n" + report)
 
-    # Also print summary
     solved_total = sum(1 for r in results if r.solved)
     print(
         f"\nFinal: {solved_total}/{len(results)} solved ({100 * solved_total // len(results)}%)")

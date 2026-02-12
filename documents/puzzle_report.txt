@@ -1,0 +1,633 @@
+================================================================================
+PUZZLE REPORT: telegraph #30000
+Generated: 2026-02-12 19:16:46
+Total clues: 40
+================================================================================
+
+SOLVE SUMMARY
+----------------------------------------
+  Double definitions:      2
+  Hidden words (lurkers):  2
+  Anagrams:                2
+  Compound wordplay:       0
+  General wordplay:        18
+  ---
+  SOLVED:                  24/40 (60%)
+  Partial (needs work):    16
+  Unsolved:                0
+
+================================================================================
+ACROSS
+================================================================================
+
+  [PARTIAL] 7a CLUE: County‘s season picked up ahead of series (8)
+  ANSWER: SOMERSET
+  STAGE: general wordplay
+  DEFINITION: county
+  FORMULA: SET (series) + ? = SOMERSET
+  BREAKDOWN:
+    "up" = reversal indicator
+    "series" = SET (database (synonym))
+    "County‘s" = unresolved
+    "season" = unresolved
+    "picked" = unresolved
+    "ahead" = unresolved
+    "of" = unresolved
+  LETTERS NEEDED: SOMER
+  UNRESOLVED: County‘s, season, picked, ahead, of
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 7 CLUE: County's season picked up ahead of series
+  ANSWER: Somerset
+  STAGE: general wordplay
+  DEFINITION: county
+  FORMULA: SOMERSET (County's) = SOMERSET
+  BREAKDOWN:
+    "County's" = SOMERSET (database (synonym))
+    "up" = reversal indicator
+    "season" = wordplay connector
+    "picked" = wordplay connector
+    "ahead" = wordplay connector
+    "of" = link word
+    "series" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 9 CLUE: Look at permit and small hole
+  ANSWER: Eyelet
+  STAGE: general wordplay
+  DEFINITION: hole
+  FORMULA: EYE (Look) + LET (permit) (contained) = EYELET
+  BREAKDOWN:
+    "Look" = EYE (database (synonym))
+    "permit" = LET (database (synonym))
+    "hole" = definition for EYELET
+    "at" = link word
+    "and" = link word
+    "small" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 10a CLUE: Not quite prepared to study (4)
+  ANSWER: READ
+  STAGE: general wordplay
+  DEFINITION: to study
+  FORMULA: ? = READ
+  BREAKDOWN:
+    "not quite" = deletion_indicator
+    "to" = definition for READ
+    "study" = definition for READ
+    "prepared" = unresolved
+  LETTERS NEEDED: READ
+  UNRESOLVED: prepared
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 10 CLUE: Not quite prepared to study
+  ANSWER: Read
+  STAGE: general wordplay
+  DEFINITION: study
+  FORMULA: ? = READ
+  BREAKDOWN:
+    "not quite" = deletion_indicator
+    "to" = reversal indicator
+    "study" = definition for READ
+    "prepared" = unresolved
+  LETTERS NEEDED: READ
+  UNRESOLVED: prepared
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 11a CLUE: Large one piano in intricate Hogarth print (10)
+  ANSWER: LITHOGRAPH
+  STAGE: general wordplay
+  DEFINITION: print
+  FORMULA: L (Large) + I (one) + P (piano) + HOGARTH = LITHOGRAPH
+  BREAKDOWN:
+    "Large" = L (database (single_letter))
+    "one" = I (database (single_letter))
+    "piano" = P (database (musical))
+    "in" = hidden indicator
+    "Hogarth" = anagram fodder
+    "print" = definition for LITHOGRAPH
+    "intricate" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 11 CLUE: Large one, piano in intricate Hogarth print
+  ANSWER: Lithograph
+  STAGE: general wordplay
+  DEFINITION: print
+  FORMULA: L (Large) + I (one,) + P (piano) + HOGARTH = LITHOGRAPH
+  BREAKDOWN:
+    "Large" = L (database (single_letter))
+    "one," = I (database (single_letter))
+    "piano" = P (database (musical))
+    "in" = hidden indicator
+    "Hogarth" = anagram fodder
+    "print" = definition for LITHOGRAPH
+    "intricate" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 12a CLUE: Go back on one’s word right away in a city in Oregon (6)
+  ANSWER: EUGENE
+  STAGE: general wordplay
+  DEFINITION: city in Oregon
+  FORMULA: TIN (a) + ? = EUGENE
+  BREAKDOWN:
+    "Go" = TI (to be removed)
+    "back" = reversal indicator
+    "word" = homophone indicator
+    "in" = definition for EUGENE
+    "a" = TIN (database (synonym))
+    "city" = definition for EUGENE
+    "Oregon" = definition for EUGENE
+    "one’s" = unresolved
+    "right" = unresolved
+    "away" = unresolved
+  LETTERS NEEDED: EUGEE
+  UNRESOLVED: on, one’s, right, away
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14a CLUE: The Spanish artist entertained by old-fashioned type in fabulous place (2,6)
+  ANSWER: EL DORADO
+  STAGE: general wordplay
+  DEFINITION: place
+  FORMULA: RA (artist) + EL (the spanish) + ? = EL DORADO
+  BREAKDOWN:
+    "the spanish" = EL (database phrase (foreign_spanish))
+    "artist" = RA (database (abbreviation))
+    "in" = hidden indicator
+    "place" = definition for EL DORADO
+    "entertained" = unresolved
+    "by" = unresolved
+    "old-fashioned" = unresolved
+    "type" = unresolved
+    "fabulous" = unresolved
+  LETTERS NEEDED: DODO
+  UNRESOLVED: entertained, by, old-fashioned, type, fabulous
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14 CLUE: The Spanish artist entertained by old-fashioned type in fabulous place
+  ANSWER: El Dorado
+  STAGE: general wordplay
+  DEFINITION: fabulous place
+  FORMULA: RA (artist) + EL (the spanish) + ? = ELDORADO
+  BREAKDOWN:
+    "the spanish" = EL (database phrase (foreign_spanish))
+    "artist" = RA (database (abbreviation))
+    "in" = hidden indicator
+    "fabulous" = definition for ELDORADO
+    "place" = definition for ELDORADO
+    "entertained" = unresolved
+    "by" = unresolved
+    "old-fashioned" = unresolved
+    "type" = unresolved
+  LETTERS NEEDED: DODO
+  UNRESOLVED: entertained, by, old-fashioned, type
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 15a CLUE: They go off in river craft, not quietly (6)
+  ANSWER: EXEUNT
+  STAGE: general wordplay
+  DEFINITION: They go off
+  FORMULA: ? = EXEUNT
+  BREAKDOWN:
+    "They" = definition for EXEUNT
+    "go" = definition for EXEUNT
+    "off" = definition for EXEUNT
+    "in" = hidden indicator
+    "river" = unresolved
+    "craft," = unresolved
+    "not" = unresolved
+    "quietly" = unresolved
+  LETTERS NEEDED: EXEUNT
+  UNRESOLVED: river, craft,, not, quietly
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 15 CLUE: They go off in river craft, not quietly
+  ANSWER: Exeunt
+  STAGE: general wordplay
+  DEFINITION: They go off
+  FORMULA: ? = EXEUNT
+  BREAKDOWN:
+    "They" = definition for EXEUNT
+    "go" = definition for EXEUNT
+    "off" = definition for EXEUNT
+    "in" = hidden indicator
+    "river" = unresolved
+    "craft," = unresolved
+    "not" = unresolved
+    "quietly" = unresolved
+  LETTERS NEEDED: EXEUNT
+  UNRESOLVED: river, craft,, not, quietly
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 17a CLUE: Professional model in good health (6)
+  ANSWER: PROSIT
+  STAGE: general wordplay
+  DEFINITION: good health
+  FORMULA: PRO (Professional) + SIT (model) (contained) = PROSIT
+  BREAKDOWN:
+    "Professional" = PRO (database (synonym))
+    "model" = SIT (database (synonym))
+    "in" = hidden indicator
+    "good" = definition for PROSIT
+    "health" = definition for PROSIT
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 20a CLUE: Throaty, ultra poorly on vessel returning (8)
+  ANSWER: GUTTURAL
+  STAGE: general wordplay
+  DEFINITION: Throaty
+  FORMULA: ULTRA + ? = GUTTURAL
+  BREAKDOWN:
+    "Throaty," = definition for GUTTURAL
+    "ultra" = anagram fodder
+    "returning" = reversal indicator
+    "poorly" = unresolved
+    "on" = unresolved
+    "vessel" = unresolved
+  LETTERS NEEDED: GUT
+  UNRESOLVED: poorly, on, vessel
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 20 CLUE: Throaty, ultra poorly on vessel returning
+  ANSWER: Guttural
+  STAGE: general wordplay
+  DEFINITION: Throaty
+  FORMULA: ULTRA + ? = GUTTURAL
+  BREAKDOWN:
+    "Throaty," = definition for GUTTURAL
+    "ultra" = anagram fodder
+    "returning" = reversal indicator
+    "poorly" = unresolved
+    "on" = unresolved
+    "vessel" = unresolved
+  LETTERS NEEDED: GUT
+  UNRESOLVED: poorly, on, vessel
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 22a CLUE: America backing party UK rejected? A puzzle (6)
+  ANSWER: SUDOKU
+  STAGE: general wordplay
+  DEFINITION: puzzle
+  FORMULA: DO (party) + US (America) + UK = SUDOKU
+  BREAKDOWN:
+    "America" = US (database (synonym))
+    "backing" = reversal indicator
+    "party" = DO (database (synonym))
+    "UK" = anagram fodder
+    "puzzle" = definition for SUDOKU
+    "rejected?" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 22 CLUE: America backing party UK rejected? A puzzle
+  ANSWER: Sudoku
+  STAGE: general wordplay
+  DEFINITION: puzzle
+  FORMULA: DO (party) + US (America) + UK = SUDOKU
+  BREAKDOWN:
+    "America" = US (database (synonym))
+    "backing" = reversal indicator
+    "party" = DO (database (synonym))
+    "UK" = anagram fodder
+    "puzzle" = definition for SUDOKU
+    "rejected?" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 24a CLUE: The Parisian approaching outskirts of Nantes, French city (4)
+  ANSWER: LENS
+  STAGE: general wordplay
+  DEFINITION: French city
+  FORMULA: ? = LENS
+  BREAKDOWN:
+    "French" = definition for LENS
+    "city" = definition for LENS
+    "The" = unresolved
+    "Parisian" = unresolved
+    "approaching" = unresolved
+    "outskirts" = unresolved
+    "of" = unresolved
+    "Nantes," = unresolved
+  LETTERS NEEDED: LENS
+  UNRESOLVED: The, Parisian, approaching, outskirts, of, Nantes,
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 24 CLUE: The Parisian approaching outskirts of Nantes, French city
+  ANSWER: Lens
+  STAGE: general wordplay
+  DEFINITION: French city
+  FORMULA: ? = LENS
+  BREAKDOWN:
+    "French" = definition for LENS
+    "city" = definition for LENS
+    "The" = unresolved
+    "Parisian" = unresolved
+    "approaching" = unresolved
+    "outskirts" = unresolved
+    "of" = unresolved
+    "Nantes," = unresolved
+  LETTERS NEEDED: LENS
+  UNRESOLVED: The, Parisian, approaching, outskirts, of, Nantes,
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 25 CLUE: Power lift gets acclaim
+  ANSWER: Praise
+  STAGE: general wordplay
+  DEFINITION: acclaim
+  FORMULA: P (Power) + ? = PRAISE
+  BREAKDOWN:
+    "Power" = P (database (single_letter))
+    "acclaim" = definition for PRAISE
+    "lift" = unresolved
+    "gets" = unresolved
+  LETTERS NEEDED: RAISE
+  UNRESOLVED: lift, gets
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 26a CLUE: Drink it in retreat with a girl (3,5)
+  ANSWER: TIA MARIA
+  STAGE: general wordplay
+  DEFINITION: Drink
+  FORMULA: A (a) + MARIA (girl) + IT = TIA MARIA
+  BREAKDOWN:
+    "Drink" = definition for TIA MARIA
+    "it" = anagram fodder
+    "in" = hidden indicator
+    "retreat" = reversal indicator
+    "a" = A (database (single_letter))
+    "girl" = MARIA (database (synonym))
+    "with" = link word
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 26 CLUE: Drink it in retreat with a girl
+  ANSWER: Tia Maria
+  STAGE: general wordplay
+  DEFINITION: Drink
+  FORMULA: A (a) + MARIA (girl) + IT = TIAMARIA
+  BREAKDOWN:
+    "Drink" = definition for TIAMARIA
+    "it" = anagram fodder
+    "in" = hidden indicator
+    "retreat" = reversal indicator
+    "a" = A (database (single_letter))
+    "girl" = MARIA (database (synonym))
+    "with" = link word
+  ──────────────────────────────────────────────────────────────────────
+
+================================================================================
+DOWN
+================================================================================
+
+  [PARTIAL] 1d CLUE: Certainly true abroad, honours being involved (2,2,4)
+  ANSWER: TO BE SURE
+  STAGE: general wordplay
+  DEFINITION: Certainly
+  FORMULA: TRUE + ? = TO BE SURE
+  BREAKDOWN:
+    "Certainly" = definition for TO BE SURE
+    "true" = anagram fodder
+    "abroad," = unresolved
+    "honours" = unresolved
+    "being" = unresolved
+    "involved" = unresolved
+  LETTERS NEEDED: OBES
+  UNRESOLVED: abroad,, honours, being, involved
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 2 CLUE: That woman and daughter's stock of cattle
+  ANSWER: Herd
+  STAGE: general wordplay
+  DEFINITION: stock of cattle
+  FORMULA: HER (woman) + D (daughter's) (contained) = HERD
+  BREAKDOWN:
+    "woman" = HER (database (synonym))
+    "daughter's" = D (database (single_letter))
+    "stock" = definition for HERD
+    "of" = definition for HERD
+    "cattle" = definition for HERD
+    "That" = link word
+    "and" = link word
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 3d CLUE: I betrayed eastern princess of legend (6)
+  ANSWER: ISOLDE
+  STAGE: general wordplay
+  DEFINITION: princess of legend
+  FORMULA: I (I) + SOLD (betrayed) + E (eastern) (contained) = ISOLDE
+  BREAKDOWN:
+    "I" = I (database (single_letter))
+    "betrayed" = SOLD (database (synonym))
+    "eastern" = E (database (single_letter))
+    "princess" = definition for ISOLDE
+    "of" = definition for ISOLDE
+    "legend" = definition for ISOLDE
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 3 CLUE: I betrayed eastern princess of legend
+  ANSWER: Isolde
+  STAGE: general wordplay
+  DEFINITION: princess of legend
+  FORMULA: I (I) + SOLD (betrayed) + E (eastern) (contained) = ISOLDE
+  BREAKDOWN:
+    "I" = I (database (single_letter))
+    "betrayed" = SOLD (database (synonym))
+    "eastern" = E (database (single_letter))
+    "princess" = definition for ISOLDE
+    "of" = definition for ISOLDE
+    "legend" = definition for ISOLDE
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 4d CLUE: Instrument shown in first half of recipe book (8)
+  ANSWER: RECORDER
+  STAGE: general wordplay
+  DEFINITION: Instrument
+  FORMULA: R (recipe) + CREATE (book) + O (first half of of) + ? = RECORDER
+  BREAKDOWN:
+    "Instrument" = definition for RECORDER
+    "shown" = reversal indicator
+    "in" = hidden indicator
+    "first" = positional indicator (construction order)
+    "half" = deletion indicator
+    "of" = O (first half of of)
+    "recipe" = R (database (single_letter))
+    "book" = CREATE (database (synonym))
+  LETTERS NEEDED: RD
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 5d CLUE: Coerced by threats, mistake is concealed by tense editor (10)
+  ANSWER: TERRORISED
+  STAGE: general wordplay
+  DEFINITION: Coerced by threats
+  FORMULA: ERROR (mistake) + t (tense) + ED (editor) + IS = TERRORISED
+  BREAKDOWN:
+    "Coerced" = definition for TERRORISED
+    "by" = definition for TERRORISED
+    "threats," = definition for TERRORISED
+    "mistake" = ERROR (database (synonym))
+    "is" = anagram fodder
+    "concealed" = hidden indicator
+    "tense" = T (database (abbreviation))
+    "editor" = ED (database (abbreviation))
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 6d CLUE: Cried, deeply upset (6)
+  ANSWER: YELPED
+  STAGE: anagram
+  TYPE: anagram
+  DEFINITION: upset
+  FORMULA: anagram(deeply) = YELPED
+  BREAKDOWN:
+    "deeply" = anagram fodder
+    "Cried," = anagram indicator
+    "upset" = definition for YELPED
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 6 CLUE: Cried, deeply upset
+  ANSWER: Yelped
+  STAGE: anagram
+  TYPE: anagram
+  DEFINITION: upset
+  FORMULA: anagram(deeply) = Yelped
+  BREAKDOWN:
+    "deeply" = anagram fodder
+    "Cried," = anagram indicator
+    "upset" = definition for Yelped
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 8d CLUE: Rope carried by mate — the reason? (6)
+  ANSWER: TETHER
+  STAGE: hidden word
+  TYPE: hidden
+  FORMULA: Hidden in: tether
+  BREAKDOWN:
+    "TETHER" is hidden in the clue text
+    Container: tether
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 8 CLUE: Rope carried by mate – the reason?
+  ANSWER: Tether
+  STAGE: hidden word
+  TYPE: hidden
+  FORMULA: Hidden in: tether
+  BREAKDOWN:
+    "Tether" is hidden in the clue text
+    Container: tether
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 13d CLUE: Using a computer, perhaps decide on grave overlooking church (10)
+  ANSWER: ELECTRONIC
+  STAGE: general wordplay
+  DEFINITION: Using a computer
+  FORMULA: ELECTRONIC (perhaps) = ELECTRONIC
+  BREAKDOWN:
+    "Using" = definition for ELECTRONIC
+    "a" = definition for ELECTRONIC
+    "computer," = definition for ELECTRONIC
+    "perhaps" = ELECTRONIC (database (synonym))
+    "decide" = link word
+    "on" = link word
+    "grave" = wordplay connector
+    "overlooking" = wordplay connector
+    "church" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 16d CLUE: Savings primarily invested in another fresh source of oil and gas (5,3)
+  ANSWER: NORTH SEA
+  STAGE: general wordplay
+  DEFINITION: source of oil and gas
+  FORMULA: S (Savings) + ANOTHER = NORTH SEA
+  BREAKDOWN:
+    "Savings" = S (first letter of)
+    "primarily" = letter selector
+    "invested in" = insertion_indicator
+    "another" = anagram fodder
+    "source" = definition for NORTH SEA
+    "of" = definition for NORTH SEA
+    "oil" = definition for NORTH SEA
+    "and" = definition for NORTH SEA
+    "gas" = definition for NORTH SEA
+    "fresh" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 16 CLUE: Savings primarily invested in another fresh source of oil and gas
+  ANSWER: North Sea
+  STAGE: general wordplay
+  DEFINITION: source of oil and gas
+  FORMULA: S (Savings) + ANOTHER = NORTHSEA
+  BREAKDOWN:
+    "Savings" = S (first letter of)
+    "primarily" = letter selector
+    "invested in" = insertion_indicator
+    "another" = anagram fodder
+    "source" = definition for NORTHSEA
+    "of" = definition for NORTHSEA
+    "oil" = definition for NORTHSEA
+    "and" = definition for NORTHSEA
+    "gas" = definition for NORTHSEA
+    "fresh" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 19d CLUE: Practically everything  in contrast (3,3)
+  ANSWER: ALL BUT
+  STAGE: double definition
+  TYPE: double_definition
+  DEFINITION: Practically / in contrast
+  FORMULA: Double definition: Practically + in contrast = ALL BUT
+  BREAKDOWN:
+    "Practically" = definition 1 for ALL BUT
+    "in contrast" = definition 2 for ALL BUT
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 19 CLUE: Practically everything in contrast
+  ANSWER: All but
+  STAGE: double definition
+  TYPE: double_definition
+  DEFINITION: Practically / in contrast
+  FORMULA: Double definition: Practically + in contrast = All but
+  BREAKDOWN:
+    "Practically" = definition 1 for All but
+    "in contrast" = definition 2 for All but
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: Open a French Chardonnay, initially, or last in rack
+  ANSWER: Uncork
+  STAGE: general wordplay
+  DEFINITION: Open
+  FORMULA: C (Chardonnay,) + NK (in rack) + OR + ? = UNCORK
+  BREAKDOWN:
+    "Open" = definition for UNCORK
+    "Chardonnay," = C (first letter of)
+    "initially," = letter selector
+    "or" = anagram fodder
+    "last" = last letter indicator
+    "in rack" = NK (last letters of)
+    "French" = unresolved
+  LETTERS NEEDED: U
+  UNRESOLVED: a, French
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 22 CLUE: Small vehicle, a black Beetle?
+  ANSWER: Scarab
+  STAGE: general wordplay
+  DEFINITION: Beetle?
+  FORMULA: S (Small) + CAR (vehicle,) + A (a) + B (black) (contained) = SCARAB
+  BREAKDOWN:
+    "Small" = S (database (single_letter))
+    "vehicle," = CAR (database (synonym))
+    "a" = A (database (single_letter))
+    "black" = B (database (single_letter))
+    "Beetle?" = definition for SCARAB
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 24 CLUE: Charge youth pinching duck
+  ANSWER: Load
+  STAGE: general wordplay
+  DEFINITION: Charge
+  FORMULA: O (duck) + LAD (youth) (with insertion) = LOAD
+  BREAKDOWN:
+    "Charge" = definition for LOAD
+    "youth" = LAD (database (synonym))
+    "duck" = O (database (cricket))
+    "pinching" = wordplay connector
+  ──────────────────────────────────────────────────────────────────────
+
+================================================================================
+END OF REPORT
+================================================================================

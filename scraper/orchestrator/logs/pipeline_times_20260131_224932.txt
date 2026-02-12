@@ -1,0 +1,221 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 22:49:32
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (1 clues)
+======================================================================
+
+[DD] Section of foot marching together
+  Answer: INSTEP
+  Wordplay: Double Definition
+  Definition 1: "Section of foot"
+  Definition 2: "together"
+
+======================================================================
+STAGE: ANAGRAM (1 clues)
+======================================================================
+
+[ANAGRAM] Drugs confused the man — is it a sin? (14)
+  Answer: ANTIHISTAMINES
+  Wordplay: Anagram
+  Fodder: the + man + is + it + a + sin?
+  Indicator: confused
+  Definition: "Drugs"
+
+======================================================================
+STAGE: UNSOLVED (48 clues)
+======================================================================
+
+[UNSOLVED] Wind up in French town, missing last of stops
+  Answer: ANGER
+
+[UNSOLVED] Speech lauding record year under Brussels
+  Answer: EULOGY
+
+[UNSOLVED] Take off and fly — go off on sortie originally
+  Answer: SKEDADDLE
+  Definition (guess): "Take off"
+  Found (0% of answer):
+    — →  (anagram) [fly]
+  Explained: 
+  MISSING: SKEDADDLE
+  Unused words: sortie
+
+[UNSOLVED] More irritable, needing support after game (8)
+  Answer: SNAPPIER
+
+[UNSOLVED] True Grit appropriate for audience? (5)
+  Answer: STEEL
+
+[UNSOLVED] Legal document to burn and burn, entrenching women's tirade
+  Answer: SEARCH WARRANT
+
+[UNSOLVED] Rating all the cards, or just some (8)
+  Answer: DECKHAND
+
+[UNSOLVED] Vital energy deployed by lothario — might he ask for your hand?
+  Answer: CHIROMANCER
+
+[UNSOLVED] A good primate’s providing religious feasts (6)
+  Answer: AGAPES
+
+[UNSOLVED] Troop member that's into acting, or ill-advised
+  Answer: GORILLA
+
+[UNSOLVED] Reportedly, Wall Street villain is a cold-blooded creature
+  Answer: GECKO
+
+[UNSOLVED] Cathedral on verge of collapse? That’s fishy (4)
+  Answer: EELY
+
+[UNSOLVED] Lack resources, primarily, in attempt to appear older
+  Answer: SHORTAGE
+
+[UNSOLVED] Discard top of swimsuit? See, that's disgusting!
+  Answer: SLOUGH
+  Definition (guess): "Discard"
+  Found (17% of answer):
+    swimsuit → S (first_letter) [top]
+  Explained: S
+  MISSING: LOUGH
+  Unused words: that's
+
+[UNSOLVED] Chamber to expand endlessly when storing too much!
+  Answer: GROTTO
+
+[UNSOLVED] See one rat on entering block briefly (9)
+  Answer: BISHOPRIC
+  Definition (guess): "See"
+  Found (11% of answer):
+    block → B (first_letter) [briefly]
+  Explained: B
+  MISSING: ISHOPRIC
+  Unused words: rat, 9
+
+[UNSOLVED] Did not relish being kept without date? Not half
+  Answer: HATED
+
+[UNSOLVED] Periodically miss old cover of Adam Faith (5)
+  Answer: ISLAM
+
+[UNSOLVED] One all-powerful measure
+  Answer: RULER
+
+[UNSOLVED] Like Greene's man, caught by girl of inferior character?
+  Answer: THIRD CLASS
+
+[UNSOLVED] Mum or dad morally correct raising Henry with qualifications (13)
+  Answer: PARENTHETICAL
+
+[UNSOLVED] They want to be well away from home
+  Answer: HEALTH TOURISTS
+
+[UNSOLVED] Mike's shed discovered unopened
+  Answer: HANG AROUND
+
+[UNSOLVED] Agent certain to carry round gun after end of war (9)
+  Answer: SURROGATE
+
+[UNSOLVED] A graduate in education, retired possibly (4)
+  Answer: ABED
+
+[UNSOLVED] Two types of drink one used to give strength?
+  Answer: SUPPORT
+
+[UNSOLVED] Go back over right step in the wrong direction (5)
+  Answer: RECAP
+
+[UNSOLVED] Time to tie up outside club, securing old vessel (9)
+  Answer: MOTORBOAT
+
+[UNSOLVED] Intimidate meeting about small plant (3,7)
+  Answer: COW PARSLEY
+
+[UNSOLVED] I must block unacceptable idea (6)
+  Answer: NOTION
+
+[UNSOLVED] Echoing submarine captain’s signal (4)
+  Answer: OMEN
+
+[UNSOLVED] Hear the district nurses got to ground safely
+  Answer: EARTHED
+
+[UNSOLVED] Biscuity food from first of restaurants overlooking Welsh river
+  Answer: RUSK
+  Definition (guess): "Biscuity food"
+  Found (25% of answer):
+    river → R (substitution)
+  Explained: R
+  MISSING: USK
+  Unused words: restaurants, overlooking, Welsh
+
+[UNSOLVED] Endlessly recommend imbibing a liqueur (8)
+  Answer: ADVOCAAT
+
+[UNSOLVED] Bone idle at first during a little uprising (5)
+  Answer: TIBIA
+
+[UNSOLVED] Get rid of cases from scientist
+  Answer: BOFFIN
+
+[UNSOLVED] Where local sports fans head? Absolutely (4,2,3,6)
+  Answer: DOWN TO THE GROUND
+
+[UNSOLVED] Where circus acts perform bounds of lunacy with determination (8)
+  Answer: INTENTLY
+
+[UNSOLVED] Praises late place for Penny, returning (6)
+  Answer: EXTOLS
+  Definition (guess): "Praises"
+  Found (33% of answer):
+    late → EX (substitution)
+  Explained: EX
+  MISSING: TOLS
+  Unused words: place, Penny, 6
+
+[UNSOLVED] Following music, look at prominent organ (3-3)
+  Answer: POP
+
+[UNSOLVED] Turn out fine in the end: I'm out of Casualty
+  Answer: EVICT
+
+[UNSOLVED] Prepare celebration for old-fashioned person (4)
+  Answer: DODO
+
+[UNSOLVED] Funds raised for boat
+  Answer: SLOOP
+
+[UNSOLVED] Mythical giant largely competent? That's up for debate
+  Answer: ARGUABLE
+
+[UNSOLVED] Article by a couple of boys eclipses what one puts in the paper (8,2)
+  Answer: PERSONAL AD
+
+[UNSOLVED] Get too big for blooming argument about key
+  Answer: OUTGROW
+
+[UNSOLVED] Get into a brawl, initially being pushed around (6)
+  Answer: OBTAIN
+
+[UNSOLVED] Sick patient naive doctor upset to some extent
+  Answer: DEVIANT
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       1
+  Solved by Hidden:   0
+  Solved by Anagram:  1
+  Solved by Compound: 0
+  Solved by General:  0
+  Unsolved:           48
+    (with partial progress: 4)
+
+Solve rate: 2/50 (4.0%)

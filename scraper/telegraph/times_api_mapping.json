@@ -1,0 +1,15 @@
+{
+  "cryptic": {
+    "29454": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260131/82158/data.json",
+    "29453": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260130/82156/data.json",
+    "29452": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260129/82155/data.json",
+    "29451": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260128/82154/data.json",
+    "29450": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260127/82157/data.json",
+    "29449": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260126/82151/data.json",
+    "29448": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260124/81267/data.json",
+    "29447": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260123/81266/data.json"
+  },
+  "sunday-cryptic": {
+    "5200": "https://feeds.thetimes.com/puzzles/sp/crosswordcryptic/20260125/82096/data.json"
+  }
+}

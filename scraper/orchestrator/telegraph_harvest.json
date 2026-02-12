@@ -1,0 +1,95 @@
+{
+  "harvested_at": "2026-01-25",
+  "puzzles": [
+    {
+      "name": "Prize Cryptic",
+      "folder": "prize-cryptic",
+      "type": "prize-cryptic",
+      "api_id": "81200",
+      "puzzle_number": "3353",
+      "date": "25 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=home&number=3353#crossword/prize-cryptic/prize-cryptic-81200"
+    },
+    {
+      "name": "Cryptic",
+      "folder": "cryptic-crossword-1",
+      "type": "cryptic-crossword",
+      "api_id": "80424",
+      "puzzle_number": "31134",
+      "date": "12 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=cryptic-crossword&number=31134#crossword/cryptic-crossword-1/cryptic-crossword-80424"
+    },
+    {
+      "name": "Cryptic",
+      "folder": "cryptic-crossword-1",
+      "type": "cryptic-crossword",
+      "api_id": "80601",
+      "puzzle_number": "31135",
+      "date": "13 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=cryptic-crossword&number=31135#crossword/cryptic-crossword-1/cryptic-crossword-80601"
+    },
+    {
+      "name": "Cryptic",
+      "folder": "cryptic-crossword-1",
+      "type": "cryptic-crossword",
+      "api_id": "80425",
+      "puzzle_number": "31136",
+      "date": "14 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=cryptic-crossword&number=31136#crossword/cryptic-crossword-1/cryptic-crossword-80425"
+    },
+    {
+      "name": "Cryptic",
+      "folder": "cryptic-crossword-1",
+      "type": "cryptic-crossword",
+      "api_id": "80426",
+      "puzzle_number": "31137",
+      "date": "15 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=cryptic-crossword&number=31137#crossword/cryptic-crossword-1/cryptic-crossword-80426"
+    },
+    {
+      "name": "Cryptic",
+      "folder": "cryptic-crossword-1",
+      "type": "cryptic-crossword",
+      "api_id": "80427",
+      "puzzle_number": "31138",
+      "date": "16 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=cryptic-crossword&number=31138#crossword/cryptic-crossword-1/cryptic-crossword-80427"
+    },
+    {
+      "name": "Prize Cryptic",
+      "folder": "prize-cryptic",
+      "type": "prize-cryptic",
+      "api_id": "81199",
+      "puzzle_number": "31145",
+      "date": "24 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=prize-cryptic&number=31145#crossword/prize-cryptic/prize-cryptic-81199"
+    },
+    {
+      "name": "Prize Cryptic",
+      "folder": "prize-cryptic",
+      "type": "prize-cryptic",
+      "api_id": "80592",
+      "puzzle_number": "31139",
+      "date": "17 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=prize-cryptic&number=31139#crossword/prize-cryptic/prize-cryptic-80592"
+    },
+    {
+      "name": "Prize Cryptic",
+      "folder": "prize-cryptic",
+      "type": "prize-cryptic",
+      "api_id": "80591",
+      "puzzle_number": "3352",
+      "date": "18 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=prize-cryptic&number=3352#crossword/prize-cryptic/prize-cryptic-80591"
+    },
+    {
+      "name": "Prize Toughie",
+      "folder": "prize-toughie",
+      "type": "prize-toughie",
+      "api_id": "82446",
+      "puzzle_number": "209",
+      "date": "25 Jan, 2026",
+      "url": "https://www.telegraph.co.uk/puzzles/puzzle/?source=home&number=209#crossword/prize-toughie/prize-toughie-82446"
+    }
+  ]
+}

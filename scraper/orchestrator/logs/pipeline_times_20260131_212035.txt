@@ -1,0 +1,500 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 21:20:35
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (2 clues)
+======================================================================
+
+[DD] Film hen?
+  Answer: LAYER
+  Derivation: Film = LAYER = hen?
+  Definitions: ['Film', 'hen?']
+
+[DD] Artist using lathe?
+  Answer: TURNER
+  Derivation: Artist = TURNER = lathe?
+  Definitions: ['Artist', 'lathe?']
+
+======================================================================
+STAGE: HIDDEN (3 clues)
+======================================================================
+
+[HIDDEN] Seen in pebbledash, large piece of masonry
+  Answer: ASHLAR
+  Derivation: hidden  in clue
+  Direction: forward
+
+[HIDDEN] Something like a goat seen in Utah ranch (4)
+  Answer: TAHR
+  Derivation: hidden  in clue
+  Direction: forward
+
+[HIDDEN] Fabulous creature found in deeper oceans (3)
+  Answer: ROC
+  Derivation: hidden  in clue
+  Direction: forward
+
+======================================================================
+STAGE: ANAGRAM (1 clues)
+======================================================================
+
+[ANAGRAM] Senior cabinet minister provides rally in reshuffle (4,5,4)
+  Answer: LORD PRIVY SEAL
+  Derivation: anagram(provides+rally) = LORD PRIVY SEAL
+  Definition: Senior
+
+======================================================================
+STAGE: COMPOUND (7 clues)
+======================================================================
+
+[COMPOUND] Appease pair, needing sedative, going without it?
+  Answer: PROPITIATE
+  Derivation: 
+  Definition: Appease
+
+[COMPOUND] Transport losing time in monsoon (5)
+  Answer: RAINS
+  Derivation: 
+  Definition: Transport
+
+[COMPOUND] Bank run with current and diverse changes
+  Answer: RIVERSIDE
+  Substitution: run → R (cricket)
+  Substitution: current → I (single_letter)
+  Derivation: run→R + current→I + anagram(DIVERSE) = RIVERSIDE
+  Definition: Bank
+
+[COMPOUND] In an erotic novel, after tea one thing leading to another
+  Answer: CHAIN REACTION
+  Derivation: 
+  Definition: tea
+
+[COMPOUND] Unknown deli junked produce
+  Answer: YIELD
+  Substitution: unknown → Y (single_letter)
+  Derivation: unknown→Y + anagram(DELI) = YIELD
+  Definition: Unknown
+
+[COMPOUND] Hector sent back to carry a plant (6)
+  Answer: YARROW
+  Derivation: 
+  Definition: Hector
+
+[COMPOUND] Sharing out a couple of litres too much gin indiscriminately (9)
+  Answer: ALLOTTING
+  Derivation: 
+  Definition: Sharing
+
+======================================================================
+STAGE: GENERAL (5 clues)
+======================================================================
+
+[GENERAL] Get ready to make cuts around theatre
+  Answer: PREPARE
+  Derivation: ready=PREPARE = PREPARE
+  Definition: Get
+
+[GENERAL] Something priests do, given line in contract (7)
+  Answer: SHRIVEL
+  Derivation: contract=SHRIVEL = SHRIVEL
+  Definition: Something
+
+[GENERAL] Type of broadcasting agency to flourish
+  Answer: MEDIUM WAVE
+  Derivation: agency=MEDIUM + flourish=WAVE = MEDIUM WAVE
+  Definition: Type
+
+[GENERAL] Keep an eye on hunter?
+  Answer: WATCH
+  Derivation: eye=WATCH = WATCH
+  Definition: hunter
+
+[GENERAL] Spring tax returns for Picasso? (8)
+  Answer: SPANIARD
+  Derivation: Picasso=SPANIARD = SPANIARD
+  Definition: Spring
+
+======================================================================
+STAGE: UNSOLVED (32 clues)
+======================================================================
+
+[UNSOLVED] Pressure on girl at last to consume tuck
+  Answer: PLEAT
+  Definition: tuck
+  Found (20%): Pressure→P = PLEAT
+  Explained: P
+  MISSING: LEAT
+  Unused words: girl, consume
+  Gaps: 'L'
+  >> 'girl' might = 'L'?
+  >> 'on' might = 'L'?
+
+[UNSOLVED] Small toy, one that hums?
+  Answer: STINKER
+  Definition: Small
+  MISSING: STINKER
+  Unused words: hums, one, that
+  Gaps: 'STINKER'
+  >> 'hums' might = 'STINKER'?
+  >> 'one' might = 'STINKER'?
+  >> 'that' might = 'STINKER'?
+
+[UNSOLVED] Grey not satisfied with girl's embrace
+  Answer: GUNMETAL
+  Definition: Grey
+  Found (38%): satisfied=MET = GUNMETAL
+  Explained: MET
+  MISSING: GUNMETAL
+  Unused words: girl's, embrace, with
+  Gaps: 'GUN', 'AL'
+  >> 'girl's' might = 'GUN'?
+  >> 'embrace' might = 'GUN'?
+  >> 'with' might = 'GUN'?
+  >> 'girl's' might = 'AL'?
+  >> 'embrace' might = 'AL'?
+
+[UNSOLVED] Love to approach sea like Nelson?
+  Answer: ONE-ARMED
+  Definition: Love
+  Found (75%): approach=NEAR + like=ME = ONE-ARMED
+  Explained: NEARME
+  MISSING: ONEARMED
+  Unused words: Nelson
+  Gaps: 'O', 'D'
+  >> 'Nelson' might = 'O'?
+  >> 'Nelson' might = 'D'?
+
+[UNSOLVED] The French capital for its inhabitants turned unscrupulous
+  Answer: AMORAL
+  Definition: The
+  MISSING: AMORAL
+  Unused words: French, inhabitants, unscrupulous
+  Gaps: 'AMORAL'
+  >> 'French' might = 'AMORAL'?
+  >> 'inhabitants' might = 'AMORAL'?
+  >> 'unscrupulous' might = 'AMORAL'?
+
+[UNSOLVED] Out of the way location for resort, not the southeast
+  Answer: ASIDE
+  Definition: Out
+  MISSING: ASIDE
+  Unused words: location, southeast, of
+  Gaps: 'ASIDE'
+  >> 'location' might = 'ASIDE'?
+  >> 'southeast' might = 'ASIDE'?
+  >> 'of' might = 'ASIDE'?
+
+[UNSOLVED] Perfect, time and time again (4)
+  Answer: MINT
+  Definition: Perfect
+  MISSING: MINT
+  Unused words: again, 4, and
+  Gaps: 'MINT'
+  >> 'again' might = 'MINT'?
+  >> '4' might = 'MINT'?
+  >> 'and' might = 'MINT'?
+
+[UNSOLVED] Customers not exactly silent when screwed
+  Answer: CLIENTS
+  Definition: Customers
+  MISSING: CLIENTS
+  Unused words: exactly, silent, screwed, when
+  Gaps: 'CLIENTS'
+  >> 'exactly' might = 'CLIENTS'?
+  >> 'silent' might = 'CLIENTS'?
+  >> 'screwed' might = 'CLIENTS'?
+  >> 'when' might = 'CLIENTS'?
+
+[UNSOLVED] Native American charge reported (5)
+  Answer: SIOUX
+  Definition: Native American
+  MISSING: SIOUX
+  Unused words: charge, reported, 5
+  Gaps: 'SIOUX'
+  >> 'charge' might = 'SIOUX'?
+  >> 'reported' might = 'SIOUX'?
+  >> '5' might = 'SIOUX'?
+
+[UNSOLVED] Highest charge returned by a charger?
+  Answer: PARAMOUNT
+  Definition: Highest
+  Found (22%): charge=A + a→A = PARAMOUNT
+  Explained: AA
+  MISSING: PARAMOUNT
+  Unused words: charger, by
+  Gaps: 'P', 'R', 'MOUNT'
+  >> 'charger' might = 'P'?
+  >> 'by' might = 'P'?
+  >> 'charger' might = 'R'?
+  >> 'by' might = 'R'?
+  >> 'charger' might = 'MOUNT'?
+
+[UNSOLVED] Finds out length, perhaps, and cuts it?
+  Answer: MEASURES UP
+  Definition: Finds
+  Found (70%): length=MEASURE = MEASURES UP
+  Explained: MEASURE
+  MISSING: SUP
+  Unused words: cuts
+  Gaps: 'SUP'
+  >> 'cuts' might = 'SUP'?
+  >> 'and' might = 'SUP'?
+  >> 'it' might = 'SUP'?
+
+[UNSOLVED] Spoil married couple on island
+  Answer: IMPAIR
+  Definition: Spoil
+  Found (17%): island→I = IMPAIR
+  Explained: I
+  MISSING: MPAIR
+  Unused words: married, couple
+
+[UNSOLVED] Primitive man brooking no delay (6)
+  Answer: URGENT
+  Definition: Primitive
+  Found (67%): man=GENT = URGENT
+  Explained: GENT
+  MISSING: URGENT
+  Unused words: brooking, delay, 6
+  Gaps: 'UR'
+  >> 'brooking' might = 'UR'?
+  >> 'delay' might = 'UR'?
+  >> '6' might = 'UR'?
+
+[UNSOLVED] Suddenly surprise American baddie opening a medal from the palace (9)
+  Answer: AMBUSCADE
+  Definition: Suddenly surprise
+  Found (22%): a→A + first(medal)→M = AMBUSCADE
+  Explained: AM
+  MISSING: BUSCADE
+  Unused words: American, baddie, palace, 9
+  Gaps: 'C', 'DE'
+  >> 'palace' might = 'C'?
+  >> '9' might = 'C'?
+  >> 'palace' might = 'DE'?
+  >> '9' might = 'DE'?
+
+[UNSOLVED] Be involved with grisly tome of a romantic nature (3-5-4)
+  Answer: BOY
+  Definition: Be
+  MISSING: BOY
+  Unused words: grisly, tome, a, romantic, nature, 3-5-4, with, of, a
+  Gaps: 'BOY'
+  >> 'grisly' might = 'BOY'?
+  >> 'tome' might = 'BOY'?
+  >> 'a' might = 'BOY'?
+  >> 'romantic' might = 'BOY'?
+  >> 'nature' might = 'BOY'?
+
+[UNSOLVED] Once again using program in banking
+  Answer: REAPPLYING
+  Definition: Once
+  Found (30%): program=APP = REAPPLYING
+  Explained: APP
+  MISSING: REAPPLYING
+  Unused words: again, banking
+  Gaps: 'RE', 'LYING'
+  >> 'again' might = 'RE'?
+  >> 'banking' might = 'RE'?
+  >> 'again' might = 'LYING'?
+  >> 'banking' might = 'LYING'?
+
+[UNSOLVED] Strikes clues: a certain number removed
+  Answer: HITS
+  Definition: Strikes
+  MISSING: HITS
+  Unused words: clues, a, certain, number, a
+  Gaps: 'HITS'
+  >> 'clues' might = 'HITS'?
+  >> 'a' might = 'HITS'?
+  >> 'certain' might = 'HITS'?
+  >> 'number' might = 'HITS'?
+
+[UNSOLVED] Cab rank relocated behind small food outlet (5,3)
+  Answer: SNACK BAR
+  Definition: Cab
+  Found (12%): small→S = SNACK BAR
+  Explained: S
+  MISSING: NACKBAR
+  Unused words: rank, relocated, food, outlet, 5,3
+  Gaps: 'NACKBA'
+  >> 'outlet' might = 'NACKBA'?
+  >> '5,3' might = 'NACKBA'?
+
+[UNSOLVED] Travel round America, having time and energy
+  Answer: GUSTO
+  Definition: energy
+  Found (40%): America=US = GUSTO
+  Explained: US
+  MISSING: GUSTO
+  Unused words: having, and
+  Gaps: 'G', 'TO'
+  >> 'having' might = 'G'?
+  >> 'and' might = 'G'?
+  >> 'having' might = 'TO'?
+  >> 'and' might = 'TO'?
+
+[UNSOLVED] Chances are ultimately plentiful, for new arrival at the periphery
+  Answer: PROBABLY
+  Definition: Chances are
+  Found (12%): first(plentiful)→P = PROBABLY
+  Explained: P
+  MISSING: ROBABLY
+  Unused words: arrival
+  Gaps: 'ROB', 'BLY'
+
+[UNSOLVED] Received regular payment for energy that should be free
+  Answer: LET GO
+  Definition: free
+  MISSING: LETGO
+  Unused words: Received, payment, that, should, be
+  Gaps: 'LETGO'
+  >> 'Received' might = 'LETGO'?
+  >> 'payment' might = 'LETGO'?
+  >> 'that' might = 'LETGO'?
+  >> 'should' might = 'LETGO'?
+  >> 'be' might = 'LETGO'?
+
+[UNSOLVED] Bridge over single channel in US state
+  Answer: CONNECTICUT
+  Definition: state
+  MISSING: CONNECTICUT
+  Unused words: Bridge, single, channel, US
+  Gaps: 'CONNECTICUT'
+  >> 'Bridge' might = 'CONNECTICUT'?
+  >> 'single' might = 'CONNECTICUT'?
+  >> 'channel' might = 'CONNECTICUT'?
+  >> 'US' might = 'CONNECTICUT'?
+
+[UNSOLVED] Religious house seen in earlier years (6)
+  Answer: PRIORY
+  Definition: Religious house
+  Found (83%): earlier=PRIOR = PRIORY
+  Explained: PRIOR
+  MISSING: Y
+  Unused words: years, 6
+  Gaps: 'Y'
+  >> 'years' might = 'Y'?
+  >> '6' might = 'Y'?
+  >> 'seen' might = 'Y'?
+
+[UNSOLVED] It's my fault henhouses won't open
+  Answer: OOPS
+  Definition: It's
+  MISSING: OOPS
+  Unused words: my, henhouses, won't, open
+  Gaps: 'OOPS'
+  >> 'my' might = 'OOPS'?
+  >> 'henhouses' might = 'OOPS'?
+  >> 'won't' might = 'OOPS'?
+  >> 'open' might = 'OOPS'?
+
+[UNSOLVED] Shared communication systems on which politicians often vote
+  Answer: PARTY LINES
+  Definition: Shared
+  MISSING: PARTYLINES
+  Unused words: communication, systems, politicians, often, vote, on, which
+  Gaps: 'PARTYLINES'
+  >> 'communication' might = 'PARTYLINES'?
+  >> 'systems' might = 'PARTYLINES'?
+  >> 'politicians' might = 'PARTYLINES'?
+  >> 'often' might = 'PARTYLINES'?
+  >> 'vote' might = 'PARTYLINES'?
+
+[UNSOLVED] Note, very large
+  Answer: SOL
+  Definition: Note
+  Found (67%): very=SO = SOL
+  Explained: SO
+  MISSING: L
+  Unused words: large
+
+[UNSOLVED] Outside water sports champion?
+  Answer: SURFACE
+  Definition: Outside
+  Found (43%): champion=ACE = SURFACE
+  Explained: ACE
+  MISSING: SURFACE
+  Unused words: water, sports
+  Gaps: 'SURF'
+  >> 'water' might = 'SURF'?
+  >> 'sports' might = 'SURF'?
+
+[UNSOLVED] Bear forward: game on!
+  Answer: RUPERT
+  Definition: Bear
+  Found (67%): forward=PERT = RUPERT
+  Explained: PERT
+  MISSING: RUPERT
+  Unused words: on
+  Gaps: 'RU'
+  >> 'on' might = 'RU'?
+
+[UNSOLVED] Crustacean caught with light line by angler, perhaps
+  Answer: CRAYFISH
+  Definition: Crustacean
+  Found (12%): caught→C = CRAYFISH
+  Explained: C
+  MISSING: RAYFISH
+  Unused words: light, line, angler
+  Gaps: 'RAYFISH'
+  >> 'light' might = 'RAYFISH'?
+  >> 'line' might = 'RAYFISH'?
+  >> 'angler' might = 'RAYFISH'?
+  >> 'with' might = 'RAYFISH'?
+  >> 'by' might = 'RAYFISH'?
+
+[UNSOLVED] Finished tarts after good fish
+  Answer: GUPPIES
+  Definition: fish
+  Found (43%): good→G + Finished=UP = GUPPIES
+  Explained: GUP
+  MISSING: PIES
+  Unused words: tarts
+  Gaps: 'PIES'
+  >> 'tarts' might = 'PIES'?
+
+[UNSOLVED] Friend from Eastern Europe reported fall of King
+  Answer: CHECKMATE
+  Definition: Friend
+  Found (22%): Eastern→E + King→K = CHECKMATE
+  Explained: EK
+  MISSING: CHECKMATE
+  Unused words: Europe, reported, of
+  Gaps: 'CH', 'C', 'MATE'
+  >> 'Europe' might = 'CH'?
+  >> 'reported' might = 'CH'?
+  >> 'of' might = 'CH'?
+  >> 'Europe' might = 'C'?
+  >> 'reported' might = 'C'?
+
+[UNSOLVED] Idea that is holding school back
+  Answer: IMAGE
+  Definition: Idea
+  MISSING: IMAGE
+  Unused words: holding, school, that, is
+  Gaps: 'IMAGE'
+  >> 'holding' might = 'IMAGE'?
+  >> 'school' might = 'IMAGE'?
+  >> 'that' might = 'IMAGE'?
+  >> 'is' might = 'IMAGE'?
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       2
+  Solved by Hidden:   3
+  Solved by Anagram:  1
+  Solved by Compound: 7
+  Solved by General:  5
+  Unsolved:           32
+    (with partial progress: 19)
+
+Solve rate: 18/50 (36.0%)

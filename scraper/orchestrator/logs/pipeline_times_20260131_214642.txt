@@ -1,0 +1,571 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 21:46:42
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (1 clues)
+======================================================================
+
+[DD] Imply close
+  Answer: INTIMATE
+  Wordplay: Double Definition
+  Definition 1: "Imply"
+  Definition 2: "close"
+
+======================================================================
+STAGE: HIDDEN (2 clues)
+======================================================================
+
+[HIDDEN] Monster involved in rather gory comeback
+  Answer: OGRE
+  Wordplay: Hidden word (reversed)
+  Direction: reverse
+
+[HIDDEN] What may come from the dictator?
+  Answer: EDICT
+  Wordplay: Hidden word 
+  Direction: forward
+
+======================================================================
+STAGE: ANAGRAM (3 clues)
+======================================================================
+
+[ANAGRAM] Jockey hoped nag won't fail
+  Answer: GO DOWN THE PAN
+  Wordplay: Anagram
+  Fodder: hoped + nag + won't
+  Unused words: Jockey, fail
+
+[ANAGRAM] Man resounds when performing aria (6,5)
+  Answer: NESSUN DORMA
+  Wordplay: Anagram
+  Fodder: Man + resounds
+  Unused words: when, performing, aria
+
+[ANAGRAM] They drew roars, flying around?
+  Answer: RED ARROWS
+  Wordplay: Anagram
+  Fodder: drew + roars,
+  Unused words: They, flying, around?
+
+======================================================================
+STAGE: COMPOUND (9 clues)
+======================================================================
+
+[COMPOUND] Rind of Emmental in Russian food and drink (7)
+  Answer: BELLINI
+  Wordplay: Compound Anagram
+  Fodder: 7
+  Derivation: 
+  Unused words: Rind, Emmental, Russian, food
+
+[COMPOUND] Molière can upset formalities (10)
+  Answer: CEREMONIAL
+  Wordplay: Compound Anagram
+  Fodder: can
+  Derivation: 
+  Unused words: Molière, formalities, 10
+
+[COMPOUND] A possible Castilian naval officer keeping fit, mostly
+  Answer: PABLO
+  Wordplay: Compound Anagram
+  Fodder: A
+  Derivation: 
+  Unused words: Castilian, naval, officer, keeping, fit, mostly
+
+[COMPOUND] Daringly soften most of eyeshadow, but not right now? (3,2,5,4)
+  Answer: ONE OF THESE DAYS
+  Wordplay: Compound Anagram
+  Substitution: now → AD (abbreviation)
+  Fodder: not
+  Derivation: now→AD + anagram(NOT) = ONE OF THESE DAYS
+  Unused words: Daringly, soften, most, eyeshadow, now, 3,2,5,4
+
+[COMPOUND] Alcohol in plenty about to be drunk up (6)
+  Answer: STEROL
+  Wordplay: Compound Anagram
+  Fodder: to
+  Derivation: 
+  Unused words: Alcohol, plenty, drunk, up, 6
+
+[COMPOUND] What could strain relationship with fellow passenger at end of flight?
+  Answer: COLANDER
+  Wordplay: Compound Anagram
+  Fodder: end
+  Derivation: 
+  Unused words: What, strain, relationship, fellow, passenger, flight
+
+[COMPOUND] Stir — this?
+  Answer: PORRIDGE
+  Wordplay: Compound Anagram
+  Fodder: —
+  Derivation: 
+
+[COMPOUND] Poisonous plant — one chokes on it
+  Answer: ACONITE
+  Wordplay: Compound Anagram
+  Fodder: — + one
+  Derivation: 
+  Unused words: Poisonous, chokes, it
+
+[COMPOUND] Minister’s aide tormented a co-ed head (9)
+  Answer: DEACONESS
+  Wordplay: Compound Anagram
+  Fodder: a + co-ed
+  Derivation: 
+  Unused words: Minister’s, aide, head, 9
+
+======================================================================
+STAGE: GENERAL (4 clues)
+======================================================================
+
+[GENERAL] English daisy festival (6)
+  Answer: EASTER
+  Derivation: festival→EASTER = EASTER
+  Definition: "English"
+  Unused words: daisy, 6
+
+[GENERAL] Boast pay can secure plant
+  Answer: CROWFOOT
+  Derivation: Boast=CROW + pay=FOOT = CROWFOOT
+  Definition: "plant"
+  Unused words: secure
+
+[GENERAL] Father apprehended, but criminal initially escaping, tense (7)
+  Answer: FRAUGHT
+  Derivation: tense=FRAUGHT = FRAUGHT
+  Definition: "Father"
+  Unused words: apprehended, escaping, 7
+
+[GENERAL] 100ml drained from head swelling (4)
+  Answer: NODE
+  Derivation: swelling=NODE = NODE
+  Definition: "100ml"
+  Unused words: 4
+
+======================================================================
+STAGE: UNSOLVED (31 clues)
+======================================================================
+
+[UNSOLVED] Innovative type charged with taking a look around
+  Answer: PIONEERING
+  Definition (guess): "Innovative"
+  Found (20% of answer):
+    a → IN (synonym)
+  Explained: IN
+  MISSING: PIONEERING
+  Unused words: charged, taking, look, with
+  --- Suggestions ---
+    charged → PIONEER?
+    taking → PIONEER?
+    look → PIONEER?
+    with → PIONEER?
+    charged → G?
+
+[UNSOLVED] European sounded weary when picked up on a street here in NY? (4,4)
+  Answer: EAST SIDE
+  Definition (guess): "European"
+  Found (50% of answer):
+    street → ST (substitution)
+    a → A (substitution)
+    street → S (substitution)
+  Explained: STAS
+  MISSING: EASTSIDE
+  Unused words: sounded, weary, picked, NY, 4,4, when, on, here
+  --- Suggestions ---
+    sounded → E?
+    weary → E?
+    picked → E?
+    NY → E?
+    4,4 → E?
+
+[UNSOLVED] Fanatical state's dispatch ceding power to bishop
+  Answer: RABIDITY
+  Definition (guess): "Fanatical"
+  Found (12% of answer):
+    bishop → B (substitution)
+  Explained: B
+  MISSING: RABIDITY
+  Unused words: state's, dispatch, ceding, power
+  --- Suggestions ---
+    state's → RA?
+    dispatch → RA?
+    ceding → RA?
+    power → RA?
+    state's → IDITY?
+
+[UNSOLVED] Officer to sit with upper-class resident (10)
+  Answer: LIEUTENANT
+  Definition (guess): "Officer"
+  Found (30% of answer):
+    sit → LIE (synonym)
+  Explained: LIE
+  MISSING: UTENANT
+  Unused words: upper-class, resident, 10
+  --- Suggestions ---
+    upper-class → U?
+    10 → U?
+    with → U?
+
+[UNSOLVED] Bark of legendary retriever of golden coat?
+  Answer: ARGO
+  Definition (guess): "Bark"
+  Found (50% of answer):
+    retriever → R (first_letter) [coat]
+    golden → G (first_letter) [coat]
+  Explained: RG
+  MISSING: ARGO
+  Unused words: legendary, of, of
+  --- Suggestions ---
+    legendary → A?
+    of → A?
+    legendary → O?
+    of → O?
+
+[UNSOLVED] Piece of cloth I found behind organ
+  Answer: LUNGI
+  Definition (guess): "Piece"
+  Found (20% of answer):
+    I → I (substitution)
+  Explained: I
+  MISSING: LUNGI
+  Unused words: cloth, found, organ, of
+  --- Suggestions ---
+    cloth → LUNG?
+    found → LUNG?
+    organ → LUNG?
+    of → LUNG?
+
+[UNSOLVED] Bow of vessel that's raised speed at sea
+  Answer: TOPKNOT
+  Definition (guess): "Bow"
+  Found (57% of answer):
+    speed → KNOT (synonym)
+  Explained: KNOT
+  MISSING: TOPKNOT
+  Unused words: vessel, that's, of
+  --- Suggestions ---
+    vessel → TOP?
+    that's → TOP?
+    of → TOP?
+
+[UNSOLVED] Avoid a very low score (4)
+  Answer: DUCK
+  Definition (guess): "Avoid"
+  MISSING: DUCK
+  Unused words: a, very, low, score, 4, a
+  --- Suggestions ---
+    a → DUCK?
+    very → DUCK?
+    low → DUCK?
+    score → DUCK?
+    4 → DUCK?
+  No wordplay components identified
+
+[UNSOLVED] Kind of weight that a horse finally brought down
+  Answer: TROY
+  Definition (guess): "Kind"
+  MISSING: TROY
+  Unused words: weight, a, horse, of, that, a
+  --- Suggestions ---
+    weight → TROY?
+    a → TROY?
+    horse → TROY?
+    of → TROY?
+    that → TROY?
+  No wordplay components identified
+
+[UNSOLVED] Cuts in central Greece producing blackout
+  Answer: ECLIPSE
+  Definition (guess): "blackout"
+  Found (71% of answer):
+    Cuts → CLIPS (synonym)
+  Explained: CLIPS
+  MISSING: ECLIPSE
+  Unused words: Greece
+  --- Suggestions ---
+    Greece → E?
+
+[UNSOLVED] Contracted military base to cover most of coast (3,5)
+  Answer: FOR SHORT
+  Definition (guess): "Contracted"
+  MISSING: FORSHORT
+  Unused words: military, coast, 3,5, of
+  --- Suggestions ---
+    military → FORSHORT?
+    coast → FORSHORT?
+    3,5 → FORSHORT?
+    of → FORSHORT?
+  No wordplay components identified
+
+[UNSOLVED] Drop swimmer as he's short and fat?
+  Answer: DUMPLING
+  Definition (guess): "Drop"
+  Found (12% of answer):
+    fat → D (synonym)
+  Explained: D
+  MISSING: UMPLING
+  Unused words: swimmer, he's
+  --- Suggestions ---
+    he's → UMP?
+    as → UMP?
+    and → UMP?
+
+[UNSOLVED] Creature in the wall at Avignon? (5)
+  Answer: LEMUR
+  Definition (guess): "Creature"
+  MISSING: LEMUR
+  Unused words: wall, Avignon, 5
+  --- Suggestions ---
+    wall → LEMUR?
+    Avignon → LEMUR?
+    5 → LEMUR?
+  No wordplay components identified
+
+[UNSOLVED] Wind like this carrying enormous bird round
+  Answer: SIROCCO
+  Definition (guess): "Wind"
+  MISSING: SIROCCO
+  Unused words: like, carrying, enormous, bird, this
+  --- Suggestions ---
+    like → SIROCCO?
+    carrying → SIROCCO?
+    enormous → SIROCCO?
+    bird → SIROCCO?
+    this → SIROCCO?
+  No wordplay components identified
+
+[UNSOLVED] Illegally disposing of footwear and short trousers
+  Answer: BOOTLEGGING
+  Definition (guess): "Illegally"
+  Found (9% of answer):
+    trousers → T (first_letter) [short]
+  Explained: T
+  MISSING: BOOTLEGGING
+  Unused words: disposing, footwear, of, and
+  --- Suggestions ---
+    disposing → BOO?
+    footwear → BOO?
+    of → BOO?
+    and → BOO?
+    disposing → LEGGING?
+
+[UNSOLVED] Scottish writer's terror on hearing what lies deep below
+  Answer: BARYSPHERE
+  Definition (guess): "Scottish"
+  MISSING: BARYSPHERE
+  Unused words: writer's, terror, hearing, what, lies, deep, on
+  --- Suggestions ---
+    writer's → BARYSPHERE?
+    terror → BARYSPHERE?
+    hearing → BARYSPHERE?
+    what → BARYSPHERE?
+    lies → BARYSPHERE?
+  No wordplay components identified
+
+[UNSOLVED] Some script — girl mostly follows it (6)
+  Answer: ITALIC
+  Definition (guess): "Some script"
+  MISSING: ITALIC
+  Unused words: —, girl, follows, 6, it
+  --- Suggestions ---
+    — → ITALIC?
+    girl → ITALIC?
+    follows → ITALIC?
+    6 → ITALIC?
+    it → ITALIC?
+  No wordplay components identified
+
+[UNSOLVED] Vintage candle, perhaps one separated from candle-holder? (3,5)
+  Answer: OLD FLAME
+  Definition (guess): "Vintage"
+  MISSING: OLDFLAME
+  Unused words: candle, separated, candle-holder, 3,5, one
+  --- Suggestions ---
+    candle → OLDFLAME?
+    separated → OLDFLAME?
+    candle-holder → OLDFLAME?
+    3,5 → OLDFLAME?
+    one → OLDFLAME?
+  No wordplay components identified
+
+[UNSOLVED] Cup match level until just before the end
+  Answer: TIE
+  Definition (guess): "Cup match"
+  MISSING: TIE
+  Unused words: until, just, before
+  --- Suggestions ---
+    until → TIE?
+    just → TIE?
+    before → TIE?
+  No wordplay components identified
+
+[UNSOLVED] Make cautious progress in mostly excellent English (6)
+  Answer: TIPTOE
+  Definition (guess): "Make"
+  Found (33% of answer):
+    progress → P (first_letter) [mostly]
+    excellent → E (first_letter) [mostly]
+  Explained: PE
+  MISSING: TIPTOE
+  Unused words: cautious, 6
+  --- Suggestions ---
+    cautious → TI?
+    6 → TI?
+    cautious → TO?
+    6 → TO?
+
+[UNSOLVED] I hear schedule has Frenchman making comeback
+  Answer: LISTENER
+  Definition (guess): "I hear"
+  Found (50% of answer):
+    schedule → LIST (synonym)
+  Explained: LIST
+  MISSING: ENER
+  Unused words: Frenchman, comeback
+  --- Suggestions ---
+    Frenchman → ENER?
+    comeback → ENER?
+    has → ENER?
+    making → ENER?
+
+[UNSOLVED] Market is very British
+  Answer: SOUK
+  Definition (guess): "Market"
+  Found (50% of answer):
+    very → SO (synonym)
+  Explained: SO
+  MISSING: UK
+  Unused words: British
+  --- Suggestions ---
+    British → UK?
+    is → UK?
+
+[UNSOLVED] Voluntary payments or tribute in US a strain, on reflection
+  Answer: HONORARIA
+  Definition (guess): "Voluntary payments"
+  Found (44% of answer):
+    strain → ARIA (synonym)
+  Explained: ARIA
+  MISSING: HONORARIA
+  Unused words: tribute, US, or, on
+  --- Suggestions ---
+    tribute → HONOR?
+    US → HONOR?
+    or → HONOR?
+    on → HONOR?
+
+[UNSOLVED] Affliction I found aboard vessel
+  Answer: PAIN
+  Definition (guess): "Affliction"
+  Found (25% of answer):
+    I → I (substitution)
+  Explained: I
+  MISSING: PAIN
+  Unused words: found, vessel
+  --- Suggestions ---
+    found → PA?
+    vessel → PA?
+    found → N?
+    vessel → N?
+
+[UNSOLVED] Magnifying glass? Ring for delivery
+  Answer: LOUPE
+  Definition (guess): "Magnifying glass"
+  Found (20% of answer):
+    Ring → O (substitution)
+  Explained: O
+  MISSING: LOUPE
+
+[UNSOLVED] Face the other way to receive King and Northern nobleman (5)
+  Answer: LAIRD
+  Definition (guess): "Face"
+  Found (60% of answer):
+    other → AIR (synonym)
+  Explained: AIR
+  MISSING: LAIRD
+  Unused words: receive, Northern, nobleman, 5, and
+  --- Suggestions ---
+    receive → L?
+    Northern → L?
+    nobleman → L?
+    5 → L?
+    and → L?
+
+[UNSOLVED] Youth on Vespa perhaps inspiring lady with steady speed (8)
+  Answer: MODERATO
+  Definition (guess): "Youth"
+  MISSING: MODERATO
+  Unused words: Vespa, inspiring, lady, speed, 8, on, with
+  --- Suggestions ---
+    Vespa → MODERATO?
+    inspiring → MODERATO?
+    lady → MODERATO?
+    speed → MODERATO?
+    8 → MODERATO?
+  No wordplay components identified
+
+[UNSOLVED] What can you write on? Anything but the electronic version of The Times! (9)
+  Answer: NOTEPAPER
+  Definition (guess): "What"
+  Found (44% of answer):
+    write → NOTE (synonym)
+  Explained: NOTE
+  MISSING: PAPER
+  Unused words: Anything, electronic, Times, 9
+
+[UNSOLVED] Indian side cheers on attack that lacks depth
+  Answer: RAITA
+  Definition (guess): "Indian side"
+  Found (40% of answer):
+    cheers → TA (synonym)
+  Explained: TA
+  MISSING: RAITA
+  Unused words: attack, lacks, depth, on, that
+  --- Suggestions ---
+    attack → RAI?
+    lacks → RAI?
+    depth → RAI?
+    on → RAI?
+    that → RAI?
+
+[UNSOLVED] Particular house in warm and friendly environment (6)
+  Answer: CHOOSY
+  Definition (guess): "Particular"
+  MISSING: CHOOSY
+  Unused words: warm, friendly, environment, 6, and
+  --- Suggestions ---
+    warm → CHOOSY?
+    friendly → CHOOSY?
+    environment → CHOOSY?
+    6 → CHOOSY?
+    and → CHOOSY?
+  No wordplay components identified
+
+[UNSOLVED] Do they spread the cost of a superficial education?
+  Answer: EASY TERMS
+  Definition (guess): "Do"
+  Found (44% of answer):
+    cost → EASY (synonym)
+  Explained: EASY
+  MISSING: TERMS
+  Unused words: a, superficial, education
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       1
+  Solved by Hidden:   2
+  Solved by Anagram:  3
+  Solved by Compound: 9
+  Solved by General:  4
+  Unsolved:           31
+    (with partial progress: 20)
+
+Solve rate: 19/50 (38.0%)

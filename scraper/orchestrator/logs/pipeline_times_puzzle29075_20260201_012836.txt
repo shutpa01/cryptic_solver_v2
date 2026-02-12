@@ -1,0 +1,150 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-02-01 01:28:36
+Cohort: source=times, puzzle=29075, count=50, random
+Source: times
+Puzzle: 29075
+Clues loaded: 32
+======================================================================
+
+
+======================================================================
+STAGE: ANAGRAM (1 clues)
+======================================================================
+
+[ANAGRAM] Cut up leaf to brew this amount?
+  Answer: TEACUPFUL
+  Wordplay: Anagram
+  Fodder: Cut + up + leaf
+  Definition: "to brew this amount?"
+
+======================================================================
+STAGE: UNSOLVED (31 clues)
+======================================================================
+
+[UNSOLVED] Very obvious line penned by gag writer with only one good set
+  Answer: WRIT LARGE
+
+[UNSOLVED] Nark's pressing question into the scoring of more ecstasy
+  Answer: PIQUE
+
+[UNSOLVED] Fruit and a lot of cereal in a jar
+  Answer: APRICOT
+
+[UNSOLVED] Exhausted trooper in a seat like this?
+  Answer: ASTRADDLE
+
+[UNSOLVED] Tip a fraction of a pound following our short drink
+  Answer: OUZO
+  Definition (guess): "drink"
+  Found (25% of answer):
+    our → O (first_letter) [short]
+  Explained: O
+  Unused words: fraction
+
+[UNSOLVED] Western missing out on Oscar after head of Academy noted exception
+  Answer: ACCIDENTAL
+  Definition (guess): "noted exception"
+  Found (10% of answer):
+    Academy → A (first_letter) [head]
+  Explained: A
+  Unused words: Western, Oscar
+
+[UNSOLVED] Bachelor parking large car outside dance
+  Answer: LIMBO
+  Definition (guess): "dance"
+  Found (20% of answer):
+    large → L (substitution)
+  Explained: L
+  Unused words: Bachelor, parking, car
+
+[UNSOLVED] Wild cat — he twice spotted one in the Serengeti
+  Answer: CHEETAH
+
+[UNSOLVED] Soreness when pulling off a river wader
+  Answer: EGRET
+
+[UNSOLVED] Check on board capsized river boat
+  Answer: YACHT
+
+[UNSOLVED] Fit cap of tiny brown liquor bottle
+  Answer: TANTRUM
+
+[UNSOLVED] Brief exercise involving Navy vessels
+  Answer: URNS
+
+[UNSOLVED] Returning from break in the middle of jury service
+  Answer: RECURSIVE
+
+[UNSOLVED] Scottish writer's terror on hearing what lies deep below
+  Answer: BARYSPHERE
+
+[UNSOLVED] Tartan Army held back by copper dispersing a party in Cardiff
+  Answer: PLAID CYMRU
+
+[UNSOLVED] Alert wife understanding waves from pram?
+  Answer: WIDE-AWAKE
+  Definition (guess): "Alert"
+  Found (11% of answer):
+    wife → W (substitution)
+  Explained: W
+  Unused words: understanding, pram
+
+[UNSOLVED] Store Tesco's opening in Berkshire perhaps
+  Answer: STOW
+
+[UNSOLVED] Steps required for returning chimney in Glasgow area
+  Answer: FORMULA
+
+[UNSOLVED] Affected by a tinge of nostalgia in middle of poem
+  Answer: TWEEN
+
+[UNSOLVED] Outside water sports champion?
+  Answer: SURFACE
+
+[UNSOLVED] Small instrument pitched too high
+  Answer: SHARP
+
+[UNSOLVED] Maker of all my sandwiches put away on launch of restaurant
+  Answer: CREATOR
+
+[UNSOLVED] Out to lunch in New York eating sandwich with no crust
+  Answer: NUTTY
+
+[UNSOLVED] Priest's backing change and still preaching about it
+  Answer: ALTARPIECE
+
+[UNSOLVED] Rocket engine with discoloration in charger?
+  Answer: SUSTAINER
+
+[UNSOLVED] Hide large treasure boxes
+  Answer: PELT
+
+[UNSOLVED] Charlie wearing a lush cravat
+  Answer: ASCOT
+
+[UNSOLVED] Greens arrested without a shred of evidence
+  Answer: COLLARD
+
+[UNSOLVED] Conclude ultimately that women supply dowry?
+  Answer: ENDOWMENT
+
+[UNSOLVED] Pedal spring obtained from cycling centre to the west of Derby?
+  Answer: ENTRECHAT
+
+[UNSOLVED] Parquet floor's finish getting damaged on shifting piano a fraction
+  Answer: QUARTER
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 32
+  Solved by DD:       0
+  Solved by Hidden:   0
+  Solved by Anagram:  1
+  Solved by Compound: 0
+  Solved by General:  0
+  Unsolved:           31
+    (with partial progress: 4)
+
+Solve rate: 1/32 (3.1%)

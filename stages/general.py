@@ -25,16 +25,11 @@ from stages.compound import (
     CompoundWordplayAnalyzer, WordRole, norm_letters
 )
 from stages.unified_explanation import ExplanationBuilder
-from report import get_latest_run_id, get_puzzle_info, get_all_clue_ids, resolve_clue, format_report, PIPELINE_DB, CLUES_DB, OUTPUT_FILE
 # Database paths
 PIPELINE_DB_PATH = Path(
-    r'C:\Users\shute\PycharmProjects\cryptic_solver\data\pipeline_stages.db')
+    r'C:\Users\shute\PycharmProjects\cryptic_solver_V2\pipeline_stages.db')
 CRYPTIC_DB_PATH = Path(
-    r'C:\Users\shute\PycharmProjects\cryptic_solver\data\cryptic_new.db')
-
-# Output path
-REPORT_PATH = Path(r'C:\Users\shute\PycharmProjects\cryptic_solver\solver'
-                   r'\wordplay\general\puzzle_report.txt')
+    r'C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db')
 
 
 def get_pipeline_connection():
@@ -549,6 +544,7 @@ def main():
     print("STEP 3: Writing unified puzzle report...")
     print("-" * 60)
 
+    from report import get_puzzle_info, get_all_clue_ids, resolve_clue, format_report, PIPELINE_DB, CLUES_DB, OUTPUT_FILE
     puzzle_info = get_puzzle_info(PIPELINE_DB, 0)
     clue_ids = get_all_clue_ids(PIPELINE_DB, 0)
     results = [resolve_clue(PIPELINE_DB, CLUES_DB, 0, cid) for cid in clue_ids]

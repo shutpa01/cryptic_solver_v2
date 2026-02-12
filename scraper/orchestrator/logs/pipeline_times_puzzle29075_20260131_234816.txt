@@ -1,0 +1,190 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 23:48:16
+Cohort: source=times, puzzle=29075, count=50, random
+Source: times
+Puzzle: 29075
+Clues loaded: 32
+======================================================================
+
+
+======================================================================
+STAGE: ANAGRAM (1 clues)
+======================================================================
+
+[ANAGRAM] Cut up leaf to brew this amount?
+  Answer: TEACUPFUL
+  Wordplay: Anagram
+  Fodder: Cut + up + leaf
+  Definition: "to brew this amount?"
+
+======================================================================
+STAGE: COMPOUND (8 clues)
+======================================================================
+
+[COMPOUND] Fruit and a lot of cereal in a jar
+  Answer: APRICOT
+  Wordplay: Compound Anagram
+  Fodder: a
+  Indicator: jar
+  Definition: "Fruit lot cereal"
+
+[COMPOUND] Tartan Army held back by copper dispersing a party in Cardiff
+  Answer: PLAID CYMRU
+  Wordplay: Compound Anagram
+  Substitution: copper → CU (abbreviation)
+  Fodder: a
+  Derivation: copper→CU + anagram(A) = PLAID CYMRU
+  Indicator: dispersing
+  Definition: "Tartan Army held back copper party Cardiff"
+
+[COMPOUND] Wild cat — he twice spotted one in the Serengeti
+  Answer: CHEETAH
+  Wordplay: Compound Anagram
+  Fodder: cat + — + he
+  Indicator: Wild
+  Definition: "twice spotted Serengeti"
+
+[COMPOUND] Steps required for returning chimney in Glasgow area
+  Answer: FORMULA
+  Wordplay: Compound Anagram
+  Substitution: area → A (single_letter)
+  Fodder: for
+  Derivation: area→A + anagram(FOR) = FORMULA
+  Indicator: required
+  Definition: "Steps returning chimney Glasgow area"
+
+[COMPOUND] Conclude ultimately that women supply dowry?
+  Answer: ENDOWMENT
+  Wordplay: Compound Anagram
+  Fodder: women
+  Indicator: supply
+  Definition: "Conclude ultimately dowry"
+
+[COMPOUND] Priest's backing change and still preaching about it
+  Answer: ALTARPIECE
+  Wordplay: Compound Anagram
+  Fodder: it
+  Indicator: about
+  Definition: "Priest's backing change still preaching"
+
+[COMPOUND] Greens arrested without a shred of evidence
+  Answer: COLLARD
+  Wordplay: Compound Anagram
+  Fodder: a
+  Indicator: shred
+  Definition: "Greens arrested evidence"
+
+[COMPOUND] Pedal spring obtained from cycling centre to the west of Derby?
+  Answer: ENTRECHAT
+  Wordplay: Compound Anagram
+  Fodder: centre
+  Indicator: cycling
+  Definition: "Pedal spring obtained west Derby"
+
+======================================================================
+STAGE: UNSOLVED (23 clues)
+======================================================================
+
+[UNSOLVED] Exhausted trooper in a seat like this?
+  Answer: ASTRADDLE
+
+[UNSOLVED] Hide large treasure boxes
+  Answer: PELT
+
+[UNSOLVED] Bachelor parking large car outside dance
+  Answer: LIMBO
+  Definition (guess): "dance"
+  Found (20% of answer):
+    large → L (substitution)
+  Explained: L
+  Unused words: Bachelor, parking, car
+
+[UNSOLVED] Tip a fraction of a pound following our short drink
+  Answer: OUZO
+  Definition (guess): "drink"
+  Found (25% of answer):
+    our → O (first_letter) [short]
+  Explained: O
+  Unused words: fraction
+
+[UNSOLVED] Affected by a tinge of nostalgia in middle of poem
+  Answer: TWEEN
+
+[UNSOLVED] Western missing out on Oscar after head of Academy noted exception
+  Answer: ACCIDENTAL
+  Definition (guess): "noted exception"
+  Found (10% of answer):
+    Academy → A (first_letter) [head]
+  Explained: A
+  Unused words: Western, Oscar
+
+[UNSOLVED] Maker of all my sandwiches put away on launch of restaurant
+  Answer: CREATOR
+
+[UNSOLVED] Very obvious line penned by gag writer with only one good set
+  Answer: WRIT LARGE
+
+[UNSOLVED] Returning from break in the middle of jury service
+  Answer: RECURSIVE
+
+[UNSOLVED] Nark's pressing question into the scoring of more ecstasy
+  Answer: PIQUE
+
+[UNSOLVED] Small instrument pitched too high
+  Answer: SHARP
+
+[UNSOLVED] Outside water sports champion?
+  Answer: SURFACE
+
+[UNSOLVED] Out to lunch in New York eating sandwich with no crust
+  Answer: NUTTY
+
+[UNSOLVED] Soreness when pulling off a river wader
+  Answer: EGRET
+
+[UNSOLVED] Alert wife understanding waves from pram?
+  Answer: WIDE-AWAKE
+  Definition (guess): "Alert"
+  Found (11% of answer):
+    wife → W (substitution)
+  Explained: W
+  Unused words: understanding, pram
+
+[UNSOLVED] Fit cap of tiny brown liquor bottle
+  Answer: TANTRUM
+
+[UNSOLVED] Brief exercise involving Navy vessels
+  Answer: URNS
+
+[UNSOLVED] Charlie wearing a lush cravat
+  Answer: ASCOT
+
+[UNSOLVED] Scottish writer's terror on hearing what lies deep below
+  Answer: BARYSPHERE
+
+[UNSOLVED] Store Tesco's opening in Berkshire perhaps
+  Answer: STOW
+
+[UNSOLVED] Check on board capsized river boat
+  Answer: YACHT
+
+[UNSOLVED] Parquet floor's finish getting damaged on shifting piano a fraction
+  Answer: QUARTER
+
+[UNSOLVED] Rocket engine with discoloration in charger?
+  Answer: SUSTAINER
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 32
+  Solved by DD:       0
+  Solved by Hidden:   0
+  Solved by Anagram:  1
+  Solved by Compound: 8
+  Solved by General:  0
+  Unsolved:           23
+    (with partial progress: 4)
+
+Solve rate: 9/32 (28.1%)

@@ -1,0 +1,312 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-02-01 03:40:49
+Cohort: source=telegraph, puzzle=27868, count=50, random
+Source: telegraph
+Puzzle: 27868
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (2 clues)
+======================================================================
+
+[DD] Discharge  energy (4)
+  Answer: FIRE
+  Wordplay: Double Definition
+  Definition 1: "Discharge"
+  Definition 2: "energy"
+
+[DD] Discharge energy
+  Answer: Fire
+  Wordplay: Double Definition
+  Definition 1: "Discharge"
+  Definition 2: "energy"
+
+======================================================================
+STAGE: COMPOUND (1 clues)
+======================================================================
+
+[COMPOUND] Plant with strange aroma is full of power
+  Answer: Mariposa
+  Wordplay: Compound Anagram
+  Substitution: power → P (single_letter)
+  Fodder: aroma + is
+  Derivation: power→P + anagram(AROMAIS) = Mariposa
+  Indicator: strange
+  Definition: "Plant full power"
+
+======================================================================
+STAGE: GENERAL (1 clues)
+======================================================================
+
+[GENERAL] Rugby home a wreck
+  Answer: Ruin
+  Derivation: Rugby→RU + home→IN = Ruin
+  Definition: "wreck"
+  Unused words: a
+
+======================================================================
+STAGE: UNSOLVED (46 clues)
+======================================================================
+
+[UNSOLVED] It's odd having parking behind
+  Answer: Rump
+  Definition (guess): "behind"
+  Found (25% of answer):
+    parking → P (substitution) [odd]
+  Explained: P
+  Unused words: It's, having
+
+[UNSOLVED] More beloved member embraced by the German (6)
+  Answer: DEARER
+  Definition (guess): "More beloved"
+  Found (100% of answer):
+    the German(DER) contains member(EAR or ARE) → DEARER (container) [embraced by]
+  Explained: DEARER
+  Unused words: 6
+
+[UNSOLVED] Line worker put around church window (6)
+  Answer: LANCET
+  Found (100% of answer):
+    worker → ANT (substitution) [around]
+    Line → L (substitution)
+    church → CE (substitution)
+  Explained: ANTLCE
+  Unused words: put, window, 6
+
+[UNSOLVED] Asleep, Carol is interrupted by awful rumble
+  Answer: Slumbering
+
+[UNSOLVED] Representative and politician engaged in commercial activity (6)
+  Answer: SAMPLE
+  Definition (guess): "Representative"
+  Found (33% of answer):
+    politician → MP (substitution) [engaged in]
+  Explained: MP
+  Unused words: and, commercial, activity, 6
+
+[UNSOLVED] Poorer society under Conservative folk who shouldn't sweep things under the carpet!
+  Answer: Cleaners
+  Found (25% of answer):
+    society → S (substitution)
+    Conservative → C (substitution)
+  Explained: SC
+  Unused words: Poorer, under, folk, who, shouldn't, sweep, things, under, the, carpet
+
+[UNSOLVED] A thing without love, miserable
+  Answer: Abject
+  Definition (guess): "miserable"
+  Found (17% of answer):
+    A → A (substitution) [thing]
+  Explained: A
+  Unused words: without, love
+
+[UNSOLVED] Greek character and I can turn up after one in institute
+  Answer: Initiate
+  Definition (guess): "institute"
+  Found (25% of answer):
+    I → I (substitution) [character]
+    one → I (substitution) [up]
+  Explained: II
+  Unused words: Greek, and, can, turn, after, in
+
+[UNSOLVED] The fellow overdue comes round in the afternoon to be companion (8)
+  Answer: HELPMATE
+
+[UNSOLVED] Heartless son longing to be a telltale
+  Answer: Snitch
+  Definition (guess): "telltale"
+  Found (17% of answer):
+    son → S (substitution) [heartless]
+  Explained: S
+  Unused words: longing, to, be, a
+
+[UNSOLVED] Covering of long hair hiding end bits of tail
+  Answer: Mantle
+
+[UNSOLVED] Ex-PM following two others in musical interval (5,5)
+  Answer: MAJOR THIRD
+
+[UNSOLVED] Bit of food woman served up for dog maybe to eat (6)
+  Answer: PEANUT
+
+[UNSOLVED] The fellow overdue comes round in the afternoon to be companion
+  Answer: Helpmate
+
+[UNSOLVED] Nipping one flower spoils a plant (8)
+  Answer: MARIPOSA
+  Found (25% of answer):
+    one → I (substitution) [spoils]
+    a → A (substitution) [plant]
+  Explained: IA
+  Unused words: Nipping, flower, 8
+
+[UNSOLVED] What’s less productive in Civil Service? They shouldn’t sweep things under the carpet! (8)
+  Answer: CLEANERS
+
+[UNSOLVED] Favouring dull layout (6)
+  Answer: FORMAT
+
+[UNSOLVED] Good person to encourage Scottish politician
+  Answer: Sturgeon
+  Definition (guess): "Scottish politician"
+  Found (12% of answer):
+    Good → G (substitution) [person]
+  Explained: G
+  Unused words: to, encourage
+
+[UNSOLVED] Greek character and I can turn up after one in institute (8)
+  Answer: INITIATE
+  Found (25% of answer):
+    I → I (substitution) [character]
+    one → I (substitution) [up]
+  Explained: II
+  Unused words: Greek, and, can, turn, after, in, institute, 8
+
+[UNSOLVED] Line worker put around church window
+  Answer: Lancet
+  Definition (guess): "window"
+  Found (100% of answer):
+    worker → ANT (substitution) [around]
+    Line → L (substitution)
+    church → CE (substitution)
+  Explained: ANTLCE
+  Unused words: put
+
+[UNSOLVED] Covering of long hair hiding end bits of tail (6)
+  Answer: MANTLE
+
+[UNSOLVED] Honoured person deceased, having swallowed chemical compound (8)
+  Answer: LAUREATE
+
+[UNSOLVED] Bird publication with bits half missing
+  Answer: Magpie
+
+[UNSOLVED] Ordered famous airman to finish prematurely (4)
+  Answer: BADE
+
+[UNSOLVED] Remark about exercise involving fifty members of crew (10)
+  Answer: COMPLEMENT
+  Found (20% of answer):
+    about → C (substitution) [remark]
+    fifty → L (substitution) [exercise]
+  Explained: CL
+  Unused words: involving, members, of, crew, 10
+
+[UNSOLVED] Ordered famous airman to finish prematurely
+  Answer: Bade
+
+[UNSOLVED] London banker (6)
+  Answer: THAMES
+
+[UNSOLVED] More beloved member embraced by the German
+  Answer: Dearer
+  Definition (guess): "More beloved"
+  Found (100% of answer):
+    the German(DER) contains member(EAR or ARE) → DEARER (container) [embraced by]
+  Explained: DEARER
+
+[UNSOLVED] Honoured person deceased, having swallowed chemical compound
+  Answer: Laureate
+
+[UNSOLVED] Something precious in one group of stars
+  Answer: Gemini
+  Definition (guess): "stars"
+  Found (17% of answer):
+    one → I (substitution) [in]
+  Explained: I
+  Unused words: Something, precious, group, of
+
+[UNSOLVED] Rugby home a wreck (4)
+  Answer: RUIN
+  Found (100% of answer):
+    home → IN (substitution) [wreck]
+    Rugby → RU (substitution)
+  Explained: INRU
+  Unused words: a, 4
+
+[UNSOLVED] Heartless son longing to be a telltale (6)
+  Answer: SNITCH
+  Found (17% of answer):
+    son → S (substitution) [heartless]
+  Explained: S
+  Unused words: longing, to, be, a, telltale, 6
+
+[UNSOLVED] A thing without love, miserable (6)
+  Answer: ABJECT
+  Found (17% of answer):
+    A → A (substitution) [thing]
+  Explained: A
+  Unused words: without, love, miserable, 6
+
+[UNSOLVED] Representative and politician engaged in commercial activity
+  Answer: Sample
+  Definition (guess): "Representative"
+  Found (33% of answer):
+    politician → MP (substitution) [engaged in]
+  Explained: MP
+  Unused words: and, commercial, activity
+
+[UNSOLVED] Ex-PM following two others in musical interval
+  Answer: Major third
+
+[UNSOLVED] It’s odd having parking behind (4)
+  Answer: RUMP
+  Found (25% of answer):
+    parking → P (substitution) [odd]
+  Explained: P
+  Unused words: It’s, having, behind, 4
+
+[UNSOLVED] Instrument for shaping clay bed
+  Answer: Pallet
+
+[UNSOLVED] London banker
+  Answer: Thames
+
+[UNSOLVED] Instrument for shaping clay  bed (6)
+  Answer: PALLET
+
+[UNSOLVED] Something precious in one group of stars (6)
+  Answer: GEMINI
+  Found (17% of answer):
+    one → I (substitution) [in]
+  Explained: I
+  Unused words: Something, precious, group, of, stars, 6
+
+[UNSOLVED] Bird publication with bits half missing (6)
+  Answer: MAGPIE
+
+[UNSOLVED] Fruit around Australia gets praise (8)
+  Answer: APPLAUSE
+
+[UNSOLVED] Asleep, Carol is interrupted by awful rumble (10)
+  Answer: SLUMBERING
+
+[UNSOLVED] A vehicle’s following another — and some others (8)
+  Answer: CARAVANS
+  Found (12% of answer):
+    A → A (substitution) [following]
+  Explained: A
+  Unused words: vehicle’s, another, —, and, some, others, 8
+
+[UNSOLVED] Fruit around Australia gets praise
+  Answer: Applause
+
+[UNSOLVED] Favouring dull layout
+  Answer: Format
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       2
+  Solved by Hidden:   0
+  Solved by Anagram:  0
+  Solved by Compound: 1
+  Solved by General:  1
+  Unsolved:           46
+    (with partial progress: 22)
+
+Solve rate: 4/50 (8.0%)

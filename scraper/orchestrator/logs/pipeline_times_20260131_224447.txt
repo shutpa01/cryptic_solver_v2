@@ -1,0 +1,236 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 22:44:47
+Cohort: source=times, count=50, random
+Source: times
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: HIDDEN (1 clues)
+======================================================================
+
+[HIDDEN] Returning skint upset somewhat original world tourist (7)
+  Answer: SPUTNIK
+  Wordplay: Hidden word (reversed)
+  Direction: reverse
+
+======================================================================
+STAGE: UNSOLVED (49 clues)
+======================================================================
+
+[UNSOLVED] A range of binoculars? (5,2,6)
+  Answer: FIELD OF VISION  A CRYPTIC DEFINITION MY FIRST IN BUT INITIALLY I HAD IT AS DEPTH OF VISION WHICH PRESENTED PROBLEMS WHEN I CAME TO DN AND DN
+
+[UNSOLVED] Criticize Prospero as tiresome part
+  Answer: ROAST
+
+[UNSOLVED] European king wearing anorak
+  Answer: GREEK
+
+[UNSOLVED] Release chapter from author's authorised works soon
+  Answer: ANON
+
+[UNSOLVED] Twice a year, left from Rome? (5)
+  Answer: PAPAL
+
+[UNSOLVED] Murderer concealing source of red stones
+  Answer: CAIRN
+  Definition (guess): "stones"
+  Found (20% of answer):
+    concealing → C (first_letter) [source]
+  Explained: C
+  MISSING: AIRN
+  Unused words: Murderer, red
+
+[UNSOLVED] A lot of metal hoops abandoned by first of these native Americans
+  Answer: IROQUOIS
+
+[UNSOLVED] Sketch this accomplishment of Victor wearing drag (3)
+  Answer: WIN
+
+[UNSOLVED] See mischievous kids cut adolescent’s cloth (9)
+  Answer: VELVETEEN
+
+[UNSOLVED] Could remember being withdrawn
+  Answer: RECALLED
+
+[UNSOLVED] Case demanding investigation at first during dance
+  Answer: VALISE
+
+[UNSOLVED] Stop-go manoeuvre in snow
+  Answer: STEM TURN
+
+[UNSOLVED] Persian utterance lost after battle — that’s painful (5)
+  Answer: MIAOW
+  Definition (guess): "Persian utterance"
+  Found (0% of answer):
+    — →  (anagram) [after]
+  Explained: 
+  MISSING: MIAOW
+  Unused words: that’s, painful, 5
+
+[UNSOLVED] Suppress rage when gaining pounds, wanting to be this?
+  Answer: SLIMMER
+
+[UNSOLVED] News boss engaging people to perform his work? (5)
+  Answer: EMEND
+
+[UNSOLVED] Start to pontificate, having drunk one drink!
+  Answer: ORIGINATE
+
+[UNSOLVED] Bismarck, maybe, not the leader of another country
+  Answer: RUSSIAN
+
+[UNSOLVED] Ruffian prepared to collar school urchin
+  Answer: RAGAMUFFIN
+
+[UNSOLVED] Caller, please confirm five gold rings
+  Answer: VISITOR
+  Definition (guess): "Caller"
+  Found (14% of answer):
+    five → V (substitution)
+  Explained: V
+  MISSING: ISITOR
+  Unused words: please, confirm, gold, rings
+
+[UNSOLVED] Welshman, finally losing heart, accommodated by father and daughter (6)
+  Answer: DAFYDD
+  Definition (guess): "Welshman"
+  Found (17% of answer):
+    daughter → D (substitution)
+  Explained: D
+  MISSING: AFYDD
+  Unused words: father, 6
+
+[UNSOLVED] Let it be said that Euterpe turned heads (4)
+  Answer: STET
+
+[UNSOLVED] England without leader? Fear losing leader in the distance
+  Answer: LIGHT-YEAR
+
+[UNSOLVED] Sheik evacuated flying alpine transporter
+  Answer: SKIPLANE
+  Definition (guess): "transporter"
+  Found (12% of answer):
+    Sheik → S (first_letter) [evacuated]
+  Explained: S
+  MISSING: KIPLANE
+  Unused words: alpine
+
+[UNSOLVED] Priest’s vestment not required, I hear (8)
+  Answer: SURPLICE
+
+[UNSOLVED] Worker coming to one cold region or another (9)
+  Answer: ANTARCTIC
+
+[UNSOLVED] Collection of books covering standard, illusionary works
+  Answer: OP ART
+
+[UNSOLVED] Horseman protecting lord repelled villain (7)
+  Answer: RIDDLER
+
+[UNSOLVED] Way athlete identifies crested bird (10)
+  Answer: ROADRUNNER
+
+[UNSOLVED] Neighbours often share this celebration with everyone (5,4)
+  Answer: PARTY WALL
+
+[UNSOLVED] Score less than century — that’s significant after losing first wicket (6)
+  Answer: EIGHTY
+
+[UNSOLVED] Part of engine died: track going uphill
+  Answer: TURBO
+
+[UNSOLVED] Damp squib, you might say, encapsulating the ultimate in dreary gossip
+  Answer: NOSY PARKER
+
+[UNSOLVED] Funny games with copper, one you can't trust
+  Answer: PECULIAR
+
+[UNSOLVED] Make agitated, like a prince by a reporter
+  Answer: ROIL
+
+[UNSOLVED] Wader again seen on island
+  Answer: IBIS
+  Definition (guess): "Wader"
+  Found (25% of answer):
+    island → I (substitution)
+  Explained: I
+  MISSING: BIS
+  Unused words: again
+
+[UNSOLVED] Leading one has to get the record
+  Answer: ARCHIVE
+
+[UNSOLVED] Transport, from foodshop, Henry in sports car
+  Answer: DELIGHT
+
+[UNSOLVED] Perhaps someone shooting a bit of magic in EastEnders (8)
+  Answer: CINEASTE
+
+[UNSOLVED] Sensational magician
+  Answer: WIZARD
+
+[UNSOLVED] Extra for packet? More than enough soup without seconds
+  Answer: EXCESS POSTAGE
+
+[UNSOLVED] Make an impression in French accent (7)
+  Answer: ENGRAVE  EN IN
+
+[UNSOLVED] Close situation I encountered in international store in America? Not quite
+  Answer: INTIMACY
+  Definition (guess): "Close"
+  Found (12% of answer):
+    I → I (substitution)
+  Explained: I
+  MISSING: NTIMACY
+  Unused words: situation, encountered, international, store, America
+
+[UNSOLVED] Swiss hero absorbing a tirade over a lively dance (10)
+  Answer: TARANTELLA
+  Definition (guess): "Swiss"
+  Found (0% of answer):
+    10 →  (anagram) [lively]
+  Explained: 
+  MISSING: TARANTELLA
+  Unused words: hero, absorbing, tirade
+
+[UNSOLVED] Prisoner with fantastic chatter
+  Answer: CONFAB
+
+[UNSOLVED] Sound of train made by bird captured on tape (5)
+  Answer: CHUFF
+
+[UNSOLVED] Devil with tail up is annual visitor
+  Answer: SANTA
+
+[UNSOLVED] Speaking drunkenly, neglect religious ceremony in confusion
+  Answer: MISHMASH
+
+[UNSOLVED] Working interminably tedious bar is initially given unwanted exposure
+  Answer: OUTED
+
+[UNSOLVED] Goodwill expressed by woman visiting relations? On the contrary (5)
+  Answer: AMITY
+  Definition (guess): "Goodwill"
+  Found (0% of answer):
+    5 →  (anagram) [contrary]
+  Explained: 
+  MISSING: AMITY
+  Unused words: expressed, woman, visiting, relations
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       0
+  Solved by Hidden:   1
+  Solved by Anagram:  0
+  Solved by Compound: 0
+  Solved by General:  0
+  Unsolved:           49
+    (with partial progress: 6)
+
+Solve rate: 1/50 (2.0%)

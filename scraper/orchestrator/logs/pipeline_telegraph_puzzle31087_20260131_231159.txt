@@ -1,0 +1,277 @@
+======================================================================
+EXPLANATION PIPELINE - FULL CASCADE RESULTS
+Timestamp: 2026-01-31 23:11:59
+Cohort: source=telegraph, puzzle=31087, count=50, random
+Source: telegraph
+Puzzle: 31087
+Clues loaded: 50
+======================================================================
+
+
+======================================================================
+STAGE: DD (6 clues)
+======================================================================
+
+[DD] Stalks of plant rot
+  Answer: RHUBARB
+  Wordplay: Double Definition
+  Definition 1: "Stalks"
+  Definition 2: "plant"
+
+[DD] Swede, perhaps, with no herb served up, eating legume (8)
+  Answer: EUROPEAN
+  Wordplay: Double Definition
+  Definition 1: "Swede,"
+  Definition 2: "perhaps,"
+
+[DD] Book reviews
+  Answer: JUDGES
+  Wordplay: Double Definition
+  Definition 1: "Book"
+  Definition 2: "reviews"
+
+[DD] Book reviews (6)
+  Answer: JUDGES
+  Wordplay: Double Definition
+  Definition 1: "Book"
+  Definition 2: "reviews"
+
+[DD] Swede, perhaps, with no herb served up, eating legume
+  Answer: European
+  Wordplay: Double Definition
+  Definition 1: "Swede,"
+  Definition 2: "perhaps,"
+
+[DD] Stalks of plant rot (7)
+  Answer: RHUBARB
+  Wordplay: Double Definition
+  Definition 1: "Stalks"
+  Definition 2: "plant"
+
+======================================================================
+STAGE: HIDDEN (2 clues)
+======================================================================
+
+[HIDDEN] Language picked up in Italy, to an extent
+  Answer: Latin
+  Wordplay: Hidden word (reversed)
+  Direction: reverse
+
+[HIDDEN] Language picked up in Italy, to an extent (5)
+  Answer: LATIN
+  Wordplay: Hidden word (reversed)
+  Direction: reverse
+
+======================================================================
+STAGE: ANAGRAM (6 clues)
+======================================================================
+
+[ANAGRAM] Speech about sounds of birds
+  Answer: CHEEPS
+  Wordplay: Anagram
+  Fodder: Speech
+  Definition: "about, sounds, of, birds"
+
+[ANAGRAM] Tune in car playing? Not sure (9)
+  Answer: UNCERTAIN
+  Wordplay: Anagram
+  Fodder: Tune + in + car
+  Definition: "playing?, Not, sure"
+
+[ANAGRAM] Badly mutilate key (8)
+  Answer: ULTIMATE
+  Wordplay: Anagram
+  Fodder: mutilate
+  Definition: "Badly, key"
+
+[ANAGRAM] I clear up sloshed rum (8)
+  Answer: PECULIAR
+  Wordplay: Anagram
+  Fodder: I + clear + up
+  Definition: "sloshed, rum"
+
+[ANAGRAM] I clear up sloshed rum
+  Answer: PECULIAR
+  Wordplay: Anagram
+  Fodder: I + clear + up
+  Definition: "sloshed, rum"
+
+[ANAGRAM] Badly mutilate key
+  Answer: ULTIMATE
+  Wordplay: Anagram
+  Fodder: mutilate
+  Definition: "Badly, key"
+
+======================================================================
+STAGE: UNSOLVED (36 clues)
+======================================================================
+
+[UNSOLVED] Offers for models
+  Answer: PROPOSES
+
+[UNSOLVED] Pirates duck inside ship
+  Answer: STEALS
+  Definition (guess): "Pirates"
+  Found (17% of answer):
+    ship → S (first_letter) [inside]
+  Explained: S
+  MISSING: TEALS
+  Unused words: duck
+
+[UNSOLVED] Call papa perfect (5)
+  Answer: PHONE
+  Definition (guess): "Call"
+  Found (20% of answer):
+    papa → P (substitution)
+  Explained: P
+  MISSING: HONE
+  Unused words: perfect, 5
+
+[UNSOLVED] Various newspaper conclusions in tabloid appear silly (6)
+  Answer: SUNDRY
+
+[UNSOLVED] A snappy sort of crossword clue (6)
+  Answer: ACROSS
+
+[UNSOLVED] Is our goal avoiding a wicked wizard?
+  Answer: GLORIOUS
+
+[UNSOLVED] Various newspaper conclusions in tabloid appear silly
+  Answer: SUNDRY
+
+[UNSOLVED] Coming over, look in castle tower
+  Answer: KEEP
+
+[UNSOLVED] Tense French composer heads out of Lyon, escaping rude tourist (9)
+  Answer: TRAVELLER
+
+[UNSOLVED] Something that’s made Conservative response less cold (8)
+  Answer: CREATION
+  Definition (guess): "Something"
+  Found (12% of answer):
+    Conservative → C (substitution)
+  Explained: C
+  MISSING: REATION
+  Unused words: that’s, response, cold, 8
+
+[UNSOLVED] Introspective after wife’s last kiss, dear? (9)
+  Answer: EXPENSIVE
+
+[UNSOLVED] Large car's electronic flap
+  Answer: ESTATE
+
+[UNSOLVED] Offers for models (8)
+  Answer: PROPOSES
+
+[UNSOLVED] In tree, around third of squirrels (7)
+  Answer: POPULAR
+
+[UNSOLVED] Old mint is regularly dropping leaves (5)
+  Answer: EXITS
+
+[UNSOLVED] Pirates duck inside ship (6)
+  Answer: STEALS
+  Definition (guess): "Pirates"
+  Found (17% of answer):
+    ship → S (first_letter) [inside]
+  Explained: S
+  MISSING: TEALS
+  Unused words: duck, 6
+
+[UNSOLVED] Is our goal avoiding a wicked wizard? (8)
+  Answer: GLORIOUS
+
+[UNSOLVED] Insect on top of fellow's food
+  Answer: BEEF
+
+[UNSOLVED] Small coin found underneath a bank
+  Answer: ASCENT
+
+[UNSOLVED] The woman’s interrupting precocious child? Most arrogant (8)
+  Answer: BRASHEST
+
+[UNSOLVED] Insect on top of fellow’s food (4)
+  Answer: BEEF
+
+[UNSOLVED] Coming over, look in castle tower (4)
+  Answer: KEEP
+
+[UNSOLVED] South American writer’s ending in essence showing excitement (8)
+  Answer: SUSPENSE
+
+[UNSOLVED] Introspective after wife's last kiss, dear?
+  Answer: EXPENSIVE
+
+[UNSOLVED] South American writer's ending in essence showing excitement
+  Answer: SUSPENSE
+  Definition (guess): "excitement"
+  Found (25% of answer):
+    American → SU (reversal) [South]
+  Explained: SU
+  MISSING: SPENSE
+  Unused words: writer's
+
+[UNSOLVED] Sailor with oldish daughter ignored ban
+  Answer: ABOLISH
+  Definition (guess): "ban"
+  Found (29% of answer):
+    Sailor → AB (substitution)
+  Explained: AB
+  MISSING: OLISH
+  Unused words: oldish, daughter, ignored
+
+[UNSOLVED] Something that's made Conservative response less cold
+  Answer: CREATION
+  Definition (guess): "Something"
+  Found (12% of answer):
+    Conservative → C (substitution)
+  Explained: C
+  MISSING: REATION
+  Unused words: that's, response, cold
+
+[UNSOLVED] A snappy sort of crossword clue
+  Answer: ACROSS
+
+[UNSOLVED] Large car’s electronic flap (6)
+  Answer: ESTATE
+
+[UNSOLVED] Communicates explicit extremes of emotions (9)
+  Answer: EXPRESSES
+
+[UNSOLVED] Small coin found underneath a bank (6)
+  Answer: ASCENT
+
+[UNSOLVED] Mention sunshine on the radio (5)
+  Answer: RAISE
+
+[UNSOLVED] Call papa perfect
+  Answer: PHONE
+  Definition (guess): "Call"
+  Found (20% of answer):
+    papa → P (substitution)
+  Explained: P
+  MISSING: HONE
+  Unused words: perfect
+
+[UNSOLVED] In tree, around third of squirrels
+  Answer: POPULAR
+
+[UNSOLVED] Criticises photograph taken backwards (4)
+  Answer: PANS
+
+[UNSOLVED] Tickling female dog with no lead (4)
+  Answer: ITCH
+
+======================================================================
+SUMMARY
+======================================================================
+Total clues: 50
+  Solved by DD:       6
+  Solved by Hidden:   2
+  Solved by Anagram:  6
+  Solved by Compound: 0
+  Solved by General:  0
+  Unsolved:           36
+    (with partial progress: 8)
+
+Solve rate: 14/50 (28.0%)

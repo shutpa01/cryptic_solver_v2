@@ -1,0 +1,548 @@
+{
+  "table": "guardian_clues",
+  "puzzle_number": "4051",
+  "generated_at": "2026-01-26T04:01:57.752350",
+  "stats": {
+    "processed": 28,
+    "high": 20,
+    "medium": 7,
+    "low": 1,
+    "failed": 0
+  },
+  "clues": [
+    {
+      "clue_number": "1d",
+      "clue_text": "Struggle, insanely bored: it\u2019s what you have to wear",
+      "enumeration": "8",
+      "explanation": {
+        "clue_number": "1d",
+        "answer": "WARDROBE",
+        "definition": "what you have to wear",
+        "wordplay_type": "anagram",
+        "components": [
+          "insanely = anagram indicator",
+          "bored = fodder",
+          "Struggle = WAR",
+          "WAR + anagram of BORED = WAR + DROBE"
+        ],
+        "derivation": "WAR (struggle) + DROBE (anagram of 'bored') = WARDROBE",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "2d",
+      "clue_text": "Bow stored in cedar chest",
+      "enumeration": "3",
+      "explanation": {
+        "clue_number": "2d",
+        "answer": "ARC",
+        "definition": "Bow",
+        "wordplay_type": "hidden",
+        "components": [
+          "stored in = hidden word indicator",
+          "cedAR Chest = contains ARC"
+        ],
+        "derivation": "ARC is hidden within 'cedAR Chest'",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "3d",
+      "clue_text": "Model wearing elaborate headgear: wow!",
+      "enumeration": "5,4",
+      "explanation": {
+        "clue_number": "3d",
+        "answer": "FANCYTHAT",
+        "definition": "wow!",
+        "wordplay_type": "charade with container",
+        "components": [
+          "FANCY = elaborate (adjective meaning ornate/elaborate)",
+          "T = Model (Model T Ford)",
+          "wearing = container indicator",
+          "HAT = headgear",
+          "T wearing HAT = THAT (T inside HAT)"
+        ],
+        "derivation": "FANCY + THAT (where THAT = T inside HAT) = FANCYTHAT",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "5d",
+      "clue_text": "He\u2019d gab and grumble affectedly \u2013 tried to subtly impress",
+      "enumeration": "6-7",
+      "explanation": {
+        "clue_number": "5d",
+        "answer": "HUMBLEBRAGGED",
+        "definition": "tried to subtly impress",
+        "wordplay_type": "anagram",
+        "components": [
+          "He'd gab and grumble = anagram fodder (13 letters)",
+          "affectedly = anagram indicator"
+        ],
+        "derivation": "HE'D GAB AND GRUMBLE anagrammed = HUMBLEBRAGGED",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "6d",
+      "clue_text": "More paintings etc by O\u2019Keeffe finally put up",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "6d",
+        "answer": "EXTRA",
+        "definition": "More",
+        "wordplay_type": "charade with reversal",
+        "components": [
+          "paintings etc = ART (art includes paintings)",
+          "by = X (multiplication symbol)",
+          "O'Keeffe finally = E (last letter of O'Keeffe)",
+          "put up = reversal indicator (DOWN clue)",
+          "ART + X + E = ARTXE reversed = EXTRA"
+        ],
+        "derivation": "ART (paintings etc) + X (by) + E (O'Keeffe finally) reversed = EXTRA",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "7d",
+      "clue_text": "Sinking in Tigris, green, flailing",
+      "enumeration": "11",
+      "explanation": {
+        "clue_number": "7d",
+        "answer": "REGISTERING",
+        "definition": "Sinking in",
+        "wordplay_type": "anagram",
+        "components": [
+          "Tigris green = anagram fodder (11 letters)",
+          "flailing = anagram indicator"
+        ],
+        "derivation": "TIGRIS + GREEN anagrammed = REGISTERING",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "8d",
+      "clue_text": "Go back, not initially finding exit",
+      "enumeration": "6",
+      "explanation": {
+        "clue_number": "8d",
+        "answer": "EGRESS",
+        "definition": "exit",
+        "wordplay_type": "charade with reversal and deletion",
+        "components": [
+          "Go back = REGRESS reversed? No - rethinking",
+          "REGRESS = go back (synonym)",
+          "not initially = remove first letter",
+          "REGRESS minus R = EGRESS"
+        ],
+        "derivation": "REGRESS (go back) with first letter removed (not initially) = EGRESS",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "10d",
+      "clue_text": "Before perhaps, ladies in trouble",
+      "enumeration": "13",
+      "explanation": {
+        "clue_number": "10d",
+        "answer": "INCONVENIENCE",
+        "definition": "trouble",
+        "wordplay_type": "charade",
+        "components": [
+          "Before = IN ADVANCE, but here IN + CONVENIENCE rearranged",
+          "Actually: IN + CONVENIENCE where CONVENIENCE = perhaps ladies",
+          "Wait - let me verify: 'in' = IN",
+          "CONVENIENCE = 'Before perhaps, ladies' anagrammed? No.",
+          "IN + CON (perhaps = example) + VENI (came, Latin) + ENCE? No.",
+          "IN = in",
+          "CONVENE + I + NCE? No.",
+          "IN + CONVENIENCE (ladies = public convenience/toilet)"
+        ],
+        "derivation": "IN + CONVENIENCE where 'ladies' = CONVENIENCE (euphemism for toilet/public convenience)",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "13d",
+      "clue_text": "Like forward planning a mass exodus",
+      "enumeration": "11",
+      "explanation": {
+        "clue_number": "13d",
+        "answer": "TAUTOLOGOUS",
+        "definition": "Like forward planning a mass exodus",
+        "wordplay_type": "cryptic definition",
+        "components": [
+          "The entire clue is a cryptic definition",
+          "'forward planning' is a tautology (planning is inherently forward-looking)",
+          "'mass exodus' is a tautology (exodus already implies mass departure)",
+          "Both phrases are examples of tautological expressions"
+        ],
+        "derivation": "The clue defines TAUTOLOGOUS by giving two examples of tautologies - phrases containing redundant words",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "16d",
+      "clue_text": "Seriously, I\u2019m approaching Robin\u2019s home",
+      "enumeration": "2,7",
+      "explanation": {
+        "clue_number": "16d",
+        "answer": "INEARNEST",
+        "definition": "Seriously",
+        "wordplay_type": "charade",
+        "components": [
+          "I'm = I",
+          "approaching = NEAR",
+          "Robin's home = NEST (bird's home)"
+        ],
+        "derivation": "I + NEAR + NEST = INEARNEST (IN EARNEST)",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "17d",
+      "clue_text": "Goes to join with senior teachers\u2019 backing",
+      "enumeration": "5,3",
+      "explanation": {
+        "clue_number": "17d",
+        "answer": "HEADSFOR",
+        "definition": "Goes to",
+        "wordplay_type": "charade with reversal",
+        "components": [
+          "senior teachers = HEADS",
+          "backing = reversal indicator (valid in DOWN clue)",
+          "join = FOR (as in 'for' meaning 'in favour of/supporting')",
+          "FOR reversed = ROF... wait, checking: HEADS + FOR = HEADSFOR"
+        ],
+        "derivation": "HEADS (senior teachers) + FOR (join/support) = HEADSFOR",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "19d",
+      "clue_text": "In the wrong order, finally arrive in hilly area",
+      "enumeration": "6",
+      "explanation": {
+        "clue_number": "19d",
+        "answer": "UPLAND",
+        "definition": "hilly area",
+        "wordplay_type": "charade with final letters",
+        "components": [
+          "In the wrong order = UP (reversed/wrong way)",
+          "finally arrive = E (last letter of 'arrive')",
+          "Wait - let me recheck: UP + LAND",
+          "In the wrong order = UP (things that are 'up' are disordered/wrong)",
+          "finally arrive = E? No, that doesn't give LAND",
+          "Actually: UP (wrong/out of order) + LAN (anagram?) + D (finally arrive)",
+          "Simpler: UP (in the wrong order - things are 'up') + LAND (arrive)"
+        ],
+        "derivation": "UP (in the wrong order/disordered) + LAND (arrive) = UPLAND",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "21d",
+      "clue_text": "Conclude fashionable arbiter must be sent up",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "21d",
+        "answer": "INFER",
+        "definition": "Conclude",
+        "wordplay_type": "charade with reversal",
+        "components": [
+          "fashionable = IN",
+          "arbiter = REF",
+          "sent up = reversal indicator (DOWN clue)",
+          "REF reversed = FER"
+        ],
+        "derivation": "IN + FER (REF reversed) = INFER",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "25d",
+      "clue_text": "Possess fancy item of clothing that\u2019s no good",
+      "enumeration": "3",
+      "explanation": {
+        "clue_number": "25d",
+        "answer": "OWN",
+        "definition": "Possess",
+        "wordplay_type": "charade with deletion",
+        "components": [
+          "fancy item of clothing = GOWN",
+          "that's no good = deletion indicator for G",
+          "good = G",
+          "GOWN minus G = OWN"
+        ],
+        "derivation": "GOWN (fancy item of clothing) - G (good) = OWN",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "1a",
+      "clue_text": "Topless stunts engrossing husband in dockers\u2019 milieu",
+      "enumeration": "6",
+      "explanation": {
+        "clue_number": "1a",
+        "answer": "WHARFS",
+        "definition": "dockers' milieu",
+        "wordplay_type": "container with deletion",
+        "components": [
+          "topless = deletion indicator (remove first letter)",
+          "stunts = WHARFS \u2192 topless stunts = HARFS? No...",
+          "stunts = FEATS \u2192 topless = EATS? No...",
+          "Reconsider: topless stunts = ARFS (stunts as WARFS minus W? No...)",
+          "stunts = WARFS? No, try: stunts = LARFS (laughs)? No...",
+          "Actually: WHarfS contains H (husband)",
+          "W(H)ARFS where WARFS needs source...",
+          "topless WHARFS = HARFS doesn't work",
+          "engrossing = container indicator",
+          "husband = H",
+          "WARFS contains H = WHARFS"
+        ],
+        "derivation": "Topless stunts gives ARFS (from BARFS?), then engrossing H = not quite working",
+        "confidence": "low"
+      }
+    },
+    {
+      "clue_number": "4a",
+      "clue_text": "It must be approximately a foot in length",
+      "enumeration": "4,4",
+      "explanation": {
+        "clue_number": "4a",
+        "answer": "SHOETREE",
+        "definition": "It must be approximately a foot in length",
+        "wordplay_type": "cryptic definition",
+        "components": [
+          "The entire clue is a cryptic definition",
+          "A shoe tree is literally about a foot in length (the size of a foot)",
+          "It 'must be' approximately a foot because it's designed to fit inside a shoe",
+          "Punning on 'foot' as both measurement and body part"
+        ],
+        "derivation": "A SHOETREE is a device inserted into shoes to maintain their shape - it must be approximately the length of a foot",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "9a",
+      "clue_text": "Again give credence to description of Navy Seals outfit?",
+      "enumeration": "9",
+      "explanation": {
+        "clue_number": "9a",
+        "answer": "RECONFIRM",
+        "definition": "Again give credence to",
+        "wordplay_type": "charade",
+        "components": [
+          "description of Navy = RE (regarding) + CON (concerning) + FIR (for) + M (military abbreviation)",
+          "Actually: RE (regarding/concerning) + CON (description/against) + FIRM (outfit/company)",
+          "Seals outfit = FIRM (a business/company)"
+        ],
+        "derivation": "RE (again, as prefix) + CON (description meaning 'against' or from Navy context) + FIRM (outfit = company) = RECONFIRM",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "11a",
+      "clue_text": "Somewhat anti-German, this beast",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "11a",
+        "answer": "TIGER",
+        "definition": "beast",
+        "wordplay_type": "hidden",
+        "components": [
+          "somewhat = hidden word indicator",
+          "anti-German = anTI-GERman contains the hidden word",
+          "TIGER is hidden within 'anTI-GERman'"
+        ],
+        "derivation": "TIGER is hidden in 'anTI-GERman'",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "12a",
+      "clue_text": "Non-drinker wearing beam? No: irritable!",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "12a",
+        "answer": "RATTY",
+        "definition": "irritable",
+        "wordplay_type": "container",
+        "components": [
+          "Non-drinker = TT (teetotal)",
+          "beam = RAY",
+          "wearing = container indicator (TT inside RAY)",
+          "RAY containing TT = RA(TT)Y"
+        ],
+        "derivation": "RAY (beam) with TT (non-drinker) inside = RA+TT+Y = RATTY",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "14a",
+      "clue_text": "Having chewed escallops, comes to premature end",
+      "enumeration": "9",
+      "explanation": {
+        "clue_number": "14a",
+        "answer": "COLLAPSES",
+        "definition": "comes to premature end",
+        "wordplay_type": "anagram with hidden",
+        "components": [
+          "chewed = anagram indicator",
+          "escallops = anagram fodder",
+          "escallops anagrammed = COLLAPSES"
+        ],
+        "derivation": "ESCALLOPS anagrammed (chewed) = COLLAPSES",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "15a",
+      "clue_text": "Standard wedding feature in Britain: bold drunkard, first to trip",
+      "enumeration": "8,5",
+      "explanation": {
+        "clue_number": "15a",
+        "answer": "BLUSHINGBRIDE",
+        "definition": "Standard wedding feature",
+        "wordplay_type": "hidden",
+        "components": [
+          "'in' = hidden word indicator",
+          "'Britain: bold drunkard, first to trip' contains the answer",
+          "britaiN: BOLD DRUNKARD, FIRST TO trip = BLUSHINGBRIDE hidden within"
+        ],
+        "derivation": "BLUSHINGBRIDE is hidden in 'britaiN BOLD DRUNKARD FIRST TO trip' spanning across the words",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "18a",
+      "clue_text": "Avoiding adventurousness, having eaten dishes of bananas",
+      "enumeration": "2,3,4,4",
+      "explanation": {
+        "clue_number": "18a",
+        "answer": "ONTHESAFESIDE",
+        "definition": "Avoiding adventurousness",
+        "wordplay_type": "anagram with container",
+        "components": [
+          "bananas = anagram indicator",
+          "dishes of = anagram fodder (DISHESOF = 8 letters)",
+          "eaten = container indicator",
+          "having eaten = THE SAFE contains anagram",
+          "DISHES OF anagrammed = THE SAFES + ID? - let me reconsider",
+          "Actually: 'having eaten dishes of' anagrammed gives ONTHESAFESIDE"
+        ],
+        "derivation": "HAVING EATEN DISHES OF (17 letters) is NOT an anagram of ONTHESAFESIDE (13 letters) - rechecking: 'dishes of' = 8 letters, answer needs 13. Full fodder 'having eaten dishes of' (without spaces) = HAVINGEATEN DISHESOF. Actually ON THE SAFE SIDE contains letters from: anagram of 'eaten dishes of' = 14 letters vs 13 in answer. Let me verify: E-A-T-E-N-D-I-S-H-E-S-O-F = 13 letters. ONTHESAFESIDE = 13 letters. Yes - anagram of 'eaten dishes of'",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "20a",
+      "clue_text": "Looking up and swearing",
+      "enumeration": "9",
+      "explanation": {
+        "clue_number": "20a",
+        "answer": "PROMISING",
+        "definition": "Looking up",
+        "wordplay_type": "charade",
+        "components": [
+          "Looking up = definition (improving prospects)",
+          "and = connector",
+          "swearing = PROMISING (making a promise/oath)"
+        ],
+        "derivation": "PROMISING means both 'looking up/hopeful' and 'swearing/making oaths'",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "22a",
+      "clue_text": "Stiff clothing Everyman had",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "22a",
+        "answer": "RIGID",
+        "definition": "Stiff",
+        "wordplay_type": "charade",
+        "components": [
+          "clothing = RIG (outfit/attire)",
+          "Everyman = I",
+          "had = D ('d = HAD contracted)"
+        ],
+        "derivation": "RIG + I + D = RIGID",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "23a",
+      "clue_text": "Primarily antisocial, leerily offish or frosty?",
+      "enumeration": "5",
+      "explanation": {
+        "clue_number": "23a",
+        "answer": "ALOOF",
+        "definition": "frosty",
+        "wordplay_type": "initial letters",
+        "components": [
+          "Primarily = initial letters indicator",
+          "A = first letter of Antisocial",
+          "L = first letter of Leerily",
+          "O = first letter of Offish",
+          "O = first letter of Or",
+          "F = first letter of Frosty"
+        ],
+        "derivation": "First letters of Antisocial Leerily Offish Or Frosty = A+L+O+O+F = ALOOF",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "24a",
+      "clue_text": "Showed approval of France (wasn\u2019t paying attention)",
+      "enumeration": "6,3",
+      "explanation": {
+        "clue_number": "24a",
+        "answer": "NODDEDOFF",
+        "definition": "wasn't paying attention",
+        "wordplay_type": "charade",
+        "components": [
+          "Showed approval = NODDED (nodding in agreement)",
+          "of = O (homophone indicator, sounds like 'oh')",
+          "France = F (standard abbreviation)"
+        ],
+        "derivation": "NODDED + O + F = NODDEDOFF",
+        "confidence": "medium"
+      }
+    },
+    {
+      "clue_number": "26a",
+      "clue_text": "Tactful and distinct in pronouncement",
+      "enumeration": "8",
+      "explanation": {
+        "clue_number": "26a",
+        "answer": "DISCREET",
+        "definition": "Tactful",
+        "wordplay_type": "double definition with homophone",
+        "components": [
+          "Definition 1: Tactful = DISCREET",
+          "Definition 2: distinct in pronouncement = sounds like DISCRETE (meaning separate/distinct)"
+        ],
+        "derivation": "DISCREET (tactful) is a homophone of DISCRETE (distinct/separate)",
+        "confidence": "high"
+      }
+    },
+    {
+      "clue_number": "27a",
+      "clue_text": "Pot-head, one preparing apricots?",
+      "enumeration": "6",
+      "explanation": {
+        "clue_number": "27a",
+        "answer": "STONER",
+        "definition": "Pot-head / one preparing apricots",
+        "wordplay_type": "double definition",
+        "components": [
+          "Definition 1: Pot-head = STONER (slang for cannabis user, someone who smokes pot)",
+          "Definition 2: one preparing apricots = STONER (person who removes stones from fruit)"
+        ],
+        "derivation": "Two definitions for the same word - both 'pot-head' and 'one preparing apricots' define STONER",
+        "confidence": "high"
+      }
+    }
+  ]
+}
