@@ -60,10 +60,39 @@ def save_harvest(data):
     print(f"  [Saved {total} API URLs]")
 
 
+def dismiss_cookie_consent(driver):
+    """Dismiss the cookie consent popup if present."""
+    import time as _time
+    try:
+        wait = WebDriverWait(driver, 5)
+        iframe = wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "iframe[id*='sp_message_iframe']")))
+        driver.switch_to.frame(iframe)
+        for selector in [
+            "button[title='Essential cookies only']",
+            "button[title='I Accept']",
+            "button[title='Accept']",
+            "button.sp_choice_type_11",
+            "button.sp_choice_type_12",
+        ]:
+            try:
+                btn = driver.find_element(By.CSS_SELECTOR, selector)
+                btn.click()
+                print("Dismissed cookie consent.")
+                break
+            except Exception:
+                continue
+        driver.switch_to.default_content()
+        _time.sleep(1)
+    except Exception:
+        driver.switch_to.default_content()
+
+
 def login(driver, creds):
     """Log in to Telegraph."""
     print("Navigating to login page...")
     driver.get(LOGIN_URL)
+    dismiss_cookie_consent(driver)
 
     wait = WebDriverWait(driver, 15)
 
@@ -401,7 +430,7 @@ def main():
     print("\nLaunching browser...")
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
-    driver = uc.Chrome(options=options)
+    driver = uc.Chrome(options=options, version_main=144)
 
     try:
         login(driver, creds)

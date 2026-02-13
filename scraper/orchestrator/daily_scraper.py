@@ -11,20 +11,19 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
-BASE_PATH = Path(r"C:\Users\shute\PycharmProjects\AI_Solver\Solver")
-PYTHON = r"C:\Users\shute\PycharmProjects\AI_Solver\.venv\Scripts\python.exe"
+BASE_PATH = Path(r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\scraper")
+PYTHON = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\.venv\Scripts\python.exe"
 
 # Database paths
-CLUES_MASTER_DB = Path(r"C:\Users\shute\PycharmProjects\AI_Solver\data\clues_master.db")
+CLUES_MASTER_DB = Path(r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db")
 
 SCRAPERS = [
-    # Telegraph: daily scraper for all puzzle types
-    (BASE_PATH / "telegraph" / "telegraph_all.py", ["--all"]),
+    # Telegraph: login, harvest today's API IDs, fetch puzzles
+    (BASE_PATH / "telegraph" / "telegraph_daily.py", []),
     # Other newspapers
     (BASE_PATH / "guardian" / "guardian_all.py", []),
     (BASE_PATH / "times" / "times_all.py", []),
     (BASE_PATH / "independent" / "independent_all.py", []),
-    (BASE_PATH / "FT" / "ft_all.py", []),
 ]
 
 # Publication tables to sync from (table_name, source_name, date_column)
@@ -33,7 +32,6 @@ PUBLICATION_TABLES = [
     ('telegraph_clues', 'telegraph', 'puzzle_date'),
     ('guardian_clues', 'guardian', 'puzzle_date'),
     ('independent_clues', 'independent', 'puzzle_date'),
-    ('ft_clues', 'ft', 'puzzle_date'),
 ]
 
 
@@ -65,7 +63,7 @@ def run_scraper(script_path: Path, args: list = None):
 def sync_to_master_clues():
     """
     Sync all publication tables to the master clues table.
-    Only inserts clues that don't already exist (based on clue_text + answer).
+    Uses INSERT OR IGNORE with unique index on (source, puzzle_number, clue_number, direction).
     """
     print(f"\n{'=' * 60}")
     print("SYNCING TO MASTER CLUES TABLE")
@@ -77,6 +75,12 @@ def sync_to_master_clues():
 
     conn = sqlite3.connect(CLUES_MASTER_DB)
     cursor = conn.cursor()
+
+    # Ensure unique index exists (source + answer + clue_text handles all publications)
+    cursor.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_clues_dedup
+        ON clues(source, answer, clue_text)
+    """)
 
     # Get initial count
     cursor.execute("SELECT COUNT(*) FROM clues")
@@ -93,42 +97,23 @@ def sync_to_master_clues():
         if cursor.fetchone()[0] == 0:
             continue
 
-        # Get columns from source table
-        cursor.execute(f"PRAGMA table_info({table_name})")
-        source_cols = [row[1] for row in cursor.fetchall()]
-
-        # Build column mapping
-        col_map = {
-            'puzzle_number': 'puzzle_number' if 'puzzle_number' in source_cols else 'NULL',
-            'publication_date': date_column if date_column in source_cols else 'NULL',
-            'clue_number': 'clue_number' if 'clue_number' in source_cols else 'NULL',
-            'direction': 'direction' if 'direction' in source_cols else 'NULL',
-            'enumeration': 'enumeration' if 'enumeration' in source_cols else 'NULL',
-        }
-
-        # Insert new clues only
         insert_sql = f"""
-            INSERT INTO clues (
+            INSERT OR IGNORE INTO clues (
                 source, puzzle_number, publication_date, clue_number,
                 direction, clue_text, enumeration, answer, original_db, original_id
             )
-            SELECT 
+            SELECT
                 ?,
-                {col_map['puzzle_number']},
-                {col_map['publication_date']},
-                {col_map['clue_number']},
-                {col_map['direction']},
+                puzzle_number,
+                puzzle_date,
+                clue_number,
+                direction,
                 clue_text,
-                {col_map['enumeration']},
+                enumeration,
                 answer,
                 ?,
                 id
-            FROM {table_name} src
-            WHERE NOT EXISTS (
-                SELECT 1 FROM clues c 
-                WHERE LOWER(TRIM(c.clue_text)) = LOWER(TRIM(src.clue_text)) 
-                AND LOWER(TRIM(c.answer)) = LOWER(TRIM(src.answer))
-            )
+            FROM {table_name}
         """
 
         try:
@@ -137,6 +122,8 @@ def sync_to_master_clues():
             if inserted > 0:
                 print(f"  {source_name}: +{inserted} new clues")
                 total_inserted += inserted
+            else:
+                print(f"  {source_name}: up to date")
         except Exception as e:
             print(f"  {source_name}: ERROR - {e}")
 
@@ -146,7 +133,7 @@ def sync_to_master_clues():
     cursor.execute("SELECT COUNT(*) FROM clues")
     final_count = cursor.fetchone()[0]
 
-    print(f"\nMaster clues: {initial_count:,} → {final_count:,} (+{total_inserted})")
+    print(f"\nMaster clues: {initial_count:,} -> {final_count:,} (+{total_inserted})")
 
     conn.close()
 
