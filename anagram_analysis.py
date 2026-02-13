@@ -87,7 +87,7 @@ class CompoundAnalyzer:
         """
         compound_candidates = [r for r in results if self.is_compound_candidate(r)]
 
-        print(f"\n🧩 COMPOUND WORDPLAY COHORT ANALYSIS:")
+        print(f"\n[PUZZLE] COMPOUND WORDPLAY COHORT ANALYSIS:")
         print(f"Total clues processed: {len(results)}")
         print(
             f"Compound candidates (anagram hits with remaining words): {len(compound_candidates)}")
@@ -188,7 +188,7 @@ def display_compound_results(compound_results, max_display=10):
                                 x.get('explanation', {}).get('quality', 'none'), 0
                             ), reverse=False)  # Low first
 
-    print(f"\n🧩 COMPOUND WORDPLAY ANALYSIS RESULTS (Top {max_display}):")
+    print(f"\n[PUZZLE] COMPOUND WORDPLAY ANALYSIS RESULTS (Top {max_display}):")
     print("=" * 80)
 
     for i, result in enumerate(sorted_results[:max_display], 1):
@@ -264,7 +264,7 @@ def display_compound_results(compound_results, max_display=10):
         print("-" * 80)
 
     # Summary statistics
-    print(f"\n📊 SUMMARY:")
+    print(f"\n[STATS] SUMMARY:")
     quality_counts = {}
     for r in compound_results:
         q = r.get('explanation', {}).get('quality', 'none')
@@ -290,7 +290,7 @@ def display_compound_results(compound_results, max_display=10):
 
 def main():
     """Main analysis function."""
-    print("🧩 COMPOUND WORDPLAY ANALYSIS")
+    print("COMPOUND WORDPLAY ANALYSIS")
     print("=" * 60)
     print("Maintaining absolute sanctity of original pipeline simulator")
     print("Using database-backed indicators and substitutions")
@@ -300,7 +300,7 @@ def main():
     analyzer = CompoundAnalyzer()
 
     # Step 1: Run original pipeline simulator
-    print("\n📋 STEP 1: Running original pipeline simulator...")
+    print("\nSTEP 1: Running original pipeline simulator...")
 
     # Override the ONLY_MISSING_DEFINITION setting for analysis
     # We need clues where the answer IS in definition candidates
@@ -326,12 +326,12 @@ def main():
         try:
             summary = get_stage_summary()
             run_id = summary.get('run_id')
-            print(f"\n📊 Pipeline persistence: run_id={run_id}")
+            print(f"\nPipeline persistence: run_id={run_id}")
         except Exception as e:
             print(f"WARNING: Could not get run_id: {e}")
 
     # Show original results summary
-    print("\n📊 ORIGINAL PIPELINE RESULTS:")
+    print("\nORIGINAL PIPELINE RESULTS:")
     print(f"  clues processed           : {overall['clues']}")
     print(f"  gate failed (no def match): {overall.get('gate_failed', 0)}")
     print(f"  clues w/ def answer match : {overall['clues_with_def_match']}")
@@ -340,7 +340,7 @@ def main():
     print(f"  clues w/ DD hit           : {overall['clues_with_dd']}")
 
     # Step 2: Analyze compound wordplay cohort
-    print("\n🧩 STEP 2: Analyzing compound wordplay cohort with database lookups...")
+    print("\nSTEP 2: Analyzing compound wordplay cohort with database lookups...")
     enhanced_results = analyzer.analyze_compound_cohort(results, run_id=run_id)
 
     # Step 3: Display compound analysis results
@@ -350,7 +350,7 @@ def main():
     # Clean up
     analyzer.close()
 
-    print("\n✅ Analysis complete. Original pipeline simulator untouched.")
+    print("\nAnalysis complete. Original pipeline simulator untouched.")
 
 
 if __name__ == "__main__":

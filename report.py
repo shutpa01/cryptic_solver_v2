@@ -1,12 +1,14 @@
 """
-Unified Puzzle Report Generator
+Unified Puzzle Report Generator — single entry point for the solver.
 
-Pulls clues from all pipeline stages, respects stage priority,
-and validates explanations independently.
+Runs the full pipeline (DD, lurker, anagram, compound, general),
+then generates a report with per-clue explanations.
 
 Usage:
     python report.py
-    python report.py --run-id 0
+    python report.py --source guardian --puzzle-number 29927
+    python report.py --max-clues 10
+    python report.py --report-only --run-id 0
 """
 
 import argparse
@@ -24,6 +26,23 @@ PIPELINE_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\pipeline_stages
 CRYPTIC_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db"
 CLUES_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db"
 OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzle_report.txt"
+
+# ============================================================
+# RUN CRITERIA (edit these or override via CLI args)
+# ============================================================
+SOURCE = "telegraph"          # telegraph, guardian, times, independent
+PUZZLE_NUMBER = "30000"       # puzzle number to solve
+MAX_CLUES = 40                # max clues to process
+WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
+SINGLE_CLUE_MATCH = ""        # filter to single clue matching this text
+USE_KNOWN_ANSWER = True       # use known answer as candidate
+ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
+MAX_DISPLAY = 50              # max clues to print
+ANALYZE_FORWARDED_ANAGRAMS = False
+MAX_FORWARDED_SAMPLES = 50
+ANALYZE_SUCCESSFUL_ANAGRAMS = False
+MAX_SUCCESSFUL_SAMPLES = 25
+ENABLE_PERSISTENCE = True     # save stage data to SQLite
 
 
 # ============================================================
@@ -820,7 +839,54 @@ def main():
     parser.add_argument("--report-only", action="store_true",
                         help="Skip pipeline, just regenerate report from existing data")
     parser.add_argument("--output", type=str, default=OUTPUT_FILE, help="Output file")
+    parser.add_argument("--source", type=str, default=SOURCE,
+                        help="Clue source (telegraph, guardian, times, independent)")
+    parser.add_argument("--puzzle-number", type=str, default=PUZZLE_NUMBER,
+                        help="Puzzle number to solve")
+    parser.add_argument("--max-clues", type=int, default=MAX_CLUES,
+                        help="Maximum number of clues to process")
+    parser.add_argument("--wordplay-type", type=str, default=WORDPLAY_TYPE,
+                        help="Wordplay type filter (all, anagram, lurker, dd)")
+    parser.add_argument("--use-known-answer", action=argparse.BooleanOptionalAction,
+                        default=USE_KNOWN_ANSWER,
+                        help="Use known answer as candidate (default: True)")
+    parser.add_argument("--single-clue", type=str, default=SINGLE_CLUE_MATCH,
+                        help="Filter to single clue matching this text")
+    parser.add_argument("--only-missing-definition", action=argparse.BooleanOptionalAction,
+                        default=ONLY_MISSING_DEFINITION,
+                        help="Show only clues where answer NOT in def candidates")
+    parser.add_argument("--max-display", type=int, default=MAX_DISPLAY,
+                        help="Max number of clues to print")
+    parser.add_argument("--analyze-forwarded-anagrams", action=argparse.BooleanOptionalAction,
+                        default=ANALYZE_FORWARDED_ANAGRAMS,
+                        help="Enable forwarded anagram cohort analysis")
+    parser.add_argument("--max-forwarded-samples", type=int, default=MAX_FORWARDED_SAMPLES,
+                        help="Max forwarded samples to show")
+    parser.add_argument("--analyze-successful-anagrams", action=argparse.BooleanOptionalAction,
+                        default=ANALYZE_SUCCESSFUL_ANAGRAMS,
+                        help="Enable successful anagram analysis")
+    parser.add_argument("--max-successful-samples", type=int, default=MAX_SUCCESSFUL_SAMPLES,
+                        help="Max successful samples to show")
+    parser.add_argument("--enable-persistence", action=argparse.BooleanOptionalAction,
+                        default=ENABLE_PERSISTENCE,
+                        help="Enable stage persistence to SQLite")
     args = parser.parse_args()
+
+    # Wire CLI args to pipeline_simulator globals
+    import pipeline_simulator
+    pipeline_simulator.SOURCE = args.source
+    pipeline_simulator.PUZZLE_NUMBER = args.puzzle_number
+    pipeline_simulator.MAX_CLUES = args.max_clues
+    pipeline_simulator.WORDPLAY_TYPE = args.wordplay_type
+    pipeline_simulator.USE_KNOWN_ANSWER = args.use_known_answer
+    pipeline_simulator.SINGLE_CLUE_MATCH = args.single_clue
+    pipeline_simulator.ONLY_MISSING_DEFINITION = args.only_missing_definition
+    pipeline_simulator.MAX_DISPLAY = args.max_display
+    pipeline_simulator.ANALYZE_FORWARDED_ANAGRAMS = args.analyze_forwarded_anagrams
+    pipeline_simulator.MAX_FORWARDED_SAMPLES = args.max_forwarded_samples
+    pipeline_simulator.ANALYZE_SUCCESSFUL_ANAGRAMS = args.analyze_successful_anagrams
+    pipeline_simulator.MAX_SUCCESSFUL_SAMPLES = args.max_successful_samples
+    pipeline_simulator.ENABLE_PERSISTENCE = args.enable_persistence
 
     # Step 1: Run the pipeline (unless --report-only)
     if not args.report_only:

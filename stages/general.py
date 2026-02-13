@@ -514,6 +514,7 @@ def run_general_analysis(run_id: int = 0):
     return results
 
 
+# DEAD CODE: Use report.py main() instead. Kept temporarily for Phase 1 cleanup.
 def main():
     """
     Complete puzzle solver:

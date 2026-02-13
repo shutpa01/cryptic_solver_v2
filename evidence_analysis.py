@@ -102,7 +102,7 @@ class EvidenceAnalyzer:
         successful_anagram_clues = [r for r in results if
                                     self.is_successful_anagram_clue(r)]
 
-        print(f"\n🔍 SUCCESSFUL ANAGRAM COHORT ANALYSIS:")
+        print(f"\n[SEARCH] SUCCESSFUL ANAGRAM COHORT ANALYSIS:")
         print(f"Total clues processed: {len(results)}")
         print(f"Successful anagram clues: {len(successful_anagram_clues)}")
 
@@ -126,7 +126,7 @@ class EvidenceAnalyzer:
                 elif solve_type.startswith('anagram_evidence'):
                     stage_counts['evidence_system'] += 1
 
-        print(f"\n📊 HITS BY STAGE:")
+        print(f"\n[STATS] HITS BY STAGE:")
         print(f"  anagram_stage (brute force):  {stage_counts['anagram_stage']}")
         print(f"  evidence_system (fallback):   {stage_counts['evidence_system']}")
 
@@ -165,7 +165,7 @@ def display_evidence_results(enhanced_results, max_display=400):
                              ),
                              reverse=True)
 
-    print(f"\n📊 EVIDENCE ANALYSIS RESULTS (Top {max_display}):")
+    print(f"\n[STATS] EVIDENCE ANALYSIS RESULTS (Top {max_display}):")
     print("=" * 80)
 
     for i, record in enumerate(display_results[:max_display], 1):
@@ -226,7 +226,7 @@ def display_evidence_results(enhanced_results, max_display=400):
                     evidence = scored["evidence"]
 
                     marker = "★" if candidate.upper() == record["answer"].upper() else " "
-                    evidence_marker = "🔤" if evidence else "  "
+                    evidence_marker = "*" if evidence else "  "
 
                     print(
                         f"    {marker}{evidence_marker} {display_count:2d}. {candidate:15} (evidence: +{score:.1f})")
@@ -249,7 +249,7 @@ def display_evidence_results(enhanced_results, max_display=400):
 
 def main():
     """Main analysis function."""
-    print("🔧 EVIDENCE-BASED SCORING ANALYSIS")
+    print("[FIX] EVIDENCE-BASED SCORING ANALYSIS")
     print("=" * 60)
     print("Maintaining absolute sanctity of original pipeline simulator")
     print("Analyzing successful anagram cohort (showing how anagrams are solved)")
@@ -259,7 +259,7 @@ def main():
     analyzer = EvidenceAnalyzer()
 
     # Step 1: Run original pipeline simulator (with appropriate settings for evidence analysis)
-    print("\n📋 STEP 1: Running original pipeline simulator...")
+    print("\n[LIST] STEP 1: Running original pipeline simulator...")
 
     # Override the ONLY_MISSING_DEFINITION setting for evidence analysis
     # We need clues where the answer IS in definition candidates
@@ -279,7 +279,7 @@ def main():
         raise e
 
     # Show original results summary
-    print("\n📊 ORIGINAL PIPELINE RESULTS:")
+    print("\n[STATS] ORIGINAL PIPELINE RESULTS:")
     print(f"  clues processed           : {overall['clues']}")
     print(f"  clues w/ def answer match : {overall['clues_with_def_match']}")
     print(f"  clues w/ anagram hit      : {overall['clues_with_anagram']}")
@@ -287,7 +287,7 @@ def main():
     print(f"  clues w/ DD hit           : {overall['clues_with_dd']}")
 
     # Step 2: Analyze successful anagram cohort using permanent engine only
-    print("\n🔍 STEP 2: Analyzing successful anagram cohort...")
+    print("\n[SEARCH] STEP 2: Analyzing successful anagram cohort...")
     enhanced_results = analyzer.analyze_successful_anagram_cohort(results)
 
     # Step 3: Display evidence analysis
