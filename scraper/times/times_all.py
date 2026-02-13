@@ -349,7 +349,15 @@ def parse_puzzle(json_data):
     puzzle_number = meta.get('number') or copy.get('id')
     title = copy.get('title', '')
     setter = copy.get('setter', '')
-    puzzle_date = copy.get('date-publish', '')
+    puzzle_date_raw = copy.get('date-publish', '')
+    # Convert to ISO date
+    if puzzle_date_raw and ',' in puzzle_date_raw:
+        try:
+            puzzle_date = datetime.strptime(puzzle_date_raw, '%A, %d %B %Y').strftime('%Y-%m-%d')
+        except ValueError:
+            puzzle_date = puzzle_date_raw
+    else:
+        puzzle_date = puzzle_date_raw
     puzzle_type_name = copy.get('crosswordtype', 'Times Cryptic')
     is_competition = data.get('competitioncrossword', 0) == 1
 

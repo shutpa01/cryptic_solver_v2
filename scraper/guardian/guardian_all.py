@@ -126,10 +126,15 @@ def parse_puzzle(data, puzzle_type):
     setter = crossword.get('creator', {}).get('name', '')
     puzzle_date = crossword.get('date', '')
 
-    # Convert epoch to readable date if needed (use UTC for consistency)
+    # Convert epoch to ISO date
     if isinstance(puzzle_date, int):
-        puzzle_date = datetime.utcfromtimestamp(puzzle_date / 1000).strftime(
-            '%A, %d %B %Y')
+        puzzle_date = datetime.utcfromtimestamp(puzzle_date / 1000).strftime('%Y-%m-%d')
+    elif isinstance(puzzle_date, str) and ',' in puzzle_date:
+        # Convert "Friday, 13 February 2026" to "2026-02-13"
+        try:
+            puzzle_date = datetime.strptime(puzzle_date, '%A, %d %B %Y').strftime('%Y-%m-%d')
+        except ValueError:
+            pass
 
     entries = crossword.get('entries', [])
 

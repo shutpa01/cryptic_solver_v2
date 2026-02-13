@@ -229,6 +229,12 @@ def fetch_and_save(puzzle):
 
     title = copy.get('title', '')
     date_publish = copy.get('date-publish', '')
+    # Convert to ISO date
+    if date_publish and ',' in date_publish:
+        try:
+            date_publish = datetime.strptime(date_publish, '%A, %d %B %Y').strftime('%Y-%m-%d')
+        except ValueError:
+            pass
 
     # Parse clues
     clues_groups = copy.get('clues', [])

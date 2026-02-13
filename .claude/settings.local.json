@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(\"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\.venv\\\\Scripts\\\\python.exe\" \"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\scraper\\\\orchestrator\\\\daily_scraper.py\")",
+      "Bash(dir:*)"
     ]
   }
 }

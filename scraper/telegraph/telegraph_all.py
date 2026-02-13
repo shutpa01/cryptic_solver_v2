@@ -67,6 +67,16 @@ PUZZLE_TYPES = {
 }
 
 
+def to_iso_date(date_str):
+    """Convert 'Friday, 13 February 2026' to '2026-02-13'. Pass through if already ISO."""
+    if not date_str or (len(date_str) == 10 and date_str[4] == '-'):
+        return date_str
+    try:
+        return datetime.strptime(date_str, '%A, %d %B %Y').strftime('%Y-%m-%d')
+    except ValueError:
+        return date_str
+
+
 def count_matching_days(start_date, end_date, weekdays):
     """Count how many days between start and end fall on specified weekdays."""
     count = 0
@@ -118,7 +128,7 @@ def parse_puzzle(data, puzzle_type):
     copy = puzzle_json.get('copy', {})
 
     title = copy.get('title', '')
-    date_publish = copy.get('date-publish', '')
+    date_publish = to_iso_date(copy.get('date-publish', ''))
 
     # Extract puzzle number from title (e.g., "Cryptic Crossword No 31144")
     match = re.search(r'No\s*(\d+)', title)
