@@ -31,10 +31,11 @@ OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzl
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"          # telegraph, guardian, times, independent
-PUZZLE_NUMBER = "30000"       # puzzle number to solve
-MAX_CLUES = 40                # max clues to process
+PUZZLE_NUMBER = ""       # puzzle number to solve
+MAX_CLUES = 1000                # max clues to process
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH = ""        # filter to single clue matching this text
+SINGLE_CLUE_MATCH = ""        #
+# filter to single clue matching this text
 USE_KNOWN_ANSWER = True       # use known answer as candidate
 ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
 MAX_DISPLAY = 50              # max clues to print
@@ -569,6 +570,54 @@ Optional[ClueResult]:
     return result
 
 
+def check_stage_secondary(pipeline_db: str, run_id: int, clue_id: int,
+                          answer: str) -> Optional[ClueResult]:
+    """Check if clue was solved by secondary stage."""
+    conn = sqlite3.connect(pipeline_db)
+    conn.row_factory = sqlite3.Row
+    row = conn.execute(
+        "SELECT * FROM stage_secondary WHERE run_id = ? AND clue_id = ? AND fully_resolved = 1",
+        (run_id, clue_id)
+    ).fetchone()
+    conn.close()
+
+    if not row:
+        return None
+
+    row = dict(row)
+
+    result = ClueResult(
+        clue_id=clue_id, clue_number="", direction="",
+        clue_text=row["clue_text"], answer=answer, enumeration=""
+    )
+    result.solved = True
+    result.solve_stage = "secondary"
+    result.solve_quality = "solved"
+
+    result.formula = row.get("improved_formula", "") or ""
+    result.definition = ""
+
+    # Parse breakdown
+    breakdown_raw = row.get("breakdown", "[]")
+    try:
+        result.breakdown = json.loads(breakdown_raw) if isinstance(breakdown_raw, str) else (
+                    breakdown_raw or [])
+    except (json.JSONDecodeError, TypeError):
+        result.breakdown = []
+
+    # Parse word_roles
+    word_roles_raw = row.get("word_roles", "[]")
+    try:
+        result.word_roles = json.loads(word_roles_raw) if isinstance(word_roles_raw, str) else (
+                    word_roles_raw or [])
+    except (json.JSONDecodeError, TypeError):
+        result.word_roles = []
+
+    result.clue_type = row.get("helper_used", "")
+
+    return result
+
+
 # ============================================================
 # CASCADE RESOLVER
 # ============================================================
@@ -624,13 +673,29 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
 
     # 5. General wordplay
     result = check_stage_general(pipeline_db, run_id, clue_id, answer)
+    if result and result.solved:
+        result.clue_number = info["clue_number"]
+        result.direction = info["direction"]
+        result.enumeration = info.get("enumeration", "")
+        return result
+
+    # 6. Secondary (helpers on general failures)
+    result = check_stage_secondary(pipeline_db, run_id, clue_id, answer)
+    if result and result.solved:
+        result.clue_number = info["clue_number"]
+        result.direction = info["direction"]
+        result.enumeration = info.get("enumeration", "")
+        return result
+
+    # 7. General wordplay (unsolved partial)
+    result = check_stage_general(pipeline_db, run_id, clue_id, answer)
     if result:
         result.clue_number = info["clue_number"]
         result.direction = info["direction"]
         result.enumeration = info.get("enumeration", "")
         return result
 
-    # 6. Not found in any stage - use compound partial if available
+    # 8. Not found in any stage - use compound partial if available
     result = check_stage_compound(pipeline_db, run_id, clue_id, answer)
     if result:
         result.clue_number = info["clue_number"]
@@ -656,12 +721,12 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
 
 def sort_key(clue: ClueResult) -> tuple:
     """Sort clues by direction (across first) then by number."""
-    num = clue.clue_number.rstrip("adAD")
+    num = (clue.clue_number or "").rstrip("adAD")
     try:
         num_int = int(num)
     except ValueError:
         num_int = 999
-    direction_order = 0 if clue.direction.lower() == "across" else 1
+    direction_order = 0 if (clue.direction or "").lower() == "across" else 1
     return (direction_order, num_int)
 
 
@@ -702,9 +767,11 @@ def format_report(results: List[ClueResult], puzzle_info: Dict) -> str:
     lines.append(f"  Anagrams:                {stage_counts.get('anagram', 0)}")
     lines.append(f"  Compound wordplay:       {stage_counts.get('compound', 0)}")
     lines.append(f"  General wordplay:        {stage_counts.get('general', 0)}")
+    lines.append(f"  Secondary helpers:       {stage_counts.get('secondary', 0)}")
     lines.append(f"  ---")
+    pct = (100 * solved_count // total) if total > 0 else 0
     lines.append(
-        f"  SOLVED:                  {solved_count}/{total} ({100 * solved_count // total}%)")
+        f"  SOLVED:                  {solved_count}/{total} ({pct}%)")
     lines.append(f"  Partial (needs work):    {partial_count}")
     lines.append(f"  Unsolved:                {unsolved_count}")
     lines.append("")
@@ -719,8 +786,8 @@ def format_report(results: List[ClueResult], puzzle_info: Dict) -> str:
 
     current_direction = "across"
     for r in sorted_results:
-        if r.direction.lower() != current_direction:
-            current_direction = r.direction.lower()
+        if (r.direction or "").lower() != current_direction:
+            current_direction = (r.direction or "").lower()
             lines.append("")
             lines.append("=" * 80)
             lines.append("DOWN")
@@ -794,6 +861,7 @@ def format_single_clue(r: ClueResult) -> str:
         "anagram": "anagram",
         "compound": "compound wordplay",
         "general": "general wordplay",
+        "secondary": "secondary helper",
     }.get(r.solve_stage, r.solve_stage)
 
     lines.append(f"  {tag} {r.clue_number} CLUE: {r.clue_text}")
@@ -906,7 +974,13 @@ def main():
         run_general_analysis(run_id=0)
 
         print("\n" + "-" * 60)
-        print("STEP 3: Writing unified puzzle report...")
+        print("STEP 3: Running secondary analysis on failures...")
+        print("-" * 60)
+        from stages.secondary import run_secondary_analysis
+        run_secondary_analysis(run_id=0)
+
+        print("\n" + "-" * 60)
+        print("STEP 4: Writing unified puzzle report...")
         print("-" * 60)
 
     # Step 2: Generate report
@@ -933,8 +1007,8 @@ def main():
     print("\n" + report)
 
     solved_total = sum(1 for r in results if r.solved)
-    print(
-        f"\nFinal: {solved_total}/{len(results)} solved ({100 * solved_total // len(results)}%)")
+    pct = (100 * solved_total // len(results)) if results else 0
+    print(f"\nFinal: {solved_total}/{len(results)} solved ({pct}%)")
 
 
 if __name__ == "__main__":

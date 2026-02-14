@@ -266,9 +266,13 @@ def _analyze_successful_anagram(clue_text: str, answer: str, candidates: List[st
 
 
 def run_pipeline_probe(
-        max_clues: int = MAX_CLUES,
-        wordplay_type: str = WORDPLAY_TYPE,
+        max_clues: int = None,
+        wordplay_type: str = None,
 ) -> List[Dict[str, Any]]:
+    if max_clues is None:
+        max_clues = MAX_CLUES
+    if wordplay_type is None:
+        wordplay_type = WORDPLAY_TYPE
     wp_filter = wordplay_type.lower()
 
     # ---- START PERSISTENCE RUN ----

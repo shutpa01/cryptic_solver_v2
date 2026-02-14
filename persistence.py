@@ -209,12 +209,16 @@ def start_run() -> int:
 
     # Clear ALL old data from ALL runs
     tables = ['stage_input', 'stage_dd', 'stage_definition', 'stage_definition_failed',
-              'stage_anagram', 'stage_lurker', 'stage_evidence', 'stage_compound']
+              'stage_anagram', 'stage_lurker', 'stage_evidence', 'stage_compound',
+              'stage_secondary']
     for table in tables:
-        cursor.execute(f"DELETE FROM {table}")
-        deleted = cursor.rowcount
-        if deleted > 0:
-            print(f"  Cleared {deleted} old records from {table}")
+        try:
+            cursor.execute(f"DELETE FROM {table}")
+            deleted = cursor.rowcount
+            if deleted > 0:
+                print(f"  Cleared {deleted} old records from {table}")
+        except sqlite3.OperationalError:
+            pass  # Table may not exist yet (created by later stages)
 
     # Reset auto-increment sequences
     cursor.execute("DELETE FROM sqlite_sequence")

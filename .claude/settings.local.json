@@ -3,7 +3,9 @@
     "allow": [
       "Bash(python:*)",
       "Bash(\"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\.venv\\\\Scripts\\\\python.exe\" \"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\scraper\\\\orchestrator\\\\daily_scraper.py\")",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(sqlite3:*)",
+      "Bash(git -C \"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\" show HEAD:documents/puzzle_report.txt)"
     ]
   }
 }
