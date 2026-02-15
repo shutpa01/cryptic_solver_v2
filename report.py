@@ -32,9 +32,11 @@ OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzl
 # ============================================================
 SOURCE = "telegraph"          # telegraph, guardian, times, independent
 PUZZLE_NUMBER = ""       # puzzle number to solve
-MAX_CLUES = 1000                # max clues to process
+
+
+EXCLUDE_SOLVED = True        # skip clues that already have a solution
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH = ""        #
+SINGLE_CLUE_MATCH =""        #
 # filter to single clue matching this text
 USE_KNOWN_ANSWER = True       # use known answer as candidate
 ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
@@ -913,6 +915,8 @@ def main():
                         help="Puzzle number to solve")
     parser.add_argument("--max-clues", type=int, default=MAX_CLUES,
                         help="Maximum number of clues to process")
+    parser.add_argument("--exclude-solved", action="store_true", default=EXCLUDE_SOLVED,
+                        help="Exclude clues that already have a solution in clues_master.db")
     parser.add_argument("--wordplay-type", type=str, default=WORDPLAY_TYPE,
                         help="Wordplay type filter (all, anagram, lurker, dd)")
     parser.add_argument("--use-known-answer", action=argparse.BooleanOptionalAction,
@@ -955,6 +959,7 @@ def main():
     pipeline_simulator.ANALYZE_SUCCESSFUL_ANAGRAMS = args.analyze_successful_anagrams
     pipeline_simulator.MAX_SUCCESSFUL_SAMPLES = args.max_successful_samples
     pipeline_simulator.ENABLE_PERSISTENCE = args.enable_persistence
+    pipeline_simulator.EXCLUDE_SOLVED = args.exclude_solved
 
     # Step 1: Run the pipeline (unless --report-only)
     if not args.report_only:
@@ -1009,6 +1014,14 @@ def main():
     solved_total = sum(1 for r in results if r.solved)
     pct = (100 * solved_total // len(results)) if results else 0
     print(f"\nFinal: {solved_total}/{len(results)} solved ({pct}%)")
+
+    # Persist solved clues to clues_master.db
+    if not args.report_only:
+        print("\n" + "-" * 60)
+        print("STEP 5: Persisting solved clues to clues_master.db...")
+        print("-" * 60)
+        from persistence import persist_solved_clues
+        persist_solved_clues(results)
 
 
 if __name__ == "__main__":

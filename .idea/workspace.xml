@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="Pre scraper rewrite">
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/documents/puzzle_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/puzzle_report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistence.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence.py" afterDir="false" />
@@ -50,6 +49,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.daily_scraper.executor": "Run",
     "Python.report.executor": "Run",
     "Python.run.executor": "Run",
     "Python.scratch.executor": "Run",
@@ -139,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771010072808</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Pre scraper rewrite">
+      <option name="closed" value="true" />
+      <created>1771100493267</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1771100493267</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

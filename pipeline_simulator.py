@@ -71,6 +71,7 @@ MAX_SUCCESSFUL_SAMPLES = 25  # Max successful samples to show
 
 # NEW: Persistence settings
 ENABLE_PERSISTENCE = True  # Set to False to disable stage persistence
+EXCLUDE_SOLVED = False  # Exclude clues that already have a solution
 
 _ENUM_RE = re.compile(r"\(\d+(?:,\d+)*\)")
 
@@ -313,6 +314,8 @@ def run_pipeline_probe(
         if PUZZLE_NUMBER:
             conditions.append("puzzle_number = ?")
             params.append(PUZZLE_NUMBER)
+        if EXCLUDE_SOLVED:
+            conditions.append("(has_solution IS NULL OR has_solution = 0)")
 
         where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
         params.append(max_clues)

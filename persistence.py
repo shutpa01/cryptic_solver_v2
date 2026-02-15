@@ -757,6 +757,155 @@ def print_clue_journey(clue_text_pattern: str):
 
 
 # ============================================================================
+# PERSIST SOLVED CLUES TO clues_master.db
+# ============================================================================
+
+CLUES_MASTER_DB = Path(__file__).parent / 'data' / 'clues_master.db'
+
+
+def init_solved_clues_table():
+    """Create solved_clues table and has_solution column in clues_master.db."""
+    conn = sqlite3.connect(CLUES_MASTER_DB)
+    cursor = conn.cursor()
+
+    # Create the solved_clues evidence table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS solved_clues (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            clue_id INTEGER NOT NULL,
+            source TEXT,
+            clue_text TEXT NOT NULL,
+            answer TEXT NOT NULL,
+            enumeration TEXT,
+            solve_stage TEXT,
+            solve_quality TEXT,
+            clue_type TEXT,
+            definition TEXT,
+            formula TEXT,
+            breakdown TEXT,
+            word_roles TEXT,
+            letters_needed TEXT,
+            unresolved_words TEXT,
+            solved_date TEXT,
+            UNIQUE(source, answer, clue_text)
+        )
+    """)
+    cursor.execute(
+        "CREATE INDEX IF NOT EXISTS idx_solved_clue_id ON solved_clues(clue_id)")
+    cursor.execute(
+        "CREATE INDEX IF NOT EXISTS idx_solved_answer ON solved_clues(answer)")
+
+    # Add has_solution column to clues table if missing
+    try:
+        cursor.execute("ALTER TABLE clues ADD COLUMN has_solution INTEGER DEFAULT 0")
+        print("  Added has_solution column to clues table")
+    except sqlite3.OperationalError:
+        pass  # Column already exists
+
+    conn.commit()
+    conn.close()
+
+
+def persist_solved_clues(results: list):
+    """
+    Persist fully solved clues from the pipeline to clues_master.db.
+    Creates/updates records in solved_clues table and sets has_solution=1
+    on the corresponding clues table row.
+
+    Args:
+        results: list of ClueResult objects (or dicts with same fields)
+    """
+    init_solved_clues_table()
+
+    conn = sqlite3.connect(CLUES_MASTER_DB)
+    cursor = conn.cursor()
+
+    saved = 0
+    updated = 0
+
+    for r in results:
+        # Handle both ClueResult objects and dicts
+        if hasattr(r, 'solved'):
+            if not r.solved:
+                continue
+            clue_id = r.clue_id
+            clue_text = r.clue_text
+            answer = r.answer
+            enumeration = getattr(r, 'enumeration', '')
+            solve_stage = r.solve_stage
+            solve_quality = r.solve_quality
+            clue_type = getattr(r, 'clue_type', '')
+            definition = r.definition
+            formula = r.formula
+            breakdown = json.dumps(r.breakdown) if r.breakdown else '[]'
+            word_roles = json.dumps(r.word_roles) if r.word_roles else '[]'
+            letters_needed = r.letters_needed
+            unresolved_words = json.dumps(r.unresolved_words) if r.unresolved_words else '[]'
+        else:
+            if not r.get('solved'):
+                continue
+            clue_id = r.get('clue_id')
+            clue_text = r.get('clue_text', '')
+            answer = r.get('answer', '')
+            enumeration = r.get('enumeration', '')
+            solve_stage = r.get('solve_stage', '')
+            solve_quality = r.get('solve_quality', '')
+            clue_type = r.get('clue_type', '')
+            definition = r.get('definition', '')
+            formula = r.get('formula', '')
+            breakdown = json.dumps(r.get('breakdown', []))
+            word_roles = json.dumps(r.get('word_roles', []))
+            letters_needed = r.get('letters_needed', '')
+            unresolved_words = json.dumps(r.get('unresolved_words', []))
+
+        # Get source from clues table
+        source_row = cursor.execute(
+            "SELECT source FROM clues WHERE id = ?", (clue_id,)).fetchone()
+        source = source_row[0] if source_row else ''
+
+        # Upsert into solved_clues
+        try:
+            cursor.execute("""
+                INSERT INTO solved_clues
+                (clue_id, source, clue_text, answer, enumeration,
+                 solve_stage, solve_quality, clue_type, definition, formula,
+                 breakdown, word_roles, letters_needed, unresolved_words, solved_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(source, answer, clue_text) DO UPDATE SET
+                    solve_stage=excluded.solve_stage,
+                    solve_quality=excluded.solve_quality,
+                    clue_type=excluded.clue_type,
+                    definition=excluded.definition,
+                    formula=excluded.formula,
+                    breakdown=excluded.breakdown,
+                    word_roles=excluded.word_roles,
+                    letters_needed=excluded.letters_needed,
+                    unresolved_words=excluded.unresolved_words,
+                    solved_date=excluded.solved_date
+            """, (
+                clue_id, source, clue_text, answer, enumeration,
+                solve_stage, solve_quality, clue_type, definition, formula,
+                breakdown, word_roles, letters_needed, unresolved_words,
+                datetime.now().isoformat()
+            ))
+            saved += 1
+        except Exception as e:
+            print(f"  Warning: Failed to save clue {clue_id}: {e}")
+            continue
+
+        # Update has_solution flag on clues table
+        cursor.execute(
+            "UPDATE clues SET has_solution = 1 WHERE id = ?", (clue_id,))
+        if cursor.rowcount > 0:
+            updated += 1
+
+    conn.commit()
+    conn.close()
+    print(f"\n  Persisted {saved} solved clues to solved_clues table")
+    print(f"  Updated has_solution flag on {updated} clues")
+
+
+# ============================================================================
 # CLI for quick queries
 # ============================================================================
 
