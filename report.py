@@ -31,7 +31,8 @@ OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzl
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"          # telegraph, guardian, times, independent
-PUZZLE_NUMBER = ""       # puzzle number to solve
+PUZZLE_NUMBER = "31164"       # puzzle number to solve
+MAX_CLUES = 100             # max clues to select
 
 
 EXCLUDE_SOLVED = True        # skip clues that already have a solution

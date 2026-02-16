@@ -11,6 +11,7 @@ import sys
 import re
 from datetime import datetime, date, timedelta
 from dotenv import load_dotenv
+from html import unescape
 
 load_dotenv()
 
@@ -143,8 +144,9 @@ def parse_puzzle(data, puzzle_type):
 
     for entry in entries:
         clue_text = entry.get('clue', '')
-        # Remove HTML tags
+        # Remove HTML tags and decode entities
         clue_text = re.sub(r'<[^>]+>', '', clue_text)
+        clue_text = unescape(clue_text)
 
         # Extract enumeration from end of clue
         enum_match = re.search(r'\(([0-9,\-\s]+)\)\s*$', clue_text)
@@ -277,6 +279,83 @@ def save_to_database(puzzle_data, puzzle_type):
     return clue_count
 
 
+def get_last_puzzle_number(puzzle_type):
+    """Get the highest puzzle number in the database for this type."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS guardian_clues (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            puzzle_type TEXT,
+            puzzle_number TEXT,
+            puzzle_date TEXT,
+            setter TEXT,
+            clue_number TEXT,
+            direction TEXT,
+            clue_text TEXT,
+            enumeration TEXT,
+            answer TEXT,
+            explanation TEXT,
+            published INTEGER DEFAULT 0,
+            fetched_at TEXT
+        )
+    """)
+    cursor.execute("""
+        SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM guardian_clues
+        WHERE puzzle_type = ?
+    """, (puzzle_type,))
+    result = cursor.fetchone()[0]
+    conn.close()
+    return result
+
+
+def fetch_new_puzzles(puzzle_type):
+    """Fetch all new puzzles by incrementing from the last known number.
+    Keeps going until 3 consecutive 404s to catch up on any missed days."""
+    config = PUZZLE_TYPES[puzzle_type]
+    last_number = get_last_puzzle_number(puzzle_type)
+
+    if last_number is None:
+        print(f"\n{config['name']}: No puzzles in DB — use manual fetch to seed")
+        return []
+
+    print(f"\n{config['name']}: last in DB is #{last_number}")
+
+    fetched = []
+    consecutive_misses = 0
+    number = last_number + 1
+
+    while consecutive_misses < 3:
+        if puzzle_already_fetched(puzzle_type, number):
+            number += 1
+            continue
+
+        data = get_puzzle_data(puzzle_type, number)
+        if data:
+            puzzle = parse_puzzle(data, puzzle_type)
+            save_to_database(puzzle, puzzle_type)
+
+            json_path = f"guardian_{puzzle_type}_{puzzle.get('puzzle_number')}.json"
+            with open(json_path, 'w') as f:
+                json.dump(puzzle, f, indent=2)
+
+            clue_count = len(puzzle.get('across', [])) + len(puzzle.get('down', []))
+            print(f"  #{number}: {clue_count} clues ({puzzle.get('date', '?')})")
+            fetched.append(puzzle)
+            consecutive_misses = 0
+        else:
+            consecutive_misses += 1
+
+        number += 1
+
+    if fetched:
+        print(f"  -> {len(fetched)} new puzzle(s)")
+    else:
+        print(f"  -> up to date")
+
+    return fetched
+
+
 def get_todays_puzzles():
     """Get list of puzzle types available today."""
     today = date.today()
@@ -349,8 +428,8 @@ def main():
         arg = sys.argv[1]
 
         if arg == '--all':
-            for pt in available:
-                fetch_puzzle(pt)
+            for pt in PUZZLE_TYPES:
+                fetch_new_puzzles(pt)
 
         elif arg == '--list':
             print("\nPuzzle Types:")
@@ -402,9 +481,9 @@ def main():
                 print("  python guardian_all.py cryptic      # Today's cryptic")
                 print("  python guardian_all.py cryptic 29347  # Specific puzzle number")
     else:
-        # Default: fetch all puzzles available today
-        for pt in available:
-            fetch_puzzle(pt)
+        # Default: catch up on all puzzle types from last known number
+        for pt in PUZZLE_TYPES:
+            fetch_new_puzzles(pt)
 
     print("\n" + "=" * 60)
     print("DONE")

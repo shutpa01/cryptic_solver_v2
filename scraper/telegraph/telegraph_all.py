@@ -11,6 +11,7 @@ import sys
 import re
 from datetime import datetime, date, timedelta
 from dotenv import load_dotenv
+from html import unescape
 
 load_dotenv()
 
@@ -147,7 +148,7 @@ def parse_puzzle(data, puzzle_type):
         for clue in clue_list:
             clue_obj = {
                 'number': clue.get('number', ''),
-                'clue': clue.get('clue', ''),
+                'clue': unescape(clue.get('clue', '')),
                 'answer': clue.get('answer', ''),
                 'enumeration': clue.get('format', '')
             }

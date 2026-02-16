@@ -250,7 +250,10 @@ Optional[str]:
 
 
 def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
-    """Find definition by looking up known definitions in definition_answers_augmented."""
+    """Find definition by looking up known definitions in definition_answers_augmented.
+
+    CRITICAL: Only accepts definitions at the START or END of the clue, never mid-clue.
+    """
     if not answer:
         return None
 
@@ -260,8 +263,8 @@ def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT DISTINCT definition 
-        FROM definition_answers_augmented 
+        SELECT DISTINCT definition
+        FROM definition_answers_augmented
         WHERE UPPER(REPLACE(answer, ' ', '')) = ?
     """, (answer_upper,))
 
@@ -275,7 +278,12 @@ def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
     known_definitions.sort(key=len, reverse=True)
 
     for defn in known_definitions:
-        if defn.lower() in clue_text_lower:
+        defn_lower = defn.lower()
+        # Only accept if definition appears at start or end of clue
+        if clue_text_lower.startswith(defn_lower + ' ') or \
+           clue_text_lower.startswith(defn_lower) and len(defn_lower) == len(clue_text_lower) or \
+           clue_text_lower.endswith(' ' + defn_lower) or \
+           clue_text_lower.endswith(defn_lower) and len(defn_lower) == len(clue_text_lower):
             return defn
 
     return None

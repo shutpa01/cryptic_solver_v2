@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+H#!/usr/bin/env python3
 """Daily Crossword Scraper Orchestrator
 
 Calls each scraper script, then syncs new clues to the master clues table.
@@ -45,12 +45,17 @@ def run_scraper(script_path: Path, args: list = None):
     if args:
         cmd.extend(args)
 
-    result = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True,
-        cwd=script_path.parent
-    )
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            cwd=script_path.parent,
+            timeout=120
+        )
+    except subprocess.TimeoutExpired:
+        print(f"TIMEOUT: {script_path.name} exceeded 120s — skipping")
+        return False
 
     if result.stdout:
         print(result.stdout)

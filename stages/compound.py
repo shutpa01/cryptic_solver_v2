@@ -26,7 +26,7 @@ from enum import Enum
 
 from resources import norm_letters
 
-DB_PATH = r'C:\Users\shute\PycharmProjects\cryptic_solver\data\cryptic_new.db'
+DB_PATH = r'C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db'
 
 
 def format_answer_with_enumeration(answer: str, enumeration: str) -> str:

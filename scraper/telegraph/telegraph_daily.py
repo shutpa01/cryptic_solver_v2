@@ -150,7 +150,10 @@ def harvest_today(driver):
             if link_date != today_str:
                 continue
 
-            puzzle_type = TYPE_MAP.get(link_type, link_type)
+            if link_type not in TYPE_MAP:
+                continue
+
+            puzzle_type = TYPE_MAP[link_type]
 
             print(f"  Found: {link_type} #{puzzle_num} -> API {api_id} ({link_date})")
 
