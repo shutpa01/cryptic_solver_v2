@@ -141,6 +141,17 @@ def get_all_clue_ids(pipeline_db: str, run_id: int) -> List[int]:
     return [r[0] for r in rows]
 
 
+def get_all_puzzle_clue_ids(clues_db: str, source: str, puzzle_number: str) -> List[int]:
+    """Get ALL clue_ids for a puzzle from the clues table."""
+    conn = sqlite3.connect(clues_db)
+    rows = conn.execute(
+        "SELECT id FROM clues WHERE source = ? AND puzzle_number = ? ORDER BY id",
+        (source, puzzle_number)
+    ).fetchall()
+    conn.close()
+    return [r[0] for r in rows]
+
+
 def get_latest_run_id(pipeline_db: str) -> int:
     """Get the most recent run_id."""
     conn = sqlite3.connect(pipeline_db)
@@ -441,7 +452,8 @@ Optional[ClueResult]:
         result.unresolved_words = []
 
     # Validate: is this genuinely solved?
-    if fully_resolved and formula and not result.letters_needed:
+    if fully_resolved and formula and not result.letters_needed and not has_unresolved_indicators(result.unresolved_words):
+        # CRITICAL: Any unresolved indicator = NOT SOLVED
         # Check letter math
         valid = validate_formula_letters(formula, answer)
         if valid is not False:
@@ -455,6 +467,28 @@ Optional[ClueResult]:
         result.solve_quality = "partial"
 
     return result
+
+
+def has_unresolved_indicators(unresolved_words: List[str]) -> bool:
+    """
+    Check if any unresolved words are known indicators.
+    CRITICAL RULE: Any unresolved indicator = NOT SOLVED.
+    """
+    if not unresolved_words:
+        return False
+
+    conn = sqlite3.connect(CRYPTIC_DB)
+    cursor = conn.cursor()
+
+    for word in unresolved_words:
+        cursor.execute(
+            "SELECT 1 FROM indicators WHERE word = ?", (word,))
+        if cursor.fetchone():
+            conn.close()
+            return True
+
+    conn.close()
+    return False
 
 
 def is_cryptic_definition(word_roles: List, breakdown: List, formula: str,
@@ -558,7 +592,8 @@ Optional[ClueResult]:
         result.solved = True
         result.solve_quality = "cryptic_def"
         result.clue_type = "cryptic_definition"
-    elif fully_resolved and formula and not result.letters_needed:
+    elif fully_resolved and formula and not result.letters_needed and not has_unresolved_indicators(result.unresolved_words):
+        # CRITICAL: Any unresolved indicator = NOT SOLVED
         valid = validate_formula_letters(formula, answer)
         if valid is not False:
             result.solved = True
@@ -630,6 +665,7 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
     """
     Resolve a clue through the cascade, respecting stage priority.
     Always uses canonical answer from cryptic_new.db.
+    Checks solved_clues table for previously solved clues not in this run.
     """
     # Get canonical info
     info = get_canonical_clue_info(cryptic_db, clue_id)
@@ -640,6 +676,49 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
         )
 
     answer = info["answer"]
+
+    # Check if clue was already solved in a previous run
+    # (before checking current run stages)
+    conn = sqlite3.connect(cryptic_db)
+    conn.row_factory = sqlite3.Row
+    solved_row = conn.execute(
+        """SELECT solve_stage, solve_quality, clue_type, definition,
+                  formula, breakdown, word_roles, letters_needed, unresolved_words
+           FROM solved_clues WHERE clue_id = ?""",
+        (clue_id,)
+    ).fetchone()
+    conn.close()
+
+    if solved_row:
+        # Check if this clue was processed in current run
+        # (current run takes precedence over historical solves)
+        conn2 = sqlite3.connect(pipeline_db)
+        in_current_run = conn2.execute(
+            "SELECT 1 FROM stage_input WHERE run_id = ? AND clue_id = ?",
+            (run_id, clue_id)
+        ).fetchone()
+        conn2.close()
+
+        # If NOT in current run, use the historical solve
+        if not in_current_run:
+            return ClueResult(
+                clue_id=clue_id,
+                clue_number=info["clue_number"],
+                direction=info["direction"],
+                clue_text=info["clue_text"],
+                answer=answer,
+                enumeration=info.get("enumeration", ""),
+                solved=True,  # Mark as solved
+                solve_stage=solved_row["solve_stage"],
+                solve_quality=solved_row["solve_quality"],  # Use original quality
+                clue_type=solved_row["clue_type"],
+                definition=solved_row["definition"],
+                formula=solved_row["formula"],
+                breakdown=json.loads(solved_row["breakdown"]) if solved_row["breakdown"] else [],
+                word_roles=json.loads(solved_row["word_roles"]) if solved_row["word_roles"] else [],
+                letters_needed=solved_row["letters_needed"],
+                unresolved_words=json.loads(solved_row["unresolved_words"]) if solved_row["unresolved_words"] else []
+            )
 
     # Try each stage in priority order
     # 1. Double definition
@@ -986,6 +1065,15 @@ def main():
         run_secondary_analysis(run_id=0)
 
         print("\n" + "-" * 60)
+        print("STEP 3.5: Caching API synonym meshes...")
+        print("-" * 60)
+        import subprocess
+        subprocess.run([
+            "C:/Users/shute/PycharmProjects/cryptic_solver_V2/.venv/Scripts/python.exe",
+            "cache_api_synonyms.py"
+        ], cwd="C:/Users/shute/PycharmProjects/cryptic_solver_V2")
+
+        print("\n" + "-" * 60)
         print("STEP 4: Writing unified puzzle report...")
         print("-" * 60)
 
@@ -994,10 +1082,12 @@ def main():
     print(f"Using run_id: {run_id}")
 
     puzzle_info = get_puzzle_info(PIPELINE_DB, run_id)
-    print(
-        f"Puzzle: {puzzle_info.get('source', '?')} #{puzzle_info.get('puzzle_number', '?')}")
+    source = puzzle_info.get('source', '?')
+    puzzle_number = puzzle_info.get('puzzle_number', '?')
+    print(f"Puzzle: {source} #{puzzle_number}")
 
-    clue_ids = get_all_clue_ids(PIPELINE_DB, run_id)
+    # Get ALL clues for the puzzle (not just those processed in this run)
+    clue_ids = get_all_puzzle_clue_ids(CLUES_DB, source, puzzle_number)
     print(f"Total clues: {len(clue_ids)}")
 
     results = []
@@ -1010,7 +1100,10 @@ def main():
     with open(args.output, "w", encoding="utf-8") as f:
         f.write(report)
     print(f"\nReport saved to {args.output}")
-    print("\n" + report)
+    try:
+        print("\n" + report)
+    except UnicodeEncodeError:
+        print("(Report contains Unicode characters - view in file)")
 
     solved_total = sum(1 for r in results if r.solved)
     pct = (100 * solved_total // len(results)) if results else 0

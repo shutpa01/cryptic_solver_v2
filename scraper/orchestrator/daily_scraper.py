@@ -1,4 +1,4 @@
-H#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Daily Crossword Scraper Orchestrator
 
 Calls each scraper script, then syncs new clues to the master clues table.
@@ -35,7 +35,7 @@ PUBLICATION_TABLES = [
 ]
 
 
-def run_scraper(script_path: Path, args: list = None):
+def run_scraper(script_path: Path, args: list = None, timeout: int = 240):
     """Run a scraper and print its output."""
     print(f"\n{'=' * 60}")
     print(f"RUNNING: {script_path.name} {' '.join(args or [])}")
@@ -45,24 +45,40 @@ def run_scraper(script_path: Path, args: list = None):
     if args:
         cmd.extend(args)
 
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        cwd=script_path.parent,
+    )
+
     try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            cwd=script_path.parent,
-            timeout=120
-        )
+        stdout, stderr = process.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
-        print(f"TIMEOUT: {script_path.name} exceeded 120s — skipping")
+        process.kill()
+        # Close pipes immediately — do NOT call communicate() after kill,
+        # as Chrome child processes keep pipes open and it would hang forever.
+        try:
+            process.stdout.close()
+        except Exception:
+            pass
+        try:
+            process.stderr.close()
+        except Exception:
+            pass
+        print(f"TIMEOUT: {script_path.name} exceeded {timeout}s — skipping")
+        return False
+    except Exception as e:
+        print(f"ERROR running {script_path.name}: {e}")
         return False
 
-    if result.stdout:
-        print(result.stdout)
-    if result.stderr:
-        print("STDERR:", result.stderr)
+    if stdout:
+        print(stdout)
+    if stderr:
+        print("STDERR:", stderr)
 
-    return result.returncode == 0
+    return process.returncode == 0
 
 
 def sync_to_master_clues():

@@ -223,6 +223,48 @@ class DatabaseLookup:
                     notes='from synonyms_pairs'
                 ))
 
+        # Also try plural/singular variations for synonyms
+        # Rule: plural query returns plural, singular query returns singular
+        if word_clean.endswith('s') and len(word_clean) >= 4:
+            # Word is plural - try singular form in DB and pluralize results
+            singular = word_clean[:-1]
+            cursor.execute("""
+                SELECT synonym FROM synonyms_pairs
+                WHERE LOWER(word) = ? AND LENGTH(synonym) <= ?
+            """, (singular, max_synonym_length))
+
+            for r in cursor.fetchall():
+                synonym = r[0]
+                # Pluralize the result
+                pluralized = synonym.upper() + 'S'
+                if not any(m.letters == pluralized for m in matches):
+                    matches.append(SubstitutionMatch(
+                        word=word_clean,
+                        letters=pluralized,
+                        category='synonym',
+                        notes=f'plural from {singular} → {synonym}'
+                    ))
+        else:
+            # Word is singular - try plural form in DB and singularize results
+            plural = word_clean + 's'
+            cursor.execute("""
+                SELECT synonym FROM synonyms_pairs
+                WHERE LOWER(word) = ? AND LENGTH(synonym) <= ?
+            """, (plural, max_synonym_length + 1))
+
+            for r in cursor.fetchall():
+                synonym = r[0]
+                # Singularize the result if it ends in 's'
+                if synonym.endswith('s') and len(synonym) >= 2:
+                    singular_result = synonym[:-1].upper()
+                    if not any(m.letters == singular_result for m in matches):
+                        matches.append(SubstitutionMatch(
+                            word=word_clean,
+                            letters=singular_result,
+                            category='synonym',
+                            notes=f'singular from {plural} → {synonym}'
+                        ))
+
         self._substitution_cache[word_clean] = matches
         return matches
 

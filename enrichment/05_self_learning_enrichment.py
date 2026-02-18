@@ -1,0 +1,407 @@
+"""
+05_self_learning_enrichment.py — Self-learning enrichment from pipeline failures.
+
+For each failure where the answer is known, infers missing DB entries and
+upserts them into cryptic_new.db, then re-runs the pipeline to measure improvement.
+
+What it does:
+  A. Definition pairs — extracted from definition-tagged word_roles + heuristic windows
+  B. Single-word inference — 1 unresolved word, letters_still_needed is exact match
+  C. Two-word anchor inference — try all splits of the full answer; if one word->split
+     is already in DB (anchor), insert the other word->split
+  D. Re-runs report.py and reports solve count improvement
+
+Performance: loads all DB lookup tables into memory at startup to avoid full-table scans.
+
+Usage:
+  python -m enrichment.05_self_learning_enrichment
+  python -m enrichment.05_self_learning_enrichment --dry-run
+  python -m enrichment.05_self_learning_enrichment --source guardian --puzzle-number 29927
+"""
+
+import argparse
+import json
+import re
+import subprocess
+import sqlite3
+import sys
+from pathlib import Path
+from typing import List, Optional, Set, Tuple
+
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from enrichment.common import (
+    get_cryptic_conn, get_pipeline_conn,
+    insert_wordplay, insert_synonym_pair, insert_definition_answer,
+    InsertCounter, add_common_args, apply_common_args, DRY_RUN, norm_letters
+)
+
+SOURCE_TAG = 'self_learning'
+
+STOP_WORDS = {
+    'a', 'an', 'the', 'of', 'in', 'on', 'at', 'to', 'for', 'and', 'or',
+    'is', 'it', 'by', 'be', 'as', 'if', 'so', 'no', 'do', 'up', 'he',
+    'she', 'we', 'me', 'my', 'his', 'her', 'its', 'not', 'but', 'all',
+    'are', 'was', 'has', 'had', 'who', 'how', 'this', 'that', 'with',
+    'from', 'have', 'where', 'when', 'what', 'which',
+}
+
+
+# ============================================================
+# IN-MEMORY CACHE
+# ============================================================
+
+class DBCache:
+    """Loads key lookup tables into memory for fast repeated queries."""
+
+    def __init__(self, conn: sqlite3.Connection):
+        print("  Loading DB cache...")
+
+        # synonyms_pairs: set of (word_lower, synonym_lower)
+        self.synonym_pairs: Set[Tuple[str, str]] = set()
+        for w, s in conn.execute("SELECT word, synonym FROM synonyms_pairs WHERE word != ''"):
+            if w and s:
+                self.synonym_pairs.add((w.lower(), s.lower()))
+        print(f"    synonyms_pairs: {len(self.synonym_pairs):,}")
+
+        # wordplay: set of (indicator_lower, substitution_lower)
+        self.wordplay_pairs: Set[Tuple[str, str]] = set()
+        for ind, sub in conn.execute("SELECT indicator, substitution FROM wordplay"):
+            if ind and sub:
+                self.wordplay_pairs.add((ind.lower(), sub.lower()))
+        print(f"    wordplay: {len(self.wordplay_pairs):,}")
+
+        # definition_answers_augmented: set of (definition_lower, answer_lower)
+        self.def_answer_pairs: Set[Tuple[str, str]] = set()
+        for d, a in conn.execute("SELECT definition, answer FROM definition_answers_augmented"):
+            if d and a:
+                self.def_answer_pairs.add((d.lower(), a.lower()))
+        for d, a in conn.execute("SELECT definition, answer FROM definition_answers"):
+            if d and a:
+                self.def_answer_pairs.add((d.lower(), a.lower()))
+        print(f"    definition_answers: {len(self.def_answer_pairs):,}")
+
+        # indicators: set of word_lower
+        self.indicators: Set[str] = set()
+        for (w,) in conn.execute("SELECT word FROM indicators"):
+            if w:
+                self.indicators.add(w.lower())
+        print(f"    indicators: {len(self.indicators):,}")
+
+        print("  Cache loaded.\n")
+
+    def is_indicator(self, word: str) -> bool:
+        return word.lower() in self.indicators
+
+    def word_maps_to(self, word: str, letters: str) -> bool:
+        """Check if word->letters already in DB (forward direction only)."""
+        wl = word.lower()
+        ll = letters.lower()
+        lu = letters.upper()
+        return (
+            (wl, ll) in self.wordplay_pairs or
+            (wl, lu.lower()) in self.wordplay_pairs or
+            (wl, ll) in self.synonym_pairs
+        )
+
+    def def_known(self, definition: str, answer: str) -> bool:
+        return (definition.lower(), answer.lower()) in self.def_answer_pairs
+
+    def add_synonym(self, word: str, letters: str):
+        self.synonym_pairs.add((word.lower(), letters.lower()))
+
+    def add_wordplay(self, indicator: str, substitution: str):
+        self.wordplay_pairs.add((indicator.lower(), substitution.lower()))
+
+    def add_def(self, definition: str, answer: str):
+        self.def_answer_pairs.add((definition.lower(), answer.lower()))
+
+
+# ============================================================
+# DATA LOADING
+# ============================================================
+
+def load_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
+    """Load unique stage_secondary failures (skip HTML entity duplicates)."""
+    conn = sqlite3.connect(pipeline_db)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        """SELECT clue_text, answer, letters_still_needed, unresolved_words,
+                  word_roles, original_formula
+           FROM stage_secondary
+           WHERE run_id = ? AND fully_resolved = 0""",
+        (run_id,)
+    ).fetchall()
+    conn.close()
+
+    seen = set()
+    failures = []
+    for row in rows:
+        clue_text = row['clue_text'] or ''
+        answer = (row['answer'] or '').upper().replace(' ', '')
+
+        # Skip HTML entity duplicates (keep plain-text version)
+        if '&#' in clue_text:
+            continue
+        if answer in seen:
+            continue
+        seen.add(answer)
+
+        failures.append({
+            'clue_text': clue_text,
+            'answer': answer,
+            'letters_still_needed': (row['letters_still_needed'] or '').upper(),
+            'unresolved_words': json.loads(row['unresolved_words'] or '[]'),
+            'word_roles': json.loads(row['word_roles'] or '[]'),
+            'original_formula': row['original_formula'] or '',
+        })
+    return failures
+
+
+# ============================================================
+# ENRICHMENT STEPS
+# ============================================================
+
+def step_a_definition_pairs(failure: dict, conn: sqlite3.Connection,
+                             cache: DBCache, counter: InsertCounter):
+    """Insert definition-answer pairs from word_roles + heuristic windows."""
+    answer = failure['answer']
+    clue_text = failure['clue_text']
+    word_roles = failure['word_roles']
+
+    def maybe_insert(window: str, answer: str):
+        window = window.lower().strip()
+        if not window or window in STOP_WORDS:
+            return
+        if cache.def_known(window, answer):
+            return
+        inserted = insert_definition_answer(conn, window, answer, SOURCE_TAG)
+        if inserted:
+            cache.add_def(window, answer)
+        counter.record('definition_answers_augmented', inserted, f"'{window}' -> {answer}")
+
+    # Method 1: definition-tagged word roles
+    for wr in word_roles:
+        if not isinstance(wr, dict):
+            continue
+        if (wr.get('role') or '').lower() == 'definition':
+            word = (wr.get('word') or '').strip()
+            if word:
+                maybe_insert(word, answer)
+
+    # Method 2: heuristic first/last N words of clue
+    words = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text).split()
+    for n in (1, 2, 3):
+        if n > len(words):
+            continue
+        maybe_insert(' '.join(words[:n]), answer)
+        maybe_insert(' '.join(words[-n:]), answer)
+
+
+def _is_clean_word(word: str) -> bool:
+    """Return True if word is a usable plain English word."""
+    if not word:
+        return False
+    if '&#' in word:
+        return False
+    if not re.match(r'^[A-Za-z][A-Za-z\s\-]*$', word):
+        return False
+    if word.lower() in STOP_WORDS:
+        return False
+    return True
+
+
+def step_b_single_word_inference(failure: dict, conn: sqlite3.Connection,
+                                 cache: DBCache, counter: InsertCounter):
+    """If exactly 1 unresolved word and letters_still_needed is its exact mapping."""
+    unresolved = failure['unresolved_words']
+    letters_needed = failure['letters_still_needed']
+    answer = failure['answer']
+
+    if len(unresolved) != 1 or not letters_needed:
+        return
+
+    word = unresolved[0]
+    if not _is_clean_word(word):
+        return
+    if cache.is_indicator(word):
+        return  # It's an indicator, not a substitution target
+    if cache.word_maps_to(word, letters_needed):
+        return  # Already known
+
+    n = len(letters_needed)
+    if 1 <= n <= 4:
+        inserted = insert_wordplay(conn, word.lower(), letters_needed.upper(),
+                                   'abbreviation', confidence='low',
+                                   notes=f'inferred from {answer}',
+                                   source_tag=SOURCE_TAG)
+        if inserted:
+            cache.add_wordplay(word, letters_needed)
+        counter.record('wordplay', inserted, f"{word} -> {letters_needed} (for {answer})")
+    elif 5 <= n <= 12:
+        inserted = insert_synonym_pair(conn, word.lower(), letters_needed.lower(),
+                                       f'{SOURCE_TAG}:{answer}')
+        if inserted:
+            cache.add_synonym(word, letters_needed)
+        counter.record('synonyms_pairs', inserted, f"{word} -> {letters_needed} (for {answer})")
+
+
+def step_c_two_word_anchor_inference(failure: dict, conn: sqlite3.Connection,
+                                      cache: DBCache, counter: InsertCounter):
+    """
+    For exactly 2 unresolved words: try splits of the full answer AND letters_still_needed.
+    If one (word, fragment) pair is already in DB (anchor), insert the other.
+    """
+    unresolved = failure['unresolved_words']
+    answer = failure['answer']
+    letters_needed = failure['letters_still_needed']
+
+    if len(unresolved) != 2:
+        return
+
+    word1, word2 = unresolved
+    if not _is_clean_word(word1) or not _is_clean_word(word2):
+        return
+
+    def try_insert(word: str, letters: str):
+        """Insert word->letters if it's a valid new mapping."""
+        if not _is_clean_word(word) or not letters:
+            return
+        if not re.match(r'^[A-Za-z]+$', letters):
+            return
+        n = len(letters)
+        if n < 1 or n > 15:
+            return
+        # Sanity: inferred letters shouldn't be massively longer than the word
+        # (synonyms are roughly same length; abbreviations are shorter)
+        if n > len(word) * 2 + 2:
+            return
+        if cache.is_indicator(word):
+            return
+        if cache.word_maps_to(word, letters):
+            return
+
+        if 1 <= n <= 4:
+            inserted = insert_wordplay(conn, word.lower(), letters.upper(),
+                                       'abbreviation', confidence='low',
+                                       notes=f'anchor-inferred from {answer}',
+                                       source_tag=SOURCE_TAG)
+            if inserted:
+                cache.add_wordplay(word, letters)
+            counter.record('wordplay', inserted, f"{word} -> {letters} (anchor:{answer})")
+        elif 5 <= n <= 15:
+            inserted = insert_synonym_pair(conn, word.lower(), letters.lower(),
+                                           f'{SOURCE_TAG}:{answer}')
+            if inserted:
+                cache.add_synonym(word, letters)
+            counter.record('synonyms_pairs', inserted, f"{word} -> {letters} (anchor:{answer})")
+
+    # --- Approach B: try splits of letters_still_needed ---
+    # Note: Approach A (full-answer splits) was removed because it generates false
+    # positives when existing word_roles have incorrect substitutions (wrong anchors).
+    # This handles cases where existing word_roles are correct.
+    if letters_needed and len(letters_needed) >= 2:
+        for split in range(1, len(letters_needed)):
+            frag1 = letters_needed[:split]
+            frag2 = letters_needed[split:]
+
+            if cache.word_maps_to(word1, frag1):
+                try_insert(word2, frag2)
+            if cache.word_maps_to(word2, frag2):
+                try_insert(word1, frag1)
+            if cache.word_maps_to(word1, frag2):
+                try_insert(word2, frag1)
+            if cache.word_maps_to(word2, frag1):
+                try_insert(word1, frag2)
+
+
+# ============================================================
+# PIPELINE RE-RUN
+# ============================================================
+
+def rerun_pipeline(source: str, puzzle_number: str) -> Optional[str]:
+    """Re-run report.py, return the 'Final: X/Y solved' line."""
+    cmd = [sys.executable, str(PROJECT_ROOT / 'report.py'),
+           '--source', source, '--puzzle-number', str(puzzle_number)]
+    print(f"\nRe-running pipeline: report.py --source {source} --puzzle-number {puzzle_number}")
+    result = subprocess.run(cmd, capture_output=True, text=True,
+                            cwd=str(PROJECT_ROOT), timeout=300)
+    for line in (result.stdout + result.stderr).splitlines():
+        if 'Final:' in line and 'solved' in line:
+            return line.strip()
+    return None
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+    parser = argparse.ArgumentParser(description='Self-learning enrichment from pipeline failures')
+    parser.add_argument('--source', default='telegraph')
+    parser.add_argument('--puzzle-number', default='31164')
+    parser.add_argument('--run-id', type=int, default=0)
+    parser.add_argument('--no-rerun', action='store_true',
+                        help='Skip re-running the pipeline after enrichment')
+    add_common_args(parser)
+    args = parser.parse_args()
+    apply_common_args(args)
+
+    pipeline_db = str(PROJECT_ROOT / 'pipeline_stages.db')
+    failures = load_failures(pipeline_db, args.run_id)
+
+    print(f"\n{'=' * 60}")
+    print(f"SELF-LEARNING ENRICHMENT")
+    print(f"{'=' * 60}")
+    print(f"Source: {args.source} #{args.puzzle_number}  run_id={args.run_id}")
+    print(f"Unique failures to process: {len(failures)}")
+
+    if not failures:
+        print("No failures found. Run the pipeline first (report.py).")
+        return
+
+    # Baseline from report
+    report_file = PROJECT_ROOT / 'documents' / 'puzzle_report.txt'
+    before_summary = None
+    if report_file.exists():
+        for line in report_file.read_text(encoding='utf-8', errors='replace').splitlines():
+            if 'SOLVED:' in line:
+                before_summary = line.strip()
+                break
+    print(f"Baseline: {before_summary or '(unknown)'}\n")
+
+    conn = get_cryptic_conn()
+    cache = DBCache(conn)
+    counter = InsertCounter("05_self_learning_enrichment")
+
+    for failure in failures:
+        answer = failure['answer']
+        unresolved = failure['unresolved_words']
+        needed = failure['letters_still_needed']
+        print(f"  {answer}: unresolved={unresolved}, needed={needed!r}")
+
+        step_a_definition_pairs(failure, conn, cache, counter)
+        step_b_single_word_inference(failure, conn, cache, counter)
+        step_c_two_word_anchor_inference(failure, conn, cache, counter)
+
+    conn.commit()
+    conn.close()
+
+    counter.report()
+
+    # Re-run pipeline to measure improvement (not in dry-run mode)
+    import enrichment.common as _common
+    if not args.no_rerun and not _common.DRY_RUN:
+        try:
+            after_line = rerun_pipeline(args.source, args.puzzle_number)
+            print(f"Before: {before_summary or '(unknown)'}")
+            print(f"After:  {after_line or '(unknown)'}")
+        except subprocess.TimeoutExpired:
+            print("Pipeline re-run timed out.")
+        except Exception as e:
+            print(f"Pipeline re-run failed: {e}")
+
+
+if __name__ == '__main__':
+    main()

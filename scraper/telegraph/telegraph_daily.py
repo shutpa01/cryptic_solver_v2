@@ -315,12 +315,17 @@ def main():
     except Exception as e:
         print(f"Error during harvest: {e}")
         screenshot = SCRIPT_DIR / "telegraph_error.png"
-        driver.save_screenshot(str(screenshot))
-        print(f"Screenshot saved: {screenshot}")
-        driver.quit()
+        try:
+            driver.save_screenshot(str(screenshot))
+            print(f"Screenshot saved: {screenshot}")
+        except Exception:
+            pass
         return
     finally:
-        driver.quit()
+        try:
+            driver.quit()
+        except Exception:
+            pass
         print("Browser closed.")
 
     if not puzzles:
