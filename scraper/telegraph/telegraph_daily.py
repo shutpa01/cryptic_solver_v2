@@ -7,6 +7,7 @@ fetches each puzzle JSON, and saves clues to the database.
 Requires .env with TELEGRAPH_EMAIL and TELEGRAPH_PASSWORD.
 """
 
+import html
 import re
 import os
 import json
@@ -249,7 +250,7 @@ def fetch_and_save(puzzle):
         for clue in group.get('clues', []):
             clue_obj = {
                 'number': clue.get('number', ''),
-                'clue': clue.get('clue', ''),
+                'clue': html.unescape(clue.get('clue', '')),
                 'answer': clue.get('answer', ''),
                 'enumeration': clue.get('format', '')
             }

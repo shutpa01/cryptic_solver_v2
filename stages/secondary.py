@@ -37,11 +37,36 @@ PIPELINE_DB_PATH = Path(
 CRYPTIC_DB_PATH = Path(
     r'C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db')
 
-# Words that commonly appear in clues as grammar/linkers but don't contribute letters
+# Words that commonly appear in clues as grammar/linkers but don't contribute letters.
+# Aligned with compound.py's link_words set.
 LINKERS = {
-    'of', 'in', 'the', 'a', 'an', 'is', 'for', 'with', 'by', 'on',
-    'to', 'and', 'at', 'as', 'it', 'its', 'not', 'be', 'or', 'from',
-    'has', 'up', 'into', 'one', 'that', 'this', 'some'
+    # Articles, prepositions, conjunctions
+    'of', 'in', 'the', 'a', 'an', 'to', 'for', 'with', 'and', 'or',
+    'by', 'from', 'as', 'on', 'at', 'but', 'so', 'yet', 'if', 'not',
+    'nor', 'up', 'it', 'its', 'into', 'onto', 'within', 'without',
+    # Relative/question connectors
+    'that', 'which', 'when', 'where', 'while', 'how', 'why', 'who',
+    # Pronouns/determiners
+    'this', 'these', 'those', 'such', 'one', 'ones', 'some', 'any',
+    'all', 'here', 'there',
+    # be-forms
+    'is', 'are', 'be', 'been', 'being', 'was', 'were',
+    # have-forms
+    'has', 'have', 'had', 'having',
+    # Modals
+    'will', 'would', 'could', 'should', 'must', 'may', 'might',
+    # get-forms (e.g. "Power lift gets acclaim")
+    'get', 'gets', 'got', 'getting',
+    # give-forms
+    'give', 'gives', 'gave', 'given', 'giving',
+    # make-forms
+    'make', 'makes', 'made', 'making',
+    # need-forms
+    'need', 'needs',
+    # Other common surface connectors
+    'thus', 'hence', 'therefore', 'maybe',
+    # Normalized contractions (apostrophe stripped by norm_letters)
+    'dont', 'doesnt', 'didnt', 'wont', 'wouldnt', 'cant', 'isnt', 'arent',
 }
 
 
@@ -141,7 +166,10 @@ def load_general_failures(run_id: int = 0) -> List[Dict[str, Any]]:
         FROM stage_general
         WHERE run_id = ?
           AND (fully_resolved = 0
-               OR (unresolved_words IS NOT NULL AND unresolved_words != '[]'))
+               OR (unresolved_words IS NOT NULL AND unresolved_words != '[]')
+               OR (fully_resolved = 1
+                   AND (unresolved_words IS NULL OR unresolved_words = '[]')
+                   AND word_roles NOT LIKE '%"definition"%'))
         ORDER BY clue_id
     """, (run_id,))
 
@@ -178,6 +206,42 @@ def strip_linkers(unresolved_words: List[str]) -> tuple:
         else:
             cleaned.append(w)
     return cleaned, removed
+
+
+def _check_fully_solved(working_unresolved: List[str], handler_result: Dict) -> tuple:
+    """
+    After a handler covers all remaining letters, check whether the words it
+    consumed account for every formula-contributing wire.
+
+    Each letter in the formula is wired to exactly one clue word. Only link words
+    have no wires. A solve is genuine only when every remaining (un-wired) word
+    is a recognised linker.
+
+    Returns (fully_resolved, still_unresolved, found_linkers).
+    - fully_resolved = True only when every remaining word is a recognised linker.
+    - still_unresolved = non-linker words that have no formula wire (PARTIAL).
+    - found_linkers = linker words (valid un-wired words, labelled 'link word').
+    """
+    consumed: set = set()
+
+    # synonym_override returns {'overrides': [{'word': ..., 'letters': ...}, ...]}
+    overrides = handler_result.get('overrides', [])
+    if overrides:
+        for o in overrides:
+            w = o.get('word', '') or ''
+            if w:
+                consumed.update(norm_letters(t).lower() for t in w.split())
+    else:
+        # Most handlers return a single top-level 'word' key.
+        # 'word' may be a phrase — consume every token in it.
+        hw = handler_result.get('word', '') or ''
+        if hw:
+            consumed = {norm_letters(t).lower() for t in hw.split()}
+
+    after_handler = [w for w in working_unresolved
+                     if norm_letters(w).lower() not in consumed]
+    still_unresolved, found_linkers = strip_linkers(after_handler)
+    return not still_unresolved, still_unresolved, found_linkers
 
 
 # ======================================================================
@@ -1800,7 +1864,8 @@ def attempt_api_synonym(db: DatabaseLookup, answer: str, letters_needed: str,
     needed_upper = letters_needed.upper()
 
     for word in unresolved:
-        word_clean = word.strip().lower()
+        import html as _html
+        word_clean = _html.unescape(word.strip()).lower()
         if len(word_clean) < 3:
             continue
 
@@ -1836,6 +1901,8 @@ def attempt_api_double_definition(answer: str, clue_text: str) -> Optional[Dict]
     except ImportError:
         return None
 
+    import html as _html
+    clue_text = _html.unescape(clue_text)
     words = clue_text.split()
     if len(words) < 2 or len(words) > 4:
         return None
@@ -2168,6 +2235,118 @@ def attempt_indicator_attribution(db: DatabaseLookup, answer: str,
 
 
 # ======================================================================
+# HELPER: ORPHANED INDICATOR DETECTION
+# ======================================================================
+
+# Map each indicator role to the mechanism role(s) it requires in word_roles
+_INDICATOR_REQUIRES = {
+    'homophone_indicator': {'homophone', 'homophone_source'},
+    'anagram_indicator':   {'anagram_fodder'},
+    'reversal_indicator':  {'reversal', 'reversal_source'},
+    'deletion_indicator':  {'deletion', 'deletion_source'},
+    'container_indicator': {'container', 'container_outer', 'container_inner',
+                            'insertion_source'},
+    'insertion_indicator': {'container', 'insertion_source'},
+}
+
+
+def find_orphaned_indicators(word_roles: List[Dict]) -> List[str]:
+    """
+    Return the word-text of any indicator-tagged words that have no
+    corresponding mechanism fodder in word_roles.
+
+    Example: 'shout' tagged as homophone_indicator but no word_role has
+    role 'homophone' or 'homophone_source' → 'shout' is orphaned.
+    """
+    all_roles = {
+        wr.get('role', '')
+        for wr in word_roles
+        if isinstance(wr, dict)
+    }
+
+    orphaned = []
+    for wr in word_roles:
+        if not isinstance(wr, dict):
+            continue
+        role = wr.get('role', '')
+        required = _INDICATOR_REQUIRES.get(role)
+        if required is not None and not required.intersection(all_roles):
+            orphaned.append(wr.get('word', ''))
+
+    return orphaned
+
+
+# ======================================================================
+# HELPER: FIND MISSING DEFINITION
+# ======================================================================
+
+def _normalize_for_def(word: str) -> str:
+    """Lowercase, strip punctuation and possessive 's."""
+    w = word.lower().strip(".,;:!?\"'")
+    if w.endswith("'s"):
+        w = w[:-2]
+    elif w.endswith("s'"):
+        w = w[:-1]
+    return w.strip()
+
+
+def attempt_find_missing_definition(answer: str, clue_text: str,
+                                    word_roles: List[Dict]) -> Optional[Dict]:
+    """
+    When all letters are found but no word is tagged as definition,
+    scan 1-3 word windows at the start and end of the clue and check
+    each normalised window against definition_answers_augmented.
+    Handles possessives (e.g., "Storyteller's" -> "storyteller").
+
+    Returns dict with 'definition_word', 'definition_position', 'method'
+    on success, else None.
+    """
+    # Only runs when there is no definition already
+    if any(isinstance(wr, dict) and wr.get('role') == 'definition'
+           for wr in word_roles):
+        return None
+
+    answer_upper = answer.upper().replace(' ', '')
+    clue_words = clue_text.split()
+    if not clue_words:
+        return None
+
+    conn = get_cryptic_connection()
+    rows = conn.execute(
+        "SELECT DISTINCT LOWER(definition) FROM definition_answers_augmented "
+        "WHERE UPPER(REPLACE(answer, ' ', '')) = ?",
+        (answer_upper,)
+    ).fetchall()
+    conn.close()
+
+    known_defs = {r[0] for r in rows}
+    if not known_defs:
+        return None
+
+    for size in [1, 2, 3]:
+        for position, words in [('start', clue_words[:size]),
+                                 ('end', clue_words[-size:])]:
+            if len(words) < size:
+                continue
+            window_raw = ' '.join(words)
+            # Try the window normalized (strips possessives etc.)
+            window_norm = ' '.join(_normalize_for_def(w) for w in words)
+            for candidate in [window_raw.lower(), window_norm]:
+                if candidate in known_defs:
+                    return {
+                        'definition_word': window_raw,
+                        'definition_position': position,
+                        'letters': '',
+                        'method': (
+                            f"{window_raw} = definition for {answer}"
+                            + (" (possessive-stripped)" if candidate == window_norm
+                               and candidate != window_raw.lower() else "")
+                        ),
+                    }
+    return None
+
+
+# ======================================================================
 # ORCHESTRATOR
 # ======================================================================
 
@@ -2202,6 +2381,42 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
     # Word coverage: fraction of clue words with assigned roles
     word_coverage = compute_word_coverage(clue_text, unresolved)
 
+    # Step 0: Missing definition attribution — when all letters are found but
+    # no word is tagged as definition, try to find one at the clue's start/end,
+    # handling possessives (e.g., "Storyteller's" -> "storyteller").
+    if not letters_needed and not unresolved:
+        def_result = attempt_find_missing_definition(answer, clue_text, word_roles)
+        if def_result:
+            def_word = def_result['definition_word']
+            def_words_norm = {_normalize_for_def(w) for w in def_word.split()}
+            updated_roles = []
+            tagged = False
+            for wr in word_roles:
+                wr_word_norm = _normalize_for_def(wr.get('word', ''))
+                if not tagged and wr_word_norm in def_words_norm:
+                    updated = dict(wr)
+                    updated['role'] = 'definition'
+                    updated_roles.append(updated)
+                    tagged = True
+                else:
+                    updated_roles.append(wr)
+            if not tagged:
+                # Word not in word_roles at all — add it
+                updated_roles.append({'word': def_word, 'role': 'definition',
+                                      'contributes': ''})
+            record['word_roles'] = updated_roles
+            word_roles = updated_roles
+            return _build_result(record, answer, formula, '', 'definition_attribution',
+                                 True, [], [], def_result)
+
+    # Step -1: Orphaned indicator detection — any indicator whose mechanism
+    # has no corresponding fodder in word_roles is moved to unresolved.
+    # E.g. 'shout' tagged homophone_indicator but no homophone source exists.
+    orphaned = find_orphaned_indicators(word_roles)
+    for ow in orphaned:
+        if ow and ow not in unresolved:
+            unresolved.append(ow)
+
     # Step 0: Cryptic definition detection
     # If no letters needed, no unresolved words, and all roles are 'definition',
     # then the entire clue is the definition — it's a cryptic definition.
@@ -2224,16 +2439,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         if idx >= 0:
             found_letters = found_letters[:idx] + found_letters[idx + 1:]
 
-    # Step 1: Strip linkers from unresolved
-    cleaned_unresolved, removed_linkers = strip_linkers(unresolved)
-
-    # If linker stripping resolved everything
-    if not cleaned_unresolved and not letters_needed:
-        return _build_result(record, answer, formula, '', 'linker_strip',
-                             True, [], removed_linkers)
-
-    # Recalculate after linker stripping
-    working_unresolved = cleaned_unresolved
+    # Handlers work on the FULL unresolved list.
+    # Linker stripping happens LAST — only after all formula contributors are wired.
+    # (See _check_fully_solved and the final linker check at the bottom.)
+    working_unresolved = list(unresolved)
     working_needed = letters_needed
 
     # Step 1.2: Definition swap — if the definition word has a substitution
@@ -2244,8 +2453,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'definition_swap',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
         else:
             # Partial progress — update working_needed and found_letters
             working_needed = remaining
@@ -2264,8 +2475,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'synonym_override',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
         else:
             # Partial progress — update working_needed for later handlers
             working_needed = remaining
@@ -2283,8 +2496,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
                                         working_unresolved, word_roles)
     if result:
         improved = _improve_formula(formula, result)
+        solved, still_unresolved, found_linkers = _check_fully_solved(
+            working_unresolved, result)
         return _build_result(record, answer, improved, '', 'synonym_substring',
-                             True, [], removed_linkers, result)
+                             solved, still_unresolved, found_linkers, result)
 
     # Step 2: Try acrostic
     definition_window = record.get('definition_window', '') or ''
@@ -2294,16 +2509,20 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'acrostic',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 3: Try reversal
     result = attempt_reversal(db, answer, working_needed, working_unresolved,
                               operation_indicators)
     if result and not working_needed.replace(result['letters'], '', 1):
         improved = _improve_formula(formula, result)
+        solved, still_unresolved, found_linkers = _check_fully_solved(
+            working_unresolved, result)
         return _build_result(record, answer, improved, '', 'reversal',
-                             True, [], removed_linkers, result)
+                             solved, still_unresolved, found_linkers, result)
 
     # Step 4: Try partial resolution (parts/extraction)
     result = attempt_partial_resolve(db, answer, working_needed, clue_text,
@@ -2313,8 +2532,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'partial_resolve',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 5: Try deletion
     result = attempt_deletion(db, answer, working_needed, working_unresolved,
@@ -2323,8 +2544,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'deletion',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 5.5: Try multi-word container with parts extraction
     # (e.g., "seeming discontented about dog at home" → S(CUR+IN)G)
@@ -2332,16 +2555,20 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
                                         operation_indicators, found_letters, word_roles)
     if result:
         improved = _improve_formula(formula, result)
+        solved, still_unresolved, found_linkers = _check_fully_solved(
+            working_unresolved, result)
         return _build_result(record, answer, improved, '', 'multiword_container',
-                             True, [], removed_linkers, result)
+                             solved, still_unresolved, found_linkers, result)
 
     # Step 6: Try container/insertion
     result = attempt_container(db, answer, working_needed, working_unresolved,
                                operation_indicators, found_letters)
     if result:
         improved = _improve_formula(formula, result)
+        solved, still_unresolved, found_linkers = _check_fully_solved(
+            working_unresolved, result)
         return _build_result(record, answer, improved, '', 'container',
-                             True, [], removed_linkers, result)
+                             solved, still_unresolved, found_linkers, result)
 
     # Step 7: Try homophone
     result = attempt_homophone(db, answer, working_needed, working_unresolved,
@@ -2350,8 +2577,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'homophone',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 7.5: Try substitution swap — replace an already-resolved substitution
     # with an alternative that exactly fills the remaining letter gap
@@ -2360,8 +2589,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'substitution_swap',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 8: Try near-miss (1-2 letter gaps)
     result = attempt_near_miss(db, answer, working_needed, working_unresolved)
@@ -2369,16 +2600,20 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'near_miss',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
     # Step 9: Try anagram with deletion (fresh parse, gated by word coverage)
     result = attempt_anagram_deletion(db, answer, clue_text,
                                        definition_window, word_coverage)
     if result:
         improved = _improve_formula(formula, result)
+        solved, still_unresolved, found_linkers = _check_fully_solved(
+            working_unresolved, result)
         return _build_result(record, answer, improved, '', 'anagram_deletion',
-                             True, [], removed_linkers, result)
+                             solved, still_unresolved, found_linkers, result)
 
     # Step 10: Try API-based double definition (for short clues)
     # Run if: short clue AND (no letters needed OR all letters needed = no partial progress)
@@ -2387,9 +2622,11 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
     if len(clue_text.split()) <= 4 and (not working_needed or working_needed == answer_norm):
         result = attempt_api_double_definition(answer, clue_text)
         if result:
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, result['method'], '',
                                 'api_double_definition',
-                                True, [], removed_linkers, result)
+                                solved, still_unresolved, found_linkers, result)
 
     # Step 10.5: Try API-based synonym lookup for remaining letters
     if working_needed and len(working_needed) >= 3:
@@ -2398,18 +2635,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
             remaining = _subtract_letters(working_needed, result['letters'])
             if not remaining:
                 improved = _improve_formula(formula, result)
+                solved, still_unresolved, found_linkers = _check_fully_solved(
+                    working_unresolved, result)
                 return _build_result(record, answer, improved, '', 'api_synonym',
-                                    True, [], removed_linkers, result)
-
-    # Step 11: Try wider cryptic definition
-    quality = record.get('quality', '') or ''
-    result = attempt_wider_cryptic_def(answer, clue_text, formula, quality,
-                                        working_needed, operation_indicators,
-                                        word_roles)
-    if result:
-        improved = result['method']
-        return _build_result(record, answer, improved, '', 'wider_cryptic_def',
-                             True, [], removed_linkers, result)
+                                    solved, still_unresolved, found_linkers, result)
 
     # Step 12: Try cross-reference
     result = attempt_cross_reference(answer, clue_text, working_needed,
@@ -2418,27 +2647,25 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
             return _build_result(record, answer, improved, '', 'cross_reference',
-                                 True, [], removed_linkers, result)
+                                 solved, still_unresolved, found_linkers, result)
 
-    # Step 13: Indicator attribution — all letters found but indicator words
-    # remain unresolved; attribute them from the resolved word roles
-    if not working_needed and working_unresolved:
-        result = attempt_indicator_attribution(db, answer, word_roles,
-                                               working_unresolved)
-        if result:
-            fully_now = not result['remaining']
-            return _build_result(record, answer, formula, '', 'indicator_attribution',
-                                 fully_now, result['remaining'], removed_linkers, result)
+    # Final: if all remaining words are recognised linkers and no letters needed,
+    # that is a valid linker-strip solve (every letter is wired, only link words remain).
+    still_unresolved_final, found_linkers_final = strip_linkers(working_unresolved)
+    if not still_unresolved_final and not working_needed:
+        return _build_result(record, answer, formula, '', 'linker_strip',
+                             True, [], found_linkers_final)
 
-    # Generate DB suggestions for unsolved clues (always runs)
+    # Generate DB suggestions for truly unsolved clues (always runs)
     db_suggestions = generate_db_suggestions(answer, clue_text, working_needed,
-                                              working_unresolved, definition_window)
+                                              still_unresolved_final, definition_window)
 
-    # No helper resolved it — return with linker cleanup only
-    new_needed = working_needed
-    result_dict = _build_result(record, answer, formula, new_needed, 'none',
-                                False, working_unresolved, removed_linkers)
+    # No helper resolved it — return with any linkers labelled, non-linkers unresolved
+    result_dict = _build_result(record, answer, formula, working_needed, 'none',
+                                False, still_unresolved_final, found_linkers_final)
     result_dict['db_suggestions'] = db_suggestions
     return result_dict
 
@@ -2488,11 +2715,57 @@ def _build_result(record: Dict, answer: str, formula: str,
     else:
         breakdown = list(record.get('breakdown') or [])
 
-        if removed_linkers:
-            breakdown.append(f"Linkers stripped: {', '.join(removed_linkers)}")
-
         if helper_result:
-            breakdown.append(f"Secondary: {helper_result.get('method', '')}")
+            # Wire principle: find the "unresolved" entry for each contributing word
+            # and update it in-place instead of leaving a contradiction.
+            method = helper_result.get('method', '')
+            overrides = helper_result.get('overrides', [])
+            if overrides:
+                # synonym_override returns a list of overrides, each with 'word' and 'method'
+                for o in overrides:
+                    hw = o.get('word', '') or ''
+                    hw_norm = norm_letters(hw).lower() if hw else ''
+                    o_method = o.get('method', '') or method
+                    if hw_norm:
+                        for i, entry in enumerate(breakdown):
+                            if not isinstance(entry, str):
+                                continue
+                            m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
+                                         re.IGNORECASE)
+                            if m and norm_letters(m.group(1)).lower() == hw_norm:
+                                breakdown[i] = f'"{hw}" = {o_method} (secondary)'
+                                break
+            else:
+                hw = helper_result.get('word', '') or ''
+                hw_norm = norm_letters(hw).lower() if hw else ''
+                updated_in_bd = False
+                if hw_norm:
+                    for i, entry in enumerate(breakdown):
+                        if not isinstance(entry, str):
+                            continue
+                        m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
+                                     re.IGNORECASE)
+                        if m and norm_letters(m.group(1)).lower() == hw_norm:
+                            breakdown[i] = f'"{hw}" = {method} (secondary)'
+                            updated_in_bd = True
+                            break
+                if not updated_in_bd:
+                    breakdown.append(f"Secondary: {method}")
+
+        for lw in removed_linkers:
+            lw_norm = norm_letters(lw).lower()
+            updated = False
+            for i, entry in enumerate(breakdown):
+                if not isinstance(entry, str):
+                    continue
+                m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
+                             re.IGNORECASE)
+                if m and norm_letters(m.group(1)).lower() == lw_norm:
+                    breakdown[i] = f'"{lw}" = link word'
+                    updated = True
+                    break
+            if not updated:
+                breakdown.append(f'"{lw}" = link word')
 
         word_roles = list(record.get('word_roles') or [])
         if helper_result:

@@ -151,7 +151,7 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
 
         print("Clicking login...")
         login_btn = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button.auth0-lock-submit")))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
         login_btn.click()
 
         print("Waiting for login to complete...")

@@ -24,6 +24,9 @@ SCRAPERS = [
     (BASE_PATH / "guardian" / "guardian_all.py", []),
     (BASE_PATH / "times" / "times_all.py", []),
     (BASE_PATH / "independent" / "independent_all.py", []),
+    # Times for the Times: public blog with explanations + definitions
+    # Writes to cryptic_new.db (not clues_master.db) — no sync step needed
+    (BASE_PATH / "timesforthetimes" / "timesforthetimes_scraper.py", ["--daily"]),
 ]
 
 # Publication tables to sync from (table_name, source_name, date_column)

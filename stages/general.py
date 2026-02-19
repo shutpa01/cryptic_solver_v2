@@ -249,10 +249,24 @@ Optional[str]:
     return None
 
 
+def _normalise_def_word(w: str) -> str:
+    """Lowercase, strip punctuation and possessive 's for definition matching."""
+    w = w.lower().strip(".,;:!?\"'")
+    if w.endswith("'s"):
+        w = w[:-2]
+    elif w.endswith("s'"):
+        w = w[:-1]
+    return w.strip()
+
+
 def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
     """Find definition by looking up known definitions in definition_answers_augmented.
 
     CRITICAL: Only accepts definitions at the START or END of the clue, never mid-clue.
+
+    Strategy 1: known definitions for this answer → check if any appear in the clue.
+    Strategy 2 (fallback): try 1-5 word windows from clue start/end → look up in DB,
+                           normalising for possessives and punctuation.
     """
     if not answer:
         return None
@@ -262,6 +276,7 @@ def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
     conn = get_cryptic_connection()
     cursor = conn.cursor()
 
+    # ── Strategy 1 (unchanged) ────────────────────────────────────────────────
     cursor.execute("""
         SELECT DISTINCT definition
         FROM definition_answers_augmented
@@ -269,23 +284,45 @@ def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
     """, (answer_upper,))
 
     known_definitions = [row[0] for row in cursor.fetchall()]
-    conn.close()
-
-    if not known_definitions:
-        return None
-
-    clue_text_lower = clue_text.lower()
     known_definitions.sort(key=len, reverse=True)
 
+    clue_text_lower = clue_text.lower()
     for defn in known_definitions:
         defn_lower = defn.lower()
-        # Only accept if definition appears at start or end of clue
         if clue_text_lower.startswith(defn_lower + ' ') or \
            clue_text_lower.startswith(defn_lower) and len(defn_lower) == len(clue_text_lower) or \
            clue_text_lower.endswith(' ' + defn_lower) or \
            clue_text_lower.endswith(defn_lower) and len(defn_lower) == len(clue_text_lower):
+            conn.close()
             return defn
 
+    # ── Strategy 2: window scan ───────────────────────────────────────────────
+    # Try longest windows first; always leave at least 1 word for wordplay.
+    clue_words = clue_text.split()
+    max_size = min(5, len(clue_words) - 1)
+
+    for size in range(max_size, 0, -1):
+        for words in (clue_words[:size], clue_words[-size:]):
+            window = ' '.join(_normalise_def_word(w) for w in words)
+            cursor.execute("""
+                SELECT 1 FROM definition_answers_augmented
+                WHERE LOWER(definition) = ?
+                AND UPPER(REPLACE(answer, ' ', '')) = ?
+            """, (window, answer_upper))
+            if cursor.fetchone():
+                conn.close()
+                return ' '.join(words)   # original text, for display
+            # Also check synonyms_pairs (e.g. "football team" → "rangers")
+            cursor.execute("""
+                SELECT 1 FROM synonyms_pairs
+                WHERE LOWER(word) = ?
+                AND UPPER(REPLACE(synonym, ' ', '')) = ?
+            """, (window, answer_upper))
+            if cursor.fetchone():
+                conn.close()
+                return ' '.join(words)
+
+    conn.close()
     return None
 
 

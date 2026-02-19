@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import html
 import json
 import re
 import sqlite3
@@ -31,13 +32,13 @@ OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzl
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"          # telegraph, guardian, times, independent
-PUZZLE_NUMBER = "31164"       # puzzle number to solve
-MAX_CLUES = 100             # max clues to select
+PUZZLE_NUMBER = "31166"       # puzzle number to solve
+MAX_CLUES = 50            # max clues to select
 
 
 EXCLUDE_SOLVED = True        # skip clues that already have a solution
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH =""        #
+SINGLE_CLUE_MATCH =""
 # filter to single clue matching this text
 USE_KNOWN_ANSWER = True       # use known answer as candidate
 ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
@@ -302,38 +303,74 @@ Optional[ClueResult]:
     fodder_positions = [i for i, w in enumerate(clue_words_lower) if w in fodder_lower]
     unused_positions = {w: i for i, w in enumerate(clue_words_lower) if w in unused_lower}
 
-    # Definition is at whichever end is furthest from the fodder
+    # Use DB to identify indicator and definition — no positional guessing.
     definition_words = []
     indicator_words = []
+    surface_words = []
 
-    if fodder_positions and unused_positions:
-        fodder_centre = sum(fodder_positions) / len(fodder_positions)
-        clue_midpoint = len(clue_words) / 2
+    db_conn = sqlite3.connect(CRYPTIC_DB)
+    db_conn.row_factory = sqlite3.Row
+    db_cur = db_conn.cursor()
 
-        for uw in unused_words:
-            pos = unused_positions.get(uw.lower(), -1)
-            if pos == -1:
-                indicator_words.append(uw)
-                continue
+    # Step 1: identify the anagram indicator from the indicators table.
+    # Try two-word pairs first, then single words.
+    indicator_found = set()
+    # Normalise: strip punctuation for DB lookup, keep normalised form in the set
+    unused_norm_list = [re.sub(r'[^a-z]', '', w.lower()) for w in unused_words]
 
-            # If fodder is near the end, definition is likely at the start (and vice versa)
-            if fodder_centre > clue_midpoint:
-                # Fodder at end, definition at start — early unused words are definition
-                if pos < min(fodder_positions):
-                    definition_words.append(uw)
-                else:
-                    indicator_words.append(uw)
-            else:
-                # Fodder at start, definition at end — late unused words are definition
-                if pos > max(fodder_positions):
-                    definition_words.append(uw)
-                else:
-                    indicator_words.append(uw)
-    else:
-        # Fallback: first unused word = definition, rest = indicators
-        if unused_words:
-            definition_words = [unused_words[0]]
-            indicator_words = unused_words[1:]
+    for i in range(len(unused_norm_list) - 1):
+        w1, w2 = unused_norm_list[i], unused_norm_list[i + 1]
+        two_word = f"{w1} {w2}"
+        db_cur.execute(
+            "SELECT 1 FROM indicators WHERE word=? AND wordplay_type='anagram'",
+            (two_word,)
+        )
+        if db_cur.fetchone():
+            indicator_found.add(w1)
+            indicator_found.add(w2)
+            break
+
+    if not indicator_found:
+        for w in unused_norm_list:
+            db_cur.execute(
+                "SELECT frequency FROM indicators WHERE word=? AND wordplay_type='anagram'",
+                (w,)
+            )
+            row = db_cur.fetchone()
+            if row:
+                indicator_found.add(w)
+                break  # take the first (only one indicator expected)
+
+    # Step 2: identify the definition from definition_answers_augmented.
+    answer_upper = answer.upper().replace(' ', '')
+    db_cur.execute(
+        "SELECT DISTINCT definition FROM definition_answers_augmented "
+        "WHERE UPPER(REPLACE(answer,' ',''))=? ORDER BY LENGTH(definition) DESC",
+        (answer_upper,)
+    )
+    known_defs = [r[0] for r in db_cur.fetchall()]
+    db_conn.close()
+
+    clue_text_lower = ' '.join(clue_words_lower)
+    definition_window = None
+    for defn in known_defs:
+        if defn.lower() in clue_text_lower:
+            definition_window = defn
+            break
+
+    def_words_lower = set()
+    if definition_window:
+        def_words_lower = {w.lower() for w in definition_window.split()}
+
+    # Step 3: assign roles. Strip punctuation when comparing (e.g. "Cried," vs "cried").
+    for uw in unused_words:
+        w_norm = re.sub(r'[^a-z]', '', uw.lower())
+        if w_norm in indicator_found:
+            indicator_words.append(uw)
+        elif w_norm in def_words_lower:
+            definition_words.append(uw)
+        else:
+            surface_words.append(uw)
 
     result.breakdown = []
     for fw in fodder_words:
@@ -342,6 +379,8 @@ Optional[ClueResult]:
         result.breakdown.append(f'"{iw}" = anagram indicator')
     for dw in definition_words:
         result.breakdown.append(f'"{dw}" = definition for {answer}')
+    for sw in surface_words:
+        result.breakdown.append(f'"{sw}" = link word')
 
     result.definition = " ".join(definition_words) if definition_words else ""
 
@@ -452,9 +491,11 @@ Optional[ClueResult]:
         result.unresolved_words = []
 
     # Validate: is this genuinely solved?
-    if fully_resolved and formula and not result.letters_needed and not has_unresolved_indicators(result.unresolved_words):
+    if fully_resolved and formula and not result.letters_needed \
+            and not has_unresolved_indicators(result.unresolved_words) \
+            and has_definition(result.word_roles):
         # CRITICAL: Any unresolved indicator = NOT SOLVED
-        # Check letter math
+        # CRITICAL: Must have a definition word tagged
         valid = validate_formula_letters(formula, answer)
         if valid is not False:
             result.solved = True
@@ -489,6 +530,17 @@ def has_unresolved_indicators(unresolved_words: List[str]) -> bool:
 
     conn.close()
     return False
+
+
+def has_definition(word_roles: List[Dict]) -> bool:
+    """
+    Check that at least one word is tagged as the definition.
+    CRITICAL RULE: A valid cryptic clue solve must always have a definition.
+    """
+    return any(
+        isinstance(wr, dict) and wr.get('role') == 'definition'
+        for wr in word_roles
+    )
 
 
 def is_cryptic_definition(word_roles: List, breakdown: List, formula: str,
@@ -592,8 +644,11 @@ Optional[ClueResult]:
         result.solved = True
         result.solve_quality = "cryptic_def"
         result.clue_type = "cryptic_definition"
-    elif fully_resolved and formula and not result.letters_needed and not has_unresolved_indicators(result.unresolved_words):
+    elif fully_resolved and formula and not result.letters_needed \
+            and not has_unresolved_indicators(result.unresolved_words) \
+            and has_definition(result.word_roles):
         # CRITICAL: Any unresolved indicator = NOT SOLVED
+        # CRITICAL: Must have a definition word tagged
         valid = validate_formula_letters(formula, answer)
         if valid is not False:
             result.solved = True
@@ -822,7 +877,8 @@ def format_report(results: List[ClueResult], puzzle_info: Dict) -> str:
 
     # ---- HEADER ----
     lines.append("=" * 80)
-    lines.append(f"PUZZLE REPORT: {source} #{puzzle_num}")
+    title = f"{source} #{puzzle_num}" if puzzle_num else f"{source} ({total} clues)"
+    lines.append(f"PUZZLE REPORT: {title}")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     lines.append(f"Total clues: {total}")
     lines.append("=" * 80)
@@ -931,6 +987,12 @@ def format_single_clue(r: ClueResult) -> str:
     """Format a single clue for the report."""
     lines = []
 
+    # Unescape HTML entities from DB storage (e.g. &#039; -> ')
+    clue_text = html.unescape(r.clue_text or "")
+    formula = html.unescape(r.formula or "")
+    definition = html.unescape(r.definition or "")
+    breakdown = [html.unescape(b) if isinstance(b, str) else b for b in (r.breakdown or [])]
+
     # Status tag
     if r.solved:
         tag = "[SOLVED]"
@@ -946,29 +1008,37 @@ def format_single_clue(r: ClueResult) -> str:
         "secondary": "secondary helper",
     }.get(r.solve_stage, r.solve_stage)
 
-    lines.append(f"  {tag} {r.clue_number} CLUE: {r.clue_text}")
+    lines.append(f"  {tag} {r.clue_number} CLUE: {clue_text}")
     lines.append(f"  ANSWER: {r.answer}")
     lines.append(f"  STAGE: {stage_label}")
 
     if r.clue_type:
         lines.append(f"  TYPE: {r.clue_type}")
 
-    if r.definition:
-        lines.append(f"  DEFINITION: {r.definition}")
+    if definition:
+        lines.append(f"  DEFINITION: {definition}")
 
-    if r.formula:
-        lines.append(f"  FORMULA: {r.formula}")
+    if formula:
+        lines.append(f"  FORMULA: {formula}")
 
-    if r.breakdown:
+    if breakdown:
         lines.append(f"  BREAKDOWN:")
-        for b in r.breakdown:
+        for b in breakdown:
             if isinstance(b, str):
                 lines.append(f"    {b}")
             elif isinstance(b, dict):
                 lines.append(f"    {json.dumps(b)}")
 
     if r.letters_needed and not r.solved:
-        lines.append(f"  LETTERS NEEDED: {r.letters_needed}")
+        # Show letters in answer order, not multiset-subtraction order
+        answer_clean = (r.answer or '').upper().replace(' ', '')
+        needed_pool = list((r.letters_needed or '').upper())
+        ordered_needed = []
+        for c in answer_clean:
+            if c in needed_pool:
+                needed_pool.remove(c)
+                ordered_needed.append(c)
+        lines.append(f"  LETTERS NEEDED: {''.join(ordered_needed)}")
 
     if r.unresolved_words and not r.solved:
         lines.append(f"  UNRESOLVED: {', '.join(r.unresolved_words)}")
@@ -1047,6 +1117,26 @@ def main():
         print("COMPLETE PUZZLE SOLVER")
         print("=" * 60)
 
+        # Clear ALL stage tables for run_id=0 before starting a fresh run.
+        # Stages like general and secondary accumulate stale data from old runs
+        # if not explicitly cleared — they then process hundreds of old clue_ids
+        # and produce solves that are invisible to the report (which only reads
+        # the current run's clue_ids).
+        print("\nClearing stale pipeline stage data...")
+        import sqlite3 as _sqlite3
+        _pdb = _sqlite3.connect(PIPELINE_DB)
+        for _tbl in ('stage_input', 'stage_dd', 'stage_definition',
+                     'stage_definition_failed', 'stage_anagram', 'stage_lurker',
+                     'stage_evidence', 'stage_compound',
+                     'stage_general', 'stage_secondary'):
+            try:
+                _pdb.execute(f"DELETE FROM {_tbl} WHERE run_id = 0")
+            except Exception:
+                pass
+        _pdb.commit()
+        _pdb.close()
+        print("  Done.")
+
         print("\nSTEP 1: Running pipeline (DD, lurker, anagram, compound)...")
         print("-" * 60)
         import anagram_analysis
@@ -1084,10 +1174,13 @@ def main():
     puzzle_info = get_puzzle_info(PIPELINE_DB, run_id)
     source = puzzle_info.get('source', '?')
     puzzle_number = puzzle_info.get('puzzle_number', '?')
-    print(f"Puzzle: {source} #{puzzle_number}")
 
-    # Get ALL clues for the puzzle (not just those processed in this run)
-    clue_ids = get_all_puzzle_clue_ids(CLUES_DB, source, puzzle_number)
+    if args.puzzle_number:
+        print(f"Puzzle: {source} #{args.puzzle_number}")
+        clue_ids = get_all_puzzle_clue_ids(CLUES_DB, source, args.puzzle_number)
+    else:
+        print(f"Run: {source}, {args.max_clues} clues")
+        clue_ids = get_all_clue_ids(PIPELINE_DB, run_id)
     print(f"Total clues: {len(clue_ids)}")
 
     results = []

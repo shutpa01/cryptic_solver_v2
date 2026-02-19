@@ -3,29 +3,30 @@
 
 ## CRITICAL RULES — NEVER VIOLATE
 
-1. **NEVER modify files without showing me the change first and getting approval.**
-2. **NEVER modify working pipeline stage engines** (anything in stages/) to fix edge cases. Build new helper stages instead. This is the sacred principle — previous attempts to fix edge cases broke working solves elsewhere.
-3. **NEVER delete files without explicit confirmation.** Always list what you plan to delete and wait for approval.
-4. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
-5. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
+1. **NEVER modify working pipeline stage engines** (anything in stages/) to fix edge cases. Build new helper stages instead. This is the sacred principle — previous attempts to fix edge cases broke working solves elsewhere.
+2. **NEVER delete files without explicit confirmation.** Always list what you plan to delete and wait for approval.
+3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
+4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
+
+## AUTONOMY RULE — CRITICAL
+
+**When the user approves a block of work, execute it fully without stopping to ask permission for each sub-step.**
+
+Only pause mid-task if:
+- Something unexpected arises that materially changes what you'd do
+- You're about to take a destructive/irreversible action that was NOT part of the original scope
+- You hit a genuine blocker requiring information only the user has
+
+Do NOT stop to ask permission for: reading files, making edits, running tests, or minor decisions within the spirit of the approved task. The user should never return hours later to find you waiting on a trivial confirmation.
 
 ## WORKFLOW RULES
 
 - **Read REFACTOR_PLAN.md first** at the start of every session. It contains the current project state, phase plan, and progress checkboxes.
 - **Follow the phases in order.** Do not skip ahead.
 - **Test after every change.** The pipeline must produce identical results after each modification.
-- **Small, surgical changes.** One step at a time. Show me what you plan to change before doing it.
+- **Small, surgical changes.** One file at a time within an approved task.
 - **If you're unsure, ask.** Do not guess at file contents, column names, import paths, or architecture. Read the actual files.
 - **Update REFACTOR_PLAN.md** after completing each step — mark checkboxes [x].
-
-## BEFORE MAKING ANY EDIT
-
-1. Read the file you plan to modify
-2. Explain what you're changing and why
-3. Show the specific edit (old → new)
-4. Wait for my approval
-5. Make the edit
-6. Verify it works
 
 ## PROJECT CONTEXT
 
