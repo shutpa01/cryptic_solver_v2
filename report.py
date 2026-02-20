@@ -50,6 +50,8 @@ LINKERS = {
     'thus', 'hence', 'therefore', 'maybe',
     # Normalised contractions (apostrophe stripped by norm)
     'dont', 'doesnt', 'didnt', 'wont', 'wouldnt', 'cant', 'isnt', 'arent',
+    # Temporal/adverbial surface words
+    'once',
 }
 
 # ============================================================

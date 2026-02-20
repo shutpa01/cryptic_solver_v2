@@ -33,7 +33,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from enrichment.common import (
     get_cryptic_conn, get_pipeline_conn,
-    insert_wordplay, insert_synonym_pair, insert_definition_answer,
+    insert_wordplay, insert_synonym_pair, insert_definition_answer, insert_indicator,
     InsertCounter, add_common_args, apply_common_args, DRY_RUN, norm_letters
 )
 
@@ -45,6 +45,27 @@ STOP_WORDS = {
     'she', 'we', 'me', 'my', 'his', 'her', 'its', 'not', 'but', 'all',
     'are', 'was', 'has', 'had', 'who', 'how', 'this', 'that', 'with',
     'from', 'have', 'where', 'when', 'what', 'which',
+}
+
+# Confirmed link words (must match the LINKERS set in report.py).
+LINKERS = {
+    'of', 'in', 'the', 'a', 'an', 'to', 'for', 'with', 'and', 'or',
+    'by', 'from', 'as', 'on', 'at', 'but', 'so', 'yet', 'if', 'not',
+    'nor', 'up', 'it', 'its', 'into', 'onto', 'within', 'without',
+    'that', 'which', 'when', 'where', 'while', 'how', 'why', 'who',
+    'this', 'these', 'those', 'such', 'one', 'ones', 'some', 'any',
+    'all', 'here', 'there',
+    'is', 'are', 'be', 'been', 'being', 'was', 'were',
+    'has', 'have', 'had', 'having',
+    'will', 'would', 'could', 'should', 'must', 'may', 'might',
+    'get', 'gets', 'got', 'getting',
+    'give', 'gives', 'gave', 'given', 'giving',
+    'make', 'makes', 'made', 'making',
+    'need', 'needs',
+    'thus', 'hence', 'therefore', 'maybe',
+    'dont', 'doesnt', 'didnt', 'wont', 'wouldnt', 'cant', 'isnt', 'arent',
+    # Temporal/adverbial surface words
+    'once',
 }
 
 
@@ -157,6 +178,38 @@ def load_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
             'original_formula': row['original_formula'] or '',
         })
     return failures
+
+
+def load_anagram_hits(pipeline_db: str, run_id: int = 0) -> List[dict]:
+    """Load anagram stage rows where an exact answer was found but unused words remain.
+
+    These are Pattern C candidates: all fodder letters account for the answer,
+    but some clue words were not used in the anagram. Those unused words are
+    the anagram indicator plus the definition phrase.
+    """
+    conn = sqlite3.connect(pipeline_db)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        """SELECT clue_text, answer, unused_words, indicator_words, definition_words
+           FROM stage_anagram
+           WHERE run_id = ? AND hit_found = 1 AND unused_words != '[]'""",
+        (run_id,)
+    ).fetchall()
+    conn.close()
+
+    results = []
+    for row in rows:
+        answer = (row['answer'] or '').upper().replace(' ', '')
+        if not answer:
+            continue
+        results.append({
+            'clue_text': row['clue_text'] or '',
+            'answer': answer,
+            'unused_words': json.loads(row['unused_words'] or '[]'),
+            'indicator_words': json.loads(row['indicator_words'] or '[]'),
+            'definition_words': json.loads(row['definition_words'] or '[]'),
+        })
+    return results
 
 
 # ============================================================
@@ -316,6 +369,185 @@ def step_c_two_word_anchor_inference(failure: dict, conn: sqlite3.Connection,
                 try_insert(word1, frag2)
 
 
+def step_pattern_c_anagram_boundary(anagram_hit: dict, conn: sqlite3.Connection,
+                                     cache: DBCache, counter: InsertCounter,
+                                     candidates: list):
+    """Pattern C: anagram exact match with unused surface words.
+
+    After removing the confirmed indicator word(s) and link words from
+    unused_words, whatever remains is the definition phrase.  Add it to
+    definition_answers_augmented.
+
+    High-confidence because the anagram stage has already identified the
+    indicator separately (indicator_words column), so we can isolate the
+    definition by subtraction.
+    """
+    answer = anagram_hit['answer']
+    clue_text = anagram_hit['clue_text']
+    unused_words = anagram_hit['unused_words']
+    indicator_words = anagram_hit['indicator_words']
+
+    if not unused_words:
+        return
+
+    # Normalise indicator set (strip punctuation for matching)
+    indicator_norm = {re.sub(r'[^a-z]', '', w.lower()) for w in indicator_words if w}
+
+    # Step 1: remove indicator words (any position in the list).
+    after_indicator = []
+    for w in unused_words:
+        w_norm = re.sub(r'[^a-z]', '', w.lower())
+        if not w_norm:
+            continue
+        if w_norm in indicator_norm:
+            continue
+        after_indicator.append(w)
+
+    if not after_indicator:
+        return
+
+    # Step 2: trim leading LINKERS only (from the front of the list).
+    while after_indicator:
+        w_norm = re.sub(r'[^a-z]', '', after_indicator[0].lower())
+        if w_norm in LINKERS:
+            after_indicator.pop(0)
+        else:
+            break
+
+    # Step 3: trim trailing LINKERS only (from the back of the list).
+    while after_indicator:
+        w_norm = re.sub(r'[^a-z]', '', after_indicator[-1].lower())
+        if w_norm in LINKERS:
+            after_indicator.pop()
+        else:
+            break
+
+    if not after_indicator:
+        return
+
+    # Step 4: build phrase — lowercase, strip punctuation from each word,
+    # preserving interior LINKERS so the phrase matches the clue text.
+    def_candidates = [re.sub(r'[^a-z ]', '', w.lower()).strip() for w in after_indicator]
+    def_candidates = [w for w in def_candidates if w]
+
+    if not def_candidates:
+        return
+
+    phrase = ' '.join(def_candidates)
+    if len(phrase) < 3:
+        return
+
+    if cache.def_known(phrase, answer):
+        return
+
+    candidates.append({
+        'pattern': 'C',
+        'type': 'definition_pair',
+        'phrase': phrase,
+        'answer': answer,
+        'clue': clue_text,
+        'confidence': 'high',
+    })
+
+    inserted = insert_definition_answer(conn, phrase, answer, SOURCE_TAG)
+    if inserted:
+        cache.add_def(phrase, answer)
+    counter.record('definition_answers_augmented', inserted,
+                   f"pattern-C: '{phrase}' -> {answer}")
+
+
+def step_pattern_d_outer_letters(failure: dict, conn: sqlite3.Connection,
+                                  cache: DBCache, counter: InsertCounter,
+                                  candidates: list):
+    """Pattern D: letters_still_needed is exactly 2 chars = first+last of an unresolved word.
+
+    The remaining unresolved words (after removing the container word and link words)
+    are proposed as an outer_use indicator.
+
+    Example: STYE, needed='ST', unresolved=['Seaport','cleared','out','once,']
+      -> 'Seaport' first=S last=T -> container
+      -> 'cleared out' (non-linker remainder) -> outer_use indicator candidate
+    """
+    answer = failure['answer']
+    clue_text = failure['clue_text']
+    letters_needed = failure['letters_still_needed']
+    unresolved = failure['unresolved_words']
+
+    if len(letters_needed) != 2:
+        return
+    if len(unresolved) < 2:
+        return
+
+    first_needed = letters_needed[0].upper()
+    last_needed = letters_needed[1].upper()
+
+    # Find which unresolved word has outer letters = letters_still_needed
+    container_idx = None
+    container_word = None
+    for i, w in enumerate(unresolved):
+        w_clean = re.sub(r'[^a-zA-Z]', '', w)
+        if len(w_clean) >= 2:
+            if w_clean[0].upper() == first_needed and w_clean[-1].upper() == last_needed:
+                container_idx = i
+                container_word = w
+                break
+
+    if container_word is None:
+        return
+
+    # Remaining unresolved words (excluding container and link words) = indicator candidates
+    indicator_words = []
+    for i, w in enumerate(unresolved):
+        if i == container_idx:
+            continue
+        w_norm = re.sub(r'[^a-z]', '', w.lower())
+        if w_norm and w_norm not in LINKERS:
+            indicator_words.append(w_norm)
+
+    if not indicator_words:
+        return
+
+    indicator_phrase = ' '.join(indicator_words)
+
+    if cache.is_indicator(indicator_phrase):
+        return
+
+    candidates.append({
+        'pattern': 'D',
+        'type': 'indicator',
+        'phrase': indicator_phrase,
+        'wordplay_type': 'parts',
+        'subtype': 'outer_use',
+        'container': container_word,
+        'letters': letters_needed,
+        'answer': answer,
+        'clue': clue_text,
+        'confidence': 'high',
+    })
+
+    inserted = insert_indicator(conn, indicator_phrase, 'parts', subtype='outer_use',
+                                confidence='medium')
+    if inserted:
+        cache.indicators.add(indicator_phrase.lower())
+    counter.record('indicators', inserted,
+                   f"pattern-D: '{indicator_phrase}' (outer_use) for {answer}")
+
+
+def write_candidates_file(candidates: list, output_path: Path):
+    """Write structured candidate list to file for Phase 3 API audit.
+
+    One JSON object per line.  Each record has enough context for the
+    audit prompt to be constructed without re-querying the DB.
+    """
+    if not candidates:
+        return
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open('w', encoding='utf-8') as f:
+        for c in candidates:
+            f.write(json.dumps(c, ensure_ascii=False) + '\n')
+    print(f"\nCandidates written to: {output_path}  ({len(candidates)} records)")
+
+
 # ============================================================
 # PIPELINE RE-RUN
 # ============================================================
@@ -350,15 +582,17 @@ def main():
 
     pipeline_db = str(PROJECT_ROOT / 'pipeline_stages.db')
     failures = load_failures(pipeline_db, args.run_id)
+    anagram_hits = load_anagram_hits(pipeline_db, args.run_id)
 
     print(f"\n{'=' * 60}")
     print(f"SELF-LEARNING ENRICHMENT")
     print(f"{'=' * 60}")
     print(f"Source: {args.source} #{args.puzzle_number}  run_id={args.run_id}")
     print(f"Unique failures to process: {len(failures)}")
+    print(f"Anagram hits with unused words: {len(anagram_hits)}")
 
-    if not failures:
-        print("No failures found. Run the pipeline first (report.py).")
+    if not failures and not anagram_hits:
+        print("No failures or anagram hits found. Run the pipeline first (report.py).")
         return
 
     # Baseline from report
@@ -374,7 +608,19 @@ def main():
     conn = get_cryptic_conn()
     cache = DBCache(conn)
     counter = InsertCounter("05_self_learning_enrichment")
+    candidates = []  # Accumulates structured records for the API audit file
 
+    # --- Pattern C: anagram boundary-group definitions ---
+    print(f"--- Pattern C: anagram boundary-group definitions ---")
+    for hit in anagram_hits:
+        answer = hit['answer']
+        unused = hit['unused_words']
+        indicators = hit['indicator_words']
+        print(f"  {answer}: unused={unused}, indicators={indicators}")
+        step_pattern_c_anagram_boundary(hit, conn, cache, counter, candidates)
+
+    # --- Existing steps on stage_secondary failures ---
+    print(f"\n--- Stage secondary failures ---")
     for failure in failures:
         answer = failure['answer']
         unresolved = failure['unresolved_words']
@@ -384,11 +630,16 @@ def main():
         step_a_definition_pairs(failure, conn, cache, counter)
         step_b_single_word_inference(failure, conn, cache, counter)
         step_c_two_word_anchor_inference(failure, conn, cache, counter)
+        step_pattern_d_outer_letters(failure, conn, cache, counter, candidates)
 
     conn.commit()
     conn.close()
 
     counter.report()
+
+    # Write candidates file for Phase 3 API audit (always, even in dry-run)
+    candidates_path = PROJECT_ROOT / 'documents' / 'self_learning_candidates.txt'
+    write_candidates_file(candidates, candidates_path)
 
     # Re-run pipeline to measure improvement (not in dry-run mode)
     import enrichment.common as _common

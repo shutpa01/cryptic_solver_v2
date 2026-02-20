@@ -1,0 +1,2 @@
+{"pattern": "C", "type": "definition_pair", "phrase": "somewhere go surfing", "answer": "CYBERCAFE", "clue": "Free baccy, rum, somewhere to go surfing?", "confidence": "high"}
+{"pattern": "C", "type": "definition_pair", "phrase": "very small business", "answer": "NANOTECH", "clue": "Very small business of Conan the Barbaric?", "confidence": "high"}

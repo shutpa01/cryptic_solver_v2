@@ -1,0 +1,16 @@
+# self_learning_inserts.txt — generated 2026-02-20 01:33:03
+# Each block shows the INSERT that was made and the DELETE to roll it back.
+# To undo a specific insert, run the DELETE statement against cryptic_new.db.
+
+# [2026-02-20 01:33:03] pattern-C definition_pair: 'somewhere go surfing' -> CYBERCAFE
+# clue: Free baccy, rum, somewhere to go surfing?
+# reason: "Somewhere to go surfing" reasonably defines CYBERCAFE because in common usage, "surfing" refers to browsing the interne
+DELETE FROM definition_answers WHERE LOWER(definition)='somewhere go surfing' AND LOWER(answer)='cybercafe';
+DELETE FROM definition_answers_augmented WHERE LOWER(definition)='somewhere go surfing' AND LOWER(answer)='cybercafe';
+
+# [2026-02-20 01:33:03] pattern-C definition_pair: 'very small business' -> NANOTECH
+# clue: Very small business of Conan the Barbaric?
+# reason: "Very small business" reasonably defines NANOTECH because "nano" means extremely small and "tech" refers to business/tec
+DELETE FROM definition_answers WHERE LOWER(definition)='very small business' AND LOWER(answer)='nanotech';
+DELETE FROM definition_answers_augmented WHERE LOWER(definition)='very small business' AND LOWER(answer)='nanotech';
+

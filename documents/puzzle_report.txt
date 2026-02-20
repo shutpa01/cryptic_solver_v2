@@ -1,6 +1,6 @@
 ================================================================================
 PUZZLE REPORT: telegraph #31166
-Generated: 2026-02-20 00:55:11
+Generated: 2026-02-20 01:54:29
 Total clues: 29
 ================================================================================
 
@@ -8,13 +8,13 @@ SOLVE SUMMARY
 ----------------------------------------
   Double definitions:      2
   Hidden words (lurkers):  1
-  Anagrams:                0
+  Anagrams:                2
   Compound wordplay:       0
   General wordplay:        1
   Secondary helpers:       0
   ---
-  SOLVED:                  4/29 (13%)
-  Partial (needs work):    25
+  SOLVED:                  6/29 (20%)
+  Partial (needs work):    23
   Unsolved:                0
 
 ================================================================================
@@ -119,38 +119,38 @@ ACROSS
   UNRESOLVED: exactitude, chap, fitting, out, ship
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 13 CLUE: Very small business of Conan the Barbaric?
+  [SOLVED] 13 CLUE: Very small business of Conan the Barbaric?
   ANSWER: NANOTECH
   STAGE: anagram
   TYPE: anagram
+  DEFINITION: Very small business
   FORMULA: anagram(Conan + the) = NANOTECH
   BREAKDOWN:
     "Conan" = anagram fodder
     "the" = anagram fodder
     "Barbaric?" = anagram indicator
-    "Very" = unresolved
-    "small" = unresolved
-    "business" = unresolved
+    "Very" = definition for NANOTECH
+    "small" = definition for NANOTECH
+    "business" = definition for NANOTECH
     "of" = link word
-  UNRESOLVED: Very, small, business
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 15 CLUE: Seaport cleared out by you once, an eyesore
   ANSWER: STYE
   STAGE: general wordplay
-  DEFINITION: an eyesore
+  DEFINITION: eyesore
   FORMULA: YE (you) + ? = STYE
   BREAKDOWN:
     "you" = YE (database (abbreviation))
-    "an" = definition for STYE
     "eyesore" = definition for STYE
     "Seaport" = unresolved
     "cleared" = unresolved
     "out" = unresolved
     "by" = unresolved
     "once," = unresolved
+    "an" = unresolved
   LETTERS NEEDED: ST
-  UNRESOLVED: Seaport, cleared, out, by, once,
+  UNRESOLVED: Seaport, cleared, out, by, once,, an
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 17 CLUE: Fiddle starts to sound clearer after maintenance
@@ -173,17 +173,16 @@ ACROSS
   [PARTIAL] 19 CLUE: Council skilfully collecting litter sent round
   ANSWER: Assembly
   STAGE: general wordplay
-  DEFINITION: Council
-  FORMULA: ABLY (skilfully) + ? = ASSEMBLY
+  DEFINITION: round
+  FORMULA: ASSEMBLY (Council) (contained) = ASSEMBLY
   BREAKDOWN:
-    "Council" = definition for ASSEMBLY
-    "skilfully" = ABLY (database (synonym))
+    "Council" = ASSEMBLY (database (synonym))
     "collecting" = container indicator
     "sent" = reversal indicator
-    "litter" = unresolved
-    "round" = unresolved
-  LETTERS NEEDED: SSEM
-  UNRESOLVED: litter, round
+    "round" = definition for ASSEMBLY
+    "skilfully" = wordplay connector
+    "litter" = wordplay connector
+  UNRESOLVED: skilfully, litter, skilfully, litter
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 20 CLUE: Perhaps Greystoke title dad rejected?
@@ -267,18 +266,18 @@ ACROSS
   [PARTIAL] 25 CLUE: Leaders of English League, smooth football team?
   ANSWER: ELEVEN
   STAGE: general wordplay
-  DEFINITION: football team?
+  DEFINITION: team?
   FORMULA: E (English) + EVEN (smooth) + ? = ELEVEN
   BREAKDOWN:
     "Leaders" = letter selector
     "English" = E (first letter of)
     "smooth" = EVEN (database (synonym))
-    "football" = definition for ELEVEN
     "team?" = definition for ELEVEN
     "of" = unresolved
     "League," = unresolved
+    "football" = unresolved
   LETTERS NEEDED: L
-  UNRESOLVED: of, League,
+  UNRESOLVED: of, League,, football
   ──────────────────────────────────────────────────────────────────────
 
 ================================================================================
@@ -386,20 +385,20 @@ DOWN
   UNRESOLVED: industry, striking, over, denying, coverage
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 14 CLUE: Free baccy, rum, somewhere to go surfing?
+  [SOLVED] 14 CLUE: Free baccy, rum, somewhere to go surfing?
   ANSWER: CYBERCAFE
   STAGE: anagram
   TYPE: anagram
+  DEFINITION: somewhere to go surfing?
   FORMULA: anagram(Free + baccy,) = CYBERCAFE
   BREAKDOWN:
     "Free" = anagram fodder
     "baccy," = anagram fodder
     "rum," = anagram indicator
-    "somewhere" = unresolved
-    "to" = link word
-    "go" = unresolved
-    "surfing?" = unresolved
-  UNRESOLVED: somewhere, go, surfing?
+    "somewhere" = definition for CYBERCAFE
+    "to" = definition for CYBERCAFE
+    "go" = definition for CYBERCAFE
+    "surfing?" = definition for CYBERCAFE
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 15 CLUE: Discrete part
@@ -416,7 +415,7 @@ DOWN
   [PARTIAL] 16 CLUE: A bit of spare time so Yank goes round national park
   ANSWER: Yosemite
   STAGE: general wordplay
-  DEFINITION: park
+  DEFINITION: national park
   FORMULA: STY (spare time Yank) + O (round) + ? = YOSEMITE
   BREAKDOWN:
     "bit" = first letter indicator
@@ -425,12 +424,12 @@ DOWN
     "time" = T (first letter of)
     "Yank" = Y (first letter of)
     "round" = O (database (misc))
+    "national" = definition for YOSEMITE
     "park" = definition for YOSEMITE
     "so" = unresolved
     "goes" = unresolved
-    "national" = unresolved
   LETTERS NEEDED: EMIE
-  UNRESOLVED: A, so, goes, national
+  UNRESOLVED: A, so, goes
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 17 CLUE: Scottish plane tree said to be less healthy again
