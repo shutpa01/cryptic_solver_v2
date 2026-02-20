@@ -87,11 +87,19 @@ def init_tables():
             solve_type TEXT,
             confidence TEXT,
             unused_words TEXT,
-            all_hypotheses TEXT
+            all_hypotheses TEXT,
+            definition_words TEXT,
+            indicator_words TEXT
         )
     """)
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_ana_run ON stage_anagram(run_id)")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_ana_clue ON stage_anagram(clue_id)")
+    # Migrate existing DBs: add new columns if not present
+    for _col, _type in [("definition_words", "TEXT"), ("indicator_words", "TEXT")]:
+        try:
+            cursor.execute(f"ALTER TABLE stage_anagram ADD COLUMN {_col} {_type}")
+        except Exception:
+            pass  # column already exists
 
     # Stage: Evidence (after evidence scoring/ranking)
     cursor.execute("""
@@ -389,6 +397,12 @@ def save_stage_lurker(run_id: int, records: List[Dict[str, Any]]):
 
 def save_stage_anagram(run_id: int, records: List[Dict[str, Any]]):
     """Save anagram stage data."""
+    import sqlite3 as _sqlite3
+    import os as _os
+    cryptic_db = _os.environ.get('CRYPTIC_DB', 'data/cryptic_new.db')
+    cdb = _sqlite3.connect(cryptic_db)
+    cdb.row_factory = _sqlite3.Row
+
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -396,11 +410,42 @@ def save_stage_anagram(run_id: int, records: List[Dict[str, Any]]):
         anagrams = rec.get('anagrams', [])
         top_hit = anagrams[0] if anagrams else {}
 
+        # Wire principle: definition_words were excluded from fodder at source.
+        # Now identify indicator_words from unused_words via the indicators table.
+        definition_words = top_hit.get('definition_words', [])
+        unused_words = top_hit.get('unused_words', [])
+        indicator_words = []
+
+        if unused_words:
+            unused_norm = [re.sub(r'[^a-z]', '', w.lower()) for w in unused_words]
+            # Try two-word pairs first (more specific)
+            found_indicator = False
+            for i in range(len(unused_norm) - 1):
+                two_word = f"{unused_norm[i]} {unused_norm[i + 1]}"
+                row = cdb.execute(
+                    "SELECT 1 FROM indicators WHERE word=? AND wordplay_type='anagram'",
+                    (two_word,)
+                ).fetchone()
+                if row:
+                    indicator_words = [unused_words[i], unused_words[i + 1]]
+                    found_indicator = True
+                    break
+            if not found_indicator:
+                for i, w in enumerate(unused_norm):
+                    row = cdb.execute(
+                        "SELECT 1 FROM indicators WHERE word=? AND wordplay_type='anagram'",
+                        (w,)
+                    ).fetchone()
+                    if row:
+                        indicator_words = [unused_words[i]]
+                        break
+
         cursor.execute("""
-            INSERT INTO stage_anagram 
+            INSERT INTO stage_anagram
             (run_id, clue_id, clue_text, answer, hit_found, fodder_words, fodder_letters,
-             matched_candidate, solve_type, confidence, unused_words, all_hypotheses)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             matched_candidate, solve_type, confidence, unused_words, all_hypotheses,
+             definition_words, indicator_words)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             run_id,
             rec.get('id'),
@@ -412,12 +457,15 @@ def save_stage_anagram(run_id: int, records: List[Dict[str, Any]]):
             top_hit.get('answer', ''),
             top_hit.get('solve_type', ''),
             str(top_hit.get('confidence', '')),
-            json.dumps(top_hit.get('unused_words', [])),
-            json.dumps(anagrams[:10])  # Store top 10 hypotheses
+            json.dumps(unused_words),
+            json.dumps(anagrams[:10]),
+            json.dumps(definition_words),
+            json.dumps(indicator_words),
         ))
 
     conn.commit()
     conn.close()
+    cdb.close()
     print(f"Saved {len(records)} records to stage_anagram (run_id={run_id})")
 
 

@@ -36,20 +36,25 @@ def _normalize_enumeration(enumeration):
     return 0
 
 
-def generate_anagram_hypotheses(clue_text, enumeration, candidates):
+def generate_anagram_hypotheses(clue_text, enumeration, candidates,
+                                definition_words=None):
     """
     Enhanced anagram hypothesis generation:
     1. Run original logic first (preserves all existing hits)
     2. For unresolved cases, try evidence system
     3. Return combined results
+
+    definition_words: set of lowercase word strings already attributed as the
+    definition. These are excluded from the anagram fodder search so the solver
+    never accidentally uses definition words as fodder.
     """
 
     # Normalize enumeration: "(2,5,8)" → 15
     enumeration = _normalize_enumeration(enumeration)
 
     # STEP 1: Run original logic (exactly as before)
-    original_hypotheses = _generate_anagram_hypotheses_original(clue_text, enumeration,
-                                                          candidates)
+    original_hypotheses = _generate_anagram_hypotheses_original(
+        clue_text, enumeration, candidates, definition_words)
 
     # STEP 2: If original found hits, return them (preserves existing behavior)
     if original_hypotheses:
@@ -71,14 +76,20 @@ def generate_anagram_hypotheses(clue_text, enumeration, candidates):
     return []
 
 
-def _generate_anagram_hypotheses_original(clue_text, enumeration, candidates):
+def _generate_anagram_hypotheses_original(clue_text, enumeration, candidates,
+                                          definition_words=None):
     """
     Original anagram detection logic (preserved exactly).
     Stage A: Free anagram hypothesis generation (provisional).
     Includes Stage-B hygiene: reject trivial self-anagrams.
+
+    definition_words: set of lowercase normalised word strings to exclude from
+    the fodder search. These words have already been attributed as the definition
+    at source and must not be considered as anagram fodder.
     """
 
     clue_lc = clue_text.lower()
+    excluded = {norm_letters(w).lower() for w in definition_words} if definition_words else set()
 
     # ---- normalise candidates to letter counters ----
     candidate_counters = {}
@@ -99,6 +110,11 @@ def _generate_anagram_hypotheses_original(clue_text, enumeration, candidates):
             words.append(w)  # Keep original form for display
 
     word_counters = [(w, Counter(norm_letters(w))) for w in words]
+
+    # ---- Wire principle: exclude definition words from fodder pool ----
+    if excluded:
+        word_counters = [(w, c) for w, c in word_counters
+                         if norm_letters(w).lower() not in excluded]
 
     hypotheses = []
 
@@ -133,9 +149,9 @@ def _generate_anagram_hypotheses_original(clue_text, enumeration, candidates):
                     "fodder_words": used_words,
                     "fodder_letters": "".join(sorted(combined.elements())),
                     "unused_words": unused_words,
+                    "definition_words": list(definition_words) if definition_words else [],
                     "candidate_source": candidate,
                     "solve_type": "anagram_exact",
-                    # Enhanced: specific type for reporting
                     "confidence": "provisional",
                 })
 

@@ -156,7 +156,7 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
 
         print("Waiting for login to complete...")
         driver.switch_to.default_content()
-        wait.until(lambda d: "login" not in d.current_url.lower())
+        WebDriverWait(driver, 30).until(lambda d: "login" not in d.current_url.lower())
         print(f"Logged in! URL: {driver.current_url}")
 
         # === NAVIGATE TO PUZZLE ===
@@ -214,17 +214,19 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
                 target_link = candidates[0][1]
                 print(f"Using highest number: puzzle #{puzzle_number}")
 
-        if target_link:
-            print(f"Clicking puzzle #{puzzle_number}...")
-            target_link.click()
-        else:
+        if not target_link:
             print("ERROR: Could not find puzzle link!")
             driver.quit()
             return None, None, None
 
-        # Wait for puzzle to load and network requests to complete
+        feed_type = config['feed_type']
+
+        print(f"Clicking puzzle #{puzzle_number}...")
+        target_link.click()
+
+        # Wait for puzzle to load
         print("Waiting for puzzle to load...")
-        time.sleep(8)
+        time.sleep(10)
 
         print(f"Current URL: {driver.current_url}")
 
@@ -234,43 +236,29 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
             puzzle_number = int(url_match.group(1))
             print(f"Puzzle number from URL: {puzzle_number}")
 
-        # === CAPTURE API URL FROM NETWORK LOGS ===
-        print("Scanning network logs for API URL...")
-
-        logs = driver.get_log('performance')
-        feed_type = config['feed_type']
-
-        for entry in logs:
-            try:
-                log_data = json.loads(entry['message'])
-                message = log_data.get('message', {})
-
-                # Look for Network.requestWillBeSent or Network.responseReceived
-                if message.get('method') in ['Network.requestWillBeSent',
-                                             'Network.responseReceived']:
-                    params = message.get('params', {})
-
-                    # Check request URL
-                    request_url = params.get('request', {}).get('url', '')
-                    if not request_url:
-                        request_url = params.get('response', {}).get('url', '')
-
-                    # Look for feeds.thetimes.com or feeds.thetimes.co.uk with our feed type
-                    if (
-                            'feeds.thetimes.com' in request_url or 'feeds.thetimes.co.uk' in request_url) and feed_type in request_url and 'data.json' in request_url:
-                        api_url = request_url
-                        print(f"Found API URL: {api_url}")
-
-                        # Extract API ID from URL
-                        # URL format: .../crosswordcryptic/20260126/82151/data.json
-                        match = re.search(rf'{feed_type}/(\d+)/(\d+)/data\.json', api_url)
-                        if match:
-                            api_id = match.group(2)
-                            print(f"Extracted API ID: {api_id}")
-                        break
-
-            except (json.JSONDecodeError, KeyError):
-                continue
+        # === CAPTURE API URL FROM PUZZLE IFRAME ===
+        # The Times embeds the puzzle in an iframe:
+        #   <iframe id="puzzle-iframe" src="https://feeds.thetimes.com/puzzles/sp/{feed_type}/{date}/{id}/?...">
+        # Reading the iframe src is simpler and more reliable than network interception.
+        print("Looking for puzzle iframe...")
+        try:
+            iframes = driver.find_elements(By.TAG_NAME, "iframe")
+            for iframe in iframes:
+                src = iframe.get_attribute("src") or ""
+                if "feeds.thetimes" in src and feed_type in src:
+                    # Strip query string, append data.json
+                    base = src.split("?")[0].rstrip("/")
+                    api_url = base + "/data.json"
+                    print(f"Found iframe src: {src[:80]}")
+                    print(f"Constructed API URL: {api_url}")
+                    # Extract API ID: .../feed_type/YYYYMMDD/ID/data.json
+                    match = re.search(rf'{feed_type}/(\d+)/(\d+)', api_url)
+                    if match:
+                        api_id = match.group(2)
+                        print(f"Extracted API ID: {api_id}")
+                    break
+        except Exception as e:
+            print(f"  Iframe search failed: {e}")
 
         if not api_url:
             # Fallback: search page source

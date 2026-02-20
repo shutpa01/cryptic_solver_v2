@@ -88,9 +88,14 @@ def login(driver):
     email_field.send_keys(email)
 
     print("Clicking continue...")
-    continue_btn = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.screen-cta")))
-    continue_btn.click()
+    # Try <a> first (old UI), fall back to <button> (new UI)
+    for cta_selector in ["a.screen-cta", "button.screen-cta", "button[type='submit']"]:
+        try:
+            continue_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, cta_selector)))
+            continue_btn.click()
+            break
+        except Exception:
+            continue
 
     print("Entering password...")
     password_field = wait.until(EC.presence_of_element_located((By.ID, "password")))
@@ -98,9 +103,13 @@ def login(driver):
     password_field.send_keys(password)
 
     print("Clicking login...")
-    login_btn = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.screen-cta")))
-    login_btn.click()
+    for cta_selector in ["a.screen-cta", "button.screen-cta", "button[type='submit']"]:
+        try:
+            login_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, cta_selector)))
+            login_btn.click()
+            break
+        except Exception:
+            continue
 
     print("Waiting for login to complete...")
     wait.until(lambda d: "login" not in d.current_url.lower())

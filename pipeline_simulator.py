@@ -518,11 +518,33 @@ def run_pipeline_probe(
             overall["gate_failed"] += 1
             continue
 
+        # ---- Wire principle: identify definition words before anagram search ----
+        # Find the best definition window for the known answer so its words
+        # can be excluded from the anagram fodder pool at source.
+        answer_norm = norm_letters(answer_raw)
+        clue_lower = clue.lower()
+        definition_words_for_anagram = set()
+        if windows_with_hits:
+            # Collect windows whose candidates include the correct answer
+            matching_windows = [
+                w for w, cands in windows_with_hits.items()
+                if any(norm_letters(c) == answer_norm for c in cands)
+            ]
+            # Only accept windows at the START or END of the clue (never mid-clue)
+            boundary_windows = [
+                w for w in matching_windows
+                if clue_lower.startswith(w.lower()) or clue_lower.endswith(w.lower())
+            ]
+            if boundary_windows:
+                best_window = max(boundary_windows, key=len)
+                definition_words_for_anagram = {w.lower() for w in best_window.split()}
+
         # ---- STAGE 3: Anagrams ----
         anag_hits = generate_anagram_hypotheses(
             clue_text=clue,
             enumeration=enum,  # Pass raw enumeration - anagram_stage now normalizes it
             candidates=flat_candidates,
+            definition_words=definition_words_for_anagram,
         )
 
         # NEW: Forwarded anagram analysis
