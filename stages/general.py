@@ -228,8 +228,15 @@ def load_non_anagram_clues(run_id: int = 0) -> List[Dict[str, Any]]:
 
 def find_definition_window(answer: str, clue_text: str, support: Dict[str, Any]) -> \
 Optional[str]:
-    """Find the definition window for a given answer."""
+    """Find the definition window for a given answer.
+
+    After locating the initial phrase, attempts to extend it by testing adjacent
+    clue words against definition_answers_augmented (longest extension first).
+    This removes spurious words from the wordplay pool rather than leaving them
+    unresolved.
+    """
     answer_upper = answer.upper().replace(' ', '')
+    definition = None
 
     # Strategy 1: Check support from definition stage
     if support:
@@ -237,16 +244,24 @@ Optional[str]:
             if isinstance(value, list):
                 for v in value:
                     if isinstance(v, str) and v.upper().replace(' ', '') == answer_upper:
-                        return key
+                        definition = key
+                        break
+                if definition:
+                    break
                 if key.upper().replace(' ', '') == answer_upper:
-                    return value[0] if value else None
+                    definition = value[0] if value else None
+                    break
 
     # Strategy 2: Database lookup
-    definition = _find_definition_from_db(answer_upper, clue_text)
-    if definition:
-        return definition
+    if not definition:
+        definition = _find_definition_from_db(answer_upper, clue_text)
 
-    return None
+    if not definition:
+        return None
+
+    # Strategy 3: Extend definition to cover adjacent clue words.
+    # Tries longest extension first so we never stop too early.
+    return _try_extend_definition(answer_upper, clue_text, definition)
 
 
 def _normalise_def_word(w: str) -> str:
@@ -324,6 +339,73 @@ def _find_definition_from_db(answer: str, clue_text: str) -> Optional[str]:
 
     conn.close()
     return None
+
+
+def _try_extend_definition(answer_upper: str, clue_text: str, definition: str) -> str:
+    """Extend a found definition phrase by testing adjacent clue words against the DB.
+
+    After the initial definition is found (e.g. "bully"), checks whether adding
+    neighbouring clue words produces a longer phrase that also maps to the answer
+    in definition_answers_augmented.  Tests from the longest possible extension
+    down to 1 extra word and returns the first (longest) match found.
+
+    Only extends inward from the clue edge where the definition sits — never
+    reaches across wordplay words in the middle of the clue.
+    Returns the original definition unchanged if no extension matches.
+    """
+    if not definition:
+        return definition
+
+    clue_clean = re.sub(r'\s*\([\d,\s\-]+\)\s*$', '', clue_text)
+    clue_words = clue_clean.split()
+    def_lower = definition.lower().strip()
+    clue_lower = clue_clean.lower()
+
+    at_end   = clue_lower.endswith(def_lower)
+    at_start = clue_lower.startswith(def_lower)
+
+    if not at_start and not at_end:
+        return definition
+
+    def_count = len(definition.split())
+
+    conn = get_cryptic_connection()
+    cursor = conn.cursor()
+    result = definition
+
+    if at_end:
+        def_start_idx = len(clue_words) - def_count
+        max_extra = min(5, def_start_idx)
+        # Try longest extension first
+        for extra in range(max_extra, 0, -1):
+            extended_words = clue_words[def_start_idx - extra:]
+            phrase = ' '.join(_normalise_def_word(w) for w in extended_words)
+            cursor.execute(
+                "SELECT 1 FROM definition_answers_augmented "
+                "WHERE LOWER(definition) = ? AND UPPER(REPLACE(answer,' ','')) = ?",
+                (phrase.lower(), answer_upper)
+            )
+            if cursor.fetchone():
+                result = ' '.join(extended_words)
+                break
+
+    elif at_start:
+        max_extra = min(5, len(clue_words) - def_count)
+        # Try longest extension first
+        for extra in range(max_extra, 0, -1):
+            extended_words = clue_words[:def_count + extra]
+            phrase = ' '.join(_normalise_def_word(w) for w in extended_words)
+            cursor.execute(
+                "SELECT 1 FROM definition_answers_augmented "
+                "WHERE LOWER(definition) = ? AND UPPER(REPLACE(answer,' ','')) = ?",
+                (phrase.lower(), answer_upper)
+            )
+            if cursor.fetchone():
+                result = ' '.join(extended_words)
+                break
+
+    conn.close()
+    return result
 
 
 # ======================================================================
