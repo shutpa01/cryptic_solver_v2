@@ -322,7 +322,31 @@ class DBCache:
 # DATA LOADING
 # ============================================================
 
-def load_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
+def build_cross_reference_map(source: str, puzzle_number: str) -> dict:
+    """Return {('22', 'across'): 'ANIMAL', ...} for the current puzzle."""
+    db_path = PROJECT_ROOT / 'data' / 'clues_master.db'
+    conn = sqlite3.connect(str(db_path))
+    rows = conn.execute(
+        "SELECT clue_number, direction, answer FROM clues WHERE source=? AND puzzle_number=?",
+        (source, str(puzzle_number))
+    ).fetchall()
+    conn.close()
+    return {(str(num), dir_.lower()): ans.upper().replace(' ', '')
+            for num, dir_, ans in rows if num and dir_ and ans}
+
+
+def resolve_cross_references(clue_text: str, cross_ref_map: dict) -> str:
+    """Replace '22 Across', '14 Down' etc. with the actual answer from the puzzle."""
+    def _replace(match):
+        num = match.group(1)
+        direction = match.group(2).lower()
+        answer = cross_ref_map.get((num, direction))
+        return answer if answer else match.group(0)
+    return re.sub(r'\b(\d+)\s+(Across|Down)\b', _replace, clue_text)
+
+
+def load_failures(pipeline_db: str, run_id: int = 0,
+                  cross_ref_map: Optional[dict] = None) -> List[dict]:
     """Load unique stage_secondary failures (skip HTML entity duplicates)."""
     conn = sqlite3.connect(pipeline_db)
     conn.row_factory = sqlite3.Row
@@ -339,6 +363,8 @@ def load_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
     failures = []
     for row in rows:
         clue_text = row['clue_text'] or ''
+        if cross_ref_map:
+            clue_text = resolve_cross_references(clue_text, cross_ref_map)
         answer = (row['answer'] or '').upper().replace(' ', '')
 
         # Skip HTML entity duplicates (keep plain-text version)
@@ -359,7 +385,8 @@ def load_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
     return failures
 
 
-def load_anagram_hits(pipeline_db: str, run_id: int = 0) -> List[dict]:
+def load_anagram_hits(pipeline_db: str, run_id: int = 0,
+                      cross_ref_map: Optional[dict] = None) -> List[dict]:
     """Load anagram stage rows where an exact answer was found but unused words remain.
 
     These are Pattern C candidates: all fodder letters account for the answer,
@@ -381,8 +408,11 @@ def load_anagram_hits(pipeline_db: str, run_id: int = 0) -> List[dict]:
         answer = (row['answer'] or '').upper().replace(' ', '')
         if not answer:
             continue
+        clue_text = row['clue_text'] or ''
+        if cross_ref_map:
+            clue_text = resolve_cross_references(clue_text, cross_ref_map)
         results.append({
-            'clue_text': row['clue_text'] or '',
+            'clue_text': clue_text,
             'answer': answer,
             'unused_words': json.loads(row['unused_words'] or '[]'),
             'indicator_words': json.loads(row['indicator_words'] or '[]'),
@@ -742,9 +772,11 @@ def step_pattern_a_indicator_inference(failure: dict, conn: sqlite3.Connection,
     if formula_type is None:
         return
 
-    # Step 2: Skip if a confirmed indicator of this type already exists
-    if _has_indicator_for_type(word_roles, formula_type):
-        return
+    # Step 2: Track whether indicator already exists.
+    # Only skip indicator proposals (step 6) — NOT definition extension (steps 3-5).
+    # Unresolved words adjacent to the definition must still be proposed as candidates
+    # even when the indicator is already confirmed.
+    skip_indicator_proposals = _has_indicator_for_type(word_roles, formula_type)
 
     # Step 3: Build contiguous groups of unresolved words
     groups = _build_word_groups(clue_text, unresolved, word_roles)
@@ -801,6 +833,9 @@ def step_pattern_a_indicator_inference(failure: dict, conn: sqlite3.Connection,
                            f"pattern-A: '{phrase}' -> {answer}")
 
     # Step 6: Propose indicator candidates from non-definition groups
+    # (skipped if a confirmed indicator of this type already exists in word_roles)
+    if skip_indicator_proposals:
+        return
     wordplay_type = formula_type
     for group in indicator_groups:
         phrase = ' '.join(_norm(w) for w, _ in group if _norm(w))
@@ -875,8 +910,9 @@ def main():
     apply_common_args(args)
 
     pipeline_db = str(PROJECT_ROOT / 'pipeline_stages.db')
-    failures = load_failures(pipeline_db, args.run_id)
-    anagram_hits = load_anagram_hits(pipeline_db, args.run_id)
+    cross_ref_map = build_cross_reference_map(args.source, args.puzzle_number)
+    failures = load_failures(pipeline_db, args.run_id, cross_ref_map=cross_ref_map)
+    anagram_hits = load_anagram_hits(pipeline_db, args.run_id, cross_ref_map=cross_ref_map)
 
     print(f"\n{'=' * 60}")
     print(f"SELF-LEARNING ENRICHMENT")
@@ -932,12 +968,53 @@ def main():
 
     counter.report()
 
-    # Write candidates file for Phase 3 API audit (always, even in dry-run)
+    # Write candidates file (always, so dry-run is inspectable)
     candidates_path = PROJECT_ROOT / 'documents' / 'self_learning_candidates.txt'
     write_candidates_file(candidates, candidates_path)
 
-    # Re-run pipeline to measure improvement (not in dry-run mode)
+    # Audit and apply candidates automatically when not in dry-run mode
     import enrichment.common as _common
+    if not _common.DRY_RUN and candidates:
+        audit_path = PROJECT_ROOT / 'documents' / 'self_learning_audit.txt'
+        apply_log_path = PROJECT_ROOT / 'documents' / 'self_learning_inserts.txt'
+
+        print(f"\n--- Auto-auditing {len(candidates)} candidates with Sonnet ---")
+        from enrichment.audit_candidates import audit_candidates as run_audit
+        run_audit(candidates_path=candidates_path, output_path=audit_path, verbose=False)
+
+        print(f"\n--- Auto-applying approved candidates ---")
+        from enrichment.apply_candidates import apply_entry
+        from datetime import datetime
+
+        audit_lines = [l.strip() for l in audit_path.read_text(encoding='utf-8').splitlines() if l.strip()]
+        audited = []
+        for line in audit_lines:
+            try:
+                audited.append(json.loads(line))
+            except json.JSONDecodeError:
+                pass
+
+        conn2 = get_cryptic_conn()
+        counter2 = InsertCounter("apply_approved")
+        log_lines = [
+            f"# self_learning_inserts.txt — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            f"# Rollback: run the DELETE statements below against cryptic_new.db",
+            "",
+        ]
+        for entry in audited:
+            if entry.get('verdict') == 'YES':
+                phrase = entry.get('phrase', '')
+                answer = entry.get('answer', '')
+                ctype = entry.get('type', '')
+                print(f"  Applying: {ctype} '{phrase}' -> {answer}")
+                apply_entry(entry, conn2, counter2, log_lines)
+        conn2.commit()
+        conn2.close()
+        counter2.report()
+        apply_log_path.write_text('\n'.join(log_lines) + '\n', encoding='utf-8')
+        print(f"Insert log: {apply_log_path}")
+
+    # Re-run pipeline to measure improvement (not in dry-run mode)
     if not args.no_rerun and not _common.DRY_RUN:
         try:
             after_line = rerun_pipeline(args.source, args.puzzle_number)
