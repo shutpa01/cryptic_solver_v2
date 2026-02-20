@@ -20,6 +20,38 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 
+# Link words that require no wiring to the answer — confirmed surface connectors.
+# Copied from stages/secondary.py LINKERS set.
+LINKERS = {
+    # Articles, prepositions, conjunctions
+    'of', 'in', 'the', 'a', 'an', 'to', 'for', 'with', 'and', 'or',
+    'by', 'from', 'as', 'on', 'at', 'but', 'so', 'yet', 'if', 'not',
+    'nor', 'up', 'it', 'its', 'into', 'onto', 'within', 'without',
+    # Relative/question connectors
+    'that', 'which', 'when', 'where', 'while', 'how', 'why', 'who',
+    # Pronouns/determiners
+    'this', 'these', 'those', 'such', 'one', 'ones', 'some', 'any',
+    'all', 'here', 'there',
+    # be-forms
+    'is', 'are', 'be', 'been', 'being', 'was', 'were',
+    # have-forms
+    'has', 'have', 'had', 'having',
+    # Modals
+    'will', 'would', 'could', 'should', 'must', 'may', 'might',
+    # get-forms
+    'get', 'gets', 'got', 'getting',
+    # give-forms
+    'give', 'gives', 'gave', 'given', 'giving',
+    # make-forms
+    'make', 'makes', 'made', 'making',
+    # need-forms
+    'need', 'needs',
+    # Other common surface connectors
+    'thus', 'hence', 'therefore', 'maybe',
+    # Normalised contractions (apostrophe stripped by norm)
+    'dont', 'doesnt', 'didnt', 'wont', 'wouldnt', 'cant', 'isnt', 'arent',
+}
+
 # ============================================================
 # USER CONFIGURATION
 # ============================================================
@@ -235,12 +267,77 @@ Optional[ClueResult]:
     result.clue_type = "hidden"
 
     container = row.get("container_text", "")
-    result.formula = f"Hidden in: {container}"
-    result.breakdown = [
-        f'"{answer}" is hidden in the clue text',
-        f'Container: {container}'
-    ]
 
+    # Build a proper breakdown showing indicator, container words, and definition.
+    clue_words = re.findall(r'[a-zA-Z]+', result.clue_text)
+    answer_clean = re.sub(r'[^a-zA-Z]', '', answer).lower()
+
+    # Step 1: find which consecutive words span the hidden answer.
+    container_word_indices = set()
+    for window in range(1, len(clue_words) + 1):
+        for start in range(len(clue_words) - window + 1):
+            joined = ''.join(w.lower() for w in clue_words[start:start + window])
+            if answer_clean in joined:
+                container_word_indices = set(range(start, start + window))
+                break
+        if container_word_indices:
+            break
+
+    # Step 2: find indicator word(s) from the indicators table.
+    db_conn = sqlite3.connect(CRYPTIC_DB)
+    db_cur = db_conn.cursor()
+    indicator_indices = set()
+    for i, word in enumerate(clue_words):
+        w_norm = re.sub(r'[^a-z]', '', word.lower())
+        db_cur.execute(
+            "SELECT 1 FROM indicators WHERE word=? AND wordplay_type='hidden'", (w_norm,))
+        if db_cur.fetchone():
+            indicator_indices.add(i)
+
+    # Step 3: find definition from definition_answers_augmented.
+    answer_upper = answer.upper().replace(' ', '')
+    db_cur.execute(
+        "SELECT DISTINCT definition FROM definition_answers_augmented "
+        "WHERE UPPER(REPLACE(answer,' ',''))=? ORDER BY LENGTH(definition) DESC",
+        (answer_upper,)
+    )
+    known_defs = [r[0] for r in db_cur.fetchall()]
+    db_conn.close()
+
+    clue_text_lower = ' '.join(w.lower() for w in clue_words)
+    definition_window = None
+    for defn in known_defs:
+        if defn.lower() in clue_text_lower:
+            definition_window = defn
+            break
+    def_words_lower = set()
+    if definition_window:
+        def_words_lower = {w.lower() for w in definition_window.split()}
+        result.definition = definition_window
+
+    # Step 4: build per-word breakdown.
+    breakdown = []
+    for i, word in enumerate(clue_words):
+        w_norm = re.sub(r'[^a-z]', '', word.lower())
+        if i in indicator_indices:
+            breakdown.append(f'"{word}" = hidden word indicator')
+        elif i in container_word_indices:
+            breakdown.append(f'"{word}" = contains hidden {answer}')
+        elif w_norm in def_words_lower:
+            breakdown.append(f'"{word}" = definition for {answer}')
+        elif w_norm in LINKERS:
+            breakdown.append(f'"{word}" = link word')
+        else:
+            breakdown.append(f'"{word}" = unresolved')
+
+    # Build formula.
+    if container_word_indices:
+        span = ' '.join(clue_words[i] for i in sorted(container_word_indices))
+        result.formula = f'"{span}" hides {answer}'
+    else:
+        result.formula = f"Hidden in: {container}"
+
+    result.breakdown = breakdown
     return result
 
 
@@ -380,7 +477,17 @@ Optional[ClueResult]:
     for dw in definition_words:
         result.breakdown.append(f'"{dw}" = definition for {answer}')
     for sw in surface_words:
-        result.breakdown.append(f'"{sw}" = link word')
+        w_norm = re.sub(r'[^a-z]', '', sw.lower())
+        if w_norm in LINKERS:
+            result.breakdown.append(f'"{sw}" = link word')
+        else:
+            result.breakdown.append(f'"{sw}" = unresolved')
+            result.unresolved_words.append(sw)
+
+    # Wire principle: any unresolved word means the explanation is incomplete.
+    if result.unresolved_words:
+        result.solved = False
+        result.solve_quality = "partial"
 
     result.definition = " ".join(definition_words) if definition_words else ""
 
@@ -660,6 +767,18 @@ Optional[ClueResult]:
         result.solved = False
         result.solve_quality = "partial"
 
+    # Wire principle: "wordplay connector" words are unresolved — not wired to any
+    # answer letter and not confirmed link words. Downgrade SOLVED → PARTIAL.
+    if result.solved:
+        for item in result.breakdown:
+            if isinstance(item, str) and '= wordplay connector' in item:
+                m = re.match(r'"([^"]+)"\s*=\s*wordplay connector', item)
+                if m:
+                    result.unresolved_words.append(m.group(1))
+        if result.unresolved_words:
+            result.solved = False
+            result.solve_quality = "partial"
+
     return result
 
 
@@ -794,11 +913,18 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
 
     # 3. Anagram
     result = check_stage_anagram(pipeline_db, run_id, clue_id, answer)
+    anagram_partial = None
     if result and result.solved:
         result.clue_number = info["clue_number"]
         result.direction = info["direction"]
         result.enumeration = info.get("enumeration", "")
         return result
+    elif result:
+        # Anagram fired but is partial — save as fallback
+        result.clue_number = info["clue_number"]
+        result.direction = info["direction"]
+        result.enumeration = info.get("enumeration", "")
+        anagram_partial = result
 
     # 4. Compound
     result = check_stage_compound(pipeline_db, run_id, clue_id, answer)
@@ -839,6 +965,10 @@ def resolve_clue(pipeline_db: str, cryptic_db: str, run_id: int,
         result.direction = info["direction"]
         result.enumeration = info.get("enumeration", "")
         return result
+
+    # 9. Anagram partial if available (better than completely unsolved)
+    if anagram_partial:
+        return anagram_partial
 
     # Fallback: completely unresolved
     return ClueResult(
