@@ -452,13 +452,10 @@ def step_a_definition_pairs(failure: dict, conn: sqlite3.Connection,
             if word:
                 maybe_insert(word, answer)
 
-    # Method 2: heuristic first/last N words of clue
-    words = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text).split()
-    for n in (1, 2, 3):
-        if n > len(words):
-            continue
-        maybe_insert(' '.join(words[:n]), answer)
-        maybe_insert(' '.join(words[-n:]), answer)
+    # Method 2 (heuristic first/last N words) intentionally removed.
+    # It inserted wordplay words as definitions without any audit, poisoning
+    # the DB with entries like "alarm," → ALBERT and "at the front" → ALBERT.
+    # Only Method 1 (definition-tagged word_roles from the pipeline) is used.
 
 
 def _is_clean_word(word: str) -> bool:
