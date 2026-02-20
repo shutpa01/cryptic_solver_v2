@@ -1,2 +1,2 @@
-{"pattern": "C", "type": "definition_pair", "phrase": "somewhere go surfing", "answer": "CYBERCAFE", "clue": "Free baccy, rum, somewhere to go surfing?", "confidence": "high"}
-{"pattern": "C", "type": "definition_pair", "phrase": "very small business", "answer": "NANOTECH", "clue": "Very small business of Conan the Barbaric?", "confidence": "high"}
+{"pattern": "A", "type": "indicator", "phrase": "punches", "wordplay_type": "insertion", "subtype": null, "answer": "FLASHMAN", "clue": "Mum punches vulgar knight, an awful bully", "formula": "MA (Mum) + FLASH (vulgar) + N (knight,) (with insertion) = FLASHMAN", "confidence": "medium"}
+{"pattern": "A", "type": "indicator", "phrase": "sprays", "wordplay_type": "anagram", "subtype": null, "answer": "GREYWOLF", "clue": "Grand, flowery sprays, 22 Across in a pack", "formula": "G (Grand,) + FLOWERY = GREYWOLF", "confidence": "medium"}

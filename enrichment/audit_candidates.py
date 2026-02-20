@@ -64,16 +64,30 @@ def build_prompt(candidate: dict) -> str:
 
     elif ctype == 'indicator':
         phrase = candidate['phrase']
-        subtype = candidate.get('subtype', candidate.get('wordplay_type', 'unknown'))
-        container = candidate.get('container', '')
-        letters = candidate.get('letters', '')
+        wordplay_type = candidate.get('wordplay_type', 'unknown')
+        subtype = candidate.get('subtype')  # May be None for Pattern A
+        pattern = candidate.get('pattern', '')
+
+        # Build a type label: use subtype if present, else wordplay_type
+        type_label = subtype if subtype else wordplay_type
+
+        if pattern == 'D':
+            # Pattern D: outer-letters context
+            container = candidate.get('container', '')
+            letters = candidate.get('letters', '')
+            context = (f"It is being proposed as the indicator that the outer "
+                       f"letters of \"{container}\" give \"{letters}\".")
+        else:
+            # Pattern A: formula context
+            formula = candidate.get('formula', '')
+            context = f"It appears in the formula: {formula}" if formula else ""
+
         return (
             f"Cryptic crossword question.\n\n"
             f"Clue: \"{clue}\"\n"
             f"Answer: {candidate['answer']}\n\n"
-            f"Is \"{phrase}\" a valid {subtype} indicator in cryptic crosswords? "
-            f"(Context: it is being proposed as the indicator that the outer "
-            f"letters of \"{container}\" give \"{letters}\".)\n\n"
+            f"Is \"{phrase}\" a valid {type_label} indicator in cryptic crosswords? "
+            f"{context}\n\n"
             f"Reply with exactly one of YES, NO, or UNSURE on the first line, "
             f"followed by one sentence explaining why."
         )

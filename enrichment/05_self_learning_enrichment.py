@@ -69,6 +69,185 @@ LINKERS = {
 }
 
 
+def _norm(word: str) -> str:
+    """Normalize a word: lowercase, strip all non-alphabetic characters."""
+    return re.sub(r'[^a-z]', '', word.lower())
+
+
+# ============================================================
+# PATTERN A HELPERS
+# ============================================================
+
+# Maps formula operation type → the role name used in word_roles for a confirmed indicator
+_FORMULA_TYPE_TO_INDICATOR_ROLE = {
+    'anagram':   'anagram_indicator',
+    'insertion': 'insertion_indicator',
+    'container': 'container_indicator',
+    'reversal':  'reversal_indicator',
+    'deletion':  'deletion_indicator',
+}
+
+
+def _infer_formula_type(formula: str, word_roles: list) -> Optional[str]:
+    """Infer the cryptic operation type from word_roles (fodder signal) and the formula string.
+
+    Checks word_roles for a [fodder] role first (anagram signal), then parses
+    the formula string for known operation markers.
+    Returns a type string ('anagram', 'insertion', etc.) or None if indeterminate.
+    """
+    for wr in word_roles:
+        if wr.get('role') == 'fodder':
+            return 'anagram'
+    fl = (formula or '').lower()
+    if 'with insertion' in fl:
+        return 'insertion'
+    if 'contained' in fl:
+        return 'container'
+    if 'reversed' in fl:
+        return 'reversal'
+    if 'deletion' in fl:
+        return 'deletion'
+    return None
+
+
+def _has_indicator_for_type(word_roles: list, formula_type: str) -> bool:
+    """Return True if an indicator of the given type already exists in word_roles.
+
+    If the formula already has a confirmed indicator of this type, Pattern A
+    should not propose new ones.
+    """
+    target_role = _FORMULA_TYPE_TO_INDICATOR_ROLE.get(formula_type)
+    if not target_role:
+        return False
+    return any(wr.get('role') == target_role for wr in word_roles)
+
+
+def _build_word_groups(clue_text: str, unresolved_words: list,
+                       word_roles: list) -> List[List[Tuple[str, int]]]:
+    """Build contiguous groups of unresolved words from the clue text.
+
+    Rules:
+    - LINKER words do not break groups (absorbed as interior connectors).
+    - Non-LINKER USED words (those with a non-linker role in word_roles) break groups.
+    - UNRESOLVED words start or extend groups.
+
+    Returns a list of groups; each group is a list of (token, position) tuples.
+    """
+    unresolved_norm = {_norm(w) for w in unresolved_words}
+
+    # Words with any non-linker role are USED and break groups
+    used_norm: Set[str] = set()
+    for wr in word_roles:
+        role = wr.get('role', '')
+        if role and role != 'linker':
+            wn = _norm(wr.get('word', ''))
+            if wn:
+                used_norm.add(wn)
+
+    clue_clean = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text)
+    tokens = clue_clean.split()
+
+    groups: List[List[Tuple[str, int]]] = []
+    current_group: List[Tuple[str, int]] = []
+    pending_linkers: List[Tuple[str, int]] = []
+
+    for i, token in enumerate(tokens):
+        tn = _norm(token)
+        if not tn:
+            continue
+
+        if tn in unresolved_norm and tn not in used_norm:
+            # Unresolved: flush pending linkers into group, then add this word
+            current_group.extend(pending_linkers)
+            current_group.append((token, i))
+            pending_linkers = []
+        elif tn in LINKERS and tn not in used_norm:
+            # Linker: hold as pending — only joins a group if another unresolved follows
+            if current_group:
+                pending_linkers.append((token, i))
+            # If no active group, linkers do not start one
+        else:
+            # Used non-linker word: close any active group
+            if current_group:
+                groups.append(current_group)
+                current_group = []
+            pending_linkers = []
+
+    if current_group:
+        groups.append(current_group)
+
+    return groups
+
+
+def _infer_definition_groups(
+        groups: List[List[Tuple[str, int]]],
+        clue_text: str,
+        word_roles: list,
+) -> Tuple[List, List]:
+    """Separate unresolved groups into definition-extension groups and indicator groups.
+
+    Rules:
+    - If a definition word is identified in word_roles:
+        Groups adjacent to the definition word(s) with only LINKERs between
+        them → definition extension.
+    - If no definition found:
+        Groups at either edge of the clue (start or end) → definition.
+    - All other groups → indicator candidates.
+
+    Returns (definition_groups, indicator_groups).
+    """
+    clue_clean = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text)
+    tokens = clue_clean.split()
+    clue_len = len(tokens)
+
+    def_words_norm = {_norm(wr.get('word', ''))
+                      for wr in word_roles if wr.get('role') == 'definition'}
+    def_positions = {i for i, t in enumerate(tokens) if _norm(t) in def_words_norm}
+
+    def group_span(g):
+        positions = [pos for _, pos in g]
+        return min(positions), max(positions)
+
+    def only_linkers_between(start_idx: int, end_idx: int) -> bool:
+        """True if every token in range(start_idx, end_idx) is a LINKER."""
+        for j in range(start_idx, end_idx):
+            if j < len(tokens) and _norm(tokens[j]) not in LINKERS:
+                return False
+        return True
+
+    definition_groups: List = []
+    indicator_groups: List = []
+
+    if def_positions:
+        def_min = min(def_positions)
+        def_max = max(def_positions)
+        for group in groups:
+            gmin, gmax = group_span(group)
+            adjacent = False
+            if gmax < def_min:
+                # Group before definition: gap must be all LINKERs
+                if only_linkers_between(gmax + 1, def_min):
+                    adjacent = True
+            elif gmin > def_max:
+                # Group after definition: gap must be all LINKERs
+                if only_linkers_between(def_max + 1, gmin):
+                    adjacent = True
+            if adjacent:
+                definition_groups.append(group)
+            else:
+                indicator_groups.append(group)
+    else:
+        # No definition identified: groups at the clue edges are assumed to be definitions
+        for group in groups:
+            gmin, gmax = group_span(group)
+            if gmin == 0 or gmax >= clue_len - 1:
+                definition_groups.append(group)
+            else:
+                indicator_groups.append(group)
+
+    return definition_groups, indicator_groups
+
+
 # ============================================================
 # IN-MEMORY CACHE
 # ============================================================
@@ -437,7 +616,7 @@ def step_pattern_c_anagram_boundary(anagram_hit: dict, conn: sqlite3.Connection,
     if len(phrase) < 3:
         return
 
-    if cache.def_known(phrase, answer):
+    if cache.def_known(phrase, answer) or cache.word_maps_to(phrase, answer):
         return
 
     candidates.append({
@@ -531,6 +710,121 @@ def step_pattern_d_outer_letters(failure: dict, conn: sqlite3.Connection,
         cache.indicators.add(indicator_phrase.lower())
     counter.record('indicators', inserted,
                    f"pattern-D: '{indicator_phrase}' (outer_use) for {answer}")
+
+
+def step_pattern_a_indicator_inference(failure: dict, conn: sqlite3.Connection,
+                                       cache: DBCache, counter: InsertCounter,
+                                       candidates: list):
+    """Pattern A: infer indicator words when all letters are found but clue words are unresolved.
+
+    When the pipeline accounts for all answer letters (letters_still_needed='') but
+    some clue words have no assigned role, this step:
+    1. Determines the formula operation type (anagram, insertion, container, etc.)
+    2. Skips if an indicator of that type is already confirmed in word_roles.
+    3. Groups contiguous unresolved words (LINKERs do not break groups).
+    4. Classifies groups adjacent to the definition → definition extensions.
+    5. Checks extended definition phrases against definition_answers AND synonyms_pairs.
+    6. Proposes remaining groups as indicator candidates of the inferred type.
+    """
+    answer = failure['answer']
+    clue_text = failure['clue_text']
+    letters_needed = failure['letters_still_needed']
+    unresolved = failure['unresolved_words']
+    word_roles = failure['word_roles']
+    formula = failure['original_formula']
+
+    # Only fire when all letters are found but unresolved words remain
+    if letters_needed or not unresolved:
+        return
+
+    # Step 1: Determine formula type
+    formula_type = _infer_formula_type(formula, word_roles)
+    if formula_type is None:
+        return
+
+    # Step 2: Skip if a confirmed indicator of this type already exists
+    if _has_indicator_for_type(word_roles, formula_type):
+        return
+
+    # Step 3: Build contiguous groups of unresolved words
+    groups = _build_word_groups(clue_text, unresolved, word_roles)
+    if not groups:
+        return
+
+    # Step 4: Separate definition-extension groups from indicator groups
+    def_groups, indicator_groups = _infer_definition_groups(groups, clue_text, word_roles)
+
+    # Step 5: Check definition extensions — propose extended definition pairs if uncovered
+    if def_groups:
+        clue_clean = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text)
+        tokens = clue_clean.split()
+        def_words_norm = {_norm(wr.get('word', ''))
+                          for wr in word_roles if wr.get('role') == 'definition'}
+        def_positions = sorted(
+            i for i, t in enumerate(tokens) if _norm(t) in def_words_norm
+        )
+        for group in def_groups:
+            group_positions = [pos for _, pos in group]
+            all_positions = sorted(group_positions + def_positions)
+            if not all_positions:
+                continue
+            span_start, span_end = min(all_positions), max(all_positions)
+            group_pos_set = set(group_positions)
+            def_pos_set = set(def_positions)
+            phrase_tokens = []
+            for i in range(span_start, span_end + 1):
+                if i >= len(tokens):
+                    break
+                tn = _norm(tokens[i])
+                if i in group_pos_set or i in def_pos_set or tn in LINKERS:
+                    cleaned = re.sub(r'[^a-z ]', '', tokens[i].lower()).strip()
+                    if cleaned:
+                        phrase_tokens.append(cleaned)
+            phrase = ' '.join(phrase_tokens)
+            if not phrase or len(phrase) < 3:
+                continue
+            # Check both tables before proposing
+            if cache.def_known(phrase, answer) or cache.word_maps_to(phrase, answer):
+                continue
+            candidates.append({
+                'pattern': 'A',
+                'type': 'definition_pair',
+                'phrase': phrase,
+                'answer': answer,
+                'clue': clue_text,
+                'confidence': 'medium',
+            })
+            inserted = insert_definition_answer(conn, phrase, answer, SOURCE_TAG)
+            if inserted:
+                cache.add_def(phrase, answer)
+            counter.record('definition_answers_augmented', inserted,
+                           f"pattern-A: '{phrase}' -> {answer}")
+
+    # Step 6: Propose indicator candidates from non-definition groups
+    wordplay_type = formula_type
+    for group in indicator_groups:
+        phrase = ' '.join(_norm(w) for w, _ in group if _norm(w))
+        if not phrase or len(phrase) < 2:
+            continue
+        if cache.is_indicator(phrase):
+            continue  # Already in DB
+        candidates.append({
+            'pattern': 'A',
+            'type': 'indicator',
+            'phrase': phrase,
+            'wordplay_type': wordplay_type,
+            'subtype': None,
+            'answer': answer,
+            'clue': clue_text,
+            'formula': formula,
+            'confidence': 'medium',
+        })
+        inserted = insert_indicator(conn, phrase, wordplay_type,
+                                    subtype=None, confidence='medium')
+        if inserted:
+            cache.indicators.add(phrase.lower())
+        counter.record('indicators', inserted,
+                       f"pattern-A: '{phrase}' ({wordplay_type}) for {answer}")
 
 
 def write_candidates_file(candidates: list, output_path: Path):
@@ -631,6 +925,7 @@ def main():
         step_b_single_word_inference(failure, conn, cache, counter)
         step_c_two_word_anchor_inference(failure, conn, cache, counter)
         step_pattern_d_outer_letters(failure, conn, cache, counter, candidates)
+        step_pattern_a_indicator_inference(failure, conn, cache, counter, candidates)
 
     conn.commit()
     conn.close()
