@@ -16,8 +16,10 @@ import html
 import json
 import re
 import sqlite3
+import sys
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Optional, List, Dict, Any
 
 # Link words that require no wiring to the answer — confirmed surface connectors.
@@ -72,8 +74,8 @@ MAX_CLUES = 50            # max clues to select
 
 EXCLUDE_SOLVED = True        # skip clues that already have a solution
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH =""
-# filter to single clue matching this text
+SINGLE_CLUE_MATCH = ""
+# filter to single clue matching this text (empty = no filter)
 USE_KNOWN_ANSWER = True       # use known answer as candidate
 ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
 MAX_DISPLAY = 50              # max clues to print
@@ -1224,6 +1226,8 @@ def main():
     parser.add_argument("--enable-persistence", action=argparse.BooleanOptionalAction,
                         default=ENABLE_PERSISTENCE,
                         help="Enable stage persistence to SQLite")
+    parser.add_argument("--no-self-learn", action="store_true", default=False,
+                        help="Skip self-learning enrichment step")
     args = parser.parse_args()
 
     # Wire CLI args to pipeline_simulator globals
@@ -1294,6 +1298,40 @@ def main():
             "C:/Users/shute/PycharmProjects/cryptic_solver_V2/.venv/Scripts/python.exe",
             "cache_api_synonyms.py"
         ], cwd="C:/Users/shute/PycharmProjects/cryptic_solver_V2")
+
+        if not args.no_self_learn:
+            print("\n" + "-" * 60)
+            print("STEP 3.6: Self-learning enrichment (failures -> Sonnet audit -> apply)...")
+            print("-" * 60)
+            _enrich_script = str(Path(__file__).parent / 'enrichment' / '05_self_learning_enrichment.py')
+            _enrich_result = subprocess.run(
+                [sys.executable, _enrich_script,
+                 '--no-rerun',
+                 '--source', args.source,
+                 '--puzzle-number', args.puzzle_number],
+                cwd=str(Path(__file__).parent)
+            )
+
+            if _enrich_result.returncode == 0:
+                print("\n" + "-" * 60)
+                print("STEP 3.7: Re-running pipeline with enriched DB...")
+                print("-" * 60)
+                _pdb2 = _sqlite3.connect(PIPELINE_DB)
+                for _tbl in ('stage_input', 'stage_dd', 'stage_definition',
+                             'stage_definition_failed', 'stage_anagram', 'stage_lurker',
+                             'stage_evidence', 'stage_compound',
+                             'stage_general', 'stage_secondary'):
+                    try:
+                        _pdb2.execute(f"DELETE FROM {_tbl} WHERE run_id = 0")
+                    except Exception:
+                        pass
+                _pdb2.commit()
+                _pdb2.close()
+                anagram_analysis.main()
+                run_general_analysis(run_id=0)
+                run_secondary_analysis(run_id=0)
+            else:
+                print("  Self-learning enrichment failed — skipping re-run.")
 
         print("\n" + "-" * 60)
         print("STEP 4: Writing unified puzzle report...")
