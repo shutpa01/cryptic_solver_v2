@@ -157,7 +157,8 @@ def harvest_today(driver):
             link_date = date_match.group(1) if date_match else None
 
             # Only take today's puzzles
-            if link_date != today_str:
+            # Prize types show closing date not publication date, so skip date check for them
+            if link_type not in ('prize-cryptic', 'prize-toughie') and link_date != today_str:
                 continue
 
             if link_type not in TYPE_MAP:

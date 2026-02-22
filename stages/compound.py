@@ -136,7 +136,10 @@ class DatabaseLookup:
         word_clean = ' '.join(word_clean.split())  # Normalize whitespace
 
         if not word_clean:
-            return None
+            # Numeric tokens (e.g., "1") — look up directly
+            word_clean = ''.join(c for c in word if c.isdigit())
+            if not word_clean:
+                return None
 
         if word_clean in self._indicator_cache:
             return self._indicator_cache[word_clean]
@@ -177,15 +180,20 @@ class DatabaseLookup:
         word_clean = ''.join(c for c in word.lower() if c.isalpha())
 
         if not word_clean:
-            return []
+            # Numeric tokens (e.g., "1", "50", "100") — look up directly
+            word_clean = ''.join(c for c in word if c.isdigit())
+            if not word_clean:
+                return []
 
         if word_clean in self._substitution_cache:
-            return self._substitution_cache[word_clean]
+            all_matches = self._substitution_cache[word_clean]
+            return [m for m in all_matches if len(m.letters) <= max_synonym_length
+                    or m.category != 'synonym']
 
         conn = self._get_connection()
         cursor = conn.cursor()
 
-        # First check wordplay table
+        # First check wordplay table (no length filter — these are abbreviations/mappings)
         cursor.execute("""
             SELECT indicator, substitution, category, notes
             FROM wordplay
@@ -204,11 +212,11 @@ class DatabaseLookup:
             for r in results
         ]
 
-        # Also check synonyms_pairs for short synonyms
+        # Also check synonyms_pairs — fetch ALL synonyms, filter by length on return
         cursor.execute("""
             SELECT synonym FROM synonyms_pairs
-            WHERE LOWER(word) = ? AND LENGTH(synonym) <= ?
-        """, (word_clean, max_synonym_length))
+            WHERE LOWER(word) = ?
+        """, (word_clean,))
 
         synonym_results = cursor.fetchall()
 
@@ -230,8 +238,8 @@ class DatabaseLookup:
             singular = word_clean[:-1]
             cursor.execute("""
                 SELECT synonym FROM synonyms_pairs
-                WHERE LOWER(word) = ? AND LENGTH(synonym) <= ?
-            """, (singular, max_synonym_length))
+                WHERE LOWER(word) = ?
+            """, (singular,))
 
             for r in cursor.fetchall():
                 synonym = r[0]
@@ -249,8 +257,8 @@ class DatabaseLookup:
             plural = word_clean + 's'
             cursor.execute("""
                 SELECT synonym FROM synonyms_pairs
-                WHERE LOWER(word) = ? AND LENGTH(synonym) <= ?
-            """, (plural, max_synonym_length + 1))
+                WHERE LOWER(word) = ?
+            """, (plural,))
 
             for r in cursor.fetchall():
                 synonym = r[0]
@@ -266,7 +274,9 @@ class DatabaseLookup:
                         ))
 
         self._substitution_cache[word_clean] = matches
-        return matches
+        # Return filtered by max_synonym_length (wordplay entries always pass)
+        return [m for m in matches if len(m.letters) <= max_synonym_length
+                or m.category != 'synonym']
 
     def lookup_phrase_substitution(self, phrase: str, max_synonym_length: int = 8) -> \
             List[SubstitutionMatch]:
@@ -550,9 +560,6 @@ class CompoundWordplayAnalyzer:
             'offering', 'providing', 'yielding', 'making',
         }
 
-        # Positional indicators that show construction order
-        self.positional_words = {'after', 'before', 'following', 'preceding',
-                                 'then', 'first', 'finally', 'initially'}
 
     def close(self):
         self.db.close()
@@ -3074,15 +3081,6 @@ class CompoundWordplayAnalyzer:
                     except ValueError:
                         pass  # word not in remaining_words
 
-            # Fallback: Check if it's a positional indicator by heuristic (not in database as parts/acrostic)
-            # Only if not already handled above
-            if word_lower in self.positional_words and word_lower not in def_words_lower:
-                if word_lower not in accounted_words:
-                    positional_indicators.append(word)
-                    word_roles.append(
-                        WordRole(word, 'positional_indicator', '', 'heuristic'))
-                    accounted_words.add(word_lower)
-                    continue
 
             # Check if this word's letters are contained in needed letters (partial fodder)
             # This handles cases like "ill" providing ILL when we need WILL
@@ -4606,10 +4604,6 @@ class CompoundWordplayAnalyzer:
                 word_roles.append(WordRole(
                     word, f'{indicator_match.wordplay_type}_indicator', '', 'database'
                 ))
-                accounted_words.add(word_lower)
-            elif word_lower in self.positional_words:
-                classified.append((word, 'positional'))
-                word_roles.append(WordRole(word, 'positional_indicator', '', 'heuristic'))
                 accounted_words.add(word_lower)
 
         return {

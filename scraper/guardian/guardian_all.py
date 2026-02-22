@@ -9,6 +9,7 @@ import sqlite3
 import os
 import sys
 import re
+import time
 from datetime import datetime, date, timedelta
 from dotenv import load_dotenv
 from html import unescape
@@ -94,12 +95,21 @@ def get_puzzle_data(puzzle_type, puzzle_number):
     url = f"https://www.theguardian.com/crosswords/{url_path}/{puzzle_number}.json"
     print(f"Fetching: {url}")
 
-    response = requests.get(url, timeout=30)
-    if response.status_code != 200:
-        print(f"Error: HTTP {response.status_code}")
-        return None
-
-    return response.json()
+    for attempt in range(3):
+        try:
+            response = requests.get(url, timeout=30)
+            if response.status_code != 200:
+                print(f"Error: HTTP {response.status_code}")
+                return None
+            return response.json()
+        except Exception as e:
+            if attempt < 2:
+                wait = 2 * (attempt + 1)
+                print(f"  Request failed (attempt {attempt + 1}/3), retrying in {wait}s: {e}")
+                time.sleep(wait)
+            else:
+                print(f"  Request failed after 3 attempts: {e}")
+                return None
 
 
 def parse_puzzle(data, puzzle_type):

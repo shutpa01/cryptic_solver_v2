@@ -284,7 +284,7 @@ class ExplanationBuilder:
                         if word_norm in self.link_words:
                             explanations.append(f'"{word}" = link word')
                         else:
-                            explanations.append(f'"{word}" = wordplay connector')
+                            explanations.append(f'"{word}" = unresolved')
                     else:
                         # Letters still needed - every leftover is a suspect
                         explanations.append(f'"{word}" = unresolved')

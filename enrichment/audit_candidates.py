@@ -34,9 +34,10 @@ load_dotenv()
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
-# Use cheapest model — these are simple YES/NO/UNSURE judgements.
-AUDIT_MODEL = "claude-haiku-4-5-20251001"
-MAX_TOKENS = 150
+# Use Sonnet — it has knowledge of cryptic crossword conventions.
+# Haiku does not understand British cryptic indicators and will reject valid ones.
+AUDIT_MODEL = "claude-sonnet-4-6"
+MAX_TOKENS = 400
 SLEEP_BETWEEN_CALLS = 0.5  # seconds — polite rate limiting
 
 
@@ -64,32 +65,16 @@ def build_prompt(candidate: dict) -> str:
 
     elif ctype == 'indicator':
         phrase = candidate['phrase']
-        wordplay_type = candidate.get('wordplay_type', 'unknown')
-        subtype = candidate.get('subtype')  # May be None for Pattern A
-        pattern = candidate.get('pattern', '')
-
-        # Build a type label: use subtype if present, else wordplay_type
-        type_label = subtype if subtype else wordplay_type
-
-        if pattern == 'D':
-            # Pattern D: outer-letters context
-            container = candidate.get('container', '')
-            letters = candidate.get('letters', '')
-            context = (f"It is being proposed as the indicator that the outer "
-                       f"letters of \"{container}\" give \"{letters}\".")
-        else:
-            # Pattern A: formula context
-            formula = candidate.get('formula', '')
-            context = f"It appears in the formula: {formula}" if formula else ""
+        answer = candidate['answer']
 
         return (
-            f"Cryptic crossword question.\n\n"
+            f"Cryptic crossword clue analysis.\n\n"
             f"Clue: \"{clue}\"\n"
-            f"Answer: {candidate['answer']}\n\n"
-            f"Is \"{phrase}\" a valid {type_label} indicator in cryptic crosswords? "
-            f"{context}\n\n"
-            f"Reply with exactly one of YES, NO, or UNSURE on the first line, "
-            f"followed by one sentence explaining why."
+            f"Answer: {answer}\n\n"
+            f"What purpose does the word \"{phrase}\" serve in this clue? "
+            f"Explain the wordplay role in one or two sentences, then on the "
+            f"final line write exactly: VERDICT: YES (active wordplay role), "
+            f"NO (no wordplay role), or VERDICT: UNSURE."
         )
 
     elif ctype in ('wordplay', 'synonym'):
@@ -122,26 +107,33 @@ def build_prompt(candidate: dict) -> str:
 def parse_verdict(response_text: str) -> tuple[str, str]:
     """Extract (verdict, reason) from model response.
 
-    Expects the first token to be YES, NO, or UNSURE.
-    Falls back to scanning first two lines if the format is slightly off.
+    Looks for 'VERDICT: YES/NO/UNSURE' on the last line first (reasoning-first format).
+    Falls back to scanning all lines, then the first word.
     """
     text = response_text.strip()
-    first_line = text.split('\n')[0].strip()
+    lines = text.splitlines()
 
-    # Try first word of first line
+    # Primary: look for 'VERDICT: YES/NO/UNSURE' anywhere, prefer last occurrence
+    for line in reversed(lines):
+        m = re.search(r'VERDICT:\s*(YES|NO|UNSURE)', line.upper())
+        if m:
+            verdict = m.group(1)
+            reason = text[:text.upper().rfind('VERDICT:')].strip()[:300]
+            return verdict, reason
+
+    # Fallback: first word of first line (old format for definition_pair / wordplay prompts)
+    first_line = lines[0].strip() if lines else ''
     first_word = re.split(r'[\s,.\-:]', first_line)[0].upper()
     if first_word in ('YES', 'NO', 'UNSURE'):
-        # Reason is everything after the verdict word/line
         remaining = text[len(first_line):].strip()
         if not remaining:
             remaining = first_line[len(first_word):].strip().lstrip('.,: ')
-        reason = remaining[:300]  # cap length
-        return first_word, reason
+        return first_word, remaining[:300]
 
-    # Fallback: scan for YES/NO/UNSURE anywhere in first two lines
-    for line in text.splitlines()[:2]:
+    # Last resort: scan all lines
+    for line in lines:
         for verdict in ('YES', 'NO', 'UNSURE'):
-            if verdict in line.upper():
+            if re.search(rf'\b{verdict}\b', line.upper()):
                 reason = text.replace(line, '').strip()[:300]
                 return verdict, reason or line
 

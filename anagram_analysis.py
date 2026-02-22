@@ -18,6 +18,10 @@ UPDATED: Now persists evidence and compound stages to SQLite
 
 import sys
 
+# Windows terminals default to cp1252; force UTF-8 so ✓/✗ and → print cleanly.
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 # Add project root to path
 
 # Import the original pipeline simulator (maintaining sanctity)

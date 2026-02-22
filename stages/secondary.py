@@ -238,6 +238,10 @@ def _check_fully_solved(working_unresolved: List[str], handler_result: Dict) -> 
         if hw:
             consumed = {norm_letters(t).lower() for t in hw.split()}
 
+    # Also consume indicator words that the handler used (e.g., deletion indicator)
+    for iw in handler_result.get('indicator_words', []):
+        consumed.update(norm_letters(t).lower() for t in iw.split())
+
     after_handler = [w for w in working_unresolved
                      if norm_letters(w).lower() not in consumed]
     still_unresolved, found_linkers = strip_linkers(after_handler)
@@ -1116,6 +1120,113 @@ def attempt_substitution_swap(db: DatabaseLookup, answer: str,
 
 
 # ======================================================================
+# HELPER: CHARADE-ORDER RETRY
+# ======================================================================
+
+def attempt_charade_reorder(db: DatabaseLookup, answer: str,
+                             letters_needed: str,
+                             word_roles: List[Dict]) -> Optional[Dict]:
+    """
+    When a charade is incomplete (letters_needed non-empty), try to find a
+    valid positional assignment of wordplay words to the known answer.
+
+    The compound stage picks synonyms greedily by multiset — it may choose a
+    synonym that satisfies the letter COUNT but not the positional CHARADE ORDER.
+
+    Example:
+        "All European, so united" → EVERYONE
+        Compound picks: E + EVER + ONE = EEVERONE  (wrong, letters_needed='Y')
+        This step finds:  E + VERY + ONE = EVERYONE (correct)
+
+    For each wordplay word, pre-fetches all synonyms/substitutions from DB,
+    then does a DFS to find a contiguous partition of the answer where every
+    wordplay word maps to exactly its substring.
+    """
+    if not letters_needed or not word_roles:
+        return None
+
+    answer_upper = norm_letters(answer).upper()
+    n = len(answer_upper)
+    if n < 3:
+        return None
+
+    SKIP_ROLES = {'definition', 'linker', 'link', 'fodder', 'anagram'}
+
+    # Collect wordplay words in their current role order
+    wordplay_entries = []
+    for wr in word_roles:
+        if not isinstance(wr, dict):
+            continue
+        role = (wr.get('role') or '').lower()
+        if role in SKIP_ROLES or 'indicator' in role or not role:
+            continue
+        word = wr.get('word', '')
+        if not word:
+            continue
+        wordplay_entries.append({
+            'word': word,
+            'current_contrib': norm_letters(wr.get('contributes') or '').upper()
+        })
+
+    if len(wordplay_entries) < 2:
+        return None
+
+    # Pre-fetch all possible letter contributions for each wordplay word
+    possible_sets = []
+    for entry in wordplay_entries:
+        subs = db.lookup_substitution(entry['word'], max_synonym_length=n)
+        contrib_set = set()
+        for sub in subs:
+            c = norm_letters(sub.letters).upper()
+            if c:
+                contrib_set.add(c)
+        # Always include the current contribution so it can be tried positionally
+        if entry['current_contrib']:
+            contrib_set.add(entry['current_contrib'])
+        possible_sets.append(contrib_set)
+
+    # DFS: find a valid contiguous partition of the answer
+    def find_partition(pos, idx, acc):
+        if idx == len(wordplay_entries):
+            return acc if pos == n else None
+        contrib_set = possible_sets[idx]
+        min_remaining = len(wordplay_entries) - idx - 1  # 1 char minimum per remaining word
+        max_len = n - pos - min_remaining
+        for length in range(1, max_len + 1):
+            substring = answer_upper[pos:pos + length]
+            if substring in contrib_set:
+                result = find_partition(
+                    pos + length, idx + 1,
+                    acc + [(wordplay_entries[idx]['word'], substring)]
+                )
+                if result is not None:
+                    return result
+        return None
+
+    assignments = find_partition(0, 0, [])
+    if not assignments:
+        return None
+
+    # Only return if something actually changed
+    changed = any(
+        new_c != wordplay_entries[i]['current_contrib']
+        for i, (_, new_c) in enumerate(assignments)
+    )
+    if not changed:
+        return None
+
+    parts = [f'{w}={c}' for w, c in assignments]
+    method_str = ' + '.join(parts) + f' = {answer_upper}'
+
+    return {
+        'word': assignments[0][0],
+        'letters': letters_needed,  # fills the outstanding gap
+        'assignments': assignments,
+        'method': method_str,
+    }
+
+
+# ======================================================================
 # HELPER: NEAR-MISS (1-2 letter gaps)
 # ======================================================================
 
@@ -1848,11 +1959,28 @@ def attempt_api_synonym(db: DatabaseLookup, answer: str, letters_needed: str,
     Use Merriam-Webster API to check if any unresolved word is a synonym
     that matches the needed letters.
 
-    Only calls API if local DB lookup failed. Caches results.
+    Only calls API if letters_needed is a real word (verified against local DB)
+    and local DB lookup has already failed. Caches results.
 
     Returns dict with 'word', 'letters', 'method' if match found.
     """
     if not letters_needed or not unresolved:
+        return None
+
+    needed_upper = letters_needed.upper()
+
+    # Guard: only proceed if letters_needed is a real English word.
+    # Junk fragments like "XBW" left over from bad upstream attribution
+    # will never be synonyms of anything — skip the API call entirely.
+    conn = sqlite3.connect(CRYPTIC_DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 1 FROM definition_answers_augmented
+        WHERE LOWER(answer) = ? LIMIT 1
+    """, (needed_upper.lower(),))
+    is_real_word = cursor.fetchone() is not None
+    conn.close()
+    if not is_real_word:
         return None
 
     # Import here to avoid startup cost if not needed
@@ -1860,8 +1988,6 @@ def attempt_api_synonym(db: DatabaseLookup, answer: str, letters_needed: str,
         from external_apis import check_synonym_via_api
     except ImportError:
         return None
-
-    needed_upper = letters_needed.upper()
 
     for word in unresolved:
         import html as _html
@@ -2541,6 +2667,10 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
     result = attempt_deletion(db, answer, working_needed, working_unresolved,
                               operation_indicators)
     if result:
+        # Include deletion indicator words so _check_fully_solved can consume them
+        result['indicator_words'] = [str(ind[0]) for ind in operation_indicators
+                                     if isinstance(ind, (list, tuple)) and len(ind) >= 2
+                                     and 'deletion' in str(ind[1]).lower()]
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
             improved = _improve_formula(formula, result)
@@ -2592,6 +2722,19 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
             solved, still_unresolved, found_linkers = _check_fully_solved(
                 working_unresolved, result)
             return _build_result(record, answer, improved, '', 'substitution_swap',
+                                 solved, still_unresolved, found_linkers, result)
+
+    # Step 7.6: Charade-order retry — compound may have picked a synonym that
+    # satisfies the multiset but not the positional charade order.
+    # Uses the known answer to find a valid contiguous partition.
+    result = attempt_charade_reorder(db, answer, working_needed, word_roles)
+    if result:
+        remaining = _subtract_letters(working_needed, result['letters'])
+        if not remaining:
+            improved = _improve_formula(formula, result)
+            solved, still_unresolved, found_linkers = _check_fully_solved(
+                working_unresolved, result)
+            return _build_result(record, answer, improved, '', 'charade_reorder',
                                  solved, still_unresolved, found_linkers, result)
 
     # Step 8: Try near-miss (1-2 letter gaps)
@@ -2686,6 +2829,12 @@ def _improve_formula(original: str, helper_result: Dict) -> str:
         return method
     # Replace the "? = ANSWER" tail or append
     if '?' in original:
+        # Avoid double-equals: if method ends with "= VALUE" and the formula
+        # already has "= ANSWER" after the ?, strip the intermediate "= VALUE"
+        if ' = ' in method:
+            after_q = original.split('?', 1)[1]
+            if after_q.strip().startswith('='):
+                method = method.rsplit(' = ', 1)[0]
         return original.replace('?', method, 1)
     return f"{original} + {method}"
 
@@ -2751,6 +2900,18 @@ def _build_result(record: Dict, answer: str, formula: str,
                             break
                 if not updated_in_bd:
                     breakdown.append(f"Secondary: {method}")
+
+                # Update breakdown for indicator words consumed by this handler
+                for iw in (helper_result.get('indicator_words', []) or []):
+                    iw_norm = norm_letters(iw).lower()
+                    for i, entry in enumerate(breakdown):
+                        if not isinstance(entry, str):
+                            continue
+                        m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
+                                     re.IGNORECASE)
+                        if m and norm_letters(m.group(1)).lower() == iw_norm:
+                            breakdown[i] = f'"{iw}" = {helper_used} indicator'
+                            break
 
         for lw in removed_linkers:
             lw_norm = norm_letters(lw).lower()

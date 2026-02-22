@@ -4,15 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="pre wire concept frozen changes">
+    <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="pre self-learning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anagram_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/anagram_analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/documents/puzzle_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/puzzle_report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistence.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline_simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline_simulator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documents/self_learning_audit.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/self_learning_audit.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documents/self_learning_candidates.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/self_learning_candidates.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documents/self_learning_inserts.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/self_learning_inserts.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enrichment/05_self_learning_enrichment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enrichment/05_self_learning_enrichment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enrichment/audit_candidates.py" beforeDir="false" afterPath="$PROJECT_DIR$/enrichment/audit_candidates.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/report.py" beforeDir="false" afterPath="$PROJECT_DIR$/report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/guardian/guardian_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/guardian/guardian_all.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scraper/telegraph/telegraph_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/telegraph/telegraph_daily.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scraper/times/times_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/times/times_all.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stages/anagram.py" beforeDir="false" afterPath="$PROJECT_DIR$/stages/anagram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stages/compound.py" beforeDir="false" afterPath="$PROJECT_DIR$/stages/compound.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stages/secondary.py" beforeDir="false" afterPath="$PROJECT_DIR$/stages/secondary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stages/unified_explanation.py" beforeDir="false" afterPath="$PROJECT_DIR$/stages/unified_explanation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771475433803</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="pre self-learning">
+      <option name="closed" value="true" />
+      <created>1771549103089</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1771549103089</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -184,7 +199,8 @@
     <MESSAGE value="Pre scraper rewrite" />
     <MESSAGE value="pre clue set temp change" />
     <MESSAGE value="pre wire concept frozen changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="pre wire concept frozen changes" />
+    <MESSAGE value="pre self-learning" />
+    <option name="LAST_COMMIT_MESSAGE" value="pre self-learning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

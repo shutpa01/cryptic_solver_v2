@@ -771,12 +771,12 @@ Optional[ClueResult]:
         result.solved = False
         result.solve_quality = "partial"
 
-    # Wire principle: "wordplay connector" words are unresolved — not wired to any
-    # answer letter and not confirmed link words. Downgrade SOLVED → PARTIAL.
+    # Wire principle: words with no confirmed role (not wired to any answer letter,
+    # not confirmed link words) are unresolved. Downgrade SOLVED → PARTIAL.
     if result.solved:
         for item in result.breakdown:
-            if isinstance(item, str) and '= wordplay connector' in item:
-                m = re.match(r'"([^"]+)"\s*=\s*wordplay connector', item)
+            if isinstance(item, str) and '= unresolved' in item:
+                m = re.match(r'"([^"]+)"\s*=\s*unresolved', item)
                 if m:
                     result.unresolved_words.append(m.group(1))
         if result.unresolved_words:
@@ -1304,7 +1304,7 @@ def main():
             print("STEP 3.6: Self-learning enrichment (failures -> Sonnet audit -> apply)...")
             print("-" * 60)
             _enrich_script = str(Path(__file__).parent / 'enrichment' / '05_self_learning_enrichment.py')
-            _enrich_result = subprocess.run(
+            subprocess.run(
                 [sys.executable, _enrich_script,
                  '--no-rerun',
                  '--source', args.source,
@@ -1312,26 +1312,32 @@ def main():
                 cwd=str(Path(__file__).parent)
             )
 
-            if _enrich_result.returncode == 0:
-                print("\n" + "-" * 60)
-                print("STEP 3.7: Re-running pipeline with enriched DB...")
-                print("-" * 60)
-                _pdb2 = _sqlite3.connect(PIPELINE_DB)
-                for _tbl in ('stage_input', 'stage_dd', 'stage_definition',
-                             'stage_definition_failed', 'stage_anagram', 'stage_lurker',
-                             'stage_evidence', 'stage_compound',
-                             'stage_general', 'stage_secondary'):
-                    try:
-                        _pdb2.execute(f"DELETE FROM {_tbl} WHERE run_id = 0")
-                    except Exception:
-                        pass
-                _pdb2.commit()
-                _pdb2.close()
-                anagram_analysis.main()
-                run_general_analysis(run_id=0)
-                run_secondary_analysis(run_id=0)
-            else:
-                print("  Self-learning enrichment failed — skipping re-run.")
+            print("\n" + "-" * 60)
+            print("STEP 3.6b: API gap finder (Claude Sonnet)...")
+            print("-" * 60)
+            _gap_script = str(Path(__file__).parent / 'enrichment' / 'api_gap_finder.py')
+            subprocess.run(
+                [sys.executable, _gap_script, '--run-id', '0'],
+                cwd=str(Path(__file__).parent)
+            )
+
+            print("\n" + "-" * 60)
+            print("STEP 3.7: Re-running pipeline with enriched DB...")
+            print("-" * 60)
+            _pdb2 = _sqlite3.connect(PIPELINE_DB)
+            for _tbl in ('stage_input', 'stage_dd', 'stage_definition',
+                         'stage_definition_failed', 'stage_anagram', 'stage_lurker',
+                         'stage_evidence', 'stage_compound',
+                         'stage_general', 'stage_secondary'):
+                try:
+                    _pdb2.execute(f"DELETE FROM {_tbl} WHERE run_id = 0")
+                except Exception:
+                    pass
+            _pdb2.commit()
+            _pdb2.close()
+            anagram_analysis.main()
+            run_general_analysis(run_id=0)
+            run_secondary_analysis(run_id=0)
 
         print("\n" + "-" * 60)
         print("STEP 4: Writing unified puzzle report...")

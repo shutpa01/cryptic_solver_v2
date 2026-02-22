@@ -162,7 +162,16 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
         # === NAVIGATE TO PUZZLE ===
         puzzle_url = config['page_url']
         print(f"Navigating to crossword page: {puzzle_url}")
-        driver.get(puzzle_url)
+        for nav_attempt in range(3):
+            try:
+                driver.get(puzzle_url)
+                break
+            except Exception as nav_err:
+                if nav_attempt < 2:
+                    print(f"  Navigation failed (attempt {nav_attempt + 1}/3), retrying in 5s...")
+                    time.sleep(5)
+                else:
+                    raise
         time.sleep(5)
 
         # Calculate expected puzzle number
@@ -319,9 +328,16 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
     except Exception as e:
         print(f"Error: {e}")
         screenshot_file = Path(__file__).parent / "times_error.png"
+        html_file = Path(__file__).parent / "times_error.html"
         try:
             driver.save_screenshot(str(screenshot_file))
             print(f"Saved screenshot to {screenshot_file}")
+        except:
+            pass
+        try:
+            with open(str(html_file), 'w', encoding='utf-8') as f:
+                f.write(driver.page_source)
+            print(f"Saved page source to {html_file}")
         except:
             pass
         driver.quit()

@@ -1,6 +1,6 @@
 ================================================================================
 PUZZLE REPORT: telegraph #31166
-Generated: 2026-02-20 01:54:29
+Generated: 2026-02-22 06:21:27
 Total clues: 29
 ================================================================================
 
@@ -10,11 +10,11 @@ SOLVE SUMMARY
   Hidden words (lurkers):  1
   Anagrams:                2
   Compound wordplay:       0
-  General wordplay:        1
-  Secondary helpers:       0
+  General wordplay:        7
+  Secondary helpers:       3
   ---
-  SOLVED:                  6/29 (20%)
-  Partial (needs work):    23
+  SOLVED:                  15/29 (51%)
+  Partial (needs work):    14
   Unsolved:                0
 
 ================================================================================
@@ -24,99 +24,96 @@ ACROSS
   [PARTIAL] 1 CLUE: How to begin to spell Assyrian ancient capital
   ANSWER: ATHENS
   STAGE: general wordplay
-  DEFINITION: capital
-  FORMULA: ? = ATHENS
+  DEFINITION: ancient capital
+  FORMULA: SA (spell Assyrian) + ? = ATHENS
   BREAKDOWN:
-    "to" = reversal indicator
+    "to" = first letter indicator
+    "begin" = first letter indicator
+    "spell" = S (first letter of)
+    "Assyrian" = A (first letter of)
+    "ancient" = definition for ATHENS
     "capital" = definition for ATHENS
     "How" = unresolved
-    "begin" = unresolved
-    "spell" = unresolved
-    "Assyrian" = unresolved
-    "ancient" = unresolved
-  LETTERS NEEDED: ATHENS
-  UNRESOLVED: How, begin, spell, Assyrian, ancient
+  LETTERS NEEDED: THEN
+  UNRESOLVED: How
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 5 CLUE: Mum punches vulgar knight, an awful bully
+  [SOLVED] 5 CLUE: Mum punches vulgar knight, an awful bully
   ANSWER: Flashman
   STAGE: general wordplay
-  DEFINITION: bully
+  DEFINITION: an awful bully
   FORMULA: MA (Mum) + FLASH (vulgar) + N (knight,) (with insertion) = FLASHMAN
   BREAKDOWN:
     "Mum" = MA (database (abbreviation))
+    "punches" = insertion indicator
     "vulgar" = FLASH (database (synonym))
     "knight," = N (database (single_letter))
+    "an" = definition for FLASHMAN
+    "awful" = definition for FLASHMAN
     "bully" = definition for FLASHMAN
-    "punches" = wordplay connector
-    "an" = link word
-    "awful" = wordplay connector
-  UNRESOLVED: punches, an, awful
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 9 CLUE: Witches go bareback riding here, famously
+  [SOLVED] 9 CLUE: Witches go bareback riding here, famously
   ANSWER: COVENTRY
   STAGE: general wordplay
-  DEFINITION: witches
-  FORMULA: TRY (go) + ? = COVENTRY
+  DEFINITION: bareback riding here, famously
+  FORMULA: COVEN (Witches) + TRY (go) (contained) = COVENTRY
   BREAKDOWN:
-    "Witches" = definition for COVENTRY
+    "Witches" = COVEN (database (synonym))
     "go" = TRY (database (synonym))
-    "bareback" = unresolved
-    "riding" = unresolved
-    "here," = unresolved
-    "famously" = unresolved
-  LETTERS NEEDED: COVEN
-  UNRESOLVED: bareback, riding, here,, famously
+    "bareback" = definition for COVENTRY
+    "riding" = definition for COVENTRY
+    "here," = definition for COVENTRY
+    "famously" = definition for COVENTRY
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 10 CLUE: German prince's alarm, ringing bells at the front
   ANSWER: Albert
   STAGE: general wordplay
-  DEFINITION: German prince's
-  FORMULA: ALERT (alarm,) +  (at the front) + ? = ALBERT
+  DEFINITION: german prince's
+  FORMULA: ALERT (alarm,) + B (bells) (contained) = ALBERT
   BREAKDOWN:
     "German" = definition for ALBERT
     "prince's" = definition for ALBERT
     "alarm," = ALERT (database (synonym))
     "ringing" = container indicator
-    "at" =  (phrase "at the front" → )
-    "the" =  ((part of "at the front"))
-    "front" =  ((part of "at the front"))
-    "bells" = unresolved
-  LETTERS NEEDED: B
-  UNRESOLVED: bells
+    "bells" = B (database (abbreviation))
+    "at" = link word
+    "the" = link word
+    "front" = unresolved
+  UNRESOLVED: at, the, front
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 11 CLUE: Grand, flowery sprays, 22 Across in a pack
   ANSWER: grey wolf
   STAGE: general wordplay
+  DEFINITION: pack
   FORMULA: G (Grand,) + FLOWERY = GREYWOLF
   BREAKDOWN:
     "Grand," = G (database (single_letter))
     "flowery" = anagram fodder
     "22 across" = container_indicator
     "in" = hidden indicator
-    "sprays," = wordplay connector
-    "pack" = wordplay connector
-  UNRESOLVED: sprays,, a, pack
+    "pack" = definition for GREYWOLF
+    "sprays," = unresolved
+  UNRESOLVED: sprays,, a
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 12 CLUE: Strict exactitude chap fitting out ship discussed
   ANSWER: RIGOUR
   STAGE: general wordplay
-  DEFINITION: Strict
+  DEFINITION: Strict exactitude
   FORMULA: ? = RIGOUR
   BREAKDOWN:
     "Strict" = definition for RIGOUR
+    "exactitude" = definition for RIGOUR
     "discussed" = homophone indicator
-    "exactitude" = unresolved
     "chap" = unresolved
     "fitting" = unresolved
     "out" = unresolved
     "ship" = unresolved
   LETTERS NEEDED: RIGOUR
-  UNRESOLVED: exactitude, chap, fitting, out, ship
+  UNRESOLVED: chap, fitting, out, ship
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 13 CLUE: Very small business of Conan the Barbaric?
@@ -138,19 +135,19 @@ ACROSS
   [PARTIAL] 15 CLUE: Seaport cleared out by you once, an eyesore
   ANSWER: STYE
   STAGE: general wordplay
-  DEFINITION: eyesore
+  DEFINITION: an eyesore
   FORMULA: YE (you) + ? = STYE
   BREAKDOWN:
     "you" = YE (database (abbreviation))
+    "an" = definition for STYE
     "eyesore" = definition for STYE
     "Seaport" = unresolved
     "cleared" = unresolved
     "out" = unresolved
     "by" = unresolved
     "once," = unresolved
-    "an" = unresolved
   LETTERS NEEDED: ST
-  UNRESOLVED: Seaport, cleared, out, by, once,, an
+  UNRESOLVED: Seaport, cleared, out, by, once,
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 17 CLUE: Fiddle starts to sound clearer after maintenance
@@ -163,57 +160,55 @@ ACROSS
     "starts" = letter selector
     "to" = reversal indicator
     "sound" = S (first letter of)
-    "after" = positional indicator (construction order)
     "clearer" = unresolved
+    "after" = unresolved
     "maintenance" = unresolved
   LETTERS NEEDED: CAM
-  UNRESOLVED: clearer, maintenance
+  UNRESOLVED: clearer, after, maintenance
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 19 CLUE: Council skilfully collecting litter sent round
+  [SOLVED] 19 CLUE: Council skilfully collecting litter sent round
   ANSWER: Assembly
   STAGE: general wordplay
-  DEFINITION: round
-  FORMULA: ASSEMBLY (Council) (contained) = ASSEMBLY
+  DEFINITION: Council
+  FORMULA: ABLY (skilfully) + MESS (litter) (with insertion) = ASSEMBLY
   BREAKDOWN:
-    "Council" = ASSEMBLY (database (synonym))
+    "Council" = definition for ASSEMBLY
+    "skilfully" = ABLY (database (synonym))
     "collecting" = container indicator
-    "sent" = reversal indicator
-    "round" = definition for ASSEMBLY
-    "skilfully" = wordplay connector
-    "litter" = wordplay connector
-  UNRESOLVED: skilfully, litter, skilfully, litter
+    "litter" = MESS (database (synonym))
+    "sent round" = reversal_indicator
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 20 CLUE: Perhaps Greystoke title dad rejected?
   ANSWER: ape man
   STAGE: general wordplay
-  FORMULA: ? = APEMAN
+  FORMULA: APEMAN (Greystoke) = APEMAN
   BREAKDOWN:
+    "Greystoke" = APEMAN (database (synonym))
     "rejected?" = reversal indicator
-    "Perhaps" = unresolved
-    "Greystoke" = unresolved
+    "Perhaps" = link word
     "title" = unresolved
     "dad" = unresolved
-  LETTERS NEEDED: APEMAN
-  UNRESOLVED: Perhaps, Greystoke, title, dad
+  UNRESOLVED: Perhaps, title, dad
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 21 CLUE: Mole unfinished, temperature 1 Celsius in the sea at Rimini
+  [SOLVED] 21 CLUE: Mole unfinished, temperature 1 Celsius in the sea at Rimini
   ANSWER: Adriatic
-  STAGE: general wordplay
-  FORMULA: T (temperature) + C (Celsius) + TAR (sea) + ? = ADRIATIC
+  STAGE: secondary helper
+  TYPE: deletion
+  FORMULA: T (temperature) + I (1) + C (Celsius) + curtail(Mole=ADRIAN) = ADRIATIC
   BREAKDOWN:
     "temperature" = T (database (single_letter))
+    "1" = I (database (roman_numeral))
     "Celsius" = C (database (single_letter))
     "in" = hidden indicator
-    "the" = T (to be removed)
-    "sea" = TAR (database (synonym))
-    "Mole" = unresolved
-    "unfinished," = unresolved
-    "Rimini" = unresolved
-  LETTERS NEEDED: ADII
-  UNRESOLVED: Mole, unfinished,, 1, at, Rimini
+    "sea" = definition for ADRIATIC
+    "at" = definition for ADRIATIC
+    "Rimini" = definition for ADRIATIC
+    "Mole" = curtail(Mole=ADRIAN) = ADRIA (secondary)
+    "unfinished," = deletion indicator
+    "the" = link word
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 22 CLUE: Being uptight, this compiler's taken inside
@@ -223,61 +218,60 @@ ACROSS
   FORMULA: ? = ANIMAL
   BREAKDOWN:
     "Being" = definition for ANIMAL
-    "taken" = container indicator
-    "inside" = hidden indicator
     "uptight," = unresolved
     "this" = unresolved
     "compiler's" = unresolved
+    "taken" = unresolved
+    "inside" = unresolved
   LETTERS NEEDED: ANIMAL
-  UNRESOLVED: uptight,, this, compiler's
+  UNRESOLVED: uptight,, this, compiler's, taken, inside
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 23 CLUE: Heard terrible record in conversation
   ANSWER: DIALOGUE
   STAGE: general wordplay
-  DEFINITION: conversation
+  DEFINITION: in conversation
   FORMULA: A (record) + LO (terrible) + ? = DIALOGUE
   BREAKDOWN:
     "Heard" = homophone indicator
     "terrible" = LO (terrible = low sounds like lo)
     "record" = A (database (synonym))
-    "in" = hidden indicator
+    "in" = definition for DIALOGUE
     "conversation" = definition for DIALOGUE
   LETTERS NEEDED: DIGUE
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 24 CLUE: Toothless former Tory PM, rubbish leader of Empire
+  [SOLVED] 24 CLUE: Toothless former Tory PM, rubbish leader of Empire
   ANSWER: EDENTATE
-  STAGE: general wordplay
-  DEFINITION: Toothless
+  STAGE: secondary helper
+  TYPE: linker_strip
   FORMULA: EDEN (PM,) + TAT (rubbish) + E (Empire) (contained) = EDENTATE
   BREAKDOWN:
     "Toothless" = definition for EDENTATE
+    "former" = definition for EDENTATE
+    "Tory" = definition for EDENTATE
     "PM," = EDEN (database (synonym))
     "rubbish" = TAT (database (synonym))
     "leader" = letter selector
     "Empire" = E (first letter of)
-    "former" = wordplay connector
-    "Tory" = wordplay connector
     "of" = link word
-  UNRESOLVED: former, Tory, of, former, Tory
+    "of" = link word
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 25 CLUE: Leaders of English League, smooth football team?
+  [SOLVED] 25 CLUE: Leaders of English League, smooth football team?
   ANSWER: ELEVEN
-  STAGE: general wordplay
-  DEFINITION: team?
-  FORMULA: E (English) + EVEN (smooth) + ? = ELEVEN
+  STAGE: secondary helper
+  TYPE: linker_strip
+  FORMULA: E (English) + L (League,) + EVEN (smooth) (contained) = ELEVEN
   BREAKDOWN:
     "Leaders" = letter selector
     "English" = E (first letter of)
+    "League," = L (database (abbreviation))
     "smooth" = EVEN (database (synonym))
+    "football" = definition for ELEVEN
     "team?" = definition for ELEVEN
-    "of" = unresolved
-    "League," = unresolved
-    "football" = unresolved
-  LETTERS NEEDED: L
-  UNRESOLVED: of, League,, football
+    "of" = link word
+    "of" = link word
   ──────────────────────────────────────────────────────────────────────
 
 ================================================================================
@@ -287,11 +281,12 @@ DOWN
   [PARTIAL] 2 CLUE: Picked Yorkshire's best batsman, settled in
   ANSWER: took root
   STAGE: general wordplay
+  DEFINITION: settled in
   FORMULA: OK (best) + ? = TOOKROOT
   BREAKDOWN:
     "best" = OK (database (synonym))
-    "settled" = container indicator
-    "in" = hidden indicator
+    "settled" = definition for TOOKROOT
+    "in" = definition for TOOKROOT
     "Picked" = unresolved
     "Yorkshire's" = unresolved
     "batsman," = unresolved
@@ -299,51 +294,50 @@ DOWN
   UNRESOLVED: Picked, Yorkshire's, batsman,
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 3 CLUE: All European, so united
+  [SOLVED] 3 CLUE: All European, so united
   ANSWER: EVERYONE
   STAGE: general wordplay
   DEFINITION: All
-  FORMULA: EVER (so) + ONE (united) + ? = EVERYONE
+  FORMULA: Y (European,) + EVER (so) + ONE (united) (with insertion) = EVERYONE
   BREAKDOWN:
     "All" = definition for EVERYONE
+    "European," = Y (database (abbreviation))
     "so" = EVER (database (synonym))
     "united" = ONE (database (synonym))
-    "European," = unresolved
-  LETTERS NEEDED: Y
-  UNRESOLVED: European,
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 4 CLUE: Key moments in court proceedings, job of signalman?
   ANSWER: set points
   STAGE: general wordplay
-  FORMULA: E (Key) + POINT (job) + ? = SETPOINTS
+  DEFINITION: key moments
+  FORMULA: SPITE (job) + ? = SETPOINTS
   BREAKDOWN:
-    "Key" = E (database (single_letter))
+    "Key" = definition for SETPOINTS
+    "moments" = definition for SETPOINTS
     "in" = hidden indicator
-    "job" = POINT (database (synonym))
-    "moments" = unresolved
+    "job" = SPITE (database (synonym))
     "court" = unresolved
     "proceedings," = unresolved
     "of" = unresolved
     "signalman?" = unresolved
-  LETTERS NEEDED: STS
-  UNRESOLVED: moments, court, proceedings,, of, signalman?
+  LETTERS NEEDED: STON
+  UNRESOLVED: court, proceedings,, of, signalman?
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 5 CLUE: Leave by plane ... its name? "Go Ballistic"
   ANSWER: fly off the handle
   STAGE: general wordplay
-  FORMULA: ANON (by) + FLY (plane) + CLOSE ("Go) + ? = FLYOFFTHEHANDLE
+  FORMULA: ANON (by) + FLY (plane) + TITLE (name?) + ? = FLYOFFTHEHANDLE
   BREAKDOWN:
-    "Leave" = COS (to be removed)
     "by" = ANON (database (synonym))
     "plane" = FLY (database (synonym))
-    "name?" = N (to be removed)
-    ""Go" = CLOSE (database (synonym))
+    "name?" = TITLE (database (synonym))
+    ""Go" = IT (to be removed)
+    "Leave" = unresolved
     "its" = unresolved
     "Ballistic"" = unresolved
-  LETTERS NEEDED: FFTHEHD
-  UNRESOLVED: ..., its, Ballistic"
+  LETTERS NEEDED: FFHEHD
+  UNRESOLVED: Leave, ..., its, Ballistic"
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 6 CLUE: Son, mischievous, inconsiderate
@@ -367,22 +361,20 @@ DOWN
     Container: mnemonic
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 8 CLUE: North American travel industry striking over practice denying coverage
+  [SOLVED] 8 CLUE: North American travel industry striking over practice denying coverage
   ANSWER: NATURISM
   STAGE: general wordplay
-  FORMULA: US (American) + IT (travel) + ? = NATURISM
+  DEFINITION: denying coverage
+  FORMULA: N (North) + US (American) + IT (travel) + ARM (industry) (with insertion) = NATURISM
   BREAKDOWN:
-    "North" = reversal indicator
+    "North" = N (database (single_letter))
     "American" = US (database (abbreviation))
     "travel" = IT (database (synonym))
-    "practice" = container indicator
-    "industry" = unresolved
-    "striking" = unresolved
-    "over" = unresolved
-    "denying" = unresolved
-    "coverage" = unresolved
-  LETTERS NEEDED: NARM
-  UNRESOLVED: industry, striking, over, denying, coverage
+    "industry" = ARM (database (synonym))
+    "striking" = positional indicator (construction order)
+    "over practice" = container_indicator
+    "denying" = definition for NATURISM
+    "coverage" = definition for NATURISM
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 14 CLUE: Free baccy, rum, somewhere to go surfing?
@@ -416,53 +408,52 @@ DOWN
   ANSWER: Yosemite
   STAGE: general wordplay
   DEFINITION: national park
-  FORMULA: STY (spare time Yank) + O (round) + ? = YOSEMITE
+  FORMULA: STY (spare time Yank) + ? = YOSEMITE
   BREAKDOWN:
     "bit" = first letter indicator
     "of" = first letter indicator
     "spare" = S (first letter of)
     "time" = T (first letter of)
     "Yank" = Y (first letter of)
-    "round" = O (database (misc))
+    "goes round" = container_indicator
     "national" = definition for YOSEMITE
     "park" = definition for YOSEMITE
     "so" = unresolved
-    "goes" = unresolved
-  LETTERS NEEDED: EMIE
-  UNRESOLVED: A, so, goes
+  LETTERS NEEDED: OEMIE
+  UNRESOLVED: A, so
   ──────────────────────────────────────────────────────────────────────
 
   [PARTIAL] 17 CLUE: Scottish plane tree said to be less healthy again
   ANSWER: SYCAMORE
   STAGE: general wordplay
-  FORMULA: S (Scottish) + RE (again) + ? = SYCAMORE
+  DEFINITION: scottish plane tree
+  FORMULA: MORE (again) + ? = SYCAMORE
   BREAKDOWN:
-    "Scottish" = S (database (abbreviation))
+    "Scottish" = definition for SYCAMORE
+    "plane" = definition for SYCAMORE
+    "tree" = definition for SYCAMORE
     "said" = homophone indicator
     "to" = reversal indicator
-    "again" = RE (database (abbreviation))
-    "plane" = unresolved
-    "tree" = unresolved
+    "again" = MORE (database (synonym))
     "be" = unresolved
     "less" = unresolved
     "healthy" = unresolved
-  LETTERS NEEDED: YCAMO
-  UNRESOLVED: plane, tree, be, less, healthy
+  LETTERS NEEDED: SYCA
+  UNRESOLVED: be, less, healthy
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 18 CLUE: Bird in a duel changing height
+  [SOLVED] 18 CLUE: Bird in a duel changing height
   ANSWER: ALTITUDE
   STAGE: general wordplay
-  DEFINITION: height
+  DEFINITION: changing height
   FORMULA: TIT (Bird) + A (a) + DUEL = ALTITUDE
   BREAKDOWN:
     "Bird" = TIT (database (synonym))
     "in" = hidden indicator
     "a" = A (database (single_letter))
     "duel" = anagram fodder
+    "changing" = definition for ALTITUDE
     "height" = definition for ALTITUDE
-    "changing" = wordplay connector
-  UNRESOLVED: changing
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 19 CLUE: Bill, adult chap, tense, unyielding

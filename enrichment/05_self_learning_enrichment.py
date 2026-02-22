@@ -282,17 +282,27 @@ class DBCache:
                 self.def_answer_pairs.add((d.lower(), a.lower()))
         print(f"    definition_answers: {len(self.def_answer_pairs):,}")
 
-        # indicators: set of word_lower
+        # indicators: set of word_lower + typed dict for wordplay_type lookup
         self.indicators: Set[str] = set()
-        for (w,) in conn.execute("SELECT word FROM indicators"):
+        self.indicator_typed: dict = {}  # word_lower -> set of wordplay_type strings
+        for w, wtype in conn.execute("SELECT word, wordplay_type FROM indicators"):
             if w:
-                self.indicators.add(w.lower())
+                wl = w.lower()
+                self.indicators.add(wl)
+                if wl not in self.indicator_typed:
+                    self.indicator_typed[wl] = set()
+                if wtype:
+                    self.indicator_typed[wl].add(wtype)
         print(f"    indicators: {len(self.indicators):,}")
 
         print("  Cache loaded.\n")
 
     def is_indicator(self, word: str) -> bool:
         return word.lower() in self.indicators
+
+    def indicator_is_parts(self, word: str) -> bool:
+        """Return True if word is a known 'parts' type indicator (first_use, last_use, etc.)."""
+        return 'parts' in self.indicator_typed.get(word.lower(), set())
 
     def word_maps_to(self, word: str, letters: str) -> bool:
         """Check if word->letters already in DB (forward direction only)."""
@@ -421,6 +431,46 @@ def load_anagram_hits(pipeline_db: str, run_id: int = 0,
     return results
 
 
+def load_general_failures(pipeline_db: str, run_id: int = 0) -> List[dict]:
+    """Load stage_general rows that were not solved and still have unresolved letters.
+
+    These are the right rows for Patterns E and F: the pipeline has a partial
+    formula but could not account for all answer letters from the clue words.
+    """
+    conn = sqlite3.connect(pipeline_db)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        """SELECT clue_text, answer, letters_still_needed, unresolved_words,
+                  word_roles, formula
+           FROM stage_general
+           WHERE run_id = ?
+             AND letters_still_needed IS NOT NULL
+             AND letters_still_needed != ''""",
+        (run_id,)
+    ).fetchall()
+    conn.close()
+
+    seen = set()
+    results = []
+    for row in rows:
+        clue_text = row['clue_text'] or ''
+        if '&#' in clue_text:
+            continue
+        answer = (row['answer'] or '').upper().replace(' ', '')
+        if not answer or answer in seen:
+            continue
+        seen.add(answer)
+        results.append({
+            'clue_text': clue_text,
+            'answer': answer,
+            'letters_still_needed': (row['letters_still_needed'] or '').upper(),
+            'unresolved_words': json.loads(row['unresolved_words'] or '[]'),
+            'word_roles': json.loads(row['word_roles'] or '[]'),
+            'formula': row['formula'] or '',
+        })
+    return results
+
+
 # ============================================================
 # ENRICHMENT STEPS
 # ============================================================
@@ -481,7 +531,7 @@ def step_b_single_word_inference(failure: dict, conn: sqlite3.Connection,
     if len(unresolved) != 1 or not letters_needed:
         return
 
-    word = unresolved[0]
+    word = unresolved[0].rstrip('.,;:!?\'"')
     if not _is_clean_word(word):
         return
     if cache.is_indicator(word):
@@ -490,6 +540,13 @@ def step_b_single_word_inference(failure: dict, conn: sqlite3.Connection,
         return  # Already known
 
     n = len(letters_needed)
+
+    # Guard: single-letter inferences must be initial-letter abbreviations.
+    # Prevents false positives like european->Y (Y!=E).
+    # Allows league->L, bells->B, etc.
+    if n == 1 and letters_needed.upper() != word[0].upper():
+        return
+
     if 1 <= n <= 4:
         inserted = insert_wordplay(conn, word.lower(), letters_needed.upper(),
                                    'abbreviation', confidence='low',
@@ -519,7 +576,7 @@ def step_c_two_word_anchor_inference(failure: dict, conn: sqlite3.Connection,
     if len(unresolved) != 2:
         return
 
-    word1, word2 = unresolved
+    word1, word2 = unresolved[0].rstrip('.,;:!?\'"'), unresolved[1].rstrip('.,;:!?\'"')
     if not _is_clean_word(word1) or not _is_clean_word(word2):
         return
 
@@ -739,6 +796,191 @@ def step_pattern_d_outer_letters(failure: dict, conn: sqlite3.Connection,
                    f"pattern-D: '{indicator_phrase}' (outer_use) for {answer}")
 
 
+def step_pattern_e_first_letter(failure: dict, conn: sqlite3.Connection,
+                                 cache: DBCache, counter: InsertCounter,
+                                 candidates: list):
+    """Pattern E: an unresolved word's first letter fills a missing answer letter,
+    confirmed by a known 'parts' indicator adjacent to it in the clue.
+
+    Example: ALBERT, needed='B', unresolved includes 'bells'
+      - 'bells' is not an indicator; bells[0]='B' is in needed ✓
+      - 'front' (parts/first_use) is within ±4 tokens of 'bells' in the clue ✓
+      - Insert wordplay('bells', 'B')
+
+    Self-certifying: first-letter extraction is mechanical, no API needed.
+    """
+    answer = failure['answer']
+    clue_text = failure['clue_text']
+    letters_needed = failure['letters_still_needed']
+    unresolved = failure['unresolved_words']
+
+    # Only fire when exactly one letter is still missing. With multiple letters
+    # needed, we cannot determine which unresolved word provides which letter
+    # — that ambiguity belongs to Pattern F (acrostic) instead.
+    if len(letters_needed) != 1 or not unresolved:
+        return
+
+    clue_clean = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text)
+    tokens = clue_clean.split()
+    token_norms = [_norm(t) for t in tokens]
+
+    for raw_word in unresolved:
+        w_clean = re.sub(r'[^a-zA-Z]', '', raw_word)
+        if len(w_clean) < 2:
+            continue
+        w_norm = w_clean.lower()
+
+        if w_norm in LINKERS:
+            continue
+        if cache.is_indicator(w_norm):
+            continue  # It's an indicator itself, not a source word
+
+        first_letter = w_clean[0].upper()
+        if first_letter != letters_needed:
+            continue
+
+        if cache.word_maps_to(w_norm, first_letter):
+            continue  # Already in DB
+
+        # Find position of this word in the clue token sequence
+        pos = next((i for i, tn in enumerate(token_norms) if tn == w_norm), None)
+        if pos is None:
+            continue
+
+        # Check for a known parts indicator within ±4 tokens
+        window_start = max(0, pos - 4)
+        window_end = min(len(token_norms), pos + 5)
+        has_adjacent_parts_indicator = any(
+            cache.indicator_is_parts(token_norms[i])
+            for i in range(window_start, window_end)
+            if i != pos and token_norms[i]
+        )
+        if not has_adjacent_parts_indicator:
+            continue
+
+        candidates.append({
+            'pattern': 'E',
+            'type': 'wordplay_substitution',
+            'phrase': w_norm,
+            'letters': first_letter,
+            'answer': answer,
+            'clue': clue_text,
+            'confidence': 'high',
+        })
+        inserted = insert_wordplay(conn, w_norm, first_letter,
+                                   'abbreviation', confidence='medium',
+                                   notes=f'first-letter inferred for {answer}',
+                                   source_tag=SOURCE_TAG)
+        if inserted:
+            cache.add_wordplay(w_norm, first_letter)
+        counter.record('wordplay', inserted,
+                       f"pattern-E: '{w_norm}' -> '{first_letter}' (for {answer})")
+
+
+def step_pattern_f_acrostic_indicator(failure: dict, conn: sqlite3.Connection,
+                                       cache: DBCache, counter: InsertCounter,
+                                       candidates: list):
+    """Pattern F: consecutive unresolved words whose first letters spell exactly
+    letters_still_needed. The non-LINKER token(s) immediately preceding that run
+    are the candidate acrostic indicator.
+
+    Example: SCAM, needed='SCAM', clue contains 'starts to sound clearer after maintenance'
+      - run [sound, clearer, after, maintenance] → first letters S,C,A,M = 'SCAM' ✓
+      - Preceding non-LINKER before 'sound' (skipping LINKER 'to') = 'starts'
+      - 'starts' + LINKER 'to' → candidate phrase 'starts to'
+      - Not in indicators → propose as parts/first_use
+
+    Self-certifying: exact letter-sequence match with no alternative explanation.
+    Only fires for 2–6 letter targets (acrostics for longer answers are too noisy).
+    """
+    answer = failure['answer']
+    clue_text = failure['clue_text']
+    letters_needed = failure['letters_still_needed']
+    unresolved = failure['unresolved_words']
+
+    if not letters_needed or not (2 <= len(letters_needed) <= 6):
+        return
+    if not unresolved:
+        return
+
+    clue_clean = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text)
+    tokens = clue_clean.split()
+    token_norms = [_norm(t) for t in tokens]
+
+    unresolved_norms = {_norm(w) for w in unresolved if _norm(w)}
+    target = letters_needed.upper()
+    n = len(target)
+
+    for start_pos in range(len(tokens)):
+        # Build a run of unresolved words starting at start_pos,
+        # allowing LINKER tokens inside but not attributed non-LINKER words.
+        letter_contributors = []  # first letters from unresolved words in order
+        pos = start_pos
+        run_end = start_pos
+
+        while pos < len(tokens) and len(letter_contributors) < n:
+            tn = token_norms[pos]
+            if tn in unresolved_norms:
+                first = tn[0].upper() if tn else ''
+                if first:
+                    letter_contributors.append(first)
+                run_end = pos
+            elif tn in LINKERS:
+                pass  # LINKER tokens are allowed within the run
+            else:
+                break  # Non-LINKER attributed word breaks the run
+            pos += 1
+
+        if len(letter_contributors) != n:
+            continue
+        if ''.join(letter_contributors) != target:
+            continue
+
+        # Found a matching run. Now identify the indicator phrase.
+        # Walk backwards from start_pos collecting LINKER tokens, then
+        # take the next non-LINKER attributed token as the indicator root.
+        trailing_linkers = []
+        look_pos = start_pos - 1
+        while look_pos >= 0 and token_norms[look_pos] in LINKERS:
+            trailing_linkers.insert(0, token_norms[look_pos])
+            look_pos -= 1
+
+        # The token at look_pos should be a non-LINKER attributed (non-unresolved) word
+        if look_pos < 0:
+            continue
+        root_norm = token_norms[look_pos]
+        if not root_norm or root_norm in unresolved_norms:
+            continue  # Not attributed — can't confirm it's an indicator
+
+        # Build candidate phrase: root + any trailing LINKERS between it and the run
+        indicator_tokens = [root_norm] + trailing_linkers
+        indicator_phrase = ' '.join(indicator_tokens)
+
+        if not indicator_phrase or len(indicator_phrase) < 3:
+            continue
+        if cache.is_indicator(indicator_phrase):
+            continue  # Already in DB
+
+        candidates.append({
+            'pattern': 'F',
+            'type': 'indicator',
+            'phrase': indicator_phrase,
+            'wordplay_type': 'parts',
+            'subtype': 'first_use',
+            'answer': answer,
+            'clue': clue_text,
+            'letters': letters_needed,
+            'confidence': 'high',
+        })
+        inserted = insert_indicator(conn, indicator_phrase, 'parts',
+                                    subtype='first_use', confidence='medium')
+        if inserted:
+            cache.indicators.add(indicator_phrase.lower())
+        counter.record('indicators', inserted,
+                       f"pattern-F: '{indicator_phrase}' (parts/first_use) for {answer}")
+        break  # Take the first matching run only
+
+
 def step_pattern_a_indicator_inference(failure: dict, conn: sqlite3.Connection,
                                        cache: DBCache, counter: InsertCounter,
                                        candidates: list):
@@ -910,6 +1152,7 @@ def main():
     cross_ref_map = build_cross_reference_map(args.source, args.puzzle_number)
     failures = load_failures(pipeline_db, args.run_id, cross_ref_map=cross_ref_map)
     anagram_hits = load_anagram_hits(pipeline_db, args.run_id, cross_ref_map=cross_ref_map)
+    general_failures = load_general_failures(pipeline_db, args.run_id)
 
     print(f"\n{'=' * 60}")
     print(f"SELF-LEARNING ENRICHMENT")
@@ -917,8 +1160,9 @@ def main():
     print(f"Source: {args.source} #{args.puzzle_number}  run_id={args.run_id}")
     print(f"Unique failures to process: {len(failures)}")
     print(f"Anagram hits with unused words: {len(anagram_hits)}")
+    print(f"General failures with letters_still_needed: {len(general_failures)}")
 
-    if not failures and not anagram_hits:
+    if not failures and not anagram_hits and not general_failures:
         print("No failures or anagram hits found. Run the pipeline first (report.py).")
         return
 
@@ -959,6 +1203,19 @@ def main():
         step_c_two_word_anchor_inference(failure, conn, cache, counter)
         step_pattern_d_outer_letters(failure, conn, cache, counter, candidates)
         step_pattern_a_indicator_inference(failure, conn, cache, counter, candidates)
+
+    # --- Patterns E and F: first-letter substitution and acrostic indicator ---
+    # These run on stage_general rows where letters_still_needed != '',
+    # which is the right signal before secondary processing obscures the gap.
+    print(f"\n--- Stage general failures (Patterns E and F) ---")
+    for failure in general_failures:
+        answer = failure['answer']
+        unresolved = failure['unresolved_words']
+        needed = failure['letters_still_needed']
+        print(f"  {answer}: unresolved={unresolved}, needed={needed!r}")
+
+        step_pattern_e_first_letter(failure, conn, cache, counter, candidates)
+        step_pattern_f_acrostic_indicator(failure, conn, cache, counter, candidates)
 
     conn.commit()
     conn.close()
