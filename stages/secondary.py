@@ -907,17 +907,20 @@ def _find_extraction_target(indicator_idx: int, clue_tokens: List[str],
             and lower_tokens[indicator_idx + 2] not in def_words):
         return clue_tokens[indicator_idx + 2]
 
-    # Pattern: "TARGET's indicator" or adjacent before (e.g., "bathroom's heart")
-    if (indicator_idx - 1 >= 0
-            and lower_tokens[indicator_idx - 1] not in def_words
-            and norm_letters(lower_tokens[indicator_idx - 1]) not in LINKERS):
-        return clue_tokens[indicator_idx - 1]
+    # Pattern: "TARGET's indicator" or before indicator (e.g., "bathroom's heart")
+    # Skip over linker words (e.g., "bells at the front" → target is "bells")
+    for j in range(indicator_idx - 1, -1, -1):
+        if lower_tokens[j] in def_words:
+            break
+        if norm_letters(lower_tokens[j]) not in LINKERS:
+            return clue_tokens[j]
 
-    # Adjacent after (skip "of" if not present)
-    if (indicator_idx + 1 < len(clue_tokens)
-            and lower_tokens[indicator_idx + 1] not in def_words
-            and norm_letters(lower_tokens[indicator_idx + 1]) not in LINKERS):
-        return clue_tokens[indicator_idx + 1]
+    # Adjacent after (skip linkers)
+    for j in range(indicator_idx + 1, len(clue_tokens)):
+        if lower_tokens[j] in def_words:
+            break
+        if norm_letters(lower_tokens[j]) not in LINKERS:
+            return clue_tokens[j]
 
     return None
 
@@ -1020,8 +1023,20 @@ def attempt_partial_resolve(db: DatabaseLookup, answer: str, letters_needed: str
     if not remaining:
         method_parts = ' + '.join(
             f"{e['letters']} ({e['subtype']}({e['target']}))" for e in extractions)
+        # Use overrides so each word gets its specific role in the breakdown
+        overrides = []
+        for e in extractions:
+            overrides.append({
+                'word': e['target'],
+                'method': f"fodder (first letter = {e['letters']})"
+            })
+            overrides.append({
+                'word': e['indicator'],
+                'method': f"{e['subtype']} indicator"
+            })
         return {
-            'word': extractions[0]['indicator'],
+            'word': '',
+            'overrides': overrides,
             'letters': all_extracted,
             'method': f'parts extraction: {method_parts}'
         }
@@ -2657,6 +2672,11 @@ def analyze_failure(record: Dict[str, Any], db: DatabaseLookup) -> Dict[str, Any
     if result:
         remaining = _subtract_letters(working_needed, result['letters'])
         if not remaining:
+            # Include operation indicator words so _check_fully_solved can consume them.
+            # When all letters are accounted for, indicators are attributed by their role
+            # (they describe how letters combine, not contribute letters themselves).
+            result['indicator_words'] = [str(ind[0]) for ind in operation_indicators
+                                         if isinstance(ind, (list, tuple)) and len(ind) >= 2]
             improved = _improve_formula(formula, result)
             solved, still_unresolved, found_linkers = _check_fully_solved(
                 working_unresolved, result)
@@ -2889,15 +2909,20 @@ def _build_result(record: Dict, answer: str, formula: str,
                 hw_norm = norm_letters(hw).lower() if hw else ''
                 updated_in_bd = False
                 if hw_norm:
-                    for i, entry in enumerate(breakdown):
-                        if not isinstance(entry, str):
-                            continue
-                        m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
-                                     re.IGNORECASE)
-                        if m and norm_letters(m.group(1)).lower() == hw_norm:
-                            breakdown[i] = f'"{hw}" = {method} (secondary)'
-                            updated_in_bd = True
-                            break
+                    # Handle multi-word 'word' fields (e.g., "bells front")
+                    # by matching each token against breakdown entries individually
+                    hw_tokens = hw.split() if ' ' in hw else [hw]
+                    for hw_token in hw_tokens:
+                        hw_token_norm = norm_letters(hw_token).lower()
+                        for i, entry in enumerate(breakdown):
+                            if not isinstance(entry, str):
+                                continue
+                            m = re.match(r'^"([^"]+)"\s*=\s*unresolved', entry.strip(),
+                                         re.IGNORECASE)
+                            if m and norm_letters(m.group(1)).lower() == hw_token_norm:
+                                breakdown[i] = f'"{m.group(1)}" = {method} (secondary)'
+                                updated_in_bd = True
+                                break
                 if not updated_in_bd:
                     breakdown.append(f"Secondary: {method}")
 

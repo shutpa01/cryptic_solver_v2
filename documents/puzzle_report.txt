@@ -1,6 +1,6 @@
 ================================================================================
 PUZZLE REPORT: telegraph #31166
-Generated: 2026-02-22 06:21:27
+Generated: 2026-02-22 22:36:21
 Total clues: 29
 ================================================================================
 
@@ -11,31 +11,19 @@ SOLVE SUMMARY
   Anagrams:                2
   Compound wordplay:       0
   General wordplay:        7
-  Secondary helpers:       3
+  Secondary helpers:       4
   ---
-  SOLVED:                  15/29 (51%)
-  Partial (needs work):    14
-  Unsolved:                0
+  SOLVED:                  16/29 (55%)
+  Partial (needs work):    0
+  Unsolved:                13
 
 ================================================================================
 ACROSS
 ================================================================================
 
-  [PARTIAL] 1 CLUE: How to begin to spell Assyrian ancient capital
+  [UNSOLVED] 1 CLUE: How to begin to spell Assyrian ancient capital
   ANSWER: ATHENS
-  STAGE: general wordplay
-  DEFINITION: ancient capital
-  FORMULA: SA (spell Assyrian) + ? = ATHENS
-  BREAKDOWN:
-    "to" = first letter indicator
-    "begin" = first letter indicator
-    "spell" = S (first letter of)
-    "Assyrian" = A (first letter of)
-    "ancient" = definition for ATHENS
-    "capital" = definition for ATHENS
-    "How" = unresolved
-  LETTERS NEEDED: THEN
-  UNRESOLVED: How
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 5 CLUE: Mum punches vulgar knight, an awful bully
@@ -67,53 +55,30 @@ ACROSS
     "famously" = definition for COVENTRY
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 10 CLUE: German prince's alarm, ringing bells at the front
+  [SOLVED] 10 CLUE: German prince's alarm, ringing bells at the front
   ANSWER: Albert
-  STAGE: general wordplay
-  DEFINITION: german prince's
-  FORMULA: ALERT (alarm,) + B (bells) (contained) = ALBERT
+  STAGE: secondary helper
+  TYPE: partial_resolve
+  FORMULA: ALERT (alarm,) + parts extraction: B (first_use(bells)) = ALBERT
   BREAKDOWN:
     "German" = definition for ALBERT
     "prince's" = definition for ALBERT
     "alarm," = ALERT (database (synonym))
     "ringing" = container indicator
-    "bells" = B (database (abbreviation))
+    "bells" = fodder (first letter = B) (secondary)
     "at" = link word
     "the" = link word
-    "front" = unresolved
-  UNRESOLVED: at, the, front
+    "front" = first_use indicator (secondary)
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 11 CLUE: Grand, flowery sprays, 22 Across in a pack
+  [UNSOLVED] 11 CLUE: Grand, flowery sprays, 22 Across in a pack
   ANSWER: grey wolf
-  STAGE: general wordplay
-  DEFINITION: pack
-  FORMULA: G (Grand,) + FLOWERY = GREYWOLF
-  BREAKDOWN:
-    "Grand," = G (database (single_letter))
-    "flowery" = anagram fodder
-    "22 across" = container_indicator
-    "in" = hidden indicator
-    "pack" = definition for GREYWOLF
-    "sprays," = unresolved
-  UNRESOLVED: sprays,, a
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 12 CLUE: Strict exactitude chap fitting out ship discussed
+  [UNSOLVED] 12 CLUE: Strict exactitude chap fitting out ship discussed
   ANSWER: RIGOUR
-  STAGE: general wordplay
-  DEFINITION: Strict exactitude
-  FORMULA: ? = RIGOUR
-  BREAKDOWN:
-    "Strict" = definition for RIGOUR
-    "exactitude" = definition for RIGOUR
-    "discussed" = homophone indicator
-    "chap" = unresolved
-    "fitting" = unresolved
-    "out" = unresolved
-    "ship" = unresolved
-  LETTERS NEEDED: RIGOUR
-  UNRESOLVED: chap, fitting, out, ship
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 13 CLUE: Very small business of Conan the Barbaric?
@@ -132,39 +97,14 @@ ACROSS
     "of" = link word
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 15 CLUE: Seaport cleared out by you once, an eyesore
+  [UNSOLVED] 15 CLUE: Seaport cleared out by you once, an eyesore
   ANSWER: STYE
-  STAGE: general wordplay
-  DEFINITION: an eyesore
-  FORMULA: YE (you) + ? = STYE
-  BREAKDOWN:
-    "you" = YE (database (abbreviation))
-    "an" = definition for STYE
-    "eyesore" = definition for STYE
-    "Seaport" = unresolved
-    "cleared" = unresolved
-    "out" = unresolved
-    "by" = unresolved
-    "once," = unresolved
-  LETTERS NEEDED: ST
-  UNRESOLVED: Seaport, cleared, out, by, once,
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 17 CLUE: Fiddle starts to sound clearer after maintenance
+  [UNSOLVED] 17 CLUE: Fiddle starts to sound clearer after maintenance
   ANSWER: SCAM
-  STAGE: general wordplay
-  DEFINITION: Fiddle
-  FORMULA: S (sound) + ? = SCAM
-  BREAKDOWN:
-    "Fiddle" = definition for SCAM
-    "starts" = letter selector
-    "to" = reversal indicator
-    "sound" = S (first letter of)
-    "clearer" = unresolved
-    "after" = unresolved
-    "maintenance" = unresolved
-  LETTERS NEEDED: CAM
-  UNRESOLVED: clearer, after, maintenance
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 19 CLUE: Council skilfully collecting litter sent round
@@ -180,17 +120,9 @@ ACROSS
     "sent round" = reversal_indicator
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 20 CLUE: Perhaps Greystoke title dad rejected?
+  [UNSOLVED] 20 CLUE: Perhaps Greystoke title dad rejected?
   ANSWER: ape man
-  STAGE: general wordplay
-  FORMULA: APEMAN (Greystoke) = APEMAN
-  BREAKDOWN:
-    "Greystoke" = APEMAN (database (synonym))
-    "rejected?" = reversal indicator
-    "Perhaps" = link word
-    "title" = unresolved
-    "dad" = unresolved
-  UNRESOLVED: Perhaps, title, dad
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 21 CLUE: Mole unfinished, temperature 1 Celsius in the sea at Rimini
@@ -211,34 +143,14 @@ ACROSS
     "the" = link word
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 22 CLUE: Being uptight, this compiler's taken inside
+  [UNSOLVED] 22 CLUE: Being uptight, this compiler's taken inside
   ANSWER: ANIMAL
-  STAGE: general wordplay
-  DEFINITION: Being
-  FORMULA: ? = ANIMAL
-  BREAKDOWN:
-    "Being" = definition for ANIMAL
-    "uptight," = unresolved
-    "this" = unresolved
-    "compiler's" = unresolved
-    "taken" = unresolved
-    "inside" = unresolved
-  LETTERS NEEDED: ANIMAL
-  UNRESOLVED: uptight,, this, compiler's, taken, inside
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 23 CLUE: Heard terrible record in conversation
+  [UNSOLVED] 23 CLUE: Heard terrible record in conversation
   ANSWER: DIALOGUE
-  STAGE: general wordplay
-  DEFINITION: in conversation
-  FORMULA: A (record) + LO (terrible) + ? = DIALOGUE
-  BREAKDOWN:
-    "Heard" = homophone indicator
-    "terrible" = LO (terrible = low sounds like lo)
-    "record" = A (database (synonym))
-    "in" = definition for DIALOGUE
-    "conversation" = definition for DIALOGUE
-  LETTERS NEEDED: DIGUE
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 24 CLUE: Toothless former Tory PM, rubbish leader of Empire
@@ -278,20 +190,9 @@ ACROSS
 DOWN
 ================================================================================
 
-  [PARTIAL] 2 CLUE: Picked Yorkshire's best batsman, settled in
+  [UNSOLVED] 2 CLUE: Picked Yorkshire's best batsman, settled in
   ANSWER: took root
-  STAGE: general wordplay
-  DEFINITION: settled in
-  FORMULA: OK (best) + ? = TOOKROOT
-  BREAKDOWN:
-    "best" = OK (database (synonym))
-    "settled" = definition for TOOKROOT
-    "in" = definition for TOOKROOT
-    "Picked" = unresolved
-    "Yorkshire's" = unresolved
-    "batsman," = unresolved
-  LETTERS NEEDED: TOOROT
-  UNRESOLVED: Picked, Yorkshire's, batsman,
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 3 CLUE: All European, so united
@@ -306,38 +207,14 @@ DOWN
     "united" = ONE (database (synonym))
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 4 CLUE: Key moments in court proceedings, job of signalman?
+  [UNSOLVED] 4 CLUE: Key moments in court proceedings, job of signalman?
   ANSWER: set points
-  STAGE: general wordplay
-  DEFINITION: key moments
-  FORMULA: SPITE (job) + ? = SETPOINTS
-  BREAKDOWN:
-    "Key" = definition for SETPOINTS
-    "moments" = definition for SETPOINTS
-    "in" = hidden indicator
-    "job" = SPITE (database (synonym))
-    "court" = unresolved
-    "proceedings," = unresolved
-    "of" = unresolved
-    "signalman?" = unresolved
-  LETTERS NEEDED: STON
-  UNRESOLVED: court, proceedings,, of, signalman?
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 5 CLUE: Leave by plane ... its name? "Go Ballistic"
+  [UNSOLVED] 5 CLUE: Leave by plane ... its name? "Go Ballistic"
   ANSWER: fly off the handle
-  STAGE: general wordplay
-  FORMULA: ANON (by) + FLY (plane) + TITLE (name?) + ? = FLYOFFTHEHANDLE
-  BREAKDOWN:
-    "by" = ANON (database (synonym))
-    "plane" = FLY (database (synonym))
-    "name?" = TITLE (database (synonym))
-    ""Go" = IT (to be removed)
-    "Leave" = unresolved
-    "its" = unresolved
-    "Ballistic"" = unresolved
-  LETTERS NEEDED: FFHEHD
-  UNRESOLVED: Leave, ..., its, Ballistic"
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 6 CLUE: Son, mischievous, inconsiderate
@@ -404,42 +281,14 @@ DOWN
     "part" = definition 2 for SEPARATE
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 16 CLUE: A bit of spare time so Yank goes round national park
+  [UNSOLVED] 16 CLUE: A bit of spare time so Yank goes round national park
   ANSWER: Yosemite
-  STAGE: general wordplay
-  DEFINITION: national park
-  FORMULA: STY (spare time Yank) + ? = YOSEMITE
-  BREAKDOWN:
-    "bit" = first letter indicator
-    "of" = first letter indicator
-    "spare" = S (first letter of)
-    "time" = T (first letter of)
-    "Yank" = Y (first letter of)
-    "goes round" = container_indicator
-    "national" = definition for YOSEMITE
-    "park" = definition for YOSEMITE
-    "so" = unresolved
-  LETTERS NEEDED: OEMIE
-  UNRESOLVED: A, so
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
-  [PARTIAL] 17 CLUE: Scottish plane tree said to be less healthy again
+  [UNSOLVED] 17 CLUE: Scottish plane tree said to be less healthy again
   ANSWER: SYCAMORE
-  STAGE: general wordplay
-  DEFINITION: scottish plane tree
-  FORMULA: MORE (again) + ? = SYCAMORE
-  BREAKDOWN:
-    "Scottish" = definition for SYCAMORE
-    "plane" = definition for SYCAMORE
-    "tree" = definition for SYCAMORE
-    "said" = homophone indicator
-    "to" = reversal indicator
-    "again" = MORE (database (synonym))
-    "be" = unresolved
-    "less" = unresolved
-    "healthy" = unresolved
-  LETTERS NEEDED: SYCA
-  UNRESOLVED: be, less, healthy
+  STAGE: 
   ──────────────────────────────────────────────────────────────────────
 
   [SOLVED] 18 CLUE: Bird in a duel changing height

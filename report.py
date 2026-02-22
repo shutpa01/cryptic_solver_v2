@@ -74,7 +74,8 @@ MAX_CLUES = 50            # max clues to select
 
 EXCLUDE_SOLVED = True        # skip clues that already have a solution
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH = ""
+SINGLE_CLUE_MATCH = "German prince's alarm, ringing bells at the front"
+
 # filter to single clue matching this text (empty = no filter)
 USE_KNOWN_ANSWER = True       # use known answer as candidate
 ONLY_MISSING_DEFINITION = False  # only clues where answer NOT in def candidates
@@ -84,6 +85,7 @@ MAX_FORWARDED_SAMPLES = 50
 ANALYZE_SUCCESSFUL_ANAGRAMS = False
 MAX_SUCCESSFUL_SAMPLES = 25
 ENABLE_PERSISTENCE = True     # save stage data to SQLite
+SELF_LEARN = False            # run self-learning enrichment + re-run pipeline
 
 
 # ============================================================
@@ -1226,7 +1228,7 @@ def main():
     parser.add_argument("--enable-persistence", action=argparse.BooleanOptionalAction,
                         default=ENABLE_PERSISTENCE,
                         help="Enable stage persistence to SQLite")
-    parser.add_argument("--no-self-learn", action="store_true", default=False,
+    parser.add_argument("--no-self-learn", action="store_true", default=not SELF_LEARN,
                         help="Skip self-learning enrichment step")
     args = parser.parse_args()
 

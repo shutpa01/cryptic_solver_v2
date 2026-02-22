@@ -541,13 +541,16 @@ def step_b_single_word_inference(failure: dict, conn: sqlite3.Connection,
 
     n = len(letters_needed)
 
-    # Guard: single-letter inferences must be initial-letter abbreviations.
-    # Prevents false positives like european->Y (Y!=E).
-    # Allows league->L, bells->B, etc.
-    if n == 1 and letters_needed.upper() != word[0].upper():
+    # Single-letter matches: never insert as abbreviations.
+    # If the letter equals the word's first letter (bells->B, league->L),
+    # that's an indicator+fodder pattern (e.g. "front" = first_use indicator),
+    # not a genuine abbreviation. The pipeline should resolve these via
+    # the indicator + adjacent fodder word, not a hardcoded wordplay entry.
+    # Genuine abbreviations (temperature->T) come from reference data mining.
+    if n == 1:
         return
 
-    if 1 <= n <= 4:
+    if 2 <= n <= 4:
         inserted = insert_wordplay(conn, word.lower(), letters_needed.upper(),
                                    'abbreviation', confidence='low',
                                    notes=f'inferred from {answer}',
