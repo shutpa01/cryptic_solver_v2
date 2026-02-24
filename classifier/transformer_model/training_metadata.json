@@ -1,0 +1,34 @@
+{
+  "id2label": {
+    "0": "acrostic",
+    "1": "anagram",
+    "2": "charade",
+    "3": "container",
+    "4": "cryptic_definition",
+    "5": "deletion",
+    "6": "double_definition",
+    "7": "hidden",
+    "8": "homophone",
+    "9": "other",
+    "10": "reversal"
+  },
+  "label2id": {
+    "acrostic": 0,
+    "anagram": 1,
+    "charade": 2,
+    "container": 3,
+    "cryptic_definition": 4,
+    "deletion": 5,
+    "double_definition": 6,
+    "hidden": 7,
+    "homophone": 8,
+    "other": 9,
+    "reversal": 10
+  },
+  "accuracy": 0.6620777063939514,
+  "epochs": 3,
+  "batch_size": 32,
+  "lr": 2e-05,
+  "max_length": 64,
+  "quick": false
+}

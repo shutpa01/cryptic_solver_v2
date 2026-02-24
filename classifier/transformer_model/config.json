@@ -1,0 +1,52 @@
+{
+  "activation": "gelu",
+  "architectures": [
+    "DistilBertForSequenceClassification"
+  ],
+  "attention_dropout": 0.1,
+  "bos_token_id": null,
+  "dim": 768,
+  "dropout": 0.1,
+  "dtype": "float32",
+  "eos_token_id": null,
+  "hidden_dim": 3072,
+  "id2label": {
+    "0": "acrostic",
+    "1": "anagram",
+    "2": "charade",
+    "3": "container",
+    "4": "cryptic_definition",
+    "5": "deletion",
+    "6": "double_definition",
+    "7": "hidden",
+    "8": "homophone",
+    "9": "other",
+    "10": "reversal"
+  },
+  "initializer_range": 0.02,
+  "label2id": {
+    "acrostic": 0,
+    "anagram": 1,
+    "charade": 2,
+    "container": 3,
+    "cryptic_definition": 4,
+    "deletion": 5,
+    "double_definition": 6,
+    "hidden": 7,
+    "homophone": 8,
+    "other": 9,
+    "reversal": 10
+  },
+  "max_position_embeddings": 512,
+  "model_type": "distilbert",
+  "n_heads": 12,
+  "n_layers": 6,
+  "pad_token_id": 0,
+  "qa_dropout": 0.1,
+  "seq_classif_dropout": 0.2,
+  "sinusoidal_pos_embds": false,
+  "tie_weights_": true,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.2.0",
+  "vocab_size": 30522
+}
