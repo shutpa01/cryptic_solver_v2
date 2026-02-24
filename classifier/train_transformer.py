@@ -38,7 +38,7 @@ from transformers import (
 # Paths
 # ---------------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DB_PATH = PROJECT_ROOT / "data" / "cryptic_new.db"
+DB_PATH = PROJECT_ROOT / "data" / "clues_master.db"
 MODEL_DIR = Path(__file__).resolve().parent / "transformer_model"
 
 # ---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ class ClueDataset(Dataset):
 # ---------------------------------------------------------------------------
 
 def load_data(quick: bool = False):
-    """Load labelled clues from cryptic_new.db.
+    """Load labelled clues from clues_master.db.
 
     Returns (texts_a, texts_b, labels_str) where:
         texts_a = list of clue texts
@@ -397,6 +397,8 @@ def predict(args):
 # ---------------------------------------------------------------------------
 
 def main():
+    global DB_PATH, MODEL_DIR
+
     parser = argparse.ArgumentParser(description="Fine-tune DistilBERT for clue type classification")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=32)
@@ -406,8 +408,14 @@ def main():
     parser.add_argument("--evaluate", action="store_true", help="Evaluate saved model")
     parser.add_argument("--predict", nargs="+", metavar=("CLUE", "ANSWER"),
                         help="Predict: --predict 'clue text' ANSWER 7")
+    parser.add_argument("--db", type=str, default=str(DB_PATH),
+                        help="Path to database file")
+    parser.add_argument("--model-dir", type=str, default=str(MODEL_DIR),
+                        help="Directory to save/load model")
 
     args = parser.parse_args()
+    DB_PATH = Path(args.db)
+    MODEL_DIR = Path(args.model_dir)
 
     if args.predict:
         predict(args)

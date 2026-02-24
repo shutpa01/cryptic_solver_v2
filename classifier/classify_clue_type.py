@@ -33,7 +33,7 @@ from scipy.sparse import issparse
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DB_PATH = PROJECT_ROOT / "data" / "cryptic_new.db"
+DB_PATH = PROJECT_ROOT / "data" / "clues_master.db"
 MODEL_PATH = SCRIPT_DIR / "clue_type_model.joblib"
 
 # ---------------------------------------------------------------------------
@@ -540,7 +540,7 @@ def main():
     parser.add_argument("--predict", nargs=3, metavar=("CLUE", "ANSWER", "ENUM"),
                         help="Predict wordplay type for a single clue")
     parser.add_argument("--db", type=str, default=str(DB_PATH),
-                        help=f"Path to cryptic_new.db (default: {DB_PATH})")
+                        help=f"Path to clues DB (default: {DB_PATH})")
     parser.add_argument("--model-path", type=str, default=str(MODEL_PATH),
                         help=f"Path to save/load model (default: {MODEL_PATH})")
     args = parser.parse_args()

@@ -23,7 +23,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DB_PATH = PROJECT_ROOT / "data" / "cryptic_new.db"
+DB_PATH = PROJECT_ROOT / "data" / "clues_master.db"
 LOG_PATH = SCRIPT_DIR / "label_log.json"
 
 # ---------------------------------------------------------------------------
