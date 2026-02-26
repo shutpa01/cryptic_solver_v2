@@ -68,13 +68,13 @@ OUTPUT_FILE = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents\puzzl
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"          # telegraph, guardian, times, independent
-PUZZLE_NUMBER = "31166"       # puzzle number to solve
-MAX_CLUES = 50            # max clues to select
+PUZZLE_NUMBER = ""       # puzzle number to solve
+MAX_CLUES = 100Th              # max clues to select
 
 
 EXCLUDE_SOLVED = True        # skip clues that already have a solution
 WORDPLAY_TYPE = "all"         # all, anagram, lurker, dd
-SINGLE_CLUE_MATCH = "German prince's alarm, ringing bells at the front"
+SINGLE_CLUE_MATCH = ""
 
 # filter to single clue matching this text (empty = no filter)
 USE_KNOWN_ANSWER = True       # use known answer as candidate

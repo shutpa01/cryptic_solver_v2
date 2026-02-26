@@ -2,7 +2,7 @@
 """Telegraph Daily Scraper
 
 Logs in via browser, finds today's puzzle API IDs from the puzzles page,
-fetches each puzzle JSON, and saves clues to the database.
+fetches each puzzle JSON, and saves clues directly to the clues table in clues_master.db.
 
 Requires .env with TELEGRAPH_EMAIL and TELEGRAPH_PASSWORD.
 """
@@ -13,6 +13,7 @@ import os
 import json
 import time
 import sqlite3
+import subprocess
 import requests
 from datetime import datetime, date
 from pathlib import Path
@@ -24,6 +25,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
+
+
+def get_chrome_version_main() -> int | None:
+    """Read installed Chrome major version from Windows registry."""
+    try:
+        result = subprocess.run(
+            ['reg', 'query', r'HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon', '/v', 'version'],
+            capture_output=True, text=True, timeout=5,
+        )
+        match = re.search(r'(\d+)\.', result.stdout)
+        return int(match.group(1)) if match else None
+    except Exception:
+        return None
 
 SCRIPT_DIR = Path(__file__).parent
 DB_PATH = os.getenv('DB_PATH',
@@ -183,31 +197,14 @@ def harvest_today(driver):
 
 
 def puzzle_already_fetched(puzzle_type, puzzle_number):
-    """Check if puzzle is already in database."""
+    """Check if puzzle is already in the clues table."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS telegraph_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    cursor.execute("""
-        SELECT COUNT(*) FROM telegraph_clues
-        WHERE puzzle_type = ? AND puzzle_number = ?
-    """, (puzzle_type, str(puzzle_number)))
+        SELECT COUNT(*) FROM clues
+        WHERE source = 'telegraph' AND puzzle_number = ?
+    """, (str(puzzle_number),))
 
     count = cursor.fetchone()[0]
     conn.close()
@@ -215,7 +212,7 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
 
 
 def fetch_and_save(puzzle):
-    """Fetch puzzle JSON from API and save clues to database."""
+    """Fetch puzzle JSON from API and save clues directly to clues table."""
     folder = puzzle['folder']
     link_type = puzzle['link_type']
     api_id = puzzle['api_id']
@@ -272,21 +269,20 @@ def fetch_and_save(puzzle):
     print(f"  Title: {title}")
     print(f"  Clues: {len(across)} across, {len(down)} down")
 
-    # Save to database
+    # Save directly to clues table
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    fetched_at = datetime.now().isoformat()
     clue_count = 0
 
     for direction, clue_list in [('across', across), ('down', down)]:
         for clue in clue_list:
             cursor.execute("""
-                INSERT INTO telegraph_clues
-                (puzzle_type, puzzle_number, puzzle_date, clue_number, direction,
-                 clue_text, enumeration, answer, fetched_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT OR IGNORE INTO clues
+                (source, puzzle_number, publication_date, clue_number, direction,
+                 clue_text, enumeration, answer)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                puzzle_type,
+                'telegraph',
                 str(puzzle_number),
                 date_publish,
                 str(clue['number']),
@@ -294,7 +290,6 @@ def fetch_and_save(puzzle):
                 clue['clue'],
                 clue['enumeration'],
                 clue['answer'],
-                fetched_at
             ))
             clue_count += 1
 
@@ -318,7 +313,9 @@ def main():
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
 
-    driver = uc.Chrome(options=options, version_main=144)
+    chrome_ver = get_chrome_version_main()
+    print(f"Chrome version detected: {chrome_ver}")
+    driver = uc.Chrome(options=options, version_main=chrome_ver)
 
     try:
         login(driver)

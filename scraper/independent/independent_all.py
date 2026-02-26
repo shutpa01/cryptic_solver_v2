@@ -2,12 +2,12 @@
 """Independent Crossword Scraper
 
 Scrapes clues AND answers from independentcrossword.co.uk
-Works for both daily scraping and backfill.
+Saves directly to the clues table in clues_master.db.
 
 Usage:
-    python independent_scraper.py              # Today's puzzle
-    python independent_scraper.py --backfill   # All puzzles from archive
-    python independent_scraper.py --days=30    # Last 30 days
+    python independent_all.py              # Today's puzzle
+    python independent_all.py --backfill   # All puzzles from archive
+    python independent_all.py --days=30    # Last 30 days
 """
 
 import re
@@ -15,6 +15,7 @@ import os
 import sys
 import sqlite3
 import requests
+import time
 from datetime import datetime, date, timedelta
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -23,15 +24,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DB_PATH = os.getenv('DB_PATH',
-                    r"C:\Users\shute\PycharmProjects\AI_Solver\data\clues_master.db")
+                    r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db")
 
 BASE_URL = "https://independentcrossword.co.uk"
 ARCHIVE_URL = f"{BASE_URL}/archive/independent-cryptic-crossword"
 
 # Rate limiting
 REQUEST_DELAY = 1  # seconds between requests
-
-import time
 
 
 def get_puzzle_url_for_date(puzzle_date):
@@ -59,9 +58,9 @@ def fetch_page(url):
         return None
 
 
-def parse_puzzle_page(html, puzzle_date):
+def parse_puzzle_page(html_text, puzzle_date):
     """Parse puzzle page and extract clues with answers."""
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html_text, 'html.parser')
 
     clues = []
 
@@ -104,12 +103,12 @@ def parse_puzzle_page(html, puzzle_date):
 def get_archive_dates():
     """Scrape archive page to get all available puzzle dates."""
     print(f"Fetching archive: {ARCHIVE_URL}")
-    html = fetch_page(ARCHIVE_URL)
-    if not html:
+    html_text = fetch_page(ARCHIVE_URL)
+    if not html_text:
         print("Failed to fetch archive page")
         return []
 
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html_text, 'html.parser')
     dates = []
 
     # Find all archive links
@@ -137,32 +136,13 @@ def get_archive_dates():
 
 
 def puzzle_already_fetched(puzzle_date):
-    """Check if puzzle is already in database."""
+    """Check if puzzle is already in the clues table."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Create table if not exists
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS independent_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT DEFAULT 'cryptic',
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    cursor.execute("""
-        SELECT COUNT(*) FROM independent_clues 
-        WHERE puzzle_date = ?
+        SELECT COUNT(*) FROM clues
+        WHERE source = 'independent' AND publication_date = ?
     """, (puzzle_date.strftime('%Y-%m-%d'),))
 
     count = cursor.fetchone()[0]
@@ -171,46 +151,26 @@ def puzzle_already_fetched(puzzle_date):
 
 
 def save_to_database(clues, puzzle_date):
-    """Save clues to database."""
+    """Save clues directly to clues table."""
     if not clues:
         return 0
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS independent_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT DEFAULT 'cryptic',
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    fetched_at = datetime.now().isoformat()
     clue_count = 0
 
     for i, clue in enumerate(clues, 1):
         cursor.execute("""
-            INSERT INTO independent_clues 
-            (puzzle_type, puzzle_date, clue_number, clue_text, answer, fetched_at)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT OR IGNORE INTO clues
+            (source, publication_date, clue_number, clue_text, answer)
+            VALUES (?, ?, ?, ?, ?)
         """, (
-            'cryptic',
+            'independent',
             clue['puzzle_date'],
             str(i),
             clue['clue_text'],
             clue['answer'],
-            fetched_at
         ))
         clue_count += 1
 
@@ -228,13 +188,13 @@ def scrape_puzzle(puzzle_date, force=False):
         return 0
 
     url = get_puzzle_url_for_date(puzzle_date)
-    html = fetch_page(url)
+    html_text = fetch_page(url)
 
-    if not html:
+    if not html_text:
         print(f"  {date_str}: not found")
         return 0
 
-    clues = parse_puzzle_page(html, puzzle_date)
+    clues = parse_puzzle_page(html_text, puzzle_date)
 
     if not clues:
         print(f"  {date_str}: no clues found")

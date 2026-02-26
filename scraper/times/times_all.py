@@ -3,6 +3,7 @@
 
 Uses undetected-chromedriver to log in and discover API ID from network traffic.
 No longer relies on offset calculations - captures the real API URL.
+Saves clues directly to the clues table in clues_master.db.
 
 Requires .env file with:
 TIMES_EMAIL=your_email
@@ -17,6 +18,7 @@ import sys
 import html
 import time
 import re
+import subprocess
 from datetime import datetime, date, timedelta
 from pathlib import Path
 from dotenv import load_dotenv
@@ -28,8 +30,21 @@ from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 
+
+def get_chrome_version_main() -> int | None:
+    """Read installed Chrome major version from Windows registry."""
+    try:
+        result = subprocess.run(
+            ['reg', 'query', r'HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon', '/v', 'version'],
+            capture_output=True, text=True, timeout=5,
+        )
+        match = re.search(r'(\d+)\.', result.stdout)
+        return int(match.group(1)) if match else None
+    except Exception:
+        return None
+
 DB_PATH = os.getenv('DB_PATH',
-                    r"C:\Users\shute\PycharmProjects\AI_Solver\data\clues_master.db")
+                    r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db")
 
 TIMES_EMAIL = os.getenv('TIMES_EMAIL')
 TIMES_PASSWORD = os.getenv('TIMES_PASSWORD')
@@ -113,7 +128,9 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
     options.add_argument('--start-maximized')
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
-    driver = uc.Chrome(options=options, version_main=144)
+    chrome_ver = get_chrome_version_main()
+    print(f"Chrome version detected: {chrome_ver}")
+    driver = uc.Chrome(options=options, version_main=chrome_ver)
 
     api_id = None
     api_url = None
@@ -126,37 +143,74 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
         driver.get(LOGIN_URL)
         time.sleep(3)
 
-        wait = WebDriverWait(driver, 15)
+        wait = WebDriverWait(driver, 20)
 
-        # Check for Auth0 iframe
+        print(f"Login page URL: {driver.current_url}")
+
+        # Check for Auth0 iframe (older Times login used one)
         try:
-            iframe = wait.until(EC.presence_of_element_located(
+            iframe = WebDriverWait(driver, 5).until(EC.presence_of_element_located(
                 (By.CSS_SELECTOR, "iframe[name='auth0-lock-widget-frame']")))
             print("Switching to Auth0 iframe...")
             driver.switch_to.frame(iframe)
         except:
             print("No iframe found, continuing on main page...")
 
+        # Wait for Auth0 Lock to fully render the form
+        print("Waiting for login form to be ready...")
+        wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "input[name='email']")))
+        time.sleep(2)  # Let Auth0 Lock animation finish
+
+        # Auth0 Lock uses React — need to set values via JS and trigger input events
         print("Entering email...")
-        email_field = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "input.auth0-lock-input[name='email']")))
-        email_field.clear()
-        email_field.send_keys(TIMES_EMAIL)
+        driver.execute_script("""
+            var el = document.querySelector("input[name='email']");
+            var nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value').set;
+            nativeInputValueSetter.call(el, arguments[0]);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        """, TIMES_EMAIL)
 
         print("Entering password...")
-        password_field = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "input.auth0-lock-input[name='password']")))
-        password_field.clear()
-        password_field.send_keys(TIMES_PASSWORD)
+        driver.execute_script("""
+            var el = document.querySelector("input[name='password']");
+            var nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value').set;
+            nativeInputValueSetter.call(el, arguments[0]);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        """, TIMES_PASSWORD)
+
+        time.sleep(0.5)
 
         print("Clicking login...")
-        login_btn = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
-        login_btn.click()
+        driver.execute_script("""
+            document.querySelector("button.auth0-lock-submit").click();
+        """)
 
         print("Waiting for login to complete...")
         driver.switch_to.default_content()
-        WebDriverWait(driver, 30).until(lambda d: "login" not in d.current_url.lower())
+
+        def login_complete(d):
+            """Login is complete if URL no longer has 'login' OR we're on the homepage."""
+            url = d.current_url.lower()
+            if "login" not in url:
+                return True
+            # Sometimes redirect is slow but page is already the homepage
+            if "thetimes.co.uk" in url and "/login" not in url:
+                return True
+            return False
+
+        try:
+            WebDriverWait(driver, 30).until(login_complete)
+        except:
+            # Last resort: check if we actually landed on the homepage despite URL weirdness
+            current = driver.current_url
+            page_text = driver.page_source[:5000].lower()
+            if "my account" in page_text or "www.thetimes.co.uk" in current:
+                print(f"Login appears successful despite URL check timeout. URL: {current}")
+            else:
+                raise
         print(f"Logged in! URL: {driver.current_url}")
 
         # === NAVIGATE TO PUZZLE ===
@@ -246,9 +300,6 @@ def get_puzzle_via_network_capture(puzzle_type='cryptic'):
             print(f"Puzzle number from URL: {puzzle_number}")
 
         # === CAPTURE API URL FROM PUZZLE IFRAME ===
-        # The Times embeds the puzzle in an iframe:
-        #   <iframe id="puzzle-iframe" src="https://feeds.thetimes.com/puzzles/sp/{feed_type}/{date}/{id}/?...">
-        # Reading the iframe src is simpler and more reliable than network interception.
         print("Looking for puzzle iframe...")
         try:
             iframes = driver.find_elements(By.TAG_NAME, "iframe")
@@ -430,32 +481,14 @@ def parse_puzzle(json_data):
 
 
 def puzzle_exists(puzzle_number, puzzle_type):
-    """Check if puzzle already in database."""
+    """Check if puzzle already in the clues table."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS times_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    cursor.execute("""
-        SELECT COUNT(*) FROM times_clues 
-        WHERE puzzle_number = ? AND puzzle_type LIKE ?
-    """, (str(puzzle_number), f'%{puzzle_type}%'))
+        SELECT COUNT(*) FROM clues
+        WHERE source = 'times' AND puzzle_number = ?
+    """, (str(puzzle_number),))
 
     count = cursor.fetchone()[0]
     conn.close()
@@ -463,65 +496,37 @@ def puzzle_exists(puzzle_number, puzzle_type):
 
 
 def save_to_database(puzzle_data):
-    """Save puzzle clues to database."""
+    """Save puzzle clues directly to clues table."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS times_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_times_puzzle 
-        ON times_clues(puzzle_number, puzzle_type)
-    """)
-
     puzzle_number = puzzle_data.get('puzzle_number', '')
-    puzzle_type = puzzle_data.get('puzzle_type', 'Times Cryptic')
     puzzle_date = puzzle_data.get('date', '')
-    setter = puzzle_data.get('setter', '')
-    fetched_at = datetime.now().isoformat()
 
     clue_count = 0
     for direction in ['across', 'down']:
         for clue in puzzle_data.get(direction, []):
             cursor.execute("""
-                INSERT INTO times_clues 
-                (puzzle_type, puzzle_number, puzzle_date, setter, clue_number, direction, 
-                 clue_text, enumeration, answer, fetched_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT OR IGNORE INTO clues
+                (source, puzzle_number, publication_date, clue_number, direction,
+                 clue_text, enumeration, answer)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                puzzle_type,
+                'times',
                 str(puzzle_number),
                 puzzle_date,
-                setter,
                 str(clue.get('number', '')),
                 direction,
                 clue.get('clue', ''),
                 clue.get('enumeration', ''),
                 clue.get('answer', ''),
-                fetched_at
             ))
             clue_count += 1
 
     conn.commit()
     conn.close()
 
-    print(f"Saved {clue_count} clues to database")
+    print(f"Saved {clue_count} clues to clues table")
     return clue_count
 
 
@@ -533,6 +538,7 @@ def main():
 
     today = date.today()
     print(f"Today: {today.strftime('%A, %d %B %Y')}")
+    print(f"Database: {DB_PATH}")
 
     # Parse arguments
     force = '--force' in sys.argv
@@ -590,9 +596,9 @@ def main():
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute("""
-            DELETE FROM times_clues 
-            WHERE puzzle_number = ? AND puzzle_type LIKE ?
-        """, (str(puzzle_number), f'%{puzzle_type}%'))
+            DELETE FROM clues
+            WHERE source = 'times' AND puzzle_number = ?
+        """, (str(puzzle_number),))
         conn.commit()
         conn.close()
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Guardian Puzzle Scraper - All Puzzle Types
-Fetches puzzles from Guardian JSON API and saves to database.
+Fetches puzzles from Guardian JSON API and saves directly to clues table in clues_master.db.
 """
 
 import requests
@@ -17,7 +17,7 @@ from html import unescape
 load_dotenv()
 
 DB_PATH = os.getenv('DB_PATH',
-                    r"C:\Users\shute\PycharmProjects\AI_Solver\data\clues_master.db")
+                    r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db")
 
 # Guardian puzzle types
 PUZZLE_TYPES = {
@@ -174,33 +174,14 @@ def parse_puzzle(data, puzzle_type):
 
 
 def puzzle_already_fetched(puzzle_type, puzzle_number):
-    """Check if puzzle is already in database."""
+    """Check if puzzle is already in the clues table."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Ensure table exists
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS guardian_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    cursor.execute("""
-        SELECT COUNT(*) FROM guardian_clues 
-        WHERE puzzle_type = ? AND puzzle_number = ?
-    """, (puzzle_type, str(puzzle_number)))
+        SELECT COUNT(*) FROM clues
+        WHERE source = 'guardian' AND puzzle_number = ?
+    """, (str(puzzle_number),))
 
     count = cursor.fetchone()[0]
     conn.close()
@@ -208,61 +189,32 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
 
 
 def save_to_database(puzzle_data, puzzle_type):
-    """Save puzzle clues to guardian_clues table."""
-    print(f"Saving to guardian_clues table...")
+    """Save puzzle clues directly to clues table."""
+    print(f"Saving to clues table (source='guardian')...")
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Create table if not exists
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS guardian_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
-    """)
-
-    # Index for quick lookups
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_guardian_puzzle 
-        ON guardian_clues(puzzle_type, puzzle_number)
-    """)
-
     puzzle_number = puzzle_data.get('puzzle_number', 0)
     puzzle_date = puzzle_data.get('date', '')
-    setter = puzzle_data.get('setter', '')
-    fetched_at = datetime.now().isoformat()
 
     clue_count = 0
     for direction in ['across', 'down']:
         for clue in puzzle_data.get(direction, []):
             cursor.execute("""
-                INSERT INTO guardian_clues 
-                (puzzle_type, puzzle_number, puzzle_date, setter, clue_number, direction, 
-                 clue_text, enumeration, answer, fetched_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT OR IGNORE INTO clues
+                (source, puzzle_number, publication_date, clue_number, direction,
+                 clue_text, enumeration, answer)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                puzzle_type,
+                'guardian',
                 str(puzzle_number),
                 puzzle_date,
-                setter,
                 str(clue.get('number', '')),
                 direction,
                 clue.get('clue', ''),
                 clue.get('enumeration', ''),
                 clue.get('answer', ''),
-                fetched_at
             ))
             clue_count += 1
 
@@ -274,30 +226,13 @@ def save_to_database(puzzle_data, puzzle_type):
 
 
 def get_last_puzzle_number(puzzle_type):
-    """Get the highest puzzle number in the database for this type."""
+    """Get the highest puzzle number in the clues table for guardian source."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS guardian_clues (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            puzzle_type TEXT,
-            puzzle_number TEXT,
-            puzzle_date TEXT,
-            setter TEXT,
-            clue_number TEXT,
-            direction TEXT,
-            clue_text TEXT,
-            enumeration TEXT,
-            answer TEXT,
-            explanation TEXT,
-            published INTEGER DEFAULT 0,
-            fetched_at TEXT
-        )
+        SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues
+        WHERE source = 'guardian'
     """)
-    cursor.execute("""
-        SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM guardian_clues
-        WHERE puzzle_type = ?
-    """, (puzzle_type,))
     result = cursor.fetchone()[0]
     conn.close()
     return result
@@ -414,6 +349,7 @@ def main():
 
     today = date.today()
     print(f"Today: {today.strftime('%A, %d %B %Y')}")
+    print(f"Database: {DB_PATH}")
 
     available = get_todays_puzzles()
     print(f"Available today: {', '.join(available) if available else 'None'}")
@@ -436,27 +372,23 @@ def main():
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT puzzle_type, puzzle_number, puzzle_date, setter,
+                SELECT puzzle_number, publication_date,
                        COUNT(*) as clues,
-                       SUM(CASE WHEN explanation IS NOT NULL THEN 1 ELSE 0 END) as explained,
-                       MAX(published) as published
-                FROM guardian_clues
-                GROUP BY puzzle_type, puzzle_number
-                ORDER BY fetched_at DESC
+                       SUM(CASE WHEN explanation IS NOT NULL AND explanation != '' THEN 1 ELSE 0 END) as explained
+                FROM clues
+                WHERE source = 'guardian'
+                GROUP BY puzzle_number
+                ORDER BY CAST(puzzle_number AS INTEGER) DESC
                 LIMIT 20
             """)
             rows = cursor.fetchall()
             conn.close()
 
-            print("\nRecent puzzles in guardian_clues:")
-            print(
-                f"{'Type':12} {'#':>6} {'Setter':15} {'Clues':>6} {'Expl':>6} {'Pub':>4}")
-            print("-" * 55)
+            print("\nRecent guardian puzzles in clues table:")
+            print(f"{'#':>8} {'Date':12} {'Clues':>6} {'Expl':>6}")
+            print("-" * 35)
             for row in rows:
-                pub = "Yes" if row[6] else "No"
-                setter = (row[3] or '')[:15]
-                print(
-                    f"{row[0]:12} {row[1]:>6} {setter:15} {row[4]:>6} {row[5]:>6} {pub:>4}")
+                print(f"{row[0]:>8} {(row[1] or ''):12} {row[2]:>6} {row[3]:>6}")
 
         elif arg in PUZZLE_TYPES:
             puzzle_number = int(sys.argv[2]) if len(sys.argv) > 2 else None

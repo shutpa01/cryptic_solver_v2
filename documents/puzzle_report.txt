@@ -1,321 +1,1620 @@
 ================================================================================
-PUZZLE REPORT: telegraph #31166
-Generated: 2026-02-22 22:36:21
-Total clues: 29
+PUZZLE REPORT: telegraph #2614
+Generated: 2026-02-23 07:17:43
+Total clues: 100
 ================================================================================
 
 SOLVE SUMMARY
 ----------------------------------------
-  Double definitions:      2
-  Hidden words (lurkers):  1
-  Anagrams:                2
+  Double definitions:      3
+  Hidden words (lurkers):  4
+  Anagrams:                7
   Compound wordplay:       0
-  General wordplay:        7
-  Secondary helpers:       4
+  General wordplay:        4
+  Secondary helpers:       1
   ---
-  SOLVED:                  16/29 (55%)
-  Partial (needs work):    0
-  Unsolved:                13
+  SOLVED:                  19/100 (19%)
+  Partial (needs work):    81
+  Unsolved:                0
 
 ================================================================================
 ACROSS
 ================================================================================
 
-  [UNSOLVED] 1 CLUE: How to begin to spell Assyrian ancient capital
-  ANSWER: ATHENS
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 5 CLUE: Mum punches vulgar knight, an awful bully
-  ANSWER: Flashman
+  [PARTIAL] 1 CLUE: Model I love in play
+  ANSWER: Diorama
   STAGE: general wordplay
-  DEFINITION: an awful bully
-  FORMULA: MA (Mum) + FLASH (vulgar) + N (knight,) (with insertion) = FLASHMAN
+  DEFINITION: Model I love
+  FORMULA: DRAMA (play) + ? = DIORAMA
   BREAKDOWN:
-    "Mum" = MA (database (abbreviation))
-    "punches" = insertion indicator
-    "vulgar" = FLASH (database (synonym))
-    "knight," = N (database (single_letter))
-    "an" = definition for FLASHMAN
-    "awful" = definition for FLASHMAN
-    "bully" = definition for FLASHMAN
+    "Model" = definition for DIORAMA
+    "I" = definition for DIORAMA
+    "love" = definition for DIORAMA
+    "in" = hidden indicator
+    "play" = DRAMA (database (synonym))
+  LETTERS NEEDED: IO
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 9 CLUE: Witches go bareback riding here, famously
-  ANSWER: COVENTRY
+  [PARTIAL] 1 CLUE: Awkward German chaps not given right drinks
+  ANSWER: Champagnes
   STAGE: general wordplay
-  DEFINITION: bareback riding here, famously
-  FORMULA: COVEN (Witches) + TRY (go) (contained) = COVENTRY
+  DEFINITION: drinks
+  FORMULA: G (German) + NAME (not) + CHAPS = CHAMPAGNES
   BREAKDOWN:
-    "Witches" = COVEN (database (synonym))
-    "go" = TRY (database (synonym))
-    "bareback" = definition for COVENTRY
-    "riding" = definition for COVENTRY
-    "here," = definition for COVENTRY
-    "famously" = definition for COVENTRY
+    "German" = G (database (single_letter))
+    "chaps" = anagram fodder
+    "not" = NAME (database (synonym))
+    "drinks" = definition for CHAMPAGNES
+    "Awkward" = unresolved
+    "given" = unresolved
+    "right" = unresolved
+  UNRESOLVED: Awkward, given, right
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 10 CLUE: German prince's alarm, ringing bells at the front
-  ANSWER: Albert
-  STAGE: secondary helper
-  TYPE: partial_resolve
-  FORMULA: ALERT (alarm,) + parts extraction: B (first_use(bells)) = ALBERT
-  BREAKDOWN:
-    "German" = definition for ALBERT
-    "prince's" = definition for ALBERT
-    "alarm," = ALERT (database (synonym))
-    "ringing" = container indicator
-    "bells" = fodder (first letter = B) (secondary)
-    "at" = link word
-    "the" = link word
-    "front" = first_use indicator (secondary)
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 11 CLUE: Grand, flowery sprays, 22 Across in a pack
-  ANSWER: grey wolf
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 12 CLUE: Strict exactitude chap fitting out ship discussed
-  ANSWER: RIGOUR
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 13 CLUE: Very small business of Conan the Barbaric?
-  ANSWER: NANOTECH
+  [SOLVED] 1 CLUE: Sino-Tibetan turn of phrase
+  ANSWER: Sherpa
   STAGE: anagram
   TYPE: anagram
-  DEFINITION: Very small business
-  FORMULA: anagram(Conan + the) = NANOTECH
+  DEFINITION: of
+  FORMULA: anagram(phrase) = Sherpa
   BREAKDOWN:
-    "Conan" = anagram fodder
-    "the" = anagram fodder
-    "Barbaric?" = anagram indicator
-    "Very" = definition for NANOTECH
-    "small" = definition for NANOTECH
-    "business" = definition for NANOTECH
-    "of" = link word
+    "phrase" = anagram fodder
+    "turn" = anagram indicator
+    "of" = definition for Sherpa
   ──────────────────────────────────────────────────────────────────────
 
-  [UNSOLVED] 15 CLUE: Seaport cleared out by you once, an eyesore
-  ANSWER: STYE
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 17 CLUE: Fiddle starts to sound clearer after maintenance
-  ANSWER: SCAM
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 19 CLUE: Council skilfully collecting litter sent round
-  ANSWER: Assembly
+  [PARTIAL] 1 CLUE: Ignoring record about avoiding clubs
+  ANSWER: Disregarding
   STAGE: general wordplay
-  DEFINITION: Council
-  FORMULA: ABLY (skilfully) + MESS (litter) (with insertion) = ASSEMBLY
+  DEFINITION: Ignoring
+  FORMULA: R (record) + RE (about) + ? = DISREGARDING
   BREAKDOWN:
-    "Council" = definition for ASSEMBLY
-    "skilfully" = ABLY (database (synonym))
-    "collecting" = container indicator
-    "litter" = MESS (database (synonym))
-    "sent round" = reversal_indicator
+    "Ignoring" = definition for DISREGARDING
+    "record" = R (database (abbreviation))
+    "about" = RE (database (abbreviation))
+    "avoiding" = unresolved
+    "clubs" = unresolved
+  LETTERS NEEDED: DISGADING
+  UNRESOLVED: avoiding, clubs
   ──────────────────────────────────────────────────────────────────────
 
-  [UNSOLVED] 20 CLUE: Perhaps Greystoke title dad rejected?
-  ANSWER: ape man
-  STAGE: 
+  [PARTIAL] 5 CLUE: 25s for example bracing ship faced with small forces
+  ANSWER: STRESSES
+  STAGE: general wordplay
+  DEFINITION: forces
+  FORMULA: S (25s) + SS (ship) + NOW (with) + S (small) + ? = STRESSES
+  BREAKDOWN:
+    "25s" = S (database (single_letter))
+    "for" = NOW (to be removed)
+    "ship" = SS (database (abbreviation))
+    "with" = NOW (database (synonym))
+    "small" = S (database (single_letter))
+    "forces" = definition for STRESSES
+    "example" = unresolved
+    "bracing" = unresolved
+    "faced" = unresolved
+  LETTERS NEEDED: TREE
+  UNRESOLVED: example, bracing, faced
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 21 CLUE: Mole unfinished, temperature 1 Celsius in the sea at Rimini
-  ANSWER: Adriatic
-  STAGE: secondary helper
-  TYPE: deletion
-  FORMULA: T (temperature) + I (1) + C (Celsius) + curtail(Mole=ADRIAN) = ADRIATIC
+  [PARTIAL] 6 CLUE: First signs of spelling problems and editor's whipped
+  ANSWER: Sped
+  STAGE: general wordplay
+  DEFINITION: whipped
+  FORMULA: S (signs) + ED (editor's) + ? = SPED
   BREAKDOWN:
-    "temperature" = T (database (single_letter))
-    "1" = I (database (roman_numeral))
-    "Celsius" = C (database (single_letter))
+    "First" = letter selector
+    "signs" = S (first letter of)
+    "editor's" = ED (database (abbreviation))
+    "whipped" = definition for SPED
+    "of" = unresolved
+    "spelling" = unresolved
+    "problems" = unresolved
+    "and" = unresolved
+  LETTERS NEEDED: P
+  UNRESOLVED: of, spelling, problems, and
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 9 CLUE: A lost young man finally needing something like this when out of uni?
+  ANSWER: agony uncle
+  STAGE: general wordplay
+  FORMULA: A (A) + N (man) + YOUNG + ? = AGONYUNCLE
+  BREAKDOWN:
+    "A" = A (database (single_letter))
+    "young" = anagram fodder
+    "man" = N (last letter of)
+    "finally" = last letter indicator
+    "when" = homophone indicator
+    "lost" = unresolved
+    "needing" = unresolved
+    "something" = unresolved
+    "like" = unresolved
+    "this" = unresolved
+    "out" = unresolved
+    "of" = unresolved
+    "uni?" = unresolved
+  LETTERS NEEDED: CLE
+  UNRESOLVED: lost, needing, something, like, this, out, of, uni?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 10 CLUE: Fish catcher, empty at first
+  ANSWER: CREEL
+  STAGE: general wordplay
+  FORMULA: EEL (Fish) + ? = CREEL
+  BREAKDOWN:
+    "Fish" = EEL (database (synonym))
+    "empty" = container indicator
+    "catcher," = unresolved
+    "at" = unresolved
+    "first" = unresolved
+  LETTERS NEEDED: CR
+  UNRESOLVED: catcher,, at, first
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 10 CLUE: One intended to jog round area's left part
+  ANSWER: REMAINDER
+  STAGE: general wordplay
+  DEFINITION: left part
+  FORMULA: I (One) + A (area's) + ? = REMAINDER
+  BREAKDOWN:
+    "One" = I (database (single_letter))
+    "to" = reversal indicator
+    "area's" = A (database (single_letter))
+    "left" = definition for REMAINDER
+    "part" = definition for REMAINDER
+    "intended" = unresolved
+    "jog" = unresolved
+    "round" = unresolved
+  LETTERS NEEDED: REMNDER
+  UNRESOLVED: intended, jog, round
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 12 CLUE: Policy U-turn could make you suddenly get very angry, then collapse
+  ANSWER: Flip-flop
+  STAGE: general wordplay
+  FORMULA: FILL (get) + ? = FLIPFLOP
+  BREAKDOWN:
+    "suddenly" = container indicator
+    "get" = FILL (database (synonym))
+    "Policy" = unresolved
+    "U-turn" = unresolved
+    "could" = unresolved
+    "make" = unresolved
+    "you" = unresolved
+    "very" = unresolved
+    "angry," = unresolved
+    "then" = unresolved
+    "collapse" = unresolved
+  LETTERS NEEDED: FPOP
+  UNRESOLVED: Policy, U-turn, could, make, you, very, angry,, then, collapse
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 12 CLUE: Recreated Versace vision, seeing these on pins
+  ANSWER: Varicose veins
+  STAGE: general wordplay
+  FORMULA: ? = 
+  BREAKDOWN:
+    "Recreated" = anagram indicator
+    "seeing" = anagram indicator
+    "Versace" = unresolved
+    "vision," = unresolved
+    "these" = unresolved
+    "on" = unresolved
+    "pins" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 12 CLUE: Writer of examination for dog
+  ANSWER: Setter
+  STAGE: double definition
+  TYPE: double_definition
+  DEFINITION: Writer of examination / dog
+  FORMULA: Double definition: Writer of examination + dog = Setter
+  BREAKDOWN:
+    "Writer of examination" = definition 1 for Setter
+    "dog" = definition 2 for Setter
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 12 CLUE: I'm in English Channel – it's rough
+  ANSWER: Estimation
+  STAGE: general wordplay
+  DEFINITION: its rough
+  FORMULA: E (English) + IM + ITS + ? = ESTIMATION
+  BREAKDOWN:
+    "I'm" = anagram fodder
     "in" = hidden indicator
-    "sea" = definition for ADRIATIC
-    "at" = definition for ADRIATIC
-    "Rimini" = definition for ADRIATIC
-    "Mole" = curtail(Mole=ADRIAN) = ADRIA (secondary)
-    "unfinished," = deletion indicator
+    "English" = E (database (single_letter))
+    "it's" = anagram fodder
+    "rough" = definition for ESTIMATION
+    "Channel" = unresolved
+  LETTERS NEEDED: TAON
+  UNRESOLVED: Channel, –
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 13 CLUE: Jumblies' craft is returned the night before
+  ANSWER: SIEVE
+  STAGE: general wordplay
+  DEFINITION: Jumblies' craft
+  FORMULA: EVE (night) + IS = SIEVE
+  BREAKDOWN:
+    "Jumblies'" = definition for SIEVE
+    "craft" = definition for SIEVE
+    "is" = anagram fodder
+    "returned" = reversal indicator
+    "night" = EVE (database (synonym))
     "the" = link word
+    "before" = link word
+  UNRESOLVED: the, before
   ──────────────────────────────────────────────────────────────────────
 
-  [UNSOLVED] 22 CLUE: Being uptight, this compiler's taken inside
-  ANSWER: ANIMAL
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 23 CLUE: Heard terrible record in conversation
-  ANSWER: DIALOGUE
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 24 CLUE: Toothless former Tory PM, rubbish leader of Empire
-  ANSWER: EDENTATE
-  STAGE: secondary helper
-  TYPE: linker_strip
-  FORMULA: EDEN (PM,) + TAT (rubbish) + E (Empire) (contained) = EDENTATE
+  [SOLVED] 13 CLUE: Stealthy spy girl Juliet enters
+  ANSWER: NINJA
+  STAGE: general wordplay
+  DEFINITION: Stealthy spy
+  FORMULA: NINA (girl) + J (Juliet) (contained) = NINJA
   BREAKDOWN:
-    "Toothless" = definition for EDENTATE
-    "former" = definition for EDENTATE
-    "Tory" = definition for EDENTATE
-    "PM," = EDEN (database (synonym))
-    "rubbish" = TAT (database (synonym))
-    "leader" = letter selector
-    "Empire" = E (first letter of)
-    "of" = link word
-    "of" = link word
+    "Stealthy" = definition for NINJA
+    "spy" = definition for NINJA
+    "girl" = NINA (database (synonym))
+    "Juliet" = J (database (nato_phonetic))
+    "enters" = container indicator
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 25 CLUE: Leaders of English League, smooth football team?
-  ANSWER: ELEVEN
-  STAGE: secondary helper
-  TYPE: linker_strip
-  FORMULA: E (English) + L (League,) + EVEN (smooth) (contained) = ELEVEN
+  [PARTIAL] 14 CLUE: Novel sea mammal regularly fished out
+  ANSWER: Emma
+  STAGE: general wordplay
+  DEFINITION: Novel
+  FORMULA: MMA (mammal) + ? = EMMA
   BREAKDOWN:
-    "Leaders" = letter selector
-    "English" = E (first letter of)
-    "League," = L (database (abbreviation))
-    "smooth" = EVEN (database (synonym))
-    "football" = definition for ELEVEN
-    "team?" = definition for ELEVEN
+    "Novel" = definition for EMMA
+    "mammal" = MMA (odd letters of mammal)
+    "regularly" = alternating indicator
+    "sea" = unresolved
+    "fished" = unresolved
+    "out" = unresolved
+  LETTERS NEEDED: E
+  UNRESOLVED: sea, fished, out
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14 CLUE: Shocking obstruction from elite, endlessly wealthy crook
+  ANSWER: electric fence
+  STAGE: general wordplay
+  DEFINITION: Shocking obstruction
+  FORMULA: ELITE + ? = ELECTRICFENCE
+  BREAKDOWN:
+    "Shocking" = definition for ELECTRICFENCE
+    "obstruction" = definition for ELECTRICFENCE
+    "from" = hidden indicator
+    "elite," = anagram fodder
+    "endlessly" = unresolved
+    "wealthy" = unresolved
+    "crook" = unresolved
+  LETTERS NEEDED: EECRCFNC
+  UNRESOLVED: endlessly, wealthy, crook
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 15 CLUE: Scorn Voltaire novel causing much debate
+  ANSWER: CONTROVERSIAL
+  STAGE: anagram
+  TYPE: anagram
+  FORMULA: anagram(Scorn + Voltaire) = CONTROVERSIAL
+  BREAKDOWN:
+    "Scorn" = anagram fodder
+    "Voltaire" = anagram fodder
+    "novel" = anagram indicator
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 15 CLUE: Ailment's best treated ringing hospital foundation
+  ANSWER: Establishment
+  STAGE: general wordplay
+  DEFINITION: foundation
+  FORMULA: H (hospital) + AILMENTS + BEST = ESTABLISHMENT
+  BREAKDOWN:
+    "Ailment's" = anagram fodder
+    "best" = anagram fodder
+    "ringing" = container indicator
+    "hospital" = H (database (single_letter))
+    "foundation" = definition for ESTABLISHMENT
+    "treated" = unresolved
+  UNRESOLVED: treated
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 15 CLUE: Shy going to bed
+  ANSWER: RETIRING
+  STAGE: double definition
+  TYPE: double_definition
+  DEFINITION: Shy / to bed
+  FORMULA: Double definition: Shy + to bed = RETIRING
+  BREAKDOWN:
+    "Shy" = definition 1 for RETIRING
+    "to bed" = definition 2 for RETIRING
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: Relating to or caused by motion
+  ANSWER: Kinetic
+  STAGE: general wordplay
+  FORMULA: IN (by) + ? = KINETIC
+  BREAKDOWN:
+    "to" = reversal indicator
+    "by" = IN (database (synonym))
+    "Relating" = unresolved
+    "or" = unresolved
+    "caused" = unresolved
+    "motion" = unresolved
+  LETTERS NEEDED: KIETC
+  UNRESOLVED: Relating, or, caused, motion
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 17 CLUE: Animals harmful to crops: beaver, mink? Not entirely
+  ANSWER: VERMIN
+  STAGE: hidden word
+  TYPE: hidden
+  DEFINITION: animals harmful to crops
+  FORMULA: "beaver mink" hides VERMIN
+  BREAKDOWN:
+    "Animals" = definition for VERMIN
+    "harmful" = definition for VERMIN
+    "to" = definition for VERMIN
+    "crops" = definition for VERMIN
+    "beaver" = contains hidden VERMIN
+    "mink" = contains hidden VERMIN
+    "Not" = link word
+    "entirely" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 18 CLUE: Weaknesses evident in diesel, biofuel on reflection
+  ANSWER: FOIBLES
+  STAGE: hidden word
+  TYPE: hidden
+  DEFINITION: weaknesses
+  FORMULA: Hidden in: foibles
+  BREAKDOWN:
+    "Weaknesses" = definition for FOIBLES
+    "evident" = unresolved
+    "in" = hidden word indicator
+    "diesel" = unresolved
+    "biofuel" = unresolved
+    "on" = link word
+    "reflection" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 18 CLUE: Man of darkness, according to report
+  ANSWER: Knight
+  STAGE: general wordplay
+  DEFINITION: Man
+  FORMULA: KNIGHT (darkness,) = KNIGHT
+  BREAKDOWN:
+    "Man" = definition for KNIGHT
+    "darkness," = KNIGHT (homophone (night → knight))
+    "according" = homophone indicator
+    "to" = homophone indicator
+    "report" = homophone indicator
     "of" = link word
+  UNRESOLVED: of
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 18 CLUE: Inappropriately teach dance intro? It needs revision
+  ANSWER: Indoctrinate
+  STAGE: general wordplay
+  FORMULA: ? = 
+  BREAKDOWN:
+    "dance" = anagram indicator
+    "needs" = anagram indicator
+    "revision" = anagram indicator
+    "Inappropriately" = unresolved
+    "teach" = unresolved
+    "intro?" = unresolved
+    "It" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 19 CLUE: Bishop goes in for starter of spicy soup
+  ANSWER: Bisque
+  STAGE: general wordplay
+  DEFINITION: soup
+  FORMULA: B (Bishop) + S (spicy) + I (minus last letter of in) + ? = BISQUE
+  BREAKDOWN:
+    "Bishop" = B (database (abbreviation))
+    "in" = I (minus last letter of in)
+    "for" = deletion indicator
+    "starter" = letter selector
+    "spicy" = S (first letter of)
+    "soup" = definition for BISQUE
+    "goes" = unresolved
+    "of" = unresolved
+  LETTERS NEEDED: QUE
+  UNRESOLVED: goes, for, of
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 19 CLUE: Money from Cape Town, say, for fabric
+  ANSWER: SATIN
+  STAGE: general wordplay
+  DEFINITION: fabric
+  FORMULA: TIN (Money) + SA (minus last letter of say,) = SATIN
+  BREAKDOWN:
+    "Money" = TIN (database (synonym))
+    "from" = hidden indicator
+    "say," = SA (minus last letter of say,)
+    "for" = deletion indicator
+    "fabric" = definition for SATIN
+    "Cape" = unresolved
+    "Town," = unresolved
+  UNRESOLVED: Cape, Town,, for
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 20 CLUE: Danger of pier collapsing by lake
+  ANSWER: Peril
+  STAGE: general wordplay
+  DEFINITION: Danger of
+  FORMULA: L (lake) + PIER = PERIL
+  BREAKDOWN:
+    "Danger" = definition for PERIL
+    "of" = definition for PERIL
+    "pier" = anagram fodder
+    "lake" = L (database (single_letter))
+    "collapsing" = unresolved
+    "by" = link word
+  UNRESOLVED: collapsing, by
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 20 CLUE: Error in data entry I spied, not small – row of figures to look at?
+  ANSWER: identity parade
+  STAGE: general wordplay
+  FORMULA: TRIP (Error) + EYE (look) + ? = IDENTITYPARADE
+  BREAKDOWN:
+    "Error" = TRIP (database (synonym))
+    "in" = hidden indicator
+    "data" = DATA (inserted)
+    "entry" = container indicator
+    "I" = I (inserted)
+    "to" = reversal indicator
+    "look" = EYE (database (synonym))
+    "spied," = unresolved
+    "not" = unresolved
+    "small" = unresolved
+    "row" = unresolved
+    "of" = unresolved
+    "figures" = unresolved
+  LETTERS NEEDED: DN
+  UNRESOLVED: spied,, not, small, –, row, of, figures, at?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: Server sites with raw bits crunched
+  ANSWER: WAITRESS
+  STAGE: general wordplay
+  FORMULA: ? = 
+  BREAKDOWN:
+    "bits" = anagram indicator
+    "Server" = unresolved
+    "sites" = unresolved
+    "with" = unresolved
+    "raw" = unresolved
+    "crunched" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: Elaborate description of docked lamb?
+  ANSWER: DETAILED
+  STAGE: general wordplay
+  DEFINITION: Elaborate
+  FORMULA: ELIDED (docked) + ? = DETAILED
+  BREAKDOWN:
+    "Elaborate" = definition for DETAILED
+    "docked" = ELIDED (database (synonym))
+    "description" = unresolved
+    "of" = unresolved
+    "lamb?" = unresolved
+  LETTERS NEEDED: TA
+  UNRESOLVED: description, of, lamb?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: Means to attract attention in row – I'll give better advice
+  ANSWER: Tipster
+  STAGE: general wordplay
+  DEFINITION: – I'll give better advice
+  FORMULA: ? = TIPSTER
+  BREAKDOWN:
+    "to" = reversal indicator
+    "in" = hidden indicator
+    "–" = definition for TIPSTER
+    "I'll" = definition for TIPSTER
+    "give" = definition for TIPSTER
+    "better" = definition for TIPSTER
+    "advice" = definition for TIPSTER
+    "Means" = unresolved
+    "attract" = unresolved
+    "attention" = unresolved
+    "row" = unresolved
+  LETTERS NEEDED: TIPSTER
+  UNRESOLVED: Means, attract, attention, row
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 22 CLUE: Joker, say, witty type
+  ANSWER: Card
+  STAGE: general wordplay
+  DEFINITION: Joker
+  FORMULA: ? = CARD
+  BREAKDOWN:
+    "Joker," = definition for CARD
+    "say," = unresolved
+    "witty" = unresolved
+    "type" = unresolved
+  LETTERS NEEDED: CARD
+  UNRESOLVED: say,, witty, type
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 22 CLUE: Withdrawing gross deception, seeing chippy's softer side?
+  ANSWER: mushy peas
+  STAGE: general wordplay
+  DEFINITION: chippys softer side?
+  FORMULA: AS (seeing) + ? = MUSHYPEAS
+  BREAKDOWN:
+    "seeing" = AS (database (synonym))
+    "softer" = definition for MUSHYPEAS
+    "side?" = definition for MUSHYPEAS
+    "Withdrawing" = unresolved
+    "gross" = unresolved
+    "deception," = unresolved
+    "chippy's" = unresolved
+  LETTERS NEEDED: MUSHYPE
+  UNRESOLVED: Withdrawing, gross, deception,, chippy's
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 23 CLUE: Opening offer disheartened journalist having to leave building
+  ANSWER: Orifice
+  STAGE: general wordplay
+  DEFINITION: Opening
+  FORMULA: OFER (minus middle letter of offer) + ? = ORIFICE
+  BREAKDOWN:
+    "Opening" = definition for ORIFICE
+    "offer" = OFER (minus middle letter of offer)
+    "disheartened" = deletion indicator
+    "to" = reversal indicator
+    "journalist" = unresolved
+    "having" = unresolved
+    "leave" = unresolved
+    "building" = unresolved
+  LETTERS NEEDED: IIC
+  UNRESOLVED: disheartened, journalist, having, leave, building
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 24 CLUE: Slash and Eminem's music upset wife?
+  ANSWER: PARTNER
+  STAGE: general wordplay
+  DEFINITION: wife?
+  FORMULA: PARTNER (Slash) = PARTNER
+  BREAKDOWN:
+    "Slash" = PARTNER (database (synonym))
+    "wife?" = definition for PARTNER
+    "and" = link word
+    "Eminem's" = unresolved
+    "music" = unresolved
+    "upset" = unresolved
+  UNRESOLVED: and, Eminem's, music, upset
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 24 CLUE: Section of tulip allowing bud
+  ANSWER: PAL
+  STAGE: hidden word
+  TYPE: hidden
+  FORMULA: "tulip allowing" hides PAL
+  BREAKDOWN:
+    "Section" = hidden word indicator
     "of" = link word
+    "tulip" = contains hidden PAL
+    "allowing" = contains hidden PAL
+    "bud" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 25 CLUE: Hard stone terrine regularly used
+  ANSWER: STERN
+  STAGE: general wordplay
+  DEFINITION: Hard
+  FORMULA: ST (stone) + ERN (terrine) (contained) = STERN
+  BREAKDOWN:
+    "Hard" = definition for STERN
+    "stone" = ST (database (abbreviation))
+    "terrine" = ERN (even letters of terrine)
+    "regularly" = alternating indicator
+    "used" = unresolved
+  UNRESOLVED: used
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 26 CLUE: Point represented another way
+  ANSWER: north-east
+  STAGE: general wordplay
+  DEFINITION: Point
+  FORMULA: ST (way) + ANOTHER = NORTHEAST
+  BREAKDOWN:
+    "Point" = definition for NORTHEAST
+    "another" = anagram fodder
+    "way" = ST (database (abbreviation))
+    "represented" = unresolved
+  UNRESOLVED: represented
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 26 CLUE: Creative works from Puerto de Santiago
+  ANSWER: Odes
+  STAGE: hidden word
+  TYPE: hidden
+  DEFINITION: creative works
+  FORMULA: "Puerto de Santiago" hides Odes
+  BREAKDOWN:
+    "Creative" = definition for Odes
+    "works" = definition for Odes
+    "from" = hidden word indicator
+    "Puerto" = contains hidden Odes
+    "de" = contains hidden Odes
+    "Santiago" = contains hidden Odes
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 27 CLUE: Emptied brandy with lager when drunk, as a rule
+  ANSWER: By and large
+  STAGE: general wordplay
+  DEFINITION: as a rule
+  FORMULA: BRANDY + ? = BYANDLARGE
+  BREAKDOWN:
+    "brandy" = anagram fodder
+    "when" = homophone indicator
+    "as" = definition for BYANDLARGE
+    "a" = definition for BYANDLARGE
+    "rule" = definition for BYANDLARGE
+    "Emptied" = unresolved
+    "with" = unresolved
+    "lager" = unresolved
+    "drunk," = unresolved
+  LETTERS NEEDED: ALGE
+  UNRESOLVED: Emptied, with, lager, drunk,
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 27 CLUE: One visiting source of holy river, supposed to be announced
+  ANSWER: house guest
+  STAGE: general wordplay
+  DEFINITION: One visiting
+  FORMULA: H (holy) + OUSE (river,) + USE (be) + ? = HOUSEGUEST
+  BREAKDOWN:
+    "One" = definition for HOUSEGUEST
+    "visiting" = definition for HOUSEGUEST
+    "source" = letter selector
+    "holy" = H (first letter of)
+    "river," = OUSE (database (synonym))
+    "to" = reversal indicator
+    "be" = USE (database (synonym))
+    "announced" = homophone indicator
+    "of" = unresolved
+    "supposed" = unresolved
+  LETTERS NEEDED: GT
+  UNRESOLVED: of, supposed
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 27 CLUE: Some food about, through roe principally
+  ANSWER: CAVIAR
+  STAGE: general wordplay
+  FORMULA: CA (about,) + VIA (through) + R (roe) (contained) = CAVIAR
+  BREAKDOWN:
+    "Some" = hidden indicator
+    "about," = CA (database (abbreviation))
+    "through" = VIA (database (synonym))
+    "roe" = R (first letter of)
+    "principally" = letter selector
+    "food" = unresolved
+  UNRESOLVED: food
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 27 CLUE: Runner is more complacent going across line
+  ANSWER: Smuggler
+  STAGE: general wordplay
+  DEFINITION: Runner is more
+  FORMULA: SMUG (complacent) + ER (line) + ? = SMUGGLER
+  BREAKDOWN:
+    "Runner" = definition for SMUGGLER
+    "is" = definition for SMUGGLER
+    "more" = definition for SMUGGLER
+    "complacent" = SMUG (database (synonym))
+    "across" = container indicator
+    "line" = ER (database (synonym))
+    "going" = unresolved
+  LETTERS NEEDED: GL
+  UNRESOLVED: going
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 29 CLUE: High roller chap returned in new suit
+  ANSWER: TSUNAMI
+  STAGE: general wordplay
+  DEFINITION: High roller
+  FORMULA: MAN (chap) + SUIT = TSUNAMI
+  BREAKDOWN:
+    "High" = definition for TSUNAMI
+    "roller" = definition for TSUNAMI
+    "chap" = MAN (database (synonym))
+    "returned" = reversal indicator
+    "in" = hidden indicator
+    "suit" = anagram fodder
+    "new" = unresolved
+  UNRESOLVED: new
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 29 CLUE: Meaning daughter for example is eating out
+  ANSWER: DENOTING
+  STAGE: general wordplay
+  DEFINITION: Meaning
+  FORMULA: D (daughter) + GE (is) + IN (for example) + ? = DENOTING
+  BREAKDOWN:
+    "Meaning" = definition for DENOTING
+    "daughter" = D (database (single_letter))
+    "for example" = IN (database phrase (synonym))
+    "is" = GE (database (synonym))
+    "eating" = container indicator
+    "out" = unresolved
+  LETTERS NEEDED: NOT
+  UNRESOLVED: out
   ──────────────────────────────────────────────────────────────────────
 
 ================================================================================
 DOWN
 ================================================================================
 
-  [UNSOLVED] 2 CLUE: Picked Yorkshire's best batsman, settled in
-  ANSWER: took root
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 3 CLUE: All European, so united
-  ANSWER: EVERYONE
+  [PARTIAL] 1 CLUE: Outside rear of greenhouse, sticks to support the French beans, maybe
+  ANSWER: Legumes
   STAGE: general wordplay
-  DEFINITION: All
-  FORMULA: Y (European,) + EVER (so) + ONE (united) (with insertion) = EVERYONE
+  DEFINITION: beans, maybe
+  FORMULA: E (greenhouse,) + LEG (support) + ? = LEGUMES
   BREAKDOWN:
-    "All" = definition for EVERYONE
-    "European," = Y (database (abbreviation))
-    "so" = EVER (database (synonym))
-    "united" = ONE (database (synonym))
+    "Outside" = container indicator
+    "rear" = last letter indicator
+    "greenhouse," = E (last letter of)
+    "sticks" = reversal indicator
+    "to" = reversal indicator
+    "support" = LEG (database (synonym))
+    "beans," = definition for LEGUMES
+    "maybe" = definition for LEGUMES
+    "of" = unresolved
+    "the" = unresolved
+    "French" = unresolved
+  LETTERS NEEDED: UMS
+  UNRESOLVED: of, the, French
   ──────────────────────────────────────────────────────────────────────
 
-  [UNSOLVED] 4 CLUE: Key moments in court proceedings, job of signalman?
-  ANSWER: set points
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 5 CLUE: Leave by plane ... its name? "Go Ballistic"
-  ANSWER: fly off the handle
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 6 CLUE: Son, mischievous, inconsiderate
-  ANSWER: SELFISH
-  STAGE: double definition
-  TYPE: double_definition
-  DEFINITION: mischievous, / inconsiderate
-  FORMULA: Double definition: mischievous, + inconsiderate = SELFISH
-  BREAKDOWN:
-    "mischievous," = definition 1 for SELFISH
-    "inconsiderate" = definition 2 for SELFISH
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 7 CLUE: Pacino: men massively upset suppressing reminder
-  ANSWER: MNEMONIC
-  STAGE: hidden word
-  TYPE: hidden
-  FORMULA: Hidden in: mnemonic
-  BREAKDOWN:
-    "MNEMONIC" is hidden in the clue text
-    Container: mnemonic
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 8 CLUE: North American travel industry striking over practice denying coverage
-  ANSWER: NATURISM
+  [PARTIAL] 2 CLUE: Dance is almost pathetic after drink
+  ANSWER: RUMBA
   STAGE: general wordplay
-  DEFINITION: denying coverage
-  FORMULA: N (North) + US (American) + IT (travel) + ARM (industry) (with insertion) = NATURISM
+  DEFINITION: Dance is
+  FORMULA: RUM (drink) + ? = RUMBA
   BREAKDOWN:
-    "North" = N (database (single_letter))
-    "American" = US (database (abbreviation))
-    "travel" = IT (database (synonym))
-    "industry" = ARM (database (synonym))
-    "striking" = positional indicator (construction order)
-    "over practice" = container_indicator
-    "denying" = definition for NATURISM
-    "coverage" = definition for NATURISM
+    "Dance" = definition for RUMBA
+    "is" = definition for RUMBA
+    "drink" = RUM (database (synonym))
+    "almost" = unresolved
+    "pathetic" = unresolved
+    "after" = unresolved
+  LETTERS NEEDED: BA
+  UNRESOLVED: almost, pathetic, after
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 14 CLUE: Free baccy, rum, somewhere to go surfing?
-  ANSWER: CYBERCAFE
+  [PARTIAL] 2 CLUE: County part of Wales initially? Yes, not English!
+  ANSWER: Powys
+  STAGE: general wordplay
+  DEFINITION: County
+  FORMULA: W (Wales) + Y (Yes,) + SO (not) + ? = POWYS
+  BREAKDOWN:
+    "County" = definition for POWYS
+    "part of" = insertion_indicator
+    "Wales" = W (first letter of)
+    "initially?" = letter selector
+    "Yes," = Y (database (single_letter))
+    "not" = SO (database (synonym))
+    "English!" = unresolved
+  LETTERS NEEDED: P
+  UNRESOLVED: English!
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 3 CLUE: Concert in timeless African port going ahead
+  ANSWER: Unison
+  STAGE: general wordplay
+  DEFINITION: Concert in
+  FORMULA: ON (going) + ? = UNISON
+  BREAKDOWN:
+    "Concert" = definition for UNISON
+    "in" = definition for UNISON
+    "going" = ON (database (synonym))
+    "timeless" = unresolved
+    "African" = unresolved
+    "port" = unresolved
+    "ahead" = unresolved
+  LETTERS NEEDED: UNIS
+  UNRESOLVED: timeless, African, port, ahead
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 3 CLUE: Bringing dignity to opera company embracing new flashy opulence
+  ANSWER: Ennobling
+  STAGE: general wordplay
+  DEFINITION: Bringing dignity to
+  FORMULA: BE (company) + N (new) + ? = ENNOBLING
+  BREAKDOWN:
+    "Bringing" = definition for ENNOBLING
+    "dignity" = definition for ENNOBLING
+    "to" = definition for ENNOBLING
+    "company" = BE (database (synonym))
+    "embracing" = container indicator
+    "new" = N (database (single_letter))
+    "opera" = unresolved
+    "flashy" = unresolved
+    "opulence" = unresolved
+  LETTERS NEEDED: NNOLIG
+  UNRESOLVED: opera, flashy, opulence
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 3 CLUE: This writer's short article, a delusion
+  ANSWER: Myth
+  STAGE: general wordplay
+  DEFINITION: a delusion
+  FORMULA: TH (This) + ? = MYTH
+  BREAKDOWN:
+    "This" = TH (database (abbreviation))
+    "a" = definition for MYTH
+    "delusion" = definition for MYTH
+    "writer's" = unresolved
+    "short" = unresolved
+    "article," = unresolved
+  LETTERS NEEDED: MY
+  UNRESOLVED: writer's, short, article,
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 3 CLUE: Publication that can make a big blast
+  ANSWER: ORGAN
+  STAGE: general wordplay
+  DEFINITION: Publication
+  FORMULA: A (can) + ? = ORGAN
+  BREAKDOWN:
+    "Publication" = definition for ORGAN
+    "can" = A (database (synonym))
+    "that" = unresolved
+    "make" = unresolved
+    "big" = unresolved
+    "blast" = unresolved
+  LETTERS NEEDED: ORGN
+  UNRESOLVED: that, make, a, big, blast
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 4 CLUE: Meat dish in earthenware vessel on top of range, by oven
+  ANSWER: Pot roast
+  STAGE: general wordplay
+  DEFINITION: Meat dish
+  FORMULA: ART (vessel) + SO (on) + TOP = POTROAST
+  BREAKDOWN:
+    "Meat" = definition for POTROAST
+    "dish" = definition for POTROAST
+    "in" = hidden indicator
+    "vessel" = ART (database (synonym))
+    "on" = SO (database (synonym))
+    "top" = anagram fodder
+    "earthenware" = unresolved
+    "of" = link word
+    "range," = unresolved
+    "by" = link word
+    "oven" = unresolved
+  UNRESOLVED: earthenware, of, range,, by, oven, earthenware, range,, oven
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 4 CLUE: Song and dance over item interrupting TV programme?
+  ANSWER: Ballad
+  STAGE: general wordplay
+  DEFINITION: Song and dance
+  FORMULA: ALL (over) + ? = BALLAD
+  BREAKDOWN:
+    "Song" = definition for BALLAD
+    "and" = definition for BALLAD
+    "dance" = definition for BALLAD
+    "over" = ALL (database (synonym))
+    "interrupting" = container indicator
+    "item" = unresolved
+    "TV" = unresolved
+    "programme?" = unresolved
+  LETTERS NEEDED: BAD
+  UNRESOLVED: item, TV, programme?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 4 CLUE: Reporting staff appointed of late do us NHS splashes
+  ANSWER: NEWSHOUNDS
+  STAGE: general wordplay
+  FORMULA: NEW (late) + DO + US + NHS = NEWSHOUNDS
+  BREAKDOWN:
+    "late" = NEW (database (synonym))
+    "do" = anagram fodder
+    "us" = anagram fodder
+    "NHS" = anagram fodder
+    "Reporting" = unresolved
+    "staff" = unresolved
+    "appointed" = unresolved
+    "of" = link word
+    "splashes" = unresolved
+  UNRESOLVED: Reporting, staff, appointed, of, splashes
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 5 CLUE: Missing starter, characteristic area dish with curry
+  ANSWER: Raita
+  STAGE: general wordplay
+  DEFINITION: dish with curry
+  FORMULA: A (area) + ? = RAITA
+  BREAKDOWN:
+    "starter," = letter selector
+    "area" = A (first letter of)
+    "dish" = definition for RAITA
+    "with" = definition for RAITA
+    "curry" = definition for RAITA
+    "Missing" = unresolved
+    "characteristic" = unresolved
+  LETTERS NEEDED: RAIT
+  UNRESOLVED: Missing, characteristic
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 5 CLUE: Horrible toadies purchasing Queen 'rock'
+  ANSWER: Asteroid
+  STAGE: general wordplay
+  DEFINITION: 'rock'
+  FORMULA: R (Queen) = ASTEROID
+  BREAKDOWN:
+    "toadies" = TOADIES (inserted)
+    "purchasing" = container indicator
+    "Queen" = R (database (single_letter))
+    "'rock'" = definition for ASTEROID
+    "Horrible" = unresolved
+  UNRESOLVED: Horrible, Horrible
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 5 CLUE: Put up with big, unending embrace that's painful?
+  ANSWER: Bear hug
+  STAGE: general wordplay
+  DEFINITION: embrace that's painful?
+  FORMULA: BEAR (put up with) + ? = BEARHUG
+  BREAKDOWN:
+    "Put" = BEAR (phrase "put up with" → BEAR)
+    "up" =  ((part of "put up with"))
+    "with" =  ((part of "put up with"))
+    "embrace" = definition for BEARHUG
+    "that's" = definition for BEARHUG
+    "painful?" = definition for BEARHUG
+    "big," = unresolved
+    "unending" = unresolved
+  LETTERS NEEDED: HUG
+  UNRESOLVED: big,, unending
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 5 CLUE: Amount of energy produced by a recoil shot
+  ANSWER: Calorie
+  STAGE: general wordplay
+  FORMULA: ? = 
+  BREAKDOWN:
+    "energy" = anagram indicator
+    "produced" = anagram indicator
+    "shot" = anagram indicator
+    "Amount" = unresolved
+    "of" = unresolved
+    "by" = unresolved
+    "a" = unresolved
+    "recoil" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 6 CLUE: Standing ruined broadcast after end of performance
+  ANSWER: Erect
+  STAGE: general wordplay
+  DEFINITION: Standing
+  FORMULA: E (performance) + ? = ERECT
+  BREAKDOWN:
+    "Standing" = definition for ERECT
+    "end" = last letter indicator
+    "of" = last letter indicator
+    "performance" = E (last letter of)
+    "ruined" = unresolved
+    "broadcast" = unresolved
+    "after" = unresolved
+  LETTERS NEEDED: ERCT
+  UNRESOLVED: ruined, broadcast, after
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 6 CLUE: Starters of rendang and nasi goreng gave someone a buzz
+  ANSWER: RANG
+  STAGE: general wordplay
+  DEFINITION: gave someone a buzz
+  FORMULA: R (rendang) + AN (and) + ? = RANG
+  BREAKDOWN:
+    "Starters" = letter selector
+    "rendang" = R (first letter of)
+    "and" = AN (database (abbreviation))
+    "gave" = definition for RANG
+    "someone" = definition for RANG
+    "a" = definition for RANG
+    "buzz" = definition for RANG
+    "of" = unresolved
+    "nasi" = unresolved
+    "goreng" = unresolved
+  LETTERS NEEDED: G
+  UNRESOLVED: of, nasi, goreng
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 6 CLUE: Press maybe seeing downturn
+  ANSWER: DECREASE
+  STAGE: general wordplay
+  DEFINITION: press
+  FORMULA: AS (seeing) + ? = DECREASE
+  BREAKDOWN:
+    "Press" = definition for DECREASE
+    "seeing" = AS (database (synonym))
+    "maybe" = unresolved
+    "downturn" = unresolved
+  LETTERS NEEDED: DECREE
+  UNRESOLVED: maybe, downturn
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 6 CLUE: Pater, alas, coming to grief in gymnasium
+  ANSWER: PALAESTRA
+  STAGE: general wordplay
+  FORMULA: ? = 
+  BREAKDOWN:
+    "coming" = anagram indicator
+    "grief" = anagram indicator
+    "Pater," = unresolved
+    "alas," = unresolved
+    "to" = unresolved
+    "gymnasium" = unresolved
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 7 CLUE: Gospel music essentially full of goodness, you'll see!
+  ANSWER: mark my words
+  STAGE: general wordplay
+  DEFINITION: you'll see!
+  FORMULA: SKA (music) + MY (goodness,) + ? = MARKMYWORDS
+  BREAKDOWN:
+    "music" = SKA (database (synonym))
+    "full" = container indicator
+    "goodness," = MY (database (abbreviation))
+    "you'll" = definition for MARKMYWORDS
+    "see!" = definition for MARKMYWORDS
+    "Gospel" = unresolved
+    "essentially" = unresolved
+    "of" = unresolved
+  LETTERS NEEDED: MRWORD
+  UNRESOLVED: Gospel, essentially, of
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 7 CLUE: Players went ahead and exchanged pieces
+  ANSWER: Castled
+  STAGE: general wordplay
+  DEFINITION: Players
+  FORMULA: LED (went ahead) + ? = CASTLED
+  BREAKDOWN:
+    "Players" = definition for CASTLED
+    "went ahead" = LED (database phrase (synonym))
+    "and" = unresolved
+    "exchanged" = unresolved
+    "pieces" = unresolved
+  LETTERS NEEDED: CAST
+  UNRESOLVED: and, exchanged, pieces
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 8 CLUE: Amusement as daughter hit leg clumsily
+  ANSWER: DELIGHT
+  STAGE: general wordplay
+  DEFINITION: Amusement
+  FORMULA: D (daughter) + HIT + LEG = DELIGHT
+  BREAKDOWN:
+    "Amusement" = definition for DELIGHT
+    "daughter" = D (database (single_letter))
+    "hit" = anagram fodder
+    "leg" = anagram fodder
+    "as" = link word
+    "clumsily" = unresolved
+  UNRESOLVED: as, clumsily
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 8 CLUE: Move into net savings scheme
+  ANSWER: Tontine
   STAGE: anagram
   TYPE: anagram
-  DEFINITION: somewhere to go surfing?
-  FORMULA: anagram(Free + baccy,) = CYBERCAFE
+  FORMULA: anagram(into + net) = Tontine
   BREAKDOWN:
-    "Free" = anagram fodder
-    "baccy," = anagram fodder
-    "rum," = anagram indicator
-    "somewhere" = definition for CYBERCAFE
-    "to" = definition for CYBERCAFE
-    "go" = definition for CYBERCAFE
-    "surfing?" = definition for CYBERCAFE
+    "into" = anagram fodder
+    "net" = anagram fodder
+    "Move" = anagram indicator
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 15 CLUE: Discrete part
-  ANSWER: SEPARATE
+  [SOLVED] 8 CLUE: Area measures perhaps represented, but as outlines
+  ANSWER: absolute units
+  STAGE: anagram
+  TYPE: anagram
+  FORMULA: anagram(but + as + outlines) = absolute units
+  BREAKDOWN:
+    "but" = anagram fodder
+    "as" = anagram fodder
+    "outlines" = anagram fodder
+    "represented," = anagram indicator
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 8 CLUE: Trouble I got with car park after scratching front of hatchback arriving at transport hub
+  ANSWER: gatwick airport
+  STAGE: general wordplay
+  DEFINITION: transport hub
+  FORMULA: I (I) + W (with) + GOT + CAR + PARK + ? = GATWICKAIRPORT
+  BREAKDOWN:
+    "I" = I (database (single_letter))
+    "got" = anagram fodder
+    "with" = W (database (single_letter))
+    "car" = anagram fodder
+    "park" = anagram fodder
+    "transport" = definition for GATWICKAIRPORT
+    "hub" = definition for GATWICKAIRPORT
+    "Trouble" = unresolved
+    "after" = unresolved
+    "scratching" = unresolved
+    "front" = unresolved
+    "of" = unresolved
+    "hatchback" = unresolved
+    "arriving" = unresolved
+    "at" = unresolved
+  LETTERS NEEDED: TI
+  UNRESOLVED: Trouble, after, scratching, front, of, hatchback, arriving, at
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 8 CLUE: Marsupial that hurt round, minute mammal
+  ANSWER: WOMBAT
+  STAGE: general wordplay
+  DEFINITION: Marsupial
+  FORMULA: O (round,) + M (minute) + BAT (mammal) + ? = WOMBAT
+  BREAKDOWN:
+    "Marsupial" = definition for WOMBAT
+    "round," = O (database (misc))
+    "minute" = M (database (single_letter))
+    "mammal" = BAT (database (synonym))
+    "that" = unresolved
+    "hurt" = unresolved
+  LETTERS NEEDED: W
+  UNRESOLVED: that, hurt
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 12 CLUE: Order me a lilac – or another shrub
+  ANSWER: Camellia
+  STAGE: anagram
+  TYPE: anagram
+  DEFINITION: or
+  FORMULA: anagram(me + a + lilac) = Camellia
+  BREAKDOWN:
+    "me" = anagram fodder
+    "a" = anagram fodder
+    "lilac" = anagram fodder
+    "Order" = anagram indicator
+    "or" = definition for Camellia
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 13 CLUE: Despise offence initially, then again
+  ANSWER: Abhor
+  STAGE: general wordplay
+  DEFINITION: Despise
+  FORMULA: A (again) + ? = ABHOR
+  BREAKDOWN:
+    "Despise" = definition for ABHOR
+    "initially," = letter selector
+    "again" = A (first letter of)
+    "offence" = unresolved
+    "then" = unresolved
+  LETTERS NEEDED: BHOR
+  UNRESOLVED: offence, then
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14 CLUE: Very popular children's game, English classic
+  ANSWER: Vintage
+  STAGE: general wordplay
+  DEFINITION: classic
+  FORMULA: V (Very) + in (popular) + TAG (game,) + E (English) (contained) = VINTAGE
+  BREAKDOWN:
+    "Very" = V (database (single_letter))
+    "popular" = IN (database (synonym))
+    "game," = TAG (database (synonym))
+    "English" = E (database (single_letter))
+    "classic" = definition for VINTAGE
+    "children's" = unresolved
+  UNRESOLVED: children's, children's
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14 CLUE: In the best case, island truly needs to replace leader with daughter
+  ANSWER: Ideally
+  STAGE: general wordplay
+  DEFINITION: In the best case
+  FORMULA: I (island) + D (daughter) + ? = IDEALLY
+  BREAKDOWN:
+    "In" = definition for IDEALLY
+    "the" = definition for IDEALLY
+    "best" = definition for IDEALLY
+    "case," = definition for IDEALLY
+    "island" = I (database (single_letter))
+    "to" = reversal indicator
+    "leader" = letter selector
+    "daughter" = D (first letter of)
+    "truly" = unresolved
+    "needs" = unresolved
+    "replace" = unresolved
+    "with" = unresolved
+  LETTERS NEEDED: EALLY
+  UNRESOLVED: truly, needs, replace, with
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 14 CLUE: Again order extremely reliable cutting guide
+  ANSWER: Rejig
+  STAGE: general wordplay
+  DEFINITION: Again order
+  FORMULA: RE (reliable) + ? = REJIG
+  BREAKDOWN:
+    "Again" = definition for REJIG
+    "order" = definition for REJIG
+    "extremely" = letter selector
+    "reliable" = RE (first and last letters of)
+    "cutting" = container indicator
+    "guide" = unresolved
+  LETTERS NEEDED: JIG
+  UNRESOLVED: guide
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 15 CLUE: Highest score is excellent
+  ANSWER: Top-notch
+  STAGE: secondary helper
+  TYPE: linker_strip
+  FORMULA: TOP (Highest) + NOTCH (score) (contained) = TOPNOTCH
+  BREAKDOWN:
+    "Highest" = TOP (database (synonym))
+    "score" = NOTCH (database (synonym))
+    "excellent" = definition for TOPNOTCH
+    "is" = link word
+    "is" = link word
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 15 CLUE: From which you could get a Ted from a previous era
+  ANSWER: Out of date
+  STAGE: general wordplay
+  DEFINITION: from a previous era
+  FORMULA: OUT (get) + TED + ? = OUTOFDATE
+  BREAKDOWN:
+    "From" = definition for OUTOFDATE
+    "get" = OUT (database (synonym))
+    "a" = definition for OUTOFDATE
+    "Ted" = anagram fodder
+    "previous" = definition for OUTOFDATE
+    "era" = definition for OUTOFDATE
+    "which" = unresolved
+    "you" = unresolved
+    "could" = unresolved
+  LETTERS NEEDED: OFA
+  UNRESOLVED: which, you, could
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 15 CLUE: Weak are more unco-operative
+  ANSWER: Helpless
+  STAGE: general wordplay
+  DEFINITION: Weak
+  FORMULA: ? = HELPLESS
+  BREAKDOWN:
+    "Weak" = definition for HELPLESS
+    "are" = unresolved
+    "more" = unresolved
+    "unco-operative" = unresolved
+  LETTERS NEEDED: HELPLESS
+  UNRESOLVED: are, more, unco-operative
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 16 CLUE: Series of hostile actions friendly? Not entirely!
+  ANSWER: WAR
+  STAGE: general wordplay
+  FORMULA: ? = WAR
+  BREAKDOWN:
+    "Series" = unresolved
+    "of" = unresolved
+    "hostile" = unresolved
+    "actions" = unresolved
+    "friendly?" = unresolved
+    "Not" = unresolved
+    "entirely!" = unresolved
+  LETTERS NEEDED: WAR
+  UNRESOLVED: Series, of, hostile, actions, friendly?, Not, entirely!
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 16 CLUE: The writer had turned up account that's amusing
+  ANSWER: Diversion
+  STAGE: general wordplay
+  DEFINITION: amusing
+  FORMULA: VERSION (account) + I (the writer) + ? = DIVERSION
+  BREAKDOWN:
+    "the writer" = I (database phrase (abbreviation))
+    "up" = reversal indicator
+    "account" = VERSION (database (synonym))
+    "amusing" = definition for DIVERSION
+    "had" = unresolved
+    "turned" = unresolved
+    "that's" = unresolved
+  LETTERS NEEDED: D
+  UNRESOLVED: had, turned, that's
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 16 CLUE: Green light for doctor entering in this way at Oxford, say
+  ANSWER: Thumbs up
+  STAGE: general wordplay
+  DEFINITION: Green light
+  FORMULA: MB (doctor) + TH (this) + BET (way) + PASS (say) + ? = THUMBSUP
+  BREAKDOWN:
+    "Green" = definition for THUMBSUP
+    "light" = definition for THUMBSUP
+    "for" = AS (to be removed)
+    "doctor" = MB (database (abbreviation))
+    "entering" = container indicator
+    "in" = hidden indicator
+    "this" = TH (database (abbreviation))
+    "way" = BET (database (synonym))
+    "say" = PASS (database (synonym))
+    "at" = unresolved
+    "Oxford," = unresolved
+  LETTERS NEEDED: UU
+  UNRESOLVED: at, Oxford,
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: Damage in French port reduced such seafood
+  ANSWER: Calamari
+  STAGE: general wordplay
+  DEFINITION: seafood
+  FORMULA: MAR (Damage) + LA (French) + ? = CALAMARI
+  BREAKDOWN:
+    "Damage" = MAR (database (synonym))
+    "in" = hidden indicator
+    "French" = LA (database (abbreviation))
+    "seafood" = definition for CALAMARI
+    "port" = unresolved
+    "reduced" = unresolved
+    "such" = unresolved
+  LETTERS NEEDED: CAI
+  UNRESOLVED: port, reduced, such
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: House is victorious or accepts defeat, at first
+  ANSWER: Windsor
+  STAGE: general wordplay
+  DEFINITION: House
+  FORMULA: WON (victorious) + IS + ? = WINDSOR
+  BREAKDOWN:
+    "House" = definition for WINDSOR
+    "is" = anagram fodder
+    "victorious" = WON (database (synonym))
+    "accepts" = container indicator
+    "defeat," = unresolved
+    "at" = unresolved
+    "first" = unresolved
+  LETTERS NEEDED: DR
+  UNRESOLVED: or, defeat,, at, first
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: Nuts – something we associate with Christmas
+  ANSWER: Crackers
+  STAGE: general wordplay
+  DEFINITION: associate with Christmas
+  FORMULA: CRACKERS (Nuts) = CRACKERS
+  BREAKDOWN:
+    "Nuts" = CRACKERS (database (synonym))
+    "associate" = definition for CRACKERS
+    "with" = definition for CRACKERS
+    "Christmas" = definition for CRACKERS
+    "something" = unresolved
+    "we" = unresolved
+  UNRESOLVED: –, something, we
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: Lift of weight to shoulders – not using steroids?
+  ANSWER: CLEAN
+  STAGE: general wordplay
+  FORMULA: CLEAN (not) = CLEAN
+  BREAKDOWN:
+    "to" = reversal indicator
+    "not" = CLEAN (database (synonym))
+    "Lift" = unresolved
+    "of" = link word
+    "weight" = unresolved
+    "shoulders" = unresolved
+    "using" = unresolved
+    "steroids?" = unresolved
+  UNRESOLVED: Lift, of, weight, shoulders, –, using, steroids?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 17 CLUE: Gradually withdraw shape, it's suggested?
+  ANSWER: phase out
+  STAGE: general wordplay
+  FORMULA: SHAPE + T (minus ends of it's) + ? = PHASEOUT
+  BREAKDOWN:
+    "withdraw" = deletion indicator
+    "shape," = anagram fodder
+    "it's" = T (minus ends of it's)
+    "Gradually" = unresolved
+    "suggested?" = unresolved
+  LETTERS NEEDED: OU
+  UNRESOLVED: Gradually, withdraw, suggested?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 18 CLUE: Flipping con involving American women's colourful fliers
+  ANSWER: MACAWS
+  STAGE: general wordplay
+  FORMULA: SCAM (con) + A (American) + w (women's) (with insertion) = MACAWS
+  BREAKDOWN:
+    "Flipping" = reversal indicator
+    "con" = SCAM (database (synonym))
+    "involving" = container indicator
+    "American" = A (database (single_letter))
+    "women's" = W (database (single_letter))
+    "colourful" = unresolved
+    "fliers" = unresolved
+  UNRESOLVED: colourful, fliers
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 18 CLUE: Vehicle entrance?
+  ANSWER: TRANSPORT
   STAGE: double definition
   TYPE: double_definition
-  DEFINITION: Discrete / part
-  FORMULA: Double definition: Discrete + part = SEPARATE
+  DEFINITION: Vehicle / entrance?
+  FORMULA: Double definition: Vehicle + entrance? = TRANSPORT
   BREAKDOWN:
-    "Discrete" = definition 1 for SEPARATE
-    "part" = definition 2 for SEPARATE
+    "Vehicle" = definition 1 for TRANSPORT
+    "entrance?" = definition 2 for TRANSPORT
   ──────────────────────────────────────────────────────────────────────
 
-  [UNSOLVED] 16 CLUE: A bit of spare time so Yank goes round national park
-  ANSWER: Yosemite
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [UNSOLVED] 17 CLUE: Scottish plane tree said to be less healthy again
-  ANSWER: SYCAMORE
-  STAGE: 
-  ──────────────────────────────────────────────────────────────────────
-
-  [SOLVED] 18 CLUE: Bird in a duel changing height
-  ANSWER: ALTITUDE
+  [PARTIAL] 21 CLUE: Crown taking firm course with uprising
+  ANSWER: Coronet
   STAGE: general wordplay
-  DEFINITION: changing height
-  FORMULA: TIT (Bird) + A (a) + DUEL = ALTITUDE
+  DEFINITION: Crown
+  FORMULA: CO (firm) + NOTE (course) + ? = CORONET
   BREAKDOWN:
-    "Bird" = TIT (database (synonym))
+    "Crown" = definition for CORONET
+    "taking" = container indicator
+    "firm" = CO (database (abbreviation))
+    "course" = NOTE (database (synonym))
+    "uprising" = reversal indicator
+    "with" = unresolved
+  LETTERS NEEDED: R
+  UNRESOLVED: with
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 21 CLUE: Work in which this covers the head
+  ANSWER: Top hat
+  STAGE: general wordplay
+  DEFINITION: this covers the head
+  FORMULA: OP (Work) + THAT (which) (with insertion) = TOPHAT
+  BREAKDOWN:
+    "Work" = OP (database (abbreviation))
     "in" = hidden indicator
-    "a" = A (database (single_letter))
-    "duel" = anagram fodder
-    "changing" = definition for ALTITUDE
-    "height" = definition for ALTITUDE
+    "which" = THAT (database (synonym))
+    "this" = definition for TOPHAT
+    "covers" = definition for TOPHAT
+    "the" = definition for TOPHAT
+    "head" = definition for TOPHAT
   ──────────────────────────────────────────────────────────────────────
 
-  [SOLVED] 19 CLUE: Bill, adult chap, tense, unyielding
-  ANSWER: ADAMANT
-  STAGE: general wordplay
-  DEFINITION: unyielding
-  FORMULA: AD (Bill,) + A (adult) + MAN (chap,) + t (tense,) (contained) = ADAMANT
+  [SOLVED] 21 CLUE: Drunk eating food from North Africa
+  ANSWER: Tagine
+  STAGE: anagram
+  TYPE: anagram
+  FORMULA: anagram(eating) = Tagine
   BREAKDOWN:
-    "Bill," = AD (database (abbreviation))
-    "adult" = A (database (single_letter))
-    "chap," = MAN (database (synonym))
-    "tense," = T (database (abbreviation))
-    "unyielding" = definition for ADAMANT
+    "eating" = anagram fodder
+    "Drunk" = anagram indicator
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: Head who might be caught unawares?
+  ANSWER: Napper
+  STAGE: general wordplay
+  DEFINITION: Head
+  FORMULA: ? = NAPPER
+  BREAKDOWN:
+    "Head" = definition for NAPPER
+    "caught" = container indicator
+    "who" = unresolved
+    "might" = unresolved
+    "be" = unresolved
+    "unawares?" = unresolved
+  LETTERS NEEDED: NAPPER
+  UNRESOLVED: who, might, be, unawares?
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 21 CLUE: A Knight lost, a man pinned by one Black Queen?
+  ANSWER: Camilla
+  STAGE: general wordplay
+  DEFINITION: Queen?
+  FORMULA: A (A) + A (a) + I (one) + ? = CAMILLA
+  BREAKDOWN:
+    "A" = A (database (single_letter))
+    "one" = I (database (single_letter))
+    "Queen?" = definition for CAMILLA
+    "Knight" = unresolved
+    "lost," = unresolved
+    "man" = unresolved
+    "pinned" = unresolved
+    "by" = unresolved
+    "Black" = unresolved
+  LETTERS NEEDED: CMLL
+  UNRESOLVED: Knight, lost,, man, pinned, by, Black
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 22 CLUE: Corrupt oil bid: one's appetite for it?
+  ANSWER: LIBIDO
+  STAGE: anagram
+  TYPE: anagram
+  FORMULA: anagram(oil + bid:) = LIBIDO
+  BREAKDOWN:
+    "oil" = anagram fodder
+    "bid:" = anagram fodder
+    "Corrupt" = anagram indicator
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 23 CLUE: Character sometimes dropped, a sensation
+  ANSWER: Aitch
+  STAGE: general wordplay
+  DEFINITION: Character sometimes dropped
+  FORMULA: A (a) + ? = AITCH
+  BREAKDOWN:
+    "Character" = definition for AITCH
+    "sometimes" = definition for AITCH
+    "dropped," = definition for AITCH
+    "a" = A (database (single_letter))
+    "sensation" = unresolved
+  LETTERS NEEDED: ITCH
+  UNRESOLVED: sensation
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 23 CLUE: Thin-sounding ruminants climbing close to quarry
+  ANSWER: REEDY
+  STAGE: general wordplay
+  DEFINITION: Thin-sounding
+  FORMULA: Y (quarry) + DEER (ruminants) (with insertion) = REEDY
+  BREAKDOWN:
+    "Thin-sounding" = definition for REEDY
+    "ruminants" = DEER (database (synonym))
+    "climbing" = reversal indicator
+    "close" = last letter indicator
+    "to" = last letter indicator
+    "quarry" = Y (last letter of)
+  ──────────────────────────────────────────────────────────────────────
+
+  [SOLVED] 24 CLUE: American broadcast flipping song
+  ANSWER: Aria
+  STAGE: general wordplay
+  DEFINITION: song
+  FORMULA: A (American) + AIR (broadcast) (with insertion) = ARIA
+  BREAKDOWN:
+    "American" = A (database (single_letter))
+    "broadcast" = AIR (database (abbreviation))
+    "flipping" = reversal indicator
+    "song" = definition for ARIA
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 25 CLUE: Pinter not finished working? That's awkward
+  ANSWER: INEPT
+  STAGE: general wordplay
+  DEFINITION: awkward
+  FORMULA: ? = INEPT
+  BREAKDOWN:
+    "awkward" = definition for INEPT
+    "Pinter" = unresolved
+    "not" = unresolved
+    "finished" = unresolved
+    "working?" = unresolved
+    "That's" = unresolved
+  LETTERS NEEDED: INEPT
+  UNRESOLVED: Pinter, not, finished, working?, That's
+  ──────────────────────────────────────────────────────────────────────
+
+  [PARTIAL] 26 CLUE: Type of male drinkers once outside large pub
+  ANSWER: ALPHA
+  STAGE: general wordplay
+  DEFINITION: Type of male
+  FORMULA: L (large) + PH (pub) + ? = ALPHA
+  BREAKDOWN:
+    "Type" = definition for ALPHA
+    "of" = definition for ALPHA
+    "male" = definition for ALPHA
+    "outside" = container indicator
+    "large" = L (database (single_letter))
+    "pub" = PH (database (abbreviation))
+    "drinkers" = unresolved
+    "once" = unresolved
+  LETTERS NEEDED: AA
+  UNRESOLVED: drinkers, once
   ──────────────────────────────────────────────────────────────────────
 
 ================================================================================

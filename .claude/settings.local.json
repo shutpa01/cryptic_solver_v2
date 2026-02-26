@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(*)"
+      "Bash(*)",
+      "WebFetch(domain:fifteensquared.net)",
+      "WebSearch",
+      "WebFetch(domain:www.fifteensquared.net)",
+      "WebFetch(domain:bigdave44.com)"
     ]
   }
 }
