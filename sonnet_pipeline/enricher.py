@@ -32,6 +32,25 @@ def _is_container_outer(syn, answer_clean):
     return False
 
 
+def _is_fractured_substring(syn, answer_clean):
+    """Check if syn appears in answer with a single fracture (one insertion gap).
+
+    E.g. UNCLEAN in UNCLEVANYA: UNCLE + AN with V inserted between.
+    Catches container+charade cases that _is_container_outer misses
+    (where the synonym doesn't span the full answer).
+    Requires at least 2 chars on each side of the split.
+    """
+    if len(syn) < 4:
+        return False
+    for split_pos in range(2, len(syn) - 1):
+        prefix = syn[:split_pos]
+        suffix = syn[split_pos:]
+        idx = answer_clean.find(prefix)
+        if idx >= 0 and answer_clean.find(suffix, idx + len(prefix) + 1) >= 0:
+            return True
+    return False
+
+
 def _word_variants(word):
     """Generate normalized variants: strip possessives and simple plurals."""
     forms = [word]
@@ -139,13 +158,18 @@ class ClueEnricher:
             container_outer = [s for s in syns if s not in seen
                                and _is_container_outer(s, answer_clean)]
             seen.update(container_outer)
-            # Priority 3: contain the answer (useful for deletion/outer_deletion)
+            # Priority 3: fractured substrings (syn split into 2 contiguous parts
+            # in the answer, with a gap — catches container+charade)
+            fractured = [s for s in syns if s not in seen
+                         and _is_fractured_substring(s, answer_clean)]
+            seen.update(fractured)
+            # Priority 4: contain the answer (useful for deletion/outer_deletion)
             contains_answer = [s for s in syns if s not in seen
                                and answer_clean in s and len(s) > len(answer_clean)]
             seen.update(contains_answer)
             # Everything else
             rest = [s for s in syns if s not in seen]
-            syns = in_answer + container_outer + contains_answer + rest
+            syns = in_answer + container_outer + fractured + contains_answer + rest
         return syns[:max_results]
 
     def lookup_abbreviations(self, word):
@@ -206,12 +230,14 @@ class ClueEnricher:
             syns = self.lookup_synonyms(w, max_results=20, max_len=answer_len, answer=answer)
             syns = syns[:max_synonym_results]
             if syns:
-                # Mark synonyms relevant to the answer (substrings or container outers)
+                # Mark synonyms relevant to the answer (substrings, container outers, or fractured substrings)
                 marked = []
                 for s in syns:
                     if s in answer_clean and len(s) >= 2:
                         marked.append(s + "*")
                     elif _is_container_outer(s, answer_clean):
+                        marked.append(s + "*")
+                    elif _is_fractured_substring(s, answer_clean):
                         marked.append(s + "*")
                     else:
                         marked.append(s)
