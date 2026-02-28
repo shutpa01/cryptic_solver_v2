@@ -1,0 +1,448 @@
+"""Sonnet pipeline report generator.
+
+Extracted from pipeline_tiered.py. Takes a list of result dicts and stats,
+returns a formatted report string.
+"""
+
+from datetime import datetime
+
+import re
+
+from .solver import OP_TO_TYPE
+
+
+def _piece_label(letters, ai_pieces):
+    """Find the clue word attribution for a piece from the AI output."""
+    letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
+    for p in ai_pieces:
+        p_letters = re.sub(r"[^A-Z]", "", (p.get("letters") or "").upper())
+        if p_letters == letters_clean:
+            return p.get("clue_word", "")
+    return ""
+
+
+def _annotate(letters, ai_pieces):
+    """Return 'LETTERS(clue_word)' if attribution found, else just 'LETTERS'."""
+    label = _piece_label(letters, ai_pieces)
+    if label:
+        return "%s(%s)" % (letters, label)
+    return letters
+
+
+def _annotate_composite(letters, ai_pieces):
+    """Decompose a composite string into annotated AI pieces.
+
+    E.g. 'FFE' with pieces [F(female), FE(iron)] -> 'F(female)+FE(iron)'.
+    Falls back to plain _annotate if decomposition fails.
+    """
+    letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
+
+    def _decompose(pos):
+        if pos == len(letters_clean):
+            return []
+        for end in range(len(letters_clean), pos, -1):
+            substr = letters_clean[pos:end]
+            label = _piece_label(substr, ai_pieces)
+            if label:
+                rest = _decompose(end)
+                if rest is not None:
+                    return ["%s(%s)" % (substr, label)] + rest
+        return None
+
+    parts = _decompose(0)
+    if parts and len(parts) > 1:
+        return "+".join(parts)
+    return _annotate(letters, ai_pieces)
+
+
+def _with_charade(desc, order, key_piece, ai):
+    """Wrap an operation description with any extra charade pieces from the order.
+
+    Many operations (container, reversal, deletion) produce a single piece that
+    then combines with other pieces in a charade. The 'order' field has the full
+    permutation. This replaces key_piece with desc and annotates the rest.
+    """
+    if not order or not key_piece or len(order) <= 1:
+        return desc
+    parts = []
+    placed = False
+    for p in order:
+        if p == key_piece and not placed:
+            parts.append(desc)
+            placed = True
+        else:
+            parts.append(_annotate(p, ai))
+    return " + ".join(parts)
+
+
+def _describe_assembly(asm, ai_pieces=None):
+    """Return a human-readable description of an assembly operation."""
+    op = asm.get("op", "?")
+    ai = ai_pieces or []
+
+    if op == "charade":
+        order = asm.get("order", [])
+        if order:
+            # Merge adjacent pieces when their concatenation matches an AI piece
+            # e.g. ["P", "T"] with AI piece letters="PT" → single "PT(priest vacated)"
+            merged = []
+            i = 0
+            while i < len(order):
+                # Try merging 2 or 3 adjacent pieces
+                found_merge = False
+                for span in (3, 2):
+                    if i + span <= len(order):
+                        combined = "".join(order[i:i + span])
+                        label = _piece_label(combined, ai)
+                        if label:
+                            merged.append("%s(%s)" % (combined, label))
+                            i += span
+                            found_merge = True
+                            break
+                if not found_merge:
+                    merged.append(_annotate(order[i], ai))
+                    i += 1
+            return " + ".join(merged)
+
+    elif op == "container":
+        inner = asm.get("inner", "?")
+        outer = asm.get("outer", "?")
+        merged = asm.get("merged_inner")
+        if merged:
+            container_desc = "%s inside %s" % (_annotate_composite(merged, ai), _annotate(outer, ai))
+        else:
+            container_desc = "%s inside %s" % (_annotate(inner, ai), _annotate(outer, ai))
+        return _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+
+    elif op == "reversal":
+        rev_parts = asm.get("reversed_parts")
+        if rev_parts:
+            # Full reversal of concatenated pieces: "reverse CID+AM+ON"
+            parts_desc = "+".join(_annotate(p, ai) for p in rev_parts)
+            return "reverse %s" % parts_desc
+        rev_desc = "reverse %s" % _annotate(asm.get("reversed", "?"), ai)
+        return _with_charade(rev_desc, asm.get("order", []), asm.get("gives", ""), ai)
+
+    elif op == "deletion":
+        del_desc = "delete %s from %s" % (
+            asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai))
+        return _with_charade(del_desc, asm.get("order", []), asm.get("gives", ""), ai)
+
+    elif op == "outer_deletion":
+        od_desc = "strip outer letters from %s" % _annotate(asm.get("from", "?"), ai)
+        return _with_charade(od_desc, asm.get("order", []), asm.get("gives", ""), ai)
+
+    elif op == "anagram":
+        fodder = asm.get("fodder", [])
+        if fodder:
+            return "anagram of %s" % "+".join(_annotate(f, ai) for f in fodder)
+
+    elif op in ("charade+anagram", "anagram+charade"):
+        charade = asm.get("charade", [])
+        anagram = asm.get("anagram", [])
+        parts = []
+        if charade:
+            # Merge adjacent charade pieces (same logic as pure charade)
+            i = 0
+            while i < len(charade):
+                found_merge = False
+                for span in (3, 2):
+                    if i + span <= len(charade):
+                        combined = "".join(charade[i:i + span])
+                        label = _piece_label(combined, ai)
+                        if label:
+                            parts.append("%s(%s)" % (combined, label))
+                            i += span
+                            found_merge = True
+                            break
+                if not found_merge:
+                    parts.append(_annotate(charade[i], ai))
+                    i += 1
+        if anagram:
+            parts.append("anagram(%s)" % "+".join(_annotate(f, ai) for f in anagram))
+        if parts:
+            return " + ".join(parts)
+
+    elif op == "deletion+anagram":
+        fodder = asm.get("fodder", [])
+        return "delete %s from %s, anagram of %s" % (
+            asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
+            "+".join(_annotate(f, ai) for f in fodder) if fodder else "?")
+
+    elif op == "reversal_container":
+        inner = asm.get("inner", "?")
+        outer = asm.get("outer", "?")
+        pre_rev = asm.get("pre_reversal", "?")
+        # Show which piece was reversed and the container structure
+        # e.g. "reverse FAT(plump), then inside FETA(cheese)"
+        rev_part = _annotate(pre_rev, ai) if pre_rev != "?" else inner
+        container_desc = "reverse %s, then %s inside %s" % (
+            rev_part, _annotate(inner, ai), _annotate(outer, ai))
+        return _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+
+    elif op == "container_reversal":
+        inner = asm.get("inner", "?")
+        outer = asm.get("outer", "?")
+        reversed_combined = asm.get("reversed_combined", "?")
+        # E.g. "E(base) inside PEWS(benches), then reverse = SWEEP"
+        container_desc = "%s inside %s, then reverse" % (
+            _annotate(inner, ai), _annotate(outer, ai))
+        return _with_charade(container_desc, asm.get("order", []), reversed_combined, ai)
+
+    elif op == "hidden":
+        return "hidden in '%s'" % asm.get("words", "?")
+
+    elif op == "hidden_in_word":
+        return "hidden in word '%s'" % asm.get("word", "?")
+
+    elif op == "homophone":
+        return "%s sounds like %s" % (asm.get("sounds_like", "?"), asm.get("gives", "?"))
+
+    elif op == "substitution":
+        return "%s - %s + %s(%s)" % (
+            _annotate(asm.get("from", "?"), ai), asm.get("deleted", "?"),
+            asm.get("added", "?"), asm.get("add_word", "?"))
+
+    elif op in ("double_definition", "cryptic_definition"):
+        return op.replace("_", " ")
+
+    return None
+
+
+def generate_report(results, source, puzzle, stats):
+    """Generate a formatted puzzle quality report."""
+    lines = []
+
+    lines.append("=" * 80)
+    lines.append("PUZZLE QUALITY REPORT: %s #%s" % (source, puzzle))
+    lines.append("Generated: %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    lines.append("Pipeline: Sonnet -> Assembler -> Enrichment Fallback")
+    lines.append("=" * 80)
+
+    # Summary
+    total = stats["total"]
+    assembled = stats["assembled"]
+    lines.append("")
+    lines.append("ASSEMBLY SUMMARY")
+    lines.append("-" * 40)
+    lines.append("  Total clues:      %d" % total)
+    lines.append("  Assembled:        %d/%d (%d%%)" % (
+        assembled, total, 100 * assembled // max(total, 1)))
+    lines.append("    Sonnet:         %d" % stats["sonnet"])
+    lines.append("    DB Fallback:    %d" % stats["fallback"])
+    if stats.get("cached"):
+        lines.append("    Cached (no API): %d" % stats["cached"])
+    lines.append("  Failed:           %d" % stats["failed"])
+    lines.append("")
+    lines.append("CONFIDENCE SUMMARY")
+    lines.append("-" * 40)
+
+    # Build clue ref lists per bucket
+    def _ref(r):
+        d = (r.get("direction") or "")
+        return "%s%s" % (r["clue_number"], d[0].upper() if d else "?")
+
+    solved_refs = [_ref(r) for r in results
+                   if r.get("status") == "ASSEMBLED" and r.get("score", 0) >= 80]
+    medium_refs = [_ref(r) for r in results if r.get("status") == "ASSEMBLED"
+                   and _ref(r) not in solved_refs and r.get("score", 0) >= 40]
+    low_refs = [_ref(r) for r in results if r.get("status") == "ASSEMBLED"
+                and _ref(r) not in solved_refs and r.get("score", 0) < 40]
+    failed_refs = [_ref(r) for r in results if r.get("status") in ("FAILED", "error")]
+
+    lines.append("  High (80+):   %d  %s" % (len(solved_refs), ", ".join(solved_refs)))
+    lines.append("  Medium (40-79): %d  %s" % (len(medium_refs), ", ".join(medium_refs)))
+    lines.append("  Low (<40):    %d  %s" % (len(low_refs), ", ".join(low_refs)))
+    lines.append("  Failed:       %d  %s" % (len(failed_refs), ", ".join(failed_refs)))
+    lines.append("  Average:      %.0f/100" % stats["avg_score"])
+    lines.append("")
+    lines.append("COST: $%.4f (Sonnet)" % stats["total_cost"])
+
+    # Quick-reference table
+    lines.append("")
+    lines.append("QUICK REFERENCE")
+    lines.append("\u2500" * 80)
+    for r in results:
+        d = r.get("direction", "") or ""
+        d_char = d[0].upper() if d else "?"
+        ref = "%s%s" % (r["clue_number"], d_char)
+
+        clue_text = r.get("clue", "")
+        enum_str = r.get("enumeration", "")
+        if enum_str:
+            display_clue = "%s (%s)" % (clue_text, enum_str)
+        else:
+            display_clue = clue_text
+
+        ans = r.get("answer", "?")
+
+        # Assembly description with clue word annotations
+        ai_pieces = (r.get("ai_output") or {}).get("pieces", [])
+        asm_desc = "---"
+        if r.get("status") == "ASSEMBLED":
+            asm = r.get("assembly") or {}
+            desc = _describe_assembly(asm, ai_pieces)
+            if desc:
+                asm_desc = desc
+            else:
+                asm_desc = asm.get("op", "---")
+
+        # Confidence tag
+        if r.get("status") == "error":
+            tag = "ERR"
+        elif r.get("status") == "FAILED":
+            tag = "FAIL"
+        else:
+            score = r.get("score", 0)
+            if score >= 80:
+                tag = "HIGH"
+            elif score >= 40:
+                tag = "MED"
+            else:
+                tag = "LOW"
+
+        lines.append("  %4s  %-12s  %s" % (ref, ans, display_clue))
+        lines.append("        %12s  %s  [%s]" % ("", asm_desc, tag))
+    lines.append("")
+
+    # Per-clue detail
+    lines.append("=" * 80)
+    lines.append("PER-CLUE DETAIL")
+    lines.append("=" * 80)
+
+    for r in results:
+        if r.get("status") == "error":
+            lines.append("")
+            lines.append("  [ERROR] %s. %s = %s" % (
+                r["clue_number"], r.get("clue", "?"), r["answer"]))
+            lines.append("  " + "-" * 70)
+            continue
+
+        status = r["status"]
+        tier = r.get("tier") or "---"
+        conf = r.get("confidence", "none")
+        score = r.get("score", 0)
+        ai = r.get("ai_output") or {}
+        asm = r.get("assembly") or {}
+        checks = r.get("checks", {})
+        explanation = r.get("explanation", "")
+
+        tag = "[%s]" % conf.upper() if status == "ASSEMBLED" else "[FAILED]"
+        tier_label = {
+            "Sonnet": "Sonnet", "Fallback": "DB Fallback",
+            "Cached+Sonnet": "Cached", "Cached+Fallback": "Cached+Fallback",
+        }.get(tier, "---")
+
+        lines.append("")
+        lines.append("  %s %s. %s" % (tag, r["clue_number"], r.get("clue", "")))
+        lines.append("  Answer: %s" % r["answer"])
+        lines.append("  Tier: %s | Confidence: %d/100" % (tier_label, score))
+
+        if ai:
+            defn = ai.get("definition", "")
+            wtype = ai.get("wordplay_type", "")
+            if defn:
+                lines.append("  Definition: \"%s\"" % defn)
+            if wtype:
+                lines.append("  Wordplay type: %s" % wtype)
+
+            pieces = ai.get("pieces", [])
+            if pieces:
+                lines.append("  Components:")
+                for p in pieces:
+                    mech = p.get("mechanism", "?")
+                    word = p.get("clue_word", "?")
+                    letters = p.get("letters", "?")
+                    lines.append("    %-18s %-25s -> %s" % (mech, word, letters))
+
+        if asm:
+            op = asm.get("op", "?")
+            detail_ai_pieces = (ai or {}).get("pieces", [])
+            desc = _describe_assembly(asm, detail_ai_pieces)
+            if desc:
+                lines.append("  Assembly: %s — %s" % (op, desc))
+            else:
+                lines.append("  Assembly op: %s" % op)
+            if asm.get("gap_fill"):
+                lines.append("  Gap fill: %s" % asm["gap_fill"])
+            if asm.get("brute_gap"):
+                lines.append("  Brute gap: +%s" % asm["brute_gap"])
+            if asm.get("note"):
+                lines.append("  Note: %s" % asm["note"])
+            if asm.get("anagram_fallback"):
+                lines.append("  WARNING: Anagram fallback — AI suggested %s" % (
+                    (ai or {}).get("wordplay_type", "different type")))
+            if asm.get("source") == "enrichment_fallback":
+                lines.append("  Source: enrichment fallback (DB-driven)")
+
+        if checks:
+            check_strs = []
+            for k, v in checks.items():
+                check_strs.append("%s=%s" % (k, v))
+            lines.append("  Checks: %s" % " | ".join(check_strs))
+
+        # Show DB lookups that were available
+        enrichment = r.get("enrichment", "")
+        if enrichment:
+            lines.append("  DB Lookups:")
+            for eline in enrichment.strip().split("\n"):
+                lines.append("    %s" % eline)
+
+        if explanation:
+            lines.append("  Human explanation: %s" % explanation[:200])
+
+        lines.append("  " + "-" * 70)
+
+    # Quality issues section
+    lines.append("")
+    lines.append("=" * 80)
+    lines.append("QUALITY ISSUES")
+    lines.append("=" * 80)
+
+    # Type mismatches
+    mismatches = [r for r in results
+                  if r.get("checks", {}).get("type_agreement", "").startswith("mismatch")]
+    if mismatches:
+        lines.append("")
+        lines.append("TYPE MISMATCHES (AI type != assembler operation): %d" % len(mismatches))
+        for r in mismatches:
+            lines.append("  %s. %s = %s  |  %s" % (
+                r["clue_number"], r.get("clue", "")[:50], r["answer"],
+                r["checks"]["type_agreement"]))
+
+    # Missing definitions
+    no_def = [r for r in results
+              if r.get("status") == "ASSEMBLED"
+              and r.get("checks", {}).get("definition_valid", "").startswith("no def")]
+    if no_def:
+        lines.append("")
+        lines.append("MISSING DEFINITIONS: %d" % len(no_def))
+        for r in no_def:
+            lines.append("  %s. %s = %s" % (
+                r["clue_number"], r.get("clue", "")[:50], r["answer"]))
+
+    # Low confidence
+    low_conf = [r for r in results
+                if r.get("status") == "ASSEMBLED" and r.get("score", 0) < 40]
+    if low_conf:
+        lines.append("")
+        lines.append("LOW CONFIDENCE (<40): %d" % len(low_conf))
+        for r in low_conf:
+            lines.append("  %s. %s = %s  |  score=%d" % (
+                r["clue_number"], r.get("clue", "")[:50], r["answer"], r["score"]))
+
+    # Failed clues
+    failed = [r for r in results if r.get("status") == "FAILED"]
+    if failed:
+        lines.append("")
+        lines.append("FAILED TO ASSEMBLE: %d" % len(failed))
+        for r in failed:
+            lines.append("  %s. %s = %s" % (
+                r["clue_number"], r.get("clue", "")[:60], r["answer"]))
+
+    lines.append("")
+    lines.append("=" * 80)
+    lines.append("END OF REPORT")
+    lines.append("=" * 80)
+
+    return "\n".join(lines)

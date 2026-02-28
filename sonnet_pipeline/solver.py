@@ -1,0 +1,1338 @@
+"""Sonnet pipeline solver — core logic for parsing cryptic clues.
+
+Extracted from pipeline_tiered.py. Contains:
+- Assembly operations (charade, container, reversal, deletion, anagram, etc.)
+- Homophone engine
+- API calls to Claude Sonnet
+- Mechanism validation (check_mechanism)
+- DB writer (store_result)
+- High-level solve_clue() entry point
+"""
+
+import itertools
+import json
+import re
+import sqlite3
+import time
+
+from anthropic import Anthropic
+from dotenv import load_dotenv
+
+load_dotenv()
+client = Anthropic()
+
+SONNET_MODEL = "claude-sonnet-4-20250514"
+
+
+def _is_container_outer(syn, answer_clean):
+    """Check if answer = syn with a contiguous block inserted (container outer).
+
+    E.g. HEARTY is a container outer for HENPARTY because
+    HE + NP + ARTY = HENPARTY (NP inserted at position 2 of HEARTY).
+    """
+    gap = len(answer_clean) - len(syn)
+    if gap < 1 or len(syn) < 3:
+        return False
+    for i in range(1, len(syn) + 1):
+        if answer_clean[:i] == syn[:i] and answer_clean[i + gap:] == syn[i:]:
+            return True
+    return False
+
+
+def clean(s):
+    return re.sub(r"[^A-Z]", "", s.upper())
+
+
+# -- Cross-reference resolver -------------------------------------------------
+
+def resolve_cross_references(clue_text, puzzle_answers):
+    substitutions = {}
+    for m in re.finditer(r'\b(\d+)\b', clue_text):
+        num = m.group(1)
+        if num in puzzle_answers:
+            substitutions[num] = puzzle_answers[num]
+    return substitutions
+
+
+# -- Homophone engine ---------------------------------------------------------
+
+class HomophoneEngine:
+    def __init__(self, db_path="data/cryptic_new.db"):
+        conn = sqlite3.connect(db_path)
+        rows = conn.execute("SELECT word, homophone FROM homophones").fetchall()
+        conn.close()
+        self.sounds_like = {}
+        for word, homo in rows:
+            self.sounds_like.setdefault(word.lower(), set()).add(homo.lower())
+        print("  Loaded %d homophone keys" % len(self.sounds_like))
+
+    def get_homophones(self, word):
+        return self.sounds_like.get(word.lower(), set())
+
+    def sounds_similar(self, word1, word2):
+        w1, w2 = word1.lower(), word2.lower()
+        return w2 in self.sounds_like.get(w1, set()) or w1 in self.sounds_like.get(w2, set())
+
+
+# -- Assembly operations ------------------------------------------------------
+
+def try_charade(pieces, target):
+    if len(pieces) > 7:
+        return None
+    for perm in itertools.permutations(pieces):
+        if "".join(perm) == target:
+            return {"op": "charade", "order": list(perm)}
+    return None
+
+
+def try_container(pieces, target):
+    for i, outer in enumerate(pieces):
+        if len(outer) < 2:
+            continue
+        for j, inner in enumerate(pieces):
+            if i == j:
+                continue
+            for pos in range(1, len(outer)):
+                combined = outer[:pos] + inner + outer[pos:]
+                remaining = [p for k, p in enumerate(pieces) if k != i and k != j]
+                all_p = [combined] + remaining
+                for perm in itertools.permutations(all_p):
+                    if "".join(perm) == target:
+                        return {"op": "container", "inner": inner, "outer": outer,
+                                "pos": pos, "combined": combined, "order": list(perm)}
+    return None
+
+
+def try_reversal(pieces, target):
+    # Single piece reversal with charade
+    for i, piece in enumerate(pieces):
+        if len(piece) < 2:
+            continue
+        rev = piece[::-1]
+        new = pieces[:i] + [rev] + pieces[i+1:]
+        for perm in itertools.permutations(new):
+            if "".join(perm) == target:
+                return {"op": "reversal", "reversed": piece, "gives": rev, "order": list(perm)}
+    # Full reversal: reverse the concatenation of all pieces (or a subset charade)
+    if len(pieces) >= 2:
+        for perm in itertools.permutations(pieces):
+            combined = "".join(perm)
+            if combined[::-1] == target:
+                return {"op": "reversal", "reversed": combined, "gives": target,
+                        "order": [target], "reversed_parts": list(perm)}
+    return None
+
+
+def try_deletion(pieces, target):
+    for i, piece in enumerate(pieces):
+        for del_len in range(1, min(4, len(piece))):
+            for start_pos in [0, len(piece) - del_len]:
+                shortened = piece[del_len:] if start_pos == 0 else piece[:start_pos]
+                if not shortened:
+                    continue
+                new = pieces[:i] + [shortened] + pieces[i+1:]
+                for perm in itertools.permutations(new):
+                    if "".join(perm) == target:
+                        deleted = piece[:del_len] if start_pos == 0 else piece[start_pos:]
+                        return {"op": "deletion", "from": piece, "deleted": deleted,
+                                "gives": shortened, "order": list(perm)}
+            if del_len == 1:
+                for pos in range(1, len(piece) - 1):
+                    shortened = piece[:pos] + piece[pos+1:]
+                    new = pieces[:i] + [shortened] + pieces[i+1:]
+                    for perm in itertools.permutations(new):
+                        if "".join(perm) == target:
+                            return {"op": "deletion", "from": piece, "deleted": piece[pos],
+                                    "gives": shortened, "order": list(perm)}
+    return None
+
+
+def try_outer_deletion(pieces, target):
+    for i, piece in enumerate(pieces):
+        if len(piece) >= 4:
+            stripped = piece[1:-1]
+            new = pieces[:i] + [stripped] + pieces[i+1:]
+            for perm in itertools.permutations(new):
+                if "".join(perm) == target:
+                    return {"op": "outer_deletion", "from": piece, "gives": stripped, "order": list(perm)}
+    return None
+
+
+def try_anagram(pieces, target):
+    combined = "".join(pieces)
+    if sorted(combined) == sorted(target):
+        return {"op": "anagram", "fodder": pieces, "gives": target}
+    for size in range(1, len(pieces)):
+        for combo in itertools.combinations(range(len(pieces)), size):
+            sub = "".join(pieces[k] for k in combo)
+            rest = [pieces[k] for k in range(len(pieces)) if k not in combo]
+            for rperm in itertools.permutations(rest):
+                rest_str = "".join(rperm)
+                if target.startswith(rest_str) and sorted(sub) == sorted(target[len(rest_str):]):
+                    return {"op": "charade+anagram", "charade": list(rperm),
+                            "anagram": [pieces[k] for k in combo]}
+                if target.endswith(rest_str) and sorted(sub) == sorted(target[:-len(rest_str)]):
+                    return {"op": "anagram+charade", "anagram": [pieces[k] for k in combo],
+                            "charade": list(rperm)}
+    return None
+
+
+def try_reversal_container(pieces, target):
+    for i, piece in enumerate(pieces):
+        if len(piece) < 2:
+            continue
+        rev = piece[::-1]
+        new = pieces[:i] + [rev] + pieces[i+1:]
+        # Try plain container first, then merged container (for multi-piece inner)
+        result = try_container(new, target)
+        if not result:
+            result = try_merged_container(new, target)
+        # Try concatenating the reversed piece with other small pieces as inner
+        if not result and len(new) >= 3:
+            others = [p for p in new if p != rev]
+            for outer in others:
+                if len(outer) < 3:
+                    continue
+                inner_pieces = [p for p in new if p != outer]
+                for perm in itertools.permutations(inner_pieces):
+                    merged_inner = "".join(perm)
+                    for pos in range(1, len(outer)):
+                        combined = outer[:pos] + merged_inner + outer[pos:]
+                        if combined == target:
+                            result = {
+                                "op": "reversal_container",
+                                "inner": merged_inner, "outer": outer,
+                                "pos": pos, "combined": combined,
+                                "merged_inner": merged_inner,
+                                "pre_reversal": piece,
+                                "order": [combined],
+                            }
+                            return result
+        if result:
+            result["op"] = "reversal_container"
+            result["pre_reversal"] = piece
+            return result
+    return None
+
+
+def try_container_reversal(pieces, target):
+    """Try container then reverse the entire result.
+
+    E.g. [PEWS, E] → E inside PEWS = PEEWS → reverse = SWEEP.
+    """
+    for i, outer in enumerate(pieces):
+        if len(outer) < 2:
+            continue
+        for j, inner in enumerate(pieces):
+            if i == j:
+                continue
+            for pos in range(1, len(outer)):
+                combined = outer[:pos] + inner + outer[pos:]
+                remaining = [p for k, p in enumerate(pieces) if k != i and k != j]
+                # Reverse the combined piece, then charade with remaining
+                rev_combined = combined[::-1]
+                all_p = [rev_combined] + remaining
+                for perm in itertools.permutations(all_p):
+                    if "".join(perm) == target:
+                        return {
+                            "op": "container_reversal",
+                            "inner": inner, "outer": outer,
+                            "pos": pos, "combined": combined,
+                            "reversed_combined": rev_combined,
+                            "order": list(perm),
+                        }
+    return None
+
+
+def try_homophone(pieces, target, homo_engine):
+    for i, piece in enumerate(pieces):
+        piece_lower = piece.lower()
+        for homo in homo_engine.get_homophones(piece_lower):
+            homo_upper = clean(homo)
+            if not homo_upper:
+                continue
+            new_pieces = pieces[:i] + [homo_upper] + pieces[i+1:]
+            for perm in itertools.permutations(new_pieces):
+                if "".join(perm) == target:
+                    return {"op": "homophone", "sounds_like": piece,
+                            "gives": homo_upper, "order": list(perm)}
+    # Try concatenation of pieces (with and without spaces) as homophone key
+    for concat in ("".join(pieces).lower(), " ".join(p.lower() for p in pieces)):
+        for homo in homo_engine.get_homophones(concat):
+            if clean(homo) == target:
+                return {"op": "homophone", "sounds_like": concat.upper(), "gives": target}
+    # Reverse: check if target sounds like the pieces
+    target_lower = target.lower()
+    for homo in homo_engine.get_homophones(target_lower):
+        if clean(homo) == "".join(pieces):
+            return {"op": "homophone", "sounds_like": "".join(pieces), "gives": target}
+    return None
+
+
+def try_hidden(clue_text, target):
+    words = clue_text.split()
+    pos = 0
+    boundaries = []
+    for w in words:
+        wc = clean(w)
+        boundaries.append((pos, pos + len(wc), w))
+        pos += len(wc)
+    concat = "".join(clean(w) for w in words)
+    idx = concat.find(target)
+    if idx >= 0:
+        sw = ew = None
+        for wi, (ws, we, _) in enumerate(boundaries):
+            if ws <= idx < we:
+                sw = wi
+            if ws < idx + len(target) <= we:
+                ew = wi
+        if sw is not None and ew is not None:
+            if sw != ew:
+                return {"op": "hidden", "words": " ".join(words[sw:ew+1])}
+            word_clean = clean(words[sw])
+            if len(target) < len(word_clean):
+                return {"op": "hidden_in_word", "word": words[sw]}
+    return None
+
+
+def try_merged_container(pieces, target):
+    """Try merging pieces into a single inner for container.
+
+    Fast path: merge tiny pieces (len <= 2) — e.g. [HEARTY, N, P] -> NP inside HEARTY.
+    Broad path: merge any non-largest subset — e.g. [P, RIS, SURE] -> PRIS inside SURE.
+    """
+    if len(pieces) < 3:
+        return None
+
+    # Fast path: merge only tiny pieces (original logic)
+    small = [(i, p) for i, p in enumerate(pieces) if len(p) <= 2]
+    if len(small) >= 2:
+        for n in range(2, len(small) + 1):
+            for combo in itertools.combinations(small, n):
+                idxs = {i for i, _ in combo}
+                merged_parts = [p for _, p in combo]
+                remaining = [p for i, p in enumerate(pieces) if i not in idxs]
+                for perm in itertools.permutations(merged_parts):
+                    merged = "".join(perm)
+                    trial = remaining + [merged]
+                    result = try_container(trial, target)
+                    if result:
+                        result["merged_inner"] = merged
+                        return result
+
+    # Broad path: try merging any subset as inner, keeping one piece as outer.
+    # Pick each piece as the candidate outer, merge the rest.
+    max_len = max(len(p) for p in pieces)
+    indexed = list(enumerate(pieces))
+    for outer_idx, outer_p in indexed:
+        if len(outer_p) < max_len:
+            continue  # only the longest piece(s) can be outer
+        others = [(i, p) for i, p in indexed if i != outer_idx]
+        if len(others) < 2:
+            continue
+        other_parts = [p for _, p in others]
+        for perm in itertools.permutations(other_parts):
+            merged = "".join(perm)
+            trial = [outer_p, merged]
+            result = try_container(trial, target)
+            if result:
+                result["merged_inner"] = merged
+                return result
+    return None
+
+
+def try_deletion_anagram(pieces, target):
+    """Try deleting from one piece, then check if all pieces form an anagram of target.
+
+    E.g. [BRITISH, CUT] -> delete T from CUT -> [BRITISH, CU],
+    anagram(BRITISHCU) = HUBRISTIC.
+
+    Iterates shortest pieces first — in cryptic crosswords the deletion target
+    is almost always the shorter word, not the main anagram fodder.
+    """
+    total = sum(len(p) for p in pieces)
+    excess = total - len(target)
+    if excess < 1 or excess > 3:
+        return None
+    # Try shorter pieces first (more likely deletion targets)
+    order = sorted(range(len(pieces)), key=lambda i: len(pieces[i]))
+    for i in order:
+        piece = pieces[i]
+        if len(piece) <= excess:
+            continue
+        # Delete from end
+        shortened = piece[:len(piece) - excess]
+        new = pieces[:i] + [shortened] + pieces[i+1:]
+        if sorted("".join(new)) == sorted(target):
+            return {"op": "deletion+anagram", "from": piece,
+                    "deleted": piece[len(piece) - excess:], "gives": shortened,
+                    "fodder": new}
+        # Delete from start
+        shortened = piece[excess:]
+        new = pieces[:i] + [shortened] + pieces[i+1:]
+        if sorted("".join(new)) == sorted(target):
+            return {"op": "deletion+anagram", "from": piece,
+                    "deleted": piece[:excess], "gives": shortened,
+                    "fodder": new}
+        # Internal single deletion
+        if excess == 1:
+            for pos in range(1, len(piece) - 1):
+                shortened = piece[:pos] + piece[pos+1:]
+                new = pieces[:i] + [shortened] + pieces[i+1:]
+                if sorted("".join(new)) == sorted(target):
+                    return {"op": "deletion+anagram", "from": piece,
+                            "deleted": piece[pos], "gives": shortened,
+                            "fodder": new}
+    return None
+
+
+def assemble(clue_text, answer, pieces, max_pieces=6, homo_engine=None, ai_wtype=None):
+    target = clean(answer)
+    if not pieces:
+        return try_hidden(clue_text, target)
+    if len(pieces) > max_pieces:
+        return None
+
+    # If AI identified a specific non-anagram type, suppress anagram catch-all
+    # to avoid producing misleading explanations
+    suppress_anagram = (ai_wtype is not None and ai_wtype != "anagram")
+
+    methods = [
+        lambda: try_charade(pieces, target),
+        lambda: try_container(pieces, target),
+        lambda: try_merged_container(pieces, target),
+        lambda: try_reversal(pieces, target),
+        lambda: try_deletion(pieces, target),
+        lambda: try_outer_deletion(pieces, target),
+    ]
+    if not suppress_anagram:
+        methods.extend([
+            lambda: try_anagram(pieces, target),
+            lambda: try_deletion_anagram(pieces, target),
+        ])
+    methods.append(lambda: try_reversal_container(pieces, target))
+    methods.append(lambda: try_container_reversal(pieces, target))
+    if homo_engine:
+        methods.append(lambda: try_homophone(pieces, target, homo_engine))
+    for method in methods:
+        result = method()
+        if result:
+            return result
+    return None
+
+
+# -- Gap filler ----------------------------------------------------------------
+
+def try_gap_fill(clue_text, answer, pieces, enricher, target, ai_wtype=None):
+    total_len = sum(len(p) for p in pieces)
+    gap = len(target) - total_len
+    if gap < 1 or gap > 4:
+        return None
+
+    words = clue_text.split()
+    fills = []
+    for w in words:
+        w_lower = w.lower().strip(".,;:!?\"'()-")
+        if not w_lower:
+            continue
+        for a in enricher.lookup_abbreviations(w_lower):
+            a_clean = clean(a)
+            if a_clean and 1 <= len(a_clean) <= gap:
+                fills.append((w_lower, a_clean, "abbreviation"))
+        syns = enricher.lookup_synonyms(w_lower, max_results=10, max_len=gap, answer=answer)
+        for s in syns:
+            if 1 <= len(s) <= gap:
+                fills.append((w_lower, s, "synonym"))
+        w_clean = clean(w)
+        if w_clean and gap >= 1:
+            fills.append((w_lower, w_clean[0], "first_letter"))
+
+    fills = list(set(fills))
+    for num_fills in range(1, min(3, len(fills) + 1)):
+        for combo in itertools.combinations(fills, num_fills):
+            fill_letters = [yld for _, yld, _ in combo]
+            fill_total = sum(len(f) for f in fill_letters)
+            if fill_total != gap:
+                continue
+            all_pieces = pieces + fill_letters
+            result = assemble(clue_text, answer, all_pieces, ai_wtype=ai_wtype)
+            if result:
+                result["gap_fill"] = [(w, yld, mech) for w, yld, mech in combo]
+                return result
+    return None
+
+
+# -- Enrichment fallback -------------------------------------------------------
+
+def enrichment_fallback(clue_text, answer, enricher, target):
+    words = clue_text.split()
+    answer_clean = clean(answer)
+
+    # Detect reversal/deletion indicators in clue
+    has_reversal_indicator = False
+    has_deletion_indicator = False
+    for w in words:
+        ind_types = enricher.lookup_indicators(w.lower().strip(".,;:!?\"'()-"))
+        for t in ind_types:
+            t_clean = t.rstrip("?")
+            if t_clean == "reversal":
+                has_reversal_indicator = True
+            if t_clean == "deletion":
+                has_deletion_indicator = True
+
+    # Pre-collect all abbreviations across clue words (for deletion matching)
+    all_abbrevs = {}  # word -> set of abbreviation strings
+    if has_deletion_indicator:
+        for w in words:
+            wl = w.lower().strip(".,;:!?\"'()-")
+            if wl:
+                for a in enricher.lookup_abbreviations(wl):
+                    a_clean = clean(a)
+                    if a_clean:
+                        all_abbrevs.setdefault(wl, set()).add(a_clean)
+
+    word_candidates = {}
+    for w in words:
+        w_lower = w.lower().strip(".,;:!?\"'()-")
+        if not w_lower:
+            continue
+        cands = []
+        w_clean = clean(w)
+        if w_clean and len(w_clean) >= 1:
+            cands.append((w_clean, "literal"))
+        syns = enricher.lookup_synonyms(w_lower, max_results=30, max_len=len(answer_clean), answer=answer)
+        for s in syns:
+            if s in answer_clean and len(s) >= 2:
+                cands.append((s, "synonym"))
+            elif _is_container_outer(s, answer_clean):
+                cands.append((s, "synonym"))
+            elif has_reversal_indicator and len(s) >= 3 and s[::-1] in answer_clean:
+                cands.append((s, "synonym"))
+            elif has_deletion_indicator and len(s) >= 3:
+                # Try deleting abbreviations from OTHER clue words
+                for other_w, abbr_set in all_abbrevs.items():
+                    if other_w == w_lower:
+                        continue
+                    for a in abbr_set:
+                        if a in s:
+                            reduced = s.replace(a, "", 1)
+                            if len(reduced) >= 2 and reduced in answer_clean:
+                                cands.append((reduced, "deletion"))
+        abbrevs = enricher.lookup_abbreviations(w_lower)
+        for a in abbrevs:
+            a_clean = clean(a)
+            if a_clean and a_clean in answer_clean:
+                cands.append((a_clean, "abbreviation"))
+        if w_clean:
+            if w_clean[0] in answer_clean:
+                cands.append((w_clean[0], "first_letter"))
+            if len(w_clean) > 1 and w_clean[-1] in answer_clean:
+                cands.append((w_clean[-1], "last_letter"))
+            if len(w_clean) >= 4:
+                alt_even = "".join(w_clean[i] for i in range(0, len(w_clean), 2))
+                alt_odd = "".join(w_clean[i] for i in range(1, len(w_clean), 2))
+                if alt_even in answer_clean and len(alt_even) >= 2:
+                    cands.append((alt_even, "alternate_letters"))
+                if alt_odd in answer_clean and len(alt_odd) >= 2:
+                    cands.append((alt_odd, "alternate_letters"))
+        if cands:
+            word_candidates[w_lower] = list(set(cands))
+
+    for i in range(len(words) - 1):
+        phrase = words[i].lower().strip(".,;:!?\"'()") + " " + words[i+1].lower().strip(".,;:!?\"'()")
+        syns = enricher.lookup_synonyms(phrase, max_results=10, max_len=len(answer_clean), answer=answer)
+        for s in syns:
+            if s in answer_clean and len(s) >= 2:
+                word_candidates.setdefault(phrase, []).append((s, "synonym"))
+
+    all_cands = list(set(
+        (w, yld, mech) for w, cands in word_candidates.items() for yld, mech in cands
+    ))
+
+    for num in range(2, min(6, len(all_cands) + 1)):
+        for combo in itertools.combinations(all_cands, num):
+            pieces = [yld for _, yld, _ in combo]
+            total_len = sum(len(p) for p in pieces)
+            if total_len < len(target) or total_len > len(target) * 2:
+                continue
+            if any(p == target for p in pieces):
+                continue
+            result = assemble(clue_text, answer, pieces)
+            if result:
+                result["source"] = "enrichment_fallback"
+                result["pieces_detail"] = [(w, yld, mech) for w, yld, mech in combo]
+                return result
+    return None
+
+
+# -- API calls -----------------------------------------------------------------
+
+SYSTEM_PROMPT = """You are parsing cryptic crossword clues. You are given a clue, its answer, and DB lookups showing known synonyms, abbreviations, and indicators for each clue word.
+
+CRITICAL: The DB lookups are your primary source. Each clue word has:
+- syn= synonyms (e.g. drink: syn=BELT,ALE means "drink" can give letters BELT or ALE)
+- abbr= abbreviations (e.g. stone: abbr=ST means "stone" gives letters ST)
+- ind= indicator types (e.g. in: ind=container means "in" signals a container operation)
+- sounds= homophones
+
+Entries marked with * (e.g. syn=PIE*,TART) are substrings of the answer -- these are the most likely wordplay components. PRIORITIZE starred entries when building your solution.
+
+Your job: select the right synonym or abbreviation for each wordplay word from the DB lookups, then show how they combine to spell the answer.
+
+Output JSON with:
+- "definition": the exact substring of the clue that defines the answer (always at the start or end of the clue)
+- "wordplay_type": charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic
+- "pieces": array of objects, each with:
+  - "clue_word": the word(s) from the clue
+  - "letters": the uppercase letters this produces (MUST come from a DB lookup syn/abbr, or be the literal letters of the clue word for anagram fodder)
+  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters
+
+Rules:
+- SELECT synonyms and abbreviations from the DB lookups. Do not invent synonyms not listed.
+- PRIORITIZE entries marked with * -- they are substrings of the answer and most likely to be correct.
+- The pieces' letters, when assembled via the wordplay_type, MUST spell the full answer.
+- NEVER return the full answer as a single piece. Every answer must be broken into 2+ pieces from separate clue words, UNLESS the wordplay_type is double_definition, cryptic_definition, or hidden.
+- Indicator words (ind=) are NOT part of the answer -- they tell you the operation type.
+- Definition is always at the start or end of the clue, never in the middle.
+- For containers: show the outer piece and inner piece separately. The inner goes inside the outer.
+- For anagrams: pieces are the raw fodder letters before rearrangement.
+- For hidden words: the answer is a substring spanning across consecutive clue words. No pieces needed.
+- For double definitions: two separate definitions, no pieces.
+
+Return ONLY valid JSON."""
+
+FEW_SHOT_EXAMPLES = [
+    {
+        "input": """Clue: Patterned plate for various clients (7)
+Answer: STENCIL
+DB lookups:
+  patterned: ind=anagram
+  plate: syn=DISH,DISC,PAN,SLAB,TILE; abbr=P
+  various: ind=anagram
+  clients: syn=USERS""",
+        "output": json.dumps({
+            "definition": "Patterned plate",
+            "wordplay_type": "anagram",
+            "pieces": [
+                {"clue_word": "clients", "letters": "CLIENTS", "mechanism": "anagram_fodder"}
+            ]
+        })
+    },
+    {
+        "input": """Clue: Juliet in sober group with kiss for hero (4)
+Answer: AJAX
+DB lookups:
+  juliet: abbr=J
+  in: ind=container,hidden,insertion
+  sober: ind=deletion
+  group: syn=AA,BAND,GANG,SET,SIDE
+  kiss: abbr=X; syn=BUSS,PECK
+  hero: syn=ACE,GOD,IDOL,LION""",
+        "output": json.dumps({
+            "definition": "hero",
+            "wordplay_type": "container",
+            "pieces": [
+                {"clue_word": "sober group", "letters": "AA", "mechanism": "abbreviation"},
+                {"clue_word": "Juliet", "letters": "J", "mechanism": "abbreviation"},
+                {"clue_word": "kiss", "letters": "X", "mechanism": "abbreviation"}
+            ]
+        })
+    },
+    {
+        "input": """Clue: Unwilling to forgo large bond (4)
+Answer: OATH
+DB lookups:
+  unwilling: syn=LOATH,AVERSE; ind=deletion
+  forgo: ind=deletion
+  large: abbr=L; syn=BIG,DEEP,FULL,HUGE
+  bond: syn=BAIL,BAND,CORD,GLUE,KNOT,LINK,OATH,SEAL,WORD""",
+        "output": json.dumps({
+            "definition": "bond",
+            "wordplay_type": "deletion",
+            "pieces": [
+                {"clue_word": "Unwilling", "letters": "LOATH", "mechanism": "synonym"},
+                {"clue_word": "large", "letters": "L", "mechanism": "abbreviation"}
+            ]
+        })
+    },
+    {
+        "input": """Clue: Father's attempt to make small cake (6)
+Answer: PASTRY
+DB lookups:
+  father: syn=DAD,PA,POP,SIRE; abbr=FR
+  attempt: syn=BID,GO,TRY; ind=anagram
+  make: ind=anagram; syn=BRAND,BUILD,EARN,FORM
+  small: abbr=S; syn=LOW,TINY,WEE
+  cake: syn=BUN,GATEAU,TART,TORTE""",
+        "output": json.dumps({
+            "definition": "cake",
+            "wordplay_type": "charade",
+            "pieces": [
+                {"clue_word": "Father's", "letters": "PAS", "mechanism": "synonym"},
+                {"clue_word": "attempt", "letters": "TRY", "mechanism": "synonym"}
+            ]
+        })
+    }
+]
+
+
+def build_example_messages():
+    msgs = []
+    for ex in FEW_SHOT_EXAMPLES:
+        msgs.append({"role": "user", "content": ex["input"]})
+        msgs.append({"role": "assistant", "content": ex["output"]})
+    return msgs
+
+
+def call_api(model, clue_text, answer, enrichment, example_messages, extra_context=""):
+    """Call a Claude model to identify pieces."""
+    enum_len = len(answer.replace(" ", "").replace("-", ""))
+    user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
+    if enrichment:
+        user_msg += "\n" + enrichment
+    if extra_context:
+        user_msg += "\n\n" + extra_context
+
+    messages = example_messages + [{"role": "user", "content": user_msg}]
+
+    response = client.messages.create(
+        model=model,
+        max_tokens=400,
+        system=SYSTEM_PROMPT,
+        messages=messages,
+    )
+    raw = response.content[0].text.strip()
+    tokens_in = response.usage.input_tokens
+    tokens_out = response.usage.output_tokens
+
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError:
+        if "{" in raw:
+            try:
+                start = raw.index("{")
+                end = raw.rindex("}") + 1
+                parsed = json.loads(raw[start:end])
+            except (json.JSONDecodeError, ValueError):
+                parsed = None
+        else:
+            parsed = None
+
+    return parsed, tokens_in, tokens_out
+
+
+def extract_pieces(api_output):
+    if not api_output:
+        return [], None, None
+    pieces = []
+    for comp in api_output.get("pieces", []):
+        letters = clean(comp.get("letters", ""))
+        if letters:
+            pieces.append(letters)
+    return pieces, api_output.get("wordplay_type"), api_output.get("definition")
+
+
+def extract_literal_fodder(api_output):
+    """Extract literal clue words from anagram_fodder pieces as fallback pieces.
+
+    When the model identifies the right clue words but pre-processes the letters
+    incorrectly (e.g. "British cut short" -> HUBRISTC instead of BRITISH + CUT),
+    this extracts the raw words as individual pieces.
+    """
+    if not api_output:
+        return []
+    literals = []
+    for comp in api_output.get("pieces", []):
+        if comp.get("mechanism") in ("anagram_fodder", "literal"):
+            clue_word = comp.get("clue_word", "")
+            for word in clue_word.split():
+                cleaned = clean(word)
+                if cleaned and len(cleaned) >= 2:
+                    literals.append(cleaned)
+    return literals
+
+
+# -- Full assembly attempt with fallbacks --------------------------------------
+
+def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, target):
+    """Try assembling pieces with all fallback strategies."""
+    # First attempt: restricted by AI type (suppresses anagram when AI says otherwise)
+    assembly = assemble(clue, answer, pieces, homo_engine=homo_engine, ai_wtype=wtype) if pieces else None
+
+    # Reject degenerate case: single piece that equals the answer
+    # (model just echoed the answer instead of breaking it down)
+    if assembly and len(pieces) == 1 and pieces[0] == target:
+        assembly = None
+
+    if not assembly and wtype in ("double_definition", "cryptic_definition"):
+        return {"op": wtype}, "dd_cd"
+
+    if not assembly:
+        hidden = try_hidden(clue, target)
+        if hidden:
+            return hidden, "hidden"
+
+    if not assembly and len(pieces) >= 2:
+        for skip in range(len(pieces)):
+            subset = pieces[:skip] + pieces[skip+1:]
+            assembly = assemble(clue, answer, subset, homo_engine=homo_engine, ai_wtype=wtype)
+            if assembly:
+                assembly["note"] = "dropped piece %d" % skip
+                return assembly, "drop_piece"
+
+    if not assembly and pieces:
+        assembly = try_gap_fill(clue, answer, pieces, enricher, target, ai_wtype=wtype)
+        if assembly:
+            return assembly, "gap_fill"
+
+    if not assembly and pieces:
+        total_len = sum(len(p) for p in pieces)
+        if total_len == len(target) - 1:
+            for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                result = assemble(clue, answer, pieces + [letter], homo_engine=homo_engine, ai_wtype=wtype)
+                if result:
+                    result["brute_gap"] = letter
+                    return result, "brute_1letter"
+
+    if not assembly and pieces:
+        assembly = try_substitution(pieces, target, clue, enricher)
+        if assembly:
+            return assembly, "substitution"
+
+    # Last resort: try unrestricted assembly (anagram allowed) with penalty flag
+    # Better to give a flagged anagram than nothing, but the score will be penalised
+    if not assembly and pieces and wtype and wtype != "anagram":
+        assembly = assemble(clue, answer, pieces, homo_engine=homo_engine, ai_wtype=None)
+        if assembly and assembly.get("op") in ("anagram", "charade+anagram",
+                                                "anagram+charade", "deletion+anagram"):
+            assembly["anagram_fallback"] = True
+            return assembly, "anagram_fallback"
+        elif assembly:
+            return assembly, "direct"
+
+    if assembly:
+        return assembly, "direct"
+    return None, None
+
+
+# -- Substitution operation ----------------------------------------------------
+
+def try_substitution(pieces, target, clue_text, enricher):
+    """Try substitution: delete letters from a piece, replace with letters from clue words.
+
+    Handles patterns like "deer leaving motorway for lake":
+    MOOSE - M (motorway) + L (lake) → LOOSE
+    """
+    if not pieces:
+        return None
+
+    # Gather short yields (abbreviations, short synonyms, first letters) for each clue word
+    # Priority: abbreviations > synonyms > first letters (for better add_word attribution)
+    words = clue_text.split()
+    word_yields = {}
+    for w in words:
+        w_lower = w.lower().strip(".,;:!?\"'()-")
+        if not w_lower:
+            continue
+        yields = []  # ordered list — abbreviations first
+        seen = set()
+        for a in enricher.lookup_abbreviations(w_lower):
+            a_clean = clean(a)
+            if a_clean and 1 <= len(a_clean) <= 3 and a_clean not in seen:
+                yields.append(a_clean)
+                seen.add(a_clean)
+        syns = enricher.lookup_synonyms(w_lower, max_results=10, max_len=3, answer="")
+        for s in syns:
+            if 1 <= len(s) <= 3 and s not in seen:
+                yields.append(s)
+                seen.add(s)
+        w_clean = clean(w)
+        if w_clean and w_clean[0] not in seen:
+            yields.append(w_clean[0])
+        if yields:
+            word_yields[w_lower] = yields
+
+    # Invert: letters -> list of source words
+    # Words where the letter is an abbreviation come first (more authoritative)
+    all_yields = {}
+    for w, yields in word_yields.items():
+        abbr_set = set()
+        for a in enricher.lookup_abbreviations(w):
+            a_clean = clean(a)
+            if a_clean:
+                abbr_set.add(a_clean)
+        for y in yields:
+            lst = all_yields.setdefault(y, [])
+            if y in abbr_set:
+                lst.insert(0, w)  # abbreviation source first
+            else:
+                lst.append(w)
+
+    # Strategy 1: One Sonnet piece IS the deletion target inside another piece
+    # e.g. pieces=[MOOSE, M] — delete M from MOOSE, add L (lake) → LOOSE
+    for i, piece in enumerate(pieces):
+        if len(piece) < 3:
+            continue
+        for j, del_piece in enumerate(pieces):
+            if i == j or len(del_piece) < 1 or len(del_piece) > 3:
+                continue
+            pos = 0
+            while True:
+                idx = piece.find(del_piece, pos)
+                if idx < 0:
+                    break
+                pos = idx + 1
+                shortened = piece[:idx] + piece[idx + len(del_piece):]
+                if not shortened:
+                    continue
+                other = [p for k, p in enumerate(pieces) if k != i and k != j]
+                needed = len(target) - len(shortened) - sum(len(p) for p in other)
+                if needed < 1 or needed > 3:
+                    continue
+                for add_str, add_words in all_yields.items():
+                    if len(add_str) != needed:
+                        continue
+                    trial = [shortened] + other + [add_str]
+                    if len(trial) > 6:
+                        continue
+                    for perm in itertools.permutations(trial):
+                        if "".join(perm) == target:
+                            return {
+                                "op": "substitution",
+                                "from": piece, "deleted": del_piece,
+                                "added": add_str, "add_word": add_words[0],
+                                "gives": shortened,
+                                "order": list(perm),
+                            }
+
+    # Strategy 2: Deletion target not in pieces — try all clue word yields as deletion
+    for i, piece in enumerate(pieces):
+        if len(piece) < 3:
+            continue
+        remaining = [p for j, p in enumerate(pieces) if j != i]
+        remaining_len = sum(len(p) for p in remaining)
+
+        for del_str, del_words in all_yields.items():
+            if len(del_str) < 1 or len(del_str) > 3:
+                continue
+            pos = 0
+            while True:
+                idx = piece.find(del_str, pos)
+                if idx < 0:
+                    break
+                pos = idx + 1
+                shortened = piece[:idx] + piece[idx + len(del_str):]
+                if not shortened:
+                    continue
+                needed = len(target) - len(shortened) - remaining_len
+                if needed < 1 or needed > 3:
+                    continue
+                for add_str, add_words in all_yields.items():
+                    if len(add_str) != needed:
+                        continue
+                    if add_words[0] == del_words[0]:
+                        continue
+                    trial = [shortened] + remaining + [add_str]
+                    if len(trial) > 6:
+                        continue
+                    for perm in itertools.permutations(trial):
+                        if "".join(perm) == target:
+                            return {
+                                "op": "substitution",
+                                "from": piece, "deleted": del_str,
+                                "del_word": del_words[0],
+                                "added": add_str, "add_word": add_words[0],
+                                "gives": shortened,
+                                "order": list(perm),
+                            }
+
+    return None
+
+
+# -- Mechanism checker (post-assembly validation) ------------------------------
+
+OP_TO_TYPE = {
+    "charade": "charade",
+    "container": "container",
+    "reversal": "reversal",
+    "deletion": "deletion",
+    "outer_deletion": "deletion",
+    "anagram": "anagram",
+    "charade+anagram": "anagram",
+    "anagram+charade": "anagram",
+    "homophone": "homophone",
+    "hidden": "hidden",
+    "hidden_in_word": "hidden",
+    "deletion+anagram": "anagram",
+    "double_definition": "double_definition",
+    "cryptic_definition": "cryptic_definition",
+    "reversal_container": "container",
+    "container_reversal": "reversal",
+    "substitution": "substitution",
+}
+
+
+def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
+    """Score how useful this result is to a user seeking progressive hints.
+
+    Scoring reflects user value:
+      Definition (30pts)  — "What am I looking for?"
+      Wordplay type (20pts) — "What technique is used?"
+      Explanation (50pts) — "How do the pieces work?"
+        - yields check (20) — pieces mechanically produce the answer
+        - pieces validated (15) — each piece traces to a real synonym/abbreviation
+        - fodder in clue (10) — source words actually appear in the clue
+        - base assembled (5) — we have something to show
+
+    Returns score 0 for failed assembly. Callers use None for not-attempted.
+    """
+    if not assembly:
+        return {"confidence": "none", "score": 0, "checks": {}}
+
+    checks = {}
+    score = 5  # base: we assembled something
+    answer_clean = clean(answer)
+
+    if ai_output:
+        ai_type = ai_output.get("wordplay_type")
+        ai_def = ai_output.get("definition")
+        ai_pieces = ai_output.get("pieces", [])
+    else:
+        ai_type = None
+        ai_def = None
+        ai_pieces = []
+
+    asm_op = assembly.get("op", "")
+    asm_type = OP_TO_TYPE.get(asm_op, asm_op)
+
+    # --- Definition (30pts) ---
+    if ai_def:
+        def_clean = ai_def.lower().strip(".,;:!?\"'()-")
+        if enricher.lookup_definition(def_clean, answer):
+            checks["definition"] = "confirmed in DB"
+            score += 30
+        else:
+            clue_lower = clue_text.lower()
+            if clue_lower.startswith(def_clean) or clue_lower.endswith(def_clean):
+                checks["definition"] = "position OK (start/end of clue)"
+                score += 15
+            else:
+                checks["definition"] = "not in DB, odd position"
+                score += 5
+    else:
+        checks["definition"] = "none identified"
+
+    # --- Wordplay type (20pts) ---
+    # The assembler's op is the verified type; award full points for it
+    if asm_type:
+        checks["wordplay_type"] = asm_type
+        score += 20
+    else:
+        checks["wordplay_type"] = "unknown"
+
+    # Penalty: anagram fallback used despite AI suggesting a different type
+    if assembly.get("anagram_fallback"):
+        checks["anagram_fallback"] = "AI suggested %s, fell back to anagram" % ai_type
+        score -= 15
+
+    # --- Explanation: Yields check (20pts) ---
+    YIELDS_OPS = {
+        "charade", "container", "merged_container", "reversal", "anagram",
+        "reversal_container", "container_reversal",
+        "charade+anagram", "anagram+charade",
+    }
+    if asm_op in YIELDS_OPS and ai_pieces:
+        piece_letters = "".join(
+            clean(p.get("letters") or "") for p in ai_pieces
+        )
+        brute_gap = clean(assembly.get("brute_gap", "") or "")
+        piece_letters += brute_gap
+        for _, yld, _ in assembly.get("gap_fill", []):
+            piece_letters += clean(yld)
+        if sorted(piece_letters) == sorted(answer_clean):
+            checks["yields_check"] = "pass"
+            score += 20
+        else:
+            checks["yields_check"] = "FAIL: pieces=%s answer=%s" % (
+                piece_letters, answer_clean)
+    elif asm_op in ("hidden", "hidden_in_word"):
+        # Hidden words are self-evidently correct — the answer is in the clue
+        checks["yields_check"] = "hidden (self-evident)"
+        score += 20
+    elif asm_op in ("double_definition", "cryptic_definition"):
+        # DD/CD have no pieces to check
+        checks["yields_check"] = "n/a for %s" % asm_type
+        score += 15
+
+    # --- Explanation: Pieces validated (15pts) ---
+    validated_pieces = 0
+    total_pieces = 0
+    for p in ai_pieces:
+        mech = p.get("mechanism", "")
+        clue_word = (p.get("clue_word") or "").lower().strip()
+        letters = clean(p.get("letters") or "")
+        if not clue_word or not letters:
+            continue
+        total_pieces += 1
+
+        if mech == "synonym":
+            syns = enricher.lookup_synonyms(clue_word, max_results=200)
+            if letters in syns:
+                validated_pieces += 1
+        elif mech == "abbreviation":
+            abbrs = enricher.lookup_abbreviations(clue_word)
+            if letters in [clean(a) for a in abbrs]:
+                validated_pieces += 1
+        elif mech in ("literal", "anagram_fodder"):
+            if clean(clue_word) == letters or letters in clean(clue_word):
+                validated_pieces += 1
+        elif mech == "first_letter":
+            if clean(clue_word) and clean(clue_word)[0] == letters:
+                validated_pieces += 1
+        elif mech == "last_letter":
+            if clean(clue_word) and clean(clue_word)[-1] == letters:
+                validated_pieces += 1
+        elif mech == "hidden":
+            # Hidden words: the letters are literally in the clue text
+            if letters in clean(clue_text):
+                validated_pieces += 1
+        else:
+            validated_pieces += 0.5
+
+    if total_pieces > 0:
+        piece_pct = validated_pieces / total_pieces
+        piece_score = int(15 * piece_pct)
+        checks["pieces_validated"] = "%d/%d (%.0f%%)" % (
+            validated_pieces, total_pieces, 100 * piece_pct)
+        score += piece_score
+    elif asm_op in ("double_definition", "cryptic_definition"):
+        checks["pieces_validated"] = "n/a for %s" % asm_type
+        score += 10
+    else:
+        checks["pieces_validated"] = "no pieces to validate"
+
+    # --- Explanation: Fodder in clue (10pts) ---
+    clue_lower = clue_text.lower()
+    fodder_ok = True
+    fodder_issues = []
+    for p in ai_pieces:
+        clue_word = (p.get("clue_word") or "").lower().strip()
+        if clue_word and clue_word not in clue_lower:
+            clue_stripped = re.sub(r"[^a-z ]", "", clue_lower)
+            word_stripped = re.sub(r"[^a-z ]", "", clue_word)
+            if word_stripped not in clue_stripped:
+                fodder_ok = False
+                fodder_issues.append(clue_word)
+    if fodder_ok:
+        checks["fodder_in_clue"] = "all present"
+        score += 10
+    else:
+        checks["fodder_in_clue"] = "missing: %s" % fodder_issues
+
+    # Final confidence bands
+    if score >= 70:
+        confidence = "high"
+    elif score >= 40:
+        confidence = "medium"
+    else:
+        confidence = "low"
+
+    return {"confidence": confidence, "score": score, "checks": checks}
+
+
+# -- DB writer -----------------------------------------------------------------
+
+def store_result(conn, clue_id, ai_output, assembly, validation, tier):
+    """Store pipeline result into clues and structured_explanations tables.
+
+    Stores assembler-corrected breakdown (not raw AI pieces).
+    Only persists results with score > 0.
+    Sets has_solution=1 when score >= 80 and no type mismatch.
+    """
+    score = validation.get("score", 0)
+
+    # Don't persist failures
+    if not assembly or score <= 0:
+        return
+
+    ai_type = None
+    ai_def = None
+    ai_pieces = []
+
+    if ai_output:
+        ai_type = ai_output.get("wordplay_type")
+        ai_def = ai_output.get("definition")
+        for p in ai_output.get("pieces", []):
+            ai_pieces.append({
+                "mechanism": p.get("mechanism", "unknown"),
+                "clue_word": p.get("clue_word", ""),
+                "letters": p.get("letters", ""),
+            })
+
+    asm_op = assembly.get("op", "")
+    asm_type = OP_TO_TYPE.get(asm_op, asm_op)
+
+    # Assembler type FIRST (it's the verified one), AI type as fallback
+    wordplay_types = []
+    if asm_type:
+        wordplay_types.append(asm_type)
+    if ai_type and ai_type not in wordplay_types:
+        wordplay_types.append(ai_type)
+    if not wordplay_types:
+        wordplay_types = ["unknown"]
+
+    # Store full corrected picture: AI pieces for reference + assembler result
+    components = {
+        "ai_pieces": ai_pieces,
+        "assembly": assembly,
+        "wordplay_type": wordplay_types[0],
+    }
+
+    confidence = score / 100.0
+
+    conn.execute("""
+        UPDATE clues SET definition = ?, wordplay_type = ?
+        WHERE id = ? AND (definition IS NULL OR definition = '')
+    """, (ai_def, wordplay_types[0], clue_id))
+
+    # Determine solved status: score >= 80
+    is_solved = score >= 80
+
+    if is_solved:
+        conn.execute("UPDATE clues SET has_solution = 1 WHERE id = ?", (clue_id,))
+
+    def_start = None
+    def_end = None
+    if ai_def:
+        clue_text = conn.execute(
+            "SELECT clue_text FROM clues WHERE id = ?", (clue_id,)
+        ).fetchone()
+        if clue_text:
+            idx = clue_text[0].lower().find(ai_def.lower())
+            if idx >= 0:
+                def_start = idx
+                def_end = idx + len(ai_def)
+
+    existing = conn.execute(
+        "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
+    ).fetchone()
+
+    model_version = "haiku_sonnet_tiered_v1"
+
+    if existing:
+        conn.execute("""
+            UPDATE structured_explanations
+            SET definition_text = ?, definition_start = ?, definition_end = ?,
+                wordplay_types = ?, components = ?,
+                model_version = ?, confidence = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE clue_id = ?
+        """, (
+            ai_def, def_start, def_end,
+            json.dumps(wordplay_types), json.dumps(components),
+            model_version, confidence, clue_id
+        ))
+    else:
+        conn.execute("""
+            INSERT INTO structured_explanations
+            (clue_id, definition_text, definition_start, definition_end,
+             wordplay_types, components, model_version, confidence, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        """, (
+            clue_id, ai_def, def_start, def_end,
+            json.dumps(wordplay_types), json.dumps(components),
+            model_version, confidence
+        ))
+
+
+# -- High-level solve_clue entry point ----------------------------------------
+
+def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
+               example_messages, cached_ai=None):
+    """Solve a single cryptic clue using Sonnet + assembler + fallback.
+
+    If cached_ai is provided, skip the API call and re-run assembler + scoring
+    on the cached Sonnet output. Use this for previously-solved clues to test
+    assembler improvements without paying for API calls.
+
+    Returns a dict with:
+        ai_output, assembly, tier, validation,
+        tokens_in, tokens_out, sonnet_pieces, sonnet_wtype, sonnet_def,
+        fallback_method
+    """
+    target = clean(answer)
+
+    # Use cached AI output or call Sonnet
+    if cached_ai:
+        sonnet_out = cached_ai
+        tokens_in, tokens_out = 0, 0
+    else:
+        sonnet_out, tokens_in, tokens_out = call_api(
+            SONNET_MODEL, clue_text, answer, enrichment, example_messages
+        )
+    sonnet_pieces, sonnet_wtype, sonnet_def = extract_pieces(sonnet_out)
+
+    # Try assembly
+    assembly, fallback_method = full_assembly_attempt(
+        clue_text, answer, sonnet_pieces, sonnet_wtype,
+        enricher, homo_engine, target
+    )
+
+    # If assembly is poor (brute_gap or failed), try literal clue words as pieces.
+    # Handles cases where model identified correct fodder words but pre-processed
+    # the letters wrong (e.g. "British cut short" -> HUBRISTC instead of BRITISH+CUT).
+    if (not assembly or (assembly and assembly.get("brute_gap"))) and sonnet_wtype == "anagram":
+        literal_pieces = extract_literal_fodder(sonnet_out)
+        if literal_pieces and literal_pieces != sonnet_pieces:
+            alt_assembly, alt_method = full_assembly_attempt(
+                clue_text, answer, literal_pieces, sonnet_wtype,
+                enricher, homo_engine, target
+            )
+            if alt_assembly and not alt_assembly.get("brute_gap"):
+                assembly = alt_assembly
+                fallback_method = alt_method
+                sonnet_pieces = literal_pieces
+
+    tier = None
+    if assembly:
+        tier = "Sonnet"
+        # When assembler found hidden but Sonnet suggested different type,
+        # override pieces — Sonnet's pieces are meaningless for hidden words
+        asm_op = assembly.get("op", "")
+        if asm_op in ("hidden", "hidden_in_word") and sonnet_wtype != "hidden":
+            source_phrase = assembly.get("words") or assembly.get("word") or ""
+            sonnet_out = sonnet_out or {}
+            sonnet_out["pieces"] = [
+                {"clue_word": source_phrase, "letters": target, "mechanism": "hidden"}
+            ]
+            sonnet_out["wordplay_type"] = "hidden"
+    else:
+        assembly = enrichment_fallback(clue_text, answer, enricher, target)
+        if assembly:
+            tier = "Fallback"
+            # Override AI pieces with the actual pieces the fallback used
+            if assembly.get("pieces_detail"):
+                sonnet_out = sonnet_out or {}
+                sonnet_out["pieces"] = [
+                    {"clue_word": w, "letters": yld, "mechanism": mech}
+                    for w, yld, mech in assembly["pieces_detail"]
+                ]
+                asm_type = OP_TO_TYPE.get(assembly.get("op", ""), "")
+                if asm_type:
+                    sonnet_out["wordplay_type"] = asm_type
+
+    validation = check_mechanism(
+        clue_text, answer, sonnet_out, assembly, enricher, tier or "FAIL"
+    )
+
+    return {
+        "ai_output": sonnet_out,
+        "assembly": assembly,
+        "tier": tier,
+        "validation": validation,
+        "tokens_in": tokens_in,
+        "tokens_out": tokens_out,
+        "sonnet_pieces": sonnet_pieces,
+        "sonnet_wtype": sonnet_wtype,
+        "sonnet_def": sonnet_def,
+        "fallback_method": fallback_method,
+    }
