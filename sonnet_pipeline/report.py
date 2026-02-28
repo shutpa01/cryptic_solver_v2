@@ -353,7 +353,18 @@ def generate_report(results, source, puzzle, stats):
                     mech = p.get("mechanism", "?")
                     word = p.get("clue_word", "?")
                     letters = p.get("letters", "?")
-                    lines.append("    %-18s %-25s -> %s" % (mech, word, letters))
+                    # Show deletion/truncation detail when available
+                    detail = ""
+                    if p.get("source"):
+                        src = p["source"]
+                        deleted = p.get("deleted", "?")
+                        if p.get("indicator"):
+                            detail = " [%s, \"%s\"=%s]" % (src, p["indicator"], mech)
+                        elif p.get("deleted_word"):
+                            detail = " [%s - %s(%s)]" % (src, deleted, p["deleted_word"])
+                        else:
+                            detail = " [%s - %s]" % (src, deleted)
+                    lines.append("    %-18s %-25s -> %s%s" % (mech, word, letters, detail))
 
         if asm:
             op = asm.get("op", "?")

@@ -40,9 +40,10 @@ OUTPUT_DIR = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents"
 # ============================================================
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
-SOURCE = "telegraph"            # telegraph, guardian, times, independentclaude
-PUZZLE_NUMBER = "31174"             # puzzle number to solve
+SOURCE = "times"            # telegraph, guardian, times, independentclaude
+PUZZLE_NUMBER = "29477"             # puzzle number to solve
 WRITE_DB = True                # write results to clues_master.db
+FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
 SINGLE_CLUE_MATCH = ""
 
 
@@ -296,8 +297,8 @@ def main():
                         help="Directory for report files (default: %s)" % OUTPUT_DIR)
     parser.add_argument("--single-clue", type=str, default=SINGLE_CLUE_MATCH,
                         help="Filter to single clue matching this text (overrides puzzle selection)")
-    parser.add_argument("--force", action="store_true",
-                        help="Re-process all clues even if already solved")
+    parser.add_argument("--force", action="store_true", default=FORCE_API,
+                        help="Fresh API calls for all clues (ignore cached results)")
     args = parser.parse_args()
 
     # Single-clue mode: find the clue in the DB and override puzzle selection

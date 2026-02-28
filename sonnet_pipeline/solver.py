@@ -397,14 +397,24 @@ def assemble(clue_text, answer, pieces, max_pieces=6, homo_engine=None, ai_wtype
     # to avoid producing misleading explanations
     suppress_anagram = (ai_wtype is not None and ai_wtype != "anagram")
 
+    # Only try deletion/outer_deletion when AI explicitly said deletion type,
+    # or when pieces are from the enrichment fallback (ai_wtype=None).
+    # Without this, wrong pieces that total more letters than the answer
+    # get force-fitted via deletion, masking errors.
+    suppress_deletion = (ai_wtype is not None and ai_wtype not in
+                         ("deletion", "substitution"))
+
     methods = [
         lambda: try_charade(pieces, target),
         lambda: try_container(pieces, target),
         lambda: try_merged_container(pieces, target),
         lambda: try_reversal(pieces, target),
-        lambda: try_deletion(pieces, target),
-        lambda: try_outer_deletion(pieces, target),
     ]
+    if not suppress_deletion:
+        methods.extend([
+            lambda: try_deletion(pieces, target),
+            lambda: try_outer_deletion(pieces, target),
+        ])
     if not suppress_anagram:
         methods.extend([
             lambda: try_anagram(pieces, target),
@@ -467,6 +477,7 @@ def try_gap_fill(clue_text, answer, pieces, enricher, target, ai_wtype=None):
 def enrichment_fallback(clue_text, answer, enricher, target):
     words = clue_text.split()
     answer_clean = clean(answer)
+    _deletion_meta = {}  # (word, reduced) -> {source_syn, deleted, deleted_word}
 
     # Detect reversal/deletion indicators in clue
     has_reversal_indicator = False
@@ -518,6 +529,29 @@ def enrichment_fallback(clue_text, answer, enricher, target):
                             reduced = s.replace(a, "", 1)
                             if len(reduced) >= 2 and reduced in answer_clean:
                                 cands.append((reduced, "deletion"))
+        # For deletion clues, scan ALL synonyms (bypassing max_results/max_len)
+        # for cases where synonym minus abbreviation = answer
+        if has_deletion_indicator:
+            from sonnet_pipeline.enricher import _word_variants
+            all_syns = []
+            for variant in _word_variants(w_lower):
+                all_syns.extend(enricher.synonyms.get(variant, []))
+            for s in all_syns:
+                if len(s) <= len(answer_clean) or len(s) > len(answer_clean) + 4:
+                    continue
+                for other_w, abbr_set in all_abbrevs.items():
+                    if other_w == w_lower:
+                        continue
+                    for a in abbr_set:
+                        if a in s:
+                            reduced = s.replace(a, "", 1)
+                            if reduced == answer_clean:
+                                cands.append((reduced, "deletion"))
+                                # Store metadata for description
+                                _deletion_meta[(w_lower, reduced)] = {
+                                    "source_syn": s, "deleted": a,
+                                    "deleted_word": other_w,
+                                }
         abbrevs = enricher.lookup_abbreviations(w_lower)
         for a in abbrevs:
             a_clean = clean(a)
@@ -549,8 +583,30 @@ def enrichment_fallback(clue_text, answer, enricher, target):
         (w, yld, mech) for w, cands in word_candidates.items() for yld, mech in cands
     ))
 
+    # Special case: deletion candidate that equals the full answer
+    for w, yld, mech in all_cands:
+        if mech == "deletion" and yld == target:
+            meta = _deletion_meta.get((w, yld), {})
+            source_syn = meta.get("source_syn", "?")
+            deleted = meta.get("deleted", "?")
+            deleted_word = meta.get("deleted_word", "?")
+            return {
+                "op": "deletion", "source": "enrichment_fallback",
+                "from": source_syn, "deleted": deleted,
+                "gives": target,
+                "pieces_detail": [
+                    (w, source_syn, "synonym"),
+                    (deleted_word, deleted, "abbreviation"),
+                ],
+            }
+
     for num in range(2, min(6, len(all_cands) + 1)):
         for combo in itertools.combinations(all_cands, num):
+            # One-function-per-word: each clue word can only contribute one piece
+            # (exception: definition words may overlap, but that's handled elsewhere)
+            combo_words = [w for w, _, _ in combo]
+            if len(combo_words) != len(set(combo_words)):
+                continue
             pieces = [yld for _, yld, _ in combo]
             total_len = sum(len(p) for p in pieces)
             if total_len < len(target) or total_len > len(target) * 2:
@@ -972,6 +1028,171 @@ OP_TO_TYPE = {
 }
 
 
+def _try_decompose_piece(words, target_letters, enricher):
+    """Try to decompose target_letters into per-word contributions.
+
+    For each word, checks synonyms and abbreviations. Returns a list of
+    replacement piece dicts if all words contribute and letters concatenate
+    to target_letters, else None.
+    """
+    def _candidates(word):
+        cands = []
+        for s in enricher.lookup_synonyms(word, max_results=50):
+            cands.append((clean(s), "synonym"))
+        for a in enricher.lookup_abbreviations(word):
+            cands.append((clean(a), "abbreviation"))
+        return cands
+
+    def _decompose(pos, word_idx):
+        if pos == len(target_letters) and word_idx == len(words):
+            return []
+        if pos >= len(target_letters) or word_idx >= len(words):
+            return None
+        for letters, mech in _candidates(words[word_idx]):
+            if not letters:
+                continue
+            if target_letters[pos:pos + len(letters)] == letters:
+                rest = _decompose(pos + len(letters), word_idx + 1)
+                if rest is not None:
+                    return [{"clue_word": words[word_idx], "letters": letters,
+                             "mechanism": mech}] + rest
+        return None
+
+    return _decompose(0, 0)
+
+
+def refine_pieces(ai_output, clue_text, enricher):
+    """Post-process AI pieces to add deletion/truncation detail.
+
+    Handles three patterns Sonnet often gets wrong:
+    1. Multi-word "synonym" pieces that are really truncation/deletion:
+       e.g. "Short emperor" → NER  should be  emperor → NERO, short → truncate, NER
+    2. Bare "deletion" pieces missing source/deleted detail:
+       e.g. "lady" → OMAN  should show  WOMAN - W(whiskey) = OMAN
+    3. Multi-word "synonym" pieces that should be split into individual pieces:
+       e.g. "on loch" → REL  should be  RE(on) + L(loch)
+    """
+    if not ai_output:
+        return
+    pieces = ai_output.get("pieces", [])
+    if not pieces:
+        return
+
+    clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_text.lower())
+
+    # Track pieces that should be replaced with multiple pieces (for Case 3)
+    replacements = {}  # idx -> list of replacement piece dicts
+
+    for idx, p in enumerate(pieces):
+        mech = p.get("mechanism", "")
+        clue_word = (p.get("clue_word") or "").strip()
+        letters = clean(p.get("letters") or "")
+        if not clue_word or not letters:
+            continue
+
+        # Case 1: "synonym" piece with multi-word clue_word — check for
+        # truncation pattern like "Short emperor" → NER (really NERO truncated)
+        if mech == "synonym":
+            words_in_piece = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_word.lower())
+            if len(words_in_piece) >= 2:
+                found = False
+                for i, w in enumerate(words_in_piece):
+                    indicators = enricher.lookup_indicators(w)
+                    if "deletion" not in indicators and "parts" not in indicators:
+                        continue
+                    # This word is a deletion/truncation indicator
+                    remaining = [words_in_piece[j] for j in range(len(words_in_piece)) if j != i]
+                    for r_word in remaining:
+                        syns = enricher.lookup_synonyms(r_word, max_results=200)
+                        for s in syns:
+                            sc = clean(s)
+                            if len(sc) <= len(letters) or sc == letters:
+                                continue
+                            # Check truncation: letters is prefix or suffix of synonym
+                            if sc.startswith(letters):
+                                deleted = sc[len(letters):]
+                                p["mechanism"] = "deletion"
+                                p["clue_word"] = r_word
+                                p["source"] = s.upper()
+                                p["indicator"] = w
+                                p["deleted"] = deleted.upper()
+                                found = True
+                                break
+                            elif sc.endswith(letters):
+                                deleted = sc[:len(sc) - len(letters)]
+                                p["mechanism"] = "deletion"
+                                p["clue_word"] = r_word
+                                p["source"] = s.upper()
+                                p["indicator"] = w
+                                p["deleted"] = deleted.upper()
+                                found = True
+                                break
+                        if found:
+                            break
+                    if found:
+                        break
+
+                # Case 3: If truncation didn't match, try decomposing into
+                # individual word contributions
+                # e.g. "on loch" → REL  becomes  RE(on) + L(loch)
+                if not found:
+                    decomp = _try_decompose_piece(words_in_piece, letters, enricher)
+                    if decomp:
+                        replacements[idx] = decomp
+
+        # Case 2: "deletion" piece without source detail — find what synonym
+        # was used and what was deleted
+        # e.g. "lady" → OMAN: find WOMAN(lady) - W(whiskey) = OMAN
+        # Also handles truncation: "emperor" → NER: NERO - O, "short" = indicator
+        elif mech == "deletion" and "source" not in p:
+            syns = enricher.lookup_synonyms(clue_word.lower(), max_results=200)
+            for s in syns:
+                sc = clean(s)
+                if len(sc) <= len(letters) or sc == letters:
+                    continue
+                # Check if removing some substring from sc leaves letters
+                if sc.endswith(letters):
+                    deleted_part = sc[:len(sc) - len(letters)]
+                elif sc.startswith(letters):
+                    deleted_part = sc[len(letters):]
+                else:
+                    continue
+                if len(deleted_part) < 1 or len(deleted_part) > 3:
+                    continue
+                # First: check if deleted_part is an abbreviation of another clue word
+                for cw in clue_words:
+                    if cw != clue_word.lower():
+                        abbrs = [clean(a) for a in enricher.lookup_abbreviations(cw)]
+                        if deleted_part in abbrs:
+                            p["source"] = s.upper()
+                            p["deleted"] = deleted_part.upper()
+                            p["deleted_word"] = cw
+                            break
+                if "source" in p:
+                    break
+                # Second: check for truncation via deletion indicator in clue
+                for cw in clue_words:
+                    if cw != clue_word.lower():
+                        indicators = enricher.lookup_indicators(cw)
+                        if "deletion" in indicators or "parts" in indicators:
+                            p["source"] = s.upper()
+                            p["indicator"] = cw
+                            p["deleted"] = deleted_part.upper()
+                            break
+                if "source" in p:
+                    break
+
+    # Apply piece replacements (Case 3: split multi-word pieces)
+    if replacements:
+        new_pieces = []
+        for idx, p in enumerate(pieces):
+            if idx in replacements:
+                new_pieces.extend(replacements[idx])
+            else:
+                new_pieces.append(p)
+        ai_output["pieces"] = new_pieces
+
+
 def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     """Score how useful this result is to a user seeking progressive hints.
 
@@ -1092,6 +1313,9 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         elif mech == "last_letter":
             if clean(clue_word) and clean(clue_word)[-1] == letters:
                 validated_pieces += 1
+        elif mech == "deletion" and p.get("source"):
+            # Refined deletion piece: source synonym already validated
+            validated_pieces += 1
         elif mech == "hidden":
             # Hidden words: the letters are literally in the clue text
             if letters in clean(clue_text):
@@ -1163,11 +1387,16 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         ai_type = ai_output.get("wordplay_type")
         ai_def = ai_output.get("definition")
         for p in ai_output.get("pieces", []):
-            ai_pieces.append({
+            piece = {
                 "mechanism": p.get("mechanism", "unknown"),
                 "clue_word": p.get("clue_word", ""),
                 "letters": p.get("letters", ""),
-            })
+            }
+            # Preserve refinement fields (source, indicator, deleted, deleted_word)
+            for key in ("source", "indicator", "deleted", "deleted_word"):
+                if p.get(key):
+                    piece[key] = p[key]
+            ai_pieces.append(piece)
 
     asm_op = assembly.get("op", "")
     asm_type = OP_TO_TYPE.get(asm_op, asm_op)
@@ -1213,6 +1442,12 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
                 def_start = idx
                 def_end = idx + len(ai_def)
 
+    # Fetch source/puzzle/clue metadata for structured_explanations
+    clue_meta = conn.execute(
+        "SELECT source, puzzle_number, clue_number FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    src, pnum, cnum = clue_meta if clue_meta else (None, None, None)
+
     existing = conn.execute(
         "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
     ).fetchone()
@@ -1224,23 +1459,28 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
             UPDATE structured_explanations
             SET definition_text = ?, definition_start = ?, definition_end = ?,
                 wordplay_types = ?, components = ?,
-                model_version = ?, confidence = ?, updated_at = CURRENT_TIMESTAMP
+                model_version = ?, confidence = ?,
+                source = ?, puzzle_number = ?, clue_number = ?,
+                updated_at = CURRENT_TIMESTAMP
             WHERE clue_id = ?
         """, (
             ai_def, def_start, def_end,
             json.dumps(wordplay_types), json.dumps(components),
-            model_version, confidence, clue_id
+            model_version, confidence,
+            src, pnum, cnum, clue_id
         ))
     else:
         conn.execute("""
             INSERT INTO structured_explanations
             (clue_id, definition_text, definition_start, definition_end,
-             wordplay_types, components, model_version, confidence, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+             wordplay_types, components, model_version, confidence,
+             source, puzzle_number, clue_number, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
         """, (
             clue_id, ai_def, def_start, def_end,
             json.dumps(wordplay_types), json.dumps(components),
-            model_version, confidence
+            model_version, confidence,
+            src, pnum, cnum
         ))
 
 
@@ -1295,9 +1535,9 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
     tier = None
     if assembly:
         tier = "Sonnet"
+        asm_op = assembly.get("op", "")
         # When assembler found hidden but Sonnet suggested different type,
         # override pieces — Sonnet's pieces are meaningless for hidden words
-        asm_op = assembly.get("op", "")
         if asm_op in ("hidden", "hidden_in_word") and sonnet_wtype != "hidden":
             source_phrase = assembly.get("words") or assembly.get("word") or ""
             sonnet_out = sonnet_out or {}
@@ -1305,6 +1545,16 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
                 {"clue_word": source_phrase, "letters": target, "mechanism": "hidden"}
             ]
             sonnet_out["wordplay_type"] = "hidden"
+        # When assembler dropped a piece, remove it from AI pieces so scoring
+        # and report reflect only the pieces actually used
+        elif assembly.get("note", "").startswith("dropped piece") and sonnet_out:
+            used_order = assembly.get("order", [])
+            if used_order:
+                used_set = set(used_order)
+                sonnet_out["pieces"] = [
+                    p for p in sonnet_out.get("pieces", [])
+                    if clean(p.get("letters", "")) in used_set
+                ]
     else:
         assembly = enrichment_fallback(clue_text, answer, enricher, target)
         if assembly:
@@ -1319,6 +1569,9 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
                 asm_type = OP_TO_TYPE.get(assembly.get("op", ""), "")
                 if asm_type:
                     sonnet_out["wordplay_type"] = asm_type
+
+    # Refine piece annotations (add deletion/truncation detail)
+    refine_pieces(sonnet_out, clue_text, enricher)
 
     validation = check_mechanism(
         clue_text, answer, sonnet_out, assembly, enricher, tier or "FAIL"
