@@ -17,6 +17,7 @@ import time
 
 from anthropic import Anthropic
 from dotenv import load_dotenv
+from sonnet_pipeline.enricher import _is_fractured_substring
 
 load_dotenv()
 client = Anthropic()
@@ -517,7 +518,7 @@ def try_gap_fill(clue_text, answer, pieces, enricher, target, ai_wtype=None):
 
 # -- Enrichment fallback -------------------------------------------------------
 
-def enrichment_fallback(clue_text, answer, enricher, target):
+def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
     words = clue_text.split()
     answer_clean = clean(answer)
     _deletion_meta = {}  # (word, reduced) -> {source_syn, deleted, deleted_word}
@@ -560,6 +561,8 @@ def enrichment_fallback(clue_text, answer, enricher, target):
                 cands.append((s, "synonym"))
             elif _is_container_outer(s, answer_clean):
                 cands.append((s, "synonym"))
+            elif _is_fractured_substring(s, answer_clean):
+                cands.append((s, "synonym"))
             elif has_reversal_indicator and len(s) >= 3 and s[::-1] in answer_clean:
                 cands.append((s, "synonym"))
             elif has_deletion_indicator and len(s) >= 3:
@@ -600,6 +603,16 @@ def enrichment_fallback(clue_text, answer, enricher, target):
             a_clean = clean(a)
             if a_clean and a_clean in answer_clean:
                 cands.append((a_clean, "abbreviation"))
+        # When deletion indicator present, try halves of literal words
+        # (e.g. "half of yard" → YA or YA)
+        if has_deletion_indicator and w_clean and len(w_clean) >= 4:
+            mid = len(w_clean) // 2
+            first_half = w_clean[:mid]
+            last_half = w_clean[mid:]
+            if first_half in answer_clean and len(first_half) >= 2:
+                cands.append((first_half, "deletion"))
+            if last_half in answer_clean and len(last_half) >= 2:
+                cands.append((last_half, "deletion"))
         if w_clean:
             if w_clean[0] in answer_clean:
                 cands.append((w_clean[0], "first_letter"))
@@ -625,6 +638,13 @@ def enrichment_fallback(clue_text, answer, enricher, target):
     all_cands = list(set(
         (w, yld, mech) for w, cands in word_candidates.items() for yld, mech in cands
     ))
+
+    # Exclude candidates whose clue word is part of the definition
+    # (a word can't be both definition and wordplay)
+    if definition:
+        def_words = set(definition.lower().split())
+        all_cands = [(w, yld, mech) for w, yld, mech in all_cands
+                     if w not in def_words]
 
     # Special case: deletion candidate that equals the full answer
     for w, yld, mech in all_cands:
@@ -1615,7 +1635,8 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
                         new_pieces.append(p)
                 sonnet_out["pieces"] = new_pieces
     else:
-        assembly = enrichment_fallback(clue_text, answer, enricher, target)
+        assembly = enrichment_fallback(clue_text, answer, enricher, target,
+                                       definition=sonnet_def)
         if assembly:
             tier = "Fallback"
             # Override AI pieces with the actual pieces the fallback used
