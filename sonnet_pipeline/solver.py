@@ -1551,10 +1551,20 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
             used_order = assembly.get("order", [])
             if used_order:
                 used_set = set(used_order)
-                sonnet_out["pieces"] = [
-                    p for p in sonnet_out.get("pieces", [])
-                    if clean(p.get("letters", "")) in used_set
-                ]
+                # For reversals, map pre-reversal form to post-reversal
+                rev_from = assembly.get("reversed", "")
+                rev_to = assembly.get("gives", "")
+                new_pieces = []
+                for p in sonnet_out.get("pieces", []):
+                    pl = clean(p.get("letters", ""))
+                    if pl in used_set:
+                        new_pieces.append(p)
+                    elif rev_from and pl == rev_from:
+                        # Keep reversed piece, update letters to post-reversal
+                        p = dict(p)
+                        p["letters"] = rev_to
+                        new_pieces.append(p)
+                sonnet_out["pieces"] = new_pieces
     else:
         assembly = enrichment_fallback(clue_text, answer, enricher, target)
         if assembly:
