@@ -269,6 +269,49 @@ def try_homophone(pieces, target, homo_engine):
     return None
 
 
+def try_spoonerism(clue_text, target, enricher):
+    """Try spoonerism: swap initial consonant clusters of two words.
+
+    E.g. HEADBANGING → HEAD|BANGING → swap H↔B → BEAD + HANGING.
+    Only triggers when 'Spooner' appears in the clue.
+    """
+    if "spooner" not in clue_text.lower():
+        return None
+
+    VOWELS = set("AEIOU")
+
+    def split_cluster(word):
+        """Split word into initial consonant cluster and remainder."""
+        for i, c in enumerate(word):
+            if c in VOWELS:
+                return word[:i], word[i:]
+        return word, ""  # all consonants
+
+    # Try splitting target at every position (min 2 chars each side)
+    matches = []
+    for pos in range(2, len(target) - 1):
+        w1, w2 = target[:pos], target[pos:]
+        c1, r1 = split_cluster(w1)
+        c2, r2 = split_cluster(w2)
+        # Both halves need a consonant cluster and a vowel remainder to swap
+        if not c1 or not c2 or not r1 or not r2:
+            continue
+        src1 = c2 + r1
+        src2 = c1 + r2
+        if src1.lower() in enricher.synonyms and src2.lower() in enricher.synonyms:
+            matches.append({
+                "op": "spoonerism",
+                "source_words": [src1, src2],
+                "result_words": [w1, w2],
+                "swapped_clusters": [c1, c2],
+            })
+
+    # Return best match (prefer longer first word — more natural word boundary)
+    if matches:
+        return max(matches, key=lambda m: len(m["result_words"][0]))
+    return None
+
+
 def try_hidden(clue_text, target):
     words = clue_text.split()
     pos = 0
@@ -824,6 +867,11 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
         return {"op": wtype}, "dd_cd"
 
     if not assembly:
+        spoon = try_spoonerism(clue, target, enricher)
+        if spoon:
+            return spoon, "spoonerism"
+
+    if not assembly:
         hidden = try_hidden(clue, target)
         if hidden:
             return hidden, "hidden"
@@ -1025,6 +1073,7 @@ OP_TO_TYPE = {
     "reversal_container": "container",
     "container_reversal": "reversal",
     "substitution": "substitution",
+    "spoonerism": "spoonerism",
 }
 
 

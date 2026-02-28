@@ -198,6 +198,11 @@ def _describe_assembly(asm, ai_pieces=None):
     elif op == "homophone":
         return "%s sounds like %s" % (asm.get("sounds_like", "?"), asm.get("gives", "?"))
 
+    elif op == "spoonerism":
+        src = asm.get("source_words", ["?", "?"])
+        res = asm.get("result_words", ["?", "?"])
+        return "spoonerism of %s %s → %s %s" % (src[0], src[1], res[0], res[1])
+
     elif op == "substitution":
         return "%s - %s + %s(%s)" % (
             _annotate(asm.get("from", "?"), ai), asm.get("deleted", "?"),
