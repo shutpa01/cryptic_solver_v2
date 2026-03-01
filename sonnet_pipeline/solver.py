@@ -927,6 +927,104 @@ def extract_literal_fodder(api_output):
     return literals
 
 
+def _try_truncation_from_db(clue, answer, target, enricher, homo_engine):
+    """Build pieces from DB for truncation clues when AI pieces fail.
+
+    For each non-indicator clue word, find the best synonym/abbreviation.
+    Try truncating each synonym (len >= 4) by 1 letter and assemble.
+    Returns (assembly, method) or None.
+    """
+    TRUNC_WORDS = {"short", "shortly", "brief", "briefly", "cut",
+                   "curtailed", "clipped", "trimmed", "truncated",
+                   "shortened", "cropped", "docked"}
+    words = clue.split()
+    answer_clean = clean(answer)
+
+    # For each non-indicator word, collect candidate pieces (short list)
+    word_pieces = {}  # word -> list of (letters, mechanism)
+    for w in words:
+        wl = w.lower().strip(".,;:!?\"'()-")
+        if not wl or len(wl) < 2 or wl in TRUNC_WORDS:
+            continue
+        cands = []
+        # Abbreviations (usually 1-2 chars — very useful)
+        for a in enricher.lookup_abbreviations(wl):
+            a_clean = clean(a)
+            if a_clean and a_clean in answer_clean:
+                cands.append((a_clean, "abbreviation"))
+        # Synonyms: only those that are substrings of the answer
+        syns = enricher.lookup_synonyms(wl, max_results=50,
+                                        max_len=len(answer_clean) + 2,
+                                        answer=answer)
+        for s in syns:
+            if len(s) >= 2 and s in answer_clean:
+                cands.append((s, "synonym"))
+        # Also keep long synonyms (4+) as truncation sources
+        for s in syns:
+            if len(s) >= 4 and s not in answer_clean:
+                cands.append((s, "trunc_source"))
+        # Literal word
+        wc = clean(w)
+        if wc and wc in answer_clean:
+            cands.append((wc, "literal"))
+        if cands:
+            word_pieces[wl] = cands
+
+    if not word_pieces:
+        return None
+
+    # Collect truncation sources: synonyms that, when truncated by 1,
+    # could participate in assembly
+    trunc_sources = []  # (word, full_synonym, truncated)
+    for wl, cands in word_pieces.items():
+        for letters, mech in cands:
+            if mech == "trunc_source":
+                truncated = letters[:-1]
+                if len(truncated) >= 3:
+                    trunc_sources.append((wl, letters, truncated))
+
+    # For each truncation source, collect pieces from other words and try assembly
+    for trunc_word, full_syn, truncated in trunc_sources:
+        # Get usable pieces from other words with word-to-piece mapping
+        other_items = []  # (letters, word, mechanism)
+        seen = set()
+        for wl, cands in word_pieces.items():
+            if wl == trunc_word:
+                continue
+            for letters, mech in cands:
+                if mech in ("synonym", "abbreviation", "literal") and letters not in seen:
+                    other_items.append((letters, wl, mech))
+                    seen.add(letters)
+
+        if len(other_items) > 15:
+            other_items.sort(key=lambda x: len(x[0]))
+            other_items = other_items[:15]
+
+        # Try combinations of 2-5 other pieces + truncated
+        for num in range(2, min(6, len(other_items) + 1)):
+            for combo in itertools.combinations(other_items, num):
+                combo_pieces = [letters for letters, _, _ in combo]
+                all_pieces = [truncated] + combo_pieces
+                total = sum(len(p) for p in all_pieces)
+                if total < len(target) or total > len(target) + 3:
+                    continue
+                result = assemble(clue, answer, all_pieces,
+                                  homo_engine=homo_engine, ai_wtype=None)
+                if result:
+                    result["truncated"] = {
+                        "from": full_syn, "to": truncated, "removed": 1
+                    }
+                    result["source"] = "truncation_from_db"
+                    # Build pieces_detail for report
+                    detail = [(trunc_word, truncated, "truncation")]
+                    for letters, word, mech in combo:
+                        detail.append((word, letters, mech))
+                    result["pieces_detail"] = detail
+                    return result, "truncation_db"
+
+    return None
+
+
 # -- Full assembly attempt with fallbacks --------------------------------------
 
 def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, target):
@@ -952,6 +1050,36 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
         if hidden:
             return hidden, "hidden"
 
+    # Progressive truncation: when "short/brief/cut" indicator is present,
+    # try removing 1-2 letters from the end of the longest piece and re-assemble
+    # e.g. SISTER (nurse) → SISTE (short nurse), then container/charade works
+    TRUNC_INDICATORS = {"short", "shortly", "brief", "briefly", "cut",
+                        "curtailed", "clipped", "trimmed", "truncated",
+                        "shortened", "cropped", "docked"}
+    clue_words_lower = {w.lower().strip(".,;:!?\"'()-") for w in clue.split()}
+    has_trunc = bool(clue_words_lower & TRUNC_INDICATORS)
+
+    # First try DB-backed truncation: build pieces from DB lookups with one
+    # synonym truncated by 1. This produces correct pieces even when the AI
+    # returns garbage (e.g. nurse→SIS instead of nurse→SISTER).
+    if not assembly and has_trunc and enricher:
+        result = _try_truncation_from_db(clue, answer, target, enricher, homo_engine)
+        if result:
+            return result
+
+    # Then try truncating AI pieces directly
+    if not assembly and pieces and has_trunc:
+            longest_idx = max(range(len(pieces)), key=lambda i: len(pieces[i]))
+            longest = pieces[longest_idx]
+            if len(longest) >= 4:
+                for trim in range(1, min(3, len(longest) - 2)):
+                    truncated = longest[:-trim]
+                    trial = pieces[:longest_idx] + [truncated] + pieces[longest_idx+1:]
+                    result = assemble(clue, answer, trial, homo_engine=homo_engine, ai_wtype=wtype)
+                    if result:
+                        result["truncated"] = {"from": longest, "to": truncated, "removed": trim}
+                        return result, "truncation"
+
     if not assembly and len(pieces) >= 2:
         for skip in range(len(pieces)):
             subset = pieces[:skip] + pieces[skip+1:]
@@ -959,6 +1087,41 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
             if assembly:
                 assembly["note"] = "dropped piece %d" % skip
                 return assembly, "drop_piece"
+
+    # Also try truncation AFTER dropping pieces
+    # (AI may return extra junk pieces alongside the correct ones)
+    # Loop order: trim=1 across ALL drop combos first, then trim=2.
+    # This prefers minimal truncation (SISTE over SIST).
+    if not assembly and pieces and len(pieces) >= 3 and has_trunc:
+        # Drop 1 piece + truncate
+        for trim in range(1, 3):
+            for skip in range(len(pieces)):
+                subset = pieces[:skip] + pieces[skip+1:]
+                longest_idx = max(range(len(subset)), key=lambda i: len(subset[i]))
+                longest = subset[longest_idx]
+                if len(longest) >= 4 and trim < len(longest) - 1:
+                    truncated = longest[:-trim]
+                    trial = subset[:longest_idx] + [truncated] + subset[longest_idx+1:]
+                    result = assemble(clue, answer, trial, homo_engine=homo_engine, ai_wtype=wtype)
+                    if result:
+                        result["truncated"] = {"from": longest, "to": truncated, "removed": trim}
+                        result["note"] = "dropped piece %d" % skip
+                        return result, "truncation+drop"
+        # Drop 2 pieces + truncate (for clues with extra junk pieces)
+        if len(pieces) >= 5:
+            for trim in range(1, 3):
+                for i in range(len(pieces)):
+                    for j in range(i + 1, len(pieces)):
+                        subset = [p for k, p in enumerate(pieces) if k != i and k != j]
+                        longest_idx = max(range(len(subset)), key=lambda k: len(subset[k]))
+                        longest = subset[longest_idx]
+                        if len(longest) >= 4 and trim < len(longest) - 1:
+                            truncated = longest[:-trim]
+                            trial = subset[:longest_idx] + [truncated] + subset[longest_idx+1:]
+                            result = assemble(clue, answer, trial, homo_engine=homo_engine, ai_wtype=wtype)
+                            if result:
+                                result["truncated"] = {"from": longest, "to": truncated, "removed": trim}
+                                return result, "truncation+drop2"
 
     if not assembly and pieces:
         assembly = try_gap_fill(clue, answer, pieces, enricher, target, ai_wtype=wtype)
@@ -1719,6 +1882,17 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
                 {"clue_word": source_phrase, "letters": target, "mechanism": "hidden"}
             ]
             sonnet_out["wordplay_type"] = "hidden"
+        # When truncation_db built pieces from scratch, override AI pieces
+        elif assembly.get("source") == "truncation_from_db" and assembly.get("pieces_detail"):
+            tier = "Fallback"
+            sonnet_out = sonnet_out or {}
+            sonnet_out["pieces"] = [
+                {"clue_word": w, "letters": yld, "mechanism": mech}
+                for w, yld, mech in assembly["pieces_detail"]
+            ]
+            asm_type = OP_TO_TYPE.get(asm_op, "")
+            if asm_type:
+                sonnet_out["wordplay_type"] = asm_type
         # When assembler dropped a piece, remove it from AI pieces so scoring
         # and report reflect only the pieces actually used
         elif assembly.get("note", "").startswith("dropped piece") and sonnet_out:
@@ -1739,6 +1913,7 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
                         p["letters"] = rev_to
                         new_pieces.append(p)
                 sonnet_out["pieces"] = new_pieces
+
     else:
         assembly = enrichment_fallback(clue_text, answer, enricher, target,
                                        definition=sonnet_def)
