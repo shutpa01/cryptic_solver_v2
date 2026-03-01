@@ -715,6 +715,28 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
                 result["source"] = "enrichment_fallback"
                 result["pieces_detail"] = [(w, yld, mech) for w, yld, mech in combo]
                 return result
+
+    # Try substitution: gather ALL synonyms close to answer length from every
+    # clue word (not just the filtered candidates — substitution bases like SAVE
+    # won't be substrings of the answer SANE)
+    sub_cands = []
+    for w in words:
+        w_lower = w.lower().strip(".,;:!?\"'()-")
+        if not w_lower or len(w_lower) < 2:
+            continue
+        if definition and w_lower in definition.lower().split():
+            continue
+        syns = enricher.lookup_synonyms(w_lower, max_results=30,
+                                        max_len=len(target) + 2, answer=answer)
+        for s in syns:
+            if len(s) >= 3 and abs(len(s) - len(target)) <= 2:
+                sub_cands.append(s)
+    for s in sub_cands:
+        result = try_substitution([s], target, clue_text, enricher)
+        if result:
+            result["source"] = "enrichment_fallback"
+            return result
+
     return None
 
 
@@ -1050,6 +1072,18 @@ def try_substitution(pieces, target, clue_text, enricher):
                 for add_str, add_words in all_yields.items():
                     if len(add_str) != needed:
                         continue
+                    # Try inserting at the deletion position (true substitution)
+                    substituted = piece[:idx] + add_str + piece[idx + len(del_piece):]
+                    trial_sub = [substituted] + other
+                    if "".join(trial_sub) == target:
+                        return {
+                            "op": "substitution",
+                            "from": piece, "deleted": del_piece,
+                            "added": add_str, "add_word": add_words[0],
+                            "gives": substituted,
+                            "order": trial_sub,
+                        }
+                    # Also try as separate charade pieces
                     trial = [shortened] + other + [add_str]
                     if len(trial) > 6:
                         continue
@@ -1090,6 +1124,19 @@ def try_substitution(pieces, target, clue_text, enricher):
                         continue
                     if add_words[0] == del_words[0]:
                         continue
+                    # Try inserting at the deletion position (true substitution)
+                    substituted = piece[:idx] + add_str + piece[idx + len(del_str):]
+                    trial_sub = [substituted] + remaining
+                    if "".join(trial_sub) == target:
+                        return {
+                            "op": "substitution",
+                            "from": piece, "deleted": del_str,
+                            "del_word": del_words[0],
+                            "added": add_str, "add_word": add_words[0],
+                            "gives": substituted,
+                            "order": trial_sub,
+                        }
+                    # Also try as separate charade pieces
                     trial = [shortened] + remaining + [add_str]
                     if len(trial) > 6:
                         continue
@@ -1354,6 +1401,21 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     else:
         checks["wordplay_type"] = "unknown"
 
+    # Penalty: assembler type doesn't match AI type
+    if ai_type and asm_type and ai_type != asm_type:
+        # Some types are compatible (e.g. reversal_container matches both)
+        compatible = {
+            "reversal_container": {"container", "reversal"},
+            "container_reversal": {"container", "reversal"},
+            "charade+anagram": {"charade", "anagram"},
+            "anagram+charade": {"charade", "anagram"},
+            "deletion+anagram": {"deletion", "anagram"},
+        }
+        compat_set = compatible.get(asm_type, set())
+        if ai_type not in compat_set:
+            checks["type_mismatch"] = "AI=%s, assembled=%s" % (ai_type, asm_type)
+            score -= 10
+
     # Penalty: anagram fallback used despite AI suggesting a different type
     if assembly.get("anagram_fallback"):
         checks["anagram_fallback"] = "AI suggested %s, fell back to anagram" % ai_type
@@ -1455,6 +1517,15 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         score += 10
     else:
         checks["fodder_in_clue"] = "missing: %s" % fodder_issues
+
+    # --- Penalty: gap fill or brute gap (unexplained letters) ---
+    gap_fill = assembly.get("gap_fill", [])
+    brute_gap = assembly.get("brute_gap", "")
+    unexplained = len(gap_fill) + len(clean(brute_gap or ""))
+    if unexplained:
+        penalty = min(unexplained * 10, 25)
+        checks["gap_fill"] = "%d unexplained letter(s)" % unexplained
+        score -= penalty
 
     # Final confidence bands
     if score >= 70:
