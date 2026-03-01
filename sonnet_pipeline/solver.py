@@ -555,7 +555,10 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
         w_clean = clean(w)
         if w_clean and len(w_clean) >= 1:
             cands.append((w_clean, "literal"))
-        syns = enricher.lookup_synonyms(w_lower, max_results=30, max_len=len(answer_clean), answer=answer)
+        # Allow slightly longer synonyms when deletion indicator present
+        # (e.g. ADDER=5 for EDDA=4: ADDER - R = ADDE → anagram = EDDA)
+        syn_max_len = len(answer_clean) + 2 if has_deletion_indicator else len(answer_clean)
+        syns = enricher.lookup_synonyms(w_lower, max_results=30, max_len=syn_max_len, answer=answer)
         for s in syns:
             if s in answer_clean and len(s) >= 2:
                 cands.append((s, "synonym"))
@@ -575,6 +578,15 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
                             reduced = s.replace(a, "", 1)
                             if len(reduced) >= 2 and reduced in answer_clean:
                                 cands.append((reduced, "deletion"))
+                # Try removing any single letter from slightly longer synonyms
+                # and check if the result is an anagram of the answer
+                # (e.g. ADDER-R=ADDE→EDDA, ALIAS-I=ALAS)
+                if len(s) == len(answer_clean) + 1:
+                    for di in range(len(s)):
+                        reduced = s[:di] + s[di+1:]
+                        if sorted(reduced) == sorted(answer_clean):
+                            cands.append((reduced, "deletion"))
+                            break
         # For deletion clues, scan ALL synonyms (bypassing max_results/max_len)
         # for cases where synonym minus abbreviation = answer
         if has_deletion_indicator:
@@ -598,6 +610,18 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
                                     "source_syn": s, "deleted": a,
                                     "deleted_word": other_w,
                                 }
+                # Also try removing any single letter to get the answer directly
+                # (e.g. ALIAS - I = ALAS, where I isn't an abbreviation of another word)
+                if len(s) == len(answer_clean) + 1:
+                    for di in range(len(s)):
+                        reduced = s[:di] + s[di+1:]
+                        if reduced == answer_clean:
+                            cands.append((reduced, "deletion"))
+                            _deletion_meta[(w_lower, reduced)] = {
+                                "source_syn": s, "deleted": s[di],
+                                "deleted_word": "(single letter)",
+                            }
+                            break
         abbrevs = enricher.lookup_abbreviations(w_lower)
         for a in abbrevs:
             a_clean = clean(a)
@@ -645,6 +669,16 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
         def_words = set(definition.lower().split())
         all_cands = [(w, yld, mech) for w, yld, mech in all_cands
                      if w not in def_words]
+
+    # Special case: single candidate that assembles to the answer
+    # (deletion to exact match, or deletion to anagram/reversal)
+    for w, yld, mech in all_cands:
+        if len(yld) == len(target) and yld != target:
+            result = assemble(clue_text, answer, [yld])
+            if result:
+                result["source"] = "enrichment_fallback"
+                result["pieces_detail"] = [(w, yld, mech)]
+                return result
 
     # Special case: deletion candidate that equals the full answer
     for w, yld, mech in all_cands:
