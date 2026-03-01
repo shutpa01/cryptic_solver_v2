@@ -41,7 +41,7 @@ OUTPUT_DIR = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents"
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "times"            # telegraph, guardian, times, independentclaude
-PUZZLE_NUMBER = "29477"             # puzzle number to solve
+PUZZLE_NUMBER = "29476"             # puzzle number to solve
 WRITE_DB = True                # write results to clues_master.db
 FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
 SINGLE_CLUE_MATCH = ""
@@ -192,6 +192,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         else:
             print("   Confidence: NONE (0/100)")
             print("   Status: FAILED")
+            if write_db:
+                conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
         if explanation:
             print("   Human:  %s" % explanation[:90])
 
@@ -301,8 +303,9 @@ def main():
                         help="Fresh API calls for all clues (ignore cached results)")
     args = parser.parse_args()
 
-    # Single-clue mode: find the clue in the DB and override puzzle selection
-    if args.single_clue:
+    # Single-clue mode: if puzzle provided, just filter within it;
+    # if no puzzle, search the whole DB to find it
+    if args.single_clue and not args.puzzles:
         conn = sqlite3.connect(CLUES_DB)
         match = conn.execute(
             "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
