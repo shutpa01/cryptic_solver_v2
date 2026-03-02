@@ -214,6 +214,204 @@ def _describe_assembly(asm, ai_pieces=None):
     return None
 
 
+def _actionable_quality(results):
+    """Generate the actionable quality report lines from results."""
+    lines = []
+    lines.append("")
+    lines.append("=" * 80)
+    lines.append("ACTIONABLE QUALITY REPORT")
+    lines.append("=" * 80)
+
+    assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
+    issue_clues = set()
+
+    # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
+    db_gaps = []
+    for r in assembled_results:
+        ai = r.get("ai_output") or {}
+        pieces = ai.get("pieces", [])
+        answer = r.get("answer", "?")
+        answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
+        for p in pieces:
+            mech = p.get("mechanism", "")
+            clue_word = (p.get("clue_word") or "").strip()
+            letters = (p.get("letters") or "").strip().upper()
+            letters_clean = re.sub(r"[^A-Z]", "", letters)
+            if not clue_word or not letters_clean:
+                continue
+            if mech in ("literal", "anagram_fodder", "first_letter", "last_letter",
+                        "hidden", "sound_of", "alternate_letters", "core_letters"):
+                continue
+            if letters_clean == answer_clean:
+                continue
+            if letters_clean not in answer_clean:
+                continue
+            clue_lower = clue_word.lower().strip(".,;:!?\"'()-")
+            enrichment = r.get("enrichment", "")
+            check_words = [clue_lower]
+            if " " in clue_lower:
+                check_words.extend(clue_lower.split())
+
+            if mech == "synonym":
+                word_found = False
+                for cw in check_words:
+                    for eline in enrichment.split("\n"):
+                        eline_lower = eline.strip().lower()
+                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
+                            if "syn=" in eline_lower:
+                                if letters_clean.lower() in eline_lower:
+                                    word_found = True
+                            break
+                    if word_found:
+                        break
+                if not word_found:
+                    db_gaps.append({
+                        "answer": answer, "clue_word": clue_word,
+                        "letters": letters_clean, "table": "synonyms_pairs",
+                        "clue_number": r["clue_number"],
+                    })
+                    issue_clues.add(r["clue_number"])
+            elif mech == "abbreviation":
+                word_found = False
+                for cw in check_words:
+                    for eline in enrichment.split("\n"):
+                        eline_lower = eline.strip().lower()
+                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
+                            if "abbr=" in eline_lower:
+                                if letters_clean.lower() in eline_lower:
+                                    word_found = True
+                            break
+                    if word_found:
+                        break
+                if not word_found:
+                    db_gaps.append({
+                        "answer": answer, "clue_word": clue_word,
+                        "letters": letters_clean,
+                        "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
+                        "clue_number": r["clue_number"],
+                    })
+                    issue_clues.add(r["clue_number"])
+
+    if db_gaps:
+        lines.append("")
+        lines.append("DB GAPS — add these to improve future solves (%d entries)" % len(db_gaps))
+        lines.append("-" * 60)
+        for g in db_gaps:
+            lines.append("  %s: %s -> %s  (missing from %s)" % (
+                g["answer"], g["clue_word"], g["letters"], g["table"]))
+    else:
+        lines.append("")
+        lines.append("DB GAPS: none detected")
+
+    # --- TYPE MISMATCHES ---
+    mismatches = [r for r in assembled_results
+                  if r.get("checks", {}).get("type_mismatch")]
+    if mismatches:
+        lines.append("")
+        lines.append("TYPE MISMATCHES — AI and assembler disagree (%d)" % len(mismatches))
+        lines.append("-" * 60)
+        for r in mismatches:
+            lines.append("  %s = %s: %s" % (
+                r["answer"], r["clue_number"], r["checks"]["type_mismatch"]))
+            issue_clues.add(r["clue_number"])
+    else:
+        lines.append("")
+        lines.append("TYPE MISMATCHES: none")
+
+    # --- ANAGRAM FALLBACKS ---
+    anagram_fbs = [r for r in assembled_results
+                   if r.get("checks", {}).get("anagram_fallback")]
+    if anagram_fbs:
+        lines.append("")
+        lines.append("ANAGRAM FALLBACKS — likely wrong mechanism (%d)" % len(anagram_fbs))
+        lines.append("-" * 60)
+        for r in anagram_fbs:
+            lines.append("  %s = %s: %s" % (
+                r["answer"], r["clue_number"], r["checks"]["anagram_fallback"]))
+            issue_clues.add(r["clue_number"])
+    else:
+        lines.append("")
+        lines.append("ANAGRAM FALLBACKS: none")
+
+    # --- FABRICATED MAPPINGS ---
+    fabricated = []
+    for r in assembled_results:
+        asm = r.get("assembly") or {}
+        issues = []
+        if asm.get("gap_fill"):
+            for word, yld, mech in asm["gap_fill"]:
+                issues.append("%s <- \"%s\" (%s)" % (yld, word, mech))
+        if asm.get("brute_gap"):
+            issues.append("%s <- brute force (no clue basis)" % asm["brute_gap"])
+        if issues:
+            fabricated.append({
+                "answer": r["answer"], "clue_number": r["clue_number"],
+                "score": r.get("score", 0), "issues": issues,
+            })
+            issue_clues.add(r["clue_number"])
+
+    if fabricated:
+        lines.append("")
+        lines.append("FABRICATED MAPPINGS — assembler invented these (%d clues)" % len(fabricated))
+        lines.append("-" * 60)
+        for f in fabricated:
+            lines.append("  %s (%d/100): %s" % (
+                f["answer"], f["score"], "; ".join(f["issues"])))
+    else:
+        lines.append("")
+        lines.append("FABRICATED MAPPINGS: none")
+
+    # --- ENRICHMENT FALLBACK ---
+    efb = [r for r in assembled_results
+           if (r.get("assembly") or {}).get("source") == "enrichment_fallback"]
+    if efb:
+        lines.append("")
+        lines.append("ENRICHMENT FALLBACK — DB-driven, no AI reasoning (%d)" % len(efb))
+        lines.append("-" * 60)
+        for r in efb:
+            lines.append("  %s = %s (%d/100)" % (
+                r["answer"], r["clue_number"], r.get("score", 0)))
+            issue_clues.add(r["clue_number"])
+
+    # --- WEAK DEFINITIONS ---
+    weak_defs = [r for r in assembled_results
+                 if r.get("checks", {}).get("definition") in (
+                     "not in DB, odd position", "none identified")]
+    if weak_defs:
+        lines.append("")
+        lines.append("WEAK DEFINITIONS — not confirmed in DB (%d)" % len(weak_defs))
+        lines.append("-" * 60)
+        for r in weak_defs:
+            ai_def = (r.get("ai_output") or {}).get("definition", "?")
+            lines.append("  %s = %s: def=\"%s\" (%s)" % (
+                r["answer"], r["clue_number"], ai_def, r["checks"]["definition"]))
+            issue_clues.add(r["clue_number"])
+
+    # --- FAILED CLUES ---
+    failed = [r for r in results if r.get("status") in ("FAILED", "error")]
+    if failed:
+        lines.append("")
+        lines.append("FAILED TO ASSEMBLE (%d)" % len(failed))
+        lines.append("-" * 60)
+        for r in failed:
+            lines.append("  %s. %s = %s" % (
+                r["clue_number"], r.get("clue", "")[:60], r["answer"]))
+            issue_clues.add(r["clue_number"])
+
+    # --- CLEAN COUNT ---
+    clean_count = len([r for r in assembled_results
+                       if r["clue_number"] not in issue_clues])
+    total = len(results)
+    lines.append("")
+    lines.append("-" * 60)
+    lines.append("CLEAN: %d/%d clues fully validated (no issues detected)" % (
+        clean_count, total))
+    if issue_clues:
+        lines.append("ISSUES: %d/%d clues need attention" % (len(issue_clues), total))
+
+    return lines
+
+
 def generate_report(results, source, puzzle, stats):
     """Generate a formatted puzzle quality report."""
     lines = []
@@ -262,6 +460,11 @@ def generate_report(results, source, puzzle, stats):
     lines.append("  Average:      %.0f/100" % stats["avg_score"])
     lines.append("")
     lines.append("COST: $%.4f (Sonnet)" % stats["total_cost"])
+
+    # ================================================================
+    # ACTIONABLE QUALITY REPORT (at top for quick scanning)
+    # ================================================================
+    lines.extend(_actionable_quality(results))
 
     # Quick-reference table
     lines.append("")
@@ -408,219 +611,6 @@ def generate_report(results, source, puzzle, stats):
             lines.append("  Human explanation: %s" % explanation[:200])
 
         lines.append("  " + "-" * 70)
-
-    # ================================================================
-    # ACTIONABLE QUALITY REPORT
-    # ================================================================
-    lines.append("")
-    lines.append("=" * 80)
-    lines.append("ACTIONABLE QUALITY REPORT")
-    lines.append("=" * 80)
-
-    assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
-
-    # --- Count clean clues (no issues) ---
-    clean_count = 0
-    issue_clues = set()
-
-    # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
-    db_gaps = []
-    for r in assembled_results:
-        ai = r.get("ai_output") or {}
-        pieces = ai.get("pieces", [])
-        answer = r.get("answer", "?")
-        answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
-        for p in pieces:
-            mech = p.get("mechanism", "")
-            clue_word = (p.get("clue_word") or "").strip()
-            letters = (p.get("letters") or "").strip().upper()
-            letters_clean = re.sub(r"[^A-Z]", "", letters)
-            if not clue_word or not letters_clean:
-                continue
-            # Skip mechanisms that don't need DB validation
-            if mech in ("literal", "anagram_fodder", "first_letter", "last_letter",
-                        "hidden", "sound_of", "alternate_letters", "core_letters"):
-                continue
-            # Skip if letters IS the full answer (that's the answer itself, not a piece)
-            if letters_clean == answer_clean:
-                continue
-            # Only flag gaps where the letters are a substring of the answer
-            # (otherwise it's likely an AI hallucination, not a real DB gap)
-            if letters_clean not in answer_clean:
-                continue
-            # Check if this piece is validated in DB via enrichment text
-            clue_lower = clue_word.lower().strip(".,;:!?\"'()-")
-            enrichment = r.get("enrichment", "")
-
-            # Build list of word variants to check (full phrase + individual words)
-            check_words = [clue_lower]
-            if " " in clue_lower:
-                check_words.extend(clue_lower.split())
-
-            if mech == "synonym":
-                word_found = False
-                for cw in check_words:
-                    for eline in enrichment.split("\n"):
-                        eline_lower = eline.strip().lower()
-                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
-                            if "syn=" in eline_lower:
-                                if letters_clean.lower() in eline_lower:
-                                    word_found = True
-                            break
-                    if word_found:
-                        break
-                if not word_found:
-                    db_gaps.append({
-                        "answer": answer,
-                        "clue_word": clue_word,
-                        "letters": letters_clean,
-                        "table": "synonyms_pairs",
-                        "clue_number": r["clue_number"],
-                    })
-                    issue_clues.add(r["clue_number"])
-            elif mech == "abbreviation":
-                word_found = False
-                for cw in check_words:
-                    for eline in enrichment.split("\n"):
-                        eline_lower = eline.strip().lower()
-                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
-                            if "abbr=" in eline_lower:
-                                if letters_clean.lower() in eline_lower:
-                                    word_found = True
-                            break
-                    if word_found:
-                        break
-                if not word_found:
-                    db_gaps.append({
-                        "answer": answer,
-                        "clue_word": clue_word,
-                        "letters": letters_clean,
-                        "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
-                        "clue_number": r["clue_number"],
-                    })
-                    issue_clues.add(r["clue_number"])
-
-    if db_gaps:
-        lines.append("")
-        lines.append("DB GAPS — add these to improve future solves (%d entries)" % len(db_gaps))
-        lines.append("-" * 60)
-        for g in db_gaps:
-            lines.append("  %s: %s -> %s  (missing from %s)" % (
-                g["answer"], g["clue_word"], g["letters"], g["table"]))
-    else:
-        lines.append("")
-        lines.append("DB GAPS: none detected")
-
-    # --- TYPE MISMATCHES: AI type != assembler operation ---
-    mismatches = [r for r in assembled_results
-                  if r.get("checks", {}).get("type_mismatch")]
-    if mismatches:
-        lines.append("")
-        lines.append("TYPE MISMATCHES — AI and assembler disagree (%d)" % len(mismatches))
-        lines.append("-" * 60)
-        for r in mismatches:
-            lines.append("  %s = %s: %s" % (
-                r["answer"], r["clue_number"],
-                r["checks"]["type_mismatch"]))
-            issue_clues.add(r["clue_number"])
-    else:
-        lines.append("")
-        lines.append("TYPE MISMATCHES: none")
-
-    # --- ANAGRAM FALLBACKS: assembler fell back to anagram despite AI suggesting different type ---
-    anagram_fbs = [r for r in assembled_results
-                   if r.get("checks", {}).get("anagram_fallback")]
-    if anagram_fbs:
-        lines.append("")
-        lines.append("ANAGRAM FALLBACKS — likely wrong mechanism (%d)" % len(anagram_fbs))
-        lines.append("-" * 60)
-        for r in anagram_fbs:
-            lines.append("  %s = %s: %s" % (
-                r["answer"], r["clue_number"],
-                r["checks"]["anagram_fallback"]))
-            issue_clues.add(r["clue_number"])
-    else:
-        lines.append("")
-        lines.append("ANAGRAM FALLBACKS: none")
-
-    # --- FABRICATED MAPPINGS: gap fill or brute gap (unexplained letters) ---
-    fabricated = []
-    for r in assembled_results:
-        asm = r.get("assembly") or {}
-        issues = []
-        if asm.get("gap_fill"):
-            for word, yld, mech in asm["gap_fill"]:
-                issues.append("%s <- \"%s\" (%s)" % (yld, word, mech))
-        if asm.get("brute_gap"):
-            issues.append("%s <- brute force (no clue basis)" % asm["brute_gap"])
-        if issues:
-            fabricated.append({
-                "answer": r["answer"],
-                "clue_number": r["clue_number"],
-                "score": r.get("score", 0),
-                "issues": issues,
-            })
-            issue_clues.add(r["clue_number"])
-
-    if fabricated:
-        lines.append("")
-        lines.append("FABRICATED MAPPINGS — assembler invented these (%d clues)" % len(fabricated))
-        lines.append("-" * 60)
-        for f in fabricated:
-            lines.append("  %s (%d/100): %s" % (
-                f["answer"], f["score"], "; ".join(f["issues"])))
-    else:
-        lines.append("")
-        lines.append("FABRICATED MAPPINGS: none")
-
-    # --- ENRICHMENT FALLBACK: entire solution built from DB, no AI reasoning ---
-    efb = [r for r in assembled_results
-           if (r.get("assembly") or {}).get("source") == "enrichment_fallback"]
-    if efb:
-        lines.append("")
-        lines.append("ENRICHMENT FALLBACK — DB-driven, no AI reasoning (%d)" % len(efb))
-        lines.append("-" * 60)
-        for r in efb:
-            lines.append("  %s = %s (%d/100)" % (
-                r["answer"], r["clue_number"], r.get("score", 0)))
-            issue_clues.add(r["clue_number"])
-
-    # --- WEAK DEFINITIONS: not confirmed in DB ---
-    weak_defs = [r for r in assembled_results
-                 if r.get("checks", {}).get("definition") in (
-                     "not in DB, odd position", "none identified")]
-    if weak_defs:
-        lines.append("")
-        lines.append("WEAK DEFINITIONS — not confirmed in DB (%d)" % len(weak_defs))
-        lines.append("-" * 60)
-        for r in weak_defs:
-            ai_def = (r.get("ai_output") or {}).get("definition", "?")
-            lines.append("  %s = %s: def=\"%s\" (%s)" % (
-                r["answer"], r["clue_number"], ai_def,
-                r["checks"]["definition"]))
-            issue_clues.add(r["clue_number"])
-
-    # --- FAILED CLUES ---
-    failed = [r for r in results if r.get("status") in ("FAILED", "error")]
-    if failed:
-        lines.append("")
-        lines.append("FAILED TO ASSEMBLE (%d)" % len(failed))
-        lines.append("-" * 60)
-        for r in failed:
-            lines.append("  %s. %s = %s" % (
-                r["clue_number"], r.get("clue", "")[:60], r["answer"]))
-            issue_clues.add(r["clue_number"])
-
-    # --- CLEAN CLUES (no issues) ---
-    clean_count = len([r for r in assembled_results
-                       if r["clue_number"] not in issue_clues])
-    total = len(results)
-    lines.append("")
-    lines.append("-" * 60)
-    lines.append("CLEAN: %d/%d clues fully validated (no issues detected)" % (
-        clean_count, total))
-    if issue_clues:
-        lines.append("ISSUES: %d/%d clues need attention" % (len(issue_clues), total))
 
     lines.append("")
     lines.append("=" * 80)
