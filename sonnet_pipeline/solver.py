@@ -1823,11 +1823,11 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         WHERE id = ? AND (definition IS NULL OR definition = '')
     """, (ai_def, wordplay_types[0], clue_id))
 
-    # Determine solved status: score >= 80
-    is_solved = score >= 80
-
-    if is_solved:
+    # Determine solved status: 1=solved (>=80), 2=partial (<80)
+    if score >= 80:
         conn.execute("UPDATE clues SET has_solution = 1 WHERE id = ?", (clue_id,))
+    else:
+        conn.execute("UPDATE clues SET has_solution = 2 WHERE id = ?", (clue_id,))
 
     def_start = None
     def_end = None

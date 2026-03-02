@@ -131,6 +131,21 @@ class ClueEnricher:
                 self.definitions.add((defn.lower(), answer.upper()))
         print(f"  Loaded {len(self.definitions):,} definition pairs")
 
+    def inject_synonyms(self, pairs):
+        """Add new synonym pairs to in-memory cache without full DB reload.
+
+        pairs: list of (word, letters) tuples — word lowercase, letters uppercase.
+        """
+        for word, letters in pairs:
+            w = word.lower()
+            l = letters.upper()
+            if w in self.synonyms:
+                if l not in self.synonyms[w]:
+                    self.synonyms[w].append(l)
+                    self.synonyms[w].sort(key=lambda s: (len(s), s))
+            else:
+                self.synonyms[w] = [l]
+
     def lookup_synonyms(self, word, max_results=10, max_len=None, answer=None):
         """Look up synonyms for a word from pre-loaded dict.
 

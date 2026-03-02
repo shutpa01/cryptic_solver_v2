@@ -23,7 +23,7 @@ if __name__ == "__main__" and __package__ is None:
 from .enricher import ClueEnricher
 from .solver import (
     HomophoneEngine, build_example_messages, clean,
-    extract_db_gaps, resolve_cross_references, solve_clue, store_result,
+    resolve_cross_references, solve_clue, store_result,
 )
 from .report import generate_report, _describe_assembly
 
@@ -44,34 +44,16 @@ SOURCE = "guardian"            # telegraph, guardian, times, independentclaude
 PUZZLE_NUMBER = "29935"             # puzzle number to solve
 WRITE_DB = False                # write results to clues_master.db
 FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
+PARTIALS = False               # True = re-run partial solves (has_solution=2)
 SINGLE_CLUE_MATCH = ""
 
 
 
 
-def _upsert_synonyms(gaps, source, puzzle):
-    """Insert validated synonym pairs into cryptic_new.db. Returns list of added entries."""
-    conn = sqlite3.connect(CRYPTIC_DB)
-    source_tag = "pipeline_%s_%s" % (source, puzzle)
-    added = []
-    for table, word, letters, answer in gaps:
-        exists = conn.execute(
-            "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
-            (word.lower(), letters.lower())
-        ).fetchone()
-        if not exists:
-            conn.execute(
-                "INSERT INTO synonyms_pairs (word, synonym, source) VALUES (?, ?, ?)",
-                (word.lower(), letters.upper(), source_tag)
-            )
-            added.append((table, word, letters, answer))
-    conn.commit()
-    conn.close()
-    return added
-
 
 def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
-               write_db=False, output_dir=OUTPUT_DIR, single_clue="", force=False):
+               write_db=False, output_dir=OUTPUT_DIR, single_clue="", force=False,
+               partials=False):
     """Run the Sonnet pipeline on a single puzzle. Returns (results, stats)."""
     db_path = CLUES_DB
     conn = sqlite3.connect(db_path)
@@ -110,14 +92,20 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         target = clean(answer)
 
         # Check for existing solved result — skip API call but re-run assembler
+        # has_solution: 1=solved, 2=partial, 0=failed, NULL=untried
+        # Normal run: cache 1+2. Partials mode: cache 1 only (re-run 2s).
         cached_ai = None
         if not force:
+            if partials:
+                cache_sql = "WHERE se.clue_id = ? AND c.has_solution = 1"
+            else:
+                cache_sql = "WHERE se.clue_id = ? AND c.has_solution IN (1, 2)"
             existing = conn.execute("""
                 SELECT se.confidence, se.wordplay_types, se.components, se.definition_text
                 FROM structured_explanations se
                 JOIN clues c ON se.clue_id = c.id
-                WHERE se.clue_id = ? AND c.has_solution = 1
-            """, (cid,)).fetchone()
+                %s
+            """ % cache_sql, (cid,)).fetchone()
             if existing:
                 solved_conf, solved_wptypes, solved_comps, solved_def = existing
                 try:
@@ -297,30 +285,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     else:
         print("\nDry run (no DB writes). Use --write-db to persist results.")
 
-    # Extract and upsert DB gaps
-    db_additions = []
-    db_suggestions = []
-    auto_inserts, suggestions = extract_db_gaps(results, enricher)
-    db_suggestions = suggestions
-    if auto_inserts:
-        if write_db:
-            db_additions = _upsert_synonyms(auto_inserts, source, puzzle)
-            if db_additions:
-                print("\nDB ADDITIONS (%d new synonym pairs):" % len(db_additions))
-                for _, word, letters, answer in db_additions:
-                    print("  %s -> %s  (from %s)" % (word, letters, answer))
-        else:
-            print("\nDB gaps found (%d synonyms) — use --write-db to insert:" % len(auto_inserts))
-            for _, word, letters, answer in auto_inserts:
-                print("  %s -> %s  (from %s)" % (word, letters, answer))
-    if suggestions:
-        print("\nSuggested additions (manual review needed):")
-        for _, word, letters, answer in suggestions:
-            print("  wordplay: %s -> %s  (from %s)" % (word, letters, answer))
-
-    # Generate report
-    report = generate_report(results, source, puzzle, stats,
-                             db_additions=db_additions, db_suggestions=db_suggestions)
+    # Generate report (DB gaps shown in the actionable quality section)
+    report = generate_report(results, source, puzzle, stats)
     report_path = "%s/puzzle_report_%s_%s.txt" % (output_dir, source, puzzle)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report)
@@ -345,6 +311,8 @@ def main():
                         help="Filter to single clue matching this text (overrides puzzle selection)")
     parser.add_argument("--force", action="store_true", default=FORCE_API,
                         help="Fresh API calls for all clues (ignore cached results)")
+    parser.add_argument("--partials", action="store_true", default=PARTIALS,
+                        help="Re-run partial solves (has_solution=2) with fresh API calls")
     args = parser.parse_args()
 
     # Single-clue mode: if puzzle provided, just filter within it;
@@ -380,6 +348,7 @@ def main():
             args.source, puzzle, enricher, homo_engine, example_messages,
             write_db=args.write_db, output_dir=args.output_dir,
             single_clue=args.single_clue, force=args.force,
+            partials=args.partials,
         )
         if stats:
             all_stats.append((puzzle, stats))

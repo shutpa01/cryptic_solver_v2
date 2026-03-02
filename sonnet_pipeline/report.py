@@ -214,26 +214,9 @@ def _describe_assembly(asm, ai_pieces=None):
     return None
 
 
-def _actionable_quality(results, db_additions=None, db_suggestions=None):
+def _actionable_quality(results):
     """Generate the actionable quality report lines from results."""
     lines = []
-
-    # --- DB ADDITIONS (inserted this run) ---
-    if db_additions:
-        lines.append("")
-        lines.append("=" * 80)
-        lines.append("DB ADDITIONS (%d new synonym pairs inserted)" % len(db_additions))
-        lines.append("=" * 80)
-        for _, word, letters, answer in db_additions:
-            lines.append("  synonyms_pairs: %s -> %s  (from %s)" % (word, letters, answer))
-
-    # --- DB SUGGESTIONS (need manual review) ---
-    if db_suggestions:
-        lines.append("")
-        lines.append("SUGGESTED ADDITIONS (manual review needed)")
-        lines.append("-" * 60)
-        for _, word, letters, answer in db_suggestions:
-            lines.append("  wordplay: %s -> %s  (from %s)" % (word, letters, answer))
 
     lines.append("")
     lines.append("=" * 80)
@@ -457,7 +440,7 @@ def _actionable_quality(results, db_additions=None, db_suggestions=None):
     return lines
 
 
-def generate_report(results, source, puzzle, stats, db_additions=None, db_suggestions=None):
+def generate_report(results, source, puzzle, stats):
     """Generate a formatted puzzle quality report."""
     lines = []
 
@@ -509,7 +492,7 @@ def generate_report(results, source, puzzle, stats, db_additions=None, db_sugges
     # ================================================================
     # ACTIONABLE QUALITY REPORT (at top for quick scanning)
     # ================================================================
-    lines.extend(_actionable_quality(results, db_additions, db_suggestions))
+    lines.extend(_actionable_quality(results))
 
     # Quick-reference table
     lines.append("")
