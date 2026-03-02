@@ -23,7 +23,7 @@ if __name__ == "__main__" and __package__ is None:
 from .enricher import ClueEnricher
 from .solver import (
     HomophoneEngine, build_example_messages, clean,
-    resolve_cross_references, solve_clue, store_result,
+    extract_db_gaps, resolve_cross_references, solve_clue, store_result,
 )
 from .report import generate_report, _describe_assembly
 
@@ -47,6 +47,27 @@ FORCE_API = False              # True = fresh API calls for all clues (ignore ca
 SINGLE_CLUE_MATCH = ""
 
 
+
+
+def _upsert_synonyms(gaps, source, puzzle):
+    """Insert validated synonym pairs into cryptic_new.db. Returns list of added entries."""
+    conn = sqlite3.connect(CRYPTIC_DB)
+    source_tag = "pipeline_%s_%s" % (source, puzzle)
+    added = []
+    for table, word, letters, answer in gaps:
+        exists = conn.execute(
+            "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
+            (word.lower(), letters.lower())
+        ).fetchone()
+        if not exists:
+            conn.execute(
+                "INSERT INTO synonyms_pairs (word, synonym, source) VALUES (?, ?, ?)",
+                (word.lower(), letters.upper(), source_tag)
+            )
+            added.append((table, word, letters, answer))
+    conn.commit()
+    conn.close()
+    return added
 
 
 def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
@@ -276,8 +297,30 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     else:
         print("\nDry run (no DB writes). Use --write-db to persist results.")
 
+    # Extract and upsert DB gaps
+    db_additions = []
+    db_suggestions = []
+    auto_inserts, suggestions = extract_db_gaps(results, enricher)
+    db_suggestions = suggestions
+    if auto_inserts:
+        if write_db:
+            db_additions = _upsert_synonyms(auto_inserts, source, puzzle)
+            if db_additions:
+                print("\nDB ADDITIONS (%d new synonym pairs):" % len(db_additions))
+                for _, word, letters, answer in db_additions:
+                    print("  %s -> %s  (from %s)" % (word, letters, answer))
+        else:
+            print("\nDB gaps found (%d synonyms) — use --write-db to insert:" % len(auto_inserts))
+            for _, word, letters, answer in auto_inserts:
+                print("  %s -> %s  (from %s)" % (word, letters, answer))
+    if suggestions:
+        print("\nSuggested additions (manual review needed):")
+        for _, word, letters, answer in suggestions:
+            print("  wordplay: %s -> %s  (from %s)" % (word, letters, answer))
+
     # Generate report
-    report = generate_report(results, source, puzzle, stats)
+    report = generate_report(results, source, puzzle, stats,
+                             db_additions=db_additions, db_suggestions=db_suggestions)
     report_path = "%s/puzzle_report_%s_%s.txt" % (output_dir, source, puzzle)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report)

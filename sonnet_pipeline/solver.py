@@ -1704,6 +1704,65 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     return {"confidence": confidence, "score": score, "checks": checks}
 
 
+# -- DB gap extraction ---------------------------------------------------------
+
+def extract_db_gaps(results, enricher):
+    """Extract DB gaps from high-confidence results.
+
+    Returns (auto_inserts, suggestions):
+      auto_inserts: synonyms_pairs entries safe to insert automatically
+        - synonyms only, min 3 letters each side, high confidence, no type mismatch
+      suggestions: abbreviation/wordplay entries for user review (not auto-inserted)
+    """
+    auto_inserts = []
+    suggestions = []
+    for r in results:
+        if r.get("status") != "ASSEMBLED":
+            continue
+        if r.get("score", 0) < 80:
+            continue
+        if r.get("checks", {}).get("type_mismatch"):
+            continue
+
+        ai = r.get("ai_output") or {}
+        answer_clean = clean(r.get("answer", ""))
+
+        for p in ai.get("pieces", []):
+            mech = p.get("mechanism", "")
+            clue_word = (p.get("clue_word") or "").strip()
+            letters = clean(p.get("letters") or "")
+
+            if not clue_word or not letters:
+                continue
+            if mech not in ("synonym", "abbreviation"):
+                continue
+            if letters == answer_clean:
+                continue
+            if letters not in answer_clean:
+                continue
+            if " " in clue_word.strip():
+                continue
+
+            clue_lower = clue_word.lower().strip(".,;:!?\"'()-")
+            if not clue_lower:
+                continue
+
+            if mech == "synonym":
+                if len(clue_lower) < 3 or len(letters) < 3:
+                    continue
+                existing = enricher.lookup_synonyms(clue_lower, max_results=200)
+                if letters in existing:
+                    continue
+                auto_inserts.append(("synonyms_pairs", clue_lower, letters, r["answer"]))
+            elif mech == "abbreviation":
+                existing = enricher.lookup_abbreviations(clue_lower)
+                if letters in [clean(a) for a in existing]:
+                    continue
+                suggestions.append(("wordplay", clue_lower, letters, r["answer"]))
+
+    return list(set(auto_inserts)), list(set(suggestions))
+
+
 # -- DB writer -----------------------------------------------------------------
 
 def store_result(conn, clue_id, ai_output, assembly, validation, tier):
