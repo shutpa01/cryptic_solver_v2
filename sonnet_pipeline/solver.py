@@ -756,11 +756,11 @@ Your job: select the right synonym or abbreviation for each wordplay word from t
 
 Output JSON with:
 - "definition": the exact substring of the clue that defines the answer (always at the start or end of the clue)
-- "wordplay_type": charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic
+- "wordplay_type": charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism
 - "pieces": array of objects, each with:
   - "clue_word": the word(s) from the clue
   - "letters": the uppercase letters this produces (MUST come from a DB lookup syn/abbr, or be the literal letters of the clue word for anagram fodder)
-  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters
+  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters, deletion, hidden
 
 Rules:
 - SELECT synonyms and abbreviations from the DB lookups. Do not invent synonyms not listed.
@@ -771,8 +771,10 @@ Rules:
 - Definition is always at the start or end of the clue, never in the middle.
 - For containers: show the outer piece and inner piece separately. The inner goes inside the outer.
 - For anagrams: pieces are the raw fodder letters before rearrangement.
-- For hidden words: the answer is a substring spanning across consecutive clue words. No pieces needed.
+- For hidden words: the answer appears as a literal substring spanning consecutive clue words. Look at the actual letters. "Some", "in part", "partly" are common indicators.
+- For hidden reversed: the substring is reversed. "Brought back in/through" signals this.
 - For double definitions: two separate definitions, no pieces.
+- For spoonerisms: "Spooner's" signals swapping initial consonants of two words.
 
 Return ONLY valid JSON."""
 
@@ -873,6 +875,7 @@ def call_api(model, clue_text, answer, enrichment, example_messages, extra_conte
     response = client.messages.create(
         model=model,
         max_tokens=400,
+        temperature=0,
         system=SYSTEM_PROMPT,
         messages=messages,
     )
