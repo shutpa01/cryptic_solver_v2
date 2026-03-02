@@ -317,9 +317,10 @@ def _actionable_quality(results):
                     })
                     db_gap_clues.add(r["clue_number"])
 
-    # Also detect missing definition pairs
+    # Also detect missing definition pairs (include failed clues — Sonnet
+    # often identifies the definition even when assembly fails)
     def_gaps = []
-    for r in assembled_results:
+    for r in results:
         checks = r.get("checks", {})
         def_check = checks.get("definition", "")
         if "confirmed in DB" in def_check:
