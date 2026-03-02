@@ -215,8 +215,13 @@ def _describe_assembly(asm, ai_pieces=None):
 
 
 def _actionable_quality(results):
-    """Generate the actionable quality report lines from results."""
+    """Generate the actionable quality report lines and structured gaps from results.
+
+    Returns (lines, all_gaps) where all_gaps is a list of dicts suitable for
+    JSON export and interactive review.
+    """
     lines = []
+    all_gaps = []
 
     lines.append("")
     lines.append("=" * 80)
@@ -283,6 +288,9 @@ def _actionable_quality(results):
                         "answer": answer, "clue_word": clue_word,
                         "letters": letters_clean, "table": "synonyms_pairs",
                         "clue_number": r["clue_number"],
+                        "clue": r.get("clue", ""),
+                        "direction": r.get("direction", ""),
+                        "score": r.get("score", 0),
                     })
                     db_gap_clues.add(r["clue_number"])
             elif mech == "abbreviation":
@@ -303,6 +311,9 @@ def _actionable_quality(results):
                         "letters": letters_clean,
                         "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
                         "clue_number": r["clue_number"],
+                        "clue": r.get("clue", ""),
+                        "direction": r.get("direction", ""),
+                        "score": r.get("score", 0),
                     })
                     db_gap_clues.add(r["clue_number"])
 
@@ -321,6 +332,9 @@ def _actionable_quality(results):
         def_gaps.append({
             "answer": answer, "definition": ai_def,
             "clue_number": r["clue_number"],
+            "clue": r.get("clue", ""),
+            "direction": r.get("direction", ""),
+            "score": r.get("score", 0),
         })
         db_gap_clues.add(r["clue_number"])
 
@@ -459,7 +473,33 @@ def _actionable_quality(results):
     if not problem_total:
         lines.append("  No issues detected.")
 
-    return lines
+    # Build structured gaps list for JSON export
+    for g in def_gaps:
+        all_gaps.append({
+            "type": "definition",
+            "table": "definition_answers_augmented",
+            "definition": g["definition"],
+            "answer": g["answer"],
+            "clue_number": str(g["clue_number"]),
+            "direction": g.get("direction", ""),
+            "clue": g.get("clue", ""),
+            "score": g.get("score", 0),
+        })
+    for g in db_gaps:
+        gap_type = "abbreviation" if g["table"] == "abbreviations" else "synonym"
+        all_gaps.append({
+            "type": gap_type,
+            "table": g["table"],
+            "word": g["clue_word"],
+            "letters": g["letters"],
+            "answer": g["answer"],
+            "clue_number": str(g["clue_number"]),
+            "direction": g.get("direction", ""),
+            "clue": g.get("clue", ""),
+            "score": g.get("score", 0),
+        })
+
+    return lines, all_gaps
 
 
 def generate_report(results, source, puzzle, stats):
@@ -514,7 +554,8 @@ def generate_report(results, source, puzzle, stats):
     # ================================================================
     # ACTIONABLE QUALITY REPORT (at top for quick scanning)
     # ================================================================
-    lines.extend(_actionable_quality(results))
+    quality_lines, gaps = _actionable_quality(results)
+    lines.extend(quality_lines)
 
     # Quick-reference table
     lines.append("")
@@ -667,4 +708,4 @@ def generate_report(results, source, puzzle, stats):
     lines.append("END OF REPORT")
     lines.append("=" * 80)
 
-    return "\n".join(lines)
+    return "\n".join(lines), gaps

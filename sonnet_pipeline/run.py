@@ -286,11 +286,17 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("\nDry run (no DB writes). Use --write-db to persist results.")
 
     # Generate report (DB gaps shown in the actionable quality section)
-    report = generate_report(results, source, puzzle, stats)
+    report, gaps = generate_report(results, source, puzzle, stats)
     report_path = "%s/puzzle_report_%s_%s.txt" % (output_dir, source, puzzle)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report)
     print("\nReport saved to %s" % report_path)
+
+    if gaps:
+        gaps_path = "%s/pending_gaps_%s_%s.json" % (output_dir, source, puzzle)
+        with open(gaps_path, "w", encoding="utf-8") as f:
+            json.dump(gaps, f, indent=2, ensure_ascii=False)
+        print("Pending DB gaps saved to %s (%d entries)" % (gaps_path, len(gaps)))
 
     return results, stats
 
