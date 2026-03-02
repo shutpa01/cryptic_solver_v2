@@ -9,6 +9,7 @@ import glob
 import json
 import os
 import sqlite3
+import subprocess
 import sys
 
 CRYPTIC_DB = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db"
@@ -118,16 +119,38 @@ def main():
         sys.exit(1)
 
     with open(gaps_path, "r", encoding="utf-8") as f:
-        gaps = json.load(f)
+        raw = json.load(f)
+
+    # Support both old format (plain list) and new format (dict with metadata)
+    if isinstance(raw, dict):
+        gaps = raw.get("gaps", [])
+        source = raw.get("source", "")
+        puzzle = raw.get("puzzle", "")
+        stats = raw.get("stats", {})
+    else:
+        gaps = raw
+        source = ""
+        puzzle = ""
+        stats = {}
 
     if not gaps:
         print("No gaps in %s" % gaps_path)
         os.remove(gaps_path)
         sys.exit(0)
 
+    # Header with puzzle summary
     print("=" * 70)
     print("DB GAP REVIEW: %s" % os.path.basename(gaps_path))
-    print("  %d entries to review" % len(gaps))
+    if source and puzzle:
+        print("  Puzzle: %s #%s" % (source, puzzle))
+    if stats:
+        total = stats.get("total", 0)
+        print("  Results: %d/%d assembled (avg %.0f/100)" % (
+            stats.get("assembled", 0), total, stats.get("avg_score", 0)))
+        print("  High: %d | Medium: %d | Low: %d | Failed: %d" % (
+            stats.get("high", 0), stats.get("medium", 0),
+            stats.get("low", 0), stats.get("failed", 0)))
+    print("  Gaps to review: %d" % len(gaps))
     print("  Target DB: %s" % CRYPTIC_DB)
     print("=" * 70)
     print()
@@ -197,6 +220,32 @@ def main():
             print("\nCould not delete %s: %s" % (gaps_path, e))
     else:
         print("\nFile kept (review incomplete): %s" % gaps_path)
+
+    # Offer to re-run the pipeline on partials + failed
+    failed_count = stats.get("failed", 0)
+    medium_count = stats.get("medium", 0)
+    low_count = stats.get("low", 0)
+    rerun_worthy = failed_count + medium_count + low_count
+    if source and puzzle and (approved > 0 or rerun_worthy > 0):
+        print()
+        if approved > 0:
+            print("You approved %d DB entries — re-running may improve results." % approved)
+        if rerun_worthy > 0:
+            print("Puzzle has %d failed + %d medium + %d low clues." % (
+                failed_count, medium_count, low_count))
+        try:
+            choice = input("\nRe-run pipeline on partials & failed? [y/n] > ").strip().lower()
+        except EOFError:
+            choice = "n"
+        if choice in ("y", "yes"):
+            cmd = [
+                sys.executable, "-m", "sonnet_pipeline.run",
+                puzzle, "--source", source,
+                "--write-db", "--partials",
+            ]
+            print("\nRunning: %s" % " ".join(cmd))
+            print("=" * 70)
+            subprocess.run(cmd)
 
 
 if __name__ == "__main__":

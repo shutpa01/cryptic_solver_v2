@@ -294,8 +294,22 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
     if gaps:
         gaps_path = "%s/pending_gaps_%s_%s.json" % (output_dir, source, puzzle)
+        gaps_data = {
+            "source": source,
+            "puzzle": puzzle,
+            "stats": {
+                "total": stats["total"],
+                "assembled": stats["assembled"],
+                "high": stats["high"],
+                "medium": stats["medium"],
+                "low": stats["low"],
+                "failed": stats["failed"],
+                "avg_score": stats["avg_score"],
+            },
+            "gaps": gaps,
+        }
         with open(gaps_path, "w", encoding="utf-8") as f:
-            json.dump(gaps, f, indent=2, ensure_ascii=False)
+            json.dump(gaps_data, f, indent=2, ensure_ascii=False)
         print("Pending DB gaps saved to %s (%d entries)" % (gaps_path, len(gaps)))
 
     return results, stats
