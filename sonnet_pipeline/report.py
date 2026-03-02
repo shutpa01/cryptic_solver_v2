@@ -235,7 +235,6 @@ def _actionable_quality(results):
     type_mismatch_clues = set()
     anagram_fb_clues = set()
     fabricated_clues = set()
-    enrichment_fb_clues = set()
     weak_def_clues = set()
     failed_clues = set()
 
@@ -377,18 +376,6 @@ def _actionable_quality(results):
         lines.append("")
         lines.append("FABRICATED MAPPINGS: none")
 
-    # --- ENRICHMENT FALLBACK ---
-    efb = [r for r in assembled_results
-           if (r.get("assembly") or {}).get("source") == "enrichment_fallback"]
-    if efb:
-        lines.append("")
-        lines.append("ENRICHMENT FALLBACK — DB-driven, no AI reasoning (%d)" % len(efb))
-        lines.append("-" * 60)
-        for r in efb:
-            lines.append("  %s = %s (%d/100)" % (
-                r["answer"], r["clue_number"], r.get("score", 0)))
-            enrichment_fb_clues.add(r["clue_number"])
-
     # --- WEAK DEFINITIONS ---
     weak_defs = [r for r in assembled_results
                  if r.get("checks", {}).get("definition") in (
@@ -418,8 +405,7 @@ def _actionable_quality(results):
     # --- SUMMARY WITH CLUE NUMBERS ---
     total = len(results)
     all_issue_clues = (type_mismatch_clues | anagram_fb_clues | fabricated_clues
-                       | weak_def_clues | failed_clues | db_gap_clues
-                       | enrichment_fb_clues)
+                       | weak_def_clues | failed_clues | db_gap_clues)
     clean_refs = sorted([ref_map[r["clue_number"]] for r in results
                          if r["clue_number"] not in all_issue_clues],
                         key=lambda x: (x[-1], int(''.join(c for c in x if c.isdigit()) or 0)))
@@ -437,7 +423,6 @@ def _actionable_quality(results):
         ("Fabricated mapping", fabricated_clues),
         ("Weak definition", weak_def_clues),
         ("DB gap", db_gap_clues),
-        ("Enrichment fallback", enrichment_fb_clues),
         ("Failed", failed_clues),
     ]
     problem_total = set()
