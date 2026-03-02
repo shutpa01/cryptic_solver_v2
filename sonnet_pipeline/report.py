@@ -223,8 +223,21 @@ def _actionable_quality(results):
     lines.append("=" * 80)
 
     assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
-    problem_clues = set()   # genuine solve problems
-    db_improvement_clues = set()  # DB gaps — solve is OK but DB could be better
+
+    # Build clue ref lookup: clue_number -> "1A" style ref
+    def _ref(r):
+        d = (r.get("direction") or "")
+        return "%s%s" % (r["clue_number"], d[0].upper() if d else "")
+    ref_map = {r["clue_number"]: _ref(r) for r in results}
+
+    # Track issues by category (clue_number sets)
+    db_gap_clues = set()
+    type_mismatch_clues = set()
+    anagram_fb_clues = set()
+    fabricated_clues = set()
+    enrichment_fb_clues = set()
+    weak_def_clues = set()
+    failed_clues = set()
 
     # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
     db_gaps = []
@@ -271,7 +284,7 @@ def _actionable_quality(results):
                         "letters": letters_clean, "table": "synonyms_pairs",
                         "clue_number": r["clue_number"],
                     })
-                    db_improvement_clues.add(r["clue_number"])
+                    db_gap_clues.add(r["clue_number"])
             elif mech == "abbreviation":
                 word_found = False
                 for cw in check_words:
@@ -291,7 +304,7 @@ def _actionable_quality(results):
                         "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
                         "clue_number": r["clue_number"],
                     })
-                    db_improvement_clues.add(r["clue_number"])
+                    db_gap_clues.add(r["clue_number"])
 
     if db_gaps:
         lines.append("")
@@ -315,7 +328,7 @@ def _actionable_quality(results):
             lines.append("  %s = %s (%d/100): %s" % (
                 r["answer"], r["clue_number"], r.get("score", 0),
                 r["checks"]["type_mismatch"]))
-            problem_clues.add(r["clue_number"])
+            type_mismatch_clues.add(r["clue_number"])
     else:
         lines.append("")
         lines.append("TYPE MISMATCHES: none")
@@ -331,7 +344,7 @@ def _actionable_quality(results):
             lines.append("  %s = %s (%d/100): %s" % (
                 r["answer"], r["clue_number"], r.get("score", 0),
                 r["checks"]["anagram_fallback"]))
-            problem_clues.add(r["clue_number"])
+            anagram_fb_clues.add(r["clue_number"])
     else:
         lines.append("")
         lines.append("ANAGRAM FALLBACKS: none")
@@ -351,7 +364,7 @@ def _actionable_quality(results):
                 "answer": r["answer"], "clue_number": r["clue_number"],
                 "score": r.get("score", 0), "issues": issues,
             })
-            problem_clues.add(r["clue_number"])
+            fabricated_clues.add(r["clue_number"])
 
     if fabricated:
         lines.append("")
@@ -374,7 +387,7 @@ def _actionable_quality(results):
         for r in efb:
             lines.append("  %s = %s (%d/100)" % (
                 r["answer"], r["clue_number"], r.get("score", 0)))
-            db_improvement_clues.add(r["clue_number"])
+            enrichment_fb_clues.add(r["clue_number"])
 
     # --- WEAK DEFINITIONS ---
     weak_defs = [r for r in assembled_results
@@ -389,7 +402,7 @@ def _actionable_quality(results):
             lines.append("  %s = %s (%d/100): def=\"%s\" (%s)" % (
                 r["answer"], r["clue_number"], r.get("score", 0),
                 ai_def, r["checks"]["definition"]))
-            problem_clues.add(r["clue_number"])
+            weak_def_clues.add(r["clue_number"])
 
     # --- FAILED CLUES ---
     failed = [r for r in results if r.get("status") in ("FAILED", "error")]
@@ -400,23 +413,43 @@ def _actionable_quality(results):
         for r in failed:
             lines.append("  %s. %s = %s" % (
                 r["clue_number"], r.get("clue", "")[:60], r["answer"]))
-            problem_clues.add(r["clue_number"])
+            failed_clues.add(r["clue_number"])
 
-    # --- SUMMARY ---
+    # --- SUMMARY WITH CLUE NUMBERS ---
     total = len(results)
-    clean_count = len([r for r in assembled_results
-                       if r["clue_number"] not in problem_clues
-                       and r["clue_number"] not in db_improvement_clues])
-    # Clues only in db_improvement (not in problem) are fine solves with DB gaps
-    db_only = db_improvement_clues - problem_clues
+    all_issue_clues = (type_mismatch_clues | anagram_fb_clues | fabricated_clues
+                       | weak_def_clues | failed_clues | db_gap_clues
+                       | enrichment_fb_clues)
+    clean_refs = sorted([ref_map[r["clue_number"]] for r in results
+                         if r["clue_number"] not in all_issue_clues],
+                        key=lambda x: (x[-1], int(''.join(c for c in x if c.isdigit()) or 0)))
+
     lines.append("")
-    lines.append("-" * 60)
-    lines.append("CLEAN:    %d/%d clues fully validated" % (clean_count, total))
-    if db_only:
-        lines.append("DB ONLY:  %d clues solved correctly but have DB gaps to fill" % len(db_only))
-    if problem_clues:
-        lines.append("PROBLEMS: %d/%d clues have solve quality issues" % (
-            len(problem_clues), total))
+    lines.append("=" * 60)
+    lines.append("SCORECARD")
+    lines.append("=" * 60)
+    lines.append("  CLEAN:  %d/%d  %s" % (len(clean_refs), total, ", ".join(clean_refs)))
+
+    # Show each problem category with its clue refs
+    categories = [
+        ("Type mismatch", type_mismatch_clues),
+        ("Anagram fallback", anagram_fb_clues),
+        ("Fabricated mapping", fabricated_clues),
+        ("Weak definition", weak_def_clues),
+        ("DB gap", db_gap_clues),
+        ("Enrichment fallback", enrichment_fb_clues),
+        ("Failed", failed_clues),
+    ]
+    problem_total = set()
+    for label, clue_set in categories:
+        if clue_set:
+            refs = sorted([ref_map.get(cn, str(cn)) for cn in clue_set],
+                          key=lambda x: (x[-1] if x[-1].isalpha() else '',
+                                         int(''.join(c for c in x if c.isdigit()) or 0)))
+            lines.append("  %-22s %d  %s" % (label + ":", len(refs), ", ".join(refs)))
+            problem_total |= clue_set
+    if not problem_total:
+        lines.append("  No issues detected.")
 
     return lines
 
