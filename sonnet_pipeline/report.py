@@ -306,10 +306,32 @@ def _actionable_quality(results):
                     })
                     db_gap_clues.add(r["clue_number"])
 
-    if db_gaps:
+    # Also detect missing definition pairs
+    def_gaps = []
+    for r in assembled_results:
+        checks = r.get("checks", {})
+        def_check = checks.get("definition", "")
+        if "confirmed in DB" in def_check:
+            continue
+        ai = r.get("ai_output") or {}
+        ai_def = (ai.get("definition") or "").strip()
+        if not ai_def:
+            continue
+        answer = r.get("answer", "?")
+        def_gaps.append({
+            "answer": answer, "definition": ai_def,
+            "clue_number": r["clue_number"],
+        })
+        db_gap_clues.add(r["clue_number"])
+
+    total_gaps = len(db_gaps) + len(def_gaps)
+    if total_gaps:
         lines.append("")
-        lines.append("DB GAPS — add these to improve future solves (%d entries)" % len(db_gaps))
+        lines.append("DB GAPS — add these to improve future solves (%d entries)" % total_gaps)
         lines.append("-" * 60)
+        for g in def_gaps:
+            lines.append("  %s: \"%s\" -> %s  (missing from definition_answers_augmented)" % (
+                g["answer"], g["definition"], g["answer"]))
         for g in db_gaps:
             lines.append("  %s: %s -> %s  (missing from %s)" % (
                 g["answer"], g["clue_word"], g["letters"], g["table"]))

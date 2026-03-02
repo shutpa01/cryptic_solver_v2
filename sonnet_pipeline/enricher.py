@@ -322,6 +322,13 @@ class ClueEnricher:
             if ind_types:
                 lines.append(f"  {phrase}: ind={','.join(sorted(set(ind_types)))}")
 
+            # Two-word abbreviation lookup
+            abbrevs = self.abbreviations.get(phrase, [])
+            if abbrevs:
+                answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
+                marked = [a + "*" if re.sub(r"[^A-Z]", "", a.upper()) in answer_clean else a for a in abbrevs]
+                lines.append(f"  {phrase}: abbr={','.join(marked)}")
+
             # Two-word synonym lookup
             syns = self.lookup_synonyms(phrase, max_results=10, max_len=answer_len, answer=answer)
             if syns:
