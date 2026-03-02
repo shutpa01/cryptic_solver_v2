@@ -223,7 +223,8 @@ def _actionable_quality(results):
     lines.append("=" * 80)
 
     assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
-    issue_clues = set()
+    problem_clues = set()   # genuine solve problems
+    db_improvement_clues = set()  # DB gaps — solve is OK but DB could be better
 
     # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
     db_gaps = []
@@ -270,7 +271,7 @@ def _actionable_quality(results):
                         "letters": letters_clean, "table": "synonyms_pairs",
                         "clue_number": r["clue_number"],
                     })
-                    issue_clues.add(r["clue_number"])
+                    db_improvement_clues.add(r["clue_number"])
             elif mech == "abbreviation":
                 word_found = False
                 for cw in check_words:
@@ -290,7 +291,7 @@ def _actionable_quality(results):
                         "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
                         "clue_number": r["clue_number"],
                     })
-                    issue_clues.add(r["clue_number"])
+                    db_improvement_clues.add(r["clue_number"])
 
     if db_gaps:
         lines.append("")
@@ -311,9 +312,10 @@ def _actionable_quality(results):
         lines.append("TYPE MISMATCHES — AI and assembler disagree (%d)" % len(mismatches))
         lines.append("-" * 60)
         for r in mismatches:
-            lines.append("  %s = %s: %s" % (
-                r["answer"], r["clue_number"], r["checks"]["type_mismatch"]))
-            issue_clues.add(r["clue_number"])
+            lines.append("  %s = %s (%d/100): %s" % (
+                r["answer"], r["clue_number"], r.get("score", 0),
+                r["checks"]["type_mismatch"]))
+            problem_clues.add(r["clue_number"])
     else:
         lines.append("")
         lines.append("TYPE MISMATCHES: none")
@@ -326,9 +328,10 @@ def _actionable_quality(results):
         lines.append("ANAGRAM FALLBACKS — likely wrong mechanism (%d)" % len(anagram_fbs))
         lines.append("-" * 60)
         for r in anagram_fbs:
-            lines.append("  %s = %s: %s" % (
-                r["answer"], r["clue_number"], r["checks"]["anagram_fallback"]))
-            issue_clues.add(r["clue_number"])
+            lines.append("  %s = %s (%d/100): %s" % (
+                r["answer"], r["clue_number"], r.get("score", 0),
+                r["checks"]["anagram_fallback"]))
+            problem_clues.add(r["clue_number"])
     else:
         lines.append("")
         lines.append("ANAGRAM FALLBACKS: none")
@@ -348,7 +351,7 @@ def _actionable_quality(results):
                 "answer": r["answer"], "clue_number": r["clue_number"],
                 "score": r.get("score", 0), "issues": issues,
             })
-            issue_clues.add(r["clue_number"])
+            problem_clues.add(r["clue_number"])
 
     if fabricated:
         lines.append("")
@@ -371,7 +374,7 @@ def _actionable_quality(results):
         for r in efb:
             lines.append("  %s = %s (%d/100)" % (
                 r["answer"], r["clue_number"], r.get("score", 0)))
-            issue_clues.add(r["clue_number"])
+            db_improvement_clues.add(r["clue_number"])
 
     # --- WEAK DEFINITIONS ---
     weak_defs = [r for r in assembled_results
@@ -383,9 +386,10 @@ def _actionable_quality(results):
         lines.append("-" * 60)
         for r in weak_defs:
             ai_def = (r.get("ai_output") or {}).get("definition", "?")
-            lines.append("  %s = %s: def=\"%s\" (%s)" % (
-                r["answer"], r["clue_number"], ai_def, r["checks"]["definition"]))
-            issue_clues.add(r["clue_number"])
+            lines.append("  %s = %s (%d/100): def=\"%s\" (%s)" % (
+                r["answer"], r["clue_number"], r.get("score", 0),
+                ai_def, r["checks"]["definition"]))
+            problem_clues.add(r["clue_number"])
 
     # --- FAILED CLUES ---
     failed = [r for r in results if r.get("status") in ("FAILED", "error")]
@@ -396,18 +400,23 @@ def _actionable_quality(results):
         for r in failed:
             lines.append("  %s. %s = %s" % (
                 r["clue_number"], r.get("clue", "")[:60], r["answer"]))
-            issue_clues.add(r["clue_number"])
+            problem_clues.add(r["clue_number"])
 
-    # --- CLEAN COUNT ---
-    clean_count = len([r for r in assembled_results
-                       if r["clue_number"] not in issue_clues])
+    # --- SUMMARY ---
     total = len(results)
+    clean_count = len([r for r in assembled_results
+                       if r["clue_number"] not in problem_clues
+                       and r["clue_number"] not in db_improvement_clues])
+    # Clues only in db_improvement (not in problem) are fine solves with DB gaps
+    db_only = db_improvement_clues - problem_clues
     lines.append("")
     lines.append("-" * 60)
-    lines.append("CLEAN: %d/%d clues fully validated (no issues detected)" % (
-        clean_count, total))
-    if issue_clues:
-        lines.append("ISSUES: %d/%d clues need attention" % (len(issue_clues), total))
+    lines.append("CLEAN:    %d/%d clues fully validated" % (clean_count, total))
+    if db_only:
+        lines.append("DB ONLY:  %d clues solved correctly but have DB gaps to fill" % len(db_only))
+    if problem_clues:
+        lines.append("PROBLEMS: %d/%d clues have solve quality issues" % (
+            len(problem_clues), total))
 
     return lines
 
