@@ -1,3 +1,0 @@
-# self_learning_inserts.txt — 2026-02-22 06:11:55
-# Rollback: run the DELETE statements below against cryptic_new.db
-

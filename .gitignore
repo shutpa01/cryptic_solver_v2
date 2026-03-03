@@ -22,3 +22,25 @@ Thumbs.db
 
 # Scratch/temp
 scratch.py
+
+# Environment
+.env
+
+# Data archives
+*.zip
+
+# Logs
+*.log
+
+# Scraped puzzle data (stays on disk, not in git)
+scraper/guardian/*.json
+scraper/telegraph/*.json
+scraper/times/*.json
+scraper/independent/*.json
+
+# Scraper debug artifacts
+scraper/*/*.html
+scraper/*/*.png
+
+# FT scraped PDFs
+scraper/FT/ft_pdfs/

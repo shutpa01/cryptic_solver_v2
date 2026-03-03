@@ -1,2 +1,0 @@
-{"pattern": "A", "type": "definition_pair", "phrase": "denying coverage", "answer": "NATURISM", "clue": "North American travel industry striking over practice denying coverage", "confidence": "medium"}
-{"pattern": "A", "type": "indicator", "phrase": "striking", "wordplay_type": "insertion", "subtype": null, "answer": "NATURISM", "clue": "North American travel industry striking over practice denying coverage", "formula": "N (North) + US (American) + IT (travel) + ARM (industry) (with insertion) = NATURISM", "confidence": "medium"}
