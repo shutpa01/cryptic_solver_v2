@@ -11,6 +11,7 @@ import html
 import re
 import os
 import json
+import sys
 import time
 import sqlite3
 import subprocess
@@ -46,12 +47,15 @@ DB_PATH = os.getenv('DB_PATH',
 LOGIN_URL = "https://secure.telegraph.co.uk/customer/secure/login/"
 PUZZLES_URL = "https://www.telegraph.co.uk/puzzles/"
 
-# Map harvest link types to our DB puzzle_type values
+# Map link types to (puzzle_type, is_prize)
+# is_prize = True means skip date check (prize links show closing date, not publication date)
+# NOTE: The puzzle number in the URL is often wrong (e.g. #31169 for a prize cryptic).
+# The API returns the correct puzzle data regardless — dedup happens via puzzle_already_fetched.
 TYPE_MAP = {
-    'cryptic-crossword': 'cryptic',
-    'prize-cryptic': 'saturday-cryptic',
-    'toughie-crossword': 'toughie',
-    'prize-toughie': 'prize-toughie',
+    'cryptic-crossword': ('cryptic',       False),
+    'toughie-crossword': ('toughie',       False),
+    'prize-cryptic':     ('prize-cryptic', True),
+    'prize-toughie':     ('prize-toughie', True),
 }
 
 
@@ -133,7 +137,9 @@ def login(driver):
 def harvest_today(driver):
     """Navigate to puzzles page and extract today's puzzle API IDs."""
     today = date.today()
+    # Page may show "1 Mar, 2026" or "01 Mar, 2026" — match both
     today_str = f"{today.day} {today.strftime('%b')}, {today.year}"
+    today_str_padded = f"{today.day:02d} {today.strftime('%b')}, {today.year}"
 
     print(f"\nNavigating to puzzles page...")
     driver.get(PUZZLES_URL)
@@ -146,6 +152,8 @@ def harvest_today(driver):
     print(f"Looking for puzzles dated: {today_str}")
 
     puzzles = []
+    seen_types = set()
+    seen_apis = set()  # Deduplicate by API ID (page may have multiple links to same puzzle)
 
     for link in all_links:
         try:
@@ -162,7 +170,7 @@ def harvest_today(driver):
 
             folder, link_type, api_id = match.groups()
 
-            # Extract puzzle number
+            # Extract puzzle number (NOTE: URL number is unreliable for prize puzzles)
             num_match = re.search(r'number=(\d+)', href)
             puzzle_num = num_match.group(1) if num_match else None
 
@@ -170,17 +178,28 @@ def harvest_today(driver):
             date_match = re.search(r'(\d{1,2} \w{3}, \d{4})', text)
             link_date = date_match.group(1) if date_match else None
 
-            # Only take today's puzzles
-            # Prize types show closing date not publication date, so skip date check for them
-            if link_type not in ('prize-cryptic', 'prize-toughie') and link_date != today_str:
-                continue
-
             if link_type not in TYPE_MAP:
                 continue
 
-            puzzle_type = TYPE_MAP[link_type]
+            puzzle_type, is_prize = TYPE_MAP[link_type]
 
-            print(f"  Found: {link_type} #{puzzle_num} -> API {api_id} ({link_date})")
+            # Log all puzzle links we find (first occurrence of each type)
+            if link_type not in seen_types:
+                seen_types.add(link_type)
+                print(f"  [scan] {link_type} #{puzzle_num} date='{link_date}' api={api_id}")
+
+            # Only take today's puzzles
+            # Prize types show closing date not publication date, so skip date check
+            if not is_prize and link_date not in (today_str, today_str_padded):
+                continue
+
+            # Deduplicate by API ID
+            api_key = f"{link_type}-{api_id}"
+            if api_key in seen_apis:
+                continue
+            seen_apis.add(api_key)
+
+            print(f"  Found: {puzzle_type} #{puzzle_num} -> API {api_id} ({link_date})")
 
             puzzles.append({
                 'folder': folder,
@@ -211,17 +230,25 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
     return count > 0
 
 
+def extract_puzzle_number_from_title(title: str) -> str | None:
+    """Extract the real puzzle number from the API title.
+
+    Titles look like: "Cryptic Crossword No 31174",
+    "Prize Cryptic No 3358", "Prize Toughie No 214", "Toughie Crossword No 3644".
+    The URL puzzle number is sometimes wrong (especially for prize-cryptic),
+    so we trust the API title instead.
+    """
+    match = re.search(r'No\.?\s*(\d+)', title)
+    return match.group(1) if match else None
+
+
 def fetch_and_save(puzzle):
     """Fetch puzzle JSON from API and save clues directly to clues table."""
     folder = puzzle['folder']
     link_type = puzzle['link_type']
     api_id = puzzle['api_id']
     puzzle_type = puzzle['puzzle_type']
-    puzzle_number = puzzle['puzzle_number']
-
-    if puzzle_already_fetched(puzzle_type, puzzle_number):
-        print(f"  Already in database - skipping")
-        return 'skipped'
+    url_puzzle_number = puzzle['puzzle_number']
 
     url = f"https://puzzlesdata.telegraph.co.uk/puzzles/{folder}/{link_type}-{api_id}.json"
     print(f"  Fetching: {url}")
@@ -236,6 +263,14 @@ def fetch_and_save(puzzle):
         return 'failed'
 
     data = response.json()
+
+    # Save raw JSON for prize puzzles (preserves grid data for answer validation)
+    if puzzle_type.startswith('prize'):
+        json_path = SCRIPT_DIR / f"telegraph_{link_type}_{api_id}.json"
+        with open(json_path, 'w') as f:
+            json.dump(data, f)
+        print(f"  Saved prize JSON: {json_path.name}")
+
     copy = data.get('json', {}).get('copy', {})
 
     title = copy.get('title', '')
@@ -247,6 +282,16 @@ def fetch_and_save(puzzle):
         except ValueError:
             pass
 
+    # Use the real puzzle number from the API title, not the (often wrong) URL number
+    real_number = extract_puzzle_number_from_title(title)
+    if real_number and real_number != url_puzzle_number:
+        print(f"  URL had #{url_puzzle_number}, API title says #{real_number} — using API number")
+    puzzle_number = real_number or url_puzzle_number
+
+    if puzzle_already_fetched(puzzle_type, puzzle_number):
+        print(f"  Already in database (#{puzzle_number}) - skipping")
+        return 'skipped'
+
     # Parse clues
     clues_groups = copy.get('clues', [])
     across = []
@@ -257,7 +302,7 @@ def fetch_and_save(puzzle):
         for clue in group.get('clues', []):
             clue_obj = {
                 'number': clue.get('number', ''),
-                'clue': html.unescape(clue.get('clue', '')),
+                'clue': re.sub(r'<[^>]+>', '', html.unescape(clue.get('clue', ''))),
                 'answer': clue.get('answer', ''),
                 'enumeration': clue.get('format', '')
             }
@@ -267,7 +312,7 @@ def fetch_and_save(puzzle):
                 down.append(clue_obj)
 
     print(f"  Title: {title}")
-    print(f"  Clues: {len(across)} across, {len(down)} down")
+    print(f"  Puzzle #{puzzle_number} | {len(across)} across, {len(down)} down")
 
     # Save directly to clues table
     conn = sqlite3.connect(DB_PATH)
@@ -296,7 +341,7 @@ def fetch_and_save(puzzle):
     conn.commit()
     conn.close()
 
-    print(f"  Saved {clue_count} clues")
+    print(f"  Saved {clue_count} clues as #{puzzle_number}")
     return 'fetched'
 
 
@@ -328,7 +373,7 @@ def main():
             print(f"Screenshot saved: {screenshot}")
         except Exception:
             pass
-        return
+        sys.exit(1)
     finally:
         try:
             driver.quit()
@@ -338,7 +383,7 @@ def main():
 
     if not puzzles:
         print("\nNo puzzles found for today.")
-        return
+        sys.exit(1)
 
     # Fetch and save each puzzle
     print(f"\n{'=' * 60}")

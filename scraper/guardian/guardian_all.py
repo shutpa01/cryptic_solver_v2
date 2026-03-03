@@ -40,8 +40,8 @@ PUZZLE_TYPES = {
     'prize': {
         'name': 'Guardian Prize',
         'url_path': 'prize',
-        'reference_date': date(2026, 1, 18),  # Saturday
-        'reference_number': 29000,  # Placeholder
+        'reference_date': date(2026, 2, 28),  # Saturday
+        'reference_number': 29942,
         'days': [5],  # Saturday only
         'source': 'guardian-prize'
     },
@@ -226,13 +226,20 @@ def save_to_database(puzzle_data, puzzle_type):
 
 
 def get_last_puzzle_number(puzzle_type):
-    """Get the highest puzzle number in the clues table for guardian source."""
+    """Get the highest puzzle number in the clues table for this puzzle type's series."""
+    config = PUZZLE_TYPES[puzzle_type]
+    ref = config['reference_number']
+    # Infer number range: reference_number ± generous margin
+    lo = max(1, ref - 500)
+    hi = ref + 500
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues
         WHERE source = 'guardian'
-    """)
+          AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?
+    """, (lo, hi))
     result = cursor.fetchone()[0]
     conn.close()
     return result
