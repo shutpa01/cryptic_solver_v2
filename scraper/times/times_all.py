@@ -167,29 +167,37 @@ def login(driver):
     submit_btn = driver.find_element(By.CSS_SELECTOR, "button.auth0-lock-submit")
     submit_btn.click()
 
-    print("Waiting for login to complete...")
+    print("Waiting for login redirect...")
     driver.switch_to.default_content()
 
-    def login_complete(d):
-        url = d.current_url.lower()
-        if "login" not in url:
-            return True
-        if "thetimes.co.uk" in url and "/login" not in url:
-            return True
-        return False
+    # Auth0 redirect chain crashes WebDriver if polled too aggressively.
+    # Sleep first, then gently check if we landed somewhere useful.
+    time.sleep(15)
 
+    for check in range(6):
+        try:
+            url = driver.current_url.lower()
+            if "login" not in url:
+                print(f"Logged in! URL: {driver.current_url}")
+                return driver
+            if "thetimes.co.uk" in url and "/login" not in url:
+                print(f"Logged in! URL: {driver.current_url}")
+                return driver
+        except Exception:
+            pass  # WebDriver temporarily unavailable during redirect
+        time.sleep(3)
+
+    # Final check: maybe we're logged in but URL still looks odd
     try:
-        WebDriverWait(driver, 30).until(login_complete)
-    except Exception:
         current = driver.current_url
         page_text = driver.page_source[:5000].lower()
         if "my account" in page_text or "www.thetimes.co.uk" in current:
-            print(f"Login appears successful despite URL check timeout. URL: {current}")
-        else:
-            raise
+            print(f"Login appears successful despite URL. URL: {current}")
+            return driver
+    except Exception:
+        pass
 
-    print(f"Logged in! URL: {driver.current_url}")
-    return driver
+    raise Exception("Login failed — could not confirm redirect after 30s")
 
 
 # ── Puzzle fetching (uses existing browser session) ───────────────────────
