@@ -42,5 +42,8 @@ scraper/independent/*.json
 scraper/*/*.html
 scraper/*/*.png
 
+# Persistent browser profiles
+.chrome_profile/
+
 # FT scraped PDFs
 scraper/FT/ft_pdfs/

@@ -109,19 +109,46 @@ def estimate_puzzle_number(puzzle_type, target_date=None):
 
 # ── Browser lifecycle ─────────────────────────────────────────────────────
 
+PROFILE_DIR = SCRIPT_DIR / '.chrome_profile'
+
+
 def create_browser():
-    """Launch Chrome and return the driver."""
+    """Launch Chrome with a persistent profile so session cookies survive between runs."""
     if not TIMES_EMAIL or not TIMES_PASSWORD:
         raise ValueError("Missing TIMES_EMAIL or TIMES_PASSWORD in .env file")
 
     print("Launching browser...")
     options = uc.ChromeOptions()
     options.add_argument('--start-maximized')
+    options.add_argument(f'--user-data-dir={PROFILE_DIR}')
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
     chrome_ver = get_chrome_version_main()
     print(f"Chrome version detected: {chrome_ver}")
     return uc.Chrome(options=options, version_main=chrome_ver)
+
+
+def is_logged_in(driver):
+    """Check if we already have an active session by navigating to the puzzles page."""
+    print("Checking for existing session...")
+    driver.get('https://www.thetimes.com/puzzles/crossword')
+    time.sleep(5)
+
+    # If we can see puzzle links, we're logged in
+    links = driver.find_elements(By.TAG_NAME, "a")
+    for link in links:
+        href = link.get_attribute("href") or ""
+        if re.search(r'times-cryptic-no-\d+', href):
+            print("Already logged in (session cookies valid)")
+            return True
+
+    # Check if we were redirected to login
+    if "login" in driver.current_url.lower():
+        print("Session expired — need to log in")
+        return False
+
+    print("Could not find puzzle links — need to log in")
+    return False
 
 
 def login(driver):
@@ -595,10 +622,11 @@ def main():
 
     print(f"Puzzle types to fetch: {', '.join(types_to_run)}")
 
-    # Single browser session for all puzzle types
+    # Single browser session with persistent profile
     driver = create_browser()
     try:
-        login(driver)
+        if not is_logged_in(driver):
+            login(driver)
 
         results = {}
         for pt in types_to_run:
