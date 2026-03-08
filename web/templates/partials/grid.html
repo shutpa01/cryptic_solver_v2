@@ -1,0 +1,22 @@
+{# HTMX fragment — crossword grid with answers #}
+<div class="mt-4 mb-6 overflow-x-auto">
+    <table class="border-collapse mx-auto" style="border: 2px solid #1a1a1a;">
+        {% for row in grid.cells %}
+        <tr>
+            {% for cell in row %}
+            {% if cell is none %}
+            <td class="bg-gray-900" style="width:2rem;height:2rem;"></td>
+            {% else %}
+            <td class="border border-gray-400 bg-white relative text-center align-middle"
+                style="width:2rem;height:2rem;">
+                {% if cell.number is defined %}
+                <span class="absolute top-0 left-0.5 text-[8px] leading-none text-gray-500">{{ cell.number }}</span>
+                {% endif %}
+                <span class="text-xs font-bold text-gray-800">{{ cell.letter }}</span>
+            </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>

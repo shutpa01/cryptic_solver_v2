@@ -46,6 +46,7 @@ DB_PATH = os.getenv('DB_PATH',
 
 LOGIN_URL = "https://secure.telegraph.co.uk/customer/secure/login/"
 PUZZLES_URL = "https://www.telegraph.co.uk/puzzles/"
+PROFILE_DIR = SCRIPT_DIR / '.chrome_profile'
 
 # Map link types to (puzzle_type, is_prize)
 # is_prize = True means skip date check (prize links show closing date, not publication date)
@@ -96,56 +97,192 @@ def login(driver):
 
     print("Navigating to login page...")
     driver.get(LOGIN_URL)
+    time.sleep(3)
     dismiss_cookie_consent(driver)
 
     wait = WebDriverWait(driver, 15)
 
+    # Save login page HTML for debugging
+    debug_html = SCRIPT_DIR / "telegraph_login_debug.html"
+    with open(debug_html, 'w', encoding='utf-8') as f:
+        f.write(driver.page_source)
+    print(f"Saved login page HTML: {debug_html.name}")
+
+    # Find email field — try multiple selectors for old/new UI
     print("Entering email...")
-    email_field = wait.until(EC.presence_of_element_located((By.ID, "email")))
+    email_field = None
+    for selector in [(By.ID, "email"), (By.CSS_SELECTOR, "input[type='email']"),
+                     (By.CSS_SELECTOR, "input[name='email']"),
+                     (By.CSS_SELECTOR, "input[placeholder*='email']")]:
+        try:
+            email_field = wait.until(EC.presence_of_element_located(selector))
+            print(f"  Found email field via {selector}")
+            break
+        except Exception:
+            continue
+    if not email_field:
+        raise Exception("Could not find email field")
+    email_field.click()
+    time.sleep(0.5)
     email_field.clear()
     email_field.send_keys(email)
+    time.sleep(1)
+
+    # Verify email was entered — React inputs may ignore send_keys
+    val = email_field.get_attribute('value')
+    if not val or val == email_field.get_attribute('placeholder'):
+        print("  send_keys failed, trying React-compatible JS injection...")
+        driver.execute_script("""
+            var el = arguments[0];
+            var val = arguments[1];
+            var setter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value').set;
+            setter.call(el, val);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        """, email_field, email)
+        time.sleep(0.5)
+        # Double-check
+        val = email_field.get_attribute('value')
+        if not val:
+            print("  React setter also failed, trying ActionChains...")
+            from selenium.webdriver.common.action_chains import ActionChains
+            email_field.click()
+            email_field.clear()
+            ActionChains(driver).click(email_field).send_keys(email).perform()
+            time.sleep(0.5)
 
     print("Clicking continue...")
-    # Try <a> first (old UI), fall back to <button> (new UI)
-    for cta_selector in ["a.screen-cta", "button.screen-cta", "button[type='submit']"]:
-        try:
-            continue_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, cta_selector)))
-            continue_btn.click()
-            break
-        except Exception:
-            continue
+    # The new Telegraph login renders buttons via JS/shadow DOM.
+    # Use JavaScript to find and click the Continue button.
+    clicked = driver.execute_script("""
+        // Try standard selectors first
+        var selectors = ['button.screen-cta', 'a.screen-cta', 'button[type="submit"]'];
+        for (var s of selectors) {
+            var el = document.querySelector(s);
+            if (el && el.offsetParent !== null) { el.click(); return 'css:' + s; }
+        }
+        // Search all elements for "Continue" text
+        var all = document.querySelectorAll('button, a, div[role="button"], span[role="button"]');
+        for (var el of all) {
+            if (el.textContent.trim() === 'Continue' && el.offsetParent !== null) {
+                el.click(); return 'text:Continue';
+            }
+        }
+        // Last resort: find any clickable element with Continue
+        var everything = document.querySelectorAll('*');
+        for (var el of everything) {
+            if (el.childElementCount === 0 && el.textContent.trim() === 'Continue') {
+                el.closest('button, a, [role="button"]')?.click() || el.parentElement.click();
+                return 'parent:Continue';
+            }
+        }
+        return null;
+    """)
+    if clicked:
+        print(f"  Clicked via {clicked}")
+    else:
+        from selenium.webdriver.common.keys import Keys
+        print("  No button found via JS, pressing Enter...")
+        email_field.send_keys(Keys.RETURN)
+
+    # Wait for password step to load
+    time.sleep(5)
 
     print("Entering password...")
-    password_field = wait.until(EC.presence_of_element_located((By.ID, "password")))
-    password_field.clear()
-    password_field.send_keys(password)
-
-    print("Clicking login...")
-    for cta_selector in ["a.screen-cta", "button.screen-cta", "button[type='submit']"]:
+    password_field = None
+    for selector in [(By.ID, "password"), (By.CSS_SELECTOR, "input[type='password']"),
+                     (By.CSS_SELECTOR, "input[name='password']")]:
         try:
-            login_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, cta_selector)))
-            login_btn.click()
+            password_field = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(selector))
             break
         except Exception:
             continue
+    if not password_field:
+        # Save debug screenshot before failing
+        driver.save_screenshot(str(SCRIPT_DIR / "telegraph_password_debug.png"))
+        raise Exception("Could not find password field — login UI may have changed")
+    password_field.click()
+    time.sleep(0.5)
+    password_field.clear()
+    password_field.send_keys(password)
+    time.sleep(1)
+
+    # Verify password was entered — same React issue as email
+    val = password_field.get_attribute('value')
+    if not val:
+        print("  Password send_keys failed, trying React-compatible JS injection...")
+        driver.execute_script("""
+            var el = arguments[0];
+            var val = arguments[1];
+            var setter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value').set;
+            setter.call(el, val);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        """, password_field, password)
+        time.sleep(0.5)
+
+    print("Clicking login...")
+    # Use same JS approach that worked for the first Continue button
+    clicked = driver.execute_script("""
+        var selectors = ['button.screen-cta', 'a.screen-cta', 'button[type="submit"]'];
+        for (var s of selectors) {
+            var el = document.querySelector(s);
+            if (el && el.offsetParent !== null) { el.click(); return 'css:' + s; }
+        }
+        var all = document.querySelectorAll('button, a, div[role="button"], span[role="button"]');
+        for (var el of all) {
+            var t = el.textContent.trim();
+            if ((t === 'Continue' || t === 'Log in' || t === 'Sign in') && el.offsetParent !== null) {
+                el.click(); return 'text:' + t;
+            }
+        }
+        return null;
+    """)
+    if clicked:
+        print(f"  Clicked via {clicked}")
+    else:
+        from selenium.webdriver.common.keys import Keys
+        print("  No button found via JS, pressing Enter...")
+        password_field.send_keys(Keys.RETURN)
 
     print("Waiting for login to complete...")
-    wait.until(lambda d: "login" not in d.current_url.lower())
-    print(f"Logged in! URL: {driver.current_url}")
+    time.sleep(15)
+
+    for check in range(6):
+        try:
+            if "login" not in driver.current_url.lower():
+                print(f"Logged in! URL: {driver.current_url}")
+                return
+        except Exception:
+            pass
+        time.sleep(3)
+
+    # Check if we actually landed on the site
+    try:
+        if "telegraph.co.uk" in driver.current_url and "login" not in driver.current_url.lower():
+            print(f"Logged in! URL: {driver.current_url}")
+            return
+    except Exception:
+        pass
+
+    raise Exception("Login failed — could not confirm redirect after 30s")
 
 
-def harvest_today(driver):
-    """Navigate to puzzles page and extract today's puzzle API IDs."""
+def harvest_today(driver, already_on_page=False):
+    """Extract today's puzzle API IDs from the puzzles page."""
     today = date.today()
     # Page may show "1 Mar, 2026" or "01 Mar, 2026" — match both
     today_str = f"{today.day} {today.strftime('%b')}, {today.year}"
     today_str_padded = f"{today.day:02d} {today.strftime('%b')}, {today.year}"
 
-    print(f"\nNavigating to puzzles page...")
-    driver.get(PUZZLES_URL)
-
-    print("Waiting for puzzles to load (JS app)...")
-    time.sleep(20)
+    if not already_on_page:
+        print(f"\nNavigating to puzzles page...")
+        driver.get(PUZZLES_URL)
+        print("Waiting for puzzles to load (JS app)...")
+        time.sleep(20)
 
     all_links = driver.find_elements(By.TAG_NAME, "a")
     print(f"Found {len(all_links)} links on page")
@@ -288,9 +425,7 @@ def fetch_and_save(puzzle):
         print(f"  URL had #{url_puzzle_number}, API title says #{real_number} — using API number")
     puzzle_number = real_number or url_puzzle_number
 
-    if puzzle_already_fetched(puzzle_type, puzzle_number):
-        print(f"  Already in database (#{puzzle_number}) - skipping")
-        return 'skipped'
+    already_exists = puzzle_already_fetched(puzzle_type, puzzle_number)
 
     # Parse clues
     clues_groups = copy.get('clues', [])
@@ -314,10 +449,10 @@ def fetch_and_save(puzzle):
     print(f"  Title: {title}")
     print(f"  Puzzle #{puzzle_number} | {len(across)} across, {len(down)} down")
 
-    # Save directly to clues table
+    # Save directly to clues table (INSERT OR IGNORE handles dedup)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    clue_count = 0
+    inserted = 0
 
     for direction, clue_list in [('across', across), ('down', down)]:
         for clue in clue_list:
@@ -336,13 +471,143 @@ def fetch_and_save(puzzle):
                 clue['enumeration'],
                 clue['answer'],
             ))
-            clue_count += 1
+            if cursor.rowcount > 0:
+                inserted += 1
+
+    # Store grid solution string for direct grid rendering
+    settings = copy.get('settings', {})
+    grid_solution = settings.get('solution', '')
+    gridsize = copy.get('gridsize', {})
+    grid_rows = int(gridsize.get('rows', 15))
+    grid_cols = int(gridsize.get('cols', 15))
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS puzzle_grids (
+            source TEXT NOT NULL,
+            puzzle_number TEXT NOT NULL,
+            solution TEXT,
+            grid_rows INTEGER NOT NULL DEFAULT 15,
+            grid_cols INTEGER NOT NULL DEFAULT 15,
+            api_folder TEXT,
+            api_type TEXT,
+            api_id TEXT,
+            PRIMARY KEY (source, puzzle_number)
+        )
+    """)
+
+    has_solution = grid_solution and len(grid_solution) == grid_rows * grid_cols
+    cursor.execute("""
+        INSERT INTO puzzle_grids
+        (source, puzzle_number, solution, grid_rows, grid_cols, api_folder, api_type, api_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(source, puzzle_number) DO UPDATE SET
+            solution = COALESCE(excluded.solution, puzzle_grids.solution),
+            api_folder = COALESCE(excluded.api_folder, puzzle_grids.api_folder),
+            api_type = COALESCE(excluded.api_type, puzzle_grids.api_type),
+            api_id = COALESCE(excluded.api_id, puzzle_grids.api_id)
+    """, (
+        'telegraph', str(puzzle_number),
+        grid_solution if has_solution else None,
+        grid_rows, grid_cols,
+        folder, link_type, api_id,
+    ))
 
     conn.commit()
     conn.close()
 
-    print(f"  Saved {clue_count} clues as #{puzzle_number}")
-    return 'fetched'
+    if already_exists and inserted == 0:
+        print(f"  Already complete (#{puzzle_number}) - skipping")
+        return 'skipped'
+    elif already_exists and inserted > 0:
+        print(f"  Repaired #{puzzle_number}: added {inserted} missing clues")
+        return 'fetched'
+    else:
+        print(f"  Saved {len(across) + len(down)} clues as #{puzzle_number}")
+        return 'fetched'
+
+
+def backfill_grid_solutions():
+    """Re-fetch the grid solution string for puzzles that have API coordinates but no solution.
+
+    Prize puzzles are scraped before solutions are published — this picks up the
+    grid layout once Telegraph releases it.  Answers are handled separately by
+    the DANWORD backfill in puzzle_scraper.py, so this only touches puzzle_grids.
+    No browser needed — uses direct API calls.
+    """
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        gaps = cursor.execute("""
+            SELECT puzzle_number, api_folder, api_type, api_id
+            FROM puzzle_grids
+            WHERE source = 'telegraph'
+              AND solution IS NULL
+              AND api_folder IS NOT NULL AND api_id IS NOT NULL
+        """).fetchall()
+    except Exception:
+        gaps = []
+
+    if not gaps:
+        print("No grid solution gaps to backfill.")
+        return 0
+
+    print(f"Backfilling {len(gaps)} puzzle grid solutions...")
+    filled = 0
+
+    for puzzle_number, api_folder, api_type, api_id in gaps:
+        url = f"https://puzzlesdata.telegraph.co.uk/puzzles/{api_folder}/{api_type}-{api_id}.json"
+        try:
+            response = requests.get(url, timeout=30)
+            if response.status_code != 200:
+                continue
+            data = response.json()
+        except Exception:
+            continue
+
+        copy = data.get('json', {}).get('copy', {})
+        settings = copy.get('settings', {})
+        solution = settings.get('solution', '')
+        gridsize = copy.get('gridsize', {})
+        grid_rows = int(gridsize.get('rows', 15))
+        grid_cols = int(gridsize.get('cols', 15))
+
+        if not solution or len(solution) != grid_rows * grid_cols:
+            continue
+
+        cursor.execute("""
+            UPDATE puzzle_grids SET solution = ?, grid_rows = ?, grid_cols = ?
+            WHERE source = 'telegraph' AND puzzle_number = ?
+        """, (solution, grid_rows, grid_cols, puzzle_number))
+        conn.commit()
+        filled += 1
+        print(f"  #{puzzle_number}: grid solution filled")
+
+    conn.close()
+    print(f"Backfilled {filled}/{len(gaps)} grid solutions.")
+    return filled
+
+
+def is_logged_in(driver):
+    """Check if we already have an active Telegraph session."""
+    print("Checking for existing session...")
+    driver.get(PUZZLES_URL)
+    time.sleep(20)  # JS app needs time to load
+
+    # If we can see puzzle links, we're logged in
+    links = driver.find_elements(By.TAG_NAME, "a")
+    for link in links:
+        href = link.get_attribute("href") or ""
+        if re.search(r'#crossword/.+-(cryptic|toughie)', href):
+            print("Already logged in (session cookies valid)")
+            return True
+
+    if "login" in driver.current_url.lower():
+        print("Session expired — need to log in")
+        return False
+
+    print("Could not find puzzle links — need to log in")
+    return False
 
 
 def main():
@@ -353,18 +618,44 @@ def main():
     print("=" * 60)
     print(f"Database: {DB_PATH}")
 
-    # Launch browser
+    # Launch browser with persistent profile
     print("\nLaunching browser...")
+
+    # Clean up stale lock files from previous crashed sessions
+    for lock_file in ['SingletonLock', 'SingletonSocket', 'SingletonCookie']:
+        lock_path = PROFILE_DIR / lock_file
+        if lock_path.exists():
+            try:
+                lock_path.unlink()
+            except Exception:
+                pass
+
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
+    options.add_argument(f'--user-data-dir={PROFILE_DIR}')
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
 
     chrome_ver = get_chrome_version_main()
     print(f"Chrome version detected: {chrome_ver}")
     driver = uc.Chrome(options=options, version_main=chrome_ver)
 
+    # Persistent profile may restore old tabs — settle and focus
+    time.sleep(3)
     try:
-        login(driver)
-        puzzles = harvest_today(driver)
+        if len(driver.window_handles) > 1:
+            for handle in driver.window_handles[1:]:
+                driver.switch_to.window(handle)
+                driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+    except Exception:
+        pass
+
+    try:
+        already_on_page = is_logged_in(driver)
+        if not already_on_page:
+            login(driver)
+        puzzles = harvest_today(driver, already_on_page=already_on_page)
     except Exception as e:
         print(f"Error during harvest: {e}")
         screenshot = SCRIPT_DIR / "telegraph_error.png"
@@ -401,6 +692,12 @@ def main():
     print(f"DONE - Fetched: {stats['fetched']}, "
           f"Skipped: {stats['skipped']}, Failed: {stats['failed']}")
     print(f"{'=' * 60}")
+
+    # Backfill grid solutions for prize puzzles whose solutions have since been released
+    print(f"\n{'=' * 60}")
+    print("GRID SOLUTION BACKFILL")
+    print(f"{'=' * 60}")
+    backfill_grid_solutions()
 
 
 if __name__ == "__main__":

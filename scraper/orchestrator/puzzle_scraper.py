@@ -7,7 +7,7 @@ in clues_master.db — no sync step needed.
 After scrapers run, reconciles against the expected puzzle schedule to report
 exactly which puzzles were captured and which are missing.
 
-Usage:
+Usage:Predictably the times fi
     python puzzle_scraper.py                # Run all scrapers
     python puzzle_scraper.py --only guardian    # Run only guardian
     python puzzle_scraper.py --only telegraph   # Run only telegraph
@@ -330,7 +330,7 @@ def run_danword_backfill(puzzles: list[tuple[str, str, int]]) -> list[tuple[str,
             except Exception:
                 pass
             print(f"    TIMEOUT after {DANWORD_TIMEOUT}s")
-            results.append((source, puzzle_number, 0, clue_count))
+            results.append((source, puzzle_number, 0, clue_count, 'TIMEOUT'))
             continue
 
         if stdout:
@@ -338,15 +338,18 @@ def run_danword_backfill(puzzles: list[tuple[str, str, int]]) -> list[tuple[str,
         if stderr:
             print("    STDERR:", stderr[:500])
 
-        # Parse found/total from output (last line: "Done: X/Y answers written")
+        # Parse found/total and grid status from output
         found = 0
+        grid_status = ''
         for line in (stdout or '').splitlines():
             m = re.search(r'Done:\s*(\d+)/(\d+)', line)
             if m:
                 found = int(m.group(1))
-                break
+            mg = re.search(r'^Grid:\s*(.+)$', line)
+            if mg:
+                grid_status = mg.group(1).strip()
 
-        results.append((source, puzzle_number, found, clue_count))
+        results.append((source, puzzle_number, found, clue_count, grid_status))
 
     return results
 
@@ -417,9 +420,9 @@ def main():
         print(f"DANWORD BACKFILL ({len(answerless)} answerless puzzles)")
         print(f"{'=' * 60}")
         danword_results = run_danword_backfill(answerless)
-        for source, pnum, found, total in danword_results:
-            status = f"{found}/{total} answers"
-            print(f"  {source:15} #{pnum:>8}  {status}")
+        for source, pnum, found, total, grid in danword_results:
+            grid_tag = f"  [{grid}]" if grid else ""
+            print(f"  {source:15} #{pnum:>8}  {found}/{total} answers{grid_tag}")
     else:
         print(f"\n  No answerless puzzles to backfill today")
 
@@ -459,8 +462,9 @@ def main():
         email_lines.append("")
         email_lines.append("DANWORD BACKFILL")
         email_lines.append("-" * 40)
-        for source, pnum, found, total in danword_results:
-            email_lines.append(f"  {source:15} #{pnum:>8}  {found}/{total} answers")
+        for source, pnum, found, total, grid in danword_results:
+            grid_tag = f"  [{grid}]" if grid else ""
+            email_lines.append(f"  {source:15} #{pnum:>8}  {found}/{total} answers{grid_tag}")
 
     email_lines.append("")
     email_lines.append("PUZZLE RECONCILIATION")

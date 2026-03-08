@@ -192,6 +192,9 @@ def _describe_assembly(asm, ai_pieces=None):
     elif op == "hidden":
         return "hidden in '%s'" % asm.get("words", "?")
 
+    elif op == "hidden_reversed":
+        return "hidden reversed in '%s'" % asm.get("words", "?")
+
     elif op == "hidden_in_word":
         return "hidden in word '%s'" % asm.get("word", "?")
 
@@ -245,8 +248,10 @@ def _actionable_quality(results):
     failed_clues = set()
 
     # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
+    # Include failed clues too — Sonnet's pieces often identify correct
+    # synonym/abbreviation mappings even when assembly can't verify them
     db_gaps = []
-    for r in assembled_results:
+    for r in results:
         ai = r.get("ai_output") or {}
         pieces = ai.get("pieces", [])
         answer = r.get("answer", "?")
@@ -414,6 +419,46 @@ def _actionable_quality(results):
         lines.append("")
         lines.append("FABRICATED MAPPINGS: none")
 
+    # --- CIRCULAR ASSEMBLIES ---
+    circular_clues = set()
+    circular = [r for r in assembled_results
+                if r.get("checks", {}).get("circular_assembly")]
+    if circular:
+        lines.append("")
+        lines.append("CIRCULAR ASSEMBLIES — answer used in own explanation (%d)" % len(circular))
+        lines.append("-" * 60)
+        for r in circular:
+            lines.append("  %s = %s (%d/100): %s" % (
+                r["answer"], r["clue_number"], r.get("score", 0),
+                r["checks"]["circular_assembly"]))
+            circular_clues.add(r["clue_number"])
+    else:
+        lines.append("")
+        lines.append("CIRCULAR ASSEMBLIES: none")
+
+    # --- UNVERIFIED EXPLANATIONS ---
+    unverified_clues = set()
+    unverified = [r for r in assembled_results
+                  if r.get("checks", {}).get("single_piece_answer")
+                  or r.get("checks", {}).get("zero_validation")]
+    if unverified:
+        lines.append("")
+        lines.append("UNVERIFIED EXPLANATIONS — no real breakdown (%d)" % len(unverified))
+        lines.append("-" * 60)
+        for r in unverified:
+            issues = []
+            if r.get("checks", {}).get("single_piece_answer"):
+                issues.append(r["checks"]["single_piece_answer"])
+            if r.get("checks", {}).get("zero_validation"):
+                issues.append(r["checks"]["zero_validation"])
+            lines.append("  %s = %s (%d/100): %s" % (
+                r["answer"], r["clue_number"], r.get("score", 0),
+                "; ".join(issues)))
+            unverified_clues.add(r["clue_number"])
+    else:
+        lines.append("")
+        lines.append("UNVERIFIED EXPLANATIONS: none")
+
     # --- WEAK DEFINITIONS ---
     weak_defs = [r for r in assembled_results
                  if r.get("checks", {}).get("definition") in (
@@ -443,6 +488,7 @@ def _actionable_quality(results):
     # --- SUMMARY WITH CLUE NUMBERS ---
     total = len(results)
     all_issue_clues = (type_mismatch_clues | anagram_fb_clues | fabricated_clues
+                       | circular_clues | unverified_clues
                        | weak_def_clues | failed_clues | db_gap_clues)
     clean_refs = sorted([ref_map[r["clue_number"]] for r in results
                          if r["clue_number"] not in all_issue_clues],
@@ -459,6 +505,8 @@ def _actionable_quality(results):
         ("Type mismatch", type_mismatch_clues),
         ("Anagram fallback", anagram_fb_clues),
         ("Fabricated mapping", fabricated_clues),
+        ("Circular assembly", circular_clues),
+        ("Unverified explain.", unverified_clues),
         ("Weak definition", weak_def_clues),
         ("DB gap", db_gap_clues),
         ("Failed", failed_clues),

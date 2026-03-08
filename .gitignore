@@ -47,3 +47,6 @@ scraper/*/*.png
 
 # FT scraped PDFs
 scraper/FT/ft_pdfs/
+
+# Tailwind generated CSS
+web/static/css/app.css

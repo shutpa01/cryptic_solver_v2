@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Cryptic Crossword Hints{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <style>
+        /* Tier badge colours */
+        .tier-high { background-color: #16a34a; color: white; }
+        .tier-medium { background-color: #ca8a04; color: white; }
+        .tier-low { background-color: #9ca3af; color: white; }
+        .tier-none { background-color: #e5e7eb; color: #6b7280; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+    <!-- Nav -->
+    <nav class="bg-white border-b border-gray-200 px-4 py-3">
+        <div class="max-w-3xl mx-auto flex items-center justify-between">
+            <a href="/" class="text-lg font-bold text-indigo-600">Cryptic Hints</a>
+            <span class="text-sm text-gray-400">Phase 1</span>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="max-w-3xl mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

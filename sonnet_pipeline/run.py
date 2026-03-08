@@ -41,7 +41,7 @@ OUTPUT_DIR = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents"
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"            # telegraph, guardian, times, independentclaude
-PUZZLE_NUMBER = "31176"             # puzzle number to solve
+PUZZLE_NUMBER = "31181"             # puzzle number to solve
 WRITE_DB = True                # write results to clues_master.db
 FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
 PARTIALS = False              # True = re-run partial solves (has_solution=2)
@@ -56,7 +56,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                partials=False):
     """Run the Sonnet pipeline on a single puzzle. Returns (results, stats)."""
     db_path = CLUES_DB
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, timeout=30)
     rows = conn.execute("""
         SELECT id, clue_number, direction, clue_text, answer, enumeration, explanation
         FROM clues WHERE source = ? AND puzzle_number = ?
@@ -76,7 +76,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     if not rows:
         conn.close()
         print("No clues found for %s puzzle %s" % (source, puzzle))
-        return [], {}
+        return [], {}, []
 
     print("=" * 80)
     print("SONNET PIPELINE: Sonnet -> Assembler -> Fallback")
@@ -287,6 +287,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
     # Generate report (DB gaps shown in the actionable quality section)
     report, gaps = generate_report(results, source, puzzle, stats)
+    os.makedirs(output_dir, exist_ok=True)
     report_path = "%s/puzzle_report_%s_%s.txt" % (output_dir, source, puzzle)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report)
@@ -312,49 +313,30 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             json.dump(gaps_data, f, indent=2, ensure_ascii=False)
         print("Pending DB gaps saved to %s (%d entries)" % (gaps_path, len(gaps)))
 
-    return results, stats
+    return results, stats, gaps
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Sonnet pipeline: Sonnet -> Assembler -> Fallback"
-    )
-    parser.add_argument("puzzles", nargs="*", default=[PUZZLE_NUMBER] if PUZZLE_NUMBER else None,
-                        help="Puzzle number(s) (e.g. 29939 29926)")
-    parser.add_argument("--source", default=SOURCE,
-                        help="Puzzle source (default: %s)" % SOURCE)
-    parser.add_argument("--write-db", action="store_true", default=WRITE_DB,
-                        help="Write results to clues_master.db (default: dry run)")
-    parser.add_argument("--output-dir", default=OUTPUT_DIR,
-                        help="Directory for report files (default: %s)" % OUTPUT_DIR)
-    parser.add_argument("--single-clue", type=str, default=SINGLE_CLUE_MATCH,
-                        help="Filter to single clue matching this text (overrides puzzle selection)")
-    parser.add_argument("--force", action="store_true", default=FORCE_API,
-                        help="Fresh API calls for all clues (ignore cached results)")
-    parser.add_argument("--partials", action="store_true", default=PARTIALS,
-                        help="Re-run partial solves (has_solution=2) with fresh API calls")
-    args = parser.parse_args()
+def _show_puzzle_summary(source, puzzle):
+    """Show current solve status for a puzzle."""
+    conn = sqlite3.connect(CLUES_DB)
+    rows = conn.execute("""
+        SELECT COUNT(*) AS total,
+               SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
+               SUM(CASE WHEN has_solution = 2 THEN 1 ELSE 0 END) AS partial,
+               SUM(CASE WHEN has_solution = 0 THEN 1 ELSE 0 END) AS failed,
+               SUM(CASE WHEN has_solution IS NULL THEN 1 ELSE 0 END) AS untried,
+               SUM(CASE WHEN definition IS NOT NULL AND wordplay_type IS NOT NULL
+                         AND ai_explanation IS NOT NULL THEN 1 ELSE 0 END) AS fully_annotated
+        FROM clues WHERE source = ? AND puzzle_number = ?
+    """, (source, puzzle)).fetchone()
+    conn.close()
+    total, solved, partial, failed, untried, annotated = rows
+    print("  %s #%s: %d clues — %d solved, %d partial, %d failed, %d untried, %d fully annotated" % (
+        source, puzzle, total, solved or 0, partial or 0, failed or 0, untried or 0, annotated or 0))
 
-    # Single-clue mode: if puzzle provided, just filter within it;
-    # if no puzzle, search the whole DB to find it
-    if args.single_clue and not args.puzzles:
-        conn = sqlite3.connect(CLUES_DB)
-        match = conn.execute(
-            "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
-            ("%" + args.single_clue + "%",)
-        ).fetchone()
-        conn.close()
-        if not match:
-            print("No clue found matching: %s" % args.single_clue)
-            sys.exit(1)
-        args.source = match[0]
-        args.puzzles = [str(match[1])]
-        print("Single-clue mode: matched '%s' in %s #%s" % (
-            match[2][:60], match[0], match[1]))
 
-    if not args.puzzles:
-        parser.error("No puzzle number(s) provided. Set PUZZLE_NUMBER at the top of run.py or pass on the command line.")
-
+def _run_full_pipeline(args):
+    """Mode 1: Run full pipeline (solve → DB gaps → re-run → manual entry)."""
     # Load shared resources once
     print("Loading enricher...")
     enricher = ClueEnricher()
@@ -363,8 +345,9 @@ def main():
     example_messages = build_example_messages()
 
     all_stats = []
+    any_gaps = False
     for puzzle in args.puzzles:
-        results, stats = run_puzzle(
+        results, stats, gaps = run_puzzle(
             args.source, puzzle, enricher, homo_engine, example_messages,
             write_db=args.write_db, output_dir=args.output_dir,
             single_clue=args.single_clue, force=args.force,
@@ -372,6 +355,8 @@ def main():
         )
         if stats:
             all_stats.append((puzzle, stats))
+        if gaps:
+            any_gaps = True
 
     # Cross-puzzle summary
     if len(all_stats) > 1:
@@ -399,6 +384,113 @@ def main():
         print("  Cost:   $%.4f" % grand_cost)
 
     enricher.close()
+
+    # After pipeline: DB gaps → re-run → manual entry
+    if any_gaps and args.write_db:
+        from .review_gaps import main as review_main
+        print("\n" + "-" * 80)
+        print("DB GAPS DETECTED — launching gap review...")
+        print("-" * 80)
+        try:
+            review_main()
+        except (EOFError, KeyboardInterrupt):
+            pass
+
+
+def _run_db_additions(args):
+    """Mode 2: Review and approve DB gap inserts (synonyms, abbreviations, definitions)."""
+    from .review_gaps import main as review_main
+    # review_gaps finds the latest gaps file automatically
+    review_args = [args.puzzles[0]] if args.puzzles else []
+    # Pass the gaps file path if it exists for this puzzle
+    gaps_path = os.path.join(args.output_dir, "pending_gaps_%s_%s.json" % (args.source, args.puzzles[0]))
+    if os.path.exists(gaps_path):
+        sys.argv = [sys.argv[0], gaps_path]
+    else:
+        sys.argv = [sys.argv[0]]
+    review_main()
+
+
+def _run_manual_explanations(args):
+    """Mode 3: Manually enter definitions, types, and explanations for weak clues."""
+    from .review_gaps import manual_entry_phase
+    for puzzle in args.puzzles:
+        _show_puzzle_summary(args.source, puzzle)
+        manual_entry_phase(args.source, puzzle, {})
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Sonnet pipeline: Sonnet -> Assembler -> Fallback"
+    )
+    parser.add_argument("puzzles", nargs="*", default=[PUZZLE_NUMBER] if PUZZLE_NUMBER else None,
+                        help="Puzzle number(s) (e.g. 29939 29926)")
+    parser.add_argument("--source", default=SOURCE,
+                        help="Puzzle source (default: %s)" % SOURCE)
+    parser.add_argument("--write-db", action="store_true", default=WRITE_DB,
+                        help="Write results to clues_master.db (default: dry run)")
+    parser.add_argument("--output-dir", default=OUTPUT_DIR,
+                        help="Directory for report files (default: %s)" % OUTPUT_DIR)
+    parser.add_argument("--single-clue", type=str, default=SINGLE_CLUE_MATCH,
+                        help="Filter to single clue matching this text (overrides puzzle selection)")
+    parser.add_argument("--force", action="store_true", default=FORCE_API,
+                        help="Fresh API calls for all clues (ignore cached results)")
+    parser.add_argument("--partials", action="store_true", default=PARTIALS,
+                        help="Re-run partial solves (has_solution=2) with fresh API calls")
+    parser.add_argument("--mode", type=int, choices=[1, 2, 3], default=None,
+                        help="Skip menu: 1=Full Pipeline, 2=DB Additions, 3=Manual Explanations")
+    args = parser.parse_args()
+
+    # Single-clue mode: if puzzle provided, just filter within it;
+    # if no puzzle, search the whole DB to find it
+    if args.single_clue and not args.puzzles:
+        conn = sqlite3.connect(CLUES_DB)
+        match = conn.execute(
+            "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
+            ("%" + args.single_clue + "%",)
+        ).fetchone()
+        conn.close()
+        if not match:
+            print("No clue found matching: %s" % args.single_clue)
+            sys.exit(1)
+        args.source = match[0]
+        args.puzzles = [str(match[1])]
+        print("Single-clue mode: matched '%s' in %s #%s" % (
+            match[2][:60], match[0], match[1]))
+
+    if not args.puzzles:
+        parser.error("No puzzle number(s) provided. Set PUZZLE_NUMBER at the top of run.py or pass on the command line.")
+
+    mode = args.mode
+    if mode is None:
+        # Show current status and menu
+        print()
+        print("=" * 60)
+        print("SONNET PIPELINE — %s %s" % (args.source, ", ".join(args.puzzles)))
+        print("=" * 60)
+        for puzzle in args.puzzles:
+            _show_puzzle_summary(args.source, puzzle)
+        print()
+        print("  1. Run Full Pipeline   (solve → DB additions → re-run → manual)")
+        print("  2. DB Additions only   (review/approve reference DB inserts)")
+        print("  3. Manual Explanations (enter definition/type/explanation)")
+        print()
+        try:
+            choice = input("Choose [1/2/3]: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            sys.exit(0)
+        if choice not in ("1", "2", "3"):
+            print("Invalid choice.")
+            sys.exit(1)
+        mode = int(choice)
+
+    if mode == 1:
+        _run_full_pipeline(args)
+    elif mode == 2:
+        _run_db_additions(args)
+    elif mode == 3:
+        _run_manual_explanations(args)
 
 
 if __name__ == "__main__":

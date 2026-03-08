@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Cryptic Crossword Hints — Browse{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Browse Puzzles</h1>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {% for source, type_slug, label in sources %}
+    <a href="/{{ source }}/{{ type_slug }}/"
+       class="block bg-white rounded-lg border border-gray-200 p-5 hover:border-indigo-400 hover:shadow-md transition">
+        <div class="text-lg font-semibold text-indigo-600">{{ label }}</div>
+        <div class="text-sm text-gray-500 mt-1">{{ source | title }} &middot; {{ type_slug | title }}</div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

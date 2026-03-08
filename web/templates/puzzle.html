@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ source | title }} {{ type_label }}</a>
+    <span class="mx-1">/</span>
+    <span>#{{ puzzle_number }}</span>
+</nav>
+
+<div class="mb-6 flex items-start justify-between">
+    <div>
+        <h1 class="text-2xl font-bold">{{ source | title }} {{ type_label }} #{{ puzzle_number }}</h1>
+        {% if publication_date %}
+        <p class="text-sm text-gray-500 mt-1">{{ publication_date }}</p>
+        {% endif %}
+    </div>
+    <div class="flex gap-2 shrink-0">
+        <button id="grid-toggle"
+                onclick="toggleGrid(this, '/{{ source }}/{{ puzzle_type }}/{{ puzzle_number }}/grid')"
+                class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
+            Show grid
+        </button>
+        <button onclick="hideAllHints()"
+                class="text-xs px-3 py-1.5 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer">
+            Hide all hints
+        </button>
+    </div>
+</div>
+
+<div id="grid-area"></div>
+
+{% macro clue_card(clue) %}
+<div class="py-3">
+    <div class="flex items-start gap-3">
+        <span class="text-gray-400 font-mono text-sm w-8 text-right shrink-0">{{ clue.clue_number }}{{ clue.direction[0] }}</span>
+        <div class="flex-1 min-w-0">
+            <p class="text-gray-900">{{ clue.clue_text }}
+                {% if clue.enumeration %}
+                <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
+                {% endif %}
+            </p>
+        </div>
+        <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
+            {{ clue.tier }}
+        </span>
+    </div>
+    {# Hint buttons — all steps shown, user picks what they want #}
+    <div class="ml-10 mt-2 flex flex-wrap gap-2">
+        {% for s in clue.steps %}
+        <button hx-post="/reveal"
+                hx-vals='{"token": "{{ clue.token }}", "step": "{{ s.step }}"}'
+                hx-target="#hints-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-xs px-2.5 py-1 rounded border font-medium cursor-pointer
+                    {% if s.type == 'definition' %}border-green-300 text-green-700 hover:bg-green-50
+                    {% elif s.type == 'wordplay_type' %}border-amber-300 text-amber-700 hover:bg-amber-50
+                    {% elif s.type == 'explanation' %}border-gray-300 text-gray-600 hover:bg-gray-50
+                    {% elif s.type == 'answer' %}border-indigo-300 text-indigo-700 hover:bg-indigo-50
+                    {% endif %}">
+            {{ s.label }}
+        </button>
+        {% endfor %}
+        {% if clue.steps | length > 1 %}
+        <button hx-post="/reveal"
+                hx-vals='{"token": "{{ clue.token }}", "step": "all"}'
+                hx-target="#hints-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium cursor-pointer">
+            Show all
+        </button>
+        {% endif %}
+        <button onclick="hideHints('hints-{{ clue.id }}')"
+                class="hint-hide text-xs px-2.5 py-1 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer hidden">
+            Hide
+        </button>
+    </div>
+    {# Reveal area — HTMX swaps content here #}
+    <div id="hints-{{ clue.id }}" class="ml-10"></div>
+</div>
+{% endmacro %}
+
+<!-- Across -->
+{% if across %}
+<section class="mb-6">
+    <h2 class="text-lg font-semibold text-gray-700 mb-2 border-b border-gray-200 pb-1">Across</h2>
+    <div class="divide-y divide-gray-100">
+        {% for clue in across %}
+        {{ clue_card(clue) }}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Down -->
+{% if down %}
+<section class="mb-6">
+    <h2 class="text-lg font-semibold text-gray-700 mb-2 border-b border-gray-200 pb-1">Down</h2>
+    <div class="divide-y divide-gray-100">
+        {% for clue in down %}
+        {{ clue_card(clue) }}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<script>
+function toggleGrid(btn, url) {
+    var area = document.getElementById('grid-area');
+    if (area.innerHTML.trim()) {
+        area.innerHTML = '';
+        btn.textContent = 'Show grid';
+    } else {
+        btn.textContent = 'Loading...';
+        htmx.ajax('GET', url, {target: '#grid-area', swap: 'innerHTML'}).then(function() {
+            btn.textContent = 'Hide grid';
+        });
+    }
+}
+function hideHints(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+    var btn = el.parentElement.querySelector('.hint-hide');
+    if (btn) btn.classList.add('hidden');
+}
+function hideAllHints() {
+    document.querySelectorAll('[id^="hints-"]').forEach(function(el) {
+        el.innerHTML = '';
+    });
+    document.querySelectorAll('.hint-hide').forEach(function(btn) {
+        btn.classList.add('hidden');
+    });
+}
+document.body.addEventListener('htmx:afterSwap', function(e) {
+    if (e.target.id && e.target.id.startsWith('hints-')) {
+        var btn = e.target.parentElement.querySelector('.hint-hide');
+        if (btn && e.target.innerHTML.trim()) btn.classList.remove('hidden');
+    }
+});
+</script>
+{% endblock %}

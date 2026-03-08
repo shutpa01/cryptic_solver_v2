@@ -209,7 +209,7 @@ class ClueEnricher:
         """Check if a phrase defines the answer."""
         return (phrase.lower(), answer.upper()) in self.definitions
 
-    def enrich(self, clue_text, answer, max_synonym_results=10):
+    def enrich(self, clue_text, answer, max_synonym_results=15):
         """Build enrichment context for a clue.
 
         Returns a formatted string with all DB lookups for each clue word/phrase.

@@ -117,10 +117,21 @@ def create_browser():
     if not TIMES_EMAIL or not TIMES_PASSWORD:
         raise ValueError("Missing TIMES_EMAIL or TIMES_PASSWORD in .env file")
 
+    # Clean up stale lock files from previous crashed sessions
+    for lock_file in ['SingletonLock', 'SingletonSocket', 'SingletonCookie']:
+        lock_path = PROFILE_DIR / lock_file
+        if lock_path.exists():
+            try:
+                lock_path.unlink()
+            except Exception:
+                pass
+
     print("Launching browser...")
     options = uc.ChromeOptions()
     options.add_argument('--start-maximized')
     options.add_argument(f'--user-data-dir={PROFILE_DIR}')
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
     chrome_ver = get_chrome_version_main()

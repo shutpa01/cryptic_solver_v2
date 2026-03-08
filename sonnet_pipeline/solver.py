@@ -322,20 +322,26 @@ def try_hidden(clue_text, target):
         boundaries.append((pos, pos + len(wc), w))
         pos += len(wc)
     concat = "".join(clean(w) for w in words)
-    idx = concat.find(target)
-    if idx >= 0:
-        sw = ew = None
-        for wi, (ws, we, _) in enumerate(boundaries):
-            if ws <= idx < we:
-                sw = wi
-            if ws < idx + len(target) <= we:
-                ew = wi
-        if sw is not None and ew is not None:
-            if sw != ew:
-                return {"op": "hidden", "words": " ".join(words[sw:ew+1])}
-            word_clean = clean(words[sw])
-            if len(target) < len(word_clean):
-                return {"op": "hidden_in_word", "word": words[sw]}
+
+    # Try forwards first, then reversed
+    for candidate, reversed_flag in ((target, False), (target[::-1], True)):
+        idx = concat.find(candidate)
+        if idx >= 0:
+            sw = ew = None
+            for wi, (ws, we, _) in enumerate(boundaries):
+                if ws <= idx < we:
+                    sw = wi
+                if ws < idx + len(candidate) <= we:
+                    ew = wi
+            if sw is not None and ew is not None:
+                if sw != ew:
+                    op = "hidden_reversed" if reversed_flag else "hidden"
+                    return {"op": op, "words": " ".join(words[sw:ew+1])}
+                word_clean = clean(words[sw])
+                if len(candidate) < len(word_clean):
+                    if reversed_flag:
+                        return {"op": "hidden_reversed", "words": words[sw]}
+                    return {"op": "hidden_in_word", "word": words[sw]}
     return None
 
 
@@ -1334,6 +1340,7 @@ OP_TO_TYPE = {
     "homophone": "homophone",
     "hidden": "hidden",
     "hidden_in_word": "hidden",
+    "hidden_reversed": "hidden",
     "deletion+anagram": "anagram",
     "double_definition": "double_definition",
     "cryptic_definition": "cryptic_definition",
@@ -1607,7 +1614,7 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         else:
             checks["yields_check"] = "FAIL: pieces=%s answer=%s" % (
                 piece_letters, answer_clean)
-    elif asm_op in ("hidden", "hidden_in_word"):
+    elif asm_op in ("hidden", "hidden_in_word", "hidden_reversed"):
         # Hidden words are self-evidently correct — the answer is in the clue
         checks["yields_check"] = "hidden (self-evident)"
         score += 20
@@ -1663,6 +1670,9 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     elif asm_op in ("double_definition", "cryptic_definition"):
         checks["pieces_validated"] = "n/a for %s" % asm_type
         score += 10
+    elif asm_op in ("hidden", "hidden_in_word", "hidden_reversed"):
+        checks["pieces_validated"] = "n/a for hidden"
+        score += 10
     else:
         checks["pieces_validated"] = "no pieces to validate"
 
@@ -1692,6 +1702,32 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         penalty = min(unexplained * 10, 25)
         checks["gap_fill"] = "%d unexplained letter(s)" % unexplained
         score -= penalty
+
+    # --- Penalty: circular assembly (answer used in own explanation) ---
+    circular = False
+    for p in ai_pieces:
+        if clean(p.get("letters") or "") == answer_clean:
+            circular = True
+            break
+    if not circular and assembly.get("from"):
+        if clean(assembly["from"]) == answer_clean:
+            circular = True
+    if circular:
+        checks["circular_assembly"] = "answer used in own explanation"
+        score = min(score, 65)
+
+    # --- Penalty: single piece producing full answer (no real breakdown) ---
+    if (asm_op not in ("double_definition", "cryptic_definition", "hidden", "hidden_in_word", "hidden_reversed")
+            and total_pieces == 1 and ai_pieces):
+        solo_letters = clean(ai_pieces[0].get("letters") or "")
+        if solo_letters == answer_clean:
+            checks["single_piece_answer"] = "single piece equals full answer"
+            score -= 20
+
+    # --- Penalty: zero pieces validated ---
+    if total_pieces > 0 and validated_pieces == 0:
+        checks["zero_validation"] = "no pieces verified in DB"
+        score -= 15
 
     # Final confidence bands
     if score >= 70:
@@ -1765,6 +1801,27 @@ def extract_db_gaps(results, enricher):
 
 # -- DB writer -----------------------------------------------------------------
 
+def _ensure_structured_table(conn):
+    """Create structured_explanations table if it doesn't exist."""
+    conn.execute("""CREATE TABLE IF NOT EXISTS structured_explanations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        clue_id INTEGER NOT NULL UNIQUE,
+        definition_text TEXT,
+        definition_start INTEGER,
+        definition_end INTEGER,
+        wordplay_types TEXT,
+        components TEXT,
+        model_version TEXT,
+        confidence REAL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        source TEXT,
+        puzzle_number TEXT,
+        clue_number TEXT,
+        FOREIGN KEY (clue_id) REFERENCES clues(id)
+    )""")
+
+
 def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     """Store pipeline result into clues and structured_explanations tables.
 
@@ -1772,6 +1829,7 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     Only persists results with score > 0.
     Sets has_solution=1 when score >= 80 and no type mismatch.
     """
+    _ensure_structured_table(conn)
     score = validation.get("score", 0)
 
     # Don't persist failures
@@ -1818,15 +1876,33 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
 
     confidence = score / 100.0
 
+    # Update definition only if not already set
+    if ai_def:
+        conn.execute("""
+            UPDATE clues SET definition = ?
+            WHERE id = ? AND (definition IS NULL OR definition = '')
+        """, (ai_def, clue_id))
+    # Always update wordplay_type if not already set
     conn.execute("""
-        UPDATE clues SET definition = ?, wordplay_type = ?
-        WHERE id = ? AND (definition IS NULL OR definition = '')
-    """, (ai_def, wordplay_types[0], clue_id))
+        UPDATE clues SET wordplay_type = ?
+        WHERE id = ? AND (wordplay_type IS NULL OR wordplay_type = '')
+    """, (wordplay_types[0], clue_id))
 
-    # Determine solved status: 1=solved (>=80), 2=partial (<80)
-    if score >= 80:
+    # Determine solved status based on actual content, not score
+    # 1 = all three hint fields present, 2 = partial
+    row = conn.execute(
+        "SELECT definition, wordplay_type, ai_explanation FROM clues WHERE id = ?",
+        (clue_id,)
+    ).fetchone()
+    has_def = bool(row[0]) if row else bool(ai_def)
+    has_type = bool(row[1]) if row else bool(wordplay_types[0])
+    # Explanation: either ai_explanation in clues, or components we're about to write
+    has_expl = bool(row[2]) if row else False
+    has_expl = has_expl or bool(ai_pieces)  # pipeline components count as explanation
+
+    if has_def and has_type and has_expl:
         conn.execute("UPDATE clues SET has_solution = 1 WHERE id = ?", (clue_id,))
-    else:
+    elif has_def or has_type:
         conn.execute("UPDATE clues SET has_solution = 2 WHERE id = ?", (clue_id,))
 
     def_start = None
@@ -1937,7 +2013,7 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
         asm_op = assembly.get("op", "")
         # When assembler found hidden but Sonnet suggested different type,
         # override pieces — Sonnet's pieces are meaningless for hidden words
-        if asm_op in ("hidden", "hidden_in_word") and sonnet_wtype != "hidden":
+        if asm_op in ("hidden", "hidden_in_word", "hidden_reversed") and sonnet_wtype != "hidden":
             source_phrase = assembly.get("words") or assembly.get("word") or ""
             sonnet_out = sonnet_out or {}
             sonnet_out["pieces"] = [
