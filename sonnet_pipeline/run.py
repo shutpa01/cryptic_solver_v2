@@ -182,6 +182,12 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             print("   Cross-refs: %s" % xrefs)
         if cached_ai:
             print("   [CACHED] re-running assembler on stored AI output")
+        # Show reasoning from two-pass solver if available
+        reasoning = sonnet_out.get("_reasoning", "") if sonnet_out else ""
+        if reasoning and not cached_ai:
+            # Show first 120 chars of reasoning for quick debugging
+            preview = reasoning.replace("\n", " | ")[:120]
+            print("   Reasoning: %s" % preview)
         print("   Sonnet: type=%s, def=%s" % (sonnet_wtype, repr(sonnet_def)))
         print("   Pieces: %s -> %s (target=%s)" % (
             sonnet_pieces, "".join(sonnet_pieces), target))
