@@ -56,10 +56,14 @@ def create_app(config_name=None):
     from web.routes.puzzle import bp as puzzle_bp
     from web.routes.hints import bp as hints_bp
     from web.routes.admin import bp as admin_bp
+    from web.routes.clue import bp as clue_bp
+    from web.routes.seo import bp as seo_bp
 
     app.register_blueprint(browse_bp)
     app.register_blueprint(puzzle_bp)
     app.register_blueprint(hints_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(clue_bp)
+    app.register_blueprint(seo_bp)
 
     return app

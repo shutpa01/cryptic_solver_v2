@@ -1,10 +1,32 @@
 """Data access layer — queries against clues_master.db."""
 
 import json
+import re
 
 from flask import current_app
 
 from web.db import get_db
+
+
+# ---------------------------------------------------------------------------
+# Slug generation
+# ---------------------------------------------------------------------------
+
+def clue_slug(clue_text, enumeration=None):
+    """Generate a URL slug from clue text + enumeration.
+
+    'Staggers back with beers' (7) -> 'staggers-back-with-beers-7'
+    """
+    text = clue_text.lower().strip()
+    # Replace non-alphanumeric with hyphens
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    text = text.strip("-")
+    # Append enumeration if present
+    if enumeration:
+        enum_clean = re.sub(r"[^0-9,/-]+", "", enumeration)
+        if enum_clean:
+            text += "-" + re.sub(r"[^0-9]", "-", enum_clean).strip("-")
+    return text
 
 # ---------------------------------------------------------------------------
 # Puzzle-type classification
@@ -301,6 +323,58 @@ def get_hint_steps(clue):
     # Answer is always available as the final step
     steps.append({"step": n, "label": "Answer", "type": "answer"})
     return steps
+
+
+def get_clues_by_slug(slug):
+    """Find clues matching a slug, most recent first.
+
+    Returns a list of clue rows (with structured_explanations joined).
+    Generates slugs on the fly and matches against the requested slug.
+    Since SQLite can't do regex slug generation, we search by the words
+    in the slug and filter in Python.
+    """
+    db = get_db()
+    # Extract search words from the slug (drop the trailing enumeration digits)
+    parts = slug.split("-")
+    # Find the content words (non-numeric, or numeric but not at the end)
+    search_words = []
+    for i, p in enumerate(parts):
+        if p and not (p.isdigit() and i >= len(parts) - 2):
+            search_words.append(p)
+
+    if not search_words:
+        return []
+
+    # Use LIKE for the first few words to narrow candidates
+    where_clauses = []
+    params = []
+    for w in search_words[:3]:
+        where_clauses.append("LOWER(c.clue_text) LIKE ?")
+        params.append(f"%{w}%")
+
+    # Only search Telegraph + Times (our launch scope)
+    sql = """SELECT c.id, c.source, c.puzzle_number, c.publication_date,
+                    c.clue_number, c.direction, c.clue_text, c.enumeration,
+                    c.answer, c.definition, c.wordplay_type, c.explanation,
+                    c.ai_explanation, se.components, se.confidence
+             FROM clues c
+             LEFT JOIN structured_explanations se ON se.clue_id = c.id
+             WHERE c.source IN ('telegraph', 'times')
+               AND c.clue_text IS NOT NULL
+               AND %s
+             ORDER BY c.publication_date DESC
+             LIMIT 50""" % " AND ".join(where_clauses)
+
+    rows = db.execute(sql, params).fetchall()
+
+    # Filter to exact slug match in Python
+    matches = []
+    for row in rows:
+        row_slug = clue_slug(row["clue_text"], row["enumeration"])
+        if row_slug == slug:
+            matches.append(row)
+
+    return matches
 
 
 def get_clue_by_id(clue_id):

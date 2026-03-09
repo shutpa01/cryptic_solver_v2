@@ -75,10 +75,48 @@ def _with_charade(desc, order, key_piece, ai):
     return " + ".join(parts)
 
 
-def _describe_assembly(asm, ai_pieces=None):
+def _find_indicator(ai_pieces):
+    """Find indicator word from ai_pieces (stored in deletion/reversal refinement)."""
+    for p in (ai_pieces or []):
+        if p.get("indicator"):
+            return p["indicator"]
+    return None
+
+
+def _highlight_hidden(words, answer):
+    """Capitalise the hidden answer letters within the source words.
+
+    E.g. words='grim peloton', answer='IMPEL' → 'gr IM PEL oton'
+    """
+    if not answer:
+        return words
+    answer_upper = re.sub(r"[^A-Z]", "", answer.upper())
+    # Build a letters-only version and find the hidden substring
+    letters_only = []
+    letter_positions = []
+    for i, ch in enumerate(words):
+        if ch.isalpha():
+            letters_only.append(ch.upper())
+            letter_positions.append(i)
+
+    letters_str = "".join(letters_only)
+    idx = letters_str.find(answer_upper)
+    if idx < 0:
+        return words
+
+    # Build result: lowercase everything, uppercase the hidden letters
+    result = list(words.lower())
+    for j in range(idx, idx + len(answer_upper)):
+        pos = letter_positions[j]
+        result[pos] = words[pos].upper()
+    return "".join(result)
+
+
+def _describe_assembly(asm, ai_pieces=None, answer=None):
     """Return a human-readable description of an assembly operation."""
     op = asm.get("op", "?")
     ai = ai_pieces or []
+    indicator = _find_indicator(ai)
 
     if op == "charade":
         order = asm.get("order", [])
@@ -112,25 +150,37 @@ def _describe_assembly(asm, ai_pieces=None):
             container_desc = "%s inside %s" % (_annotate_composite(merged, ai), _annotate(outer, ai))
         else:
             container_desc = "%s inside %s" % (_annotate(inner, ai), _annotate(outer, ai))
-        return _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        desc = _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "reversal":
         rev_parts = asm.get("reversed_parts")
         if rev_parts:
-            # Full reversal of concatenated pieces: "reverse CID+AM+ON"
             parts_desc = "+".join(_annotate(p, ai) for p in rev_parts)
-            return "reverse %s" % parts_desc
-        rev_desc = "reverse %s" % _annotate(asm.get("reversed", "?"), ai)
-        return _with_charade(rev_desc, asm.get("order", []), asm.get("gives", ""), ai)
+            desc = "reverse %s" % parts_desc
+        else:
+            desc = "reverse %s" % _annotate(asm.get("reversed", "?"), ai)
+            desc = _with_charade(desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "deletion":
         del_desc = "delete %s from %s" % (
             asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai))
-        return _with_charade(del_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        desc = _with_charade(del_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "outer_deletion":
         od_desc = "strip outer letters from %s" % _annotate(asm.get("from", "?"), ai)
-        return _with_charade(od_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        desc = _with_charade(od_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "anagram":
         fodder = asm.get("fodder", [])
@@ -165,38 +215,50 @@ def _describe_assembly(asm, ai_pieces=None):
 
     elif op == "deletion+anagram":
         fodder = asm.get("fodder", [])
-        return "delete %s from %s, anagram of %s" % (
+        desc = "delete %s from %s, anagram of %s" % (
             asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
             "+".join(_annotate(f, ai) for f in fodder) if fodder else "?")
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "reversal_container":
         inner = asm.get("inner", "?")
         outer = asm.get("outer", "?")
         pre_rev = asm.get("pre_reversal", "?")
-        # Show which piece was reversed and the container structure
-        # e.g. "reverse FAT(plump), then inside FETA(cheese)"
         rev_part = _annotate(pre_rev, ai) if pre_rev != "?" else inner
         container_desc = "reverse %s, then %s inside %s" % (
             rev_part, _annotate(inner, ai), _annotate(outer, ai))
-        return _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        desc = _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "container_reversal":
         inner = asm.get("inner", "?")
         outer = asm.get("outer", "?")
         reversed_combined = asm.get("reversed_combined", "?")
-        # E.g. "E(base) inside PEWS(benches), then reverse = SWEEP"
         container_desc = "%s inside %s, then reverse" % (
             _annotate(inner, ai), _annotate(outer, ai))
-        return _with_charade(container_desc, asm.get("order", []), reversed_combined, ai)
+        desc = _with_charade(container_desc, asm.get("order", []), reversed_combined, ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "hidden":
-        return "hidden in '%s'" % asm.get("words", "?")
+        words = asm.get("words", "?")
+        highlighted = _highlight_hidden(words, answer)
+        return "hidden in '%s'" % highlighted
 
     elif op == "hidden_reversed":
-        return "hidden reversed in '%s'" % asm.get("words", "?")
+        words = asm.get("words", "?")
+        highlighted = _highlight_hidden(words, answer and answer[::-1])
+        return "hidden reversed in '%s'" % highlighted
 
     elif op == "hidden_in_word":
-        return "hidden in word '%s'" % asm.get("word", "?")
+        word = asm.get("word", "?")
+        highlighted = _highlight_hidden(word, answer)
+        return "hidden in word '%s'" % highlighted
 
     elif op == "homophone":
         return "%s sounds like %s" % (asm.get("sounds_like", "?"), asm.get("gives", "?"))
@@ -207,9 +269,12 @@ def _describe_assembly(asm, ai_pieces=None):
         return "spoonerism of %s %s → %s %s" % (src[0], src[1], res[0], res[1])
 
     elif op == "substitution":
-        return "%s - %s + %s(%s)" % (
+        desc = "%s - %s + %s(%s)" % (
             _annotate(asm.get("from", "?"), ai), asm.get("deleted", "?"),
             asm.get("added", "?"), asm.get("add_word", "?"))
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op in ("double_definition", "cryptic_definition"):
         return op.replace("_", " ")
@@ -629,7 +694,7 @@ def generate_report(results, source, puzzle, stats):
         asm_desc = "---"
         if r.get("status") == "ASSEMBLED":
             asm = r.get("assembly") or {}
-            desc = _describe_assembly(asm, ai_pieces)
+            desc = _describe_assembly(asm, ai_pieces, answer=ans)
             if desc:
                 asm_desc = desc
             else:
@@ -717,7 +782,7 @@ def generate_report(results, source, puzzle, stats):
         if asm:
             op = asm.get("op", "?")
             detail_ai_pieces = (ai or {}).get("pieces", [])
-            desc = _describe_assembly(asm, detail_ai_pieces)
+            desc = _describe_assembly(asm, detail_ai_pieces, answer=r.get("answer"))
             if desc:
                 lines.append("  Assembly: %s — %s" % (op, desc))
             else:

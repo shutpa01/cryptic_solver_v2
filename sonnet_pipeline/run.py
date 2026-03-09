@@ -186,7 +186,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("   Pieces: %s -> %s (target=%s)" % (
             sonnet_pieces, "".join(sonnet_pieces), target))
         if assembly:
-            desc = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [])
+            desc = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [], answer=answer)
             if desc:
                 print("   Assembly: %s — %s" % (assembly.get("op", "?"), desc))
             else:
@@ -203,7 +203,12 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             print("   Confidence: NONE (0/100)")
             print("   Status: FAILED")
             if write_db:
-                conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
+                # Only set reviewed=0 if not already manually reviewed
+                cur_rev = conn.execute("SELECT reviewed FROM clues WHERE id = ?", (cid,)).fetchone()
+                if cur_rev and cur_rev[0] in (1, 2):
+                    conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
+                else:
+                    conn.execute("UPDATE clues SET has_solution = 0, reviewed = 0 WHERE id = ?", (cid,))
         if explanation:
             print("   Human:  %s" % explanation[:90])
 
@@ -386,15 +391,23 @@ def _run_full_pipeline(args):
     enricher.close()
 
     # After pipeline: DB gaps → re-run → manual entry
-    if any_gaps and args.write_db:
+    if any_gaps and args.write_db and not args.no_review:
         from .review_gaps import main as review_main
         print("\n" + "-" * 80)
         print("DB GAPS DETECTED — launching gap review...")
         print("-" * 80)
+        # Find the gaps file for this puzzle and set sys.argv so review_main picks it up
+        gaps_path = os.path.join(args.output_dir, "pending_gaps_%s_%s.json" % (args.source, args.puzzles[0]))
+        if os.path.exists(gaps_path):
+            sys.argv = [sys.argv[0], gaps_path]
+        else:
+            sys.argv = [sys.argv[0]]
         try:
             review_main()
         except (EOFError, KeyboardInterrupt):
             pass
+    elif any_gaps and args.no_review:
+        print("\nDB gaps detected but --no-review set. Review from the dashboard.")
 
 
 def _run_db_additions(args):
@@ -439,11 +452,13 @@ def main():
                         help="Re-run partial solves (has_solution=2) with fresh API calls")
     parser.add_argument("--mode", type=int, choices=[1, 2, 3], default=None,
                         help="Skip menu: 1=Full Pipeline, 2=DB Additions, 3=Manual Explanations")
+    parser.add_argument("--no-review", action="store_true", default=False,
+                        help="Skip interactive gap review (for non-interactive/subprocess use)")
     args = parser.parse_args()
 
-    # Single-clue mode: if puzzle provided, just filter within it;
-    # if no puzzle, search the whole DB to find it
-    if args.single_clue and not args.puzzles:
+    # Single-clue mode: auto-detect source and puzzle from DB.
+    # Always overrides source/puzzle — the clue text is the primary selector.
+    if args.single_clue:
         conn = sqlite3.connect(CLUES_DB)
         match = conn.execute(
             "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",

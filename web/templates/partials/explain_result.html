@@ -1,0 +1,36 @@
+{# Replaces the generate button area after successful API explanation.
+   Returns the new hint buttons + status info. Swapped into #explain-<id>. #}
+<div class="flex flex-wrap gap-2 items-center">
+    <span class="tier-{{ tier | lower }} text-xs font-medium px-2 py-0.5 rounded">
+        {{ tier }}
+    </span>
+    {% for s in steps %}
+    <button hx-post="/reveal"
+            hx-vals='{"token": "{{ token }}", "step": "{{ s.step }}"}'
+            hx-target="#hints-{{ clue.id }}"
+            hx-swap="innerHTML"
+            class="text-xs px-2.5 py-1 rounded border font-medium cursor-pointer
+                {% if s.type == 'definition' %}border-green-300 text-green-700 hover:bg-green-50
+                {% elif s.type == 'wordplay_type' %}border-amber-300 text-amber-700 hover:bg-amber-50
+                {% elif s.type == 'explanation' %}border-gray-300 text-gray-600 hover:bg-gray-50
+                {% elif s.type == 'answer' %}border-indigo-300 text-indigo-700 hover:bg-indigo-50
+                {% endif %}">
+        {{ s.label }}
+    </button>
+    {% endfor %}
+    {% if steps | length > 1 %}
+    <button hx-post="/reveal"
+            hx-vals='{"token": "{{ token }}", "step": "all"}'
+            hx-target="#hints-{{ clue.id }}"
+            hx-swap="innerHTML"
+            class="text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium cursor-pointer">
+        Show all
+    </button>
+    {% endif %}
+    <span class="text-xs text-amber-600 font-medium px-1.5 py-0.5 bg-amber-50 rounded border border-amber-200">
+        Unreviewed
+    </span>
+    {% if timing %}
+    <span class="text-xs text-gray-400">{{ timing.total_ms }}ms</span>
+    {% endif %}
+</div>

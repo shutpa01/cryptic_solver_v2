@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Cryptic Crossword Hints{% endblock %}</title>
+    {% block meta %}
+    <meta name="description" content="Cryptic crossword hints and explanations — understand how the wordplay works, not just the answer.">
+    {% endblock %}
+    {% block structured_data %}{% endblock %}
+    <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <style>
@@ -12,6 +17,9 @@
         .tier-medium { background-color: #ca8a04; color: white; }
         .tier-low { background-color: #9ca3af; color: white; }
         .tier-none { background-color: #e5e7eb; color: #6b7280; }
+        /* HTMX loading indicator */
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: inline; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen">

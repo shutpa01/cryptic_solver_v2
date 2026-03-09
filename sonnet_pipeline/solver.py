@@ -1876,6 +1876,13 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
 
     confidence = score / 100.0
 
+    # Build human-readable explanation from assembly
+    from .report import _describe_assembly
+    # Fetch answer for hidden-word highlighting
+    ans_row = conn.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    clue_answer = ans_row[0] if ans_row else None
+    explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
+
     # Update definition only if not already set
     if ai_def:
         conn.execute("""
@@ -1887,6 +1894,12 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         UPDATE clues SET wordplay_type = ?
         WHERE id = ? AND (wordplay_type IS NULL OR wordplay_type = '')
     """, (wordplay_types[0], clue_id))
+    # Write explanation
+    if explanation_text:
+        conn.execute("""
+            UPDATE clues SET ai_explanation = ?
+            WHERE id = ? AND (ai_explanation IS NULL OR ai_explanation = '')
+        """, (explanation_text, clue_id))
 
     # Determine solved status based on actual content, not score
     # 1 = all three hint fields present, 2 = partial
@@ -1900,10 +1913,25 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     has_expl = bool(row[2]) if row else False
     has_expl = has_expl or bool(ai_pieces)  # pipeline components count as explanation
 
+    # Auto-approve high-confidence solves (score >= 80), flag others for review
+    # But NEVER overwrite a manual review (reviewed = 1 approved, 2 rejected)
+    current_reviewed = conn.execute(
+        "SELECT reviewed FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    already_reviewed = current_reviewed and current_reviewed[0] in (1, 2)
+
+    if not already_reviewed:
+        auto_reviewed = 1 if score >= 80 else 0
+    else:
+        auto_reviewed = current_reviewed[0]
+
     if has_def and has_type and has_expl:
-        conn.execute("UPDATE clues SET has_solution = 1 WHERE id = ?", (clue_id,))
+        conn.execute("UPDATE clues SET has_solution = 1, reviewed = ? WHERE id = ?", (auto_reviewed, clue_id))
     elif has_def or has_type:
-        conn.execute("UPDATE clues SET has_solution = 2 WHERE id = ?", (clue_id,))
+        if not already_reviewed:
+            conn.execute("UPDATE clues SET has_solution = 2, reviewed = 0 WHERE id = ?", (clue_id,))
+        else:
+            conn.execute("UPDATE clues SET has_solution = 2 WHERE id = ?", (clue_id,))
 
     def_start = None
     def_end = None
