@@ -16,7 +16,6 @@ import os
 import random
 import re
 import sqlite3
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -36,18 +35,6 @@ TIMES_JSON_DIR = PROJECT_ROOT / 'scraper' / 'times'
 
 DANWORD_URL = 'https://www.danword.com'
 
-
-def get_chrome_version_main():
-    """Read installed Chrome major version from Windows registry."""
-    try:
-        result = subprocess.run(
-            ['reg', 'query', r'HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon', '/v', 'version'],
-            capture_output=True, text=True, timeout=5,
-        )
-        match = re.search(r'(\d+)\.', result.stdout)
-        return int(match.group(1)) if match else None
-    except Exception:
-        return None
 
 
 # ---------- DB helpers --------------------------------------------------
@@ -82,14 +69,22 @@ def write_answers(answers):
 # ---------- Danword Selenium lookup ------------------------------------
 
 def setup_driver():
-    """Launch Chrome for danword scraping."""
-    import undetected_chromedriver as uc
+    """Launch Firefox for danword scraping.
 
-    options = uc.ChromeOptions()
-    options.add_argument("--start-maximized")
-    chrome_ver = get_chrome_version_main()
-    print(f"Chrome version: {chrome_ver}")
-    driver = uc.Chrome(options=options, version_main=chrome_ver)
+    Uses a dedicated Firefox profile so it never conflicts with the
+    user's browser. Firefox avoids the reCAPTCHA issues that plague Chrome.
+    """
+    from selenium import webdriver
+    from selenium.webdriver.firefox.options import Options
+
+    profile_dir = str(PROJECT_ROOT / 'scraper' / 'danword' / '.firefox_profile')
+
+    options = Options()
+    options.add_argument('-profile')
+    options.add_argument(profile_dir)
+
+    print("Launching Firefox...")
+    driver = webdriver.Firefox(options=options)
     return driver
 
 
@@ -395,8 +390,10 @@ def build_solution_string(json_path, clue_answers):
             for cell in cells:
                 white_cells.add(cell)
 
-    # Place answers into grid
+    # Place answers into grid, detecting crossing conflicts
     grid_letters = {}
+    grid_sources = {}  # track which clue placed each letter
+    conflicts = []
     for (num, direction), answer in clue_answers.items():
         wid = clue_to_word.get((num, direction))
         if wid is None:
@@ -406,7 +403,19 @@ def build_solution_string(json_path, clue_answers):
         if len(clean) != len(cells):
             continue
         for i, (row, col) in enumerate(cells):
+            if (row, col) in grid_letters and grid_letters[(row, col)] != clean[i]:
+                prev = grid_sources[(row, col)]
+                conflicts.append(
+                    f"  ({row},{col}): {prev} says '{grid_letters[(row, col)]}', "
+                    f"{num}{direction[0].upper()} says '{clean[i]}'"
+                )
             grid_letters[(row, col)] = clean[i]
+            grid_sources[(row, col)] = f"{num}{direction[0].upper()}"
+
+    if conflicts:
+        print(f"Grid build: {len(conflicts)} crossing conflict(s):")
+        for c in conflicts[:10]:
+            print(c)
 
     # Build solution string
     solution = []
@@ -463,7 +472,11 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
             d = 'A' if direction == 'across' else 'D'
             print(f"  [{i+1}/{len(clues)}] {num:>2}{d}: {clue_text[:60]}...", end='')
 
-            answer = lookup_clue(driver, clue_text)
+            try:
+                answer = lookup_clue(driver, clue_text)
+            except Exception as e:
+                print(f" -> ERROR: {e}")
+                continue
 
             if answer:
                 # Validate length
@@ -473,6 +486,9 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
                 else:
                     print(f" -> {clean_answer}")
                     found[clue_id] = (clean_answer, num, direction)
+                    # Write immediately so Chrome crashes don't lose answers
+                    if not dry_run:
+                        write_answers([(clean_answer, clue_id)])
             else:
                 print(" -> NOT FOUND")
 
@@ -486,49 +502,39 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
                 time.sleep(delay)
 
     finally:
-        driver.quit()
+        try:
+            driver.quit()
+        except Exception:
+            pass
 
     print(f"\nFound: {len(found)}/{len(clues)} answers")
 
     if not found:
         return 0, len(clues)
 
-    # Grid validation
+    # Grid validation (post-hoc — answers already written individually)
     json_path = find_puzzle_json(source, puzzle_number)
-    grid_valid = None
 
     if json_path:
         print(f"\nValidating against grid: {json_path.name}")
         clue_answers = {(num, direction): answer for answer, num, direction in found.values()}
         is_valid, errors, total = validate_grid(str(json_path), clue_answers)
-        grid_valid = is_valid
         if is_valid:
             print(f"  Grid validation PASSED ({total} crossings checked)")
             print(f"Grid: PASSED ({total} crossings)")
+
+            # Build and store grid solution for the web app
+            result = build_solution_string(str(json_path), clue_answers)
+            if result:
+                sol, rows, cols = result
+                update_puzzle_grid_solution(source, puzzle_number, sol, rows, cols)
+                print(f"  Grid solution stored ({rows}x{cols})")
         else:
             print(f"  Grid validation FAILED: {errors}/{total} crossing errors")
             print(f"Grid: FAILED ({errors}/{total} crossings)")
     else:
         print(f"\nNo puzzle JSON found for grid validation")
         print(f"Grid: NO_JSON")
-
-    # Write to DB
-    if dry_run:
-        print(f"\nDRY RUN: would write {len(found)} answers to DB")
-    elif grid_valid is False:
-        print(f"\nSkipping DB write — grid validation failed")
-    else:
-        tag = "(grid validated)" if grid_valid else "(no grid validation)"
-        print(f"\nWriting {len(found)} answers to DB {tag}")
-        write_answers([(answer, clue_id) for clue_id, (answer, _, _) in found.items()])
-
-        # Build and store grid solution for the web app
-        if json_path and grid_valid:
-            result = build_solution_string(str(json_path), clue_answers)
-            if result:
-                sol, rows, cols = result
-                update_puzzle_grid_solution(source, puzzle_number, sol, rows, cols)
-                print(f"  Grid solution stored ({rows}x{cols})")
 
     return len(found), len(clues)
 
@@ -540,7 +546,19 @@ def main():
     parser.add_argument('--puzzle', required=True, help='Puzzle number')
     parser.add_argument('--dry-run', action='store_true',
                         help='Find answers but do not write to DB')
+    parser.add_argument('--seed', action='store_true',
+                        help='Seed the Firefox profile: opens danword for manual testing, then exits')
     args = parser.parse_args()
+
+    if args.seed:
+        print("Seeding danword Firefox profile...")
+        print("Firefox will open. Do a test search, then press Enter here to close.")
+        driver = setup_driver()
+        driver.get('https://www.danword.com')
+        input("Press Enter when done...")
+        driver.quit()
+        print("Profile saved.")
+        sys.exit(0)
 
     print(f"Danword Lookup -- {args.source} #{args.puzzle}")
     print(f"Database: {DB_PATH}")

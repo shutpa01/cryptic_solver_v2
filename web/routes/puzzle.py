@@ -8,7 +8,7 @@ from web.models import (
     get_puzzle_grid_data, get_puzzle_grid_solution,
 )
 from web.routes.hints import generate_token
-from web.grid import reconstruct_grid, parse_grid_solution
+from web.grid import reconstruct_grid, parse_grid_solution, build_grid_from_json
 
 bp = Blueprint("puzzle", __name__)
 
@@ -75,7 +75,13 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
     if actual_slug != puzzle_type:
         abort(404)
 
-    # Path 1: use stored solution string from API (fast, exact)
+    # Path 1: rebuild live from JSON structure + current DB answers
+    clue_data = get_puzzle_grid_data(source, puzzle_number)
+    grid = build_grid_from_json(source, puzzle_number, clue_data)
+    if grid is not None:
+        return render_template("partials/grid.html", grid=grid)
+
+    # Path 2: use stored solution string (no JSON available)
     stored = get_puzzle_grid_solution(source, puzzle_number)
     if stored:
         solution, grid_rows, grid_cols = stored
@@ -83,13 +89,10 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
         if grid is not None:
             return render_template("partials/grid.html", grid=grid)
 
-    # Path 2: reconstruct from clue answers (fallback)
-    clue_data = get_puzzle_grid_data(source, puzzle_number)
-    if not clue_data:
-        return render_template("partials/grid_error.html")
+    # Path 3: algorithmic reconstruction (last resort)
+    if clue_data:
+        grid = reconstruct_grid(clue_data)
+        if grid is not None:
+            return render_template("partials/grid.html", grid=grid)
 
-    grid = reconstruct_grid(clue_data)
-    if grid is None:
-        return render_template("partials/grid_error.html")
-
-    return render_template("partials/grid.html", grid=grid)
+    return render_template("partials/grid_error.html")

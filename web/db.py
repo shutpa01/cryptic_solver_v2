@@ -15,11 +15,21 @@ def get_db():
     return g.db
 
 
+def get_admin_db():
+    """Return a read-write SQLite connection for admin operations."""
+    if "admin_db" not in g:
+        db_path = current_app.config["CLUES_DB"]
+        g.admin_db = sqlite3.connect(db_path)
+        g.admin_db.row_factory = sqlite3.Row
+    return g.admin_db
+
+
 def close_db(e=None):
-    """Close the database connection at the end of the request."""
-    db = g.pop("db", None)
-    if db is not None:
-        db.close()
+    """Close database connections at the end of the request."""
+    for key in ("db", "admin_db"):
+        conn = g.pop(key, None)
+        if conn is not None:
+            conn.close()
 
 
 def init_app(app):

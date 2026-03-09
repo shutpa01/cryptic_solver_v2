@@ -1,6 +1,8 @@
 """Flask application factory."""
 
-from flask import Flask
+import hmac
+
+from flask import Flask, g, request, session
 
 from web.config import config_by_name
 from web import db
@@ -41,13 +43,23 @@ def create_app(config_name=None):
             return ""
         return WORDPLAY_LABELS.get(value, value.replace("_", " ").title())
 
+    # Admin session activation
+    @app.before_request
+    def check_admin():
+        admin_key = request.args.get("admin", "")
+        if admin_key and hmac.compare_digest(admin_key, app.config["ADMIN_KEY"]):
+            session["admin"] = True
+        g.is_admin = session.get("admin", False)
+
     # Register blueprints
     from web.routes.browse import bp as browse_bp
     from web.routes.puzzle import bp as puzzle_bp
     from web.routes.hints import bp as hints_bp
+    from web.routes.admin import bp as admin_bp
 
     app.register_blueprint(browse_bp)
     app.register_blueprint(puzzle_bp)
     app.register_blueprint(hints_bp)
+    app.register_blueprint(admin_bp)
 
     return app

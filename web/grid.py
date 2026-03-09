@@ -16,8 +16,15 @@ The reconstruction algorithm works by:
    letter matching constrained by reading-order numbering
 """
 
+import json
 import re
+import sys
 from itertools import combinations, product
+from pathlib import Path
+
+# Allow importing from scraper module
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_PROJECT_ROOT))
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +87,140 @@ def parse_grid_solution(solution, rows=15, cols=15):
                 row.append(None)
             else:
                 cell = {"letter": grid[r][c]}
+                if (r, c) in num_at:
+                    cell["number"] = num_at[(r, c)]
+                row.append(cell)
+        cells.append(row)
+
+    return {"cells": cells, "rows": rows, "cols": cols}
+
+
+# ---------------------------------------------------------------------------
+# Path 1b: Live rebuild from JSON structure + current DB answers
+# ---------------------------------------------------------------------------
+
+def build_grid_from_json(source, puzzle_number, clue_data):
+    """Build a grid live from JSON structure + current DB answers.
+
+    Returns grid dict or None if no JSON available.
+    """
+    from scraper.danword.danword_lookup import find_puzzle_json
+    json_path = find_puzzle_json(source, puzzle_number)
+    if json_path is None:
+        return None
+
+    with open(json_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    if "json" in data:
+        copy = data["json"].get("copy", {})
+        grid_array = data["json"].get("grid")
+    elif "data" in data:
+        copy = data["data"].get("copy", {})
+        grid_array = None
+    else:
+        copy = data.get("copy", {})
+        grid_array = None
+
+    gridsize = copy.get("gridsize", {})
+    cols = int(gridsize.get("cols", 15))
+    rows = int(gridsize.get("rows", 15))
+    words = copy.get("words", [])
+    clues_sections = copy.get("clues", [])
+
+    if not words or not clues_sections:
+        return None
+
+    # Reuse helpers from danword_lookup for parsing word positions
+    # Note: _build_word_cells returns 1-indexed coords; convert to 0-indexed
+    from scraper.danword.danword_lookup import _build_word_cells, _build_clue_to_word
+    word_cells_1 = _build_word_cells(words)
+    word_cells = {
+        wid: [(r - 1, c - 1) for r, c in cells]
+        for wid, cells in word_cells_1.items()
+    }
+    clue_to_word_raw = _build_clue_to_word(clues_sections)
+    clue_to_word = {}
+    for (num_str, direction), wid in clue_to_word_raw.items():
+        clue_to_word[(int(num_str), direction)] = wid
+
+    # Determine black vs white cells (0-indexed)
+    black_cells = set()
+    white_cells = set()
+    if grid_array:
+        for r_idx, row in enumerate(grid_array):
+            for c_idx, cell in enumerate(row):
+                if cell.get("Blank") == "blank":
+                    black_cells.add((r_idx, c_idx))
+                else:
+                    white_cells.add((r_idx, c_idx))
+    else:
+        for cells in word_cells.values():
+            for cell in cells:
+                white_cells.add(cell)
+
+    # Place current DB answers into grid
+    grid_letters = {}
+    clue_answers = {}
+    if clue_data:
+        for c in clue_data:
+            num = int(c["clue_number"])
+            direction = c["direction"]
+            answer = c.get("answer") or ""
+            if answer:
+                clue_answers[(num, direction)] = answer
+
+    for (num, direction), answer in clue_answers.items():
+        wid = clue_to_word.get((num, direction))
+        if wid is None:
+            continue
+        cells = word_cells.get(wid, [])
+        clean_ans = re.sub(r"[^A-Za-z]", "", answer).upper()
+        if len(clean_ans) != len(cells):
+            continue
+        for i, (row, col) in enumerate(cells):
+            grid_letters[(row, col)] = clean_ans[i]
+
+    # Assign clue numbers using standard rules
+    letter_grid = [[None] * cols for _ in range(rows)]
+    for (r, c), letter in grid_letters.items():
+        if 0 <= r < rows and 0 <= c < cols:
+            letter_grid[r][c] = letter
+
+    # Mark all white cells (even without answers) so numbering is correct
+    for r, c in white_cells:
+        if 0 <= r < rows and 0 <= c < cols and letter_grid[r][c] is None:
+            letter_grid[r][c] = ""  # white but no letter yet
+
+    number = 1
+    num_at = {}
+    for r in range(rows):
+        for c in range(cols):
+            if letter_grid[r][c] is None:
+                continue
+            is_white = (r, c) in white_cells or (r, c) in grid_letters
+            if not is_white:
+                continue
+            left_black = c == 0 or letter_grid[r][c - 1] is None
+            above_black = r == 0 or letter_grid[r - 1][c] is None
+            right_white = c + 1 < cols and letter_grid[r][c + 1] is not None
+            below_white = r + 1 < rows and letter_grid[r + 1][c] is not None
+            starts_across = left_black and right_white
+            starts_down = above_black and below_white
+            if starts_across or starts_down:
+                num_at[(r, c)] = number
+                number += 1
+
+    # Build output cells
+    cells = []
+    for r in range(rows):
+        row = []
+        for c in range(cols):
+            if letter_grid[r][c] is None:
+                row.append(None)
+            else:
+                letter = letter_grid[r][c]
+                cell = {"letter": letter if letter else ""}
                 if (r, c) in num_at:
                     cell["number"] = num_at[(r, c)]
                 row.append(cell)

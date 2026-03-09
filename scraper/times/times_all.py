@@ -525,10 +525,13 @@ def save_to_database(puzzle_data):
     for direction in ['across', 'down']:
         for clue in puzzle_data.get(direction, []):
             cursor.execute("""
-                INSERT OR IGNORE INTO clues
+                INSERT INTO clues
                 (source, puzzle_number, publication_date, clue_number, direction,
                  clue_text, enumeration, answer)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(source, puzzle_number, clue_number, direction, publication_date)
+                DO UPDATE SET answer = excluded.answer
+                WHERE answer IS NULL OR answer = ''
             """, (
                 'times',
                 str(puzzle_number),

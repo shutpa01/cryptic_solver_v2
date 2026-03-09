@@ -1,0 +1,8 @@
+{# Admin save confirmation — HTMX fragment #}
+<div class="mt-2 rounded px-3 py-2 text-sm bg-green-50 border border-green-200 text-green-800">
+    {% if changes %}
+    Saved: {{ changes | join(', ') }}{% if grid_rebuilt %} (grid rebuilt){% endif %}
+    {% else %}
+    No changes detected.
+    {% endif %}
+</div>

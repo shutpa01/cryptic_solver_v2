@@ -41,7 +41,7 @@ OUTPUT_DIR = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents"
 # RUN CRITERIA (edit these or override via CLI args)
 # ============================================================
 SOURCE = "telegraph"            # telegraph, guardian, times, independentclaude
-PUZZLE_NUMBER = "31181"             # puzzle number to solve
+PUZZLE_NUMBER = "3359"             # puzzle number to solve
 WRITE_DB = True                # write results to clues_master.db
 FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
 PARTIALS = False              # True = re-run partial solves (has_solution=2)

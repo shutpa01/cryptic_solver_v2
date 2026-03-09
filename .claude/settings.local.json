@@ -5,7 +5,16 @@
       "WebFetch(domain:fifteensquared.net)",
       "WebSearch",
       "WebFetch(domain:www.fifteensquared.net)",
-      "WebFetch(domain:bigdave44.com)"
+      "WebFetch(domain:bigdave44.com)",
+      "WebFetch(domain:www.theguardian.com)",
+      "WebFetch(domain:www.danword.com)",
+      "WebFetch(domain:crossword-solver.io)",
+      "WebFetch(domain:puzzlesdata.telegraph.co.uk)",
+      "WebFetch(domain:www.telegraph.co.uk)",
+      "WebFetch(domain:puzzles.telegraph.co.uk)",
+      "WebFetch(domain:cdn.puzzles.telegraph.co.uk)",
+      "WebFetch(domain:puzzleapi.telegraph.co.uk)",
+      "WebFetch(domain:www.thetimes.com)"
     ]
   }
 }

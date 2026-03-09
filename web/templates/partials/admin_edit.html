@@ -1,0 +1,63 @@
+{# Admin inline edit form — HTMX fragment #}
+<form hx-post="/admin/edit/{{ clue.id }}"
+      hx-target="#hints-{{ clue.id }}"
+      hx-swap="innerHTML"
+      class="mt-2 p-3 rounded border border-orange-200 bg-orange-50 space-y-2">
+
+    <div>
+        <label class="block text-xs font-medium text-gray-600 mb-0.5">Clue text</label>
+        <input type="text" name="clue_text" value="{{ clue.clue_text or '' }}"
+               class="w-full text-sm border border-gray-300 rounded px-2 py-1">
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block text-xs font-medium text-gray-600 mb-0.5">Answer</label>
+            <input type="text" name="answer" value="{{ clue.answer or '' }}"
+                   class="w-full text-sm border border-gray-300 rounded px-2 py-1 uppercase font-mono">
+        </div>
+        <div>
+            <label class="block text-xs font-medium text-gray-600 mb-0.5">Wordplay type</label>
+            {% set current_type = clue.wordplay_type or '' %}
+            {% set known_values = wordplay_options|map(attribute=0)|list %}
+            {% set is_custom = current_type != '' and current_type not in known_values %}
+            <select name="{{ '' if is_custom else 'wordplay_type' }}" data-custom-input="wordplay_custom"
+                    onchange="var c=document.getElementById('wordplay_custom_{{ clue.id }}');if(this.value==='__custom__'){c.style.display='block';c.name='wordplay_type';this.name='';c.focus();}else{c.style.display='none';c.name='';this.name='wordplay_type';}"
+                    class="w-full text-sm border border-gray-300 rounded px-2 py-1 bg-white">
+                {% for value, label in wordplay_options %}
+                <option value="{{ value }}" {{ 'selected' if not is_custom and value == current_type }}>{{ label }}</option>
+                {% endfor %}
+                <option value="__custom__" {{ 'selected' if is_custom }}>Other (free text)</option>
+            </select>
+            <input type="text" id="wordplay_custom_{{ clue.id }}"
+                   name="{{ 'wordplay_type' if is_custom else '' }}"
+                   placeholder="e.g. container + reversal"
+                   value="{{ current_type if is_custom else '' }}"
+                   style="display:{{ 'block' if is_custom else 'none' }};margin-top:4px"
+                   class="w-full text-sm border border-gray-300 rounded px-2 py-1">
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-xs font-medium text-gray-600 mb-0.5">Definition</label>
+        <input type="text" name="definition" value="{{ clue.definition or '' }}"
+               class="w-full text-sm border border-gray-300 rounded px-2 py-1">
+    </div>
+
+    <div>
+        <label class="block text-xs font-medium text-gray-600 mb-0.5">Explanation</label>
+        <textarea name="ai_explanation" rows="2"
+                  class="w-full text-sm border border-gray-300 rounded px-2 py-1">{{ display_explanation or '' }}</textarea>
+    </div>
+
+    <div class="flex gap-2 pt-1">
+        <button type="submit"
+                class="text-xs px-3 py-1.5 rounded bg-orange-500 text-white hover:bg-orange-600 font-medium cursor-pointer">
+            Save
+        </button>
+        <button type="button" onclick="this.closest('form').parentElement.innerHTML=''"
+                class="text-xs px-3 py-1.5 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">
+            Cancel
+        </button>
+    </div>
+</form>

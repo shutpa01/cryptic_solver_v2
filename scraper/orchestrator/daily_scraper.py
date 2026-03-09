@@ -122,7 +122,7 @@ def sync_to_master_clues():
             continue
 
         insert_sql = f"""
-            INSERT OR IGNORE INTO clues (
+            INSERT INTO clues (
                 source, puzzle_number, publication_date, clue_number,
                 direction, clue_text, enumeration, answer, original_db, original_id
             )
@@ -138,6 +138,9 @@ def sync_to_master_clues():
                 ?,
                 id
             FROM {table_name}
+            ON CONFLICT(source, puzzle_number, clue_number, direction, publication_date)
+            DO UPDATE SET answer = excluded.answer
+            WHERE answer IS NULL OR answer = ''
         """
 
         try:
