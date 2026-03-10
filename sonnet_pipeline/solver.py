@@ -59,7 +59,7 @@ def resolve_cross_references(clue_text, puzzle_answers):
 
 class HomophoneEngine:
     def __init__(self, db_path="data/cryptic_new.db"):
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect(db_path, timeout=30)
         rows = conn.execute("SELECT word, homophone FROM homophones").fetchall()
         conn.close()
         self.sounds_like = {}

@@ -329,7 +329,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
 def _show_puzzle_summary(source, puzzle):
     """Show current solve status for a puzzle."""
-    conn = sqlite3.connect(CLUES_DB)
+    conn = sqlite3.connect(CLUES_DB, timeout=30)
     rows = conn.execute("""
         SELECT COUNT(*) AS total,
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
@@ -465,7 +465,7 @@ def main():
     # Single-clue mode: auto-detect source and puzzle from DB.
     # Always overrides source/puzzle — the clue text is the primary selector.
     if args.single_clue:
-        conn = sqlite3.connect(CLUES_DB)
+        conn = sqlite3.connect(CLUES_DB, timeout=30)
         match = conn.execute(
             "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
             ("%" + args.single_clue + "%",)
