@@ -114,7 +114,7 @@ def _sync_definition(master_conn, clue_id, definition):
     answer = row[0].upper()
     defn = definition.lower()
     try:
-        cryptic_conn = sqlite3.connect(CRYPTIC_DB)
+        cryptic_conn = sqlite3.connect(CRYPTIC_DB, timeout=30)
         exists = cryptic_conn.execute(
             "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
             (defn, answer.lower())
@@ -133,7 +133,7 @@ def _sync_definition(master_conn, clue_id, definition):
 
 def manual_entry_phase(source, puzzle, stats):
     """Phase 2: manually enter definition/type/explanation for weak clues."""
-    conn = sqlite3.connect(MASTER_DB)
+    conn = sqlite3.connect(MASTER_DB, timeout=30)
     rows = conn.execute("""
         SELECT id, clue_number, direction, clue_text, answer,
                definition, wordplay_type, ai_explanation, has_solution
@@ -327,7 +327,7 @@ def main():
     print("=" * 70)
     print()
 
-    conn = sqlite3.connect(CRYPTIC_DB)
+    conn = sqlite3.connect(CRYPTIC_DB, timeout=30)
     approved = 0
     skipped = 0
     existed = 0

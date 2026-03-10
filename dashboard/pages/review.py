@@ -21,6 +21,24 @@ def _get_conn(db_path=CLUES_DB, readonly=True):
     return conn
 
 
+@st.cache_data(ttl=300)
+def _load_ref_sets():
+    """Preload reference DB into sets for fast enrichment lookups. Cached 5 min."""
+    import sqlite3
+    ref_conn = sqlite3.connect(str(CRYPTIC_DB))
+    syn_set = set()
+    for r in ref_conn.execute("SELECT LOWER(word), LOWER(synonym) FROM synonyms_pairs"):
+        syn_set.add((r[0], r[1]))
+    abbr_set = set()
+    for r in ref_conn.execute("SELECT LOWER(indicator), LOWER(substitution) FROM wordplay"):
+        abbr_set.add((r[0], r[1]))
+    def_set = set()
+    for r in ref_conn.execute("SELECT LOWER(definition), LOWER(answer) FROM definition_answers_augmented"):
+        def_set.add((r[0], r[1]))
+    ref_conn.close()
+    return syn_set, abbr_set, def_set
+
+
 def render():
     st.header("Review Queue")
 
@@ -44,9 +62,9 @@ def _render_review_queue():
     """Show all clues with explanations that need review."""
     conn = _get_conn()
 
-    # Count unreviewed
+    # Count unreviewed (only clues with solutions, not failures)
     unreviewed_count = conn.execute(
-        "SELECT COUNT(*) FROM clues WHERE reviewed = 0"
+        "SELECT COUNT(*) FROM clues WHERE reviewed = 0 AND has_solution IN (1, 2)"
     ).fetchone()[0]
 
     col1, col2, col3 = st.columns(3)
@@ -69,7 +87,7 @@ def _render_review_queue():
 
     st.metric("Unreviewed", f"{unreviewed_count:,}")
 
-    conditions = ["c.reviewed IS NOT NULL"]
+    conditions = ["c.reviewed IS NOT NULL", "c.has_solution IN (1, 2)"]
     params = []
 
     status_map = {"Unreviewed": 0, "Approved": 1, "Rejected": 2}
@@ -86,8 +104,10 @@ def _render_review_queue():
         SELECT c.id, c.source, c.puzzle_number, c.publication_date,
                c.clue_text, c.enumeration, c.answer,
                c.definition, c.wordplay_type, c.ai_explanation,
-               c.has_solution, c.reviewed
+               c.has_solution, c.reviewed,
+               se.confidence as score
         FROM clues c
+        LEFT JOIN structured_explanations se ON se.clue_id = c.id
         WHERE {where}
         ORDER BY c.publication_date DESC, c.puzzle_number DESC
         LIMIT ?
@@ -119,9 +139,13 @@ def _render_review_card(row):
     elif row["has_solution"] == 0:
         solution_badge = " :red[Failed]"
 
+    score_val = row["score"]
+    score_pct = int(score_val * 100) if score_val is not None else None
+    score_str = f"  {score_pct}/100" if score_pct is not None else ""
+
     with st.expander(
         f"**{row['clue_text']}** ({row['enumeration'] or '?'}) = {row['answer'] or '?'}  "
-        f"— {badge}{solution_badge}  |  {row['source']} #{row['puzzle_number']}",
+        f"— {badge}{solution_badge}{score_str}  |  {row['source']} #{row['puzzle_number']}",
         expanded=(reviewed == 0),
     ):
         st.text(f"Definition: {row['definition'] or '—'}")
@@ -541,10 +565,10 @@ def _render_enrichment_queue():
         )
 
     conn = _get_conn()
-    ref_conn = _get_conn(CRYPTIC_DB)
+    syn_set, abbr_set, def_set = _load_ref_sets()
 
     # Get recent clues with structured_explanations
-    conditions = ["se.components IS NOT NULL", "c.reviewed = 0"]
+    conditions = ["se.components IS NOT NULL"]
     params = []
     if eq_source != "All":
         conditions.append("c.source = ?")
@@ -560,6 +584,7 @@ def _render_enrichment_queue():
         ORDER BY c.publication_date DESC
         LIMIT ?
     """, params + [eq_limit]).fetchall()
+    conn.close()
 
     # Collect all missing enrichments
     syn_missing = []
@@ -594,11 +619,7 @@ def _render_enrichment_queue():
             word_lower = clue_word.lower().strip(".,;:!?\"'()-")
 
             if mech == "synonym":
-                exists = ref_conn.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
-                    (word_lower, letters_clean.lower())
-                ).fetchone()
-                if not exists:
+                if (word_lower, letters_clean.lower()) not in syn_set:
                     syn_missing.append({
                         "word": word_lower, "letters": letters_clean,
                         "clue": clue_text[:50], "answer": answer,
@@ -606,11 +627,7 @@ def _render_enrichment_queue():
                     })
 
             elif mech == "abbreviation":
-                exists = ref_conn.execute(
-                    "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=?",
-                    (word_lower, letters_clean.lower())
-                ).fetchone()
-                if not exists:
+                if (word_lower, letters_clean.lower()) not in abbr_set:
                     abbr_missing.append({
                         "word": word_lower, "letters": letters_clean,
                         "clue": clue_text[:50], "answer": answer,
@@ -620,19 +637,12 @@ def _render_enrichment_queue():
         # Check definition
         ai_def = row["definition"]
         if ai_def and answer_clean:
-            exists = ref_conn.execute(
-                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
-                (ai_def.lower(), answer_clean.lower())
-            ).fetchone()
-            if not exists:
+            if (ai_def.lower(), answer_clean.lower()) not in def_set:
                 def_missing.append({
                     "word": ai_def.lower(), "letters": answer_clean,
                     "clue": clue_text[:50], "answer": answer,
                     "source": row["source"], "puzzle": row["puzzle_number"],
                 })
-
-    ref_conn.close()
-    conn.close()
 
     # Deduplicate (same word→letters pair can appear from multiple clues)
     def _dedup(items):
