@@ -24,12 +24,15 @@ def _get_conn(db_path=CLUES_DB, readonly=True):
 def render():
     st.header("Review Queue")
 
-    tab1, tab2 = st.tabs(["Review Queue", "Unprocessed Clues"])
+    tab1, tab2, tab3 = st.tabs(["Review Queue", "DB Enrichment", "Unprocessed Clues"])
 
     with tab1:
         _render_review_queue()
 
     with tab2:
+        _render_enrichment_queue()
+
+    with tab3:
         _render_unprocessed()
 
 
@@ -149,10 +152,9 @@ def _render_review_card(row):
         if st.session_state.get(f"editing_{clue_id}"):
             _render_editor(clue_id, row)
 
-        # Enrichment tools
-        st.divider()
-        st.markdown("**Enrich reference DB**")
-        _render_enrichment_tools(row)
+        # Manual enrichment (collapsed — bulk enrichment is in the DB Enrichment tab)
+        with st.expander("Manual DB entry", expanded=False):
+            _render_manual_enrichment(row)
 
 
 def _set_clue_reviewed(clue_id, status):
@@ -314,37 +316,10 @@ def _get_pending_enrichments(row):
     return suggestions
 
 
-def _render_enrichment_tools(row):
-    """Render the 5 DB enrichment forms for a review card.
-
-    Pre-populates with suggestions from AI pieces that aren't in the reference DB.
-    """
+def _render_manual_enrichment(row):
+    """Render manual DB enrichment forms (blank inputs for ad-hoc additions)."""
     answer = row["answer"] or ""
     uid = row["id"]
-
-    # Show pending enrichments from AI pieces
-    suggestions = _get_pending_enrichments(row)
-    missing = [s for s in suggestions if s["status"] == "missing"]
-    if missing:
-        st.markdown(f"**{len(missing)} suggested enrichment(s) from AI pieces:**")
-        for i, s in enumerate(missing):
-            col1, col2, col3 = st.columns([3, 3, 1])
-            with col1:
-                if s["type"] == "definition":
-                    st.text(f"📖 Definition: \"{s['word']}\" → {s['letters']}")
-                else:
-                    label = "🔤 Synonym" if s["type"] == "synonym" else "🔡 Abbreviation"
-                    st.text(f"{label}: {s['word']} → {s['letters']}")
-            with col3:
-                if st.button("Add", key=f"quick_add_{uid}_{i}"):
-                    if s["type"] == "synonym":
-                        _add_synonym(s["word"], s["letters"])
-                    elif s["type"] == "abbreviation":
-                        _add_abbreviation(s["word"], s["letters"])
-                    elif s["type"] == "definition":
-                        _add_definition(s["word"], s["letters"])
-                    st.rerun()
-        st.divider()
 
     tab_syn, tab_ind, tab_abbr, tab_homo, tab_def = st.tabs(
         ["Add Synonym", "Add Indicator", "Add Abbreviation", "Add Homophone", "Add Definition"]
@@ -537,6 +512,195 @@ def _add_definition(definition, answer):
     conn.commit()
     conn.close()
     return True
+
+
+# =====================================================================
+# DB Enrichment tab
+# =====================================================================
+
+def _render_enrichment_queue():
+    """Show all pending DB enrichments from recent pipeline runs.
+
+    Scans structured_explanations for AI pieces not in the reference DB,
+    grouped by type (synonyms, abbreviations, definitions).
+    """
+    import json
+    import re
+
+    col1, col2 = st.columns(2)
+    with col1:
+        eq_source = st.selectbox(
+            "Source",
+            ["All", "telegraph", "times", "guardian", "independent"],
+            key="eq_source",
+        )
+    with col2:
+        eq_limit = st.number_input(
+            "Max clues to scan", min_value=50, max_value=2000, value=200,
+            key="eq_limit",
+        )
+
+    conn = _get_conn()
+    ref_conn = _get_conn(CRYPTIC_DB)
+
+    # Get recent clues with structured_explanations
+    conditions = ["se.components IS NOT NULL", "c.reviewed = 0"]
+    params = []
+    if eq_source != "All":
+        conditions.append("c.source = ?")
+        params.append(eq_source)
+
+    where = " AND ".join(conditions)
+    rows = conn.execute(f"""
+        SELECT c.id, c.source, c.puzzle_number, c.clue_text, c.answer,
+               c.definition, se.components
+        FROM structured_explanations se
+        JOIN clues c ON se.clue_id = c.id
+        WHERE {where}
+        ORDER BY c.publication_date DESC
+        LIMIT ?
+    """, params + [eq_limit]).fetchall()
+
+    # Collect all missing enrichments
+    syn_missing = []
+    abbr_missing = []
+    def_missing = []
+
+    for row in rows:
+        answer = row["answer"] or ""
+        answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
+        clue_text = row["clue_text"] or ""
+
+        try:
+            comps = json.loads(row["components"])
+        except (json.JSONDecodeError, TypeError):
+            continue
+
+        pieces = comps.get("ai_pieces", [])
+        for p in pieces:
+            clue_word = (p.get("clue_word") or p.get("fodder") or "").strip()
+            letters = (p.get("letters") or p.get("yields") or "").strip().upper()
+            mech = (p.get("mechanism") or p.get("type") or "").lower()
+            letters_clean = re.sub(r"[^A-Z]", "", letters)
+
+            if not clue_word or not letters_clean:
+                continue
+            if letters_clean == answer_clean:
+                continue
+            if mech in ("literal", "anagram_fodder", "first_letter", "last_letter",
+                        "hidden", "sound_of", "alternate_letters", "core_letters"):
+                continue
+
+            word_lower = clue_word.lower().strip(".,;:!?\"'()-")
+
+            if mech == "synonym":
+                exists = ref_conn.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
+                    (word_lower, letters_clean.lower())
+                ).fetchone()
+                if not exists:
+                    syn_missing.append({
+                        "word": word_lower, "letters": letters_clean,
+                        "clue": clue_text[:50], "answer": answer,
+                        "source": row["source"], "puzzle": row["puzzle_number"],
+                    })
+
+            elif mech == "abbreviation":
+                exists = ref_conn.execute(
+                    "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=?",
+                    (word_lower, letters_clean.lower())
+                ).fetchone()
+                if not exists:
+                    abbr_missing.append({
+                        "word": word_lower, "letters": letters_clean,
+                        "clue": clue_text[:50], "answer": answer,
+                        "source": row["source"], "puzzle": row["puzzle_number"],
+                    })
+
+        # Check definition
+        ai_def = row["definition"]
+        if ai_def and answer_clean:
+            exists = ref_conn.execute(
+                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
+                (ai_def.lower(), answer_clean.lower())
+            ).fetchone()
+            if not exists:
+                def_missing.append({
+                    "word": ai_def.lower(), "letters": answer_clean,
+                    "clue": clue_text[:50], "answer": answer,
+                    "source": row["source"], "puzzle": row["puzzle_number"],
+                })
+
+    ref_conn.close()
+    conn.close()
+
+    # Deduplicate (same word→letters pair can appear from multiple clues)
+    def _dedup(items):
+        seen = set()
+        result = []
+        for item in items:
+            key = (item["word"], item["letters"])
+            if key not in seen:
+                seen.add(key)
+                result.append(item)
+        return result
+
+    syn_missing = _dedup(syn_missing)
+    abbr_missing = _dedup(abbr_missing)
+    def_missing = _dedup(def_missing)
+
+    total = len(syn_missing) + len(abbr_missing) + len(def_missing)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Total", total)
+    c2.metric("Synonyms", len(syn_missing))
+    c3.metric("Abbreviations", len(abbr_missing))
+    c4.metric("Definitions", len(def_missing))
+
+    if total == 0:
+        st.info("No pending enrichments found. Run the pipeline on more puzzles to generate suggestions.")
+        return
+
+    # --- Synonyms ---
+    if syn_missing:
+        st.subheader(f"Synonyms ({len(syn_missing)})")
+        for i, s in enumerate(syn_missing):
+            col1, col2, col3 = st.columns([4, 4, 1])
+            with col1:
+                st.text(f"{s['word']}  ->  {s['letters']}")
+            with col2:
+                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+            with col3:
+                if st.button("Add", key=f"eq_syn_{i}"):
+                    _add_synonym(s["word"], s["letters"])
+                    st.rerun()
+
+    # --- Abbreviations ---
+    if abbr_missing:
+        st.subheader(f"Abbreviations ({len(abbr_missing)})")
+        for i, s in enumerate(abbr_missing):
+            col1, col2, col3 = st.columns([4, 4, 1])
+            with col1:
+                st.text(f"{s['word']}  ->  {s['letters']}")
+            with col2:
+                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+            with col3:
+                if st.button("Add", key=f"eq_abbr_{i}"):
+                    _add_abbreviation(s["word"], s["letters"])
+                    st.rerun()
+
+    # --- Definitions ---
+    if def_missing:
+        st.subheader(f"Definitions ({len(def_missing)})")
+        for i, s in enumerate(def_missing):
+            col1, col2, col3 = st.columns([4, 4, 1])
+            with col1:
+                st.text(f"\"{s['word']}\"  ->  {s['letters']}")
+            with col2:
+                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+            with col3:
+                if st.button("Add", key=f"eq_def_{i}"):
+                    _add_definition(s["word"], s["letters"])
+                    st.rerun()
 
 
 # =====================================================================
