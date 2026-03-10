@@ -227,10 +227,124 @@ def _rerun_clue(clue_id):
 # Enrichment tools
 # =====================================================================
 
+def _get_pending_enrichments(row):
+    """Check AI pieces for this clue against the reference DB.
+
+    Returns a list of dicts: {type, word, letters, status} where status is
+    'missing' (not in DB) or 'exists' (already in DB).
+    """
+    clue_id = row["id"]
+    conn = _get_conn()
+    se = conn.execute(
+        "SELECT components FROM structured_explanations WHERE clue_id = ?",
+        (clue_id,)
+    ).fetchone()
+    conn.close()
+    if not se or not se["components"]:
+        return []
+
+    import json
+    try:
+        comps = json.loads(se["components"])
+    except (json.JSONDecodeError, TypeError):
+        return []
+
+    pieces = comps.get("ai_pieces", [])
+    if not pieces:
+        return []
+
+    answer_clean = (row["answer"] or "").upper().replace(" ", "").replace("-", "")
+    ref_conn = _get_conn(CRYPTIC_DB)
+    suggestions = []
+
+    for p in pieces:
+        clue_word = (p.get("clue_word") or p.get("fodder") or "").strip()
+        letters = (p.get("letters") or p.get("yields") or "").strip().upper()
+        mech = (p.get("mechanism") or p.get("type") or "").lower()
+        import re
+        letters_clean = re.sub(r"[^A-Z]", "", letters)
+
+        if not clue_word or not letters_clean:
+            continue
+        # Skip pieces that are the full answer, or non-enrichable mechanisms
+        if letters_clean == answer_clean:
+            continue
+        if mech in ("literal", "anagram_fodder", "first_letter", "last_letter",
+                     "hidden", "sound_of", "alternate_letters", "core_letters"):
+            continue
+
+        word_lower = clue_word.lower().strip(".,;:!?\"'()-")
+
+        if mech == "synonym":
+            exists = ref_conn.execute(
+                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
+                (word_lower, letters_clean.lower())
+            ).fetchone()
+            if not exists:
+                suggestions.append({
+                    "type": "synonym", "word": word_lower,
+                    "letters": letters_clean, "status": "missing"
+                })
+
+        elif mech == "abbreviation":
+            exists = ref_conn.execute(
+                "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=?",
+                (word_lower, letters_clean.lower())
+            ).fetchone()
+            if not exists:
+                suggestions.append({
+                    "type": "abbreviation", "word": word_lower,
+                    "letters": letters_clean, "status": "missing"
+                })
+
+    # Check definition
+    ai_def = row["definition"]
+    if ai_def and answer_clean:
+        exists = ref_conn.execute(
+            "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
+            (ai_def.lower(), answer_clean.lower())
+        ).fetchone()
+        if not exists:
+            suggestions.append({
+                "type": "definition", "word": ai_def.lower(),
+                "letters": answer_clean, "status": "missing"
+            })
+
+    ref_conn.close()
+    return suggestions
+
+
 def _render_enrichment_tools(row):
-    """Render the 5 DB enrichment forms for a review card."""
+    """Render the 5 DB enrichment forms for a review card.
+
+    Pre-populates with suggestions from AI pieces that aren't in the reference DB.
+    """
     answer = row["answer"] or ""
     uid = row["id"]
+
+    # Show pending enrichments from AI pieces
+    suggestions = _get_pending_enrichments(row)
+    missing = [s for s in suggestions if s["status"] == "missing"]
+    if missing:
+        st.markdown(f"**{len(missing)} suggested enrichment(s) from AI pieces:**")
+        for i, s in enumerate(missing):
+            col1, col2, col3 = st.columns([3, 3, 1])
+            with col1:
+                if s["type"] == "definition":
+                    st.text(f"📖 Definition: \"{s['word']}\" → {s['letters']}")
+                else:
+                    label = "🔤 Synonym" if s["type"] == "synonym" else "🔡 Abbreviation"
+                    st.text(f"{label}: {s['word']} → {s['letters']}")
+            with col3:
+                if st.button("Add", key=f"quick_add_{uid}_{i}"):
+                    if s["type"] == "synonym":
+                        _add_synonym(s["word"], s["letters"])
+                    elif s["type"] == "abbreviation":
+                        _add_abbreviation(s["word"], s["letters"])
+                    elif s["type"] == "definition":
+                        _add_definition(s["word"], s["letters"])
+                    st.rerun()
+        st.divider()
 
     tab_syn, tab_ind, tab_abbr, tab_homo, tab_def = st.tabs(
         ["Add Synonym", "Add Indicator", "Add Abbreviation", "Add Homophone", "Add Definition"]

@@ -588,17 +588,8 @@ def _actionable_quality(results):
         lines.append("  No issues detected.")
 
     # Build structured gaps list for JSON export
-    for g in def_gaps:
-        all_gaps.append({
-            "type": "definition",
-            "table": "definition_answers_augmented",
-            "definition": g["definition"],
-            "answer": g["answer"],
-            "clue_number": str(g["clue_number"]),
-            "direction": g.get("direction", ""),
-            "clue": g.get("clue", ""),
-            "score": g.get("score", 0),
-        })
+    # DB enrichments (synonyms/abbreviations) first — they directly improve
+    # assembly. Definitions second — they only improve confidence score.
     for g in db_gaps:
         gap_type = "abbreviation" if g["table"] == "abbreviations" else "synonym"
         all_gaps.append({
@@ -606,6 +597,17 @@ def _actionable_quality(results):
             "table": g["table"],
             "word": g["clue_word"],
             "letters": g["letters"],
+            "answer": g["answer"],
+            "clue_number": str(g["clue_number"]),
+            "direction": g.get("direction", ""),
+            "clue": g.get("clue", ""),
+            "score": g.get("score", 0),
+        })
+    for g in def_gaps:
+        all_gaps.append({
+            "type": "definition",
+            "table": "definition_answers_augmented",
+            "definition": g["definition"],
             "answer": g["answer"],
             "clue_number": str(g["clue_number"]),
             "direction": g.get("direction", ""),
