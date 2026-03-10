@@ -23,11 +23,6 @@ load_dotenv()
 client = Anthropic()
 
 SONNET_MODEL = "claude-sonnet-4-20250514"
-OPUS_MODEL = "claude-opus-4-20250514"
-
-# Set this to switch between models. Override via CLI --model flag.
-# Default: Opus for reasoning (Pass 1), Sonnet always used for structuring (Pass 2).
-ACTIVE_MODEL = OPUS_MODEL
 
 
 def _is_container_outer(syn, answer_clean):
@@ -64,7 +59,7 @@ def resolve_cross_references(clue_text, puzzle_answers):
 
 class HomophoneEngine:
     def __init__(self, db_path="data/cryptic_new.db"):
-        conn = sqlite3.connect(db_path, timeout=30)
+        conn = sqlite3.connect(db_path)
         rows = conn.execute("SELECT word, homophone FROM homophones").fetchall()
         conn.close()
         self.sounds_like = {}
@@ -753,220 +748,41 @@ def enrichment_fallback(clue_text, answer, enricher, target, definition=None):
 
 # -- API calls -----------------------------------------------------------------
 
-# ---- Fast path: single Sonnet call returning JSON directly ----
-
-FAST_SYSTEM_PROMPT = """You are parsing cryptic crossword clues. You are given a clue, its answer, and DB lookups showing known synonyms, abbreviations, and indicators for each clue word.
-
-CRITICAL: The DB lookups are your primary source. Each clue word has:
-- syn= synonyms (e.g. drink: syn=BELT,ALE means "drink" can give letters BELT or ALE)
-- abbr= abbreviations (e.g. stone: abbr=ST means "stone" gives letters ST)
-- ind= indicator types (e.g. in: ind=container means "in" signals a container operation)
-- sounds= homophones
-
-Entries marked with * (e.g. syn=PIE*,TART) are substrings of the answer -- these are the most likely wordplay components. PRIORITIZE starred entries when building your solution.
-
-Your job: select the right synonym or abbreviation for each wordplay word from the DB lookups, then show how they combine to spell the answer.
-
-Output JSON with:
-- "definition": the exact substring of the clue that defines the answer (always at the start or end of the clue)
-- "indicator": the word(s) from the clue that signal the wordplay operation (e.g. "broken" for anagram, "back" for reversal, "in" for container, "without" for deletion). Omit for double_definition and cryptic_definition.
-- "wordplay_type": charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism
-- "pieces": array of objects, each with:
-  - "clue_word": the word(s) from the clue
-  - "letters": the uppercase letters this produces (MUST come from a DB lookup syn/abbr, or be the literal letters of the clue word for anagram fodder)
-  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters, deletion, hidden
-
-Rules:
-- SELECT synonyms and abbreviations from the DB lookups. Do not invent synonyms not listed.
-- PRIORITIZE entries marked with * -- they are substrings of the answer and most likely to be correct.
-- The pieces' letters, when assembled via the wordplay_type, MUST spell the full answer.
-- NEVER return the full answer as a single piece. Every answer must be broken into 2+ pieces from separate clue words, UNLESS the wordplay_type is double_definition, cryptic_definition, or hidden.
-- Indicator words (ind=) are NOT part of the answer -- they tell you the operation type.
-- Definition is always at the start or end of the clue, never in the middle.
-- For containers: show the outer piece and inner piece separately. The inner goes inside the outer.
-- For anagrams: pieces are the raw fodder letters before rearrangement.
-- For hidden words: the answer appears as a literal substring spanning consecutive clue words. Look at the actual letters. "Some", "in part", "partly" are common indicators.
-- For hidden reversed: the substring is reversed. "Brought back in/through" signals this.
-- For double definitions: two separate definitions, no pieces.
-- For spoonerisms: "Spooner's" signals swapping initial consonants of two words.
-
-Return ONLY valid JSON."""
-
-FAST_FEW_SHOT_EXAMPLES = [
-    {
-        "input": """Clue: Patterned plate for various clients (7)
-Answer: STENCIL
-DB lookups:
-  patterned: ind=anagram
-  plate: syn=DISH,DISC,PAN,SLAB,TILE; abbr=P
-  various: ind=anagram
-  clients: syn=USERS""",
-        "output": json.dumps({
-            "definition": "Patterned plate",
-            "indicator": "various",
-            "wordplay_type": "anagram",
-            "pieces": [
-                {"clue_word": "clients", "letters": "CLIENTS", "mechanism": "anagram_fodder"}
-            ]
-        })
-    },
-    {
-        "input": """Clue: Juliet in sober group with kiss for hero (4)
-Answer: AJAX
-DB lookups:
-  juliet: abbr=J
-  in: ind=container,hidden,insertion
-  sober: ind=deletion
-  group: syn=AA,BAND,GANG,SET,SIDE
-  kiss: abbr=X; syn=BUSS,PECK
-  hero: syn=ACE,GOD,IDOL,LION""",
-        "output": json.dumps({
-            "definition": "hero",
-            "indicator": "in",
-            "wordplay_type": "container",
-            "pieces": [
-                {"clue_word": "sober group", "letters": "AA", "mechanism": "abbreviation"},
-                {"clue_word": "Juliet", "letters": "J", "mechanism": "abbreviation"},
-                {"clue_word": "kiss", "letters": "X", "mechanism": "abbreviation"}
-            ]
-        })
-    },
-    {
-        "input": """Clue: Unwilling to forgo large bond (4)
-Answer: OATH
-DB lookups:
-  unwilling: syn=LOATH,AVERSE; ind=deletion
-  forgo: ind=deletion
-  large: abbr=L; syn=BIG,DEEP,FULL,HUGE
-  bond: syn=BAIL,BAND,CORD,GLUE,KNOT,LINK,OATH,SEAL,WORD""",
-        "output": json.dumps({
-            "definition": "bond",
-            "indicator": "forgo",
-            "wordplay_type": "deletion",
-            "pieces": [
-                {"clue_word": "Unwilling", "letters": "LOATH", "mechanism": "synonym"},
-                {"clue_word": "large", "letters": "L", "mechanism": "abbreviation"}
-            ]
-        })
-    },
-    {
-        "input": """Clue: Father's attempt to make small cake (6)
-Answer: PASTRY
-DB lookups:
-  father: syn=DAD,PA,POP,SIRE; abbr=FR
-  attempt: syn=BID,GO,TRY; ind=anagram
-  make: ind=anagram; syn=BRAND,BUILD,EARN,FORM
-  small: abbr=S; syn=LOW,TINY,WEE
-  cake: syn=BUN,GATEAU,TART,TORTE""",
-        "output": json.dumps({
-            "definition": "cake",
-            "wordplay_type": "charade",
-            "pieces": [
-                {"clue_word": "Father's", "letters": "PAS", "mechanism": "synonym"},
-                {"clue_word": "attempt", "letters": "TRY", "mechanism": "synonym"}
-            ]
-        })
-    },
-    {
-        "input": """Clue: Country song about America, ultimately daft (7)
-Answer: AUSTRIA
-DB lookups:
-  country: syn=LAND,STATE,NATION
-  song: syn=ARIA,AIR,LAY,HYMN,TUNE
-  about: ind=container,reversal; syn=CA,RE
-  america: abbr=US,USA
-  ultimately: ind=last_letter
-  daft: syn=MAD,NUTS; ind=anagram""",
-        "output": json.dumps({
-            "definition": "Country",
-            "indicator": "about",
-            "wordplay_type": "container",
-            "pieces": [
-                {"clue_word": "song", "letters": "ARIA", "mechanism": "synonym"},
-                {"clue_word": "America", "letters": "US", "mechanism": "abbreviation"},
-                {"clue_word": "ultimately daft", "letters": "T", "mechanism": "last_letter"}
-            ]
-        })
-    }
-]
-
-
-def build_fast_example_messages():
-    """Build few-shot examples for the fast (single-call) path."""
-    msgs = []
-    for ex in FAST_FEW_SHOT_EXAMPLES:
-        msgs.append({"role": "user", "content": ex["input"]})
-        msgs.append({"role": "assistant", "content": ex["output"]})
-    return msgs
-
-
-def call_api_fast(model, clue_text, answer, enrichment, example_messages, extra_context=""):
-    """Fast single-call API: returns structured JSON directly. Cheap and quick."""
-    enum_len = len(answer.replace(" ", "").replace("-", ""))
-    user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
-    if enrichment:
-        user_msg += "\n" + enrichment
-    if extra_context:
-        user_msg += "\n\n" + extra_context
-
-    messages = example_messages + [{"role": "user", "content": user_msg}]
-
-    for attempt in range(3):
-        try:
-            response = client.messages.create(
-                model=model,
-                max_tokens=400,
-                temperature=0,
-                system=FAST_SYSTEM_PROMPT,
-                messages=messages,
-            )
-            break
-        except Exception as e:
-            if attempt < 2:
-                time.sleep(2 * (attempt + 1))
-                continue
-            raise
-
-    raw = response.content[0].text.strip()
-    tokens_in = response.usage.input_tokens
-    tokens_out = response.usage.output_tokens
-
-    parsed = _parse_json_response(raw)
-    return parsed, tokens_in, tokens_out
-
-
 # ---- Pass 1: Reasoning (free-text explanation, no DB menu) ----
 
 REASONING_PROMPT = """You are an expert cryptic crossword analyst. Given a clue and its answer, explain how the wordplay works.
 
-Rules:
-- State the definition and wordplay type up front.
-- For each wordplay component, state what clue word produces what letters and why.
-- Show the final assembly. Every letter must be accounted for.
-- Be precise and concise. No waffle, no commentary on surface readings.
-- Output ONLY your final confident explanation. Do not show working, do not hedge, do not say "actually" or "let me reconsider". You have already worked it out in your thinking — just state the answer.
-- Use the reference lookups provided to verify synonyms and abbreviations."""
+Think step by step:
+1. Identify the definition part (always at the start or end of the clue).
+2. Identify any indicator words (anagram indicators, reversal indicators, container indicators, deletion indicators, etc.).
+3. For each remaining wordplay word, explain what letters it contributes and why (synonym, abbreviation, first letter, literal letters for anagram, etc.).
+4. Show how the letters combine to spell the answer.
+
+Be precise about letter-level mechanics. For example:
+- "father" = PA (informal word for father)
+- "attempt" = TRY (synonym)
+- PA + S (possessive 's) + TRY = PASTRY
+
+Wordplay types: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution.
+
+Keep your explanation concise — focus on the mechanics, not on restating the clue."""
 
 REASONING_EXAMPLES = [
     {
         "input": "Clue: Patterned plate for various clients (7)\nAnswer: STENCIL",
-        "output": "Definition: \"patterned plate\". Anagram: \"various\" indicates anagram of CLIENTS = STENCIL."
+        "output": "Definition: \"Patterned plate\" (a stencil creates patterned plates).\nWordplay: anagram. \"various\" is the anagram indicator.\nFodder: CLIENTS → rearranged → STENCIL."
     },
     {
         "input": "Clue: Juliet in sober group with kiss for hero (4)\nAnswer: AJAX",
-        "output": "Definition: \"hero\" (Ajax, Greek warrior). Container/charade: \"sober group\" = AA, \"Juliet\" = J (NATO alphabet), \"kiss\" = X. J placed inside AA gives AJA, plus X = AJAX."
+        "output": "Definition: \"hero\" (Ajax is a Greek hero).\nWordplay: charade. A = sober (teetotal, AA abbreviated — but here just A for a single \"sober\" abbreviation? No: AA = Alcoholics Anonymous (sober group), J = Juliet (NATO alphabet), X = kiss. But AAJX ≠ AJAX.\nRethinking: A = first letter? No. The answer is A-J-A-X. So: A (from group=AA split), J (Juliet), A (second A from AA), X (kiss). AA split around J: A + J + A + X = AJAX. Actually: J inside AA = AJA, then + X = AJAX. Container: J inside AA gives AJA, plus X = AJAX."
     },
     {
         "input": "Clue: Unwilling to forgo large bond (4)\nAnswer: OATH",
-        "output": "Definition: \"bond\". Deletion: \"unwilling\" = LOATH, \"forgo large\" = remove L (large). LOATH − L = OATH."
+        "output": "Definition: \"bond\" (an oath is a bond).\nWordplay: deletion. \"Unwilling\" = LOATH (synonym). \"forgo large\" = remove L (standard abbreviation for large). LOATH − L = OATH."
     },
     {
         "input": "Clue: Father's attempt to make small cake (6)\nAnswer: PASTRY",
-        "output": "Definition: \"cake\". Charade: \"Father's\" = PA + S (possessive), \"attempt\" = TRY. PAS + TRY = PASTRY."
-    },
-    {
-        "input": "Clue: Struggle to convert foxtrot into tango that's fast (5)\nAnswer: TIGHT",
-        "output": "Definition: \"fast\". Substitution: \"struggle\" = FIGHT, \"convert foxtrot into tango\" = replace F (foxtrot, NATO) with T (tango, NATO). FIGHT → TIGHT."
+        "output": "Definition: \"cake\" (a pastry is a cake).\nWordplay: charade. \"Father's\" = PA + S (possessive). \"attempt\" = TRY (synonym). PAS + TRY = PASTRY."
     },
 ]
 
@@ -976,7 +792,6 @@ STRUCTURING_PROMPT = """Extract structured data from a cryptic crossword explana
 
 Given a clue, its answer, and a free-text explanation of the wordplay, output JSON with:
 - "definition": the exact substring of the clue that defines the answer
-- "indicator": the word(s) from the clue that signal the wordplay operation (e.g. "broken" for anagram, "back" for reversal, "in" for container). Omit for double_definition, cryptic_definition, and charade.
 - "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution
 - "pieces": array of objects, each with:
   - "clue_word": the word(s) from the clue
@@ -1011,29 +826,13 @@ Explanation: Definition: "cake" (a pastry is a cake). Wordplay: charade. "Father
     {
         "input": """Clue: Unwilling to forgo large bond (4)
 Answer: OATH
-Explanation: Definition: "bond" (an oath is a bond). Wordplay: deletion. "Unwilling" = LOATH (synonym). "forgo large" = remove L (abbreviation for large). LOATH - L = OATH.""",
+Explanation: Definition: "bond" (an oath is a bond). Wordplay: deletion. "Unwilling" = LOATH (synonym). "forgo large" = remove L (abbreviation for large). LOATH − L = OATH.""",
         "output": json.dumps({
             "definition": "bond",
-            "indicator": "forgo",
             "wordplay_type": "deletion",
             "pieces": [
                 {"clue_word": "Unwilling", "letters": "LOATH", "mechanism": "synonym"},
                 {"clue_word": "large", "letters": "L", "mechanism": "abbreviation"}
-            ]
-        })
-    },
-    {
-        "input": """Clue: Country song about America, ultimately daft (7)
-Answer: AUSTRIA
-Explanation: Definition: "Country". Container: "song" = ARIA, "about" indicates containment, "America" = US, "ultimately daft" = T (last letter). US + T placed inside ARIA = A(UST)RIA = AUSTRIA.""",
-        "output": json.dumps({
-            "definition": "Country",
-            "indicator": "about",
-            "wordplay_type": "container",
-            "pieces": [
-                {"clue_word": "song", "letters": "ARIA", "mechanism": "synonym"},
-                {"clue_word": "America", "letters": "US", "mechanism": "abbreviation"},
-                {"clue_word": "ultimately daft", "letters": "T", "mechanism": "last_letter"}
             ]
         })
     },
@@ -1073,45 +872,21 @@ def _parse_json_response(raw):
     return None
 
 
-def call_reasoning(model, clue_text, answer, example_messages, enrichment=""):
-    """Pass 1: Get free-text explanation using extended thinking.
-
-    Extended thinking lets the model reason internally (wrong turns,
-    self-correction all hidden) then output only the clean final answer.
-    This replicates the conversation experience at scale.
-    """
+def call_reasoning(model, clue_text, answer, example_messages):
+    """Pass 1: Get free-text explanation of how the wordplay works."""
     enum_len = len(answer.replace(" ", "").replace("-", ""))
     user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
-    if enrichment:
-        user_msg += "\n\nReference lookups (use if helpful):\n%s" % enrichment
 
     messages = example_messages + [{"role": "user", "content": user_msg}]
 
-    for attempt in range(3):
-        try:
-            with client.messages.stream(
-                model=model,
-                max_tokens=4000,
-                temperature=1,  # required by extended thinking
-                thinking={"type": "enabled", "budget_tokens": 2000},
-                system=REASONING_PROMPT,
-                messages=messages,
-            ) as stream:
-                response = stream.get_final_message()
-            break
-        except Exception as e:
-            if attempt < 2:
-                time.sleep(2 * (attempt + 1))
-                continue
-            raise
-
-    # Extract only the text block (not the thinking block)
-    explanation = ""
-    for block in response.content:
-        if block.type == "text":
-            explanation = block.text.strip()
-            break
-
+    response = client.messages.create(
+        model=model,
+        max_tokens=600,
+        temperature=0,
+        system=REASONING_PROMPT,
+        messages=messages,
+    )
+    explanation = response.content[0].text.strip()
     tokens_in = response.usage.input_tokens
     tokens_out = response.usage.output_tokens
     return explanation, tokens_in, tokens_out
@@ -1141,20 +916,20 @@ def call_structuring(model, clue_text, answer, explanation):
 
 
 def call_api(model, clue_text, answer, enrichment, example_messages, extra_context=""):
-    """Two-pass API call: Opus reasons, Sonnet structures.
+    """Two-pass API call: reasoning then structuring.
 
-    Pass 1: Opus produces a rich free-text explanation (the product).
-           Enrichment is included as reference material to fill knowledge gaps.
-    Pass 2: Sonnet extracts structured JSON from that explanation (cheaper).
+    Pass 1: Free-text explanation (no enrichment — model reasons freely).
+    Pass 2: Extract structured JSON from the explanation.
 
-    The model parameter sets Pass 1. Pass 2 always uses Sonnet.
+    The enrichment parameter is accepted for interface compatibility but
+    is no longer sent to the model. It remains available for downstream
+    validation and fallback assembly.
     """
-    # Pass 1: reasoning (Opus by default — rich explanation is the product)
-    reasoning_model = model if model != SONNET_MODEL else OPUS_MODEL
-    explanation, t1_in, t1_out = call_reasoning(reasoning_model, clue_text, answer, example_messages, enrichment)
+    # Pass 1: reasoning
+    explanation, t1_in, t1_out = call_reasoning(model, clue_text, answer, example_messages)
 
-    # Pass 2: structuring (always Sonnet — cheaper, adequate for JSON extraction)
-    parsed, t2_in, t2_out = call_structuring(SONNET_MODEL, clue_text, answer, explanation)
+    # Pass 2: structuring
+    parsed, t2_in, t2_out = call_structuring(model, clue_text, answer, explanation)
 
     # Attach the reasoning explanation for debugging/reporting
     if parsed and isinstance(parsed, dict):
@@ -1859,24 +1634,15 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         "charade", "container", "merged_container", "reversal", "anagram",
         "reversal_container", "container_reversal",
         "charade+anagram", "anagram+charade",
-        "deletion", "outer_deletion", "deletion+anagram",
-        "substitution",
     }
     if asm_op in YIELDS_OPS and ai_pieces:
-        # For deletion/substitution, the assembly order array is the
-        # verified letter sequence (pieces include deleted material).
-        # For other ops, use ai_pieces letters directly.
-        if asm_op in ("deletion", "outer_deletion", "deletion+anagram", "substitution"):
-            order = assembly.get("order", [])
-            piece_letters = "".join(clean(x) for x in order)
-        else:
-            piece_letters = "".join(
-                clean(p.get("letters") or "") for p in ai_pieces
-            )
-            brute_gap = clean(assembly.get("brute_gap", "") or "")
-            piece_letters += brute_gap
-            for _, yld, _ in assembly.get("gap_fill", []):
-                piece_letters += clean(yld)
+        piece_letters = "".join(
+            clean(p.get("letters") or "") for p in ai_pieces
+        )
+        brute_gap = clean(assembly.get("brute_gap", "") or "")
+        piece_letters += brute_gap
+        for _, yld, _ in assembly.get("gap_fill", []):
+            piece_letters += clean(yld)
         if sorted(piece_letters) == sorted(answer_clean):
             checks["yields_check"] = "pass"
             score += 20
@@ -2136,29 +1902,21 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     if not wordplay_types:
         wordplay_types = ["unknown"]
 
-    # Extract indicator from AI output
-    ai_indicator = ai_output.get("indicator") if ai_output else None
-
     # Store full corrected picture: AI pieces for reference + assembler result
     components = {
         "ai_pieces": ai_pieces,
         "assembly": assembly,
         "wordplay_type": wordplay_types[0],
     }
-    if ai_indicator:
-        components["indicator"] = ai_indicator
-    if tier:
-        components["tier"] = tier
 
     confidence = score / 100.0
 
-    # Build human-readable explanation from assembly + pieces
+    # Build human-readable explanation from assembly
     from .report import _describe_assembly
+    # Fetch answer for hidden-word highlighting
     ans_row = conn.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
     clue_answer = ans_row[0] if ans_row else None
-    explanation_text = _describe_assembly(
-        assembly, ai_pieces, answer=clue_answer, indicator=ai_indicator
-    ) if assembly else None
+    explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
 
     # Update definition only if not already set
     if ai_def:
@@ -2171,11 +1929,11 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         UPDATE clues SET wordplay_type = ?
         WHERE id = ? AND (wordplay_type IS NULL OR wordplay_type = '')
     """, (wordplay_types[0], clue_id))
-    # Write explanation (always overwrite — new format is always better)
+    # Write explanation
     if explanation_text:
         conn.execute("""
             UPDATE clues SET ai_explanation = ?
-            WHERE id = ?
+            WHERE id = ? AND (ai_explanation IS NULL OR ai_explanation = '')
         """, (explanation_text, clue_id))
 
     # Determine solved status based on actual content, not score
@@ -2267,11 +2025,8 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
 # -- High-level solve_clue entry point ----------------------------------------
 
 def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
-               example_messages, cached_ai=None, mode="fast"):
+               example_messages, cached_ai=None):
     """Solve a single cryptic clue using Sonnet + assembler + fallback.
-
-    mode="fast": single cheap Sonnet call returning JSON directly (default).
-    mode="reasoning": two-pass Opus reasoning + Sonnet structuring (expensive).
 
     If cached_ai is provided, skip the API call and re-run assembler + scoring
     on the cached Sonnet output. Use this for previously-solved clues to test
@@ -2284,16 +2039,12 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
     """
     target = clean(answer)
 
-    # Use cached AI output or call API
+    # Use cached AI output or call Sonnet
     if cached_ai:
         sonnet_out = cached_ai
         tokens_in, tokens_out = 0, 0
-    elif mode == "reasoning":
-        sonnet_out, tokens_in, tokens_out = call_api(
-            ACTIVE_MODEL, clue_text, answer, enrichment, example_messages
-        )
     else:
-        sonnet_out, tokens_in, tokens_out = call_api_fast(
+        sonnet_out, tokens_in, tokens_out = call_api(
             SONNET_MODEL, clue_text, answer, enrichment, example_messages
         )
     sonnet_pieces, sonnet_wtype, sonnet_def = extract_pieces(sonnet_out)

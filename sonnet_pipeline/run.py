@@ -22,7 +22,7 @@ if __name__ == "__main__" and __package__ is None:
 
 from .enricher import ClueEnricher
 from .solver import (
-    HomophoneEngine, build_example_messages, build_fast_example_messages, clean,
+    HomophoneEngine, build_example_messages, clean,
     resolve_cross_references, solve_clue, store_result,
 )
 from .report import generate_report, _describe_assembly
@@ -53,11 +53,8 @@ SINGLE_CLUE_MATCH = ""
 
 def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                write_db=False, output_dir=OUTPUT_DIR, single_clue="", force=False,
-               partials=False, reasoning_example_messages=None):
-    """Run the Sonnet pipeline on a single puzzle. Returns (results, stats).
-
-    Two-pass hybrid: fast mode first, then reasoning mode for failures/low scores.
-    """
+               partials=False):
+    """Run the Sonnet pipeline on a single puzzle. Returns (results, stats)."""
     db_path = CLUES_DB
     conn = sqlite3.connect(db_path, timeout=30)
     rows = conn.execute("""
@@ -152,17 +149,16 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         try:
             result = solve_clue(
                 clue, answer, enrichment, enricher, homo_engine,
-                example_messages, cached_ai=cached_ai, mode="fast"
+                example_messages, cached_ai=cached_ai
             )
         except Exception as e:
             print("\n%s. %s = %s" % (cnum, clue, answer))
             print("   SONNET ERROR: %s" % e)
             results.append({
                 "status": "error", "tier": None,
-                "clue_id": cid,
                 "clue_number": cnum, "direction": direction,
                 "enumeration": enum, "clue": clue, "answer": answer,
-                "explanation": explanation, "enrichment": enrichment,
+                "explanation": explanation,
             })
             continue
 
@@ -219,32 +215,12 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
                 else:
                     conn.execute("UPDATE clues SET has_solution = 0, reviewed = 0 WHERE id = ?", (cid,))
-                # Still store the Opus reasoning — a rich explanation without
-                # mechanical verification is better than no explanation at all
-                reasoning = sonnet_out.get("_reasoning") if sonnet_out else None
-                if reasoning:
-                    conn.execute("""
-                        UPDATE clues SET ai_explanation = ?
-                        WHERE id = ? AND (ai_explanation IS NULL OR ai_explanation = '')
-                    """, (reasoning.strip(), cid))
-                # Store definition and type even on failure
-                if sonnet_def:
-                    conn.execute("""
-                        UPDATE clues SET definition = ?
-                        WHERE id = ? AND (definition IS NULL OR definition = '')
-                    """, (sonnet_def, cid))
-                if sonnet_wtype:
-                    conn.execute("""
-                        UPDATE clues SET wordplay_type = ?
-                        WHERE id = ? AND (wordplay_type IS NULL OR wordplay_type = '')
-                    """, (sonnet_wtype, cid))
         if explanation:
             print("   Human:  %s" % explanation[:90])
 
         results.append({
             "status": "ASSEMBLED" if assembly else "FAILED",
             "tier": tier,
-            "clue_id": cid,
             "clue_number": cnum,
             "direction": direction,
             "enumeration": enum,
@@ -261,124 +237,10 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
         time.sleep(0.2)
 
-    # Commit DB writes from fast pass
+    # Commit DB writes
     if write_db:
         conn.commit()
         print("\nDB writes committed to %s" % db_path)
-
-    # ---- Pass 2: Reasoning retry for failures and low scores ----
-    REASONING_THRESHOLD = 50
-    retry_indices = [
-        i for i, r in enumerate(results)
-        if r.get("status") in ("FAILED", "error") or r.get("score", 0) < REASONING_THRESHOLD
-    ]
-    # Only retry if we have reasoning examples and there are candidates
-    # Skip retry for cached results (no point re-running cached with different mode)
-    retry_indices = [
-        i for i in retry_indices
-        if not (results[i].get("tier") or "").startswith("Cached+")
-    ]
-
-    if retry_indices and reasoning_example_messages:
-        print("\n" + "-" * 80)
-        print("PASS 2: Reasoning retry for %d clues (failed/score<%d)"
-              % (len(retry_indices), REASONING_THRESHOLD))
-        print("-" * 80)
-
-        reasoning_improved = 0
-        reasoning_tried = len(retry_indices)
-        for idx in retry_indices:
-            r = results[idx]
-            clue = r["clue"]
-            answer = r["answer"]
-            cid = r["clue_id"]
-            enrichment = r.get("enrichment", "")
-            cnum = r["clue_number"]
-            target = clean(answer)
-
-            try:
-                result = solve_clue(
-                    clue, answer, enrichment, enricher, homo_engine,
-                    reasoning_example_messages, mode="reasoning"
-                )
-            except Exception as e:
-                print("\n%s. %s = %s" % (cnum, clue, answer))
-                print("   REASONING RETRY ERROR: %s" % e)
-                continue
-
-            sonnet_tokens_in += result["tokens_in"]
-            sonnet_tokens_out += result["tokens_out"]
-
-            assembly = result["assembly"]
-            tier = result["tier"]
-            validation = result["validation"]
-            sonnet_out = result["ai_output"]
-            sonnet_pieces = result["sonnet_pieces"]
-            sonnet_wtype = result["sonnet_wtype"]
-            sonnet_def = result["sonnet_def"]
-            fallback_method = result["fallback_method"]
-            new_score = validation.get("score", 0) if assembly else 0
-
-            # Only accept the reasoning result if it improved things
-            old_score = r.get("score", 0)
-            if new_score > old_score:
-                print("\n%s. %s = %s" % (cnum, clue, answer))
-                reasoning = sonnet_out.get("_reasoning", "") if sonnet_out else ""
-                if reasoning:
-                    preview = reasoning.replace("\n", " | ")[:120]
-                    print("   Reasoning: %s" % preview)
-                print("   Sonnet: type=%s, def=%s" % (sonnet_wtype, repr(sonnet_def)))
-                print("   Pieces: %s -> %s (target=%s)" % (
-                    sonnet_pieces, "".join(sonnet_pieces), target))
-                if assembly:
-                    desc = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [], answer=answer)
-                    if desc:
-                        print("   Assembly: %s — %s" % (assembly.get("op", "?"), desc))
-                    if fallback_method and fallback_method not in ("direct", None):
-                        print("   Fallback: %s" % fallback_method)
-                    print("   Confidence: %s (%d/100) [was %d] %s" % (
-                        validation["confidence"].upper(), new_score, old_score,
-                        " | ".join("%s=%s" % (k, v) for k, v in validation["checks"].items())))
-                    print("   Status: ASSEMBLED (Reasoning)")
-                    tier = "Reasoning"
-                    if write_db:
-                        store_result(conn, cid, sonnet_out, assembly, validation, tier)
-                else:
-                    print("   Reasoning retry also FAILED (score %d -> %d)" % (old_score, new_score))
-                    continue
-
-                reasoning_improved += 1
-                # Update the results list with the improved result
-                results[idx] = {
-                    "status": "ASSEMBLED" if assembly else "FAILED",
-                    "tier": tier,
-                    "clue_id": cid,
-                    "clue_number": cnum,
-                    "direction": r["direction"],
-                    "enumeration": r["enumeration"],
-                    "clue": clue,
-                    "answer": answer,
-                    "explanation": r.get("explanation"),
-                    "enrichment": enrichment,
-                    "confidence": validation.get("confidence", "none") if assembly else "none",
-                    "score": new_score,
-                    "checks": validation.get("checks", {}),
-                    "ai_output": sonnet_out,
-                    "assembly": assembly,
-                }
-            else:
-                print("\n%s. %s = %s — reasoning no improvement (%d -> %d), keeping fast result"
-                      % (cnum, clue, answer, old_score, new_score))
-
-            time.sleep(0.2)
-
-        print("\nPass 2 summary: %d tried, %d improved" % (reasoning_tried, reasoning_improved))
-
-        # Commit reasoning pass DB writes
-        if write_db:
-            conn.commit()
-            print("Reasoning pass DB writes committed.")
-
     conn.close()
 
     # Compute stats
@@ -388,7 +250,6 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     errors = sum(1 for r in results if r.get("status") == "error")
     t1 = sum(1 for r in results if r.get("tier") in ("Sonnet", "Cached+Sonnet"))
     t3 = sum(1 for r in results if r.get("tier") in ("Fallback", "Cached+Fallback"))
-    t_reasoning = sum(1 for r in results if r.get("tier") == "Reasoning")
     t_cached = sum(1 for r in results if (r.get("tier") or "").startswith("Cached+"))
 
     assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
@@ -397,10 +258,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     low = sum(1 for r in assembled_results if r.get("confidence") == "low")
     avg_score = sum(r.get("score", 0) for r in assembled_results) / max(len(assembled_results), 1)
 
-    # Cost estimate: blend of fast (Sonnet $3/$15) and reasoning (Opus $15/$75 + Sonnet $3/$15)
-    api_calls = total - errors - t_cached
-    # Approximate blended rate across fast + reasoning calls
-    sonnet_cost = sonnet_tokens_in / 1e6 * 6.0 + sonnet_tokens_out / 1e6 * 25.0
+    sonnet_cost = sonnet_tokens_in / 1e6 * 3.0 + sonnet_tokens_out / 1e6 * 15.0
 
     stats = {
         "total": total, "assembled": assembled, "failed": failed, "errors": errors,
@@ -417,8 +275,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     print("=" * 80)
     print("Total clues:      %d" % total)
     print("ASSEMBLED:        %d/%d (%d%%)" % (assembled, total, 100 * assembled // max(total, 1)))
-    print("  Fast (Sonnet):  %d" % t1)
-    print("  Reasoning:      %d" % t_reasoning)
+    print("  Sonnet:         %d" % t1)
     print("  DB Fallback:    %d" % t3)
     if t_cached:
         print("  Cached (no API): %d" % t_cached)
@@ -430,9 +287,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     print("  Medium: %d/%d" % (medium, assembled))
     print("  Low:    %d/%d" % (low, assembled))
     print("  Avg score: %.0f/100" % avg_score)
-    print("\nCost: ~$%.4f (%d fast + %d reasoning + %d cached, %d+%d tokens)" % (
-        sonnet_cost, api_calls - t_reasoning, t_reasoning, t_cached,
-        sonnet_tokens_in, sonnet_tokens_out))
+    api_calls = total - errors - t_cached
+    print("\nCost: $%.4f (%d API calls, %d cached, %d+%d tokens)" % (
+        sonnet_cost, api_calls, t_cached, sonnet_tokens_in, sonnet_tokens_out))
 
     if write_db:
         print("\nResults written to DB.")
@@ -472,7 +329,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
 def _show_puzzle_summary(source, puzzle):
     """Show current solve status for a puzzle."""
-    conn = sqlite3.connect(CLUES_DB, timeout=30)
+    conn = sqlite3.connect(CLUES_DB)
     rows = conn.execute("""
         SELECT COUNT(*) AS total,
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
@@ -496,18 +353,16 @@ def _run_full_pipeline(args):
     enricher = ClueEnricher()
     print("Loading homophone engine...")
     homo_engine = HomophoneEngine(db_path=CRYPTIC_DB)
-    fast_example_messages = build_fast_example_messages()
-    reasoning_example_messages = build_example_messages()
+    example_messages = build_example_messages()
 
     all_stats = []
     any_gaps = False
     for puzzle in args.puzzles:
         results, stats, gaps = run_puzzle(
-            args.source, puzzle, enricher, homo_engine, fast_example_messages,
+            args.source, puzzle, enricher, homo_engine, example_messages,
             write_db=args.write_db, output_dir=args.output_dir,
             single_clue=args.single_clue, force=args.force,
             partials=args.partials,
-            reasoning_example_messages=reasoning_example_messages,
         )
         if stats:
             all_stats.append((puzzle, stats))
@@ -605,26 +460,12 @@ def main():
                         help="Skip menu: 1=Full Pipeline, 2=DB Additions, 3=Manual Explanations")
     parser.add_argument("--no-review", action="store_true", default=False,
                         help="Skip interactive gap review (for non-interactive/subprocess use)")
-    parser.add_argument("--model", type=str, default=None,
-                        choices=["sonnet", "opus"],
-                        help="Model to use: sonnet (default) or opus")
     args = parser.parse_args()
-
-    # Apply model selection
-    if args.model:
-        from .solver import SONNET_MODEL, OPUS_MODEL
-        import sonnet_pipeline.solver as _solver
-        if args.model == "opus":
-            _solver.ACTIVE_MODEL = OPUS_MODEL
-            print("Model: OPUS (claude-opus-4)")
-        else:
-            _solver.ACTIVE_MODEL = SONNET_MODEL
-            print("Model: Sonnet (claude-sonnet-4)")
 
     # Single-clue mode: auto-detect source and puzzle from DB.
     # Always overrides source/puzzle — the clue text is the primary selector.
     if args.single_clue:
-        conn = sqlite3.connect(CLUES_DB, timeout=30)
+        conn = sqlite3.connect(CLUES_DB)
         match = conn.execute(
             "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
             ("%" + args.single_clue + "%",)

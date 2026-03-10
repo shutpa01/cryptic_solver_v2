@@ -71,7 +71,7 @@ def _word_variants(word):
 class ClueEnricher:
     def __init__(self, db_path=None):
         self.db_path = str(db_path or DB_PATH)
-        self.conn = sqlite3.connect(self.db_path, timeout=30)
+        self.conn = sqlite3.connect(self.db_path)
         self._load_indicators()
         self._load_wordplay()
         self._load_homophones()

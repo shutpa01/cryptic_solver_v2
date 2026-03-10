@@ -8,7 +8,7 @@ from datetime import datetime
 
 import re
 
-from .solver import OP_TO_TYPE, clean
+from .solver import OP_TO_TYPE
 
 
 def _piece_label(letters, ai_pieces):
@@ -112,401 +112,172 @@ def _highlight_hidden(words, answer):
     return "".join(result)
 
 
-def _fmt_piece(piece):
-    """Format a single AI piece for display: LETTERS (clue_word).
-
-    Adapts format based on mechanism:
-    - synonym/abbreviation: LETTERS (clue_word)
-    - first_letter: first letter of Clue_word
-    - last_letter: last letter of clue_worD
-    - anagram_fodder: CLUE WORD (raw letters)
-    - hidden: hidden in "clue words"
-    - literal: LETTERS (clue_word)
-    """
-    letters = (piece.get("letters") or "").upper()
-    clue_word = piece.get("clue_word") or ""
-    mechanism = (piece.get("mechanism") or "").lower()
-
-    if mechanism == "first_letter":
-        # Capitalise the first letter in the clue word to show where it comes from
-        if clue_word:
-            return "%s (first letter of %s)" % (letters, clue_word)
-        return "%s (first letter)" % letters
-
-    if mechanism == "last_letter":
-        # Capitalise the last letter to show where it comes from
-        if clue_word:
-            # Highlight the last letter: "daf" -> "dafT"
-            word_display = clue_word
-            for i in range(len(clue_word) - 1, -1, -1):
-                if clue_word[i].isalpha():
-                    word_display = clue_word[:i] + clue_word[i].upper() + clue_word[i+1:]
-                    break
-            return "%s (last letter of %s)" % (letters, word_display)
-        return "%s (last letter)" % letters
-
-    if mechanism == "anagram_fodder":
-        return clue_word.upper() if clue_word else letters
-
-    if mechanism == "alternate_letters":
-        if clue_word:
-            return "%s (alternate letters of %s)" % (letters, clue_word)
-        return "%s (alternate letters)" % letters
-
-    if mechanism == "core_letters":
-        if clue_word:
-            return "%s (middle of %s)" % (letters, clue_word)
-        return "%s (middle)" % letters
-
-    if mechanism == "sound_of":
-        if clue_word:
-            return "%s (sounds like %s)" % (letters, clue_word)
-        return letters
-
-    if mechanism == "reversal":
-        if clue_word:
-            return "%s (reverse of %s)" % (letters, clue_word)
-        return "%s (reversed)" % letters
-
-    if mechanism == "deletion":
-        # Piece-level deletion info (from refine_pieces)
-        source = piece.get("source") or ""
-        deleted = piece.get("deleted") or ""
-        deleted_word = piece.get("deleted_word") or ""
-        if source and deleted:
-            if deleted_word:
-                return "%s (%s minus %s/%s)" % (letters, source, deleted, deleted_word)
-            return "%s (%s minus %s)" % (letters, source, deleted)
-        if clue_word:
-            return "%s (%s)" % (letters, clue_word)
-        return letters
-
-    # Default: synonym, abbreviation, literal
-    if clue_word:
-        return "%s (%s)" % (letters, clue_word)
-    return letters
-
-
-def _fmt_indicator(indicator_word):
-    """Format an indicator reference: (indicator_word)."""
-    if indicator_word:
-        return "(%s)" % indicator_word
-    return ""
-
-
-def _describe_assembly(asm, ai_pieces=None, answer=None, indicator=None):
-    """Return a user-friendly explanation of how the wordplay produces the answer.
-
-    Format: Type (indicator) of/containing PIECE (source) + PIECE (source)
-    The definition is NOT included — it's shown separately in the UI.
-    """
+def _describe_assembly(asm, ai_pieces=None, answer=None):
+    """Return a human-readable description of an assembly operation."""
     op = asm.get("op", "?")
     ai = ai_pieces or []
-
-    # Fall back to indicator stored in pieces (from refine_pieces)
-    if not indicator:
-        indicator = _find_indicator(ai)
-
-    ind = _fmt_indicator(indicator)
+    indicator = _find_indicator(ai)
 
     if op == "charade":
         order = asm.get("order", [])
         if order:
-            # Build pieces list, merging adjacent order elements that match a single AI piece
-            parts = []
+            # Merge adjacent pieces when their concatenation matches an AI piece
+            # e.g. ["P", "T"] with AI piece letters="PT" → single "PT(priest vacated)"
+            merged = []
             i = 0
             while i < len(order):
-                found = False
+                # Try merging 2 or 3 adjacent pieces
+                found_merge = False
                 for span in (3, 2):
                     if i + span <= len(order):
                         combined = "".join(order[i:i + span])
                         label = _piece_label(combined, ai)
                         if label:
-                            # Find the full piece for formatting
-                            for p in ai:
-                                if clean(p.get("letters", "")) == clean(combined):
-                                    parts.append(_fmt_piece(p))
-                                    found = True
-                                    break
-                            if found:
-                                i += span
-                                break
-                if not found:
-                    # Find matching AI piece for this order element
-                    matched = False
-                    for p in ai:
-                        if clean(p.get("letters", "")) == clean(order[i]):
-                            parts.append(_fmt_piece(p))
-                            matched = True
+                            merged.append("%s(%s)" % (combined, label))
+                            i += span
+                            found_merge = True
                             break
-                    if not matched:
-                        parts.append(order[i])
+                if not found_merge:
+                    merged.append(_annotate(order[i], ai))
                     i += 1
-            return " + ".join(parts)
+            return " + ".join(merged)
 
     elif op == "container":
         inner = asm.get("inner", "?")
         outer = asm.get("outer", "?")
         merged = asm.get("merged_inner")
-        inner_letters = merged or inner
-
-        # Find AI pieces for inner and outer
-        inner_parts = []
         if merged:
-            # Multiple pieces merged as inner
-            remaining = clean(merged)
-            for p in ai:
-                pl = clean(p.get("letters", ""))
-                if pl and pl in remaining:
-                    inner_parts.append(_fmt_piece(p))
-                    remaining = remaining.replace(pl, "", 1)
+            container_desc = "%s inside %s" % (_annotate_composite(merged, ai), _annotate(outer, ai))
         else:
-            for p in ai:
-                if clean(p.get("letters", "")) == clean(inner):
-                    inner_parts.append(_fmt_piece(p))
-                    break
-
-        outer_fmt = outer
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(outer):
-                outer_fmt = _fmt_piece(p)
-                break
-
-        inner_fmt = " + ".join(inner_parts) if inner_parts else inner
-        desc = "%s containing %s %s" % (outer_fmt, ind, inner_fmt)
-
-        # Add extra charade pieces
-        combined = asm.get("combined", "")
-        order = asm.get("order", [])
-        if order and combined and len(order) > 1:
-            extra = []
-            for o in order:
-                if clean(o) != clean(combined):
-                    for p in ai:
-                        if clean(p.get("letters", "")) == clean(o):
-                            extra.append(_fmt_piece(p))
-                            break
-                    else:
-                        extra.append(o)
-            if extra:
-                desc = desc.strip() + " + " + " + ".join(extra)
-
-        return desc.strip()
+            container_desc = "%s inside %s" % (_annotate(inner, ai), _annotate(outer, ai))
+        desc = _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "reversal":
         rev_parts = asm.get("reversed_parts")
         if rev_parts:
-            parts = []
-            for rp in rev_parts:
-                for p in ai:
-                    if clean(p.get("letters", "")) == clean(rp):
-                        parts.append(_fmt_piece(p))
-                        break
-                else:
-                    parts.append(rp)
-            desc = "Reversal %s of %s" % (ind, " + ".join(parts))
+            parts_desc = "+".join(_annotate(p, ai) for p in rev_parts)
+            desc = "reverse %s" % parts_desc
         else:
-            reversed_str = asm.get("reversed", "?")
-            for p in ai:
-                if clean(p.get("letters", "")) == clean(reversed_str):
-                    reversed_str = _fmt_piece(p)
-                    break
-            desc = "Reversal %s of %s" % (ind, reversed_str)
-
-            # Add charade pieces
-            order = asm.get("order", [])
-            gives = asm.get("gives", "")
-            if order and gives and len(order) > 1:
-                extra = []
-                for o in order:
-                    if clean(o) != clean(gives):
-                        for p in ai:
-                            if clean(p.get("letters", "")) == clean(o):
-                                extra.append(_fmt_piece(p))
-                                break
-                        else:
-                            extra.append(o)
-                if extra:
-                    desc = desc + " + " + " + ".join(extra)
-
-        return desc.strip()
+            desc = "reverse %s" % _annotate(asm.get("reversed", "?"), ai)
+            desc = _with_charade(desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "deletion":
-        from_word = asm.get("from", "?")
-        deleted = asm.get("deleted", "?")
-
-        from_fmt = from_word
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(from_word):
-                from_fmt = _fmt_piece(p)
-                break
-
-        desc = "Deletion %s: %s minus %s" % (ind, from_fmt, deleted)
-
-        # Add charade pieces
-        order = asm.get("order", [])
-        gives = asm.get("gives", "")
-        if order and gives and len(order) > 1:
-            extra = []
-            for o in order:
-                if clean(o) != clean(gives):
-                    for p in ai:
-                        if clean(p.get("letters", "")) == clean(o):
-                            extra.append(_fmt_piece(p))
-                            break
-                    else:
-                        extra.append(o)
-            if extra:
-                desc = desc + " + " + " + ".join(extra)
-
-        return desc.strip()
+        del_desc = "delete %s from %s" % (
+            asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai))
+        desc = _with_charade(del_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "outer_deletion":
-        from_word = asm.get("from", "?")
-        from_fmt = from_word
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(from_word):
-                from_fmt = _fmt_piece(p)
-                break
-        desc = "Outer deletion %s: strip outer letters from %s" % (ind, from_fmt)
-        return desc.strip()
+        od_desc = "strip outer letters from %s" % _annotate(asm.get("from", "?"), ai)
+        desc = _with_charade(od_desc, asm.get("order", []), asm.get("gives", ""), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "anagram":
         fodder = asm.get("fodder", [])
         if fodder:
-            fodder_parts = []
-            for f in fodder:
-                for p in ai:
-                    if clean(p.get("letters", "")) == clean(f):
-                        fodder_parts.append(_fmt_piece(p))
-                        break
-                else:
-                    fodder_parts.append(f)
-            return "Anagram %s of %s" % (ind, " + ".join(fodder_parts))
+            return "anagram of %s" % "+".join(_annotate(f, ai) for f in fodder)
 
     elif op in ("charade+anagram", "anagram+charade"):
         charade = asm.get("charade", [])
         anagram = asm.get("anagram", [])
         parts = []
-        for c in charade:
-            for p in ai:
-                if clean(p.get("letters", "")) == clean(c):
-                    parts.append(_fmt_piece(p))
-                    break
-            else:
-                parts.append(c)
+        if charade:
+            # Merge adjacent charade pieces (same logic as pure charade)
+            i = 0
+            while i < len(charade):
+                found_merge = False
+                for span in (3, 2):
+                    if i + span <= len(charade):
+                        combined = "".join(charade[i:i + span])
+                        label = _piece_label(combined, ai)
+                        if label:
+                            parts.append("%s(%s)" % (combined, label))
+                            i += span
+                            found_merge = True
+                            break
+                if not found_merge:
+                    parts.append(_annotate(charade[i], ai))
+                    i += 1
         if anagram:
-            anagram_parts = []
-            for f in anagram:
-                for p in ai:
-                    if clean(p.get("letters", "")) == clean(f):
-                        anagram_parts.append(_fmt_piece(p))
-                        break
-                else:
-                    anagram_parts.append(f)
-            parts.append("anagram %s of %s" % (ind, "+".join(anagram_parts)))
-        return " + ".join(parts) if parts else None
+            parts.append("anagram(%s)" % "+".join(_annotate(f, ai) for f in anagram))
+        if parts:
+            return " + ".join(parts)
 
     elif op == "deletion+anagram":
-        from_word = asm.get("from", "?")
-        deleted = asm.get("deleted", "?")
         fodder = asm.get("fodder", [])
-
-        from_fmt = from_word
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(from_word):
-                from_fmt = _fmt_piece(p)
-                break
-
-        fodder_parts = []
-        for f in fodder:
-            for p in ai:
-                if clean(p.get("letters", "")) == clean(f):
-                    fodder_parts.append(_fmt_piece(p))
-                    break
-            else:
-                fodder_parts.append(f)
-
-        return "Deletion + anagram %s: %s minus %s, then anagram of %s" % (
-            ind, from_fmt, deleted, "+".join(fodder_parts) if fodder_parts else "?")
+        desc = "delete %s from %s, anagram of %s" % (
+            asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
+            "+".join(_annotate(f, ai) for f in fodder) if fodder else "?")
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "reversal_container":
         inner = asm.get("inner", "?")
         outer = asm.get("outer", "?")
-
-        inner_fmt = inner
-        outer_fmt = outer
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(inner):
-                inner_fmt = _fmt_piece(p)
-            if clean(p.get("letters", "")) == clean(outer):
-                outer_fmt = _fmt_piece(p)
-
-        desc = "Reversal + container %s: reverse then %s inside %s" % (ind, inner_fmt, outer_fmt)
-        return desc.strip()
+        pre_rev = asm.get("pre_reversal", "?")
+        rev_part = _annotate(pre_rev, ai) if pre_rev != "?" else inner
+        container_desc = "reverse %s, then %s inside %s" % (
+            rev_part, _annotate(inner, ai), _annotate(outer, ai))
+        desc = _with_charade(container_desc, asm.get("order", []), asm.get("combined"), ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "container_reversal":
         inner = asm.get("inner", "?")
         outer = asm.get("outer", "?")
-
-        inner_fmt = inner
-        outer_fmt = outer
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(inner):
-                inner_fmt = _fmt_piece(p)
-            if clean(p.get("letters", "")) == clean(outer):
-                outer_fmt = _fmt_piece(p)
-
-        desc = "Container + reversal %s: %s inside %s, then reverse" % (ind, inner_fmt, outer_fmt)
-        return desc.strip()
+        reversed_combined = asm.get("reversed_combined", "?")
+        container_desc = "%s inside %s, then reverse" % (
+            _annotate(inner, ai), _annotate(outer, ai))
+        desc = _with_charade(container_desc, asm.get("order", []), reversed_combined, ai)
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
     elif op == "hidden":
         words = asm.get("words", "?")
         highlighted = _highlight_hidden(words, answer)
-        return "Hidden %s in '%s'" % (ind, highlighted)
+        return "hidden in '%s'" % highlighted
 
     elif op == "hidden_reversed":
         words = asm.get("words", "?")
         highlighted = _highlight_hidden(words, answer and answer[::-1])
-        return "Hidden reversed %s in '%s'" % (ind, highlighted)
+        return "hidden reversed in '%s'" % highlighted
 
     elif op == "hidden_in_word":
         word = asm.get("word", "?")
         highlighted = _highlight_hidden(word, answer)
-        return "Hidden %s in '%s'" % (ind, highlighted)
+        return "hidden in word '%s'" % highlighted
 
     elif op == "homophone":
-        sounds_like = asm.get("sounds_like", "?")
-        gives = asm.get("gives", "?")
-        return "Homophone %s: %s sounds like %s" % (ind, sounds_like, gives)
+        return "%s sounds like %s" % (asm.get("sounds_like", "?"), asm.get("gives", "?"))
 
     elif op == "spoonerism":
         src = asm.get("source_words", ["?", "?"])
         res = asm.get("result_words", ["?", "?"])
-        return "Spoonerism %s: swap initial sounds of %s and %s" % (ind, src[0], src[1])
+        return "spoonerism of %s %s → %s %s" % (src[0], src[1], res[0], res[1])
 
     elif op == "substitution":
-        from_word = asm.get("from", "?")
-        deleted = asm.get("deleted", "?")
-        del_word = asm.get("del_word", "?")
-        added = asm.get("added", "?")
-        add_word = asm.get("add_word", "?")
+        desc = "%s - %s + %s(%s)" % (
+            _annotate(asm.get("from", "?"), ai), asm.get("deleted", "?"),
+            asm.get("added", "?"), asm.get("add_word", "?"))
+        if indicator:
+            desc += " [%s]" % indicator
+        return desc
 
-        from_fmt = from_word
-        for p in ai:
-            if clean(p.get("letters", "")) == clean(from_word):
-                from_fmt = _fmt_piece(p)
-                break
-
-        desc = "Substitution %s: %s -- replace %s (%s) with %s (%s)" % (
-            ind, from_fmt, deleted, del_word, added, add_word)
-        return desc.strip()
-
-    elif op == "double_definition":
-        return "Double definition"
-
-    elif op == "cryptic_definition":
-        return "Cryptic definition"
+    elif op in ("double_definition", "cryptic_definition"):
+        return op.replace("_", " ")
 
     return None
 
