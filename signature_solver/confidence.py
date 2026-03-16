@@ -201,8 +201,16 @@ def _verify_lookup(word, tok, val, db):
 
 
 def _check_circularity(roles, answer):
-    """Penalty if a synonym value used in the parse IS the answer."""
-    for word, tok, val in roles:
+    """Penalty if a synonym value used in the parse IS the answer.
+
+    Exception: double definitions (synonym operation) where the only fodder
+    is a single SYN_F whose value equals the answer — that's correct by design.
+    """
+    fodder_roles = [(w, t, v) for w, t, v in roles if t in FODDER_TOKENS]
+    for word, tok, val in fodder_roles:
         if tok == SYN_F and val == answer:
+            # If this is the ONLY fodder piece, it's a DD/synonym — no penalty
+            if len(fodder_roles) == 1:
+                return 0
             return -30
     return 0

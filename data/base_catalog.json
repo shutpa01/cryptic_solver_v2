@@ -1,0 +1,926 @@
+[
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 4440,
+    "def_start": 2283,
+    "def_end": 2157,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 2134,
+    "def_start": 1114,
+    "def_end": 1020,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F"
+    ],
+    "operation": "hidden",
+    "count": 1135,
+    "def_start": 0,
+    "def_end": 0,
+    "def_none": 1135
+  },
+  {
+    "pattern": [
+      "F",
+      "I"
+    ],
+    "operation": "anagram",
+    "count": 1084,
+    "def_start": 498,
+    "def_end": 586,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "container",
+    "count": 722,
+    "def_start": 394,
+    "def_end": 328,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 592,
+    "def_start": 331,
+    "def_end": 261,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F"
+    ],
+    "operation": "anagram",
+    "count": 539,
+    "def_start": 265,
+    "def_end": 274,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 537,
+    "def_start": 266,
+    "def_end": 271,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 391,
+    "def_start": 179,
+    "def_end": 212,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "anagram_charade",
+    "count": 263,
+    "def_start": 158,
+    "def_end": 105,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "deletion",
+    "count": 214,
+    "def_start": 124,
+    "def_end": 90,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 203,
+    "def_start": 105,
+    "def_end": 98,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "anagram",
+    "count": 146,
+    "def_start": 65,
+    "def_end": 81,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 127,
+    "def_start": 70,
+    "def_end": 57,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 105,
+    "def_start": 61,
+    "def_end": 44,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I"
+    ],
+    "operation": "reversal",
+    "count": 100,
+    "def_start": 69,
+    "def_end": 31,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 76,
+    "def_start": 31,
+    "def_end": 45,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "anagram_charade",
+    "count": 64,
+    "def_start": 35,
+    "def_end": 29,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "synonym",
+    "count": 61,
+    "def_start": 36,
+    "def_end": 25,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 48,
+    "def_start": 31,
+    "def_end": 17,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "I"
+    ],
+    "operation": "anagram",
+    "count": 48,
+    "def_start": 34,
+    "def_end": 14,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container_charade",
+    "count": 41,
+    "def_start": 15,
+    "def_end": 26,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F"
+    ],
+    "operation": "container",
+    "count": 39,
+    "def_start": 25,
+    "def_end": 14,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "anagram_charade",
+    "count": 38,
+    "def_start": 23,
+    "def_end": 15,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container",
+    "count": 34,
+    "def_start": 23,
+    "def_end": 11,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F"
+    ],
+    "operation": "reversal",
+    "count": 29,
+    "def_start": 10,
+    "def_end": 19,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 29,
+    "def_start": 18,
+    "def_end": 11,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 27,
+    "def_start": 18,
+    "def_end": 9,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 21,
+    "def_start": 9,
+    "def_end": 12,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "I"
+    ],
+    "operation": "anagram",
+    "count": 21,
+    "def_start": 8,
+    "def_end": 13,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 18,
+    "def_start": 9,
+    "def_end": 9,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "reversal",
+    "count": 17,
+    "def_start": 12,
+    "def_end": 5,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 13,
+    "def_start": 9,
+    "def_end": 4,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "I"
+    ],
+    "operation": "reversal",
+    "count": 12,
+    "def_start": 11,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 11,
+    "def_start": 4,
+    "def_end": 7,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "anagram_charade",
+    "count": 11,
+    "def_start": 6,
+    "def_end": 5,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 10,
+    "def_start": 4,
+    "def_end": 6,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 9,
+    "def_start": 6,
+    "def_end": 3,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container_charade",
+    "count": 9,
+    "def_start": 4,
+    "def_end": 5,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "homophone",
+    "count": 6,
+    "def_start": 0,
+    "def_end": 6,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 6,
+    "def_start": 4,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F"
+    ],
+    "operation": "charade",
+    "count": 5,
+    "def_start": 2,
+    "def_end": 3,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 5,
+    "def_start": 0,
+    "def_end": 5,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "charade",
+    "count": 5,
+    "def_start": 3,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 5,
+    "def_start": 2,
+    "def_end": 3,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "I",
+      "F"
+    ],
+    "operation": "anagram",
+    "count": 5,
+    "def_start": 3,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "reversal_charade",
+    "count": 4,
+    "def_start": 3,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 4,
+    "def_start": 0,
+    "def_end": 4,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container",
+    "count": 4,
+    "def_start": 0,
+    "def_end": 4,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "I"
+    ],
+    "operation": "reversal",
+    "count": 4,
+    "def_start": 3,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 4,
+    "def_start": 2,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 4,
+    "def_start": 2,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "I",
+      "I"
+    ],
+    "operation": "anagram",
+    "count": 3,
+    "def_start": 2,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "I",
+      "F"
+    ],
+    "operation": "container",
+    "count": 2,
+    "def_start": 2,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 2,
+    "def_start": 0,
+    "def_end": 2,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container_charade",
+    "count": 2,
+    "def_start": 1,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container_charade",
+    "count": 2,
+    "def_start": 2,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F",
+      "I"
+    ],
+    "operation": "container_charade",
+    "count": 1,
+    "def_start": 0,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container_charade",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 0,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "I",
+      "F"
+    ],
+    "operation": "reversal",
+    "count": 1,
+    "def_start": 0,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "I",
+      "I"
+    ],
+    "operation": "reversal",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 0,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "I"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 1,
+    "def_end": 0,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container",
+    "count": 1,
+    "def_start": 0,
+    "def_end": 1,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "positional_charade",
+    "count": 100,
+    "def_start": 50,
+    "def_end": 50,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "positional_charade",
+    "count": 80,
+    "def_start": 40,
+    "def_end": 40,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "positional_charade",
+    "count": 80,
+    "def_start": 40,
+    "def_end": 40,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "positional_charade",
+    "count": 60,
+    "def_start": 30,
+    "def_end": 30,
+    "def_none": 0
+  },
+  {
+    "pattern": [
+      "F",
+      "I",
+      "F"
+    ],
+    "operation": "container_positional",
+    "count": 30
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "I"
+    ],
+    "operation": "container_positional",
+    "count": 25
+  },
+  {
+    "pattern": [
+      "I",
+      "F",
+      "F"
+    ],
+    "operation": "container_positional",
+    "count": 20
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "container_positional",
+    "count": 15
+  },
+  {
+    "pattern": [
+      "F",
+      "F"
+    ],
+    "operation": "container_reversal",
+    "count": 50
+  },
+  {
+    "pattern": [
+      "F",
+      "F",
+      "F"
+    ],
+    "operation": "container_reversal",
+    "count": 20
+  }
+]

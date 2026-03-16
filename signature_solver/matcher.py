@@ -471,8 +471,10 @@ def _lookup_slot(indices, token_type, span_size, words, analyses,
 
     # --- SYN_F for container: also accept container-outer synonyms ---
     if token_type == SYN_F and op in ("container", "container_charade",
-                                       "anagram_container", "container_positional"):
+                                       "anagram_container", "container_positional",
+                                       "container_reversal"):
         is_multi_piece = op == "container_charade"
+        is_rev_container = op == "container_reversal"
         if span_size == 1:
             wa = analyses[indices[0]]
             if SYN_F in wa.roles:
@@ -482,6 +484,8 @@ def _lookup_slot(indices, token_type, span_size, words, analyses,
                             vals.append(v)
                         elif _is_container_outer(v, answer):
                             vals.append(v)
+                        elif is_rev_container and (v[::-1] in answer or _is_container_outer(v[::-1], answer)):
+                            vals.append(v)
                         elif is_multi_piece and len(v) >= 2 and len(v) < answer_len:
                             # For container_charade, the container covers a substring
                             # of the answer, so accept any reasonable-length synonym
@@ -489,8 +493,11 @@ def _lookup_slot(indices, token_type, span_size, words, analyses,
             # Also do a broader synonym lookup for container outers
             w_clean = clean_word(words[indices[0]])
             for s in db.get_synonyms(w_clean, max_len=answer_len):
-                if s not in vals and _is_container_outer(s, answer):
-                    vals.append(s)
+                if s not in vals:
+                    if _is_container_outer(s, answer):
+                        vals.append(s)
+                    elif is_rev_container and (s[::-1] in answer or _is_container_outer(s[::-1], answer)):
+                        vals.append(s)
         else:
             phrase = " ".join(words[idx] for idx in indices)
             phrase_clean = clean_word(phrase)
@@ -574,6 +581,8 @@ def _verify_combo(op, entry, slot_values, slot_word_groups,
             result = _verify_reversal_combo(combo, answer)
         elif op == "container":
             result = _verify_container_combo(combo, answer)
+        elif op == "container_reversal":
+            result = _verify_container_reversal_combo(combo, answer)
         elif op == "container_charade":
             result = _verify_container_charade_combo(combo, answer)
         elif op == "anagram":
@@ -665,6 +674,48 @@ def _verify_container_combo(combo, answer):
     for pos in range(1, len(b)):
         if b[:pos] + a + b[pos:] == answer:
             return combo
+    return None
+
+
+def _verify_container_reversal_combo(combo, answer):
+    """Container with reversal: try each piece normal or reversed.
+
+    2 pieces: one inside the other.
+    3+ pieces: one is outer (container), one is inner, rest charade alongside.
+    Each piece tried both normal and reversed.
+    """
+    n = len(combo)
+
+    # Generate all normal/reversed variants for each piece
+    def _rev_variants(pieces):
+        if not pieces:
+            yield ()
+            return
+        for rest in _rev_variants(pieces[1:]):
+            yield (pieces[0],) + rest
+            yield (pieces[0][::-1],) + rest
+
+    for variant in _rev_variants(combo):
+        if n == 2:
+            a, b = variant
+            for pos in range(1, len(a)):
+                if a[:pos] + b + a[pos:] == answer:
+                    return combo
+            for pos in range(1, len(b)):
+                if b[:pos] + a + b[pos:] == answer:
+                    return combo
+        else:
+            # 3+ pieces: try each as outer, remaining concatenated as inner
+            # (in all orderings)
+            for i in range(n):
+                outer = variant[i]
+                remaining = [variant[k] for k in range(n) if k != i]
+                if len(remaining) <= 4:
+                    for perm in permutations(remaining):
+                        inner = "".join(perm)
+                        for pos in range(1, len(outer)):
+                            if outer[:pos] + inner + outer[pos:] == answer:
+                                return combo
     return None
 
 

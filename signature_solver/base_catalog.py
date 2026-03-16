@@ -55,6 +55,7 @@ OPERATION_INDICATOR_TYPE = {
     'container': 'CON_I',
     'container_charade': 'CON_I',
     'container_positional': 'CON_I',
+    'container_reversal': ['CON_I', 'REV_I'],
     'reversal': 'REV_I',
     'reversal_charade': 'REV_I',
     'hidden': 'HID_I',
@@ -95,6 +96,7 @@ OPERATION_FODDER_TYPES = {
     'acrostic': ['POS_F'],
     'positional_charade': ['POS_F', 'SYN_F', 'ABR_F'],
     'container_positional': ['POS_F', 'SYN_F', 'ABR_F'],
+    'container_reversal': ['SYN_F', 'ABR_F'],
 }
 
 

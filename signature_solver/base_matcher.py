@@ -282,7 +282,7 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
     and use _lookup_slot to find values. Then verify with _verify_combo.
     """
     op = entry.operation
-    is_reversal = op in ("reversal", "reversal_charade")
+    is_reversal = op in ("reversal", "reversal_charade", "container_reversal")
 
     # Separate F and I slots
     f_slots = []  # (placement_idx, start, span)
@@ -325,7 +325,13 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
     # Check leftover words are valid
     # When ind_type is set but no I-slots exist (e.g. reversal_charade patterns
     # are all-F), seed assigned_ind_types so leftover indicator words are accepted.
-    base_ind = {ind_type} if ind_type else set()
+    # For multi-indicator operations (e.g. container_reversal needs both CON_I
+    # and REV_I), include ALL indicator types so both are accepted as leftover.
+    ind_type_raw = OPERATION_INDICATOR_TYPE.get(op)
+    if isinstance(ind_type_raw, list):
+        base_ind = set(ind_type_raw)
+    else:
+        base_ind = {ind_type} if ind_type else set()
     combined = base_ind | set(ind_assignment.keys()) | extra_indicators
     assigned_ind_types = combined if combined else None
     if leftover and not _remaining_are_valid(
