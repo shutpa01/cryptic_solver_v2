@@ -436,7 +436,8 @@ def try_deletion_anagram(pieces, target):
     return None
 
 
-def assemble(clue_text, answer, pieces, max_pieces=6, homo_engine=None, ai_wtype=None):
+def assemble(clue_text, answer, pieces, max_pieces=6, homo_engine=None,
+             ai_wtype=None):
     target = clean(answer)
     if not pieces:
         return try_hidden(clue_text, target)
@@ -449,8 +450,6 @@ def assemble(clue_text, answer, pieces, max_pieces=6, homo_engine=None, ai_wtype
 
     # Only try deletion/outer_deletion when AI explicitly said deletion type,
     # or when pieces are from the enrichment fallback (ai_wtype=None).
-    # Without this, wrong pieces that total more letters than the answer
-    # get force-fitted via deletion, masking errors.
     suppress_deletion = (ai_wtype is not None and ai_wtype not in
                          ("deletion", "substitution"))
 
@@ -754,9 +753,11 @@ REASONING_PROMPT = """You are an expert cryptic crossword analyst. Given a clue 
 
 Think step by step:
 1. Identify the definition part (always at the start or end of the clue).
-2. Identify any indicator words (anagram indicators, reversal indicators, container indicators, deletion indicators, etc.).
+2. Identify any indicator words (anagram indicators, reversal indicators, container indicators, deletion indicators, etc.). Indicator words signal the wordplay mechanism but do NOT contribute letters to the answer. Do not assign letters to indicator words.
 3. For each remaining wordplay word, explain what letters it contributes and why (synonym, abbreviation, first letter, literal letters for anagram, etc.).
 4. Show how the letters combine to spell the answer.
+
+IMPORTANT: If indicator words are listed below the clue, those words signal the mechanism — they do not produce letters. For example, if "various" is flagged as an anagram indicator, it tells you the other words are anagram fodder, but "various" itself contributes no letters.
 
 Be precise about letter-level mechanics. For example:
 - "father" = PA (informal word for father)
@@ -764,6 +765,12 @@ Be precise about letter-level mechanics. For example:
 - PA + S (possessive 's) + TRY = PASTRY
 
 Wordplay types: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution.
+
+IMPORTANT: If "Known lookups" are provided below the clue, these are confirmed synonym/abbreviation mappings where the letters appear in the answer. If your initial interpretation doesn't work, TRY THESE LOOKUPS as letter contributors before giving up. A word flagged as an indicator may actually be a synonym instead — e.g. "unfortunately" could be an anagram indicator OR it could contribute ALAS as a synonym.
+
+If a number appears in the clue, consider it in its WORD FORM as potential letter fodder (e.g. "18" = EIGHTEEN, "100" = HUNDRED or C).
+
+If you cannot make the wordplay produce the answer, consider whether the clue is a double definition or cryptic definition — the entire clue (or two halves) may define the answer with no wordplay at all.
 
 Keep your explanation concise — focus on the mechanics, not on restating the clue."""
 
@@ -872,10 +879,91 @@ def _parse_json_response(raw):
     return None
 
 
-def call_reasoning(model, clue_text, answer, example_messages):
+def _extract_indicator_hints(enrichment):
+    """Extract indicator types from enrichment string for the AI prompt.
+
+    Returns a list like ['broken: anagram', 'around: container'].
+    """
+    import re
+    hints = []
+    for line in enrichment.split("\n"):
+        line = line.strip()
+        if not line or ":" not in line:
+            continue
+        # Lines look like: "broken: syn=X abbr=Y ind=anagram,reversal"
+        word = line.split(":")[0].strip()
+        ind_match = re.search(r"ind=([^\s;]+)", line)
+        if ind_match:
+            ind_types = ind_match.group(1).replace("?", "")
+            for t in ind_types.split(","):
+                t = t.strip()
+                if t:
+                    hints.append("%s: %s" % (word, t))
+    return hints
+
+
+def _extract_starred_lookups(enrichment):
+    """Extract answer-relevant synonyms and abbreviations from enrichment.
+
+    Starred entries (e.g. syn=TRY*,GO or abbr=L*) indicate the lookup
+    matches a substring of the answer. These are the most useful hints
+    for the AI.
+
+    Filters: synonyms must be 3+ letters (short ones are often noise),
+    skip words that are also indicators (they signal mechanism, not letters).
+
+    Returns a list like ['attempt → synonym TRY', 'student → abbrev L'].
+    """
+    import re
+
+    # First pass: collect indicator words so we can skip them
+    indicator_words = set()
+    for line in enrichment.split("\n"):
+        line = line.strip()
+        if not line or ":" not in line:
+            continue
+        if "ind=" in line:
+            indicator_words.add(line.split(":")[0].strip())
+
+    lookups = []
+    for line in enrichment.split("\n"):
+        line = line.strip()
+        if not line or ":" not in line:
+            continue
+        word = line.split(":")[0].strip()
+
+        # Skip words that are indicators — they signal mechanism, not letters
+        if word in indicator_words:
+            continue
+
+        entries_part = line.split(":", 1)[1]
+
+        # Extract starred synonyms (3+ letters to avoid noise like RH, IS, etc.)
+        syn_match = re.search(r"syn=([^\s;]+)", entries_part)
+        if syn_match:
+            for s in syn_match.group(1).split(","):
+                if s.endswith("*") and len(s) >= 4:  # 4 = 3 letters + *
+                    lookups.append("%s → synonym %s" % (word, s[:-1]))
+
+        # Extract starred abbreviations (1-2 letters, these are reliable)
+        abbr_match = re.search(r"abbr=([^\s;]+)", entries_part)
+        if abbr_match:
+            for a in abbr_match.group(1).split(","):
+                if a.endswith("*") and len(a) <= 3:  # 3 = 2 letters + *
+                    lookups.append("%s → abbrev %s" % (word, a[:-1]))
+
+    return lookups
+
+
+def call_reasoning(model, clue_text, answer, example_messages,
+                    indicator_hints=None, starred_lookups=None):
     """Pass 1: Get free-text explanation of how the wordplay works."""
     enum_len = len(answer.replace(" ", "").replace("-", ""))
     user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
+    if indicator_hints:
+        user_msg += "\nIndicator words (these signal mechanism, do NOT contribute letters): %s" % "; ".join(indicator_hints)
+    if starred_lookups:
+        user_msg += "\nKnown lookups (confirmed in reference DB): %s" % "; ".join(starred_lookups)
 
     messages = example_messages + [{"role": "user", "content": user_msg}]
 
@@ -918,15 +1006,19 @@ def call_structuring(model, clue_text, answer, explanation):
 def call_api(model, clue_text, answer, enrichment, example_messages, extra_context=""):
     """Two-pass API call: reasoning then structuring.
 
-    Pass 1: Free-text explanation (no enrichment — model reasons freely).
+    Pass 1: Free-text explanation with indicator hints from DB.
     Pass 2: Extract structured JSON from the explanation.
-
-    The enrichment parameter is accepted for interface compatibility but
-    is no longer sent to the model. It remains available for downstream
-    validation and fallback assembly.
     """
-    # Pass 1: reasoning
-    explanation, t1_in, t1_out = call_reasoning(model, clue_text, answer, example_messages)
+    # Extract DB evidence from enrichment to give the model
+    indicator_hints = _extract_indicator_hints(enrichment) if enrichment else []
+    starred_lookups = _extract_starred_lookups(enrichment) if enrichment else []
+
+    # Pass 1: reasoning (with indicator hints + starred lookups)
+    explanation, t1_in, t1_out = call_reasoning(
+        model, clue_text, answer, example_messages,
+        indicator_hints=indicator_hints,
+        starred_lookups=starred_lookups
+    )
 
     # Pass 2: structuring
     parsed, t2_in, t2_out = call_structuring(model, clue_text, answer, explanation)
@@ -1073,26 +1165,30 @@ def _try_truncation_from_db(clue, answer, target, enricher, homo_engine):
 
 def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, target):
     """Try assembling pieces with all fallback strategies."""
-    # First attempt: restricted by AI type (suppresses anagram when AI says otherwise)
-    assembly = assemble(clue, answer, pieces, homo_engine=homo_engine, ai_wtype=wtype) if pieces else None
+    # Double/cryptic definition — return immediately, no assembly needed
+    if wtype in ("double_definition", "cryptic_definition"):
+        return {"op": wtype}, "dd_cd"
+
+    # Hidden word check FIRST — if the answer is contiguously hidden spanning
+    # multiple clue words, that's a guaranteed correct match and takes priority
+    # over any AI-suggested assembly (e.g. DISCO hidden in "legendISCOunting")
+    hidden = try_hidden(clue, target)
+    if hidden:
+        return hidden, "hidden"
+
+    # First attempt: restricted by AI type
+    assembly = assemble(clue, answer, pieces, homo_engine=homo_engine,
+                        ai_wtype=wtype) if pieces else None
 
     # Reject degenerate case: single piece that equals the answer
     # (model just echoed the answer instead of breaking it down)
     if assembly and len(pieces) == 1 and pieces[0] == target:
         assembly = None
 
-    if not assembly and wtype in ("double_definition", "cryptic_definition"):
-        return {"op": wtype}, "dd_cd"
-
     if not assembly:
         spoon = try_spoonerism(clue, target, enricher)
         if spoon:
             return spoon, "spoonerism"
-
-    if not assembly:
-        hidden = try_hidden(clue, target)
-        if hidden:
-            return hidden, "hidden"
 
     # Progressive truncation: when "short/brief/cut" indicator is present,
     # try removing 1-2 letters from the end of the longest piece and re-assemble
@@ -1119,7 +1215,8 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
                 for trim in range(1, min(3, len(longest) - 2)):
                     truncated = longest[:-trim]
                     trial = pieces[:longest_idx] + [truncated] + pieces[longest_idx+1:]
-                    result = assemble(clue, answer, trial, homo_engine=homo_engine, ai_wtype=wtype)
+                    result = assemble(clue, answer, trial, homo_engine=homo_engine,
+                                      ai_wtype=wtype)
                     if result:
                         result["truncated"] = {"from": longest, "to": truncated, "removed": trim}
                         return result, "truncation"
@@ -1127,7 +1224,8 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
     if not assembly and len(pieces) >= 2:
         for skip in range(len(pieces)):
             subset = pieces[:skip] + pieces[skip+1:]
-            assembly = assemble(clue, answer, subset, homo_engine=homo_engine, ai_wtype=wtype)
+            assembly = assemble(clue, answer, subset, homo_engine=homo_engine,
+                                ai_wtype=wtype)
             if assembly:
                 assembly["note"] = "dropped piece %d" % skip
                 return assembly, "drop_piece"
@@ -1185,17 +1283,6 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
         assembly = try_substitution(pieces, target, clue, enricher)
         if assembly:
             return assembly, "substitution"
-
-    # Last resort: try unrestricted assembly (anagram allowed) with penalty flag
-    # Better to give a flagged anagram than nothing, but the score will be penalised
-    if not assembly and pieces and wtype and wtype != "anagram":
-        assembly = assemble(clue, answer, pieces, homo_engine=homo_engine, ai_wtype=None)
-        if assembly and assembly.get("op") in ("anagram", "charade+anagram",
-                                                "anagram+charade", "deletion+anagram"):
-            assembly["anagram_fallback"] = True
-            return assembly, "anagram_fallback"
-        elif assembly:
-            return assembly, "direct"
 
     if assembly:
         return assembly, "direct"
@@ -1551,7 +1638,8 @@ def refine_pieces(ai_output, clue_text, enricher):
         ai_output["pieces"] = new_pieces
 
 
-def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
+def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
+                    enrichment=""):
     """Score how useful this result is to a user seeking progressive hints.
 
     Scoring reflects user value:
@@ -1601,28 +1689,104 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     else:
         checks["definition"] = "none identified"
 
-    # --- Wordplay type (20pts) ---
-    # The assembler's op is the verified type; award full points for it
+    # --- Wordplay type (20pts, evidence-based) ---
+    # Points awarded based on convergent evidence, not just having a label.
+    #   Base for having a type:           +5
+    #   AI and assembler agree:           +5
+    #   Indicator word for type in DB:    +5
+    #   AI reasoning text supports type:  +5
+    type_score = 0
+    type_evidence = []
+
+    COMPATIBLE_TYPES = {
+        "reversal_container": {"container", "reversal"},
+        "container_reversal": {"container", "reversal"},
+        "charade+anagram": {"charade", "anagram"},
+        "anagram+charade": {"charade", "anagram"},
+        "deletion+anagram": {"deletion", "anagram"},
+    }
+
     if asm_type:
         checks["wordplay_type"] = asm_type
-        score += 20
+        type_score += 5
+        type_evidence.append("assembled")
+
+        # Evidence 1: AI agrees with assembler
+        if ai_type:
+            compat_set = COMPATIBLE_TYPES.get(asm_type, set())
+            if ai_type == asm_type or ai_type in compat_set:
+                type_score += 5
+                type_evidence.append("AI agrees")
+            else:
+                checks["type_mismatch"] = "AI=%s, assembled=%s" % (ai_type, asm_type)
+                score -= 10  # disagreement penalty on top of missed bonus
+
+        # Evidence 2: Indicator word for this type in DB enrichment
+        if enrichment:
+            # Map assembled type to indicator DB labels
+            type_to_ind = {
+                "anagram": {"anagram"},
+                "container": {"container", "insertion"},
+                "hidden": {"hidden"},
+                "reversal": {"reversal"},
+                "deletion": {"deletion"},
+                "homophone": {"homophone"},
+                "acrostic": {"acrostic"},
+                "charade+anagram": {"anagram"},
+                "anagram+charade": {"anagram"},
+                "deletion+anagram": {"anagram", "deletion"},
+                "reversal_container": {"container", "reversal"},
+                "container_reversal": {"container", "reversal"},
+                "substitution": {"deletion"},
+            }
+            ind_labels = type_to_ind.get(asm_type, set())
+            if ind_labels:
+                ind_hints = _extract_indicator_hints(enrichment)
+                ind_types_found = {h.split(": ")[1] for h in ind_hints if ": " in h}
+                if ind_labels & ind_types_found:
+                    type_score += 5
+                    type_evidence.append("indicator in DB")
+
+        # Evidence 3: AI reasoning text contains type-specific language
+        reasoning = (ai_output or {}).get("_reasoning", "")
+        if reasoning:
+            reasoning_lower = reasoning.lower()
+            TYPE_KEYWORDS = {
+                "anagram": ["anagram", "rearrange", "scramble", "mixed", "shuffle"],
+                "container": ["inside", "within", "around", "containing", "goes in",
+                              "placed in", "wrapping", "surrounding"],
+                "hidden": ["hidden in", "concealed", "lurking", "embedded",
+                           "contained within"],
+                "reversal": ["reverse", "reversed", "back", "returned", "flipped",
+                             "reflected"],
+                "deletion": ["remove", "without", "minus", "drop", "losing",
+                             "deleted", "shed"],
+                "homophone": ["sounds like", "heard", "spoken", "pronounced",
+                              "audibly", "say"],
+                "charade": ["followed by", "next to", "then", "after", "before",
+                            "plus"],
+                "double_definition": ["double definition", "two meanings",
+                                      "two definitions"],
+                "cryptic_definition": ["cryptic definition", "whole clue",
+                                       "entire clue", "playful"],
+                "acrostic": ["first letter", "initial", "leading letter",
+                             "head of"],
+                "substitution": ["replace", "substitut", "swap", "exchange"],
+            }
+            # Check assembled type and its compatible parent types
+            check_types = {asm_type} | COMPATIBLE_TYPES.get(asm_type, set())
+            for ct in check_types:
+                keywords = TYPE_KEYWORDS.get(ct, [])
+                if any(kw in reasoning_lower for kw in keywords):
+                    type_score += 5
+                    type_evidence.append("reasoning supports")
+                    break
+
     else:
         checks["wordplay_type"] = "unknown"
 
-    # Penalty: assembler type doesn't match AI type
-    if ai_type and asm_type and ai_type != asm_type:
-        # Some types are compatible (e.g. reversal_container matches both)
-        compatible = {
-            "reversal_container": {"container", "reversal"},
-            "container_reversal": {"container", "reversal"},
-            "charade+anagram": {"charade", "anagram"},
-            "anagram+charade": {"charade", "anagram"},
-            "deletion+anagram": {"deletion", "anagram"},
-        }
-        compat_set = compatible.get(asm_type, set())
-        if ai_type not in compat_set:
-            checks["type_mismatch"] = "AI=%s, assembled=%s" % (ai_type, asm_type)
-            score -= 10
+    checks["type_evidence"] = ", ".join(type_evidence) if type_evidence else "none"
+    score += type_score
 
     # Penalty: anagram fallback used despite AI suggesting a different type
     if assembly.get("anagram_fallback"):
@@ -1653,13 +1817,18 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         # Hidden words are self-evidently correct — the answer is in the clue
         checks["yields_check"] = "hidden (self-evident)"
         score += 20
-    elif asm_op in ("double_definition", "cryptic_definition"):
-        # DD/CD have no pieces to check
-        checks["yields_check"] = "n/a for %s" % asm_type
-        score += 15
+    elif asm_op == "double_definition":
+        # DD can be partially verified — both halves should define the answer
+        checks["yields_check"] = "n/a for double_definition"
+        score += 10
+    elif asm_op == "cryptic_definition":
+        # CD is inherently unverifiable — cap the bonus
+        checks["yields_check"] = "n/a for cryptic_definition"
+        score += 5
 
     # --- Explanation: Pieces validated (15pts) ---
     validated_pieces = 0
+    unverified_syns = 0
     total_pieces = 0
     for p in ai_pieces:
         mech = p.get("mechanism", "")
@@ -1673,10 +1842,14 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
             syns = enricher.lookup_synonyms(clue_word, max_results=200)
             if letters in syns:
                 validated_pieces += 1
+            else:
+                unverified_syns += 1
         elif mech == "abbreviation":
             abbrs = enricher.lookup_abbreviations(clue_word)
             if letters in [clean(a) for a in abbrs]:
                 validated_pieces += 1
+            else:
+                unverified_syns += 1
         elif mech in ("literal", "anagram_fodder"):
             if clean(clue_word) == letters or letters in clean(clue_word):
                 validated_pieces += 1
@@ -1702,14 +1875,23 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
         checks["pieces_validated"] = "%d/%d (%.0f%%)" % (
             validated_pieces, total_pieces, 100 * piece_pct)
         score += piece_score
-    elif asm_op in ("double_definition", "cryptic_definition"):
-        checks["pieces_validated"] = "n/a for %s" % asm_type
-        score += 10
+    elif asm_op == "double_definition":
+        checks["pieces_validated"] = "n/a for double_definition"
+        score += 5
+    elif asm_op == "cryptic_definition":
+        checks["pieces_validated"] = "n/a for cryptic_definition"
+        score += 0
     elif asm_op in ("hidden", "hidden_in_word", "hidden_reversed"):
         checks["pieces_validated"] = "n/a for hidden"
         score += 10
     else:
         checks["pieces_validated"] = "no pieces to validate"
+
+    # --- Penalty: unverified synonym/abbreviation claims ---
+    if unverified_syns > 0:
+        syn_penalty = unverified_syns * 8
+        checks["unverified_claims"] = "%d synonym/abbr not in DB" % unverified_syns
+        score -= syn_penalty
 
     # --- Explanation: Fodder in clue (10pts) ---
     clue_lower = clue_text.lower()
@@ -1763,6 +1945,25 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier):
     if total_pieces > 0 and validated_pieces == 0:
         checks["zero_validation"] = "no pieces verified in DB"
         score -= 15
+
+    # --- Penalty: AI expressed uncertainty in reasoning ---
+    reasoning = (ai_output or {}).get("_reasoning", "")
+    if reasoning:
+        reasoning_lower = reasoning.lower()
+        hedge_phrases = [
+            "likely", "probably", "perhaps", "might be", "could be",
+            "not sure", "unclear", "not certain", "i think",
+            "let me reconsider", "rethinking", "wait,",
+            "this doesn't work", "doesn't work cleanly",
+            "still not", "not enough",
+        ]
+        hedge_count = sum(1 for h in hedge_phrases if h in reasoning_lower)
+        if hedge_count >= 3:
+            checks["ai_uncertain"] = "AI expressed significant uncertainty (%d hedges)" % hedge_count
+            score -= 15
+        elif hedge_count >= 1:
+            checks["ai_uncertain"] = "AI expressed some uncertainty (%d hedges)" % hedge_count
+            score -= 5
 
     # Final confidence bands
     if score >= 70:
@@ -1924,16 +2125,15 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
             UPDATE clues SET definition = ?
             WHERE id = ? AND (definition IS NULL OR definition = '')
         """, (ai_def, clue_id))
-    # Always update wordplay_type if not already set
+    # Always overwrite wordplay_type and explanation with assembler result
     conn.execute("""
         UPDATE clues SET wordplay_type = ?
-        WHERE id = ? AND (wordplay_type IS NULL OR wordplay_type = '')
+        WHERE id = ?
     """, (wordplay_types[0], clue_id))
-    # Write explanation
     if explanation_text:
         conn.execute("""
             UPDATE clues SET ai_explanation = ?
-            WHERE id = ? AND (ai_explanation IS NULL OR ai_explanation = '')
+            WHERE id = ?
         """, (explanation_text, clue_id))
 
     # Determine solved status based on actual content, not score
@@ -2039,6 +2239,9 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
     """
     target = clean(answer)
 
+    # Extract indicator hints for AI prompt (not used for assembly suppression)
+    ind_hints = _extract_indicator_hints(enrichment) if enrichment else []
+
     # Use cached AI output or call Sonnet
     if cached_ai:
         sonnet_out = cached_ai
@@ -2135,7 +2338,8 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
     refine_pieces(sonnet_out, clue_text, enricher)
 
     validation = check_mechanism(
-        clue_text, answer, sonnet_out, assembly, enricher, tier or "FAIL"
+        clue_text, answer, sonnet_out, assembly, enricher, tier or "FAIL",
+        enrichment=enrichment
     )
 
     return {

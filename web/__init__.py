@@ -43,12 +43,13 @@ def create_app(config_name=None):
             return ""
         return WORDPLAY_LABELS.get(value, value.replace("_", " ").title())
 
-    # Admin session activation
+    # Admin session activation — permanent cookie survives IP changes
     @app.before_request
     def check_admin():
         admin_key = request.args.get("admin", "")
         if admin_key and hmac.compare_digest(admin_key, app.config["ADMIN_KEY"]):
             session["admin"] = True
+            session.permanent = True
         g.is_admin = session.get("admin", False)
 
     # Register blueprints

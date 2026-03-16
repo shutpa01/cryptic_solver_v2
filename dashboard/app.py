@@ -40,10 +40,14 @@ page = st.sidebar.radio(
 
 # Load the appropriate page
 if page == "Review Queue":
+    import importlib
     from dashboard.pages import review
+    importlib.reload(review)
     review.render()
 elif page == "Pipeline Runner":
+    import importlib
     from dashboard.pages import pipeline
+    importlib.reload(pipeline)
     pipeline.render()
 elif page == "Scraper Control":
     from dashboard.pages import scraper

@@ -88,6 +88,88 @@ def setup_driver():
     return driver
 
 
+def dismiss_cookie_banner(driver):
+    """Dismiss cookie/consent banners that may block interaction."""
+    from selenium.webdriver.common.by import By
+
+    # Try common consent button selectors (Google Funding Choices, generic cookie banners)
+    consent_selectors = [
+        # Google Funding Choices consent iframe + button
+        "button[aria-label='Agree']",
+        "button[aria-label='Accept']",
+        "button[aria-label='Consent']",
+        "button[aria-label='Accept all']",
+        # Generic cookie banner buttons
+        "button.agree-button",
+        "button.accept-button",
+        "a.agree-button",
+        "#cookie-accept",
+        ".cookie-consent-accept",
+        "button[id*='accept']",
+        "button[class*='accept']",
+        "button[class*='consent']",
+        "button[class*='agree']",
+        # CMP / GDPR banners
+        ".fc-cta-consent",  # Google Funding Choices
+        ".fc-button-background",
+        "button.css-47sehv",  # Quantcast
+    ]
+
+    # First check for Google consent iframe (common on sites with Google ads/CSE)
+    try:
+        iframes = driver.find_elements(By.CSS_SELECTOR, "iframe[src*='consent'], iframe[src*='fundingchoices']")
+        for iframe in iframes:
+            driver.switch_to.frame(iframe)
+            for sel in consent_selectors:
+                try:
+                    btns = driver.find_elements(By.CSS_SELECTOR, sel)
+                    for btn in btns:
+                        if btn.is_displayed():
+                            btn.click()
+                            print("    [dismissed consent in iframe]")
+                            driver.switch_to.default_content()
+                            time.sleep(1)
+                            return True
+                except Exception:
+                    continue
+            driver.switch_to.default_content()
+    except Exception:
+        driver.switch_to.default_content()
+
+    # Try buttons in the main page
+    for sel in consent_selectors:
+        try:
+            btns = driver.find_elements(By.CSS_SELECTOR, sel)
+            for btn in btns:
+                if btn.is_displayed():
+                    btn.click()
+                    print("    [dismissed consent banner]")
+                    time.sleep(1)
+                    return True
+        except Exception:
+            continue
+
+    # Try clicking any visible button containing consent-related text
+    try:
+        buttons = driver.find_elements(By.TAG_NAME, "button")
+        for btn in buttons:
+            try:
+                txt = btn.text.strip().lower()
+                if txt in ('agree', 'accept', 'accept all', 'consent', 'ok', 'i agree',
+                           'agree and close', 'accept cookies', 'accept all cookies'):
+                    if btn.is_displayed():
+                        btn.click()
+                        print(f"    [dismissed banner: '{btn.text.strip()}']")
+                        time.sleep(1)
+                        return True
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    return False
+
+
 def lookup_clue(driver, clue_text):
     """Search danword for a clue and return the answer (or None).
 
@@ -101,6 +183,9 @@ def lookup_clue(driver, clue_text):
     # Always navigate fresh to danword home — prevents stale CSE widget issues
     driver.get(DANWORD_URL)
     time.sleep(3)
+
+    # Dismiss any cookie/consent banners blocking the page
+    dismiss_cookie_banner(driver)
 
     # Find the Google CSE search input
     try:

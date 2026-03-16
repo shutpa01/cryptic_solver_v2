@@ -43,7 +43,7 @@ OUTPUT_DIR = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\documents"
 SOURCE = "telegraph"            # telegraph, guardian, times, independentclaude
 PUZZLE_NUMBER = "3359"             # puzzle number to solve
 WRITE_DB = True                # write results to clues_master.db
-FORCE_API = False              # True = fresh API calls for all clues (ignore cached)
+FORCE_API = True               # Always make fresh API calls (captures reasoning, uses latest prompt)
 PARTIALS = False              # True = re-run partial solves (has_solution=2)
 SINGLE_CLUE_MATCH = ""
 
@@ -323,6 +323,23 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         with open(gaps_path, "w", encoding="utf-8") as f:
             json.dump(gaps_data, f, indent=2, ensure_ascii=False)
         print("Pending DB gaps saved to %s (%d entries)" % (gaps_path, len(gaps)))
+
+        # Store gaps in DB for dashboard review
+        gap_conn = sqlite3.connect(CLUES_DB, timeout=30)
+        for g in gaps:
+            gtype = g.get("type", "")
+            word = g.get("word") or g.get("definition") or ""
+            letters = g.get("letters") or g.get("answer") or ""
+            answer = g.get("answer", "")
+            clue = g.get("clue", "")
+            gap_conn.execute(
+                "INSERT OR IGNORE INTO pending_enrichments "
+                "(type, word, letters, answer, clue_text, source, puzzle_number) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (gtype, word, letters, answer, clue, source, puzzle),
+            )
+        gap_conn.commit()
+        gap_conn.close()
 
     return results, stats, gaps
 

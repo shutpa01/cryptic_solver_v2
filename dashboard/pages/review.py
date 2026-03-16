@@ -21,6 +21,7 @@ def _get_conn(db_path=CLUES_DB, readonly=True):
     return conn
 
 
+
 def render():
     st.header("Review Queue")
 
@@ -84,10 +85,13 @@ def _render_review_queue():
     where = " AND ".join(conditions)
     rows = conn.execute(f"""
         SELECT c.id, c.source, c.puzzle_number, c.publication_date,
+               c.clue_number, c.direction,
                c.clue_text, c.enumeration, c.answer,
                c.definition, c.wordplay_type, c.ai_explanation,
-               c.has_solution, c.reviewed
+               c.has_solution, c.reviewed,
+               se.confidence AS score
         FROM clues c
+        LEFT JOIN structured_explanations se ON se.clue_id = c.id
         WHERE {where}
         ORDER BY c.publication_date DESC, c.puzzle_number DESC
         LIMIT ?
@@ -119,9 +123,16 @@ def _render_review_card(row):
     elif row["has_solution"] == 0:
         solution_badge = " :red[Failed]"
 
+    score = row["score"]
+    score_str = "%d" % int(score * 100) if score is not None else "—"
+
+    clue_num = row['clue_number'] or ''
+    direction = (row['direction'] or '')[0].upper() if row['direction'] else ''
+    clue_ref = f"{clue_num}{direction}" if clue_num else ""
+
     with st.expander(
-        f"**{row['clue_text']}** ({row['enumeration'] or '?'}) = {row['answer'] or '?'}  "
-        f"— {badge}{solution_badge}  |  {row['source']} #{row['puzzle_number']}",
+        f"{clue_ref}  **{row['clue_text']}** ({row['enumeration'] or '?'}) = {row['answer'] or '?'}  "
+        f"— {badge}{solution_badge}  |  Score: {score_str}  |  {row['source']} #{row['puzzle_number']}",
         expanded=(reviewed == 0),
     ):
         st.text(f"Definition: {row['definition'] or '—'}")
@@ -514,192 +525,142 @@ def _add_definition(definition, answer):
     return True
 
 
+def _reject_enrichment(etype, word, letters):
+    conn = _get_conn(CLUES_DB, readonly=False)
+    existing = conn.execute(
+        "SELECT 1 FROM rejected_enrichments WHERE type=? AND word=? AND letters=?",
+        (etype, word, letters),
+    ).fetchone()
+    if not existing:
+        conn.execute(
+            "INSERT INTO rejected_enrichments (type, word, letters) VALUES (?, ?, ?)",
+            (etype, word, letters),
+        )
+        conn.commit()
+    conn.close()
+
+
 # =====================================================================
 # DB Enrichment tab
 # =====================================================================
 
 def _render_enrichment_queue():
-    """Show all pending DB enrichments from recent pipeline runs.
+    """Show pending DB enrichments from pipeline runs.
 
-    Scans structured_explanations for AI pieces not in the reference DB,
-    grouped by type (synonyms, abbreviations, definitions).
+    Reads pre-computed gaps from pending_enrichments table.
+    Add inserts into reference DB and deletes the row.
+    Reject just deletes the row.
     """
-    import json
-    import re
-
-    col1, col2 = st.columns(2)
-    with col1:
-        eq_source = st.selectbox(
-            "Source",
-            ["All", "telegraph", "times", "guardian", "independent"],
-            key="eq_source",
-        )
-    with col2:
-        eq_limit = st.number_input(
-            "Max clues to scan", min_value=50, max_value=2000, value=200,
-            key="eq_limit",
-        )
+    eq_source = st.selectbox(
+        "Source",
+        ["All", "telegraph", "times", "guardian", "independent"],
+        key="eq_source",
+    )
 
     conn = _get_conn()
-    ref_conn = _get_conn(CRYPTIC_DB)
-
-    # Get recent clues with structured_explanations
-    conditions = ["se.components IS NOT NULL", "c.reviewed = 0"]
+    conditions = ["1=1"]
     params = []
     if eq_source != "All":
-        conditions.append("c.source = ?")
+        conditions.append("source = ?")
         params.append(eq_source)
 
     where = " AND ".join(conditions)
     rows = conn.execute(f"""
-        SELECT c.id, c.source, c.puzzle_number, c.clue_text, c.answer,
-               c.definition, se.components
-        FROM structured_explanations se
-        JOIN clues c ON se.clue_id = c.id
+        SELECT id, type, word, letters, answer, clue_text, source, puzzle_number
+        FROM pending_enrichments
         WHERE {where}
-        ORDER BY c.publication_date DESC
-        LIMIT ?
-    """, params + [eq_limit]).fetchall()
-
-    # Collect all missing enrichments
-    syn_missing = []
-    abbr_missing = []
-    def_missing = []
-
-    for row in rows:
-        answer = row["answer"] or ""
-        answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
-        clue_text = row["clue_text"] or ""
-
-        try:
-            comps = json.loads(row["components"])
-        except (json.JSONDecodeError, TypeError):
-            continue
-
-        pieces = comps.get("ai_pieces", [])
-        for p in pieces:
-            clue_word = (p.get("clue_word") or p.get("fodder") or "").strip()
-            letters = (p.get("letters") or p.get("yields") or "").strip().upper()
-            mech = (p.get("mechanism") or p.get("type") or "").lower()
-            letters_clean = re.sub(r"[^A-Z]", "", letters)
-
-            if not clue_word or not letters_clean:
-                continue
-            if letters_clean == answer_clean:
-                continue
-            if mech in ("literal", "anagram_fodder", "first_letter", "last_letter",
-                        "hidden", "sound_of", "alternate_letters", "core_letters"):
-                continue
-
-            word_lower = clue_word.lower().strip(".,;:!?\"'()-")
-
-            if mech == "synonym":
-                exists = ref_conn.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND LOWER(synonym)=?",
-                    (word_lower, letters_clean.lower())
-                ).fetchone()
-                if not exists:
-                    syn_missing.append({
-                        "word": word_lower, "letters": letters_clean,
-                        "clue": clue_text[:50], "answer": answer,
-                        "source": row["source"], "puzzle": row["puzzle_number"],
-                    })
-
-            elif mech == "abbreviation":
-                exists = ref_conn.execute(
-                    "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=?",
-                    (word_lower, letters_clean.lower())
-                ).fetchone()
-                if not exists:
-                    abbr_missing.append({
-                        "word": word_lower, "letters": letters_clean,
-                        "clue": clue_text[:50], "answer": answer,
-                        "source": row["source"], "puzzle": row["puzzle_number"],
-                    })
-
-        # Check definition
-        ai_def = row["definition"]
-        if ai_def and answer_clean:
-            exists = ref_conn.execute(
-                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
-                (ai_def.lower(), answer_clean.lower())
-            ).fetchone()
-            if not exists:
-                def_missing.append({
-                    "word": ai_def.lower(), "letters": answer_clean,
-                    "clue": clue_text[:50], "answer": answer,
-                    "source": row["source"], "puzzle": row["puzzle_number"],
-                })
-
-    ref_conn.close()
+        ORDER BY type, word
+    """, params).fetchall()
     conn.close()
 
-    # Deduplicate (same word→letters pair can appear from multiple clues)
-    def _dedup(items):
-        seen = set()
-        result = []
-        for item in items:
-            key = (item["word"], item["letters"])
-            if key not in seen:
-                seen.add(key)
-                result.append(item)
-        return result
+    syn_rows = [r for r in rows if r["type"] == "synonym"]
+    abbr_rows = [r for r in rows if r["type"] == "abbreviation"]
+    def_rows = [r for r in rows if r["type"] == "definition"]
 
-    syn_missing = _dedup(syn_missing)
-    abbr_missing = _dedup(abbr_missing)
-    def_missing = _dedup(def_missing)
-
-    total = len(syn_missing) + len(abbr_missing) + len(def_missing)
+    total = len(rows)
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Total", total)
-    c2.metric("Synonyms", len(syn_missing))
-    c3.metric("Abbreviations", len(abbr_missing))
-    c4.metric("Definitions", len(def_missing))
+    c2.metric("Synonyms", len(syn_rows))
+    c3.metric("Abbreviations", len(abbr_rows))
+    c4.metric("Definitions", len(def_rows))
 
     if total == 0:
-        st.info("No pending enrichments found. Run the pipeline on more puzzles to generate suggestions.")
+        st.info("No pending enrichments. Run the pipeline on more puzzles to generate suggestions.")
         return
 
+    def _accept_and_remove(row):
+        """Add to reference DB (if not duplicate) and delete from pending."""
+        if row["type"] == "synonym":
+            _add_synonym(row["word"], row["letters"])
+        elif row["type"] == "abbreviation":
+            _add_abbreviation(row["word"], row["letters"])
+        elif row["type"] == "definition":
+            _add_definition(row["word"], row["letters"])
+        wconn = _get_conn(CLUES_DB, readonly=False)
+        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (row["id"],))
+        wconn.commit()
+        wconn.close()
+
+    def _reject_and_remove(row):
+        """Delete from pending and record rejection."""
+        _reject_enrichment(row["type"], row["word"], row["letters"])
+        wconn = _get_conn(CLUES_DB, readonly=False)
+        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (row["id"],))
+        wconn.commit()
+        wconn.close()
+
     # --- Synonyms ---
-    if syn_missing:
-        st.subheader(f"Synonyms ({len(syn_missing)})")
-        for i, s in enumerate(syn_missing):
-            col1, col2, col3 = st.columns([4, 4, 1])
+    if syn_rows:
+        st.subheader(f"Synonyms ({len(syn_rows)})")
+        for r in syn_rows:
+            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
             with col1:
-                st.text(f"{s['word']}  ->  {s['letters']}")
+                st.text(f"{r['word']}  ->  {r['letters']}")
             with col2:
-                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
             with col3:
-                if st.button("Add", key=f"eq_syn_{i}"):
-                    _add_synonym(s["word"], s["letters"])
+                if st.button("Add", key=f"eq_syn_{r['id']}"):
+                    _accept_and_remove(r)
+                    st.rerun()
+            with col4:
+                if st.button("Reject", key=f"rej_syn_{r['id']}"):
+                    _reject_and_remove(r)
                     st.rerun()
 
     # --- Abbreviations ---
-    if abbr_missing:
-        st.subheader(f"Abbreviations ({len(abbr_missing)})")
-        for i, s in enumerate(abbr_missing):
-            col1, col2, col3 = st.columns([4, 4, 1])
+    if abbr_rows:
+        st.subheader(f"Abbreviations ({len(abbr_rows)})")
+        for r in abbr_rows:
+            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
             with col1:
-                st.text(f"{s['word']}  ->  {s['letters']}")
+                st.text(f"{r['word']}  ->  {r['letters']}")
             with col2:
-                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
             with col3:
-                if st.button("Add", key=f"eq_abbr_{i}"):
-                    _add_abbreviation(s["word"], s["letters"])
+                if st.button("Add", key=f"eq_abbr_{r['id']}"):
+                    _accept_and_remove(r)
+                    st.rerun()
+            with col4:
+                if st.button("Reject", key=f"rej_abbr_{r['id']}"):
+                    _reject_and_remove(r)
                     st.rerun()
 
     # --- Definitions ---
-    if def_missing:
-        st.subheader(f"Definitions ({len(def_missing)})")
-        for i, s in enumerate(def_missing):
-            col1, col2, col3 = st.columns([4, 4, 1])
+    if def_rows:
+        st.subheader(f"Definitions ({len(def_rows)})")
+        for r in def_rows:
+            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
             with col1:
-                st.text(f"\"{s['word']}\"  ->  {s['letters']}")
+                st.text(f"\"{r['word']}\"  ->  {r['letters']}")
             with col2:
-                st.caption(f"{s['source']} #{s['puzzle']} | {s['clue']}... = {s['answer']}")
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
             with col3:
-                if st.button("Add", key=f"eq_def_{i}"):
-                    _add_definition(s["word"], s["letters"])
+                if st.button("Add", key=f"eq_def_{r['id']}"):
+                    _accept_and_remove(r)
+                    st.rerun()
+            with col4:
+                if st.button("Reject", key=f"rej_def_{r['id']}"):
+                    _reject_and_remove(r)
                     st.rerun()
 
 
