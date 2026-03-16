@@ -456,7 +456,11 @@ def _lookup_slot(indices, token_type, span_size, words, analyses,
                     pos_types_to_try.append(POS_I_OUTER)
             for pt in pos_types_to_try:
                 if span_size == 1:
-                    extracted = executor.extract_positional(words[indices[0]], pt)
+                    # Strip possessive 's before extraction (e.g. "Argument's" → "Argument")
+                    raw = words[indices[0]]
+                    if raw.endswith("'s") or raw.endswith("\u2019s"):
+                        raw = raw[:-2]
+                    extracted = executor.extract_positional(raw, pt)
                 else:
                     text = "".join(c for idx in indices
                                    for c in words[idx].upper() if c.isalpha())
@@ -634,7 +638,10 @@ def _verify_reversal_combo(combo, answer):
         parts[rev_idx] = parts[rev_idx][::-1]
         if "".join(parts) == answer:
             return combo
-    # Also try all pieces reversed (pure multi-piece reversal)
+    # Try reversing the entire concatenation (e.g. ART+X+E → ARTXE → EXTRA)
+    if "".join(combo)[::-1] == answer:
+        return combo
+    # Also try all pieces reversed individually (pure multi-piece reversal)
     if len(combo) > 1:
         parts = [p[::-1] for p in combo]
         if "".join(parts) == answer:

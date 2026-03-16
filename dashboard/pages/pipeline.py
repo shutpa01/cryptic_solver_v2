@@ -32,7 +32,7 @@ def _get_unrun_puzzles(source_filter=None):
         {where}
           AND puzzle_number IS NOT NULL
         GROUP BY source, puzzle_number
-        HAVING with_answer > 0 AND untried > 0
+        HAVING with_answer > 0 AND (untried > 0 OR failed > 0)
         ORDER BY publication_date DESC
         LIMIT 50
     """, params).fetchall()
@@ -83,6 +83,12 @@ def render():
 
     st.divider()
 
+    # --- Reset previously run puzzles ---
+    st.subheader("Reset Puzzles")
+    _render_reset_section(filter_source if filter_source != "all" else None)
+
+    st.divider()
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -100,7 +106,7 @@ def render():
             placeholder="e.g. 31180",
         )
         write_db = st.checkbox("Write to DB", value=True)
-        force_api = st.checkbox("Force fresh API calls", value=False)
+        force_api = st.checkbox("Force fresh API calls", value=True)
         partials = st.checkbox("Re-run partials", value=False)
 
     with col2:
@@ -187,6 +193,67 @@ def render():
                 st.error(f"Failed to run pipeline: {e}")
 
 
+def _render_reset_section(source_filter=None):
+    """Show recently run puzzles with checkboxes for batch reset."""
+    conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
+    conn.row_factory = sqlite3.Row
+    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent')"
+    params = []
+    if source_filter:
+        where = "WHERE source = ?"
+        params = [source_filter]
+    rows = conn.execute(f"""
+        SELECT source, puzzle_number, publication_date,
+               COUNT(*) AS total,
+               SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
+               SUM(CASE WHEN has_solution = 2 THEN 1 ELSE 0 END) AS partial,
+               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL THEN 1 ELSE 0 END) AS failed
+        FROM clues
+        {where}
+          AND puzzle_number IS NOT NULL
+          AND reviewed IS NOT NULL
+        GROUP BY source, puzzle_number
+        HAVING solved + partial + failed > 0
+        ORDER BY publication_date DESC
+        LIMIT 30
+    """, params).fetchall()
+    conn.close()
+
+    if not rows:
+        st.info("No previously run puzzles found.")
+        return
+
+    selected = []
+    cols_header = st.columns([1, 2, 2, 2, 1, 1, 1])
+    cols_header[0].markdown("**Select**")
+    cols_header[1].markdown("**Source**")
+    cols_header[2].markdown("**Puzzle**")
+    cols_header[3].markdown("**Date**")
+    cols_header[4].markdown("**Solved**")
+    cols_header[5].markdown("**Partial**")
+    cols_header[6].markdown("**Failed**")
+
+    for i, r in enumerate(rows):
+        cols = st.columns([1, 2, 2, 2, 1, 1, 1])
+        key = f"rst_{r['source']}_{r['puzzle_number']}"
+        if cols[0].checkbox("", key=key, label_visibility="collapsed"):
+            selected.append((r["source"], str(r["puzzle_number"])))
+        cols[1].write(r["source"])
+        cols[2].write(str(r["puzzle_number"]))
+        cols[3].write(r["publication_date"] or "—")
+        cols[4].write(str(r["solved"] or 0))
+        cols[5].write(str(r["partial"] or 0))
+        cols[6].write(str(r["failed"] or 0))
+
+    if selected:
+        st.warning(f"{len(selected)} puzzle(s) selected for reset")
+        if st.button("Reset Selected Puzzles", type="primary", key="batch_reset"):
+            for source, puzzle in selected:
+                _reset_puzzle(source, puzzle)
+            st.success(f"Reset {len(selected)} puzzle(s) — ready for re-run")
+            st.rerun()
+
+
 def _show_puzzle_status(source, puzzle_number):
     """Show current solve status for a puzzle."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
@@ -216,3 +283,52 @@ def _show_puzzle_status(source, puzzle_number):
     cols[4].metric("Failed", row["failed"] or 0)
     cols[5].metric("Untried", row["untried"] or 0)
     cols[6].metric("HIGH tier", row["high_tier"] or 0)
+
+    solved_count = (row["solved"] or 0) + (row["partial"] or 0) + (row["failed"] or 0)
+    if solved_count > 0:
+        if st.button("Reset Puzzle", key=f"reset_{source}_{puzzle_number}",
+                     help="Clear all pipeline results so the puzzle can be re-run"):
+            _reset_puzzle(source, puzzle_number)
+            st.success(f"Reset {source} #{puzzle_number} — {solved_count} clues cleared")
+            st.rerun()
+
+
+def _reset_puzzle(source, puzzle_number):
+    """Clear all pipeline results for a puzzle, reverting it to un-run state."""
+    conn = sqlite3.connect(str(CLUES_DB), timeout=30)
+
+    # Get clue IDs for this puzzle
+    clue_ids = [r[0] for r in conn.execute(
+        "SELECT id FROM clues WHERE source = ? AND puzzle_number = ?",
+        (source, puzzle_number)
+    ).fetchall()]
+
+    if not clue_ids:
+        conn.close()
+        return
+
+    placeholders = ",".join("?" * len(clue_ids))
+
+    # Delete structured_explanations rows
+    conn.execute(
+        f"DELETE FROM structured_explanations WHERE clue_id IN ({placeholders})",
+        clue_ids
+    )
+
+    # Clear pipeline-written fields on clues, revert to untried state
+    conn.execute(f"""
+        UPDATE clues SET
+            has_solution = NULL,
+            reviewed = NULL,
+            ai_explanation = NULL
+        WHERE id IN ({placeholders})
+    """, clue_ids)
+
+    # Delete any pending enrichments for this puzzle
+    conn.execute(
+        "DELETE FROM pending_enrichments WHERE source = ? AND puzzle_number = ?",
+        (source, puzzle_number)
+    )
+
+    conn.commit()
+    conn.close()

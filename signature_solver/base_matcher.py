@@ -323,7 +323,11 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
                     extra_indicators.add(tok)
 
     # Check leftover words are valid
-    assigned_ind_types = set(ind_assignment.keys()) | extra_indicators if ind_assignment or extra_indicators else None
+    # When ind_type is set but no I-slots exist (e.g. reversal_charade patterns
+    # are all-F), seed assigned_ind_types so leftover indicator words are accepted.
+    base_ind = {ind_type} if ind_type else set()
+    combined = base_ind | set(ind_assignment.keys()) | extra_indicators
+    assigned_ind_types = combined if combined else None
     if leftover and not _remaining_are_valid(
             leftover, words, analyses, db, assigned_ind_types):
         return None
@@ -332,7 +336,7 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
     fodder_types = OPERATION_FODDER_TYPES.get(op, ['SYN_F', 'ABR_F'])
 
     # Build a mock entry-like object for _lookup_slot compatibility
-    mock_entry = _MockEntry(op, set(ind_assignment.keys()) | extra_indicators)
+    mock_entry = _MockEntry(op, combined)
 
     # For each F slot, try each fodder type and collect values
     # Then try all combinations

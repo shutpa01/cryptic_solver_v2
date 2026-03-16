@@ -111,6 +111,8 @@ LINK_WORDS = {
     # Words that are also indicators but frequently serve as links
     # (both roles coexist — matcher picks whichever fits the pattern)
     "wanting", "needing", "requiring",
+    # Surface words that carry no cryptic role
+    "soft",
 }
 
 # All fodder tokens (contribute letters to the answer)
