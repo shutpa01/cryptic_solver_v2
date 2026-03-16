@@ -1965,6 +1965,14 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
             checks["ai_uncertain"] = "AI expressed some uncertainty (%d hedges)" % hedge_count
             score -= 5
 
+    # --- Floor: hidden words are mechanically verified ---
+    # If the assembler found a hidden word and the answer is literally in the clue,
+    # guarantee HIGH confidence — this is as certain as it gets.
+    if asm_op in ("hidden", "hidden_in_word", "hidden_reversed"):
+        if answer_clean in clean(clue_text):
+            score = max(score, 80)
+            checks["hidden_verified"] = "answer confirmed in clue text"
+
     # Final confidence bands
     if score >= 70:
         confidence = "high"
