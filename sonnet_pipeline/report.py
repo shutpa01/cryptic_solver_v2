@@ -17,15 +17,35 @@ def _piece_label(letters, ai_pieces):
     for p in ai_pieces:
         p_letters = re.sub(r"[^A-Z]", "", (p.get("letters") or "").upper())
         if p_letters == letters_clean:
-            return p.get("clue_word", "")
-    return ""
+            return p.get("clue_word", ""), p.get("mechanism", "")
+    return "", ""
+
+
+# Friendly labels for mechanism types
+_MECH_LABELS = {
+    "synonym": "synonym of",
+    "abbreviation": "abbr.",
+    "first_letter": "first letter of",
+    "last_letter": "last letter of",
+    "literal": "",
+    "anagram_fodder": "",
+    "reversal": "reversal of",
+    "sound_of": "sounds like",
+    "hidden": "hidden in",
+    "alternate_letters": "alternate letters of",
+    "core_letters": "core of",
+    "deletion": "deletion from",
+}
 
 
 def _annotate(letters, ai_pieces):
-    """Return 'LETTERS(clue_word)' if attribution found, else just 'LETTERS'."""
-    label = _piece_label(letters, ai_pieces)
-    if label:
-        return "%s(%s)" % (letters, label)
+    """Return 'LETTERS(mechanism clue_word)' if attribution found, else just 'LETTERS'."""
+    clue_word, mechanism = _piece_label(letters, ai_pieces)
+    if clue_word:
+        mech_label = _MECH_LABELS.get(mechanism, "")
+        if mech_label:
+            return '%s(%s "%s")' % (letters, mech_label, clue_word)
+        return "%s(%s)" % (letters, clue_word)
     return letters
 
 
@@ -42,11 +62,11 @@ def _annotate_composite(letters, ai_pieces):
             return []
         for end in range(len(letters_clean), pos, -1):
             substr = letters_clean[pos:end]
-            label = _piece_label(substr, ai_pieces)
-            if label:
+            clue_word, _ = _piece_label(substr, ai_pieces)
+            if clue_word:
                 rest = _decompose(end)
                 if rest is not None:
-                    return ["%s(%s)" % (substr, label)] + rest
+                    return [_annotate(substr, ai_pieces)] + rest
         return None
 
     parts = _decompose(0)
@@ -131,9 +151,9 @@ def _describe_assembly(asm, ai_pieces=None, answer=None):
                 for span in (3, 2):
                     if i + span <= len(order):
                         combined = "".join(order[i:i + span])
-                        label = _piece_label(combined, ai)
-                        if label:
-                            merged.append("%s(%s)" % (combined, label))
+                        clue_word, _ = _piece_label(combined, ai)
+                        if clue_word:
+                            merged.append(_annotate(combined, ai))
                             i += span
                             found_merge = True
                             break
@@ -199,9 +219,9 @@ def _describe_assembly(asm, ai_pieces=None, answer=None):
                 for span in (3, 2):
                     if i + span <= len(charade):
                         combined = "".join(charade[i:i + span])
-                        label = _piece_label(combined, ai)
-                        if label:
-                            parts.append("%s(%s)" % (combined, label))
+                        clue_word, _ = _piece_label(combined, ai)
+                        if clue_word:
+                            parts.append(_annotate(combined, ai))
                             i += span
                             found_merge = True
                             break
@@ -333,7 +353,17 @@ def _actionable_quality(results):
                 continue
             if letters_clean == answer_clean:
                 continue
-            if letters_clean not in answer_clean:
+            # Check piece letters are a subset of answer letters (by count).
+            # Contiguous substring check missed container outers (e.g. PAGE in P-OTT-AGE).
+            answer_pool = list(answer_clean)
+            letters_ok = True
+            for ch in letters_clean:
+                if ch in answer_pool:
+                    answer_pool.remove(ch)
+                else:
+                    letters_ok = False
+                    break
+            if not letters_ok:
                 continue
             clue_lower = clue_word.lower().strip(".,;:!?\"'()-")
             enrichment = r.get("enrichment", "")
@@ -748,8 +778,11 @@ def generate_report(results, source, puzzle, stats):
             "Cached+Sonnet": "Cached", "Cached+Fallback": "Cached+Fallback",
         }.get(tier, "---")
 
+        d = r.get("direction", "") or ""
+        d_char = d[0].upper() if d else "?"
+        clue_ref = "%s%s" % (r["clue_number"], d_char)
         lines.append("")
-        lines.append("  %s %s. %s" % (tag, r["clue_number"], r.get("clue", "")))
+        lines.append("  %s %s  %s. %s" % (tag, r["answer"], clue_ref, r.get("clue", "")))
         lines.append("  Answer: %s" % r["answer"])
         lines.append("  Tier: %s | Confidence: %d/100" % (tier_label, score))
 
@@ -816,6 +849,13 @@ def generate_report(results, source, puzzle, stats):
 
         if explanation:
             lines.append("  Human explanation: %s" % explanation[:200])
+
+        # Show AI reasoning for all clues
+        reasoning = (ai or {}).get("_reasoning", "")
+        if reasoning:
+            lines.append("  AI Reasoning:")
+            for rline in reasoning.strip().split("\n"):
+                lines.append("    %s" % rline.rstrip())
 
         lines.append("  " + "-" * 70)
 
