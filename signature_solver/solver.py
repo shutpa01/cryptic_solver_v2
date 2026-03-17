@@ -113,7 +113,7 @@ def _normalize_clue(text):
     return ascii_text
 
 
-def solve_clue(clue_text, answer, db, min_confidence=0):
+def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None):
     """Solve a raw clue: extract definition candidates, then solve each.
 
     Args:
@@ -121,6 +121,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0):
         answer: the known answer
         db: RefDB instance
         min_confidence: minimum confidence score to accept (0-100)
+        extra_catalog: optional list of additional CatalogEntry objects
+                       (injected from P's discoveries in Phase 3)
 
     Returns:
         SolveResult (best result across all definition candidates)
@@ -139,7 +141,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0):
         else:
             def_pos = 'end'
 
-        sr = solve(wp_words, answer_clean, db, min_confidence, def_pos=def_pos)
+        sr = solve(wp_words, answer_clean, db, min_confidence, def_pos=def_pos,
+                   extra_catalog=extra_catalog)
         if sr.solved:
             sr.definition = def_phrase
             if best_sr is None or sr.confidence > best_sr.confidence:
@@ -153,17 +156,20 @@ def solve_clue(clue_text, answer, db, min_confidence=0):
     # No definition candidate worked — fall back to best unsolved result
     if candidates:
         def_phrase, wp_words = candidates[0]
-        sr = solve(wp_words, answer_clean, db, min_confidence=0)
+        sr = solve(wp_words, answer_clean, db, min_confidence=0,
+                   extra_catalog=extra_catalog)
         sr.definition = def_phrase
         return sr
 
     # No definition candidates found at all — try full clue as wordplay
-    sr = solve(clue_words, answer_clean, db, min_confidence=0)
+    sr = solve(clue_words, answer_clean, db, min_confidence=0,
+               extra_catalog=extra_catalog)
     sr.definition = None
     return sr
 
 
-def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None):
+def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None,
+          extra_catalog=None):
     """Solve using catalog-driven signature matching.
 
     Args:
@@ -172,6 +178,7 @@ def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None):
         db: RefDB instance
         min_confidence: minimum confidence score to accept (0-100)
         def_pos: "start" or "end" (where definition is) or None
+        extra_catalog: optional list of additional CatalogEntry objects
 
     Returns:
         SolveResult with .result, .confidence, .confidence_reasons, .analyses
@@ -264,8 +271,9 @@ def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None):
                            analyses, phrases)
 
     # Fall back to old catalog matcher for patterns not in other catalogs
+    catalog_to_use = CATALOG + extra_catalog if extra_catalog else CATALOG
     for entry, assignment in match_signatures(
-        wordplay_words, analyses, phrases, CATALOG, answer_clean, db
+        wordplay_words, analyses, phrases, catalog_to_use, answer_clean, db
     ):
         result = _process_match(entry, assignment)
         if result is None:

@@ -284,23 +284,41 @@ def _has_explanation(clue):
 def compute_hint_tier(clue):
     """Return (tier_name, max_steps) for a clue row.
 
-    HIGH (4 steps): definition + wordplay_type + explanation content
-    MEDIUM (3): definition + wordplay_type
-    LOW (2): definition only
-    NONE (0): nothing useful
+    Tier is based on the pipeline confidence score (matching puzzle reports):
+      HIGH:   confidence >= 80
+      MEDIUM: confidence 40-79
+      LOW:    confidence < 40
+      NONE:   no pipeline result at all
+
+    max_steps is based on available hint data (definition, type, explanation).
     """
+    # Step count based on what hint data exists
     has_def = bool(clue["definition"])
     has_type = bool(clue["wordplay_type"])
     has_expl = _has_explanation(clue)
 
     if has_def and has_type and has_expl:
-        return "HIGH", 4
+        max_steps = 4
     elif has_def and has_type:
-        return "MEDIUM", 3
+        max_steps = 3
     elif has_def:
-        return "LOW", 2
+        max_steps = 2
     else:
-        return "NONE", 0
+        max_steps = 0
+
+    # Tier based on pipeline confidence score (stored as 0-1 decimal in DB)
+    confidence = clue["confidence"] if "confidence" in clue.keys() else None
+    if confidence is not None:
+        # Normalise to 0-100 scale if stored as decimal
+        score = confidence * 100 if confidence <= 1 else confidence
+        if score >= 80:
+            return "HIGH", max_steps
+        elif score >= 40:
+            return "MEDIUM", max_steps
+        else:
+            return "LOW", max_steps
+    else:
+        return "NONE", max_steps
 
 
 def get_hint_steps(clue):

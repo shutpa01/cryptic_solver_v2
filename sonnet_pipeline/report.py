@@ -205,7 +205,10 @@ def _describe_assembly(asm, ai_pieces=None, answer=None):
     elif op == "anagram":
         fodder = asm.get("fodder", [])
         if fodder:
-            return "anagram of %s" % "+".join(_annotate(f, ai) for f in fodder)
+            fodder_desc = "+".join(_annotate(f, ai) for f in fodder)
+            if answer:
+                return "anagram of %s = %s" % (fodder_desc, answer)
+            return "anagram of %s" % fodder_desc
 
     elif op in ("charade+anagram", "anagram+charade"):
         charade = asm.get("charade", [])
@@ -229,15 +232,25 @@ def _describe_assembly(asm, ai_pieces=None, answer=None):
                     parts.append(_annotate(charade[i], ai))
                     i += 1
         if anagram:
-            parts.append("anagram(%s)" % "+".join(_annotate(f, ai) for f in anagram))
+            ana_desc = "+".join(_annotate(f, ai) for f in anagram)
+            if answer:
+                parts.append("anagram(%s) = %s" % (ana_desc, answer))
+            else:
+                parts.append("anagram(%s)" % ana_desc)
         if parts:
             return " + ".join(parts)
 
     elif op == "deletion+anagram":
         fodder = asm.get("fodder", [])
-        desc = "delete %s from %s, anagram of %s" % (
-            asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
-            "+".join(_annotate(f, ai) for f in fodder) if fodder else "?")
+        fodder_desc = "+".join(_annotate(f, ai) for f in fodder) if fodder else "?"
+        if answer:
+            desc = "delete %s from %s, anagram of %s = %s" % (
+                asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
+                fodder_desc, answer)
+        else:
+            desc = "delete %s from %s, anagram of %s" % (
+                asm.get("deleted", "?"), _annotate(asm.get("from", "?"), ai),
+                fodder_desc)
         if indicator:
             desc += " [%s]" % indicator
         return desc
@@ -335,6 +348,11 @@ def _actionable_quality(results):
     # --- DB GAPS: unvalidated pieces that could be fixed by adding DB entries ---
     # Include failed clues too — Sonnet's pieces often identify correct
     # synonym/abbreviation mappings even when assembly can't verify them
+    # Use direct DB lookup (not enrichment text) so Signature-solved clues are checked properly
+    import sqlite3 as _sqlite3
+    _cryptic_db_path = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db"
+    _gap_conn = _sqlite3.connect(_cryptic_db_path, timeout=10)
+
     db_gaps = []
     for r in results:
         ai = r.get("ai_output") or {}
@@ -371,39 +389,23 @@ def _actionable_quality(results):
             if " " in clue_lower:
                 check_words.extend(clue_lower.split())
 
-            if mech == "synonym":
+            if mech in ("synonym", "abbreviation"):
+                # Check BOTH tables — Sonnet's mechanism label is unreliable
                 word_found = False
                 for cw in check_words:
-                    for eline in enrichment.split("\n"):
-                        eline_lower = eline.strip().lower()
-                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
-                            if "syn=" in eline_lower:
-                                if letters_clean.lower() in eline_lower:
-                                    word_found = True
-                            break
-                    if word_found:
+                    row = _gap_conn.execute(
+                        "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
+                        (cw, letters_clean)
+                    ).fetchone()
+                    if row:
+                        word_found = True
                         break
-                if not word_found:
-                    db_gaps.append({
-                        "answer": answer, "clue_word": clue_word,
-                        "letters": letters_clean, "table": "synonyms_pairs",
-                        "clue_number": r["clue_number"],
-                        "clue": r.get("clue", ""),
-                        "direction": r.get("direction", ""),
-                        "score": r.get("score", 0),
-                    })
-                    db_gap_clues.add(r["clue_number"])
-            elif mech == "abbreviation":
-                word_found = False
-                for cw in check_words:
-                    for eline in enrichment.split("\n"):
-                        eline_lower = eline.strip().lower()
-                        if eline_lower.startswith(cw + ":") or eline_lower.startswith(cw + " "):
-                            if "abbr=" in eline_lower:
-                                if letters_clean.lower() in eline_lower:
-                                    word_found = True
-                            break
-                    if word_found:
+                    row = _gap_conn.execute(
+                        "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
+                        (cw, letters_clean)
+                    ).fetchone()
+                    if row:
+                        word_found = True
                         break
                 if not word_found:
                     db_gaps.append({
@@ -416,6 +418,8 @@ def _actionable_quality(results):
                         "score": r.get("score", 0),
                     })
                     db_gap_clues.add(r["clue_number"])
+
+    _gap_conn.close()
 
     # Also detect missing definition pairs (include failed clues — Sonnet
     # often identifies the definition even when assembly fails)
@@ -667,6 +671,10 @@ def generate_report(results, source, puzzle, stats):
     lines.append("  Total clues:      %d" % total)
     lines.append("  Assembled:        %d/%d (%d%%)" % (
         assembled, total, 100 * assembled // max(total, 1)))
+    if stats.get("signature"):
+        lines.append("    Signature:      %d" % stats["signature"])
+    if stats.get("signature_enriched"):
+        lines.append("    Sig+Enriched:   %d" % stats["signature_enriched"])
     lines.append("    Sonnet:         %d" % stats["sonnet"])
     lines.append("    DB Fallback:    %d" % stats["fallback"])
     if stats.get("cached"):
@@ -776,6 +784,7 @@ def generate_report(results, source, puzzle, stats):
         tier_label = {
             "Sonnet": "Sonnet", "Fallback": "DB Fallback",
             "Cached+Sonnet": "Cached", "Cached+Fallback": "Cached+Fallback",
+            "Signature": "Signature", "Signature+Enriched": "Sig+Enriched",
         }.get(tier, "---")
 
         d = r.get("direction", "") or ""

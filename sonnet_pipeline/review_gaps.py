@@ -44,7 +44,7 @@ def already_exists(conn, gap):
 
     elif gap["type"] == "abbreviation":
         row = conn.execute(
-            "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=? AND category='abbreviation'",
+            "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND LOWER(substitution)=?",
             (gap["word"].lower(), gap["letters"].upper())
         ).fetchone()
         return row is not None

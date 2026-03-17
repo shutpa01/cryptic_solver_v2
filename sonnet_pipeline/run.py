@@ -26,6 +26,16 @@ from .solver import (
     resolve_cross_references, solve_clue, store_result,
 )
 from .report import generate_report, _describe_assembly
+from .sig_adapter import (
+    build_result_dict as sig_build_result_dict,
+    store_signature_result,
+    SIG_OP_TO_TYPE,
+)
+from .sig_enrichment import (
+    collect_gaps_from_results, enrich_refdb,
+    collect_signatures_from_results, enrich_catalog,
+    collect_indicators_from_results, enrich_indicators,
+)
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -53,8 +63,14 @@ SINGLE_CLUE_MATCH = ""
 
 def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                write_db=False, output_dir=OUTPUT_DIR, single_clue="", force=False,
-               partials=False):
-    """Run the Sonnet pipeline on a single puzzle. Returns (results, stats)."""
+               partials=False, ref_db=None):
+    """Run the combined S+P pipeline on a single puzzle. Returns (results, stats, gaps).
+
+    Flow:
+      Phase 1: Signature solver (S) on all clues — zero API cost
+      Phase 2: Production solver (P) on remaining clues — API calls
+      Phase 3: Collect P's discoveries → enrich RefDB → S re-runs on failures
+    """
     db_path = CLUES_DB
     conn = sqlite3.connect(db_path, timeout=30)
     rows = conn.execute("""
@@ -79,7 +95,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         return [], {}, []
 
     print("=" * 80)
-    print("SONNET PIPELINE: Sonnet -> Assembler -> Fallback")
+    print("COMBINED PIPELINE: Signature -> Sonnet -> Enrichment -> Signature")
     print("Puzzle: %s %s (%d clues)" % (source, puzzle, len(rows)))
     print("=" * 80)
 
@@ -87,9 +103,71 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     sonnet_tokens_out = 0
     results = []
 
+    # ================================================================
+    # PHASE 1: Signature solver on all clues (zero API cost)
+    # ================================================================
+    sig_solved_ids = set()    # clue IDs solved by S with HIGH confidence
+    sig_results = {}          # clue_id -> result dict (for all S attempts)
+    sig_high = 0
+    sig_medium = 0
+
+    if ref_db is not None:
+        from signature_solver.solver import solve_clue as sig_solve_clue
+
+        print("\n--- Phase 1: Signature solver (mechanical, zero API cost) ---")
+        t0 = time.time()
+
+        for row in rows:
+            cid, cnum, direction, clue, answer, enum, explanation = row
+            answer_clean = clean(answer)
+
+            # Skip cross-reference clues — S can't resolve them
+            if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
+                continue
+
+            try:
+                sr = sig_solve_clue(clue, answer_clean, ref_db)
+            except Exception as e:
+                print("  S error on %s: %s" % (cnum, e))
+                continue
+
+            if sr.high_confidence:
+                sig_solved_ids.add(cid)
+                sig_high += 1
+                result_dict = sig_build_result_dict(
+                    sr, clue, answer, cnum, direction, enum, explanation
+                )
+                sig_results[cid] = result_dict
+                results.append(result_dict)
+
+                # Store to DB
+                if write_db:
+                    store_signature_result(conn, cid, sr, clue, answer)
+
+                print("  [S HIGH %3d] %s. %s = %s" % (sr.confidence, cnum, clue[:50], answer))
+            elif sr.solved:
+                sig_medium += 1
+                # Store medium result for potential Phase 3 upgrade
+                sig_results[cid] = sig_build_result_dict(
+                    sr, clue, answer, cnum, direction, enum, explanation
+                )
+
+        elapsed = time.time() - t0
+        print("  Phase 1: %d HIGH, %d medium in %.1fs — %d clues skip API" % (
+            sig_high, sig_medium, elapsed, sig_high))
+
+    # ================================================================
+    # PHASE 2: Production solver on remaining clues (API calls)
+    # ================================================================
+    print("\n--- Phase 2: Production solver (API calls) ---")
+
     for row in rows:
         cid, cnum, direction, clue, answer, enum, explanation = row
         target = clean(answer)
+
+        # Skip clues already solved by signature solver in Phase 1
+        if cid in sig_solved_ids:
+            continue
 
         # Check for existing solved result — skip API call but re-run assembler
         # has_solution: 1=solved, 2=partial, 0=failed, NULL=untried
@@ -237,6 +315,107 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
         time.sleep(0.2)
 
+    # ================================================================
+    # PHASE 3: Collect P's discoveries → enrich RefDB + catalog → S re-runs
+    # ================================================================
+    sig_re_solved = 0
+    if ref_db is not None:
+        from signature_solver.solver import solve_clue as sig_solve_clue
+        from signature_solver.catalog import CATALOG
+
+        # Collect synonym/abbreviation/definition gaps from P's results
+        p_results = [r for r in results if r.get("tier") not in ("Signature",)]
+        gaps_for_enrichment = collect_gaps_from_results(p_results)
+
+        # Collect new signature patterns from P's results
+        new_sigs = collect_signatures_from_results(p_results)
+        extra_catalog, n_cat_added = enrich_catalog(CATALOG, new_sigs)
+
+        enriched_db = ref_db
+        n_db_injected = 0
+        if gaps_for_enrichment:
+            enriched_db, injected = enrich_refdb(ref_db, gaps_for_enrichment)
+            n_db_injected = len(injected)
+
+        # Inject inferred indicator words into the enriched DB
+        new_indicators = collect_indicators_from_results(p_results, ref_db=ref_db)
+        n_ind_injected = 0
+        if new_indicators:
+            # enrich_indicators mutates enriched_db.indicators in place
+            # (already a cloned copy from enrich_refdb, or the original if no gaps)
+            if enriched_db is ref_db:
+                # No synonym/abbreviation gaps — need to clone before mutating
+                import copy
+                enriched_db = copy.copy(ref_db)
+                enriched_db.indicators = dict(ref_db.indicators)
+            elif not hasattr(enriched_db, '_indicators_cloned'):
+                # enrich_refdb cloned synonyms/abbreviations but not indicators
+                enriched_db.indicators = dict(enriched_db.indicators)
+            ind_injected = enrich_indicators(enriched_db, new_indicators)
+            n_ind_injected = len(ind_injected)
+
+        if n_db_injected or n_cat_added or n_ind_injected:
+            print("\n--- Phase 3: Signature re-solve with enriched DB + catalog ---")
+            if n_db_injected:
+                print("  Injected %d DB entries (synonyms/abbreviations)" % n_db_injected)
+            if n_ind_injected:
+                print("  Injected %d inferred indicators" % n_ind_injected)
+            if n_cat_added:
+                print("  Injected %d new catalog signatures from P's solves:" % n_cat_added)
+                for entry in extra_catalog[:10]:
+                    print("    %s [%s]" % (entry.label, entry.operation))
+                if n_cat_added > 10:
+                    print("    ... and %d more" % (n_cat_added - 10))
+
+            # Re-run S on all clues not already solved by S in Phase 1
+            failed_or_weak = [
+                row for row in rows
+                if row[0] not in sig_solved_ids  # not already S HIGH
+            ]
+
+            for row in failed_or_weak:
+                cid, cnum, direction, clue, answer, enum, explanation = row
+                answer_clean = clean(answer)
+
+                # Skip cross-reference clues
+                if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
+                    continue
+
+                try:
+                    sr = sig_solve_clue(clue, answer_clean, enriched_db,
+                                        extra_catalog=extra_catalog or None)
+                except Exception as e:
+                    continue
+
+                if sr.high_confidence:
+                    sig_re_solved += 1
+                    new_result = sig_build_result_dict(
+                        sr, clue, answer, cnum, direction, enum, explanation
+                    )
+                    new_result["tier"] = "Signature+Enriched"
+
+                    # Replace existing result for this clue in results[]
+                    replaced = False
+                    for i, r in enumerate(results):
+                        if r.get("clue_number") == cnum and r.get("direction") == direction:
+                            results[i] = new_result
+                            replaced = True
+                            break
+                    if not replaced:
+                        results.append(new_result)
+
+                    # Overwrite DB
+                    if write_db:
+                        store_signature_result(conn, cid, sr, clue, answer)
+
+                    print("  [S+E HIGH %3d] %s. %s = %s" % (
+                        sr.confidence, cnum, clue[:50], answer))
+
+            if sig_re_solved:
+                print("  Phase 3: %d clues upgraded to signature quality" % sig_re_solved)
+            else:
+                print("  Phase 3: no additional solves from enrichment")
+
     # Commit DB writes
     if write_db:
         conn.commit()
@@ -251,6 +430,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     t1 = sum(1 for r in results if r.get("tier") in ("Sonnet", "Cached+Sonnet"))
     t3 = sum(1 for r in results if r.get("tier") in ("Fallback", "Cached+Fallback"))
     t_cached = sum(1 for r in results if (r.get("tier") or "").startswith("Cached+"))
+    t_sig = sum(1 for r in results if r.get("tier") == "Signature")
+    t_sig_e = sum(1 for r in results if r.get("tier") == "Signature+Enriched")
 
     assembled_results = [r for r in results if r.get("status") == "ASSEMBLED"]
     high = sum(1 for r in assembled_results if r.get("confidence") == "high")
@@ -263,6 +444,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     stats = {
         "total": total, "assembled": assembled, "failed": failed, "errors": errors,
         "sonnet": t1, "fallback": t3, "cached": t_cached,
+        "signature": t_sig, "signature_enriched": t_sig_e,
         "high": high, "medium": medium, "low": low, "avg_score": avg_score,
         "total_cost": sonnet_cost,
         "sonnet_tokens_in": sonnet_tokens_in,
@@ -271,10 +453,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
     # Print summary
     print("\n" + "=" * 80)
-    print("SONNET PIPELINE SUMMARY")
+    print("COMBINED PIPELINE SUMMARY")
     print("=" * 80)
     print("Total clues:      %d" % total)
     print("ASSEMBLED:        %d/%d (%d%%)" % (assembled, total, 100 * assembled // max(total, 1)))
+    if t_sig:
+        print("  Signature:      %d  (zero API cost)" % t_sig)
+    if t_sig_e:
+        print("  Sig+Enriched:   %d  (P-discovered, S-explained)" % t_sig_e)
     print("  Sonnet:         %d" % t1)
     print("  DB Fallback:    %d" % t3)
     if t_cached:
@@ -287,9 +473,10 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     print("  Medium: %d/%d" % (medium, assembled))
     print("  Low:    %d/%d" % (low, assembled))
     print("  Avg score: %.0f/100" % avg_score)
-    api_calls = total - errors - t_cached
-    print("\nCost: $%.4f (%d API calls, %d cached, %d+%d tokens)" % (
-        sonnet_cost, api_calls, t_cached, sonnet_tokens_in, sonnet_tokens_out))
+    api_calls = total - errors - t_cached - t_sig - t_sig_e
+    sig_saved = t_sig + t_sig_e
+    print("\nCost: $%.4f (%d API calls, %d signature, %d cached, %d+%d tokens)" % (
+        sonnet_cost, api_calls, sig_saved, t_cached, sonnet_tokens_in, sonnet_tokens_out))
 
     if write_db:
         print("\nResults written to DB.")
@@ -324,22 +511,44 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             json.dump(gaps_data, f, indent=2, ensure_ascii=False)
         print("Pending DB gaps saved to %s (%d entries)" % (gaps_path, len(gaps)))
 
-        # Store gaps in DB for dashboard review
+        # Store gaps in DB for dashboard review — skip items already in reference DB
         gap_conn = sqlite3.connect(CLUES_DB, timeout=30)
+        ref_conn = sqlite3.connect(CRYPTIC_DB, timeout=10)
         for g in gaps:
             gtype = g.get("type", "")
             word = g.get("word") or g.get("definition") or ""
             letters = g.get("letters") or g.get("answer") or ""
             answer = g.get("answer", "")
             clue = g.get("clue", "")
-            gap_conn.execute(
-                "INSERT OR IGNORE INTO pending_enrichments "
-                "(type, word, letters, answer, clue_text, source, puzzle_number) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (gtype, word, letters, answer, clue, source, puzzle),
-            )
+
+            # Check if already in reference DB (either table)
+            already = False
+            if gtype in ("synonym", "abbreviation"):
+                already = ref_conn.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
+                    (word.lower(), letters.upper())
+                ).fetchone() is not None
+                if not already:
+                    already = ref_conn.execute(
+                        "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
+                        (word.lower(), letters.upper())
+                    ).fetchone() is not None
+            elif gtype == "definition":
+                already = ref_conn.execute(
+                    "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
+                    (word.lower(), letters.lower())
+                ).fetchone() is not None
+
+            if not already:
+                gap_conn.execute(
+                    "INSERT OR IGNORE INTO pending_enrichments "
+                    "(type, word, letters, answer, clue_text, source, puzzle_number) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (gtype, word, letters, answer, clue, source, puzzle),
+                )
         gap_conn.commit()
         gap_conn.close()
+        ref_conn.close()
 
     return results, stats, gaps
 
@@ -364,13 +573,18 @@ def _show_puzzle_summary(source, puzzle):
 
 
 def _run_full_pipeline(args):
-    """Mode 1: Run full pipeline (solve → DB gaps → re-run → manual entry)."""
+    """Mode 1: Run full pipeline (S → P → enrich → S re-run → gaps → manual)."""
     # Load shared resources once
     print("Loading enricher...")
     enricher = ClueEnricher()
     print("Loading homophone engine...")
     homo_engine = HomophoneEngine(db_path=CRYPTIC_DB)
     example_messages = build_example_messages()
+
+    # Load signature solver's RefDB once (~2s)
+    print("Loading signature solver reference DB...")
+    from signature_solver.db import RefDB
+    ref_db = RefDB()
 
     all_stats = []
     any_gaps = False
@@ -379,7 +593,7 @@ def _run_full_pipeline(args):
             args.source, puzzle, enricher, homo_engine, example_messages,
             write_db=args.write_db, output_dir=args.output_dir,
             single_clue=args.single_clue, force=args.force,
-            partials=args.partials,
+            partials=args.partials, ref_db=ref_db,
         )
         if stats:
             all_stats.append((puzzle, stats))

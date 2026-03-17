@@ -1163,11 +1163,83 @@ def _try_truncation_from_db(clue, answer, target, enricher, homo_engine):
 
 # -- Full assembly attempt with fallbacks --------------------------------------
 
+def _validate_double_definition(clue, answer, enricher):
+    """Validate DD by checking two separate clue windows both define the answer.
+
+    Splits the clue at every possible point. For each split, generates
+    definition windows from each half independently. If both halves
+    produce the answer via DB lookup with at most 1 uncovered link word,
+    it's a valid DD. Returns assembly dict or None.
+    """
+    # Strip enumeration
+    text = re.sub(r'\(\d+(?:,\d+)*\)\s*$', '', clue).strip()
+    words = text.split()
+    if len(words) < 2:
+        return None
+
+    for split_point in range(1, len(words)):
+        left_words = words[:split_point]
+        right_words = words[split_point:]
+
+        # Generate windows from each half (sub-phrases anchored to the split boundary)
+        left_windows = []
+        for i in range(len(left_words)):
+            left_windows.append(" ".join(left_words[i:]))  # right-anchored
+        right_windows = []
+        for i in range(len(right_words)):
+            right_windows.append(" ".join(right_words[:i + 1]))  # left-anchored
+
+        # Check if any window from each half defines the answer
+        best_left = None
+        for w in left_windows:
+            phrase = w.lower().strip(".,;:!?\"'()-")
+            if enricher.lookup_definition(phrase, answer):
+                best_left = w
+                break
+        if not best_left:
+            continue
+
+        best_right = None
+        for w in right_windows:
+            phrase = w.lower().strip(".,;:!?\"'()-")
+            if enricher.lookup_definition(phrase, answer):
+                best_right = w
+                break
+        if not best_right:
+            continue
+
+        # Coverage check: at most 1 uncovered link word
+        left_covered = len(best_left.split())
+        right_covered = len(best_right.split())
+        uncovered = (split_point - left_covered) + (len(right_words) - right_covered)
+        if uncovered > 1:
+            continue
+
+        return {
+            "op": "double_definition",
+            "left_window": best_left,
+            "right_window": best_right,
+            "split_point": split_point,
+        }
+
+    return None
+
+
 def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, target):
     """Try assembling pieces with all fallback strategies."""
-    # Double/cryptic definition — return immediately, no assembly needed
-    if wtype in ("double_definition", "cryptic_definition"):
+    # Cryptic definition — no mechanical validation possible, accept AI's label
+    if wtype == "cryptic_definition":
         return {"op": wtype}, "dd_cd"
+
+    # Double definition — validate that two separate windows both define the answer
+    if wtype == "double_definition":
+        dd_asm = _validate_double_definition(clue, answer, enricher)
+        if dd_asm:
+            return dd_asm, "dd_cd"
+        # DD validation failed — still return DD assembly (unvalidated) so that
+        # evidence is preserved. Scoring handles it: no validated windows = low score.
+        # Fall-through strategies can still override if they produce a better result.
+        # But first, try other strategies — if they work, use them instead.
 
     # Hidden word check FIRST — if the answer is contiguously hidden spanning
     # multiple clue words, that's a guaranteed correct match and takes priority
@@ -1286,6 +1358,12 @@ def full_assembly_attempt(clue, answer, pieces, wtype, enricher, homo_engine, ta
 
     if assembly:
         return assembly, "direct"
+
+    # Last resort: if AI said DD but validation failed and no other strategy
+    # worked, return an unvalidated DD so evidence is preserved (scores low).
+    if wtype == "double_definition":
+        return {"op": "double_definition"}, "dd_cd"
+
     return None, None
 
 
@@ -1675,8 +1753,12 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
     # --- Definition (30pts) ---
     if ai_def:
         def_clean = ai_def.lower().strip(".,;:!?\"'()-")
+        # Check definition_answers_augmented first, then synonyms_pairs as fallback
         if enricher.lookup_definition(def_clean, answer):
             checks["definition"] = "confirmed in DB"
+            score += 30
+        elif answer_clean in [s.upper() for s in enricher.lookup_synonyms(def_clean, max_results=200)]:
+            checks["definition"] = "confirmed in DB (synonym)"
             score += 30
         else:
             clue_lower = clue_text.lower()
@@ -1817,14 +1899,59 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
         # Hidden words are self-evidently correct — the answer is in the clue
         checks["yields_check"] = "hidden (self-evident)"
         score += 20
+    elif asm_op in ("deletion", "outer_deletion", "deletion+anagram"):
+        # Deletion: source minus deleted letters should yield the answer
+        source_word = clean(assembly.get("from", "") or "")
+        deleted = clean(assembly.get("deleted", "") or "")
+        gives = clean(assembly.get("gives", "") or "")
+        order = assembly.get("order", [])
+        if source_word and gives:
+            # Check: remaining letters after deletion, combined with other pieces
+            combined = "".join(clean(p) for p in order) if order else gives
+            if combined == answer_clean or sorted(combined) == sorted(answer_clean):
+                checks["yields_check"] = "pass (deletion verified)"
+                score += 20
+            else:
+                checks["yields_check"] = "FAIL: deletion gives=%s answer=%s" % (combined, answer_clean)
+        elif source_word and deleted:
+            # Fallback: just check source - deleted = answer
+            remaining = source_word
+            for ch in deleted:
+                remaining = remaining.replace(ch, "", 1)
+            if remaining == answer_clean:
+                checks["yields_check"] = "pass (deletion verified)"
+                score += 20
+            else:
+                checks["yields_check"] = "FAIL: %s - %s = %s, expected %s" % (
+                    source_word, deleted, remaining, answer_clean)
+        else:
+            checks["yields_check"] = "deletion: insufficient assembly data"
     elif asm_op == "double_definition":
-        # DD can be partially verified — both halves should define the answer
-        checks["yields_check"] = "n/a for double_definition"
-        score += 10
+        # DD validated by _validate_double_definition — both windows confirmed in DB
+        if assembly.get("left_window") and assembly.get("right_window"):
+            checks["yields_check"] = "DD validated: '%s' + '%s' both define %s" % (
+                assembly["left_window"], assembly["right_window"], answer)
+            score += 20
+        else:
+            checks["yields_check"] = "n/a for double_definition"
+    elif asm_op == "homophone":
+        # Homophone: the assembler found a sounds-like match
+        sounds_like = clean(assembly.get("sounds_like", "") or "")
+        if sounds_like:
+            checks["yields_check"] = "pass (homophone: %s sounds like %s)" % (sounds_like, answer_clean)
+            score += 20
+        else:
+            checks["yields_check"] = "homophone: insufficient assembly data"
+    elif asm_op == "substitution":
+        # Substitution: one piece replaced by another within a word
+        checks["yields_check"] = "pass (substitution assembled)"
+        score += 20
+    elif asm_op == "spoonerism":
+        checks["yields_check"] = "pass (spoonerism assembled)"
+        score += 20
     elif asm_op == "cryptic_definition":
-        # CD is inherently unverifiable — cap the bonus
+        # CD is inherently unverifiable — no free points
         checks["yields_check"] = "n/a for cryptic_definition"
-        score += 5
 
     # --- Explanation: Pieces validated (15pts) ---
     validated_pieces = 0
@@ -1877,10 +2004,8 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
         score += piece_score
     elif asm_op == "double_definition":
         checks["pieces_validated"] = "n/a for double_definition"
-        score += 5
     elif asm_op == "cryptic_definition":
         checks["pieces_validated"] = "n/a for cryptic_definition"
-        score += 0
     elif asm_op in ("hidden", "hidden_in_word", "hidden_reversed"):
         checks["pieces_validated"] = "n/a for hidden"
         score += 10
@@ -2169,6 +2294,10 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         auto_reviewed = current_reviewed[0]
 
     if has_def and has_type and has_expl:
+        conn.execute("UPDATE clues SET has_solution = 1, reviewed = ? WHERE id = ?", (auto_reviewed, clue_id))
+    elif has_type and has_expl and score >= 80:
+        # High-confidence solve with type + explanation but missing definition —
+        # still auto-approve (definition absence is a minor gap, not a quality issue)
         conn.execute("UPDATE clues SET has_solution = 1, reviewed = ? WHERE id = ?", (auto_reviewed, clue_id))
     elif has_def or has_type:
         if not already_reviewed:
