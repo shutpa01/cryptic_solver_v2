@@ -149,7 +149,7 @@ def edit_save(clue_id):
 
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
 def rerun_clue(clue_id):
-    """Re-run a clue through the explainer API and return result as HTMX fragment."""
+    """Re-run a clue through the full pipeline (TFTT + Sonnet) and return result as HTMX fragment."""
     _require_admin()
 
     db = get_admin_db()
@@ -157,23 +157,79 @@ def rerun_clue(clue_id):
     if clue is None:
         abort(404)
 
+    source = clue["source"]
+    puzzle_number = clue["puzzle_number"]
+    answer = clue["answer"]
+    clue_text = clue["clue_text"]
+
     # Clear previous results
     db.execute(
         "UPDATE clues SET definition = NULL, wordplay_type = NULL, "
         "ai_explanation = NULL, reviewed = NULL WHERE id = ?",
         (clue_id,),
     )
+    db.execute(
+        "DELETE FROM structured_explanations WHERE clue_id = ?",
+        (clue_id,),
+    )
     db.commit()
 
-    # Run the explainer
-    from web.explainer import generate_explanation
-    try:
-        success, message, result = generate_explanation(clue_id)
-    except Exception as e:
-        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+    success = False
+    message = ""
 
+    # For Times clues, try TFTT first
+    if source == "times" and answer:
+        try:
+            from sonnet_pipeline.tftt_pipeline import (
+                fetch_tftt, parse_with_haiku, score_parse, store_tftt_result
+            )
+            from signature_solver.db import RefDB
+            import anthropic as _anthropic
+
+            tftt_clues = fetch_tftt(int(puzzle_number))
+            if tftt_clues:
+                # Find matching clue by answer
+                import re
+                answer_clean = re.sub(r'[^A-Za-z]', '', answer).upper()
+                tc = None
+                for t in tftt_clues:
+                    if re.sub(r'[^A-Za-z]', '', t["answer"]).upper() == answer_clean:
+                        tc = t
+                        break
+
+                if tc and tc.get("explanation"):
+                    haiku_client = _anthropic.Anthropic()
+                    ref_db = RefDB()
+                    parsed, usage = parse_with_haiku(
+                        haiku_client, clue_text, answer, tc["explanation"]
+                    )
+                    if parsed:
+                        score, reasons = score_parse(parsed, answer, ref_db)
+                        if score >= 70:
+                            import sqlite3
+                            conn = sqlite3.connect(
+                                str(PROJECT_ROOT / "data" / "clues_master.db"), timeout=30
+                            )
+                            store_tftt_result(
+                                conn, clue_id, parsed, score,
+                                tc.get("definition", ""),
+                                raw_explanation=tc.get("explanation", "")
+                            )
+                            conn.close()
+                            success = True
+        except Exception as e:
+            message = "TFTT error: %s" % e
+
+    # Fall back to Sonnet explainer if TFTT didn't work
     if not success:
-        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
+        from web.explainer import generate_explanation
+        try:
+            success, message, result = generate_explanation(clue_id)
+        except Exception as e:
+            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+
+        if not success:
+            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
 
     # Return full button row matching the puzzle page layout
     from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
