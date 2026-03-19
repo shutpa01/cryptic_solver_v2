@@ -2099,10 +2099,11 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
         for p in ai_pieces:
             mech = p.get("mechanism", "")
             letters = clean(p.get("letters") or "")
-            # Only check pieces that claim to be words (synonym, abbreviation, deletion)
+            # Only check pieces that claim to be words (synonym, abbreviation)
             # Skip: literal/anagram_fodder (raw letters), first/last_letter (single chars),
-            # hidden (span of clue text), reversal (checked as its source word)
-            if mech not in ("synonym", "abbreviation", "deletion"):
+            # hidden (span of clue text), reversal (checked as its source word),
+            # deletion (fragments like CROS from CROSS are valid, not standalone words)
+            if mech not in ("synonym", "abbreviation"):
                 continue
             # Short abbreviations (1-2 chars) are expected to not be words
             if mech == "abbreviation" and len(letters) <= 2:

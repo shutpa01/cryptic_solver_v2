@@ -59,7 +59,11 @@ Rules:
 - For containers: show outer and inner pieces separately.
 - For hidden words: one piece with the spanning clue words.
 - For reversals: use mechanism "reversal".
-- For deletions: show the piece AFTER deletion with mechanism "deletion".
+- For deletions: the "letters" field must contain ONLY the letters that REMAIN after deletion (the letters that appear in the answer), NOT the original word. E.g. if TRASH loses T, the piece is {"clue_word": "rubbish", "letters": "RASH", "mechanism": "deletion"}.
+- Blog notation: parenthesised lowercase letters like (t)RASH or CRE(a)TION mean those letters are REMOVED. The piece letters are what remains: RASH, CRETION is wrong — it should be CRTION. Actually parse carefully: CRE(a)TION = CREATION minus A = CRETION. The remaining letters go in "letters".
+- For double definitions (DD): use wordplay_type "double_definition" with no pieces needed.
+- For homophones: use mechanism "sound_of" and the letters field should contain the letters that the word SOUNDS LIKE, which spell part or all of the answer.
+- The concatenation of all pieces' "letters" fields MUST exactly spell the answer. Verify this before responding.
 
 Return ONLY valid JSON, no other text."""
 
@@ -130,7 +134,17 @@ def score_parse(parsed, answer, ref_db):
     Start at 100, deduct for problems a user would spot.
     Returns (score, list of (reason, delta) tuples).
     """
-    if not parsed or not parsed.get("pieces"):
+    if not parsed:
+        return 0, [("no parse", -100)]
+
+    # Double definitions and cryptic definitions have no pieces — that's correct
+    wtype = parsed.get("wordplay_type", "")
+    if wtype in ("double_definition", "cryptic_definition"):
+        if parsed.get("definition"):
+            return 90, []  # DD/CD with definition = good
+        return 70, [("DD/CD without definition", -30)]
+
+    if not parsed.get("pieces"):
         return 0, [("no pieces", -100)]
 
     pieces = parsed["pieces"]
@@ -180,11 +194,11 @@ def score_parse(parsed, answer, ref_db):
                     score -= 10
                     reasons.append(("unconfirmed long abbreviation: %s=%s" % (clue_word, letters), -10))
 
-        # Deletion: check the result is a real word (if long enough)
+        # Deletion: fragment is mechanically derived, no nonsense check needed.
+        # The letters are what remain after removing letters from a source word —
+        # CROS (from CROSS-S) or CRETION (from CREATION-A) are valid fragments.
         elif mech == "deletion":
-            if len(letters) >= 3 and not ref_db.is_real_word(letters):
-                score -= 60
-                reasons.append(("nonsense deletion result: %s" % letters, -60))
+            pass  # mechanically verified by yields check
 
         # Homophone: check DB
         elif mech == "sound_of":
