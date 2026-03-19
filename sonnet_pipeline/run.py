@@ -227,7 +227,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         try:
             result = solve_clue(
                 clue, answer, enrichment, enricher, homo_engine,
-                example_messages, cached_ai=cached_ai
+                example_messages, cached_ai=cached_ai, ref_db=ref_db
             )
         except Exception as e:
             print("\n%s. %s = %s" % (cnum, clue, answer))
@@ -283,6 +283,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             print("   Status: ASSEMBLED (%s)" % tier)
             if write_db:
                 store_result(conn, cid, sonnet_out, assembly, validation, tier)
+                conn.commit()
         else:
             print("   Confidence: NONE (0/100)")
             print("   Status: FAILED")
@@ -293,8 +294,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
                 else:
                     conn.execute("UPDATE clues SET has_solution = 0, reviewed = 0 WHERE id = ?", (cid,))
-        if explanation:
-            print("   Human:  %s" % explanation[:90])
+                conn.commit()
 
         results.append({
             "status": "ASSEMBLED" if assembly else "FAILED",
@@ -385,7 +385,16 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     sr = sig_solve_clue(clue, answer_clean, enriched_db,
                                         extra_catalog=extra_catalog or None)
                 except Exception as e:
+                    print("  [S+E ERROR] %s. %s: %s" % (cnum, clue[:40], e))
                     continue
+
+                if not sr.solved:
+                    print("  [S+E MISS] %s. %s — no solve" % (cnum, clue[:50]))
+                elif not sr.high_confidence:
+                    print("  [S+E LOW] %s. %s — conf=%d" % (cnum, clue[:50], sr.confidence))
+                    if hasattr(sr, 'confidence_reasons'):
+                        for reason, delta in sr.confidence_reasons:
+                            print("    %+d  %s" % (delta, reason))
 
                 if sr.high_confidence:
                     sig_re_solved += 1
@@ -406,7 +415,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
                     # Overwrite DB
                     if write_db:
-                        store_signature_result(conn, cid, sr, clue, answer)
+                        store_signature_result(conn, cid, sr, clue, answer, enriched=True)
 
                     print("  [S+E HIGH %3d] %s. %s = %s" % (
                         sr.confidence, cnum, clue[:50], answer))

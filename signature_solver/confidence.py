@@ -1,151 +1,160 @@
 """Confidence scoring for signature solver results.
 
-By the time we reach scoring, we already know:
-1. A signature pattern was matched
-2. The assembly produces the answer (verified by _verify_combo)
+Starts at 100 and deducts for problems a user would spot.
+By the time we reach scoring, assembly is already verified (pieces make the answer).
 
-So scoring checks: how well verified is each piece?
+Penalties:
+  -60  nonsense synonym (value not a real word)
+  -30  circularity (answer used to explain itself)
+  -20  operation missing its indicator
+  -15  unconfirmed homophone
+  -10  unconfirmed synonym (real word, plausible DB gap)
+  -10  unconfirmed abbreviation
+   -5  indicator not verified in DB
+   -5  unverified link word
 
 Score 0-100:
-  80+ = high confidence, serve directly
-  50-79 = medium, pass as strong evidence to API
-  <50 = low, pass as weak evidence / discard
+  80+ = HIGH — serve directly to user
+  50-79 = MEDIUM — usable with caveats
+  <50 = LOW — not user-facing
 """
 
 from .tokens import *
 
 
-def score_result(result, words, answer, analyses, db):
-    """Score a SignatureResult for confidence.
+# Operations that need an indicator to be explainable to a user
+_FODDER_NEEDS_INDICATOR = {
+    ANA_F: {ANA_I},
+    HID_F: {HID_I},
+    HOM_F: {HOM_I},
+    POS_F: {POS_I_FIRST, POS_I_LAST, POS_I_OUTER, POS_I_MIDDLE,
+            POS_I_ALTERNATE, POS_I_HALF, POS_I_TRIM_FIRST,
+            POS_I_TRIM_LAST, POS_I_TRIM_MIDDLE, POS_I_TRIM_OUTER},
+    DEL_F: {DEL_I, POS_I_TRIM_FIRST, POS_I_TRIM_LAST,
+            POS_I_TRIM_MIDDLE, POS_I_TRIM_OUTER},
+}
 
-    Logic:
-    1. Signature matched + assembly verified = base 60
-    2. Each piece verified in DB = bonus
-    3. Each piece NOT verified = penalty
-    4. All pieces verified = guaranteed 80+
-    5. Circularity = hard penalty
+
+def score_result(result, words, answer, analyses, db):
+    """Score an explanation by deducting for problems a user would spot.
+
+    Starts at 100. Deducts for unverified pieces, missing indicators,
+    nonsense words, circularity. Source doesn't matter — a user sees
+    the explanation, not how it was produced.
+
+    Args:
+        result: SignatureResult with word_roles
+        words: wordplay words
+        answer: expected answer (uppercase, no spaces)
+        analyses: word analyses
+        db: RefDB instance
 
     Returns:
-        int score 0-100, plus list of (reason, delta) tuples
+        (score 0-100, list of (reason, delta) tuples)
     """
     reasons = []
     roles = result.word_roles
 
-    # --- Base: signature matched and assembly verified ---
-    score = 60
-    reasons.append(("signature matched + assembly verified", 60))
+    score = 100
 
-    # --- Check each piece ---
-    n_pieces = 0
-    n_verified = 0
+    # --- Track which operations and indicators are present ---
+    fodder_types_present = set()
+    indicator_types_present = set()
 
     for word, tok, val in roles:
+
+        # Link words
         if tok == LNK:
-            # Link words: check they're real
-            if db.is_link_word(word.lower()):
-                continue  # fine, no bonus or penalty
-            elif db.get_indicator_types(word.lower()):
-                continue  # indicator used as link, acceptable
-            else:
-                score -= 5
-                reasons.append((f"unverified link word '{word}'", -5))
+            if db.is_link_word(word.lower()) or db.get_indicator_types(word.lower()):
+                continue
+            score -= 5
+            reasons.append((f"unverified link '{word}'", -5))
             continue
 
+        # Indicators
         if tok in INDICATOR_TOKENS:
-            n_pieces += 1
-            verified, detail = _verify_indicator(word, tok, db)
-            if verified:
-                n_verified += 1
-                score += detail
-                reasons.append((f"indicator '{word}' verified", detail))
-            else:
+            indicator_types_present.add(tok)
+            verified = _is_verified_indicator(word, tok, db)
+            if not verified:
                 score -= 5
-                reasons.append((f"indicator '{word}' not in DB", -5))
+                reasons.append((f"indicator '{word}' not verified in DB", -5))
             continue
 
-        if tok in (SYN_F, ABR_F, HOM_F):
-            n_pieces += 1
-            verified, detail = _verify_lookup(word, tok, val, db)
-            if verified:
-                n_verified += 1
-                score += detail
-                reasons.append((f"{tok} '{word}'={val} verified", detail))
-            else:
-                score -= 5
-                reasons.append((f"{tok} '{word}'={val} not in DB", -5))
+        # Mechanically self-evident pieces — no penalty possible
+        if tok in (ANA_F, HID_F, POS_F, DEL_F):
+            fodder_types_present.add(tok)
             continue
 
-        if tok in (ANA_F, HID_F, POS_F):
-            # These are mechanically verified by assembly — always count as verified
-            n_pieces += 1
-            n_verified += 1
-            score += 3
-            reasons.append((f"{tok} '{word}' mechanically verified", 3))
-            continue
-
+        # RAW letters — already verified by assembly, no penalty
         if tok == RAW:
-            # Raw letters — the word itself is in the answer
-            n_pieces += 1
-            w_alpha = "".join(c for c in word.upper() if c.isalpha())
-            if w_alpha in answer:
-                n_verified += 1
-                score += 2
-                reasons.append((f"RAW '{word}' in answer", 2))
-            else:
-                score -= 3
-                reasons.append((f"RAW '{word}' not in answer", -3))
             continue
 
-    # --- Bonus if ALL pieces verified ---
-    # If every piece is independently verified, the mechanical solve is confirmed.
-    # Guarantee a score of 82 (HIGH threshold) — only circularity can pull it below.
-    if n_pieces > 0 and n_verified == n_pieces:
-        target = 82
-        bonus = max(2, target - score)
-        score += bonus
-        reasons.append((f"all {n_pieces} pieces verified", bonus))
+        # Synonyms
+        if tok == SYN_F:
+            w = word.lower().strip(".,;:!?\"'()-")
+            if val and _is_confirmed_synonym(w, val, db):
+                continue
+            if val and db.is_real_word(val):
+                score -= 10
+                reasons.append((f"SYN '{word}'={val} unconfirmed (real word)", -10))
+            else:
+                score -= 60
+                reasons.append((f"SYN '{word}'={val} not a real word", -60))
+            continue
 
-    # --- Circularity check ---
+        # Abbreviations
+        if tok == ABR_F:
+            w = word.lower().strip(".,;:!?\"'()-")
+            abbrs = db.get_abbreviations(w)
+            if not (val and val in abbrs):
+                score -= 10
+                reasons.append((f"ABR '{word}'={val} unconfirmed", -10))
+            continue
+
+        # Homophones
+        if tok == HOM_F:
+            fodder_types_present.add(tok)
+            w = word.lower().strip(".,;:!?\"'()-")
+            if not (val and _is_confirmed_homophone(w, val, db)):
+                score -= 15
+                reasons.append((f"HOM '{word}'={val} unconfirmed", -15))
+            continue
+
+    # --- Structural: operations missing their indicator ---
+    for fodder_tok in fodder_types_present:
+        if fodder_tok in _FODDER_NEEDS_INDICATOR:
+            needed = _FODDER_NEEDS_INDICATOR[fodder_tok]
+            if not (needed & indicator_types_present):
+                score -= 20
+                reasons.append((f"missing indicator for {fodder_tok}", -20))
+
+    # --- Circularity: definition reused as fodder ---
     circ = _check_circularity(roles, answer)
     if circ:
         score += circ
-        reasons.append(("circularity penalty", circ))
+        reasons.append(("definition reused as fodder", circ))
 
     return max(0, min(100, score)), reasons
 
 
-def _verify_indicator(word, tok, db):
-    """Check if word is a known indicator of the expected type.
-
-    Returns (verified: bool, score_delta: int).
-    """
+def _is_verified_indicator(word, tok, db):
+    """Check if word is a known indicator of the expected type."""
     ind_types = db.get_indicator_types(word.lower())
     if not ind_types:
-        return False, 0
+        return False
 
     expected = _token_to_db_types(tok)
     if not expected:
-        # Positional indicators — check for 'parts' wordplay_type
         if tok in (POS_I_FIRST, POS_I_LAST, POS_I_OUTER, POS_I_MIDDLE,
                    POS_I_ALTERNATE, POS_I_HALF, POS_I_TRIM_FIRST,
                    POS_I_TRIM_LAST, POS_I_TRIM_MIDDLE, POS_I_TRIM_OUTER):
             expected = {"parts", "acrostic", "alternating", "selection", "deletion"}
 
-    found_conf = None
     for wtype, _sub, conf in ind_types:
         if wtype in expected:
-            found_conf = conf
-            break
+            return True
 
-    if found_conf is None:
-        return False, 0
-
-    if found_conf == "very_high":
-        return True, 5
-    elif found_conf == "high":
-        return True, 4
-    else:
-        return True, 3
+    return False
 
 
 def _token_to_db_types(token):
@@ -160,56 +169,36 @@ def _token_to_db_types(token):
     }.get(token, set())
 
 
-def _verify_lookup(word, tok, val, db):
-    """Check if a synonym/abbreviation/homophone is in the DB.
+def _is_confirmed_synonym(word, val, db):
+    """Check if val is a known synonym of word."""
+    syns = db.get_synonyms(word)
+    if val in syns:
+        return True
+    all_syns = db.get_synonyms(word, max_len=len(val) + 5)
+    return val in all_syns
 
-    Returns (verified: bool, score_delta: int).
-    """
-    if not val or not isinstance(val, str):
-        return False, 0
 
-    w = word.lower().strip(".,;:!?\"'()-")
-
-    if tok == ABR_F:
-        abbrs = db.get_abbreviations(w)
-        if val in abbrs:
-            return True, 5
-        return False, 0
-
-    if tok == SYN_F:
-        syns = db.get_synonyms(w)
-        if val in syns:
-            return True, 5
-        # Try broader search
-        all_syns = db.get_synonyms(w, max_len=len(val) + 5)
-        if val in all_syns:
-            return True, 3
-        return False, 0
-
-    if tok == HOM_F:
-        homos = db.get_homophones(w)
-        if val in homos:
-            return True, 5
-        # Check synonym → homophone chain
-        syns = db.get_synonyms(w)
-        for syn in syns:
-            if val in db.get_homophones(syn.lower()):
-                return True, 4
-        return False, 0
-
-    return False, 0
+def _is_confirmed_homophone(word, val, db):
+    """Check if val is a known homophone of word (direct or via synonym)."""
+    homos = db.get_homophones(word)
+    if val in homos:
+        return True
+    # Check synonym → homophone chain
+    for syn in db.get_synonyms(word):
+        if val in db.get_homophones(syn.lower()):
+            return True
+    return False
 
 
 def _check_circularity(roles, answer):
     """Penalty if a synonym value used in the parse IS the answer.
 
-    Exception: double definitions (synonym operation) where the only fodder
-    is a single SYN_F whose value equals the answer — that's correct by design.
+    Exception: double definitions where the only fodder is a single SYN_F
+    whose value equals the answer — that's correct by design.
     """
     fodder_roles = [(w, t, v) for w, t, v in roles if t in FODDER_TOKENS]
     for word, tok, val in fodder_roles:
         if tok == SYN_F and val == answer:
-            # If this is the ONLY fodder piece, it's a DD/synonym — no penalty
             if len(fodder_roles) == 1:
                 return 0
             return -30

@@ -25,6 +25,11 @@ class RefDB:
     def _load_all(self, db_path):
         conn = sqlite3.connect(db_path, timeout=30)
 
+        # --- Wordlist: set of known real words (uppercase) ---
+        # Used by confidence scoring to distinguish real words from nonsense.
+        # Built from reference DB tables first, then enriched from clues_master.
+        self.wordlist = set()
+
         # --- Indicators: word -> list of (wordplay_type, subtype, confidence) ---
         self.indicators = {}
         for word, wtype, subtype, confidence in conn.execute(
@@ -83,14 +88,63 @@ class RefDB:
                 self.homophones[w] = []
             self.homophones[w].append(homophone.strip().upper())
 
+        # --- Build wordlist from reference DB ---
+        # All synonym words and values
+        for w, syns in self.synonyms.items():
+            if len(w) >= 2:
+                self.wordlist.add(w.upper())
+            for s in syns:
+                if len(s) >= 2:
+                    self.wordlist.add(s)
+        # All abbreviation words (not the short values — A, N, R aren't "words")
+        for w in self.abbreviations:
+            if len(w) >= 2:
+                self.wordlist.add(w.upper())
+        # All homophone words and values
+        for w, homos in self.homophones.items():
+            if len(w) >= 2:
+                self.wordlist.add(w.upper())
+            for h in homos:
+                if len(h) >= 2:
+                    self.wordlist.add(h)
+        # All indicator words
+        for w in self.indicators:
+            if len(w) >= 2:
+                self.wordlist.add(w.upper())
+
         conn.close()
+
+        # --- Enrich wordlist from clues_master (clue texts + answers) ---
+        clues_db_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "data", "clues_master.db"
+        )
+        if os.path.exists(clues_db_path):
+            clues_conn = sqlite3.connect(clues_db_path, timeout=30)
+            # All answers
+            for (answer,) in clues_conn.execute(
+                "SELECT DISTINCT answer FROM clues WHERE answer IS NOT NULL"
+            ):
+                a = answer.strip().upper()
+                if len(a) >= 2:
+                    self.wordlist.add(a)
+            # All words from clue texts
+            for (clue_text,) in clues_conn.execute(
+                "SELECT clue_text FROM clues WHERE clue_text IS NOT NULL"
+            ):
+                for word in re.findall(r"[A-Za-z]+", clue_text):
+                    w = word.upper()
+                    if len(w) >= 2:
+                        self.wordlist.add(w)
+            clues_conn.close()
 
         n_ind = sum(len(v) for v in self.indicators.values())
         n_abbr = sum(len(v) for v in self.abbreviations.values())
         n_syn = sum(len(v) for v in self.synonyms.values())
         n_hom = sum(len(v) for v in self.homophones.values())
         print(f"RefDB loaded: {n_ind} indicators, {n_abbr} abbreviations, "
-              f"{n_syn} synonyms ({n_da_new} from def_answers), {n_hom} homophones")
+              f"{n_syn} synonyms ({n_da_new} from def_answers), {n_hom} homophones, "
+              f"{len(self.wordlist):,} wordlist entries")
 
     @staticmethod
     def _word_variants(word):
@@ -193,3 +247,14 @@ class RefDB:
         """Check if word is a common link word."""
         from .tokens import LINK_WORDS
         return word.lower().strip() in LINK_WORDS
+
+    def is_real_word(self, word):
+        """Check if word appears in our wordlist (known English words).
+
+        Used by confidence scoring to distinguish plausible synonyms
+        (real words not in our synonym DB) from nonsense (IFFLING, etc).
+        """
+        w = word.upper().strip()
+        if not w or len(w) < 2:
+            return False
+        return w in self.wordlist

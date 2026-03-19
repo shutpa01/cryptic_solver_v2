@@ -22,7 +22,7 @@ from sonnet_pipeline.enricher import _is_fractured_substring
 load_dotenv()
 client = Anthropic()
 
-SONNET_MODEL = "claude-sonnet-4-20250514"
+SONNET_MODEL = "claude-haiku-4-5-20251001"
 
 
 def _is_container_outer(syn, answer_clean):
@@ -957,7 +957,11 @@ def _extract_starred_lookups(enrichment):
 
 def call_reasoning(model, clue_text, answer, example_messages,
                     indicator_hints=None, starred_lookups=None):
-    """Pass 1: Get free-text explanation of how the wordplay works."""
+    """Pass 1: Get free-text explanation of how the wordplay works.
+
+    Uses extended thinking to allow the model to explore hypotheses
+    privately before committing to a visible explanation.
+    """
     enum_len = len(answer.replace(" ", "").replace("-", ""))
     user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
     if indicator_hints:
@@ -965,16 +969,36 @@ def call_reasoning(model, clue_text, answer, example_messages,
     if starred_lookups:
         user_msg += "\nKnown lookups (confirmed in reference DB): %s" % "; ".join(starred_lookups)
 
-    messages = example_messages + [{"role": "user", "content": user_msg}]
+    # Skip few-shot examples when thinking is enabled — they cause the API
+    # to silently disable thinking (no thinking blocks returned).
+    messages = [{"role": "user", "content": user_msg}]
 
-    response = client.messages.create(
+    with client.messages.stream(
         model=model,
-        max_tokens=600,
-        temperature=0,
-        system=REASONING_PROMPT,
+        max_tokens=16000,
+        temperature=1,  # required for extended thinking
+        thinking={
+            "type": "enabled",
+            "budget_tokens": 10000,
+        },
+        system="You are an expert cryptic crossword solver. Given a clue and its answer, explain how the wordplay works.\n\nBe precise about letter-level mechanics. Show how the letters combine to spell the answer.\n\nKeep your explanation concise.",
         messages=messages,
-    )
-    explanation = response.content[0].text.strip()
+    ) as stream:
+        response = stream.get_final_message()
+
+    explanation = ""
+    thinking_text = ""
+    for block in response.content:
+        if block.type == "thinking":
+            thinking_text = block.thinking
+        elif block.type == "text":
+            explanation = block.text.strip()
+
+    if thinking_text:
+        print("      [thinking: %d chars]" % len(thinking_text))
+    else:
+        print("      [WARNING: no thinking block returned]")
+
     tokens_in = response.usage.input_tokens
     tokens_out = response.usage.output_tokens
     return explanation, tokens_in, tokens_out
@@ -1003,33 +1027,84 @@ def call_structuring(model, clue_text, answer, explanation):
     return parsed, tokens_in, tokens_out
 
 
+THINKING_PROMPT = """You are an expert cryptic crossword solver. Given a clue and its answer, work out how the wordplay produces the answer.
+
+Use your thinking to reason through the clue. Then output ONLY valid JSON with:
+- "definition": the exact substring of the clue that defines the answer
+- "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution
+- "pieces": array of objects, each with:
+  - "clue_word": the word(s) from the clue
+  - "letters": the uppercase letters this produces AFTER any operations (deletions, reversals, etc.)
+  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters, deletion, hidden
+- "_reasoning": a one-line summary of the wordplay logic
+
+Rules:
+- FUNDAMENTAL: Every word in a cryptic clue has exactly ONE role — it is definition, indicator, link word, or wordplay fodder. A word CANNOT serve two purposes.
+- FUNDAMENTAL: The definition words MUST NOT also appear as wordplay fodder. If "Spring's past" is the definition, then "Spring" and "past" CANNOT be pieces. The only exception is double_definition or cryptic_definition where the whole clue IS the definition.
+- FUNDAMENTAL: Every non-definition, non-link word in the clue should have a role in the wordplay. If your explanation leaves words unaccounted for, reconsider.
+- The pieces' letters, when concatenated (for charade) or assembled via the wordplay_type, MUST spell the full answer.
+- Each piece must map to the SMALLEST unit of the clue: split into individual words or short phrases, not lumped together. E.g. "to" and "American" are separate pieces, never "to American" as one piece.
+- Indicator words (anagram indicators, reversal indicators, container indicators) are NEVER pieces. They signal the operation but contribute NO letters. Do not include them in any piece's "clue_word".
+- For reversals within a charade: use mechanism "reversal" for the reversed piece, not "anagram_fodder". E.g. "to" reversed = OT should be {"clue_word": "to", "letters": "OT", "mechanism": "reversal"}.
+- For deletions: show the RESULT after deletion, not the deleted letter. E.g. if CORPSE minus P = CORSE, the piece is {"clue_word": "stiff", "letters": "CORSE", "mechanism": "deletion"}.
+- For anagrams: pieces are the raw fodder letters BEFORE rearrangement.
+- For containers: show outer and inner pieces separately.
+- For hidden words: one piece with the spanning clue words and mechanism "hidden".
+- For double/cryptic definitions: no pieces needed.
+- Definition is always at the start or end of the clue.
+
+Return ONLY valid JSON, no other text."""
+
+
 def call_api(model, clue_text, answer, enrichment, example_messages, extra_context=""):
-    """Two-pass API call: reasoning then structuring.
+    """Single-pass API call with extended thinking.
 
-    Pass 1: Free-text explanation with indicator hints from DB.
-    Pass 2: Extract structured JSON from the explanation.
+    Thinking handles reasoning privately, visible output is structured JSON.
+    Eliminates the lossy two-pass reasoning→structuring translation.
     """
-    # Extract DB evidence from enrichment to give the model
-    indicator_hints = _extract_indicator_hints(enrichment) if enrichment else []
-    starred_lookups = _extract_starred_lookups(enrichment) if enrichment else []
+    enum_len = len(answer.replace(" ", "").replace("-", ""))
+    user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
 
-    # Pass 1: reasoning (with indicator hints + starred lookups)
-    explanation, t1_in, t1_out = call_reasoning(
-        model, clue_text, answer, example_messages,
-        indicator_hints=indicator_hints,
-        starred_lookups=starred_lookups
-    )
+    messages = [{"role": "user", "content": user_msg}]
 
-    # Pass 2: structuring
-    parsed, t2_in, t2_out = call_structuring(model, clue_text, answer, explanation)
+    with client.messages.stream(
+        model=model,
+        max_tokens=16000,
+        temperature=1,  # required for extended thinking
+        thinking={
+            "type": "enabled",
+            "budget_tokens": 10000,
+        },
+        system=THINKING_PROMPT,
+        messages=messages,
+    ) as stream:
+        response = stream.get_final_message()
 
-    # Attach the reasoning explanation for debugging/reporting
+    thinking_text = ""
+    raw_output = ""
+    for block in response.content:
+        if block.type == "thinking":
+            thinking_text = block.thinking
+        elif block.type == "text":
+            raw_output = block.text.strip()
+
+    if thinking_text:
+        print("      [thinking: %d chars]" % len(thinking_text))
+    else:
+        print("      [WARNING: no thinking block returned]")
+
+    tokens_in = response.usage.input_tokens
+    tokens_out = response.usage.output_tokens
+
+    parsed = _parse_json_response(raw_output)
+
+    # Attach reasoning from thinking block for debugging/reporting
     if parsed and isinstance(parsed, dict):
-        parsed["_reasoning"] = explanation
+        if not parsed.get("_reasoning"):
+            # Use first 500 chars of thinking as reasoning summary
+            parsed["_reasoning"] = thinking_text[:500] if thinking_text else raw_output[:500]
 
-    total_in = t1_in + t2_in
-    total_out = t1_out + t2_out
-    return parsed, total_in, total_out
+    return parsed, tokens_in, tokens_out
 
 
 def extract_pieces(api_output):
@@ -1717,7 +1792,7 @@ def refine_pieces(ai_output, clue_text, enricher):
 
 
 def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
-                    enrichment=""):
+                    enrichment="", ref_db=None):
     """Score how useful this result is to a user seeking progressive hints.
 
     Scoring reflects user value:
@@ -2017,6 +2092,27 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
         syn_penalty = unverified_syns * 8
         checks["unverified_claims"] = "%d synonym/abbr not in DB" % unverified_syns
         score -= syn_penalty
+
+    # --- Penalty: nonsense words in pieces (not real English words) ---
+    if ref_db is not None:
+        nonsense_pieces = []
+        for p in ai_pieces:
+            mech = p.get("mechanism", "")
+            letters = clean(p.get("letters") or "")
+            # Only check pieces that claim to be words (synonym, abbreviation, deletion)
+            # Skip: literal/anagram_fodder (raw letters), first/last_letter (single chars),
+            # hidden (span of clue text), reversal (checked as its source word)
+            if mech not in ("synonym", "abbreviation", "deletion"):
+                continue
+            # Short abbreviations (1-2 chars) are expected to not be words
+            if mech == "abbreviation" and len(letters) <= 2:
+                continue
+            if letters and not ref_db.is_real_word(letters):
+                nonsense_pieces.append(letters)
+        if nonsense_pieces:
+            nonsense_penalty = len(nonsense_pieces) * 60
+            checks["nonsense_words"] = "not real words: %s" % ", ".join(nonsense_pieces)
+            score -= nonsense_penalty
 
     # --- Explanation: Fodder in clue (10pts) ---
     clue_lower = clue_text.lower()
@@ -2362,7 +2458,7 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
 # -- High-level solve_clue entry point ----------------------------------------
 
 def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
-               example_messages, cached_ai=None):
+               example_messages, cached_ai=None, ref_db=None):
     """Solve a single cryptic clue using Sonnet + assembler + fallback.
 
     If cached_ai is provided, skip the API call and re-run assembler + scoring
@@ -2476,7 +2572,7 @@ def solve_clue(clue_text, answer, enrichment, enricher, homo_engine,
 
     validation = check_mechanism(
         clue_text, answer, sonnet_out, assembly, enricher, tier or "FAIL",
-        enrichment=enrichment
+        enrichment=enrichment, ref_db=ref_db
     )
 
     return {
