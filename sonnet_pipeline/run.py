@@ -212,7 +212,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                         if write_db:
                             store_tftt_result(
                                 conn, cid, parsed, score,
-                                tc.get("definition", "")
+                                tc.get("definition", ""),
+                                raw_explanation=tc.get("explanation", "")
                             )
 
                         # Add to results for report

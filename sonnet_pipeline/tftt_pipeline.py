@@ -277,10 +277,10 @@ def solve_with_sonnet(client, clue_text, answer, enrichment, enricher, homo_engi
 # Step 5: Store results
 # ============================================================
 
-def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt):
+def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_explanation=""):
     """Store a TFTT-parsed result into clues_master.db.
 
-    Updates: definition, wordplay_type, ai_explanation, has_solution, reviewed.
+    Updates: definition, wordplay_type, ai_explanation, explanation, has_solution, reviewed.
     Also writes to structured_explanations.
     """
     if not parsed or not parsed.get("pieces"):
@@ -337,6 +337,7 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt):
             definition = COALESCE(NULLIF(definition, ''), ?),
             wordplay_type = ?,
             ai_explanation = ?,
+            explanation = COALESCE(NULLIF(explanation, ''), ?),
             has_solution = 1,
             reviewed = ?
         WHERE id = ?
@@ -344,6 +345,7 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt):
         definition,
         wordplay_type,
         explanation,
+        raw_explanation,
         1 if score >= 80 else 0,
         clue_id,
     ))
