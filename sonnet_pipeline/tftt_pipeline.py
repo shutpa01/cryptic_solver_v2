@@ -78,17 +78,56 @@ def clean(s):
 # ============================================================
 
 def fetch_tftt(puzzle_number):
-    """Fetch and parse TFTT page for a puzzle. Returns list of clue dicts."""
-    # Reuse the existing scraper's logic
+    """Fetch and parse TFTT page for a puzzle. Returns list of clue dicts.
+
+    Tries multiple URL patterns since TFTT changed their slug format:
+    - Old: times-cryptic-XXXXX
+    - New: XXXXX-title-slug (discovered via WordPress search API)
+    """
+    import requests
+
     sys.path.insert(0, os.path.join(BASE_DIR, "scraper", "timesforthetimes"))
-    from timesforthetimes_scraper import fetch_page, parse_page
+    from timesforthetimes_scraper import parse_page
 
-    html = fetch_page(puzzle_number)
-    if html is None:
-        return None
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
+    }
 
-    clues = parse_page(html, puzzle_number)
-    return clues
+    # Try old URL pattern first (fast)
+    old_url = "https://timesforthetimes.co.uk/times-cryptic-%d" % puzzle_number
+    try:
+        resp = requests.get(old_url, headers=headers, timeout=15)
+        if resp.status_code == 200:
+            clues = parse_page(resp.text, puzzle_number)
+            if clues:
+                return clues
+    except Exception:
+        pass
+
+    # Try WordPress search API to find the correct slug
+    search_url = "https://timesforthetimes.co.uk/wp-json/wp/v2/posts"
+    try:
+        resp = requests.get(search_url, headers=headers, timeout=15, params={
+            "search": str(puzzle_number),
+            "per_page": 5,
+            "categories": "11,21",  # Daily Cryptic, Weekend Cryptic
+        })
+        if resp.status_code == 200:
+            posts = resp.json()
+            for post in posts:
+                slug = post.get("slug", "")
+                if str(puzzle_number) in slug:
+                    post_url = post.get("link") or "https://timesforthetimes.co.uk/%s" % slug
+                    resp2 = requests.get(post_url, headers=headers, timeout=15)
+                    if resp2.status_code == 200:
+                        clues = parse_page(resp2.text, puzzle_number)
+                        if clues:
+                            return clues
+    except Exception as e:
+        print("    TFTT search error: %s" % e)
+
+    return None
 
 
 # ============================================================
