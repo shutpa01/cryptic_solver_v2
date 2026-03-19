@@ -23,17 +23,14 @@ def _get_conn(db_path=CLUES_DB, readonly=True):
 
 
 def render():
-    st.header("Review Queue")
+    st.header("DB Enrichment")
 
-    tab1, tab2, tab3 = st.tabs(["Review Queue", "DB Enrichment", "Unprocessed Clues"])
+    tab1, tab2 = st.tabs(["DB Enrichment", "Unprocessed Clues"])
 
     with tab1:
-        _render_review_queue()
-
-    with tab2:
         _render_enrichment_queue()
 
-    with tab3:
+    with tab2:
         _render_unprocessed()
 
 
@@ -613,16 +610,33 @@ def _render_enrichment_queue():
     if syn_rows:
         st.subheader(f"Synonyms ({len(syn_rows)})")
         for r in syn_rows:
-            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([3, 3, 3, 1, 1])
             with col1:
-                st.text(f"{r['word']}  ->  {r['letters']}")
+                edited_word = st.text_input(
+                    "word", value=r['word'], key=f"eqw_syn_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col2:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
+                edited_val = st.text_input(
+                    "value", value=r['letters'], key=f"eqv_syn_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col3:
-                if st.button("Add", key=f"eq_syn_{r['id']}"):
-                    _accept_and_remove(r)
-                    st.rerun()
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
             with col4:
+                if st.button("Add", key=f"eq_syn_{r['id']}"):
+                    edited_r = dict(r)
+                    edited_r["word"] = edited_word.strip().lower()
+                    edited_r["letters"] = edited_val.strip().upper()
+                    _accept_and_remove(edited_r)
+                    # Remove original pending row
+                    if edited_r["word"] != r["word"] or edited_r["letters"] != r["letters"]:
+                        wconn = _get_conn(CLUES_DB, readonly=False)
+                        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (r["id"],))
+                        wconn.commit()
+                        wconn.close()
+                    st.rerun()
+            with col5:
                 if st.button("Reject", key=f"rej_syn_{r['id']}"):
                     _reject_and_remove(r)
                     st.rerun()
@@ -631,16 +645,32 @@ def _render_enrichment_queue():
     if abbr_rows:
         st.subheader(f"Abbreviations ({len(abbr_rows)})")
         for r in abbr_rows:
-            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([3, 3, 3, 1, 1])
             with col1:
-                st.text(f"{r['word']}  ->  {r['letters']}")
+                edited_word = st.text_input(
+                    "word", value=r['word'], key=f"eqw_abbr_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col2:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
+                edited_val = st.text_input(
+                    "value", value=r['letters'], key=f"eqv_abbr_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col3:
-                if st.button("Add", key=f"eq_abbr_{r['id']}"):
-                    _accept_and_remove(r)
-                    st.rerun()
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
             with col4:
+                if st.button("Add", key=f"eq_abbr_{r['id']}"):
+                    edited_r = dict(r)
+                    edited_r["word"] = edited_word.strip().lower()
+                    edited_r["letters"] = edited_val.strip().upper()
+                    _accept_and_remove(edited_r)
+                    if edited_r["word"] != r["word"] or edited_r["letters"] != r["letters"]:
+                        wconn = _get_conn(CLUES_DB, readonly=False)
+                        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (r["id"],))
+                        wconn.commit()
+                        wconn.close()
+                    st.rerun()
+            with col5:
                 if st.button("Reject", key=f"rej_abbr_{r['id']}"):
                     _reject_and_remove(r)
                     st.rerun()
@@ -649,16 +679,32 @@ def _render_enrichment_queue():
     if def_rows:
         st.subheader(f"Definitions ({len(def_rows)})")
         for r in def_rows:
-            col1, col2, col3, col4 = st.columns([4, 4, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([3, 3, 3, 1, 1])
             with col1:
-                st.text(f"\"{r['word']}\"  ->  {r['letters']}")
+                edited_word = st.text_input(
+                    "word", value=r['word'], key=f"eqw_def_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col2:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:50]}... = {r['answer']}")
+                edited_val = st.text_input(
+                    "value", value=r['letters'], key=f"eqv_def_{r['id']}",
+                    label_visibility="collapsed"
+                )
             with col3:
-                if st.button("Add", key=f"eq_def_{r['id']}"):
-                    _accept_and_remove(r)
-                    st.rerun()
+                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
             with col4:
+                if st.button("Add", key=f"eq_def_{r['id']}"):
+                    edited_r = dict(r)
+                    edited_r["word"] = edited_word.strip().lower()
+                    edited_r["letters"] = edited_val.strip().upper()
+                    _accept_and_remove(edited_r)
+                    if edited_r["word"] != r["word"] or edited_r["letters"] != r["letters"]:
+                        wconn = _get_conn(CLUES_DB, readonly=False)
+                        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (r["id"],))
+                        wconn.commit()
+                        wconn.close()
+                    st.rerun()
+            with col5:
                 if st.button("Reject", key=f"rej_def_{r['id']}"):
                     _reject_and_remove(r)
                     st.rerun()
