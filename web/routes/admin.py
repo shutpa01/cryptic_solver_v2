@@ -204,6 +204,11 @@ def approve_clue(clue_id):
         "UPDATE clues SET reviewed = 1, has_solution = 1 WHERE id = ?",
         (clue_id,),
     )
+    # Set confidence to HIGH (1.0) in structured_explanations
+    db.execute(
+        "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
+        (clue_id,),
+    )
     db.commit()
 
     # Return refreshed button row
