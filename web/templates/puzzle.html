@@ -38,7 +38,7 @@
 <div id="grid-area"></div>
 
 {% macro clue_card(clue) %}
-<div class="py-3">
+<div class="py-4">
     <div class="flex items-start gap-3">
         <span class="text-gray-400 font-mono text-sm w-8 text-right shrink-0">{{ clue.clue_number }}{{ clue.direction[0] }}</span>
         <div class="flex-1 min-w-0">
@@ -48,17 +48,9 @@
                 {% endif %}
             </p>
         </div>
-        <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
-            {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
-            {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
-            {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
-            {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
-        <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
-            {{ clue.tier }}
-        </span>
     </div>
-    {# Hint buttons — all steps shown, user picks what they want #}
-    <div id="explain-{{ clue.id }}" class="ml-10 mt-2 flex flex-wrap gap-2">
+    {# Buttons row — badges + hint buttons + admin buttons all on one line #}
+    <div id="explain-{{ clue.id }}" class="ml-10 mt-2 flex flex-wrap gap-2 items-center">
         {% for s in clue.steps %}
         <button hx-post="/reveal"
                 hx-vals='{"token": "{{ clue.token }}", "step": "{{ s.step }}"}'
@@ -105,18 +97,23 @@
             Edit
         </button>
         <button hx-post="/admin/rerun/{{ clue.id }}"
-                hx-target="#hints-{{ clue.id }}"
+                hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
-                hx-confirm="Re-run this clue through the API?"
+                hx-indicator="#rerun-spinner-{{ clue.id }}"
                 class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
             Re-run
         </button>
-        <button hx-post="/admin/approve/{{ clue.id }}"
-                hx-target="#hints-{{ clue.id }}"
-                hx-swap="innerHTML"
-                class="text-xs px-2.5 py-1 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
-            Approve
-        </button>
+        <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Running...</span>
+        {% endif %}
+        <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
+            {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
+            {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
+            {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
+            {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
+        <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
+            {{ clue.tier }}
+        </span>
+        {% if g.is_admin %}
         <button onclick="var el=document.getElementById('enrich-{{ clue.id }}');el.style.display=el.style.display==='none'?'block':'none'"
                 class="text-xs px-2.5 py-1 rounded border border-violet-300 text-violet-700 hover:bg-violet-50 font-medium cursor-pointer">
             DB+
@@ -179,7 +176,7 @@
 {% if across %}
 <section class="mb-6">
     <h2 class="text-lg font-semibold text-gray-700 mb-2 border-b border-gray-200 pb-1">Across</h2>
-    <div class="divide-y divide-gray-100">
+    <div class="divide-y divide-gray-200">
         {% for clue in across %}
         {{ clue_card(clue) }}
         {% endfor %}
@@ -191,7 +188,7 @@
 {% if down %}
 <section class="mb-6">
     <h2 class="text-lg font-semibold text-gray-700 mb-2 border-b border-gray-200 pb-1">Down</h2>
-    <div class="divide-y divide-gray-100">
+    <div class="divide-y divide-gray-200">
         {% for clue in down %}
         {{ clue_card(clue) }}
         {% endfor %}

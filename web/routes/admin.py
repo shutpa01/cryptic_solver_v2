@@ -101,10 +101,11 @@ def edit_save(clue_id):
     if ai_explanation != (clue["ai_explanation"] or ""):
         changes.append("explanation")
 
-    # Update the clues table
+    # Update the clues table — auto-approve on save
     db.execute(
         """UPDATE clues
-           SET clue_text = ?, answer = ?, definition = ?, wordplay_type = ?, ai_explanation = ?
+           SET clue_text = ?, answer = ?, definition = ?, wordplay_type = ?, ai_explanation = ?,
+               reviewed = 1, has_solution = 1
            WHERE id = ?""",
         (
             clue_text or clue["clue_text"],
@@ -171,16 +172,22 @@ def rerun_clue(clue_id):
     except Exception as e:
         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
 
-    if success:
-        score = result.get("score", "?")
-        wp = result.get("wordplay_type", "?")
-        return (
-            '<div class="mt-2 text-xs text-green-700 bg-green-50 rounded px-2 py-1">'
-            'Re-run complete. Score: %s | Type: %s — reload page to see updated hints.'
-            '</div>' % (score, wp)
-        )
-    else:
+    if not success:
         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
+
+    # Return full button row matching the puzzle page layout
+    from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
+    from web.routes.hints import generate_token
+    clue = get_clue_by_id(clue_id)
+    new_tier, _ = compute_hint_tier(clue)
+    steps = get_hint_steps(clue)
+    new_token = generate_token(clue_id)
+    solve_source = compute_solve_source(clue)
+    return render_template(
+        "partials/admin_rerun_result.html",
+        clue=clue, tier=new_tier, steps=steps,
+        token=new_token, solve_source=solve_source,
+    )
 
 
 @bp.route("/approve/<int:clue_id>", methods=["POST"])
