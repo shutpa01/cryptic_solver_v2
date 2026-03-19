@@ -176,7 +176,6 @@ def render():
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     text=True,
-                    timeout=600,
                     encoding="utf-8",
                     errors="replace",
                 )
@@ -187,8 +186,6 @@ def render():
                 output = result.stdout or "(no output)"
                 with st.expander("Output", expanded=True):
                     st.code(output[-5000:] if len(output) > 5000 else output)
-            except subprocess.TimeoutExpired:
-                st.error("Pipeline timed out after 10 minutes.")
             except Exception as e:
                 st.error(f"Failed to run pipeline: {e}")
 
