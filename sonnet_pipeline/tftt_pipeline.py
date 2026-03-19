@@ -59,8 +59,8 @@ Rules:
 - For containers: show outer and inner pieces separately.
 - For hidden words: one piece with the spanning clue words.
 - For reversals: use mechanism "reversal".
-- For deletions: the "letters" field must contain ONLY the letters that REMAIN after deletion (the letters that appear in the answer), NOT the original word. E.g. if TRASH loses T, the piece is {"clue_word": "rubbish", "letters": "RASH", "mechanism": "deletion"}.
-- Blog notation: parenthesised lowercase letters like (t)RASH or CRE(a)TION mean those letters are REMOVED. The piece letters are what remains: RASH, CRETION is wrong — it should be CRTION. Actually parse carefully: CRE(a)TION = CREATION minus A = CRETION. The remaining letters go in "letters".
+- For deletions: the "letters" field must contain ONLY the letters that REMAIN after deletion (the letters that appear in the answer), NOT the original word. Also include "source" (the word before deletion) and "deleted" (the removed letters). E.g. if FARCE loses R, the piece is {"clue_word": "travesty", "letters": "FACE", "mechanism": "deletion", "source": "FARCE", "deleted": "R"}.
+- Blog notation: parenthesised lowercase letters like (t)RASH or CRE(a)TION mean those letters are REMOVED. E.g. (t)RASH = {"clue_word": "rubbish", "letters": "RASH", "mechanism": "deletion", "source": "TRASH", "deleted": "T"}. CRE(a)TION = {"clue_word": "work", "letters": "CRETION", "mechanism": "deletion", "source": "CREATION", "deleted": "A"}.
 - For double definitions (DD): use wordplay_type "double_definition" with no pieces needed.
 - For homophones: use mechanism "sound_of" and the letters field should contain the letters that the word SOUNDS LIKE, which spell part or all of the answer.
 - The concatenation of all pieces' "letters" fields MUST exactly spell the answer. Verify this before responding.
@@ -272,7 +272,14 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt):
         elif mechanism == "hidden":
             parts.append("%s(hidden in \"%s\")" % (letters, clue_word))
         elif mechanism == "deletion":
-            parts.append("%s(deletion from \"%s\")" % (letters, clue_word))
+            source_word = p.get("source", "")
+            deleted = p.get("deleted", "")
+            if source_word and deleted:
+                parts.append("%s(%s minus %s, \"%s\")" % (letters, source_word, deleted, clue_word))
+            elif source_word:
+                parts.append("%s(from %s, \"%s\")" % (letters, source_word, clue_word))
+            else:
+                parts.append("%s(deletion from \"%s\")" % (letters, clue_word))
         elif mechanism == "alternate_letters":
             parts.append("%s(alternate letters of \"%s\")" % (letters, clue_word))
         elif mechanism == "sound_of":
