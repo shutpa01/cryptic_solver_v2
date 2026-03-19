@@ -307,7 +307,8 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
         elif mechanism == "last_letter":
             parts.append("%s(last letter of \"%s\")" % (letters, clue_word))
         elif mechanism == "reversal":
-            parts.append("%s(\"%s\" reversed)" % (letters, clue_word))
+            source_word = letters[::-1] if letters else ""
+            parts.append("%s(%s reversed, \"%s\")" % (letters, source_word, clue_word))
         elif mechanism == "hidden":
             parts.append("%s(hidden in \"%s\")" % (letters, clue_word))
         elif mechanism == "deletion":

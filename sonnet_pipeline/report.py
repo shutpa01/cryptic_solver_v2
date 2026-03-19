@@ -62,6 +62,11 @@ def _annotate(letters, ai_pieces):
             elif source:
                 return '%s(from %s, "%s")' % (letters, source, clue_word)
 
+        # For reversals, show the source word (letters reversed)
+        if mechanism == "reversal" and letters_clean:
+            source_word = letters_clean[::-1]
+            return '%s(%s reversed, "%s")' % (letters, source_word, clue_word)
+
         mech_label = _MECH_LABELS.get(mechanism, "")
         if mech_label:
             return '%s(%s "%s")' % (letters, mech_label, clue_word)
