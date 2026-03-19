@@ -157,6 +157,101 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             sig_high, sig_medium, elapsed, sig_high))
 
     # ================================================================
+    # PHASE 1.5: TFTT — parse human explanations with Haiku (Times only)
+    # ================================================================
+    tftt_solved_ids = set()
+    tftt_high = 0
+
+    if source == "times" and not single_clue:
+        try:
+            from .tftt_pipeline import fetch_tftt, parse_with_haiku, score_parse, store_tftt_result
+            import anthropic as _anthropic
+
+            print("\n--- Phase 1.5: TFTT blog explanations (Haiku parsing) ---")
+            t0 = time.time()
+
+            tftt_clues = fetch_tftt(int(puzzle))
+            if tftt_clues:
+                print("  Fetched %d clues from TFTT" % len(tftt_clues))
+
+                # Build lookup: clean_answer -> tftt_clue
+                tftt_by_answer = {}
+                for tc in tftt_clues:
+                    key = clean(tc["answer"])
+                    tftt_by_answer[key] = tc
+
+                haiku_client = _anthropic.Anthropic()
+
+                for row in rows:
+                    cid, cnum, direction, clue, answer, enum, explanation = row
+
+                    # Skip clues already solved by S
+                    if cid in sig_solved_ids:
+                        continue
+
+                    answer_clean = clean(answer)
+                    tc = tftt_by_answer.get(answer_clean)
+                    if not tc or not tc.get("explanation"):
+                        continue
+
+                    # Parse with Haiku
+                    parsed, usage = parse_with_haiku(
+                        haiku_client, clue, answer, tc["explanation"]
+                    )
+                    if not parsed:
+                        continue
+
+                    # Score
+                    score, reasons = score_parse(parsed, answer, ref_db)
+
+                    if score >= 70:
+                        tftt_solved_ids.add(cid)
+                        tftt_high += 1
+
+                        # Store to DB
+                        if write_db:
+                            store_tftt_result(
+                                conn, cid, parsed, score,
+                                tc.get("definition", "")
+                            )
+
+                        # Add to results for report
+                        conf_label = "high" if score >= 80 else "medium"
+                        results.append({
+                            "status": "ASSEMBLED",
+                            "tier": "TFTT",
+                            "confidence": conf_label,
+                            "score": score,
+                            "clue_number": cnum,
+                            "direction": direction,
+                            "enumeration": enum,
+                            "clue": clue,
+                            "answer": answer,
+                            "explanation": explanation,
+                        })
+
+                        reason_str = ", ".join(
+                            "%s(%d)" % (r, d) for r, d in reasons
+                        ) if reasons else "clean"
+                        print("  [TFTT %3d] %s. %s = %s  %s" % (
+                            score, cnum, clue[:40], answer, reason_str))
+                    else:
+                        reason_str = ", ".join(
+                            "%s(%d)" % (r, d) for r, d in reasons
+                        )
+                        print("  [TFTT LOW %3d] %s. %s = %s  %s" % (
+                            score, cnum, clue[:40], answer, reason_str))
+
+                elapsed = time.time() - t0
+                remaining = len(rows) - len(sig_solved_ids) - len(tftt_solved_ids)
+                print("  Phase 1.5: %d TFTT solved in %.1fs — %d clues remain for API" % (
+                    tftt_high, elapsed, remaining))
+            else:
+                print("\n--- Phase 1.5: No TFTT page found for puzzle %s ---" % puzzle)
+        except Exception as e:
+            print("\n--- Phase 1.5: TFTT failed: %s ---" % e)
+
+    # ================================================================
     # PHASE 2: Production solver on remaining clues (API calls)
     # ================================================================
     print("\n--- Phase 2: Production solver (API calls) ---")
@@ -165,8 +260,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         cid, cnum, direction, clue, answer, enum, explanation = row
         target = clean(answer)
 
-        # Skip clues already solved by signature solver in Phase 1
-        if cid in sig_solved_ids:
+        # Skip clues already solved by signature solver (Phase 1) or TFTT (Phase 1.5)
+        if cid in sig_solved_ids or cid in tftt_solved_ids:
             continue
 
         # Check for existing solved result — skip API call but re-run assembler
@@ -447,6 +542,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     medium = sum(1 for r in assembled_results if r.get("confidence") == "medium")
     low = sum(1 for r in assembled_results if r.get("confidence") == "low")
     avg_score = sum(r.get("score", 0) for r in assembled_results) / max(len(assembled_results), 1)
+    t_tftt = sum(1 for r in results if r.get("tier") == "TFTT")
 
     sonnet_cost = sonnet_tokens_in / 1e6 * 3.0 + sonnet_tokens_out / 1e6 * 15.0
 
@@ -454,6 +550,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         "total": total, "assembled": assembled, "failed": failed, "errors": errors,
         "sonnet": t1, "fallback": t3, "cached": t_cached,
         "signature": t_sig, "signature_enriched": t_sig_e,
+        "tftt": t_tftt,
         "high": high, "medium": medium, "low": low, "avg_score": avg_score,
         "total_cost": sonnet_cost,
         "sonnet_tokens_in": sonnet_tokens_in,
@@ -470,6 +567,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("  Signature:      %d  (zero API cost)" % t_sig)
     if t_sig_e:
         print("  Sig+Enriched:   %d  (P-discovered, S-explained)" % t_sig_e)
+    if t_tftt:
+        print("  TFTT+Haiku:     %d  (human explanation, Haiku parsed)" % t_tftt)
     print("  Sonnet:         %d" % t1)
     print("  DB Fallback:    %d" % t3)
     if t_cached:
@@ -482,10 +581,10 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     print("  Medium: %d/%d" % (medium, assembled))
     print("  Low:    %d/%d" % (low, assembled))
     print("  Avg score: %.0f/100" % avg_score)
-    api_calls = total - errors - t_cached - t_sig - t_sig_e
+    api_calls = total - errors - t_cached - t_sig - t_sig_e - t_tftt
     sig_saved = t_sig + t_sig_e
-    print("\nCost: $%.4f (%d API calls, %d signature, %d cached, %d+%d tokens)" % (
-        sonnet_cost, api_calls, sig_saved, t_cached, sonnet_tokens_in, sonnet_tokens_out))
+    print("\nCost: $%.4f (%d API calls, %d signature, %d TFTT, %d cached, %d+%d tokens)" % (
+        sonnet_cost, api_calls, sig_saved, t_tftt, t_cached, sonnet_tokens_in, sonnet_tokens_out))
 
     if write_db:
         print("\nResults written to DB.")
