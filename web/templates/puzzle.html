@@ -48,6 +48,11 @@
                 {% endif %}
             </p>
         </div>
+        <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
+            {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
+            {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
+            {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
+            {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
         <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
             {{ clue.tier }}
         </span>
@@ -99,11 +104,75 @@
                 class="text-xs px-2.5 py-1 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
+        <button hx-post="/admin/rerun/{{ clue.id }}"
+                hx-target="#hints-{{ clue.id }}"
+                hx-swap="innerHTML"
+                hx-confirm="Re-run this clue through the API?"
+                class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
+            Re-run
+        </button>
+        <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-target="#hints-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-xs px-2.5 py-1 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
+            Approve
+        </button>
+        <button onclick="var el=document.getElementById('enrich-{{ clue.id }}');el.style.display=el.style.display==='none'?'block':'none'"
+                class="text-xs px-2.5 py-1 rounded border border-violet-300 text-violet-700 hover:bg-violet-50 font-medium cursor-pointer">
+            DB+
+        </button>
         {% endif %}
     </div>
     {# Reveal area — HTMX swaps content here #}
     <div id="hints-{{ clue.id }}" class="ml-10"></div>
-</div>
+    {% if g.is_admin %}
+    {# Collapsible DB enrichment — hidden by default #}
+    <div id="enrich-{{ clue.id }}" class="ml-10 mt-1" style="display:none">
+        <div class="p-2 rounded border border-violet-200 bg-violet-50 text-xs space-y-1">
+            <div class="flex gap-1 flex-wrap">
+                <form hx-post="/admin/enrich" hx-target="#enrich-msg-{{ clue.id }}" hx-swap="innerHTML" class="flex gap-1 items-center">
+                    <input type="hidden" name="clue_id" value="{{ clue.id }}">
+                    <input type="hidden" name="type" value="synonym">
+                    <input name="word" placeholder="word" class="border rounded px-1 py-0.5 w-24">
+                    <span class="text-gray-400">=</span>
+                    <input name="value" placeholder="synonym" class="border rounded px-1 py-0.5 w-24 uppercase">
+                    <button type="submit" class="px-2 py-0.5 rounded bg-violet-500 text-white hover:bg-violet-600 cursor-pointer">+Syn</button>
+                </form>
+                <form hx-post="/admin/enrich" hx-target="#enrich-msg-{{ clue.id }}" hx-swap="innerHTML" class="flex gap-1 items-center">
+                    <input type="hidden" name="clue_id" value="{{ clue.id }}">
+                    <input type="hidden" name="type" value="abbreviation">
+                    <input name="word" placeholder="word" class="border rounded px-1 py-0.5 w-24">
+                    <span class="text-gray-400">=</span>
+                    <input name="value" placeholder="abbr" class="border rounded px-1 py-0.5 w-16 uppercase">
+                    <button type="submit" class="px-2 py-0.5 rounded bg-violet-500 text-white hover:bg-violet-600 cursor-pointer">+Abbr</button>
+                </form>
+                <form hx-post="/admin/enrich" hx-target="#enrich-msg-{{ clue.id }}" hx-swap="innerHTML" class="flex gap-1 items-center">
+                    <input type="hidden" name="clue_id" value="{{ clue.id }}">
+                    <input type="hidden" name="type" value="definition">
+                    <input name="word" placeholder="definition" value="{{ clue.definition or '' }}" class="border rounded px-1 py-0.5 w-28">
+                    <span class="text-gray-400">=</span>
+                    <input name="value" placeholder="answer" value="{{ clue.answer or '' }}" class="border rounded px-1 py-0.5 w-24 uppercase">
+                    <button type="submit" class="px-2 py-0.5 rounded bg-violet-500 text-white hover:bg-violet-600 cursor-pointer">+Def</button>
+                </form>
+                <form hx-post="/admin/enrich" hx-target="#enrich-msg-{{ clue.id }}" hx-swap="innerHTML" class="flex gap-1 items-center">
+                    <input type="hidden" name="clue_id" value="{{ clue.id }}">
+                    <input type="hidden" name="type" value="indicator">
+                    <input name="word" placeholder="word" class="border rounded px-1 py-0.5 w-24">
+                    <select name="value" class="border rounded px-1 py-0.5 text-xs">
+                        <option value="anagram">anagram</option>
+                        <option value="container">container</option>
+                        <option value="deletion">deletion</option>
+                        <option value="hidden">hidden</option>
+                        <option value="reversal">reversal</option>
+                        <option value="homophone">homophone</option>
+                    </select>
+                    <button type="submit" class="px-2 py-0.5 rounded bg-violet-500 text-white hover:bg-violet-600 cursor-pointer">+Ind</button>
+                </form>
+            </div>
+            <div id="enrich-msg-{{ clue.id }}"></div>
+        </div>
+    </div>
+    {% endif %}
 {% endmacro %}
 
 <!-- Across -->

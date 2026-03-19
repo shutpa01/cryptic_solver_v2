@@ -144,3 +144,147 @@ def edit_save(clue_id):
         grid_rebuilt=grid_rebuilt,
         clue_id=clue_id,
     )
+
+
+@bp.route("/rerun/<int:clue_id>", methods=["POST"])
+def rerun_clue(clue_id):
+    """Re-run a clue through the explainer API and return result as HTMX fragment."""
+    _require_admin()
+
+    db = get_admin_db()
+    clue = db.execute("SELECT * FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    if clue is None:
+        abort(404)
+
+    # Clear previous results
+    db.execute(
+        "UPDATE clues SET definition = NULL, wordplay_type = NULL, "
+        "ai_explanation = NULL, reviewed = NULL WHERE id = ?",
+        (clue_id,),
+    )
+    db.commit()
+
+    # Run the explainer
+    from web.explainer import generate_explanation
+    try:
+        success, message, result = generate_explanation(clue_id)
+    except Exception as e:
+        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+
+    if success:
+        score = result.get("score", "?")
+        wp = result.get("wordplay_type", "?")
+        return (
+            '<div class="mt-2 text-xs text-green-700 bg-green-50 rounded px-2 py-1">'
+            'Re-run complete. Score: %s | Type: %s — reload page to see updated hints.'
+            '</div>' % (score, wp)
+        )
+    else:
+        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
+
+
+@bp.route("/approve/<int:clue_id>", methods=["POST"])
+def approve_clue(clue_id):
+    """Mark a clue as approved (reviewed=1, has_solution=1)."""
+    _require_admin()
+
+    db = get_admin_db()
+    clue = db.execute("SELECT * FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    if clue is None:
+        abort(404)
+
+    db.execute(
+        "UPDATE clues SET reviewed = 1, has_solution = 1 WHERE id = ?",
+        (clue_id,),
+    )
+    db.commit()
+
+    return '<div class="mt-2 text-xs text-green-700 bg-green-50 rounded px-2 py-1">Approved.</div>'
+
+
+@bp.route("/enrich", methods=["POST"])
+def enrich_db():
+    """Add an entry to the reference DB (cryptic_new.db)."""
+    _require_admin()
+
+    import sqlite3
+
+    etype = request.form.get("type", "")
+    word = request.form.get("word", "").strip()
+    value = request.form.get("value", "").strip()
+
+    if not word or not value:
+        return '<span class="text-red-500">Both fields required.</span>'
+
+    cryptic_db = PROJECT_ROOT / "data" / "cryptic_new.db"
+    conn = sqlite3.connect(str(cryptic_db), timeout=30)
+
+    msg = ""
+    if etype == "synonym":
+        existing = conn.execute(
+            "SELECT 1 FROM synonyms_pairs WHERE word = ? AND synonym = ?",
+            (word.lower(), value.upper()),
+        ).fetchone()
+        if existing:
+            msg = '<span class="text-gray-500">Already exists: %s = %s</span>' % (word, value)
+        else:
+            conn.execute(
+                "INSERT INTO synonyms_pairs (word, synonym, source) VALUES (?, ?, 'flask_admin')",
+                (word.lower(), value.upper()),
+            )
+            conn.commit()
+            msg = '<span class="text-green-600">Added synonym: %s = %s</span>' % (word, value)
+
+    elif etype == "abbreviation":
+        existing = conn.execute(
+            "SELECT 1 FROM wordplay WHERE indicator = ? AND substitution = ?",
+            (word.lower(), value.upper()),
+        ).fetchone()
+        if existing:
+            msg = '<span class="text-gray-500">Already exists: %s = %s</span>' % (word, value)
+        else:
+            conn.execute(
+                "INSERT INTO wordplay (indicator, substitution, category, confidence, notes) "
+                "VALUES (?, ?, 'flask_admin', 'high', '')",
+                (word.lower(), value.upper()),
+            )
+            conn.commit()
+            msg = '<span class="text-green-600">Added abbreviation: %s = %s</span>' % (word, value)
+
+    elif etype == "definition":
+        existing = conn.execute(
+            "SELECT 1 FROM definition_answers_augmented WHERE definition = ? AND answer = ?",
+            (word.lower(), value.upper()),
+        ).fetchone()
+        if existing:
+            msg = '<span class="text-gray-500">Already exists: %s = %s</span>' % (word, value)
+        else:
+            conn.execute(
+                "INSERT INTO definition_answers_augmented (definition, answer, source) "
+                "VALUES (?, ?, 'flask_admin')",
+                (word.lower(), value.upper()),
+            )
+            conn.commit()
+            msg = '<span class="text-green-600">Added definition: %s = %s</span>' % (word, value)
+
+    elif etype == "indicator":
+        existing = conn.execute(
+            "SELECT 1 FROM indicators WHERE word = ? AND wordplay_type = ?",
+            (word.lower(), value),
+        ).fetchone()
+        if existing:
+            msg = '<span class="text-gray-500">Already exists: %s = %s</span>' % (word, value)
+        else:
+            conn.execute(
+                "INSERT INTO indicators (word, wordplay_type, confidence, source) "
+                "VALUES (?, ?, 'high', 'flask_admin')",
+                (word.lower(), value),
+            )
+            conn.commit()
+            msg = '<span class="text-green-600">Added indicator: %s = %s</span>' % (word, value)
+
+    else:
+        msg = '<span class="text-red-500">Unknown type: %s</span>' % etype
+
+    conn.close()
+    return msg
