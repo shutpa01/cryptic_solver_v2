@@ -188,12 +188,11 @@ def rerun_clue(clue_id):
 
             tftt_clues = fetch_tftt(int(puzzle_number))
             if tftt_clues:
-                # Find matching clue by answer
-                import re
-                answer_clean = re.sub(r'[^A-Za-z]', '', answer).upper()
+                import re as _re
+                answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
                 tc = None
                 for t in tftt_clues:
-                    if re.sub(r'[^A-Za-z]', '', t["answer"]).upper() == answer_clean:
+                    if _re.sub(r'[^A-Za-z]', '', t["answer"]).upper() == answer_clean:
                         tc = t
                         break
 
@@ -206,18 +205,16 @@ def rerun_clue(clue_id):
                     if parsed:
                         score, reasons = score_parse(parsed, answer, ref_db)
                         if score >= 70:
-                            import sqlite3
-                            conn = sqlite3.connect(
-                                str(PROJECT_ROOT / "data" / "clues_master.db"), timeout=30
-                            )
+                            # Use Flask's admin DB connection (already open)
                             store_tftt_result(
-                                conn, clue_id, parsed, score,
+                                db, clue_id, parsed, score,
                                 tc.get("definition", ""),
                                 raw_explanation=tc.get("explanation", "")
                             )
-                            conn.close()
                             success = True
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             message = "TFTT error: %s" % e
 
     # Fall back to Sonnet explainer if TFTT didn't work
