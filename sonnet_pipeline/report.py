@@ -40,8 +40,28 @@ _MECH_LABELS = {
 
 def _annotate(letters, ai_pieces):
     """Return 'LETTERS(mechanism clue_word)' if attribution found, else just 'LETTERS'."""
-    clue_word, mechanism = _piece_label(letters, ai_pieces)
+    letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
+    # Find the matching piece for richer annotation
+    matched_piece = None
+    for p in ai_pieces:
+        p_letters = re.sub(r"[^A-Z]", "", (p.get("letters") or "").upper())
+        if p_letters == letters_clean:
+            matched_piece = p
+            break
+
+    clue_word = matched_piece.get("clue_word", "") if matched_piece else ""
+    mechanism = matched_piece.get("mechanism", "") if matched_piece else ""
+
     if clue_word:
+        # For deletions with source info, show the full chain
+        if mechanism == "deletion" and matched_piece:
+            source = matched_piece.get("source", "")
+            deleted = matched_piece.get("deleted", "")
+            if source and deleted:
+                return '%s(%s minus %s, "%s")' % (letters, source, deleted, clue_word)
+            elif source:
+                return '%s(from %s, "%s")' % (letters, source, clue_word)
+
         mech_label = _MECH_LABELS.get(mechanism, "")
         if mech_label:
             return '%s(%s "%s")' % (letters, mech_label, clue_word)
@@ -729,16 +749,20 @@ def generate_report(results, source, puzzle, stats):
 
         ans = r.get("answer", "?")
 
-        # Assembly description with clue word annotations
+        # Assembly description — use S-native explanation for Signature solves
         ai_pieces = (r.get("ai_output") or {}).get("pieces", [])
         asm_desc = "---"
         if r.get("status") == "ASSEMBLED":
-            asm = r.get("assembly") or {}
-            desc = _describe_assembly(asm, ai_pieces, answer=ans)
-            if desc:
-                asm_desc = desc
+            sig_expl = r.get("sig_explanation")
+            if sig_expl and r.get("tier", "").startswith("Sig"):
+                asm_desc = sig_expl
             else:
-                asm_desc = asm.get("op", "---")
+                asm = r.get("assembly") or {}
+                desc = _describe_assembly(asm, ai_pieces, answer=ans)
+                if desc:
+                    asm_desc = desc
+                else:
+                    asm_desc = asm.get("op", "---")
 
         # Confidence tag
         if r.get("status") == "error":
@@ -795,53 +819,67 @@ def generate_report(results, source, puzzle, stats):
         lines.append("  Answer: %s" % r["answer"])
         lines.append("  Tier: %s | Confidence: %d/100" % (tier_label, score))
 
-        if ai:
-            defn = ai.get("definition", "")
-            wtype = ai.get("wordplay_type", "")
+        # S-native explanation for Signature solves
+        sig_expl = r.get("sig_explanation")
+        sig_types = r.get("sig_wordplay_types")
+        is_sig = tier and tier.startswith("Sig")
+
+        if is_sig and sig_expl:
+            # S-native detail: clean, correct, with indicators
+            defn = (ai or {}).get("definition", "")
             if defn:
                 lines.append("  Definition: \"%s\"" % defn)
-            if wtype:
-                lines.append("  Wordplay type: %s" % wtype)
+            if sig_types:
+                lines.append("  Wordplay: %s" % " + ".join(sig_types))
+            lines.append("  Explanation: %s" % sig_expl)
+        else:
+            # P detail: original format
+            if ai:
+                defn = ai.get("definition", "")
+                wtype = ai.get("wordplay_type", "")
+                if defn:
+                    lines.append("  Definition: \"%s\"" % defn)
+                if wtype:
+                    lines.append("  Wordplay type: %s" % wtype)
 
-            pieces = ai.get("pieces", [])
-            if pieces:
-                lines.append("  Components:")
-                for p in pieces:
-                    mech = p.get("mechanism", "?")
-                    word = p.get("clue_word", "?")
-                    letters = p.get("letters", "?")
-                    # Show deletion/truncation detail when available
-                    detail = ""
-                    if p.get("source"):
-                        src = p["source"]
-                        deleted = p.get("deleted", "?")
-                        if p.get("indicator"):
-                            detail = " [%s, \"%s\"=%s]" % (src, p["indicator"], mech)
-                        elif p.get("deleted_word"):
-                            detail = " [%s - %s(%s)]" % (src, deleted, p["deleted_word"])
-                        else:
-                            detail = " [%s - %s]" % (src, deleted)
-                    lines.append("    %-18s %-25s -> %s%s" % (mech, word, letters, detail))
+                pieces = ai.get("pieces", [])
+                if pieces:
+                    lines.append("  Components:")
+                    for p in pieces:
+                        mech = p.get("mechanism", "?")
+                        word = p.get("clue_word", "?")
+                        letters = p.get("letters", "?")
+                        detail = ""
+                        if p.get("source"):
+                            src = p["source"]
+                            deleted = p.get("deleted", "?")
+                            if p.get("indicator"):
+                                detail = " [%s, \"%s\"=%s]" % (src, p["indicator"], mech)
+                            elif p.get("deleted_word"):
+                                detail = " [%s - %s(%s)]" % (src, deleted, p["deleted_word"])
+                            else:
+                                detail = " [%s - %s]" % (src, deleted)
+                        lines.append("    %-18s %-25s -> %s%s" % (mech, word, letters, detail))
 
-        if asm:
-            op = asm.get("op", "?")
-            detail_ai_pieces = (ai or {}).get("pieces", [])
-            desc = _describe_assembly(asm, detail_ai_pieces, answer=r.get("answer"))
-            if desc:
-                lines.append("  Assembly: %s — %s" % (op, desc))
-            else:
-                lines.append("  Assembly op: %s" % op)
-            if asm.get("gap_fill"):
-                lines.append("  Gap fill: %s" % asm["gap_fill"])
-            if asm.get("brute_gap"):
-                lines.append("  Brute gap: +%s" % asm["brute_gap"])
-            if asm.get("note"):
-                lines.append("  Note: %s" % asm["note"])
-            if asm.get("anagram_fallback"):
-                lines.append("  WARNING: Anagram fallback — AI suggested %s" % (
-                    (ai or {}).get("wordplay_type", "different type")))
-            if asm.get("source") == "enrichment_fallback":
-                lines.append("  Source: enrichment fallback (DB-driven)")
+            if asm:
+                op = asm.get("op", "?")
+                detail_ai_pieces = (ai or {}).get("pieces", [])
+                desc = _describe_assembly(asm, detail_ai_pieces, answer=r.get("answer"))
+                if desc:
+                    lines.append("  Assembly: %s — %s" % (op, desc))
+                else:
+                    lines.append("  Assembly op: %s" % op)
+                if asm.get("gap_fill"):
+                    lines.append("  Gap fill: %s" % asm["gap_fill"])
+                if asm.get("brute_gap"):
+                    lines.append("  Brute gap: +%s" % asm["brute_gap"])
+                if asm.get("note"):
+                    lines.append("  Note: %s" % asm["note"])
+                if asm.get("anagram_fallback"):
+                    lines.append("  WARNING: Anagram fallback — AI suggested %s" % (
+                        (ai or {}).get("wordplay_type", "different type")))
+                if asm.get("source") == "enrichment_fallback":
+                    lines.append("  Source: enrichment fallback (DB-driven)")
 
         if checks:
             check_strs = []
