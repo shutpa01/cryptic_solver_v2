@@ -2089,7 +2089,7 @@ def check_mechanism(clue_text, answer, ai_output, assembly, enricher, tier,
 
     # --- Penalty: unverified synonym/abbreviation claims ---
     if unverified_syns > 0:
-        syn_penalty = unverified_syns * 8
+        syn_penalty = unverified_syns * 20
         checks["unverified_claims"] = "%d synonym/abbr not in DB" % unverified_syns
         score -= syn_penalty
 

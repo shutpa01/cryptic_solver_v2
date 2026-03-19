@@ -104,6 +104,14 @@
             Re-run
         </button>
         <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Running...</span>
+        {% if clue.tier != 'HIGH' %}
+        <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-xs px-2.5 py-1 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
+            Approve
+        </button>
+        {% endif %}
         {% endif %}
         <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
             {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700

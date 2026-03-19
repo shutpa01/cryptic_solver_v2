@@ -206,7 +206,19 @@ def approve_clue(clue_id):
     )
     db.commit()
 
-    return '<div class="mt-2 text-xs text-green-700 bg-green-50 rounded px-2 py-1">Approved.</div>'
+    # Return refreshed button row
+    from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
+    from web.routes.hints import generate_token
+    clue = get_clue_by_id(clue_id)
+    new_tier, _ = compute_hint_tier(clue)
+    steps = get_hint_steps(clue)
+    new_token = generate_token(clue_id)
+    solve_source = compute_solve_source(clue)
+    return render_template(
+        "partials/admin_rerun_result.html",
+        clue=clue, tier=new_tier, steps=steps,
+        token=new_token, solve_source=solve_source,
+    )
 
 
 @bp.route("/enrich", methods=["POST"])

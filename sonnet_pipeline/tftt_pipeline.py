@@ -179,8 +179,8 @@ def score_parse(parsed, answer, ref_db):
                 # Check if confirmed in DB
                 syns = ref_db.get_synonyms(clue_word.lower())
                 if letters not in syns:
-                    score -= 10
-                    reasons.append(("unconfirmed synonym: %s=%s" % (clue_word, letters), -10))
+                    score -= 20
+                    reasons.append(("unconfirmed synonym: %s=%s" % (clue_word, letters), -20))
 
         # Abbreviation: check DB
         elif mech == "abbreviation":

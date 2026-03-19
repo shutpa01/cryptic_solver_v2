@@ -7,8 +7,8 @@ Penalties:
   -60  nonsense synonym (value not a real word)
   -30  circularity (answer used to explain itself)
   -20  operation missing its indicator
+  -20  unconfirmed synonym (real word, plausible DB gap)
   -15  unconfirmed homophone
-  -10  unconfirmed synonym (real word, plausible DB gap)
   -10  unconfirmed abbreviation
    -5  indicator not verified in DB
    -5  unverified link word
@@ -95,8 +95,8 @@ def score_result(result, words, answer, analyses, db):
             if val and _is_confirmed_synonym(w, val, db):
                 continue
             if val and db.is_real_word(val):
-                score -= 10
-                reasons.append((f"SYN '{word}'={val} unconfirmed (real word)", -10))
+                score -= 20
+                reasons.append((f"SYN '{word}'={val} unconfirmed (real word)", -20))
             else:
                 score -= 60
                 reasons.append((f"SYN '{word}'={val} not a real word", -60))
