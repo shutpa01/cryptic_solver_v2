@@ -272,6 +272,12 @@ def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None,
 
     # Fall back to old catalog matcher for patterns not in other catalogs
     catalog_to_use = CATALOG + extra_catalog if extra_catalog else CATALOG
+    if extra_catalog:
+        print("      [DEBUG] Old catalog matcher: %d base + %d extra entries" % (
+            len(CATALOG), len(extra_catalog)))
+        print("      [DEBUG] Wordplay words: %s" % wordplay_words)
+        print("      [DEBUG] Extra entries: %s" % [
+            (e.label, e.operation, e.tokens, e.word_spans) for e in extra_catalog])
     for entry, assignment in match_signatures(
         wordplay_words, analyses, phrases, catalog_to_use, answer_clean, db
     ):

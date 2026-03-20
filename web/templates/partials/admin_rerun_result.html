@@ -40,13 +40,19 @@
     Re-run
 </button>
 <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Running...</span>
+<button hx-post="/admin/approve/{{ clue.id }}"
+        hx-target="#explain-{{ clue.id }}"
+        hx-swap="innerHTML"
+        class="text-xs px-2.5 py-1 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
+    Approve
+</button>
 <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
     {% if solve_source == 'S' %}bg-blue-100 text-blue-700
     {% elif solve_source == 'SE' %}bg-cyan-100 text-cyan-700
     {% elif solve_source == 'P' %}bg-orange-100 text-orange-700
     {% else %}bg-gray-100 text-gray-400{% endif %}">{{ solve_source }}</span>
 <span class="tier-{{ tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
-    {{ tier }}
+    {{ 'FAIL' if tier == 'NONE' else tier }}
 </span>
 <button onclick="var el=document.getElementById('enrich-{{ clue.id }}');el.style.display=el.style.display==='none'?'block':'none'"
         class="text-xs px-2.5 py-1 rounded border border-violet-300 text-violet-700 hover:bg-violet-50 font-medium cursor-pointer">

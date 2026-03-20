@@ -156,67 +156,211 @@ def execute_signature(entry, assignment, words, answer):
             word_text = str(item[0])
         pieces.append((word_text, item[1], item[2]))
 
+    # Extract indicator word texts from assignment
+    indicators = {}
+    for ind_tok, ind_idx in assignment.get('indicator_indices', {}).items():
+        if isinstance(ind_idx, tuple):
+            ind_text = " ".join(words[k] for k in range(ind_idx[0], ind_idx[1]))
+        else:
+            ind_text = words[ind_idx]
+        indicators[ind_tok] = ind_text
+
     # Build explanation
-    explanation = _build_explanation(op, pieces, answer, entry)
+    explanation = _build_explanation(op, pieces, answer, entry, indicators)
 
     return True, explanation, pieces
 
 
-def _build_explanation(op, pieces, answer, entry):
-    """Build human-readable explanation string."""
-    parts = []
-    for word_text, tok, val in pieces:
-        if tok == ANA_F:
-            parts.append(f"{word_text}")
-        elif tok == ABR_F:
-            parts.append(f"{word_text}={val}")
-        elif tok == SYN_F:
-            parts.append(f"{word_text}={val}")
-        elif tok == RAW:
-            parts.append(f"{word_text} (raw)")
-        elif tok == POS_F:
-            parts.append(f"{word_text}={val}")
-        elif tok == HID_F:
-            parts.append(f"{word_text}")
-        elif tok == HOM_F:
-            parts.append(f"{word_text} (sounds like)")
-        else:
-            parts.append(f"{word_text}({tok})")
+# --- Indicator helpers ---
 
-    if op == "anagram":
-        fodder_words = [p[0] for p in pieces if p[1] == ANA_F]
-        return f"Anagram of {' '.join(fodder_words)} = {answer}"
-    elif op == "anagram_plus":
-        ana_words = [p[0] for p in pieces if p[1] == ANA_F]
-        extras = [f"{p[0]}={p[2]}" for p in pieces if p[1] != ANA_F]
-        return f"Anagram of {' '.join(ana_words)} + {', '.join(extras)} = {answer}"
-    elif op == "anagram_charade":
-        ana_words = [p[0] for p in pieces if p[1] == ANA_F]
-        extras = [f"{p[0]}={p[2]}" for p in pieces if p[1] != ANA_F]
-        return f"{', '.join(extras)} + anagram of {' '.join(ana_words)} = {answer}"
-    elif op == "hidden":
-        return f"Hidden in: {' '.join(p[0] for p in pieces)} = {answer}"
-    elif op == "hidden_reversed":
-        return f"Hidden reversed in: {' '.join(p[0] for p in pieces)} = {answer}"
-    elif op == "container":
-        if len(pieces) >= 2:
-            return f"{pieces[1][2]} inside {pieces[0][2]} = {answer}"
-        return f"Container = {answer}"
-    elif op.startswith("reversal"):
-        return f"{'Reverse ' + ', '.join(parts)} = {answer}"
-    elif op == "homophone":
-        return f"Sounds like {parts[0]} = {answer}"
-    elif op == "deletion":
-        if len(pieces) >= 2:
-            return f"{pieces[0][2]} minus {pieces[1][2]} = {answer}"
-        return f"Deletion = {answer}"
-    elif op.startswith("trim"):
-        return f"Trim: {', '.join(parts)} = {answer}"
-    elif op == "alternate":
-        return f"Alternate letters of {' '.join(p[0] for p in pieces)} = {answer}"
-    elif op == "acrostic":
-        return f"First letters of {' '.join(p[0] for p in pieces)} = {answer}"
-    elif op.startswith("positional"):
-        return f"Positional: {', '.join(parts)} = {answer}"
+# Positional indicators are piece-level: they describe how letters are
+# extracted from a specific source word (the POS_F piece).
+_PIECE_LEVEL_INDICATORS = {
+    POS_I_FIRST, POS_I_LAST, POS_I_OUTER, POS_I_MIDDLE,
+    POS_I_ALTERNATE, POS_I_TRIM_FIRST, POS_I_TRIM_LAST,
+    POS_I_TRIM_MIDDLE, POS_I_TRIM_OUTER, POS_I_HALF,
+}
+
+
+def _indicator_meaning(ind_tok):
+    """Plain English description of what a positional indicator does."""
+    return {
+        POS_I_FIRST: "first letter(s)",
+        POS_I_LAST: "last letter(s)",
+        POS_I_OUTER: "outer letters",
+        POS_I_MIDDLE: "middle letter(s)",
+        POS_I_ALTERNATE: "alternating letters",
+        POS_I_TRIM_FIRST: "remove first letter",
+        POS_I_TRIM_LAST: "remove last letter",
+        POS_I_TRIM_MIDDLE: "remove middle",
+        POS_I_TRIM_OUTER: "inner letters",
+        POS_I_HALF: "half",
+    }.get(ind_tok, "")
+
+
+def _describe_piece(word_text, tok, val, piece_inds):
+    """Describe a single piece with indicator attribution.
+
+    Args:
+        word_text: the clue word(s)
+        tok: the token type (SYN_F, ABR_F, POS_F, etc.)
+        val: the resolved value (letters produced)
+        piece_inds: dict of {ind_tok: ind_word} for piece-level indicators
+    """
+    if tok == SYN_F:
+        return f'{val} (synonym of "{word_text}")'
+    elif tok == ABR_F:
+        return f'{val} (abbreviation of "{word_text}")'
+    elif tok == RAW:
+        w = "".join(c for c in word_text.upper() if c.isalpha())
+        return f'{w} ("{word_text}")'
+    elif tok == ANA_F:
+        return f'"{word_text}"'
+    elif tok == POS_F:
+        # Find the positional indicator that applies to this piece
+        for ind_tok, ind_word in piece_inds.items():
+            if ind_tok in _PIECE_LEVEL_INDICATORS:
+                meaning = _indicator_meaning(ind_tok)
+                return f'{val} ("{ind_word}" of "{word_text}" = {meaning})'
+        return f'{val} (from "{word_text}")'
+    elif tok == HID_F:
+        return f'"{word_text}"'
+    elif tok == HOM_F:
+        return f'{val} (sounds like "{word_text}")'
+    elif tok == DEL_F:
+        return f'{val}'
     else:
-        return f"{entry.label}: {', '.join(parts)} = {answer}"
+        return f'{word_text}'
+
+
+def _build_explanation(op, pieces, answer, entry, indicators=None):
+    """Build human-readable explanation string with indicator attribution.
+
+    Each piece shows what it contributes and why. Each indicator is attributed
+    so the user understands which clue word signals which operation.
+    """
+    if indicators is None:
+        indicators = {}
+
+    # Separate piece-level (positional) and operation-level indicators
+    piece_inds = {}
+    op_inds = {}
+    for ind_tok, ind_word in indicators.items():
+        if ind_tok in _PIECE_LEVEL_INDICATORS:
+            piece_inds[ind_tok] = ind_word
+        else:
+            op_inds[ind_tok] = ind_word
+
+    # Build per-piece description strings
+    part_strs = []
+    for word_text, tok, val in pieces:
+        part_strs.append(_describe_piece(word_text, tok, val, piece_inds))
+
+    # --- Format by operation type ---
+
+    if op == "charade":
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    elif op == "anagram":
+        ind = op_inds.get(ANA_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        fodder = " ".join(p[0] for p in pieces if p[1] == ANA_F)
+        return f'Anagram{ind_attr} of "{fodder}" = {answer}'
+
+    elif op in ("anagram_plus", "anagram_charade", "anagram_container"):
+        ind = op_inds.get(ANA_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        ana_fodder = " ".join(p[0] for p in pieces if p[1] == ANA_F)
+        extra_strs = [s for s, (_, t, _) in zip(part_strs, pieces) if t != ANA_F]
+        ana_part = f'anagram{ind_attr} of "{ana_fodder}"'
+        if extra_strs:
+            return f'{" + ".join(extra_strs)} + {ana_part} = {answer}'
+        return f'{ana_part} = {answer}'
+
+    elif op == "hidden":
+        ind = op_inds.get(HID_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        words = " ".join(p[0] for p in pieces)
+        return f'Hidden{ind_attr} in "{words}" = {answer}'
+
+    elif op == "hidden_reversed":
+        attrs = []
+        if HID_I in op_inds:
+            attrs.append(f'"{op_inds[HID_I]}"')
+        if REV_I in op_inds:
+            attrs.append(f'"{op_inds[REV_I]}"')
+        ind_attr = f' [{", ".join(attrs)}]' if attrs else ''
+        words = " ".join(p[0] for p in pieces)
+        return f'Hidden reversed{ind_attr} in "{words}" = {answer}'
+
+    elif op in ("container", "container_charade", "container_positional"):
+        ind = op_inds.get(CON_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        if len(pieces) >= 2:
+            outer_str = part_strs[0]
+            inner_str = part_strs[1]
+            return f'{inner_str} inside{ind_attr} {outer_str} = {answer}'
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    elif op == "container_reversal":
+        con_ind = op_inds.get(CON_I)
+        rev_ind = op_inds.get(REV_I)
+        attrs = []
+        if con_ind:
+            attrs.append(f'"{con_ind}"')
+        if rev_ind:
+            attrs.append(f'reversed "{rev_ind}"')
+        ind_attr = f' [{", ".join(attrs)}]' if attrs else ''
+        if len(pieces) >= 2:
+            outer_str = part_strs[0]
+            inner_str = part_strs[1]
+            return f'{inner_str} inside{ind_attr} {outer_str} = {answer}'
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    elif op == "reversal":
+        ind = op_inds.get(REV_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        return f'Reverse{ind_attr} of {" + ".join(part_strs)} = {answer}'
+
+    elif op == "reversal_charade":
+        ind = op_inds.get(REV_I)
+        ind_attr = f' ["{ind}" = reversal]' if ind else ''
+        return f'{" + ".join(part_strs)}{ind_attr} = {answer}'
+
+    elif op == "homophone":
+        ind = op_inds.get(HOM_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        return f'Sounds like{ind_attr} {" + ".join(part_strs)} = {answer}'
+
+    elif op == "deletion":
+        ind = op_inds.get(DEL_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        if len(pieces) >= 2:
+            return f'{part_strs[0]} minus{ind_attr} {part_strs[1]} = {answer}'
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    elif op in ("trim", "trim_charade"):
+        ind = op_inds.get(DEL_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        return f'Trim{ind_attr}: {" + ".join(part_strs)} = {answer}'
+
+    elif op == "alternate":
+        ind = piece_inds.get(POS_I_ALTERNATE)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        words = " ".join(p[0] for p in pieces)
+        return f'Alternating letters{ind_attr} of "{words}" = {answer}'
+
+    elif op == "acrostic":
+        ind = piece_inds.get(POS_I_FIRST)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        words = " ".join(p[0] for p in pieces)
+        return f'First letters{ind_attr} of "{words}" = {answer}'
+
+    elif op == "positional_charade":
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    elif op == "synonym":
+        return f'{" + ".join(part_strs)} = {answer}'
+
+    else:
+        return f'{" + ".join(part_strs)} = {answer}'

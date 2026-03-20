@@ -192,22 +192,37 @@ def _place_spans(pattern, spans, n, word_possible, phrases, ind_type,
 
     Yields: list of (start_pos, span) for each token.
     """
+    # Build set of indicator types assigned in this pattern, so that
+    # leftover words of the same indicator type can be skipped.
+    # Only allow skipping if the pattern actually has an I-slot (meaning
+    # an indicator IS placed — extra ones of the same type are redundant).
+    has_i_slot = 'I' in pattern
+    assigned_ind = {ind_type} if has_i_slot and ind_type and ind_type in INDICATOR_TOKENS else None
     results = []
     _place_recursive(pattern, spans, 0, 0, n, word_possible, phrases,
-                     ind_type, [], results, max_results)
+                     ind_type, assigned_ind, [], results, max_results)
     return results
 
 
-def _word_is_skippable(word_possible_set):
-    """Check if a word can be left unassigned (as LNK or leftover indicator)."""
+def _word_is_skippable(word_possible_set, assigned_ind_types=None):
+    """Check if a word can be left unassigned.
+
+    Allowed: known link words (LNK), or indicators of a type already
+    assigned in the current signature (e.g. a second anagram indicator
+    when ANA_I is already placed). Never allows unrelated indicators
+    to be silently skipped.
+    """
     if LNK in word_possible_set:
         return True
-    # Indicators can also be leftover (they signal operations, not letters)
-    return bool(word_possible_set & INDICATOR_TOKENS)
+    if assigned_ind_types:
+        word_ind_types = word_possible_set & INDICATOR_TOKENS
+        if word_ind_types & assigned_ind_types:
+            return True
+    return False
 
 
 def _place_recursive(pattern, spans, seq_idx, min_pos, n,
-                     word_possible, phrases, ind_type,
+                     word_possible, phrases, ind_type, assigned_ind,
                      current, results, max_results):
     """Recursively place tokens left-to-right."""
     if len(results) >= max_results:
@@ -219,7 +234,7 @@ def _place_recursive(pattern, spans, seq_idx, min_pos, n,
         for start, span in current:
             used.update(range(start, start + span))
         remaining = [i for i in range(n) if i not in used]
-        if all(_word_is_skippable(word_possible[i]) for i in remaining):
+        if all(_word_is_skippable(word_possible[i], assigned_ind) for i in remaining):
             results.append(list(current))
         return
 
@@ -228,7 +243,7 @@ def _place_recursive(pattern, spans, seq_idx, min_pos, n,
 
     for start in range(min_pos, n - span + 1):
         # Check gap words (min_pos..start-1) are all skippable
-        gap_ok = all(_word_is_skippable(word_possible[i])
+        gap_ok = all(_word_is_skippable(word_possible[i], assigned_ind)
                      for i in range(min_pos, start))
         if not gap_ok:
             break  # Can't skip past a non-skippable word
@@ -237,7 +252,7 @@ def _place_recursive(pattern, spans, seq_idx, min_pos, n,
         if _can_fill_base(tok_type, span, start, word_possible, phrases, ind_type):
             current.append((start, span))
             _place_recursive(pattern, spans, seq_idx + 1, start + span, n,
-                             word_possible, phrases, ind_type,
+                             word_possible, phrases, ind_type, assigned_ind,
                              current, results, max_results)
             current.pop()
 
@@ -322,17 +337,41 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
                            POS_I_TRIM_LAST, POS_I_TRIM_MIDDLE, POS_I_TRIM_OUTER):
                     extra_indicators.add(tok)
 
-    # Check leftover words are valid
-    # When ind_type is set but no I-slots exist (e.g. reversal_charade patterns
-    # are all-F), seed assigned_ind_types so leftover indicator words are accepted.
-    # For multi-indicator operations (e.g. container_reversal needs both CON_I
-    # and REV_I), include ALL indicator types so both are accepted as leftover.
+    # Check leftover words are valid.
+    # When the pattern has I-slots, the assigned indicators are known — extra
+    # indicators of the same type are redundant and skippable.
+    # When the pattern has NO I-slots but the operation requires indicators
+    # (e.g. reversal_charade F+F needs REV_I as a leftover), we must verify
+    # at least one leftover word IS the required indicator — it's mandatory,
+    # not silently skippable.
+    has_i_slots = bool(i_slots)
     ind_type_raw = OPERATION_INDICATOR_TYPE.get(op)
+    required_ind_types = set()
     if isinstance(ind_type_raw, list):
-        base_ind = set(ind_type_raw)
+        required_ind_types = set(ind_type_raw)
+    elif ind_type_raw:
+        required_ind_types = {ind_type_raw}
+
+    if not has_i_slots and required_ind_types and entry.n_indicator > 0:
+        # Pattern requires indicators but has no I-slots — they must be
+        # among the leftover words. Verify each required type is present,
+        # then allow those words (plus extras of the same type) to be skipped.
+        for req_type in required_ind_types:
+            found = any(
+                req_type in word_possible[li]
+                for li in leftover
+            )
+            if not found:
+                return None  # required indicator not present in leftover
+
+    # Build the set of indicator types that are "assigned" (placed or required)
+    if has_i_slots:
+        base_ind = set(ind_assignment.keys())
+    elif required_ind_types and entry.n_indicator > 0:
+        base_ind = required_ind_types
     else:
-        base_ind = {ind_type} if ind_type else set()
-    combined = base_ind | set(ind_assignment.keys()) | extra_indicators
+        base_ind = set()
+    combined = base_ind | extra_indicators
     assigned_ind_types = combined if combined else None
     if leftover and not _remaining_are_valid(
             leftover, words, analyses, db, assigned_ind_types):

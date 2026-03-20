@@ -54,8 +54,12 @@ def match_signatures(words, analyses, phrases, catalog, answer, db):
             phrase_indicator_tokens[(pi, pj)] = ind_toks
 
     for entry in catalog:
+        _is_extra = hasattr(entry, 'label') and entry.label and entry.label.startswith("P:")
         # === FILTER 1: Word count ===
         if n < entry.min_words:
+            if _is_extra:
+                print("      [DEBUG] Extra entry %s rejected: too few words (%d < %d)" % (
+                    entry.label, n, entry.min_words))
             continue
         # Max words: span-derived fodder words + indicators + LNK allowance
         fodder_words = sum(entry.word_spans) if entry.word_spans else len(entry.tokens)
@@ -63,6 +67,9 @@ def match_signatures(words, analyses, phrases, catalog, answer, db):
         if not entry.allow_extra_lnk:
             max_words = fodder_words + len(entry.indicators)
         if n > max_words:
+            if _is_extra:
+                print("      [DEBUG] Extra entry %s rejected: too many words (%d > %d)" % (
+                    entry.label, n, max_words))
             continue
 
         # === FILTER 2: Required indicators present ===
@@ -77,18 +84,31 @@ def match_signatures(words, analyses, phrases, catalog, answer, db):
                                 for ptoks in phrase_indicator_tokens.values())
                 if not found:
                     missing = True
+                    if _is_extra:
+                        print("      [DEBUG] Extra entry %s rejected: missing indicator %s" % (
+                            entry.label, req_ind))
                     break
             if missing:
                 continue
 
         # === FILTER 3: Letter budget (cheap arithmetic) ===
         if not _letter_budget_plausible(entry, words, analyses, answer_len):
+            if _is_extra:
+                print("      [DEBUG] Extra entry %s rejected: letter budget" % entry.label)
             continue
 
+        if _is_extra:
+            print("      [DEBUG] Extra entry %s passed filters, trying assignments..." % entry.label)
+
         # === ASSIGNMENT: Try to map words to signature tokens ===
-        yield from _try_assignments(entry, words, analyses, phrases,
+        found_any = False
+        for result in _try_assignments(entry, words, analyses, phrases,
                                      word_indicator_tokens,
-                                     phrase_indicator_tokens, answer, db)
+                                     phrase_indicator_tokens, answer, db):
+            found_any = True
+            yield result
+        if _is_extra and not found_any:
+            print("      [DEBUG] Extra entry %s: no valid assignments found" % entry.label)
 
 
 def _letter_budget_plausible(entry, words, analyses, answer_len):

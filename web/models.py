@@ -41,6 +41,8 @@ BROWSE_SOURCES = [
     ("telegraph", "prize", "Telegraph Prize Cryptic"),
     ("times", "cryptic", "Times Cryptic"),
     ("times", "sunday", "Times Sunday"),
+    ("guardian", "cryptic", "Guardian Cryptic"),
+    ("independent", "cryptic", "Independent Cryptic"),
 ]
 
 # Label lookup for display
@@ -49,6 +51,8 @@ TYPE_LABELS = {
     ("telegraph", "prize"): "Prize Cryptic",
     ("times", "cryptic"): "Cryptic",
     ("times", "sunday"): "Sunday",
+    ("guardian", "cryptic"): "Cryptic",
+    ("independent", "cryptic"): "Cryptic",
 }
 
 
@@ -88,6 +92,16 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
         if 5000 <= num <= 9999:
             return "sunday", "Sunday"
         if 26000 <= num <= 39999:
+            return "cryptic", "Cryptic"
+        return None, None
+
+    elif source == "guardian":
+        if 1 <= num <= 39999:
+            return "cryptic", "Cryptic"
+        return None, None
+
+    elif source == "independent":
+        if 1 <= num <= 19999:
             return "cryptic", "Cryptic"
         return None, None
 
@@ -138,6 +152,16 @@ def _puzzle_filter_sql(source, type_slug):
     elif source == "times" and type_slug == "cryptic":
         return (
             "source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 26000 AND 39999",
+            [source],
+        )
+    elif source == "guardian" and type_slug == "cryptic":
+        return (
+            "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
+            [source],
+        )
+    elif source == "independent" and type_slug == "cryptic":
+        return (
+            "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
             [source],
         )
     return None, None
@@ -208,7 +232,7 @@ def get_puzzle_clues(source, puzzle_number):
     rows = db.execute(
         """SELECT c.id, c.clue_number, c.direction, c.clue_text, c.enumeration,
                   c.definition, c.wordplay_type, c.explanation, c.ai_explanation,
-                  se.components, se.confidence
+                  se.components, se.confidence, se.model_version
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.source = ? AND c.puzzle_number = ?
@@ -321,6 +345,19 @@ def compute_hint_tier(clue):
         return "NONE", max_steps
 
 
+def compute_solve_source(clue):
+    """Return engine source label: S, SE, P, or fail."""
+    mv = clue["model_version"] if "model_version" in clue.keys() else None
+    if mv is None:
+        return "fail"
+    if mv == "signature_solver_v1":
+        return "S"
+    if mv == "signature_solver_enriched_v1":
+        return "SE"
+    # Any other model version = P (Sonnet pipeline)
+    return "P"
+
+
 def get_hint_steps(clue):
     """Return ordered list of available hint steps for a clue.
 
@@ -370,14 +407,13 @@ def get_clues_by_slug(slug):
         where_clauses.append("LOWER(c.clue_text) LIKE ?")
         params.append(f"%{w}%")
 
-    # Only search Telegraph + Times (our launch scope)
     sql = """SELECT c.id, c.source, c.puzzle_number, c.publication_date,
                     c.clue_number, c.direction, c.clue_text, c.enumeration,
                     c.answer, c.definition, c.wordplay_type, c.explanation,
-                    c.ai_explanation, se.components, se.confidence
+                    c.ai_explanation, se.components, se.confidence, se.model_version
              FROM clues c
              LEFT JOIN structured_explanations se ON se.clue_id = c.id
-             WHERE c.source IN ('telegraph', 'times')
+             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent')
                AND c.clue_text IS NOT NULL
                AND %s
              ORDER BY c.publication_date DESC
@@ -399,7 +435,7 @@ def get_clue_by_id(clue_id):
     """Fetch a full clue row with structured_explanations data, or None."""
     db = get_db()
     row = db.execute(
-        """SELECT c.*, se.components, se.confidence
+        """SELECT c.*, se.components, se.confidence, se.model_version
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.id = ?""",
@@ -437,6 +473,80 @@ def _correct_mechanism(mech, word, letters):
     return mech
 
 
+def _describe_p_piece(p):
+    """Describe a single P pipeline piece in the same style as S explanations.
+
+    Each piece has: mechanism, clue_word, letters, and optionally
+    indicator, source, deleted, deleted_word.
+    """
+    import re
+    mech = p.get("mechanism", "")
+    word = p.get("clue_word", "")
+    letters = p.get("letters", "")
+    indicator = p.get("indicator", "")
+    source = p.get("source", "")
+    deleted = p.get("deleted", "")
+    deleted_word = p.get("deleted_word", "")
+
+    if not mech or not word or not letters:
+        return None
+
+    # Fix mislabelled mechanisms
+    mech = _correct_mechanism(mech, word, letters)
+
+    # Mechanism-specific descriptions
+    if mech == "synonym":
+        return f'{letters} (synonym of "{word}")'
+    elif mech == "abbreviation":
+        return f'{letters} (abbreviation of "{word}")'
+    elif mech == "anagram_fodder":
+        return f'"{word}"'
+    elif mech == "first_letter":
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}" = first letter(s))'
+        return f'{letters} (first letter(s) of "{word}")'
+    elif mech == "last_letter":
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}" = last letter(s))'
+        return f'{letters} (last letter(s) of "{word}")'
+    elif mech == "outer_letters":
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}" = outer letters)'
+        return f'{letters} (outer letters of "{word}")'
+    elif mech == "inner_letters":
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}" = inner letters)'
+        return f'{letters} (inner letters of "{word}")'
+    elif mech == "alternating":
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}" = alternating letters)'
+        return f'{letters} (alternating letters of "{word}")'
+    elif mech == "reversal":
+        if indicator:
+            return f'{letters} (reverse ["{indicator}"] of "{word}")'
+        return f'{letters} (reverse of "{word}")'
+    elif mech == "deletion":
+        if source and deleted:
+            if deleted_word:
+                return f'{letters} ({source} minus {deleted} ["{deleted_word}"])'
+            elif indicator:
+                return f'{letters} ({source} minus {deleted} ["{indicator}"])'
+            return f'{letters} ({source} minus {deleted})'
+        if indicator:
+            return f'{letters} ("{indicator}" of "{word}")'
+        return f'{letters} (from "{word}")'
+    elif mech == "homophone":
+        if indicator:
+            return f'{letters} (sounds like ["{indicator}"] "{word}")'
+        return f'{letters} (sounds like "{word}")'
+    elif mech == "hidden":
+        return f'"{word}"'
+    elif mech == "raw":
+        return f'{letters} ("{word}")'
+    else:
+        return f'{letters} ("{word}", {mech})'
+
+
 def _build_explanation(clue):
     """Build a human-readable explanation from components or raw text."""
     # Manual ai_explanation takes priority (human-curated)
@@ -450,18 +560,39 @@ def _build_explanation(clue):
         try:
             comps = json.loads(comps_json)
             pieces = comps.get("ai_pieces", [])
+            wtype = comps.get("wordplay_type", "")
             if pieces:
-                parts = []
+                part_strs = []
                 for p in pieces:
-                    mech = p.get("mechanism", "")
-                    word = p.get("clue_word", "")
-                    letters = p.get("letters", "")
-                    if mech and word and letters:
-                        # Fix mislabelled mechanisms
-                        mech = _correct_mechanism(mech, word, letters)
-                        parts.append(f"{word} → {letters} ({mech})")
-                if parts:
-                    return " + ".join(parts)
+                    desc = _describe_p_piece(p)
+                    if desc:
+                        part_strs.append(desc)
+                if not part_strs:
+                    return None
+
+                # Format based on wordplay type
+                if wtype == "anagram":
+                    ana_words = [p.get("clue_word", "") for p in pieces
+                                 if p.get("mechanism") == "anagram_fodder"]
+                    extras = [s for s, p in zip(part_strs, pieces)
+                              if p.get("mechanism") != "anagram_fodder"]
+                    fodder = " ".join(ana_words) if ana_words else ""
+                    # Find indicator from non-piece clue words (not yet available)
+                    if fodder:
+                        result = f'Anagram of "{fodder}"'
+                        if extras:
+                            result = f'{" + ".join(extras)} + {result}'
+                        answer = clue["answer"] if "answer" in clue.keys() else ""
+                        return f'{result} = {answer}'
+                elif wtype == "hidden":
+                    hid_words = [p.get("clue_word", "") for p in pieces
+                                 if p.get("mechanism") == "hidden"]
+                    answer = clue["answer"] if "answer" in clue.keys() else ""
+                    if hid_words:
+                        return f'Hidden in "{" ".join(hid_words)}" = {answer}'
+
+                answer = clue["answer"] if "answer" in clue.keys() else ""
+                return f'{" + ".join(part_strs)} = {answer}'
         except (json.JSONDecodeError, TypeError):
             pass
     return None

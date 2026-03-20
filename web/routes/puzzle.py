@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, abort
 
 from web.models import (
     classify_puzzle, TYPE_LABELS, _is_valid_type, get_puzzle_clues,
-    get_puzzle_date, compute_hint_tier, get_hint_steps,
+    get_puzzle_date, compute_hint_tier, get_hint_steps, compute_solve_source,
     get_puzzle_grid_data, get_puzzle_grid_solution,
 )
 from web.routes.hints import generate_token
@@ -40,6 +40,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         steps = get_hint_steps(clue)
         clue_dict = dict(clue)
         clue_dict["tier"] = tier
+        clue_dict["solve_source"] = compute_solve_source(clue)
         clue_dict["max_steps"] = max_steps
         clue_dict["total_steps"] = len(steps)
         clue_dict["steps"] = steps

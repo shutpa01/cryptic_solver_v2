@@ -253,6 +253,113 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             print("\n--- Phase 1.5: TFTT failed: %s ---" % e)
 
     # ================================================================
+    # PHASE 1.5b: fifteensquared — Guardian/Independent human explanations
+    # ================================================================
+    fs_solved_ids = set()
+    fs_high = 0
+
+    if source in ("guardian", "independent") and not single_clue:
+        try:
+            from .fifteensquared_pipeline import fetch_fifteensquared, store_fifteensquared_result
+            from .tftt_pipeline import parse_with_haiku, score_parse
+            import anthropic as _anthropic
+
+            print("\n--- Phase 1.5b: fifteensquared blog explanations (Haiku parsing) ---")
+            t0 = time.time()
+
+            # Get publication date for URL discovery
+            pub_date = conn.execute(
+                "SELECT publication_date FROM clues WHERE source = ? AND puzzle_number = ? LIMIT 1",
+                (source, puzzle),
+            ).fetchone()
+            pub_date = pub_date[0] if pub_date else None
+
+            fs_clues = fetch_fifteensquared(int(puzzle), source, pub_date)
+            if fs_clues:
+                print("  Fetched %d clues from fifteensquared" % len(fs_clues))
+
+                # Build lookup: clean_answer -> blog_clue
+                fs_by_answer = {}
+                for fc in fs_clues:
+                    key = clean(fc["answer"])
+                    fs_by_answer[key] = fc
+
+                haiku_client = _anthropic.Anthropic()
+
+                for row in rows:
+                    cid, cnum, direction, clue, answer, enum, explanation = row
+
+                    # Skip clues already solved by S
+                    if cid in sig_solved_ids:
+                        continue
+
+                    answer_clean = clean(answer)
+                    fc = fs_by_answer.get(answer_clean)
+                    if not fc or not fc.get("explanation"):
+                        continue
+
+                    # Parse with Haiku
+                    parsed, usage = parse_with_haiku(
+                        haiku_client, clue, answer, fc["explanation"]
+                    )
+                    if not parsed:
+                        continue
+
+                    # Score
+                    score, reasons = score_parse(parsed, answer, ref_db)
+
+                    if score >= 70:
+                        fs_solved_ids.add(cid)
+                        fs_high += 1
+
+                        # Store to DB
+                        if write_db:
+                            store_fifteensquared_result(
+                                conn, cid, parsed, score,
+                                fc.get("definition", ""),
+                                raw_explanation=fc.get("explanation", ""),
+                                source_name=source,
+                            )
+
+                        # Add to results for report
+                        conf_label = "high" if score >= 80 else "medium"
+                        results.append({
+                            "status": "ASSEMBLED",
+                            "tier": "FS",
+                            "confidence": conf_label,
+                            "score": score,
+                            "clue_number": cnum,
+                            "direction": direction,
+                            "enumeration": enum,
+                            "clue": clue,
+                            "answer": answer,
+                            "explanation": explanation,
+                        })
+
+                        reason_str = ", ".join(
+                            "%s(%d)" % (r, d) for r, d in reasons
+                        ) if reasons else "clean"
+                        print("  [FS %3d] %s. %s = %s  %s" % (
+                            score, cnum, clue[:40], answer, reason_str))
+                    else:
+                        reason_str = ", ".join(
+                            "%s(%d)" % (r, d) for r, d in reasons
+                        )
+                        print("  [FS LOW %3d] %s. %s = %s  %s" % (
+                            score, cnum, clue[:40], answer, reason_str))
+
+                elapsed = time.time() - t0
+                remaining = len(rows) - len(sig_solved_ids) - len(fs_solved_ids)
+                print("  Phase 1.5b: %d fifteensquared solved in %.1fs — %d clues remain for API" % (
+                    fs_high, elapsed, remaining))
+            else:
+                print("\n--- Phase 1.5b: No fifteensquared page found for %s %s ---" % (source, puzzle))
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print("\n--- Phase 1.5b: fifteensquared failed: %s ---" % e)
+
+    # ================================================================
     # PHASE 2: Production solver on remaining clues (API calls)
     # ================================================================
     print("\n--- Phase 2: Production solver (API calls) ---")
@@ -261,8 +368,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         cid, cnum, direction, clue, answer, enum, explanation = row
         target = clean(answer)
 
-        # Skip clues already solved by signature solver (Phase 1) or TFTT (Phase 1.5)
-        if cid in sig_solved_ids or cid in tftt_solved_ids:
+        # Skip clues already solved by signature solver (Phase 1), TFTT (Phase 1.5), or fifteensquared (Phase 1.5b)
+        if cid in sig_solved_ids or cid in tftt_solved_ids or cid in fs_solved_ids:
             continue
 
         # Check for existing solved result — skip API call but re-run assembler
@@ -544,6 +651,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     low = sum(1 for r in assembled_results if r.get("confidence") == "low")
     avg_score = sum(r.get("score", 0) for r in assembled_results) / max(len(assembled_results), 1)
     t_tftt = sum(1 for r in results if r.get("tier") == "TFTT")
+    t_fs = sum(1 for r in results if r.get("tier") == "FS")
 
     sonnet_cost = sonnet_tokens_in / 1e6 * 3.0 + sonnet_tokens_out / 1e6 * 15.0
 
@@ -551,7 +659,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         "total": total, "assembled": assembled, "failed": failed, "errors": errors,
         "sonnet": t1, "fallback": t3, "cached": t_cached,
         "signature": t_sig, "signature_enriched": t_sig_e,
-        "tftt": t_tftt,
+        "tftt": t_tftt, "fifteensquared": t_fs,
         "high": high, "medium": medium, "low": low, "avg_score": avg_score,
         "total_cost": sonnet_cost,
         "sonnet_tokens_in": sonnet_tokens_in,
@@ -570,6 +678,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("  Sig+Enriched:   %d  (P-discovered, S-explained)" % t_sig_e)
     if t_tftt:
         print("  TFTT+Haiku:     %d  (human explanation, Haiku parsed)" % t_tftt)
+    if t_fs:
+        print("  15²+Haiku:      %d  (human explanation, Haiku parsed)" % t_fs)
     print("  Sonnet:         %d" % t1)
     print("  DB Fallback:    %d" % t3)
     if t_cached:
@@ -582,10 +692,11 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     print("  Medium: %d/%d" % (medium, assembled))
     print("  Low:    %d/%d" % (low, assembled))
     print("  Avg score: %.0f/100" % avg_score)
-    api_calls = total - errors - t_cached - t_sig - t_sig_e - t_tftt
+    api_calls = total - errors - t_cached - t_sig - t_sig_e - t_tftt - t_fs
     sig_saved = t_sig + t_sig_e
-    print("\nCost: $%.4f (%d API calls, %d signature, %d TFTT, %d cached, %d+%d tokens)" % (
-        sonnet_cost, api_calls, sig_saved, t_tftt, t_cached, sonnet_tokens_in, sonnet_tokens_out))
+    blog_saved = t_tftt + t_fs
+    print("\nCost: $%.4f (%d API calls, %d signature, %d blog+Haiku, %d cached, %d+%d tokens)" % (
+        sonnet_cost, api_calls, sig_saved, blog_saved, t_cached, sonnet_tokens_in, sonnet_tokens_out))
 
     if write_db:
         print("\nResults written to DB.")

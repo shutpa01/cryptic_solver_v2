@@ -14,7 +14,13 @@
       "WebFetch(domain:puzzles.telegraph.co.uk)",
       "WebFetch(domain:cdn.puzzles.telegraph.co.uk)",
       "WebFetch(domain:puzzleapi.telegraph.co.uk)",
-      "WebFetch(domain:www.thetimes.com)"
+      "WebFetch(domain:www.thetimes.com)",
+      "WebFetch(domain:timesforthetimes.co.uk)",
+      "WebFetch(domain:danword.com)",
+      "WebFetch(domain:wordplays.com)",
+      "WebFetch(domain:crosswordtracker.com)",
+      "WebFetch(domain:crosswordgenius.com)",
+      "WebFetch(domain:www.crosswordgenius.com)"
     ]
   }
 }

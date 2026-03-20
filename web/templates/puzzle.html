@@ -117,7 +117,7 @@
             {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
             {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
         <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
-            {{ clue.tier }}
+            {{ 'FAIL' if clue.tier == 'NONE' else clue.tier }}
         </span>
         {% if g.is_admin %}
         <button onclick="var el=document.getElementById('enrich-{{ clue.id }}');el.style.display=el.style.display==='none'?'block':'none'"

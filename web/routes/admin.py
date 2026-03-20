@@ -116,10 +116,34 @@ def edit_save(clue_id):
             clue_id,
         ),
     )
+    # Upsert structured_explanations so confidence is set (edit = auto-approve)
+    existing_se = db.execute(
+        "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
+    ).fetchone()
+    if existing_se:
+        db.execute(
+            "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
+            (clue_id,),
+        )
+    else:
+        db.execute(
+            """INSERT INTO structured_explanations
+               (clue_id, definition_text, wordplay_types, model_version, confidence,
+                source, puzzle_number, clue_number)
+               VALUES (?, ?, ?, 'manual_edit', 1.0, ?, ?, ?)""",
+            (
+                clue_id,
+                definition or None,
+                f'["{wordplay_type}"]' if wordplay_type else None,
+                clue["source"],
+                clue["puzzle_number"],
+                clue["clue_number"],
+            ),
+        )
+
     db.commit()
 
     # Rebuild grid if answer changed
-    grid_rebuilt = False
     if answer != re.sub(r"[^A-Z]", "", old_answer.upper()) if old_answer else answer:
         source = clue["source"]
         puzzle_number = clue["puzzle_number"]
@@ -137,13 +161,19 @@ def edit_save(clue_id):
             if result:
                 sol, grid_rows, grid_cols = result
                 update_puzzle_grid_solution(source, puzzle_number, sol, grid_rows, grid_cols)
-                grid_rebuilt = True
 
+    # Return refreshed button row with updated tier badge
+    from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
+    from web.routes.hints import generate_token
+    clue = get_clue_by_id(clue_id)
+    new_tier, _ = compute_hint_tier(clue)
+    steps = get_hint_steps(clue)
+    new_token = generate_token(clue_id)
+    solve_source = compute_solve_source(clue)
     return render_template(
-        "partials/admin_saved.html",
-        changes=changes,
-        grid_rebuilt=grid_rebuilt,
-        clue_id=clue_id,
+        "partials/admin_rerun_result.html",
+        clue=clue, tier=new_tier, steps=steps,
+        token=new_token, solve_source=solve_source,
     )
 
 
@@ -177,8 +207,52 @@ def rerun_clue(clue_id):
     success = False
     message = ""
 
+    # For Guardian/Independent, try fifteensquared first
+    if source in ("guardian", "independent") and answer:
+        try:
+            from sonnet_pipeline.fifteensquared_pipeline import (
+                fetch_fifteensquared, store_fifteensquared_result
+            )
+            from sonnet_pipeline.tftt_pipeline import parse_with_haiku, score_parse
+            from signature_solver.db import RefDB
+            import anthropic as _anthropic
+
+            # Get publication date for URL discovery
+            pub_date = clue["publication_date"] if "publication_date" in clue.keys() else None
+
+            fs_clues = fetch_fifteensquared(int(puzzle_number), source, pub_date)
+            if fs_clues:
+                import re as _re
+                answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
+                fc = None
+                for f in fs_clues:
+                    if _re.sub(r'[^A-Za-z]', '', f["answer"]).upper() == answer_clean:
+                        fc = f
+                        break
+
+                if fc and fc.get("explanation"):
+                    haiku_client = _anthropic.Anthropic()
+                    ref_db = RefDB()
+                    parsed, usage = parse_with_haiku(
+                        haiku_client, clue_text, answer, fc["explanation"]
+                    )
+                    if parsed:
+                        score, reasons = score_parse(parsed, answer, ref_db)
+                        if score >= 70:
+                            store_fifteensquared_result(
+                                db, clue_id, parsed, score,
+                                fc.get("definition", ""),
+                                raw_explanation=fc.get("explanation", ""),
+                                source_name=source,
+                            )
+                            success = True
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            message = "fifteensquared error: %s" % e
+
     # For Times clues, try TFTT first
-    if source == "times" and answer:
+    if not success and source == "times" and answer:
         try:
             from sonnet_pipeline.tftt_pipeline import (
                 fetch_tftt, parse_with_haiku, score_parse, store_tftt_result
@@ -257,11 +331,29 @@ def approve_clue(clue_id):
         "UPDATE clues SET reviewed = 1, has_solution = 1 WHERE id = ?",
         (clue_id,),
     )
-    # Set confidence to HIGH (1.0) in structured_explanations
-    db.execute(
-        "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
-        (clue_id,),
-    )
+    # Upsert confidence to HIGH (1.0) in structured_explanations
+    existing_se = db.execute(
+        "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
+    ).fetchone()
+    if existing_se:
+        db.execute(
+            "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
+            (clue_id,),
+        )
+    else:
+        db.execute(
+            """INSERT INTO structured_explanations
+               (clue_id, definition_text, model_version, confidence,
+                source, puzzle_number, clue_number)
+               VALUES (?, ?, 'manual_approve', 1.0, ?, ?, ?)""",
+            (
+                clue_id,
+                clue["definition"],
+                clue["source"],
+                clue["puzzle_number"],
+                clue["clue_number"],
+            ),
+        )
     db.commit()
 
     # Return refreshed button row
