@@ -52,7 +52,7 @@
     {% elif solve_source == 'P' %}bg-orange-100 text-orange-700
     {% else %}bg-gray-100 text-gray-400{% endif %}">{{ solve_source }}</span>
 <span class="tier-{{ tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
-    {{ 'FAIL' if tier == 'NONE' else tier }}
+    {{ tier }}
 </span>
 <button onclick="var el=document.getElementById('enrich-{{ clue.id }}');el.style.display=el.style.display==='none'?'block':'none'"
         class="text-xs px-2.5 py-1 rounded border border-violet-300 text-violet-700 hover:bg-violet-50 font-medium cursor-pointer">

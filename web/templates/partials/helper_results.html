@@ -1,0 +1,66 @@
+{# HTMX fragment — returned by GET /helper/lookup #}
+<div class="space-y-3 text-sm bg-white rounded-lg border border-gray-200 shadow-sm p-3">
+
+    {# Header with close button #}
+    <div class="flex items-center justify-between">
+        <span class="font-medium text-gray-700">
+            <span class="font-bold">{{ word }}</span>
+            {% if letters %}({{ letters }} letter{{ 's' if letters != 1 }}){% endif %}
+        </span>
+        <button onclick="this.closest('[id^=wordhelp-]').innerHTML='';_clearSelection()"
+                class="text-gray-400 hover:text-gray-600 text-lg leading-none cursor-pointer ml-2">&times;</button>
+    </div>
+
+    {# Indicator types — show first, this is the gold #}
+    {% if indicators %}
+    <div class="rounded px-3 py-2 bg-amber-50 border border-amber-200">
+        <span class="font-medium text-amber-700">Could be an indicator for:</span>
+        {% for ind in indicators %}
+        <span class="inline-block bg-amber-100 text-amber-800 rounded px-1.5 py-0.5 text-xs mr-1">
+            {{ ind.type }}
+        </span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Could mean — combined synonyms + definition answers #}
+    {% if meanings %}
+    <div class="rounded px-3 py-2 bg-blue-50 border border-blue-200">
+        <span class="font-medium text-blue-700">Could mean:</span>
+        {% if meanings_grouped %}
+            {% for group in meanings %}
+            <div class="mt-1">
+                <span class="text-blue-400 text-xs">({{ group.length }})</span>
+                <span class="text-gray-800">{{ group.words | join(', ') | upper }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <span class="text-gray-800">{{ meanings | join(', ') | upper }}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {# Abbreviations #}
+    {% if abbreviations %}
+    <div class="rounded px-3 py-2 bg-purple-50 border border-purple-200">
+        <span class="font-medium text-purple-700">Abbreviates to:</span>
+        <span class="text-gray-800 font-mono tracking-wider">{{ abbreviations | join(', ') | upper }}</span>
+    </div>
+    {% endif %}
+
+    {# Homophones #}
+    {% if homophones %}
+    <div class="rounded px-3 py-2 bg-rose-50 border border-rose-200">
+        <span class="font-medium text-rose-700">Sounds like:</span>
+        <span class="text-gray-800">{{ homophones | join(', ') | upper }}</span>
+    </div>
+    {% endif %}
+
+    {# No results #}
+    {% if not meanings and not indicators and not abbreviations and not homophones %}
+    <div class="rounded px-3 py-2 bg-gray-50 border border-gray-200 text-gray-500">
+        No results found.
+    </div>
+    {% endif %}
+
+</div>

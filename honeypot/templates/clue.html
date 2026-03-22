@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Crossword Answer{% endblock %}
+
+{% block meta %}
+<meta name="description" content="The answer to the crossword clue '{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}' is {{ clue.answer }}.{% if clue.definition %} Definition: {{ clue.definition }}.{% endif %}">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the answer to '{{ clue.clue_text | e }}'?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The answer is {{ clue.answer }}.{% if clue.definition %} The definition is '{{ clue.definition | e }}'.{% endif %}"
+        }
+    }]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "/"},
+        {"@type": "ListItem", "position": 2, "name": "{{ clue.source | title }}", "item": "/source/{{ clue.source }}/"},
+        {"@type": "ListItem", "position": 3, "name": "{{ clue.clue_text[:50] }}"}
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav style="font-size:0.85rem; color:#888; margin-bottom:1rem;">
+    <a href="/">Home</a> /
+    <a href="/source/{{ clue.source }}/">{{ clue.source | title }}</a> /
+    <span>Clue</span>
+</nav>
+
+<div class="card">
+    <p class="clue-text">
+        {{ clue.clue_text }}
+        {% if clue.enumeration %}
+        <span style="color:#999;">({{ clue.enumeration }})</span>
+        {% endif %}
+    </p>
+
+    <div style="margin:1rem 0; padding:0.75rem 1rem; background:#f0f7fb; border-left:4px solid #1a5276; border-radius:3px;">
+        <span style="font-size:0.85rem; color:#888; display:block; margin-bottom:0.25rem;">Answer</span>
+        <span class="answer">{{ clue.answer }}</span>
+    </div>
+
+    {% if clue.definition %}
+    <div class="definition">
+        <strong>Definition:</strong> {{ clue.definition }}
+    </div>
+    {% endif %}
+
+    <div class="meta">
+        <span class="badge">{{ clue.source | title }}</span>
+        {% if clue.puzzle_number %}
+        <span class="badge">#{{ clue.puzzle_number }}</span>
+        {% endif %}
+        {% if clue.clue_number and clue.direction %}
+        <span class="badge">{{ clue.clue_number }} {{ clue.direction | title }}</span>
+        {% endif %}
+        {% if clue.publication_date %}
+        <span class="badge">{{ clue.publication_date }}</span>
+        {% endif %}
+    </div>
+</div>
+
+{% if others %}
+<div class="card">
+    <h2 style="font-size:1rem; color:#555; margin-bottom:0.5rem;">Also appeared in</h2>
+    <ul style="list-style:none; font-size:0.9rem;">
+        {% for o in others %}
+        <li style="padding:0.3rem 0; color:#666;">
+            {{ o.source | title }}
+            {% if o.puzzle_number %}#{{ o.puzzle_number }}{% endif %}
+            {% if o.publication_date %}<span style="color:#aaa;">({{ o.publication_date }})</span>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

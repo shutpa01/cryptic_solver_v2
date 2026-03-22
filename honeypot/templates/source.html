@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ source | title }} Crossword Answers — Crossword Answer Lookup{% endblock %}
+{% block meta %}
+<meta name="description" content="Browse {{ "{:,}".format(total) }} {{ source | title }} crossword clues with answers and definitions.">
+{% endblock %}
+
+{% block content %}
+<nav style="font-size:0.85rem; color:#888; margin-bottom:1rem;">
+    <a href="/">Home</a> / <span>{{ source | title }}</span>
+</nav>
+
+<h2 style="font-size:1.3rem; margin-bottom:0.25rem;">{{ source | title }} Crossword Clues</h2>
+<p style="color:#888; font-size:0.85rem; margin-bottom:1rem;">{{ "{:,}".format(total) }} clues &middot; Page {{ page }} of {{ total_pages }}</p>
+
+<div class="card">
+    <ul class="clue-list">
+        {% for c in clues %}
+        {% set slug = make_slug(c.clue_text, c.answer) %}
+        <li>
+            {% if slug %}
+            <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
+            {% else %}
+            {{ c.clue_text }}
+            {% endif %}
+            {% if c.enumeration %}<span style="color:#aaa;">({{ c.enumeration }})</span>{% endif %}
+            &mdash; <span class="ans">{{ c.answer }}</span>
+            {% if c.publication_date %}<span style="color:#bbb; font-size:0.8rem; margin-left:0.5rem;">{{ c.publication_date }}</span>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% if total_pages > 1 %}
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="/source/{{ source }}/?page={{ page - 1 }}">&laquo; Prev</a>
+    {% endif %}
+    {% for p in range(1, total_pages + 1) %}
+        {% if p == page %}
+        <span class="current">{{ p }}</span>
+        {% elif p <= 3 or p >= total_pages - 2 or (p >= page - 2 and p <= page + 2) %}
+        <a href="/source/{{ source }}/?page={{ p }}">{{ p }}</a>
+        {% elif p == 4 or p == total_pages - 3 %}
+        <span>&hellip;</span>
+        {% endif %}
+    {% endfor %}
+    {% if page < total_pages %}
+    <a href="/source/{{ source }}/?page={{ page + 1 }}">Next &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

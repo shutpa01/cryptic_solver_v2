@@ -231,7 +231,7 @@ def get_puzzle_clues(source, puzzle_number):
     db = get_db()
     rows = db.execute(
         """SELECT c.id, c.clue_number, c.direction, c.clue_text, c.enumeration,
-                  c.definition, c.wordplay_type, c.explanation, c.ai_explanation,
+                  c.answer, c.definition, c.wordplay_type, c.explanation, c.ai_explanation,
                   se.components, se.confidence, se.model_version
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
@@ -309,10 +309,11 @@ def compute_hint_tier(clue):
     """Return (tier_name, max_steps) for a clue row.
 
     Tier is based on the pipeline confidence score (matching puzzle reports):
-      HIGH:   confidence >= 80
-      MEDIUM: confidence 40-79
-      LOW:    confidence < 40
-      NONE:   no pipeline result at all
+      HIGH:    confidence >= 80
+      MEDIUM:  confidence 40-79
+      LOW:     confidence < 40
+      FAIL:    pipeline ran but produced no usable result
+      PENDING: never processed by any pipeline
 
     max_steps is based on available hint data (definition, type, explanation).
     """
@@ -342,7 +343,11 @@ def compute_hint_tier(clue):
         else:
             return "LOW", max_steps
     else:
-        return "NONE", max_steps
+        # Distinguish "never run" from "ran but no confidence"
+        mv = clue["model_version"] if "model_version" in clue.keys() else None
+        if mv is not None:
+            return "FAIL", max_steps
+        return "PENDING", max_steps
 
 
 def compute_solve_source(clue):

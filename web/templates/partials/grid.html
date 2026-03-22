@@ -10,7 +10,9 @@
             <td class="border border-gray-400 bg-white relative text-center align-middle"
                 style="width:2rem;height:2rem;">
                 {% if cell.number is defined %}
-                <span class="absolute top-0 left-0.5 text-[8px] leading-none text-gray-500">{{ cell.number }}</span>
+                <span class="absolute top-0 left-0.5 text-[8px] leading-none text-gray-500 cursor-pointer hover:text-indigo-600 hover:font-bold z-10"
+                      onclick="scrollToClue({{ cell.number }})"
+                      title="Go to clue {{ cell.number }}">{{ cell.number }}</span>
                 {% endif %}
                 <span class="text-xs font-bold text-gray-800">{{ cell.letter }}</span>
             </td>

@@ -3,32 +3,25 @@
 {% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cryptic Crossword Clue{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Hint and answer for the cryptic crossword clue &quot;{{ clue.clue_text }}&quot;{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}. {{ clue.source | title }}{% if clue.type_label %} {{ clue.type_label }}{% endif %} #{{ clue.puzzle_number }}. Step-by-step explanation of the wordplay.">
+<meta name="description" content="{{ meta_description }}">
 <meta property="og:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cryptic Clue">
-<meta property="og:description" content="Hint and answer for this {{ clue.source | title }} cryptic crossword clue. Understand the wordplay, not just the answer.">
+<meta property="og:description" content="{{ meta_description }}">
 <meta property="og:type" content="article">
 {% endblock %}
 
 {% block structured_data %}
+{# FAQPage schema — drives FAQ rich results in Google #}
 <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "QAPage",
-    "mainEntity": {
-        "@type": "Question",
-        "name": "{{ clue.clue_text | e }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}",
-        "text": "Cryptic crossword clue from {{ clue.source | title }}{% if clue.type_label %} {{ clue.type_label }}{% endif %} #{{ clue.puzzle_number }}{% if clue.publication_date %}, published {{ clue.publication_date }}{% endif %}.",
-        "answerCount": 1,
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "{% if clue.definition %}Definition: {{ clue.definition | e }}. {% endif %}{% if clue.wordplay_type %}Wordplay type: {{ clue.wordplay_type | e }}. {% endif %}Visit the page for the full explanation and answer."
-        }
-    }
-}
+{{ faq_schema | safe }}
+</script>
+{# BreadcrumbList schema — drives breadcrumb display in SERPs #}
+<script type="application/ld+json">
+{{ breadcrumb_schema | safe }}
 </script>
 {% endblock %}
 
 {% block content %}
+{# Breadcrumb navigation #}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
     {% if clue.puzzle_url %}
@@ -41,15 +34,30 @@
 
 {# Main clue card #}
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-    {# Clue text #}
+    {# Clue text — prominent display #}
     <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">
-        {{ clue.clue_text }}
+        {{ clue.clue_text | clickable_words(clue.id) }}
         {% if clue.enumeration %}
         <span class="text-gray-400 font-normal">({{ clue.enumeration }})</span>
         {% endif %}
     </h1>
+    <div id="word-help-tip" class="hidden mt-2 px-3 py-2 bg-indigo-50 border border-indigo-200 rounded-lg flex items-center justify-between gap-3">
+        <p class="text-xs text-indigo-700"><span class="font-medium">Tip:</span> Click on any word(s) to see if it's an indicator, synonym, or abbreviation</p>
+        <div class="flex gap-2 shrink-0">
+            <button onclick="document.getElementById('word-help-tip').classList.add('hidden')"
+                    class="text-xs text-indigo-500 hover:text-indigo-700 cursor-pointer">Dismiss</button>
+            <button onclick="localStorage.setItem('hideWordHelpTip','1');document.getElementById('word-help-tip').classList.add('hidden')"
+                    class="text-xs text-indigo-400 hover:text-indigo-600 cursor-pointer">Don't show again</button>
+        </div>
+    </div>
+    <script>
+    if (!localStorage.getItem('hideWordHelpTip')) {
+        document.getElementById('word-help-tip').classList.remove('hidden');
+    }
+    </script>
+    <div id="wordhelp-{{ clue.id }}" class="mt-1"></div>
 
-    {# Source info #}
+    {# Source info line #}
     <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-gray-500">
         <span class="inline-flex items-center gap-1.5">
             <span class="font-medium text-gray-700">{{ clue.source | title }}</span>
@@ -60,19 +68,30 @@
         </span>
         {% if clue.clue_number and clue.direction %}
         <span class="text-gray-300">|</span>
-        <span>{{ clue.clue_number }} {{ clue.direction | title }}</span>
+        <span class="cursor-pointer hover:text-teal-600"
+              data-clue="{{ clue.clue_text | e }}"
+              data-enum="{{ clue.enumeration or '' }}"
+              data-label="{{ clue.clue_number }} {{ clue.direction | title }}"
+              data-clue-id="{{ clue.id }}"
+              onclick="similarFromClue(this.dataset.clue, this.dataset.enum, this.dataset.label, this.dataset.clueId)"
+              title="Search for similar clues">{{ clue.clue_number }} {{ clue.direction | title }}</span>
         {% endif %}
         {% if clue.publication_date %}
         <span class="text-gray-300">|</span>
         <span>{{ clue.publication_date }}</span>
         {% endif %}
-        <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded">
+        <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
+            {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
+            {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
+            {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
+            {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
+        <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-2 py-0.5 rounded shrink-0">
             {{ clue.tier }}
         </span>
     </div>
 
-    {# Hint buttons #}
-    <div id="explain-{{ clue.id }}" class="mt-5 flex flex-wrap gap-2">
+    {# Hint reveal buttons — same pattern as puzzle.html #}
+    <div id="explain-{{ clue.id }}" class="mt-5 flex flex-wrap gap-2 items-center">
         {% for s in clue.steps %}
         <button hx-post="/reveal"
                 hx-vals='{"token": "{{ clue.token }}", "step": "{{ s.step }}"}'
@@ -107,6 +126,10 @@
         </button>
         <span id="spinner-{{ clue.id }}" class="htmx-indicator text-sm text-sky-500">Generating...</span>
         {% endif %}
+        <button onclick="hideHints('hints-{{ clue.id }}')"
+                class="hint-hide text-sm px-3 py-1.5 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer hidden">
+            Hide
+        </button>
         {% if g.is_admin %}
         <button hx-get="/admin/edit/{{ clue.id }}"
                 hx-target="#hints-{{ clue.id }}"
@@ -114,10 +137,24 @@
                 class="text-sm px-3 py-1.5 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
+        <button hx-post="/admin/rerun/{{ clue.id }}"
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                hx-indicator="#rerun-spinner-{{ clue.id }}"
+                class="text-sm px-3 py-1.5 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
+            Re-run
+        </button>
+        <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-sm text-sky-500">Running...</span>
+        <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-sm px-3 py-1.5 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
+            Approve
+        </button>
         {% endif %}
     </div>
 
-    {# Reveal area #}
+    {# Reveal area — HTMX swaps hint content here #}
     <div id="hints-{{ clue.id }}" class="mt-2"></div>
 </div>
 
@@ -132,10 +169,10 @@
 </div>
 {% endif %}
 
-{# Other appearances #}
+{# Other appearances of the same clue #}
 {% if other_appearances %}
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-    <h2 class="text-sm font-semibold text-gray-700 mb-3">This clue also appeared in</h2>
+    <h2 class="text-sm font-semibold text-gray-700 mb-3">Also seen in</h2>
     <div class="space-y-2">
         {% for other in other_appearances %}
         <a href="{{ other.clue_url }}"
@@ -153,6 +190,63 @@
 {% endif %}
 
 <script>
+function hideHints(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+    var btn = el.parentElement.querySelector('.hint-hide');
+    if (btn) btn.classList.add('hidden');
+}
+var _selectedWords = [];
+function _isAnagramMode() {
+    var panel = document.getElementById('helper-panel');
+    var tab = document.getElementById('solver-anagram');
+    return panel && !panel.classList.contains('hidden') && tab && !tab.classList.contains('hidden');
+}
+function wordHelp(span) {
+    var idx = parseInt(span.dataset.idx);
+    var clean = span.dataset.clean;
+    var clueId = span.dataset.clue;
+    var target = 'wordhelp-' + clueId;
+
+    // If anagram tab is open, send word there instead
+    if (_isAnagramMode()) {
+        anagramFromWord(clean);
+        return;
+    }
+
+    if (_selectedWords.length > 0 && _selectedWords[0].clueId !== clueId) {
+        _clearSelection();
+    }
+    if (_selectedWords.length === 1 && _selectedWords[0].idx === idx) {
+        _clearSelection();
+        document.getElementById(target).innerHTML = '';
+        return;
+    }
+    if (_selectedWords.length > 0) {
+        var minIdx = Math.min.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        var maxIdx = Math.max.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        if (idx === minIdx - 1 || idx === maxIdx + 1) {
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        } else {
+            _clearSelection();
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        }
+    } else {
+        _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+        span.classList.add('bg-indigo-200', 'rounded');
+    }
+    _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
+    var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#' + target, swap: 'innerHTML'});
+}
+function _clearSelection() {
+    _selectedWords.forEach(function(w) {
+        w.el.classList.remove('bg-indigo-200', 'rounded');
+    });
+    _selectedWords = [];
+}
 document.body.addEventListener('htmx:afterSwap', function(e) {
     if (e.target.id && e.target.id.startsWith('hints-')) {
         var btn = e.target.parentElement.querySelector('.hint-hide');

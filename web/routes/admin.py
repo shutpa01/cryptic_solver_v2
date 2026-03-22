@@ -101,11 +101,10 @@ def edit_save(clue_id):
     if ai_explanation != (clue["ai_explanation"] or ""):
         changes.append("explanation")
 
-    # Update the clues table — auto-approve on save
+    # Update the clues table — save only, no auto-approve
     db.execute(
         """UPDATE clues
-           SET clue_text = ?, answer = ?, definition = ?, wordplay_type = ?, ai_explanation = ?,
-               reviewed = 1, has_solution = 1
+           SET clue_text = ?, answer = ?, definition = ?, wordplay_type = ?, ai_explanation = ?
            WHERE id = ?""",
         (
             clue_text or clue["clue_text"],
@@ -116,31 +115,6 @@ def edit_save(clue_id):
             clue_id,
         ),
     )
-    # Upsert structured_explanations so confidence is set (edit = auto-approve)
-    existing_se = db.execute(
-        "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
-    ).fetchone()
-    if existing_se:
-        db.execute(
-            "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
-            (clue_id,),
-        )
-    else:
-        db.execute(
-            """INSERT INTO structured_explanations
-               (clue_id, definition_text, wordplay_types, model_version, confidence,
-                source, puzzle_number, clue_number)
-               VALUES (?, ?, ?, 'manual_edit', 1.0, ?, ?, ?)""",
-            (
-                clue_id,
-                definition or None,
-                f'["{wordplay_type}"]' if wordplay_type else None,
-                clue["source"],
-                clue["puzzle_number"],
-                clue["clue_number"],
-            ),
-        )
-
     db.commit()
 
     # Rebuild grid if answer changed
@@ -457,3 +431,181 @@ def enrich_db():
 
     conn.close()
     return msg
+
+
+@bp.route("/set-answer/<int:clue_id>", methods=["POST"])
+def set_answer(clue_id):
+    """Set the answer for a clue (admin only). Used for prize puzzles."""
+    _require_admin()
+
+    answer = request.form.get("answer", "").strip().upper()
+    answer = re.sub(r"[^A-Z ]", "", answer)  # letters and spaces only
+
+    if not answer:
+        return '<span class="text-xs text-red-500">No answer provided.</span>'
+
+    db = get_admin_db()
+    clue = db.execute("SELECT * FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    if clue is None:
+        return '<span class="text-xs text-red-500">Clue not found.</span>'
+
+    db.execute("UPDATE clues SET answer = ? WHERE id = ?", (answer, clue_id))
+    db.commit()
+
+    return f'<span class="text-xs text-green-600 font-bold">Answer set: {answer}</span>'
+
+
+@bp.route("/save-all-answers", methods=["POST"])
+def save_all_answers():
+    """Save multiple answers to the DB at once (admin only).
+
+    Expects JSON body: {clue_id: "ANSWER", ...}
+    Only updates clues that currently have no answer.
+    Detects spanning clues and splits the answer between grid positions.
+    """
+    _require_admin()
+
+    import json as _json
+    data = request.get_json(silent=True) or {}
+
+    db = get_admin_db()
+
+    # Detect linked clue pairs in the submitted answers
+    clue_info = {}
+    clue_ids = []
+    for k in data:
+        try:
+            clue_ids.append(int(k))
+        except ValueError:
+            pass
+
+    if clue_ids:
+        placeholders = ",".join("?" * len(clue_ids))
+        rows = db.execute(
+            f"SELECT id, clue_number, direction, clue_text, answer, source, puzzle_number FROM clues WHERE id IN ({placeholders})",
+            clue_ids,
+        ).fetchall()
+        for r in rows:
+            clue_info[r["id"]] = dict(r)
+
+    # Find linked pairs: "See X" clue -> main clue
+    linked_pairs = {}  # see_id -> main_id
+    all_puzzle_clues = {}
+    for ci in clue_info.values():
+        text = (ci["clue_text"] or "").strip()
+        m = re.match(r"^See (\d+)\s*(Across|Down|across|down)?$", text)
+        if m:
+            ref_num = m.group(1)
+            ref_dir = (m.group(2) or "").lower()
+            # Find the target clue in our submitted answers
+            for other in clue_info.values():
+                if str(other["clue_number"]) == ref_num and (not ref_dir or other["direction"] == ref_dir):
+                    linked_pairs[ci["id"]] = other["id"]
+                    break
+
+    # Get grid cell counts for spanning clues
+    cell_counts = {}
+    if linked_pairs:
+        # Use any clue to get source/puzzle_number
+        sample = next(iter(clue_info.values()))
+        source = sample["source"]
+        puzzle_number = sample["puzzle_number"]
+
+        from web.models import get_puzzle_grid_data
+        from web.grid import build_grid_from_json, reconstruct_grid
+        grid_data = get_puzzle_grid_data(source, puzzle_number)
+        temp_grid = build_grid_from_json(source, puzzle_number, grid_data)
+        if temp_grid is None and grid_data:
+            temp_grid = reconstruct_grid(grid_data)
+        if temp_grid:
+            cells = temp_grid["cells"]
+            rows_count = len(cells)
+            cols_count = len(cells[0]) if rows_count > 0 else 0
+            for r in range(rows_count):
+                for c in range(cols_count):
+                    cell = cells[r][c]
+                    if cell is None or "number" not in cell:
+                        continue
+                    num = str(cell["number"])
+                    is_across = (c + 1 < cols_count and cells[r][c + 1] is not None and
+                                 (c == 0 or cells[r][c - 1] is None))
+                    is_down = (r + 1 < rows_count and cells[r + 1][c] is not None and
+                               (r == 0 or cells[r - 1][c] is None))
+                    if is_across:
+                        cnt = 0
+                        ci = c
+                        while ci < cols_count and cells[r][ci] is not None:
+                            cnt += 1
+                            ci += 1
+                        cell_counts[(num, "across")] = cnt
+                    if is_down:
+                        cnt = 0
+                        ri = r
+                        while ri < rows_count and cells[ri][c] is not None:
+                            cnt += 1
+                            ri += 1
+                        cell_counts[(num, "down")] = cnt
+
+    # Track which IDs are the "see" side of a pair — skip saving for these
+    see_ids = set(linked_pairs.keys())
+
+    saved = 0
+    for clue_id_str, answer in data.items():
+        try:
+            clue_id = int(clue_id_str)
+        except ValueError:
+            continue
+
+        # Skip "See X" clues — the main clue handles both
+        if clue_id in see_ids:
+            continue
+
+        answer = re.sub(r"[^A-Z ]", "", answer.upper().strip())
+        if not answer:
+            continue
+
+        ci = clue_info.get(clue_id)
+        if ci is None:
+            continue
+
+        # Check if this is the main side of a spanning pair
+        see_id = None
+        for sid, mid in linked_pairs.items():
+            if mid == clue_id:
+                see_id = sid
+                break
+
+        if see_id and see_id in clue_info:
+            # Split the answer between main and see positions
+            see_ci = clue_info[see_id]
+            main_key = (str(ci["clue_number"]), ci["direction"])
+            see_key = (str(see_ci["clue_number"]), see_ci["direction"])
+            main_cells = cell_counts.get(main_key, 0)
+            see_cells = cell_counts.get(see_key, 0)
+            raw = answer.replace(" ", "")
+
+            if main_cells + see_cells == len(raw):
+                main_answer = raw[:main_cells]
+                see_answer = raw[main_cells:]
+                # Save main
+                row = db.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
+                if row and (not row["answer"] or row["answer"].strip() == ""):
+                    db.execute("UPDATE clues SET answer = ? WHERE id = ?", (main_answer, clue_id))
+                    saved += 1
+                # Save see
+                row2 = db.execute("SELECT answer FROM clues WHERE id = ?", (see_id,)).fetchone()
+                if row2 and (not row2["answer"] or row2["answer"].strip() == ""):
+                    db.execute("UPDATE clues SET answer = ? WHERE id = ?", (see_answer, see_id))
+                    saved += 1
+                continue
+
+        # Normal (non-spanning) clue
+        row = db.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
+        if row is None:
+            continue
+        if not row["answer"] or row["answer"].strip() == "":
+            db.execute("UPDATE clues SET answer = ? WHERE id = ?", (answer, clue_id))
+            saved += 1
+
+    db.commit()
+    return _json.dumps({"saved": saved}), 200, {"Content-Type": "application/json"}

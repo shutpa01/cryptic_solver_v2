@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="font-size:1.4rem; margin-bottom:1rem;">Browse Crossword Clues</h2>
+<p style="color:#666; margin-bottom:1.5rem;">
+    Search over 500,000 cryptic crossword clues with answers and definitions
+    from the UK's top publications.
+</p>
+
+<div class="card">
+    <h3 style="font-size:1rem; margin-bottom:0.75rem; color:#555;">Browse by source</h3>
+    <ul style="list-style:none;">
+        {% for s in sources %}
+        <li style="padding:0.4rem 0; border-bottom:1px solid #f0ede8;">
+            <a href="/source/{{ s.source }}/" style="font-size:1.05rem;">{{ s.source | title }}</a>
+            <span class="badge">{{ "{:,}".format(s.cnt) }} clues</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

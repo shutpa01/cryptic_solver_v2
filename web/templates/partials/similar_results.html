@@ -1,0 +1,56 @@
+{# HTMX fragment — returned by GET /helper/similar #}
+<div class="space-y-3 text-sm">
+
+    {% if label %}
+    <div class="font-medium text-teal-700">
+        Clue {{ label }}{% if enum %} <span class="text-gray-400 font-normal">({{ enum }})</span>{% endif %}
+        {% if not has_answer %}
+        <span class="text-xs text-amber-600 ml-1">Prize puzzle — no answer available</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <div class="text-xs text-gray-400">{{ results | length }} similar clue{{ 's' if results | length != 1 }} found</div>
+
+    <div class="space-y-2">
+        {% for r in results %}
+        <div class="rounded px-3 py-2 bg-teal-50 border border-teal-200" id="similar-{{ loop.index }}">
+            <p class="text-gray-800 text-xs leading-relaxed">{{ r.clue_text }}
+                {% if r.enumeration %}<span class="text-gray-400">({{ r.enumeration }})</span>{% endif %}
+            </p>
+            <div class="mt-1 flex items-center justify-between">
+                <span class="font-mono font-bold text-teal-700 tracking-wider text-xs cursor-pointer select-none"
+                      style="filter: blur(5px); transition: filter 0.2s;"
+                      onclick="similarAnswerClick(this, '{{ r.answer }}')"
+                      title="Click to reveal, double-click to add to grid">{{ r.answer }}</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-gray-400">{{ r.source | title }}{% if r.puzzle_number %} #{{ r.puzzle_number }}{% endif %}</span>
+                    {% if has_answer %}
+                    <button onclick="addToGrid('{{ r.answer }}', {{ loop.index }}, true, '{{ source_answer or '' }}')"
+                            class="text-[10px] px-2 py-0.5 rounded bg-teal-600 text-white hover:bg-teal-700 font-medium cursor-pointer">
+                        Add to grid
+                    </button>
+                    {% elif is_admin and clue_id %}
+                    <button hx-post="/admin/set-answer/{{ clue_id }}"
+                            hx-vals='{"answer": "{{ r.answer }}"}'
+                            hx-target="#grid-check-{{ loop.index }}"
+                            hx-swap="innerHTML"
+                            class="text-[10px] px-2 py-0.5 rounded bg-orange-500 text-white hover:bg-orange-600 font-medium cursor-pointer">
+                        Set answer
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="grid-check-{{ loop.index }}" class="mt-1"></div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="rounded px-3 py-2 bg-gray-50 border border-gray-200 text-gray-500">
+        No similar clues found.
+    </div>
+    {% endif %}
+
+</div>

@@ -401,12 +401,11 @@ def fetch_and_save(puzzle):
 
     data = response.json()
 
-    # Save raw JSON for prize puzzles (preserves grid data for answer validation)
-    if puzzle_type.startswith('prize'):
-        json_path = SCRIPT_DIR / f"telegraph_{link_type}_{api_id}.json"
-        with open(json_path, 'w') as f:
-            json.dump(data, f)
-        print(f"  Saved prize JSON: {json_path.name}")
+    # Save raw JSON for ALL puzzles (grid data needed for interactive solving)
+    json_path = SCRIPT_DIR / f"telegraph_{link_type}_{api_id}.json"
+    with open(json_path, 'w') as f:
+        json.dump(data, f)
+    print(f"  Saved JSON: {json_path.name}")
 
     copy = data.get('json', {}).get('copy', {})
 

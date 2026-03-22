@@ -26,7 +26,7 @@ def get_admin_db():
 
 def close_db(e=None):
     """Close database connections at the end of the request."""
-    for key in ("db", "admin_db"):
+    for key in ("db", "admin_db", "ref_db", "clues_pattern_db"):
         conn = g.pop(key, None)
         if conn is not None:
             conn.close()

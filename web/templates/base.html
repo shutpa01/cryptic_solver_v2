@@ -16,7 +16,8 @@
         .tier-high { background-color: #16a34a; color: white; }
         .tier-medium { background-color: #ca8a04; color: white; }
         .tier-low { background-color: #9ca3af; color: white; }
-        .tier-none { background-color: #dc2626; color: white; }
+        .tier-fail { background-color: #dc2626; color: white; }
+        .tier-pending { background-color: #a78bfa; color: white; }
         /* HTMX loading indicator */
         .htmx-indicator { display: none; }
         .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: inline; }
@@ -32,8 +33,276 @@
     </nav>
 
     <!-- Content -->
-    <main class="max-w-3xl mx-auto px-4 py-6">
+    <main class="max-w-3xl mx-auto px-4 py-6 overflow-x-hidden">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Solver tools — floating, top-right -->
+    <div id="helper-widget" class="fixed top-16 right-4 z-50">
+        <button id="helper-open"
+                onclick="document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
+                class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
+            Solver tools
+        </button>
+        <div id="helper-panel" class="hidden w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+            <div class="flex items-center justify-between px-3 pt-3 pb-1">
+                <div class="flex gap-1">
+                    <button onclick="solverTab('pattern')" id="tab-pattern"
+                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-emerald-100 text-emerald-700">Pattern</button>
+                    <button onclick="solverTab('anagram')" id="tab-anagram"
+                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Anagram</button>
+                    <button onclick="solverTab('similar')" id="tab-similar"
+                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Similar</button>
+                </div>
+                <button onclick="solverClose()" class="text-gray-400 hover:text-gray-600 text-lg leading-none cursor-pointer">&times;</button>
+            </div>
+            <!-- Pattern tab -->
+            <div id="solver-pattern" class="p-3 border-b border-gray-100">
+                <p class="text-xs text-gray-500 mb-2">Known letters + ? for missing, - between words</p>
+                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include" class="flex gap-2">
+                    <input type="text" name="pattern" id="pattern-input"
+                           placeholder="e.g. S?O?E or OX??RD-S?RE?T"
+                           class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                           autocomplete="off" required
+                           oninput="this.value=this.value.replace(/ /g,'?')"
+                           onkeydown="if(event.key===' '){event.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+'?'+this.value.slice(this.selectionEnd);this.setSelectionRange(s+1,s+1)}">
+                    <button type="submit" class="px-3 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Find</button>
+                </form>
+                <div class="flex gap-2 mt-1.5 items-center">
+                    <span class="text-xs text-gray-400">Must include:</span>
+                    <input type="text" id="pattern-include" name="include"
+                           placeholder="e.g. LT"
+                           class="w-20 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                           autocomplete="off">
+                </div>
+            </div>
+            <!-- Anagram tab -->
+            <div id="solver-anagram" class="p-3 border-b border-gray-100 hidden">
+                <p class="text-xs text-gray-500 mb-2">Click a word in a clue or type letters — click a letter to remove it</p>
+                <div id="anagram-chips" class="flex flex-wrap gap-1 min-h-[2.25rem] p-2 border border-violet-200 rounded bg-violet-50 items-center cursor-text" onclick="document.getElementById('anagram-add').focus()">
+                    <input type="text" id="anagram-add"
+                           placeholder="type..."
+                           class="w-16 text-sm font-mono uppercase bg-transparent outline-none flex-shrink-0 placeholder-violet-300"
+                           autocomplete="off" autocapitalize="characters">
+                </div>
+                <div class="flex gap-2 mt-2">
+                    <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
+                    <button onclick="anagramClear()" class="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Clear</button>
+                </div>
+            </div>
+            <!-- Similar tab -->
+            <div id="solver-similar" class="p-3 border-b border-gray-100 hidden">
+                <p class="text-xs text-gray-500" id="similar-hint">Click a clue number to find similar clues</p>
+            </div>
+            <div id="solver-results" class="p-3 overflow-y-auto max-h-[50vh]"></div>
+        </div>
+    </div>
+    <script>
+    function solverTab(tab) {
+        document.getElementById('solver-pattern').classList.toggle('hidden', tab !== 'pattern');
+        document.getElementById('solver-anagram').classList.toggle('hidden', tab !== 'anagram');
+        document.getElementById('solver-similar').classList.toggle('hidden', tab !== 'similar');
+        var tabs = {
+            pattern: 'bg-emerald-100 text-emerald-700',
+            anagram: 'bg-violet-100 text-violet-700',
+            similar: 'bg-teal-100 text-teal-700'
+        };
+        ['pattern', 'anagram', 'similar'].forEach(function(t) {
+            document.getElementById('tab-' + t).className = 'text-xs px-2.5 py-1 rounded font-medium cursor-pointer '
+                + (t === tab ? tabs[t] : 'bg-gray-100 text-gray-500');
+        });
+        // When switching to similar tab, show cached results if available
+        if (tab === 'similar' && typeof _lastFocusedClueId !== 'undefined' && _lastFocusedClueId) {
+            var focused = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
+            if (focused && focused.getAttribute('data-similar-html')) {
+                document.getElementById('solver-results').innerHTML = focused.getAttribute('data-similar-html');
+                return;
+            }
+        }
+        document.getElementById('solver-results').innerHTML = '';
+    }
+    var _similarTimer = null;
+    var _similarEl = null;
+
+    function similarAnswerClick(el, answer) {
+        if (_similarTimer && _similarEl === el) {
+            // Double click — add to grid
+            clearTimeout(_similarTimer);
+            _similarTimer = null;
+            _similarEl = null;
+            el.style.filter = '';
+            pickResultClick(answer);
+        } else {
+            // First click — reveal/hide
+            _similarEl = el;
+            el.style.filter = el.style.filter ? '' : 'blur(5px)';
+            _similarTimer = setTimeout(function() {
+                _similarTimer = null;
+                _similarEl = null;
+            }, 500);
+        }
+    }
+
+    var _pickTimer = null;
+    var _pickWord = null;
+
+    function pickResultClick(word) {
+        if (typeof _lastFocusedClueId === 'undefined' || !_lastFocusedClueId) return;
+        var inp = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
+        if (!inp || inp.disabled) return;
+
+        if (_pickTimer && _pickWord === word) {
+            // Double click — add to grid
+            clearTimeout(_pickTimer);
+            _pickTimer = null;
+            _pickWord = null;
+            inp.value = word;
+            solverClose();
+            if (typeof solveAddToGrid === 'function') solveAddToGrid(inp);
+        } else {
+            // First click — preview only
+            _pickWord = word;
+            inp.value = word;
+            _pickTimer = setTimeout(function() {
+                _pickTimer = null;
+                _pickWord = null;
+            }, 500);
+        }
+    }
+
+    function solverClose() {
+        document.getElementById('pattern-input').value = '';
+        document.getElementById('pattern-include').value = '';
+        anagramClear();
+        document.getElementById('solver-results').innerHTML = '';
+        document.getElementById('helper-panel').classList.add('hidden');
+        document.getElementById('helper-open').classList.remove('hidden');
+    }
+
+    /* --- Anagram chip UI --- */
+    var _anagramTimer = null;
+
+    function anagramAddLetter(ch) {
+        var chip = document.createElement('span');
+        chip.className = 'anagram-chip inline-flex items-center px-2 py-0.5 bg-violet-200 text-violet-800 rounded font-mono text-sm font-bold cursor-pointer hover:bg-red-200 hover:text-red-700 transition-colors select-none';
+        chip.textContent = ch.toUpperCase();
+        chip.onclick = function() { this.remove(); anagramAutoSolve(); };
+        var input = document.getElementById('anagram-add');
+        input.parentNode.insertBefore(chip, input);
+    }
+
+    function anagramClear() {
+        document.querySelectorAll('#anagram-chips .anagram-chip').forEach(function(c) { c.remove(); });
+        document.getElementById('anagram-add').value = '';
+        document.getElementById('solver-results').innerHTML = '';
+        clearTimeout(_anagramTimer);
+    }
+
+    function _getAnagramLetters() {
+        var letters = '';
+        document.querySelectorAll('#anagram-chips .anagram-chip').forEach(function(c) {
+            letters += c.textContent.trim();
+        });
+        return letters;
+    }
+
+    function anagramSolve() {
+        var letters = _getAnagramLetters();
+        if (letters.length < 2) return;
+        htmx.ajax('GET', '/helper/anagram?letters=' + encodeURIComponent(letters),
+                   {target: '#solver-results', swap: 'innerHTML'});
+    }
+
+    function anagramAutoSolve() {
+        clearTimeout(_anagramTimer);
+        var letters = _getAnagramLetters();
+        if (letters.length >= 3) {
+            _anagramTimer = setTimeout(anagramSolve, 400);
+        } else {
+            document.getElementById('solver-results').innerHTML = '';
+        }
+    }
+
+    function addToGrid(answer, idx, hasAnswer, sourceAnswer) {
+        var el = document.getElementById('grid-check-' + idx);
+        if (!hasAnswer) {
+            el.innerHTML = '<span class="text-xs text-amber-600 font-medium">Added — accuracy check not available for prize puzzles</span>';
+            return;
+        }
+        el.innerHTML = '<span class="text-xs text-gray-600">Check answer? </span>'
+            + '<button onclick="checkAnswer(\'' + answer.replace(/'/g, "\\'") + '\', ' + idx + ', \'' + sourceAnswer.replace(/'/g, "\\'") + '\')" '
+            + 'class="text-xs px-2 py-0.5 rounded bg-green-600 text-white hover:bg-green-700 font-medium cursor-pointer mr-1">Yes</button>'
+            + '<button onclick="document.getElementById(\'grid-check-' + idx + '\').innerHTML=\'<span class=&quot;text-xs text-gray-400&quot;>Added without checking</span>\'" '
+            + 'class="text-xs px-2 py-0.5 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">No</button>';
+    }
+
+    function checkAnswer(answer, idx, sourceAnswer) {
+        var el = document.getElementById('grid-check-' + idx);
+        if (answer.replace(/\s/g, '').toUpperCase() === sourceAnswer.replace(/\s/g, '').toUpperCase()) {
+            el.innerHTML = '<span class="text-xs text-green-600 font-bold">Correct!</span>';
+        } else {
+            el.innerHTML = '<span class="text-xs text-red-500 font-medium">Wrong — this answer doesn\'t fit</span>';
+        }
+    }
+
+    function _closeAllWordHelp() {
+        document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
+        if (typeof _clearSelection === 'function') _clearSelection();
+    }
+
+    function similarFromClue(clueText, enumeration, clueLabel, clueId) {
+        _closeAllWordHelp();
+        document.getElementById('helper-panel').classList.remove('hidden');
+        document.getElementById('helper-open').classList.add('hidden');
+        solverTab('similar');
+        document.getElementById('similar-hint').textContent = 'Searching...';
+        var url = '/helper/similar?q=' + encodeURIComponent(clueText);
+        if (enumeration) url += '&enum=' + encodeURIComponent(enumeration);
+        if (clueLabel) url += '&label=' + encodeURIComponent(clueLabel);
+        if (clueId) url += '&clue_id=' + encodeURIComponent(clueId);
+        htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'}).then(function() {
+            document.getElementById('similar-hint').textContent = 'Click a clue number to search again';
+        });
+    }
+
+    function anagramFromWord(word) {
+        document.getElementById('helper-panel').classList.remove('hidden');
+        document.getElementById('helper-open').classList.add('hidden');
+        solverTab('anagram');
+        // Append letters instead of replacing — allows multi-word fodder building
+        word.toUpperCase().split('').forEach(function(ch) {
+            if (/[A-Z]/.test(ch)) anagramAddLetter(ch);
+        });
+        anagramAutoSolve();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var addInput = document.getElementById('anagram-add');
+        addInput.addEventListener('input', function() {
+            var val = this.value.toUpperCase();
+            if (val && /^[A-Z]$/.test(val)) {
+                anagramAddLetter(val);
+                this.value = '';
+                anagramAutoSolve();
+            } else {
+                this.value = '';
+            }
+        });
+        addInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value) {
+                var chips = document.querySelectorAll('#anagram-chips .anagram-chip');
+                if (chips.length) {
+                    chips[chips.length - 1].remove();
+                    anagramAutoSolve();
+                }
+            }
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                anagramSolve();
+            }
+        });
+    });
+    </script>
 </body>
 </html>
