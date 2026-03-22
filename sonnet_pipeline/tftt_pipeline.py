@@ -290,47 +290,50 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
     wordplay_type = parsed.get("wordplay_type", "unknown")
     definition = parsed.get("definition") or definition_from_tftt or ""
 
-    # Build human-readable explanation from pieces
-    parts = []
-    for p in pieces:
-        clue_word = p.get("clue_word", "?")
-        letters = p.get("letters", "?")
-        mechanism = p.get("mechanism", "?")
-        if mechanism in ("literal", "anagram_fodder"):
-            parts.append("%s(%s)" % (letters, clue_word))
-        elif mechanism == "synonym":
-            parts.append("%s(synonym of \"%s\")" % (letters, clue_word))
-        elif mechanism == "abbreviation":
-            parts.append("%s(abbr. \"%s\")" % (letters, clue_word))
-        elif mechanism == "first_letter":
-            parts.append("%s(first letter of \"%s\")" % (letters, clue_word))
-        elif mechanism == "last_letter":
-            parts.append("%s(last letter of \"%s\")" % (letters, clue_word))
-        elif mechanism == "reversal":
-            source_word = letters[::-1] if letters else ""
-            parts.append("%s(%s reversed, \"%s\")" % (letters, source_word, clue_word))
-        elif mechanism == "hidden":
-            parts.append("%s(hidden in \"%s\")" % (letters, clue_word))
-        elif mechanism == "deletion":
-            source_word = p.get("source", "")
-            deleted = p.get("deleted", "")
-            if source_word and deleted:
-                parts.append("%s(%s minus %s, \"%s\")" % (letters, source_word, deleted, clue_word))
-            elif source_word:
-                parts.append("%s(from %s, \"%s\")" % (letters, source_word, clue_word))
-            else:
-                parts.append("%s(deletion from \"%s\")" % (letters, clue_word))
-        elif mechanism == "alternate_letters":
-            parts.append("%s(alternate letters of \"%s\")" % (letters, clue_word))
-        elif mechanism == "sound_of":
-            parts.append("%s(sounds like \"%s\")" % (letters, clue_word))
-        else:
-            parts.append("%s(%s: \"%s\")" % (letters, mechanism, clue_word))
+    # Run the assembler to determine how pieces fit together
+    from .solver import assemble, clean
+    piece_letters = [clean(p.get("letters", "")) for p in pieces if p.get("letters")]
+    answer_row = conn.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    answer = answer_row[0] if answer_row else ""
+    assembly = assemble(
+        conn.execute("SELECT clue_text FROM clues WHERE id = ?", (clue_id,)).fetchone()[0],
+        answer, piece_letters, ai_wtype=wordplay_type,
+    )
 
-    explanation = " + ".join(parts)
-    if wordplay_type not in ("charade",):
-        explanation += " [%s]" % wordplay_type
-    explanation += "; definition: \"%s\"" % definition
+    # Build explanation from assembly result (proper container/anagram/reversal descriptions)
+    if assembly:
+        from .report import _describe_assembly
+        explanation = _describe_assembly(assembly, pieces, answer=answer)
+        if not explanation:
+            explanation = ""
+        # Add definition
+        if explanation and definition:
+            explanation += "; definition: \"%s\"" % definition
+        elif definition:
+            explanation = "Definition: \"%s\"" % definition
+    else:
+        # Fallback: simple concatenation if assembler can't solve it
+        parts = []
+        for p in pieces:
+            clue_word = p.get("clue_word", "?")
+            letters = p.get("letters", "?")
+            mechanism = p.get("mechanism", "?")
+            if mechanism in ("literal", "anagram_fodder"):
+                parts.append("%s(%s)" % (letters, clue_word))
+            elif mechanism == "synonym":
+                parts.append("%s(synonym of \"%s\")" % (letters, clue_word))
+            elif mechanism == "abbreviation":
+                parts.append("%s(abbr. \"%s\")" % (letters, clue_word))
+            elif mechanism == "first_letter":
+                parts.append("%s(first letter of \"%s\")" % (letters, clue_word))
+            elif mechanism == "hidden":
+                parts.append("%s(hidden in \"%s\")" % (letters, clue_word))
+            else:
+                parts.append("%s(%s: \"%s\")" % (letters, mechanism, clue_word))
+        explanation = " + ".join(parts)
+        if wordplay_type not in ("charade",):
+            explanation += " [%s]" % wordplay_type
+        explanation += "; definition: \"%s\"" % definition
 
     # Update clues table
     conn.execute("""
@@ -355,6 +358,7 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
     confidence = score / 100.0
     components = json.dumps({
         "ai_pieces": pieces,
+        "assembly": assembly,
         "wordplay_type": wordplay_type,
         "source": "tftt+haiku",
     })

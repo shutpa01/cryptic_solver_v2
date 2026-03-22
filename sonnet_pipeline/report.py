@@ -67,10 +67,14 @@ def _annotate(letters, ai_pieces):
             source_word = letters_clean[::-1]
             return '%s(%s reversed, "%s")' % (letters, source_word, clue_word)
 
+        # Don't repeat when clue_word matches letters (e.g. HOME/home)
+        if clue_word.upper().replace(" ", "") == letters_clean:
+            return letters
+
         mech_label = _MECH_LABELS.get(mechanism, "")
         if mech_label:
             return '%s(%s "%s")' % (letters, mech_label, clue_word)
-        return "%s(%s)" % (letters, clue_word)
+        return '%s("%s")' % (letters, clue_word)
     return letters
 
 
