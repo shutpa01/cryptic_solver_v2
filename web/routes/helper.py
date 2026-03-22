@@ -90,11 +90,13 @@ def lookup():
             l = r["len"]
             if l not in by_len:
                 by_len[l] = []
-            if len(by_len[l]) < 5:
-                by_len[l].append(r["val"])
+            by_len[l].append(r["val"])
         meanings_list = []
         for l in sorted(by_len):
-            meanings_list.append({"length": l, "words": sorted(by_len[l])})
+            all_words = sorted(by_len[l])
+            shown = all_words[:5]
+            more = len(all_words) - 5 if len(all_words) > 5 else 0
+            meanings_list.append({"length": l, "words": shown, "more": more})
 
     # 2. Indicators — alphabetical by type
     indicators = db.execute(
@@ -162,6 +164,37 @@ def _get_clues_db():
         g.clues_pattern_db = sqlite3.connect(uri, uri=True)
         g.clues_pattern_db.row_factory = sqlite3.Row
     return g.clues_pattern_db
+
+
+@bp.route("/helper/meanings")
+def meanings_expand():
+    """Return all meanings for a word at a specific letter count.
+
+    Used when the user clicks a length group to expand it.
+    """
+    word = request.args.get("word", "").strip()
+    letters = request.args.get("letters", type=int)
+    if not word or not letters:
+        abort(400)
+
+    word_lower = word.lower()
+    db = _get_ref_db()
+    rows = db.execute(
+        """SELECT DISTINCT val FROM (
+               SELECT UPPER(synonym) AS val FROM synonyms_pairs
+               WHERE LOWER(word) = ? AND LENGTH(synonym) = ?
+               UNION
+               SELECT UPPER(answer) AS val FROM definition_answers_augmented
+               WHERE LOWER(definition) = ? AND LENGTH(answer) = ?
+           ) ORDER BY val""",
+        (word_lower, letters, word_lower, letters),
+    ).fetchall()
+
+    words = [r["val"] for r in rows]
+    return (
+        '<span class="text-blue-400 text-xs font-bold">(%d)</span> '
+        '<span class="text-gray-800">%s</span>'
+    ) % (letters, ", ".join(words))
 
 
 # Flask-Limiter decorator would go here, e.g.:

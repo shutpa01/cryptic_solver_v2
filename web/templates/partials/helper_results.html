@@ -29,9 +29,13 @@
         <span class="font-medium text-blue-700">Could mean:</span>
         {% if meanings_grouped %}
             {% for group in meanings %}
-            <div class="mt-1">
-                <span class="text-blue-400 text-xs">({{ group.length }})</span>
-                <span class="text-gray-800">{{ group.words | join(', ') | upper }}</span>
+            <div class="mt-1" id="meanings-{{ group.length }}">
+                <span class="text-blue-400 text-xs cursor-pointer hover:text-blue-600 hover:underline font-bold"
+                      hx-get="/helper/meanings?word={{ word }}&letters={{ group.length }}"
+                      hx-target="#meanings-{{ group.length }}"
+                      hx-swap="innerHTML"
+                      title="Show all {{ group.length }}-letter matches">({{ group.length }})</span>
+                <span class="text-gray-800">{{ group.words | join(', ') | upper }}{% if group.more %} <span class="text-blue-400 text-xs">+{{ group.more }} more</span>{% endif %}</span>
             </div>
             {% endfor %}
         {% else %}

@@ -455,6 +455,72 @@ def set_answer(clue_id):
     return f'<span class="text-xs text-green-600 font-bold">Answer set: {answer}</span>'
 
 
+@bp.route("/queue-enrichment/<int:clue_id>", methods=["POST"])
+def queue_enrichment(clue_id):
+    """Extract pieces from a clue's explanation and queue for dashboard enrichment."""
+    _require_admin()
+
+    import json
+
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT clue_text, answer, source, puzzle_number FROM clues WHERE id = ?",
+        (clue_id,),
+    ).fetchone()
+    if clue is None:
+        return '{"queued": 0}', 200, {"Content-Type": "application/json"}
+
+    # Get pieces from structured_explanations
+    se = db.execute(
+        "SELECT components FROM structured_explanations WHERE clue_id = ?",
+        (clue_id,),
+    ).fetchone()
+    if not se or not se["components"]:
+        return '{"queued": 0}', 200, {"Content-Type": "application/json"}
+
+    comps = json.loads(se["components"])
+    pieces = comps.get("ai_pieces", [])
+
+    queued = 0
+    for p in pieces:
+        mechanism = p.get("mechanism", "")
+        clue_word = p.get("clue_word", "").strip()
+        letters = p.get("letters", "").strip().upper()
+
+        if not clue_word or not letters:
+            continue
+
+        # Only queue synonym and abbreviation mappings
+        if mechanism == "synonym":
+            etype = "synonym"
+        elif mechanism == "abbreviation":
+            etype = "abbreviation"
+        else:
+            continue
+
+        # Skip if already in pending
+        existing = db.execute(
+            "SELECT 1 FROM pending_enrichments WHERE type = ? AND word = ? AND letters = ?",
+            (etype, clue_word.lower(), letters),
+        ).fetchone()
+        if existing:
+            continue
+
+        db.execute("""
+            INSERT INTO pending_enrichments
+            (type, word, letters, answer, clue_text, source, puzzle_number, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """, (
+            etype, clue_word.lower(), letters,
+            clue["answer"] or "", clue["clue_text"] or "",
+            clue["source"], clue["puzzle_number"],
+        ))
+        queued += 1
+
+    db.commit()
+    return json.dumps({"queued": queued}), 200, {"Content-Type": "application/json"}
+
+
 @bp.route("/save-all-answers", methods=["POST"])
 def save_all_answers():
     """Save multiple answers to the DB at once (admin only).
