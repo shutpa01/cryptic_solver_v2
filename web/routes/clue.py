@@ -10,7 +10,7 @@ Blueprint registration (already in web/__init__.py):
 
 import re
 
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, abort, g
 
 from web.db import get_db
 from web.models import (
@@ -183,7 +183,7 @@ def clue_page(slug):
 
     # Tier and hints
     tier, max_steps = compute_hint_tier(clue)
-    steps = get_hint_steps(clue)
+    steps = get_hint_steps(clue, tier=tier, is_admin=g.get("is_admin", False))
     clue_dict["tier"] = tier
     clue_dict["solve_source"] = compute_solve_source(clue)
     clue_dict["max_steps"] = max_steps

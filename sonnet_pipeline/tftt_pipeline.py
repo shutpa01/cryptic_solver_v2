@@ -354,8 +354,20 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
         clue_id,
     ))
 
-    # Write structured_explanations
-    confidence = score / 100.0
+    # Run mechanical verifier for confidence score
+    from .verify_explanation import ExplanationVerifier
+    clue_row = conn.execute(
+        "SELECT clue_text, answer FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    _verifier = getattr(store_tftt_result, '_verifier', None)
+    if _verifier is None:
+        _verifier = ExplanationVerifier()
+        store_tftt_result._verifier = _verifier
+    v_result = _verifier.verify(
+        clue_row[0] if clue_row else "", clue_row[1] if clue_row else "",
+        definition, wordplay_type, explanation,
+    )
+    confidence = v_result["score"] / 100.0 if v_result else score / 100.0
     components = json.dumps({
         "ai_pieces": pieces,
         "assembly": assembly,

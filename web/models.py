@@ -363,21 +363,28 @@ def compute_solve_source(clue):
     return "P"
 
 
-def get_hint_steps(clue):
+def get_hint_steps(clue, tier=None, is_admin=False):
     """Return ordered list of available hint steps for a clue.
 
     Each step is a dict: {step: int, label: str, type: str}
     Types: 'definition', 'wordplay_type', 'explanation', 'answer'
+
+    For non-admin users, LOW and FAIL tiers only show definition + answer
+    (wordplay type and explanation are hidden to avoid showing bad content).
     """
     steps = []
     n = 1
+
+    # Determine if we should show the full explanation
+    show_full = is_admin or tier in ("HIGH", "MEDIUM", "PENDING", None)
+
     if clue["definition"]:
         steps.append({"step": n, "label": "Definition", "type": "definition"})
         n += 1
-    if clue["wordplay_type"]:
+    if show_full and clue["wordplay_type"]:
         steps.append({"step": n, "label": "Wordplay type", "type": "wordplay_type"})
         n += 1
-    if _has_explanation(clue):
+    if show_full and _has_explanation(clue):
         steps.append({"step": n, "label": "Explanation", "type": "explanation"})
         n += 1
     # Answer is always available as the final step

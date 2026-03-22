@@ -3,7 +3,7 @@
 import json
 import re
 
-from flask import Blueprint, render_template, abort, request, Response
+from flask import Blueprint, render_template, abort, request, Response, g
 
 from web.models import (
     classify_puzzle, TYPE_LABELS, _is_valid_type, get_puzzle_clues,
@@ -41,7 +41,7 @@ def puzzle(source, puzzle_type, puzzle_number):
     down = []
     for clue in clues:
         tier, max_steps = compute_hint_tier(clue)
-        steps = get_hint_steps(clue)
+        steps = get_hint_steps(clue, tier=tier, is_admin=g.get("is_admin", False))
         clue_dict = dict(clue)
         clue_dict["tier"] = tier
         clue_dict["solve_source"] = compute_solve_source(clue)

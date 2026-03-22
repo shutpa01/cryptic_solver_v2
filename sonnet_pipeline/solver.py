@@ -2340,14 +2340,28 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
         "wordplay_type": wordplay_types[0],
     }
 
-    confidence = score / 100.0
-
     # Build human-readable explanation from assembly
     from .report import _describe_assembly
-    # Fetch answer for hidden-word highlighting
-    ans_row = conn.execute("SELECT answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
-    clue_answer = ans_row[0] if ans_row else None
+    # Fetch answer and clue text for verification
+    clue_row = conn.execute("SELECT clue_text, answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    clue_answer = clue_row[1] if clue_row else None
+    clue_text = clue_row[0] if clue_row else ""
     explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
+
+    # Run mechanical verifier for confidence score
+    if explanation_text:
+        from .verify_explanation import ExplanationVerifier
+        _verifier = getattr(store_result, '_verifier', None)
+        if _verifier is None:
+            _verifier = ExplanationVerifier()
+            store_result._verifier = _verifier
+        v_result = _verifier.verify(
+            clue_text, clue_answer or "", ai_def or "",
+            wordplay_types[0], explanation_text,
+        )
+        confidence = v_result["score"] / 100.0 if v_result else score / 100.0
+    else:
+        confidence = score / 100.0
 
     # Update definition only if not already set
     if ai_def:

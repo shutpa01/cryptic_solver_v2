@@ -1,6 +1,6 @@
 """Hint reveal routes — progressive HTMX reveal + async explanation generation."""
 
-from flask import Blueprint, request, render_template, abort, current_app
+from flask import Blueprint, request, render_template, abort, current_app, g
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 from web.models import (
@@ -54,7 +54,8 @@ def reveal():
     if clue is None:
         abort(404)
 
-    steps = get_hint_steps(clue)
+    tier, _ = compute_hint_tier(clue)
+    steps = get_hint_steps(clue, tier=tier, is_admin=g.get("is_admin", False))
     if not steps:
         abort(400)
 
@@ -153,7 +154,7 @@ def explain():
     # Re-fetch the clue to get updated data, regenerate token for new hints
     clue = get_clue_by_id(clue_id)
     new_tier, _ = compute_hint_tier(clue)
-    steps = get_hint_steps(clue)
+    steps = get_hint_steps(clue, tier=new_tier, is_admin=g.get("is_admin", False))
     new_token = generate_token(clue_id)
 
     timing = {

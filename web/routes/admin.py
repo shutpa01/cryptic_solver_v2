@@ -141,7 +141,7 @@ def edit_save(clue_id):
     from web.routes.hints import generate_token
     clue = get_clue_by_id(clue_id)
     new_tier, _ = compute_hint_tier(clue)
-    steps = get_hint_steps(clue)
+    steps = get_hint_steps(clue, is_admin=True)
     new_token = generate_token(clue_id)
     solve_source = compute_solve_source(clue)
     return render_template(
@@ -281,7 +281,7 @@ def rerun_clue(clue_id):
     from web.routes.hints import generate_token
     clue = get_clue_by_id(clue_id)
     new_tier, _ = compute_hint_tier(clue)
-    steps = get_hint_steps(clue)
+    steps = get_hint_steps(clue, is_admin=True)
     new_token = generate_token(clue_id)
     solve_source = compute_solve_source(clue)
     return render_template(
@@ -335,7 +335,7 @@ def approve_clue(clue_id):
     from web.routes.hints import generate_token
     clue = get_clue_by_id(clue_id)
     new_tier, _ = compute_hint_tier(clue)
-    steps = get_hint_steps(clue)
+    steps = get_hint_steps(clue, is_admin=True)
     new_token = generate_token(clue_id)
     solve_source = compute_solve_source(clue)
     return render_template(
