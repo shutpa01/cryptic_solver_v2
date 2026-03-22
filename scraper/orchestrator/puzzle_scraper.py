@@ -491,6 +491,45 @@ def main():
     print("DONE")
     print(f"{'=' * 60}")
 
+    # Sync DB to honeypot site
+    _sync_honeypot()
+
+
+def _sync_honeypot():
+    """Copy clues_master.db to the honeypot server and restart."""
+    import subprocess
+    import shutil
+
+    db_path = SCRIPT_DIR.parent.parent / "data" / "clues_master.db"
+    if not db_path.exists():
+        print("Honeypot sync: DB not found, skipping")
+        return
+
+    print("\nSyncing DB to honeypot site...")
+    try:
+        result = subprocess.run(
+            ["scp", str(db_path), "root@134.209.21.34:/opt/honeypot/data/clues.db"],
+            timeout=300,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            print(f"  SCP failed: {result.stderr}")
+            return
+
+        result = subprocess.run(
+            ["ssh", "root@134.209.21.34", "systemctl restart honeypot"],
+            timeout=30,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            print("  Honeypot synced and restarted")
+        else:
+            print(f"  Restart failed: {result.stderr}")
+    except Exception as e:
+        print(f"  Honeypot sync error: {e}")
+
 
 if __name__ == "__main__":
     main()

@@ -275,6 +275,22 @@ class ExplanationVerifier:
                 "detail": f"first of '{word}' = {letter}: {'YES' if fl_ok else 'NO'}",
             })
 
+        # --- CHECK 6: Trivial explanation detection ---
+        # If the explanation is just "ANSWER(synonym of definition)" with no wordplay,
+        # it's not a real explanation — it just restates the definition
+        syn_pieces = re.findall(
+            r"(\w+)\s*\(\s*synonym\s+of\s+[\"']([^\"']+)[\"']\s*\)",
+            expl, re.IGNORECASE,
+        )
+        if syn_pieces and len(syn_pieces) == 1:
+            result_word, source_word = syn_pieces[0]
+            if result_word.upper().replace(" ", "") == answer_clean:
+                checks.append({
+                    "check": "trivial",
+                    "status": "wrong",
+                    "detail": f"explanation just restates answer as synonym of definition",
+                })
+
         # --- SCORING ---
         # Three states: VERIFIED (proven correct), UNVERIFIABLE (not in DB),
         # WRONG (proven incorrect by mechanical check)
@@ -335,6 +351,8 @@ class ExplanationVerifier:
                     score -= 30  # Trivially verifiable, no excuse
                 elif c["check"] == "abbreviation":
                     score -= 15  # Likely wrong
+                elif c["check"] == "trivial":
+                    score -= 40  # Just restating the definition, not an explanation
                 elif c["check"] in ("definition", "synonym"):
                     score -= 5   # Could be DB gap
             # unverifiable = no change
