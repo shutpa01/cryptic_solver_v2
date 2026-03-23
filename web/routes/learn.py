@@ -19,18 +19,27 @@ TYPE_INFO = {
         "short": "Letters rearranged to spell the answer",
         "icon": "🔀",
         "colour": "violet",
+        "tip": """Here's Cordelia's trick for anagrams: <strong>count the letters</strong>. The answer length is in the brackets — so look for a word or combination of words in the clue that has exactly that many letters. That's your fodder. Then look for an indicator word nearby — something like "broken", "mixed", "wild", or "out" that signals rearrangement.
+
+Once you've found the fodder, don't try to rearrange the letters in your head — use the <strong>anagram solver</strong>. Open Solver tools (top right), click the Anagram tab, then click the fodder words in the clue. The letters appear as chips. Hit Solve and you'll get only real words back — no nonsense.""",
     },
     "charade": {
         "label": "Charade",
         "short": "Pieces joined end to end",
         "icon": "🔗",
         "colour": "blue",
+        "tip": """Charades are the most common type. The answer is built by joining pieces — synonyms, abbreviations, or short words — end to end. Each word in the clue contributes a chunk of letters.
+
+Cordelia's trick: <strong>click the words in the clue</strong> using our word lookup tool. You'll quickly see which words are abbreviations (quiet = P, old = O) and which have synonyms that could be pieces. Once you have a few pieces, try the <strong>pattern finder</strong> with your crossing letters to narrow down the answer.""",
     },
     "container": {
         "label": "Container",
         "short": "One word placed inside another",
         "icon": "📦",
         "colour": "amber",
+        "tip": """Container clues are like charades, but one piece goes <em>inside</em> another instead of next to it. Look for words like "in", "around", "holding", "containing", "swallowing", or "embracing" — they tell you which piece wraps around which.
+
+Cordelia's trick: if you can identify two short pieces but they don't join up, <strong>try putting one inside the other</strong>. Click the words to find abbreviations and synonyms, then experiment with insertion. The pieces are usually right — it's just the assembly that's different.""",
     },
     "deletion": {
         "label": "Deletion",
@@ -49,6 +58,9 @@ TYPE_INFO = {
         "short": "Answer hiding inside the clue",
         "icon": "🔍",
         "colour": "emerald",
+        "tip": """Hidden words are the easiest type to spot — and a great place to start. The answer is literally spelled out inside the clue, spanning across word boundaries. Look for indicator words like "in", "part of", "some", or "within".
+
+Cordelia's trick: <strong>scan the clue looking for the answer length</strong>. If the answer is 5 letters, slide a 5-letter window across the clue text (ignoring spaces) and see if any real word appears. Our <strong>pattern finder</strong> can help — if you have some crossing letters, type them in and see what fits.""",
     },
     "reversal": {
         "label": "Reversal",
@@ -264,6 +276,7 @@ def learn_type(wtype):
         icon=info.get("icon", ""),
         colour=info.get("colour", "gray"),
         description=type_data.get("description", ""),
+        tip=info.get("tip", ""),
         clue_cards=clue_cards,
         total=len(clues),
     )
