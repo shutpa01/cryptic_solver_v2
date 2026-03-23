@@ -14,9 +14,13 @@
 </nav>
 
 {# Hero #}
-<div class="mb-8">
-    <h1 class="text-2xl font-bold text-gray-900">Learn with Cordelia</h1>
-    <p class="text-gray-600 mt-2 leading-relaxed">I used to think cryptic crosswords were for other people. Impenetrable. A secret club I'd never join. Then someone showed me the trick — and I realised I'd been overthinking it the whole time.</p>
+<div class="mb-8 flex items-start gap-4">
+    <img src="/static/cordelia.jpg" alt="Cordelia" class="w-20 h-20 rounded-full object-cover object-top shrink-0 shadow-md border-2 border-indigo-200">
+    <div>
+        <h1 class="text-2xl font-brand font-bold text-gray-900">Learn with Cordelia</h1>
+        <p class="text-sm text-indigo-500 mb-2 italic">Not your average solver</p>
+        <p class="text-gray-600 leading-relaxed">I used to think cryptic crosswords were for other people. Impenetrable. A secret club I'd never join. Then someone showed me the trick — and I realised I'd been overthinking it the whole time.</p>
+    </div>
 </div>
 
 {# The Basics #}
@@ -156,8 +160,11 @@
 </div>
 
 {# Encouragement #}
-<div class="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
-    <p class="text-sm text-indigo-700 leading-relaxed">I won't pretend I crack every clue. Nobody does — not even the experts. But every puzzle I try, I get a few more. And that feeling when you finally see how a clue works? That's what keeps you coming back.</p>
-    <p class="text-sm text-indigo-600 mt-2 font-medium">— Cordelia</p>
+<div class="p-4 bg-indigo-50 border border-indigo-200 rounded-lg flex items-start gap-3">
+    <img src="/static/cordelia.jpg" alt="Cordelia" class="w-10 h-10 rounded-full object-cover object-top shrink-0">
+    <div>
+        <p class="text-sm text-indigo-700 leading-relaxed">I won't pretend I crack every clue. Nobody does — not even the experts. But every puzzle I try, I get a few more. And that feeling when you finally see how a clue works? That's what keeps you coming back.</p>
+        <p class="text-sm text-indigo-600 mt-2 font-medium">— Cordelia</p>
+    </div>
 </div>
 {% endblock %}
