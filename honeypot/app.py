@@ -165,6 +165,38 @@ def clue_page(slug):
     )
 
 
+@app.route("/puzzle/<source>/<puzzle_number>")
+def puzzle_page(source, puzzle_number):
+    db = get_db()
+
+    clues = db.execute("""
+        SELECT clue_text, answer, definition, enumeration, clue_number, direction,
+               publication_date
+        FROM clues
+        WHERE source = ? AND puzzle_number = ?
+        ORDER BY CASE direction WHEN 'across' THEN 0 WHEN 'down' THEN 1 ELSE 2 END,
+                 CAST(clue_number AS INTEGER)
+    """, (source, puzzle_number)).fetchall()
+
+    if not clues:
+        abort(404)
+
+    pub_date = clues[0]["publication_date"] if clues else None
+    across = [c for c in clues if c["direction"] == "across"]
+    down = [c for c in clues if c["direction"] == "down"]
+
+    return render_template(
+        "puzzle.html",
+        source=source,
+        puzzle_number=puzzle_number,
+        publication_date=pub_date,
+        across=across,
+        down=down,
+        total=len(clues),
+        make_slug=make_slug,
+    )
+
+
 @app.route("/sitemap_index.xml")
 def sitemap_index():
     path = Path(__file__).resolve().parent / "static" / "sitemaps" / "sitemap_index.xml"

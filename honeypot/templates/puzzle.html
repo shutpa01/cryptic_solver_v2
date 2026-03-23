@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ source | title }} Crossword #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Answers{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph Crossword #{{ puzzle_number }} answers and definitions. Big Dave alternative.{% elif source == 'times' %}Times Crossword #{{ puzzle_number }} answers. TFTT / Times for the Times alternative.{% elif source == 'guardian' %}Guardian Crossword #{{ puzzle_number }} answers. Fifteensquared alternative.{% else %}{{ source | title }} Crossword #{{ puzzle_number }} answers and definitions.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %} {{ total }} clues with answers.">
+{% endblock %}
+
+{% block content %}
+<nav style="font-size:0.85rem; color:#888; margin-bottom:1rem;">
+    <a href="/">Home</a> /
+    <a href="/source/{{ source }}/">{{ source | title }}</a> /
+    <span>#{{ puzzle_number }}</span>
+</nav>
+
+<h2 style="font-size:1.3rem; margin-bottom:0.25rem;">{{ source | title }} Crossword #{{ puzzle_number }}</h2>
+{% if publication_date %}
+<p style="color:#888; font-size:0.85rem; margin-bottom:1rem;">{{ publication_date }} &middot; {{ total }} clues</p>
+{% endif %}
+
+{% if across %}
+<div class="card">
+    <h3 style="font-size:0.95rem; color:#555; margin-bottom:0.5rem; border-bottom:1px solid #e0ddd8; padding-bottom:0.25rem;">Across</h3>
+    <ul class="clue-list">
+        {% for c in across %}
+        <li>
+            <span style="color:#999; font-size:0.85rem; width:2rem; display:inline-block;">{{ c.clue_number }}</span>
+            {% set slug = make_slug(c.clue_text, c.answer) %}
+            {% if slug %}
+            <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
+            {% else %}
+            {{ c.clue_text }}
+            {% endif %}
+            {% if c.enumeration %}<span style="color:#aaa;">({{ c.enumeration }})</span>{% endif %}
+            {% if c.answer %}
+            &mdash; <span class="ans">{{ c.answer }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if down %}
+<div class="card" style="margin-top:0.75rem;">
+    <h3 style="font-size:0.95rem; color:#555; margin-bottom:0.5rem; border-bottom:1px solid #e0ddd8; padding-bottom:0.25rem;">Down</h3>
+    <ul class="clue-list">
+        {% for c in down %}
+        <li>
+            <span style="color:#999; font-size:0.85rem; width:2rem; display:inline-block;">{{ c.clue_number }}</span>
+            {% set slug = make_slug(c.clue_text, c.answer) %}
+            {% if slug %}
+            <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
+            {% else %}
+            {{ c.clue_text }}
+            {% endif %}
+            {% if c.enumeration %}<span style="color:#aaa;">({{ c.enumeration }})</span>{% endif %}
+            {% if c.answer %}
+            &mdash; <span class="ans">{{ c.answer }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

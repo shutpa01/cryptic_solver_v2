@@ -500,7 +500,7 @@ def _sync_honeypot():
     import subprocess
     import shutil
 
-    db_path = SCRIPT_DIR.parent.parent / "data" / "clues_master.db"
+    db_path = CLUES_MASTER_DB
     if not db_path.exists():
         print("Honeypot sync: DB not found, skipping")
         return

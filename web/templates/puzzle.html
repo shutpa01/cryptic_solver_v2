@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% endblock %}
+{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cryptic Crossword Hints{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}">
+{% endblock %}
 
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
