@@ -21,11 +21,12 @@
 {# The clue #}
 <div class="bg-white rounded-lg border border-gray-200 p-6 mb-4">
     <p class="text-lg text-gray-900 leading-relaxed">
-        {{ clue.clue_text }}
+        {{ clue.clue_text | clickable_words('practice-' ~ idx) }}
         {% if clue.enumeration %}
         <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
         {% endif %}
     </p>
+    <div id="wordhelp-practice-{{ idx }}" class="mt-1"></div>
 
     {# User's guess #}
     <div class="mt-4">
@@ -157,6 +158,51 @@
 
 <script>
 var _answer = "{{ clue.answer }}".replace(/\s/g, '').toUpperCase();
+
+// Word help for clickable clue words
+var _selectedWords = [];
+function wordHelp(span) {
+    var idx = parseInt(span.dataset.idx);
+    var clean = span.dataset.clean;
+    var clueId = span.dataset.clue;
+    var target = 'wordhelp-' + clueId;
+    var panel = document.getElementById('helper-panel');
+    if (panel && !panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        document.getElementById('helper-open').classList.remove('hidden');
+    }
+    if (_selectedWords.length > 0 && _selectedWords[0].clueId !== clueId) { _clearSelection(); }
+    if (_selectedWords.length === 1 && _selectedWords[0].idx === idx) {
+        _clearSelection();
+        document.getElementById(target).innerHTML = '';
+        return;
+    }
+    if (_selectedWords.length > 0) {
+        var minIdx = Math.min.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        var maxIdx = Math.max.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        if (idx === minIdx - 1 || idx === maxIdx + 1) {
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        } else {
+            _clearSelection();
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        }
+    } else {
+        _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+        span.classList.add('bg-indigo-200', 'rounded');
+    }
+    _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
+    var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
+    document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {
+        if (e.id !== target) e.innerHTML = '';
+    });
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#' + target, swap: 'innerHTML'});
+}
+function _clearSelection() {
+    _selectedWords.forEach(function(w) { w.el.classList.remove('bg-indigo-200', 'rounded'); });
+    _selectedWords = [];
+}
 
 function checkGuess() {
     var guess = document.getElementById('guess-input').value.replace(/\s/g, '').toUpperCase();

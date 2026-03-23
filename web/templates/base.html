@@ -9,7 +9,22 @@
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    brand: ['Playfair Display', 'Georgia', 'serif'],
+                    body: ['Nunito', 'system-ui', 'sans-serif'],
+                }
+            }
+        }
+    }
+    </script>
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <style>
         /* Tier badge colours */
@@ -18,16 +33,19 @@
         .tier-low { background-color: #9ca3af; color: white; }
         .tier-fail { background-color: #dc2626; color: white; }
         .tier-pending { background-color: #a78bfa; color: white; }
+        /* Cordelia fonts */
+        body { font-family: 'Nunito', system-ui, sans-serif; }
+        .font-brand { font-family: 'Playfair Display', Georgia, serif; }
         /* HTMX loading indicator */
         .htmx-indicator { display: none; }
         .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: inline; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
+<body class="bg-gray-50 text-gray-900 min-h-screen font-body">
     <!-- Nav -->
     <nav class="bg-white border-b border-gray-200 px-4 py-3">
         <div class="max-w-3xl mx-auto flex items-center justify-between">
-            <a href="/" class="text-lg font-bold text-indigo-600">Cordelia</a>
+            <a href="/" class="text-xl font-brand font-bold text-indigo-600 tracking-wide">Cordelia</a>
             <div class="flex items-center gap-4">
                 <a href="/learn" class="text-sm text-gray-500 hover:text-indigo-600 font-medium">Learn</a>
             </div>
