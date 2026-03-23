@@ -89,6 +89,7 @@ def create_app(config_name=None):
     from web.routes.clue import bp as clue_bp
     from web.routes.helper import bp as helper_bp
     from web.routes.seo import bp as seo_bp
+    from web.routes.learn import bp as learn_bp
 
     app.register_blueprint(browse_bp)
     app.register_blueprint(puzzle_bp)
@@ -97,5 +98,6 @@ def create_app(config_name=None):
     app.register_blueprint(clue_bp)
     app.register_blueprint(helper_bp)
     app.register_blueprint(seo_bp)
+    app.register_blueprint(learn_bp)
 
     return app

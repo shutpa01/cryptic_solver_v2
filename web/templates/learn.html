@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Learn Cryptic Crosswords — How Wordplay Works{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Learn how to solve cryptic crosswords. Visual breakdowns of 10 wordplay types: anagrams, charades, containers, hidden words, and more. 241 example clues with step-by-step explanations.">
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <span>Learn</span>
+</nav>
+
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Learn Cryptic Crosswords</h1>
+    <p class="text-gray-600 mt-2">Cryptic clues look impossible at first. But every clue follows a pattern — once you know the patterns, you can crack them. Pick a type below and see how it works.</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {% for t in types %}
+    <a href="/learn/{{ t.slug }}" class="block bg-white rounded-lg border border-gray-200 hover:border-{{ t.colour }}-300 hover:shadow-md transition-all p-4">
+        <div class="flex items-start gap-3">
+            <span class="text-2xl">{{ t.icon }}</span>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-gray-900">{{ t.label }}</h2>
+                    <span class="text-xs text-gray-400">{{ t.count }} examples</span>
+                </div>
+                <p class="text-sm text-gray-500 mt-0.5">{{ t.short }}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="mt-8 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+    <h2 class="font-semibold text-indigo-800 text-sm">The golden rule</h2>
+    <p class="text-sm text-indigo-700 mt-1">Every cryptic clue has two parts: a <strong>definition</strong> (a straight synonym of the answer, always at the start or end of the clue) and <strong>wordplay</strong> (instructions to build the answer from pieces). Your job is to find where one ends and the other begins.</p>
+</div>
+{% endblock %}

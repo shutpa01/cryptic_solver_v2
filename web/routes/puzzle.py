@@ -89,6 +89,26 @@ def puzzle(source, puzzle_type, puzzle_number):
                 target["linked_label"] = str(c["clue_number"]) + c["direction"][0]
                 target["linked_id"] = c["id"]
 
+    is_prize = puzzle_type in ("prize", "prize-cryptic", "prize-toughie", "sunday")
+    # Guardian Saturday cryptic is a prize puzzle
+    if not is_prize and source == "guardian" and pub_date:
+        try:
+            from datetime import datetime
+            dow = datetime.strptime(pub_date, "%Y-%m-%d").weekday()
+            if dow == 5:  # Saturday
+                is_prize = True
+        except (ValueError, TypeError):
+            pass
+    # After 6 days, show answers normally (competition period over)
+    if is_prize and pub_date:
+        try:
+            from datetime import datetime, timedelta
+            pub = datetime.strptime(pub_date, "%Y-%m-%d")
+            if datetime.now() - pub > timedelta(days=6):
+                is_prize = False
+        except (ValueError, TypeError):
+            pass
+
     return render_template(
         "puzzle.html",
         source=source,
@@ -98,6 +118,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         publication_date=pub_date,
         across=across,
         down=down,
+        is_prize=is_prize,
     )
 
 

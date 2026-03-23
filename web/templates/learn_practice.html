@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Practice {{ label }} — Learn Cryptic Crosswords{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/learn" class="hover:text-indigo-600">Learn</a>
+    <span class="mx-1">/</span>
+    <a href="/learn/{{ wtype }}" class="hover:text-indigo-600">{{ label }}</a>
+    <span class="mx-1">/</span>
+    <span>Practice</span>
+</nav>
+
+<div class="mb-4">
+    <h1 class="text-xl font-bold text-gray-900">{{ icon }} Practice: {{ label }}</h1>
+    <p class="text-sm text-gray-500 mt-1">Clue {{ idx + 1 }} of {{ total }}</p>
+</div>
+
+{# The clue #}
+<div class="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+    <p class="text-lg text-gray-900 leading-relaxed">
+        {{ clue.clue_text }}
+        {% if clue.enumeration %}
+        <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
+        {% endif %}
+    </p>
+
+    {# User's guess #}
+    <div class="mt-4">
+        <div class="flex items-center gap-2">
+            <input type="text" id="guess-input"
+                   placeholder="Type your answer..."
+                   class="text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase w-48 focus:outline-none focus:ring-2 focus:ring-{{ colour }}-300"
+                   autocomplete="off"
+                   onkeydown="if(event.key==='Enter')checkGuess()">
+            <button onclick="checkGuess()"
+                    class="text-sm px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium cursor-pointer">
+                Check
+            </button>
+            <span id="guess-result" class="text-sm"></span>
+        </div>
+    </div>
+
+    {# Progressive reveal buttons #}
+    <div class="mt-5 flex flex-wrap gap-2">
+        <button onclick="revealStep('hint-type')"
+                class="text-xs px-3 py-1.5 rounded border border-amber-300 text-amber-700 hover:bg-amber-50 font-medium cursor-pointer">
+            Hint: Wordplay type
+        </button>
+        <button onclick="revealStep('hint-def')"
+                class="text-xs px-3 py-1.5 rounded border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium cursor-pointer">
+            Hint: Definition
+        </button>
+        <button onclick="revealStep('hint-colour')"
+                class="text-xs px-3 py-1.5 rounded border border-blue-300 text-blue-700 hover:bg-blue-50 font-medium cursor-pointer">
+            Show colour breakdown
+        </button>
+        <button onclick="revealStep('hint-full')"
+                class="text-xs px-3 py-1.5 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium cursor-pointer">
+            Full explanation
+        </button>
+    </div>
+
+    {# Hidden hints #}
+    <div id="hint-type" class="hidden mt-3 p-3 rounded bg-amber-50 border border-amber-200">
+        <span class="text-sm text-amber-800">This is {{ 'an' if label[0] in 'AEIOU' else 'a' }} <strong>{{ label }}</strong> clue.</span>
+    </div>
+
+    <div id="hint-def" class="hidden mt-3 p-3 rounded bg-purple-50 border border-purple-200">
+        <span class="text-sm text-purple-800">The definition is: <strong>{{ clue.definition or '?' }}</strong></span>
+    </div>
+
+    <div id="hint-colour" class="hidden mt-3 p-3 rounded bg-gray-50 border border-gray-200">
+        <div class="text-sm leading-relaxed">
+            {% for i in range(words | length) %}
+                {% set role = colour_map.get(i) %}
+                {% if role %}
+                <span class="px-0.5 rounded {{ role[1] }} {{ role[2] }}">{{ words[i] }}</span>
+                {% else %}
+                <span class="text-gray-400">{{ words[i] }}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="flex flex-wrap gap-3 mt-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800">Definition</span>
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Wordplay</span>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">Fodder</span>
+            <span class="text-gray-400">Gray = indicator/linking</span>
+        </div>
+    </div>
+
+    <div id="hint-full" class="hidden mt-3 p-3 rounded bg-white border border-gray-200 space-y-2">
+        <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-500 w-16">Answer:</span>
+            <span class="font-mono font-bold text-{{ colour }}-700 tracking-wider text-lg">{{ clue.answer }}</span>
+        </div>
+
+        {% if pieces %}
+        <div class="flex items-start gap-2">
+            <span class="text-xs text-gray-500 w-16 shrink-0">Pieces:</span>
+            <div class="text-sm space-y-1">
+                {% for p in pieces %}
+                <div>
+                    {% if p.mechanism == 'anagram_fodder' %}
+                    <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                    <span class="text-gray-400">rearranges to</span>
+                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    {% elif p.mechanism == 'synonym' %}
+                    <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                    <span class="text-gray-400">=</span>
+                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    {% elif p.mechanism == 'abbreviation' %}
+                    <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                    <span class="text-gray-400">=</span>
+                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    <span class="text-xs text-gray-400">(abbr.)</span>
+                    {% elif p.mechanism == 'hidden' %}
+                    <span class="text-gray-400">hidden in</span>
+                    <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                    {% elif p.mechanism == 'reversal' %}
+                    <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                    <span class="text-gray-400">reversed =</span>
+                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    {% else %}
+                    <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                    <span class="text-gray-400">=</span>
+                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if clue.ai_explanation %}
+        <div class="flex items-start gap-2">
+            <span class="text-xs text-gray-500 w-16 shrink-0">Summary:</span>
+            <span class="text-sm text-gray-600">{{ clue.ai_explanation }}</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{# Navigation #}
+<div class="flex items-center justify-between">
+    <div class="flex gap-2">
+        {% if idx > 0 %}
+        <a href="/learn/{{ wtype }}/practice?i={{ idx - 1 }}" class="text-sm px-3 py-1.5 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">Previous</a>
+        {% endif %}
+        {% if idx < total - 1 %}
+        <a href="/learn/{{ wtype }}/practice?i={{ idx + 1 }}" class="text-sm px-3 py-1.5 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">Next</a>
+        {% endif %}
+    </div>
+    <a href="/learn/{{ wtype }}/practice" class="text-sm px-3 py-1.5 rounded border border-{{ colour }}-300 text-{{ colour }}-700 hover:bg-{{ colour }}-50 font-medium">Random clue</a>
+</div>
+
+<script>
+var _answer = "{{ clue.answer }}".replace(/\s/g, '').toUpperCase();
+
+function checkGuess() {
+    var guess = document.getElementById('guess-input').value.replace(/\s/g, '').toUpperCase();
+    var result = document.getElementById('guess-result');
+    if (!guess) return;
+    if (guess === _answer) {
+        result.className = 'text-sm text-green-600 font-bold';
+        result.textContent = 'Correct!';
+        document.getElementById('guess-input').classList.add('border-green-400', 'bg-green-50');
+    } else {
+        result.className = 'text-sm text-red-500';
+        result.textContent = 'Not quite — try again or use the hints below';
+        document.getElementById('guess-input').classList.add('border-red-400');
+        document.getElementById('guess-input').style.animation = 'none';
+        document.getElementById('guess-input').offsetHeight;
+        document.getElementById('guess-input').style.animation = 'shake 0.3s';
+    }
+}
+
+function revealStep(id) {
+    document.getElementById(id).classList.remove('hidden');
+}
+</script>
+<style>
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+</style>
+{% endblock %}

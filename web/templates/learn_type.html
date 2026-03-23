@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}{{ label }} — Learn Cryptic Crosswords{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Learn how {{ label | lower }} clues work in cryptic crosswords. {{ total }} example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay.">
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/learn" class="hover:text-indigo-600">Learn</a>
+    <span class="mx-1">/</span>
+    <span>{{ label }}</span>
+</nav>
+
+<div class="mb-5">
+    <h1 class="text-2xl font-bold text-gray-900">{{ icon }} {{ label }}</h1>
+    <p class="text-gray-600 mt-2">{{ description }}</p>
+    <div class="flex gap-3 mt-3">
+        <a href="/learn/{{ wtype }}/practice" class="text-sm px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium">Practice these</a>
+        <a href="/learn" class="text-sm px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">All types</a>
+    </div>
+</div>
+
+{# Legend #}
+<div class="flex flex-wrap gap-3 mb-4 text-xs">
+    <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800">Definition</span>
+    <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Wordplay</span>
+    <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">Fodder</span>
+    <span class="text-gray-400">Unhighlighted = indicator or linking word</span>
+</div>
+
+{# Clue cards #}
+<div class="space-y-4">
+    {% for card in clue_cards %}
+    <div class="bg-white rounded-lg border border-gray-200 p-4" id="clue-{{ loop.index }}">
+        {# Clue text with colour coding #}
+        <div class="text-gray-900 leading-relaxed">
+            {% for i in range(card.words | length) %}
+                {% set role = card.colour_map.get(i) %}
+                {% if role %}
+                <span class="px-0.5 rounded {{ role[1] }} {{ role[2] }}">{{ card.words[i] }}</span>
+                {% else %}
+                <span class="text-gray-400">{{ card.words[i] }}</span>
+                {% endif %}
+            {% endfor %}
+            {% if card.clue.enumeration %}
+            <span class="text-gray-400 ml-1">({{ card.clue.enumeration }})</span>
+            {% endif %}
+        </div>
+
+        {# Reveal section — hidden by default #}
+        <div class="mt-3">
+            <button onclick="var el=this.nextElementSibling;el.classList.toggle('hidden');this.textContent=el.classList.contains('hidden')?'Show breakdown':'Hide'"
+                    class="text-xs px-3 py-1 rounded border border-{{ colour }}-300 text-{{ colour }}-700 hover:bg-{{ colour }}-50 font-medium cursor-pointer">
+                Show breakdown
+            </button>
+            <div class="hidden mt-3 space-y-2">
+                {# Answer #}
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 w-16">Answer:</span>
+                    <span class="font-mono font-bold text-{{ colour }}-700 tracking-wider">{{ card.clue.answer }}</span>
+                </div>
+
+                {# Definition #}
+                {% if card.clue.definition %}
+                <div class="flex items-start gap-2">
+                    <span class="text-xs text-gray-500 w-16 shrink-0">Definition:</span>
+                    <span class="text-sm"><span class="px-1 rounded bg-purple-100 text-purple-800">{{ card.clue.definition }}</span> = {{ card.clue.answer }}</span>
+                </div>
+                {% endif %}
+
+                {# Pieces breakdown #}
+                {% if card.pieces %}
+                <div class="flex items-start gap-2">
+                    <span class="text-xs text-gray-500 w-16 shrink-0">Wordplay:</span>
+                    <div class="text-sm space-y-1">
+                        {% for p in card.pieces %}
+                        <div>
+                            {% if p.mechanism == 'anagram_fodder' %}
+                            <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">rearranges to</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'synonym' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">=</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            <span class="text-gray-400 text-xs">(synonym)</span>
+                            {% elif p.mechanism == 'abbreviation' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">=</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            <span class="text-gray-400 text-xs">(abbreviation)</span>
+                            {% elif p.mechanism == 'first_letter' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">first letter =</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'last_letter' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">last letter =</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'hidden' %}
+                            <span class="text-gray-400">hidden in</span>
+                            <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                            {% elif p.mechanism == 'reversal' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">reversed =</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'deletion' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">minus {{ p.get('deleted', '?') }} =</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'sound_of' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">sounds like</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'alternate_letters' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">alternate letters =</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            {% elif p.mechanism == 'literal' %}
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            <span class="text-gray-400 text-xs">(literal)</span>
+                            {% else %}
+                            <span class="px-1 rounded bg-gray-100 text-gray-700">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">=</span>
+                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            <span class="text-gray-400 text-xs">({{ p.mechanism }})</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {# Assembly — how pieces fit together #}
+                {% if card.assembly %}
+                <div class="flex items-start gap-2">
+                    <span class="text-xs text-gray-500 w-16 shrink-0">Assembly:</span>
+                    <div class="text-sm">
+                        {% if card.assembly.op == 'charade' %}
+                        <span class="text-gray-600">Join the pieces: </span>
+                        <span class="font-mono font-bold">{{ card.assembly.order | join(' + ') }}</span>
+                        {% elif card.assembly.op == 'container' %}
+                        <span class="font-mono font-bold">{{ card.assembly.inner }}</span>
+                        <span class="text-gray-600"> goes inside </span>
+                        <span class="font-mono font-bold">{{ card.assembly.outer }}</span>
+                        <span class="text-gray-600"> = </span>
+                        <span class="font-mono font-bold text-{{ colour }}-700">{{ card.clue.answer }}</span>
+                        {% elif card.assembly.op == 'anagram' %}
+                        <span class="text-gray-600">Rearrange </span>
+                        <span class="font-mono font-bold">{{ card.assembly.fodder | join('+') }}</span>
+                        <span class="text-gray-600"> = </span>
+                        <span class="font-mono font-bold text-{{ colour }}-700">{{ card.clue.answer }}</span>
+                        {% elif card.assembly.op == 'reversal' %}
+                        <span class="text-gray-600">Reverse </span>
+                        <span class="font-mono font-bold">{{ card.assembly.reversed }}</span>
+                        <span class="text-gray-600"> = </span>
+                        <span class="font-mono font-bold text-{{ colour }}-700">{{ card.clue.answer }}</span>
+                        {% elif card.assembly.op == 'hidden' %}
+                        <span class="text-gray-600">Hidden in: </span>
+                        <span class="font-mono">{{ card.assembly.words }}</span>
+                        {% elif card.assembly.op == 'deletion' %}
+                        <span class="text-gray-600">Remove </span>
+                        <span class="font-mono font-bold">{{ card.assembly.get('deleted', '?') }}</span>
+                        <span class="text-gray-600"> from </span>
+                        <span class="font-mono font-bold">{{ card.assembly.get('from', '?') }}</span>
+                        {% else %}
+                        <span class="text-gray-600">{{ card.assembly.op }}: </span>
+                        <span class="font-mono font-bold text-{{ colour }}-700">{{ card.clue.answer }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {# Explanation text #}
+                {% if card.clue.ai_explanation %}
+                <div class="flex items-start gap-2">
+                    <span class="text-xs text-gray-500 w-16 shrink-0">Summary:</span>
+                    <span class="text-sm text-gray-600">{{ card.clue.ai_explanation }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-6 flex gap-3">
+    <a href="/learn/{{ wtype }}/practice" class="px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium text-sm">Practice {{ label | lower }} clues</a>
+    <a href="/learn" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium text-sm">Back to all types</a>
+</div>
+{% endblock %}
