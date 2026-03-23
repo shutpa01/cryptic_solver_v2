@@ -119,7 +119,11 @@
                             <span class="font-mono font-bold">{{ p.letters }}</span>
                             {% elif p.mechanism == 'hidden' %}
                             <span class="text-gray-400">hidden in</span>
+                            {% if card.hidden_highlight %}
+                            <span class="text-sm">{{ card.hidden_highlight | safe }}</span>
+                            {% else %}
                             <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                            {% endif %}
                             {% elif p.mechanism == 'reversal' %}
                             <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             <span class="text-gray-400">reversed =</span>
@@ -177,7 +181,11 @@
                         <span class="font-mono font-bold text-{{ colour }}-700">{{ card.clue.answer }}</span>
                         {% elif card.assembly.op == 'hidden' %}
                         <span class="text-gray-600">Hidden in: </span>
+                        {% if card.hidden_highlight %}
+                        <span class="text-sm">{{ card.hidden_highlight | safe }}</span>
+                        {% else %}
                         <span class="font-mono">{{ card.assembly.words }}</span>
+                        {% endif %}
                         {% elif card.assembly.op == 'deletion' %}
                         <span class="text-gray-600">Remove </span>
                         <span class="font-mono font-bold">{{ card.assembly.get('deleted', '?') }}</span>

@@ -118,7 +118,11 @@
                     <span class="text-xs text-gray-400">(abbr.)</span>
                     {% elif p.mechanism == 'hidden' %}
                     <span class="text-gray-400">hidden in</span>
+                    {% if hidden_highlight %}
+                    <span class="text-sm">{{ hidden_highlight | safe }}</span>
+                    {% else %}
                     <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                    {% endif %}
                     {% elif p.mechanism == 'reversal' %}
                     <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                     <span class="text-gray-400">reversed =</span>

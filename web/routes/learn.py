@@ -2,6 +2,7 @@
 
 import json
 import random
+import re
 from pathlib import Path
 
 from flask import Blueprint, render_template, abort, request
@@ -111,6 +112,42 @@ def _parse_components(clue):
     return pieces, assembly
 
 
+def _highlight_hidden(clue_text, answer):
+    """Highlight the hidden answer letters within the clue text.
+
+    Returns HTML with hidden letters wrapped in <strong> tags.
+    E.g. 'grim peloton' with answer IMPEL -> 'gr<strong>IM PEL</strong>oton'
+    """
+    if not answer or not clue_text:
+        return clue_text
+
+    answer_upper = re.sub(r"[^A-Z]", "", answer.upper())
+    letters_only = []
+    letter_positions = []
+    for i, ch in enumerate(clue_text):
+        if ch.isalpha():
+            letters_only.append(ch.upper())
+            letter_positions.append(i)
+
+    letters_str = "".join(letters_only)
+    idx = letters_str.find(answer_upper)
+    if idx < 0:
+        return clue_text
+
+    # Build result with highlighting
+    start_pos = letter_positions[idx]
+    end_pos = letter_positions[idx + len(answer_upper) - 1]
+
+    result = ""
+    result += clue_text[:start_pos]
+    result += '<strong class="text-emerald-700 bg-emerald-100 px-0.5 rounded">'
+    result += clue_text[start_pos:end_pos + 1].upper()
+    result += '</strong>'
+    result += clue_text[end_pos + 1:]
+
+    return result
+
+
 def _build_colour_map(clue):
     """Build a word-to-role colour map for a clue.
 
@@ -207,12 +244,17 @@ def learn_type(wtype):
     for clue in clues:
         words, colour_map = _build_colour_map(clue)
         pieces, assembly = _parse_components(clue)
+        # For hidden word clues, generate highlighted text
+        hidden_highlight = None
+        if wtype == "hidden" or (assembly and assembly.get("op") == "hidden"):
+            hidden_highlight = _highlight_hidden(clue.get("clue_text", ""), clue.get("answer", ""))
         clue_cards.append({
             "clue": clue,
             "words": words,
             "colour_map": colour_map,
             "pieces": pieces,
             "assembly": assembly,
+            "hidden_highlight": hidden_highlight,
         })
 
     return render_template(
@@ -251,6 +293,10 @@ def learn_practice(wtype):
     words, colour_map = _build_colour_map(clue)
     pieces, assembly = _parse_components(clue)
 
+    hidden_highlight = None
+    if wtype == "hidden" or (assembly and assembly.get("op") == "hidden"):
+        hidden_highlight = _highlight_hidden(clue.get("clue_text", ""), clue.get("answer", ""))
+
     return render_template(
         "learn_practice.html",
         wtype=wtype,
@@ -262,6 +308,7 @@ def learn_practice(wtype):
         colour_map=colour_map,
         pieces=pieces,
         assembly=assembly,
+        hidden_highlight=hidden_highlight,
         idx=idx,
         total=len(clues),
     )
