@@ -54,30 +54,43 @@ def render():
 
     if unrun:
         st.caption(f"Showing {len(unrun)} puzzles with answers but untried clues (most recent first)")
-        # Build a selectable table
-        cols_header = st.columns([2, 2, 2, 1, 1, 1, 1, 2])
-        cols_header[0].markdown("**Source**")
-        cols_header[1].markdown("**Puzzle**")
-        cols_header[2].markdown("**Date**")
-        cols_header[3].markdown("**Total**")
-        cols_header[4].markdown("**Answers**")
-        cols_header[5].markdown("**Untried**")
-        cols_header[6].markdown("**Solved**")
-        cols_header[7].markdown("**Action**")
+        # Build a multi-select table with checkboxes
+        cols_header = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
+        cols_header[0].markdown("**Select**")
+        cols_header[1].markdown("**Source**")
+        cols_header[2].markdown("**Puzzle**")
+        cols_header[3].markdown("**Date**")
+        cols_header[4].markdown("**Total**")
+        cols_header[5].markdown("**Answers**")
+        cols_header[6].markdown("**Untried**")
+        cols_header[7].markdown("**Solved**")
 
+        batch_selected = []
         for i, r in enumerate(unrun):
-            cols = st.columns([2, 2, 2, 1, 1, 1, 1, 2])
-            cols[0].write(r["source"])
-            cols[1].write(str(r["puzzle_number"]))
-            cols[2].write(r["publication_date"] or "—")
-            cols[3].write(str(r["total"]))
-            cols[4].write(str(r["with_answer"]))
-            cols[5].write(str(r["untried"]))
-            cols[6].write(str(r["solved"] or 0))
-            if cols[7].button("Select", key=f"sel_{r['source']}_{r['puzzle_number']}"):
-                st.session_state["pipe_source"] = r["source"]
-                st.session_state["pipe_puzzle"] = str(r["puzzle_number"])
-                st.rerun()
+            cols = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
+            key = f"sel_{r['source']}_{r['puzzle_number']}"
+            if cols[0].checkbox("", key=key, label_visibility="collapsed"):
+                batch_selected.append((r["source"], str(r["puzzle_number"])))
+            cols[1].write(r["source"])
+            cols[2].write(str(r["puzzle_number"]))
+            cols[3].write(r["publication_date"] or "—")
+            cols[4].write(str(r["total"]))
+            cols[5].write(str(r["with_answer"]))
+            cols[6].write(str(r["untried"]))
+            cols[7].write(str(r["solved"] or 0))
+
+        if batch_selected:
+            st.info(f"{len(batch_selected)} puzzle(s) selected")
+            bcol1, bcol2, bcol3 = st.columns(3)
+            with bcol1:
+                batch_write_db = st.checkbox("Write to DB", value=True, key="batch_write_db")
+            with bcol2:
+                batch_force = st.checkbox("Force fresh API calls", value=True, key="batch_force")
+            with bcol3:
+                batch_partials = st.checkbox("Re-run partials", value=False, key="batch_partials")
+
+            if st.button("Run Selected Puzzles", type="primary", key="run_batch"):
+                _run_batch(batch_selected, batch_write_db, batch_force, batch_partials)
     else:
         st.info("All puzzles with answers have been run through the pipeline.")
 
@@ -188,6 +201,55 @@ def render():
                     st.code(output[-5000:] if len(output) > 5000 else output)
             except Exception as e:
                 st.error(f"Failed to run pipeline: {e}")
+
+
+def _run_batch(puzzles, write_db, force, partials):
+    """Run the pipeline on multiple puzzles sequentially."""
+    total = len(puzzles)
+    progress = st.progress(0, text=f"Starting batch run: {total} puzzle(s)")
+    results = []
+
+    for i, (source, puzzle_number) in enumerate(puzzles):
+        progress.progress((i) / total, text=f"Running {source} #{puzzle_number} ({i+1}/{total})")
+
+        cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review",
+               "--source", source, puzzle_number]
+        if write_db:
+            cmd += ["--write-db"]
+        if force:
+            cmd += ["--force"]
+        if partials:
+            cmd += ["--partials"]
+
+        try:
+            result = subprocess.run(
+                cmd,
+                cwd=str(PROJECT_ROOT),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            ok = result.returncode == 0
+            results.append((source, puzzle_number, ok, result.stdout or ""))
+        except Exception as e:
+            results.append((source, puzzle_number, False, str(e)))
+
+    progress.progress(1.0, text="Batch complete!")
+
+    # Show summary
+    successes = sum(1 for _, _, ok, _ in results if ok)
+    failures = total - successes
+    if failures == 0:
+        st.success(f"All {total} puzzle(s) completed successfully.")
+    else:
+        st.warning(f"{successes} succeeded, {failures} failed.")
+
+    for source, puzzle_number, ok, output in results:
+        icon = "+" if ok else "X"
+        with st.expander(f"[{icon}] {source} #{puzzle_number}", expanded=not ok):
+            st.code(output[-3000:] if len(output) > 3000 else output)
 
 
 def _render_reset_section(source_filter=None):

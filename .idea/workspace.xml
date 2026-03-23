@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="pre speed improvement">
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signature_solver/base_matcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/base_matcher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signature_solver/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/executor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signature_solver/matcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/matcher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signature_solver/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/routes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/routes/puzzle.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/puzzle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/pages/pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/pages/pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/independent/independent_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/independent/independent_all.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/templates/partials/admin_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/admin_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/partials/admin_rerun_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/admin_rerun_result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/templates/puzzle.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/puzzle.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.daily_scraper.executor": "Run",
-    "Python.danword_lookup.executor": "Run",
-    "Python.puzzle_scraper.executor": "Run",
-    "Python.report.executor": "Run",
-    "Python.run.executor": "Run",
-    "Python.scratch.executor": "Run",
-    "Python.telegraph_manual_Harvest.executor": "Run",
-    "Python.times_all.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.daily_scraper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.danword_lookup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.puzzle_scraper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.report.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.telegraph_manual_Harvest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.times_all.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -207,7 +198,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772148464711</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="pre speed improvement">
+      <option name="closed" value="true" />
+      <created>1773984850995</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1773984850995</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

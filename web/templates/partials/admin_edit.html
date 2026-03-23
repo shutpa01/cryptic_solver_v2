@@ -2,6 +2,7 @@
 <form hx-post="/admin/edit/{{ clue.id }}"
       hx-target="#explain-{{ clue.id }}"
       hx-swap="innerHTML"
+      hx-on::after-request="document.getElementById('hints-{{ clue.id }}').innerHTML=''"
       class="mt-2 p-3 rounded border border-orange-200 bg-orange-50 space-y-2">
 
     <div>

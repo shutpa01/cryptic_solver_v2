@@ -835,9 +835,10 @@ function saveAllToDb() {
     });
 }
 
-// Restore solve mode if it was active
+// Restore solve mode if it was active, or auto-activate for prize puzzles
 document.addEventListener('DOMContentLoaded', function() {
-    if (localStorage.getItem(_solveKey + '_active') === '1') {
+    var isPrize = {{ 'true' if is_prize else 'false' }};
+    if (isPrize || localStorage.getItem(_solveKey + '_active') === '1') {
         toggleSolveMode();
     }
 });
