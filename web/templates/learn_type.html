@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ label }} — Learn Cryptic Crosswords{% endblock %}
+{% block title %}{{ label }} — Learn with Cordelia{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Learn how {{ label | lower }} clues work in cryptic crosswords. {{ total }} example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay.">
+<meta name="description" content="Learn how {{ label | lower }} clues work in cryptic crosswords. {{ total }} example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay. No jargon, no snobbery.">
 {% endblock %}
 
 {% block content %}
@@ -18,6 +18,7 @@
 <div class="mb-5">
     <h1 class="text-2xl font-bold text-gray-900">{{ icon }} {{ label }}</h1>
     <p class="text-gray-600 mt-2">{{ description }}</p>
+    <p class="text-gray-500 text-sm mt-2 italic">Look through these examples — you'll start spotting the pattern after just a few. When you're ready, try the practice mode. — Cordelia</p>
     <div class="flex gap-3 mt-3">
         <a href="/learn/{{ wtype }}/practice" class="text-sm px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium">Practice these</a>
         <a href="/learn" class="text-sm px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">All types</a>
@@ -81,8 +82,7 @@
                         <div>
                             {% if p.mechanism == 'anagram_fodder' %}
                             <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">rearranges to</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
+                            <span class="text-gray-400">( {{ p.letters }} ) rearranges to form the answer</span>
                             {% elif p.mechanism == 'synonym' %}
                             <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             <span class="text-gray-400">=</span>

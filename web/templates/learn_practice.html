@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Practice {{ label }} — Learn Cryptic Crosswords{% endblock %}
+{% block title %}Practice {{ label }} — Learn with Cordelia{% endblock %}
 
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
@@ -105,8 +105,7 @@
                 <div>
                     {% if p.mechanism == 'anagram_fodder' %}
                     <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
-                    <span class="text-gray-400">rearranges to</span>
-                    <span class="font-mono font-bold">{{ p.letters }}</span>
+                    <span class="text-gray-400">( {{ p.letters }} ) rearranges to form the answer</span>
                     {% elif p.mechanism == 'synonym' %}
                     <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                     <span class="text-gray-400">=</span>

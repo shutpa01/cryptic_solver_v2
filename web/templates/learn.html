@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Learn Cryptic Crosswords — How Wordplay Works{% endblock %}
+{% block title %}Learn Cryptic Crosswords with Cordelia{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Learn how to solve cryptic crosswords. Visual breakdowns of 10 wordplay types: anagrams, charades, containers, hidden words, and more. 241 example clues with step-by-step explanations.">
+<meta name="description" content="Think cryptic crosswords are impossible? Cordelia thought so too. Learn how they work — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools.">
 {% endblock %}
 
 {% block content %}
@@ -13,30 +13,151 @@
     <span>Learn</span>
 </nav>
 
-<div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">Learn Cryptic Crosswords</h1>
-    <p class="text-gray-600 mt-2">Cryptic clues look impossible at first. But every clue follows a pattern — once you know the patterns, you can crack them. Pick a type below and see how it works.</p>
+{# Hero #}
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Learn with Cordelia</h1>
+    <p class="text-gray-600 mt-2 leading-relaxed">I used to think cryptic crosswords were for other people. Impenetrable. A secret club I'd never join. Then someone showed me the trick — and I realised I'd been overthinking it the whole time.</p>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    {% for t in types %}
-    <a href="/learn/{{ t.slug }}" class="block bg-white rounded-lg border border-gray-200 hover:border-{{ t.colour }}-300 hover:shadow-md transition-all p-4">
-        <div class="flex items-start gap-3">
-            <span class="text-2xl">{{ t.icon }}</span>
-            <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                    <h2 class="font-semibold text-gray-900">{{ t.label }}</h2>
-                    <span class="text-xs text-gray-400">{{ t.count }} examples</span>
-                </div>
-                <p class="text-sm text-gray-500 mt-0.5">{{ t.short }}</p>
+{# The Basics #}
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="basics">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">The Basics — It's Not What You Think</h2>
+
+    <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+        <p>Here's the thing nobody tells you: <strong>a cryptic crossword is no harder than a regular one</strong>. In a regular crossword, you get one definition and you have to think of the answer. In a cryptic, you get <em>two</em> ways to find the answer. That's not harder — that's easier.</p>
+
+        <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+            <p class="font-medium text-gray-800 mb-2">A regular crossword clue:</p>
+            <p class="font-mono text-gray-900 mb-2">"Guess" (8)</p>
+            <p class="text-gray-500">You just have to think of an 8-letter word meaning "guess". Could be ESTIMATE, SPECULATE... not easy!</p>
+        </div>
+
+        <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+            <p class="font-medium text-indigo-800 mb-2">The same clue, cryptic style:</p>
+            <p class="font-mono text-gray-900 mb-2">"Guess teatimes varied" (8)</p>
+            <p class="text-indigo-700">You still have the definition — "Guess". But now you also have instructions: "teatimes varied" tells you to rearrange the letters of TEATIMES. That gives you ESTIMATE. <strong>Two routes to the same answer.</strong></p>
+        </div>
+
+        <p>Every cryptic clue has the same structure:</p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex-1 p-3 rounded-lg bg-purple-50 border border-purple-200 text-center">
+                <span class="text-xs text-purple-500 block mb-1">Always at the start or end</span>
+                <span class="font-bold text-purple-800">Definition</span>
+                <p class="text-xs text-purple-600 mt-1">A straight synonym, just like a regular crossword</p>
+            </div>
+            <div class="flex items-center text-gray-300 text-xl font-bold px-2">+</div>
+            <div class="flex-1 p-3 rounded-lg bg-amber-50 border border-amber-200 text-center">
+                <span class="text-xs text-amber-500 block mb-1">The fun part</span>
+                <span class="font-bold text-amber-800">Wordplay</span>
+                <p class="text-xs text-amber-600 mt-1">Instructions to build the answer from pieces</p>
             </div>
         </div>
-    </a>
-    {% endfor %}
+
+        <p>Your job is simply to figure out where the definition ends and the wordplay begins. That's it. That's the whole game.</p>
+    </div>
 </div>
 
-<div class="mt-8 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
-    <h2 class="font-semibold text-indigo-800 text-sm">The golden rule</h2>
-    <p class="text-sm text-indigo-700 mt-1">Every cryptic clue has two parts: a <strong>definition</strong> (a straight synonym of the answer, always at the start or end of the clue) and <strong>wordplay</strong> (instructions to build the answer from pieces). Your job is to find where one ends and the other begins.</p>
+{# The Language #}
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="language">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">The Language — A Few Words You'll Pick Up</h2>
+
+    <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
+        <p>Cryptic solvers use a few terms. Don't worry about memorising them — you'll absorb them as you go.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 rounded bg-gray-50 border border-gray-100">
+                <span class="font-bold text-gray-800">Indicator</span>
+                <p class="text-xs text-gray-500 mt-1">A word that signals what type of wordplay is happening. "Broken" indicates an anagram. "Inside" indicates a container. You learn to spot these.</p>
+            </div>
+            <div class="p-3 rounded bg-gray-50 border border-gray-100">
+                <span class="font-bold text-gray-800">Fodder</span>
+                <p class="text-xs text-gray-500 mt-1">The raw material — the letters that get rearranged, reversed, or hidden. In "teatimes varied", TEATIMES is the fodder.</p>
+            </div>
+            <div class="p-3 rounded bg-gray-50 border border-gray-100">
+                <span class="font-bold text-gray-800">Abbreviation</span>
+                <p class="text-xs text-gray-500 mt-1">Setters love shorthand. "Quiet" = P (piano). "King" = R (Rex). "Old" = O. You'll build a mental dictionary of these.</p>
+            </div>
+            <div class="p-3 rounded bg-gray-50 border border-gray-100">
+                <span class="font-bold text-gray-800">Substitution</span>
+                <p class="text-xs text-gray-500 mt-1">One letter or word standing in for another. "Iron" = FE (chemistry). "Love" = O (tennis). The setter is playing with language.</p>
+            </div>
+        </div>
+
+        <p>When I started, I found our <strong>word lookup tool</strong> invaluable — click any word in a clue and instantly see if it's a known indicator, abbreviation, or synonym. No memorisation needed.</p>
+
+        <div class="p-3 rounded bg-indigo-50 border border-indigo-200">
+            <span class="text-xs text-indigo-600">Try it now: on any puzzle page, click a word in the clue text. You'll see what it could mean in crossword-speak.</span>
+        </div>
+    </div>
+</div>
+
+{# Tools Introduction #}
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="tools">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">Your Toolkit — Cordelia's Favourite Helpers</h2>
+
+    <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
+        <p>I don't solve cryptics from memory. I use tools — and so should you. There's no shame in it. These are built right into every puzzle page:</p>
+
+        <div class="space-y-2">
+            <div class="flex items-start gap-3 p-3 rounded bg-indigo-50 border border-indigo-100">
+                <span class="text-lg shrink-0">🔤</span>
+                <div>
+                    <span class="font-bold text-indigo-800">Click any word</span>
+                    <p class="text-xs text-indigo-600 mt-0.5">Click a word in the clue to see if it's an indicator, synonym, or abbreviation. Click adjacent words to look up phrases.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded bg-emerald-50 border border-emerald-100">
+                <span class="text-lg shrink-0">🔍</span>
+                <div>
+                    <span class="font-bold text-emerald-800">Pattern Finder</span>
+                    <p class="text-xs text-emerald-600 mt-0.5">Know some letters from crossing answers? Type S?O?E and find all matching words. Add "must include" letters to narrow it down.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded bg-violet-50 border border-violet-100">
+                <span class="text-lg shrink-0">🔀</span>
+                <div>
+                    <span class="font-bold text-violet-800">Anagram Solver</span>
+                    <p class="text-xs text-violet-600 mt-0.5">Click the fodder words in the clue and the anagram solver fills with their letters. Delete or add letters for substitutions. Only real words returned.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded bg-teal-50 border border-teal-100">
+                <span class="text-lg shrink-0">📋</span>
+                <div>
+                    <span class="font-bold text-teal-800">Similar Clues</span>
+                    <p class="text-xs text-teal-600 mt-0.5">Click the clue number and we'll search 500,000 clues for ones with similar wording. See how other setters used the same words.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Wordplay Types #}
+<div class="mb-6" id="types">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">The Wordplay Types — Learn Each One</h2>
+    <p class="text-sm text-gray-600 mb-4">There are about ten types of wordplay. Most clues use just a handful. Start with Hidden Words — they're the easiest to spot — then work through the rest at your own pace.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {% for t in types %}
+        <a href="/learn/{{ t.slug }}" class="block bg-white rounded-lg border border-gray-200 hover:border-{{ t.colour }}-300 hover:shadow-md transition-all p-4">
+            <div class="flex items-start gap-3">
+                <span class="text-2xl">{{ t.icon }}</span>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-semibold text-gray-900">{{ t.label }}</h3>
+                        <span class="text-xs text-gray-400">{{ t.count }} examples</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-0.5">{{ t.short }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{# Encouragement #}
+<div class="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+    <p class="text-sm text-indigo-700 leading-relaxed">I won't pretend I crack every clue. Nobody does — not even the experts. But every puzzle I try, I get a few more. And that feeling when you finally see how a clue works? That's what keeps you coming back.</p>
+    <p class="text-sm text-indigo-600 mt-2 font-medium">— Cordelia</p>
 </div>
 {% endblock %}
