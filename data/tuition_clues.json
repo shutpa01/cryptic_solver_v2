@@ -1,0 +1,6039 @@
+{
+  "metadata": {
+    "generated": "2026-03-20",
+    "total": 236,
+    "description": "Curated tutorial clues demonstrating each cryptic crossword wordplay type. Selected for clarity, common answers, and high confidence explanations."
+  },
+  "types": {
+    "anagram": {
+      "description": "Letters of one or more words are rearranged to form the answer. Look for an indicator like \"broken\", \"mixed\", or \"scrambled\" near the fodder words.",
+      "count": 25,
+      "clues": [
+        {
+          "clue_text": "Guess teatimes varied",
+          "answer": "ESTIMATE",
+          "enumeration": "8",
+          "definition": "Guess",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of TEATIMES(teatimes)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "teatimes",
+                "letters": "TEATIMES"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "TEATIMES"
+              ],
+              "gives": "ESTIMATE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "I'd augment bust size",
+          "answer": "MAGNITUDE",
+          "enumeration": "9",
+          "definition": "size",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of IDAUGMENT(I'd augment)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "I'd augment",
+                "letters": "IDAUGMENT"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "IDAUGMENT"
+              ],
+              "gives": "MAGNITUDE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Horrible Gaultier tie",
+          "answer": "LIGATURE",
+          "enumeration": "8",
+          "definition": "tie",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of GAULTIER(Gaultier)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Gaultier",
+                "letters": "GAULTIER"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "GAULTIER"
+              ],
+              "gives": "LIGATURE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Heats pan to cook game bird",
+          "answer": "PHEASANT",
+          "enumeration": "8",
+          "definition": "game bird",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of HEATSPAN(Heats pan)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Heats pan",
+                "letters": "HEATSPAN"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HEATSPAN"
+              ],
+              "gives": "PHEASANT"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Their woes compounded if not",
+          "answer": "OTHERWISE",
+          "enumeration": "9",
+          "definition": "if not",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of THEIRWOES(Their woes)",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Their woes",
+                "letters": "THEIRWOES"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "THEIRWOES"
+              ],
+              "gives": "OTHERWISE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Lops head off flowering plant",
+          "answer": "ASPHODEL",
+          "enumeration": "8",
+          "definition": "flowering plant",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of HEAD(head)+LOPS(lops)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "head",
+                "letters": "HEAD"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "lops",
+                "letters": "LOPS"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HEAD",
+                "LOPS"
+              ],
+              "gives": "ASPHODEL"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Create concoction of green tea",
+          "answer": "GENERATE",
+          "enumeration": "8",
+          "definition": "Create",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of GREENTEA(green tea)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "green tea",
+                "letters": "GREENTEA"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "GREENTEA"
+              ],
+              "gives": "GENERATE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Dynamic change, hot I gathered",
+          "answer": "HIGHOCTANE",
+          "enumeration": "4-6",
+          "definition": "Dynamic",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of CHANGEIHOT(change hot I)",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "hot",
+                "letters": "HOT"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "i",
+                "letters": "I"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "change",
+                "letters": "CHANGE"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HOT",
+                "I",
+                "CHANGE"
+              ],
+              "gives": "HIGHOCTANE",
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "hot",
+                  "HOT",
+                  "literal"
+                ],
+                [
+                  "i",
+                  "I",
+                  "abbreviation"
+                ],
+                [
+                  "change",
+                  "CHANGE",
+                  "literal"
+                ]
+              ]
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Fuel from isle Oscar lied about",
+          "answer": "DIESEL OIL",
+          "enumeration": "6,3",
+          "definition": "Fuel",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of ISLE(isle)+O(Oscar)+LIED(lied)",
+          "source": "telegraph",
+          "puzzle_number": "31174",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "isle",
+                "letters": "ISLE"
+              },
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Oscar",
+                "letters": "O"
+              },
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "lied",
+                "letters": "LIED"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "ISLE",
+                "O",
+                "LIED"
+              ],
+              "gives": "DIESELOIL"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Has Cnut ordered halt mid-flow?",
+          "answer": "STAUNCH",
+          "enumeration": "7",
+          "definition": "halt mid-flow",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of HASCNUT(Has Cnut)",
+          "source": "times",
+          "puzzle_number": "29477",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Has Cnut",
+                "letters": "HASCNUT"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HASCNUT"
+              ],
+              "gives": "STAUNCH"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Crackers seem moist on occasion",
+          "answer": "SOMETIMES",
+          "enumeration": "9",
+          "definition": "on occasion",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of SEEMMOIST(seem moist)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "seem moist",
+                "letters": "SEEMMOIST"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "SEEMMOIST"
+              ],
+              "gives": "SOMETIMES"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Ban lace pants to create stability",
+          "answer": "BALANCE",
+          "enumeration": "7",
+          "definition": "stability",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of BANLACE(ban lace)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "ban lace",
+                "letters": "BANLACE"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "BANLACE"
+              ],
+              "gives": "BALANCE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Hires out a buggy producing permit",
+          "answer": "AUTHORISE",
+          "enumeration": "9",
+          "definition": "permit",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of HIRESOUTA(hires out a)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "hires out a",
+                "letters": "HIRESOUT A"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HIRESOUTA"
+              ],
+              "gives": "AUTHORISE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Tender wound initially moist hardens",
+          "answer": "HERDSMAN",
+          "enumeration": "8",
+          "definition": "Tender",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of HARDENS(hardens)+M(moist)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "hardens",
+                "letters": "HARDENS"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "moist",
+                "letters": "M"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "HARDENS",
+                "M"
+              ],
+              "gives": "HERDSMAN"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Decree nisi without one moving house",
+          "answer": "RESIDENCE",
+          "enumeration": "9",
+          "definition": "house",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of DECREENIS(Decree nisi without one)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "Decree nisi without one",
+                "letters": "DECREENIS"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "DECREENIS"
+              ],
+              "gives": "RESIDENCE"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Picked up perfumes for a little cash",
+          "answer": "CENTS",
+          "enumeration": "5",
+          "definition": "a little cash",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of SCENT(perfumes)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "perfumes",
+                "letters": "SCENT"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "SCENT"
+              ],
+              "gives": "CENTS"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Joint below or bowel given treatment",
+          "answer": "ELBOW",
+          "enumeration": "5",
+          "definition": "Joint",
+          "wordplay_type": "anagram",
+          "ai_explanation": "Anagram (given treatment) of below or bowel",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "bowel",
+                "letters": "BOWEL"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "BOWEL"
+              ],
+              "gives": "ELBOW"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "One miracle involved splendid ritual",
+          "answer": "CEREMONIAL",
+          "enumeration": "10",
+          "definition": "splendid ritual",
+          "wordplay_type": "anagram",
+          "ai_explanation": "ONEMIR ACLE(ONE MIRACLE) [anagram]; definition: \"splendid ritual\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "ONE MIRACLE",
+                "letters": "ONEMIR ACLE",
+                "mechanism": "anagram_fodder"
+              }
+            ],
+            "wordplay_type": "anagram",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Smashing atoms up is creating element",
+          "answer": "POTASSIUM",
+          "enumeration": "9",
+          "definition": "element",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of ATOMSUPIS(atoms up is)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "atoms up is",
+                "letters": "ATOMSUPIS"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "ATOMSUPIS"
+              ],
+              "gives": "POTASSIUM"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Remedy sipped, say, getting indigestion",
+          "answer": "DYSPEPSIA",
+          "enumeration": "9",
+          "definition": "indigestion",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of SIPPED(sipped)+SAY(say)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "sipped",
+                "letters": "SIPPED"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "say",
+                "letters": "SAY"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "SIPPED",
+                "SAY"
+              ],
+              "gives": "DYSPEPSIA",
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "sipped",
+                  "SIPPED",
+                  "literal"
+                ],
+                [
+                  "say",
+                  "SAY",
+                  "literal"
+                ]
+              ]
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Reconstruct flue with us? That'll be handy",
+          "answer": "USEFUL",
+          "enumeration": "6",
+          "definition": "handy",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of FLUE(flue)+US(us)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "flue",
+                "letters": "FLUE"
+              },
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "us",
+                "letters": "US"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "FLUE",
+                "US"
+              ],
+              "gives": "USEFUL"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Soap star needs to work on posture finally",
+          "answer": "EASTENDERS",
+          "enumeration": "10",
+          "definition": "Soap",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of STAR(star)+NEEDS(needs)+E(posture)",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "star",
+                "letters": "STAR"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "needs",
+                "letters": "NEEDS"
+              },
+              {
+                "mechanism": "last_letter",
+                "clue_word": "posture",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "STAR",
+                "NEEDS",
+                "E"
+              ],
+              "gives": "EASTENDERS"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Terribly poor signs seeing medical forecast",
+          "answer": "PROGNOSIS",
+          "enumeration": "9",
+          "definition": "medical forecast",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of POORSIGNS(poor signs)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "poor signs",
+                "letters": "POORSIGNS"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "POORSIGNS"
+              ],
+              "gives": "PROGNOSIS"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Catches slowcoach delaying son’s appearance",
+          "answer": "NAILS",
+          "enumeration": "5",
+          "definition": "Catches",
+          "wordplay_type": "anagram",
+          "ai_explanation": "(s)NAIL = slowcoach, delaying son's appearance is a deletion indicator",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "anagram_fodder",
+                "clue_word": "slowcoach",
+                "letters": "SNAIL"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "SNAIL"
+              ],
+              "gives": "NAILS"
+            },
+            "wordplay_type": "anagram"
+          }
+        },
+        {
+          "clue_text": "Maoists argued furiously blocking road south",
+          "answer": "REDGUARDS",
+          "enumeration": "3,6",
+          "definition": "Maoists",
+          "wordplay_type": "anagram",
+          "ai_explanation": "anagram of RD(road)+S(south)+ARGUED(argued)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "road",
+                "letters": "RD"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "south",
+                "letters": "S"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "argued",
+                "letters": "ARGUED"
+              }
+            ],
+            "assembly": {
+              "op": "anagram",
+              "fodder": [
+                "RD",
+                "S",
+                "ARGUED"
+              ],
+              "gives": "REDGUARDS"
+            },
+            "wordplay_type": "anagram"
+          }
+        }
+      ]
+    },
+    "charade": {
+      "description": "The answer is built by joining smaller pieces end to end, like links in a chain. Each piece of the clue gives you one chunk of the answer.",
+      "count": 30,
+      "clues": [
+        {
+          "clue_text": "A free BBC",
+          "answer": "AUNTIE",
+          "enumeration": "6",
+          "definition": "BBC",
+          "wordplay_type": "charade",
+          "ai_explanation": "A(A) + UNTIE(free)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "A",
+                "letters": "A"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "free",
+                "letters": "UNTIE"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "A",
+                "UNTIE"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Minute mark",
+          "answer": "NOTE",
+          "enumeration": "4",
+          "definition": "Minute",
+          "wordplay_type": "charade",
+          "ai_explanation": "NOTE (synonym of \"mark\"); definition: \"Minute\"",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "mark",
+                "letters": "NOTE"
+              }
+            ],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_types": [
+              "charade"
+            ],
+            "sig_explanation": "NOTE (synonym of \"mark\"); definition: \"Minute\""
+          }
+        },
+        {
+          "clue_text": "Doctor on boat in capital",
+          "answer": "MOSCOW",
+          "enumeration": "6",
+          "definition": "capital",
+          "wordplay_type": "charade",
+          "ai_explanation": "MO(Doctor) + SCOW(boat)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Doctor",
+                "letters": "MO"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "boat",
+                "letters": "SCOW"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "MO",
+                "SCOW"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Signified average temperature",
+          "answer": "MEANT",
+          "enumeration": "5",
+          "definition": "Signified",
+          "wordplay_type": "charade",
+          "ai_explanation": "MEAN(average) + T(temperature)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "average",
+                "letters": "MEAN"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "temperature",
+                "letters": "T"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "MEAN",
+                "T"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "City hospital to decline work",
+          "answer": "SANDIEGO",
+          "enumeration": "3,5",
+          "definition": "City",
+          "wordplay_type": "charade",
+          "ai_explanation": "SAN (synonym of \"hospital\") + DIE (synonym of \"decline\") + GO (synonym of \"work\"); definition: \"City\"",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "hospital",
+                "letters": "SAN"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "decline",
+                "letters": "DIE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "work",
+                "letters": "GO"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "SAN",
+                "DIE",
+                "GO"
+              ]
+            },
+            "wordplay_types": [
+              "charade"
+            ],
+            "sig_explanation": "SAN (synonym of \"hospital\") + DIE (synonym of \"decline\") + GO (synonym of \"work\"); definition: \"City\""
+          }
+        },
+        {
+          "clue_text": "Producing clubs with gold pipe",
+          "answer": "CAUSING",
+          "enumeration": "7",
+          "definition": "Producing",
+          "wordplay_type": "charade",
+          "ai_explanation": "C(clubs) + AU(gold) + SING(pipe)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "clubs",
+                "letters": "C"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "gold",
+                "letters": "AU"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "pipe",
+                "letters": "SING"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "C",
+                "AU",
+                "SING"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Fools lease land west of London",
+          "answer": "BERKSHIRE",
+          "enumeration": "9",
+          "definition": "land west of London",
+          "wordplay_type": "charade",
+          "ai_explanation": "BERKS (synonym of \"Fools\") + HIRE (synonym of \"lease\"); definition: \"land west of London\"",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Fools",
+                "letters": "BERKS"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "lease",
+                "letters": "HIRE"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "BERKS",
+                "HIRE"
+              ]
+            },
+            "wordplay_types": [
+              "charade"
+            ],
+            "sig_explanation": "BERKS (synonym of \"Fools\") + HIRE (synonym of \"lease\"); definition: \"land west of London\""
+          }
+        },
+        {
+          "clue_text": "Silly Queen cuts time with power",
+          "answer": "TWERP",
+          "enumeration": "5",
+          "definition": "Silly",
+          "wordplay_type": "charade",
+          "ai_explanation": "T(time) + W(with) + ER(Queen) + P(power)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "time",
+                "letters": "T"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Queen",
+                "letters": "ER"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "with",
+                "letters": "W"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "power",
+                "letters": "P"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "T",
+                "W",
+                "ER",
+                "P"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Glib talk close to fashion model",
+          "answer": "PATTERN",
+          "enumeration": "7",
+          "definition": "model",
+          "wordplay_type": "charade",
+          "ai_explanation": "PATTER(Glib talk) + N(fashion)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Glib talk",
+                "letters": "PATTER"
+              },
+              {
+                "mechanism": "last_letter",
+                "clue_word": "fashion",
+                "letters": "N"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "PATTER",
+                "N"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Discuss business while gobbling?",
+          "answer": "TALKTURKEY",
+          "enumeration": "4,6",
+          "definition": "Discuss business",
+          "wordplay_type": "charade",
+          "ai_explanation": "TALKTURKEY (synonym of \"Discuss business while gobbling?\")",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Discuss business while gobbling?",
+                "letters": "TALKTURKEY"
+              }
+            ],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_types": [
+              "charade"
+            ],
+            "sig_explanation": "TALKTURKEY (synonym of \"Discuss business while gobbling?\")"
+          }
+        },
+        {
+          "clue_text": "Dance with game business graduate",
+          "answer": "RUMBA",
+          "enumeration": "5",
+          "definition": "Dance",
+          "wordplay_type": "charade",
+          "ai_explanation": "RU(game = rugby union) + MBA(business graduate)",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "game",
+                "letters": "RU"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "business graduate",
+                "letters": "MBA"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "RU",
+                "MBA"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Detectives wait on southern swells",
+          "answer": "DISTENDS",
+          "enumeration": "8",
+          "definition": "swells",
+          "wordplay_type": "charade",
+          "ai_explanation": "DIS(Detectives) + TEND(wait on) + S(southern)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Detectives",
+                "letters": "DIS"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "wait on",
+                "letters": "TEND"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "southern",
+                "letters": "S"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "DIS",
+                "TEND",
+                "S"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Fighter with degrees in Old Persian",
+          "answer": "ALI BABA",
+          "enumeration": "3,4",
+          "definition": "Old Persian",
+          "wordplay_type": "charade",
+          "ai_explanation": "ALI(fighter) + BA(degrees) + BA(degrees)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "fighter",
+                "letters": "ALI"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "degrees",
+                "letters": "BA"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "degrees",
+                "letters": "BA"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "ALI",
+                "BA",
+                "BA"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Pure Charlie? It’s superior to speed",
+          "answer": "CHASTE",
+          "enumeration": "6",
+          "definition": "Pure",
+          "wordplay_type": "charade",
+          "ai_explanation": "C(Charlie) + HASTE(speed)",
+          "source": "times",
+          "puzzle_number": "29474",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Charlie",
+                "letters": "C"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "speed",
+                "letters": "HASTE"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "C",
+                "HASTE"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Soiled article brought to pawnbroker",
+          "answer": "UNCLEAN",
+          "enumeration": "7",
+          "definition": "Soiled",
+          "wordplay_type": "charade",
+          "ai_explanation": "UNCLE(pawnbroker) + AN(article)",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "pawnbroker",
+                "letters": "UNCLE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "article",
+                "letters": "AN"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "UNCLE",
+                "AN"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Snack, one eaten by uncommon baronet",
+          "answer": "RAREBIT",
+          "enumeration": "7",
+          "definition": "Snack",
+          "wordplay_type": "charade",
+          "ai_explanation": "RARE(synonym of \"uncommon\") + B(first letter of \"by\") + I(abbr. \"one\") + T(last letter of \"baronet\")",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "one",
+                "letters": "I"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "uncommon",
+                "letters": "RARE"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "by",
+                "letters": "B"
+              },
+              {
+                "mechanism": "last_letter",
+                "clue_word": "baronet",
+                "letters": "T"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "RARE",
+                "B",
+                "I",
+                "T"
+              ],
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "one",
+                  "I",
+                  "abbreviation"
+                ],
+                [
+                  "uncommon",
+                  "RARE",
+                  "synonym"
+                ],
+                [
+                  "by",
+                  "B",
+                  "first_letter"
+                ],
+                [
+                  "baronet",
+                  "T",
+                  "last_letter"
+                ]
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Singer about to plug very old record",
+          "answer": "VOCALIST",
+          "enumeration": "8",
+          "definition": "Singer",
+          "wordplay_type": "charade",
+          "ai_explanation": "VO(abbr. \"very old\") + CA(abbr. \"about\") + LIST(synonym of \"record\")",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "very old",
+                "letters": "VO"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "about",
+                "letters": "CA"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "record",
+                "letters": "LIST"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "VO",
+                "CA",
+                "LIST"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Former partner, full-figured specimen",
+          "answer": "EXAMPLE",
+          "enumeration": "7",
+          "definition": "specimen",
+          "wordplay_type": "charade",
+          "ai_explanation": "EX(Former partner) + AMPLE(full-figured)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Former partner",
+                "letters": "EX"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "full-figured",
+                "letters": "AMPLE"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "EX",
+                "AMPLE"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Aida perhaps got naked for each adult",
+          "answer": "OPERA",
+          "enumeration": "5",
+          "definition": "Aida perhaps",
+          "wordplay_type": "charade",
+          "ai_explanation": "O(got) + PER(each) + A(adult)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "deletion",
+                "clue_word": "got",
+                "letters": "O",
+                "source": "OFFED",
+                "indicator": "naked",
+                "deleted": "FFED"
+              },
+              {
+                "mechanism": "deletion",
+                "clue_word": "each",
+                "letters": "PER",
+                "source": "PER CAPITA",
+                "indicator": "for",
+                "deleted": "CAPITA"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "adult",
+                "letters": "A"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "O",
+                "PER",
+                "A"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Check address of page, an old peasant",
+          "answer": "CHURL",
+          "enumeration": "5",
+          "definition": "an old peasant",
+          "wordplay_type": "charade",
+          "ai_explanation": "CH(abbr. \"Check\") + URL(address of page); definition: \"an old peasant\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "Check",
+                "letters": "CH",
+                "mechanism": "abbreviation"
+              },
+              {
+                "clue_word": "address of page",
+                "letters": "URL",
+                "mechanism": "literal"
+              }
+            ],
+            "wordplay_type": "charade",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Silly play’s opening provided by cast",
+          "answer": "PIFFLING",
+          "enumeration": "8",
+          "definition": "Silly",
+          "wordplay_type": "charade",
+          "ai_explanation": "P(first letter of \"play\") + IF(abbr. \"provided\") + FLING(synonym of \"cast\"); definition: \"Silly\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "play",
+                "letters": "P",
+                "mechanism": "first_letter"
+              },
+              {
+                "clue_word": "provided",
+                "letters": "IF",
+                "mechanism": "abbreviation"
+              },
+              {
+                "clue_word": "cast",
+                "letters": "FLING",
+                "mechanism": "synonym"
+              }
+            ],
+            "wordplay_type": "charade",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Rubbish as well, Scottish entertainer?",
+          "answer": "TATTOO",
+          "enumeration": "6",
+          "definition": "Scottish entertainer",
+          "wordplay_type": "charade",
+          "ai_explanation": "TAT(rubbish) + TOO(as well)",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Rubbish",
+                "letters": "TAT"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "as well",
+                "letters": "TOO"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "TAT",
+                "TOO"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Press yellow base metal made from this?",
+          "answer": "IRON ORE",
+          "enumeration": "4,3",
+          "definition": "metal made from this",
+          "wordplay_type": "charade",
+          "ai_explanation": "Press = IRON Yellow = ORE",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Press",
+                "letters": "IRON"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "yellow",
+                "letters": "OR"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "base",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "IRON",
+                "OR",
+                "E"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Look old taking book inside summerhouse",
+          "answer": "GAZEBO",
+          "enumeration": "6",
+          "definition": "summerhouse",
+          "wordplay_type": "charade",
+          "ai_explanation": "GAZE(Look) + B(book) + O(old)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Look",
+                "letters": "GAZE"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "old",
+                "letters": "O"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "book",
+                "letters": "B"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "GAZE",
+                "B",
+                "O"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Grand pound shop's opening showing pants",
+          "answer": "KNICKERS",
+          "enumeration": "8",
+          "definition": "pants",
+          "wordplay_type": "charade",
+          "ai_explanation": "K(Grand) + NICKER(pound) + S(shop's opening)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Grand",
+                "letters": "K"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "pound",
+                "letters": "NICKER"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "shop's opening",
+                "letters": "S"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "K",
+                "NICKER",
+                "S"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Refrain from church when finally contrite",
+          "answer": "CEASE",
+          "enumeration": "5",
+          "definition": "Refrain from",
+          "wordplay_type": "charade",
+          "ai_explanation": "CE(church) + AS(when) + E(finally contrite)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "church",
+                "letters": "CE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "when",
+                "letters": "AS"
+              },
+              {
+                "mechanism": "last_letter",
+                "clue_word": "finally contrite",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "CE",
+                "AS",
+                "E"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Friend having top that's rather washed out",
+          "answer": "PALLID",
+          "enumeration": "6",
+          "definition": "washed out",
+          "wordplay_type": "charade",
+          "ai_explanation": "PAL(Friend) + LID(top)",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Friend",
+                "letters": "PAL"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "top",
+                "letters": "LID"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "PAL",
+                "LID"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Heartless Conservative left to admit regret",
+          "answer": "CRUEL",
+          "enumeration": "5",
+          "definition": "Heartless",
+          "wordplay_type": "charade",
+          "ai_explanation": "C(Conservative) + RUE(regret) + L(left)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Conservative",
+                "letters": "C"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "left",
+                "letters": "L"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "regret",
+                "letters": "RUE"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "C",
+                "RUE",
+                "L"
+              ]
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Here peers sit, in Lords, returned to power",
+          "answer": "CHAMBERPOT",
+          "enumeration": "10",
+          "definition": "Here peers sit",
+          "wordplay_type": "charade",
+          "ai_explanation": "Peers (people who pee) in lords = CHAMBER reutorned (reverves) TO P(ower) = POT",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Lords",
+                "letters": "CHAMBER"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "in",
+                "letters": "POT"
+              }
+            ],
+            "assembly": {
+              "op": "charade",
+              "order": [
+                "CHAMBER",
+                "POT"
+              ],
+              "note": "dropped piece 2"
+            },
+            "wordplay_type": "charade"
+          }
+        },
+        {
+          "clue_text": "Palace attendant’s first opening after noon",
+          "answer": "LATERAN",
+          "enumeration": "7",
+          "definition": "Palace attendant's",
+          "wordplay_type": "charade",
+          "ai_explanation": "LATER(synonym of \"after\") + A(first letter of \"attendant's\") + N(first letter of \"noon\"); definition: \"Palace attendant's\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "after",
+                "letters": "LATER",
+                "mechanism": "synonym"
+              },
+              {
+                "clue_word": "attendant's",
+                "letters": "A",
+                "mechanism": "first_letter"
+              },
+              {
+                "clue_word": "noon",
+                "letters": "N",
+                "mechanism": "first_letter"
+              }
+            ],
+            "wordplay_type": "charade",
+            "source": "tftt+haiku"
+          }
+        }
+      ]
+    },
+    "container": {
+      "description": "One word or abbreviation is placed inside another to form the answer. Indicators like \"in\", \"around\", \"holding\", or \"containing\" signal this type.",
+      "count": 30,
+      "clues": [
+        {
+          "clue_text": "Blue fish catching cold",
+          "answer": "RACY",
+          "enumeration": "4",
+          "definition": "Blue",
+          "wordplay_type": "container",
+          "ai_explanation": "C(cold) inside RAY(fish)",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "fish",
+                "letters": "RAY"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "cold",
+                "letters": "C"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "C",
+              "outer": "RAY",
+              "pos": 2,
+              "combined": "RACY",
+              "order": [
+                "RACY"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Rebel force in ancient city",
+          "answer": "UPRISER",
+          "enumeration": "7",
+          "definition": "Rebel",
+          "wordplay_type": "container",
+          "ai_explanation": "PRISE(force) inside UR(ancient city)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "force",
+                "letters": "PRISE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "ancient city",
+                "letters": "UR"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "PRISE",
+              "outer": "UR",
+              "pos": 1,
+              "combined": "UPRISER",
+              "order": [
+                "UPRISER"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Hand is good, holding spades",
+          "answer": "FIST",
+          "enumeration": "4",
+          "definition": "Hand",
+          "wordplay_type": "container",
+          "ai_explanation": "S(spades) inside FIT(good)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "good",
+                "letters": "FIT"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "spades",
+                "letters": "S"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "S",
+              "outer": "FIT",
+              "pos": 2,
+              "combined": "FIST",
+              "order": [
+                "FIST"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Intend to wear ripped clothing",
+          "answer": "RAIMENT",
+          "enumeration": "7",
+          "definition": "clothing",
+          "wordplay_type": "container",
+          "ai_explanation": "AIM(intend) inside RENT(ripped)",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "ripped",
+                "letters": "RENT"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "intend",
+                "letters": "AIM"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "AIM",
+              "outer": "RENT",
+              "pos": 1,
+              "combined": "RAIMENT",
+              "order": [
+                "RAIMENT"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Wrong about second name of man",
+          "answer": "SIMON",
+          "enumeration": "5",
+          "definition": "name of man",
+          "wordplay_type": "container",
+          "ai_explanation": "MO(second) inside SIN(Wrong)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Wrong",
+                "letters": "SIN"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "second",
+                "letters": "MO"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "MO",
+              "outer": "SIN",
+              "pos": 2,
+              "combined": "SIMON",
+              "order": [
+                "SIMON"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Quietly cutting gentleman's tree",
+          "answer": "MAPLE",
+          "enumeration": "5",
+          "definition": "tree",
+          "wordplay_type": "container",
+          "ai_explanation": "P(Quietly) inside MALE(gentleman)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "gentleman",
+                "letters": "MALE"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Quietly",
+                "letters": "P"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "P",
+              "outer": "MALE",
+              "pos": 2,
+              "combined": "MAPLE",
+              "order": [
+                "MAPLE"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Lake bed holds solidified matter",
+          "answer": "CLOT",
+          "enumeration": "4",
+          "definition": "solidified matter",
+          "wordplay_type": "container",
+          "ai_explanation": "COT(synonym of \"bed\") + L(first letter of \"Lake\") [container]; definition: \"solidified matter\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "bed",
+                "letters": "COT",
+                "mechanism": "synonym"
+              },
+              {
+                "clue_word": "Lake",
+                "letters": "L",
+                "mechanism": "first_letter"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Old man covers chest in warm coat",
+          "answer": "PARKA",
+          "enumeration": "5",
+          "definition": "warm coat",
+          "wordplay_type": "container",
+          "ai_explanation": "ARK(chest) inside PA(Old man)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Old man",
+                "letters": "PA"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "chest",
+                "letters": "ARK"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "ARK",
+              "outer": "PA",
+              "pos": 1,
+              "combined": "PARKA",
+              "order": [
+                "PARKA"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Fellow from hotel wearing headgear",
+          "answer": "CHAP",
+          "enumeration": "4",
+          "definition": "Fellow",
+          "wordplay_type": "container",
+          "ai_explanation": "H(hotel) inside CAP(headgear)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "headgear",
+                "letters": "CAP"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "hotel",
+                "letters": "H"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "H",
+              "outer": "CAP",
+              "pos": 1,
+              "combined": "CHAP",
+              "order": [
+                "CHAP"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Single partner inside also excited",
+          "answer": "ANIMATED",
+          "enumeration": "8",
+          "definition": "excited",
+          "wordplay_type": "container",
+          "ai_explanation": "IMATE inside AND(also)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "also",
+                "letters": "AND"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "single",
+                "letters": "I"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "partner",
+                "letters": "MATE"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "IMATE",
+              "outer": "AND",
+              "pos": 2,
+              "combined": "ANIMATED",
+              "order": [
+                "ANIMATED"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "French city soon collects six grand",
+          "answer": "AVIGNON",
+          "enumeration": "7",
+          "definition": "French city",
+          "wordplay_type": "container",
+          "ai_explanation": "VI(six)+G(grand) inside ANON(soon)",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "soon",
+                "letters": "ANON"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "six",
+                "letters": "VI"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "grand",
+                "letters": "G"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "VIG",
+              "outer": "ANON",
+              "pos": 1,
+              "combined": "AVIGNON",
+              "order": [
+                "AVIGNON"
+              ],
+              "merged_inner": "VIG"
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Ex-PM of Germany invested in real gold",
+          "answer": "TRUDEAU",
+          "enumeration": "7",
+          "definition": "Ex-PM",
+          "wordplay_type": "container",
+          "ai_explanation": "D(Germany) inside TRUE(real) + AU(gold)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "real",
+                "letters": "TRUE"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "Germany",
+                "letters": "D"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "gold",
+                "letters": "AU"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "D",
+              "outer": "TRUE",
+              "pos": 3,
+              "combined": "TRUDE",
+              "order": [
+                "TRUDE",
+                "AU"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Help comprehending case for philosopher",
+          "answer": "SOCRATES",
+          "enumeration": "8",
+          "definition": "philosopher",
+          "wordplay_type": "container",
+          "ai_explanation": "CRATE(case) inside SOS(help)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "help",
+                "letters": "SOS"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "case",
+                "letters": "CRATE"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "CRATE",
+              "outer": "SOS",
+              "pos": 2,
+              "combined": "SOCRATES",
+              "order": [
+                "SOCRATES"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Popular Liberal upset butcher in garden",
+          "answer": "WELLLIKED",
+          "enumeration": "4-5",
+          "definition": "Popular",
+          "wordplay_type": "container",
+          "ai_explanation": "L = liberal = LLIK (kill (butcher) reversed (upset) contained by (in) WEED (garden",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "garden",
+                "letters": "WE",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "Liberal",
+                "letters": "L",
+                "mechanism": "abbreviation"
+              },
+              {
+                "clue_word": "Liberal",
+                "letters": "L",
+                "mechanism": "abbreviation"
+              },
+              {
+                "clue_word": "butcher",
+                "letters": "KILL",
+                "mechanism": "synonym"
+              },
+              {
+                "clue_word": "garden",
+                "letters": "ED",
+                "mechanism": "literal"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Start to tuck into sandwich and roly-poly",
+          "answer": "ROTUND",
+          "enumeration": "6",
+          "definition": "roly-poly",
+          "wordplay_type": "container",
+          "ai_explanation": "ROUND(sandwich) + T(first letter of \"tuck\") [container]; definition: \"roly-poly\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "sandwich",
+                "letters": "ROUND",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "tuck",
+                "letters": "T",
+                "mechanism": "first_letter"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Slender holy object inscribed with C and E",
+          "answer": "GRACILE",
+          "enumeration": "7",
+          "definition": "Slender",
+          "wordplay_type": "container",
+          "ai_explanation": "C(C) inside GRAIL(holy object) + E(E)",
+          "source": "times",
+          "puzzle_number": "29476",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "holy object",
+                "letters": "GRAIL"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "C",
+                "letters": "C"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "E",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "C",
+              "outer": "GRAIL",
+              "pos": 3,
+              "combined": "GRACIL",
+              "order": [
+                "GRACIL",
+                "E"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Most inscrutable spy’s heading under cover?",
+          "answer": "BLANKEST",
+          "enumeration": "8",
+          "definition": "Most inscrutable",
+          "wordplay_type": "container",
+          "ai_explanation": "BLANKET(cover) + S(first letter of \"spy\") [container]; definition: \"Most inscrutable\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "cover",
+                "letters": "BLANKET",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "spy",
+                "letters": "S",
+                "mechanism": "first_letter"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Italian banker fences recently stolen picture",
+          "answer": "PHOTO",
+          "enumeration": "5",
+          "definition": "picture",
+          "wordplay_type": "container",
+          "ai_explanation": "HOT(synonym of \"recently stolen\") inside PO(synonym of \"Italian banker\" = River)",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Italian banker",
+                "letters": "PO"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "recently stolen",
+                "letters": "HOT"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "HOT",
+              "outer": "PO",
+              "pos": 1,
+              "combined": "PHOTO",
+              "order": [
+                "PHOTO"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Cup of tea inspiring family activity in kitchen",
+          "answer": "BAKING",
+          "enumeration": "6",
+          "definition": "activity in kitchen",
+          "wordplay_type": "container",
+          "ai_explanation": "KIN(family) inside BAG(Cup of tea)",
+          "source": "telegraph",
+          "puzzle_number": "3165",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Cup of tea",
+                "letters": "BAG"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "family",
+                "letters": "KIN"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "KIN",
+              "outer": "BAG",
+              "pos": 2,
+              "combined": "BAKING",
+              "order": [
+                "BAKING"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Differences in Nicaraguan rebels crossing street",
+          "answer": "CONTRASTS",
+          "enumeration": "9",
+          "definition": "Differences",
+          "wordplay_type": "container",
+          "ai_explanation": "ST(street) inside CONTRAS(Nicaraguan rebels)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Nicaraguan rebels",
+                "letters": "CONTRAS"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "street",
+                "letters": "ST"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "ST",
+              "outer": "CONTRAS",
+              "pos": 6,
+              "combined": "CONTRASTS",
+              "order": [
+                "CONTRASTS"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Loner’s suitable moment to return, before crowds",
+          "answer": "EREMITE",
+          "enumeration": "7",
+          "definition": "Loner",
+          "wordplay_type": "container",
+          "ai_explanation": "ERE(before) + EMIT(TIME reversed, \"suitable moment\") [container]; definition: \"Loner\"",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "before",
+                "letters": "ERE",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "suitable moment",
+                "letters": "EMIT",
+                "mechanism": "reversal"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Drained theatre nurse maybe collars food supplier",
+          "answer": "CATERER",
+          "enumeration": "7",
+          "definition": "food supplier",
+          "wordplay_type": "container",
+          "ai_explanation": "TE(THEATRE minus HEATR, \"theatre\") + CARER(synonym of \"nurse\") [container]; definition: \"food supplier\"",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "theatre",
+                "letters": "TE",
+                "mechanism": "deletion",
+                "source": "THEATRE",
+                "deleted": "HEATR"
+              },
+              {
+                "clue_word": "nurse",
+                "letters": "CARER",
+                "mechanism": "synonym"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Concern of PR department that is saving publication",
+          "answer": "IMAGE",
+          "enumeration": "5",
+          "definition": "Concern of PR department",
+          "wordplay_type": "container",
+          "ai_explanation": "MAG(publication) inside IE(that is)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "publication",
+                "letters": "MAG"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "that is",
+                "letters": "IE"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "MAG",
+              "outer": "IE",
+              "pos": 1,
+              "combined": "IMAGE",
+              "order": [
+                "IMAGE"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Genuine article relative keeps, one cherished originally",
+          "answer": "AUTHENTIC",
+          "enumeration": "9",
+          "definition": "Genuine",
+          "wordplay_type": "container",
+          "ai_explanation": "THE(article) inside AUNT(relative) + I(one) + C(cherished)",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "first_letter",
+                "clue_word": "cherished",
+                "letters": "C"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "article",
+                "letters": "THE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "relative",
+                "letters": "AUNT"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "one",
+                "letters": "I"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "THE",
+              "outer": "AUNT",
+              "pos": 2,
+              "combined": "AUTHENT",
+              "order": [
+                "AUTHENT",
+                "I",
+                "C"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Clergyman put back in prison in the US – a deep, dark hole",
+          "answer": "CAVERN",
+          "enumeration": "6",
+          "definition": "a deep, dark hole",
+          "wordplay_type": "container",
+          "ai_explanation": "reverse REV(Clergyman), then VER inside CAN(prison)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "prison",
+                "letters": "CAN"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "Clergyman",
+                "letters": "REV"
+              }
+            ],
+            "assembly": {
+              "op": "reversal_container",
+              "inner": "VER",
+              "outer": "CAN",
+              "pos": 2,
+              "combined": "CAVERN",
+              "order": [
+                "CAVERN"
+              ],
+              "pre_reversal": "REV"
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Mother of pearly king dropped into ocean travelling with us",
+          "answer": "NACREOUS",
+          "enumeration": "8",
+          "definition": "Mother of pearly king",
+          "wordplay_type": "container",
+          "ai_explanation": "OCEAN(ocean) + US(us) + R(abbr. \"king\") [container]; definition: \"Mother of pearly king\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "ocean",
+                "letters": "OCEAN",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "us",
+                "letters": "US",
+                "mechanism": "literal"
+              },
+              {
+                "clue_word": "king",
+                "letters": "R",
+                "mechanism": "abbreviation"
+              }
+            ],
+            "wordplay_type": "container",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Writer receiving consent for colour of boat in nonsense poem",
+          "answer": "PEA GREEN",
+          "enumeration": "3,5",
+          "definition": "colour",
+          "wordplay_type": "container",
+          "ai_explanation": "AGREE(consent) inside PEN(writer)",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "writer",
+                "letters": "PEN"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "consent",
+                "letters": "AGREE"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "AGREE",
+              "outer": "PEN",
+              "pos": 2,
+              "combined": "PEAGREEN",
+              "order": [
+                "PEAGREEN"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Exclude nothing about sweetheart for party",
+          "answer": "BEANO",
+          "enumeration": "5",
+          "definition": "party",
+          "wordplay_type": "container",
+          "ai_explanation": "E(sweetheart) inside BAN(Exclude) + O(nothing)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 0.97,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Exclude",
+                "letters": "BAN"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "nothing",
+                "letters": "O"
+              },
+              {
+                "mechanism": "core_letters",
+                "clue_word": "sweetheart",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "E",
+              "outer": "BAN",
+              "pos": 1,
+              "combined": "BEAN",
+              "order": [
+                "BEAN",
+                "O"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Offer to put in fuel when up for drive",
+          "answer": "LIBIDO",
+          "enumeration": "6",
+          "definition": "drive",
+          "wordplay_type": "container",
+          "ai_explanation": "reverse OIL(fuel), then BID(offer) inside LIO",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 0.96,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "reversal",
+                "clue_word": "fuel",
+                "letters": "LIO"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "Offer",
+                "letters": "BID"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "BID",
+              "outer": "LIO",
+              "pos": 2,
+              "combined": "LIBIDO",
+              "order": [
+                "LIBIDO"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        },
+        {
+          "clue_text": "Person engaging lawyer Neil is back in court",
+          "answer": "CLIENT",
+          "enumeration": "6",
+          "definition": "Person engaging lawyer",
+          "wordplay_type": "container",
+          "ai_explanation": "LIEN(reversal of \"Neil is back\") inside CT(abbr. \"court\")",
+          "source": "telegraph",
+          "puzzle_number": "31190",
+          "confidence": 0.96,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "court",
+                "letters": "CT"
+              },
+              {
+                "mechanism": "reversal",
+                "clue_word": "Neil is back",
+                "letters": "LIEN"
+              }
+            ],
+            "assembly": {
+              "op": "container",
+              "inner": "LIEN",
+              "outer": "CT",
+              "pos": 1,
+              "combined": "CLIENT",
+              "order": [
+                "CLIENT"
+              ]
+            },
+            "wordplay_type": "container"
+          }
+        }
+      ]
+    },
+    "deletion": {
+      "description": "A letter or letters are removed from a word to give the answer. Watch for indicators like \"losing\", \"without\", \"dropping\", or \"headless\".",
+      "count": 30,
+      "clues": [
+        {
+          "clue_text": "Spots litter leader’s left",
+          "answer": "RASH",
+          "enumeration": "4",
+          "definition": "Spots",
+          "wordplay_type": "deletion",
+          "ai_explanation": "litter → TRASH (synonym) + (single letter) → T (abbreviation)  [deletion]",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "litter",
+                "letters": "RASH",
+                "mechanism": "deletion"
+              }
+            ],
+            "wordplay_type": "deletion",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Nobody is forgetting an old date",
+          "answer": "NONES",
+          "enumeration": "5",
+          "definition": "an old date",
+          "wordplay_type": "deletion",
+          "ai_explanation": "NONES(deletion from \"Nobody\") + (deletion from \"old\") [deletion]; definition: \"an old date\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "Nobody",
+                "letters": "NONES",
+                "mechanism": "deletion"
+              },
+              {
+                "clue_word": "old",
+                "letters": "",
+                "mechanism": "deletion"
+              }
+            ],
+            "wordplay_type": "deletion",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Be confronted by heartless travesty",
+          "answer": "FACE",
+          "enumeration": "4",
+          "definition": "confront",
+          "wordplay_type": "deletion",
+          "ai_explanation": "travesty → FARCE (synonym) + (single letter) → R (abbreviation)  [deletion]",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "travesty",
+                "letters": "FACE",
+                "mechanism": "deletion"
+              }
+            ],
+            "wordplay_type": "deletion",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Run out of fortress, free in wild areas",
+          "answer": "FORESTS",
+          "enumeration": "7",
+          "definition": "free in wild areas",
+          "wordplay_type": "deletion",
+          "ai_explanation": "FORESTS(deletion from \"fortress\") [deletion]; definition: \"free in wild areas\"",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "fortress",
+                "letters": "FORESTS",
+                "mechanism": "deletion"
+              }
+            ],
+            "wordplay_type": "deletion",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Casual job rejected by great old buffoon",
+          "answer": "ANTIC",
+          "enumeration": "5",
+          "definition": "buffoon",
+          "wordplay_type": "deletion",
+          "ai_explanation": "ANTIC(GIGANTIC minus GIG, \"great\") [deletion]; definition: \"buffoon\"",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "great",
+                "letters": "ANTIC",
+                "mechanism": "deletion",
+                "source": "GIGANTIC",
+                "deleted": "GIG"
+              }
+            ],
+            "wordplay_type": "deletion",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Seek further use for components within grey vehicle",
+          "answer": "RECYCLE",
+          "enumeration": "7",
+          "definition": "Seek further use for",
+          "wordplay_type": "deletion",
+          "ai_explanation": "strip outer letters from GREY(grey) + CYCLE(synonym of \"vehicle\")",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 0.95,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "vehicle",
+                "letters": "CYCLE"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "grey",
+                "letters": "GREY"
+              }
+            ],
+            "assembly": {
+              "op": "outer_deletion",
+              "from": "GREY",
+              "gives": "RE",
+              "order": [
+                "RE",
+                "CYCLE"
+              ],
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "vehicle",
+                  "CYCLE",
+                  "synonym"
+                ],
+                [
+                  "grey",
+                  "GREY",
+                  "literal"
+                ]
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Revolutionary from Left periodically being elected",
+          "answer": "LENIN",
+          "enumeration": "5",
+          "definition": "Revolutionary",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete E from LE(LET minus T, \"left\") + EN(alternate letters of \"being\") + IN(synonym of \"elected\") [periodically]",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 0.92,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "deletion",
+                "clue_word": "left",
+                "letters": "LE",
+                "source": "LET",
+                "indicator": "periodically",
+                "deleted": "T"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "elected",
+                "letters": "IN"
+              },
+              {
+                "mechanism": "alternate_letters",
+                "clue_word": "being",
+                "letters": "EN"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "LE",
+              "deleted": "E",
+              "gives": "L",
+              "order": [
+                "L",
+                "EN",
+                "IN"
+              ],
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "left",
+                  "LE",
+                  "deletion"
+                ],
+                [
+                  "elected",
+                  "IN",
+                  "synonym"
+                ],
+                [
+                  "being",
+                  "EN",
+                  "alternate_letters"
+                ]
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Community has charging point finally switched on",
+          "answer": "TOWNSHIP",
+          "enumeration": "8",
+          "definition": "Community",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete OP from TOP(synonym of \"point\") + OWNS(synonym of \"has\") + HIP(synonym of \"switched\")",
+          "source": "times",
+          "puzzle_number": "29494",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "has",
+                "letters": "OWNS"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "point",
+                "letters": "TOP"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "switched",
+                "letters": "HIP"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "TOP",
+              "deleted": "OP",
+              "gives": "T",
+              "order": [
+                "T",
+                "OWNS",
+                "HIP"
+              ],
+              "source": "enrichment_fallback",
+              "pieces_detail": [
+                [
+                  "has",
+                  "OWNS",
+                  "synonym"
+                ],
+                [
+                  "point",
+                  "TOP",
+                  "synonym"
+                ],
+                [
+                  "switched",
+                  "HIP",
+                  "synonym"
+                ]
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Dignified Roman leader ignores us",
+          "answer": "AUGUST",
+          "enumeration": "6",
+          "definition": "Dignified",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete US from AUGUSTUS",
+          "source": "telegraph",
+          "puzzle_number": "31189",
+          "confidence": 0.85,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "deletion",
+              "from": "AUGUSTUS",
+              "deleted": "US",
+              "gives": "AUGUST",
+              "order": [
+                "AUGUST"
+              ],
+              "note": "dropped piece 1"
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Recent resurgence from one side",
+          "answer": "LATERALLY",
+          "enumeration": "9",
+          "definition": "from one side",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete LY from LATELY(Recent) + RALLY(resurgence)",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Recent",
+                "letters": "LATELY"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "resurgence",
+                "letters": "RALLY"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "LATELY",
+              "deleted": "LY",
+              "gives": "LATE",
+              "order": [
+                "LATE",
+                "RALLY"
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Celebrity, female, arrived topless",
+          "answer": "FAME",
+          "enumeration": "4",
+          "definition": "Celebrity",
+          "wordplay_type": "deletion",
+          "ai_explanation": "F(female) + delete C from CAME",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "female",
+                "letters": "F"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "CAME",
+              "deleted": "C",
+              "gives": "AME",
+              "order": [
+                "F",
+                "AME"
+              ],
+              "note": "dropped piece 2"
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Unsuitable to sleep with stripped covers",
+          "answer": "INAPT",
+          "enumeration": "5",
+          "definition": "Unsuitable",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete N from IN(with) + NAP(sleep) + T(to)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "with",
+                "letters": "IN"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "to",
+                "letters": "T"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "sleep",
+                "letters": "NAP"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "IN",
+              "deleted": "N",
+              "gives": "I",
+              "order": [
+                "I",
+                "NAP",
+                "T"
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Cheaper looking Scottish spud set before king",
+          "answer": "TATTIER",
+          "enumeration": "7",
+          "definition": "Cheaper",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Scottish spud = TATTIE + R (king)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "spud",
+                "letters": "TATER"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "set",
+                "letters": "TIER"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "TATER",
+              "deleted": "ER",
+              "gives": "TAT",
+              "order": [
+                "TAT",
+                "TIER"
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Unsafe, rickety garden house with peeling walls",
+          "answer": "DANGEROUS",
+          "enumeration": "9",
+          "definition": "Unsafe",
+          "wordplay_type": "deletion",
+          "ai_explanation": "DANGER(walls) + strip outer letters from HOUSE(house)",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "literal",
+                "clue_word": "house",
+                "letters": "HOUSE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "walls",
+                "letters": "DANGER"
+              }
+            ],
+            "assembly": {
+              "op": "outer_deletion",
+              "from": "HOUSE",
+              "gives": "OUS",
+              "order": [
+                "DANGER",
+                "OUS"
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Clutch pot son knocked off piano",
+          "answer": "GRASP",
+          "enumeration": "5",
+          "definition": "Clutch",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete S from GRASS(pot) + P(piano)",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 0.72,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "pot",
+                "letters": "GRASS"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "piano",
+                "letters": "P"
+              }
+            ],
+            "assembly": {
+              "op": "deletion",
+              "from": "GRASS",
+              "deleted": "S",
+              "gives": "GRAS",
+              "order": [
+                "GRAS",
+                "P"
+              ]
+            },
+            "wordplay_type": "deletion"
+          }
+        },
+        {
+          "clue_text": "Barely modest lyric poems",
+          "answer": "ODES",
+          "enumeration": "4",
+          "definition": "lyric poems",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Delete (barely) outer letters of mODESt",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Tense leader ignoring papers",
+          "answer": "PRESENT",
+          "enumeration": "7",
+          "definition": "Tense",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Leader = PRESidENT papers = ID ignored (deleted)",
+          "source": "telegraph",
+          "puzzle_number": "31174",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Unwilling to forgo large bond",
+          "answer": "OATH",
+          "enumeration": "4",
+          "definition": "bond",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete L from LOATH",
+          "source": "guardian",
+          "puzzle_number": "29910",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "World map eventually detailed",
+          "answer": "ATLAS",
+          "enumeration": "5",
+          "definition": "world map",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Eventually = ATLAS(t) de-tailed means last letter deletion",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Taking name of aggressive woman",
+          "answer": "VIOLET",
+          "enumeration": "6",
+          "definition": "Woman",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Taking (removing) name (n) aggressive VIOLEnt remove n from violent",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Cut short shady European venture",
+          "answer": "DARE",
+          "enumeration": "4",
+          "definition": "Venture",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Dark cut short = DAR + E(uropean)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "8 Down no rudely brief complaint",
+          "answer": "AILMENT",
+          "enumeration": "7",
+          "definition": "Complaint",
+          "wordplay_type": "deletion",
+          "ai_explanation": "A synonym of 8d with Rudely brief (curt) removed",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Relative wasting American's money",
+          "answer": "COIN",
+          "enumeration": "4",
+          "definition": "money",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete US from COUSIN(synonym of \"relative\")",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Glides using paddle on board ship",
+          "answer": "SOARS",
+          "enumeration": "5",
+          "definition": "Glides",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete O from SO(on) + OAR(paddle) + S(ship)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Public secret initially suppressed",
+          "answer": "OVERT",
+          "enumeration": "5",
+          "definition": "Public",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Initial letter of secret cOVERT suppressed",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "A Christmas Carol — heartless story",
+          "answer": "NOEL",
+          "enumeration": "4",
+          "definition": "A Christmas Carol",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete (heartless) V from NOVEL",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Boss in workplace having ten leaving",
+          "answer": "STUD",
+          "enumeration": "4",
+          "definition": "Boss",
+          "wordplay_type": "deletion",
+          "ai_explanation": "delete Y from STUDY",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Walked solemnly and bowed after Mass",
+          "answer": "MARCHED",
+          "enumeration": "7",
+          "definition": "Walked solemnly",
+          "wordplay_type": "deletion",
+          "ai_explanation": "MARCH(after) + delete BOW from BOWED(bowed)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Tutorial cut by a third? Not so much",
+          "answer": "LESS",
+          "enumeration": "4",
+          "definition": "Not so much",
+          "wordplay_type": "deletion",
+          "ai_explanation": "Remove a third of LESS(on)",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "A large number of birds without beak",
+          "answer": "GROSS",
+          "enumeration": "5",
+          "definition": "A large number",
+          "wordplay_type": "deletion",
+          "ai_explanation": "A Grosbeak is a type of bird",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    },
+    "double_definition": {
+      "description": "The clue has two (or occasionally three) separate meanings that both point to the same answer. Often short and sweet.",
+      "count": 22,
+      "clues": [
+        {
+          "clue_text": "Quite possibly fortunate",
+          "answer": "WELL",
+          "enumeration": "4",
+          "definition": "Quite possibly fortunate",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "One criticising feature of front door?",
+          "answer": "KNOCKER",
+          "enumeration": "7",
+          "definition": "One criticising feature of front door",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Stimulating drink, order for one's chauffeur perhaps?",
+          "answer": "PICK-ME-UP",
+          "enumeration": "4-2-2",
+          "definition": "Stimulating drink, order for one's chauffeur perhaps?",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Shoots game",
+          "answer": "DARTS",
+          "enumeration": "5",
+          "definition": "game",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "Shoots = Darts (move quickly) Games = darts",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Little wriggler eats",
+          "answer": "GRUB",
+          "enumeration": "4",
+          "definition": "eats",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "Little wriggler = Grub (insect) and eats = food = GRUB",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Opening discount store",
+          "answer": "OUTLET",
+          "enumeration": "6",
+          "definition": "store",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Departed behind schedule",
+          "answer": "LATE",
+          "enumeration": "4",
+          "definition": "behind schedule",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Barely modest lyric poems",
+          "answer": "ODES",
+          "enumeration": "4",
+          "definition": "lyric poems",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "Delete (barely) outer letters of mODESt",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Club legend is counting cups",
+          "answer": "DISCO",
+          "enumeration": "5",
+          "definition": "Club",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Achieve exam success while away",
+          "answer": "PASS",
+          "enumeration": "4",
+          "definition": "Achieve exam success",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Clog dance",
+          "answer": "BALL",
+          "enumeration": "4",
+          "definition": "Clog",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "dance",
+                "letters": "BALL"
+              }
+            ],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Refill pot, potentially?",
+          "answer": "TOP UP",
+          "enumeration": "3,2",
+          "definition": "Refill pot, potentially?",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31189",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Refill pot, potentially?",
+                "letters": "TOPUP"
+              }
+            ],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Spanish car: you may sit in it",
+          "answer": "SEAT",
+          "enumeration": "4",
+          "definition": "Spanish car",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "you may sit in it",
+                "letters": "SEAT"
+              }
+            ],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "System command",
+          "answer": "ORDER",
+          "enumeration": "5",
+          "definition": "System command",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Proving difficult",
+          "answer": "TESTING",
+          "enumeration": "7",
+          "definition": "Proving",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Mark swinging regularly",
+          "answer": "SIGN",
+          "enumeration": "4",
+          "definition": "Mark",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "S(w)I(n)G(i)N(g) alternate letters (oddly)",
+          "source": "telegraph",
+          "puzzle_number": "31188",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "City under feudal tenure",
+          "answer": "LIEGE",
+          "enumeration": "5",
+          "definition": "feudal tenure",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "times",
+          "puzzle_number": "29474",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Clever and sweetly pleasing",
+          "answer": "CUTE",
+          "enumeration": "4",
+          "definition": "Clever and sweetly pleasing",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31188",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Soaps after taking hot shower, firstly",
+          "answer": "LATHERS",
+          "enumeration": "7",
+          "definition": "Soaps",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "LATER (after) + H(ot) inserted (taking) + S first(ly) letter of shower",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "A nerd or a kagoule? One of the two there will do!",
+          "answer": "ANORAK",
+          "enumeration": "6",
+          "definition": "A nerd",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "A + N(erd) + OR + K(agoule)",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Chief is impatient on and off",
+          "answer": "MAIN",
+          "enumeration": "4",
+          "definition": "Chief",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "Alternate letters (on and off) of iMpAtIaNt",
+          "source": "telegraph",
+          "puzzle_number": "31188",
+          "confidence": 0.7,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        },
+        {
+          "clue_text": "Impeach a government, it's said",
+          "answer": "ARRAIGN",
+          "enumeration": "7",
+          "definition": "Impeach",
+          "wordplay_type": "double_definition",
+          "ai_explanation": "Arraign sounds like A Reign ( A government)",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": 0.7,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "double_definition"
+            },
+            "wordplay_type": "double_definition"
+          }
+        }
+      ]
+    },
+    "hidden": {
+      "description": "The answer is literally hidden inside the words of the clue. Indicators like \"in\", \"part of\", \"some\", or \"within\" tell you to look inside the clue itself.",
+      "count": 30,
+      "clues": [
+        {
+          "clue_text": "Drive forward as part of grim peloton",
+          "answer": "IMPEL",
+          "enumeration": "5",
+          "definition": "Drive forward",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'grim peloton'",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "grim peloton",
+                "letters": "IMPEL"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "grim peloton"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Pause when performing play of disreputable author",
+          "answer": "TABLEAU",
+          "enumeration": "7",
+          "definition": "Pause when performing play",
+          "wordplay_type": "hidden",
+          "ai_explanation": "TABLEAU(hidden in \"disreputable author\") [hidden]; definition: \"Pause when performing play\"",
+          "source": "guardian",
+          "puzzle_number": "29958",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "disreputable author",
+                "letters": "TABLEAU",
+                "mechanism": "hidden"
+              }
+            ],
+            "wordplay_type": "hidden",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "Whitefly in greenhouse to some extent remaining",
+          "answer": "LYING",
+          "enumeration": "5",
+          "definition": "remaining",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'Whitefly in greenhouse'",
+          "source": "times",
+          "puzzle_number": "29474",
+          "confidence": 0.85,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Whitefly in greenhouse to some extent",
+                "letters": "LYING"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Whitefly in greenhouse"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Often chippy wraps fish",
+          "answer": "TENCH",
+          "enumeration": "5",
+          "definition": "fish",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'ofTEN CHippy wraps'",
+          "source": "telegraph",
+          "puzzle_number": "31189",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Often chippy wraps",
+                "letters": "OFTENCHIPPYWRAPS"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Often chippy wraps"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Somewhat in clover at hers",
+          "answer": "RATHER",
+          "enumeration": "6",
+          "definition": "Somewhat",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in \"clover at hers\" [hidden: \"in\"]; definition: \"Somewhat\"",
+          "source": "telegraph",
+          "puzzle_number": "29492",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "clover at hers",
+                "letters": "CLOVERATHERS"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "clover at hers"
+            },
+            "wordplay_types": [
+              "hidden"
+            ],
+            "sig_explanation": "hidden in \"clover at hers\" [hidden: \"in\"]; definition: \"Somewhat\""
+          }
+        },
+        {
+          "clue_text": "Advances, trying to hold line",
+          "answer": "ANCESTRY",
+          "enumeration": "8",
+          "definition": "line",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in \"Advances, trying to hold\"; definition: \"line\"",
+          "source": "telegraph",
+          "puzzle_number": "31190",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Advances, trying to hold",
+                "letters": "ADVANCESTRYINGTOHOLD"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Advances, trying to hold"
+            },
+            "wordplay_types": [
+              "hidden"
+            ],
+            "sig_explanation": "hidden in \"Advances, trying to hold\"; definition: \"line\""
+          }
+        },
+        {
+          "clue_text": "Triumphant ombudsman's hiding illusion",
+          "answer": "PHANTOM",
+          "enumeration": "7",
+          "definition": "illusion",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'triumPHANT OMbudsman's'",
+          "source": "telegraph",
+          "puzzle_number": "31188",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Triumphant ombudsman's",
+                "letters": "TRIUMPHANTOMBUDSMANS"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Triumphant ombudsman's"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Type of spice and some capsicum inside",
+          "answer": "CUMIN",
+          "enumeration": "5",
+          "definition": "Type of spice",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in \"capsicum inside\" [hidden: \"some\"]; definition: \"Type of spice\"",
+          "source": "telegraph",
+          "puzzle_number": "29492",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "capsicum inside",
+                "letters": "CAPSICUMINSIDE"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "capsicum inside"
+            },
+            "wordplay_types": [
+              "hidden"
+            ],
+            "sig_explanation": "hidden in \"capsicum inside\" [hidden: \"some\"]; definition: \"Type of spice\""
+          }
+        },
+        {
+          "clue_text": "Piercing stomach is mostly a show of virility",
+          "answer": "MACHISMO",
+          "enumeration": "8",
+          "definition": "virility",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in \"stomach is mostly a show\" [hidden: \"Piercing\"]; definition: \"virility\"",
+          "source": "telegraph",
+          "puzzle_number": "31190",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "stomach is mostly a show",
+                "letters": "STOMACHISMOSTLYASHOW"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "stomach is mostly a show"
+            },
+            "wordplay_types": [
+              "hidden"
+            ],
+            "sig_explanation": "hidden in \"stomach is mostly a show\" [hidden: \"Piercing\"]; definition: \"virility\""
+          }
+        },
+        {
+          "clue_text": "Rejected a ham omelette, initially, in Nebraskan city",
+          "answer": "OMAHA",
+          "enumeration": "5",
+          "definition": "Nebraskan city",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden reversed in 'A HAM Omelette, initially,'",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "a ham omelette, initially,",
+                "letters": "AHAMOMELETTEINITIALLY"
+              }
+            ],
+            "assembly": {
+              "op": "hidden_reversed",
+              "words": "a ham omelette, initially,"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Content to pass Emile thalidomide â it's fairly harmful to genes",
+          "answer": "SEMILETHAL",
+          "enumeration": "10",
+          "definition": "fairly harmful to genes",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'pasS EMILE THALidomide a it's'",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "pass Emile thalidomide a it's",
+                "letters": "PASSEMILETHALIDOMIDEAITS"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "pass Emile thalidomide a it's"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Answering letter enclosing lock of hair",
+          "answer": "RINGLET",
+          "enumeration": "7",
+          "definition": "lock of hair",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'Answering letter'",
+          "source": "telegraph",
+          "puzzle_number": "29997",
+          "confidence": 0.7,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Answering letter",
+                "letters": "RINGLET"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Answering letter"
+            },
+            "wordplay_type": "hidden"
+          }
+        },
+        {
+          "clue_text": "Greet host, holding spirit",
+          "answer": "ETHOS",
+          "enumeration": "5",
+          "definition": "spirit",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'GreET HOSt,'",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Fans in a trance catching singer",
+          "answer": "SINATRA",
+          "enumeration": "7",
+          "definition": "singer",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'Fans in a trance'",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Agreements between ten testy nurses",
+          "answer": "ENTENTES",
+          "enumeration": "8",
+          "definition": "Agreements",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'betweEN TEN TESty'",
+          "source": "telegraph",
+          "puzzle_number": "31174",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Flier takes part in viva voce tests",
+          "answer": "AVOCET",
+          "enumeration": "6",
+          "definition": "Flier",
+          "wordplay_type": "hidden",
+          "ai_explanation": "vivA VOCE Tests - hidden word",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Discovers pillagers pinching surplus",
+          "answer": "OVERSPILL",
+          "enumeration": "9",
+          "definition": "surplus",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'discOVERS PILLagers'",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Inadvertent error is made about menace",
+          "answer": "TERRORISM",
+          "enumeration": "9",
+          "definition": "menace",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'inadvertenT ERROR IS Made'",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Excerpt from Rigoletto stirred composer",
+          "answer": "TOSTI",
+          "enumeration": "5",
+          "definition": "composer",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'RigoletTOSTIrred'",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Saccharine last ice-cream, somewhat hard",
+          "answer": "INELASTIC",
+          "enumeration": "9",
+          "definition": "hard",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'Saccharine last ice-cream,'",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "The solver's joy? Our setter welcomes it",
+          "answer": "YOURS",
+          "enumeration": "5",
+          "definition": "The solver's",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'joy? Our setter'",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Passionate, somewhat wayward entrepreneur",
+          "answer": "ARDENT",
+          "enumeration": "6",
+          "definition": "Passionate",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'wayward entrepreneur'",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "State of lush fine brie typically sampled",
+          "answer": "INEBRIETY",
+          "enumeration": "9",
+          "definition": "State of lush",
+          "wordplay_type": "hidden",
+          "ai_explanation": "fINE BRIE TYpically",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Pass on preference to have case of money removed",
+          "answer": "REFER",
+          "enumeration": "5",
+          "definition": "Pass on",
+          "wordplay_type": "hidden",
+          "ai_explanation": "re",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Legendary Roman figure displayed in Louvre museum",
+          "answer": "REMUS",
+          "enumeration": "5",
+          "definition": "Legendary Roman figure",
+          "wordplay_type": "hidden",
+          "ai_explanation": "louvRE MUSeum",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Hardy character demonstrates stamina, to an extent",
+          "answer": "TESS",
+          "enumeration": "4",
+          "definition": "Hardy character",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'demonstraTES Stamina,'",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Ill-fated high-flier's letters from America rushed",
+          "answer": "ICARUS",
+          "enumeration": "6",
+          "definition": "Ill-fated high-flier's",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'AmerICA RUShed'",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Overlooked point he’s had emphasised to some extent",
+          "answer": "INTHESHADE",
+          "enumeration": "2,3,5",
+          "definition": "Overlooked",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'poINT HE'S HAD Emphasised'",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "As he left the Sorbonne, le duc ate dainty sandwiches",
+          "answer": "EDUCATED",
+          "enumeration": "8",
+          "definition": "as he left the Sorbonne",
+          "wordplay_type": "hidden",
+          "ai_explanation": "lE DUC ATE Dainty",
+          "source": "telegraph",
+          "puzzle_number": "31178",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Dnepr is one river (including one controlled by locks)",
+          "answer": "PRISONER",
+          "enumeration": "8",
+          "definition": "one controlled by locks",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'dnePR IS ONE River'",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    },
+    "reversal": {
+      "description": "A word is spelled backwards to form the answer (or part of it). Indicators like \"back\", \"returned\", \"up\" (in down clues), or \"over\" signal this.",
+      "count": 28,
+      "clues": [
+        {
+          "clue_text": "Vehicles Sting held up",
+          "answer": "TRAMS",
+          "enumeration": "5",
+          "definition": "Vehicles",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SMART(Sting)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Sting",
+                "letters": "SMART"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SMART",
+              "gives": "TRAMS",
+              "order": [
+                "TRAMS"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Monster therefore returns",
+          "answer": "OGRE",
+          "enumeration": "4",
+          "definition": "Monster",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse ERGO(therefore)",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "therefore",
+                "letters": "ERGO"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "ERGO",
+              "gives": "OGRE",
+              "order": [
+                "OGRE"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Recognized perch from the rear flap",
+          "answer": "TISWAS",
+          "enumeration": "6",
+          "definition": "flap",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SAW(Recognized)+SIT(perch)",
+          "source": "times",
+          "puzzle_number": "29477",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Recognized",
+                "letters": "SAW"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "perch",
+                "letters": "SIT"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SAWSIT",
+              "gives": "TISWAS",
+              "order": [
+                "TISWAS"
+              ],
+              "reversed_parts": [
+                "SAW",
+                "SIT"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Raised gang with genuine fabulous sailor",
+          "answer": "LAERTES",
+          "enumeration": "7",
+          "definition": "sailor",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SET(gang)+REAL(genuine)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "gang",
+                "letters": "SET"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "genuine",
+                "letters": "REAL"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SETREAL",
+              "gives": "LAERTES",
+              "order": [
+                "LAERTES"
+              ],
+              "reversed_parts": [
+                "SET",
+                "REAL"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Just English left on rising Italian island",
+          "answer": "EQUITABLE",
+          "enumeration": "9",
+          "definition": "Just",
+          "wordplay_type": "reversal",
+          "ai_explanation": "E(english) + QUIT(left) + reverse ELBA(island)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "left",
+                "letters": "QUIT"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "island",
+                "letters": "ELBA"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "english",
+                "letters": "E"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "ELBA",
+              "gives": "ABLE",
+              "order": [
+                "E",
+                "QUIT",
+                "ABLE"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Criticise some informal styles making a comeback",
+          "answer": "SLAM",
+          "enumeration": "4",
+          "definition": "Criticise",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse MALS(some informal styles)",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "some informal styles",
+                "letters": "MALS"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "MALS",
+              "gives": "SLAM",
+              "order": [
+                "SLAM"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Piece of information backing commercial corporation",
+          "answer": "DATUM",
+          "enumeration": "5",
+          "definition": "Piece of information",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse AD(commercial) + TUM(corporation)",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "commercial",
+                "letters": "AD"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "corporation",
+                "letters": "TUM"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "AD",
+              "gives": "DA",
+              "order": [
+                "DA",
+                "TUM"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Obvious role of mother, say, following return of father",
+          "answer": "APPARENT",
+          "enumeration": "8",
+          "definition": "Obvious",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse PA(father) + PARENT(mother)",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "father",
+                "letters": "PA"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "mother",
+                "letters": "PARENT"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "PA",
+              "gives": "AP",
+              "order": [
+                "AP",
+                "PARENT"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Figure reserve, Mo Salah, finally right to make a comeback",
+          "answer": "RHOMBUS",
+          "enumeration": "7",
+          "definition": "Figure",
+          "wordplay_type": "reversal",
+          "ai_explanation": "Definition: \"Figure\" (geometric shape). Reversal: \"reserve\" = SUB, \"Mo\" = MO, \"Salah finally\" = H (last letter of Salah), \"right\" = R. SUB + MO + H + R = SUBMHOR. \"to make a comeback\" indicates reversal: SUBMHOR reversed = RHOMBUS.",
+          "source": "telegraph",
+          "puzzle_number": "31180",
+          "confidence": 1.0,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "reserve",
+                "letters": "SUB"
+              },
+              {
+                "mechanism": "literal",
+                "clue_word": "Mo",
+                "letters": "MO"
+              },
+              {
+                "mechanism": "last_letter",
+                "clue_word": "Salah",
+                "letters": "H"
+              },
+              {
+                "mechanism": "abbreviation",
+                "clue_word": "right",
+                "letters": "R"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SUBMOHR",
+              "gives": "RHOMBUS",
+              "order": [
+                "RHOMBUS"
+              ],
+              "reversed_parts": [
+                "SUB",
+                "MO",
+                "H",
+                "R"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Manage spinning empty half-truths for ages",
+          "answer": "EPOCHS",
+          "enumeration": "6",
+          "definition": "ages",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse COPE(manage) + HS(half-truths)",
+          "source": "times",
+          "puzzle_number": "29476",
+          "confidence": 0.92,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "manage",
+                "letters": "COPE"
+              },
+              {
+                "mechanism": "first_letter",
+                "clue_word": "half-truths",
+                "letters": "HS"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "COPE",
+              "gives": "EPOC",
+              "order": [
+                "EPOC",
+                "HS"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Key part of speech written up for Mark",
+          "answer": "BREVE",
+          "enumeration": "5",
+          "definition": "Mark",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse VERB(part of speech) + E",
+          "source": "times",
+          "puzzle_number": "29481",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "part of speech",
+                "letters": "VERB"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "VERB",
+              "gives": "BREV",
+              "order": [
+                "BREV",
+                "E"
+              ],
+              "gap_fill": [
+                [
+                  "key",
+                  "E",
+                  "abbreviation"
+                ]
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Mother raised money as source of meal",
+          "answer": "MANIOC",
+          "enumeration": "6",
+          "definition": "source of meal",
+          "wordplay_type": "reversal",
+          "ai_explanation": "MA(Mother) + reverse COIN(money)",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": 0.85,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Mother",
+                "letters": "MA"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "money",
+                "letters": "COIN"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "COIN",
+              "gives": "NIOC",
+              "order": [
+                "MA",
+                "NIOC"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Twisted reptile losing tail in mythic poems",
+          "answer": "EDDA",
+          "enumeration": "4",
+          "definition": "mythic poems",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse ADDE(reptile)",
+          "source": "times",
+          "puzzle_number": "29476",
+          "confidence": 0.85,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "deletion",
+                "clue_word": "reptile",
+                "letters": "ADDE",
+                "source": "ADDER",
+                "indicator": "losing",
+                "deleted": "R"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "ADDE",
+              "gives": "EDDA",
+              "order": [
+                "EDDA"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Designs aircraft base rejected",
+          "answer": "PLANS",
+          "enumeration": "5",
+          "definition": "Designs",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SNALP(synonym of \"aircraft base\")",
+          "source": "telegraph",
+          "puzzle_number": "31189",
+          "confidence": 0.82,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "aircraft base",
+                "letters": "SNALP"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SNALP"
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Dutch brought back through Jaguar factory",
+          "answer": "FRAU",
+          "enumeration": "4",
+          "definition": "Dutch",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse UARF(Jaguar factory)",
+          "source": "times",
+          "puzzle_number": "29477",
+          "confidence": 0.77,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "reversal",
+                "clue_word": "Jaguar factory",
+                "letters": "UARF"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "UARF",
+              "gives": "FRAU",
+              "order": [
+                "FRAU"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Olympian from Egyptian port returned",
+          "answer": "ZEUS",
+          "enumeration": "4",
+          "definition": "Olympian",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SUEZ(Egyptian port)",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 0.7,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "Egyptian port",
+                "letters": "SUEZ"
+              }
+            ],
+            "assembly": {
+              "op": "reversal",
+              "reversed": "SUEZ",
+              "gives": "ZEUS",
+              "order": [
+                "ZEUS"
+              ]
+            },
+            "wordplay_type": "reversal"
+          }
+        },
+        {
+          "clue_text": "Hit back in tie",
+          "answer": "KNOT",
+          "enumeration": "4",
+          "definition": "Tie",
+          "wordplay_type": "reversal",
+          "ai_explanation": "Reverse hit = TONK",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Drunkard back with hard stuff",
+          "answer": "TOSH",
+          "enumeration": "4",
+          "definition": "stuff",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse SOT(synonym of \"Drunkard\") + H(abbr. \"hard\")",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Sex appeals after knocking back wine",
+          "answer": "ASTI",
+          "enumeration": "4",
+          "definition": "wine",
+          "wordplay_type": "reversal",
+          "ai_explanation": "IT (doing it = sex) + SA (initials of sex appeal) all reversed",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Half rushed back for teaching session",
+          "answer": "SEMINAR",
+          "enumeration": "7",
+          "definition": "teaching session",
+          "wordplay_type": "reversal",
+          "ai_explanation": "SEMI(Half) + reverse RAN(synonym of \"rushed\")",
+          "source": "telegraph",
+          "puzzle_number": "31174",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Set report about four allowed to retire",
+          "answer": "TELEVISION",
+          "enumeration": "10",
+          "definition": "Set",
+          "wordplay_type": "reversal",
+          "ai_explanation": "A reversal of let = NOISE four= IV and allowed to = LET",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Polish brought west to fight make dugouts?",
+          "answer": "BURROW",
+          "enumeration": "6",
+          "definition": "dugouts",
+          "wordplay_type": "reversal",
+          "ai_explanation": "BUR(Polish brought west) + ROW(to fight)",
+          "source": "times",
+          "puzzle_number": "29477",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Reasonable except when noun plays part of verb",
+          "answer": "SANE",
+          "enumeration": "4",
+          "definition": "Reasonable",
+          "wordplay_type": "reversal",
+          "ai_explanation": "SAVE - V + N(noun)",
+          "source": "times",
+          "puzzle_number": "29476",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Backing separate sink — it keeps things fresher",
+          "answer": "GASTRAP",
+          "enumeration": "3,4",
+          "definition": "it keeps things fresher",
+          "wordplay_type": "reversal",
+          "ai_explanation": "Reversal of PART (separate) + SAG (sink)",
+          "source": "times",
+          "puzzle_number": "29485",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Fresh article covering popular water sports venue",
+          "answer": "THESOLENT",
+          "enumeration": "3,6",
+          "definition": "Wine",
+          "wordplay_type": "reversal",
+          "ai_explanation": "IT (sex, as in doing IT) + SA (initials of sex appeal) all reversed",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Stain most of top lip, upset over case of catarrh",
+          "answer": "BESMIRCH",
+          "enumeration": "8",
+          "definition": "Stain",
+          "wordplay_type": "reversal",
+          "ai_explanation": "Definition: \"Stain\". Charade with reversal: \"most of top\" = BES (most of BEST), \"lip\" = RIM, \"upset\" = reversal indicator giving MIR, \"over\" = positioning indicator, \"case of catarrh\" = CH (first and last letters). BES + MIR + CH = BESMIRCH.",
+          "source": "telegraph",
+          "puzzle_number": "31180",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Roving investigators before noon running northwards",
+          "answer": "NOMADIC",
+          "enumeration": "7",
+          "definition": "Roving",
+          "wordplay_type": "reversal",
+          "ai_explanation": "reverse investigators CID + beofre noon AM + running = ON",
+          "source": "telegraph",
+          "puzzle_number": "31174",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Car manufacturer endorses backing Russian agreement",
+          "answer": "SKODA",
+          "enumeration": "5",
+          "definition": "Car manufacturer",
+          "wordplay_type": "reversal",
+          "ai_explanation": "Endorses = OKS reversed = SKO + Russian for yes (agreement) DA",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    },
+    "homophone": {
+      "description": "The answer sounds like another word. Indicators include \"we hear\", \"reportedly\", \"on the radio\", or \"sounds like\".",
+      "count": 12,
+      "clues": [
+        {
+          "clue_text": "Confession of drug pusher, originally sacrificing morals",
+          "answer": "IDEALS",
+          "enumeration": "6",
+          "definition": "Confession of drug dealer",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Homophone I Deals (in drugs officer)",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": null
+        },
+        {
+          "clue_text": "Replace exceptionally good, highly ranked player, it's said",
+          "answer": "SUPERSEDE",
+          "enumeration": "9",
+          "definition": "Replace",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Super Seed (tennis) sounds like the answer",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": 1.0,
+          "components": null
+        },
+        {
+          "clue_text": "Interfere in award, one hears",
+          "answer": "MEDDLE",
+          "enumeration": "6",
+          "definition": "Interfere",
+          "wordplay_type": "homophone",
+          "ai_explanation": "MEDAL sounds like MEDDLE",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "award",
+                "letters": "MEDAL"
+              }
+            ],
+            "assembly": {
+              "op": "homophone",
+              "sounds_like": "MEDAL",
+              "gives": "MEDDLE",
+              "order": [
+                "MEDDLE"
+              ]
+            },
+            "wordplay_type": "homophone"
+          }
+        },
+        {
+          "clue_text": "Mounting agreement by the sound of it",
+          "answer": "ASCENT",
+          "enumeration": "6",
+          "definition": "Mounting",
+          "wordplay_type": "homophone",
+          "ai_explanation": "ASSENT sounds like ASCENT",
+          "source": "times",
+          "puzzle_number": "29476",
+          "confidence": 0.8,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "synonym",
+                "clue_word": "agreement",
+                "letters": "ASSENT"
+              }
+            ],
+            "assembly": {
+              "op": "homophone",
+              "sounds_like": "ASSENT",
+              "gives": "ASCENT",
+              "order": [
+                "ASCENT"
+              ]
+            },
+            "wordplay_type": "homophone"
+          }
+        },
+        {
+          "clue_text": "Reportedly bawdy song for pirate",
+          "answer": "CORSAIR",
+          "enumeration": "7",
+          "definition": "pirate",
+          "wordplay_type": "homophone",
+          "ai_explanation": "COARSE AIR sounds like CORSAIR",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 0.76,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "sound_of",
+                "clue_word": "bawdy",
+                "letters": "COARSE"
+              },
+              {
+                "mechanism": "synonym",
+                "clue_word": "song",
+                "letters": "AIR"
+              }
+            ],
+            "assembly": {
+              "op": "homophone",
+              "sounds_like": "COARSE AIR",
+              "gives": "CORSAIR"
+            },
+            "wordplay_type": "homophone"
+          }
+        },
+        {
+          "clue_text": "Manipulates desires in audition",
+          "answer": "KNEADS",
+          "enumeration": "6",
+          "definition": "Manipulates",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Needs (desires) sounds like (in audition) Kneads",
+          "source": "independent",
+          "puzzle_number": "12264",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Reduces lectures for the audience",
+          "answer": "LESSENS",
+          "enumeration": "7",
+          "definition": "Reduces",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Reduces = Lessens, which sounds like Lessons (lectures). For the audience is a homophone indicator",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Interest announced for every case",
+          "answer": "PURSUIT",
+          "enumeration": "7",
+          "definition": "Interest",
+          "wordplay_type": "homophone",
+          "ai_explanation": "every → PER + case → SUIT (synonym)  [homophone]",
+          "source": "times",
+          "puzzle_number": "29493",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Reportedly dreadful 1 Across actor",
+          "answer": "DYER",
+          "enumeration": "4",
+          "definition": "Actor",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Ator from soap Danny DYER sounds like Dreadful = dire",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Overheard extremely remarkable couple",
+          "answer": "TWOSOME",
+          "enumeration": "7",
+          "definition": "Couple",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Homophone of Too (extremely) + SOME (remarkable, as in some game)",
+          "source": "telegraph",
+          "puzzle_number": "31191",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Consumed tuck, maybe in school, reportedly",
+          "answer": "EATEN",
+          "enumeration": "5",
+          "definition": "Consumed",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Consumed = Eaten, sounds like a school = ETON",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Report of bad general situation for molluscs",
+          "answer": "NAUTILI",
+          "enumeration": "7",
+          "definition": "Molluscs",
+          "wordplay_type": "homophone",
+          "ai_explanation": "Bad = NAUTI (Naughty) + General situation LI (lie of the land)",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    },
+    "acrostic": {
+      "description": "The first (or last) letters of consecutive words in the clue spell out the answer. Indicators include \"initially\", \"leaders\", \"first of\", or \"heads\".",
+      "count": 3,
+      "clues": [
+        {
+          "clue_text": "Sage with almost mystical insight, initially",
+          "answer": "SWAMI",
+          "enumeration": "5",
+          "definition": "Swami",
+          "wordplay_type": "acrostic",
+          "ai_explanation": "Initial letters of the first five words, the first of which also serves as the definition",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Leaders of Leeds United despairing over game",
+          "answer": "LUDO",
+          "enumeration": "4",
+          "definition": "game",
+          "wordplay_type": "acrostic",
+          "ai_explanation": "L(first letter of \"Leeds\") + U(first letter of \"United\") + D(first letter of \"despairing\") + O(first letter of \"over\")",
+          "source": "telegraph",
+          "puzzle_number": "31188",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "At first, factoids and numbers suit organised admirers",
+          "answer": "FANCLUBS",
+          "enumeration": "3,5",
+          "definition": "admirers",
+          "wordplay_type": "acrostic",
+          "ai_explanation": "F(first) + A(and) + N(numbers) + CLUB(suit) + S(organised)",
+          "source": "times",
+          "puzzle_number": "29482",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    },
+    "cryptic_definition": {
+      "description": "The whole clue is a witty or misleading definition of the answer, with no separate wordplay. These rely on misdirection and wordplay in the definition itself.",
+      "count": 26,
+      "clues": [
+        {
+          "clue_text": "Where you might shop for Dexter’s new diverting books",
+          "answer": "OXFORD",
+          "enumeration": "6,6",
+          "definition": "Where you might shop",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Dexter's Inspector Morse was set in Oxford",
+          "source": "guardian",
+          "puzzle_number": "29958",
+          "confidence": 1.0,
+          "components": null
+        },
+        {
+          "clue_text": "Country store?",
+          "answer": "ICELAND",
+          "enumeration": "7",
+          "definition": "Country",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "31176",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Relatively helpful?",
+          "answer": "NEPOTIC",
+          "enumeration": "7",
+          "definition": "Relatively helpful",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "31173",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Impressive digital snap?",
+          "answer": "EPIC",
+          "enumeration": "4",
+          "definition": "Impressive",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Emphatically wearing suit",
+          "answer": "IN SPADES",
+          "enumeration": "2,6",
+          "definition": "Emphatically",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Incendiary device in packet?",
+          "answer": "BOMB",
+          "enumeration": "4",
+          "definition": "Incendiary device",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Indendiary devive = BOMB packey (large amount of money) = BOMB",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "This is the same round bread",
+          "answer": "NAAN",
+          "enumeration": "4",
+          "definition": "bread",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Spoiler of fun, wet blanket, say?",
+          "answer": "DAMPENER",
+          "enumeration": "8",
+          "definition": "Spoiler of fun",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "High-fliers who have become home-makers?",
+          "answer": "NESTERS",
+          "enumeration": "7",
+          "definition": "High-fliers",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "High fliers = birds = NESTERS Home makers = NESTERS",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "One often depressed during a long sentence?",
+          "answer": "SPACEBAR",
+          "enumeration": "5-3",
+          "definition": "One often depressed",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Little sound that may similarly rise and fall?",
+          "answer": "PEEP",
+          "enumeration": "4",
+          "definition": "Little sound",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Palendrome of PEEP",
+          "source": "telegraph",
+          "puzzle_number": "3359",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "When the tide goes out one might view such accommodation!",
+          "answer": "FLATS",
+          "enumeration": "5",
+          "definition": "accommodation",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "FLATS(flats) [cryptic_definition]; definition: \"accommodation\"",
+          "source": "guardian",
+          "puzzle_number": "29958",
+          "confidence": 0.9,
+          "components": {
+            "ai_pieces": [
+              {
+                "clue_word": "flats",
+                "letters": "FLATS",
+                "mechanism": "literal"
+              }
+            ],
+            "wordplay_type": "cryptic_definition",
+            "source": "tftt+haiku"
+          }
+        },
+        {
+          "clue_text": "See 26 Across",
+          "answer": "LOOKINGAT",
+          "enumeration": "",
+          "definition": "See 26 Across",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "See 26a",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Perk for frequent fliers?",
+          "answer": "BIRDSEED",
+          "enumeration": "8",
+          "definition": "Perk for frequent fliers?",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Definition: Entire clue is a cryptic definition. \"Perk\" (treat/bonus) for \"frequent fliers\" (birds, which fly frequently) = BIRDSEED (food that birds enjoy as a treat).",
+          "source": "telegraph",
+          "puzzle_number": "31180",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "One barely believes in it?",
+          "answer": "NUDISM",
+          "enumeration": "6",
+          "definition": "One barely believes in it?",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "One who is bare beleives in teh answer",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Performer who will take a big bow?",
+          "answer": "CELLIST",
+          "enumeration": "7",
+          "definition": "Performer who will take a big bow?",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "A cellist uses a large bow to play their instrument",
+          "source": "telegraph",
+          "puzzle_number": "31151",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Might this help you get into Oxford?",
+          "answer": "SHOEHORN",
+          "enumeration": "8",
+          "definition": "Might this help you get into Oxford?",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition Oxford is a type of Shoe",
+          "source": "telegraph",
+          "puzzle_number": "31182",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Illuminate new line in 18, draining last energy",
+          "answer": "ENLIGHTEN",
+          "enumeration": "9",
+          "definition": "Illuminate",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Anagram of EIGHTEEN + N(ew) + L(ine) - E (draining = removing an E(nergy)",
+          "source": "telegraph",
+          "puzzle_number": "31184",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "South Korean yogi liked nutty 19 Across line for 9 Down",
+          "answer": "HERES",
+          "enumeration": "5,7,2,3,3",
+          "definition": "South Korean yogi liked nutty 19 Across's line for 9 Down",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Anagram (nutty)  of South Korean yogi liked",
+          "source": "telegraph",
+          "puzzle_number": "31181",
+          "confidence": 0.75,
+          "components": {
+            "ai_pieces": [],
+            "assembly": {
+              "op": "cryptic_definition"
+            },
+            "wordplay_type": "cryptic_definition"
+          }
+        },
+        {
+          "clue_text": "Tree maintenance check",
+          "answer": "SERVICE",
+          "enumeration": "7",
+          "definition": "double-definition",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "29492",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "A violent storm on the way?",
+          "answer": "ROAD RAGE",
+          "enumeration": "4,4",
+          "definition": "A violent storm on the way? (4,4)",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "telegraph",
+          "puzzle_number": "29492",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Achieve exam success while away",
+          "answer": "PASS",
+          "enumeration": "4",
+          "definition": "Achieve exam success",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "double definition",
+          "source": "telegraph",
+          "puzzle_number": "31179",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Landlords perhaps providing B&Bs?",
+          "answer": "LETTERS",
+          "enumeration": "7",
+          "definition": "Landlords perhaps providing B&Bs?",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "Landlords are LETTERS (people who let) and B&B are letters",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Cowardly manner in which to express pain?",
+          "answer": "YELLOW",
+          "enumeration": "6",
+          "definition": "Cowardly",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "What one might do seeing scary spider? Leg it!",
+          "answer": "STEP ON IT",
+          "enumeration": "4,2,2",
+          "definition": "Leg it!",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "cryptic definition: one may kill a spider by stepping on it, and step-on-it is slanf for moving fast",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": null,
+          "components": null
+        },
+        {
+          "clue_text": "Might Rod come up with this ginger, ridiculous hairstyle?",
+          "answer": "RED MULLET",
+          "enumeration": "3,6",
+          "definition": "ridiculous hairstyle",
+          "wordplay_type": "cryptic_definition",
+          "ai_explanation": "A fishing rod may catch a Red Mullet. RED (ginger) + MULLET (ridiculous haircut)",
+          "source": "telegraph",
+          "puzzle_number": "31190",
+          "confidence": null,
+          "components": null
+        }
+      ]
+    }
+  }
+}
