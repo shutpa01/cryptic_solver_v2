@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cryptic Crossword Hints{% endblock %}
+{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
 
 {% block meta %}
 <meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}">
@@ -10,6 +10,8 @@
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
     <span class="mx-1">/</span>
+    <a href="/puzzles" class="hover:text-indigo-600">Puzzles</a>
+    <span class="mx-1">/</span>
     <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ source | title }} {{ type_label }}</a>
     <span class="mx-1">/</span>
     <span>#{{ puzzle_number }}</span>
@@ -17,9 +19,9 @@
 
 <div class="mb-6 flex items-start justify-between">
     <div>
-        <h1 class="text-2xl font-bold">{{ source | title }} {{ type_label }} #{{ puzzle_number }}</h1>
+        <h1 class="text-2xl font-brand font-bold text-gray-900">{{ source | title }} {{ type_label }} #{{ puzzle_number }}</h1>
         {% if publication_date %}
-        <p class="text-sm text-gray-500 mt-1">{{ publication_date }}</p>
+        <p class="text-sm text-gray-400 mt-1">{{ publication_date }}</p>
         {% endif %}
     </div>
     <div class="flex gap-2 items-center shrink-0">
@@ -58,20 +60,6 @@
 
 <div id="grid-area"></div>
 
-<div id="word-help-tip" class="hidden mb-3 px-4 py-2.5 bg-indigo-50 border border-indigo-200 rounded-lg flex items-center justify-between gap-3">
-    <p class="text-sm text-indigo-700"><span class="font-medium">Tip:</span> Click on any word(s) in a clue to see if it's an indicator, synonym, or abbreviation</p>
-    <div class="flex gap-2 shrink-0">
-        <button onclick="document.getElementById('word-help-tip').classList.add('hidden')"
-                class="text-xs text-indigo-500 hover:text-indigo-700 cursor-pointer">Dismiss</button>
-        <button onclick="localStorage.setItem('hideWordHelpTip','1');document.getElementById('word-help-tip').classList.add('hidden')"
-                class="text-xs text-indigo-400 hover:text-indigo-600 cursor-pointer">Don't show again</button>
-    </div>
-</div>
-<script>
-if (!localStorage.getItem('hideWordHelpTip')) {
-    document.getElementById('word-help-tip').classList.remove('hidden');
-}
-</script>
 
 {% macro clue_card(clue) %}
 {% if clue.is_linked_ref %}
@@ -102,13 +90,17 @@ if (!localStorage.getItem('hideWordHelpTip')) {
                 <a href="/clue/{{ clue.slug }}?id={{ clue.id }}" class="inline-block text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded px-1 ml-1 text-sm no-underline" title="View clue page">&#128279;</a>
                 {% endif %}
             </p>
-            <div class="flex gap-1 mt-0.5">
+            <div class="flex gap-1 mt-0.5 solve-hide-badges">
                 <span class="text-xs font-mono px-1 py-0.5 rounded shrink-0
                     {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
                     {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
                     {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
                     {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
-                <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-1.5 py-0.5 rounded shrink-0">{{ clue.tier }}</span>
+                <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-1.5 py-0.5 rounded shrink-0"
+                      title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">{{ clue.tier }}</span>
+                {% if g.is_admin and not clue.ai_explanation and not clue.definition %}
+                <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-red-100 text-red-700 animate-pulse">NO EXPLANATION</span>
+                {% endif %}
             </div>
             {# Solve mode input — hidden until solve mode activated #}
             <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5">
@@ -128,6 +120,10 @@ if (!localStorage.getItem('hideWordHelpTip')) {
                         class="text-xs px-2.5 py-1 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">Add to grid</button>
                 <button onclick="showSolveGrid()"
                         class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Show grid</button>
+                {% if clue.slug %}
+                <a href="/clue/{{ clue.slug }}?id={{ clue.id }}&back={{ request.path | urlencode }}"
+                   class="text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-600 hover:bg-purple-50 font-medium cursor-pointer no-underline">Hints</a>
+                {% endif %}
                 <span class="solve-crossing hidden text-xs font-mono tracking-wider text-emerald-600 cursor-pointer hover:text-emerald-800 hover:underline"
                       onclick="patternFromCrossing(this); _lastFocusedClueId=this.closest('.solve-input').querySelector('.solve-answer').dataset.clueId"
                       title="Open in pattern finder — add letters to narrow down"></span>
@@ -396,6 +392,14 @@ document.body.addEventListener('htmx:afterSwap', function(e) {
         var btn = e.target.parentElement.querySelector('.hint-hide');
         if (btn && e.target.innerHTML.trim()) btn.classList.remove('hidden');
     }
+    // When word lookup results appear with grouped meanings, show tip about clicking the number
+    if (e.target.id && e.target.id.startsWith('wordhelp-')) {
+        if (e.target.querySelector('[id^="meanings-"]')) {
+            CordeliaTips.init([
+                {id: 'wordhelp-expand', text: 'See those numbers in brackets? Click one to see all the matches for that word length. Really useful when you know how many letters you need.'}
+            ]);
+        }
+    }
 });
 
 /* --- Solve Mode --- */
@@ -425,6 +429,10 @@ function _enterSolveMode() {
         el.classList.add('solve-hidden');
         el.style.display = 'none';
     });
+    // Hide source/tier badges in solve mode
+    document.querySelectorAll('.solve-hide-badges').forEach(function(el) {
+        el.style.display = 'none';
+    });
     // Hide any revealed hints
     document.querySelectorAll('[id^="hints-"]').forEach(function(el) {
         el.innerHTML = '';
@@ -448,9 +456,12 @@ function _enterSolveMode() {
 }
 
 function _exitSolveMode() {
-    // Show hint buttons again
+    // Show hint buttons and badges again
     document.querySelectorAll('[id^="explain-"]').forEach(function(el) {
         el.classList.remove('solve-hidden');
+        el.style.display = '';
+    });
+    document.querySelectorAll('.solve-hide-badges').forEach(function(el) {
         el.style.display = '';
     });
     // Hide solve inputs, show "See X" ref clues again
@@ -542,6 +553,10 @@ function solveCheck(input) {
         var crossEl = input.parentElement.querySelector('.solve-crossing');
         if (crossEl) crossEl.classList.add('hidden');
         _fetchCrossings();
+        // Cordelia tip: add to grid
+        CordeliaTips.init([
+            {id: 'solve-correct-grid', text: 'Got it! Now hit <strong>Add to grid</strong> to place it, then <strong>Show grid</strong> to see your progress and pick up crossing letters for other clues.'}
+        ]);
     } else {
         result.className = 'solve-result text-xs text-red-500';
         result.textContent = 'Not right';
@@ -620,8 +635,12 @@ function _scrollToClueEl(el, num, otherDir) {
         setTimeout(function() { if (link.parentNode) link.remove(); }, 5000);
     }
     if (_solveMode) {
+        // Close tools panel and tip when navigating from grid
+        solverClose();
+        CordeliaTips._remove();
         var input = el.querySelector('.solve-answer');
         if (input && !input.disabled) {
+            _solveFocusTipShown = true;  // suppress tip on this focus
             setTimeout(function() { input.focus(); }, 400);
         }
     }
@@ -676,6 +695,10 @@ function showSolveGrid() {
     htmx.ajax('GET', url, {target: '#grid-area', swap: 'innerHTML'}).then(function() {
         gridArea.scrollIntoView({block: 'start'});
         _fetchCrossings();
+        // Cordelia tip: click clue numbers in grid
+        CordeliaTips.init([
+            {id: 'solve-grid-numbers', text: 'Click on a clue number in the grid to jump straight to that clue. Great for working through the crossings.'}
+        ]);
     });
 }
 
@@ -719,6 +742,8 @@ function _fetchCrossings() {
                 crossingEl.setAttribute('data-pattern', pat);
                 crossingEl.classList.remove('hidden');
                 _fetchMatchCount(crossingEl, patternStr);
+                // Mark that crossings exist — tip shown on next clue focus
+                window._hasCrossings = true;
             }
         });
     });
@@ -762,6 +787,21 @@ function solveInputFocus(input) {
     var clueId = input.dataset.clueId;
     if (clueId === _lastFocusedClueId) return;  // avoid re-fetching on same clue
     _lastFocusedClueId = clueId;
+
+    // Show clue context in solver panel
+    var clueText = input.dataset.clueText || '';
+    var enumVal = input.dataset.enum || '';
+    var label = input.dataset.label || '';
+    var ctxEl = document.getElementById('solver-clue-context');
+    if (ctxEl) {
+        document.getElementById('solver-clue-text').textContent = label + '. ' + clueText;
+        document.getElementById('solver-clue-enum').textContent = enumVal ? '(' + enumVal + ')' : '';
+        ctxEl.classList.remove('hidden');
+        // Store enum for result filtering
+        window._currentEnum = enumVal;
+        var enumInput = document.getElementById('pattern-enum');
+        if (enumInput) enumInput.value = enumVal;
+    }
 
     // Pre-fetch pattern if we have crossing letters
     var crossing = input.getAttribute('data-crossing');
@@ -850,4 +890,71 @@ document.addEventListener('DOMContentLoaded', function() {
     75% { transform: translateX(4px); }
 }
 </style>
+{% endblock %}
+
+{% block cordelia_tips %}
+<script>
+// Browse mode tips
+var _puzzleBrowseTips = [
+    {id: 'puzzle-click-words', text: 'Try clicking on any word in a clue. I\'ll tell you if it\'s an indicator, synonym, or abbreviation. Click adjacent words to look up phrases.'},
+    {id: 'puzzle-hint-buttons', text: 'See those buttons under each clue? You can reveal hints one at a time &mdash; definition, wordplay type, explanation, answer &mdash; in any order you like. No pressure.'},
+    {id: 'puzzle-similar', text: 'Click a clue number (the grey number on the left) to search 500,000 clues for similar wording. It\'s a great way to spot patterns.'},
+    {id: 'puzzle-solve-mode', text: 'Fancy trying the puzzle yourself? Hit the <strong>Solve</strong> button (top right) and I\'ll give you an input box for every clue, plus all my tools.'}
+];
+
+// Solve mode entry tip (just the tools pointer)
+window._cordeliaTipsByMode = {
+    solve: [
+        {id: 'solve-tools', text: 'The <strong>Solver tools</strong> button (top right) are your best friend. Pattern finder, anagram solver, and similar clue search &mdash; all right there.', position: 'near-tools'}
+    ]
+};
+
+// Tips that appear when you focus a solve input (i.e. start working on a clue)
+var _solveFocusTips = [
+    {id: 'solve-click-words', text: 'Click on any word in the clue to see if it\'s an indicator or to find synonyms. It\'s the quickest way to crack what the setter\'s up to.'},
+    {id: 'solve-check', text: 'Type your answer and hit <strong>Check</strong>. Green means you\'ve got it. If not, I\'ll let you know &mdash; no judgement.'}
+];
+var _solveFocusTipShown = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // If solve mode was restored from localStorage, don't show browse tips
+    if (_solveMode) {
+        CordeliaTips.showModeTips('solve');
+    } else {
+        CordeliaTips.init(_puzzleBrowseTips);
+    }
+});
+
+// Hook into solve input focus to show clue-level tips
+var _origSolveInputFocus = solveInputFocus;
+solveInputFocus = function(input) {
+    _origSolveInputFocus(input);
+    if (!_solveFocusTipShown && _solveMode) {
+        _solveFocusTipShown = true;
+        CordeliaTips.init(_solveFocusTips);
+    }
+    // Show crossing letters tip when focusing an input that has them
+    if (window._hasCrossings && !CordeliaTips._dismissed['solve-crossing']) {
+        var crossingEl = input.parentElement.querySelector('.solve-crossing');
+        if (crossingEl && !crossingEl.classList.contains('hidden') && !CordeliaTips._container) {
+            CordeliaTips.init([
+                {id: 'solve-crossing', text: 'See that pattern next to the answer box? Those are letters you already know from answers that cross this one. Click the pattern to search for matching words.'}
+            ]);
+        }
+    }
+};
+
+// Hook into solve mode toggle
+var _origToggleSolveMode = toggleSolveMode;
+toggleSolveMode = function() {
+    _origToggleSolveMode();
+    if (_solveMode) {
+        _solveFocusTipShown = false;
+        CordeliaTips.showModeTips('solve');
+    } else {
+        _solveFocusTipShown = false;
+        CordeliaTips.init(_puzzleBrowseTips);
+    }
+};
+</script>
 {% endblock %}

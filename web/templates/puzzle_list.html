@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | title }} {{ type_label }} — Puzzle List{% endblock %}
+{% block title %}{{ source | title }} {{ type_label }} — Cordelia{% endblock %}
 
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
     <span class="mx-1">/</span>
+    <a href="/puzzles" class="hover:text-indigo-600">Puzzles</a>
+    <span class="mx-1">/</span>
     <span>{{ source | title }} {{ type_label }}</span>
 </nav>
 
-<h1 class="text-2xl font-bold mb-4">{{ source | title }} {{ type_label }}</h1>
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-1">{{ source | title }} {{ type_label }}</h1>
+<p class="text-sm text-gray-400 mb-4">Pick a puzzle. I've got the answers and the explanations.</p>
 
 {% if puzzles %}
 <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -62,6 +65,6 @@
     {% endif %}
 </div>
 {% else %}
-<p class="text-gray-500">No puzzles found.</p>
+<p class="text-gray-500">Nothing here yet. Check back soon.</p>
 {% endif %}
 {% endblock %}

@@ -168,3 +168,15 @@
     </div>
 </div>
 {% endblock %}
+
+{% block cordelia_tips %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    CordeliaTips.init([
+        {id: 'learn-start', text: 'Start with <strong>Hidden Words</strong> &mdash; they\'re the easiest to spot and you\'ll get that first win quickly. Then work through the rest at your own pace.'},
+        {id: 'learn-practice', text: 'Each type has a <strong>Practice</strong> button. That\'s where the real learning happens &mdash; I\'ll give you clues and you can use all my tools to work them out.'},
+        {id: 'learn-tools', text: 'On any example clue, click a word to look it up. Same tools as the puzzle pages &mdash; it all works the same way everywhere.'}
+    ]);
+});
+</script>
+{% endblock %}

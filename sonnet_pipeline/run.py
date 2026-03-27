@@ -24,6 +24,7 @@ from .enricher import ClueEnricher
 from .solver import (
     HomophoneEngine, build_example_messages, clean,
     resolve_cross_references, solve_clue, store_result,
+    try_hidden, try_spoonerism, try_double_definition,
 )
 from .report import generate_report, _describe_assembly
 from .sig_adapter import (
@@ -94,6 +95,29 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("No clues found for %s puzzle %s" % (source, puzzle))
         return [], {}, []
 
+    # Skip clues that already have explanations (protect manual corrections)
+    # Only force=True overrides this safety check
+    if not force:
+        total_before = len(rows)
+        already_done_ids = set()
+        for r in rows:
+            cid = r[0]
+            existing = conn.execute(
+                "SELECT has_solution FROM clues WHERE id = ? AND has_solution IS NOT NULL",
+                (cid,)
+            ).fetchone()
+            if existing:
+                already_done_ids.add(cid)
+        if already_done_ids:
+            rows = [r for r in rows if r[0] not in already_done_ids]
+            print("Skipping %d clue(s) with existing explanations (use --force to override)"
+                  % len(already_done_ids))
+
+    if not rows:
+        conn.close()
+        print("All clues already have explanations for %s puzzle %s" % (source, puzzle))
+        return [], {}, []
+
     print("=" * 80)
     print("COMBINED PIPELINE: Signature -> Sonnet -> Enrichment -> Signature")
     print("Puzzle: %s %s (%d clues)" % (source, puzzle, len(rows)))
@@ -102,6 +126,247 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     sonnet_tokens_in = 0
     sonnet_tokens_out = 0
     results = []
+
+    # ================================================================
+    # PHASE 0: Mechanical hidden word check (zero API cost, guaranteed)
+    # If the answer is contiguously hidden in the clue text, it's a hidden word.
+    # This should NEVER be missed.
+    # ================================================================
+    hidden_solved_ids = set()
+    hidden_count = 0
+
+    print("\n--- Phase 0: Mechanical hidden word check ---")
+    for row in rows:
+        cid, cnum, direction, clue, answer, enum, explanation = row
+        answer_clean = clean(answer)
+        if not answer_clean or len(answer_clean) < 3:
+            continue
+
+        hidden_result = try_hidden(clue, answer_clean)
+        if hidden_result:
+            hidden_solved_ids.add(cid)
+            hidden_count += 1
+
+            # Build a result dict compatible with the rest of the pipeline
+            wtype = "hidden" if hidden_result["op"] == "hidden" else "hidden"
+            is_reversed = "reversed" in hidden_result.get("op", "")
+            hiding_words = hidden_result.get("words", "")
+
+            # Build explanation text
+            if is_reversed:
+                expl_text = 'hidden reversed in "%s"' % hiding_words
+            else:
+                expl_text = 'hidden in "%s"' % hiding_words
+
+            results.append({
+                "status": "ASSEMBLED",
+                "tier": "Hidden",
+                "confidence": "high",
+                "score": 100,
+                "clue_number": cnum,
+                "direction": direction,
+                "enumeration": enum,
+                "clue": clue,
+                "answer": answer,
+                "explanation": expl_text,
+            })
+
+            if write_db:
+                # Store as a structured explanation
+                import json as _json
+                pieces_data = [{
+                    "clue_word": hiding_words,
+                    "letters": answer_clean,
+                    "mechanism": "hidden",
+                }]
+                components = _json.dumps({
+                    "ai_pieces": pieces_data,
+                    "assembly": hidden_result,
+                    "wordplay_type": hidden_result["op"],
+                })
+                conn.execute("""
+                    INSERT OR REPLACE INTO structured_explanations
+                    (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (cid, components, _json.dumps([hidden_result["op"]]),
+                      None, 1.0, "mechanical_hidden", source))
+                conn.execute("""
+                    UPDATE clues SET
+                        wordplay_type = COALESCE(NULLIF(wordplay_type, ''), ?),
+                        ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
+                        has_solution = 1
+                    WHERE id = ?
+                """, (hidden_result["op"], expl_text, cid))
+                conn.commit()
+
+            print("  [HIDDEN 100] %s. %s = %s  %s" % (cnum, clue[:50], answer, expl_text))
+
+    if hidden_count:
+        print("  Phase 0a: %d hidden words found" % hidden_count)
+    else:
+        print("  Phase 0a: no hidden words")
+
+    # ================================================================
+    # PHASE 0b: Mechanical spoonerism check
+    # If "Spooner" appears in clue and the answer splits into two words
+    # whose swapped initials are also valid words, it's solved.
+    # ================================================================
+    spoonerism_count = 0
+
+    if ref_db is not None:
+        for row in rows:
+            cid, cnum, direction, clue, answer, enum, explanation = row
+            if cid in hidden_solved_ids:
+                continue
+
+            answer_clean = clean(answer)
+            if not answer_clean or len(answer_clean) < 4:
+                continue
+
+            # Only try if "Spooner" appears in the clue
+            if "spooner" not in clue.lower():
+                continue
+
+            spoon_result = try_spoonerism(answer_clean, ref_db.is_real_word,
+                                            clue_text=clue, ref_db=ref_db)
+            if spoon_result:
+                hidden_solved_ids.add(cid)  # reuse the set to skip in later phases
+                spoonerism_count += 1
+
+                w1 = spoon_result["word1"]
+                w2 = spoon_result["word2"]
+                sw1 = spoon_result["swapped1"]
+                sw2 = spoon_result["swapped2"]
+                cw1 = spoon_result.get("clue_word1")
+                cw2 = spoon_result.get("clue_word2")
+
+                # Build explanation with clue word mappings where found
+                parts = []
+                if cw1:
+                    parts.append('"%s" = %s' % (cw1, sw1))
+                else:
+                    parts.append(sw1)
+                if cw2:
+                    parts.append('"%s" = %s' % (cw2, sw2))
+                else:
+                    parts.append(sw2)
+                expl_text = 'Spoonerism: %s -> swap initials -> %s %s' % (' + '.join(parts), w1, w2)
+
+                results.append({
+                    "status": "ASSEMBLED",
+                    "tier": "Spoonerism",
+                    "confidence": "high",
+                    "score": 100,
+                    "clue_number": cnum,
+                    "direction": direction,
+                    "enumeration": enum,
+                    "clue": clue,
+                    "answer": answer,
+                    "explanation": expl_text,
+                })
+
+                if write_db:
+                    import json as _json
+                    pieces_data = [
+                        {"clue_word": "%s %s" % (sw1, sw2), "letters": answer_clean, "mechanism": "spoonerism"},
+                    ]
+                    components = _json.dumps({
+                        "ai_pieces": pieces_data,
+                        "assembly": spoon_result,
+                        "wordplay_type": "spoonerism",
+                    })
+                    conn.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (cid, components, _json.dumps(["spoonerism"]),
+                          None, 1.0, "mechanical_spoonerism", source))
+                    conn.execute("""
+                        UPDATE clues SET
+                            wordplay_type = COALESCE(NULLIF(wordplay_type, ''), 'spoonerism'),
+                            ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
+                            has_solution = 1
+                        WHERE id = ?
+                    """, (expl_text, cid))
+                    conn.commit()
+
+                print("  [SPOONERISM 100] %s. %s = %s  %s" % (cnum, clue[:50], answer, expl_text))
+
+    if spoonerism_count:
+        print("  Phase 0b: %d spoonerisms found" % spoonerism_count)
+    else:
+        print("  Phase 0b: no spoonerisms")
+
+    # ================================================================
+    # PHASE 0c: Mechanical double definition check
+    # Split clue at every point, check if both halves independently
+    # define the known answer via definition_answers or synonyms.
+    # ================================================================
+    dd_solved_ids = set()
+    dd_count = 0
+
+    if ref_db is not None:
+        for row in rows:
+            cid, cnum, direction, clue, answer, enum, explanation = row
+            if cid in hidden_solved_ids:
+                continue
+
+            answer_clean = clean(answer)
+            if not answer_clean or len(answer_clean) < 2:
+                continue
+
+            dd_result = try_double_definition(clue, answer_clean, ref_db)
+            if dd_result:
+                dd_solved_ids.add(cid)
+                dd_count += 1
+
+                left_def = dd_result["left_def"]
+                right_def = dd_result["right_def"]
+                expl_text = 'Double definition: "%s" and "%s" both mean %s' % (
+                    left_def, right_def, answer)
+
+                results.append({
+                    "status": "ASSEMBLED",
+                    "tier": "DD",
+                    "confidence": "high",
+                    "score": 100,
+                    "clue_number": cnum,
+                    "direction": direction,
+                    "enumeration": enum,
+                    "clue": clue,
+                    "answer": answer,
+                    "explanation": expl_text,
+                })
+
+                if write_db:
+                    import json as _json
+                    components = _json.dumps({
+                        "ai_pieces": [],
+                        "assembly": dd_result,
+                        "wordplay_type": "double_definition",
+                    })
+                    conn.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (cid, components, _json.dumps(["double_definition"]),
+                          left_def, 1.0, "mechanical_dd", source))
+                    conn.execute("""
+                        UPDATE clues SET
+                            wordplay_type = COALESCE(NULLIF(wordplay_type, ''), 'double_definition'),
+                            definition = COALESCE(NULLIF(definition, ''), ?),
+                            ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
+                            has_solution = 1
+                        WHERE id = ?
+                    """, (left_def, expl_text, cid))
+                    conn.commit()
+
+                print("  [DD 100] %s. %s = %s  %s" % (cnum, clue[:50], answer, expl_text))
+
+    if dd_count:
+        print("  Phase 0c: %d double definitions found" % dd_count)
+    else:
+        print("  Phase 0c: no double definitions")
 
     # ================================================================
     # PHASE 1: Signature solver on all clues (zero API cost)
@@ -120,6 +385,10 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         for row in rows:
             cid, cnum, direction, clue, answer, enum, explanation = row
             answer_clean = clean(answer)
+
+            # Skip clues already solved by Phase 0 (hidden word, spoonerism, DD)
+            if cid in hidden_solved_ids or cid in dd_solved_ids:
+                continue
 
             # Skip cross-reference clues — S can't resolve them
             if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
@@ -362,15 +631,13 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     # ================================================================
     # PHASE 2: Production solver on remaining clues (API calls)
     # ================================================================
-    print("\n--- Phase 2: Production solver (API calls) ---")
+    all_solved = hidden_solved_ids | dd_solved_ids | sig_solved_ids | tftt_solved_ids | fs_solved_ids
+    remaining_for_api = [r for r in rows if r[0] not in all_solved]
+    print("\n--- Phase 2: Production solver (API calls) — %d clues ---" % len(remaining_for_api))
 
-    for row in rows:
+    for row in remaining_for_api:
         cid, cnum, direction, clue, answer, enum, explanation = row
         target = clean(answer)
-
-        # Skip clues already solved by signature solver (Phase 1), TFTT (Phase 1.5), or fifteensquared (Phase 1.5b)
-        if cid in sig_solved_ids or cid in tftt_solved_ids or cid in fs_solved_ids:
-            continue
 
         # Check for existing solved result — skip API call but re-run assembler
         # has_solution: 1=solved, 2=partial, 0=failed, NULL=untried
@@ -738,6 +1005,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             gtype = g.get("type", "")
             word = g.get("word") or g.get("definition") or ""
             letters = g.get("letters") or g.get("answer") or ""
+            # Reclassify: "abbreviation" with 3+ letter result is really a synonym
+            if gtype == "abbreviation" and len(re.sub(r"[^A-Z]", "", letters.upper())) >= 3:
+                gtype = "synonym"
             answer = g.get("answer", "")
             clue = g.get("clue", "")
 

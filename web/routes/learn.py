@@ -19,6 +19,8 @@ TYPE_INFO = {
         "short": "Letters rearranged to spell the answer",
         "icon": "🔀",
         "colour": "violet",
+        "tool": "anagram",
+        "tool_prompt": "Click the fodder words in the clue to load them into the anagram solver, then hit Solve.",
         "tip": """Here's Cordelia's trick for anagrams: <strong>count the letters</strong>. The answer length is in the brackets — so look for a word or combination of words in the clue that has exactly that many letters. That's your fodder. Then look for an indicator word nearby — something like "broken", "mixed", "wild", or "out" that signals rearrangement.
 
 Once you've found the fodder, don't try to rearrange the letters in your head — use the <strong>anagram solver</strong>. Open Solver tools (top right), click the Anagram tab, then click the fodder words in the clue. The letters appear as chips. Hit Solve and you'll get only real words back — no nonsense.""",
@@ -28,6 +30,8 @@ Once you've found the fodder, don't try to rearrange the letters in your head �
         "short": "Pieces joined end to end",
         "icon": "🔗",
         "colour": "blue",
+        "tool": "pattern",
+        "tool_prompt": "Click words in the clue to look them up, then use the pattern finder with any crossing letters.",
         "tip": """Charades are the most common type. The answer is built by joining pieces — synonyms, abbreviations, or short words — end to end. Each word in the clue contributes a chunk of letters.
 
 Cordelia's trick: <strong>click the words in the clue</strong> using our word lookup tool. You'll quickly see which words are abbreviations (quiet = P, old = O) and which have synonyms that could be pieces. Once you have a few pieces, try the <strong>pattern finder</strong> with your crossing letters to narrow down the answer.""",
@@ -37,6 +41,8 @@ Cordelia's trick: <strong>click the words in the clue</strong> using our word lo
         "short": "One word placed inside another",
         "icon": "📦",
         "colour": "amber",
+        "tool": "pattern",
+        "tool_prompt": "Click words to find abbreviations and synonyms, then use the pattern finder to check your assembly.",
         "tip": """Container clues are like charades, but one piece goes <em>inside</em> another instead of next to it. Look for words like "in", "around", "holding", "containing", "swallowing", or "embracing" — they tell you which piece wraps around which.
 
 Cordelia's trick: if you can identify two short pieces but they don't join up, <strong>try putting one inside the other</strong>. Click the words to find abbreviations and synonyms, then experiment with insertion. The pieces are usually right — it's just the assembly that's different.""",
@@ -46,18 +52,24 @@ Cordelia's trick: if you can identify two short pieces but they don't join up, <
         "short": "Letters removed from a word",
         "icon": "✂️",
         "colour": "red",
+        "tool": "pattern",
+        "tool_prompt": "Click words to find the base word, then use the pattern finder to confirm what's left after deletion.",
     },
     "double_definition": {
         "label": "Double Definition",
         "short": "Two meanings, one answer",
         "icon": "🪞",
         "colour": "teal",
+        "tool": "pattern",
+        "tool_prompt": "Click each word to explore meanings. If you have crossing letters, try the pattern finder.",
     },
     "hidden": {
         "label": "Hidden Word",
         "short": "Answer hiding inside the clue",
         "icon": "🔍",
         "colour": "emerald",
+        "tool": "pattern",
+        "tool_prompt": "Scan the clue for the hidden word. If you have crossing letters, use the pattern finder to confirm.",
         "tip": """Hidden words are the easiest type to spot — and a great place to start. The answer is literally spelled out inside the clue, spanning across word boundaries. Look for indicator words like "in", "part of", "some", or "within".
 
 Cordelia's trick: <strong>scan the clue looking for the answer length</strong>. If the answer is 5 letters, slide a 5-letter window across the clue text (ignoring spaces) and see if any real word appears. Our <strong>pattern finder</strong> can help — if you have some crossing letters, type them in and see what fits.""",
@@ -67,24 +79,32 @@ Cordelia's trick: <strong>scan the clue looking for the answer length</strong>. 
         "short": "A word spelled backwards",
         "icon": "🔄",
         "colour": "orange",
+        "tool": "pattern",
+        "tool_prompt": "Click words to find synonyms, then try spelling them backwards. Use the pattern finder with crossing letters.",
     },
     "homophone": {
         "label": "Homophone",
         "short": "Answer sounds like another word",
         "icon": "👂",
         "colour": "rose",
+        "tool": "pattern",
+        "tool_prompt": "Think about what the clue sounds like. Use the pattern finder with crossing letters to confirm.",
     },
     "acrostic": {
         "label": "Acrostic",
         "short": "First letters of words spell the answer",
         "icon": "📝",
         "colour": "cyan",
+        "tool": "pattern",
+        "tool_prompt": "Take the first letter of each indicated word. Use the pattern finder to check it's a real word.",
     },
     "cryptic_definition": {
         "label": "Cryptic Definition",
         "short": "The whole clue is a tricky definition",
         "icon": "🧩",
         "colour": "indigo",
+        "tool": "pattern",
+        "tool_prompt": "Think laterally about what the clue means. If you have crossing letters, try the pattern finder.",
     },
 }
 
@@ -277,6 +297,8 @@ def learn_type(wtype):
         colour=info.get("colour", "gray"),
         description=type_data.get("description", ""),
         tip=info.get("tip", ""),
+        tool=info.get("tool", "pattern"),
+        tool_prompt=info.get("tool_prompt", ""),
         clue_cards=clue_cards,
         total=len(clues),
     )
@@ -316,6 +338,8 @@ def learn_practice(wtype):
         label=info.get("label", wtype),
         icon=info.get("icon", ""),
         colour=info.get("colour", "gray"),
+        tool=info.get("tool", "pattern"),
+        tool_prompt=info.get("tool_prompt", ""),
         clue=clue,
         words=words,
         colour_map=colour_map,

@@ -253,15 +253,31 @@ def pattern_search():
                FROM clues
                WHERE UPPER(answer) LIKE ?
                AND LENGTH(answer) = ?
-               LIMIT 50""",
+               LIMIT 200""",
             (pat, pat_len),
         ).fetchall()
         for r in rows:
             results.add(r["ans"])
 
+    # Also search reference DB (synonyms + definitions)
+    ref = _get_ref_db()
+    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
+        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+            ref_rows = ref.execute(
+                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
+                (pat, pat_len),
+            ).fetchall()
+            for r in ref_rows:
+                results.add(r["ans"])
+
     # Filter by "must include" letters if specified
     include = request.args.get("include", "").strip().upper()
     include_letters = re.sub(r'[^A-Z]', '', include)
+
+    # Filter out multi-word results when enumeration is a single number (e.g. "5" not "3,2")
+    enum_val = request.args.get("enum", "").strip()
+    if enum_val and re.match(r'^\d+$', enum_val):
+        results = {w for w in results if ' ' not in w}
 
     if include_letters:
         filtered = []
@@ -331,7 +347,7 @@ def anagram_search():
     results = set()
 
     if len(word_lengths) == 1:
-        # Single word — search for answers of this exact length
+        # Single word — search clue answers of this exact length
         rows = db.execute(
             """SELECT DISTINCT UPPER(answer) AS ans
                FROM clues
@@ -371,7 +387,20 @@ def anagram_search():
             if _letter_signature(r["ans"]) == signature:
                 results.add(r["ans"])
 
-    matches = sorted(results)[:50]
+    # Also search reference DB (synonyms + definitions)
+    ref = _get_ref_db()
+    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
+        ref_rows = ref.execute(
+            f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE LENGTH({col}) = ?",
+            (total,),
+        ).fetchall()
+        for r in ref_rows:
+            if _letter_signature(r["ans"]) == signature:
+                results.add(r["ans"])
+
+    # Filter out the input itself (don't show fodder as a result)
+    input_upper = all_letters.upper()
+    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)[:50]
 
     return render_template(
         "partials/anagram_results.html",

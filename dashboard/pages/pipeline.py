@@ -85,7 +85,7 @@ def render():
             with bcol1:
                 batch_write_db = st.checkbox("Write to DB", value=True, key="batch_write_db")
             with bcol2:
-                batch_force = st.checkbox("Force fresh API calls", value=True, key="batch_force")
+                batch_force = st.checkbox("Force fresh API calls", value=False, key="batch_force")
             with bcol3:
                 batch_partials = st.checkbox("Re-run partials", value=False, key="batch_partials")
 
@@ -119,7 +119,7 @@ def render():
             placeholder="e.g. 31180",
         )
         write_db = st.checkbox("Write to DB", value=True)
-        force_api = st.checkbox("Force fresh API calls", value=True)
+        force_api = st.checkbox("Force fresh API calls", value=False)
         partials = st.checkbox("Re-run partials", value=False)
 
     with col2:

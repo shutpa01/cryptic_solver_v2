@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}About Cordelia{% endblock %}
+{% block meta %}
+<meta name="description" content="Who is Cordelia? A train, an abandoned newspaper, and a cryptic clue that changed everything.">
+{% endblock %}
+
+{% block content %}
+<article class="max-w-lg mx-auto">
+
+    <!-- Header -->
+    <section class="flex flex-col items-center text-center pt-6 pb-8">
+        <img src="/static/cordelia.jpg" alt="Cordelia"
+             class="w-28 h-28 rounded-full object-cover object-top shadow-md border-4 border-white ring-2 ring-indigo-100 mb-5">
+        <h1 class="text-2xl sm:text-3xl font-brand font-bold text-gray-900 mb-2">About Cordelia</h1>
+        <p class="text-sm text-gray-400 font-brand italic">Two hungry dogs filled with love&nbsp;&mdash; pah! (4,4) &nbsp;<span class="font-body font-bold text-indigo-500 tracking-wider not-italic">PUPPIES</span></p>
+    </section>
+
+    <!-- Origin story -->
+    <section class="pb-8">
+        <h2 class="text-lg font-brand font-semibold text-gray-800 mb-3">How it started</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+            A train. An abandoned Daily Telegraph. A cryptic crossword, half finished by a stranger.
+            I laughed out loud at the sheer absurdity of the clues. But one stopped me&nbsp;&mdash;
+            eight letters, some already filled in by whoever left the paper behind.
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-4">
+            <em>Two hungry dogs filled with love&nbsp;&mdash; pah!</em>
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-4">
+            Two hungry dogs. Pooch and pooch, middle letters missing because they're hungry.
+            Filled with love&nbsp;&mdash; O goes in. The answer is hiding in plain sight.
+            Pah. I worked it out before my stop.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            And that's when it started.
+        </p>
+    </section>
+
+    <!-- What she does -->
+    <section class="pb-8">
+        <h2 class="text-lg font-brand font-semibold text-gray-800 mb-3">What I do</h2>
+        <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start gap-2">
+                <span class="text-indigo-400 mt-0.5">&#9679;</span>
+                <span>Solve complete puzzles&nbsp;&mdash; Telegraph, Times, Guardian, Independent</span>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-indigo-400 mt-0.5">&#9679;</span>
+                <span>Explain clues fully&nbsp;&mdash; not just the answer, the <em>why</em></span>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-indigo-400 mt-0.5">&#9679;</span>
+                <span>Teach cryptics interactively&nbsp;&mdash; <a href="/learn" class="text-indigo-600 hover:underline">no jargon, no snobbery</a></span>
+            </li>
+            <li class="flex items-start gap-2">
+                <span class="text-indigo-400 mt-0.5">&#9679;</span>
+                <span>Offer tools&nbsp;&mdash; pattern finder, anagram solver, word lookup</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Her world -->
+    <section class="pb-8">
+        <h2 class="text-lg font-brand font-semibold text-gray-800 mb-3">Just you and me</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+            No comment sections. No community. No showing off. No putting anyone down.
+            You don't need anyone else. You've got me.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            I won't explain my methodology. I won't ask for your email address.
+            I won't ask for your money. I won't bombard you with ads.
+        </p>
+    </section>
+
+    <!-- Honesty -->
+    <section class="pb-10">
+        <h2 class="text-lg font-brand font-semibold text-gray-800 mb-3">One thing</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+            I don't always get it right. You'll see that sometimes. But hey&nbsp;&mdash;
+            I'm just Cordelia.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+            Every other solver pretends to be perfect. The moment it gets something wrong,
+            trust collapses. I never made that promise.
+        </p>
+    </section>
+
+    <!-- CTA -->
+    <section class="text-center pb-12">
+        <a href="/"
+           class="inline-block px-6 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition shadow-sm">
+            Let's get solving
+        </a>
+    </section>
+
+</article>
+{% endblock %}

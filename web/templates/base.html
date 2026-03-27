@@ -43,14 +43,16 @@
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen font-body">
     <!-- Nav -->
-    <nav class="bg-white border-b border-gray-200 px-4 py-2">
+    <nav class="bg-white border-b border-gray-200 px-4 py-3">
         <div class="max-w-3xl mx-auto flex items-center justify-between">
             <a href="/" class="flex items-center gap-2">
                 <img src="/static/cordelia.jpg" alt="Cordelia" class="w-8 h-8 rounded-full object-cover object-top">
                 <span class="text-xl font-brand font-bold text-indigo-600 tracking-wide">Cordelia</span>
             </a>
-            <div class="flex items-center gap-4">
-                <a href="/learn" class="text-sm text-gray-500 hover:text-indigo-600 font-medium">Learn</a>
+            <div class="flex items-center gap-6">
+                <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Puzzles</a>
+                <a href="/learn" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Learn</a>
+                <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Tools</a>
             </div>
         </div>
     </nav>
@@ -60,8 +62,8 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Solver tools — floating, top-right -->
-    <div id="helper-widget" class="fixed top-16 right-4 z-50">
+    <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
+    <div id="helper-widget" class="fixed top-16 right-4 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
         <button id="helper-open"
                 onclick="document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
@@ -69,6 +71,10 @@
             Solver tools
         </button>
         <div id="helper-panel" class="hidden w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+            <div id="solver-clue-context" class="hidden px-3 pt-2 pb-1 bg-gray-50 border-b border-gray-100">
+                <p class="text-xs text-gray-700 leading-snug" id="solver-clue-text"></p>
+                <span class="text-xs text-gray-400 font-mono" id="solver-clue-enum"></span>
+            </div>
             <div class="flex items-center justify-between px-3 pt-3 pb-1">
                 <div class="flex gap-1">
                     <button onclick="solverTab('pattern')" id="tab-pattern"
@@ -83,11 +89,13 @@
             <!-- Pattern tab -->
             <div id="solver-pattern" class="p-3 border-b border-gray-100">
                 <p class="text-xs text-gray-500 mb-2">Known letters + ? for missing, - between words</p>
-                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include" class="flex gap-2">
+                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum" class="flex gap-2">
+                    <input type="hidden" id="pattern-enum" name="enum" value="">
                     <input type="text" name="pattern" id="pattern-input"
                            placeholder="e.g. S?O?E or OX??RD-S?RE?T"
                            class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
                            autocomplete="off" required
+                           onfocus="_dismissSolverTip()"
                            oninput="this.value=this.value.replace(/ /g,'?')"
                            onkeydown="if(event.key===' '){event.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+'?'+this.value.slice(this.selectionEnd);this.setSelectionRange(s+1,s+1)}">
                     <button type="submit" class="px-3 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Find</button>
@@ -107,7 +115,8 @@
                     <input type="text" id="anagram-add"
                            placeholder="type..."
                            class="w-16 text-sm font-mono uppercase bg-transparent outline-none flex-shrink-0 placeholder-violet-300"
-                           autocomplete="off" autocapitalize="characters">
+                           autocomplete="off" autocapitalize="characters"
+                           onfocus="_dismissSolverTip()">
                 </div>
                 <div class="flex gap-2 mt-2">
                     <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
@@ -118,6 +127,7 @@
             <div id="solver-similar" class="p-3 border-b border-gray-100 hidden">
                 <p class="text-xs text-gray-500" id="similar-hint">Click a clue number to find similar clues</p>
             </div>
+            <div id="solver-panel-tip"></div>
             <div id="solver-results" class="p-3 overflow-y-auto max-h-[50vh]"></div>
         </div>
     </div>
@@ -171,27 +181,22 @@
     var _pickWord = null;
 
     function pickResultClick(word) {
+        // Practice mode: populate the guess input directly
+        var guessInput = document.getElementById('guess-input');
+        if (guessInput) {
+            guessInput.value = word;
+            guessInput.classList.remove('border-red-400');
+            guessInput.focus();
+            return;
+        }
+
+        // Normal solve mode: preview on click, add to grid on double-click
         if (typeof _lastFocusedClueId === 'undefined' || !_lastFocusedClueId) return;
         var inp = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
         if (!inp || inp.disabled) return;
 
-        if (_pickTimer && _pickWord === word) {
-            // Double click — add to grid
-            clearTimeout(_pickTimer);
-            _pickTimer = null;
-            _pickWord = null;
-            inp.value = word;
-            solverClose();
-            if (typeof solveAddToGrid === 'function') solveAddToGrid(inp);
-        } else {
-            // First click — preview only
-            _pickWord = word;
-            inp.value = word;
-            _pickTimer = setTimeout(function() {
-                _pickTimer = null;
-                _pickWord = null;
-            }, 500);
-        }
+        inp.value = word;
+        solverClose();
     }
 
     function solverClose() {
@@ -327,5 +332,258 @@
         });
     });
     </script>
+
+    <!-- Cordelia's contextual tips -->
+    <style>
+    .cordelia-tip {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        max-width: 28rem;
+        width: calc(100% - 2rem);
+        animation: tipSlideUp 0.3s ease-out;
+    }
+    .cordelia-tip.near-tools {
+        bottom: auto;
+        left: auto;
+        right: 1rem;
+        top: 7rem;
+        transform: none;
+        max-width: 22rem;
+        animation: tipFadeIn 0.3s ease-out;
+    }
+    @keyframes tipSlideUp {
+        from { opacity: 0; transform: translateX(-50%) translateY(1rem); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes tipFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    /* Inline tips inside the solver panel */
+    .solver-tip {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        background: #eef2ff;
+        border: 1px solid #c7d2fe;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.625rem;
+        margin: 0.5rem 0.75rem;
+        animation: tipFadeIn 0.3s ease-out;
+    }
+    .solver-tip-avatar {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top;
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+    .solver-tip-text {
+        font-size: 0.6875rem;
+        line-height: 1.4;
+        color: #4338ca;
+        flex: 1;
+    }
+    .solver-tip-dismiss {
+        color: #a5b4fc;
+        cursor: pointer;
+        font-size: 0.875rem;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    .solver-tip-dismiss:hover { color: #6366f1; }
+    .cordelia-tip-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        background: white;
+        border: 1px solid #e0e7ff;
+        border-left: 3px solid #6366f1;
+        border-radius: 0.75rem;
+        padding: 0.875rem 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .cordelia-tip-avatar {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top;
+        flex-shrink: 0;
+    }
+    .cordelia-tip-text {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        color: #374151;
+        flex: 1;
+    }
+    .cordelia-tip-dismiss {
+        color: #9ca3af;
+        cursor: pointer;
+        font-size: 1.125rem;
+        line-height: 1;
+        flex-shrink: 0;
+        padding: 0.125rem;
+    }
+    .cordelia-tip-dismiss:hover { color: #6b7280; }
+    .cordelia-shhh {
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+    .cordelia-shhh-btn {
+        display: inline-block;
+        font-size: 0.75rem;
+        color: #6366f1;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0.25rem 0.625rem;
+        border: 1px solid #c7d2fe;
+        border-radius: 0.375rem;
+        background: white;
+    }
+    .cordelia-shhh-btn:hover {
+        background: #eef2ff;
+        border-color: #6366f1;
+    }
+    </style>
+    <script>
+    var CordeliaTips = {
+        _tips: [],
+        _currentIdx: 0,
+        _container: null,
+
+        _dismissed: {},  // tracks tips dismissed THIS session only
+
+        _sessionOff: false,
+
+        init: function(tips) {
+            if (localStorage.getItem('cordelia-shhh') || this._sessionOff) return;
+            this._tips = tips.filter(function(t) {
+                return !CordeliaTips._dismissed[t.id];
+            });
+            if (this._tips.length === 0) return;
+            this._currentIdx = 0;
+            this._show();
+        },
+
+        _show: function() {
+            if (this._currentIdx >= this._tips.length) {
+                this._remove();
+                return;
+            }
+            var tip = this._tips[this._currentIdx];
+            this._remove();
+
+            var div = document.createElement('div');
+            div.className = 'cordelia-tip' + (tip.position === 'near-tools' ? ' near-tools' : '');
+            div.id = 'cordelia-tip-container';
+            div.innerHTML =
+                '<div class="cordelia-tip-card">' +
+                    '<img src="/static/cordelia.jpg" alt="Cordelia" class="cordelia-tip-avatar">' +
+                    '<div class="cordelia-tip-text">' + tip.text + '</div>' +
+                    '<span class="cordelia-tip-dismiss" onclick="CordeliaTips.dismiss()" title="Got it">&times;</span>' +
+                '</div>' +
+                '<div class="cordelia-shhh">' +
+                    '<a onclick="CordeliaTips.shhhSession()" class="cordelia-shhh-btn">Silence Cordelia for now</a>' +
+                    '<span style="margin:0 0.5rem;color:#d1d5db">&middot;</span>' +
+                    '<a onclick="CordeliaTips.shhhAll()" class="cordelia-shhh-btn">Silence forever</a>' +
+                '</div>';
+            document.body.appendChild(div);
+            this._container = div;
+        },
+
+        dismiss: function() {
+            var tip = this._tips[this._currentIdx];
+            if (tip) this._dismissed[tip.id] = true;
+            this._remove();
+        },
+
+        shhhAll: function() {
+            localStorage.setItem('cordelia-shhh', '1');
+            this._remove();
+        },
+
+        shhhSession: function() {
+            this._sessionOff = true;
+            this._remove();
+        },
+
+        _remove: function() {
+            var el = document.getElementById('cordelia-tip-container');
+            if (el) el.remove();
+            this._container = null;
+        },
+
+        // Call from solve mode toggle to show solve-specific tips
+        showModeTips: function(mode) {
+            if (localStorage.getItem('cordelia-shhh') || this._sessionOff) return;
+            var tips = (window._cordeliaTipsByMode || {})[mode] || [];
+            tips = tips.filter(function(t) {
+                return !localStorage.getItem('cordelia-tip-' + t.id);
+            });
+            if (tips.length === 0) return;
+            this._tips = tips;
+            this._currentIdx = 0;
+            this._show();
+        }
+    };
+    </script>
+    <script>
+    // Solver panel inline tips
+    var _solverPanelTips = {
+        pattern: {id: 'solver-tip-pattern', text: 'Type the letters you know and ? for the gaps. If the answer is two words, use a dash between them. The "Must include" box narrows results to letters you\'re sure about.'},
+        anagram: {id: 'solver-tip-anagram', text: 'Click words in the clue to add their letters, or just type them in. Click any chip to remove a letter, or add extras for substitutions. I\'ll search as you go &mdash; only real crossword answers, never gibberish.'},
+        similar: {id: 'solver-tip-similar', text: 'Click a clue number on the left to search 500,000 clues for similar wording. Answers are blurred &mdash; click to peek, double-click to use.'}
+    };
+
+    function _dismissSolverTip() {
+        var tip = document.getElementById('solver-panel-tip');
+        if (tip) tip.innerHTML = '';
+    }
+
+    function _showSolverTip(tab) {
+        var container = document.getElementById('solver-panel-tip');
+        if (!container) return;
+        container.innerHTML = '';
+        if (localStorage.getItem('cordelia-shhh') || CordeliaTips._sessionOff) return;
+        var tip = _solverPanelTips[tab];
+        if (!tip || CordeliaTips._dismissed[tip.id]) return;
+
+        container.innerHTML =
+            '<div class="solver-tip">' +
+                '<img src="/static/cordelia.jpg" alt="" class="solver-tip-avatar">' +
+                '<div class="solver-tip-text">' + tip.text + '</div>' +
+                '<span class="solver-tip-dismiss" onclick="this.closest(\'.solver-tip\').remove();CordeliaTips._dismissed[\'' + tip.id + '\']=true">&times;</span>' +
+            '</div>';
+    }
+
+    // Hook into panel open
+    var _origHelperOpen = document.getElementById('helper-open');
+    if (_origHelperOpen) {
+        var _origOnclick = _origHelperOpen.onclick;
+        _origHelperOpen.onclick = function() {
+            _origOnclick.call(this);
+            // Close any floating Cordelia tip — the panel tips take over
+            CordeliaTips._remove();
+            // Show tip for whichever tab is active
+            var activeTab = document.getElementById('solver-pattern').classList.contains('hidden') ?
+                (document.getElementById('solver-anagram').classList.contains('hidden') ? 'similar' : 'anagram') : 'pattern';
+            _showSolverTip(activeTab);
+        };
+    }
+
+    // Hook into tab switching
+    var _origSolverTab = solverTab;
+    solverTab = function(tab) {
+        _origSolverTab(tab);
+        _showSolverTip(tab);
+    };
+    </script>
+    {% block cordelia_tips %}{% endblock %}
 </body>
 </html>

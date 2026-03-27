@@ -60,9 +60,9 @@
                 Show breakdown
             </button>
             <div class="hidden mt-3 space-y-2">
-                {# Try the tools prompt #}
+                {# Try the tools prompt — contextual per type #}
                 <div class="text-xs text-indigo-600 bg-indigo-50 rounded px-3 py-2 border border-indigo-100 flex flex-wrap items-center gap-2">
-                    <span>Try it: click any word above to look it up.</span>
+                    <span>Try it: click any word above to look it up.{% if tool == 'anagram' %} Or open the <strong>Anagram solver</strong> (top right).{% elif tool == 'pattern' %} Or try the <strong>Pattern finder</strong> (top right).{% endif %}</span>
                 </div>
 
                 {# Colour-coded view #}
@@ -274,5 +274,17 @@ function _clearSelection() {
     });
     _selectedWords = [];
 }
+</script>
+{% endblock %}
+
+{% block cordelia_tips %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    CordeliaTips.init([
+        {id: 'type-breakdown', text: 'Click <strong>Show breakdown</strong> on any clue to see the colour-coded pieces. Purple is the definition, orange is wordplay, blue is the raw material.'},
+        {id: 'type-click-words', text: 'You can click any word in these example clues too &mdash; same lookup tools as the puzzle pages.'},
+        {id: 'type-practice', text: 'When you\'re ready, hit <strong>Practice these</strong> at the top or bottom. I\'ll quiz you with hints if you need them.'}
+    ]);
+});
 </script>
 {% endblock %}

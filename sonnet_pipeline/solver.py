@@ -345,6 +345,213 @@ def try_hidden(clue_text, target):
     return None
 
 
+def try_spoonerism(target, wordlist_check, clue_text=None, ref_db=None):
+    """Try to split the answer into two words whose swapped initials are also valid words.
+
+    Args:
+        target: uppercase answer with no spaces (e.g. "POPTART")
+        wordlist_check: function(word) -> bool, checks if a word is valid
+        clue_text: optional clue text to find matching words/synonyms
+        ref_db: optional RefDB for synonym lookups
+
+    Returns:
+        dict with op, word1, word2, swapped1, swapped2, and optionally
+        clue_word1, clue_word2 if clue matching found — or None
+    """
+    candidates = []
+
+    # Try every split point
+    for split in range(2, len(target) - 1):
+        w1 = target[:split]
+        w2 = target[split:]
+
+        if len(w1) < 2 or len(w2) < 2:
+            continue
+
+        # Simple swap: just the first letter
+        sw1 = w2[0] + w1[1:]
+        sw2 = w1[0] + w2[1:]
+
+        if wordlist_check(sw1) and wordlist_check(sw2):
+            candidates.append((w1, w2, sw1, sw2))
+
+        # Also try swapping initial consonant clusters (e.g. SH, CH, TH, BR, etc.)
+        for c1_len in range(2, min(4, len(w1))):
+            for c2_len in range(2, min(4, len(w2))):
+                cluster1 = w1[:c1_len]
+                cluster2 = w2[:c2_len]
+                csw1 = cluster2 + w1[c1_len:]
+                csw2 = cluster1 + w2[c2_len:]
+                if len(csw1) >= 2 and len(csw2) >= 2:
+                    if wordlist_check(csw1) and wordlist_check(csw2):
+                        candidates.append((w1, w2, csw1, csw2))
+
+    if not candidates:
+        return None
+
+    # If we have clue text and ref_db, find which candidate matches clue words
+    if clue_text and ref_db:
+        import re as _re
+        clue_words = [w.lower().strip(".,;:!?\"'()-") for w in clue_text.split()
+                      if w.lower() not in ("spooner", "spooner's", "spoonerism", "might", "would", "say")]
+
+        best = None
+        best_score = -1
+
+        for w1, w2, sw1, sw2 in candidates:
+            sw1_lower = sw1.lower()
+            sw2_lower = sw2.lower()
+            cw1 = None
+            cw2 = None
+
+            # Try to find sw1 and sw2 (or their synonyms) in clue words
+            for cw in clue_words:
+                if cw1 is None:
+                    # Direct match
+                    if cw == sw1_lower:
+                        cw1 = cw
+                    # Synonym match
+                    elif ref_db:
+                        syns = ref_db.get_synonyms(cw)
+                        if sw1 in syns:
+                            cw1 = cw
+                if cw2 is None:
+                    if cw == sw2_lower:
+                        cw2 = cw
+                    elif ref_db:
+                        syns = ref_db.get_synonyms(cw)
+                        if sw2 in syns:
+                            cw2 = cw
+
+            # Also try multi-word phrases (2 consecutive clue words)
+            for i in range(len(clue_words) - 1):
+                phrase = clue_words[i] + " " + clue_words[i + 1]
+                if cw1 is None:
+                    if phrase == sw1_lower:
+                        cw1 = phrase
+                    elif ref_db:
+                        syns = ref_db.get_synonyms(phrase.replace(" ", ""))
+                        if sw1 in syns:
+                            cw1 = phrase
+                if cw2 is None:
+                    if phrase == sw2_lower:
+                        cw2 = phrase
+                    elif ref_db:
+                        syns = ref_db.get_synonyms(phrase.replace(" ", ""))
+                        if sw2 in syns:
+                            cw2 = phrase
+
+            score = (1 if cw1 else 0) + (1 if cw2 else 0)
+            if score > best_score:
+                best_score = score
+                best = {
+                    "op": "spoonerism",
+                    "word1": w1, "word2": w2,
+                    "swapped1": sw1, "swapped2": sw2,
+                    "clue_word1": cw1, "clue_word2": cw2,
+                }
+
+        if best:
+            return best
+
+    # No clue matching — return first candidate
+    w1, w2, sw1, sw2 = candidates[0]
+    return {
+        "op": "spoonerism",
+        "word1": w1, "word2": w2,
+        "swapped1": sw1, "swapped2": sw2,
+    }
+
+
+def try_double_definition(clue_text, target, ref_db):
+    """Try to split the clue into two halves that both define the answer.
+
+    Args:
+        clue_text: the clue text (without enumeration)
+        target: uppercase answer with no spaces
+        ref_db: RefDB instance for synonym/definition lookups
+
+    Returns:
+        dict with op, left_def, right_def — or None
+    """
+    import re as _re
+
+    # Strip enumeration and clean
+    text = _re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text).strip()
+    words = text.split()
+
+    if len(words) < 2:
+        return None
+
+    target_upper = target.upper()
+    target_lower = target.lower()
+
+    # Link words that can sit between two definitions
+    link_words = {"and", "or", "but", "while", "with", "yet", "also",
+                  "for", "in", "is", "as", "of", "when", "that"}
+
+    def _side_matches(phrase):
+        """Check if a phrase (or sub-window) maps to the target answer."""
+        phrase_clean = phrase.lower().strip(".,;:!?\"'()-")
+        if not phrase_clean:
+            return False
+
+        # Direct synonym check
+        syns = ref_db.get_synonyms(phrase_clean)
+        if target_upper in syns:
+            return True
+
+        # Definition_answers_augmented check (already loaded in synonyms via RefDB)
+        # Also try sub-windows of the phrase
+        phrase_words = phrase_clean.split()
+        for start in range(len(phrase_words)):
+            for end in range(start + 1, len(phrase_words) + 1):
+                window = " ".join(phrase_words[start:end])
+                window_syns = ref_db.get_synonyms(window)
+                if target_upper in window_syns:
+                    return True
+
+        return False
+
+    # Try each split point
+    for split in range(1, len(words)):
+        left_words = words[:split]
+        right_words = words[split:]
+
+        # Strip link words from boundaries
+        left_phrase = " ".join(left_words)
+        right_phrase = " ".join(right_words)
+
+        # Try with link word stripped from right start
+        right_start = 0
+        if right_words and right_words[0].lower() in link_words:
+            right_start = 1
+        # Try with link word stripped from left end
+        left_end = len(left_words)
+        if left_words and left_words[-1].lower() in link_words:
+            left_end = len(left_words) - 1
+
+        # Coverage check: at most 1 uncovered link word
+        left_core = " ".join(left_words[:left_end])
+        right_core = " ".join(right_words[right_start:])
+
+        if not left_core or not right_core:
+            continue
+
+        # Both sides must independently map to the answer
+        left_match = _side_matches(left_core)
+        right_match = _side_matches(right_core)
+
+        if left_match and right_match:
+            return {
+                "op": "double_definition",
+                "left_def": left_core,
+                "right_def": right_core,
+            }
+
+    return None
+
+
 def try_merged_container(pieces, target):
     """Try merging pieces into a single inner for container.
 

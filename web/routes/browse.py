@@ -13,6 +13,18 @@ def home():
     return render_template("home.html", sources=BROWSE_SOURCES)
 
 
+@bp.route("/puzzles")
+def puzzles():
+    """Puzzles page — browse all publications."""
+    return render_template("puzzles.html", sources=BROWSE_SOURCES)
+
+
+@bp.route("/about")
+def about():
+    """About Cordelia."""
+    return render_template("about.html")
+
+
 @bp.route("/<source>/<puzzle_type>/")
 def puzzle_list(source, puzzle_type):
     """Paginated puzzle list for a source/type combination."""

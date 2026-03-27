@@ -181,6 +181,26 @@ def rerun_clue(clue_id):
     success = False
     message = ""
 
+    # Phase 0: Try signature solver first (uses DB+ pieces, zero API cost)
+    if answer and clue_text:
+        try:
+            from signature_solver.db import RefDB
+            from signature_solver.solver import solve_clue as sig_solve_clue
+            from sonnet_pipeline.sig_adapter import store_signature_result
+            import re as _re
+
+            ref_db = RefDB()
+            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
+            sr = sig_solve_clue(clue_text, answer_clean, ref_db)
+            if sr and sr.high_confidence:
+                store_signature_result(db, clue_id, sr, clue_text, answer_clean)
+                success = True
+        except Exception as e:
+            import traceback
+            print(f"[RERUN S] Error: {e}")
+            traceback.print_exc()
+            message = f"Signature solver error: {e}"
+
     # For Guardian/Independent, try fifteensquared first
     if source in ("guardian", "independent") and answer:
         try:
@@ -271,6 +291,8 @@ def rerun_clue(clue_id):
         try:
             success, message, result = generate_explanation(clue_id)
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
 
         if not success:
@@ -491,10 +513,13 @@ def queue_enrichment(clue_id):
             continue
 
         # Only queue synonym and abbreviation mappings
+        # Reclassify: "abbreviation" with 3+ letter result is really a synonym
+        import re as _re
+        letters_clean = _re.sub(r"[^A-Z]", "", letters)
         if mechanism == "synonym":
             etype = "synonym"
         elif mechanism == "abbreviation":
-            etype = "abbreviation"
+            etype = "abbreviation" if len(letters_clean) < 3 else "synonym"
         else:
             continue
 

@@ -1,17 +1,92 @@
 {% extends "base.html" %}
 
-{% block title %}Cryptic Crossword Hints — Browse{% endblock %}
+{% block title %}Cordelia — Cryptic Crosswords, Explained{% endblock %}
+{% block meta %}
+<meta name="description" content="Cordelia solves cryptic crosswords and shows you how they work. Not just the answer — the why.">
+{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold mb-6">Browse Puzzles</h1>
+<style>
+    /* Override the narrow max-w-3xl from base.html on the home page */
+    main { max-width: 64rem !important; }
+</style>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    {% for source, type_slug, label in sources %}
-    <a href="/{{ source }}/{{ type_slug }}/"
-       class="block bg-white rounded-lg border border-gray-200 p-5 hover:border-indigo-400 hover:shadow-md transition">
-        <div class="text-lg font-semibold text-indigo-600">{{ label }}</div>
-        <div class="text-sm text-gray-500 mt-1">{{ source | title }} &middot; {{ type_slug | title }}</div>
-    </a>
-    {% endfor %}
-</div>
+<!-- Hero — side by side on desktop, stacked on mobile -->
+<section class="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-14 pt-6 pb-8 sm:pt-10 sm:pb-10">
+
+    <!-- Left: Cordelia -->
+    <div class="flex flex-col items-center text-center lg:text-left lg:items-start flex-shrink-0">
+        <img src="/static/cordelia.jpg" alt="Cordelia"
+             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover object-top shadow-lg border-4 border-white ring-2 ring-indigo-100 mb-5">
+        <h1 class="text-3xl sm:text-4xl font-brand font-bold text-gray-900 leading-tight mb-2">
+            Hi, I'm Cordelia.
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-500 leading-relaxed mb-3">
+            Let's get solving.
+        </p>
+        <a href="/about" class="inline-flex items-center gap-1.5 text-sm text-indigo-500 font-brand italic hover:text-indigo-700 transition cursor-pointer group">
+            <span class="underline decoration-indigo-300 decoration-1 underline-offset-2 group-hover:decoration-indigo-500">Two hungry dogs filled with love&nbsp;&mdash; pah! (4,4)</span>
+            <span class="text-xs">&rarr;</span>
+        </a>
+    </div>
+
+    <!-- Right: The three offerings -->
+    <div class="flex flex-col gap-3 w-full lg:pt-4">
+
+        <a href="/puzzles"
+           class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition">
+            <div class="text-3xl flex-shrink-0">&#128269;</div>
+            <div>
+                <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Solve</div>
+                <div class="text-sm text-gray-400 leading-snug">Your favourite puzzles, explained. Telegraph, Times, Guardian, Independent.</div>
+            </div>
+        </a>
+
+        <a href="/learn"
+           class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition">
+            <div class="text-3xl flex-shrink-0">&#128218;</div>
+            <div>
+                <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Learn</div>
+                <div class="text-sm text-gray-400 leading-snug">How cryptic clues work. No jargon, no snobbery.</div>
+            </div>
+        </a>
+
+        <a href="/puzzles"
+           class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition">
+            <div class="text-3xl flex-shrink-0">&#128295;</div>
+            <div>
+                <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Tools</div>
+                <div class="text-sm text-gray-400 leading-snug">Pattern finder, anagram solver, word&nbsp;lookup</div>
+            </div>
+        </a>
+
+        <!-- Promise — nestled under the cards -->
+        <p class="text-sm text-gray-400 leading-relaxed mt-2 lg:text-left text-center">
+            No ads. No sign-up. No jargon. No snobbery. Just you and me.
+        </p>
+
+    </div>
+</section>
+
+<!-- Browse puzzles -->
+<section class="pb-10">
+    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4 text-center">Browse by publication</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {% for source, type_slug, label in sources %}
+        <a href="/{{ source }}/{{ type_slug }}/"
+           class="block bg-white rounded-lg border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-sm transition text-center">
+            <div class="text-sm font-semibold text-indigo-600">{{ label }}</div>
+            <div class="text-xs text-gray-400 mt-0.5">{{ source | title }}</div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Cordelia's honesty -->
+<section class="pb-12 text-center max-w-md mx-auto">
+    <p class="text-sm text-gray-400 italic leading-relaxed">
+        "I don't always get it right. You'll see that sometimes.
+        But hey&nbsp;&mdash; I'm just Cordelia."
+    </p>
+</section>
 {% endblock %}

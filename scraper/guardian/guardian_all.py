@@ -112,6 +112,50 @@ def get_puzzle_data(puzzle_type, puzzle_number):
                 return None
 
 
+def build_grid_solution(data):
+    """Build a flat solution string from the Guardian API crossword data.
+
+    Returns (solution_string, rows, cols) or (None, 15, 15) if not enough data.
+    """
+    crossword = data.get('crossword', {})
+    dims = crossword.get('dimensions', {})
+    rows = dims.get('rows', 15)
+    cols = dims.get('cols', 15)
+    entries = crossword.get('entries', [])
+
+    if not entries:
+        return None, rows, cols
+
+    grid = [[' '] * cols for _ in range(rows)]
+    has_any = False
+
+    for entry in entries:
+        sol = entry.get('solution', '')
+        if not sol:
+            continue
+        pos = entry.get('position', {})
+        x, y = pos.get('x', 0), pos.get('y', 0)
+        direction = entry.get('direction', '')
+
+        for i, ch in enumerate(sol):
+            if direction == 'across':
+                c = x + i
+                if c < cols:
+                    grid[y][c] = ch
+                    has_any = True
+            else:
+                r = y + i
+                if r < rows:
+                    grid[r][x] = ch
+                    has_any = True
+
+    if not has_any:
+        return None, rows, cols
+
+    solution = ''.join(''.join(row) for row in grid)
+    return solution, rows, cols
+
+
 def parse_puzzle(data, puzzle_type):
     """Parse the Guardian API response."""
     crossword = data.get('crossword', {})
@@ -133,6 +177,20 @@ def parse_puzzle(data, puzzle_type):
 
     entries = crossword.get('entries', [])
 
+    # Build group map for spanning clues — combine solutions
+    group_solutions = {}  # group_leader_id -> combined solution
+    for entry in entries:
+        group = entry.get('group', [])
+        if len(group) > 1:
+            leader = group[0]
+            if leader not in group_solutions:
+                group_solutions[leader] = {}
+            entry_id = entry.get('id', '')
+            group_solutions[leader][entry_id] = {
+                'solution': entry.get('solution', ''),
+                'order': group.index(entry_id) if entry_id in group else 0,
+            }
+
     across = []
     down = []
 
@@ -149,10 +207,21 @@ def parse_puzzle(data, puzzle_type):
         # Remove enumeration from clue text
         clean_text = re.sub(r'\s*\([0-9,\-\s]+\)\s*$', '', clue_text).strip()
 
+        # For spanning clues, combine the full answer on the leader entry
+        entry_id = entry.get('id', '')
+        group = entry.get('group', [])
+        answer = entry.get('solution', '')
+
+        if len(group) > 1 and group[0] == entry_id:
+            # This is the leader — combine all group solutions in order
+            group_data = group_solutions.get(entry_id, {})
+            parts = sorted(group_data.values(), key=lambda x: x['order'])
+            answer = ''.join(p['solution'] for p in parts)
+
         clue_obj = {
             'number': entry.get('number', ''),
             'clue': clean_text,
-            'answer': entry.get('solution', ''),
+            'answer': answer,
             'enumeration': enumeration
         }
 
@@ -188,8 +257,8 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
     return count > 0
 
 
-def save_to_database(puzzle_data, puzzle_type):
-    """Save puzzle clues directly to clues table."""
+def save_to_database(puzzle_data, puzzle_type, raw_api_data=None):
+    """Save puzzle clues to clues table and grid to puzzle_grids."""
     print(f"Saving to clues table (source='guardian')...")
 
     conn = sqlite3.connect(DB_PATH)
@@ -201,14 +270,20 @@ def save_to_database(puzzle_data, puzzle_type):
     clue_count = 0
     for direction in ['across', 'down']:
         for clue in puzzle_data.get(direction, []):
+            answer = clue.get('answer', '')
             cursor.execute("""
                 INSERT INTO clues
                 (source, puzzle_number, publication_date, clue_number, direction,
                  clue_text, enumeration, answer)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(source, puzzle_number, clue_number, direction, publication_date)
-                DO UPDATE SET answer = excluded.answer
-                WHERE answer IS NULL OR answer = ''
+                DO UPDATE SET answer = CASE
+                    WHEN length(excluded.answer) > length(COALESCE(clues.answer, ''))
+                    THEN excluded.answer
+                    WHEN clues.answer IS NULL OR clues.answer = ''
+                    THEN excluded.answer
+                    ELSE clues.answer
+                END
             """, (
                 'guardian',
                 str(puzzle_number),
@@ -217,9 +292,38 @@ def save_to_database(puzzle_data, puzzle_type):
                 direction,
                 clue.get('clue', ''),
                 clue.get('enumeration', ''),
-                clue.get('answer', ''),
+                answer,
             ))
             clue_count += 1
+
+    # Save grid solution if we have raw API data
+    if raw_api_data:
+        solution, grid_rows, grid_cols = build_grid_solution(raw_api_data)
+        if solution and len(solution) == grid_rows * grid_cols:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS puzzle_grids (
+                    source TEXT NOT NULL,
+                    puzzle_number TEXT NOT NULL,
+                    solution TEXT,
+                    grid_rows INTEGER NOT NULL DEFAULT 15,
+                    grid_cols INTEGER NOT NULL DEFAULT 15,
+                    api_folder TEXT,
+                    api_type TEXT,
+                    api_id TEXT,
+                    PRIMARY KEY (source, puzzle_number)
+                )
+            """)
+            cursor.execute("""
+                INSERT INTO puzzle_grids
+                (source, puzzle_number, solution, grid_rows, grid_cols)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(source, puzzle_number) DO UPDATE SET
+                    solution = COALESCE(excluded.solution, puzzle_grids.solution)
+            """, (
+                'guardian', str(puzzle_number),
+                solution, grid_rows, grid_cols,
+            ))
+            print(f"Saved grid solution ({grid_rows}x{grid_cols})")
 
     conn.commit()
     conn.close()
@@ -272,7 +376,7 @@ def fetch_new_puzzles(puzzle_type):
         data = get_puzzle_data(puzzle_type, number)
         if data:
             puzzle = parse_puzzle(data, puzzle_type)
-            save_to_database(puzzle, puzzle_type)
+            save_to_database(puzzle, puzzle_type, raw_api_data=data)
 
             json_path = f"guardian_{puzzle_type}_{puzzle.get('puzzle_number')}.json"
             with open(json_path, 'w') as f:
@@ -342,7 +446,7 @@ def fetch_puzzle(puzzle_type, puzzle_number=None, target_date=None, force=False)
         first = puzzle['across'][0]
         print(f"Sample: {first['number']}. {first['clue'][:40]}... = {first['answer']}")
 
-    save_to_database(puzzle, puzzle_type)
+    save_to_database(puzzle, puzzle_type, raw_api_data=data)
 
     json_path = f"guardian_{puzzle_type}_{puzzle.get('puzzle_number')}.json"
     with open(json_path, 'w') as f:
@@ -350,6 +454,113 @@ def fetch_puzzle(puzzle_type, puzzle_number=None, target_date=None, force=False)
     print(f"JSON: {json_path}")
 
     return puzzle
+
+
+def backfill_grids():
+    """Backfill grid solutions and spanning answers for all Guardian puzzles in DB."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Ensure puzzle_grids table exists
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS puzzle_grids (
+            source TEXT NOT NULL,
+            puzzle_number TEXT NOT NULL,
+            solution TEXT,
+            grid_rows INTEGER NOT NULL DEFAULT 15,
+            grid_cols INTEGER NOT NULL DEFAULT 15,
+            api_folder TEXT,
+            api_type TEXT,
+            api_id TEXT,
+            PRIMARY KEY (source, puzzle_number)
+        )
+    """)
+    conn.commit()
+
+    # Find Guardian puzzles without grids
+    cursor.execute("""
+        SELECT DISTINCT c.puzzle_number
+        FROM clues c
+        LEFT JOIN puzzle_grids g ON g.source = 'guardian' AND g.puzzle_number = c.puzzle_number
+        WHERE c.source = 'guardian' AND g.puzzle_number IS NULL
+        ORDER BY CAST(c.puzzle_number AS INTEGER)
+    """)
+    missing = [row[0] for row in cursor.fetchall()]
+    conn.close()
+
+    print(f"Guardian puzzles without grids: {len(missing)}")
+    if not missing:
+        return
+
+    filled = 0
+    no_solution = 0
+    errors = 0
+
+    for puzzle_number in missing:
+        # Try to fetch from Guardian API
+        # Guess puzzle type from number range
+        pnum = int(puzzle_number)
+        puzzle_type = None
+        for pt, config in PUZZLE_TYPES.items():
+            ref = config['reference_number']
+            if abs(pnum - ref) < 500:
+                puzzle_type = pt
+                break
+
+        if puzzle_type is None:
+            # Try all types
+            for pt in ['cryptic', 'prize', 'quick-cryptic', 'everyman', 'quiptic']:
+                data = get_puzzle_data(pt, pnum)
+                if data:
+                    puzzle_type = pt
+                    break
+            else:
+                errors += 1
+                continue
+        else:
+            data = get_puzzle_data(puzzle_type, pnum)
+
+        if not data:
+            errors += 1
+            continue
+
+        solution, grid_rows, grid_cols = build_grid_solution(data)
+        if not solution or len(solution) != grid_rows * grid_cols:
+            no_solution += 1
+            print(f"  #{puzzle_number}: no solution available (prize?)")
+            continue
+
+        # Save grid
+        conn2 = sqlite3.connect(DB_PATH)
+        c2 = conn2.cursor()
+        c2.execute("""
+            INSERT INTO puzzle_grids (source, puzzle_number, solution, grid_rows, grid_cols)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(source, puzzle_number) DO UPDATE SET
+                solution = COALESCE(excluded.solution, puzzle_grids.solution)
+        """, ('guardian', str(puzzle_number), solution, grid_rows, grid_cols))
+
+        # Also fix spanning answers
+        puzzle = parse_puzzle(data, puzzle_type)
+        for direction in ['across', 'down']:
+            for clue in puzzle.get(direction, []):
+                answer = clue.get('answer', '')
+                c2.execute("""
+                    UPDATE clues SET answer = ?
+                    WHERE source = 'guardian' AND puzzle_number = ?
+                      AND clue_number = ? AND direction = ?
+                      AND length(?) > length(COALESCE(answer, ''))
+                """, (answer, str(puzzle_number),
+                      str(clue.get('number', '')), direction, answer))
+
+        conn2.commit()
+        conn2.close()
+        filled += 1
+        print(f"  #{puzzle_number}: grid saved")
+
+        time.sleep(0.5)  # Be polite to Guardian API
+
+    print(f"\nBackfill complete: {filled} grids added, {no_solution} without solutions, {errors} errors")
 
 
 def main():
@@ -370,6 +581,9 @@ def main():
         if arg == '--all':
             for pt in PUZZLE_TYPES:
                 fetch_new_puzzles(pt)
+
+        elif arg == '--backfill-grids':
+            backfill_grids()
 
         elif arg == '--list':
             print("\nPuzzle Types:")
