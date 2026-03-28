@@ -66,11 +66,10 @@ def extract_enrichment(clue_text, answer_clean, ref_db):
     def_phrase, wp_words = def_candidates[0]
     analyses, phrases = analyze_phrases(wp_words, answer_up, ref_db)
 
-    # Find pieces that ARE substrings of the answer (confirmed pieces)
-    confirmed = []  # (word_text, value_letters)
-    unmatched = []  # word texts with no confirmed piece
+    confirmed = []
+    unmatched_indices = []  # track position for contiguity check
 
-    for wa in analyses:
+    for i, wa in enumerate(analyses):
         best_match = None
         best_len = 0
         for tok, vals in wa.roles.items():
@@ -84,44 +83,45 @@ def extract_enrichment(clue_text, answer_clean, ref_db):
         if best_match:
             confirmed.append((wa.text, best_match))
         else:
-            # Is it an indicator or link word? Those don't contribute letters
             is_ind = any(t.endswith("_I") or t.startswith("POS_I") for t in wa.roles)
             is_lnk = "LNK" in wa.roles
             if not is_ind and not is_lnk:
-                unmatched.append(wa.text)
+                unmatched_indices.append(i)
 
-    if not confirmed or not unmatched:
+    if not confirmed or not unmatched_indices:
         return proposals
 
-    # Subtract confirmed pieces from answer to get residual
     residual = answer_up
     for word, val in confirmed:
         if val in residual:
             residual = residual.replace(val, "", 1)
 
-    if not residual or len(residual) > 6:
+    if not residual:
         return proposals
 
-    # If exactly one unmatched word, the pair is unambiguous
-    if len(unmatched) == 1:
-        uw = unmatched[0].lower().strip(".,;:!?\"'()-").strip()
-        if uw and len(uw) >= 2:
-            # Residual must be a plausible word or known abbreviation (1-2 letters)
-            # Reject random letter fragments
-            is_real = ref_db.is_real_word(residual.lower()) if len(residual) >= 3 else True
-            is_short = len(residual) <= 2  # 1-2 letter abbreviations are always plausible
-            if not is_real and not is_short:
-                return proposals
+    # Check unmatched words are contiguous
+    is_contiguous = all(
+        unmatched_indices[j + 1] == unmatched_indices[j] + 1
+        for j in range(len(unmatched_indices) - 1)
+    )
+    if not is_contiguous:
+        return proposals
 
-            # Check not already in DB
-            existing_syn = residual in [s.upper().replace(" ", "")
-                                        for s in ref_db.get_synonyms(uw)]
-            existing_abr = residual in [a.upper()
-                                        for a in ref_db.abbreviations.get(uw, [])]
-            if not existing_syn and not existing_abr:
-                pieces_desc = ", ".join(f"{w}->{v}" for w, v in confirmed)
-                proposals.append(("residual", uw, residual,
-                                  f"answer={answer_up}, confirmed=[{pieces_desc}]"))
+    # Build the phrase from contiguous unmatched words
+    uw = " ".join(analyses[i].text for i in unmatched_indices)
+    uw = uw.lower().strip(".,;:!?\"'()-").strip()
+    if not uw or len(uw) < 2:
+        return proposals
+
+    # Check not already in DB
+    existing_syn = residual in [s.upper().replace(" ", "")
+                                for s in ref_db.get_synonyms(uw)]
+    existing_abr = residual in [a.upper()
+                                for a in ref_db.abbreviations.get(uw, [])]
+    if not existing_syn and not existing_abr:
+        pieces_desc = ", ".join(f"{w}->{v}" for w, v in confirmed)
+        proposals.append(("residual", uw, residual,
+                          f"answer={answer_up}, confirmed=[{pieces_desc}]"))
 
     return proposals
 

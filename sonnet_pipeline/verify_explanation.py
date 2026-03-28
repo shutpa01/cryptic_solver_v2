@@ -155,6 +155,12 @@ class ExplanationVerifier:
                 "status": "verified" if matched else "unverifiable",
                 "detail": f"'{definition}' -> {answer}: {'VERIFIED' if matched else 'not in DB'}",
             })
+        else:
+            checks.append({
+                "check": "no_definition",
+                "status": "wrong",
+                "detail": "No definition provided",
+            })
 
         # --- CHECK 2: Parse and verify pieces ---
         pieces = re.findall(
@@ -258,12 +264,19 @@ class ExplanationVerifier:
             })
 
         if wtype == "anagram" or "[anagram" in expl.lower():
-            ana_match = re.search(
-                r"anagram\s+(?:of\s+)?([A-Z\s+]+?)(?:\s*=|\s*anagrammed|\s*\[|\s*;|\s*\()",
-                expl, re.IGNORECASE,
-            )
-            if ana_match:
-                fodder = ana_match.group(1).strip()
+            # Extract all uppercase letter groups between "anagram of" and "="
+            ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
+            if ana_section:
+                fodder_parts = re.findall(r"[A-Z]{2,}", ana_section.group(1))
+                fodder = "".join(fodder_parts)
+            else:
+                # Fallback: try original single-capture pattern
+                ana_match = re.search(
+                    r"anagram\s+(?:of\s+)?([A-Z\s+]+?)(?:\s*=|\s*anagrammed|\s*\[|\s*;|\s*\()",
+                    expl, re.IGNORECASE,
+                )
+                fodder = ana_match.group(1).strip() if ana_match else ""
+            if fodder:
                 ana_ok = self.check_anagram(fodder, answer)
                 checks.append({
                     "check": "anagram",
@@ -400,6 +413,8 @@ class ExplanationVerifier:
                     score -= 15  # Likely wrong
                 elif c["check"] == "trivial":
                     score -= 40  # Just restating the definition, not an explanation
+                elif c["check"] == "no_definition":
+                    score -= 30  # Every cryptic clue must have a definition
                 elif c["check"] in ("definition", "synonym"):
                     score -= 5   # Could be DB gap
             # unverifiable = no change

@@ -626,14 +626,19 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
 
 def main():
     parser = argparse.ArgumentParser(description='Look up prize puzzle answers on danword')
-    parser.add_argument('--source', required=True, choices=['telegraph', 'times', 'guardian', 'independent'],
+    parser.add_argument('--source', choices=['telegraph', 'times', 'guardian', 'independent'],
                         help='Puzzle source')
-    parser.add_argument('--puzzle', required=True, help='Puzzle number')
+    parser.add_argument('--puzzle', help='Puzzle number')
     parser.add_argument('--dry-run', action='store_true',
                         help='Find answers but do not write to DB')
     parser.add_argument('--seed', action='store_true',
                         help='Seed the Firefox profile: opens danword for manual testing, then exits')
     args = parser.parse_args()
+
+    if args.seed:
+        pass  # seed mode doesn't need source/puzzle
+    elif not args.source or not args.puzzle:
+        parser.error("--source and --puzzle are required (unless using --seed)")
 
     if args.seed:
         print("Seeding danword Firefox profile...")

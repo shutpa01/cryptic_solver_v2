@@ -971,7 +971,7 @@ Be precise about letter-level mechanics. For example:
 - "attempt" = TRY (synonym)
 - PA + S (possessive 's) + TRY = PASTRY
 
-Wordplay types: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution.
+Wordplay types: charade, container, anagram, deletion, hidden, reversal, homophone, cryptic_definition, acrostic, spoonerism, substitution. NEVER use double_definition.
 
 IMPORTANT: If "Known lookups" are provided below the clue, these are confirmed synonym/abbreviation mappings where the letters appear in the answer. If your initial interpretation doesn't work, TRY THESE LOOKUPS as letter contributors before giving up. A word flagged as an indicator may actually be a synonym instead — e.g. "unfortunately" could be an anagram indicator OR it could contribute ALAS as a synonym.
 
@@ -1006,7 +1006,7 @@ STRUCTURING_PROMPT = """Extract structured data from a cryptic crossword explana
 
 Given a clue, its answer, and a free-text explanation of the wordplay, output JSON with:
 - "definition": the exact substring of the clue that defines the answer
-- "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution
+- "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, cryptic_definition, acrostic, spoonerism, substitution. NEVER use double_definition.
 - "pieces": array of objects, each with:
   - "clue_word": the word(s) from the clue
   - "letters": the uppercase letters this produces
@@ -1238,7 +1238,7 @@ THINKING_PROMPT = """You are an expert cryptic crossword solver. Given a clue an
 
 Use your thinking to reason through the clue. Then output ONLY valid JSON with:
 - "definition": the exact substring of the clue that defines the answer
-- "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, double_definition, cryptic_definition, acrostic, spoonerism, substitution
+- "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, cryptic_definition, acrostic, spoonerism, substitution. NEVER use double_definition — double definitions are solved mechanically before you see the clue, so if you receive a clue it is NOT a double definition.
 - "pieces": array of objects, each with:
   - "clue_word": the word(s) from the clue
   - "letters": the uppercase letters this produces AFTER any operations (deletions, reversals, etc.)
@@ -1247,7 +1247,7 @@ Use your thinking to reason through the clue. Then output ONLY valid JSON with:
 
 Rules:
 - FUNDAMENTAL: Every word in a cryptic clue has exactly ONE role — it is definition, indicator, link word, or wordplay fodder. A word CANNOT serve two purposes.
-- FUNDAMENTAL: The definition words MUST NOT also appear as wordplay fodder. If "Spring's past" is the definition, then "Spring" and "past" CANNOT be pieces. The only exception is double_definition or cryptic_definition where the whole clue IS the definition.
+- FUNDAMENTAL: The definition words MUST NOT also appear as wordplay fodder. If "Spring's past" is the definition, then "Spring" and "past" CANNOT be pieces. The only exception is cryptic_definition where the whole clue IS the definition.
 - FUNDAMENTAL: Every non-definition, non-link word in the clue should have a role in the wordplay. If your explanation leaves words unaccounted for, reconsider.
 - The pieces' letters, when concatenated (for charade) or assembled via the wordplay_type, MUST spell the full answer.
 - Each piece must map to the SMALLEST unit of the clue: split into individual words or short phrases, not lumped together. E.g. "to" and "American" are separate pieces, never "to American" as one piece.

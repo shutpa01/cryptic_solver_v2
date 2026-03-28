@@ -11,6 +11,11 @@ import sqlite3
 from functools import lru_cache
 
 
+def _normalize_key(text):
+    """Strip all punctuation from a lookup key, keeping only alphanumeric + spaces."""
+    return re.sub(r"[^a-z0-9 ]", "", text.lower().strip()).strip()
+
+
 class RefDB:
     """Reference database lookups — loads all tables into memory."""
 
@@ -35,7 +40,7 @@ class RefDB:
         for word, wtype, subtype, confidence in conn.execute(
             "SELECT word, wordplay_type, subtype, confidence FROM indicators"
         ):
-            w = word.lower().strip()
+            w = _normalize_key(word)
             if w not in self.indicators:
                 self.indicators[w] = []
             self.indicators[w].append((wtype, subtype, confidence))
@@ -45,7 +50,7 @@ class RefDB:
         for indicator, substitution in conn.execute(
             "SELECT indicator, substitution FROM wordplay"
         ):
-            w = indicator.lower().strip()
+            w = _normalize_key(indicator)
             if w not in self.abbreviations:
                 self.abbreviations[w] = []
             sub = substitution.strip().upper()
@@ -57,7 +62,7 @@ class RefDB:
         for word, synonym in conn.execute(
             "SELECT word, synonym FROM synonyms_pairs"
         ):
-            w = word.lower().strip()
+            w = _normalize_key(word)
             if w not in self.synonyms:
                 self.synonyms[w] = []
             self.synonyms[w].append(synonym.strip().upper())
@@ -68,7 +73,7 @@ class RefDB:
             "SELECT definition, answer FROM definition_answers_augmented"
             " WHERE definition IS NOT NULL AND answer IS NOT NULL"
         ):
-            w = definition.lower().strip()
+            w = _normalize_key(definition)
             val = answer.strip().upper()
             if not w or not val:
                 continue
@@ -83,7 +88,7 @@ class RefDB:
         for word, homophone in conn.execute(
             "SELECT word, homophone FROM homophones"
         ):
-            w = word.lower().strip()
+            w = _normalize_key(word)
             if w not in self.homophones:
                 self.homophones[w] = []
             self.homophones[w].append(homophone.strip().upper())
@@ -149,14 +154,14 @@ class RefDB:
     @staticmethod
     def _word_variants(word):
         """Generate normalized forms: strip punctuation, possessives and simple plurals."""
-        w = word.lower().strip(".,;:!?\"'()-").strip()
+        w = _normalize_key(word)
         variants = [w]
-        # Strip possessive 's
-        if w.endswith("'s"):
-            variants.append(w[:-2])
-        # Strip plural possessive
-        if w.endswith("s'"):
-            variants.append(w[:-2])
+        # Strip possessive 's (now just trailing 's' after normalize stripped the apostrophe)
+        if w.endswith("s") and len(w) >= 3:
+            # Check original for possessive pattern
+            orig = word.lower().strip()
+            if orig.endswith("'s") or orig.endswith("\u2019s") or orig.endswith("s'"):
+                variants.append(w[:-1])
         # Strip simple plural (but not boss, less, etc.)
         if len(w) >= 4 and w.endswith("s") and not w.endswith("ss"):
             variants.append(w[:-1])
