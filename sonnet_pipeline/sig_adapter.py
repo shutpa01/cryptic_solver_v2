@@ -433,10 +433,13 @@ def sig_explain(sr, answer):
         idx = concat.find(answer_clean)
         indicator_notes = " ".join(n for _, _, _, _, n in fodder_items if n)
 
+        from sonnet_pipeline.report import _highlight_hidden
         if "reversal" in wordplay_types:
-            segments.append('hidden reversed in "%s"%s' % (hiding_text, indicator_notes))
+            highlighted = _highlight_hidden(hiding_text, answer_clean[::-1])
+            segments.append('hidden reversed in "%s"%s' % (highlighted, indicator_notes))
         else:
-            segments.append('hidden in "%s"%s' % (hiding_text, indicator_notes))
+            highlighted = _highlight_hidden(hiding_text, answer_clean)
+            segments.append('hidden in "%s"%s' % (highlighted, indicator_notes))
 
     elif is_anagram:
         # Anagram: collect all pieces — both ANA_F fodder and other pieces

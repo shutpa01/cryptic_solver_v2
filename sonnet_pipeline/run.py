@@ -24,7 +24,7 @@ from .enricher import ClueEnricher
 from .solver import (
     HomophoneEngine, build_example_messages, clean,
     resolve_cross_references, solve_clue, store_result,
-    try_hidden, try_spoonerism, try_double_definition,
+    try_hidden, try_spoonerism_v2, try_double_definition,
 )
 from .report import generate_report, _describe_assembly
 from .sig_adapter import (
@@ -152,11 +152,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             is_reversed = "reversed" in hidden_result.get("op", "")
             hiding_words = hidden_result.get("words", "")
 
-            # Build explanation text
+            # Build explanation text with highlighted hidden letters
+            from sonnet_pipeline.report import _highlight_hidden
             if is_reversed:
-                expl_text = 'hidden reversed in "%s"' % hiding_words
+                highlighted = _highlight_hidden(hiding_words, answer_clean[::-1])
+                expl_text = 'hidden reversed in "%s"' % highlighted
             else:
-                expl_text = 'hidden in "%s"' % hiding_words
+                highlighted = _highlight_hidden(hiding_words, answer_clean)
+                expl_text = 'hidden in "%s"' % highlighted
 
             results.append({
                 "status": "ASSEMBLED",
@@ -227,8 +230,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             if "spooner" not in clue.lower():
                 continue
 
-            spoon_result = try_spoonerism(answer_clean, ref_db.is_real_word,
-                                            clue_text=clue, ref_db=ref_db)
+            spoon_result = try_spoonerism_v2(answer_clean, ref_db.is_real_word,
+                                              clue_text=clue, ref_db=ref_db)
             if spoon_result:
                 hidden_solved_ids.add(cid)  # reuse the set to skip in later phases
                 spoonerism_count += 1
@@ -485,7 +488,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                 raw_explanation=tc.get("explanation", "")
                             )
 
-                        # Add to results for report
+                        # Add to results for report + gap collection
                         conf_label = "high" if score >= 80 else "medium"
                         results.append({
                             "status": "ASSEMBLED",
@@ -498,6 +501,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                             "clue": clue,
                             "answer": answer,
                             "explanation": explanation,
+                            "ai_output": parsed,  # include pieces for gap collection
                         })
 
                         reason_str = ", ".join(
@@ -590,7 +594,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                 source_name=source,
                             )
 
-                        # Add to results for report
+                        # Add to results for report + gap collection
                         conf_label = "high" if score >= 80 else "medium"
                         results.append({
                             "status": "ASSEMBLED",
@@ -603,6 +607,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                             "clue": clue,
                             "answer": answer,
                             "explanation": explanation,
+                            "ai_output": parsed,  # include pieces for gap collection
                         })
 
                         reason_str = ", ".join(
@@ -793,9 +798,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         from signature_solver.solver import solve_clue as sig_solve_clue
         from signature_solver.catalog import CATALOG
 
-        # Collect synonym/abbreviation/definition gaps from P's results
-        p_results = [r for r in results if r.get("tier") not in ("Signature",)]
-        gaps_for_enrichment = collect_gaps_from_results(p_results)
+        # Collect synonym/abbreviation/definition gaps from ALL results (P, TFTT, FS)
+        non_sig_results = [r for r in results if r.get("tier") not in ("Signature",)]
+        gaps_for_enrichment = collect_gaps_from_results(non_sig_results)
 
         # Collect new signature patterns from P's results
         new_sigs = collect_signatures_from_results(p_results)

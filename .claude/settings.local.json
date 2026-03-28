@@ -20,7 +20,9 @@
       "WebFetch(domain:wordplays.com)",
       "WebFetch(domain:crosswordtracker.com)",
       "WebFetch(domain:crosswordgenius.com)",
-      "WebFetch(domain:www.crosswordgenius.com)"
+      "WebFetch(domain:www.crosswordgenius.com)",
+      "WebFetch(domain:www.crosswordunclued.com)",
+      "WebFetch(domain:bestforpuzzles.com)"
     ]
   }
 }

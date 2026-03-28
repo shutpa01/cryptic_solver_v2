@@ -5,10 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="pre speed improvement">
+      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/pages/pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/pages/pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraper/independent/independent_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/independent/independent_all.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/partials/admin_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/admin_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/templates/clue.html" beforeDir="false" afterPath="$PROJECT_DIR$/honeypot/templates/clue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/danword/danword_lookup.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/danword/danword_lookup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/orchestrator/puzzle_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/orchestrator/puzzle_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/batch_enrichment.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/batch_enrichment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/sig_adapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/sig_adapter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/verify_explanation.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/verify_explanation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/explainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/explainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/routes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/routes/puzzle.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/puzzle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/templates/partials/grid.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/grid.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/templates/puzzle.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/puzzle.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

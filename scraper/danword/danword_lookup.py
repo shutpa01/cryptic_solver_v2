@@ -626,7 +626,7 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
 
 def main():
     parser = argparse.ArgumentParser(description='Look up prize puzzle answers on danword')
-    parser.add_argument('--source', required=True, choices=['telegraph', 'times'],
+    parser.add_argument('--source', required=True, choices=['telegraph', 'times', 'guardian', 'independent'],
                         help='Puzzle source')
     parser.add_argument('--puzzle', required=True, help='Puzzle number')
     parser.add_argument('--dry-run', action='store_true',

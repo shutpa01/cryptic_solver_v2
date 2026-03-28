@@ -8,16 +8,52 @@
 3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
 4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
 
+## QUESTIONS ARE NOT INSTRUCTIONS — CRITICAL
+
+A question is NOT an instruction to act. Do not touch any files, run any commands,
+or make any changes in response to a question.
+
+- "How does X work?" → explain it. Do not touch anything.
+- "Why is X failing?" → diagnose it. Do not touch anything.
+- "What would happen if...?" → answer it. Do not touch anything.
+
+Only write, create, edit, or delete files when the user has explicitly instructed
+you to do so in the same message. The words "fix", "change", "update", "add",
+"remove" are instructions. Questions are not.
+
+## VERIFY BEFORE CLAIMING — CRITICAL
+
+Never state a guess or assumption as a fact.
+
+If you are not certain about a file's contents, a column name, a function's
+behaviour, a database schema, or any other technical detail — say so explicitly
+before proceeding. Use "I believe...", "I think...", or "I'm not certain but..."
+
+If you are uncertain, READ THE ACTUAL FILE before making any claim or taking
+any action based on that claim. Never act on an assumption. Verify first, act second.
+
+If asked to justify a factual claim about the codebase, cite the exact file and
+line number. Do not paraphrase from memory.
+
 ## AUTONOMY RULE — CRITICAL
 
-**When the user approves a block of work, execute it fully without stopping to ask permission for each sub-step.**
+**When the user explicitly approves a block of work, execute it fully without
+stopping to ask permission for each sub-step.**
+
+The autonomy rule ONLY activates after explicit user approval of a specific task.
+It does NOT activate from questions, observations, or general discussion.
 
 Only pause mid-task if:
 - Something unexpected arises that materially changes what you'd do
 - You're about to take a destructive/irreversible action that was NOT part of the original scope
 - You hit a genuine blocker requiring information only the user has
 
-Do NOT stop to ask permission for: reading files, making edits, running tests, or minor decisions within the spirit of the approved task. The user should never return hours later to find you waiting on a trivial confirmation.
+**The autonomy rule does NOT override the CRITICAL RULES above.** Destructive
+actions (Rule 3) always require explicit confirmation, even mid-task.
+
+Do NOT stop to ask permission for: reading files, making edits, running tests,
+or minor decisions within the spirit of the approved task. The user should never
+return hours later to find you waiting on a trivial confirmation.
 
 ## WORKFLOW RULES
 

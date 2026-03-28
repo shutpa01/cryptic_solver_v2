@@ -227,6 +227,32 @@ def get_stats() -> str:
     return stats
 
 
+def find_missing_answers(today: date | None = None) -> list[tuple[str, str, str]]:
+    """Find clues from today's puzzles that have no answer.
+
+    Returns list of (source, puzzle_number, clue_number) for each missing answer.
+    """
+    if today is None:
+        today = date.today()
+    today_str = today.isoformat()
+
+    if not CLUES_MASTER_DB.exists():
+        return []
+
+    conn = sqlite3.connect(CLUES_MASTER_DB)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT source, puzzle_number, clue_number
+        FROM clues
+        WHERE publication_date = ?
+          AND (answer IS NULL OR answer = '')
+        ORDER BY source, CAST(puzzle_number AS INTEGER), clue_number
+    """, (today_str,))
+    results = [(row[0], row[1], row[2]) for row in cursor.fetchall()]
+    conn.close()
+    return results
+
+
 def get_puzzle_snapshot() -> dict[str, set[str]]:
     """Snapshot current puzzles in DB, keyed by source -> set of puzzle_numbers."""
     if not CLUES_MASTER_DB.exists():
@@ -261,10 +287,10 @@ def diff_snapshots(before: dict[str, set[str]], after: dict[str, set[str]]) -> l
 
 
 def find_answerless_puzzles(today: date | None = None) -> list[tuple[str, str, int]]:
-    """Find today's puzzles where ALL clues have empty answers (prize puzzles).
+    """Find today's puzzles that have any clues with empty answers.
 
     Returns list of (source, puzzle_number, clue_count) for puzzles needing
-    danword backfill.
+    danword backfill. clue_count is the number of missing answers.
     """
     if today is None:
         today = date.today()
@@ -276,15 +302,15 @@ def find_answerless_puzzles(today: date | None = None) -> list[tuple[str, str, i
     conn = sqlite3.connect(CLUES_MASTER_DB)
     cursor = conn.cursor()
 
-    # Find puzzles published today where every clue is answerless
+    # Find puzzles published today with any answerless clues
     cursor.execute("""
         SELECT source, puzzle_number, COUNT(*) as total,
                SUM(CASE WHEN answer IS NULL OR answer = '' THEN 1 ELSE 0 END) as missing
         FROM clues
         WHERE publication_date = ?
-          AND source IN ('telegraph', 'times')
+          AND source IN ('telegraph', 'times', 'guardian', 'independent')
         GROUP BY source, puzzle_number
-        HAVING missing = total AND total > 0
+        HAVING missing > 0
         ORDER BY source, puzzle_number
     """, (today_str,))
 
@@ -426,6 +452,18 @@ def main():
     else:
         print(f"\n  No answerless puzzles to backfill today")
 
+    # Missing answers report
+    missing_answers = find_missing_answers()
+    print(f"\n{'=' * 60}")
+    print("MISSING ANSWERS")
+    print(f"{'=' * 60}")
+    if missing_answers:
+        print(f"  {len(missing_answers)} clues still missing answers:")
+        for source, pnum, cnum in missing_answers:
+            print(f"  {source:15} #{pnum:>8}  clue {cnum}")
+    else:
+        print("  All today's clues have answers")
+
     # Reconcile against expected schedule
     print(f"\n{'=' * 60}")
     print("PUZZLE RECONCILIATION")
@@ -465,6 +503,16 @@ def main():
         for source, pnum, found, total, grid in danword_results:
             grid_tag = f"  [{grid}]" if grid else ""
             email_lines.append(f"  {source:15} #{pnum:>8}  {found}/{total} answers{grid_tag}")
+
+    email_lines.append("")
+    email_lines.append("MISSING ANSWERS")
+    email_lines.append("-" * 40)
+    if missing_answers:
+        email_lines.append(f"  {len(missing_answers)} clues still missing answers:")
+        for source, pnum, cnum in missing_answers:
+            email_lines.append(f"  {source:15} #{pnum:>8}  clue {cnum}")
+    else:
+        email_lines.append("  All today's clues have answers")
 
     email_lines.append("")
     email_lines.append("PUZZLE RECONCILIATION")
@@ -527,6 +575,19 @@ def _sync_honeypot():
             print("  Honeypot synced and restarted")
         else:
             print(f"  Restart failed: {result.stderr}")
+
+        # Regenerate sitemaps on the droplet with the freshly uploaded DB
+        result = subprocess.run(
+            ["ssh", "root@134.209.21.34",
+             "cd /opt/honeypot && python3 generate_sitemaps.py --domain https://clairesclues.xyz"],
+            timeout=120,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            print("  Sitemaps regenerated")
+        else:
+            print(f"  Sitemap generation failed: {result.stderr}")
     except Exception as e:
         print(f"  Honeypot sync error: {e}")
 

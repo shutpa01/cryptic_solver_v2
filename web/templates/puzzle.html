@@ -55,6 +55,17 @@
                 class="text-xs px-3 py-1.5 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer">
             Hide all hints
         </button>
+        {% if g.is_admin %}
+        <button hx-post="/admin/reverify/{{ source }}/{{ puzzle_number }}"
+                hx-target="#reverify-result"
+                hx-swap="innerHTML"
+                hx-indicator="#reverify-spinner"
+                class="text-xs px-3 py-1.5 rounded border border-teal-400 text-teal-700 hover:bg-teal-50 font-medium cursor-pointer">
+            Re-verify all
+        </button>
+        <span id="reverify-spinner" class="htmx-indicator text-xs text-teal-500">Verifying...</span>
+        <span id="reverify-result" class="text-xs"></span>
+        {% endif %}
     </div>
 </div>
 
@@ -88,6 +99,17 @@
                 {% endif %}
                 {% if clue.slug %}
                 <a href="/clue/{{ clue.slug }}?id={{ clue.id }}" class="inline-block text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded px-1 ml-1 text-sm no-underline" title="View clue page">&#128279;</a>
+                {% endif %}
+                {% if g.is_admin %}
+                <span id="silly-{{ clue.id }}" hx-post="/admin/silly/{{ clue.id }}" hx-target="#silly-{{ clue.id }}" hx-swap="outerHTML">
+                    {% if clue.silly_award %}
+                    <span class="text-lg cursor-pointer" title="Cordelia's Silly Award — what were they thinking?!">&#127942;</span>
+                    {% else %}
+                    <span class="text-lg cursor-pointer opacity-20 hover:opacity-100" title="Award Cordelia's Silly Award">&#127942;</span>
+                    {% endif %}
+                </span>
+                {% elif clue.silly_award %}
+                <span class="text-lg" title="Cordelia's Silly Award — what were they thinking?!">&#127942;</span>
                 {% endif %}
             </p>
             <div class="flex gap-1 mt-0.5 solve-hide-badges">
@@ -679,6 +701,53 @@ function _getSolvedIds() {
     return ids;
 }
 
+var _revealedCells = {};  // {"row,col": "LETTER"}
+
+function revealGridLetter(td) {
+    var letter = td.dataset.solution;
+    if (!letter) return;
+    // Show the letter
+    var span = td.querySelector('span:last-child');
+    span.textContent = letter;
+    span.classList.add('text-indigo-600');
+    // Style the cell as revealed — still clickable to un-reveal
+    td.classList.remove('hover:bg-indigo-50');
+    td.classList.add('bg-indigo-50');
+    td.setAttribute('onclick', 'unrevealGridLetter(this)');
+    td.setAttribute('title', 'Click to hide this letter');
+    // Track the revealed cell position
+    var tr = td.parentElement;
+    var table = tr.parentElement;
+    var rowIdx = Array.from(table.children).indexOf(tr);
+    var colIdx = Array.from(tr.children).indexOf(td);
+    _revealedCells[rowIdx + ',' + colIdx] = letter;
+    // Recalculate crossings with revealed letters
+    _fetchCrossings();
+    // Cordelia tip
+    CordeliaTips.init([
+        {id: 'solve-reveal-letter', text: 'That letter will show up in the crossing pattern for any clue that passes through it. Click the pattern to search for matches.'}
+    ]);
+}
+
+function unrevealGridLetter(td) {
+    // Hide the letter
+    var span = td.querySelector('span:last-child');
+    span.textContent = '';
+    span.classList.remove('text-indigo-600');
+    td.classList.remove('bg-indigo-50');
+    td.classList.add('hover:bg-indigo-50');
+    td.setAttribute('onclick', 'revealGridLetter(this)');
+    td.setAttribute('title', 'Click to reveal this letter');
+    // Remove from tracked revealed cells
+    var tr = td.parentElement;
+    var table = tr.parentElement;
+    var rowIdx = Array.from(table.children).indexOf(tr);
+    var colIdx = Array.from(tr.children).indexOf(td);
+    delete _revealedCells[rowIdx + ',' + colIdx];
+    // Recalculate crossings without this letter
+    _fetchCrossings();
+}
+
 function showSolveGrid() {
     var solvedIds = _getSolvedIds();
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
@@ -697,14 +766,14 @@ function showSolveGrid() {
         _fetchCrossings();
         // Cordelia tip: click clue numbers in grid
         CordeliaTips.init([
-            {id: 'solve-grid-numbers', text: 'Click on a clue number in the grid to jump straight to that clue. Great for working through the crossings.'}
+            {id: 'solve-grid-numbers', text: 'Click a clue number to jump to that clue. Stuck? Click any empty square to reveal its letter &mdash; it\'ll feed into the crossing patterns for other clues.'}
         ]);
     });
 }
 
 function _fetchCrossings() {
     var solvedIds = _getSolvedIds();
-    if (solvedIds.length === 0) return;
+    if (solvedIds.length === 0 && Object.keys(_revealedCells).length === 0) return;
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
     var userAnswers = {};
     for (var k in state) {
@@ -714,6 +783,9 @@ function _fetchCrossings() {
     }
     var url = '/{{ source }}/{{ puzzle_type }}/{{ puzzle_number }}/crossings?solved=' + solvedIds.join(',')
             + '&answers=' + encodeURIComponent(JSON.stringify(userAnswers));
+    if (Object.keys(_revealedCells).length > 0) {
+        url += '&revealed=' + encodeURIComponent(JSON.stringify(_revealedCells));
+    }
     fetch(url).then(function(r) { return r.json(); }).then(function(crossings) {
         document.querySelectorAll('.solve-input').forEach(function(row) {
             var input = row.querySelector('.solve-answer');

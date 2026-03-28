@@ -154,6 +154,15 @@ def edit_save(clue_id):
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
 def rerun_clue(clue_id):
     """Re-run a clue through the full pipeline (TFTT + Sonnet) and return result as HTMX fragment."""
+    try:
+        return _rerun_clue_inner(clue_id)
+    except Exception as e:
+        import traceback
+        print(f"[RERUN OUTER] {e}")
+        traceback.print_exc()
+        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+
+def _rerun_clue_inner(clue_id):
     _require_admin()
 
     db = get_admin_db()
@@ -201,8 +210,8 @@ def rerun_clue(clue_id):
             traceback.print_exc()
             message = f"Signature solver error: {e}"
 
-    # For Guardian/Independent, try fifteensquared first
-    if source in ("guardian", "independent") and answer:
+    # For Guardian/Independent, try fifteensquared (only if S didn't solve)
+    if not success and source in ("guardian", "independent") and answer:
         try:
             from sonnet_pipeline.fifteensquared_pipeline import (
                 fetch_fifteensquared, store_fifteensquared_result
@@ -291,26 +300,72 @@ def rerun_clue(clue_id):
         try:
             success, message, result = generate_explanation(clue_id)
         except Exception as e:
-            import traceback
+            import traceback, sys
             traceback.print_exc()
-            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+            sys.stderr.flush()
+            sys.stdout.flush()
+            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s<br><pre>%s</pre></div>' % (str(e), traceback.format_exc())
 
         if not success:
             return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
 
+    # Queue unverified pieces for DB+ review
+    try:
+        from sonnet_pipeline.verify_explanation import ExplanationVerifier
+        import sqlite3 as _sqlite3
+
+        fresh_clue = db.execute("SELECT clue_text, answer, definition, wordplay_type, ai_explanation FROM clues WHERE id = ?", (clue_id,)).fetchone()
+        if fresh_clue and fresh_clue["ai_explanation"]:
+            _verifier = ExplanationVerifier()
+            vresult = _verifier.verify(
+                fresh_clue["clue_text"], fresh_clue["answer"],
+                fresh_clue["definition"], fresh_clue["wordplay_type"],
+                fresh_clue["ai_explanation"],
+            )
+            _ref = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
+            for check in vresult.get("checks", []):
+                if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation", "definition"):
+                    m = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", check["detail"])
+                    if m:
+                        word = m.group(1).strip().lower()
+                        letters = m.group(2).strip().upper()
+                        gtype = check["check"]
+                        already = False
+                        if gtype == "synonym":
+                            already = _ref.execute("SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?", (word, letters)).fetchone() is not None
+                        elif gtype == "abbreviation":
+                            already = _ref.execute("SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?", (word, letters)).fetchone() is not None
+                        elif gtype == "definition":
+                            already = _ref.execute("SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?", (word, letters)).fetchone() is not None
+                        if not already:
+                            existing_pending = db.execute("SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?", (word, letters)).fetchone()
+                            if not existing_pending:
+                                db.execute(
+                                    "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                    (gtype, word, letters, fresh_clue["answer"], fresh_clue["clue_text"], source, puzzle_number))
+            _ref.close()
+            db.commit()
+    except Exception:
+        pass  # Don't let gap collection failure block the re-run result
+
     # Return full button row matching the puzzle page layout
-    from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
-    from web.routes.hints import generate_token
-    clue = get_clue_by_id(clue_id)
-    new_tier, _ = compute_hint_tier(clue)
-    steps = get_hint_steps(clue, is_admin=True)
-    new_token = generate_token(clue_id)
-    solve_source = compute_solve_source(clue)
-    return render_template(
-        "partials/admin_rerun_result.html",
-        clue=clue, tier=new_tier, steps=steps,
-        token=new_token, solve_source=solve_source,
-    )
+    try:
+        from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
+        from web.routes.hints import generate_token
+        clue = get_clue_by_id(clue_id)
+        new_tier, _ = compute_hint_tier(clue)
+        steps = get_hint_steps(clue, tier=new_tier, is_admin=True)
+        new_token = generate_token(clue_id)
+        solve_source = compute_solve_source(clue)
+        return render_template(
+            "partials/admin_rerun_result.html",
+            clue=clue, tier=new_tier, steps=steps,
+            token=new_token, solve_source=solve_source,
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Render error: %s</div>' % str(e)
 
 
 @bp.route("/approve/<int:clue_id>", methods=["POST"])
@@ -700,3 +755,163 @@ def save_all_answers():
 
     db.commit()
     return _json.dumps({"saved": saved}), 200, {"Content-Type": "application/json"}
+
+
+@bp.route("/silly/<int:clue_id>", methods=["POST"])
+def toggle_silly(clue_id):
+    """Toggle Cordelia's Silly Award on a clue."""
+    _require_admin()
+    db = get_admin_db()
+    current = db.execute("SELECT silly_award FROM clues WHERE id = ?", (clue_id,)).fetchone()
+    if not current:
+        return "Clue not found", 404
+    new_val = 0 if current["silly_award"] else 1
+    db.execute("UPDATE clues SET silly_award = ? WHERE id = ?", (new_val, clue_id))
+    db.commit()
+    if new_val:
+        return (
+            '<span id="silly-%d" hx-post="/admin/silly/%d" hx-target="#silly-%d" hx-swap="outerHTML">'
+            '<span class="text-lg cursor-pointer" title="Cordelia\'s Silly Award — what were they thinking?!">&#127942;</span>'
+            '</span>' % (clue_id, clue_id, clue_id)
+        )
+    return (
+        '<span id="silly-%d" hx-post="/admin/silly/%d" hx-target="#silly-%d" hx-swap="outerHTML">'
+        '<span class="text-lg cursor-pointer opacity-20 hover:opacity-100" title="Award Cordelia\'s Silly Award">&#127942;</span>'
+        '</span>' % (clue_id, clue_id, clue_id)
+    )
+
+
+@bp.route("/reverify/<source>/<int:puzzle_number>", methods=["POST"])
+def reverify_puzzle(source, puzzle_number):
+    """Re-run the mechanical verifier on all clues in a puzzle. Zero API cost.
+
+    Updates structured_explanations.confidence for each clue based on
+    current DB content (synonyms, abbreviations, definitions).
+    """
+    _require_admin()
+
+    from sonnet_pipeline.verify_explanation import ExplanationVerifier
+
+    db = get_admin_db()
+    clues = db.execute(
+        """SELECT c.id, c.clue_text, c.answer, c.definition, c.wordplay_type,
+                  c.ai_explanation, se.confidence AS old_confidence
+           FROM clues c
+           LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           WHERE c.source = ? AND c.puzzle_number = ?
+           AND c.ai_explanation IS NOT NULL AND c.ai_explanation != ''""",
+        (source, str(puzzle_number)),
+    ).fetchall()
+
+    if not clues:
+        return '<span class="text-teal-600">No clues with explanations to verify.</span>'
+
+    verifier = ExplanationVerifier()
+    upgraded = 0
+    downgraded = 0
+    unchanged = 0
+    gaps_queued = 0
+    upgraded_list = []
+    downgraded_list = []
+
+    import sqlite3 as _sqlite3
+    ref_conn = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
+
+    for clue in clues:
+        result = verifier.verify(
+            clue["clue_text"], clue["answer"],
+            clue["definition"], clue["wordplay_type"],
+            clue["ai_explanation"],
+        )
+
+        # Queue unverified pieces for DB+ review
+        for check in result.get("checks", []):
+            if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation", "definition"):
+                # Extract word and letters from detail string
+                import re as _re
+                m = _re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", check["detail"])
+                if m:
+                    word = m.group(1).strip().lower()
+                    letters = m.group(2).strip().upper()
+                    gtype = check["check"]
+                    # Check not already in reference DB
+                    already = False
+                    if gtype == "synonym":
+                        already = ref_conn.execute(
+                            "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
+                            (word, letters)).fetchone() is not None
+                    elif gtype == "abbreviation":
+                        already = ref_conn.execute(
+                            "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
+                            (word, letters)).fetchone() is not None
+                    elif gtype == "definition":
+                        already = ref_conn.execute(
+                            "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?",
+                            (word, letters)).fetchone() is not None
+                    if not already:
+                        # Check not already pending
+                        existing_pending = db.execute(
+                            "SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?",
+                            (word, letters)).fetchone()
+                        if not existing_pending:
+                            db.execute(
+                                "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                (gtype, word, letters, clue["answer"], clue["clue_text"], source, str(puzzle_number)))
+                            gaps_queued += 1
+
+        new_confidence = result["score"] / 100.0
+        old_confidence = clue["old_confidence"]
+
+        # Update or insert structured_explanations
+        existing = db.execute(
+            "SELECT 1 FROM structured_explanations WHERE clue_id = ?",
+            (clue["id"],),
+        ).fetchone()
+
+        if existing:
+            db.execute(
+                "UPDATE structured_explanations SET confidence = ? WHERE clue_id = ?",
+                (new_confidence, clue["id"]),
+            )
+        else:
+            db.execute(
+                """INSERT INTO structured_explanations (clue_id, confidence, model_version)
+                   VALUES (?, ?, 'reverified')""",
+                (clue["id"], new_confidence),
+            )
+
+        # Also mark as solved
+        db.execute(
+            "UPDATE clues SET has_solution = 1 WHERE id = ? AND (has_solution IS NULL OR has_solution = 0)",
+            (clue["id"],),
+        )
+
+        if old_confidence is not None:
+            old_score = round(old_confidence * 100) if old_confidence <= 1 else old_confidence
+            if result["score"] > old_score:
+                upgraded += 1
+                upgraded_list.append(f'{clue["answer"]} {int(old_score)}->{result["score"]}')
+            elif result["score"] < old_score:
+                downgraded += 1
+                downgraded_list.append(f'{clue["answer"]} {int(old_score)}->{result["score"]}')
+            else:
+                unchanged += 1
+        else:
+            upgraded += 1
+            upgraded_list.append(f'{clue["answer"]} NEW->{result["score"]}')
+
+    ref_conn.close()
+    db.commit()
+
+    total = len(clues)
+    gaps_msg = f', {gaps_queued} DB entries queued for review' if gaps_queued else ''
+    details = ''
+    if upgraded_list:
+        details += '<br>Upgraded: ' + ', '.join(upgraded_list)
+    if downgraded_list:
+        details += '<br>Downgraded: ' + ', '.join(downgraded_list)
+    return (
+        f'<span class="text-teal-600 font-medium">'
+        f'Verified {total} clues: {upgraded} upgraded, {unchanged} unchanged, {downgraded} downgraded{gaps_msg}. '
+        f'Refresh to see updated tiers.{details}</span>'
+    )

@@ -39,13 +39,13 @@ class ExplanationVerifier:
         key = (word.lower(), target.lower())
         if key not in self._syn_cache:
             row = self.ref.execute(
-                "SELECT 1 FROM synonyms_pairs WHERE word = ? AND synonym = ? LIMIT 1",
+                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
                 (word.lower(), target.lower()),
             ).fetchone()
             if not row:
                 # Also check reverse
                 row = self.ref.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE word = ? AND synonym = ? LIMIT 1",
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
                     (target.lower(), word.lower()),
                 ).fetchone()
             self._syn_cache[key] = row is not None
@@ -56,9 +56,14 @@ class ExplanationVerifier:
         key = (word.lower(), letters.upper())
         if key not in self._abbr_cache:
             row = self.ref.execute(
-                "SELECT 1 FROM wordplay WHERE indicator = ? AND UPPER(substitution) = ? LIMIT 1",
+                "SELECT 1 FROM wordplay WHERE LOWER(indicator) = ? AND UPPER(substitution) = ? LIMIT 1",
                 (word.lower(), letters.upper()),
             ).fetchone()
+            if not row:
+                row = self.ref.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
+                    (word.lower(), letters.upper()),
+                ).fetchone()
             self._abbr_cache[key] = row is not None
         return self._abbr_cache[key]
 
@@ -67,7 +72,7 @@ class ExplanationVerifier:
         key = (word.lower(), wordplay_type.lower())
         if key not in self._ind_cache:
             row = self.ref.execute(
-                "SELECT 1 FROM indicators WHERE word = ? AND wordplay_type = ? LIMIT 1",
+                "SELECT 1 FROM indicators WHERE LOWER(word) = ? AND LOWER(wordplay_type) = ? LIMIT 1",
                 (word.lower(), wordplay_type.lower()),
             ).fetchone()
             self._ind_cache[key] = row is not None
@@ -78,7 +83,7 @@ class ExplanationVerifier:
         key = (definition.lower(), answer.upper())
         if key not in self._def_cache:
             row = self.ref.execute(
-                "SELECT 1 FROM definition_answers_augmented WHERE definition = ? AND answer = ? LIMIT 1",
+                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND UPPER(answer) = ? LIMIT 1",
                 (definition.lower(), answer.upper()),
             ).fetchone()
             self._def_cache[key] = row is not None
@@ -91,10 +96,10 @@ class ExplanationVerifier:
         return assembled == target
 
     def check_hidden(self, text, answer):
-        """Is the answer hidden in the text?"""
+        """Is the answer hidden in the text (forward or reversed)?"""
         clean_text = re.sub(r"[^A-Z]", "", text.upper())
         clean_answer = answer.upper().replace(" ", "")
-        return clean_answer in clean_text
+        return clean_answer in clean_text or clean_answer[::-1] in clean_text
 
     def check_anagram(self, fodder, result):
         """Do the fodder letters anagram to the result?"""
@@ -107,6 +112,24 @@ class ExplanationVerifier:
         s = re.sub(r"[^A-Z]", "", source.upper())
         r = re.sub(r"[^A-Z]", "", result.upper())
         return s[::-1] == r
+
+    def check_container(self, pieces, answer):
+        """Can one piece be inserted into another to form the answer?
+
+        Tries each piece as the inner word, the rest concatenated as the outer.
+        Tests all insertion positions in the outer word.
+        Returns (True, inner, outer) on success, (False, None, None) on failure.
+        """
+        answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
+        for i, inner in enumerate(pieces):
+            outer = "".join(pieces[:i] + pieces[i+1:]).upper()
+            inner_clean = re.sub(r"[^A-Z]", "", inner.upper())
+            # Try inserting inner at every position in outer
+            for pos in range(1, len(outer)):
+                candidate = outer[:pos] + inner_clean + outer[pos:]
+                if candidate == answer_clean:
+                    return True, inner_clean, outer
+        return False, None, None
 
     def verify(self, clue_text, answer, definition, wordplay_type, ai_explanation):
         """Run all mechanical checks on an explanation.
@@ -226,7 +249,7 @@ class ExplanationVerifier:
         # --- CHECK 4: Type-specific mechanical checks ---
         wtype = (wordplay_type or "").lower()
 
-        if wtype == "hidden" or "hidden in" in expl.lower():
+        if "hidden" in wtype or "hidden in" in expl.lower() or "hidden reversed" in expl.lower():
             hidden_ok = self.check_hidden(clue_text, answer)
             checks.append({
                 "check": "hidden_word",
@@ -236,7 +259,7 @@ class ExplanationVerifier:
 
         if wtype == "anagram" or "[anagram" in expl.lower():
             ana_match = re.search(
-                r"anagram\s+(?:of\s+)?([A-Z\s+]+?)(?:\s*=|\s*anagrammed|\s*\[|\s*;)",
+                r"anagram\s+(?:of\s+)?([A-Z\s+]+?)(?:\s*=|\s*anagrammed|\s*\[|\s*;|\s*\()",
                 expl, re.IGNORECASE,
             )
             if ana_match:
@@ -248,11 +271,17 @@ class ExplanationVerifier:
                     "detail": f"'{fodder}' anagrams to {answer_clean}: {'YES' if ana_ok else 'NO'}",
                 })
 
-        if wtype == "reversal" or "[reversal" in expl.lower():
+        is_hidden_reversed = "hidden reversed" in expl.lower() or wtype == "hidden_reversed"
+        if not is_hidden_reversed and (wtype == "reversal" or "[reversal" in expl.lower()):
             rev_match = re.search(
                 r"(\w+)\s*(?:reversed|reversal|backwards|reflected)",
                 expl, re.IGNORECASE,
             )
+            if not rev_match:
+                rev_match = re.search(
+                    r"reverse of (\w+)",
+                    expl, re.IGNORECASE,
+                )
             if rev_match:
                 source = rev_match.group(1)
                 rev_ok = self.check_reversal(source, answer)
@@ -261,6 +290,24 @@ class ExplanationVerifier:
                     "status": "verified" if rev_ok else "wrong",
                     "detail": f"'{source}' reversed = {answer_clean}: {'YES' if rev_ok else 'NO'}",
                 })
+
+        if "[container:" in expl.lower() or "container" in wtype:
+            # Extract uppercase pieces — from before bracket if bracket format,
+            # otherwise from the whole explanation
+            if "[container:" in expl.lower():
+                search_text = expl[:expl.lower().index("[container:")]
+            else:
+                search_text = expl.split(";")[0] if ";" in expl else expl
+            container_pieces = re.findall(r"\b([A-Z]+)\s*\(", search_text)
+            if len(container_pieces) >= 2:
+                cont_ok, inner, outer = self.check_container(container_pieces, answer)
+                if cont_ok:
+                    checks.append({
+                        "check": "container",
+                        "status": "verified",
+                        "detail": f"{inner} inside {outer} = {answer_clean}: YES",
+                    })
+                # No penalty on failure — complex assembly may not parse simply
 
         # --- CHECK 5: First letter claims ---
         first_letter_claims = re.findall(
@@ -329,7 +376,7 @@ class ExplanationVerifier:
                         score += 0  # Assembly passes but pieces are wrong — don't reward
                     else:
                         score += 25  # Pieces make the answer — strong
-                elif c["check"] in ("hidden_word", "anagram", "reversal"):
+                elif c["check"] in ("hidden_word", "anagram", "reversal", "container"):
                     if has_wrong:
                         score += 0
                     else:

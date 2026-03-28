@@ -170,16 +170,38 @@ def build_grid_from_json(source, puzzle_number, clue_data):
             if answer:
                 clue_answers[(num, direction)] = answer
 
+    # Build spanning clue map from JSON "links" field
+    _spanning_links = {}  # (main_num, main_dir) -> [(linked_num, linked_dir), ...]
+    for section in clues_sections:
+        sec_dir = "across" if section.get("title", "").lower().startswith("across") else "down"
+        for clue_entry in section.get("clues", []):
+            links = clue_entry.get("links", [])
+            if links:
+                main_key = (int(clue_entry["number"]), sec_dir)
+                _spanning_links[main_key] = [
+                    (int(lk["number"]), lk["direction"].lower())
+                    for lk in links
+                ]
+
     for (num, direction), answer in clue_answers.items():
         wid = clue_to_word.get((num, direction))
         if wid is None:
             continue
         cells = word_cells.get(wid, [])
         clean_ans = re.sub(r"[^A-Za-z]", "", answer).upper()
-        if len(clean_ans) != len(cells):
-            continue
-        for i, (row, col) in enumerate(cells):
-            grid_letters[(row, col)] = clean_ans[i]
+        if len(clean_ans) == len(cells):
+            for i, (row, col) in enumerate(cells):
+                grid_letters[(row, col)] = clean_ans[i]
+        elif (num, direction) in _spanning_links:
+            # Spanning clue: place letters in main cells, then linked cells in order
+            all_cells = list(cells)
+            for linked_num, linked_dir in _spanning_links[(num, direction)]:
+                linked_wid = clue_to_word.get((linked_num, linked_dir))
+                if linked_wid:
+                    all_cells.extend(word_cells.get(linked_wid, []))
+            if len(clean_ans) == len(all_cells):
+                for i, (row, col) in enumerate(all_cells):
+                    grid_letters[(row, col)] = clean_ans[i]
 
     # Assign clue numbers using standard rules
     letter_grid = [[None] * cols for _ in range(rows)]

@@ -36,6 +36,7 @@ log = logging.getLogger(__name__)
 _enricher = None
 _homo_engine = None
 _example_messages = None
+_ref_db = None
 _init_lock = threading.Lock()
 
 # Rate limiter state
@@ -45,15 +46,17 @@ _rate_lock = threading.Lock()
 
 def _init_pipeline():
     """Lazy-init all pipeline singletons (thread-safe)."""
-    global _enricher, _homo_engine, _example_messages
+    global _enricher, _homo_engine, _example_messages, _ref_db
     if _enricher is None:
         with _init_lock:
             if _enricher is None:
                 from sonnet_pipeline.enricher import ClueEnricher
                 from sonnet_pipeline.solver import HomophoneEngine, build_example_messages
+                from signature_solver.db import RefDB
                 _enricher = ClueEnricher(db_path=CRYPTIC_DB)
                 _homo_engine = HomophoneEngine(db_path=str(CRYPTIC_DB))
                 _example_messages = build_example_messages()
+                _ref_db = RefDB()
 
 
 def _check_rate_limit():
@@ -185,6 +188,7 @@ def generate_explanation(clue_id):
         result = solve_clue(
             clue_text, answer, enrichment, enricher,
             _homo_engine, _example_messages,
+            ref_db=_ref_db,
         )
         api_ms = int((time.time() - api_start) * 1000)
 
@@ -215,16 +219,130 @@ def generate_explanation(clue_id):
             clue_id, score, pipeline_tier, assembly_op, api_ms, total_ms,
         )
 
+        # Build assembler-style explanation and run verifier (matching pipeline)
+        from sonnet_pipeline.report import _describe_assembly
+        from sonnet_pipeline.verify_explanation import ExplanationVerifier
+        from sonnet_pipeline.solver import OP_TO_TYPE
+
+        # Build structured pieces (matching store_result format)
+        ai_pieces = []
+        if ai_output:
+            for p in ai_output.get("pieces", []):
+                piece = {
+                    "mechanism": p.get("mechanism", "unknown"),
+                    "clue_word": p.get("clue_word", ""),
+                    "letters": p.get("letters", ""),
+                }
+                for key in ("source", "indicator", "deleted", "deleted_word"):
+                    if p.get(key):
+                        piece[key] = p[key]
+                ai_pieces.append(piece)
+
+        # Determine wordplay types (assembler first, AI fallback)
+        asm_op = assembly.get("op", "") if assembly else ""
+        asm_type = OP_TO_TYPE.get(asm_op, asm_op)
+        wordplay_types = []
+        if asm_type:
+            wordplay_types.append(asm_type)
+        if wordplay_type and wordplay_type not in wordplay_types:
+            wordplay_types.append(wordplay_type)
+        if not wordplay_types:
+            wordplay_types = ["unknown"]
+
+        # Build explanation from assembly (same as pipeline)
+        explanation_text = _describe_assembly(assembly, ai_pieces, answer=answer) if assembly else None
+
+        # Run mechanical verifier for confidence (same as pipeline)
+        if explanation_text:
+            _verifier = ExplanationVerifier()
+            v_result = _verifier.verify(
+                clue_text, answer, definition or "",
+                wordplay_types[0], explanation_text,
+            )
+            confidence = v_result["score"] / 100.0 if v_result else score / 100.0
+        else:
+            confidence = score / 100.0
+
+        # Build components dict (matching pipeline structure)
+        components_dict = {
+            "ai_pieces": ai_pieces,
+            "assembly": assembly,
+            "wordplay_type": wordplay_types[0],
+        }
+
+        # Use assembler explanation if available, fall back to piece-based
+        store_explanation = explanation_text or ai_explanation
+
         # Decide what to store — even low-score results are useful as
         # "unreviewed" content, better than showing nothing
-        if ai_explanation or definition or wordplay_type:
-            # Write to clues table (overwrite as a unit)
+        if store_explanation or definition or wordplay_type:
+            # Determine has_solution and reviewed (matching pipeline logic)
+            has_def = bool(definition)
+            has_type = bool(wordplay_types[0]) and wordplay_types[0] != "unknown"
+            has_expl = bool(store_explanation) or bool(ai_pieces)
+
+            # Check for existing manual review
+            current_reviewed = conn.execute(
+                "SELECT reviewed FROM clues WHERE id = ?", (clue_id,)
+            ).fetchone()
+            already_reviewed = current_reviewed and current_reviewed[0] in (1, 2)
+            if not already_reviewed:
+                auto_reviewed = 1 if score >= 80 else 0
+            else:
+                auto_reviewed = current_reviewed[0]
+
+            if has_def and has_type and has_expl:
+                has_solution = 1
+            elif has_type and has_expl and score >= 80:
+                has_solution = 1
+            elif has_def or has_type:
+                has_solution = 2
+            else:
+                has_solution = 0
+
+            # Write to clues table
             conn.execute(
                 """UPDATE clues
                    SET definition = ?, wordplay_type = ?, ai_explanation = ?,
-                       reviewed = 0
+                       reviewed = ?, has_solution = ?
                    WHERE id = ?""",
-                (definition, wordplay_type, ai_explanation, clue_id),
+                (definition, wordplay_types[0], store_explanation,
+                 auto_reviewed, has_solution, clue_id),
+            )
+
+            # Compute definition position
+            def_start = None
+            def_end = None
+            if definition:
+                idx = clue_text.lower().find(definition.lower())
+                if idx >= 0:
+                    def_start = idx
+                    def_end = idx + len(definition)
+
+            # Fetch source metadata
+            clue_meta = conn.execute(
+                "SELECT source, puzzle_number, clue_number FROM clues WHERE id = ?",
+                (clue_id,)
+            ).fetchone()
+            src, pnum, cnum = clue_meta if clue_meta else (None, None, None)
+
+            # Write to structured_explanations (full columns matching pipeline)
+            conn.execute(
+                "DELETE FROM structured_explanations WHERE clue_id = ?",
+                (clue_id,),
+            )
+            conn.execute(
+                """INSERT INTO structured_explanations
+                   (clue_id, definition_text, definition_start, definition_end,
+                    wordplay_types, components, model_version, confidence,
+                    source, puzzle_number, clue_number,
+                    created_at, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                           CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)""",
+                (clue_id, definition, def_start, def_end,
+                 json.dumps(wordplay_types), json.dumps(components_dict),
+                 "haiku_sonnet_tiered_v1", confidence,
+                 src, pnum, cnum),
             )
 
         # Always log to api_explanations table

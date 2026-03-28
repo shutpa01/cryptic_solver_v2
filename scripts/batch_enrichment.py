@@ -348,12 +348,16 @@ def verify_with_haiku(pairs):
             pair_lines.append(f"{word} -> {letters}")
 
         prompt = f"""You are a crossword expert. For each pair below, determine if the word on the left
-is a valid synonym, abbreviation, or definition of the letters on the right, as commonly used in
+is a valid synonym or recognised abbreviation of the letters on the right, as commonly used in
 cryptic crossword clues.
 
+IMPORTANT: Both sides must be real English words or widely recognised abbreviations.
+Reject any pair where the right side is not a real word or standard abbreviation.
+For example: "crowd -> RABLE" is INVALID because RABLE is not a word.
+"painting -> OIL" is VALID because OIL is a real word and a synonym of painting.
+"doctor -> DR" is VALID because DR is a recognised abbreviation.
+
 Reply with ONLY a JSON array of objects, each with "word", "letters", and "valid" (true/false).
-Be generous — accept abbreviations (DR for doctor), informal synonyms (spy for scout),
-and cryptic crossword conventions (flower for river, say for EG).
 
 Pairs to check:
 {chr(10).join(pair_lines)}"""

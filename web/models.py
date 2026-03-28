@@ -232,6 +232,7 @@ def get_puzzle_clues(source, puzzle_number):
     rows = db.execute(
         """SELECT c.id, c.clue_number, c.direction, c.clue_text, c.enumeration,
                   c.answer, c.definition, c.wordplay_type, c.explanation, c.ai_explanation,
+                  c.silly_award,
                   se.components, se.confidence, se.model_version
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id

@@ -345,7 +345,7 @@ def try_hidden(clue_text, target):
     return None
 
 
-def try_spoonerism(target, wordlist_check, clue_text=None, ref_db=None):
+def try_spoonerism_v2(target, wordlist_check, clue_text=None, ref_db=None):
     """Try to split the answer into two words whose swapped initials are also valid words.
 
     Args:

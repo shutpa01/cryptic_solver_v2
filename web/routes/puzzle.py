@@ -271,25 +271,55 @@ def puzzle_grid_progress(source, puzzle_type, puzzle_number):
     ]
 
     # Path 1: JSON — works with partial data
+    # Build full solution grid (for reveal-letter feature in solve mode)
+    full_grid = build_grid_from_json(source, puzzle_number, all_clue_data)
     grid = build_grid_from_json(source, puzzle_number, solved_clue_data)
     if grid is not None:
+        # Embed solution letters on empty cells for click-to-reveal
+        if full_grid:
+            for r_idx, row in enumerate(grid["cells"]):
+                for c_idx, cell in enumerate(row):
+                    if cell is not None and cell.get("letter") == "":
+                        full_cell = full_grid["cells"][r_idx][c_idx]
+                        if full_cell and full_cell.get("letter"):
+                            cell["solution"] = full_cell["letter"]
         return render_template("partials/grid.html", grid=grid)
 
     # Path 2: stored solution — blank unsolved cells
     stored = get_puzzle_grid_solution(source, puzzle_number)
     if stored:
         solution, grid_rows, grid_cols = stored
-        full_grid = parse_grid_solution(solution, grid_rows, grid_cols)
-        if full_grid is not None:
-            _blank_unsolved(full_grid, solved_clue_data, all_clue_data)
-            return render_template("partials/grid.html", grid=full_grid)
+        full_grid_2 = parse_grid_solution(solution, grid_rows, grid_cols)
+        if full_grid_2 is not None:
+            # Save full solution before blanking
+            full_letters = {}
+            for r_idx, row in enumerate(full_grid_2["cells"]):
+                for c_idx, cell in enumerate(row):
+                    if cell and cell.get("letter"):
+                        full_letters[(r_idx, c_idx)] = cell["letter"]
+            _blank_unsolved(full_grid_2, solved_clue_data, all_clue_data)
+            # Embed solution on empty cells
+            for r_idx, row in enumerate(full_grid_2["cells"]):
+                for c_idx, cell in enumerate(row):
+                    if cell is not None and cell.get("letter") == "" and (r_idx, c_idx) in full_letters:
+                        cell["solution"] = full_letters[(r_idx, c_idx)]
+            return render_template("partials/grid.html", grid=full_grid_2)
 
     # Path 3: reconstruct from FULL data, then blank unsolved
     if all_clue_data:
-        full_grid = reconstruct_grid(all_clue_data)
-        if full_grid is not None:
-            _blank_unsolved(full_grid, solved_clue_data, all_clue_data)
-            return render_template("partials/grid.html", grid=full_grid)
+        full_grid_3 = reconstruct_grid(all_clue_data)
+        if full_grid_3 is not None:
+            full_letters = {}
+            for r_idx, row in enumerate(full_grid_3["cells"]):
+                for c_idx, cell in enumerate(row):
+                    if cell and cell.get("letter"):
+                        full_letters[(r_idx, c_idx)] = cell["letter"]
+            _blank_unsolved(full_grid_3, solved_clue_data, all_clue_data)
+            for r_idx, row in enumerate(full_grid_3["cells"]):
+                for c_idx, cell in enumerate(row):
+                    if cell is not None and cell.get("letter") == "" and (r_idx, c_idx) in full_letters:
+                        cell["solution"] = full_letters[(r_idx, c_idx)]
+            return render_template("partials/grid.html", grid=full_grid_3)
 
     return render_template("partials/grid_error.html")
 
@@ -456,7 +486,20 @@ def puzzle_crossings(source, puzzle_type, puzzle_number):
             except ValueError:
                 pass
 
-    if not solved_ids:
+    # Parse revealed cells {"row,col": "LETTER"}
+    revealed_param = request.args.get("revealed", "")
+    revealed_cells = {}
+    if revealed_param:
+        try:
+            raw = json.loads(revealed_param)
+            for key, letter in raw.items():
+                parts = key.split(",")
+                if len(parts) == 2:
+                    revealed_cells[(int(parts[0]), int(parts[1]))] = letter
+        except (json.JSONDecodeError, TypeError, ValueError):
+            pass
+
+    if not solved_ids and not revealed_cells:
         return Response("{}", mimetype="application/json")
 
     # Parse user-provided answers
@@ -545,6 +588,13 @@ def puzzle_crossings(source, puzzle_type, puzzle_number):
                 for i in range(len(ans)):
                     if r + i < rows and cells[r + i][c] is not None:
                         solved_cells.add((r + i, c))
+
+    # Add revealed cells (from click-to-reveal in grid)
+    for (rv_r, rv_c), rv_letter in revealed_cells.items():
+        if 0 <= rv_r < rows and 0 <= rv_c < cols:
+            solved_cells.add((rv_r, rv_c))
+            # Also inject the letter into full_letters so it appears in patterns
+            full_letters[(rv_r, rv_c)] = rv_letter
 
     # Build enumeration lookup and detect linked clues
     enum_lookup = {}
