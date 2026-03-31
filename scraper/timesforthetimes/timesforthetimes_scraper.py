@@ -190,7 +190,7 @@ def parse_page(html: str, puzzle_number: int) -> list:
         tables = blog.find_all('table', class_='clues')
 
     if not tables:
-        return []
+        tables = []  # fall through to new format below
 
     for table in tables:
         # Determine direction from <thead>
@@ -258,6 +258,99 @@ def parse_page(html: str, puzzle_number: int) -> list:
 
                 # Explanation: everything after the <strong> tag
                 full_text = ans_td.get_text(separator=' ', strip=True)
+                expl = ''
+                ans_pos = full_text.find(answer)
+                if ans_pos >= 0:
+                    expl = full_text[ans_pos + len(answer):].strip()
+                    expl = re.sub(r'^[\s\-–—:\.]+', '', expl).strip()
+
+                clues.append({
+                    'clue_number': f'{pending_num}{dir_suffix}',
+                    'direction': direction,
+                    'clue_text': pending_clue_text,
+                    'enumeration': pending_enumeration,
+                    'answer': answer,
+                    'definition': pending_definition,
+                    'explanation': expl,
+                })
+                pending_num = None
+                pending_clue_text = ''
+                pending_enumeration = ''
+                pending_definition = ''
+
+    if clues:
+        return clues
+
+    # Fallback: new TFTT format (plain tables, no CSS classes)
+    # Tables have "Across"/"Down" as first row, then pairs: number+clue, answer+explanation
+    content = soup.find('div', class_='entry-content')
+    if not content:
+        return []
+
+    for table in content.find_all('table'):
+        rows = table.find_all('tr')
+        if not rows:
+            continue
+
+        # First row determines direction
+        first_text = rows[0].get_text(strip=True).lower()
+        if 'across' in first_text:
+            direction = 'across'
+            dir_suffix = 'a'
+        elif 'down' in first_text:
+            direction = 'down'
+            dir_suffix = 'd'
+        else:
+            continue
+
+        pending_num = None
+        pending_clue_text = ''
+        pending_enumeration = ''
+        pending_definition = ''
+
+        for row in rows[1:]:
+            cells = row.find_all('td')
+            if len(cells) < 2:
+                continue
+
+            first_cell = cells[0]
+            second_cell = cells[1]
+            first_text = first_cell.get_text(strip=True)
+
+            # Clue row: first cell has a number
+            if first_text and first_text.isdigit():
+                pending_num = first_text
+
+                pending_clue_text = second_cell.get_text(separator=' ', strip=True)
+
+                m = ENUM_PAT.search(pending_clue_text)
+                pending_enumeration = m.group(1).strip() if m else ''
+
+                # Definition: underlined spans
+                underlined = []
+                for span in second_cell.find_all(True):
+                    style = span.get('style', '')
+                    if 'underline' in style or span.name == 'u':
+                        underlined.append(span.get_text(strip=True))
+                pending_definition = ' / '.join(underlined) if underlined else ''
+
+            # Answer row: first cell empty, second has bold answer
+            elif not first_text and pending_num:
+                bold = second_cell.find(['b', 'strong'])
+                answer = bold.get_text(strip=True) if bold else ''
+
+                if not answer or not is_answer(answer):
+                    for tag in second_cell.find_all(['b', 'strong']):
+                        candidate = tag.get_text(strip=True)
+                        if is_answer(candidate):
+                            answer = candidate
+                            break
+
+                if not answer:
+                    pending_num = None
+                    continue
+
+                full_text = second_cell.get_text(separator=' ', strip=True)
                 expl = ''
                 ans_pos = full_text.find(answer)
                 if ans_pos >= 0:

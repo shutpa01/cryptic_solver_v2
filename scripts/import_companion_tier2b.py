@@ -1,0 +1,407 @@
+"""Import Tier 2b: Flowers, Animals, Herbs, Dances, Fabrics, Cheese, Drinks, etc."""
+import sqlite3
+
+DB_PATH = "data/cryptic_new.db"
+conn = sqlite3.connect(DB_PATH)
+c = conn.cursor()
+
+c.execute("SELECT LOWER(definition), UPPER(answer) FROM definition_answers_augmented")
+existing = set((r[0], r[1]) for r in c.fetchall())
+print(f"Existing pairs: {len(existing)}")
+
+inserted = 0
+skipped = 0
+
+def add(definitions, words):
+    global inserted, skipped, existing
+    for word in words:
+        word_upper = word.upper().strip()
+        if not word_upper:
+            continue
+        for defn in definitions:
+            key = (defn.lower(), word_upper)
+            if key in existing:
+                skipped += 1
+                continue
+            c.execute("INSERT INTO definition_answers_augmented (definition, answer, source) VALUES (?, ?, ?)",
+                      (defn, word_upper, "crossword_companion"))
+            existing.add(key)
+            inserted += 1
+
+# ============ FLAG TYPES ============
+flags = [
+    "RED", "BLUE", "JACK", "BLACK", "HOUSE", "PETER", "PILOT", "WHIFF",
+    "BANNER", "CORNET", "ENSIGN", "PENNON", "PRAYER", "SIGNAL", "YELLOW",
+    "BUNTING", "COLOURS", "GONFALON", "BANDEROL", "STANDARD", "VEXILLUM",
+    "BLACKJACK", "CHEQUERED", "ORIFLAMME", "QUARANTINE", "SWALLOW TAIL",
+    "UNION", "SALTIRE", "CRESCENT", "OLD GLORY", "RED CROSS", "BLUE PETER",
+    "DANNEBROG", "RED DRAGON", "RED DUSTER", "RED ENSIGN", "RISING SUN",
+    "TRICOLOUR", "UNION JACK", "BLUE ENSIGN", "JOLLY ROGER", "YELLOW JACK",
+    "OLYMPIC FLAG", "RED CRESCENT", "WHITE ENSIGN", "STARS AND BARS",
+    "ROYAL STANDARD", "CROSS OF ST GEORGE", "HAMMER AND SICKLE",
+    "STARS AND STRIPES",
+]
+add(["flag", "banner", "standard", "ensign"], flags)
+
+# ============ FLOWER PARTS ============
+flower_parts = [
+    "CALYX", "TORUS", "UMBEL", "OVULE", "PETAL", "SEPAL", "SPIKE",
+    "STALK", "STYLE", "ANTHER", "CARPET", "CORYMB", "PISTIL", "RACEME",
+    "SPADIX", "STAMEN", "STIGMA", "COROLLA", "NECTARY", "PANICLE", "PEDICEL",
+    "FILAMENT", "THALAMUS", "CAPITULUM", "DICHASIUM", "GYNOECIUM",
+    "RECEPTACLE", "MONOCHASIUM",
+]
+add(["flower part", "part of a flower"], flower_parts)
+
+# ============ GARDEN FLOWERS ============
+garden_flowers = [
+    "ALOE", "FLAG", "IRIS", "LILY", "PINK", "ROSE", "SEGO",
+    "ASTER", "CALLA", "CAMAS", "DAISY", "LOTUS", "LUPIN", "PANSY",
+    "PHLOX", "POPPY", "STOCK", "TULIP", "VIOLA", "YUCCA",
+    "ALLIUM", "AZALEA", "CAMASH", "CAMASS", "CRINUM", "CROCUS",
+    "DAHLIA", "NERINE", "NUPHAR", "ORCHID", "SALVIA", "SCILLA",
+    "SMILAX", "SQUILL", "VIOLET", "ZINNIA",
+    "ALYSSUM", "ANEMONE", "BEGONIA", "CAMPION", "CANDOCK", "COWSLIP",
+    "DAY-LILY", "FREESIA", "FUCHSIA", "LOBELIA", "MAY-LILY", "NEMESIA",
+    "PETUNIA", "PRIMULA", "TRITOMA", "VERBENA",
+    "GERANIUM", "GARDENIA", "GLADIOLI", "DAFFODIL", "DIANTHUS",
+    "DAYLILOVE", "CYCLAMEN", "CLEMATIS", "ASPHODEL", "ARUM LILY",
+    "AMARYLLIS", "CALENDULA", "CARNATION", "CROCOSIMA", "DIGITALIS",
+    "GLADIOLUS", "GRASS TREE", "HERB PARIS", "HOLLYHOCK", "KNIPHOFIA",
+    "NARCISSUS", "NICOTIANA", "REGAL LILY", "RICHARDIA", "SNOWFLAKE",
+    "SUNFLOWER", "TIGER LILY", "TORCH LILY",
+    "AGAPANTHUS", "ASPIDISTRA", "BUSY LIZZIE", "CANADA LILY",
+    "CHIONDOXA", "CONEFLOWER", "CORN FLOWER", "DELPHINIUM", "EASTER LILY",
+    "FRITILLARY", "GIANT ROUGE", "NASTURTIUM", "ORANGE-LILY", "POINSETTIA",
+    "POLYANTHUS", "RAGGED LADY", "SNAPDRAGON", "SOLARFLARE",
+    "SWEET BRIAR", "WALLFLOWER", "WATER FLOWER",
+    "ACIDANTHERA", "AFRICAN LILY", "ANTHERICUM", "CABBAGE TREE",
+    "CONVALLARIA", "ERYSTHEMUM", "FORGET-ME-NOT", "GILLFLOWER",
+    "HIPPEASTRUM", "LAPEROUISA", "LOVE-IN-A-MIST", "MADONNA LILY",
+    "AFRICAN VIOLET", "BUTCHER'S BROOM", "CARNATION-FLOWER",
+    "CHRYSANTHEMUM", "GRAPE HYACINTH", "LILY OF THE NILE",
+    "STRIPED SQUILL", "WINTER ACONITE",
+    "BELLADONNA LILY", "GLORY OF THE SNOW", "RHUBARB'S SPEAR",
+    "DOG'S TOOTH VIOLET", "LILY OF THE VALLEY", "STAR OF BETHLEHEM",
+    "NAKED LADIES", "RED-HOT POKER", "ROSE CAMPION", "SQUARETOES",
+    "STERNBERGIA", "TIGER FLOWER", "DEVIL IN A BUSH", "FLOWER OF LOVE",
+    "HEMEROCALLIS", "ORNITHOGALUM", "ROSE GERANIUM", "SAMARITANA",
+    "SOLOMON'S SEAL", "SWEET WILLIAM", "TURK'S CAP LILY",
+    "VICTORIA LILY", "WILD HYACINTH", "ZANTEDESCHIA",
+    "SWEET SULTAN", "IMPERIAL ROSE", "EGLANTINE ROSE",
+]
+add(["flower", "garden flower", "plant"], garden_flowers)
+
+# ============ WILD FLOWERS ============
+wild_flowers = [
+    "CLARY", "POPPY", "CROWFOOT", "DOG DAISY", "FOXGLOVE", "HAREBELL",
+    "LUNGWORT", "PRIMROSE", "ROCK ROSE", "SELF HEAL", "TOADFLAX", "YARROW",
+    "ALE HEAD", "BUSTERS", "CAMPION", "COMFREY", "COWSLIP", "DOG ROSE",
+    "GOATSUP", "HEATHER",
+    "AARON'S ROD", "BIRTH-WORT", "BROOKWEED", "BUTTERCUP",
+    "CELANDINE", "COLUMBINE", "EDELWEISS", "GOLDENROD",
+    "BLUEBELL", "CLOVER", "OXSLIP", "TEASEL", "VETCH", "VIOLET",
+    "CRANE'S BILL", "GOATSBEARD", "MARGUERITE", "MASTERWORT",
+    "OXEYE DAISY", "PENNYROYAL", "WILD ENDIVE", "WILD ORCHID",
+    "RAGGED ROBIN", "WILD CHICORY",
+    "HORSESHOE", "WATER LILY", "WILD PANSY",
+    "WOOD ANEMONE", "COMMON MALLOW", "CUCKOO FLOWER",
+    "GREAT MULLEIN", "LADY'S SLIPPER", "SOLOMON'S SEAL",
+    "WHITE CAMPION", "YELLOW CLOVER",
+    "BUTTER-AND-EGGS", "FIELD COW-WHEAT", "SHEPHERD'S CLUB",
+    "WILD GLADIOLUS",
+    "BLACK-EYED SUSAN", "BLADDER CAMPION", "COMMON TOADFLAX",
+    "MULTIFLORA ROSE", "NEW ENGLAND ASTER",
+]
+add(["wild flower", "flower", "plant", "wildflower"], wild_flowers)
+
+# ============ ANIMALS ============
+animals = [
+    "APE", "ASS", "CAT", "COW", "DOG", "ELK", "FOX", "GNU", "HOG",
+    "PIG", "RAT", "YAK",
+    "BEAR", "BULL", "DEER", "GOAT", "HARE", "LION", "MINK", "MOLE",
+    "MULE", "PUMA", "SEAL", "WOLF",
+    "BISON", "CAMEL", "ELAND", "HORSE", "HYENA", "KOALA", "LEMUR",
+    "LLAMA", "MOOSE", "OTTER", "PANDA", "SHEEP", "SKUNK", "TIGER",
+    "WHALE", "ZEBRA",
+    "BABOON", "BADGER", "FERRET", "GERBIL", "GIBBON", "IMPALA",
+    "JAGUAR", "MONKEY", "OCELOT", "RABBIT", "RACOON", "WALRUS", "WEASEL",
+    "BUFFALO", "CARIBOU", "CHEETAH", "DOLPHIN", "GAZELLE", "GIRAFFE",
+    "GORILLA", "HAMSTER", "LEOPARD", "PANTHER", "WOMBAT",
+    "AARDVARK", "ANTEATER", "ANTELOPE", "ELEPHANT", "HEDGEHOG",
+    "KANGAROO", "MONGOOSE", "PLATYPUS", "REINDEER", "SQUIRREL",
+    "WOLVERINE",
+    "ARMADILLO", "ORANGUTAN", "POLAR BEAR",
+    "CHIMPANZEE", "GIANT PANDA", "RHINOCEROS",
+    "GRIZZLY BEAR", "HIPPOPOTAMUS",
+]
+add(["animal", "creature", "beast", "mammal"], animals)
+
+# ============ HERALDRY TERMS ============
+heraldry = [
+    "OR", "ARMS", "LION", "ORLE", "PALL", "PILE", "SEME", "URDE", "VERT",
+    "AZURE", "BADGE", "CREST", "EAGLE", "EISEN", "FIELD", "GULES",
+    "MOTTO", "SABLE", "TAWNY", "TENNE",
+    "ARGENT", "BEZANT", "BLAZON", "CANTON", "CENTRE", "CHARGE",
+    "DEXTER", "EMBLEM", "HELMET", "IMPALE", "MULLET", "MURRAY",
+    "SEJANT", "SHIELD", "VOLANT", "WIVERN",
+    "ANNULET", "BORDURE", "COUCHED", "CHEVRON", "DORMANT",
+    "GRIFFIN", "GYRONNY", "LOZENGE", "MANTLET", "PHOENIX",
+    "QUARTER", "RAMPANT", "REGALIA", "ROUNDEL", "SALTIRE",
+    "STATANT", "TIERCED", "UNICORN", "URINANT",
+    "ADDORSED", "ANTELOPE", "CABOSHED",
+    "CARNATION", "DISPLAYED", "HATCHMENT",
+    "CAMELEOPARD", "CINQUEFOLI", "COAT OF ARMS",
+    "COCKATRICE", "EMBLAZONRY", "ESCUTCHEON", "FLEUR-DE-LIS",
+    "QUATREFOIL", "SUPPORTERS",
+    "BLEU CELESTE", "COMPARTMENT",
+]
+add(["heraldry term", "heraldic term", "heraldry"], heraldry)
+
+# ============ HERBS AND SPICES ============
+herbs_spices = [
+    "BAY", "BALM", "DILL", "MACE", "MINT", "SAGE",
+    "ANISE", "BASIL", "CAPER", "CLOVE", "CUMIN", "CURRY", "THYME",
+    "BORAGE", "CASSIA", "CHILLI", "CHIVES", "CLOVES", "FENNEL",
+    "GARLIC", "GINGER", "HYSSOP", "LOVAGE",
+    "NUTMEG", "PEPPER", "SAVORY", "SAFFRON", "VANILLA",
+    "ALLSPICE", "ANGELICA", "BERGAMOT", "CAMOMILE", "CARDAMOM",
+    "CINNAMON", "LAVENDER", "MARJORAM", "ROSEMARY", "TARRAGON",
+    "TURMERIC",
+    "CHAMOMILE", "CORIANDER", "FENUGREEK", "LEMON BALM",
+    "GALANGAL", "PATCHOULI",
+    "ST JOHN'S WORT", "CARAWAY SEED", "CAYENNE PEPPER",
+    "CHERVIL", "COMFREY", "MUSTARD", "OREGANO", "PAPRIKA",
+    "PARSLEY", "PIMENTO",
+]
+add(["herb", "spice", "seasoning", "flavouring"], herbs_spices)
+
+# ============ DAMS ============
+dams = [
+    "GURI", "HUME", "MICA", "ASWAN", "ERTAN", "NUREK", "ROGAN",
+    "BRATSK", "HOOVER", "INGURI", "ITAIPU", "KARIBA",
+    "BENMORE", "BOULDER", "TARBELA",
+    "AKOSOMBO", "CHAPOTON", "GARIHOULA",
+    "ASWAN HIGH", "MAUVOSIN", "GLEN CANYON",
+    "AFSLUITDIJK", "GRAND COULEE", "LA ESMERALDA", "THREE GORGES",
+    "ALBERTO LLEAS", "ALVARO OBREGON", "GRANDE DIXENCE",
+    "MANUEL M TORRES", "AFSLUITDIJK SEA",
+    "SAYANO-SHUSHEMSK",
+]
+add(["dam", "barrier"], dams)
+
+# ============ DANCES ============
+dances = [
+    "BOP", "HEY", "JIG", "WAR",
+    "BARN", "JIVE", "RAIN", "REEL", "SHAG",
+    "CONGA", "CRUNK", "MAMBO", "POLKA", "ROUND", "RUMBA", "SALSA",
+    "SAMBA", "SKANK", "STOMP", "SWORD", "TANGO", "TWIST", "WALTZ",
+    "BALBOA", "BOLERO", "CAN-CAN", "CHA-CHA", "HUSTLE", "MINUET", "MORRIS",
+    "BEGUINE", "FOXTROT", "GAVOTTE", "HOE-DOWN", "LANCERS", "MAZURKA",
+    "MILONGA", "MORRICE", "MUSETTE", "ONE-STEP", "TORDION", "TWO-STEP",
+    "BOOGALOO", "CAKEWALK", "EXCUSE-ME", "FANDANGO", "FLAMENCO",
+    "GALLIARD", "HABANERA", "HAY-DE-GUY", "HEY-DE-GUY", "HORNPIPE",
+    "KRUMPING", "LINDY HOP", "MERENGUE", "PLAYFORD", "THE TWIST",
+    "BOSSA NOVA", "CHA-CHA-CHA", "CLOG DANCE", "ECOSSAISE",
+    "JITTERBUG", "PASO DOBLE", "PASSEPIED", "PAUL JONES",
+    "QUADRILLE", "QUICKSTEP", "ROCK'N'ROLL", "ROUNDELAY",
+    "CHARLESTON", "CORROBOREE", "GAY GORDONS", "HOKEY-COKEY",
+    "SLOW RHYTHM", "TARANTELLA", "TURKEY-TROT",
+    "BLACK BOTTOM", "LAMBETH WALK", "MORRIS DANCE", "SCHOTTISCHE",
+    "VARSOVIENNE",
+    "BOOGIE-WOOGIE", "MASHED POTATO", "VIRGINIA REEL",
+    "EIGHTSOME REEL", "HIGHLAND FLING", "VIENNESE WALTZ",
+    "STRIP THE WILLOW",
+    "MILITARY TWO-STEP", "ST BERNARD'S WALTZ",
+    "PAVANE", "VALETA", "VELETA",
+]
+add(["dance", "ballroom dance"], dances)
+
+# ============ FABRICS ============
+fabrics = [
+    "KID", "NET", "REP", "SAY",
+    "AIDA", "BOLT", "CIRC", "CORD", "FELT", "IKAT", "JEAN", "LACE",
+    "LAME", "LAWN", "LENO", "REPP", "SILK", "TAPA", "WOOL",
+    "BATIK", "BEIGE", "CAMEL", "CHINO", "CRAPE", "CREPE", "DENIM",
+    "DHOTI", "DOILY", "DUROY", "GAUZE", "GUNNY", "LISLE", "LLAMA",
+    "LYCRA", "MOIRE", "MINON", "NYLON", "PANNE", "PIQUE", "PLUSH",
+    "RAYON", "SATIN", "SCRIM", "SERGE", "SUEDE", "SURAH", "TABBY",
+    "TAMMY", "TAPPA", "TERRY", "TIBET", "TOILE", "TULLE", "TWEED",
+    "TWILL", "VOILE", "WIGAN",
+    "ALPACA", "ANGORA", "BURLAP", "CALICO", "CANVAS", "CHINTZ",
+    "CLOQUE", "COBURG", "COTTON", "CREPON", "CUBICA", "CYPRESS",
+    "DACRON", "DAMASK", "DEVORE", "DOYLEY", "DRALON", "DUFFEL",
+    "DURRIE", "FAILLE", "FLEECE", "GLORIA", "HARDEN", "HARDEN",
+    "JERSEY", "KERSEY", "LINSEY", "MADRAS", "MERINO", "MOHAIR",
+    "MOREEN", "MUSLIN", "OXFORD", "PLISSE", "POPLIN", "RATINE",
+    "SATEEN", "SHODDY", "TARLID", "TAMINE", "THIBET", "TISSUE",
+    "TUSSAH", "TUSSER", "VELOUR", "VELVET", "VICUNA",
+    "ALEPINE", "BATISTE", "BOUCLE", "BROCADE", "BUCKRAM",
+    "CAMBRIC", "CHALLIS", "CHAMOIS", "CHIFFON", "CYPRESS",
+    "DEERSKIN", "DOESKIN", "DRABBET", "DRUGGED", "DUVETYN",
+    "FACONNE", "FLANNEL", "FOULARD", "FUSTIAN", "GALATEA",
+    "GINGHAM", "GORE-TEX", "HEATHER",
+    "HESSIAN", "HOLLAND", "JACONET", "LEATHER", "MOROCCO",
+    "NANKEEN", "ORGANDY", "ORGANZA", "PERCALE", "RABANNA",
+    "RATTEEN", "RAW SILK", "SACKING", "SATINET",
+    "SCHAPPE", "SPANDEX", "TABARET", "TAFFETA", "TICKING",
+    "VEILING", "VELOURS", "VIYELLA", "WEBBING", "WOOLSEY",
+    "ZANELLA",
+    "BARATHEA", "BAYARDERE", "BUCKSKIN", "CASHMERE", "CHAMBRAY",
+    "CHENILLE", "CORDUROY", "COUTILLE", "CRETONNE", "DIAMANTE",
+    "DUVETINE", "GOSSAMER", "JACQUARD", "MARCELLA",
+    "MAZARINE", "MAROCAIN", "OILCLOTH", "OILSKIN", "ORGANDIE",
+    "PASHMINA", "PLEATHER", "SAMOSET", "SHANTUNG", "SHARKSKIN",
+    "SHALLOON", "SPIN SILK", "SUEDETTE", "SWANSKIN",
+    "TERYLENE", "WAXCLOTH", "WHIPCORD",
+    "ALCANTARA", "ASTRAKHAN", "BALZARINE", "BOMBAZINE",
+    "BOMBASINE", "CALAMANCO", "CAMELETTE", "CHANTILLY",
+    "CRIMPLINE", "CRINOLINE", "FUR FABRIC", "FOLK-WEAVE",
+    "GABARDINE", "GABERDINE", "GEORGETTE", "GRENADINE",
+    "HAIRCLOTH", "HORSEHAIR", "HUCKABACK", "KALAMKARI",
+    "MATELASSE", "MOYGASHEL", "PARAMENTE", "PETERSHAM",
+    "POLYESTER", "SAILCLOTH", "SAILCLOTH", "SATINETTE",
+    "SHARKSKIN", "SHEEPSKIN", "STOCKINET", "TOWELLING",
+    "WIRE GAUZE",
+    "BALBRIGGAN", "BROCATELLE", "CANDLEWICK", "FLORENTINE",
+    "HOP-SACKING", "MATELASSE", "MOUSSELINE", "MUMMY-CLOTH",
+    "NEEDLECORD", "PAPER-CLOTH", "PARAMATIA", "PEAU DE SOIE",
+    "POLYCOTTON", "SEERSUCKER", "SICILIENNE", "TATTERSALL",
+    "WINCHEYETTE",
+    "CHEESECLOTH", "FLANNELETTE", "HARRIS TWEED", "MARQUITETTE",
+    "OXFORD CLOTH", "STOCKINETTE",
+    "BRILLIANTINE", "BRUSSELS LACE", "BUTTER-MUSLIN",
+    "CAVALRY TWILL", "CREPE-DE-CHINE", "LEATHERCLOTH",
+    "MILANESE SILK", "SHETLAND WOOL",
+    "CASEMENT CLOTH", "CROCODILE SKIN", "MOURNING-STUFF",
+    "SATIN SHEETING",
+    "HEATHER MIXTURE", "TERRY TOWELLING",
+]
+add(["fabric", "material", "cloth", "textile"], fabrics)
+
+# ============ FACE PARTS ============
+face_parts = [
+    "EAR", "EYE", "GUM", "JAW", "LIP",
+    "BROW", "CHIN", "HAIR", "IRIS", "JOWL", "LIPS", "NECK", "NOSE", "SKIN",
+    "BEARD", "CHEEK",
+]
+add(["face part", "part of the face", "facial feature"], face_parts)
+
+# ============ CHEESES ============
+cheeses = [
+    "EWE", "OKA",
+    "BRIE", "CURD", "EDAM", "FETA", "GOAT", "SKYR", "YARG",
+    "CABOC", "CARRE", "DERBY", "GOUDA", "QUARK",
+    "CANTAL", "CHEVRE", "DUNLOP", "JUNKET", "ORKNEY", "PANEER",
+    "ROMANO", "EMMENTAL", "TILSIT",
+    "BOURSIN", "CHEDDAR", "CROSTIN", "CROWDIE", "FONTINA",
+    "GRUYERE", "KEBBOCK", "KEBBUCK", "LIMBURG",
+    "RICOTTA", "SAPSAGO", "STILTON",
+    "BEL PAESE", "CHESHIRE", "CHAUNTON", "EMMENTAL", "HALLOUMI",
+    "HUNTSMAN", "MANCHEGO", "PARMESAN", "PECORINO", "RACLETTE",
+    "TALEGGIO", "VACHERIN",
+    "AMSTERDAM", "BLUE VINNY", "CAMEMBERT", "CAMBOZOLA",
+    "CHEVROTON", "EMMENTHAL", "LEICESTER", "JARLSBERG",
+    "KILLARNEY", "LEICESTER", "LIMBURGER", "LYMESWOLD",
+    "MOUSETRAP", "PORT SALUT", "PROCESSED", "PROVOLONE", "REBLOCHON",
+    "ROQUEFORT", "SAGE DERBY",
+    "BLUE CHEESE", "CAMPHILLY", "DANISH BLUE", "DOLCELATTE",
+    "DORSET BLUE", "EMMENTALER", "GLOUCESTER", "GORGONZOLA",
+    "HARD CHEESE", "LANCASHIRE", "MASCARPONE", "MOZZARELLA",
+    "NEUFCHATEL", "RED WINDSOR", "SOFT CHEESE", "STRACCHINO",
+    "VEGETARIAN",
+    "COULOMMIERS", "CREAM CHEESE", "PETIT SUISSE",
+    "PORT L'EVEQUE", "SAINT-PAULIN", "WENSLEYDALE",
+    "BLUE CHESHIRE", "FROMAGE FRAIS", "MONTEREY JACK",
+    "PHILADELPHIA", "RED LEICESTER",
+    "BLEU D'AUVERGNE", "COTTAGE CHEESE",
+]
+add(["cheese"], cheeses)
+
+# ============ DRESSES ============
+dresses = [
+    "MOB", "BALL", "COAT", "MAXI", "SACK", "TENT",
+    "SHIRT", "SMOCK", "TASAR",
+    "CAFTAN", "DIRNDL", "JUMPER", "KAFTAN", "KIMONO", "MUU-MUU",
+    "SHEATH", "TOUSER",
+    "BATHING", "CHEMISE", "EVENING", "EVENING", "KITENGE", "MATINEE",
+    "TUSSORE", "WEDDING",
+    "BALL-GOWN", "COCKTAIL", "GYRO TUNIC", "NEGLIGEE", "PINAFORE",
+    "PRINCESS", "SUNDRESS",
+    "CHEONGSAM", "FARANDINE", "GOING-AWAY",
+    "MINIDRESS", "SLAMMAKIN", "TROLLOPEE",
+    "DINNER-GOWN", "EMPIRE-LINE", "FARRANDINE", "SLAMMERKIN", "WRAPAROUND",
+    "DECOLLETAGE", "DOLLY VARDEN", "RIDING HABIT",
+    "SHIRTWAISTER",
+]
+add(["dress", "garment", "gown"], dresses)
+
+# ============ ALCOHOLIC DRINKS ============
+alcoholic_drinks = [
+    "ALE", "GIN", "KIR", "RUM", "RYE",
+    "ARAK", "BEER", "GROG", "HOCK", "MEAD", "OUZO", "PORT", "SAKE",
+    "VINO", "WINE",
+    "CIDER", "LAGER", "PERRY", "PLONK", "STOUT", "VODKA",
+    "ARRACK", "BISHOP", "BRANDY", "BUBBLY", "COGNAC", "EGGNOG",
+    "GRAPPA", "MIMOSA", "PORTER", "POTEEN", "SCOTCH", "SHANDY",
+    "SHERRY", "WHISKY",
+    "ABSINTH", "ALCOPOP", "AQUAVIT", "BACARDI", "BOURBON",
+    "CAMPARI", "GORDONS", "LIQUEUR", "MARSALA", "MARTELL", "MARTINI",
+    "COCKTAILS", "LAPHROAIG", "SNAKEBITE", "WHITE WINE", "WINECARNIS",
+    "GINGER WINE", "REMY MARTIN",
+    "BLACK-AND-TAN", "BOILERMAKER", "COURVOISIER",
+    "GIN-AND-TONIC", "GLENFIDDICH", "IRISH COFFEE",
+    "JACK DANIELS", "FAMOUS GROUSE",
+    "PINK GIN", "RED WINE", "RESINA", "SANGRIA", "SLOE GIN",
+    "SPIRITS", "TEQUILA", "VIN ROSE", "WHISKEY",
+    "ABSINTHE", "ADVOCAAT", "ARMAGNAC", "CALVADOS", "COLD DUCK",
+    "GUINNESS", "HOT TODDY", "SCHNAPPS", "SMIRNOFF", "VERMOUTH",
+    "VIN BLANC", "VIN ROUGE",
+    "BADMINTON", "BEEFWATER", "CHAMPAGNE", "GLENERANGES",
+    "MALTERNATIVE",
+    "PEACH SCHNAPPS", "SCOTCH AND SODA",
+    "BOMBAY SAPPHIRE",
+    "G AND T",
+]
+add(["drink", "alcoholic drink", "spirit", "beverage"], alcoholic_drinks)
+
+# ============ NON-ALCOHOLIC DRINKS ============
+non_alcoholic = [
+    "POP", "TEA",
+    "COKE", "MILK", "SODA",
+    "ASSAM", "COCOA", "FLOAT", "JULEP", "LATTE", "MIXER", "PEPSI",
+    "TONIC", "WATER",
+    "COFFEE", "INDIAN", "IRN-BRU", "SQUASH", "TISANE",
+    "BEEF TEA", "CORDIAL", "LIMEADE", "PERRIER",
+    "CAFE NOIR", "CHINA TEA", "COCA-COLA", "EARL GREY",
+    "EGG CREAM", "ESPRESSO", "FRUIT TEA", "GREEN TEA",
+    "HORLICKS", "LEMONADE", "LEMON TEA", "LUCOZADE",
+    "OVALTINE", "ROOT BEER", "SMOOTHIE",
+    "AQUA LIBRA", "AYAHUASCA", "CANADA DRY", "CHERRYADE",
+    "CREAM SODA", "GINGER ALE", "HERBAL TEA", "MILK SHAKE",
+    "SELTZER", "SODA WATER", "MINT JULEP", "ORANGEADE",
+    "CAFE AU LAIT", "CAFE FILTRE", "CAPPUCCINO", "FIZZY DRINK",
+    "FRUIT JUICE", "GINGER BEER", "ROSEHIP TEA", "STILL WATER",
+    "SONIC WATER", "VICHY WATER",
+    "BARLEY WATER", "BITTER LEMON", "CAMOMILE TEA",
+    "HOT CHOCOLATE", "MINERAL WATER", "SARSAPARILLA",
+    "PEPPERMINT TEA", "TURKISH COFFEE",
+    "SPARKLING WATER", "LAPSANG SOUCHONG",
+]
+add(["drink", "beverage", "non-alcoholic drink", "soft drink"], non_alcoholic)
+
+# ============ DRINKS OF THE GODS ============
+divine_drinks = ["AMRITA", "NECTAR", "AMBROSIA"]
+add(["drink of the gods", "divine drink", "nectar"], divine_drinks)
+
+# ============ SPECIAL DRINKS ============
+special_drinks = ["AVA", "KAVA", "SOMA", "HAOMA", "AYAHUASCA", "AYAHUASCO"]
+add(["special drink", "ritual drink"], special_drinks)
+
+conn.commit()
+print(f"\nTotal inserted: {inserted}")
+print(f"Total skipped: {skipped}")
+
+c.execute("SELECT COUNT(*) FROM definition_answers_augmented WHERE source='crossword_companion'")
+print(f"Total crossword_companion entries: {c.fetchone()[0]}")
+conn.close()

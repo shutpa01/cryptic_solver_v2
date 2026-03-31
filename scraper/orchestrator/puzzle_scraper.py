@@ -13,6 +13,7 @@ Usage:Predictably the times fi
     python puzzle_scraper.py --only telegraph   # Run only telegraph
     python puzzle_scraper.py --only times       # Run only times
     python puzzle_scraper.py --only independent # Run only independent
+    python puzzle_scraper.py --only dailymail   # Run only dailymail
 """
 
 import argparse
@@ -47,6 +48,8 @@ EXPECTED_PUZZLES = [
     # Guardian — cryptic Mon-Fri, prize Sat (both use 29xxx numbers). Quiptic/Everyman discontinued.
     ('Guardian Cryptic',        'guardian',  21000, 32000, [0, 1, 2, 3, 4]),
     ('Guardian Prize',          'guardian',  21000, 32000, [5]),
+    # Daily Mail — cryptic every day, uniqueIds range ~32k (2020) to ~160k (2026)
+    ('Daily Mail Cryptic',      'dailymail', 30000, 200000, [0, 1, 2, 3, 4, 5, 6]),
 ]
 
 # Scraper definitions: (name, script_path, args, timeout_seconds)
@@ -70,9 +73,15 @@ SCRAPERS = {
         'retries': 1,
     },
     'independent': {
-        'script': BASE_PATH / 'independent' / 'independent_all.py',
+        'script': BASE_PATH / 'independent' / 'independent_edition.py',
         'args': [],
         'timeout': 120,  # HTTP scraper — fast
+        'retries': 1,
+    },
+    'dailymail': {
+        'script': BASE_PATH / 'dailymail' / 'dailymail_daily.py',
+        'args': [],
+        'timeout': 60,   # API scraper — very fast, no auth needed
         'retries': 1,
     },
 }
@@ -88,7 +97,7 @@ def run_scraper(name: str, script: Path, args: list, timeout: int) -> bool:
     print(f"{'=' * 60}")
 
     if not script.exists():
-        print(f"  Script not found: {script}")
+        print(f"  It seems to be tkiScript not found: {script}")
         return False
 
     cmd = [PYTHON, str(script)] + args
@@ -308,7 +317,7 @@ def find_answerless_puzzles(today: date | None = None) -> list[tuple[str, str, i
                SUM(CASE WHEN answer IS NULL OR answer = '' THEN 1 ELSE 0 END) as missing
         FROM clues
         WHERE publication_date = ?
-          AND source IN ('telegraph', 'times', 'guardian', 'independent')
+          AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
         GROUP BY source, puzzle_number
         HAVING missing > 0
         ORDER BY source, puzzle_number

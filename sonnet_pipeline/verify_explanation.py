@@ -79,13 +79,32 @@ class ExplanationVerifier:
         return self._ind_cache[key]
 
     def definition_matches(self, definition, answer):
-        """Check if definition -> answer exists in our DB."""
+        """Check if definition -> answer exists in our DB (forward or reverse)."""
         key = (definition.lower(), answer.upper())
         if key not in self._def_cache:
+            d_low = definition.lower().strip()
+            a_up = answer.upper().strip()
+            # Forward: definition -> answer
             row = self.ref.execute(
                 "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND UPPER(answer) = ? LIMIT 1",
-                (definition.lower(), answer.upper()),
+                (d_low, a_up),
             ).fetchone()
+            if not row:
+                row = self.ref.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
+                    (d_low, a_up),
+                ).fetchone()
+            # Reverse: answer -> definition
+            if not row:
+                row = self.ref.execute(
+                    "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND UPPER(answer) = ? LIMIT 1",
+                    (a_up.lower(), d_low.upper()),
+                ).fetchone()
+            if not row:
+                row = self.ref.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
+                    (a_up.lower(), d_low.upper()),
+                ).fetchone()
             self._def_cache[key] = row is not None
         return self._def_cache[key]
 

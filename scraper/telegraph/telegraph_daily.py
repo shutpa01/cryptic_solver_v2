@@ -357,10 +357,11 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    db_source = 'telegraph-toughie' if puzzle_type in ('toughie', 'prize-toughie') else 'telegraph'
     cursor.execute("""
         SELECT COUNT(*) FROM clues
-        WHERE source = 'telegraph' AND puzzle_number = ?
-    """, (str(puzzle_number),))
+        WHERE source = ? AND puzzle_number = ?
+    """, (db_source, str(puzzle_number)))
 
     count = cursor.fetchone()[0]
     conn.close()
@@ -453,6 +454,9 @@ def fetch_and_save(puzzle):
     cursor = conn.cursor()
     inserted = 0
 
+    # Toughie puzzles get a separate source to avoid number collisions with prize cryptics
+    db_source = 'telegraph-toughie' if puzzle_type in ('toughie', 'prize-toughie') else 'telegraph'
+
     for direction, clue_list in [('across', across), ('down', down)]:
         for clue in clue_list:
             cursor.execute("""
@@ -464,7 +468,7 @@ def fetch_and_save(puzzle):
                 DO UPDATE SET answer = excluded.answer
                 WHERE answer IS NULL OR answer = ''
             """, (
-                'telegraph',
+                db_source,
                 str(puzzle_number),
                 date_publish,
                 str(clue['number']),
@@ -508,7 +512,7 @@ def fetch_and_save(puzzle):
             api_type = COALESCE(excluded.api_type, puzzle_grids.api_type),
             api_id = COALESCE(excluded.api_id, puzzle_grids.api_id)
     """, (
-        'telegraph', str(puzzle_number),
+        db_source, str(puzzle_number),
         grid_solution if has_solution else None,
         grid_rows, grid_cols,
         folder, link_type, api_id,
