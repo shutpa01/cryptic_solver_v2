@@ -26,6 +26,23 @@ from .solver import (
     resolve_cross_references, solve_clue, store_result,
     try_hidden, try_spoonerism_v2, try_double_definition,
 )
+# V1 mechanical solvers for enhanced Phase 0 + Phase 0.5
+from backfill_ai_exp.backfill_dd_hidden import (
+    build_graph as _build_dd_graph,
+    generate_dd_hypotheses as _v1_dd,
+    try_hidden as _v1_hidden,
+    norm_letters as _norm_letters,
+    strip_enumeration as _strip_enum,
+)
+from backfill_ai_exp.batch_v1_solver import (
+    find_definition as _v1_find_definition,
+    try_anagram as _v1_try_anagram,
+    try_charade as _v1_try_charade,
+    try_reversal as _v1_try_reversal,
+    try_acrostic as _v1_try_acrostic,
+    try_homophone as _v1_try_homophone,
+    build_explanation_text as _v1_build_explanation,
+)
 from .report import generate_report, _describe_assembly
 from .sig_adapter import (
     build_result_dict as sig_build_result_dict,
@@ -135,14 +152,24 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     hidden_solved_ids = set()
     hidden_count = 0
 
-    print("\n--- Phase 0: Mechanical hidden word check ---")
+    # Build DD graph once for Phase 0a + 0c (reuses RefDB data)
+    _dd_graph = _build_dd_graph(ref_db) if ref_db is not None else {}
+
+    print("\n--- Phase 0: Mechanical hidden word check (definition-confirmed) ---")
     for row in rows:
         cid, cnum, direction, clue, answer, enum, explanation = row
         answer_clean = clean(answer)
         if not answer_clean or len(answer_clean) < 3:
             continue
 
-        hidden_result = try_hidden(clue, answer_clean)
+        total_len = len(_norm_letters(answer))
+        hidden_result_v1 = _v1_hidden(clue, answer_clean, _dd_graph, total_len) if _dd_graph else None
+        # Convert V1 format to old format for compatibility
+        hidden_result = None
+        if hidden_result_v1:
+            op = "hidden_reversed" if hidden_result_v1["direction"] == "reverse" else "hidden"
+            hidden_result = {"op": op, "words": hidden_result_v1["words"],
+                             "_definition": hidden_result_v1.get("definition")}
         if hidden_result:
             hidden_solved_ids.add(cid)
             hidden_count += 1
@@ -187,19 +214,21 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     "assembly": hidden_result,
                     "wordplay_type": hidden_result["op"],
                 })
+                hidden_def = hidden_result.get("_definition")
                 conn.execute("""
                     INSERT OR REPLACE INTO structured_explanations
                     (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 """, (cid, components, _json.dumps([hidden_result["op"]]),
-                      None, 1.0, "mechanical_hidden", source))
+                      hidden_def, 1.0, "mechanical_hidden", source))
                 conn.execute("""
                     UPDATE clues SET
                         wordplay_type = COALESCE(NULLIF(wordplay_type, ''), ?),
+                        definition = COALESCE(NULLIF(definition, ''), ?),
                         ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
                         has_solution = 1
                     WHERE id = ?
-                """, (hidden_result["op"], expl_text, cid))
+                """, (hidden_result["op"], hidden_def, expl_text, cid))
                 conn.commit()
 
             print("  [HIDDEN 100] %s. %s = %s  %s" % (cnum, clue[:50], answer, expl_text))
@@ -318,15 +347,23 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             if not answer_clean or len(answer_clean) < 2:
                 continue
 
-            dd_result = try_double_definition(clue, answer_clean, ref_db)
+            total_len = len(_norm_letters(answer))
+            dd_result_v1 = _v1_dd(clue, _dd_graph, total_len=total_len, answer=answer_clean)
+            # Convert V1 format to old format
+            dd_result = None
+            if dd_result_v1:
+                dd_result = {
+                    "op": "double_definition",
+                    "left_def": dd_result_v1["left_def"],
+                    "right_def": dd_result_v1["right_def"],
+                }
             if dd_result:
                 dd_solved_ids.add(cid)
                 dd_count += 1
 
                 left_def = dd_result["left_def"]
                 right_def = dd_result["right_def"]
-                expl_text = 'Double definition: "%s" and "%s" both mean %s' % (
-                    left_def, right_def, answer)
+                expl_text = "Double definition"
 
                 results.append({
                     "status": "ASSEMBLED",
@@ -353,15 +390,15 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                         (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                     """, (cid, components, _json.dumps(["double_definition"]),
-                          left_def, 1.0, "mechanical_dd", source))
+                          "Double definition", 1.0, "mechanical_dd", source))
                     conn.execute("""
                         UPDATE clues SET
                             wordplay_type = COALESCE(NULLIF(wordplay_type, ''), 'double_definition'),
-                            definition = COALESCE(NULLIF(definition, ''), ?),
+                            definition = COALESCE(NULLIF(definition, ''), 'Double definition'),
                             ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
                             has_solution = 1
                         WHERE id = ?
-                    """, (left_def, expl_text, cid))
+                    """, (expl_text, cid))
                     conn.commit()
 
                 print("  [DD 100] %s. %s = %s  %s" % (cnum, clue[:50], answer, expl_text))
@@ -370,6 +407,132 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("  Phase 0c: %d double definitions found" % dd_count)
     else:
         print("  Phase 0c: no double definitions")
+
+    # ================================================================
+    # PHASE 0.5: V1 mechanical solvers (zero API cost)
+    # Anagram, charade, reversal, acrostic, homophone — only with
+    # confirmed definition (no definition = skip to later phases).
+    # ================================================================
+    mech_solved_ids = set()
+    mech_count = 0
+
+    if ref_db is not None:
+        print("\n--- Phase 0.5: V1 mechanical solvers (definition required) ---")
+        for row in rows:
+            cid, cnum, direction, clue, answer, enum, explanation = row
+            if cid in hidden_solved_ids or cid in dd_solved_ids:
+                continue
+
+            answer_clean = clean(answer)
+            if not answer_clean or len(answer_clean) < 3:
+                continue
+
+            # Skip cross-reference clues
+            if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
+                continue
+
+            # Must find a definition first
+            definition, remaining = _v1_find_definition(clue, answer_clean, ref_db)
+            if not definition:
+                continue
+            if remaining is None:
+                remaining = _strip_enum(clue).split()
+
+            mech_result = None
+            mech_wtype = None
+            mech_pieces = None
+
+            # Try anagram
+            ana = _v1_try_anagram(clue, answer_clean, ref_db,
+                                  definition_words=definition.split() if definition else None)
+            if ana:
+                mech_wtype = "anagram"
+                mech_pieces = [{"clue_word": w, "letters": _norm_letters(w).upper(),
+                                "mechanism": "anagram_fodder"} for w in ana["fodder_words"]]
+                mech_result = ana
+
+            # Try charade
+            if not mech_result:
+                cha = _v1_try_charade(remaining, answer_clean, ref_db)
+                if cha:
+                    mech_wtype = "charade"
+                    mech_pieces = cha["pieces"]
+                    mech_result = cha
+
+            # Try reversal
+            if not mech_result:
+                rev = _v1_try_reversal(remaining, answer_clean, ref_db)
+                if rev:
+                    mech_wtype = "reversal"
+                    mech_pieces = rev["pieces"]
+                    mech_result = rev
+
+            # Try acrostic
+            if not mech_result:
+                acr = _v1_try_acrostic(remaining, answer_clean, ref_db)
+                if acr:
+                    mech_wtype = "acrostic"
+                    mech_pieces = acr["pieces"]
+                    mech_result = acr
+
+            # Try homophone
+            if not mech_result:
+                hom = _v1_try_homophone(remaining, answer_clean, ref_db)
+                if hom:
+                    mech_wtype = "homophone"
+                    mech_pieces = hom["pieces"]
+                    mech_result = hom
+
+            if mech_result and mech_pieces:
+                mech_solved_ids.add(cid)
+                mech_count += 1
+
+                expl_text = _v1_build_explanation(mech_wtype, mech_pieces, definition, answer)
+
+                results.append({
+                    "status": "ASSEMBLED",
+                    "tier": "Mechanical",
+                    "confidence": "high",
+                    "score": 100,
+                    "clue_number": cnum,
+                    "direction": direction,
+                    "enumeration": enum,
+                    "clue": clue,
+                    "answer": answer,
+                    "explanation": expl_text,
+                })
+
+                if write_db:
+                    import json as _json
+                    components = _json.dumps({
+                        "ai_pieces": mech_pieces,
+                        "assembly": {"op": mech_wtype},
+                        "wordplay_type": mech_wtype,
+                    })
+                    conn.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version,
+                         source, puzzle_number, clue_number)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (cid, components, _json.dumps([mech_wtype]),
+                          definition, 1.0, "mechanical_v1", source, puzzle, cnum))
+                    conn.execute("""
+                        UPDATE clues SET
+                            wordplay_type = COALESCE(NULLIF(wordplay_type, ''), ?),
+                            definition = COALESCE(NULLIF(definition, ''), ?),
+                            ai_explanation = COALESCE(NULLIF(ai_explanation, ''), ?),
+                            has_solution = 1
+                        WHERE id = ?
+                    """, (mech_wtype, definition, expl_text, cid))
+                    conn.commit()
+
+                print("  [MECH-%s 100] %s. %s = %s  %s" % (
+                    mech_wtype[:3].upper(), cnum, clue[:40], answer, expl_text[:50]))
+
+        if mech_count:
+            print("  Phase 0.5: %d mechanical solves" % mech_count)
+        else:
+            print("  Phase 0.5: no mechanical solves")
 
     # ================================================================
     # PHASE 1: Signature solver on all clues (zero API cost)
@@ -389,8 +552,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             cid, cnum, direction, clue, answer, enum, explanation = row
             answer_clean = clean(answer)
 
-            # Skip clues already solved by Phase 0 (hidden word, spoonerism, DD)
-            if cid in hidden_solved_ids or cid in dd_solved_ids:
+            # Skip clues already solved by Phase 0/0.5 (hidden, spoonerism, DD, mechanical)
+            if cid in hidden_solved_ids or cid in dd_solved_ids or cid in mech_solved_ids:
                 continue
 
             # Skip cross-reference clues — S can't resolve them
@@ -636,7 +799,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     # ================================================================
     # PHASE 2: Production solver on remaining clues (API calls)
     # ================================================================
-    all_solved = hidden_solved_ids | dd_solved_ids | sig_solved_ids | tftt_solved_ids | fs_solved_ids
+    all_solved = hidden_solved_ids | dd_solved_ids | mech_solved_ids | sig_solved_ids | tftt_solved_ids | fs_solved_ids
     remaining_for_api = [r for r in rows if r[0] not in all_solved]
     print("\n--- Phase 2: Production solver (API calls) — %d clues ---" % len(remaining_for_api))
 

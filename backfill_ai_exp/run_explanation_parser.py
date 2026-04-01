@@ -17,7 +17,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from scripts.parse_human_explanations import (
+from backfill_ai_exp.parse_human_explanations import (
     load_clues, parse_explanation, extract_definition_from_expl,
     build_explanation_text, build_payload, norm_letters,
 )

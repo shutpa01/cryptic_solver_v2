@@ -164,7 +164,14 @@ class PieceVerifier:
             # Might be a partial literal
             if letters_norm in word_norm:
                 return {"status": "verified", "detail": f'literal substring: {letters} in {word}'}
-            return {"status": "wrong", "detail": f'literal mismatch: {letters} not in {word}'}
+            # Fallback: often mislabelled by TFTT parser — check if it's actually a synonym/abbreviation
+            if self._is_synonym(word, letters):
+                return {"status": "verified", "detail": f'mislabelled literal, actually synonym: "{word}" -> {letters}'}
+            if self._is_abbreviation(word, letters):
+                return {"status": "verified", "detail": f'mislabelled literal, actually abbreviation: "{word}" -> {letters}'}
+            if self._check_any_word(word, letters):
+                return {"status": "verified", "detail": f'mislabelled literal, word in "{word}" -> {letters}'}
+            return {"status": "unverifiable", "detail": f'literal mismatch: {letters} not in {word}'}
 
         # --- first_letter ---
         if mech == "first_letter":
