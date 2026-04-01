@@ -57,7 +57,7 @@ def _render_review_queue():
     with col2:
         rq_source = st.selectbox(
             "Source",
-            ["All", "telegraph", "times", "guardian", "independent"],
+            ["All", "telegraph", "times", "guardian", "independent", "dailymail"],
             key="rq_source",
         )
     with col3:
@@ -550,7 +550,7 @@ def _render_enrichment_queue():
     """
     eq_source = st.selectbox(
         "Source",
-        ["All", "telegraph", "times", "guardian", "independent"],
+        ["All", "telegraph", "times", "guardian", "independent", "dailymail"],
         key="eq_source",
     )
 
@@ -721,7 +721,7 @@ def _render_unprocessed():
     col1, col2, col3 = st.columns(3)
     with col1:
         source_filter = st.selectbox(
-            "Source", ["All", "telegraph", "times", "guardian", "independent"],
+            "Source", ["All", "telegraph", "times", "guardian", "independent", "dailymail"],
             key="unproc_source",
         )
     with col2:
@@ -731,7 +731,7 @@ def _render_unprocessed():
 
     conditions = [
         "c.answer IS NOT NULL", "c.answer != ''",
-        "c.source IN ('telegraph', 'times', 'guardian', 'independent')",
+        "c.source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')",
     ]
     params = []
 
@@ -773,7 +773,7 @@ def _render_unprocessed():
             COUNT(*) as total_non_high
         FROM clues c
         WHERE c.answer IS NOT NULL AND c.answer != ''
-          AND c.source IN ('telegraph', 'times', 'guardian', 'independent')
+          AND c.source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
           AND NOT (c.definition IS NOT NULL AND c.wordplay_type IS NOT NULL
                    AND c.ai_explanation IS NOT NULL)
     """).fetchone()

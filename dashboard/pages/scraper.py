@@ -23,7 +23,7 @@ def render():
         st.subheader("Run scrapers")
         scraper_target = st.selectbox(
             "Target",
-            ["All sources", "telegraph", "times", "guardian", "independent"],
+            ["All sources", "telegraph", "times", "guardian", "independent", "dailymail"],
         )
 
         if st.button("Run Scraper", type="primary"):
@@ -61,6 +61,10 @@ def render():
     with col2:
         st.subheader("Today's puzzle status")
         _show_todays_puzzles()
+
+    st.divider()
+    st.subheader("Deploy DB to Honeypot")
+    _render_honeypot_deploy()
 
     st.divider()
     st.subheader("Recent scraper activity")
@@ -112,6 +116,81 @@ def _show_todays_puzzles():
     conn.close()
 
 
+DROPLET = "root@134.209.21.34"
+HONEYPOT_DB_PATH = "/opt/honeypot/data/clues.db"
+
+
+def _render_honeypot_deploy():
+    """Upload clues_master.db to the honeypot droplet and restart the service."""
+    st.caption("Upload the local database to clairesclues.xyz and restart the service.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        regen_sitemaps = st.checkbox("Regenerate sitemaps after upload", value=True)
+    with col2:
+        st.info(f"DB size: {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
+
+    if st.button("Deploy to Honeypot", type="primary", key="deploy_honeypot"):
+        steps = []
+
+        # Step 1: Upload DB
+        with st.spinner("Uploading database..."):
+            try:
+                result = subprocess.run(
+                    ["scp", str(CLUES_DB), f"{DROPLET}:{HONEYPOT_DB_PATH}"],
+                    capture_output=True, text=True, timeout=300,
+                    encoding="utf-8", errors="replace",
+                )
+                if result.returncode == 0:
+                    steps.append(("Upload DB", True, "Database uploaded successfully."))
+                else:
+                    steps.append(("Upload DB", False, result.stderr or "Upload failed."))
+            except subprocess.TimeoutExpired:
+                steps.append(("Upload DB", False, "Upload timed out after 5 minutes."))
+            except Exception as e:
+                steps.append(("Upload DB", False, str(e)))
+
+        # Step 2: Restart service
+        if steps[-1][1]:
+            with st.spinner("Restarting honeypot service..."):
+                try:
+                    result = subprocess.run(
+                        ["ssh", DROPLET, "systemctl restart honeypot"],
+                        capture_output=True, text=True, timeout=30,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if result.returncode == 0:
+                        steps.append(("Restart service", True, "Service restarted."))
+                    else:
+                        steps.append(("Restart service", False, result.stderr or "Restart failed."))
+                except Exception as e:
+                    steps.append(("Restart service", False, str(e)))
+
+        # Step 3: Regenerate sitemaps (optional)
+        if regen_sitemaps and steps[-1][1]:
+            with st.spinner("Regenerating sitemaps..."):
+                try:
+                    result = subprocess.run(
+                        ["ssh", DROPLET,
+                         "cd /opt/honeypot && python3 generate_sitemaps.py --domain https://clairesclues.xyz"],
+                        capture_output=True, text=True, timeout=120,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if result.returncode == 0:
+                        steps.append(("Regenerate sitemaps", True, result.stdout[-500:] if result.stdout else "Done."))
+                    else:
+                        steps.append(("Regenerate sitemaps", False, result.stderr or "Failed."))
+                except Exception as e:
+                    steps.append(("Regenerate sitemaps", False, str(e)))
+
+        # Show results
+        for label, ok, msg in steps:
+            if ok:
+                st.success(f"{label}: {msg}")
+            else:
+                st.error(f"{label}: {msg}")
+
+
 def _show_recent_activity():
     """Show most recent puzzles scraped per source."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
@@ -121,7 +200,7 @@ def _show_recent_activity():
         SELECT source, puzzle_number, publication_date, COUNT(*) as clue_count,
                SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) as with_answer
         FROM clues
-        WHERE source IN ('telegraph', 'times', 'guardian', 'independent')
+        WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
           AND publication_date IS NOT NULL
         GROUP BY source, puzzle_number
         ORDER BY publication_date DESC

@@ -25,7 +25,7 @@
                       onclick="similarAnswerClick(this, '{{ r.answer }}')"
                       title="Click to reveal, double-click to add to grid">{{ r.answer }}</span>
                 <div class="flex items-center gap-2">
-                    <span class="text-[10px] text-gray-400">{{ r.source | title }}{% if r.puzzle_number %} #{{ r.puzzle_number }}{% endif %}</span>
+                    <span class="text-[10px] text-gray-400">{{ r.source | source_name }}{% if r.puzzle_number %} #{{ r.puzzle_number }}{% endif %}</span>
                     {% if has_answer %}
                     <button onclick="addToGrid('{{ r.answer }}', {{ loop.index }}, true, '{{ source_answer or '' }}')"
                             class="text-[10px] px-2 py-0.5 rounded bg-teal-600 text-white hover:bg-teal-700 font-medium cursor-pointer">

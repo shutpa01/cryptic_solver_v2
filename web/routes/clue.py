@@ -119,7 +119,7 @@ def get_clue_by_slug(slug):
                     c.ai_explanation, se.components, se.confidence, se.model_version
              FROM clues c
              LEFT JOIN structured_explanations se ON se.clue_id = c.id
-             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent')
+             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
                AND c.clue_text IS NOT NULL
                AND %s
              ORDER BY

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | title }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
+{% block title %}{{ source | source_name }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}">
+<meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% elif source == 'dailymail' %}Daily Mail {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}">
 {% endblock %}
 
 {% block content %}
@@ -12,14 +12,14 @@
     <span class="mx-1">/</span>
     <a href="/puzzles" class="hover:text-indigo-600">Puzzles</a>
     <span class="mx-1">/</span>
-    <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ source | title }} {{ type_label }}</a>
+    <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ source | source_name }} {{ type_label }}</a>
     <span class="mx-1">/</span>
     <span>#{{ puzzle_number }}</span>
 </nav>
 
 <div class="mb-6 flex items-start justify-between">
     <div>
-        <h1 class="text-2xl font-brand font-bold text-gray-900">{{ source | title }} {{ type_label }} #{{ puzzle_number }}</h1>
+        <h1 class="text-2xl font-brand font-bold text-gray-900">{{ source | source_name }} {{ type_label }} #{{ puzzle_number }}</h1>
         {% if publication_date %}
         <p class="text-sm text-gray-400 mt-1">{{ publication_date }}</p>
         {% endif %}

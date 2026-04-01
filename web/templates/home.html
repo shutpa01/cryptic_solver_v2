@@ -76,7 +76,7 @@
         <a href="/{{ source }}/{{ type_slug }}/"
            class="block bg-white rounded-lg border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-sm transition text-center">
             <div class="text-sm font-semibold text-indigo-600">{{ label }}</div>
-            <div class="text-xs text-gray-400 mt-0.5">{{ source | title }}</div>
+            <div class="text-xs text-gray-400 mt-0.5">{{ source | source_name }}</div>
         </a>
         {% endfor %}
     </div>

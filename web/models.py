@@ -43,6 +43,7 @@ BROWSE_SOURCES = [
     ("times", "sunday", "Times Sunday"),
     ("guardian", "cryptic", "Guardian Cryptic"),
     ("independent", "cryptic", "Independent Cryptic"),
+    ("dailymail", "cryptic", "Daily Mail Cryptic"),
 ]
 
 # Label lookup for display
@@ -53,6 +54,7 @@ TYPE_LABELS = {
     ("times", "sunday"): "Sunday",
     ("guardian", "cryptic"): "Cryptic",
     ("independent", "cryptic"): "Cryptic",
+    ("dailymail", "cryptic"): "Cryptic",
 }
 
 
@@ -102,6 +104,11 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
 
     elif source == "independent":
         if 1 <= num <= 19999:
+            return "cryptic", "Cryptic"
+        return None, None
+
+    elif source == "dailymail":
+        if 16000 <= num <= 19999:
             return "cryptic", "Cryptic"
         return None, None
 
@@ -160,6 +167,11 @@ def _puzzle_filter_sql(source, type_slug):
             [source],
         )
     elif source == "independent" and type_slug == "cryptic":
+        return (
+            "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
+            [source],
+        )
+    elif source == "dailymail" and type_slug == "cryptic":
         return (
             "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
             [source],
@@ -426,7 +438,7 @@ def get_clues_by_slug(slug):
                     c.ai_explanation, se.components, se.confidence, se.model_version
              FROM clues c
              LEFT JOIN structured_explanations se ON se.clue_id = c.id
-             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent')
+             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
                AND c.clue_text IS NOT NULL
                AND %s
              ORDER BY c.publication_date DESC

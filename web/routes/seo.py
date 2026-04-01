@@ -35,7 +35,7 @@ def sitemap_index():
     # Count total indexable clues (Telegraph + Times with answers)
     total = db.execute(
         """SELECT COUNT(*) FROM clues
-           WHERE source IN ('telegraph', 'times')
+           WHERE source IN ('telegraph', 'times', 'dailymail')
              AND clue_text IS NOT NULL
              AND answer IS NOT NULL AND answer != ''"""
     ).fetchone()[0]
@@ -67,7 +67,7 @@ def sitemap_clues(page):
     rows = db.execute(
         """SELECT clue_text, enumeration, publication_date
            FROM clues
-           WHERE source IN ('telegraph', 'times')
+           WHERE source IN ('telegraph', 'times', 'dailymail')
              AND clue_text IS NOT NULL
              AND answer IS NOT NULL AND answer != ''
            ORDER BY id
@@ -108,7 +108,7 @@ def sitemap_puzzles():
     rows = db.execute(
         """SELECT source, puzzle_number, MAX(publication_date) as pub_date
            FROM clues
-           WHERE source IN ('telegraph', 'times')
+           WHERE source IN ('telegraph', 'times', 'dailymail')
              AND puzzle_number IS NOT NULL
              AND clue_text IS NOT NULL
            GROUP BY source, puzzle_number

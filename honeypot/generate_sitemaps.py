@@ -33,7 +33,8 @@ def generate(domain):
 
     # Count total
     total = conn.execute(
-        "SELECT COUNT(*) FROM clues WHERE answer IS NOT NULL AND length(answer) > 0"
+        """SELECT COUNT(*) FROM clues WHERE answer IS NOT NULL AND length(answer) > 0
+           AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"""
     ).fetchone()[0]
     print(f"Total clues with answers: {total}")
 
@@ -49,6 +50,7 @@ def generate(domain):
         SELECT clue_text, answer, publication_date
         FROM clues
         WHERE answer IS NOT NULL AND length(answer) > 0
+          AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
         ORDER BY publication_date DESC
     """)
 

@@ -45,6 +45,12 @@ def create_app(config_name=None):
             return ""
         return WORDPLAY_LABELS.get(value, value.replace("_", " ").title())
 
+    @app.template_filter("source_name")
+    def source_name_filter(value):
+        """Display name for publication sources (handles compound names)."""
+        names = {"dailymail": "Daily Mail", "telegraph-toughie": "Telegraph Toughie"}
+        return names.get(value, (value or "").title())
+
     @app.template_filter("clickable_words")
     def clickable_words_filter(text, clue_id):
         """Wrap each word in a clue in a clickable span for the helper widget.

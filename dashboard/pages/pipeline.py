@@ -16,7 +16,7 @@ def _get_unrun_puzzles(source_filter=None):
     """Get puzzles that have answers but haven't been fully run through the pipeline."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
-    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent')"
+    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
     params = []
     if source_filter:
         where = "WHERE source = ?"
@@ -25,7 +25,7 @@ def _get_unrun_puzzles(source_filter=None):
         SELECT source, puzzle_number, publication_date,
                COUNT(*) AS total,
                SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS with_answer,
-               SUM(CASE WHEN reviewed IS NULL THEN 1 ELSE 0 END) AS untried,
+               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0) THEN 1 ELSE 0 END) AS untried,
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
                SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL THEN 1 ELSE 0 END) AS failed
         FROM clues
@@ -47,7 +47,7 @@ def render():
     st.subheader("Puzzles awaiting pipeline")
     filter_source = st.selectbox(
         "Filter by source",
-        ["all", "telegraph", "times", "guardian", "independent"],
+        ["all", "telegraph", "times", "guardian", "independent", "dailymail"],
         key="unrun_filter",
     )
     unrun = _get_unrun_puzzles(filter_source if filter_source != "all" else None)
@@ -108,8 +108,8 @@ def render():
         st.subheader("Run by puzzle")
         source = st.selectbox(
             "Source",
-            ["telegraph", "times", "guardian", "independent"],
-            index=["telegraph", "times", "guardian", "independent"].index(
+            ["telegraph", "times", "guardian", "independent", "dailymail"],
+            index=["telegraph", "times", "guardian", "independent", "dailymail"].index(
                 st.session_state.get("pipe_source", "telegraph")
             ),
         )
@@ -256,7 +256,7 @@ def _render_reset_section(source_filter=None):
     """Show recently run puzzles with checkboxes for batch reset."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
-    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent')"
+    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
     params = []
     if source_filter:
         where = "WHERE source = ?"
@@ -323,7 +323,7 @@ def _show_puzzle_status(source, puzzle_number):
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
                SUM(CASE WHEN has_solution = 2 THEN 1 ELSE 0 END) AS partial,
                SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL THEN 1 ELSE 0 END) AS failed,
-               SUM(CASE WHEN reviewed IS NULL THEN 1 ELSE 0 END) AS untried,
+               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0) THEN 1 ELSE 0 END) AS untried,
                SUM(CASE WHEN definition IS NOT NULL AND wordplay_type IS NOT NULL
                          AND ai_explanation IS NOT NULL THEN 1 ELSE 0 END) AS high_tier
         FROM clues WHERE source = ? AND puzzle_number = ?

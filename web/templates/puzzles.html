@@ -2,7 +2,7 @@
 
 {% block title %}Puzzles — Cordelia{% endblock %}
 {% block meta %}
-<meta name="description" content="Browse cryptic crossword puzzles from the Telegraph, Times, Guardian and Independent. Answers and explanations by Cordelia.">
+<meta name="description" content="Browse cryptic crossword puzzles from the Telegraph, Times, Guardian, Independent and Daily Mail. Answers and explanations by Cordelia.">
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
     <a href="/{{ source }}/{{ type_slug }}/"
        class="group block bg-white rounded-xl border border-gray-100 p-5 hover:border-indigo-300 hover:shadow-md transition">
         <div class="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition">{{ label }}</div>
-        <div class="text-sm text-gray-400 mt-1">{{ source | title }}</div>
+        <div class="text-sm text-gray-400 mt-1">{{ source | source_name }}</div>
     </a>
     {% endfor %}
 </div>
