@@ -40,6 +40,7 @@ from backfill_ai_exp.batch_v1_solver import (
     try_anagram as _v1_try_anagram,
     try_charade as _v1_try_charade,
     try_container as _v1_try_container,
+    try_deletion as _v1_try_deletion,
     try_reversal as _v1_try_reversal,
     try_acrostic as _v1_try_acrostic,
     try_homophone as _v1_try_homophone,
@@ -466,6 +467,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     mech_wtype = "container"
                     mech_pieces = con["pieces"]
                     mech_result = con
+
+            # Try deletion
+            if not mech_result:
+                dele = _v1_try_deletion(remaining, answer_clean, ref_db)
+                if dele:
+                    mech_wtype = "deletion"
+                    mech_pieces = dele["pieces"]
+                    mech_result = dele
 
             # Try reversal
             if not mech_result:

@@ -225,7 +225,8 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
                 find_definition as v1_find_def,
                 solve_without_definition as v1_solve_no_def,
                 try_anagram as v1_anagram, try_charade as v1_charade,
-                try_container as v1_container, try_reversal as v1_reversal,
+                try_container as v1_container, try_deletion as v1_deletion,
+                try_reversal as v1_reversal,
                 try_acrostic as v1_acrostic, try_homophone as v1_homophone,
                 build_explanation_text as v1_build_expl,
             )
@@ -246,6 +247,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
                                         definition_words=definition.split()), "anagram", "fodder_words"),
                     (lambda: v1_charade(remaining, answer_clean, ref_db), "charade", "pieces"),
                     (lambda: v1_container(remaining, answer_clean, ref_db), "container", "pieces"),
+                    (lambda: v1_deletion(remaining, answer_clean, ref_db), "deletion", "pieces"),
                     (lambda: v1_reversal(remaining, answer_clean, ref_db), "reversal", "pieces"),
                     (lambda: v1_acrostic(remaining, answer_clean, ref_db), "acrostic", "pieces"),
                     (lambda: v1_homophone(remaining, answer_clean, ref_db), "homophone", "pieces"),

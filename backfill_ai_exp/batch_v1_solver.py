@@ -125,7 +125,7 @@ def find_definition(clue_text, answer, ref_db, max_words=4):
     return best_def, best_remaining
 
 
-def solve_without_definition(clue_text, answer, ref_db, max_def_words=4):
+def solve_without_definition(clue_text, answer, ref_db, max_def_words=5):
     """Try to solve the wordplay without a known definition.
 
     For each possible definition window (1 to max_def_words words from
@@ -167,6 +167,11 @@ def solve_without_definition(clue_text, answer, ref_db, max_def_words=4):
         result = try_container(remaining, answer_clean, ref_db)
         if result:
             return candidate_def, "container", result["pieces"]
+
+        # Deletion
+        result = try_deletion(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "deletion", result["pieces"]
 
         # Reversal
         result = try_reversal(remaining, answer_clean, ref_db)
@@ -382,6 +387,139 @@ def try_charade(remaining_words, answer, ref_db):
             "wordplay_type": "charade",
             "pieces": [{"clue_word": w, "letters": v, "mechanism": m} for w, v, m in pieces],
         }
+
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Stage 3b: Deletion solver
+# ---------------------------------------------------------------------------
+
+def _apply_deletion(word, subtype):
+    """Apply a deletion operation to a word based on indicator subtype.
+
+    Returns list of (result, description) tuples — may return multiple
+    possibilities (e.g. 'middle' deletion on a 6-letter word has multiple
+    interpretations).
+    """
+    if len(word) < 3:
+        return []
+
+    results = []
+
+    if subtype in ('head', 'general'):
+        # Remove first letter
+        results.append((word[1:], "remove first letter"))
+
+    if subtype in ('tail', 'general'):
+        # Remove last letter
+        results.append((word[:-1], "remove last letter"))
+
+    if subtype in ('ends', 'general'):
+        # Remove both outer letters (boundless, topless+tailless)
+        if len(word) >= 4:
+            results.append((word[1:-1], "remove outer letters"))
+
+    if subtype in ('middle', 'general'):
+        # Keep only outer letters (gutted, emptied, heartless)
+        if len(word) >= 4:
+            results.append((word[0] + word[-1], "keep outer letters"))
+        # For odd-length words, also try removing just the middle letter
+        if len(word) >= 5 and len(word) % 2 == 1:
+            mid = len(word) // 2
+            results.append((word[:mid] + word[mid+1:], "remove middle letter"))
+
+    return results
+
+
+def try_deletion(remaining_words, answer, ref_db):
+    """Try to solve as a deletion: take a synonym and remove letters.
+
+    Looks for a deletion indicator, identifies the subtype (head/tail/ends/middle),
+    then for each non-indicator word tries all synonyms with that deletion applied.
+
+    Also handles compound deletions where the base is built from multiple pieces
+    (e.g. charade) and then a deletion is applied.
+
+    Returns dict or None.
+    """
+    answer_clean = norm_letters(answer).upper()
+    if not answer_clean or len(answer_clean) < 2 or len(remaining_words) < 2:
+        return None
+
+    # Map parts subtypes to deletion subtypes
+    PARTS_TO_DELETION = {
+        'first_delete': 'head', 'first_use': 'head',
+        'last_delete': 'tail', 'last_use': 'tail',
+        'tail_delete': 'tail',
+        'outer_delete': 'ends', 'outer_use': 'ends', 'outer': 'ends',
+        'center_delete': 'middle', 'center_use': 'middle',
+        'inner_use': 'middle',
+    }
+
+    # Find deletion indicators and their subtypes
+    del_indicators = []
+    for i, w in enumerate(remaining_words):
+        wn = norm_letters(w)
+        ind_types = ref_db.get_indicator_types(wn)
+        if ind_types:
+            for itype, subtype, confidence in ind_types:
+                if itype == 'deletion':
+                    del_indicators.append((i, w, subtype or 'general'))
+                elif itype == 'parts' and subtype in PARTS_TO_DELETION:
+                    del_indicators.append((i, w, PARTS_TO_DELETION[subtype]))
+
+    if not del_indicators:
+        return None
+
+    for ind_idx, ind_word, subtype in del_indicators:
+        # Try each non-indicator word as the source
+        for j, w in enumerate(remaining_words):
+            if j == ind_idx:
+                continue
+            wn = norm_letters(w)
+
+            # Skip other indicators and link words
+            own_ind = ref_db.get_indicator_types(wn)
+            if own_ind and not any(t[0] not in ('deletion',) for t in own_ind):
+                # Pure deletion indicator — skip
+                if j != ind_idx:
+                    pass  # might still be a fodder word
+            if ref_db.is_link_word(wn):
+                continue
+
+            # Try synonyms of this word
+            for syn in ref_db.get_synonyms(wn, max_len=len(answer_clean) + 2):
+                s = syn.upper().replace(" ", "").replace("-", "")
+                if not s or len(s) <= len(answer_clean):
+                    continue  # deletion must make it shorter
+
+                for result, desc in _apply_deletion(s, subtype):
+                    if result == answer_clean:
+                        return {
+                            "wordplay_type": "deletion",
+                            "pieces": [
+                                {"clue_word": w, "letters": s, "mechanism": "synonym"},
+                            ],
+                            "deletion_indicator": ind_word,
+                            "deletion_type": desc,
+                            "source_word": s,
+                        }
+
+            # Try raw word itself
+            raw = wn.upper()
+            if len(raw) > len(answer_clean):
+                for result, desc in _apply_deletion(raw, subtype):
+                    if result == answer_clean:
+                        return {
+                            "wordplay_type": "deletion",
+                            "pieces": [
+                                {"clue_word": w, "letters": raw, "mechanism": "literal"},
+                            ],
+                            "deletion_indicator": ind_word,
+                            "deletion_type": desc,
+                            "source_word": raw,
+                        }
 
     return None
 
@@ -720,6 +858,10 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
     if wordplay_type == "anagram":
         fodder = " + ".join(p["clue_word"].upper() for p in pieces)
         expl = 'anagram of %s = %s' % (fodder, answer.upper())
+    elif wordplay_type == "deletion":
+        source = pieces[0]["letters"] if pieces else "?"
+        source_word = pieces[0]["clue_word"] if pieces else "?"
+        expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
     elif wordplay_type == "container":
         parts = []
         for p in pieces:
