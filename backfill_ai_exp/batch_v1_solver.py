@@ -19,6 +19,7 @@ import sqlite3
 import sys
 import time
 from collections import Counter
+import itertools
 from itertools import combinations, permutations
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -310,6 +311,199 @@ def try_reversal(remaining_words, answer, ref_db):
 
 
 # ---------------------------------------------------------------------------
+# Stage 4b: Container solver
+# ---------------------------------------------------------------------------
+
+def _get_word_values(words, answer_clean, ref_db):
+    """For each word, gather all possible letter contributions.
+
+    Returns list of (original_word, [(value, mechanism), ...]).
+    Skips container indicators, reversal indicators, and link words.
+    Detects reversal indicators and adds reversed values for adjacent words.
+    """
+    max_piece_len = len(answer_clean) - 1
+
+    # Identify reversal indicators
+    rev_indicator_idxs = set()
+    for i, w in enumerate(words):
+        wn = norm_letters(w)
+        ind_types = ref_db.get_indicator_types(wn)
+        if ind_types and any(t[0] == 'reversal' for t in ind_types):
+            rev_indicator_idxs.add(i)
+
+    word_values = []
+    for i, w in enumerate(words):
+        wn = norm_letters(w)
+        if not wn:
+            continue
+
+        # Skip container indicators and reversal indicators
+        ind_types = ref_db.get_indicator_types(wn)
+        if ind_types and any(t[0] == 'container' for t in ind_types):
+            continue
+        if i in rev_indicator_idxs:
+            continue
+        # Skip link words
+        if ref_db.is_link_word(wn):
+            continue
+
+        values = []
+        has_rev = rev_indicator_idxs and (i - 1 in rev_indicator_idxs or i + 1 in rev_indicator_idxs)
+
+        # Abbreviations
+        for abbr in ref_db.get_abbreviations(wn):
+            a = abbr.upper()
+            if len(a) <= max_piece_len:
+                values.append((a, "abbreviation"))
+
+        # All synonyms that fit
+        for syn in ref_db.get_synonyms(wn, max_len=max_piece_len):
+            s = syn.upper().replace(" ", "").replace("-", "")
+            if s and len(s) <= max_piece_len:
+                values.append((s, "synonym"))
+                if has_rev:
+                    values.append((s[::-1], "reversal"))
+
+        # Raw letters
+        raw = wn.upper()
+        if len(raw) <= max_piece_len:
+            values.append((raw, "literal"))
+            if has_rev:
+                values.append((raw[::-1], "reversal"))
+
+        # First letter
+        if wn:
+            values.append((wn[0].upper(), "first_letter"))
+
+        if values:
+            word_values.append((w, values))
+
+    return word_values
+
+
+def _try_build_string(word_values, target):
+    """Recursively try to build target string by concatenating word values.
+
+    Same approach as the charade solver — prunes early when the remaining
+    string can't be matched. Words can be skipped (indicators, link words
+    already filtered out).
+
+    Returns list of (word, value, mechanism) or None.
+    """
+    if not word_values:
+        return [] if not target else None
+
+    def build(idx, remaining, pieces):
+        if not remaining:
+            return pieces
+        if idx >= len(word_values):
+            return None
+
+        w, vals = word_values[idx]
+
+        # Try each value for this word
+        for val, mech in vals:
+            if remaining.startswith(val):
+                result = build(idx + 1, remaining[len(val):], pieces + [(w, val, mech)])
+                if result is not None:
+                    return result
+
+        # Skip this word (it may be an indicator or irrelevant)
+        result = build(idx + 1, remaining, pieces)
+        if result is not None:
+            return result
+
+        return None
+
+    return build(0, target, [])
+
+
+def try_container(remaining_words, answer, ref_db):
+    """Try to solve as a container: inner letters inserted into outer letters.
+
+    Algorithm:
+    1. Require a container indicator in the remaining words
+    2. Gather all word values (abbreviations, synonyms, reversals, etc.)
+    3. For each possible split point in the answer (where inner is inserted):
+       - Extract candidate inner string and outer string
+       - Try to build the inner from one subset of words
+       - Try to build the outer from the remaining words
+    4. Return first valid solution
+
+    Returns dict or None.
+    """
+    answer_clean = norm_letters(answer).upper()
+    if not answer_clean or len(answer_clean) < 4 or len(remaining_words) < 3:
+        return None
+
+    # Must have a container indicator
+    has_container_ind = False
+    for w in remaining_words:
+        wn = norm_letters(w)
+        ind_types = ref_db.get_indicator_types(wn)
+        if ind_types and any(t[0] == 'container' for t in ind_types):
+            has_container_ind = True
+            break
+
+    if not has_container_ind:
+        return None
+
+    word_values = _get_word_values(remaining_words, answer_clean, ref_db)
+
+    if len(word_values) < 2 or len(word_values) > 8:
+        return None
+
+    # For each possible inner substring position in the answer:
+    # answer = outer_left + inner + outer_right
+    # outer = outer_left + outer_right
+    for inner_start in range(1, len(answer_clean)):
+        for inner_end in range(inner_start + 1, len(answer_clean)):
+            inner_target = answer_clean[inner_start:inner_end]
+            outer_target = answer_clean[:inner_start] + answer_clean[inner_end:]
+
+            if len(outer_target) < 2:
+                continue
+
+            # Try every partition of words into inner/outer groups
+            indices = list(range(len(word_values)))
+            for inner_size in range(1, len(word_values)):
+                for inner_idxs in combinations(indices, inner_size):
+                    outer_idxs = tuple(i for i in indices if i not in inner_idxs)
+                    if not outer_idxs:
+                        continue
+
+                    inner_wv = [word_values[i] for i in inner_idxs]
+                    outer_wv = [word_values[i] for i in outer_idxs]
+
+                    # Try to build inner string
+                    inner_pieces = _try_build_string(inner_wv, inner_target)
+                    if inner_pieces is None:
+                        continue
+
+                    # Try to build outer string
+                    outer_pieces = _try_build_string(outer_wv, outer_target)
+                    if outer_pieces is None:
+                        continue
+
+                    # Both matched — solution found
+                    pieces = []
+                    for w, v, m in outer_pieces:
+                        pieces.append({"clue_word": w, "letters": v, "mechanism": m})
+                    for w, v, m in inner_pieces:
+                        pieces.append({"clue_word": w, "letters": v, "mechanism": m})
+
+                    return {
+                        "wordplay_type": "container",
+                        "pieces": pieces,
+                        "inner": inner_target,
+                        "outer": outer_target,
+                        "insert_pos": inner_start,
+                    }
+
+    return None
+
+
+# ---------------------------------------------------------------------------
 # Stage 5: Acrostic solver
 # ---------------------------------------------------------------------------
 
@@ -415,6 +609,11 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
     if wordplay_type == "anagram":
         fodder = " + ".join(p["clue_word"].upper() for p in pieces)
         expl = 'anagram of %s = %s' % (fodder, answer.upper())
+    elif wordplay_type == "container":
+        parts = []
+        for p in pieces:
+            parts.append('%s (%s="%s")' % (p["letters"], p["mechanism"], p["clue_word"]))
+        expl = " + ".join(parts) + " = " + answer.upper()
     elif wordplay_type == "charade":
         parts = []
         for p in pieces:

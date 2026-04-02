@@ -153,16 +153,22 @@ def edit_save(clue_id):
 
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
 def rerun_clue(clue_id):
-    """Re-run a clue through the full pipeline (TFTT + Sonnet) and return result as HTMX fragment."""
+    """Re-run a clue through the pipeline and return result as HTMX fragment.
+
+    ?mechanical=1 — mechanical solvers only (signature + V1), zero API cost.
+    Without parameter — full pipeline including Sonnet fallback.
+    """
+    from flask import request as _req
+    mechanical_only = _req.args.get("mechanical") == "1"
     try:
-        return _rerun_clue_inner(clue_id)
+        return _rerun_clue_inner(clue_id, mechanical_only=mechanical_only)
     except Exception as e:
         import traceback
         print(f"[RERUN OUTER] {e}")
         traceback.print_exc()
         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
 
-def _rerun_clue_inner(clue_id):
+def _rerun_clue_inner(clue_id, mechanical_only=False):
     _require_admin()
 
     db = get_admin_db()
@@ -209,6 +215,78 @@ def _rerun_clue_inner(clue_id):
             print(f"[RERUN S] Error: {e}")
             traceback.print_exc()
             message = f"Signature solver error: {e}"
+
+    # Phase 0.5: V1 mechanical solvers (zero API cost)
+    if not success and answer and clue_text:
+        try:
+            import re as _re
+            from signature_solver.db import RefDB
+            from backfill_ai_exp.batch_v1_solver import (
+                find_definition as v1_find_def,
+                try_anagram as v1_anagram, try_charade as v1_charade,
+                try_container as v1_container, try_reversal as v1_reversal,
+                try_acrostic as v1_acrostic, try_homophone as v1_homophone,
+                build_explanation_text as v1_build_expl,
+            )
+            from sonnet_pipeline.verify_explanation import ExplanationVerifier
+            import json as _json
+
+            ref_db = RefDB()
+            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
+            definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
+
+            if definition and remaining:
+                mech_result = None
+                mech_wtype = None
+                mech_pieces = None
+
+                for try_fn, wtype, piece_key in [
+                    (lambda: v1_anagram(clue_text, answer_clean, ref_db,
+                                        definition_words=definition.split()), "anagram", "fodder_words"),
+                    (lambda: v1_charade(remaining, answer_clean, ref_db), "charade", "pieces"),
+                    (lambda: v1_container(remaining, answer_clean, ref_db), "container", "pieces"),
+                    (lambda: v1_reversal(remaining, answer_clean, ref_db), "reversal", "pieces"),
+                    (lambda: v1_acrostic(remaining, answer_clean, ref_db), "acrostic", "pieces"),
+                    (lambda: v1_homophone(remaining, answer_clean, ref_db), "homophone", "pieces"),
+                ]:
+                    r = try_fn()
+                    if r:
+                        mech_wtype = wtype
+                        if wtype == "anagram":
+                            mech_pieces = [{"clue_word": w, "letters": _re.sub(r'[^A-Za-z]', '', w).upper(),
+                                            "mechanism": "anagram_fodder"} for w in r["fodder_words"]]
+                        else:
+                            mech_pieces = r["pieces"]
+                        mech_result = r
+                        break
+
+                if mech_result and mech_pieces:
+                    expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, answer)
+                    components = _json.dumps({
+                        "ai_pieces": mech_pieces,
+                        "assembly": {"op": mech_wtype},
+                        "wordplay_type": mech_wtype,
+                    })
+                    db.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (clue_id, components, _json.dumps([mech_wtype]),
+                          definition, 1.0, "mechanical_v1", source))
+                    db.execute("""
+                        UPDATE clues SET
+                            wordplay_type = ?, definition = ?, ai_explanation = ?, has_solution = 1
+                        WHERE id = ?
+                    """, (mech_wtype, definition, expl_text, clue_id))
+                    db.commit()
+                    success = True
+        except Exception as e:
+            import traceback
+            print(f"[RERUN V1] Error: {e}")
+            traceback.print_exc()
+
+    if mechanical_only and not success:
+        return '<div class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1">Mechanical solvers found no solution. Check DB pieces or try Re-run + Sonnet.</div>'
 
     # For Guardian/Independent, try fifteensquared (only if S didn't solve)
     if not success and source in ("guardian", "independent") and answer:

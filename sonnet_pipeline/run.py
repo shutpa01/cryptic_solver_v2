@@ -38,6 +38,7 @@ from backfill_ai_exp.batch_v1_solver import (
     find_definition as _v1_find_definition,
     try_anagram as _v1_try_anagram,
     try_charade as _v1_try_charade,
+    try_container as _v1_try_container,
     try_reversal as _v1_try_reversal,
     try_acrostic as _v1_try_acrostic,
     try_homophone as _v1_try_homophone,
@@ -458,6 +459,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     mech_wtype = "charade"
                     mech_pieces = cha["pieces"]
                     mech_result = cha
+
+            # Try container
+            if not mech_result:
+                con = _v1_try_container(remaining, answer_clean, ref_db)
+                if con:
+                    mech_wtype = "container"
+                    mech_pieces = con["pieces"]
+                    mech_result = con
 
             # Try reversal
             if not mech_result:

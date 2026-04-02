@@ -203,12 +203,20 @@
                 class="text-xs px-2.5 py-1 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
-        <button hx-post="/admin/rerun/{{ clue.id }}"
+        <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#rerun-spinner-{{ clue.id }}"
                 class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
             Re-run
+        </button>
+        <button hx-post="/admin/rerun/{{ clue.id }}"
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                hx-indicator="#rerun-spinner-{{ clue.id }}"
+                hx-confirm="This will call Sonnet (API cost). Continue?"
+                class="text-xs px-2.5 py-1 rounded border border-amber-300 text-amber-700 hover:bg-amber-50 font-medium cursor-pointer">
+            Re-run + Sonnet
         </button>
         <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Running...</span>
         <button hx-post="/admin/approve/{{ clue.id }}"
