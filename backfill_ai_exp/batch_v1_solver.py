@@ -269,9 +269,10 @@ def try_charade(remaining_words, answer, ref_db):
     if not answer_clean or len(remaining_words) < 2:
         return None
 
-    # For each word, collect possible letter contributions
-    word_values = []  # list of (original_word, [(value, mechanism), ...])
-    for w in remaining_words:
+    # For each word (and adjacent word pairs), collect possible letter contributions
+    word_values = []  # list of (original_word, [(value, mechanism), ...], span)
+    # span = how many original words this entry covers (1 for single, 2 for pair)
+    for i, w in enumerate(remaining_words):
         values = []
         wn = norm_letters(w)
 
@@ -297,46 +298,85 @@ def try_charade(remaining_words, answer, ref_db):
             if fl in answer_clean:
                 values.append((fl, "first_letter"))
 
-        word_values.append((w, values))
+        word_values.append((w, values, 1))
 
-    # Filter to words that have at least one possible value
-    active = [(w, vals) for w, vals in word_values if vals]
+        # Also try two-word phrases (current + next word)
+        # Use space-separated form for DB lookup (RefDB stores phrases with spaces)
+        if i + 1 < len(remaining_words):
+            phrase = w + " " + remaining_words[i + 1]
+            phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+            pair_values = []
+            for abbr in ref_db.get_abbreviations(phrase_key):
+                if abbr.upper() in answer_clean:
+                    pair_values.append((abbr.upper(), "abbreviation"))
+            for syn in ref_db.get_synonyms(phrase_key, max_len=len(answer_clean)):
+                s = syn.upper().replace(" ", "").replace("-", "")
+                if s and s in answer_clean and len(s) <= len(answer_clean):
+                    pair_values.append((s, "synonym"))
+            if pair_values:
+                word_values.append((phrase, pair_values, 2))
+
+    # Filter to entries that have at least one possible value
+    active = [(w, vals, span) for w, vals, span in word_values if vals]
     if len(active) < 2:
         return None
 
-    # Try all combinations of value assignments
-    # Cap at 7 active words to avoid explosion
-    if len(active) > 7:
+    # Cap to avoid explosion
+    if len(active) > 10:
         return None
 
-    def try_build(idx, remaining_answer, pieces):
+    def try_build(idx, remaining_answer, pieces, words_used):
         if not remaining_answer:
-            return pieces if idx >= len(active) or all(
-                norm_letters(active[j][0]) in {norm_letters(p[0]) for p in pieces}
-                or ref_db.is_link_word(norm_letters(active[j][0]))
-                for j in range(idx, len(active))
-            ) else None
+            # Check all original words are accounted for (used or skippable)
+            for j in range(len(remaining_words)):
+                if j not in words_used:
+                    wn = norm_letters(remaining_words[j])
+                    if not ref_db.is_link_word(wn) and not ref_db.get_indicator_types(wn):
+                        return None
+            return pieces
         if idx >= len(active):
             return None
 
-        w, vals = active[idx]
+        w, vals, span = active[idx]
 
-        # Try each possible value for this word
+        # Check which original word indices this entry covers
+        if span == 1:
+            # Find the index of this word in remaining_words
+            try:
+                orig_idx = remaining_words.index(w)
+            except ValueError:
+                orig_idx = -1
+            covered = {orig_idx} if orig_idx >= 0 else set()
+        else:
+            # Two-word phrase — find the pair
+            parts = w.split(" ", 1)
+            covered = set()
+            for j in range(len(remaining_words) - 1):
+                if remaining_words[j] == parts[0] and remaining_words[j + 1] == parts[1]:
+                    covered = {j, j + 1}
+                    break
+
+        # Skip if any covered word already used
+        if covered & words_used:
+            return try_build(idx + 1, remaining_answer, pieces, words_used)
+
+        # Try each possible value for this entry
         for val, mech in vals:
             if remaining_answer.startswith(val):
-                result = try_build(idx + 1, remaining_answer[len(val):], pieces + [(w, val, mech)])
+                result = try_build(idx + 1, remaining_answer[len(val):],
+                                   pieces + [(w, val, mech)],
+                                   words_used | covered)
                 if result is not None:
                     return result
 
-        # Try skipping this word (if it's a link word or indicator)
-        if ref_db.is_link_word(norm_letters(w)) or ref_db.get_indicator_types(norm_letters(w)):
-            result = try_build(idx + 1, remaining_answer, pieces)
-            if result is not None:
-                return result
+        # Try skipping this entry
+        result = try_build(idx + 1, remaining_answer, pieces, words_used)
+        if result is not None:
+            return result
 
         return None
 
-    pieces = try_build(0, answer_clean, [])
+    pieces = try_build(0, answer_clean, [], set())
     if pieces and len(pieces) >= 2:
         return {
             "wordplay_type": "charade",
