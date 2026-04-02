@@ -110,11 +110,14 @@ def generate_definition_windows(clue_text):
         if window2:
             windows.add(window2.strip())
 
-    # Apostrophe bifurcation
+    # Apostrophe bifurcation — try both with and without possessive S
     expanded = set(windows)
     for w in windows:
         if "\u2019s" in w or "'s" in w:
+            # "lout's" -> "louts" (plural form)
             expanded.add(w.replace("\u2019s", "s").replace("'s", "s"))
+            # "lout's" -> "lout" (possessive stripped)
+            expanded.add(w.replace("\u2019s", "").replace("'s", ""))
 
     return list(expanded)
 
