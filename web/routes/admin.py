@@ -672,10 +672,10 @@ def enrich_db():
 
     conn.close()
 
-    # Invalidate cached RefDB so red underlines and DEF? badges update
+    # Patch the in-memory RefDB with the new entry (avoids 12s full reload)
     from flask import current_app
-    if hasattr(current_app, 'invalidate_word_coverage_db'):
-        current_app.invalidate_word_coverage_db()
+    if hasattr(current_app, 'patch_word_coverage_db'):
+        current_app.patch_word_coverage_db(etype, word, value)
 
     return msg
 

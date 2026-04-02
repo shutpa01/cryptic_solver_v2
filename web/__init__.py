@@ -64,8 +64,37 @@ def create_app(config_name=None):
         """Force RefDB reload on next page load (after DB+ enrichment)."""
         _word_coverage_db[0] = None
 
+    def patch_word_coverage_db(etype, word, value):
+        """Patch the in-memory RefDB with a single new entry (instant, no reload)."""
+        ref_db = _word_coverage_db[0]
+        if ref_db is None:
+            return  # not loaded yet, will pick it up on next load
+        w = word.lower().strip()
+        v = value.upper().strip()
+        if etype == "synonym":
+            if w not in ref_db.synonyms:
+                ref_db.synonyms[w] = []
+            if v not in ref_db.synonyms[w]:
+                ref_db.synonyms[w].append(v)
+        elif etype == "abbreviation":
+            if w not in ref_db.abbreviations:
+                ref_db.abbreviations[w] = []
+            if v not in ref_db.abbreviations[w]:
+                ref_db.abbreviations[w].append(v)
+        elif etype == "definition":
+            # Definitions are stored in synonyms dict (merged during load)
+            if w not in ref_db.synonyms:
+                ref_db.synonyms[w] = []
+            if v not in ref_db.synonyms[w]:
+                ref_db.synonyms[w].append(v)
+        elif etype == "indicator":
+            if w not in ref_db.indicators:
+                ref_db.indicators[w] = []
+            ref_db.indicators[w].append((v.lower(), None, 'high'))
+
     # Expose on the app so routes can access it
     app.invalidate_word_coverage_db = invalidate_word_coverage_db
+    app.patch_word_coverage_db = patch_word_coverage_db
 
     def _word_in_db(word_clean, ref_db):
         """Check if a word has any entry in the reference DB."""
