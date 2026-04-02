@@ -671,6 +671,12 @@ def enrich_db():
         msg = '<span class="text-red-500">Unknown type: %s</span>' % etype
 
     conn.close()
+
+    # Invalidate cached RefDB so red underlines and DEF? badges update
+    from flask import current_app
+    if hasattr(current_app, 'invalidate_word_coverage_db'):
+        current_app.invalidate_word_coverage_db()
+
     return msg
 
 

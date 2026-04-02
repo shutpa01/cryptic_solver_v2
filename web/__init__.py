@@ -60,6 +60,13 @@ def create_app(config_name=None):
             _word_coverage_db[0] = RefDB()
         return _word_coverage_db[0]
 
+    def invalidate_word_coverage_db():
+        """Force RefDB reload on next page load (after DB+ enrichment)."""
+        _word_coverage_db[0] = None
+
+    # Expose on the app so routes can access it
+    app.invalidate_word_coverage_db = invalidate_word_coverage_db
+
     def _word_in_db(word_clean, ref_db):
         """Check if a word has any entry in the reference DB."""
         if len(word_clean) < 2:
