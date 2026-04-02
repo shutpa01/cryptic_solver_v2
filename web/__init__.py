@@ -92,9 +92,24 @@ def create_app(config_name=None):
                 ref_db.indicators[w] = []
             ref_db.indicators[w].append((v.lower(), None, 'high'))
 
+    _dd_graph_cache = [None]
+
+    def get_shared_ref_db():
+        """Get the shared RefDB instance (loads once, reused everywhere)."""
+        return _get_word_coverage_db()
+
+    def get_shared_dd_graph():
+        """Get the shared DD graph (loads once, reused everywhere)."""
+        if _dd_graph_cache[0] is None:
+            from backfill_ai_exp.backfill_dd_hidden import build_graph
+            _dd_graph_cache[0] = build_graph(_get_word_coverage_db())
+        return _dd_graph_cache[0]
+
     # Expose on the app so routes can access it
     app.invalidate_word_coverage_db = invalidate_word_coverage_db
     app.patch_word_coverage_db = patch_word_coverage_db
+    app.get_shared_ref_db = get_shared_ref_db
+    app.get_shared_dd_graph = get_shared_dd_graph
 
     def _word_in_db(word_clean, ref_db):
         """Check if a word has any entry in the reference DB."""

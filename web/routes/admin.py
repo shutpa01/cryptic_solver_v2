@@ -199,12 +199,12 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
     # Phase 0: Try signature solver first (uses DB+ pieces, zero API cost)
     if answer and clue_text:
         try:
-            from signature_solver.db import RefDB
             from signature_solver.solver import solve_clue as sig_solve_clue
             from sonnet_pipeline.sig_adapter import store_signature_result
             import re as _re
+            from flask import current_app
 
-            ref_db = RefDB()
+            ref_db = current_app.get_shared_ref_db()
             answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
             sr = sig_solve_clue(clue_text, answer_clean, ref_db)
             if sr and sr.high_confidence:
@@ -220,18 +220,17 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
     if not success and answer and clue_text:
         try:
             import re as _re
-            from signature_solver.db import RefDB
             from backfill_ai_exp.backfill_dd_hidden import (
-                build_graph as build_dd_graph,
                 generate_dd_hypotheses,
                 try_hidden,
                 norm_letters as dd_norm,
             )
             import json as _json
+            from flask import current_app
 
-            ref_db = RefDB()
+            ref_db = current_app.get_shared_ref_db()
             answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
-            dd_graph = build_dd_graph(ref_db)
+            dd_graph = current_app.get_shared_dd_graph()
             total_len = len(dd_norm(answer))
 
             # Try hidden word
@@ -290,7 +289,6 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
     if not success and answer and clue_text:
         try:
             import re as _re
-            from signature_solver.db import RefDB
             from backfill_ai_exp.batch_v1_solver import (
                 find_definition as v1_find_def,
                 solve_without_definition as v1_solve_no_def,
@@ -303,7 +301,8 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             from sonnet_pipeline.verify_explanation import ExplanationVerifier
             import json as _json
 
-            ref_db = RefDB()
+            from flask import current_app
+            ref_db = current_app.get_shared_ref_db()
             answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
             definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
 
@@ -378,7 +377,6 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
                 fetch_fifteensquared, store_fifteensquared_result
             )
             from sonnet_pipeline.tftt_pipeline import parse_with_haiku, score_parse
-            from signature_solver.db import RefDB
             import anthropic as _anthropic
 
             # Get publication date for URL discovery
@@ -396,7 +394,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
 
                 if fc and fc.get("explanation"):
                     haiku_client = _anthropic.Anthropic()
-                    ref_db = RefDB()
+                    ref_db = current_app.get_shared_ref_db()
                     parsed, usage = parse_with_haiku(
                         haiku_client, clue_text, answer, fc["explanation"]
                     )
@@ -421,7 +419,6 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             from sonnet_pipeline.tftt_pipeline import (
                 fetch_tftt, parse_with_haiku, score_parse, store_tftt_result
             )
-            from signature_solver.db import RefDB
             import anthropic as _anthropic
 
             tftt_clues = fetch_tftt(int(puzzle_number))
@@ -436,7 +433,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
 
                 if tc and tc.get("explanation"):
                     haiku_client = _anthropic.Anthropic()
-                    ref_db = RefDB()
+                    ref_db = current_app.get_shared_ref_db()
                     parsed, usage = parse_with_haiku(
                         haiku_client, clue_text, answer, tc["explanation"]
                     )
