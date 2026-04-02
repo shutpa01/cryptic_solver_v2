@@ -274,6 +274,23 @@ def try_charade(remaining_words, answer, ref_db):
     if not answer_clean or len(remaining_words) < 2:
         return None
 
+    # Detect deletion indicators — enables truncated synonym matching
+    PARTS_TO_DEL = {
+        'first_delete': 'head', 'first_use': 'head',
+        'last_delete': 'tail', 'last_use': 'tail',
+        'tail_delete': 'tail',
+        'outer_delete': 'ends', 'outer_use': 'ends', 'outer': 'ends',
+        'center_delete': 'middle', 'center_use': 'middle',
+    }
+    del_subtypes = set()
+    for w in remaining_words:
+        wn = norm_letters(w)
+        for itype, subtype, conf in (ref_db.get_indicator_types(wn) or []):
+            if itype == 'deletion':
+                del_subtypes.add(subtype or 'general')
+            elif itype == 'parts' and subtype in PARTS_TO_DEL:
+                del_subtypes.add(PARTS_TO_DEL[subtype])
+
     # For each word (and adjacent word pairs), collect possible letter contributions
     word_values = []  # list of (original_word, [(value, mechanism), ...], span)
     # span = how many original words this entry covers (1 for single, 2 for pair)
@@ -291,6 +308,17 @@ def try_charade(remaining_words, answer, ref_db):
             s = syn.upper().replace(" ", "").replace("-", "")
             if s and s in answer_clean and len(s) <= len(answer_clean):
                 values.append((s, "synonym"))
+
+        # Deletion variants: if a deletion indicator is present, try synonyms
+        # that are 1-2 letters longer and apply head/tail/outer deletion
+        if del_subtypes:
+            for syn in ref_db.get_synonyms(wn, max_len=len(answer_clean) + 2):
+                s = syn.upper().replace(" ", "").replace("-", "")
+                if not s or len(s) <= len(answer_clean) and s in answer_clean:
+                    continue  # already covered above
+                for result, desc in _apply_deletion(s, 'general'):
+                    if result in answer_clean and len(result) <= len(answer_clean):
+                        values.append((result, "deletion"))
 
         # Raw letters of the word itself
         raw = wn.upper()
@@ -382,6 +410,53 @@ def try_charade(remaining_words, answer, ref_db):
         return None
 
     pieces = try_build(0, answer_clean, [], set())
+
+    # Also try reverse word order — many clues read right-to-left
+    # e.g. "waste following public" = OVERT(public) + URE(waste)
+    if not pieces or len(pieces) < 2:
+        active_rev = list(reversed(active))
+        pieces = try_build(0, answer_clean, [], set())
+        # Rebind try_build to use reversed active
+        def try_build_rev(idx, remaining_answer, pcs, words_used):
+            if not remaining_answer:
+                for j in range(len(remaining_words)):
+                    if j not in words_used:
+                        wn = norm_letters(remaining_words[j])
+                        if not ref_db.is_link_word(wn) and not ref_db.get_indicator_types(wn):
+                            return None
+                return pcs
+            if idx >= len(active_rev):
+                return None
+            w, vals, span = active_rev[idx]
+            if span == 1:
+                try:
+                    orig_idx = remaining_words.index(w)
+                except ValueError:
+                    orig_idx = -1
+                covered = {orig_idx} if orig_idx >= 0 else set()
+            else:
+                parts = w.split(" ", 1)
+                covered = set()
+                for j in range(len(remaining_words) - 1):
+                    if remaining_words[j] == parts[0] and remaining_words[j + 1] == parts[1]:
+                        covered = {j, j + 1}
+                        break
+            if covered & words_used:
+                return try_build_rev(idx + 1, remaining_answer, pcs, words_used)
+            for val, mech in vals:
+                if remaining_answer.startswith(val):
+                    result = try_build_rev(idx + 1, remaining_answer[len(val):],
+                                           pcs + [(w, val, mech)],
+                                           words_used | covered)
+                    if result is not None:
+                        return result
+            result = try_build_rev(idx + 1, remaining_answer, pcs, words_used)
+            if result is not None:
+                return result
+            return None
+
+        pieces = try_build_rev(0, answer_clean, [], set())
+
     if pieces and len(pieces) >= 2:
         return {
             "wordplay_type": "charade",
