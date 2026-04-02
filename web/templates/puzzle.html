@@ -64,9 +64,11 @@
             Re-verify all
         </button>
         <span id="reverify-spinner" class="htmx-indicator text-xs text-teal-500">Verifying...</span>
-        <span id="reverify-result" class="text-xs"></span>
         {% endif %}
     </div>
+    {% if g.is_admin %}
+    <div id="reverify-result" class="text-sm mt-2"></div>
+    {% endif %}
 </div>
 
 <div id="grid-area"></div>

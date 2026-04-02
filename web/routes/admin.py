@@ -338,6 +338,9 @@ def _rerun_clue_inner(clue_id):
                         elif gtype == "definition":
                             already = _ref.execute("SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?", (word, letters)).fetchone() is not None
                         if not already:
+                            rejected = db.execute("SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?", (gtype, word, letters)).fetchone()
+                            if rejected:
+                                continue
                             existing_pending = db.execute("SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?", (word, letters)).fetchone()
                             if not existing_pending:
                                 db.execute(
@@ -576,6 +579,14 @@ def queue_enrichment(clue_id):
         elif mechanism == "abbreviation":
             etype = "abbreviation" if len(letters_clean) < 3 else "synonym"
         else:
+            continue
+
+        # Skip if previously rejected
+        rejected = db.execute(
+            "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+            (etype, clue_word.lower(), letters.upper()),
+        ).fetchone()
+        if rejected:
             continue
 
         # Skip if already in pending
@@ -849,6 +860,12 @@ def reverify_puzzle(source, puzzle_number):
                             "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?",
                             (word, letters)).fetchone() is not None
                     if not already:
+                        # Check not previously rejected
+                        rejected = db.execute(
+                            "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                            (gtype, word.lower(), letters.upper())).fetchone()
+                        if rejected:
+                            continue
                         # Check not already pending
                         existing_pending = db.execute(
                             "SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?",
@@ -904,14 +921,17 @@ def reverify_puzzle(source, puzzle_number):
     db.commit()
 
     total = len(clues)
-    gaps_msg = f', {gaps_queued} DB entries queued for review' if gaps_queued else ''
-    details = ''
+    lines = []
+    lines.append(f'<strong>{upgraded} upgraded</strong>, {unchanged} unchanged, {downgraded} downgraded out of {total} clues')
+    if gaps_queued:
+        lines.append(f'{gaps_queued} DB entries queued for review')
     if upgraded_list:
-        details += '<br>Upgraded: ' + ', '.join(upgraded_list)
+        lines.append('<strong>Upgraded:</strong> ' + ', '.join(upgraded_list))
     if downgraded_list:
-        details += '<br>Downgraded: ' + ', '.join(downgraded_list)
+        lines.append('<strong>Downgraded:</strong> ' + ', '.join(downgraded_list))
+    lines.append('Refresh to see updated tiers.')
+    body = '<br>'.join(lines)
     return (
-        f'<span class="text-teal-600 font-medium">'
-        f'Verified {total} clues: {upgraded} upgraded, {unchanged} unchanged, {downgraded} downgraded{gaps_msg}. '
-        f'Refresh to see updated tiers.{details}</span>'
+        f'<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">'
+        f'{body}</div>'
     )

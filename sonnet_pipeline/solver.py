@@ -1272,6 +1272,15 @@ def call_api(model, clue_text, answer, enrichment, example_messages, extra_conte
     enum_len = len(answer.replace(" ", "").replace("-", ""))
     user_msg = "Clue: %s (%d)\nAnswer: %s" % (clue_text, enum_len, answer)
 
+    # Restore filtered enrichment hints (indicator words + starred DB lookups)
+    if enrichment:
+        indicator_hints = _extract_indicator_hints(enrichment)
+        starred_lookups = _extract_starred_lookups(enrichment)
+        if indicator_hints:
+            user_msg += "\nIndicator words (these signal mechanism, do NOT contribute letters): %s" % "; ".join(indicator_hints)
+        if starred_lookups:
+            user_msg += "\nKnown lookups (confirmed in reference DB): %s" % "; ".join(starred_lookups)
+
     messages = [{"role": "user", "content": user_msg}]
 
     with client.messages.stream(

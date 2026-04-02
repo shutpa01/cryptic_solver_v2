@@ -39,7 +39,7 @@ CLUES_MASTER_DB = PROJECT_ROOT / 'data' / 'clues_master.db'
 EXPECTED_PUZZLES = [
     # Telegraph — daily cryptic is 31xxx, toughie+prize cryptic share 2400-4000 (different days)
     ('Telegraph Cryptic',       'telegraph', 27000, 35000, [0, 1, 2, 3, 4, 5]),
-    ('Telegraph Toughie',       'telegraph', 2400,  4000,  [1, 2, 3, 4]),
+    ('Telegraph Toughie',       'telegraph-toughie', 2400,  4000,  [1, 2, 3, 4]),
     ('Telegraph Prize Cryptic', 'telegraph', 2400,  4000,  [6]),
     ('Telegraph Prize Toughie', 'telegraph', 1,     500,   [6]),
     # Times
@@ -48,8 +48,8 @@ EXPECTED_PUZZLES = [
     # Guardian — cryptic Mon-Fri, prize Sat (both use 29xxx numbers). Quiptic/Everyman discontinued.
     ('Guardian Cryptic',        'guardian',  21000, 32000, [0, 1, 2, 3, 4]),
     ('Guardian Prize',          'guardian',  21000, 32000, [5]),
-    # Daily Mail — cryptic every day, uniqueIds range ~32k (2020) to ~160k (2026)
-    ('Daily Mail Cryptic',      'dailymail', 30000, 200000, [0, 1, 2, 3, 4, 5, 6]),
+    # Daily Mail — cryptic weekdays only, paper puzzle numbers ~17k range
+    ('Daily Mail Cryptic',      'dailymail', 15000, 20000, [0, 1, 2, 3, 4]),
 ]
 
 # Scraper definitions: (name, script_path, args, timeout_seconds)

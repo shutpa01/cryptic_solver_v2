@@ -1198,6 +1198,12 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 ).fetchone() is not None
 
             if not already:
+                rejected = gap_conn.execute(
+                    "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                    (gtype, word.lower(), letters.upper()),
+                ).fetchone()
+                if rejected:
+                    continue
                 gap_conn.execute(
                     "INSERT OR IGNORE INTO pending_enrichments "
                     "(type, word, letters, answer, clue_text, source, puzzle_number) "
