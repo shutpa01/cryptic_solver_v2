@@ -182,8 +182,14 @@ class ExplanationVerifier:
             })
 
         # --- CHECK 2: Parse and verify pieces ---
+        # Format 1: WORD (synonym of 'source') — Sonnet format
         pieces = re.findall(
             r"(\w+)\s*\(\s*synonym\s+of\s+[\"']([^\"']+)[\"']\s*\)",
+            expl, re.IGNORECASE,
+        )
+        # Format 2: WORD (synonym="source") — mechanical solver format
+        pieces += re.findall(
+            r"(\w+)\s*\(\s*synonym\s*=\s*\"([^\"]+)\"\s*\)",
             expl, re.IGNORECASE,
         )
         for result_word, source_word in pieces:
@@ -201,8 +207,14 @@ class ExplanationVerifier:
             })
 
         # Check abbreviation claims — verify the specific clue_word → letters mapping
+        # Format 1: WORD (abbr. of 'source') — Sonnet format
         abbrs = re.findall(
             r"(\w+)\s*\(\s*abbr\.?\s+(?:of\s+)?[\"']?([^\"')]+)[\"']?\s*\)",
+            expl, re.IGNORECASE,
+        )
+        # Format 2: WORD (abbreviation="source") — mechanical solver format
+        abbrs += re.findall(
+            r"(\w+)\s*\(\s*abbreviation\s*=\s*\"([^\"]+)\"\s*\)",
             expl, re.IGNORECASE,
         )
         for letters, word in abbrs:
@@ -242,9 +254,10 @@ class ExplanationVerifier:
             # Also catch "anagram of X+Y = ANSWER" — the answer itself confirms assembly
             anagram_eq = re.findall(r"=\s*([A-Z]+)", expl)
 
-            if letter_pieces and not anagram_eq:
-                # For charade/container: pieces should assemble to answer
-                # Try direct concatenation
+            assembly_found = False
+
+            if letter_pieces:
+                # Try charade: pieces should concatenate to answer
                 assembled = "".join(letter_pieces)
                 if assembled == answer_clean:
                     checks.append({
@@ -252,13 +265,9 @@ class ExplanationVerifier:
                         "status": "verified",
                         "detail": f"pieces {'+'.join(letter_pieces)} = {answer_clean}: MATCH",
                     })
-                else:
-                    # Try with container logic — inner "inside" outer
-                    # Don't mark as wrong here, assembly may be container
-                    # which the simple concat won't catch
-                    pass
+                    assembly_found = True
 
-            if anagram_eq:
+            if not assembly_found and anagram_eq:
                 # Anagram format: "anagram of X+Y = ANSWER"
                 if anagram_eq[0] == answer_clean:
                     # Extract fodder pieces
