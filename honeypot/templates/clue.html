@@ -19,52 +19,27 @@
 {% endblock %}
 
 {% block content %}
-<nav style="font-size:0.85rem; color:#888; margin-bottom:1rem;">
+<nav class="breadcrumb">
     <a href="/">Home</a> /
-    <a href="/source/{{ clue.source }}/">{{ clue.source | source_name }}</a> /
+    <a href="/source/{{ clue.source }}/">{{ clue.source | source_name }}</a>
     {% if clue.puzzle_number %}
-    <a href="/puzzle/{{ clue.source }}/{{ clue.puzzle_number }}">{{ clue.source | source_name }} #{{ clue.puzzle_number }}</a> /
+    / <a href="/puzzle/{{ clue.source }}/{{ clue.puzzle_number }}">{{ clue.source | source_name }} #{{ clue.puzzle_number }}</a>
     {% endif %}
-    <span>Clue</span>
 </nav>
 
 <div class="card">
     <h1 class="clue-text">
         {{ clue.clue_text }}
         {% if clue.enumeration %}
-        <span style="color:#999;">({{ clue.enumeration }})</span>
+        <span class="enum">({{ clue.enumeration }})</span>
         {% endif %}
     </h1>
 
-    <div style="margin:1rem 0; padding:0.75rem 1rem; background:#f0f7fb; border-left:4px solid #1a5276; border-radius:3px;">
-        <span style="font-size:0.85rem; color:#888; display:block; margin-bottom:0.25rem;">Answer</span>
-        <span class="answer">{{ clue.answer }}</span>
-    </div>
-
-    {% if clue.definition %}
-    <div class="definition">
-        <strong>Definition:</strong> {{ clue.definition }}
-    </div>
-    {% endif %}
-
-    {% if clue.wordplay_type %}
-    <div style="margin-top:0.5rem; color:#555;">
-        <strong>Wordplay type:</strong> {{ clue.wordplay_type | wordplay_label }}
-    </div>
-    {% endif %}
-
-    {% if explanation %}
-    <div style="margin-top:0.75rem; padding:0.75rem 1rem; background:#f9f7f0; border-left:4px solid #d4a017; border-radius:3px;">
-        <span style="font-size:0.85rem; color:#888; display:block; margin-bottom:0.25rem;">Explanation</span>
-        <span style="color:#333;">{{ explanation }}</span>
-    </div>
-    {% endif %}
-
-    <div class="meta">
+    <div class="meta-badges">
         <span class="badge">{{ clue.source | source_name }}</span>
         {% if clue.puzzle_number %}
-        <a href="/puzzle/{{ clue.source }}/{{ clue.puzzle_number }}" class="badge" style="text-decoration:none;">
-            #{{ clue.puzzle_number }}
+        <a href="/puzzle/{{ clue.source }}/{{ clue.puzzle_number }}" class="badge">
+            Puzzle #{{ clue.puzzle_number }}
         </a>
         {% endif %}
         {% if clue.clue_number and clue.direction %}
@@ -74,19 +49,76 @@
         <span class="badge">{{ clue.publication_date }}</span>
         {% endif %}
     </div>
+
+    <div class="hints">
+        {% if clue.definition %}
+        <details class="hint-block">
+            <summary class="hint-btn hint-def">Definition</summary>
+            <div class="hint-content">{{ clue.definition }}</div>
+        </details>
+        {% endif %}
+
+        {% if clue.wordplay_type %}
+        <details class="hint-block">
+            <summary class="hint-btn hint-type">Wordplay type</summary>
+            <div class="hint-content">{{ clue.wordplay_type | wordplay_label }}</div>
+        </details>
+        {% endif %}
+
+        {% if explanation %}
+        <details class="hint-block">
+            <summary class="hint-btn hint-expl">Explanation</summary>
+            <div class="hint-content">{{ explanation }}</div>
+        </details>
+        {% elif human_explanation %}
+        <details class="hint-block">
+            <summary class="hint-btn hint-expl">Explanation</summary>
+            <div class="hint-content">
+                {{ human_explanation }}
+                {% if blog_name %}
+                <div class="attribution">
+                    Source: {% if blog_url %}<a href="{{ blog_url }}" target="_blank" rel="noopener">{{ blog_name }}</a>{% else %}{{ blog_name }}{% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </details>
+        {% endif %}
+
+        <details class="hint-block">
+            <summary class="hint-btn hint-answer">Answer</summary>
+            <div class="hint-content">
+                <span class="answer">{{ clue.answer }}</span>
+            </div>
+        </details>
+    </div>
 </div>
+
+{% if clue.puzzle_number %}
+<div class="card">
+    <a href="/puzzle/{{ clue.source }}/{{ clue.puzzle_number }}" class="puzzle-link">
+        See all clues from {{ clue.source | source_name }} #{{ clue.puzzle_number }} &rarr;
+    </a>
+    {% if source_puzzle_url %}
+    <div style="margin-top:0.5rem;">
+        <a href="{{ source_puzzle_url }}" target="_blank" rel="noopener" class="source-link">
+            Solve this puzzle on {{ clue.source | source_name }} &rarr;
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
 
 {% if others %}
 <div class="card">
-    <h2 style="font-size:1rem; color:#555; margin-bottom:0.5rem;">Also appeared in</h2>
-    <ul style="list-style:none; font-size:0.9rem;">
+    <h2 class="section-heading">Also appeared in</h2>
+    <ul class="also-list">
         {% for o in others %}
-        <li style="padding:0.3rem 0; color:#666;">
+        <li>
             {{ o.source | source_name }}
             {% if o.puzzle_number %}
             <a href="/puzzle/{{ o.source }}/{{ o.puzzle_number }}">#{{ o.puzzle_number }}</a>
             {% endif %}
-            {% if o.publication_date %}<span style="color:#aaa;">({{ o.publication_date }})</span>{% endif %}
+            {% if o.publication_date %}<span class="enum">({{ o.publication_date }})</span>{% endif %}
         </li>
         {% endfor %}
     </ul>

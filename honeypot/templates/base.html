@@ -6,7 +6,7 @@
     <meta name="google-site-verification" content="67kDcUOYXg8DViOahWqOcfUFTa4Yi_2sbaeIoRbucMU" />
     <title>{% block title %}Crossword Answer Lookup{% endblock %}</title>
     {% block meta %}
-    <meta name="description" content="Find crossword answers and definitions. Search 500,000+ cryptic and quick crossword clues.">
+    <meta name="description" content="Find crossword answers and explanations. Search 500,000+ cryptic and quick crossword clues.">
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <style>
@@ -15,32 +15,224 @@
         a { color: #1a5276; text-decoration: none; }
         a:hover { text-decoration: underline; }
         .wrap { max-width: 720px; margin: 0 auto; padding: 0 1rem; }
+
+        /* --- Header --- */
         header { background: #1a5276; color: white; padding: 0.75rem 0; }
         header a { color: white; }
         header .wrap { display: flex; justify-content: space-between; align-items: center; }
         header h1 { font-size: 1.1rem; font-weight: 600; }
+
+        .header-search { display: flex; gap: 0.3rem; }
+        .header-search-input {
+            padding: 0.3rem 0.5rem; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 3px; background: rgba(255,255,255,0.1); color: white;
+            font-family: Georgia, 'Times New Roman', serif; width: 160px;
+        }
+        .header-search-input::placeholder { color: rgba(255,255,255,0.5); }
+        .header-search-input:focus { outline: none; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+        .header-search-btn {
+            padding: 0.3rem 0.6rem; font-size: 0.8rem; background: rgba(255,255,255,0.15);
+            color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 3px;
+            cursor: pointer; font-family: Georgia, 'Times New Roman', serif;
+        }
+        .header-search-btn:hover { background: rgba(255,255,255,0.25); }
+
+        /* --- Main content --- */
         main { padding: 1.5rem 0; }
+
+        /* --- Cards --- */
         .card { background: white; border: 1px solid #e0ddd8; border-radius: 6px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+
+        /* --- Breadcrumb --- */
+        .breadcrumb { font-size: 0.85rem; color: #888; margin-bottom: 1rem; }
+        .breadcrumb a { color: #1a5276; }
+
+        /* --- Headings --- */
+        .page-heading { font-size: 1.3rem; margin-bottom: 0.75rem; color: #2d2d2d; }
+        .section-heading { font-size: 1.05rem; color: #555; margin-bottom: 0.6rem; }
+        .section-text { color: #666; line-height: 1.6; font-size: 0.95rem; }
+
+        /* --- Hero (home page) --- */
+        .hero { text-align: center; padding: 2rem 0 1.5rem; }
+        .hero-title { font-size: 1.6rem; color: #1a5276; margin-bottom: 0.5rem; }
+        .hero-subtitle { color: #666; font-size: 1rem; max-width: 520px; margin: 0 auto 1.25rem; line-height: 1.5; }
+
+        /* --- Search form --- */
+        .search-form { display: flex; gap: 0.5rem; max-width: 480px; margin: 0 auto 1.5rem; }
+        .search-input {
+            flex: 1; padding: 0.6rem 0.85rem; font-size: 1rem;
+            font-family: Georgia, 'Times New Roman', serif;
+            border: 1px solid #d0cdc8; border-radius: 4px;
+            background: white; color: #2d2d2d;
+        }
+        .search-input:focus { outline: none; border-color: #1a5276; box-shadow: 0 0 0 2px rgba(26, 82, 118, 0.15); }
+        .search-btn {
+            padding: 0.6rem 1.2rem; font-size: 0.95rem;
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #1a5276; color: white; border: none;
+            border-radius: 4px; cursor: pointer;
+        }
+        .search-btn:hover { background: #154360; }
+        .search-msg { color: #888; font-size: 0.95rem; text-align: center; margin: 1rem 0; }
+        .search-count { font-size: 0.85rem; color: #888; margin-bottom: 0.75rem; }
+
+        /* --- Clue text --- */
         .clue-text { font-size: 1.15rem; color: #333; margin-bottom: 0.75rem; }
+
+        /* --- Answer --- */
         .answer { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em; font-family: 'Courier New', monospace; color: #1a5276; }
+        .answer-box { margin: 1rem 0; padding: 0.75rem 1rem; background: #f0f7fb; border-left: 4px solid #1a5276; border-radius: 3px; }
+        .answer-label { font-size: 0.8rem; color: #888; display: block; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* --- Definition --- */
         .definition { color: #555; margin-top: 0.5rem; }
+
+        /* --- Detail rows --- */
+        .detail-row { margin-top: 0.5rem; color: #555; font-size: 0.95rem; }
+        .detail-row strong { color: #444; }
+
+        /* --- Explanation box --- */
+        .explanation-box { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f9f7f0; border-left: 4px solid #d4a017; border-radius: 3px; }
+
+        /* --- Meta badges --- */
         .meta { font-size: 0.85rem; color: #888; margin-top: 0.75rem; }
+        .meta-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
         .badge { display: inline-block; background: #e8e4df; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.8rem; color: #555; }
-        footer { border-top: 1px solid #e0ddd8; padding: 1rem 0; text-align: center; font-size: 0.8rem; color: #999; }
-        .pagination { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-        .pagination a, .pagination span { padding: 0.3rem 0.7rem; border: 1px solid #ddd; border-radius: 3px; font-size: 0.85rem; }
-        .pagination span.current { background: #1a5276; color: white; border-color: #1a5276; }
+        a.badge { text-decoration: none; }
+        a.badge:hover { background: #d8d4cf; }
+
+        /* --- Source list (home page) --- */
+        .source-list { list-style: none; }
+        .source-item { padding: 0.5rem 0; border-bottom: 1px solid #f0ede8; display: flex; justify-content: space-between; align-items: center; }
+        .source-item:last-child { border-bottom: none; }
+        .source-item a { font-size: 1.05rem; }
+
+        /* --- Clue list --- */
         .clue-list { list-style: none; }
         .clue-list li { padding: 0.6rem 0; border-bottom: 1px solid #f0ede8; }
         .clue-list li:last-child { border-bottom: none; }
         .clue-list .ans { font-family: 'Courier New', monospace; font-weight: 700; color: #1a5276; letter-spacing: 0.1em; }
+        .enum { color: #aaa; }
+
+        /* --- Hint reveal blocks --- */
+        .hints { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .hint-block { display: inline-block; }
+        .hint-btn {
+            display: inline-block; padding: 0.35rem 0.75rem; font-size: 0.85rem;
+            font-family: Georgia, 'Times New Roman', serif; font-weight: 600;
+            border: 1px solid; border-radius: 4px; cursor: pointer;
+            list-style: none; /* removes default details arrow */
+        }
+        .hint-btn::-webkit-details-marker { display: none; }
+        .hint-btn::marker { content: ''; }
+        .hint-def { border-color: #8cb88c; color: #3a6e3a; }
+        .hint-def:hover { background: #eef6ee; }
+        .hint-type { border-color: #d4a950; color: #8a6d1b; }
+        .hint-type:hover { background: #fdf6e3; }
+        .hint-expl { border-color: #b0b0b0; color: #555; }
+        .hint-expl:hover { background: #f5f5f5; }
+        .hint-answer { border-color: #6b8cba; color: #1a5276; }
+        .hint-answer:hover { background: #f0f7fb; }
+        .hint-content {
+            margin-top: 0.5rem; margin-bottom: 0.5rem; padding: 0.6rem 0.85rem;
+            background: #f9f8f5; border-radius: 4px; font-size: 0.95rem;
+            color: #333; line-height: 1.5; width: 100%;
+        }
+        details[open] .hint-btn { background: #f0ede8; }
+
+        /* When a details is open, break to full width */
+        .hint-block[open] { flex-basis: 100%; }
+
+        /* --- Blog attribution --- */
+        .attribution { margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid #e8e4df; font-size: 0.8rem; color: #999; font-style: italic; }
+        .attribution a { color: #1a5276; }
+        .attribution-inline { font-size: 0.8rem; color: #999; font-style: italic; }
+        .attribution-inline a { color: #1a5276; }
+
+        /* --- Compact hints for puzzle page --- */
+        .hint-sm { padding: 0.2rem 0.5rem; font-size: 0.75rem; }
+        .hint-content-sm { font-size: 0.85rem; padding: 0.4rem 0.7rem; }
+        .puzzle-clue { padding: 0.6rem 0; border-bottom: 1px solid #f0ede8; }
+        .puzzle-clue:last-child { border-bottom: none; }
+        .puzzle-clue-hints { margin-top: 0.3rem; margin-left: 2rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+        .puzzle-clue-hints .hint-block[open] { flex-basis: 100%; }
+
+        /* --- Also appeared list --- */
+        .also-list { list-style: none; font-size: 0.9rem; }
+        .also-list li { padding: 0.35rem 0; color: #666; }
+
+        /* --- Puzzle link --- */
+        .puzzle-link { font-size: 0.95rem; color: #1a5276; font-weight: 600; }
+
+        /* --- Source link --- */
+        .source-link { font-size: 0.85rem; color: #1a5276; font-style: italic; }
+
+        /* --- Puzzle page --- */
+        .direction-heading { font-size: 0.95rem; color: #555; margin-bottom: 0.5rem; border-bottom: 1px solid #e0ddd8; padding-bottom: 0.25rem; }
+        .puzzle-meta { color: #888; font-size: 0.85rem; margin-bottom: 1rem; }
+        .clue-number { color: #999; font-size: 0.85rem; width: 2rem; display: inline-block; }
+        .puzzle-detail { font-size: 0.85rem; color: #777; margin-left: 2rem; margin-top: 0.15rem; }
+
+        /* --- Pagination --- */
+        .pagination { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+        .pagination a, .pagination span { padding: 0.3rem 0.7rem; border: 1px solid #ddd; border-radius: 3px; font-size: 0.85rem; }
+        .pagination span.current { background: #1a5276; color: white; border-color: #1a5276; }
+
+        /* --- Footer --- */
+        footer { border-top: 1px solid #e0ddd8; padding: 1rem 0; text-align: center; font-size: 0.8rem; color: #999; }
+
+        /* --- Autocomplete dropdown --- */
+        .search-wrap { position: relative; flex: 1; }
+        .suggest-list {
+            position: absolute; top: 100%; left: 0; right: 0; z-index: 100;
+            background: white; border: 1px solid #d0cdc8; border-top: none;
+            border-radius: 0 0 4px 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-height: 320px; overflow-y: auto; display: none;
+        }
+        .suggest-list.active { display: block; }
+        .suggest-item {
+            display: block; padding: 0.5rem 0.85rem; color: #2d2d2d;
+            text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #f0ede8;
+            cursor: pointer;
+        }
+        .suggest-item:last-child { border-bottom: none; }
+        .suggest-item:hover, .suggest-item.selected { background: #f0f7fb; }
+        .suggest-answer { font-family: 'Courier New', monospace; font-weight: 700; color: #1a5276; letter-spacing: 0.08em; font-size: 0.85rem; }
+        .suggest-meta { font-size: 0.75rem; color: #999; }
+        .suggest-puzzle { font-weight: 600; color: #1a5276; }
+
+        /* Header autocomplete */
+        .header-search { position: relative; }
+        .header-suggest {
+            position: absolute; top: 100%; right: 0; z-index: 100;
+            background: white; border: 1px solid #d0cdc8; border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 320px;
+            max-height: 300px; overflow-y: auto; display: none;
+        }
+        .header-suggest.active { display: block; }
+        .header-suggest .suggest-item { font-size: 0.8rem; padding: 0.4rem 0.65rem; }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .hero-title { font-size: 1.3rem; }
+            .search-form { flex-direction: column; }
+            .search-input, .search-btn { width: 100%; }
+            .card { padding: 1rem; }
+            h1.clue-text { font-size: 1.05rem; }
+            .answer { font-size: 1.2rem; }
+            .header-search-input { width: 120px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="wrap">
             <h1><a href="/">Crossword Answer Lookup</a></h1>
-            <span style="font-size:0.85rem; opacity:0.7">500k+ clues</span>
+            <form action="/search" method="get" class="header-search" autocomplete="off">
+                <input type="text" name="q" placeholder="Search clues..." class="header-search-input" id="header-q">
+                <button type="submit" class="header-search-btn">Go</button>
+                <div class="header-suggest" id="header-suggest"></div>
+            </form>
         </div>
     </header>
     <main>
@@ -51,5 +243,92 @@
     <footer>
         <div class="wrap">&copy; 2026 Crossword Answer Lookup</div>
     </footer>
+    <script>
+    (function() {
+        var timer = null;
+
+        function setupAutocomplete(inputEl, dropdownEl) {
+            if (!inputEl || !dropdownEl) return;
+            var selectedIdx = -1;
+
+            inputEl.addEventListener('input', function() {
+                clearTimeout(timer);
+                var q = inputEl.value.trim();
+                if (q.length < 3) { dropdownEl.innerHTML = ''; dropdownEl.classList.remove('active'); return; }
+                timer = setTimeout(function() { fetchSuggestions(q, dropdownEl); }, 250);
+                selectedIdx = -1;
+            });
+
+            inputEl.addEventListener('keydown', function(e) {
+                var items = dropdownEl.querySelectorAll('.suggest-item');
+                if (!items.length) return;
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
+                    updateSelected(items, selectedIdx);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIdx = Math.max(selectedIdx - 1, 0);
+                    updateSelected(items, selectedIdx);
+                } else if (e.key === 'Enter' && selectedIdx >= 0) {
+                    e.preventDefault();
+                    window.location.href = items[selectedIdx].href;
+                }
+            });
+
+            inputEl.addEventListener('focus', function() {
+                if (dropdownEl.children.length > 0) dropdownEl.classList.add('active');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!inputEl.contains(e.target) && !dropdownEl.contains(e.target)) {
+                    dropdownEl.classList.remove('active');
+                }
+            });
+        }
+
+        function updateSelected(items, idx) {
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.toggle('selected', i === idx);
+            }
+        }
+
+        function fetchSuggestions(q, dropdown) {
+            fetch('/search/suggest?q=' + encodeURIComponent(q))
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.length) { dropdown.innerHTML = ''; dropdown.classList.remove('active'); return; }
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        if (d.type === 'puzzle') {
+                            html += '<a class="suggest-item" href="' + d.url + '">'
+                                + '<span class="suggest-puzzle">' + esc(d.text) + '</span>'
+                                + (d.date ? ' <span class="suggest-meta">' + esc(d.date) + '</span>' : '')
+                                + '</a>';
+                        } else {
+                            html += '<a class="suggest-item" href="' + d.url + '">'
+                                + esc(d.text)
+                                + ' <span class="suggest-meta">' + esc(d.source) + '</span>'
+                                + '</a>';
+                        }
+                    }
+                    dropdown.innerHTML = html;
+                    dropdown.classList.add('active');
+                })
+                .catch(function() { dropdown.classList.remove('active'); });
+        }
+
+        function esc(s) {
+            var d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+        }
+
+        // Wire up header search
+        setupAutocomplete(document.getElementById('header-q'), document.getElementById('header-suggest'));
+
+        // Wire up main page search (if present)
+        setupAutocomplete(document.getElementById('main-q'), document.getElementById('main-suggest'));
+    })();
+    </script>
 </body>
 </html>

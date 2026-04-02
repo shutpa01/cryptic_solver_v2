@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{% if q %}Search: "{{ q }}" — {% endif %}Crossword Answer Lookup{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb">
+    <a href="/">Home</a> / <span>Search</span>
+</nav>
+
+<h2 class="page-heading">Search clues</h2>
+
+<form action="/search" method="get" class="search-form" autocomplete="off">
+    <div class="search-wrap">
+        <input type="text" name="q" value="{{ q }}" placeholder="Type a clue or puzzle number..."
+               class="search-input" id="main-q" autofocus>
+        <div class="suggest-list" id="main-suggest"></div>
+    </div>
+    <button type="submit" class="search-btn">Search</button>
+</form>
+
+{% if too_short %}
+<p class="search-msg">Please enter at least 3 characters.</p>
+{% elif q and total == 0 %}
+<p class="search-msg">No clues found matching "{{ q }}".</p>
+{% elif results %}
+<p class="search-count">{{ total }} result{{ 's' if total != 1 }} (showing up to 50)</p>
+<div class="card">
+    <ul class="clue-list">
+        {% for c in results %}
+        {% set slug = make_slug(c.clue_text, c.answer) %}
+        <li>
+            {% if slug %}
+            <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
+            {% else %}
+            {{ c.clue_text }}
+            {% endif %}
+            {% if c.enumeration %}<span class="enum">({{ c.enumeration }})</span>{% endif %}
+            <span class="badge">{{ c.source | source_name }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

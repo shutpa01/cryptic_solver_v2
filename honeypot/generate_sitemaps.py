@@ -101,6 +101,36 @@ def generate(domain):
 
     print(f"\nUnique slugs: {unique_count}")
 
+    # --- Puzzle sitemap ---
+    puzzle_cursor = conn.execute("""
+        SELECT source, puzzle_number, MAX(publication_date) as pub_date
+        FROM clues
+        WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+          AND puzzle_number IS NOT NULL
+          AND answer IS NOT NULL AND length(answer) > 0
+        GROUP BY source, puzzle_number
+        ORDER BY pub_date DESC
+    """)
+
+    puzzle_file = OUT_DIR / "sitemap_puzzles.xml"
+    with open(puzzle_file, "w", encoding="utf-8") as pf:
+        pf.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        pf.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
+        puzzle_count = 0
+        for row in puzzle_cursor:
+            source, pnum, pub_date = row
+            pf.write("  <url>\n")
+            pf.write(f"    <loc>{domain}/puzzle/{source}/{pnum}</loc>\n")
+            if pub_date:
+                pf.write(f"    <lastmod>{pub_date}</lastmod>\n")
+            pf.write("    <changefreq>monthly</changefreq>\n")
+            pf.write("  </url>\n")
+            puzzle_count += 1
+        pf.write("</urlset>\n")
+
+    sitemap_files.append("sitemap_puzzles.xml")
+    print(f"  Wrote sitemap_puzzles.xml ({puzzle_count} puzzles)")
+
     # Write sitemap index
     index_path = OUT_DIR / "sitemap_index.xml"
     with open(index_path, "w", encoding="utf-8") as f:

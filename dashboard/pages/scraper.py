@@ -17,58 +17,69 @@ SCRAPER_SCRIPT = str(PROJECT_ROOT / "scraper" / "orchestrator" / "puzzle_scraper
 def render():
     st.header("Scraper Control")
 
-    col1, col2 = st.columns(2)
+    try:
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.subheader("Run scrapers")
-        scraper_target = st.selectbox(
-            "Target",
-            ["All sources", "telegraph", "times", "guardian", "independent", "dailymail"],
-        )
+        with col1:
+            st.subheader("Run scrapers")
+            scraper_target = st.selectbox(
+                "Target",
+                ["All sources", "telegraph", "times", "guardian", "independent", "dailymail"],
+            )
 
-        if st.button("Run Scraper", type="primary"):
-            cmd = [PYTHON, SCRAPER_SCRIPT]
-            if scraper_target != "All sources":
-                cmd += ["--only", scraper_target]
+            if st.button("Run Scraper", type="primary"):
+                cmd = [PYTHON, SCRAPER_SCRIPT]
+                if scraper_target != "All sources":
+                    cmd += ["--only", scraper_target]
 
-            st.info(f"Running: `{' '.join(cmd)}`")
-            with st.spinner("Scraper running..."):
-                try:
-                    result = subprocess.run(
-                        cmd,
-                        cwd=str(PROJECT_ROOT),
-                        capture_output=True,
-                        text=True,
-                        timeout=600,
-                        encoding="utf-8",
-                        errors="replace",
-                    )
-                    if result.returncode == 0:
-                        st.success("Scraper completed.")
-                    else:
-                        st.error(f"Scraper exited with code {result.returncode}")
-                    with st.expander("Output", expanded=True):
-                        st.code(result.stdout[-5000:] if len(result.stdout) > 5000
-                                else result.stdout)
-                    if result.stderr:
-                        with st.expander("Errors"):
-                            st.code(result.stderr[-2000:])
-                except subprocess.TimeoutExpired:
-                    st.error("Scraper timed out after 10 minutes.")
-                except Exception as e:
-                    st.error(f"Failed to run scraper: {e}")
+                st.info(f"Running: `{' '.join(cmd)}`")
+                with st.spinner("Scraper running..."):
+                    try:
+                        result = subprocess.run(
+                            cmd,
+                            cwd=str(PROJECT_ROOT),
+                            capture_output=True,
+                            text=True,
+                            timeout=600,
+                            encoding="utf-8",
+                            errors="replace",
+                        )
+                        if result.returncode == 0:
+                            st.success("Scraper completed.")
+                        else:
+                            st.error(f"Scraper exited with code {result.returncode}")
+                        with st.expander("Output", expanded=True):
+                            st.code(result.stdout[-5000:] if len(result.stdout) > 5000
+                                    else result.stdout)
+                        if result.stderr:
+                            with st.expander("Errors"):
+                                st.code(result.stderr[-2000:])
+                    except subprocess.TimeoutExpired:
+                        st.error("Scraper timed out after 10 minutes.")
+                    except Exception as e:
+                        st.error(f"Failed to run scraper: {e}")
 
-    with col2:
-        st.subheader("Today's puzzle status")
-        _show_todays_puzzles()
+        with col2:
+            st.subheader("Today's puzzle status")
+            _show_todays_puzzles()
+    except Exception as e:
+        st.error(f"Error in scraper section: {e}")
 
     st.divider()
+
     st.subheader("Deploy DB to Honeypot")
-    _render_honeypot_deploy()
+    try:
+        _render_honeypot_deploy()
+    except Exception as e:
+        st.error(f"Error in deploy section: {e}")
 
     st.divider()
+
     st.subheader("Recent scraper activity")
-    _show_recent_activity()
+    try:
+        _show_recent_activity()
+    except Exception as e:
+        st.error(f"Error in activity section: {e}")
 
 
 def _show_todays_puzzles():
@@ -123,12 +134,8 @@ HONEYPOT_DB_PATH = "/opt/honeypot/data/clues.db"
 def _render_honeypot_deploy():
     """Upload clues_master.db to the honeypot droplet and restart the service."""
     st.caption("Upload the local database to clairesclues.xyz and restart the service.")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        regen_sitemaps = st.checkbox("Regenerate sitemaps after upload", value=True)
-    with col2:
-        st.info(f"DB size: {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
+    st.write(f"**Database size:** {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
+    regen_sitemaps = st.checkbox("Regenerate sitemaps after upload", value=True, key="hp_regen")
 
     if st.button("Deploy to Honeypot", type="primary", key="deploy_honeypot"):
         steps = []
@@ -218,3 +225,7 @@ def _show_recent_activity():
             "Complete": "Yes" if r["with_answer"] == r["clue_count"] else "No",
         } for r in rows]
         st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
+
+
+# Auto-render when Streamlit runs this file directly (multipage mode)
+render()

@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | title }} Crossword Answers — Crossword Answer Lookup{% endblock %}
+{% block title %}{{ source | source_name }} Crossword Answers — Crossword Answer Lookup{% endblock %}
 {% block meta %}
-<meta name="description" content="Browse {{ "{:,}".format(total) }} {{ source | title }} crossword clues with answers and definitions.">
+<meta name="description" content="Browse {{ '{:,}'.format(total) }} {{ source | source_name }} crossword clues with answers and definitions.">
 {% endblock %}
 
 {% block content %}
-<nav style="font-size:0.85rem; color:#888; margin-bottom:1rem;">
-    <a href="/">Home</a> / <span>{{ source | title }}</span>
+<nav class="breadcrumb">
+    <a href="/">Home</a> / <span>{{ source | source_name }}</span>
 </nav>
 
-<h2 style="font-size:1.3rem; margin-bottom:0.25rem;">{{ source | title }} Crossword Clues</h2>
-<p style="color:#888; font-size:0.85rem; margin-bottom:1rem;">{{ "{:,}".format(total) }} clues &middot; Page {{ page }} of {{ total_pages }}</p>
+<h2 class="page-heading">{{ source | source_name }} Crossword Clues</h2>
+<p class="puzzle-meta">{{ "{:,}".format(total) }} clues &middot; Page {{ page }} of {{ total_pages }}</p>
 
 <div class="card">
     <ul class="clue-list">
@@ -23,9 +23,8 @@
             {% else %}
             {{ c.clue_text }}
             {% endif %}
-            {% if c.enumeration %}<span style="color:#aaa;">({{ c.enumeration }})</span>{% endif %}
-            &mdash; <span class="ans">{{ c.answer }}</span>
-            {% if c.publication_date %}<span style="color:#bbb; font-size:0.8rem; margin-left:0.5rem;">{{ c.publication_date }}</span>{% endif %}
+            {% if c.enumeration %}<span class="enum">({{ c.enumeration }})</span>{% endif %}
+            {% if c.publication_date %}<span class="enum" style="margin-left:0.5rem;">{{ c.publication_date }}</span>{% endif %}
         </li>
         {% endfor %}
     </ul>

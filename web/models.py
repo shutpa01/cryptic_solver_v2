@@ -584,6 +584,8 @@ def _build_explanation(clue):
     if comps_json:
         try:
             comps = json.loads(comps_json)
+            if isinstance(comps, list):
+                return None
             pieces = comps.get("ai_pieces", [])
             wtype = comps.get("wordplay_type", "")
             if pieces:

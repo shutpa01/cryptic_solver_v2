@@ -1,18 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 style="font-size:1.4rem; margin-bottom:1rem;">Browse Crossword Clues</h2>
-<p style="color:#666; margin-bottom:1.5rem;">
-    Search over 500,000 cryptic crossword clues with answers and definitions
-    from the UK's top publications.
-</p>
+<div class="hero">
+    <h2 class="hero-title">Crossword Answers &amp; Explanations</h2>
+    <p class="hero-subtitle">
+        Answers and explanations for cryptic crosswords from the
+        Telegraph, Times, Guardian, Independent, and Daily Mail.
+    </p>
+
+    <form action="/search" method="get" class="search-form" autocomplete="off">
+        <div class="search-wrap">
+            <input type="text" name="q" placeholder="Search 500,000+ clues by clue text or puzzle number..."
+                   class="search-input" id="main-q" autofocus>
+            <div class="suggest-list" id="main-suggest"></div>
+        </div>
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+</div>
 
 <div class="card">
-    <h3 style="font-size:1rem; margin-bottom:0.75rem; color:#555;">Browse by source</h3>
-    <ul style="list-style:none;">
+    <h3 class="section-heading">What you'll find</h3>
+    <p class="section-text">
+        For each clue we show the answer, and where available: the definition,
+        wordplay type, and a full step-by-step explanation of how the answer
+        is constructed from the clue.
+    </p>
+</div>
+
+<div class="card">
+    <h3 class="section-heading">Browse by source</h3>
+    <ul class="source-list">
         {% for s in sources %}
-        <li style="padding:0.4rem 0; border-bottom:1px solid #f0ede8;">
-            <a href="/source/{{ s.source }}/" style="font-size:1.05rem;">{{ s.source | title }}</a>
+        <li class="source-item">
+            <a href="/source/{{ s.source }}/">{{ s.source | source_name }}</a>
             <span class="badge">{{ "{:,}".format(s.cnt) }} clues</span>
         </li>
         {% endfor %}

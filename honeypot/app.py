@@ -10,14 +10,60 @@ import re
 import sqlite3
 from pathlib import Path
 
-from flask import Flask, g, abort, render_template, request, Response
+from flask import Flask, g, abort, render_template, request, Response, jsonify
 
 app = Flask(__name__)
 
-DB_PATH = Path(__file__).resolve().parent / "data" / "clues.db"
+DB_PATH = Path(__file__).resolve().parent.parent / "data" / "clues_master.db"
 
 ALLOWED_SOURCES = ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
 ALLOWED_SOURCES_SQL = "('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
+
+# --- Blog attribution for human explanations ---
+# TFTT post index: puzzle_number -> {link, title, ...}
+TFTT_INDEX_PATH = Path(__file__).resolve().parent.parent / "scraper" / "timesforthetimes" / "tftt_post_index.json"
+_tftt_index = None
+
+
+def _get_tftt_index():
+    global _tftt_index
+    if _tftt_index is None:
+        try:
+            with open(TFTT_INDEX_PATH, encoding="utf-8") as f:
+                _tftt_index = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            _tftt_index = {}
+    return _tftt_index
+
+
+def get_blog_attribution(source, puzzle_number):
+    """Return (blog_name, blog_url) for a human explanation, or (None, None)."""
+    if source == "times":
+        idx = _get_tftt_index()
+        entry = idx.get(str(puzzle_number))
+        if entry and entry.get("link"):
+            return "Times for the Times", entry["link"]
+        return "Times for the Times", None
+    elif source == "guardian":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=guardian+{puzzle_number}"
+    elif source == "independent":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=independent+{puzzle_number}"
+    return None, None
+
+
+def get_source_puzzle_url(source, puzzle_number):
+    """Return the URL to the original puzzle on the newspaper's website, or None."""
+    if source == "guardian":
+        return f"https://www.theguardian.com/crosswords/cryptic/{puzzle_number}"
+    elif source == "telegraph":
+        return "https://www.telegraph.co.uk/puzzles/puzzle/crosswords/"
+    elif source == "times":
+        return "https://www.thetimes.com/puzzles/crossword"
+    elif source == "independent":
+        return "https://puzzles.independent.co.uk/games/cryptic-crossword-independent"
+    elif source == "dailymail":
+        return "https://www.dailymail.co.uk/puzzles/index.html"
+    return None
 
 WORDPLAY_LABELS = {
     "anagram": "Anagram",
@@ -183,6 +229,8 @@ def _build_explanation(clue):
     if comps_json:
         try:
             comps = json.loads(comps_json)
+            if isinstance(comps, list):
+                return None
             pieces = comps.get("ai_pieces", [])
             wtype = comps.get("wordplay_type", "")
             if pieces:
@@ -398,6 +446,107 @@ def home():
     return render_template("home.html", sources=sources)
 
 
+@app.route("/search")
+def search():
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 3:
+        return render_template("search.html", q=q, results=[], too_short=len(q) > 0)
+
+    db = get_db()
+    words = q.split()[:6]
+    conditions = []
+    params = []
+    for word in words:
+        conditions.append("lower(c.clue_text) LIKE ?")
+        params.append(f"%{word.lower()}%")
+
+    where_clause = " AND ".join(conditions)
+
+    results = db.execute(f"""
+        SELECT c.clue_text, c.answer, c.definition, c.enumeration,
+               c.source, c.puzzle_number, c.wordplay_type
+        FROM clues c
+        WHERE {where_clause}
+          AND c.answer IS NOT NULL AND length(c.answer) > 0
+          AND c.source IN {ALLOWED_SOURCES_SQL}
+        ORDER BY c.publication_date DESC
+        LIMIT 50
+    """, params).fetchall()
+
+    return render_template(
+        "search.html",
+        q=q,
+        results=results,
+        total=len(results),
+        make_slug=make_slug,
+    )
+
+
+@app.route("/search/suggest")
+def search_suggest():
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 3:
+        return jsonify([])
+
+    db = get_db()
+
+    # Check if it looks like a puzzle number search (e.g. "DT 31180", "telegraph 31180", "29504")
+    puzzle_match = re.match(r'^(?:dt|telegraph|times|guardian|independent|daily\s*mail)?\s*#?(\d{4,6})$', q, re.IGNORECASE)
+    if puzzle_match:
+        num = puzzle_match.group(1)
+        rows = db.execute(f"""
+            SELECT DISTINCT source, puzzle_number, publication_date
+            FROM clues
+            WHERE puzzle_number = ? AND source IN {ALLOWED_SOURCES_SQL}
+            LIMIT 10
+        """, (num,)).fetchall()
+        results = []
+        for r in rows:
+            sname = source_name_filter(r["source"])
+            results.append({
+                "type": "puzzle",
+                "text": f"{sname} #{r['puzzle_number']}",
+                "date": r["publication_date"] or "",
+                "url": f"/puzzle/{r['source']}/{r['puzzle_number']}",
+            })
+        if results:
+            return jsonify(results)
+
+    # Otherwise search clue text
+    words = q.split()[:6]
+    conditions = []
+    params = []
+    for word in words:
+        conditions.append("lower(c.clue_text) LIKE ?")
+        params.append(f"%{word.lower()}%")
+
+    where_clause = " AND ".join(conditions)
+
+    rows = db.execute(f"""
+        SELECT c.clue_text, c.answer, c.enumeration, c.source
+        FROM clues c
+        WHERE {where_clause}
+          AND c.answer IS NOT NULL AND length(c.answer) > 0
+          AND c.source IN {ALLOWED_SOURCES_SQL}
+        ORDER BY c.publication_date DESC
+        LIMIT 8
+    """, params).fetchall()
+
+    results = []
+    for r in rows:
+        slug = make_slug(r["clue_text"], r["answer"])
+        if slug:
+            enum = f" ({r['enumeration']})" if r["enumeration"] else ""
+            results.append({
+                "type": "clue",
+                "text": r["clue_text"] + enum,
+                "answer": r["answer"],
+                "source": source_name_filter(r["source"]),
+                "url": f"/clue/{slug}",
+            })
+    return jsonify(results)
+
+
 @app.route("/source/<source>/")
 def source_page(source):
     if source not in ALLOWED_SOURCES:
@@ -448,7 +597,7 @@ def clue_page(slug):
     row = db.execute(f"""
         SELECT c.clue_text, c.answer, c.definition, c.enumeration, c.source,
                c.puzzle_number, c.clue_number, c.direction, c.publication_date,
-               c.wordplay_type, c.ai_explanation,
+               c.wordplay_type, c.ai_explanation, c.explanation,
                se.components, se.confidence
         FROM clues c
         LEFT JOIN structured_explanations se ON se.clue_id = c.id
@@ -463,7 +612,7 @@ def clue_page(slug):
         row = db.execute(f"""
             SELECT c.clue_text, c.answer, c.definition, c.enumeration, c.source,
                    c.puzzle_number, c.clue_number, c.direction, c.publication_date,
-                   c.wordplay_type, c.ai_explanation,
+                   c.wordplay_type, c.ai_explanation, c.explanation,
                    se.components, se.confidence
             FROM clues c
             LEFT JOIN structured_explanations se ON se.clue_id = c.id
@@ -475,13 +624,24 @@ def clue_page(slug):
     if row is None:
         abort(404)
 
-    # Build explanation
+    # Build explanation — prefer AI, fall back to human with attribution
     explanation = _build_explanation(row)
+    human_explanation = None
+    blog_name = None
+    blog_url = None
+
+    if not explanation:
+        # Use human explanation if available (not for telegraph — Big Dave excluded)
+        human_raw = row["explanation"] if "explanation" in row.keys() else None
+        source = row["source"]
+        if human_raw and source != "telegraph":
+            human_explanation = human_raw
+            blog_name, blog_url = get_blog_attribution(source, row["puzzle_number"])
 
     # Build clue dict for SEO helpers
     clue_dict = dict(row)
-    clue_dict["_has_explanation"] = explanation is not None
-    clue_dict["_explanation_text"] = explanation
+    clue_dict["_has_explanation"] = (explanation or human_explanation) is not None
+    clue_dict["_explanation_text"] = explanation or human_explanation
 
     meta_description = generate_meta_description(clue_dict)
     faq_schema = generate_faq_schema(clue_dict)
@@ -500,12 +660,18 @@ def clue_page(slug):
         LIMIT 5
     """, (answer, row["clue_text"], answer, row["clue_text"])).fetchall()
 
+    source_puzzle_url = get_source_puzzle_url(row["source"], row["puzzle_number"])
+
     return render_template(
         "clue.html",
         clue=row,
         slug=slug,
         others=others,
         explanation=explanation,
+        human_explanation=human_explanation,
+        blog_name=blog_name,
+        blog_url=blog_url,
+        source_puzzle_url=source_puzzle_url,
         meta_description=meta_description,
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
@@ -519,21 +685,40 @@ def puzzle_page(source, puzzle_number):
 
     db = get_db()
 
-    clues = db.execute("""
-        SELECT clue_text, answer, definition, enumeration, clue_number, direction,
-               publication_date
-        FROM clues
-        WHERE source = ? AND puzzle_number = ?
-        ORDER BY CASE direction WHEN 'across' THEN 0 WHEN 'down' THEN 1 ELSE 2 END,
-                 CAST(clue_number AS INTEGER)
+    rows = db.execute("""
+        SELECT c.clue_text, c.answer, c.definition, c.enumeration,
+               c.clue_number, c.direction, c.publication_date,
+               c.wordplay_type, c.ai_explanation, c.explanation,
+               se.components, se.confidence
+        FROM clues c
+        LEFT JOIN structured_explanations se ON se.clue_id = c.id
+        WHERE c.source = ? AND c.puzzle_number = ?
+        ORDER BY CASE c.direction WHEN 'across' THEN 0 WHEN 'down' THEN 1 ELSE 2 END,
+                 CAST(c.clue_number AS INTEGER)
     """, (source, puzzle_number)).fetchall()
 
-    if not clues:
+    if not rows:
         abort(404)
 
-    pub_date = clues[0]["publication_date"] if clues else None
-    across = [c for c in clues if c["direction"] == "across"]
-    down = [c for c in clues if c["direction"] == "down"]
+    # Get blog attribution once for the whole puzzle
+    blog_name, blog_url = get_blog_attribution(source, puzzle_number) if source != "telegraph" else (None, None)
+
+    clue_dicts = []
+    for row in rows:
+        d = dict(row)
+        ai_expl = _build_explanation(row)
+        d["_explanation"] = ai_expl
+        if not ai_expl and source != "telegraph":
+            d["_human_explanation"] = row["explanation"] if row["explanation"] else None
+        else:
+            d["_human_explanation"] = None
+        clue_dicts.append(d)
+
+    pub_date = clue_dicts[0]["publication_date"] if clue_dicts else None
+    across = [c for c in clue_dicts if c["direction"] == "across"]
+    down = [c for c in clue_dicts if c["direction"] == "down"]
+
+    source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
     return render_template(
         "puzzle.html",
@@ -542,8 +727,11 @@ def puzzle_page(source, puzzle_number):
         publication_date=pub_date,
         across=across,
         down=down,
-        total=len(clues),
+        total=len(clue_dicts),
         make_slug=make_slug,
+        blog_name=blog_name,
+        blog_url=blog_url,
+        source_puzzle_url=source_puzzle_url,
     )
 
 
