@@ -94,14 +94,17 @@ def create_app(config_name=None):
     @app.template_filter("def_missing")
     def def_missing_filter(clue):
         """Return True if the clue has a definition but it's not paired with the answer in the DB."""
-        if not getattr(g, 'is_admin', False):
+        try:
+            if not getattr(g, 'is_admin', False):
+                return False
+            definition = clue.get("definition") if hasattr(clue, 'get') else getattr(clue, 'definition', None)
+            answer = clue.get("answer") if hasattr(clue, 'get') else getattr(clue, 'answer', None)
+            if not definition or not answer:
+                return False
+            ref_db = _get_word_coverage_db()
+            return not _def_pair_in_db(definition, answer, ref_db)
+        except Exception:
             return False
-        definition = clue.get("definition") if hasattr(clue, 'get') else getattr(clue, 'definition', None)
-        answer = clue.get("answer") if hasattr(clue, 'get') else getattr(clue, 'answer', None)
-        if not definition or not answer:
-            return False
-        ref_db = _get_word_coverage_db()
-        return not _def_pair_in_db(definition, answer, ref_db)
 
     @app.template_filter("clickable_words")
     def clickable_words_filter(text, clue_id):
