@@ -125,6 +125,9 @@
                 {% if g.is_admin and not clue.ai_explanation and not clue.definition %}
                 <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-red-100 text-red-700 animate-pulse">NO EXPLANATION</span>
                 {% endif %}
+                {% if clue | def_missing %}
+                <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-100 text-amber-700" title="Definition '{{ clue.definition }}' → {{ clue.answer }} not in reference DB">DEF?</span>
+                {% endif %}
             </div>
             {# Solve mode input — hidden until solve mode activated #}
             <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5">

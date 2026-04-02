@@ -74,6 +74,35 @@ def create_app(config_name=None):
             return True
         return False
 
+    def _def_pair_in_db(definition, answer, ref_db):
+        """Check if a definition→answer pair exists in the reference DB."""
+        if not definition or not answer:
+            return True  # nothing to check
+        defn = definition.strip().lower()
+        ans = answer.strip().upper()
+        if not defn or not ans:
+            return True
+        # Check definition_answers_augmented
+        if ref_db.is_definition_of(defn, ans):
+            return True
+        # Check synonyms_pairs (both directions)
+        syns = ref_db.get_synonyms(defn, max_len=len(ans))
+        if ans in [s.upper().replace(" ", "").replace("-", "") for s in syns]:
+            return True
+        return False
+
+    @app.template_filter("def_missing")
+    def def_missing_filter(clue):
+        """Return True if the clue has a definition but it's not paired with the answer in the DB."""
+        if not getattr(g, 'is_admin', False):
+            return False
+        definition = clue.get("definition") if hasattr(clue, 'get') else getattr(clue, 'definition', None)
+        answer = clue.get("answer") if hasattr(clue, 'get') else getattr(clue, 'answer', None)
+        if not definition or not answer:
+            return False
+        ref_db = _get_word_coverage_db()
+        return not _def_pair_in_db(definition, answer, ref_db)
+
     @app.template_filter("clickable_words")
     def clickable_words_filter(text, clue_id):
         """Wrap each word in a clue in a clickable span for the helper widget.
