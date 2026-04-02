@@ -36,6 +36,7 @@ from backfill_ai_exp.backfill_dd_hidden import (
 )
 from backfill_ai_exp.batch_v1_solver import (
     find_definition as _v1_find_definition,
+    solve_without_definition as _v1_solve_without_definition,
     try_anagram as _v1_try_anagram,
     try_charade as _v1_try_charade,
     try_container as _v1_try_container,
@@ -432,10 +433,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
                 continue
 
-            # Must find a definition first
+            # Try definition-first approach
             definition, remaining = _v1_find_definition(clue, answer_clean, ref_db)
-            if not definition:
-                continue
             if remaining is None:
                 remaining = _strip_enum(clue).split()
 
@@ -491,6 +490,18 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     mech_wtype = "homophone"
                     mech_pieces = hom["pieces"]
                     mech_result = hom
+
+            # If definition-first failed, try wordplay-first (infer definition)
+            if not mech_result and not definition:
+                inferred_def, inferred_wtype, inferred_pieces = _v1_solve_without_definition(
+                    clue, answer_clean, ref_db)
+                if inferred_def and inferred_pieces:
+                    definition = inferred_def
+                    mech_wtype = inferred_wtype
+                    mech_pieces = inferred_pieces
+                    mech_result = True
+                    print("  [MECH-INFER] %s. definition '%s' inferred from wordplay" % (
+                        cnum, definition))
 
             if mech_result and mech_pieces:
                 mech_solved_ids.add(cid)

@@ -125,6 +125,77 @@ def find_definition(clue_text, answer, ref_db, max_words=4):
     return best_def, best_remaining
 
 
+def solve_without_definition(clue_text, answer, ref_db, max_def_words=4):
+    """Try to solve the wordplay without a known definition.
+
+    For each possible definition window (1 to max_def_words words from
+    start or end of clue), try all mechanical solvers on the remaining words.
+    If the wordplay assembles to the answer, the definition is confirmed.
+
+    Returns (definition, wordplay_type, pieces) or (None, None, None).
+    """
+    text = strip_enumeration(clue_text)
+    text = text.replace('\u2018', "'").replace('\u2019', "'")
+    text = text.replace('\u201c', '"').replace('\u201d', '"')
+    words = text.split()
+
+    if len(words) < 3:
+        return None, None, None
+
+    answer_clean = norm_letters(answer).upper()
+    max_window = min(max_def_words, len(words) - 2)  # leave at least 2 words for wordplay
+
+    candidates = []
+
+    for n in range(1, max_window + 1):
+        # Definition from start
+        candidates.append((" ".join(words[:n]), words[n:]))
+        # Definition from end
+        candidates.append((" ".join(words[-n:]), words[:-n]))
+
+    for candidate_def, remaining in candidates:
+        if len(remaining) < 2:
+            continue
+
+        # Try each mechanical solver
+        # Charade
+        result = try_charade(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "charade", result["pieces"]
+
+        # Container
+        result = try_container(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "container", result["pieces"]
+
+        # Reversal
+        result = try_reversal(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "reversal", result["pieces"]
+
+        # Anagram
+        result = try_anagram(clue_text, answer_clean, ref_db,
+                             definition_words=candidate_def.split())
+        if result:
+            pieces = [{"clue_word": w,
+                       "letters": norm_letters(w).upper(),
+                       "mechanism": "anagram_fodder"}
+                      for w in result["fodder_words"]]
+            return candidate_def, "anagram", pieces
+
+        # Acrostic
+        result = try_acrostic(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "acrostic", result["pieces"]
+
+        # Homophone
+        result = try_homophone(remaining, answer_clean, ref_db)
+        if result:
+            return candidate_def, "homophone", result["pieces"]
+
+    return None, None, None
+
+
 # ---------------------------------------------------------------------------
 # Stage 2: Anagram solver (from V1 anagram.py)
 # ---------------------------------------------------------------------------

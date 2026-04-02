@@ -223,6 +223,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             from signature_solver.db import RefDB
             from backfill_ai_exp.batch_v1_solver import (
                 find_definition as v1_find_def,
+                solve_without_definition as v1_solve_no_def,
                 try_anagram as v1_anagram, try_charade as v1_charade,
                 try_container as v1_container, try_reversal as v1_reversal,
                 try_acrostic as v1_acrostic, try_homophone as v1_homophone,
@@ -235,11 +236,11 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
             definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
 
-            if definition and remaining:
-                mech_result = None
-                mech_wtype = None
-                mech_pieces = None
+            mech_result = None
+            mech_wtype = None
+            mech_pieces = None
 
+            if definition and remaining:
                 for try_fn, wtype, piece_key in [
                     (lambda: v1_anagram(clue_text, answer_clean, ref_db,
                                         definition_words=definition.split()), "anagram", "fodder_words"),
@@ -260,7 +261,17 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
                         mech_result = r
                         break
 
-                if mech_result and mech_pieces:
+            # If definition-first failed, try wordplay-first (infer definition)
+            if not mech_result and not definition:
+                inferred_def, inferred_wtype, inferred_pieces = v1_solve_no_def(
+                    clue_text, answer_clean, ref_db)
+                if inferred_def and inferred_pieces:
+                    definition = inferred_def
+                    mech_wtype = inferred_wtype
+                    mech_pieces = inferred_pieces
+                    mech_result = True
+
+            if mech_result and mech_pieces:
                     expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, answer)
                     components = _json.dumps({
                         "ai_pieces": mech_pieces,
