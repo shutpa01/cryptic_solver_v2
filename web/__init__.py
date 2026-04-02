@@ -51,12 +51,40 @@ def create_app(config_name=None):
         names = {"dailymail": "Daily Mail", "telegraph-toughie": "Telegraph Toughie"}
         return names.get(value, (value or "").title())
 
+    # Lazy-loaded RefDB for word coverage checks (admin only)
+    _word_coverage_db = [None]  # mutable container for closure
+
+    def _get_word_coverage_db():
+        if _word_coverage_db[0] is None:
+            from signature_solver.db import RefDB
+            _word_coverage_db[0] = RefDB()
+        return _word_coverage_db[0]
+
+    def _word_in_db(word_clean, ref_db):
+        """Check if a word has any entry in the reference DB."""
+        if len(word_clean) < 2:
+            return True  # single letters are always fine
+        if ref_db.is_link_word(word_clean):
+            return True
+        if ref_db.get_abbreviations(word_clean):
+            return True
+        if ref_db.get_synonyms(word_clean, max_len=15):
+            return True
+        if ref_db.get_indicator_types(word_clean):
+            return True
+        return False
+
     @app.template_filter("clickable_words")
     def clickable_words_filter(text, clue_id):
         """Wrap each word in a clue in a clickable span for the helper widget.
-        Each span gets a data-idx for multi-word selection support."""
+        Each span gets a data-idx for multi-word selection support.
+        In admin mode, words not found in the reference DB are underlined red."""
         if not text:
             return ""
+
+        is_admin = getattr(g, 'is_admin', False)
+        ref_db = _get_word_coverage_db() if is_admin else None
+
         parts = re.split(r'(\s+)', text)
         out = []
         word_idx = 0
@@ -64,12 +92,17 @@ def create_app(config_name=None):
             if part.strip():
                 clean = re.sub(r'[^A-Za-z]', '', part).lower()
                 if clean:
+                    # Check DB coverage for admin
+                    missing_class = ""
+                    if ref_db and not _word_in_db(clean, ref_db):
+                        missing_class = " underline decoration-red-400 decoration-2 underline-offset-2"
+
                     out.append(
                         '<span class="clue-word cursor-pointer hover:bg-indigo-100 '
-                        'hover:rounded px-0.5 -mx-0.5 transition-colors" '
+                        'hover:rounded px-0.5 -mx-0.5 transition-colors%s" '
                         'data-idx="%d" data-clean="%s" data-clue="%s" '
                         'onclick="wordHelp(this)">%s</span>'
-                        % (word_idx, clean, clue_id, part)
+                        % (missing_class, word_idx, clean, clue_id, part)
                     )
                     word_idx += 1
                 else:
