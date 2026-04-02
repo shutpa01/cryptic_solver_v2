@@ -216,6 +216,76 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             traceback.print_exc()
             message = f"Signature solver error: {e}"
 
+    # Phase 0a/0c: Hidden word + DD check (zero API cost)
+    if not success and answer and clue_text:
+        try:
+            import re as _re
+            from signature_solver.db import RefDB
+            from backfill_ai_exp.backfill_dd_hidden import (
+                build_graph as build_dd_graph,
+                generate_dd_hypotheses,
+                try_hidden,
+                norm_letters as dd_norm,
+            )
+            import json as _json
+
+            ref_db = RefDB()
+            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
+            dd_graph = build_dd_graph(ref_db)
+            total_len = len(dd_norm(answer))
+
+            # Try hidden word
+            hidden_result = try_hidden(clue_text, answer_clean, dd_graph, total_len)
+            if hidden_result:
+                op = "hidden_reversed" if hidden_result["direction"] == "reverse" else "hidden"
+                hiding_words = hidden_result.get("words", "")
+                hidden_def = hidden_result.get("definition")
+                pieces = [{"clue_word": hiding_words, "letters": answer_clean, "mechanism": "hidden"}]
+                components = _json.dumps({
+                    "ai_pieces": pieces,
+                    "assembly": {"op": op},
+                    "wordplay_type": op,
+                })
+                db.execute("""
+                    INSERT OR REPLACE INTO structured_explanations
+                    (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (clue_id, components, _json.dumps([op]), hidden_def, 1.0, "mechanical_hidden", source))
+                expl = 'hidden in "%s"' % hiding_words
+                db.execute("""
+                    UPDATE clues SET wordplay_type = ?, definition = ?, ai_explanation = ?, has_solution = 1
+                    WHERE id = ?
+                """, (op, hidden_def, expl, clue_id))
+                db.commit()
+                success = True
+
+            # Try DD
+            if not success:
+                dd_result = generate_dd_hypotheses(clue_text, dd_graph, total_len=total_len, answer=dd_norm(answer))
+                if dd_result:
+                    components = _json.dumps({
+                        "ai_pieces": [],
+                        "assembly": {"op": "double_definition", "left_def": dd_result["left_def"], "right_def": dd_result["right_def"]},
+                        "wordplay_type": "double_definition",
+                    })
+                    db.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (clue_id, components, _json.dumps(["double_definition"]),
+                          "Double definition", 1.0, "mechanical_dd", source))
+                    db.execute("""
+                        UPDATE clues SET wordplay_type = 'double_definition', definition = 'Double definition',
+                        ai_explanation = 'Double definition', has_solution = 1
+                        WHERE id = ?
+                    """, (clue_id,))
+                    db.commit()
+                    success = True
+        except Exception as e:
+            import traceback
+            print(f"[RERUN DD/HIDDEN] Error: {e}")
+            traceback.print_exc()
+
     # Phase 0.5: V1 mechanical solvers (zero API cost)
     if not success and answer and clue_text:
         try:
