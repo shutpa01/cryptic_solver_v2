@@ -131,34 +131,94 @@ DROPLET = "root@134.209.21.34"
 HONEYPOT_DB_PATH = "/opt/honeypot/data/clues.db"
 
 
+HONEYPOT_LOCAL = PROJECT_ROOT / "honeypot"
+HONEYPOT_REMOTE = "/opt/honeypot"
+# Files to deploy (relative to honeypot/ directory)
+HONEYPOT_CODE_FILES = [
+    "app.py",
+    "generate_sitemaps.py",
+    "generate_slugs.py",
+    "templates/base.html",
+    "templates/home.html",
+    "templates/clue.html",
+    "templates/puzzle.html",
+    "templates/source.html",
+    "templates/search.html",
+]
+
+
 def _render_honeypot_deploy():
-    """Upload clues_master.db to the honeypot droplet and restart the service."""
-    st.caption("Upload the local database to clairesclues.xyz and restart the service.")
-    st.write(f"**Database size:** {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
-    regen_sitemaps = st.checkbox("Regenerate sitemaps after upload", value=True, key="hp_regen")
+    """Deploy database and/or code to the honeypot droplet."""
+    st.caption("Deploy to clairesclues.xyz — upload database, code, or both.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        deploy_db = st.checkbox("Deploy database", value=True, key="hp_deploy_db")
+        deploy_code = st.checkbox("Deploy code", value=False, key="hp_deploy_code")
+    with col2:
+        regen_sitemaps = st.checkbox("Regenerate sitemaps", value=True, key="hp_regen")
+        if deploy_db:
+            st.write(f"**DB size:** {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
+
+    if not deploy_db and not deploy_code:
+        st.info("Select at least one option to deploy.")
+        return
 
     if st.button("Deploy to Honeypot", type="primary", key="deploy_honeypot"):
         steps = []
+        failed = False
 
-        # Step 1: Upload DB
-        with st.spinner("Uploading database..."):
-            try:
-                result = subprocess.run(
-                    ["scp", str(CLUES_DB), f"{DROPLET}:{HONEYPOT_DB_PATH}"],
-                    capture_output=True, text=True, timeout=300,
-                    encoding="utf-8", errors="replace",
-                )
-                if result.returncode == 0:
-                    steps.append(("Upload DB", True, "Database uploaded successfully."))
-                else:
-                    steps.append(("Upload DB", False, result.stderr or "Upload failed."))
-            except subprocess.TimeoutExpired:
-                steps.append(("Upload DB", False, "Upload timed out after 5 minutes."))
-            except Exception as e:
-                steps.append(("Upload DB", False, str(e)))
+        # Step 1: Upload code files
+        if deploy_code and not failed:
+            with st.spinner("Uploading code files..."):
+                uploaded = 0
+                for f in HONEYPOT_CODE_FILES:
+                    local = HONEYPOT_LOCAL / f
+                    remote = f"{DROPLET}:{HONEYPOT_REMOTE}/{f}"
+                    if not local.exists():
+                        continue
+                    try:
+                        result = subprocess.run(
+                            ["scp", str(local), remote],
+                            capture_output=True, text=True, timeout=30,
+                            encoding="utf-8", errors="replace",
+                        )
+                        if result.returncode == 0:
+                            uploaded += 1
+                        else:
+                            steps.append(("Upload code", False, f"Failed on {f}: {result.stderr}"))
+                            failed = True
+                            break
+                    except Exception as e:
+                        steps.append(("Upload code", False, f"Failed on {f}: {e}"))
+                        failed = True
+                        break
+                if not failed:
+                    steps.append(("Upload code", True, f"{uploaded} files uploaded."))
 
-        # Step 2: Restart service
-        if steps[-1][1]:
+        # Step 2: Upload DB
+        if deploy_db and not failed:
+            with st.spinner("Uploading database..."):
+                try:
+                    result = subprocess.run(
+                        ["scp", str(CLUES_DB), f"{DROPLET}:{HONEYPOT_DB_PATH}"],
+                        capture_output=True, text=True, timeout=300,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if result.returncode == 0:
+                        steps.append(("Upload DB", True, "Database uploaded."))
+                    else:
+                        steps.append(("Upload DB", False, result.stderr or "Upload failed."))
+                        failed = True
+                except subprocess.TimeoutExpired:
+                    steps.append(("Upload DB", False, "Upload timed out after 5 minutes."))
+                    failed = True
+                except Exception as e:
+                    steps.append(("Upload DB", False, str(e)))
+                    failed = True
+
+        # Step 3: Restart service
+        if not failed:
             with st.spinner("Restarting honeypot service..."):
                 try:
                     result = subprocess.run(
@@ -170,11 +230,13 @@ def _render_honeypot_deploy():
                         steps.append(("Restart service", True, "Service restarted."))
                     else:
                         steps.append(("Restart service", False, result.stderr or "Restart failed."))
+                        failed = True
                 except Exception as e:
                     steps.append(("Restart service", False, str(e)))
+                    failed = True
 
-        # Step 3: Regenerate sitemaps (optional)
-        if regen_sitemaps and steps[-1][1]:
+        # Step 4: Regenerate sitemaps (optional)
+        if regen_sitemaps and not failed:
             with st.spinner("Regenerating sitemaps..."):
                 try:
                     result = subprocess.run(

@@ -554,22 +554,24 @@ def source_page(source):
 
     db = get_db()
     page = request.args.get("page", 1, type=int)
-    per_page = 100
+    per_page = 50
     offset = (page - 1) * per_page
 
     total = db.execute(
-        "SELECT COUNT(*) FROM clues WHERE source = ? AND answer IS NOT NULL AND length(answer) > 0",
+        "SELECT COUNT(DISTINCT puzzle_number) FROM clues WHERE source = ? AND puzzle_number IS NOT NULL",
         (source,),
     ).fetchone()[0]
 
     if total == 0:
         abort(404)
 
-    clues = db.execute("""
-        SELECT clue_text, answer, definition, enumeration, publication_date
+    puzzles = db.execute("""
+        SELECT puzzle_number, MAX(publication_date) AS publication_date,
+               COUNT(*) AS clue_count
         FROM clues
-        WHERE source = ? AND answer IS NOT NULL AND length(answer) > 0
-        ORDER BY publication_date DESC, id DESC
+        WHERE source = ? AND puzzle_number IS NOT NULL
+        GROUP BY puzzle_number
+        ORDER BY MAX(publication_date) DESC
         LIMIT ? OFFSET ?
     """, (source, per_page, offset)).fetchall()
 
@@ -578,11 +580,10 @@ def source_page(source):
     return render_template(
         "source.html",
         source=source,
-        clues=clues,
+        puzzles=puzzles,
         page=page,
         total_pages=total_pages,
         total=total,
-        make_slug=make_slug,
     )
 
 

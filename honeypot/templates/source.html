@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ source | source_name }} Crossword Answers — Crossword Answer Lookup{% endblock %}
+{% block title %}{{ source | source_name }} Cryptic Crosswords — Crossword Answer Lookup{% endblock %}
 {% block meta %}
-<meta name="description" content="Browse {{ '{:,}'.format(total) }} {{ source | source_name }} crossword clues with answers and definitions.">
+<meta name="description" content="Browse {{ '{:,}'.format(total) }} {{ source | source_name }} cryptic crossword puzzles with answers and explanations.">
 {% endblock %}
 
 {% block content %}
@@ -10,24 +10,28 @@
     <a href="/">Home</a> / <span>{{ source | source_name }}</span>
 </nav>
 
-<h2 class="page-heading">{{ source | source_name }} Crossword Clues</h2>
-<p class="puzzle-meta">{{ "{:,}".format(total) }} clues &middot; Page {{ page }} of {{ total_pages }}</p>
+<h1 class="page-heading">{{ source | source_name }} Cryptic Crosswords</h1>
+<p class="puzzle-meta">{{ "{:,}".format(total) }} puzzles &middot; Page {{ page }} of {{ total_pages }}</p>
 
 <div class="card">
-    <ul class="clue-list">
-        {% for c in clues %}
-        {% set slug = make_slug(c.clue_text, c.answer) %}
-        <li>
-            {% if slug %}
-            <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
-            {% else %}
-            {{ c.clue_text }}
-            {% endif %}
-            {% if c.enumeration %}<span class="enum">({{ c.enumeration }})</span>{% endif %}
-            {% if c.publication_date %}<span class="enum" style="margin-left:0.5rem;">{{ c.publication_date }}</span>{% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+    <table class="puzzle-table">
+        <thead>
+            <tr>
+                <th>Puzzle</th>
+                <th>Date</th>
+                <th>Clues</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in puzzles %}
+            <tr>
+                <td><a href="/puzzle/{{ source }}/{{ p.puzzle_number }}">#{{ p.puzzle_number }}</a></td>
+                <td>{{ p.publication_date or '—' }}</td>
+                <td>{{ p.clue_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% if total_pages > 1 %}
