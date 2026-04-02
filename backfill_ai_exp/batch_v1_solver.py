@@ -866,10 +866,12 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
         parts = []
         for p in pieces:
             mech = p["mechanism"]
-            if mech == "literal":
-                parts.append('%s (from clue)' % p["letters"])
+            letters = p["letters"]
+            clue_word = p["clue_word"]
+            if mech == "literal" or (len(letters) <= 1 and letters.lower() == clue_word.lower()):
+                parts.append('%s (from clue)' % letters)
             else:
-                parts.append('%s (%s="%s")' % (p["letters"], mech, p["clue_word"]))
+                parts.append('%s (%s="%s")' % (letters, mech, clue_word))
         expl = " + ".join(parts) + " = " + answer.upper()
     elif wordplay_type == "reversal":
         expl = 'reverse of %s = %s' % (pieces[0]["letters"], answer.upper())
