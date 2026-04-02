@@ -333,21 +333,22 @@ def try_charade(remaining_words, answer, ref_db):
 
         word_values.append((w, values, 1))
 
-        # Also try two-word phrases (current + next word)
+        # Multi-word phrase lookups (2 and 3 word phrases)
         # Use space-separated form for DB lookup (RefDB stores phrases with spaces)
-        if i + 1 < len(remaining_words):
-            phrase = w + " " + remaining_words[i + 1]
-            phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
-            pair_values = []
-            for abbr in ref_db.get_abbreviations(phrase_key):
-                if abbr.upper() in answer_clean:
-                    pair_values.append((abbr.upper(), "abbreviation"))
-            for syn in ref_db.get_synonyms(phrase_key, max_len=len(answer_clean)):
-                s = syn.upper().replace(" ", "").replace("-", "")
-                if s and s in answer_clean and len(s) <= len(answer_clean):
-                    pair_values.append((s, "synonym"))
-            if pair_values:
-                word_values.append((phrase, pair_values, 2))
+        for span in (2, 3):
+            if i + span - 1 < len(remaining_words):
+                phrase = " ".join(remaining_words[i:i + span])
+                phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+                phrase_values = []
+                for abbr in ref_db.get_abbreviations(phrase_key):
+                    if abbr.upper() in answer_clean:
+                        phrase_values.append((abbr.upper(), "abbreviation"))
+                for syn in ref_db.get_synonyms(phrase_key, max_len=len(answer_clean)):
+                    s = syn.upper().replace(" ", "").replace("-", "")
+                    if s and s in answer_clean and len(s) <= len(answer_clean):
+                        phrase_values.append((s, "synonym"))
+                if phrase_values:
+                    word_values.append((phrase, phrase_values, span))
 
     # Filter to entries that have at least one possible value
     active = [(w, vals, span) for w, vals, span in word_values if vals]
@@ -661,46 +662,69 @@ def _get_word_values(words, answer_clean, ref_db):
         if not wn:
             continue
 
-        # Skip container indicators and reversal indicators
+        # Check if this word should be skipped for single-word lookups
+        skip_single = False
         ind_types = ref_db.get_indicator_types(wn)
         if ind_types and any(t[0] == 'container' for t in ind_types):
-            continue
+            skip_single = True
         if i in rev_indicator_idxs:
-            continue
-        # Skip link words
+            skip_single = True
         if ref_db.is_link_word(wn):
-            continue
+            skip_single = True
 
-        values = []
-        has_rev = rev_indicator_idxs and (i - 1 in rev_indicator_idxs or i + 1 in rev_indicator_idxs)
+        if not skip_single:
+            values = []
+            has_rev = rev_indicator_idxs and (i - 1 in rev_indicator_idxs or i + 1 in rev_indicator_idxs)
 
-        # Abbreviations
-        for abbr in ref_db.get_abbreviations(wn):
-            a = abbr.upper()
-            if len(a) <= max_piece_len:
-                values.append((a, "abbreviation"))
+            # Abbreviations
+            for abbr in ref_db.get_abbreviations(wn):
+                a = abbr.upper()
+                if len(a) <= max_piece_len:
+                    values.append((a, "abbreviation"))
 
-        # All synonyms that fit
-        for syn in ref_db.get_synonyms(wn, max_len=max_piece_len):
-            s = syn.upper().replace(" ", "").replace("-", "")
-            if s and len(s) <= max_piece_len:
-                values.append((s, "synonym"))
+            # All synonyms that fit
+            for syn in ref_db.get_synonyms(wn, max_len=max_piece_len):
+                s = syn.upper().replace(" ", "").replace("-", "")
+                if s and len(s) <= max_piece_len:
+                    values.append((s, "synonym"))
+                    if has_rev:
+                        values.append((s[::-1], "reversal"))
+
+            # Raw letters
+            raw = wn.upper()
+            if len(raw) <= max_piece_len:
+                values.append((raw, "literal"))
                 if has_rev:
-                    values.append((s[::-1], "reversal"))
+                    values.append((raw[::-1], "reversal"))
 
-        # Raw letters
-        raw = wn.upper()
-        if len(raw) <= max_piece_len:
-            values.append((raw, "literal"))
-            if has_rev:
-                values.append((raw[::-1], "reversal"))
+            # First letter
+            if wn:
+                values.append((wn[0].upper(), "first_letter"))
 
-        # First letter
-        if wn:
-            values.append((wn[0].upper(), "first_letter"))
+            if values:
+                word_values.append((w, values))
 
-        if values:
-            word_values.append((w, values))
+        # Multi-word phrase lookups (2 and 3 word phrases)
+        # Always tried, even if this word is a link/indicator — the phrase may be valid
+        has_rev = rev_indicator_idxs and (i - 1 in rev_indicator_idxs or i + 1 in rev_indicator_idxs)
+        for span in (2, 3):
+            if i + span - 1 < len(words):
+                phrase = " ".join(words[i:i + span])
+                phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+                phrase_values = []
+                # Use max_len + 3 to account for spaces in multi-word synonyms
+                for abbr in ref_db.get_abbreviations(phrase_key):
+                    a = abbr.upper()
+                    if len(a) <= max_piece_len:
+                        phrase_values.append((a, "abbreviation"))
+                for syn in ref_db.get_synonyms(phrase_key, max_len=max_piece_len + 3):
+                    s = syn.upper().replace(" ", "").replace("-", "")
+                    if s and len(s) <= max_piece_len:
+                        phrase_values.append((s, "synonym"))
+                        if has_rev:
+                            phrase_values.append((s[::-1], "reversal"))
+                if phrase_values:
+                    word_values.append((phrase, phrase_values))
 
     return word_values
 
