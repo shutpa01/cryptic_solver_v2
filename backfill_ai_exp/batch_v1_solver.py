@@ -862,15 +862,14 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
         source = pieces[0]["letters"] if pieces else "?"
         source_word = pieces[0]["clue_word"] if pieces else "?"
         expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
-    elif wordplay_type == "container":
+    elif wordplay_type in ("container", "charade"):
         parts = []
         for p in pieces:
-            parts.append('%s (%s="%s")' % (p["letters"], p["mechanism"], p["clue_word"]))
-        expl = " + ".join(parts) + " = " + answer.upper()
-    elif wordplay_type == "charade":
-        parts = []
-        for p in pieces:
-            parts.append('%s (%s="%s")' % (p["letters"], p["mechanism"], p["clue_word"]))
+            mech = p["mechanism"]
+            if mech == "literal":
+                parts.append('%s (from clue)' % p["letters"])
+            else:
+                parts.append('%s (%s="%s")' % (p["letters"], mech, p["clue_word"]))
         expl = " + ".join(parts) + " = " + answer.upper()
     elif wordplay_type == "reversal":
         expl = 'reverse of %s = %s' % (pieces[0]["letters"], answer.upper())

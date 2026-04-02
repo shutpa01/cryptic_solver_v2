@@ -127,8 +127,13 @@ def _build_explanation_from_pieces(ai_output):
         letters = p.get("letters", "")
         mechanism = p.get("mechanism", "")
         if clue_word and letters:
-            mech_label = mechanism.replace("_", " ")
-            parts.append(f"{clue_word} \u2192 {letters} ({mech_label})")
+            if mechanism == "literal":
+                parts.append(f"{letters} (from clue)")
+            elif mechanism == "indicator":
+                continue  # indicators don't contribute letters
+            else:
+                mech_label = mechanism.replace("_", " ")
+                parts.append(f"{clue_word} \u2192 {letters} ({mech_label})")
 
     if not parts:
         return None
