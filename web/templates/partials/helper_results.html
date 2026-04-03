@@ -35,11 +35,11 @@
                       hx-target="#meanings-{{ group.length }}"
                       hx-swap="innerHTML"
                       title="Show all {{ group.length }}-letter matches">({{ group.length }})</span>
-                <span class="text-gray-800">{{ group.words | join(', ') | upper }}{% if group.more %} <span class="text-blue-400 text-xs">+{{ group.more }} more</span>{% endif %}</span>
+                {% for w in group.words %}<span class="synonym-pick text-gray-800 cursor-pointer hover:bg-blue-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ w | upper }}')" title="Use as answer">{{ w | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}{% if group.more %} <span class="text-blue-400 text-xs">+{{ group.more }} more</span>{% endif %}
             </div>
             {% endfor %}
         {% else %}
-            <span class="text-gray-800">{{ meanings | join(', ') | upper }}</span>
+            {% for w in meanings %}<span class="synonym-pick text-gray-800 cursor-pointer hover:bg-blue-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ w | upper }}')" title="Use as answer">{{ w | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
         {% endif %}
     </div>
     {% endif %}
@@ -48,7 +48,7 @@
     {% if abbreviations %}
     <div class="rounded px-3 py-2 bg-purple-50 border border-purple-200">
         <span class="font-medium text-purple-700">Abbreviates to:</span>
-        <span class="text-gray-800 font-mono tracking-wider">{{ abbreviations | join(', ') | upper }}</span>
+        {% for a in abbreviations %}<span class="synonym-pick text-gray-800 font-mono tracking-wider cursor-pointer hover:bg-purple-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ a | upper }}')" title="Use as answer">{{ a | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
     </div>
     {% endif %}
 
@@ -56,7 +56,7 @@
     {% if homophones %}
     <div class="rounded px-3 py-2 bg-rose-50 border border-rose-200">
         <span class="font-medium text-rose-700">Sounds like:</span>
-        <span class="text-gray-800">{{ homophones | join(', ') | upper }}</span>
+        {% for h in homophones %}<span class="synonym-pick text-gray-800 cursor-pointer hover:bg-rose-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ h | upper }}')" title="Use as answer">{{ h | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
     </div>
     {% endif %}
 

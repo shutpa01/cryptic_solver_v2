@@ -65,12 +65,15 @@
     <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
     <div id="helper-widget" class="fixed top-16 right-4 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
         <button id="helper-open"
-                onclick="document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
+                onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
             Solver tools
         </button>
         <div id="helper-panel" class="hidden w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+            <div id="helper-drag-handle" class="px-3 py-1.5 bg-gray-100 border-b border-gray-200 cursor-move flex items-center justify-between select-none">
+                <span class="text-xs text-gray-400">&#x2630; drag to move</span>
+            </div>
             <div id="solver-clue-context" class="hidden px-3 pt-2 pb-1 bg-gray-50 border-b border-gray-100">
                 <p class="text-xs text-gray-700 leading-snug" id="solver-clue-text"></p>
                 <span class="text-xs text-gray-400 font-mono" id="solver-clue-enum"></span>
@@ -132,6 +135,26 @@
         </div>
     </div>
     <script>
+    function synonymToSolve(word) {
+        // Put the clicked synonym/abbreviation/homophone into the solve input for the last focused clue
+        if (typeof _lastFocusedClueId !== 'undefined' && _lastFocusedClueId) {
+            var input = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
+            if (input) {
+                input.value = word;
+                input.focus();
+                return;
+            }
+        }
+        // Fallback: find any visible solve input
+        var inputs = document.querySelectorAll('.solve-answer');
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].offsetParent !== null) {
+                inputs[i].value = word;
+                inputs[i].focus();
+                return;
+            }
+        }
+    }
     function solverTab(tab) {
         document.getElementById('solver-pattern').classList.toggle('hidden', tab !== 'pattern');
         document.getElementById('solver-anagram').classList.toggle('hidden', tab !== 'anagram');
@@ -331,6 +354,58 @@
             }
         });
     });
+
+    /* --- Draggable solver panel --- */
+    (function() {
+        var widget = document.getElementById('helper-widget');
+        var handle = document.getElementById('helper-drag-handle');
+        if (!widget || !handle) return;
+
+        var dragging = false, startX, startY, origX, origY;
+
+        function onStart(x, y) {
+            dragging = true;
+            var rect = widget.getBoundingClientRect();
+            startX = x; startY = y;
+            origX = rect.left; origY = rect.top;
+            // Switch from fixed top/right to fixed top/left for absolute positioning
+            widget.style.position = 'fixed';
+            widget.style.right = 'auto';
+            widget.style.left = origX + 'px';
+            widget.style.top = origY + 'px';
+        }
+
+        function onMove(x, y) {
+            if (!dragging) return;
+            var dx = x - startX, dy = y - startY;
+            var newX = Math.max(0, Math.min(origX + dx, window.innerWidth - widget.offsetWidth));
+            var newY = Math.max(0, Math.min(origY + dy, window.innerHeight - 40));
+            widget.style.left = newX + 'px';
+            widget.style.top = newY + 'px';
+        }
+
+        function onEnd() { dragging = false; }
+
+        // Mouse events
+        handle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            onStart(e.clientX, e.clientY);
+        });
+        document.addEventListener('mousemove', function(e) { onMove(e.clientX, e.clientY); });
+        document.addEventListener('mouseup', onEnd);
+
+        // Touch events
+        handle.addEventListener('touchstart', function(e) {
+            var t = e.touches[0];
+            onStart(t.clientX, t.clientY);
+        }, {passive: true});
+        document.addEventListener('touchmove', function(e) {
+            if (!dragging) return;
+            var t = e.touches[0];
+            onMove(t.clientX, t.clientY);
+        }, {passive: true});
+        document.addEventListener('touchend', onEnd);
+    })();
     </script>
 
     <!-- Cordelia's contextual tips -->

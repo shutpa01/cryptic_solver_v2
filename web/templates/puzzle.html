@@ -341,6 +341,29 @@ function hideHints(id) {
     var btn = el.parentElement.querySelector('.hint-hide');
     if (btn) btn.classList.add('hidden');
 }
+function closeAllPanels(except) {
+    // Close word helpers
+    if (except !== 'wordhelp') {
+        document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
+        _clearSelection();
+    }
+    // Close hint reveals
+    if (except !== 'hints') {
+        hideAllHints();
+    }
+    // Close solver panel
+    if (except !== 'solver') {
+        var panel = document.getElementById('helper-panel');
+        if (panel) panel.classList.add('hidden');
+        var btn = document.getElementById('helper-open');
+        if (btn) btn.classList.remove('hidden');
+    }
+    // Close grid overlay
+    if (except !== 'grid') {
+        var grid = document.getElementById('solve-grid-overlay');
+        if (grid) grid.classList.add('hidden');
+    }
+}
 var _selectedWords = []; // [{el, idx, clean, clueId}]
 function _isAnagramMode() {
     var panel = document.getElementById('helper-panel');
@@ -352,6 +375,9 @@ function wordHelp(span) {
     var clean = span.dataset.clean;
     var clueId = span.dataset.clue;
     var target = 'wordhelp-' + clueId;
+
+    // Close other panels when opening word help
+    closeAllPanels('wordhelp');
 
     // If anagram tab is open, send word there instead
     if (_isAnagramMode()) {
@@ -422,6 +448,11 @@ function hideAllHints() {
         btn.classList.add('hidden');
     });
 }
+document.body.addEventListener('htmx:beforeRequest', function(e) {
+    if (e.target.id && e.target.id.startsWith('hints-')) {
+        closeAllPanels('hints');
+    }
+});
 document.body.addEventListener('htmx:afterSwap', function(e) {
     if (e.target.id && e.target.id.startsWith('hints-')) {
         var btn = e.target.parentElement.querySelector('.hint-hide');
@@ -701,6 +732,7 @@ function solveAddToGrid(input) {
     if (crossEl) crossEl.classList.add('hidden');
     _updateProgress();
     _fetchCrossings();
+    closeAllPanels();
     // Queue enrichment from explanation pieces
     fetch('/admin/queue-enrichment/' + clueId, {method: 'POST'}).catch(function(){});
 }
@@ -762,6 +794,7 @@ function unrevealGridLetter(td) {
 }
 
 function showSolveGrid() {
+    closeAllPanels('grid');
     var solvedIds = _getSolvedIds();
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
     // Build user answers for clues where DB might not have the answer
@@ -870,6 +903,7 @@ function _fetchMatchCount(el, patternStr) {
 var _lastFocusedClueId = null;
 function solveInputFocus(input) {
     var clueId = input.dataset.clueId;
+    closeAllPanels('solver');
     if (clueId === _lastFocusedClueId) return;  // avoid re-fetching on same clue
     _lastFocusedClueId = clueId;
 
