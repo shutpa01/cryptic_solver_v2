@@ -531,7 +531,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
 
 @bp.route("/approve/<int:clue_id>", methods=["POST"])
 def approve_clue(clue_id):
-    """Mark a clue as approved (reviewed=1, has_solution=1)."""
+    """Mark a clue as approved at a given tier (reviewed=1, has_solution=1)."""
     _require_admin()
 
     db = get_admin_db()
@@ -539,28 +539,34 @@ def approve_clue(clue_id):
     if clue is None:
         abort(404)
 
+    # Tier from request: HIGH (default), MEDIUM, or LOW
+    tier = request.form.get("tier", "HIGH").upper()
+    confidence_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.2}
+    confidence = confidence_map.get(tier, 1.0)
+
     db.execute(
         "UPDATE clues SET reviewed = 1, has_solution = 1 WHERE id = ?",
         (clue_id,),
     )
-    # Upsert confidence to HIGH (1.0) in structured_explanations
+    # Upsert confidence in structured_explanations
     existing_se = db.execute(
         "SELECT id FROM structured_explanations WHERE clue_id = ?", (clue_id,)
     ).fetchone()
     if existing_se:
         db.execute(
-            "UPDATE structured_explanations SET confidence = 1.0 WHERE clue_id = ?",
-            (clue_id,),
+            "UPDATE structured_explanations SET confidence = ? WHERE clue_id = ?",
+            (confidence, clue_id),
         )
     else:
         db.execute(
             """INSERT INTO structured_explanations
                (clue_id, definition_text, model_version, confidence,
                 source, puzzle_number, clue_number)
-               VALUES (?, ?, 'manual_approve', 1.0, ?, ?, ?)""",
+               VALUES (?, ?, 'manual_approve', ?, ?, ?, ?)""",
             (
                 clue_id,
                 clue["definition"],
+                confidence,
                 clue["source"],
                 clue["puzzle_number"],
                 clue["clue_number"],

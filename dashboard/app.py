@@ -31,12 +31,16 @@ def get_conn(readonly=True):
     return conn
 
 
-# Sidebar navigation
+# Sidebar navigation — remember selected page across refreshes
 st.sidebar.title("Dashboard")
+_pages = ["Review Queue", "Pipeline Runner", "Scraper Control", "Site Analytics", "API Costs"]
+_default = _pages.index(st.session_state.get("_dash_page", "Review Queue"))
 page = st.sidebar.radio(
     "Navigate",
-    ["Review Queue", "Pipeline Runner", "Scraper Control", "Site Analytics", "API Costs"],
+    _pages,
+    index=_default,
 )
+st.session_state["_dash_page"] = page
 
 # Load the appropriate page
 if page == "Review Queue":

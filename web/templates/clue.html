@@ -135,11 +135,23 @@
         </button>
         <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-sm text-sky-500">Running...</span>
         <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-vals='{"tier": "HIGH"}'
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
-                class="text-sm px-3 py-1.5 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer">
-            Approve
-        </button>
+                class="text-sm px-3 py-1.5 rounded border border-green-300 text-green-700 hover:bg-green-50 font-medium cursor-pointer"
+                title="Approve as HIGH">H</button>
+        <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-vals='{"tier": "MEDIUM"}'
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-sm px-3 py-1.5 rounded border border-amber-300 text-amber-700 hover:bg-amber-50 font-medium cursor-pointer"
+                title="Approve as MEDIUM">M</button>
+        <button hx-post="/admin/approve/{{ clue.id }}"
+                hx-vals='{"tier": "LOW"}'
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                class="text-sm px-3 py-1.5 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer"
+                title="Approve as LOW">L</button>
         {% endif %}
     </div>
 
