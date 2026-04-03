@@ -133,3 +133,7 @@ def render():
         cols[2].metric("Avg tokens per call", f"{avg_in:.0f}in / {avg_out:.0f}out")
 
     conn.close()
+
+
+# Auto-render when Streamlit runs this file directly (multipage mode)
+render()

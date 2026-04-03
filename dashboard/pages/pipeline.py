@@ -25,9 +25,11 @@ def _get_unrun_puzzles(source_filter=None):
         SELECT source, puzzle_number, publication_date,
                COUNT(*) AS total,
                SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS with_answer,
-               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0) THEN 1 ELSE 0 END) AS untried,
+               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0)
+                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS untried,
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
-               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL THEN 1 ELSE 0 END) AS failed
+               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL
+                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS failed
         FROM clues
         {where}
           AND puzzle_number IS NOT NULL
@@ -322,8 +324,10 @@ def _show_puzzle_status(source, puzzle_number):
                SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS has_answer,
                SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
                SUM(CASE WHEN has_solution = 2 THEN 1 ELSE 0 END) AS partial,
-               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL THEN 1 ELSE 0 END) AS failed,
-               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0) THEN 1 ELSE 0 END) AS untried,
+               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL
+                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS failed,
+               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0)
+                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS untried,
                SUM(CASE WHEN definition IS NOT NULL AND wordplay_type IS NOT NULL
                          AND ai_explanation IS NOT NULL THEN 1 ELSE 0 END) AS high_tier
         FROM clues WHERE source = ? AND puzzle_number = ?
@@ -391,3 +395,7 @@ def _reset_puzzle(source, puzzle_number):
 
     conn.commit()
     conn.close()
+
+
+# Auto-render when Streamlit runs this file directly (multipage mode)
+render()

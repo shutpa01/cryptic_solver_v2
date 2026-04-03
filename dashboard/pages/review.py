@@ -814,3 +814,7 @@ def _render_unprocessed():
 
     df = pd.DataFrame(data)
     st.dataframe(df, use_container_width=True, hide_index=True)
+
+
+# Auto-render when Streamlit runs this file directly (multipage mode)
+render()

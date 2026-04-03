@@ -129,3 +129,7 @@ def render():
     st.metric("Indexable puzzle pages", f"{puzzle_count:,}")
 
     conn.close()
+
+
+# Auto-render when Streamlit runs this file directly (multipage mode)
+render()
