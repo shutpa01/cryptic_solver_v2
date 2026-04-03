@@ -50,7 +50,9 @@ elif page == "Pipeline Runner":
     importlib.reload(pipeline)
     pipeline.render()
 elif page == "Scraper Control":
+    import importlib
     from dashboard.pages import scraper
+    importlib.reload(scraper)
     scraper.render()
 elif page == "Site Analytics":
     from dashboard.pages import analytics
