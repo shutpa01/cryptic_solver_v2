@@ -2,6 +2,7 @@
 
 import json
 import re
+from pathlib import Path
 
 from flask import current_app
 
@@ -11,6 +12,56 @@ from web.db import get_db
 # ---------------------------------------------------------------------------
 # Slug generation
 # ---------------------------------------------------------------------------
+
+import json as _json_mod
+
+# --- Blog attribution for human explanations ---
+_tftt_index = None
+_TFTT_INDEX_PATH = Path(__file__).resolve().parent.parent / "scraper" / "timesforthetimes" / "tftt_post_index.json"
+
+
+def _get_tftt_index():
+    global _tftt_index
+    if _tftt_index is None:
+        try:
+            with open(_TFTT_INDEX_PATH, encoding="utf-8") as f:
+                _tftt_index = _json_mod.load(f)
+        except (FileNotFoundError, _json_mod.JSONDecodeError):
+            _tftt_index = {}
+    return _tftt_index
+
+
+def get_blog_attribution(source, puzzle_number, publication_date=None):
+    """Return (blog_name, blog_url) for a human explanation, or (None, None)."""
+    if source == "times":
+        idx = _get_tftt_index()
+        entry = idx.get(str(puzzle_number))
+        if entry and entry.get("link"):
+            return "Times for the Times", entry["link"]
+        return "Times for the Times", None
+    elif source == "guardian":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=guardian+{puzzle_number}"
+    elif source == "independent":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=independent+{puzzle_number}"
+    elif source == "telegraph":
+        return "Big Dave's Crossword Blog", f"https://bigdave44.com/?s=dt+{puzzle_number}"
+    return None, None
+
+
+def get_source_puzzle_url(source, puzzle_number):
+    """Return the URL to the original puzzle on the newspaper's website, or None."""
+    if source == "guardian":
+        return f"https://www.theguardian.com/crosswords/cryptic/{puzzle_number}"
+    elif source == "telegraph":
+        return "https://www.telegraph.co.uk/puzzles/puzzle/crosswords/"
+    elif source == "times":
+        return "https://www.thetimes.com/puzzles/crossword"
+    elif source == "independent":
+        return "https://puzzles.independent.co.uk/games/cryptic-crossword-independent"
+    elif source == "dailymail":
+        return "https://www.dailymail.co.uk/puzzles/index.html"
+    return None
+
 
 def clue_slug(clue_text, enumeration=None):
     """Generate a URL slug from clue text + enumeration.

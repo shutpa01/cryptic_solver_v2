@@ -23,6 +23,10 @@
         {% if publication_date %}
         <p class="text-sm text-gray-400 mt-1">{{ publication_date }}</p>
         {% endif %}
+        {% if source_puzzle_url %}
+        <a href="{{ source_puzzle_url }}" target="_blank" rel="noopener"
+           class="text-xs text-gray-400 hover:text-indigo-500 italic">Solve on {{ source | source_name }} &rarr;</a>
+        {% endif %}
     </div>
     <div class="flex gap-2 items-center shrink-0">
         {% if g.is_admin %}
@@ -245,6 +249,26 @@
     </div>
     {# Reveal area — HTMX swaps content here #}
     <div id="hints-{{ clue.id }}" class="ml-10"></div>
+    {# Human explanation fallback — non-Telegraph: serve explanation with attribution #}
+    {% if clue.explanation and source != 'telegraph' and clue.tier in ('PENDING', 'FAIL') and blog_name %}
+    <div class="ml-10 mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+        <p class="text-xs text-amber-800 italic mb-1">
+            I haven't cracked this one yet &mdash; but
+            {% if blog_url %}<a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-amber-900 hover:underline">{{ blog_name }}</a>{% else %}<span class="font-semibold">{{ blog_name }}</span>{% endif %}
+            have:
+        </p>
+        <p class="text-xs text-gray-700 leading-relaxed">{{ clue.explanation }}</p>
+    </div>
+    {# Telegraph: link to Big Dave only, no explanation served #}
+    {% elif source == 'telegraph' and clue.tier in ('PENDING', 'FAIL') and blog_name and blog_url %}
+    <div class="ml-10 mt-2 p-2 bg-gray-50 border border-gray-200 rounded">
+        <p class="text-xs text-gray-500 italic">
+            Not cracked yet &mdash; try
+            <a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-indigo-600 hover:underline">{{ blog_name }}</a>
+            (aimed at experienced solvers)
+        </p>
+    </div>
+    {% endif %}
     {% if g.is_admin %}
     {# Collapsible DB enrichment — hidden by default #}
     <div id="enrich-{{ clue.id }}" class="ml-10 mt-1" style="display:none">

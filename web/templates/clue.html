@@ -145,6 +145,26 @@
 
     {# Reveal area — HTMX swaps hint content here #}
     <div id="hints-{{ clue.id }}" class="mt-2"></div>
+
+    {# Human explanation fallback — Cordelia's voice #}
+    {% if human_explanation %}
+    <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <p class="text-sm text-amber-800 italic mb-2">
+            I haven't cracked this one yet &mdash; but the brilliant team at
+            {% if blog_url %}<a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-amber-900 hover:underline">{{ blog_name }}</a>{% else %}<span class="font-semibold">{{ blog_name }}</span>{% endif %}
+            have:
+        </p>
+        <p class="text-sm text-gray-700 leading-relaxed">{{ human_explanation }}</p>
+    </div>
+    {% elif blog_name and not human_explanation and clue.source == 'telegraph' %}
+    <div class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+        <p class="text-sm text-gray-600 italic">
+            I haven't cracked this one yet. You might find some help at
+            {% if blog_url %}<a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-indigo-600 hover:underline">{{ blog_name }}</a>{% else %}<span class="font-semibold">{{ blog_name }}</span>{% endif %}
+            &mdash; though it tends to be aimed at more experienced solvers.
+        </p>
+    </div>
+    {% endif %}
 </div>
 
 {% if request.args.get('back') %}
@@ -165,6 +185,14 @@
         <span>See all clues from {{ clue.source | source_name }} {{ clue.type_label }} #{{ clue.puzzle_number }}</span>
         <span>&rarr;</span>
     </a>
+    {% if source_puzzle_url %}
+    <br>
+    <a href="{{ source_puzzle_url }}" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-600 italic mt-1">
+        <span>Solve this puzzle on {{ clue.source | source_name }}</span>
+        <span>&rarr;</span>
+    </a>
+    {% endif %}
 </div>
 {% endif %}
 

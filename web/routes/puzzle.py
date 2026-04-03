@@ -109,6 +109,11 @@ def puzzle(source, puzzle_type, puzzle_number):
         except (ValueError, TypeError):
             pass
 
+    # Blog attribution and source link
+    from web.models import get_blog_attribution, get_source_puzzle_url
+    blog_name, blog_url = get_blog_attribution(source, puzzle_number, pub_date)
+    source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
+
     return render_template(
         "puzzle.html",
         source=source,
@@ -119,6 +124,9 @@ def puzzle(source, puzzle_type, puzzle_number):
         across=across,
         down=down,
         is_prize=is_prize,
+        blog_name=blog_name,
+        blog_url=blog_url,
+        source_puzzle_url=source_puzzle_url,
     )
 
 
