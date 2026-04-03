@@ -431,72 +431,9 @@ def similar():
     clue_id = request.args.get("clue_id", type=int)
     exclude_id = request.args.get("exclude_id", type=int)
 
-    if not query or len(query) < 3:
-        return render_template("partials/similar_results.html", query=query, results=[])
-
-    # Extract significant words (drop stop words and short words)
-    words = [w for w in re.findall(r"[a-zA-Z]+", query.lower()) if w not in _STOP_WORDS and len(w) > 2]
-
-    if len(words) < 1:
-        return render_template("partials/similar_results.html", query=query, results=[])
-
-    # Limit to 6 most significant words (longest first — more distinctive)
-    words.sort(key=len, reverse=True)
-    search_words = words[:6]
-
-    # Use OR query to cast a wide net, then rank by overlap
-    conditions = ["clue_text LIKE ?"] * len(search_words)
-    params = [f"%{w}%" for w in search_words]
-
-    or_where = " OR ".join(conditions)
-    full_where = f"({or_where}) AND answer IS NOT NULL AND length(answer) > 0"
-
-    # Strictly filter by enumeration
-    if enum:
-        full_where += " AND enumeration = ?"
-        params.append(enum)
-
-    # Exclude the source clue by exact text match
-    full_where += " AND clue_text != ?"
-    params.append(query)
-
-    if exclude_id:
-        full_where += " AND id != ?"
-        params.append(exclude_id)
-
     db = _get_clues_db()
-    rows = db.execute(f"""
-        SELECT clue_text, answer, enumeration, source, puzzle_number
-        FROM clues
-        WHERE {full_where}
-        LIMIT 500
-    """, params).fetchall()
 
-    # Score each result by weighted overlap — longer words worth more
-    def _overlap_score(clue_text):
-        ct = clue_text.lower()
-        return sum(len(w) for w in search_words if w in ct)
-
-    # Minimum score threshold: require the 2 longest search words to match
-    sorted_lens = sorted((len(w) for w in search_words), reverse=True)
-    min_score = sum(sorted_lens[:2]) if len(sorted_lens) >= 2 else sum(sorted_lens)
-
-    # Deduplicate by clue_text+answer, score and rank
-    seen = set()
-    scored = []
-    for r in rows:
-        key = (r["clue_text"].lower(), r["answer"])
-        if key not in seen:
-            seen.add(key)
-            score = _overlap_score(r["clue_text"])
-            if score >= min_score:
-                scored.append((score, dict(r)))
-
-    # Sort by overlap score descending
-    scored.sort(key=lambda x: x[0], reverse=True)
-    results = [item for _, item in scored[:20]]
-
-    # Look up the source clue's answer for accuracy checking
+    # Look up the source clue's answer
     source_answer = None
     if clue_id:
         row = db.execute(
@@ -505,10 +442,43 @@ def similar():
         if row and row["answer"]:
             source_answer = row["answer"].upper().strip()
 
+    if not source_answer and (not query or len(query) < 3):
+        return render_template("partials/similar_results.html", query=query, results=[])
+
+    # Search by answer — find other clues with the same answer
+    if source_answer:
+        params = [source_answer]
+        where = "UPPER(answer) = ? AND clue_text != ?"
+        params.append(query)
+        if exclude_id:
+            where += " AND id != ?"
+            params.append(exclude_id)
+
+        rows = db.execute(f"""
+            SELECT clue_text, answer, enumeration, source, puzzle_number
+            FROM clues
+            WHERE {where}
+              AND answer IS NOT NULL AND length(answer) > 0
+            ORDER BY publication_date DESC
+            LIMIT 200
+        """, params).fetchall()
+
+        # Deduplicate by clue text
+        seen = set()
+        results = []
+        for r in rows:
+            key = r["clue_text"].lower()
+            if key not in seen:
+                seen.add(key)
+                results.append(dict(r))
+            if len(results) >= 20:
+                break
+    else:
+        results = []
+
     return render_template(
         "partials/similar_results.html",
         query=query,
-        words=search_words,
         results=results,
         label=label,
         enum=enum,
