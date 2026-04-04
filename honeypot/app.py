@@ -14,7 +14,10 @@ from flask import Flask, g, abort, render_template, request, Response, jsonify
 
 app = Flask(__name__)
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "clues_master.db"
+# Local dev: use clues_master.db from project root; Droplet: use local data/clues.db
+_local_db = Path(__file__).resolve().parent.parent / "data" / "clues_master.db"
+_droplet_db = Path(__file__).resolve().parent / "data" / "clues.db"
+DB_PATH = _local_db if _local_db.exists() else _droplet_db
 
 ALLOWED_SOURCES = ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
 ALLOWED_SOURCES_SQL = "('telegraph', 'times', 'guardian', 'independent', 'dailymail')"

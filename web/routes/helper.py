@@ -5,7 +5,9 @@ import re
 import sqlite3
 from pathlib import Path
 
-from flask import Blueprint, request, render_template, abort, g
+import json
+
+from flask import Blueprint, request, render_template, abort, g, jsonify
 
 # Stop words to ignore when searching for similar clues
 _STOP_WORDS = frozenset(
@@ -199,6 +201,189 @@ def meanings_expand():
 
 # Flask-Limiter decorator would go here, e.g.:
 # @limiter.limit("20/minute")
+@bp.route("/helper/pattern-counts")
+def pattern_counts_batch():
+    """Batch pattern count — accepts multiple patterns in one request.
+
+    Query param: patterns — JSON object {"clueId": {"pattern": "S?O?E", "enum": "5"}, ...}
+    Returns: JSON object {"clueId": count, ...}
+    """
+    raw = request.args.get("patterns", "")
+    if not raw:
+        return jsonify({})
+
+    try:
+        queries = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return jsonify({})
+
+    db = _get_clues_db()
+    ref = _get_ref_db()
+    results = {}
+
+    for clue_id, info in queries.items():
+        pat_raw = info.get("pattern", "").strip().upper()
+        enum_val = info.get("enum", "").strip()
+        if not pat_raw or len(pat_raw) < 2:
+            results[clue_id] = 0
+            continue
+
+        clean = re.sub(r'[^A-Z0-9?\- ]', '', pat_raw)
+        pattern_joined = ""
+        pattern_spaced = ""
+        for ch in clean:
+            if ch in ('?', ' '):
+                pattern_joined += '_'
+                pattern_spaced += '_'
+            elif ch == '-':
+                pattern_spaced += ' '
+            else:
+                pattern_joined += ch
+                pattern_spaced += ch
+
+        if len(pattern_joined) < 2:
+            results[clue_id] = 0
+            continue
+
+        seen = set()
+        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+            rows = db.execute(
+                "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? LIMIT 200",
+                (pat, pat_len),
+            ).fetchall()
+            for r in rows:
+                seen.add(r["ans"])
+
+        for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
+            for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+                ref_rows = ref.execute(
+                    f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
+                    (pat, pat_len),
+                ).fetchall()
+                for r in ref_rows:
+                    seen.add(r["ans"])
+
+        if enum_val:
+            enum_parts = re.findall(r'\d+', enum_val)
+            if len(enum_parts) == 1:
+                seen = {w for w in seen if ' ' not in w}
+            elif len(enum_parts) > 1:
+                def _matches_enum(answer, parts):
+                    words = answer.split()
+                    if len(words) != len(parts):
+                        return False
+                    return all(len(w) == int(p) for w, p in zip(words, parts))
+                seen = {w for w in seen if _matches_enum(w, enum_parts)}
+
+        results[clue_id] = len(seen)
+
+    return jsonify(results)
+
+
+@bp.route("/helper/word-info")
+def word_info():
+    """Quick reverse lookup — what does this word mean in crossword context?
+
+    Returns a short text like "bird, number, colour, cleric" showing
+    what definitions map to this answer word.
+    """
+    word = request.args.get("word", "").strip().upper()
+    if not word or len(word) < 2:
+        return ""
+
+    ref = _get_ref_db()
+    meanings = set()
+
+    # Reverse synonym lookup: what words have this as a synonym?
+    rows = ref.execute(
+        "SELECT DISTINCT LOWER(word) AS w FROM synonyms_pairs WHERE UPPER(synonym) = ? LIMIT 20",
+        (word,),
+    ).fetchall()
+    for r in rows:
+        meanings.add(r["w"])
+
+    # Also check definition_answers_augmented
+    rows2 = ref.execute(
+        "SELECT DISTINCT LOWER(definition) AS d FROM definition_answers_augmented WHERE UPPER(answer) = ? LIMIT 20",
+        (word,),
+    ).fetchall()
+    for r in rows2:
+        meanings.add(r["d"])
+
+    if not meanings:
+        return "no definitions found"
+
+    # Show up to 8, sorted by length (shorter = more useful)
+    sorted_meanings = sorted(meanings, key=len)[:8]
+    return ", ".join(sorted_meanings)
+
+
+@bp.route("/helper/pattern-count")
+def pattern_count():
+    """Fast count-only pattern match — just returns the number of matches.
+
+    Only searches clues table (not reference DB) for speed.
+    Used by crossing letter match counts where we need many counts fast.
+    """
+    raw = request.args.get("pattern", "").strip().upper()
+    enum_val = request.args.get("enum", "").strip()
+    if not raw or len(raw) < 2:
+        return "0"
+
+    clean = re.sub(r'[^A-Z0-9?\- ]', '', raw)
+    pattern_joined = ""
+    pattern_spaced = ""
+    for ch in clean:
+        if ch in ('?', ' '):
+            pattern_joined += '_'
+            pattern_spaced += '_'
+        elif ch == '-':
+            pattern_spaced += ' '
+        else:
+            pattern_joined += ch
+            pattern_spaced += ch
+
+    if len(pattern_joined) < 2:
+        return "0"
+
+    db = _get_clues_db()
+    seen = set()
+
+    for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+        rows = db.execute(
+            "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? LIMIT 200",
+            (pat, pat_len),
+        ).fetchall()
+        for r in rows:
+            seen.add(r["ans"])
+
+    # Also search reference DB (same as full pattern search)
+    ref = _get_ref_db()
+    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
+        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+            ref_rows = ref.execute(
+                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
+                (pat, pat_len),
+            ).fetchall()
+            for r in ref_rows:
+                seen.add(r["ans"])
+
+    # Filter by enumeration word breaks
+    if enum_val:
+        enum_parts = re.findall(r'\d+', enum_val)
+        if len(enum_parts) == 1:
+            seen = {w for w in seen if ' ' not in w}
+        elif len(enum_parts) > 1:
+            def _matches_enum(answer, parts):
+                words = answer.split()
+                if len(words) != len(parts):
+                    return False
+                return all(len(w) == int(p) for w, p in zip(words, parts))
+            seen = {w for w in seen if _matches_enum(w, enum_parts)}
+
+    return str(len(seen))
+
+
 @bp.route("/helper/pattern")
 def pattern_search():
     """Search for words matching a pattern.

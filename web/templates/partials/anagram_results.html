@@ -13,11 +13,17 @@
     <div class="rounded px-3 py-2 bg-violet-50 border border-violet-200">
         <div class="flex flex-wrap gap-x-4 gap-y-1">
             {% for word in matches %}
-            <span class="font-mono text-gray-800 tracking-wide cursor-pointer hover:text-violet-700 hover:underline"
-                  onclick="pickResultClick('{{ word }}')"
-                  title="Click to preview, double-click to add to grid">{{ word }}</span>
+            <span class="inline-flex items-center gap-0.5">
+                <span class="font-mono text-gray-800 tracking-wide cursor-pointer hover:text-violet-700 hover:underline"
+                      onclick="pickResultClick('{{ word }}')"
+                      title="Click to add to answer box">{{ word }}</span>
+                <span class="text-violet-400 hover:text-violet-700 cursor-pointer text-xs select-none"
+                      onclick="event.stopPropagation();wordInfoToggle(this,'{{ word }}')"
+                      title="What does this mean?">&#9432;</span>
+            </span>
             {% endfor %}
         </div>
+        <div id="word-info-display" class="hidden mt-2 text-xs text-gray-600 italic border-t border-violet-200 pt-1.5"></div>
     </div>
     {% else %}
     <div class="rounded px-3 py-2 bg-gray-50 border border-gray-200 text-gray-500">

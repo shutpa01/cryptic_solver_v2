@@ -63,14 +63,14 @@
     </main>
 
     <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
-    <div id="helper-widget" class="fixed top-16 right-4 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
+    <div id="helper-widget" class="fixed bottom-4 right-2 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
         <button id="helper-open"
                 onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
             Solver tools
         </button>
-        <div id="helper-panel" class="hidden w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+        <div id="helper-panel" class="hidden w-[calc(100vw-1rem)] sm:w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
             <div id="helper-drag-handle" class="px-3 py-1.5 bg-gray-100 border-b border-gray-200 cursor-move flex items-center justify-between select-none">
                 <span class="text-xs text-gray-400">&#x2630; drag to move</span>
             </div>
@@ -108,7 +108,8 @@
                     <input type="text" id="pattern-include" name="include"
                            placeholder="e.g. LT"
                            class="w-20 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                           autocomplete="off">
+                           autocomplete="off"
+                           oninput="_patternIncludeChanged()">
                 </div>
             </div>
             <!-- Anagram tab -->
@@ -131,7 +132,7 @@
                 <p class="text-xs text-gray-500" id="similar-hint">Click a clue number to find similar clues</p>
             </div>
             <div id="solver-panel-tip"></div>
-            <div id="solver-results" class="p-3 overflow-y-auto max-h-[70vh]"></div>
+            <div id="solver-results" class="p-3 overflow-y-auto flex-1 min-h-0"></div>
         </div>
     </div>
     <script>
@@ -155,6 +156,39 @@
             }
         }
     }
+    function wordInfoToggle(icon, word) {
+        var display = document.getElementById('word-info-display');
+        if (!display) return;
+        // If already showing this word, hide it
+        if (display.getAttribute('data-word') === word && !display.classList.contains('hidden')) {
+            display.classList.add('hidden');
+            return;
+        }
+        display.classList.remove('hidden');
+        display.setAttribute('data-word', word);
+        display.innerHTML = '<span class="text-gray-400">Looking up ' + word + '...</span>';
+        fetch('/helper/word-info?word=' + encodeURIComponent(word))
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+                display.innerHTML = '<strong>' + word + '</strong>: ' + text;
+            });
+    }
+
+    var _patternIncludeTimer = null;
+    function _patternIncludeChanged() {
+        clearTimeout(_patternIncludeTimer);
+        _patternIncludeTimer = setTimeout(function() {
+            var patVal = document.getElementById('pattern-input').value;
+            if (!patVal || patVal.length < 2) return;
+            var includeVal = document.getElementById('pattern-include').value;
+            var enumVal = document.getElementById('pattern-enum').value;
+            var url = '/helper/pattern?pattern=' + encodeURIComponent(patVal);
+            if (includeVal) url += '&include=' + encodeURIComponent(includeVal);
+            if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
+            htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
+        }, 400);
+    }
+
     function solverTab(tab) {
         document.getElementById('solver-pattern').classList.toggle('hidden', tab !== 'pattern');
         document.getElementById('solver-anagram').classList.toggle('hidden', tab !== 'anagram');
@@ -213,13 +247,10 @@
             return;
         }
 
-        // Normal solve mode: preview on click, add to grid on double-click
-        if (typeof _lastFocusedClueId === 'undefined' || !_lastFocusedClueId) return;
-        var inp = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
-        if (!inp || inp.disabled) return;
-
-        inp.value = word;
-        solverClose();
+        // Solve mode: fill the answer box for the current clue
+        if (typeof synonymToSolve === 'function') {
+            synonymToSolve(word);
+        }
     }
 
     function solverClose() {
@@ -304,6 +335,9 @@
 
     function similarFromClue(clueText, enumeration, clueLabel, clueId) {
         _closeAllWordHelp();
+        if (clueId && typeof _lastFocusedClueId !== 'undefined') _lastFocusedClueId = clueId;
+        var enumInput = document.getElementById('pattern-enum');
+        if (enumInput && enumeration) enumInput.value = enumeration;
         document.getElementById('helper-panel').classList.remove('hidden');
         document.getElementById('helper-open').classList.add('hidden');
         solverTab('similar');
@@ -354,6 +388,24 @@
             }
         });
     });
+
+    /* --- Ensure solver widget is on screen --- */
+    (function() {
+        var w = document.getElementById('helper-widget');
+        if (!w) return;
+        // After a tick (panel may auto-open), ensure it fits
+        setTimeout(function() {
+            var rect = w.getBoundingClientRect();
+            if (rect.right > window.innerWidth) {
+                w.style.right = '2px';
+                w.style.left = 'auto';
+            }
+            if (rect.left < 0) {
+                w.style.left = '2px';
+                w.style.right = 'auto';
+            }
+        }, 200);
+    })();
 
     /* --- Draggable solver widget (button + panel) --- */
     (function() {

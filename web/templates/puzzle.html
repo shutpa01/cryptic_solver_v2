@@ -134,7 +134,7 @@
                 {% endif %}
             </div>
             {# Solve mode input — hidden until solve mode activated #}
-            <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5">
+            <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5 max-w-full">
                 <input type="text" class="solve-answer text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase min-w-[6rem] w-auto focus:outline-none focus:ring-2 focus:ring-emerald-300 placeholder:text-gray-500 placeholder:font-semibold"
                        placeholder="{{ clue.enumeration or '???' }}"
                        oninput="this.size=Math.max(6,this.value.length+2)"
@@ -145,6 +145,7 @@
                        data-label="{{ clue.clue_number }}{{ clue.direction[0] }}"
                        onfocus="solveInputFocus(this)"
                        oninput="solverClose()"
+                       onblur="solveAutoCheck(this)"
                        onkeydown="if(event.key==='Enter'){event.preventDefault();solveCheck(this)}">
                 <button onclick="solveCheckOrDelete(this)"
                         class="solve-check-btn text-xs px-2.5 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Check</button>
@@ -165,7 +166,7 @@
         </div>
     </div>
     {# Buttons row — badges + hint buttons + admin buttons all on one line #}
-    <div id="explain-{{ clue.id }}" class="ml-10 mt-1 flex flex-wrap gap-1.5 items-center">
+    <div id="explain-{{ clue.id }}" class="ml-10 mt-1 flex flex-wrap gap-1.5 items-center max-w-full overflow-hidden">
         {% for s in clue.steps %}
         <button hx-post="/reveal"
                 hx-vals='{"token": "{{ clue.token }}", "step": "{{ s.step }}"}'
@@ -555,7 +556,7 @@ function _enterSolveMode() {
     // Restore saved answers and crossings
     _restoreSolveState();
     _updateProgress();
-    _fetchCrossings();
+    _restoreCachedCrossings() || _fetchCrossings();
 }
 
 function _exitSolveMode() {
@@ -673,6 +674,49 @@ function solveCheck(input) {
     _updateProgress();
 }
 
+function solveAutoCheck(input) {
+    // Auto-check on blur: only if there's text and no result shown yet
+    var guess = input.value.replace(/\s/g, '').toUpperCase();
+    if (!guess) return;
+    if (input.disabled) return;  // already solved
+
+    var result = input.parentElement.querySelector('.solve-result');
+    if (result && result.textContent.trim()) return;  // already has feedback
+
+    var card = input.closest('.clue-card');
+    var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+
+    if (!answer) {
+        // Prize puzzle — just save
+        _saveSolveAnswer(input.dataset.clueId, input.value);
+        result.className = 'solve-result text-xs text-amber-600';
+        result.textContent = 'Saved';
+        return;
+    }
+
+    // Check length — parse enumeration to get expected letter count
+    var enumStr = input.dataset.enum || '';
+    var expectedLen = 0;
+    var nums = enumStr.match(/\d+/g);
+    if (nums) expectedLen = nums.reduce(function(a, b) { return a + parseInt(b); }, 0);
+
+    if (expectedLen > 0 && guess.length < expectedLen) {
+        // Partial answer — just save, no feedback
+        _saveSolveAnswer(input.dataset.clueId, input.value);
+        return;
+    }
+
+    // Full-length answer — auto-check
+    if (guess === answer) {
+        solveCheck(input);  // run the full check for correct handling
+    } else {
+        result.className = 'solve-result text-xs text-amber-500';
+        result.textContent = 'Try Check →';
+        input.classList.add('border-amber-300');
+        _saveSolveAnswer(input.dataset.clueId, input.value);
+    }
+}
+
 function _saveSolveAnswer(clueId, value, correct) {
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
     state[clueId] = {value: value, correct: !!correct};
@@ -721,7 +765,7 @@ function _scrollToClueEl(el, num, otherDir) {
     // Remove any existing "also see" links
     document.querySelectorAll('.also-see-link').forEach(function(e) { e.remove(); });
     var y = el.getBoundingClientRect().top + window.pageYOffset - 80;
-    window.scrollTo({top: y, behavior: 'smooth'});
+    window.scrollTo({top: y, behavior: 'instant'});
     el.classList.add('bg-indigo-50');
     setTimeout(function() { el.classList.remove('bg-indigo-50'); }, 3000);
     // Show "Also see" link if both directions exist
@@ -827,6 +871,7 @@ function unrevealGridLetter(td) {
 }
 
 function showSolveGrid() {
+    _cancelMatchCountFetches();
     closeAllPanels('grid');
     var solvedIds = _getSolvedIds();
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
@@ -850,6 +895,49 @@ function showSolveGrid() {
     });
 }
 
+var _crossingsCacheKey = _solveKey + '_crossings';
+
+function _restoreCachedCrossings() {
+    var cached = localStorage.getItem(_crossingsCacheKey);
+    if (!cached) return false;
+    try {
+        var data = JSON.parse(cached);
+        if (!data.patterns || Object.keys(data.patterns).length === 0) return false;
+        // Only use cache if we have counts (not just empty patterns)
+        if (!data.counts || Object.keys(data.counts).length === 0) return false;
+        _applyCrossings(data.patterns, data.counts);
+        return true;
+    } catch(e) { return false; }
+}
+
+function _applyCrossings(patterns, counts) {
+    document.querySelectorAll('.solve-input').forEach(function(row) {
+        var input = row.querySelector('.solve-answer');
+        var crossingEl = row.querySelector('.solve-crossing');
+        var clueId = input.dataset.clueId;
+        var pat = patterns[clueId];
+
+        if (pat && !input.disabled) {
+            input.placeholder = pat;
+            input.setAttribute('data-crossing', pat);
+            crossingEl.setAttribute('data-pattern', pat);
+            crossingEl.classList.remove('hidden');
+            var count = counts[clueId];
+            if (count !== undefined) {
+                crossingEl.textContent = count > 0 ? count + ' matches' : 'no matches';
+            } else {
+                crossingEl.textContent = '...';
+                crossingEl.setAttribute('data-needs-count', pat.replace(/_/g, '?'));
+            }
+            window._hasCrossings = true;
+        }
+    });
+    // Fetch any missing counts
+    if (document.querySelectorAll('[data-needs-count]').length > 0) {
+        setTimeout(_fetchMatchCountsStaggered, 300);
+    }
+}
+
 function _fetchCrossings() {
     var solvedIds = _getSolvedIds();
     if (solvedIds.length === 0 && Object.keys(_revealedCells).length === 0) return;
@@ -866,6 +954,7 @@ function _fetchCrossings() {
         url += '&revealed=' + encodeURIComponent(JSON.stringify(_revealedCells));
     }
     fetch(url).then(function(r) { return r.json(); }).then(function(crossings) {
+        var patterns = {};
         document.querySelectorAll('.solve-input').forEach(function(row) {
             var input = row.querySelector('.solve-answer');
             var crossingEl = row.querySelector('.solve-crossing');
@@ -873,12 +962,10 @@ function _fetchCrossings() {
             var card = input.closest('.clue-card');
             var linkedId = card && card.dataset.linkedId;
 
-            // Combine crossings from main clue + linked clue for spanning answers
             var mainPat = crossings[clueId] || '';
             var linkedPat = (linkedId && crossings[linkedId]) || '';
             var pat = mainPat;
             if (linkedPat) {
-                // Concatenate raw patterns, then insert word breaks from enumeration
                 var raw = (mainPat || '') + (linkedPat || '');
                 pat = _insertEnumBreaks(raw, input.dataset.enum || '');
             } else if (mainPat) {
@@ -886,6 +973,7 @@ function _fetchCrossings() {
             }
 
             if (pat && !input.disabled) {
+                patterns[clueId] = pat;
                 input.placeholder = pat;
                 input.setAttribute('data-crossing', pat);
                 var patternStr = pat.replace(/_/g, '?');
@@ -896,27 +984,62 @@ function _fetchCrossings() {
                 window._hasCrossings = true;
             }
         });
-        // Stagger match count fetches — one every 200ms to avoid hammering
+        // Cache patterns for instant restore on refresh
+        localStorage.setItem(_crossingsCacheKey, JSON.stringify({patterns: patterns, counts: {}}));
+        // Stagger match count fetches
         setTimeout(_fetchMatchCountsStaggered, 300);
     });
 }
 
+var _matchCountTimer = null;
 function _fetchMatchCountsStaggered() {
+    // Batch all pending counts into a single request
+    if (_matchCountTimer) { clearTimeout(_matchCountTimer); _matchCountTimer = null; }
     var pending = document.querySelectorAll('[data-needs-count]');
-    var i = 0;
-    function next() {
-        if (i >= pending.length) return;
-        var el = pending[i++];
+    if (pending.length === 0) return;
+
+    var queries = {};
+    pending.forEach(function(el) {
         var pat = el.getAttribute('data-needs-count');
-        if (!pat) { next(); return; }
+        if (!pat) return;
         el.removeAttribute('data-needs-count');
-        // Get enum from the sibling solve-answer input
         var row = el.closest('.solve-input');
-        var enumStr = row ? (row.querySelector('.solve-answer') || {}).dataset.enum || '' : '';
-        _fetchMatchCount(el, pat, enumStr);
-        setTimeout(next, 200);
-    }
-    next();
+        var input = row ? row.querySelector('.solve-answer') : null;
+        var clueId = input ? input.dataset.clueId : null;
+        if (clueId && pat) {
+            queries[clueId] = {pattern: pat, enum: input.dataset.enum || ''};
+        }
+    });
+
+    if (Object.keys(queries).length === 0) return;
+
+    fetch('/helper/pattern-counts?patterns=' + encodeURIComponent(JSON.stringify(queries)))
+        .then(function(r) { return r.json(); })
+        .then(function(counts) {
+            var cached = {};
+            try { cached = JSON.parse(localStorage.getItem(_crossingsCacheKey) || '{}'); } catch(e) { cached = {}; }
+            if (!cached.counts) cached.counts = {};
+
+            for (var clueId in counts) {
+                var count = counts[clueId];
+                cached.counts[clueId] = count;
+                // Find the crossing element for this clue
+                var input = document.querySelector('.solve-answer[data-clue-id="' + clueId + '"]');
+                if (input) {
+                    var crossEl = input.parentElement.querySelector('.solve-crossing');
+                    if (crossEl) {
+                        crossEl.textContent = count > 0 ? count + ' matches' : 'no matches';
+                    }
+                }
+            }
+            localStorage.setItem(_crossingsCacheKey, JSON.stringify(cached));
+        });
+}
+function _cancelMatchCountFetches() {
+    if (_matchCountTimer) { clearTimeout(_matchCountTimer); _matchCountTimer = null; }
+    document.querySelectorAll('[data-needs-count]').forEach(function(el) {
+        el.removeAttribute('data-needs-count');
+    });
 }
 
 function _insertEnumBreaks(pat, enumStr) {
@@ -941,14 +1064,29 @@ function _insertEnumBreaks(pat, enumStr) {
 }
 
 function _fetchMatchCount(el, patternStr, enumStr) {
-    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr);
+    var url = '/helper/pattern-count?pattern=' + encodeURIComponent(patternStr);
     if (enumStr) url += '&enum=' + encodeURIComponent(enumStr);
     fetch(url)
         .then(function(r) { return r.text(); })
-        .then(function(html) {
-            var m = html.match(/(\d+)\s*result/);
-            if (m) {
-                el.textContent = m[1] + ' matches';
+        .then(function(count) {
+            count = parseInt(count.trim()) || 0;
+            if (count > 0) {
+                el.textContent = count + ' matches';
+            } else {
+                el.textContent = 'no matches';
+            }
+            // Cache the count
+            var row = el.closest('.solve-input');
+            if (row) {
+                var input = row.querySelector('.solve-answer');
+                if (input) {
+                    try {
+                        var cached = JSON.parse(localStorage.getItem(_crossingsCacheKey) || '{}');
+                        if (!cached.counts) cached.counts = {};
+                        cached.counts[input.dataset.clueId] = count;
+                        localStorage.setItem(_crossingsCacheKey, JSON.stringify(cached));
+                    } catch(e) {}
+                }
             }
         });
 }
@@ -1011,17 +1149,33 @@ function patternFromCrossing(el, crossingStr) {
     _closeAllWordHelp();
     // Convert crossing format to pattern format: _ → ?, keep letters and dashes
     var patternStr = pat.replace(/_/g, '?');
+    // Get enum from the crossing element's sibling input
+    var enumVal = '';
+    if (el) {
+        var solveRow = el.closest('.solve-input');
+        if (solveRow) {
+            var ansInput = solveRow.querySelector('.solve-answer');
+            if (ansInput) enumVal = ansInput.dataset.enum || '';
+        }
+    }
+    if (!enumVal) {
+        var enumInput = document.getElementById('pattern-enum');
+        if (enumInput) enumVal = enumInput.value || '';
+    }
+    // Set the enum input for subsequent form searches
+    var enumInput = document.getElementById('pattern-enum');
+    if (enumInput && enumVal) enumInput.value = enumVal;
     // Open pattern tab with this pattern
     document.getElementById('helper-panel').classList.remove('hidden');
     document.getElementById('helper-open').classList.add('hidden');
     solverTab('pattern');
     var patInput = document.getElementById('pattern-input');
     patInput.value = patternStr;
-    // Clear the include filter
     document.getElementById('pattern-include').value = '';
-    // Auto-search
-    htmx.ajax('GET', '/helper/pattern?pattern=' + encodeURIComponent(patternStr),
-               {target: '#solver-results', swap: 'innerHTML'});
+    // Auto-search with enum
+    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr);
+    if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
+    htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
 }
 
 function saveAllToDb() {
@@ -1053,8 +1207,6 @@ function saveAllToDb() {
 // Restore solve mode if it was active, or auto-activate for prize puzzles
 // Admin users: never auto-restore (they're reviewing, not solving)
 document.addEventListener('DOMContentLoaded', function() {
-    var isAdmin = {{ 'true' if g.is_admin else 'false' }};
-    if (isAdmin) return;
     var isPrize = {{ 'true' if is_prize else 'false' }};
     if (isPrize || localStorage.getItem(_solveKey + '_active') === '1') {
         toggleSolveMode();
