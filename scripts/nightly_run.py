@@ -1,12 +1,11 @@
-"""Nightly automated run: scrape all → danword backfill → solve DT + Daily Mail.
+"""Nightly automated run: scrape all → danword backfill → solve all sources.
 
 Designed to run at 2am UTC via Windows Task Scheduler.
 
 Flow:
-  1. Run all scrapers (all sources, all days)
+  1. Run all scrapers (all sources)
   2. Danword backfill for any puzzles with missing answers
-  3. Pipeline for DT + Daily Mail (weekdays only)
-  4. Times/Guardian/Independent are skipped — run manually after blog answers available
+  3. Pipeline for ALL sources with answers (weekdays only)
 
 Usage:
     python scripts/nightly_run.py              # full run
@@ -31,8 +30,8 @@ SCRAPER_SCRIPT = str(ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 DANWORD_SCRIPT = str(ROOT / "scraper" / "danword" / "danword_lookup.py")
 LOG_DIR = ROOT / "logs"
 
-# Sources to auto-solve (not Times/Guardian/Independent — they use blog explanations)
-SOLVE_SOURCES = ["telegraph", "dailymail"]
+# All sources — Sonnet pipeline for everything with answers
+SOLVE_SOURCES = ["telegraph", "times", "guardian", "independent", "dailymail"]
 
 
 def log(msg):
@@ -207,7 +206,7 @@ def main():
 
     # Step 3: Pipeline for DT + Daily Mail (weekdays only)
     if not args.skip_pipeline:
-        log("Step 3: Pipeline (DT + Daily Mail, weekdays only)...")
+        log("Step 3: Pipeline (all sources, weekdays only)...")
         puzzles = find_todays_puzzles(target_date)
         if not puzzles:
             log("  No puzzles to solve")
