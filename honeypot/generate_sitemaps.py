@@ -31,10 +31,11 @@ def generate(domain):
 
     conn = sqlite3.connect(str(DB_PATH))
 
-    # Count total
+    # Count total (exclude Guardian non-cryptic: puzzle_number < 20000)
     total = conn.execute(
         """SELECT COUNT(*) FROM clues WHERE answer IS NOT NULL AND length(answer) > 0
-           AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"""
+           AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+           AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)"""
     ).fetchone()[0]
     print(f"Total clues with answers: {total}")
 
@@ -51,6 +52,7 @@ def generate(domain):
         FROM clues
         WHERE answer IS NOT NULL AND length(answer) > 0
           AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+          AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)
         ORDER BY publication_date DESC
     """)
 
@@ -108,6 +110,7 @@ def generate(domain):
         WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
           AND puzzle_number IS NOT NULL
           AND answer IS NOT NULL AND length(answer) > 0
+          AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)
         GROUP BY source, puzzle_number
         ORDER BY pub_date DESC
     """)

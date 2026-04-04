@@ -131,6 +131,7 @@ def generate_sitemaps(db_path, domain):
 
     total = conn.execute(
         "SELECT COUNT(*) FROM clues WHERE slug IS NOT NULL AND slug != ''"
+        " AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)"
     ).fetchone()[0]
     print(f"\nGenerating sitemaps for {total:,} slugs...")
 
@@ -144,6 +145,7 @@ def generate_sitemaps(db_path, domain):
     cursor = conn.execute("""
         SELECT slug, publication_date FROM clues
         WHERE slug IS NOT NULL AND slug != ''
+          AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)
         ORDER BY publication_date DESC
     """)
 

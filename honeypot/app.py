@@ -22,6 +22,10 @@ DB_PATH = _local_db if _local_db.exists() else _droplet_db
 ALLOWED_SOURCES = ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
 ALLOWED_SOURCES_SQL = "('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
 
+# Guardian puzzle_number < 20000 are quiptic/everyman/quick-cryptic — not served
+EXCLUDE_NON_CRYPTIC = "AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)"
+EXCLUDE_NON_CRYPTIC_C = "AND NOT (c.source = 'guardian' AND CAST(c.puzzle_number AS INTEGER) < 20000)"
+
 # --- Blog attribution for human explanations ---
 # TFTT post index: puzzle_number -> {link, title, ...}
 TFTT_INDEX_PATH = Path(__file__).resolve().parent.parent / "scraper" / "timesforthetimes" / "tftt_post_index.json"
@@ -444,6 +448,7 @@ def home():
         FROM clues
         WHERE answer IS NOT NULL AND length(answer) > 0
           AND source IN {ALLOWED_SOURCES_SQL}
+          {EXCLUDE_NON_CRYPTIC}
         GROUP BY source ORDER BY cnt DESC
     """).fetchall()
     return render_template("home.html", sources=sources)
@@ -472,6 +477,7 @@ def search():
         WHERE {where_clause}
           AND c.answer IS NOT NULL AND length(c.answer) > 0
           AND c.source IN {ALLOWED_SOURCES_SQL}
+          {EXCLUDE_NON_CRYPTIC_C}
         ORDER BY c.publication_date DESC
         LIMIT 50
     """, params).fetchall()
@@ -501,6 +507,7 @@ def search_suggest():
             SELECT DISTINCT source, puzzle_number, publication_date
             FROM clues
             WHERE puzzle_number = ? AND source IN {ALLOWED_SOURCES_SQL}
+            {EXCLUDE_NON_CRYPTIC}
             LIMIT 10
         """, (num,)).fetchall()
         results = []
@@ -531,6 +538,7 @@ def search_suggest():
         WHERE {where_clause}
           AND c.answer IS NOT NULL AND length(c.answer) > 0
           AND c.source IN {ALLOWED_SOURCES_SQL}
+          {EXCLUDE_NON_CRYPTIC_C}
         ORDER BY c.publication_date DESC
         LIMIT 8
     """, params).fetchall()
@@ -561,18 +569,19 @@ def source_page(source):
     offset = (page - 1) * per_page
 
     total = db.execute(
-        "SELECT COUNT(DISTINCT puzzle_number) FROM clues WHERE source = ? AND puzzle_number IS NOT NULL",
+        f"SELECT COUNT(DISTINCT puzzle_number) FROM clues WHERE source = ? AND puzzle_number IS NOT NULL {EXCLUDE_NON_CRYPTIC}",
         (source,),
     ).fetchone()[0]
 
     if total == 0:
         abort(404)
 
-    puzzles = db.execute("""
+    puzzles = db.execute(f"""
         SELECT puzzle_number, MAX(publication_date) AS publication_date,
                COUNT(*) AS clue_count
         FROM clues
         WHERE source = ? AND puzzle_number IS NOT NULL
+        {EXCLUDE_NON_CRYPTIC}
         GROUP BY puzzle_number
         ORDER BY MAX(publication_date) DESC
         LIMIT ? OFFSET ?
@@ -607,6 +616,7 @@ def clue_page(slug):
         LEFT JOIN structured_explanations se ON se.clue_id = c.id
         WHERE c.answer = ? AND c.clue_text LIKE ?
           AND c.source IN {ALLOWED_SOURCES_SQL}
+          {EXCLUDE_NON_CRYPTIC_C}
         LIMIT 1
     """, (answer, f"%{clue_text_hint.replace(' ', '%')}%")).fetchone()
 
@@ -622,6 +632,7 @@ def clue_page(slug):
             LEFT JOIN structured_explanations se ON se.clue_id = c.id
             WHERE c.answer = ? AND lower(c.clue_text) LIKE ?
               AND c.source IN {ALLOWED_SOURCES_SQL}
+              {EXCLUDE_NON_CRYPTIC_C}
             LIMIT 1
         """, (answer, pattern.lower())).fetchone()
 
@@ -657,6 +668,7 @@ def clue_page(slug):
         FROM clues
         WHERE answer = ? AND clue_text = ?
           AND source IN {ALLOWED_SOURCES_SQL}
+          {EXCLUDE_NON_CRYPTIC}
           AND id != (
             SELECT id FROM clues WHERE answer = ? AND clue_text = ? LIMIT 1
           )
@@ -686,6 +698,13 @@ def clue_page(slug):
 def puzzle_page(source, puzzle_number):
     if source not in ALLOWED_SOURCES:
         abort(404)
+    # Reject non-cryptic Guardian puzzles
+    if source == 'guardian':
+        try:
+            if int(puzzle_number) < 20000:
+                abort(404)
+        except (ValueError, TypeError):
+            pass
 
     db = get_db()
 
