@@ -274,10 +274,21 @@ def pattern_search():
     include = request.args.get("include", "").strip().upper()
     include_letters = re.sub(r'[^A-Z]', '', include)
 
-    # Filter out multi-word results when enumeration is a single number (e.g. "5" not "3,2")
+    # Filter by enumeration word-break pattern
     enum_val = request.args.get("enum", "").strip()
-    if enum_val and re.match(r'^\d+$', enum_val):
-        results = {w for w in results if ' ' not in w}
+    if enum_val:
+        enum_parts = re.findall(r'\d+', enum_val)
+        if len(enum_parts) == 1:
+            # Single word — exclude multi-word answers
+            results = {w for w in results if ' ' not in w}
+        elif len(enum_parts) > 1:
+            # Multi-word — only keep answers whose word lengths match the enumeration
+            def _matches_enum(answer, parts):
+                words = answer.split()
+                if len(words) != len(parts):
+                    return False
+                return all(len(w) == int(p) for w, p in zip(words, parts))
+            results = {w for w in results if _matches_enum(w, enum_parts)}
 
     if include_letters:
         filtered = []

@@ -98,7 +98,7 @@
               onclick="similarFromClue(this.dataset.clue, this.dataset.enum, this.dataset.label, this.dataset.clueId)"
               title="Search for similar clues">{{ clue.clue_number }}{{ clue.direction[0] }}{% if clue.linked_label %}<br><span class="text-teal-500 text-[10px]">{{ clue.linked_label }}</span>{% endif %}</span>
         <div class="flex-1 min-w-0">
-            <p class="text-gray-900">
+            <p class="text-gray-900 font-medium">
                 {{ clue.clue_text | clickable_words(clue.id) }}
                 {% if clue.enumeration %}
                 <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
@@ -125,7 +125,7 @@
                     {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
                     {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
                 <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-1.5 py-0.5 rounded shrink-0"
-                      title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">{{ clue.tier }}</span>
+                      title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">{{ clue.tier }}{% if g.is_admin and clue.confidence is not none %}<span class="text-[10px] ml-0.5 opacity-70">{{ (clue.confidence * 100) | int }}</span>{% endif %}</span>
                 {% if g.is_admin and not clue.ai_explanation and not clue.definition %}
                 <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-red-100 text-red-700 animate-pulse">NO EXPLANATION</span>
                 {% endif %}
@@ -135,8 +135,9 @@
             </div>
             {# Solve mode input — hidden until solve mode activated #}
             <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5">
-                <input type="text" class="solve-answer text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase w-24 sm:w-40 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                <input type="text" class="solve-answer text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase min-w-[6rem] w-auto focus:outline-none focus:ring-2 focus:ring-emerald-300 placeholder:text-gray-500 placeholder:font-semibold"
                        placeholder="{{ clue.enumeration or '???' }}"
+                       oninput="this.size=Math.max(6,this.value.length+2)"
                        autocomplete="off"
                        data-clue-id="{{ clue.id }}"
                        data-clue-text="{{ clue.clue_text | e }}"
@@ -737,14 +738,10 @@ function _scrollToClueEl(el, num, otherDir) {
         setTimeout(function() { if (link.parentNode) link.remove(); }, 5000);
     }
     if (_solveMode) {
-        // Close tools panel and tip when navigating from grid
-        solverClose();
+        // Close everything and just scroll — don't auto-focus input
+        // (auto-focus opens keyboard + solver panel on mobile which is chaos)
+        closeAllPanels();
         CordeliaTips._remove();
-        var input = el.querySelector('.solve-answer');
-        if (input && !input.disabled) {
-            _solveFocusTipShown = true;  // suppress tip on this focus
-            setTimeout(function() { input.focus(); }, 400);
-        }
     }
 }
 
@@ -845,8 +842,8 @@ function showSolveGrid() {
     var gridArea = document.getElementById('grid-area');
     htmx.ajax('GET', url, {target: '#grid-area', swap: 'innerHTML'}).then(function() {
         gridArea.scrollIntoView({block: 'start'});
-        _fetchCrossings();
-        // Cordelia tip: click clue numbers in grid
+        // Don't fetch crossings here — they're already on the page.
+        // Crossings are only re-fetched after Add to Grid when they change.
         CordeliaTips.init([
             {id: 'solve-grid-numbers', text: 'Click a clue number to jump to that clue. Stuck? Click any empty square to reveal its letter &mdash; it\'ll feed into the crossing patterns for other clues.'}
         ]);
@@ -892,15 +889,34 @@ function _fetchCrossings() {
                 input.placeholder = pat;
                 input.setAttribute('data-crossing', pat);
                 var patternStr = pat.replace(/_/g, '?');
-                crossingEl.textContent = pat;
+                crossingEl.textContent = '...';
                 crossingEl.setAttribute('data-pattern', pat);
                 crossingEl.classList.remove('hidden');
-                _fetchMatchCount(crossingEl, patternStr);
-                // Mark that crossings exist — tip shown on next clue focus
+                crossingEl.setAttribute('data-needs-count', patternStr);
                 window._hasCrossings = true;
             }
         });
+        // Stagger match count fetches — one every 200ms to avoid hammering
+        setTimeout(_fetchMatchCountsStaggered, 300);
     });
+}
+
+function _fetchMatchCountsStaggered() {
+    var pending = document.querySelectorAll('[data-needs-count]');
+    var i = 0;
+    function next() {
+        if (i >= pending.length) return;
+        var el = pending[i++];
+        var pat = el.getAttribute('data-needs-count');
+        if (!pat) { next(); return; }
+        el.removeAttribute('data-needs-count');
+        // Get enum from the sibling solve-answer input
+        var row = el.closest('.solve-input');
+        var enumStr = row ? (row.querySelector('.solve-answer') || {}).dataset.enum || '' : '';
+        _fetchMatchCount(el, pat, enumStr);
+        setTimeout(next, 200);
+    }
+    next();
 }
 
 function _insertEnumBreaks(pat, enumStr) {
@@ -924,14 +940,15 @@ function _insertEnumBreaks(pat, enumStr) {
     return result;
 }
 
-function _fetchMatchCount(el, patternStr) {
-    fetch('/helper/pattern?pattern=' + encodeURIComponent(patternStr))
+function _fetchMatchCount(el, patternStr, enumStr) {
+    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr);
+    if (enumStr) url += '&enum=' + encodeURIComponent(enumStr);
+    fetch(url)
         .then(function(r) { return r.text(); })
         .then(function(html) {
-            // Extract result count from the response
             var m = html.match(/(\d+)\s*result/);
             if (m) {
-                el.textContent = el.getAttribute('data-pattern') + ' (' + m[1] + ' matches)';
+                el.textContent = m[1] + ' matches';
             }
         });
 }
@@ -962,6 +979,9 @@ function solveInputFocus(input) {
     var crossing = input.getAttribute('data-crossing');
     if (crossing) {
         patternFromCrossing(null, crossing);
+        // Fetch match count for this clue only
+        var crossEl = input.parentElement.querySelector('.solve-crossing');
+        if (crossEl) _fetchMatchCount(crossEl, crossing.replace(/_/g, '?'), enumVal);
     }
 
     // Pre-fetch similar clues
