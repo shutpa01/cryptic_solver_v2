@@ -498,9 +498,10 @@ def build_solution_string(json_path, clue_answers):
             grid_sources[(row, col)] = f"{num}{direction[0].upper()}"
 
     if conflicts:
-        print(f"Grid build: {len(conflicts)} crossing conflict(s):")
+        print(f"Grid build FAILED: {len(conflicts)} crossing conflict(s):")
         for c in conflicts[:10]:
             print(c)
+        return None
 
     # Build solution string
     solution = []
