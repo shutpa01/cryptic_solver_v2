@@ -63,14 +63,14 @@
     </main>
 
     <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
-    <div id="helper-widget" class="fixed bottom-4 right-2 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
+    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
         <button id="helper-open"
                 onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
             Solver tools
         </button>
-        <div id="helper-panel" class="hidden w-[calc(100vw-1rem)] sm:w-80 max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
+        <div id="helper-panel" class="hidden w-[calc(100vw-1rem)] sm:w-80 max-h-[60vh] sm:max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
             <div id="helper-drag-handle" class="px-3 py-1.5 bg-gray-100 border-b border-gray-200 cursor-move flex items-center justify-between select-none">
                 <span class="text-xs text-gray-400">&#x2630; drag to move</span>
             </div>
