@@ -446,10 +446,10 @@
             handle.addEventListener('touchstart', function(e) { onStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
         }
 
-        // Drag from the button (when panel is closed)
-        if (openBtn) {
+        // Drag from the button — desktop only (on mobile, touch triggers
+        // drag which fights with keyboard viewport changes and moves the button off-screen)
+        if (openBtn && window.innerWidth >= 640) {
             openBtn.addEventListener('mousedown', function(e) { onStart(e.clientX, e.clientY); });
-            openBtn.addEventListener('touchstart', function(e) { onStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
             // Prevent click (open panel) if we actually dragged
             openBtn.addEventListener('click', function(e) { if (didDrag) e.stopImmediatePropagation(); }, true);
         }
