@@ -69,8 +69,8 @@ function openToolsOverlay(clueId) {
         });
     }
 
-    // Default to pattern tab
-    solverTab('pattern');
+    // Default to anagram tab
+    solverTab('anagram');
     overlay.classList.remove('hidden');
 }
 
@@ -254,9 +254,15 @@ function wordHelp(span) {
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
 
-    // In solve mode, open tools overlay with lookup results
+    // In solve mode, open tools overlay
     if (_solveMode) {
         if (!_toolsClueId) openToolsOverlay(clueId);
+        // If anagram tab is open, add word to anagram chips
+        if (_isAnagramMode()) {
+            anagramFromWord(phrase);
+            return;
+        }
+        // Otherwise show word lookup results
         htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#solver-results', swap: 'innerHTML'});
         return;
     }
