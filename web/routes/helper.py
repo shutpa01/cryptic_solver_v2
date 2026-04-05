@@ -218,7 +218,6 @@ def pattern_counts_batch():
         return jsonify({})
 
     db = _get_clues_db()
-    ref = _get_ref_db()
     results = {}
 
     for clue_id, info in queries.items():
@@ -245,6 +244,11 @@ def pattern_counts_batch():
             results[clue_id] = 0
             continue
 
+        # Skip all-unknown patterns (no known letters) — count is meaningless
+        if all(c == '_' for c in pattern_joined):
+            results[clue_id] = 0
+            continue
+
         seen = set()
         for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
             rows = db.execute(
@@ -253,15 +257,6 @@ def pattern_counts_batch():
             ).fetchall()
             for r in rows:
                 seen.add(r["ans"])
-
-        for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
-            for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-                ref_rows = ref.execute(
-                    f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
-                    (pat, pat_len),
-                ).fetchall()
-                for r in ref_rows:
-                    seen.add(r["ans"])
 
         if enum_val:
             enum_parts = re.findall(r'\d+', enum_val)
@@ -346,6 +341,10 @@ def pattern_count():
     if len(pattern_joined) < 2:
         return "0"
 
+    # Skip all-unknown patterns (no known letters)
+    if all(c == '_' for c in pattern_joined):
+        return "0"
+
     db = _get_clues_db()
     seen = set()
 
@@ -356,17 +355,6 @@ def pattern_count():
         ).fetchall()
         for r in rows:
             seen.add(r["ans"])
-
-    # Also search reference DB (same as full pattern search)
-    ref = _get_ref_db()
-    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
-        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-            ref_rows = ref.execute(
-                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
-                (pat, pat_len),
-            ).fetchall()
-            for r in ref_rows:
-                seen.add(r["ans"])
 
     # Filter by enumeration word breaks
     if enum_val:
