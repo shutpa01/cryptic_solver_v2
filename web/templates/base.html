@@ -62,8 +62,9 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
-    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50 {% if request.path == '/' or request.path == '/about' or has_tools_overlay is defined %}hidden{% endif %}">
+    <!-- Solver tools — floating, top-right (not rendered on home/about/puzzle-overlay pages) -->
+    {% if not has_tools_overlay is defined and request.path != '/' and request.path != '/about' %}
+    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50">
         <button id="helper-open"
                 onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
@@ -135,6 +136,7 @@
             <div id="solver-results" class="p-3 overflow-y-auto flex-1 min-h-0"></div>
         </div>
     </div>
+    {% endif %}
     <script>
     function synonymToSolve(word) {
         // Tools overlay mode: fill answer and close overlay
@@ -265,12 +267,17 @@
     }
 
     function solverClose() {
-        document.getElementById('pattern-input').value = '';
-        document.getElementById('pattern-include').value = '';
+        var patInput = document.getElementById('pattern-input');
+        var patInclude = document.getElementById('pattern-include');
+        if (patInput) patInput.value = '';
+        if (patInclude) patInclude.value = '';
         anagramClear();
-        document.getElementById('solver-results').innerHTML = '';
-        document.getElementById('helper-panel').classList.add('hidden');
-        document.getElementById('helper-open').classList.remove('hidden');
+        var results = document.getElementById('solver-results');
+        if (results) results.innerHTML = '';
+        var panel = document.getElementById('helper-panel');
+        var openBtn = document.getElementById('helper-open');
+        if (panel) panel.classList.add('hidden');
+        if (openBtn) openBtn.classList.remove('hidden');
     }
 
     /* --- Anagram chip UI --- */
@@ -349,8 +356,10 @@
         if (clueId && typeof _lastFocusedClueId !== 'undefined') _lastFocusedClueId = clueId;
         var enumInput = document.getElementById('pattern-enum');
         if (enumInput && enumeration) enumInput.value = enumeration;
-        document.getElementById('helper-panel').classList.remove('hidden');
-        document.getElementById('helper-open').classList.add('hidden');
+        var panel = document.getElementById('helper-panel');
+        var openBtn = document.getElementById('helper-open');
+        if (panel) panel.classList.remove('hidden');
+        if (openBtn) openBtn.classList.add('hidden');
         solverTab('similar');
         document.getElementById('similar-hint').textContent = 'Searching...';
         var url = '/helper/similar?q=' + encodeURIComponent(clueText);
@@ -363,8 +372,10 @@
     }
 
     function anagramFromWord(word) {
-        document.getElementById('helper-panel').classList.remove('hidden');
-        document.getElementById('helper-open').classList.add('hidden');
+        var panel = document.getElementById('helper-panel');
+        var openBtn = document.getElementById('helper-open');
+        if (panel) panel.classList.remove('hidden');
+        if (openBtn) openBtn.classList.add('hidden');
         solverTab('anagram');
         // Append letters instead of replacing — allows multi-word fodder building
         word.toUpperCase().split('').forEach(function(ch) {

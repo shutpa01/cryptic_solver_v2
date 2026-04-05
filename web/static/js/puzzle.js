@@ -14,6 +14,7 @@ var _toolsClueId = null;
 var _toolsScrollY = 0;
 
 function openToolsOverlay(clueId) {
+    _clearSelection();
     _toolsClueId = clueId;
     _toolsScrollY = window.scrollY;
     _lastFocusedClueId = clueId;
@@ -27,7 +28,7 @@ function openToolsOverlay(clueId) {
     var enumVal = input.dataset.enum || '';
 
     document.getElementById('tools-overlay-label').textContent = label;
-    document.getElementById('tools-overlay-clue').textContent = clueText;
+    _buildOverlayClueWords(document.getElementById('tools-overlay-clue'), clueText);
     document.getElementById('tools-overlay-enum').textContent = enumVal ? '(' + enumVal + ')' : '';
 
     // Sync answer from clue list into overlay
@@ -75,12 +76,80 @@ function openToolsOverlay(clueId) {
 }
 
 function closeToolsOverlay() {
+    _clearSelection();
     var overlay = document.getElementById('tools-overlay');
     overlay.classList.add('hidden');
     document.getElementById('solver-results').innerHTML = '';
     // Restore scroll position
     window.scrollTo(0, _toolsScrollY);
     _toolsClueId = null;
+}
+
+function _buildOverlayClueWords(container, text) {
+    container.innerHTML = '';
+    var parts = text.split(/(\s+)/);
+    var wordIdx = 0;
+    parts.forEach(function(part) {
+        if (part.trim()) {
+            var clean = part.replace(/[^A-Za-z]/g, '').toLowerCase();
+            if (clean) {
+                var span = document.createElement('span');
+                span.className = 'clue-word cursor-pointer hover:bg-indigo-100 hover:rounded px-0.5 -mx-0.5 transition-colors';
+                span.dataset.idx = wordIdx;
+                span.dataset.clean = clean;
+                span.textContent = part;
+                span.onclick = function() { overlayWordHelp(this); };
+                container.appendChild(span);
+                wordIdx++;
+            } else {
+                container.appendChild(document.createTextNode(part));
+            }
+        } else {
+            container.appendChild(document.createTextNode(part));
+        }
+    });
+}
+
+function overlayWordHelp(span) {
+    var idx = parseInt(span.dataset.idx);
+    var clean = span.dataset.clean;
+
+    // If anagram tab is open, send word there directly
+    if (_isAnagramMode()) {
+        anagramFromWord(clean);
+        return;
+    }
+
+    // If this word is already selected and it's the only one, toggle off
+    if (_selectedWords.length === 1 && _selectedWords[0].idx === idx) {
+        _clearSelection();
+        document.getElementById('solver-results').innerHTML = '';
+        return;
+    }
+
+    // If adjacent to current selection, extend it
+    if (_selectedWords.length > 0) {
+        var minIdx = Math.min.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        var maxIdx = Math.max.apply(null, _selectedWords.map(function(w) { return w.idx; }));
+        if (idx === minIdx - 1 || idx === maxIdx + 1) {
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        } else {
+            _clearSelection();
+            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+            span.classList.add('bg-indigo-200', 'rounded');
+        }
+    } else {
+        _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+        span.classList.add('bg-indigo-200', 'rounded');
+    }
+
+    // Build the lookup phrase from selected words in order
+    _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
+    var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
+
+    // Word lookup in the overlay results area
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#solver-results', swap: 'innerHTML'});
 }
 
 function _toolsFillAnswer(word) {
@@ -141,7 +210,7 @@ function toolsOverlayAddToGrid() {
 /* --- Grid toggle --- */
 function toggleGrid(btn, url) {
     var area = document.getElementById('grid-area');
-    var showLabel = _solveMode ? 'Show grid' : 'Show completed grid';
+    var showLabel = _solveMode ? 'Show grid' : 'Show full grid';
     if (area.innerHTML.trim()) {
         area.innerHTML = '';
         btn.textContent = showLabel;
@@ -172,12 +241,12 @@ function closeAllPanels(except) {
     if (except !== 'hints') {
         hideAllHints();
     }
-    // Close solver panel
+    // Close solver panel (only exists on non-overlay pages)
     if (except !== 'solver') {
         var panel = document.getElementById('helper-panel');
         if (panel) panel.classList.add('hidden');
-        var btn = document.getElementById('helper-open');
-        if (btn) btn.classList.remove('hidden');
+        var openBtn = document.getElementById('helper-open');
+        if (openBtn) openBtn.classList.remove('hidden');
     }
     // Close grid
     if (except !== 'grid') {
@@ -185,16 +254,19 @@ function closeAllPanels(except) {
         if (gridArea) gridArea.innerHTML = '';
         // Reset grid toggle button text
         var gridBtn = document.getElementById('grid-toggle');
-        if (gridBtn) gridBtn.textContent = _solveMode ? 'Show grid' : 'Show completed grid';
+        if (gridBtn) gridBtn.textContent = _solveMode ? 'Show full grid' : 'Show full grid';
     }
 }
 
 /* --- Word help --- */
 var _selectedWords = []; // [{el, idx, clean, clueId}]
 function _isAnagramMode() {
+    var overlay = document.getElementById('tools-overlay');
     var panel = document.getElementById('helper-panel');
     var tab = document.getElementById('solver-anagram');
-    return panel && !panel.classList.contains('hidden') && tab && !tab.classList.contains('hidden');
+    var containerOpen = (overlay && !overlay.classList.contains('hidden')) ||
+                        (panel && !panel.classList.contains('hidden'));
+    return containerOpen && tab && !tab.classList.contains('hidden');
 }
 function wordHelp(span) {
     var idx = parseInt(span.dataset.idx);
@@ -212,11 +284,12 @@ function wordHelp(span) {
         return;
     }
 
-    // Close solver panel when word help opens
+    // Close solver panel when word help opens (only exists on non-overlay pages)
     var panel = document.getElementById('helper-panel');
     if (panel && !panel.classList.contains('hidden')) {
         panel.classList.add('hidden');
-        document.getElementById('helper-open').classList.remove('hidden');
+        var openBtn = document.getElementById('helper-open');
+        if (openBtn) openBtn.classList.remove('hidden');
     }
 
     // If clicking in a different clue, start fresh
@@ -381,7 +454,7 @@ function _exitSolveMode() {
     var saveBtn = document.getElementById('solve-save-btn');
     if (saveBtn) saveBtn.classList.add('hidden');
     // Reset grid button text
-    document.getElementById('grid-toggle').textContent = 'Show completed grid';
+    document.getElementById('grid-toggle').textContent = 'Show full grid';
 }
 
 function solveCheckOrDelete(btn) {
@@ -924,8 +997,10 @@ function patternFromCrossing(el, crossingStr) {
     var enumInput = document.getElementById('pattern-enum');
     if (enumInput && enumVal) enumInput.value = enumVal;
     // Open pattern tab with this pattern
-    document.getElementById('helper-panel').classList.remove('hidden');
-    document.getElementById('helper-open').classList.add('hidden');
+    var panel = document.getElementById('helper-panel');
+    var openBtn = document.getElementById('helper-open');
+    if (panel) panel.classList.remove('hidden');
+    if (openBtn) openBtn.classList.add('hidden');
     solverTab('pattern');
     var patInput = document.getElementById('pattern-input');
     patInput.value = patternStr;
