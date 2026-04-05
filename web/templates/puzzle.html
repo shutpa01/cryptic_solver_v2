@@ -387,14 +387,14 @@
         <span id="tools-overlay-result" class="text-xs"></span>
     </div>
     <div class="flex gap-1 px-4 pt-3 pb-1">
-        <button onclick="solverTab('pattern')" id="tab-pattern"
-                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-emerald-100 text-emerald-700">Pattern</button>
         <button onclick="solverTab('anagram')" id="tab-anagram"
-                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Anagram</button>
+                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-violet-100 text-violet-700">Anagram</button>
+        <button onclick="solverTab('pattern')" id="tab-pattern"
+                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Pattern</button>
         <button onclick="solverTab('similar')" id="tab-similar"
                 class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Similar</button>
     </div>
-    <div id="solver-pattern" class="p-4 border-b border-gray-100">
+    <div id="solver-pattern" class="p-4 border-b border-gray-100 hidden">
         <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum" class="flex gap-2">
             <input type="hidden" id="pattern-enum" name="enum" value="">
             <input type="text" name="pattern" id="pattern-input"
@@ -414,7 +414,7 @@
                    oninput="_patternIncludeChanged()">
         </div>
     </div>
-    <div id="solver-anagram" class="p-4 border-b border-gray-100 hidden">
+    <div id="solver-anagram" class="p-4 border-b border-gray-100">
         <p class="text-xs text-gray-500 mb-2">Type letters or click words in the clue</p>
         <div id="anagram-chips" class="flex flex-wrap gap-1 min-h-[2.25rem] p-2 border border-violet-200 rounded bg-violet-50 items-center cursor-text" onclick="document.getElementById('anagram-add').focus()">
             <input type="text" id="anagram-add"
