@@ -474,7 +474,13 @@ function solveDelete(input, btn) {
     var result = input.parentElement.querySelector('.solve-result');
     result.className = 'solve-result text-xs';
     result.textContent = '';
+    // Show crossing pattern again (was hidden on solve/add)
+    var crossEl = input.parentElement.querySelector('.solve-crossing');
+    if (crossEl) crossEl.classList.remove('hidden');
     _updateProgress();
+    // Recalculate crossings without the deleted answer
+    localStorage.removeItem(_crossingsCacheKey);
+    _fetchCrossings();
 }
 
 function _makeDeleteBtn(btn) {
