@@ -133,7 +133,7 @@ def edit_save(clue_id):
             clue_answers = {(r["clue_number"], r["direction"]): r["answer"] for r in rows}
             result = build_solution_string(str(json_path), clue_answers)
             if result:
-                sol, grid_rows, grid_cols = result
+                sol, grid_rows, grid_cols, _ = result
                 update_puzzle_grid_solution(source, puzzle_number, sol, grid_rows, grid_cols)
 
     # Return refreshed button row with updated tier badge

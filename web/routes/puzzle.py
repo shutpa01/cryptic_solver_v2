@@ -114,6 +114,14 @@ def puzzle(source, puzzle_type, puzzle_number):
     blog_name, blog_url = get_blog_attribution(source, puzzle_number, pub_date)
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
+    # Check for grid crossing conflicts (admin only — avoid cost for regular users)
+    grid_conflicts = []
+    if g.get("is_admin"):
+        clue_data = get_puzzle_grid_data(source, puzzle_number)
+        grid = build_grid_from_json(source, puzzle_number, clue_data)
+        if grid and grid.get("conflicts"):
+            grid_conflicts = grid["conflicts"]
+
     return render_template(
         "puzzle.html",
         source=source,
@@ -127,6 +135,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         blog_name=blog_name,
         blog_url=blog_url,
         source_puzzle_url=source_puzzle_url,
+        grid_conflicts=grid_conflicts,
     )
 
 

@@ -1,4 +1,15 @@
 {# HTMX fragment — crossword grid with answers #}
+{% if grid.conflicts %}
+<div class="mt-4 mb-2 mx-auto max-w-md bg-red-50 border border-red-300 rounded-lg px-4 py-3">
+    <p class="text-red-800 font-semibold text-sm">&#9888; {{ grid.conflicts|length }} crossing conflict{{ 's' if grid.conflicts|length > 1 else '' }} detected</p>
+    <ul class="text-red-700 text-xs mt-1 space-y-0.5">
+        {% for c in grid.conflicts %}
+        <li>Cell ({{ c.row+1 }},{{ c.col+1 }}): <strong>{{ c.clue_a }}</strong> says '{{ c.letter_a }}', <strong>{{ c.clue_b }}</strong> says '{{ c.letter_b }}'</li>
+        {% endfor %}
+    </ul>
+    <p class="text-red-600 text-xs mt-2">Use Edit on the offending clue to correct the answer.</p>
+</div>
+{% endif %}
 <div class="mt-4 mb-6 overflow-x-auto">
     <table class="border-collapse mx-auto" style="border: 2px solid #1a1a1a;">
         {% for row in grid.cells %}
@@ -7,14 +18,14 @@
             {% if cell is none %}
             <td class="bg-gray-900" style="width:2rem;height:2rem;"></td>
             {% elif cell.letter %}
-            <td class="border border-gray-400 bg-white relative text-center align-middle"
+            <td class="border border-gray-400 relative text-center align-middle {{ 'bg-red-200' if cell.conflict is defined else 'bg-white' }}"
                 style="width:2rem;height:2rem;">
                 {% if cell.number is defined %}
                 <span class="absolute top-0 left-0.5 text-[8px] leading-none text-gray-500 cursor-pointer hover:text-indigo-600 hover:font-bold z-10"
                       onclick="scrollToClue({{ cell.number }})"
                       title="Go to clue {{ cell.number }}">{{ cell.number }}</span>
                 {% endif %}
-                <span class="text-xs font-bold text-gray-800">{{ cell.letter }}</span>
+                <span class="text-xs font-bold {{ 'text-red-700' if cell.conflict is defined else 'text-gray-800' }}">{{ cell.letter }}</span>
             </td>
             {% elif cell.solution is defined %}
             <td class="border border-gray-400 bg-white relative text-center align-middle cursor-pointer hover:bg-indigo-50"

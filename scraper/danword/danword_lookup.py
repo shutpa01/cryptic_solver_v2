@@ -429,8 +429,9 @@ def validate_grid(json_path, clue_answers):
 def build_solution_string(json_path, clue_answers):
     """Build a flat solution string from JSON grid structure + answers.
 
-    Returns (solution_str, rows, cols) or None if not possible.
+    Returns (solution_str, rows, cols, conflicts) or None if not possible.
     The string has letters for white cells and spaces for black cells.
+    conflicts is a list of human-readable conflict descriptions (empty if none).
     """
     with open(json_path, encoding='utf-8') as f:
         data = json.load(f)
@@ -498,10 +499,9 @@ def build_solution_string(json_path, clue_answers):
             grid_sources[(row, col)] = f"{num}{direction[0].upper()}"
 
     if conflicts:
-        print(f"Grid build FAILED: {len(conflicts)} crossing conflict(s):")
+        print(f"Grid build: {len(conflicts)} crossing conflict(s):")
         for c in conflicts[:10]:
             print(c)
-        return None
 
     # Build solution string
     solution = []
@@ -514,7 +514,7 @@ def build_solution_string(json_path, clue_answers):
             else:
                 solution.append(' ')  # White cell without a letter
 
-    return ''.join(solution), rows, cols
+    return ''.join(solution), rows, cols, conflicts
 
 
 def update_puzzle_grid_solution(source, puzzle_number, solution, rows, cols):
@@ -612,9 +612,12 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
             # Build and store grid solution for the web app
             result = build_solution_string(str(json_path), clue_answers)
             if result:
-                sol, rows, cols = result
+                sol, rows, cols, grid_conflicts = result
                 update_puzzle_grid_solution(source, puzzle_number, sol, rows, cols)
-                print(f"  Grid solution stored ({rows}x{cols})")
+                if grid_conflicts:
+                    print(f"  Grid solution stored WITH {len(grid_conflicts)} conflict(s) ({rows}x{cols})")
+                else:
+                    print(f"  Grid solution stored ({rows}x{cols})")
         else:
             print(f"  Grid validation FAILED: {errors}/{total} crossing errors")
             print(f"Grid: FAILED ({errors}/{total} crossings)")

@@ -159,8 +159,10 @@ def build_grid_from_json(source, puzzle_number, clue_data):
             for cell in cells:
                 white_cells.add(cell)
 
-    # Place current DB answers into grid
+    # Place current DB answers into grid, detecting crossing conflicts
     grid_letters = {}
+    grid_sources = {}  # track which clue placed each letter
+    conflicts = []  # list of {row, col, clue_a, letter_a, clue_b, letter_b}
     clue_answers = {}
     if clue_data:
         for c in clue_data:
@@ -183,15 +185,31 @@ def build_grid_from_json(source, puzzle_number, clue_data):
                     for lk in links
                 ]
 
+    conflict_cells = set()  # (row, col) positions with conflicts
+
+    def _place_letter(row, col, letter, clue_label):
+        """Place a letter, detecting crossing conflicts."""
+        if (row, col) in grid_letters and grid_letters[(row, col)] != letter:
+            prev_label = grid_sources[(row, col)]
+            conflicts.append({
+                "row": row, "col": col,
+                "clue_a": prev_label, "letter_a": grid_letters[(row, col)],
+                "clue_b": clue_label, "letter_b": letter,
+            })
+            conflict_cells.add((row, col))
+        grid_letters[(row, col)] = letter
+        grid_sources[(row, col)] = clue_label
+
     for (num, direction), answer in clue_answers.items():
         wid = clue_to_word.get((num, direction))
         if wid is None:
             continue
         cells = word_cells.get(wid, [])
         clean_ans = re.sub(r"[^A-Za-z]", "", answer).upper()
+        clue_label = f"{num}{direction[0].upper()}"
         if len(clean_ans) == len(cells):
             for i, (row, col) in enumerate(cells):
-                grid_letters[(row, col)] = clean_ans[i]
+                _place_letter(row, col, clean_ans[i], clue_label)
         elif (num, direction) in _spanning_links:
             # Spanning clue: place letters in main cells, then linked cells in order
             all_cells = list(cells)
@@ -201,7 +219,7 @@ def build_grid_from_json(source, puzzle_number, clue_data):
                     all_cells.extend(word_cells.get(linked_wid, []))
             if len(clean_ans) == len(all_cells):
                 for i, (row, col) in enumerate(all_cells):
-                    grid_letters[(row, col)] = clean_ans[i]
+                    _place_letter(row, col, clean_ans[i], clue_label)
 
     # Assign clue numbers using standard rules
     letter_grid = [[None] * cols for _ in range(rows)]
@@ -245,10 +263,15 @@ def build_grid_from_json(source, puzzle_number, clue_data):
                 cell = {"letter": letter if letter else ""}
                 if (r, c) in num_at:
                     cell["number"] = num_at[(r, c)]
+                if (r, c) in conflict_cells:
+                    cell["conflict"] = True
                 row.append(cell)
         cells.append(row)
 
-    return {"cells": cells, "rows": rows, "cols": cols}
+    result = {"cells": cells, "rows": rows, "cols": cols}
+    if conflicts:
+        result["conflicts"] = conflicts
+    return result
 
 
 # ---------------------------------------------------------------------------

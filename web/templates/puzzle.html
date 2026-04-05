@@ -75,6 +75,12 @@
     {% endif %}
 </div>
 
+{% if grid_conflicts %}
+<div class="mb-4 px-3 py-2 bg-red-50 border border-red-300 rounded text-sm text-red-800">
+    &#9888; {{ grid_conflicts|length }} crossing conflict{{ 's' if grid_conflicts|length > 1 else '' }} — check grid for details
+</div>
+{% endif %}
+
 <div id="grid-area"></div>
 
 
@@ -396,10 +402,13 @@ function closeAllPanels(except) {
         var btn = document.getElementById('helper-open');
         if (btn) btn.classList.remove('hidden');
     }
-    // Close grid overlay
+    // Close grid
     if (except !== 'grid') {
-        var grid = document.getElementById('solve-grid-overlay');
-        if (grid) grid.classList.add('hidden');
+        var gridArea = document.getElementById('grid-area');
+        if (gridArea) gridArea.innerHTML = '';
+        // Reset grid toggle button text
+        var gridBtn = document.getElementById('grid-toggle');
+        if (gridBtn) gridBtn.textContent = _solveMode ? 'Show grid' : 'Show completed grid';
     }
 }
 var _selectedWords = []; // [{el, idx, clean, clueId}]
