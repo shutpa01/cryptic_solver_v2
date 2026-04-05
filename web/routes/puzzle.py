@@ -12,7 +12,7 @@ from web.models import (
 )
 from web.routes.hints import generate_token
 from web.routes.clue import generate_clue_slug
-from web.grid import reconstruct_grid, parse_grid_solution, build_grid_from_json, match_grid_by_profile
+from web.grid import reconstruct_grid, parse_grid_solution, build_grid_from_json
 
 bp = Blueprint("puzzle", __name__)
 
@@ -163,12 +163,7 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
         if grid is not None:
             return render_template("partials/grid.html", grid=grid)
 
-    # Path 3: match against known grid geometries
-    grid = match_grid_by_profile(source, puzzle_number)
-    if grid is not None:
-        return render_template("partials/grid.html", grid=grid)
-
-    # Path 4: algorithmic reconstruction (last resort)
+    # Path 3: algorithmic reconstruction (last resort)
     if clue_data:
         grid = reconstruct_grid(clue_data)
         if grid is not None:
@@ -327,9 +322,8 @@ def puzzle_grid_progress(source, puzzle_type, puzzle_number):
                         cell["solution"] = full_letters[(r_idx, c_idx)]
             return render_template("partials/grid.html", grid=full_grid_2)
 
-    # Path 3: match against known grid geometries, then blank unsolved
-    full_grid_3 = match_grid_by_profile(source, puzzle_number)
-    if full_grid_3 is None and all_clue_data:
+    # Path 3: reconstruct from FULL data, then blank unsolved
+    if all_clue_data:
         full_grid_3 = reconstruct_grid(all_clue_data)
         if full_grid_3 is not None:
             full_letters = {}
@@ -360,8 +354,6 @@ def _split_spanning_answers(all_clue_data, source, puzzle_number, linked_pairs, 
     # Build full grid from ALL clue data (to get cell counts)
     full_data = get_puzzle_grid_data(source, puzzle_number)
     temp_grid = build_grid_from_json(source, puzzle_number, full_data)
-    if temp_grid is None:
-        temp_grid = match_grid_by_profile(source, puzzle_number)
     if temp_grid is None:
         temp_grid = reconstruct_grid(full_data) if full_data else None
     if temp_grid is None:
@@ -574,10 +566,8 @@ def puzzle_crossings(source, puzzle_type, puzzle_number):
         if stored:
             solution, grid_rows, grid_cols = stored
             full_grid = parse_grid_solution(solution, grid_rows, grid_cols)
-    if full_grid is None:
-        full_grid = match_grid_by_profile(source, puzzle_number)
-    if full_grid is None and all_clue_data:
-        full_grid = reconstruct_grid(all_clue_data)
+        elif all_clue_data:
+            full_grid = reconstruct_grid(all_clue_data)
 
     if full_grid is None:
         return Response("{}", mimetype="application/json")
@@ -610,15 +600,11 @@ def puzzle_crossings(source, puzzle_type, puzzle_number):
                 for i in range(len(ans)):
                     if c + i < cols and cells[r][c + i] is not None:
                         solved_cells.add((r, c + i))
-                        if i < len(ans):
-                            full_letters[(r, c + i)] = ans[i]
             if is_down and (num, "down") in solved_lookup:
                 ans = solved_lookup[(num, "down")]
                 for i in range(len(ans)):
                     if r + i < rows and cells[r + i][c] is not None:
                         solved_cells.add((r + i, c))
-                        if i < len(ans):
-                            full_letters[(r + i, c)] = ans[i]
 
     # Add revealed cells (from click-to-reveal in grid)
     for (rv_r, rv_c), rv_letter in revealed_cells.items():
