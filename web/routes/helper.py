@@ -193,10 +193,16 @@ def meanings_expand():
     ).fetchall()
 
     words = [r["val"] for r in rows]
+    word_spans = []
+    for w in words:
+        word_spans.append(
+            '<span class="synonym-pick text-gray-800 cursor-pointer hover:bg-blue-200 '
+            'hover:rounded px-0.5" onclick="synonymToSolve(\'%s\')" title="Use as answer">%s</span>' % (w, w)
+        )
     return (
         '<span class="text-blue-400 text-xs font-bold">(%d)</span> '
-        '<span class="text-gray-800">%s</span>'
-    ) % (letters, ", ".join(words))
+        '%s'
+    ) % (letters, ", ".join(word_spans))
 
 
 # Flask-Limiter decorator would go here, e.g.:

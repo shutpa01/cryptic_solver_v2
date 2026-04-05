@@ -270,6 +270,7 @@ function wordHelp(span) {
     var clean = span.dataset.clean;
     var clueId = span.dataset.clue;
     var target = 'wordhelp-' + clueId;
+    _lastFocusedClueId = clueId;
 
     // Close other panels when opening word help
     closeAllPanels('wordhelp');
