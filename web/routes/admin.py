@@ -699,6 +699,15 @@ def set_answer(clue_id):
     if clue is None:
         return '<span class="text-xs text-red-500">Clue not found.</span>'
 
+    # Validate answer length against enumeration
+    enum_str = clue["enumeration"] or ""
+    nums = re.findall(r"\d+", enum_str)
+    if nums:
+        expected_len = sum(int(n) for n in nums)
+        answer_letters = re.sub(r"[^A-Z]", "", answer)
+        if len(answer_letters) != expected_len:
+            return f'<span class="text-xs text-red-500">Answer is {len(answer_letters)} letters but enumeration ({enum_str}) needs {expected_len}.</span>'
+
     db.execute("UPDATE clues SET answer = ? WHERE id = ?", (answer, clue_id))
     db.commit()
 
@@ -877,6 +886,7 @@ def save_all_answers():
     see_ids = set(linked_pairs.keys())
 
     saved = 0
+    skipped = 0
     for clue_id_str, answer in data.items():
         try:
             clue_id = int(clue_id_str)
@@ -931,11 +941,19 @@ def save_all_answers():
         if row is None:
             continue
         if not row["answer"] or row["answer"].strip() == "":
+            # Validate length against enumeration
+            enum_str = ci.get("enumeration") or ""
+            enum_nums = re.findall(r"\d+", enum_str)
+            if enum_nums:
+                expected = sum(int(n) for n in enum_nums)
+                if len(answer.replace(" ", "")) != expected:
+                    skipped += 1
+                    continue
             db.execute("UPDATE clues SET answer = ? WHERE id = ?", (answer, clue_id))
             saved += 1
 
     db.commit()
-    return _json.dumps({"saved": saved}), 200, {"Content-Type": "application/json"}
+    return _json.dumps({"saved": saved, "skipped": skipped}), 200, {"Content-Type": "application/json"}
 
 
 @bp.route("/silly/<int:clue_id>", methods=["POST"])

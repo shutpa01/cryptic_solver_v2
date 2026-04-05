@@ -656,6 +656,18 @@ function _scrollToClueEl(el, num, otherDir) {
 function solveAddToGrid(input) {
     var guess = input.value.replace(/\s/g, '').toUpperCase();
     if (!guess) return;
+    // Validate length against enumeration
+    var enumStr = input.dataset.enum || '';
+    var nums = enumStr.match(/\d+/g);
+    if (nums) {
+        var expectedLen = nums.reduce(function(a, b) { return a + parseInt(b); }, 0);
+        if (guess.length !== expectedLen) {
+            var result = input.parentElement.querySelector('.solve-result');
+            result.className = 'solve-result text-xs text-red-500';
+            result.textContent = 'Need ' + expectedLen + ' letters, got ' + guess.length;
+            return;
+        }
+    }
     var clueId = input.dataset.clueId;
     _saveSolveAnswer(clueId, input.value, true);
     // Also save for linked clue if this is a spanning clue
@@ -852,8 +864,11 @@ function _fetchCrossings() {
                 window._hasCrossings = true;
             }
         });
-        // Cache patterns for instant restore on refresh
-        localStorage.setItem(_crossingsCacheKey, JSON.stringify({patterns: patterns, counts: {}}));
+        // Cache patterns for instant restore on refresh — preserve existing counts
+        var prevCache = {};
+        try { prevCache = JSON.parse(localStorage.getItem(_crossingsCacheKey) || '{}'); } catch(e) {}
+        var prevCounts = prevCache.counts || {};
+        localStorage.setItem(_crossingsCacheKey, JSON.stringify({patterns: patterns, counts: prevCounts}));
         // Stagger match count fetches
         setTimeout(_fetchMatchCountsStaggered, 300);
     });
