@@ -96,6 +96,99 @@ def parse_grid_solution(solution, rows=15, cols=15):
 
 
 # ---------------------------------------------------------------------------
+# Path 1a: Grid profile matching — reuse known grid geometry
+# ---------------------------------------------------------------------------
+
+# Module-level cache: built once per process, keyed by clue structure profile
+_grid_profile_index = None  # {(num,dir,...) tuple: (geometry_string, rows, cols)}
+
+
+def _build_grid_profile_index(db):
+    """Build an index mapping clue structure profiles to known grid geometries.
+
+    A clue structure profile is a sorted tuple of (clue_number, direction) pairs.
+    If two puzzles have the same profile, they share the same grid geometry.
+    """
+    grids = db.execute(
+        "SELECT source, puzzle_number, solution, grid_rows, grid_cols "
+        "FROM puzzle_grids WHERE solution IS NOT NULL"
+    ).fetchall()
+
+    index = {}
+    for g in grids:
+        sol = g["solution"]
+        rows, cols = g["grid_rows"], g["grid_cols"]
+        if not sol or len(sol) != rows * cols:
+            continue
+        # Geometry: space = black, '.' = white cell
+        geom = "".join(" " if ch == " " else "." for ch in sol)
+
+        clues = db.execute(
+            "SELECT clue_number, direction FROM clues "
+            "WHERE source = ? AND puzzle_number = ? AND direction IS NOT NULL",
+            (g["source"], str(g["puzzle_number"])),
+        ).fetchall()
+        if not clues:
+            continue
+
+        try:
+            profile = tuple(sorted(
+                (int(c["clue_number"]), c["direction"]) for c in clues
+                if c["clue_number"] is not None and c["direction"] is not None
+            ))
+        except (ValueError, TypeError):
+            continue
+
+        if profile and profile not in index:
+            index[profile] = (geom, rows, cols)
+
+    return index
+
+
+def match_grid_by_profile(source, puzzle_number, db=None):
+    """Try to find a matching grid geometry from known grids.
+
+    Computes the clue structure profile for the target puzzle and looks it up
+    in the index of known grid solutions. Returns a grid dict (same format as
+    parse_grid_solution) or None.
+    """
+    global _grid_profile_index
+
+    if db is None:
+        from web.db import get_db
+        db = get_db()
+
+    # Build index on first call
+    if _grid_profile_index is None:
+        _grid_profile_index = _build_grid_profile_index(db)
+
+    # Compute target puzzle's profile
+    clues = db.execute(
+        "SELECT clue_number, direction FROM clues "
+        "WHERE source = ? AND puzzle_number = ? AND direction IS NOT NULL",
+        (source, str(puzzle_number)),
+    ).fetchall()
+    if not clues:
+        return None
+
+    try:
+        target_profile = tuple(sorted(
+            (int(c["clue_number"]), c["direction"]) for c in clues
+            if c["clue_number"] is not None and c["direction"] is not None
+        ))
+    except (ValueError, TypeError):
+        return None
+
+    match = _grid_profile_index.get(target_profile)
+    if match is None:
+        return None
+
+    geom, rows, cols = match
+    # Build grid from geometry — white cells get empty letter, black cells are None
+    return parse_grid_solution(geom.replace(".", "X"), rows, cols)
+
+
+# ---------------------------------------------------------------------------
 # Path 1b: Live rebuild from JSON structure + current DB answers
 # ---------------------------------------------------------------------------
 
