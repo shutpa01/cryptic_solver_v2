@@ -63,7 +63,7 @@
     </main>
 
     <!-- Solver tools — floating, top-right (hidden on home/about pages) -->
-    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50 {% if request.path == '/' or request.path == '/about' %}hidden{% endif %}">
+    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50 {% if request.path == '/' or request.path == '/about' or has_tools_overlay is defined %}hidden{% endif %}">
         <button id="helper-open"
                 onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
@@ -137,6 +137,11 @@
     </div>
     <script>
     function synonymToSolve(word) {
+        // Tools overlay mode: fill answer and close overlay
+        if (typeof _toolsFillAnswer === 'function' && typeof _toolsClueId !== 'undefined' && _toolsClueId) {
+            _toolsFillAnswer(word);
+            return;
+        }
         // Put the clicked synonym/abbreviation/homophone into the solve input for the last focused clue
         if (typeof _lastFocusedClueId !== 'undefined' && _lastFocusedClueId) {
             var input = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
@@ -238,6 +243,12 @@
     var _pickWord = null;
 
     function pickResultClick(word) {
+        // Tools overlay mode: fill answer and close overlay
+        if (typeof _toolsFillAnswer === 'function' && typeof _toolsClueId !== 'undefined' && _toolsClueId) {
+            _toolsFillAnswer(word);
+            return;
+        }
+
         // Practice mode: populate the guess input directly
         var guessInput = document.getElementById('guess-input');
         if (guessInput) {

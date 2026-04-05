@@ -9,6 +9,135 @@
 var _cfg = window.PUZZLE_CONFIG || {};
 var _solveKey = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
 
+/* --- Tools overlay --- */
+var _toolsClueId = null;
+var _toolsScrollY = 0;
+
+function openToolsOverlay(clueId) {
+    _toolsClueId = clueId;
+    _toolsScrollY = window.scrollY;
+    _lastFocusedClueId = clueId;
+
+    var input = document.querySelector('.solve-answer[data-clue-id="' + clueId + '"]');
+    if (!input) return;
+
+    var overlay = document.getElementById('tools-overlay');
+    var label = input.dataset.label || '';
+    var clueText = input.dataset.clueText || '';
+    var enumVal = input.dataset.enum || '';
+
+    document.getElementById('tools-overlay-label').textContent = label;
+    document.getElementById('tools-overlay-clue').textContent = clueText;
+    document.getElementById('tools-overlay-enum').textContent = enumVal ? '(' + enumVal + ')' : '';
+
+    // Sync answer from clue list into overlay
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    overlayAnswer.value = input.value;
+    overlayAnswer.placeholder = enumVal || 'answer';
+    document.getElementById('tools-overlay-result').textContent = '';
+
+    // Set up pattern with crossing if available
+    var patInput = document.getElementById('pattern-input');
+    var enumInput = document.getElementById('pattern-enum');
+    if (enumInput) enumInput.value = enumVal;
+    var crossing = input.getAttribute('data-crossing');
+    if (crossing && patInput) {
+        patInput.value = crossing.replace(/_/g, '?');
+        // Auto-search
+        var url = '/helper/pattern?pattern=' + encodeURIComponent(patInput.value);
+        if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
+        htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
+    } else if (patInput) {
+        // Set up blank pattern from enumeration
+        var nums = enumVal.match(/\d+/g);
+        if (nums) {
+            var parts = nums.map(function(n) { return '?'.repeat(parseInt(n)); });
+            patInput.value = parts.join('-');
+        } else {
+            patInput.value = '';
+        }
+    }
+
+    // Pre-fetch similar clues
+    if (clueText) {
+        var simUrl = '/helper/similar?q=' + encodeURIComponent(clueText);
+        if (enumVal) simUrl += '&enum=' + encodeURIComponent(enumVal);
+        if (label) simUrl += '&label=' + encodeURIComponent(label);
+        if (clueId) simUrl += '&clue_id=' + encodeURIComponent(clueId);
+        fetch(simUrl).then(function(r) { return r.text(); }).then(function(html) {
+            input.setAttribute('data-similar-html', html);
+        });
+    }
+
+    // Default to pattern tab
+    solverTab('pattern');
+    overlay.classList.remove('hidden');
+}
+
+function closeToolsOverlay() {
+    var overlay = document.getElementById('tools-overlay');
+    overlay.classList.add('hidden');
+    document.getElementById('solver-results').innerHTML = '';
+    // Restore scroll position
+    window.scrollTo(0, _toolsScrollY);
+    _toolsClueId = null;
+}
+
+function _toolsFillAnswer(word) {
+    // Fill the answer in both the overlay and the clue list input, then close
+    if (_toolsClueId) {
+        var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+        if (input) {
+            input.value = word;
+            _saveSolveAnswer(_toolsClueId, word);
+        }
+        var overlayAnswer = document.getElementById('tools-overlay-answer');
+        if (overlayAnswer) overlayAnswer.value = word;
+    }
+    closeToolsOverlay();
+}
+
+function toolsOverlayCheck() {
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    var guess = overlayAnswer.value.replace(/\s/g, '').toUpperCase();
+    if (!guess || !_toolsClueId) return;
+
+    // Sync to clue list
+    var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+    if (input) input.value = overlayAnswer.value;
+
+    // Run normal check
+    if (input) solveCheck(input);
+
+    // Show result in overlay too
+    var card = input ? input.closest('.clue-card') : null;
+    var answer = card ? (card.dataset.answer || '').replace(/\s/g, '').toUpperCase() : '';
+    var result = document.getElementById('tools-overlay-result');
+    if (!answer) {
+        result.className = 'text-xs text-amber-600';
+        result.textContent = 'Saved';
+    } else if (guess === answer) {
+        result.className = 'text-xs text-green-600 font-bold';
+        result.textContent = 'Correct!';
+    } else {
+        result.className = 'text-xs text-red-500';
+        result.textContent = 'Not right';
+    }
+}
+
+function toolsOverlayAddToGrid() {
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    if (!overlayAnswer.value || !_toolsClueId) return;
+
+    // Sync to clue list input and add to grid
+    var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+    if (input) {
+        input.value = overlayAnswer.value;
+        solveAddToGrid(input);
+    }
+    closeToolsOverlay();
+}
+
 /* --- Grid toggle --- */
 function toggleGrid(btn, url) {
     var area = document.getElementById('grid-area');
@@ -125,7 +254,14 @@ function wordHelp(span) {
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
 
-    // Clear other clue helpers and look up
+    // In solve mode, open tools overlay with lookup results
+    if (_solveMode) {
+        if (!_toolsClueId) openToolsOverlay(clueId);
+        htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#solver-results', swap: 'innerHTML'});
+        return;
+    }
+
+    // Browse mode: show inline below the clue
     document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {
         if (e.id !== target) e.innerHTML = '';
     });
@@ -756,57 +892,7 @@ function _fetchMatchCount(el, patternStr, enumStr) {
 var _lastFocusedClueId = null;
 function solveInputFocus(input) {
     var clueId = input.dataset.clueId;
-    closeAllPanels('solver');
-    if (clueId === _lastFocusedClueId) return;  // avoid re-fetching on same clue
     _lastFocusedClueId = clueId;
-
-    // Show clue context in solver panel
-    var clueText = input.dataset.clueText || '';
-    var enumVal = input.dataset.enum || '';
-    var label = input.dataset.label || '';
-    var ctxEl = document.getElementById('solver-clue-context');
-    if (ctxEl) {
-        document.getElementById('solver-clue-text').textContent = label + '. ' + clueText;
-        document.getElementById('solver-clue-enum').textContent = enumVal ? '(' + enumVal + ')' : '';
-        ctxEl.classList.remove('hidden');
-        // Store enum for result filtering
-        window._currentEnum = enumVal;
-        var enumInput = document.getElementById('pattern-enum');
-        if (enumInput) enumInput.value = enumVal;
-    }
-
-    // Pre-load pattern data if we have crossing letters (but don't open the panel)
-    var crossing = input.getAttribute('data-crossing');
-    if (crossing) {
-        // Silently prepare the pattern search so it's ready if user opens tools
-        var patternStr = crossing.replace(/_/g, '?');
-        var patInput = document.getElementById('pattern-input');
-        if (patInput) patInput.value = patternStr;
-        document.getElementById('pattern-include').value = '';
-        // Fetch match count for the inline crossing display
-        var crossEl = input.parentElement.querySelector('.solve-crossing');
-        if (crossEl) _fetchMatchCount(crossEl, patternStr, enumVal);
-    }
-
-    // Pre-fetch similar clues
-    var clueText = input.dataset.clueText;
-    var enumVal = input.dataset.enum;
-    var label = input.dataset.label;
-    if (clueText) {
-        var url = '/helper/similar?q=' + encodeURIComponent(clueText);
-        if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
-        if (label) url += '&label=' + encodeURIComponent(label);
-        if (clueId) url += '&clue_id=' + encodeURIComponent(clueId);
-        // Cache the similar results so switching to the tab is instant
-        fetch(url).then(function(r) { return r.text(); }).then(function(html) {
-            input.setAttribute('data-similar-html', html);
-            // If similar tab is currently active, show it
-            var similarTab = document.getElementById('solver-similar');
-            if (similarTab && !similarTab.classList.contains('hidden')) {
-                document.getElementById('solver-results').innerHTML = html;
-            }
-        });
-    }
 }
 
 function patternFromCrossing(el, crossingStr) {
