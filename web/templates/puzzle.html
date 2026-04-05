@@ -441,7 +441,7 @@ window.PUZZLE_CONFIG = {
     isPrize: {{ 'true' if is_prize else 'false' }}
 };
 </script>
-<script src="{{ url_for('static', filename='js/puzzle.js') }}"></script>
+<script src="{{ url_for('static', filename='js/puzzle.js') }}?v={{ range(10000) | random }}"></script>
 <style>
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
