@@ -775,13 +775,17 @@ function solveInputFocus(input) {
         if (enumInput) enumInput.value = enumVal;
     }
 
-    // Pre-fetch pattern if we have crossing letters
+    // Pre-load pattern data if we have crossing letters (but don't open the panel)
     var crossing = input.getAttribute('data-crossing');
     if (crossing) {
-        patternFromCrossing(null, crossing);
-        // Fetch match count for this clue only
+        // Silently prepare the pattern search so it's ready if user opens tools
+        var patternStr = crossing.replace(/_/g, '?');
+        var patInput = document.getElementById('pattern-input');
+        if (patInput) patInput.value = patternStr;
+        document.getElementById('pattern-include').value = '';
+        // Fetch match count for the inline crossing display
         var crossEl = input.parentElement.querySelector('.solve-crossing');
-        if (crossEl) _fetchMatchCount(crossEl, crossing.replace(/_/g, '?'), enumVal);
+        if (crossEl) _fetchMatchCount(crossEl, patternStr, enumVal);
     }
 
     // Pre-fetch similar clues
