@@ -33,6 +33,11 @@ class ExplanationVerifier:
         self._abbr_cache = {}
         self._ind_cache = {}
         self._def_cache = {}
+        # Load indicators table for clue-level indicator scanning
+        self._indicators_by_word = {}
+        for row in self.ref.execute("SELECT word, wordplay_type, subtype FROM indicators"):
+            w = row[0].lower().strip()
+            self._indicators_by_word.setdefault(w, []).append((row[1], row[2]))
 
     def is_synonym(self, word, target):
         """Check if word -> target is a known synonym pair."""
@@ -107,6 +112,30 @@ class ExplanationVerifier:
                 ).fetchone()
             self._def_cache[key] = row is not None
         return self._def_cache[key]
+
+    def clue_has_indicator(self, clue_text, required_type, required_subtypes=None):
+        """Check if any word in the clue is a known indicator of the required type.
+
+        Scans single words and 2-word phrases against the indicators table.
+        If required_subtypes is provided, also checks the subtype matches.
+        """
+        clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_text.lower())
+        # Single words
+        for word in clue_words:
+            entries = self._indicators_by_word.get(word, [])
+            for wtype, subtype in entries:
+                if wtype == required_type:
+                    if required_subtypes is None or subtype in required_subtypes:
+                        return True
+        # 2-word phrases
+        for i in range(len(clue_words) - 1):
+            phrase = clue_words[i] + " " + clue_words[i + 1]
+            entries = self._indicators_by_word.get(phrase, [])
+            for wtype, subtype in entries:
+                if wtype == required_type:
+                    if required_subtypes is None or subtype in required_subtypes:
+                        return True
+        return False
 
     def check_assembly(self, pieces_letters, answer):
         """Do the pieces concatenate to the answer?"""
@@ -326,11 +355,34 @@ class ExplanationVerifier:
             if rev_match:
                 source = rev_match.group(1)
                 rev_ok = self.check_reversal(source, answer)
-                checks.append({
-                    "check": "reversal",
-                    "status": "verified" if rev_ok else "wrong",
-                    "detail": f"'{source}' reversed = {answer_clean}: {'YES' if rev_ok else 'NO'}",
-                })
+                if rev_ok:
+                    # Full answer is a reversal of one word
+                    checks.append({
+                        "check": "reversal",
+                        "status": "verified",
+                        "detail": f"'{source}' reversed = {answer_clean}: YES",
+                    })
+                else:
+                    # Check if reversal is a piece within a charade.
+                    # To avoid false positives, we require BOTH:
+                    #   1. The reversed letters appear in the answer
+                    #   2. The reversed letters appear as a claimed piece
+                    #      in the explanation (uppercase before parenthesis)
+                    source_clean = re.sub(r"[^A-Z]", "", source.upper())
+                    reversed_piece = source_clean[::-1]
+                    claimed_pieces = re.findall(r"\b([A-Z]{1,})\s*\(", expl)
+                    if reversed_piece in answer_clean and reversed_piece in claimed_pieces:
+                        checks.append({
+                            "check": "reversal",
+                            "status": "verified",
+                            "detail": f"'{source}' reversed = {reversed_piece}, claimed piece in {answer_clean}: YES",
+                        })
+                    else:
+                        checks.append({
+                            "check": "reversal",
+                            "status": "wrong",
+                            "detail": f"'{source}' reversed = {reversed_piece}, not a valid piece in {answer_clean}: NO",
+                        })
 
         if "[container:" in expl.lower() or "container" in wtype:
             # Extract uppercase pieces — from before bracket if bracket format,
@@ -363,6 +415,48 @@ class ExplanationVerifier:
                 "detail": f"first of '{word}' = {letter}: {'YES' if fl_ok else 'NO'}",
             })
 
+        # --- CHECK 5b: Deletion claims ---
+        # Format: LETTERS (deletion="source")
+        deletion_claims = re.findall(
+            r"(\w+)\s*\(\s*deletion\s*=\s*\"([^\"]+)\"\s*\)",
+            expl, re.IGNORECASE,
+        )
+        for letters, source_word in deletion_claims:
+            letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
+            source_clean = re.sub(r"[^A-Z]", "", source_word.upper())
+            if source_clean and letters_clean:
+                del_ok = (letters_clean in source_clean or
+                          source_clean.startswith(letters_clean) or
+                          source_clean.endswith(letters_clean))
+                checks.append({
+                    "check": "deletion",
+                    "status": "verified" if del_ok else "wrong",
+                    "detail": f"'{letters}' from '{source_word}': {'YES' if del_ok else 'NOT a substring'}",
+                })
+
+        # --- CHECK 5c: "X minus Y = Z" deletion format ---
+        # Format: OLIVER (synonym="boy wanting more") minus R (river) = OLIVE
+        minus_match = re.search(
+            r"([A-Z]+)\s*\([^)]+\)\s+minus\s+([A-Z]+)\s*\([^)]+\)\s*=\s*([A-Z]+)",
+            expl,
+        )
+        if minus_match:
+            source_letters = minus_match.group(1)
+            removed_letters = minus_match.group(2)
+            result_letters = minus_match.group(3)
+            # Verify: removing the letters from source gives the result
+            remaining = source_letters
+            for ch in removed_letters:
+                pos = remaining.find(ch)
+                if pos >= 0:
+                    remaining = remaining[:pos] + remaining[pos+1:]
+            del_ok = remaining == result_letters and result_letters == answer_clean
+            checks.append({
+                "check": "assembly",
+                "status": "verified" if del_ok else "wrong",
+                "detail": f"{source_letters} minus {removed_letters} = {result_letters}: {'MATCH' if del_ok else 'MISMATCH'}",
+            })
+
         # --- CHECK 6: Trivial explanation detection ---
         # If the explanation is just "ANSWER(synonym of definition)" with no wordplay,
         # it's not a real explanation — it just restates the definition
@@ -377,6 +471,63 @@ class ExplanationVerifier:
                     "check": "trivial",
                     "status": "wrong",
                     "detail": f"explanation just restates answer as synonym of definition",
+                })
+
+        # --- CHECK 7: Indicator verification ---
+        # For operations that require indicators, verify an indicator word
+        # exists in the clue text. Without an indicator, the claimed operation
+        # is unjustified and the explanation cannot be trusted.
+        #
+        # Mechanisms needing indicators:
+        MECHANISM_INDICATOR_REQUIREMENTS = {
+            "reversal":     ("reversal", None),
+            "deletion":     ("deletion", None),
+            "hidden":       ("hidden", None),
+            "sound_of":     ("homophone", None),
+            "first_letter": ("parts", {"first_use", "first_delete"}),
+            "last_letter":  ("parts", {"last_use", "last_delete", "last", "last letter",
+                                       "tail_delete"}),
+        }
+        # Also check the overall wordplay_type for operation-level indicators
+        OPERATION_INDICATOR_REQUIREMENTS = {
+            "anagram":          ("anagram", None),
+            "reversal":         ("reversal", None),
+            "container":        ("container", None),
+            "deletion":         ("deletion", None),
+            "hidden":           ("hidden", None),
+            "hidden_reversed":  ("hidden", None),
+            "homophone":        ("homophone", None),
+        }
+
+        # Check operation-level indicator
+        wtype = (wordplay_type or "").lower().replace(" ", "_")
+        if wtype in OPERATION_INDICATOR_REQUIREMENTS:
+            req_type, req_subtypes = OPERATION_INDICATOR_REQUIREMENTS[wtype]
+            if not self.clue_has_indicator(clue_text, req_type, req_subtypes):
+                # Also check 'insertion' for container
+                found = False
+                if req_type == "container":
+                    found = self.clue_has_indicator(clue_text, "insertion")
+                if not found:
+                    checks.append({
+                        "check": "indicator",
+                        "status": "wrong",
+                        "detail": f"no '{req_type}' indicator found in clue for {wtype} operation",
+                    })
+
+        # Check piece-level indicators from explanation text
+        # Look for mechanism claims like "last letter of", "reversed"
+        last_letter_claims = re.findall(
+            r"(\w)\s*\(\s*last\s+letter\s+of\s+[\"']?(\w+)",
+            expl, re.IGNORECASE,
+        )
+        for letter, word in last_letter_claims:
+            req_type, req_subtypes = MECHANISM_INDICATOR_REQUIREMENTS["last_letter"]
+            if not self.clue_has_indicator(clue_text, req_type, req_subtypes):
+                checks.append({
+                    "check": "indicator",
+                    "status": "wrong",
+                    "detail": f"no 'last letter' indicator in clue for '{word}' -> {letter}",
                 })
 
         # --- SCORING ---
@@ -430,17 +581,23 @@ class ExplanationVerifier:
                     score += 8   # Abbreviation confirmed
                 elif c["check"] == "first_letter":
                     score += 8   # First letter confirmed
+                elif c["check"] == "deletion":
+                    score += 8   # Deletion confirmed
             elif c["status"] == "wrong":
                 if c["check"] == "assembly":
                     score -= 50  # Pieces don't make the answer — fatal
                 elif c["check"] in ("hidden_word", "anagram", "reversal"):
                     score -= 50  # Mechanism doesn't work — fatal
+                elif c["check"] == "deletion":
+                    score -= 30  # Trivially verifiable, no excuse
                 elif c["check"] == "first_letter":
                     score -= 30  # Trivially verifiable, no excuse
                 elif c["check"] == "abbreviation":
                     score -= 15  # Likely wrong
                 elif c["check"] == "trivial":
                     score -= 40  # Just restating the definition, not an explanation
+                elif c["check"] == "indicator":
+                    score -= 50  # Operation claimed without indicator — fatal
                 elif c["check"] == "no_definition":
                     score -= 30  # Every cryptic clue must have a definition
                 elif c["check"] in ("definition", "synonym"):
@@ -457,6 +614,17 @@ class ExplanationVerifier:
             verdict = "LOW"
         else:
             verdict = "FAIL"
+
+        # MEDIUM requires at least one verified piece beyond just the definition.
+        # An explanation with only a definition match and no wordplay evidence
+        # is not a real explanation. Exception: mechanical DDs are trusted
+        # (handled by caller passing mechanical_dd=True).
+        if verdict == "MEDIUM":
+            wordplay_checks = [c for c in checks
+                               if c["status"] == "verified"
+                               and c["check"] not in ("definition",)]
+            if not wordplay_checks:
+                verdict = "LOW"
 
         return {
             "score": score,
