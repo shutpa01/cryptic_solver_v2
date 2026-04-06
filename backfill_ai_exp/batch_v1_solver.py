@@ -318,7 +318,7 @@ def try_charade(remaining_words, answer, ref_db):
                     continue  # already covered above
                 for result, desc in _apply_deletion(s, 'general'):
                     if result in answer_clean and len(result) <= len(answer_clean):
-                        values.append((result, "deletion"))
+                        values.append((result, "deletion:%s:%s" % (s, desc)))
 
         # Raw letters of the word itself
         raw = wn.upper()
@@ -969,6 +969,12 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
             clue_word = p["clue_word"]
             if mech == "literal" or (len(letters) <= 1 and letters.lower() == clue_word.lower()):
                 parts.append('%s (from clue)' % letters)
+            elif mech.startswith("deletion:"):
+                # Format: deletion:SOURCE:DESC
+                del_parts = mech.split(":", 2)
+                source_word = del_parts[1] if len(del_parts) > 1 else "?"
+                del_desc = del_parts[2] if len(del_parts) > 2 else "deletion"
+                parts.append('%s (%s="%s", %s)' % (letters, source_word, clue_word, del_desc))
             else:
                 parts.append('%s (%s="%s")' % (letters, mech, clue_word))
         expl = " + ".join(parts) + " = " + answer.upper()
