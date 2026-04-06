@@ -580,25 +580,30 @@ def try_deletion(remaining_words, answer, ref_db):
         return None
 
     for ind_idx, ind_word, subtype in del_indicators:
-        # Build source candidates: single words + 2/3-word phrases
+        # Build source candidates: longest phrases first, then shorter
+        # Longest match accounts for the most clue words — always preferred
         source_candidates = []  # list of (label, lookup_key, covered_indices)
-        for j, w in enumerate(remaining_words):
+        for j in range(len(remaining_words)):
             if j == ind_idx:
                 continue
-            wn = norm_letters(w)
+            wn = norm_letters(remaining_words[j])
             own_ind = ref_db.get_indicator_types(wn)
             if own_ind and any(t[0] == 'deletion' for t in own_ind):
                 continue  # skip deletion indicators
-            if ref_db.is_link_word(wn):
-                continue
-            source_candidates.append((w, wn, {j}))
 
-            # Multi-word phrases starting at this word
-            for end in range(j + 2, len(remaining_words) + 1):
-                phrase = " ".join(remaining_words[j:end])
-                phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+            # Phrases longest first, down to single word
+            for end in range(len(remaining_words), j, -1):
                 covered = set(range(j, end))
-                if ind_idx not in covered:
+                if ind_idx in covered:
+                    continue
+                if end - j == 1:
+                    # Single word — skip link words
+                    if ref_db.is_link_word(wn):
+                        continue
+                    source_candidates.append((remaining_words[j], wn, covered))
+                else:
+                    phrase = " ".join(remaining_words[j:end])
+                    phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
                     source_candidates.append((phrase, phrase_key, covered))
 
         for label, lookup_key, covered in source_candidates:
