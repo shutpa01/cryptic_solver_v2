@@ -40,19 +40,27 @@ class ExplanationVerifier:
             self._indicators_by_word.setdefault(w, []).append((row[1], row[2]))
 
     def is_synonym(self, word, target):
-        """Check if word -> target is a known synonym pair."""
+        """Check if word -> target is a known synonym pair.
+
+        Checks both synonyms_pairs and definition_answers_augmented,
+        in both directions.
+        """
         key = (word.lower(), target.lower())
         if key not in self._syn_cache:
-            row = self.ref.execute(
-                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
-                (word.lower(), target.lower()),
-            ).fetchone()
-            if not row:
-                # Also check reverse
+            w, t = word.lower(), target.lower()
+            row = None
+            for w1, w2 in [(w, t), (t, w)]:
+                if row:
+                    break
                 row = self.ref.execute(
                     "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
-                    (target.lower(), word.lower()),
+                    (w1, w2),
                 ).fetchone()
+                if not row:
+                    row = self.ref.execute(
+                        "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND LOWER(answer) = ? LIMIT 1",
+                        (w1, w2),
+                    ).fetchone()
             self._syn_cache[key] = row is not None
         return self._syn_cache[key]
 
@@ -456,6 +464,30 @@ class ExplanationVerifier:
                 "status": "verified" if del_ok else "wrong",
                 "detail": f"{source_letters} minus {removed_letters} = {result_letters}: {'MATCH' if del_ok else 'MISMATCH'}",
             })
+
+        # --- CHECK 5d: "X with deletion = Y" format ---
+        # Format: ATONED (synonym="made up") with deletion = TONED
+        with_del_match = re.search(
+            r"([A-Z]+)\s*\([^)]+\)\s+with\s+deletion\s*=\s*([A-Z]+)",
+            expl,
+        )
+        if with_del_match:
+            source_letters = with_del_match.group(1)
+            result_letters = with_del_match.group(2)
+            # Verify: result is source with head, tail, or outer letters removed
+            del_ok = (
+                source_letters[1:] == result_letters or           # head removed
+                source_letters[:-1] == result_letters or          # tail removed
+                (len(source_letters) >= 4 and
+                 source_letters[1:-1] == result_letters) or       # outer removed
+                result_letters in source_letters                   # substring
+            )
+            if del_ok and result_letters == answer_clean:
+                checks.append({
+                    "check": "assembly",
+                    "status": "verified",
+                    "detail": f"{source_letters} with deletion = {result_letters}: MATCH",
+                })
 
         # --- CHECK 6: Trivial explanation detection ---
         # If the explanation is just "ANSWER(synonym of definition)" with no wordplay,
