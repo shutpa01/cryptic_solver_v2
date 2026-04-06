@@ -65,6 +65,7 @@
                 hx-target="#reverify-result"
                 hx-swap="innerHTML"
                 hx-indicator="#reverify-spinner"
+                hx-on::after-request="setTimeout(function(){ window.location.reload(); }, 2000)"
                 class="text-xs px-3 py-1.5 rounded border border-teal-400 text-teal-700 hover:bg-teal-50 font-medium cursor-pointer">
             Re-verify all
         </button>
