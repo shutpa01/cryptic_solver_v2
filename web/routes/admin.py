@@ -1010,8 +1010,7 @@ def reverify_puzzle(source, puzzle_number):
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.source = ? AND c.puzzle_number = ?
            AND c.answer IS NOT NULL AND c.answer != ''
-           AND (c.ai_explanation IS NULL OR c.ai_explanation = ''
-                OR se.confidence IS NULL OR se.confidence < 0.5)""",
+           """,
         (source, str(puzzle_number)),
     ).fetchall()
 
@@ -1038,6 +1037,15 @@ def reverify_puzzle(source, puzzle_number):
             clue_text = clue["clue_text"]
             ans = clue["answer"]
             answer_clean = _re.sub(r'[^A-Za-z]', '', ans).upper()
+
+            # Clear previous results (same as per-clue Re-run)
+            db.execute(
+                "UPDATE clues SET definition = NULL, wordplay_type = NULL, "
+                "ai_explanation = NULL, reviewed = NULL WHERE id = ?",
+                (cid,),
+            )
+            db.execute("DELETE FROM structured_explanations WHERE clue_id = ?", (cid,))
+            db.commit()
 
             # Try hidden
             total_len = len(dd_norm(ans))
@@ -1113,6 +1121,19 @@ def reverify_puzzle(source, puzzle_number):
                            (mech_wtype, definition, expl_text, cid))
                 mech_solved += 1
                 mech_solved_list.append(ans)
+                continue
+
+            # Signature solver fallback (same as per-clue Re-run Phase 3)
+            try:
+                from signature_solver.solver import solve_clue as sig_solve_clue
+                from sonnet_pipeline.sig_adapter import store_signature_result
+                sr = sig_solve_clue(clue_text, answer_clean, ref_db)
+                if sr and sr.high_confidence:
+                    store_signature_result(db, cid, sr, clue_text, answer_clean)
+                    mech_solved += 1
+                    mech_solved_list.append(ans)
+            except Exception:
+                pass
 
         db.commit()
 
