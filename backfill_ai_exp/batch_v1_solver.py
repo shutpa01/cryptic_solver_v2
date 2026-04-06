@@ -580,23 +580,30 @@ def try_deletion(remaining_words, answer, ref_db):
         return None
 
     for ind_idx, ind_word, subtype in del_indicators:
-        # Try each non-indicator word as the source
+        # Build source candidates: single words + 2/3-word phrases
+        source_candidates = []  # list of (label, lookup_key, covered_indices)
         for j, w in enumerate(remaining_words):
             if j == ind_idx:
                 continue
             wn = norm_letters(w)
-
-            # Skip other indicators and link words
             own_ind = ref_db.get_indicator_types(wn)
-            if own_ind and not any(t[0] not in ('deletion',) for t in own_ind):
-                # Pure deletion indicator — skip
-                if j != ind_idx:
-                    pass  # might still be a fodder word
+            if own_ind and any(t[0] == 'deletion' for t in own_ind):
+                continue  # skip deletion indicators
             if ref_db.is_link_word(wn):
                 continue
+            source_candidates.append((w, wn, {j}))
 
-            # Try synonyms of this word
-            for syn in ref_db.get_synonyms(wn, max_len=len(answer_clean) + 2):
+            # Multi-word phrases starting at this word
+            for end in range(j + 2, len(remaining_words) + 1):
+                phrase = " ".join(remaining_words[j:end])
+                phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+                covered = set(range(j, end))
+                if ind_idx not in covered:
+                    source_candidates.append((phrase, phrase_key, covered))
+
+        for label, lookup_key, covered in source_candidates:
+            # Try synonyms (allow +3 for spaces in multi-word synonyms)
+            for syn in ref_db.get_synonyms(lookup_key, max_len=len(answer_clean) + 3):
                 s = syn.upper().replace(" ", "").replace("-", "")
                 if not s or len(s) <= len(answer_clean):
                     continue  # deletion must make it shorter
@@ -606,27 +613,28 @@ def try_deletion(remaining_words, answer, ref_db):
                         return {
                             "wordplay_type": "deletion",
                             "pieces": [
-                                {"clue_word": w, "letters": s, "mechanism": "synonym"},
+                                {"clue_word": label, "letters": s, "mechanism": "synonym"},
                             ],
                             "deletion_indicator": ind_word,
                             "deletion_type": desc,
                             "source_word": s,
                         }
 
-            # Try raw word itself
-            raw = wn.upper()
-            if len(raw) > len(answer_clean):
-                for result, desc in _apply_deletion(raw, subtype):
-                    if result == answer_clean:
-                        return {
-                            "wordplay_type": "deletion",
-                            "pieces": [
-                                {"clue_word": w, "letters": raw, "mechanism": "literal"},
-                            ],
-                            "deletion_indicator": ind_word,
-                            "deletion_type": desc,
-                            "source_word": raw,
-                        }
+            # Try raw word itself (single words only)
+            if " " not in label:
+                raw = norm_letters(label).upper()
+                if len(raw) > len(answer_clean):
+                    for result, desc in _apply_deletion(raw, subtype):
+                        if result == answer_clean:
+                            return {
+                                "wordplay_type": "deletion",
+                                "pieces": [
+                                    {"clue_word": label, "letters": raw, "mechanism": "literal"},
+                                ],
+                                "deletion_indicator": ind_word,
+                                "deletion_type": desc,
+                                "source_word": raw,
+                            }
 
     # Specific-letter deletion: remove abbreviation of one word from synonym of another
     # e.g. OLIVER (boy wanting more) minus R (river) = OLIVE
