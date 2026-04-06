@@ -8,6 +8,24 @@
 3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
 4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
 
+## QUALITY NOT SPEED — CRITICAL
+
+The user is in pursuit of quality, not speed. Speed does not impress.
+Rushing produces broken code that wastes the user's time and erodes trust.
+
+**Never claim a fix is done until you have:**
+1. Tested it through the actual code path the user will use (web UI route, not a standalone script)
+2. Shown the actual output as proof (not a paraphrase, not "it should work")
+3. Checked that existing working features still work
+
+If you cannot test through the UI, say so explicitly. "I've tested this in
+isolation but I haven't verified the web path" is honest. "It's done" is a
+claim that requires proof.
+
+**When implementing a feature that must work in multiple places** (e.g. both
+per-clue Re-run and puzzle-level Re-verify), verify BOTH paths produce
+identical results before claiming it's done.
+
 ## QUESTIONS ARE NOT INSTRUCTIONS — CRITICAL
 
 A question is NOT an instruction to act. Do not touch any files, run any commands,
@@ -85,6 +103,55 @@ return hours later to find you waiting on a trivial confirmation.
 - Don't add features — we are cleaning up, not building new things (until the plan says otherwise)
 - Don't write lengthy explanations when a short answer will do
 - Don't re-discuss settled architectural decisions
+
+## SIGNATURE SOLVER (S) — HOW IT WORKS AND WHERE IT BREAKS
+
+The S solver is a zero-cost mechanical solver. Understanding its pipeline is critical
+for debugging why clues fail. The chain is:
+
+1. **Definition extraction** (`solver.py:extract_definition_candidates`) — tries 1-4 words
+   from each end of the clue against `definition_answers_augmented` + `synonyms_pairs`
+2. **Word analysis** (`word_analyzer.py:analyze_phrases`) — for each wordplay word, looks up
+   all possible roles (SYN_F, ABR_F, REV_I, etc.) from RefDB
+3. **Catalog matching** (`base_matcher.py:match_base`) — tries each catalog entry pattern
+   (e.g. 3F+0I reversal_charade) against the words
+4. **Placement** (`_place_spans`) — assigns words to slots, leaving gaps for indicators/links
+5. **Slot lookup** (`matcher.py:_lookup_slot`) — for each F slot, finds possible values
+   (synonyms, abbreviations) that appear in the answer (or reversed in answer)
+6. **Combo verification** (`_verify_combo` → `_verify_reversal_combo`) — tries assembling
+   the values to produce the answer, including permutations and reversals
+7. **Confidence scoring** (`confidence.py:score_result`)
+
+### Known failure points (debugged 2026-04-06):
+
+- **Synonym cap**: `word_analyzer.py` caps long synonyms (>4 chars) at 20 per word.
+  If the needed synonym is 47th in the list, S never sees it. Fix: also include
+  any synonym whose reverse appears in the answer (bypasses the cap).
+- **Indicator skipping**: When a catalog entry has 0 indicator slots (e.g. 3F+0I
+  reversal_charade), `_place_spans` couldn't skip the indicator word because
+  `assigned_ind` was None. Fix: set `assigned_ind` from `OPERATION_INDICATOR_TYPE`
+  even when `n_indicator=0`.
+- **Permutations in reversal_charade**: `_verify_reversal_combo` didn't try
+  permutations of pieces, so (NIT,LOVER,G) never became (LOVER,NIT,G) which
+  reverses to REVOLTING. Fix: add permutations (up to 4 pieces) matching charade verifier.
+
+### Key files:
+- `signature_solver/solver.py` — entry point, definition extraction
+- `signature_solver/word_analyzer.py` — builds per-word role analysis
+- `signature_solver/base_matcher.py` — placement + verification for base catalog
+- `signature_solver/matcher.py` — `_lookup_slot`, `_verify_combo`, `_verify_reversal_combo`
+- `signature_solver/base_catalog.py` — catalog entries + `OPERATION_INDICATOR_TYPE` map
+- `signature_solver/confidence.py` — scoring
+- `signature_solver/db.py` — RefDB (synonyms, abbreviations, indicators, definitions)
+- `backfill_ai_exp/backfill_dd_hidden.py` — mechanical hidden word + DD solvers
+
+### Debugging approach:
+1. Check definition found: `extract_definition_candidates()`
+2. Check word analysis: are the needed synonyms/abbreviations in `wa.roles[SYN_F]`?
+3. Check placement: does `_place_spans` generate a placement leaving the indicator as leftover?
+4. Check slot lookup: does `_lookup_slot` return the right values for each F slot?
+5. Check combo: does `_verify_reversal_combo` / `_verify_combo` assemble the answer?
+6. At each step, the answer is either "yes, move to next" or "no, this is the bug."
 
 ## GIT SAFETY
 
