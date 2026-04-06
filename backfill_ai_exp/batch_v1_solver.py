@@ -274,7 +274,7 @@ def try_charade(remaining_words, answer, ref_db):
     if not answer_clean or len(remaining_words) < 2:
         return None
 
-    # Detect deletion indicators — enables truncated synonym matching
+    # Detect special indicators — enables advanced matching
     PARTS_TO_DEL = {
         'first_delete': 'head', 'first_use': 'head',
         'last_delete': 'tail', 'last_use': 'tail',
@@ -283,6 +283,8 @@ def try_charade(remaining_words, answer, ref_db):
         'center_delete': 'middle', 'center_use': 'middle',
     }
     del_subtypes = set()
+    has_reversal_ind = False
+    has_odd_even_ind = False  # "odd bits of", "even parts of", etc.
     for w in remaining_words:
         wn = norm_letters(w)
         for itype, subtype, conf in (ref_db.get_indicator_types(wn) or []):
@@ -290,6 +292,10 @@ def try_charade(remaining_words, answer, ref_db):
                 del_subtypes.add(subtype or 'general')
             elif itype == 'parts' and subtype in PARTS_TO_DEL:
                 del_subtypes.add(PARTS_TO_DEL[subtype])
+            elif itype == 'reversal':
+                has_reversal_ind = True
+            elif itype == 'parts' and subtype in ('odd', 'even', 'alternate', 'pattern'):
+                has_odd_even_ind = True
 
     # For each word (and adjacent word pairs), collect possible letter contributions
     word_values = []  # list of (original_word, [(value, mechanism), ...], span)
@@ -308,6 +314,30 @@ def try_charade(remaining_words, answer, ref_db):
             s = syn.upper().replace(" ", "").replace("-", "")
             if s and s in answer_clean and len(s) <= len(answer_clean):
                 values.append((s, "synonym"))
+
+        # Reversed abbreviations/synonyms: if a reversal indicator is present
+        if has_reversal_ind:
+            for abbr in ref_db.get_abbreviations(wn):
+                rev = abbr.upper()[::-1]
+                if rev in answer_clean and rev not in [v for v, _ in values]:
+                    values.append((rev, "reversal:%s" % abbr.upper()))
+            for syn in ref_db.get_synonyms(wn, max_len=len(answer_clean)):
+                s = syn.upper().replace(" ", "").replace("-", "")
+                if s and len(s) >= 2 and len(s) <= len(answer_clean):
+                    rev = s[::-1]
+                    if rev in answer_clean and rev not in [v for v, _ in values]:
+                        values.append((rev, "reversal:%s" % s))
+
+        # Odd/even letter extraction: "odd bits of RUSTIC" = R, S, I
+        if has_odd_even_ind:
+            raw = wn.upper()
+            if len(raw) >= 3:
+                odd_letters = "".join(raw[j] for j in range(0, len(raw), 2))  # 1st, 3rd, 5th...
+                even_letters = "".join(raw[j] for j in range(1, len(raw), 2))  # 2nd, 4th, 6th...
+                if odd_letters in answer_clean and len(odd_letters) >= 2:
+                    values.append((odd_letters, "odd_letters"))
+                if even_letters in answer_clean and len(even_letters) >= 2:
+                    values.append((even_letters, "even_letters"))
 
         # Deletion variants: if a deletion indicator is present, try synonyms
         # that are 1-2 letters longer and apply head/tail/outer deletion
@@ -975,6 +1005,14 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
                 source_word = del_parts[1] if len(del_parts) > 1 else "?"
                 del_desc = del_parts[2] if len(del_parts) > 2 else "deletion"
                 parts.append('%s (%s="%s", %s)' % (letters, source_word, clue_word, del_desc))
+            elif mech.startswith("reversal:"):
+                # Format: reversal:SOURCE
+                source_word = mech.split(":", 1)[1]
+                parts.append('%s (%s="%s", reversed)' % (letters, source_word, clue_word))
+            elif mech == "odd_letters":
+                parts.append('%s (odd letters of "%s")' % (letters, clue_word))
+            elif mech == "even_letters":
+                parts.append('%s (even letters of "%s")' % (letters, clue_word))
             else:
                 parts.append('%s (%s="%s")' % (letters, mech, clue_word))
         expl = " + ".join(parts) + " = " + answer.upper()
