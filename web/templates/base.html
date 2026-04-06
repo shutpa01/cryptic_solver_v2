@@ -127,6 +127,9 @@
                     <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
                     <button onclick="anagramClear()" class="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Clear</button>
                 </div>
+                {% if g.is_admin %}
+                <div id="anagram-accounting" class="mt-2 text-xs font-mono hidden"></div>
+                {% endif %}
             </div>
             <!-- Similar tab -->
             <div id="solver-similar" class="p-3 border-b border-gray-100 hidden">
@@ -296,6 +299,8 @@
         document.querySelectorAll('#anagram-chips .anagram-chip').forEach(function(c) { c.remove(); });
         document.getElementById('anagram-add').value = '';
         document.getElementById('solver-results').innerHTML = '';
+        var acct = document.getElementById('anagram-accounting');
+        if (acct) { acct.classList.add('hidden'); acct.innerHTML = ''; }
         clearTimeout(_anagramTimer);
     }
 
@@ -314,8 +319,58 @@
                    {target: '#solver-results', swap: 'innerHTML'});
     }
 
+    function _updateAnagramAccounting() {
+        var acct = document.getElementById('anagram-accounting');
+        if (!acct) return;
+
+        var entered = _getAnagramLetters().toUpperCase().replace(/[^A-Z]/g, '');
+        if (!entered) { acct.classList.add('hidden'); acct.innerHTML = ''; return; }
+
+        // Get the answer for the current clue
+        var answer = '';
+        if (typeof _toolsClueId !== 'undefined' && _toolsClueId) {
+            var card = document.querySelector('.clue-card[data-clue-id="' + _toolsClueId + '"]');
+            if (card) answer = (card.dataset.answer || '').toUpperCase().replace(/[^A-Z]/g, '');
+        }
+        if (!answer) { acct.classList.add('hidden'); return; }
+
+        // Letter accounting: compare entered vs answer
+        var answerPool = answer.split('');
+        var enteredPool = entered.split('');
+        var used = [];
+        var extra = [];
+
+        for (var i = 0; i < enteredPool.length; i++) {
+            var idx = answerPool.indexOf(enteredPool[i]);
+            if (idx >= 0) {
+                used.push(enteredPool[i]);
+                answerPool.splice(idx, 1);
+            } else {
+                extra.push(enteredPool[i]);
+            }
+        }
+        var missing = answerPool; // whatever remains in answer pool
+
+        var html = '';
+        if (missing.length > 0) {
+            html += '<span class="text-red-600">Missing: ' + missing.join(' ') + '</span>';
+        }
+        if (extra.length > 0) {
+            if (html) html += '&nbsp;&nbsp;';
+            html += '<span class="text-amber-600">Extra: ' + extra.join(' ') + '</span>';
+        }
+        if (missing.length === 0 && extra.length === 0) {
+            html = '<span class="text-green-600">Exact match</span>';
+        }
+        html += '<span class="text-gray-400 ml-2">(' + entered.length + '/' + answer.length + ')</span>';
+
+        acct.innerHTML = html;
+        acct.classList.remove('hidden');
+    }
+
     function anagramAutoSolve() {
         clearTimeout(_anagramTimer);
+        _updateAnagramAccounting();
         var letters = _getAnagramLetters();
         if (letters.length >= 3) {
             _anagramTimer = setTimeout(anagramSolve, 400);
