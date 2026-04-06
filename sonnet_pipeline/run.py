@@ -115,22 +115,24 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("No clues found for %s puzzle %s" % (source, puzzle))
         return [], {}, []
 
-    # Skip clues that already have explanations (protect manual corrections)
-    # Only force=True overrides this safety check
+    # Skip clues that already score HIGH. Everything else gets re-attempted —
+    # low confidence, wrong definitions, orphaned records all deserve another try.
+    # Only force=True overrides this to re-run even HIGH clues.
     if not force:
         total_before = len(rows)
         already_done_ids = set()
         for r in rows:
             cid = r[0]
             existing = conn.execute(
-                "SELECT has_solution FROM clues WHERE id = ? AND has_solution IS NOT NULL",
+                """SELECT se.confidence FROM structured_explanations se
+                   WHERE se.clue_id = ? AND se.confidence >= 0.7""",
                 (cid,)
             ).fetchone()
             if existing:
                 already_done_ids.add(cid)
         if already_done_ids:
             rows = [r for r in rows if r[0] not in already_done_ids]
-            print("Skipping %d clue(s) with existing explanations (use --force to override)"
+            print("Skipping %d HIGH-confidence clue(s) (use --force to override)"
                   % len(already_done_ids))
 
     if not rows:
@@ -452,15 +454,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                 "mechanism": "anagram_fodder"} for w in ana["fodder_words"]]
                 mech_result = ana
 
-            # Try charade
-            if not mech_result:
-                cha = _v1_try_charade(remaining, answer_clean, ref_db)
-                if cha:
-                    mech_wtype = "charade"
-                    mech_pieces = cha["pieces"]
-                    mech_result = cha
-
-            # Try container
+            # Try container (before charade — more specific, fewer false positives)
             if not mech_result:
                 con = _v1_try_container(remaining, answer_clean, ref_db)
                 if con:
@@ -475,6 +469,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     mech_wtype = "deletion"
                     mech_pieces = dele["pieces"]
                     mech_result = dele
+
+            # Try charade (after container/deletion — deletion variants can cause false positives)
+            if not mech_result:
+                cha = _v1_try_charade(remaining, answer_clean, ref_db)
+                if cha:
+                    mech_wtype = "charade"
+                    mech_pieces = cha["pieces"]
+                    mech_result = cha
 
             # Try reversal
             if not mech_result:
@@ -533,18 +535,24 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
                 if write_db:
                     import json as _json
+                    from sonnet_pipeline.verify_explanation import ExplanationVerifier as _MechVerifier
                     components = _json.dumps({
                         "ai_pieces": mech_pieces,
                         "assembly": {"op": mech_wtype},
                         "wordplay_type": mech_wtype,
                     })
+                    # Gate through verifier — V1 doesn't get automatic 1.0
+                    _mv = _MechVerifier()
+                    _mvr = _mv.verify(clue, answer, definition, mech_wtype, expl_text)
+                    _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
+                    _mech_conf = _conf_map.get(_mvr["verdict"], 0.0)
                     conn.execute("""
                         INSERT OR REPLACE INTO structured_explanations
                         (clue_id, components, wordplay_types, definition_text, confidence, model_version,
                          source, puzzle_number, clue_number)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (cid, components, _json.dumps([mech_wtype]),
-                          definition, 1.0, "mechanical_v1", source, puzzle, cnum))
+                          definition, _mech_conf, "mechanical_v1", source, puzzle, cnum))
                     conn.execute("""
                         UPDATE clues SET
                             wordplay_type = COALESCE(NULLIF(wordplay_type, ''), ?),
@@ -948,20 +956,49 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 validation["confidence"].upper(), validation["score"],
                 " | ".join("%s=%s" % (k, v) for k, v in validation["checks"].items())))
             print("   Status: ASSEMBLED (%s)" % tier)
-            if write_db:
-                store_result(conn, cid, sonnet_out, assembly, validation, tier)
-                conn.commit()
+            # Sonnet explanations are used for enrichment only — not stored as solves.
+            # To reactivate Sonnet direct solves, uncomment below.
+            # if write_db:
+            #     store_result(conn, cid, sonnet_out, assembly, validation, tier)
+            #     conn.commit()
+
+            # Extract enrichment gaps from Sonnet's explanation and queue
+            # them directly to pending_enrichments for reviewer
+            if write_db and assembly:
+                try:
+                    from sonnet_pipeline.verify_explanation import ExplanationVerifier as _GapVerifier
+                    _gv = _GapVerifier()
+                    _expl_text = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [], answer=answer) or ""
+                    _gvr = _gv.verify(clue, answer, sonnet_def, sonnet_wtype, _expl_text)
+                    import sqlite3 as _sq
+                    _ref = _sq.connect(str(Path(__file__).resolve().parent.parent / "data" / "cryptic_new.db"), timeout=10)
+                    for _gc in _gvr.get("checks", []):
+                        if _gc["status"] == "unverifiable" and _gc["check"] in ("synonym", "abbreviation", "definition"):
+                            _gm = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", _gc["detail"])
+                            if _gm:
+                                _gw = _gm.group(1).strip().lower()
+                                _gl = _gm.group(2).strip().upper()
+                                _gt = _gc["check"]
+                                _already = False
+                                if _gt == "synonym":
+                                    _already = _ref.execute("SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?", (_gw, _gl)).fetchone() is not None
+                                elif _gt == "abbreviation":
+                                    _already = _ref.execute("SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?", (_gw, _gl)).fetchone() is not None
+                                elif _gt == "definition":
+                                    _already = _ref.execute("SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?", (_gw, _gl)).fetchone() is not None
+                                if not _already:
+                                    _existing = conn.execute("SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?", (_gw, _gl)).fetchone()
+                                    if not _existing:
+                                        conn.execute(
+                                            "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                            (_gt, _gw, _gl, answer, clue, source, puzzle))
+                    _ref.close()
+                    conn.commit()
+                except Exception:
+                    pass  # Don't let gap collection failure block the pipeline
         else:
             print("   Confidence: NONE (0/100)")
             print("   Status: FAILED")
-            if write_db:
-                # Only set reviewed=0 if not already manually reviewed
-                cur_rev = conn.execute("SELECT reviewed FROM clues WHERE id = ?", (cid,)).fetchone()
-                if cur_rev and cur_rev[0] in (1, 2):
-                    conn.execute("UPDATE clues SET has_solution = 0 WHERE id = ?", (cid,))
-                else:
-                    conn.execute("UPDATE clues SET has_solution = 0, reviewed = 0 WHERE id = ?", (cid,))
-                conn.commit()
 
         results.append({
             "status": "ASSEMBLED" if assembly else "FAILED",
@@ -995,7 +1032,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         gaps_for_enrichment = collect_gaps_from_results(non_sig_results)
 
         # Collect new signature patterns from P's results
-        new_sigs = collect_signatures_from_results(p_results)
+        new_sigs = collect_signatures_from_results(results)
         extra_catalog, n_cat_added = enrich_catalog(CATALOG, new_sigs)
 
         enriched_db = ref_db
@@ -1005,7 +1042,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             n_db_injected = len(injected)
 
         # Inject inferred indicator words into the enriched DB
-        new_indicators = collect_indicators_from_results(p_results, ref_db=ref_db)
+        new_indicators = collect_indicators_from_results(results, ref_db=ref_db)
         n_ind_injected = 0
         if new_indicators:
             # enrich_indicators mutates enriched_db.indicators in place

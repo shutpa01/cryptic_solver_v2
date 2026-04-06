@@ -195,41 +195,109 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
 
     success = False
     message = ""
+    import re as _re
+    import json as _json
+    from flask import current_app
 
-    # Phase 0: Try signature solver first (uses DB+ pieces, zero API cost)
     if answer and clue_text:
-        try:
-            from signature_solver.solver import solve_clue as sig_solve_clue
-            from sonnet_pipeline.sig_adapter import store_signature_result
-            import re as _re
-            from flask import current_app
+        ref_db = current_app.get_shared_ref_db()
+        answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
 
-            ref_db = current_app.get_shared_ref_db()
-            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
-            sr = sig_solve_clue(clue_text, answer_clean, ref_db)
-            if sr and sr.high_confidence:
-                store_signature_result(db, clue_id, sr, clue_text, answer_clean)
-                success = True
-        except Exception as e:
-            import traceback
-            print(f"[RERUN S] Error: {e}")
-            traceback.print_exc()
-            message = f"Signature solver error: {e}"
+    # ── MECHANICAL SOLVERS ──────────────────────────────────────────
+    # Priority order: V1 solvers (best explanations) > Hidden/DD > Signature solver
+    # V1 produces clear, user-facing explanations with source words shown.
+    # Signature solver is the fallback — its explanations are opaque.
 
-    # Phase 0a/0c: Hidden word + DD check (zero API cost)
+    # Phase 1: V1 mechanical solvers (best explanations, zero API cost)
     if not success and answer and clue_text:
         try:
-            import re as _re
+            from backfill_ai_exp.batch_v1_solver import (
+                find_definition as v1_find_def,
+                solve_without_definition as v1_solve_no_def,
+                try_anagram as v1_anagram, try_charade as v1_charade,
+                try_container as v1_container, try_deletion as v1_deletion,
+                try_reversal as v1_reversal,
+                try_acrostic as v1_acrostic, try_homophone as v1_homophone,
+                build_explanation_text as v1_build_expl,
+            )
+
+            definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
+
+            mech_result = None
+            mech_wtype = None
+            mech_pieces = None
+
+            if definition and remaining:
+                for try_fn, wtype, piece_key in [
+                    (lambda: v1_anagram(clue_text, answer_clean, ref_db,
+                                        definition_words=definition.split()), "anagram", "fodder_words"),
+                    (lambda: v1_container(remaining, answer_clean, ref_db), "container", "pieces"),
+                    (lambda: v1_deletion(remaining, answer_clean, ref_db), "deletion", "pieces"),
+                    (lambda: v1_charade(remaining, answer_clean, ref_db), "charade", "pieces"),
+                    (lambda: v1_reversal(remaining, answer_clean, ref_db), "reversal", "pieces"),
+                    (lambda: v1_acrostic(remaining, answer_clean, ref_db), "acrostic", "pieces"),
+                    (lambda: v1_homophone(remaining, answer_clean, ref_db), "homophone", "pieces"),
+                ]:
+                    r = try_fn()
+                    if r:
+                        mech_wtype = wtype
+                        if wtype == "anagram":
+                            mech_pieces = [{"clue_word": w, "letters": _re.sub(r'[^A-Za-z]', '', w).upper(),
+                                            "mechanism": "anagram_fodder"} for w in r["fodder_words"]]
+                        else:
+                            mech_pieces = r["pieces"]
+                        mech_result = r
+                        break
+
+            # If definition-first failed, try wordplay-first (infer definition)
+            if not mech_result and not definition:
+                inferred_def, inferred_wtype, inferred_pieces = v1_solve_no_def(
+                    clue_text, answer_clean, ref_db)
+                if inferred_def and inferred_pieces:
+                    definition = inferred_def
+                    mech_wtype = inferred_wtype
+                    mech_pieces = inferred_pieces
+                    mech_result = True
+
+            if mech_result and mech_pieces:
+                    expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, answer)
+                    components = _json.dumps({
+                        "ai_pieces": mech_pieces,
+                        "assembly": {"op": mech_wtype},
+                        "wordplay_type": mech_wtype,
+                    })
+                    # Gate through verifier — V1 doesn't get automatic 1.0
+                    _verifier = ExplanationVerifier()
+                    _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text)
+                    _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
+                    _final_conf = _conf_map.get(_vresult["verdict"], 0.0)
+                    db.execute("""
+                        INSERT OR REPLACE INTO structured_explanations
+                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (clue_id, components, _json.dumps([mech_wtype]),
+                          definition, _final_conf, "mechanical_v1", source))
+                    db.execute("""
+                        UPDATE clues SET
+                            wordplay_type = ?, definition = ?, ai_explanation = ?, has_solution = 1
+                        WHERE id = ?
+                    """, (mech_wtype, definition, expl_text, clue_id))
+                    db.commit()
+                    success = True
+        except Exception as e:
+            import traceback
+            print(f"[RERUN V1] Error: {e}")
+            traceback.print_exc()
+
+    # Phase 2: Hidden word + DD check (zero API cost)
+    if not success and answer and clue_text:
+        try:
             from backfill_ai_exp.backfill_dd_hidden import (
                 generate_dd_hypotheses,
                 try_hidden,
                 norm_letters as dd_norm,
             )
-            import json as _json
-            from flask import current_app
 
-            ref_db = current_app.get_shared_ref_db()
-            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
             dd_graph = current_app.get_shared_dd_graph()
             total_len = len(dd_norm(answer))
 
@@ -285,86 +353,19 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             print(f"[RERUN DD/HIDDEN] Error: {e}")
             traceback.print_exc()
 
-    # Phase 0.5: V1 mechanical solvers (zero API cost)
+    # Phase 3: Signature solver (fallback — opaque explanations)
     if not success and answer and clue_text:
         try:
-            import re as _re
-            from backfill_ai_exp.batch_v1_solver import (
-                find_definition as v1_find_def,
-                solve_without_definition as v1_solve_no_def,
-                try_anagram as v1_anagram, try_charade as v1_charade,
-                try_container as v1_container, try_deletion as v1_deletion,
-                try_reversal as v1_reversal,
-                try_acrostic as v1_acrostic, try_homophone as v1_homophone,
-                build_explanation_text as v1_build_expl,
-            )
-            from sonnet_pipeline.verify_explanation import ExplanationVerifier
-            import json as _json
+            from signature_solver.solver import solve_clue as sig_solve_clue
+            from sonnet_pipeline.sig_adapter import store_signature_result
 
-            from flask import current_app
-            ref_db = current_app.get_shared_ref_db()
-            answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
-            definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
-
-            mech_result = None
-            mech_wtype = None
-            mech_pieces = None
-
-            if definition and remaining:
-                for try_fn, wtype, piece_key in [
-                    (lambda: v1_anagram(clue_text, answer_clean, ref_db,
-                                        definition_words=definition.split()), "anagram", "fodder_words"),
-                    (lambda: v1_charade(remaining, answer_clean, ref_db), "charade", "pieces"),
-                    (lambda: v1_container(remaining, answer_clean, ref_db), "container", "pieces"),
-                    (lambda: v1_deletion(remaining, answer_clean, ref_db), "deletion", "pieces"),
-                    (lambda: v1_reversal(remaining, answer_clean, ref_db), "reversal", "pieces"),
-                    (lambda: v1_acrostic(remaining, answer_clean, ref_db), "acrostic", "pieces"),
-                    (lambda: v1_homophone(remaining, answer_clean, ref_db), "homophone", "pieces"),
-                ]:
-                    r = try_fn()
-                    if r:
-                        mech_wtype = wtype
-                        if wtype == "anagram":
-                            mech_pieces = [{"clue_word": w, "letters": _re.sub(r'[^A-Za-z]', '', w).upper(),
-                                            "mechanism": "anagram_fodder"} for w in r["fodder_words"]]
-                        else:
-                            mech_pieces = r["pieces"]
-                        mech_result = r
-                        break
-
-            # If definition-first failed, try wordplay-first (infer definition)
-            if not mech_result and not definition:
-                inferred_def, inferred_wtype, inferred_pieces = v1_solve_no_def(
-                    clue_text, answer_clean, ref_db)
-                if inferred_def and inferred_pieces:
-                    definition = inferred_def
-                    mech_wtype = inferred_wtype
-                    mech_pieces = inferred_pieces
-                    mech_result = True
-
-            if mech_result and mech_pieces:
-                    expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, answer)
-                    components = _json.dumps({
-                        "ai_pieces": mech_pieces,
-                        "assembly": {"op": mech_wtype},
-                        "wordplay_type": mech_wtype,
-                    })
-                    db.execute("""
-                        INSERT OR REPLACE INTO structured_explanations
-                        (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                    """, (clue_id, components, _json.dumps([mech_wtype]),
-                          definition, 1.0, "mechanical_v1", source))
-                    db.execute("""
-                        UPDATE clues SET
-                            wordplay_type = ?, definition = ?, ai_explanation = ?, has_solution = 1
-                        WHERE id = ?
-                    """, (mech_wtype, definition, expl_text, clue_id))
-                    db.commit()
-                    success = True
+            sr = sig_solve_clue(clue_text, answer_clean, ref_db)
+            if sr and sr.high_confidence:
+                store_signature_result(db, clue_id, sr, clue_text, answer_clean)
+                success = True
         except Exception as e:
             import traceback
-            print(f"[RERUN V1] Error: {e}")
+            print(f"[RERUN S] Error: {e}")
             traceback.print_exc()
 
     if mechanical_only and not success:
@@ -452,20 +453,22 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
             traceback.print_exc()
             message = "TFTT error: %s" % e
 
-    # Fall back to Sonnet explainer if TFTT didn't work
-    if not success:
-        from web.explainer import generate_explanation
-        try:
-            success, message, result = generate_explanation(clue_id)
-        except Exception as e:
-            import traceback, sys
-            traceback.print_exc()
-            sys.stderr.flush()
-            sys.stdout.flush()
-            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s<br><pre>%s</pre></div>' % (str(e), traceback.format_exc())
-
-        if not success:
-            return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
+    # Sonnet explainer deactivated — used for enrichment only, not direct solves.
+    # Sonnet explanations have too many false positives (fabricated pieces,
+    # wrong indicators). To reactivate, uncomment below.
+    # if not success:
+    #     from web.explainer import generate_explanation
+    #     try:
+    #         success, message, result = generate_explanation(clue_id)
+    #     except Exception as e:
+    #         import traceback, sys
+    #         traceback.print_exc()
+    #         sys.stderr.flush()
+    #         sys.stdout.flush()
+    #         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s<br><pre>%s</pre></div>' % (str(e), traceback.format_exc())
+    #
+    #     if not success:
+    #         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Failed: %s</div>' % message
 
     # Queue unverified pieces for DB+ review
     try:

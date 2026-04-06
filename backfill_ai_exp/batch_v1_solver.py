@@ -340,14 +340,15 @@ def try_charade(remaining_words, answer, ref_db):
                     values.append((even_letters, "even_letters"))
 
         # Deletion variants: if a deletion indicator is present, try synonyms
-        # that are 1-2 letters longer and apply head/tail/outer deletion
+        # that are 1-2 letters longer and apply head/tail/outer deletion.
+        # Minimum 3 letters after deletion to avoid false positives (ST, AN etc.)
         if del_subtypes:
             for syn in ref_db.get_synonyms(wn, max_len=len(answer_clean) + 2):
                 s = syn.upper().replace(" ", "").replace("-", "")
-                if not s or len(s) <= len(answer_clean) and s in answer_clean:
+                if not s or (len(s) <= len(answer_clean) and s in answer_clean):
                     continue  # already covered above
                 for result, desc in _apply_deletion(s, 'general'):
-                    if result in answer_clean and len(result) <= len(answer_clean):
+                    if result in answer_clean and len(result) >= 3 and len(result) <= len(answer_clean):
                         values.append((result, "deletion:%s:%s" % (s, desc)))
 
         # Raw letters of the word itself
