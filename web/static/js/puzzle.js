@@ -499,13 +499,30 @@ function solveCheck(input) {
 
     if (!guess) return;
 
+    // Length check
+    var expectedLen = _getExpectedLength(input.dataset.enum || '');
+    if (expectedLen > 0) {
+        if (guess.length < expectedLen) {
+            var short = expectedLen - guess.length;
+            result.className = 'solve-result text-xs text-amber-600';
+            result.textContent = 'Still needs ' + short + ' more letter' + (short === 1 ? '' : 's');
+            _saveSolveAnswer(clueId, input.value);
+            return;
+        }
+        if (guess.length > expectedLen) {
+            result.className = 'solve-result text-xs text-red-500';
+            result.textContent = 'This clue needs ' + expectedLen + ' letters \u2014 you\u2019ve entered ' + guess.length;
+            _saveSolveAnswer(clueId, input.value);
+            return;
+        }
+    }
+
     // Save to localStorage
     _saveSolveAnswer(clueId, input.value);
 
     if (!answer) {
-        // Prize puzzle — no answer to check against
         result.className = 'solve-result text-xs text-amber-600';
-        result.textContent = 'Saved (no answer to check)';
+        result.textContent = 'No check available';
         _updateProgress();
         return;
     }
@@ -526,14 +543,20 @@ function solveCheck(input) {
             {id: 'solve-correct-grid', text: 'Got it! Now hit <strong>Add to grid</strong> to place it, then <strong>Show grid</strong> to see your progress and pick up crossing letters for other clues.'}
         ]);
     } else {
-        result.className = 'solve-result text-xs text-red-500';
-        result.textContent = 'Not right';
-        input.classList.remove('border-gray-300', 'border-green-400');
-        input.classList.add('border-red-400');
-        // Shake animation
-        input.style.animation = 'none';
-        input.offsetHeight; // trigger reflow
-        input.style.animation = 'shake 0.3s';
+        var conflict = _checkCrossingConflict(input, guess);
+        if (conflict) {
+            result.className = 'solve-result text-xs text-amber-600';
+            result.textContent = 'The letter at position ' + conflict.position + ' must be ' + conflict.expected + ' \u2014 does your answer fit?';
+        } else {
+            result.className = 'solve-result text-xs text-red-500';
+            result.textContent = 'Not right';
+            input.classList.remove('border-gray-300', 'border-green-400');
+            input.classList.add('border-red-400');
+            // Shake animation
+            input.style.animation = 'none';
+            input.offsetHeight; // trigger reflow
+            input.style.animation = 'shake 0.3s';
+        }
     }
     _updateProgress();
 }
@@ -551,10 +574,9 @@ function solveAutoCheck(input) {
     var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
 
     if (!answer) {
-        // Prize puzzle — just save
         _saveSolveAnswer(input.dataset.clueId, input.value);
         result.className = 'solve-result text-xs text-amber-600';
-        result.textContent = 'Saved';
+        result.textContent = 'No check available';
         return;
     }
 
@@ -656,18 +678,32 @@ function _scrollToClueEl(el, num, otherDir) {
 function solveAddToGrid(input) {
     var guess = input.value.replace(/\s/g, '').toUpperCase();
     if (!guess) return;
-    // Validate length against enumeration
-    var enumStr = input.dataset.enum || '';
-    var nums = enumStr.match(/\d+/g);
-    if (nums) {
-        var expectedLen = nums.reduce(function(a, b) { return a + parseInt(b); }, 0);
+    var result = input.parentElement.querySelector('.solve-result');
+
+    // Length check
+    var expectedLen = _getExpectedLength(input.dataset.enum || '');
+    if (expectedLen > 0) {
+        if (guess.length < expectedLen) {
+            var short = expectedLen - guess.length;
+            result.className = 'solve-result text-xs text-amber-600';
+            result.textContent = 'Still needs ' + short + ' more letter' + (short === 1 ? '' : 's');
+            return;
+        }
         if (guess.length !== expectedLen) {
-            var result = input.parentElement.querySelector('.solve-result');
             result.className = 'solve-result text-xs text-red-500';
-            result.textContent = 'Need ' + expectedLen + ' letters, got ' + guess.length;
+            result.textContent = 'This clue needs ' + expectedLen + ' letters \u2014 you\u2019ve entered ' + guess.length;
             return;
         }
     }
+
+    // Crossing conflict check — block on Add to grid
+    var conflict = _checkCrossingConflict(input, guess);
+    if (conflict) {
+        result.className = 'solve-result text-xs text-red-500';
+        result.textContent = 'The letter at position ' + conflict.position + ' must be ' + conflict.expected + ' \u2014 does your answer fit?';
+        return;
+    }
+
     var clueId = input.dataset.clueId;
     _saveSolveAnswer(clueId, input.value, true);
     // Also save for linked clue if this is a spanning clue
@@ -776,6 +812,25 @@ function showSolveGrid() {
 }
 
 var _crossingsCacheKey = _solveKey + '_crossings';
+
+function _getExpectedLength(enumStr) {
+    var nums = (enumStr || '').match(/\d+/g);
+    if (!nums) return 0;
+    return nums.reduce(function(a, b) { return a + parseInt(b); }, 0);
+}
+
+function _checkCrossingConflict(input, guess) {
+    var pattern = input.getAttribute('data-crossing') || '';
+    if (!pattern) return null;
+    var patLetters = pattern.replace(/-/g, '');
+    var guessLetters = guess.replace(/\s/g, '').toUpperCase();
+    for (var i = 0; i < patLetters.length && i < guessLetters.length; i++) {
+        if (patLetters[i] !== '_' && patLetters[i] !== guessLetters[i]) {
+            return {position: i + 1, expected: patLetters[i]};
+        }
+    }
+    return null;
+}
 
 function _restoreCachedCrossings() {
     var cached = localStorage.getItem(_crossingsCacheKey);
@@ -1059,9 +1114,15 @@ function saveAllToDb() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(answers)
     }).then(function(r) { return r.json(); }).then(function(data) {
-        msg.className = 'text-xs text-green-600 font-medium';
-        msg.textContent = data.saved + ' answers saved';
-        setTimeout(function() { msg.classList.add('hidden'); }, 3000);
+        var text = data.saved + ' answer' + (data.saved === 1 ? '' : 's') + ' saved';
+        if (data.skipped > 0) {
+            text += ', ' + data.skipped + ' skipped \u2014 check lengths';
+            msg.className = 'text-xs text-amber-600 font-medium';
+        } else {
+            msg.className = 'text-xs text-green-600 font-medium';
+        }
+        msg.textContent = text;
+        setTimeout(function() { msg.classList.add('hidden'); }, 4000);
     }).catch(function() {
         msg.className = 'text-xs text-red-500';
         msg.textContent = 'Error saving';
@@ -1071,7 +1132,28 @@ function saveAllToDb() {
 // Restore solve mode if it was active, or auto-activate for prize puzzles
 // Admin users: never auto-restore (they're reviewing, not solving)
 document.addEventListener('DOMContentLoaded', function() {
-    if (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1') {
+    if (!_cfg.isAdmin && (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1')) {
         toggleSolveMode();
     }
+
+    // Block non-letter characters in solve inputs
+    document.addEventListener('keypress', function(e) {
+        if (!e.target.classList.contains('solve-answer')) return;
+        if (e.target.disabled) return;
+        var char = String.fromCharCode(e.which || e.keyCode);
+        if (!/[a-zA-Z]/.test(char)) {
+            e.preventDefault();
+            var result = e.target.parentElement.querySelector('.solve-result');
+            if (result && !result.textContent.trim()) {
+                result.className = 'solve-result text-xs text-amber-600';
+                result.textContent = 'Letters only';
+                setTimeout(function() {
+                    if (result.textContent === 'Letters only') {
+                        result.textContent = '';
+                        result.className = 'solve-result text-xs';
+                    }
+                }, 1500);
+            }
+        }
+    });
 });

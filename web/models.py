@@ -149,7 +149,16 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
         return None, None
 
     elif source == "guardian":
-        if 1 <= num <= 39999:
+        if 20000 <= num <= 39999:
+            if publication_date is None:
+                db = get_db()
+                row = db.execute(
+                    "SELECT publication_date FROM clues WHERE source = ? AND puzzle_number = ? LIMIT 1",
+                    (source, str(puzzle_number)),
+                ).fetchone()
+                publication_date = row["publication_date"] if row else None
+            if publication_date and _is_saturday(publication_date):
+                return None, None
             return "cryptic", "Cryptic"
         return None, None
 
@@ -214,7 +223,8 @@ def _puzzle_filter_sql(source, type_slug):
         )
     elif source == "guardian" and type_slug == "cryptic":
         return (
-            "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
+            "source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 20000 AND 39999"
+            " AND CAST(strftime('%w', publication_date) AS INTEGER) != 6",
             [source],
         )
     elif source == "independent" and type_slug == "cryptic":

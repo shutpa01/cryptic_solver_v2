@@ -45,9 +45,11 @@ EXPECTED_PUZZLES = [
     # Times
     ('Times Cryptic',           'times',     26000, 32000, [0, 1, 2, 3, 4, 5]),
     ('Sunday Times Cryptic',    'times',     4700,  6000,  [6]),
-    # Guardian — cryptic Mon-Fri, prize Sat (both use 29xxx numbers). Quiptic/Everyman discontinued.
+    # Guardian — cryptic Mon-Fri only (29xxx numbers). Prize/Quiptic/Everyman not followed.
     ('Guardian Cryptic',        'guardian',  21000, 32000, [0, 1, 2, 3, 4]),
-    ('Guardian Prize',          'guardian',  21000, 32000, [5]),
+    # Independent — cryptic every day
+    ('Independent Cryptic',     'independent', 10000, 19999, [0, 1, 2, 3, 4, 5]),
+    ('Independent Sunday',      'independent',  1000,  1999, [6]),
     # Daily Mail — cryptic weekdays only, paper puzzle numbers ~17k range
     ('Daily Mail Cryptic',      'dailymail', 15000, 20000, [0, 1, 2, 3, 4]),
 ]
@@ -586,7 +588,7 @@ def _sync_honeypot():
 
         result = subprocess.run(
             ["ssh", "root@134.209.21.34", "systemctl restart honeypot"],
-            timeout=30,
+            timeout=120,
             capture_output=True,
             text=True,
         )

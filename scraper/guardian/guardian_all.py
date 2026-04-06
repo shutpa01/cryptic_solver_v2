@@ -29,38 +29,6 @@ PUZZLE_TYPES = {
         'days': [0, 1, 2, 3, 4],  # Mon-Fri
         'source': 'guardian-cryptic'
     },
-    'quick-cryptic': {
-        'name': 'Quick Cryptic',
-        'url_path': 'quick-cryptic',
-        'reference_date': date(2026, 1, 18),  # Saturday
-        'reference_number': 94,  # From user's example
-        'days': [5],  # Saturday only
-        'source': 'guardian-quick-cryptic'
-    },
-    'prize': {
-        'name': 'Guardian Prize',
-        'url_path': 'prize',
-        'reference_date': date(2026, 2, 28),  # Saturday
-        'reference_number': 29942,
-        'days': [5],  # Saturday only
-        'source': 'guardian-prize'
-    },
-    'everyman': {
-        'name': 'Everyman',
-        'url_path': 'everyman',
-        'reference_date': date(2026, 1, 19),  # Sunday
-        'reference_number': 4050,  # Placeholder
-        'days': [6],  # Sunday only
-        'source': 'guardian-everyman'
-    },
-    'quiptic': {
-        'name': 'Quiptic',
-        'url_path': 'quiptic',
-        'reference_date': date(2026, 1, 19),  # Sunday
-        'reference_number': 1300,  # Placeholder
-        'days': [6],  # Sunday only
-        'source': 'guardian-quiptic'
-    }
 }
 
 

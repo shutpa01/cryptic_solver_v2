@@ -227,7 +227,7 @@ class PieceVerifier:
                 return {"status": "verified", "detail": f'suffix deletion: {source} -> {letters}'}
             if letters_norm in source_norm:
                 return {"status": "verified", "detail": f'internal deletion: {source} -> {letters}'}
-            return {"status": "unverifiable", "detail": f'deletion: {source} -> {letters}'}
+            return {"status": "wrong", "detail": f'deletion: {letters} not in {source}'}
 
         # --- truncation ---
         if mech == "truncation":
@@ -269,23 +269,27 @@ class PieceVerifier:
         # --- unknown mechanism ---
         return {"status": "unverifiable", "detail": f'unknown mechanism: {mech}'}
 
-    def verify_assembly(self, pieces, answer):
+    def verify_assembly(self, pieces, answer, wordplay_type=None):
         """Check that pieces assemble to the answer.
 
-        Tries concatenation, anagram, container (insertion), and reversal.
+        Tries concatenation, container (insertion), and single-piece reversal.
+        Anagram fallback only allowed when wordplay_type includes 'anagram'.
         """
         answer_norm = norm(answer)
         piece_letters = [norm(p.get("letters", "")) for p in pieces]
         assembled = "".join(piece_letters)
+        wt = (wordplay_type or "").lower()
+        is_anagram_type = "anagram" in wt
 
         # Direct concatenation
         if assembled == answer_norm:
             return {"status": "verified", "detail": f"assembly: {assembled} = {answer_norm}"}
 
-        # Anagram (sorted letters match)
-        has_anagram = any(p.get("mechanism") == "anagram_fodder" for p in pieces)
-        if has_anagram and sorted(assembled) == sorted(answer_norm):
-            return {"status": "verified", "detail": f"anagram assembly: sorted({assembled}) = sorted({answer_norm})"}
+        # Anagram (sorted letters match) — only for anagram types
+        if is_anagram_type:
+            has_anagram = any(p.get("mechanism") == "anagram_fodder" for p in pieces)
+            if has_anagram and sorted(assembled) == sorted(answer_norm):
+                return {"status": "verified", "detail": f"anagram assembly: sorted({assembled}) = sorted({answer_norm})"}
 
         # Container: try inserting each piece into the concatenation of others
         if len(piece_letters) >= 2:
@@ -306,8 +310,8 @@ class PieceVerifier:
                 if "".join(trial) == answer_norm:
                     return {"status": "verified", "detail": f"reversal assembly: piece {i} reversed = {answer_norm}"}
 
-        # Anagram of all letters (not just fodder-labelled ones)
-        if sorted(assembled) == sorted(answer_norm) and assembled != answer_norm:
+        # Anagram of all letters — only for anagram types
+        if is_anagram_type and sorted(assembled) == sorted(answer_norm) and assembled != answer_norm:
             return {"status": "verified", "detail": f"anagram assembly: sorted({assembled}) = sorted({answer_norm})"}
 
         return {"status": "wrong", "detail": f"assembly mismatch: {assembled} != {answer_norm}"}
@@ -374,7 +378,7 @@ class PieceVerifier:
 
         # --- Assembly ---
         if pieces:
-            asm_result = self.verify_assembly(pieces, answer)
+            asm_result = self.verify_assembly(pieces, answer, wordplay_type)
             checks.append({"check": "assembly", **asm_result})
 
         # --- Type-specific mechanical checks ---
@@ -400,6 +404,17 @@ class PieceVerifier:
             if fodder and sorted(fodder) == sorted(answer_norm) and fodder != answer_norm:
                 checks.append({"check": "anagram", "status": "verified",
                                "detail": f"sorted({fodder}) = sorted({answer_norm})"})
+
+            # Provenance check: fodder clue_words should appear in the clue text
+            if clue_text:
+                clue_norm = norm(clue_text)
+                for p in pieces:
+                    if p.get("mechanism") != "anagram_fodder":
+                        continue
+                    cw = norm(p.get("clue_word", ""))
+                    if cw and cw not in clue_norm:
+                        checks.append({"check": "anagram_provenance", "status": "wrong",
+                                       "detail": f'fodder "{p.get("clue_word")}" not found in clue text'})
 
         # Container check: can one piece be inserted into another to form the answer?
         if wt == "container" and len(pieces) >= 2:
@@ -494,6 +509,11 @@ class PieceVerifier:
         # Penalties
         if pieces_wrong > 0:
             score -= 30 * pieces_wrong
+        # Anagram provenance failure: fodder words not found in clue text
+        provenance_wrong = sum(1 for c in checks
+                               if c["check"] == "anagram_provenance" and c["status"] == "wrong")
+        if provenance_wrong > 0:
+            score -= 30
         # Missing definition is only a penalty when there's no mechanical proof
         # and no verified assembly. A verified anagram/hidden IS the proof.
         # A verified charade assembly (pieces concatenate to answer) is strong evidence.
