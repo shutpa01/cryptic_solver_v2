@@ -160,15 +160,16 @@ def rerun_clue(clue_id):
     """
     from flask import request as _req
     mechanical_only = _req.args.get("mechanical") == "1"
+    force = _req.args.get("force") == "1"
     try:
-        return _rerun_clue_inner(clue_id, mechanical_only=mechanical_only)
+        return _rerun_clue_inner(clue_id, mechanical_only=mechanical_only, force=force)
     except Exception as e:
         import traceback
         print(f"[RERUN OUTER] {e}")
         traceback.print_exc()
         return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
 
-def _rerun_clue_inner(clue_id, mechanical_only=False):
+def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     _require_admin()
 
     db = get_admin_db()
@@ -180,6 +181,10 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
     puzzle_number = clue["puzzle_number"]
     answer = clue["answer"]
     clue_text = clue["clue_text"]
+
+    # Protect manually reviewed clues unless force is set
+    if clue["reviewed"] == 1 and not force:
+        return '<div class="mt-2 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded px-2 py-1">Manually reviewed — use Force Re-run to override.</div>'
 
     # Clear previous results
     db.execute(
@@ -1004,12 +1009,14 @@ def reverify_puzzle(source, puzzle_number):
     ref_db = current_app.get_shared_ref_db()
 
     # ── Phase 1: Mechanical solve on unsolved clues ──────────────────
+    # Skip manually reviewed clues (reviewed=1) — never overwrite manual work
     unsolved = db.execute(
         """SELECT c.id, c.clue_text, c.answer, c.source, c.puzzle_number
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.source = ? AND c.puzzle_number = ?
            AND c.answer IS NOT NULL AND c.answer != ''
+           AND (c.reviewed IS NULL OR c.reviewed != 1)
            """,
         (source, str(puzzle_number)),
     ).fetchall()
@@ -1138,13 +1145,15 @@ def reverify_puzzle(source, puzzle_number):
         db.commit()
 
     # ── Phase 2: Re-score all clues with explanations ────────────────
+    # Skip manually reviewed clues — never touch manual work
     clues = db.execute(
         """SELECT c.id, c.clue_text, c.answer, c.definition, c.wordplay_type,
                   c.ai_explanation, se.confidence AS old_confidence
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.source = ? AND c.puzzle_number = ?
-           AND c.ai_explanation IS NOT NULL AND c.ai_explanation != ''""",
+           AND c.ai_explanation IS NOT NULL AND c.ai_explanation != ''
+           AND (c.reviewed IS NULL OR c.reviewed != 1)""",
         (source, str(puzzle_number)),
     ).fetchall()
 

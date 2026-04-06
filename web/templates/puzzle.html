@@ -233,6 +233,14 @@
                 class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
             Re-run
         </button>
+        <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1&force=1"
+                hx-target="#explain-{{ clue.id }}"
+                hx-swap="innerHTML"
+                hx-indicator="#rerun-spinner-{{ clue.id }}"
+                class="text-xs px-2.5 py-1 rounded border border-red-300 text-red-600 hover:bg-red-50 font-medium cursor-pointer"
+                title="Force re-run, overriding manual review">
+            Force
+        </button>
         <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Running...</span>
         <button hx-post="/admin/approve/{{ clue.id }}"
                 hx-vals='{"tier": "HIGH"}'
