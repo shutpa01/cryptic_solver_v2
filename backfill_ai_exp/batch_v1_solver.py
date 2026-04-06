@@ -627,6 +627,59 @@ def try_deletion(remaining_words, answer, ref_db):
                             "source_word": raw,
                         }
 
+    # Specific-letter deletion: remove abbreviation of one word from synonym of another
+    # e.g. OLIVER (boy wanting more) minus R (river) = OLIVE
+    for ind_idx, ind_word, subtype in del_indicators:
+        # Collect abbreviations from non-indicator, non-source words
+        for j, w_abbr in enumerate(remaining_words):
+            if j == ind_idx:
+                continue
+            wn_abbr = norm_letters(w_abbr)
+            abbrs = ref_db.get_abbreviations(wn_abbr)
+            if not abbrs:
+                continue
+
+            # For each other word (or phrase), check if removing the abbreviation gives the answer
+            for k, w_src in enumerate(remaining_words):
+                if k == ind_idx or k == j:
+                    continue
+                wn_src = norm_letters(w_src)
+
+                # Single word synonyms
+                sources_to_try = [(w_src, wn_src)]
+                # Also try 2 and 3 word phrases starting at k
+                for span in (2, 3):
+                    if k + span - 1 < len(remaining_words):
+                        phrase = " ".join(remaining_words[k:k + span])
+                        phrase_key = re.sub(r'[^A-Za-z ]', '', phrase).lower().strip()
+                        sources_to_try.append((phrase, phrase_key))
+
+                for src_label, src_key in sources_to_try:
+                    for syn in ref_db.get_synonyms(src_key, max_len=len(answer_clean) + 3):
+                        s = syn.upper().replace(" ", "").replace("-", "")
+                        if not s or len(s) != len(answer_clean) + 1:
+                            continue  # removing 1 letter should give answer length
+
+                        for abbr in abbrs:
+                            a = abbr.upper()
+                            if len(a) != 1:
+                                continue  # only single-letter removals for now
+                            # Try removing this letter at each position
+                            for pos in range(len(s)):
+                                if s[pos] == a:
+                                    result = s[:pos] + s[pos+1:]
+                                    if result == answer_clean:
+                                        return {
+                                            "wordplay_type": "deletion",
+                                            "pieces": [
+                                                {"clue_word": src_label, "letters": s, "mechanism": "synonym"},
+                                                {"clue_word": w_abbr, "letters": a, "mechanism": "abbreviation"},
+                                            ],
+                                            "deletion_indicator": ind_word,
+                                            "deletion_type": "remove %s (%s)" % (a, w_abbr),
+                                            "source_word": s,
+                                        }
+
     return None
 
 
@@ -990,7 +1043,13 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
     elif wordplay_type == "deletion":
         source = pieces[0]["letters"] if pieces else "?"
         source_word = pieces[0]["clue_word"] if pieces else "?"
-        expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
+        if len(pieces) >= 2 and pieces[1]["mechanism"] == "abbreviation":
+            # Specific letter removal: OLIVER minus R (river) = OLIVE
+            removed = pieces[1]["letters"]
+            removed_word = pieces[1]["clue_word"]
+            expl = '%s (synonym="%s") minus %s (%s) = %s' % (source, source_word, removed, removed_word, answer.upper())
+        else:
+            expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
     elif wordplay_type in ("container", "charade"):
         parts = []
         for p in pieces:
