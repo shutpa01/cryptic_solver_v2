@@ -326,10 +326,13 @@
         var entered = _getAnagramLetters().toUpperCase().replace(/[^A-Z]/g, '');
         if (!entered) { acct.classList.add('hidden'); acct.innerHTML = ''; return; }
 
-        // Get the answer for the current clue
+        // Get the answer for the current clue (try both puzzle page and overlay contexts)
         var answer = '';
-        if (typeof _toolsClueId !== 'undefined' && _toolsClueId) {
-            var card = document.querySelector('.clue-card[data-clue-id="' + _toolsClueId + '"]');
+        var clueId = (typeof _lastFocusedClueId !== 'undefined' && _lastFocusedClueId)
+                   ? _lastFocusedClueId
+                   : (typeof _toolsClueId !== 'undefined' ? _toolsClueId : null);
+        if (clueId) {
+            var card = document.querySelector('.clue-card[data-clue-id="' + clueId + '"]');
             if (card) answer = (card.dataset.answer || '').toUpperCase().replace(/[^A-Z]/g, '');
         }
         if (!answer) { acct.classList.add('hidden'); return; }

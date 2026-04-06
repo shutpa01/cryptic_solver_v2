@@ -431,6 +431,9 @@
             <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
             <button onclick="anagramClear()" class="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Clear</button>
         </div>
+        {% if g.is_admin %}
+        <div id="anagram-accounting" class="mt-2 text-xs font-mono hidden"></div>
+        {% endif %}
     </div>
     <div id="solver-similar" class="p-4 border-b border-gray-100 hidden">
         <p class="text-xs text-gray-500">Loading similar clues...</p>
