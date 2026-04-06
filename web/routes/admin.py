@@ -192,6 +192,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
         (clue_id,),
     )
     db.commit()
+    print(f"[RERUN] Cleared clue {clue_id} ({clue_text[:40]}), mechanical_only={mechanical_only}")
 
     success = False
     message = ""
@@ -260,7 +261,9 @@ def _rerun_clue_inner(clue_id, mechanical_only=False):
                     mech_result = True
 
             if mech_result and mech_pieces:
+                    print(f"[RERUN V1] Solved as {mech_wtype}: {mech_pieces}")
                     expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, answer)
+                    print(f"[RERUN V1] Explanation: {expl_text[:80]}")
                     components = _json.dumps({
                         "ai_pieces": mech_pieces,
                         "assembly": {"op": mech_wtype},
@@ -985,16 +988,135 @@ def toggle_silly(clue_id):
 
 @bp.route("/reverify/<source>/<int:puzzle_number>", methods=["POST"])
 def reverify_puzzle(source, puzzle_number):
-    """Re-run the mechanical verifier on all clues in a puzzle. Zero API cost.
+    """Re-run mechanical solvers + verifier on all clues in a puzzle. Zero API cost.
 
-    Updates structured_explanations.confidence for each clue based on
-    current DB content (synonyms, abbreviations, definitions).
+    Phase 1: Run V1 mechanical solvers on clues without explanations (PENDING/FAIL)
+    Phase 2: Re-score all clues with explanations through the verifier
     """
     _require_admin()
 
+    import re as _re
+    import json as _json
+    from flask import current_app
     from sonnet_pipeline.verify_explanation import ExplanationVerifier
 
     db = get_admin_db()
+    ref_db = current_app.get_shared_ref_db()
+
+    # ── Phase 1: Mechanical solve on unsolved clues ──────────────────
+    unsolved = db.execute(
+        """SELECT c.id, c.clue_text, c.answer, c.source, c.puzzle_number
+           FROM clues c
+           LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           WHERE c.source = ? AND c.puzzle_number = ?
+           AND c.answer IS NOT NULL AND c.answer != ''
+           AND (c.ai_explanation IS NULL OR c.ai_explanation = ''
+                OR se.confidence IS NULL OR se.confidence < 0.5)""",
+        (source, str(puzzle_number)),
+    ).fetchall()
+
+    mech_solved = 0
+    mech_solved_list = []
+    if unsolved:
+        from backfill_ai_exp.batch_v1_solver import (
+            find_definition as v1_find_def,
+            solve_without_definition as v1_solve_no_def,
+            try_anagram as v1_anagram, try_charade as v1_charade,
+            try_container as v1_container, try_deletion as v1_deletion,
+            try_reversal as v1_reversal,
+            try_acrostic as v1_acrostic, try_homophone as v1_homophone,
+            build_explanation_text as v1_build_expl,
+        )
+        from backfill_ai_exp.backfill_dd_hidden import (
+            generate_dd_hypotheses, try_hidden, norm_letters as dd_norm,
+        )
+
+        dd_graph = current_app.get_shared_dd_graph()
+
+        for clue in unsolved:
+            cid = clue["id"]
+            clue_text = clue["clue_text"]
+            ans = clue["answer"]
+            answer_clean = _re.sub(r'[^A-Za-z]', '', ans).upper()
+
+            # Try hidden
+            total_len = len(dd_norm(ans))
+            hidden_result = try_hidden(clue_text, answer_clean, dd_graph, total_len)
+            if hidden_result:
+                op = "hidden_reversed" if hidden_result["direction"] == "reverse" else "hidden"
+                hiding_words = hidden_result.get("words", "")
+                hidden_def = hidden_result.get("definition")
+                pieces = [{"clue_word": hiding_words, "letters": answer_clean, "mechanism": "hidden"}]
+                components = _json.dumps({"ai_pieces": pieces, "assembly": {"op": op}, "wordplay_type": op})
+                expl = 'hidden in "%s"' % hiding_words
+                db.execute("INSERT OR REPLACE INTO structured_explanations (clue_id, components, wordplay_types, definition_text, confidence, model_version, source) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (cid, components, _json.dumps([op]), hidden_def, 1.0, "mechanical_hidden", source))
+                db.execute("UPDATE clues SET wordplay_type=?, definition=?, ai_explanation=?, has_solution=1 WHERE id=?",
+                           (op, hidden_def, expl, cid))
+                mech_solved += 1
+                mech_solved_list.append(ans)
+                continue
+
+            # Try DD
+            dd_result = generate_dd_hypotheses(clue_text, dd_graph, total_len=total_len, answer=dd_norm(ans))
+            if dd_result:
+                components = _json.dumps({"ai_pieces": [], "assembly": {"op": "double_definition", "left_def": dd_result["left_def"], "right_def": dd_result["right_def"]}, "wordplay_type": "double_definition"})
+                db.execute("INSERT OR REPLACE INTO structured_explanations (clue_id, components, wordplay_types, definition_text, confidence, model_version, source) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (cid, components, _json.dumps(["double_definition"]), "Double definition", 1.0, "mechanical_dd", source))
+                db.execute("UPDATE clues SET wordplay_type='double_definition', definition='Double definition', ai_explanation='Double definition', has_solution=1 WHERE id=?", (cid,))
+                mech_solved += 1
+                mech_solved_list.append(ans)
+                continue
+
+            # Try V1 solvers
+            definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
+            mech_result = None
+            mech_wtype = None
+            mech_pieces = None
+
+            if definition and remaining:
+                for try_fn, wtype in [
+                    (lambda: v1_anagram(clue_text, answer_clean, ref_db, definition_words=definition.split()), "anagram"),
+                    (lambda: v1_container(remaining, answer_clean, ref_db), "container"),
+                    (lambda: v1_deletion(remaining, answer_clean, ref_db), "deletion"),
+                    (lambda: v1_charade(remaining, answer_clean, ref_db), "charade"),
+                    (lambda: v1_reversal(remaining, answer_clean, ref_db), "reversal"),
+                    (lambda: v1_acrostic(remaining, answer_clean, ref_db), "acrostic"),
+                    (lambda: v1_homophone(remaining, answer_clean, ref_db), "homophone"),
+                ]:
+                    r = try_fn()
+                    if r:
+                        mech_wtype = wtype
+                        if wtype == "anagram":
+                            mech_pieces = [{"clue_word": w, "letters": _re.sub(r'[^A-Za-z]', '', w).upper(), "mechanism": "anagram_fodder"} for w in r["fodder_words"]]
+                        else:
+                            mech_pieces = r["pieces"]
+                        break
+
+            if not mech_pieces and not definition:
+                inferred_def, inferred_wtype, inferred_pieces = v1_solve_no_def(clue_text, answer_clean, ref_db)
+                if inferred_def and inferred_pieces:
+                    definition = inferred_def
+                    mech_wtype = inferred_wtype
+                    mech_pieces = inferred_pieces
+
+            if mech_pieces:
+                expl_text = v1_build_expl(mech_wtype, mech_pieces, definition, ans)
+                components = _json.dumps({"ai_pieces": mech_pieces, "assembly": {"op": mech_wtype}, "wordplay_type": mech_wtype})
+                _verifier = ExplanationVerifier()
+                _vresult = _verifier.verify(clue_text, ans, definition, mech_wtype, expl_text)
+                _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
+                _final_conf = _conf_map.get(_vresult["verdict"], 0.0)
+                db.execute("INSERT OR REPLACE INTO structured_explanations (clue_id, components, wordplay_types, definition_text, confidence, model_version, source) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (cid, components, _json.dumps([mech_wtype]), definition, _final_conf, "mechanical_v1", source))
+                db.execute("UPDATE clues SET wordplay_type=?, definition=?, ai_explanation=?, has_solution=1 WHERE id=?",
+                           (mech_wtype, definition, expl_text, cid))
+                mech_solved += 1
+                mech_solved_list.append(ans)
+
+        db.commit()
+
+    # ── Phase 2: Re-score all clues with explanations ────────────────
     clues = db.execute(
         """SELECT c.id, c.clue_text, c.answer, c.definition, c.wordplay_type,
                   c.ai_explanation, se.confidence AS old_confidence
@@ -1005,8 +1127,8 @@ def reverify_puzzle(source, puzzle_number):
         (source, str(puzzle_number)),
     ).fetchall()
 
-    if not clues:
-        return '<span class="text-teal-600">No clues with explanations to verify.</span>'
+    if not clues and not mech_solved:
+        return '<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">No clues to process.</div>'
 
     verifier = ExplanationVerifier()
     upgraded = 0
@@ -1113,6 +1235,8 @@ def reverify_puzzle(source, puzzle_number):
 
     total = len(clues)
     lines = []
+    if mech_solved:
+        lines.append(f'<strong>{mech_solved} newly solved</strong>: {", ".join(mech_solved_list[:10])}{"..." if len(mech_solved_list) > 10 else ""}')
     lines.append(f'<strong>{upgraded} upgraded</strong>, {unchanged} unchanged, {downgraded} downgraded out of {total} clues')
     if gaps_queued:
         lines.append(f'{gaps_queued} DB entries queued for review')
