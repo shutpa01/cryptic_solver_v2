@@ -36,21 +36,31 @@ SOLVE_SOURCES = ["telegraph", "times", "guardian", "independent", "dailymail"]
 
 def log(msg):
     ts = time.strftime("%H:%M:%S")
-    print(f"[{ts}] {msg}", flush=True)
+    # Replace chars that Windows cp1252 can't encode
+    safe_msg = str(msg).encode('cp1252', errors='replace').decode('cp1252')
+    print(f"[{ts}] {safe_msg}", flush=True)
 
 
 def run_scraper():
     """Run the puzzle scraper to fetch today's puzzles from all sources."""
     log("Step 1: Running all scrapers...")
-    result = subprocess.run(
-        [PYTHON_SCRAPER, SCRAPER_SCRIPT],
-        cwd=str(ROOT),
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=600,
-    )
+    try:
+        result = subprocess.run(
+            [PYTHON_SCRAPER, SCRAPER_SCRIPT],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=600,
+        )
+    except subprocess.TimeoutExpired:
+        log("  Scraper TIMEOUT (10 min) — continuing without scraper")
+        return False
+    except Exception as e:
+        log(f"  Scraper ERROR: {e} — continuing")
+        return False
+
     if result.returncode != 0:
         log(f"  Scraper failed (exit {result.returncode})")
         if result.stderr:
@@ -137,7 +147,7 @@ def find_todays_puzzles(target_date):
 
 
 def run_pipeline(source, puzzle_number):
-    """Run the Sonnet pipeline on a single puzzle."""
+    """Run the Sonnet pipeline on a single puzzle. Always returns True/False, never raises."""
     log(f"  Pipeline: {source} #{puzzle_number}")
     cmd = [
         PYTHON_PIPELINE, "-m", "sonnet_pipeline.run",
@@ -147,15 +157,23 @@ def run_pipeline(source, puzzle_number):
         "--source", source,
         str(puzzle_number),
     ]
-    result = subprocess.run(
-        cmd,
-        cwd=str(ROOT),
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=1800,  # 30 min max per puzzle
-    )
+    try:
+        result = subprocess.run(
+            cmd,
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=1800,  # 30 min max per puzzle
+        )
+    except subprocess.TimeoutExpired:
+        log(f"    Pipeline TIMEOUT (30 min) — skipping {source} #{puzzle_number}")
+        return False
+    except Exception as e:
+        log(f"    Pipeline ERROR: {e} — skipping {source} #{puzzle_number}")
+        return False
+
     if result.returncode != 0:
         log(f"    Pipeline failed (exit {result.returncode})")
         if result.stderr:
@@ -235,4 +253,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        log(f"FATAL ERROR: {e}")
+        import traceback
+        for line in traceback.format_exc().splitlines():
+            log(f"  {line}")
+        sys.exit(1)
