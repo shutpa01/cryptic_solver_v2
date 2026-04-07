@@ -210,11 +210,17 @@
                 <strong>Just Cordelia</strong>. I've got a built-in thesaurus, anagram solver, pattern matcher,
                 similar clue search, and more. Give it a try!
             </p>
-            <a href="{{ clue.puzzle_url }}?solve=1"
-               class="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
-                <span>Solve {{ clue.source | source_name }} #{{ clue.puzzle_number }} with me</span>
-                <span>&rarr;</span>
-            </a>
+            <div class="flex flex-wrap gap-3 mt-3">
+                <a href="{{ clue.puzzle_url }}?solve=1"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
+                    <span>Solve {{ clue.source | source_name }} #{{ clue.puzzle_number }} with me</span>
+                    <span>&rarr;</span>
+                </a>
+                <a href="/learn"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-rose-300 text-rose-700 hover:bg-rose-50 font-medium text-sm no-underline">
+                    <span>Teach me about cryptics</span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
