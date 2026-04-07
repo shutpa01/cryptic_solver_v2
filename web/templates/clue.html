@@ -199,22 +199,34 @@
 </div>
 {% endif %}
 
-{# Link to full puzzle #}
+{# Cordelia's invitation to solve #}
 {% if clue.puzzle_url and not request.args.get('back') %}
+<div class="mb-6 bg-rose-50 border border-rose-200 rounded-lg p-5">
+    <div class="flex items-start gap-3">
+        <img src="/static/cordelia_flower.jpg" class="w-10 h-10 mt-0.5 shrink-0" alt="">
+        <div>
+            <p class="text-gray-800 leading-relaxed">
+                Working on this puzzle? No need to go anywhere else &mdash; everything you need is right here with
+                <strong>Just Cordelia</strong>. I've got a built-in thesaurus, anagram solver, pattern matcher,
+                similar clue search, and more. Give it a try!
+            </p>
+            <a href="{{ clue.puzzle_url }}"
+               class="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
+                <span>Solve {{ clue.source | source_name }} #{{ clue.puzzle_number }} with me</span>
+                <span>&rarr;</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# Courtesy link to source — demoted #}
+{% if source_puzzle_url %}
 <div class="mb-6">
-    <a href="{{ clue.puzzle_url }}"
-       class="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium">
-        <span>See all clues from {{ clue.source | source_name }} {{ clue.type_label }} #{{ clue.puzzle_number }}</span>
-        <span>&rarr;</span>
-    </a>
-    {% if source_puzzle_url %}
-    <br>
     <a href="{{ source_puzzle_url }}" target="_blank" rel="noopener"
-       class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-600 italic mt-1">
-        <span>Solve this puzzle on {{ clue.source | source_name }}</span>
-        <span>&rarr;</span>
+       class="text-xs text-gray-400 hover:text-gray-500">
+        Visit {{ clue.source | source_name }}'s puzzle site &rarr;
     </a>
-    {% endif %}
 </div>
 {% endif %}
 
