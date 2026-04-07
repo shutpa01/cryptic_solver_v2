@@ -18,12 +18,16 @@ DB_PATH = Path(__file__).resolve().parent / "data" / "clues.db"
 OUT_DIR = Path(__file__).resolve().parent / "static" / "sitemaps"
 
 
-def make_slug(clue_text, answer):
-    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
-    ans = re.sub(r"[^A-Za-z0-9]", "", answer or "").upper()
-    if not text or not ans:
+def make_slug(clue_text, answer, clue_id=None):
+    """Generate URL slug from clue ID and clue text. Answer is NOT included."""
+    if not clue_id:
         return None
-    return f"{text}-{ans}"
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    if not text:
+        return None
+    words = text.split("-")[:12]
+    text = "-".join(words)
+    return f"{clue_id}-{text}"
 
 
 def generate(domain):
@@ -48,7 +52,7 @@ def generate(domain):
     unique_count = 0
 
     cursor = conn.execute("""
-        SELECT clue_text, answer, publication_date
+        SELECT id, clue_text, answer, publication_date
         FROM clues
         WHERE answer IS NOT NULL AND length(answer) > 0
           AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
@@ -61,8 +65,8 @@ def generate(domain):
         if not rows:
             break
 
-        for clue_text, answer, pub_date in rows:
-            slug = make_slug(clue_text, answer)
+        for clue_id, clue_text, answer, pub_date in rows:
+            slug = make_slug(clue_text, answer, clue_id=clue_id)
             if not slug or slug in seen:
                 continue
             seen.add(slug)
@@ -134,7 +138,9 @@ def generate(domain):
     sitemap_files.append("sitemap_puzzles.xml")
     print(f"  Wrote sitemap_puzzles.xml ({puzzle_count} puzzles)")
 
-    # Write sitemap index
+    # Write sitemap index (with lastmod so Google knows when to re-read)
+    from datetime import date as _date
+    today = _date.today().isoformat()
     index_path = OUT_DIR / "sitemap_index.xml"
     with open(index_path, "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
@@ -142,6 +148,7 @@ def generate(domain):
         for fname in sitemap_files:
             f.write("  <sitemap>\n")
             f.write(f"    <loc>{domain}/static/sitemaps/{fname}</loc>\n")
+            f.write(f"    <lastmod>{today}</lastmod>\n")
             f.write("  </sitemap>\n")
         f.write("</sitemapindex>\n")
 
