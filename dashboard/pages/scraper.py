@@ -223,7 +223,7 @@ def _render_honeypot_deploy():
                 try:
                     result = subprocess.run(
                         ["ssh", DROPLET, "systemctl restart honeypot"],
-                        capture_output=True, text=True, timeout=30,
+                        capture_output=True, text=True, timeout=120,
                         encoding="utf-8", errors="replace",
                     )
                     if result.returncode == 0:
