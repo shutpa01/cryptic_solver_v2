@@ -67,11 +67,19 @@ def render():
 
     st.divider()
 
-    st.subheader("Deploy DB to Honeypot")
+    st.subheader("Deploy to Honeypot")
     try:
         _render_honeypot_deploy()
     except Exception as e:
-        st.error(f"Error in deploy section: {e}")
+        st.error(f"Error in honeypot deploy: {e}")
+
+    st.divider()
+
+    st.subheader("Deploy to Cordelia")
+    try:
+        _render_cordelia_deploy()
+    except Exception as e:
+        st.error(f"Error in Cordelia deploy: {e}")
 
     st.divider()
 
@@ -129,6 +137,27 @@ def _show_todays_puzzles():
 
 DROPLET = "root@134.209.21.34"
 HONEYPOT_DB_PATH = "/opt/honeypot/data/clues.db"
+
+CORDELIA_DROPLET = "root@165.232.46.255"
+CORDELIA_REMOTE = "/opt/cordelia"
+CRYPTIC_NEW_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
+# Directories to deploy to Cordelia (local_dir, remote_dir, glob pattern)
+# Uses scp -r for directories, excludes __pycache__
+CORDELIA_CODE_DIRS = [
+    ("web", "web", "*.py"),
+    ("web/routes", "web/routes", "*.py"),
+    ("web/templates", "web/templates", "*.html"),
+    ("web/templates/partials", "web/templates/partials", "*.html"),
+    ("web/static", "web/static", None),  # None = entire directory
+    ("signature_solver", "signature_solver", "*.py"),
+    ("backfill_ai_exp", "backfill_ai_exp", "*.py"),
+    ("sonnet_pipeline", "sonnet_pipeline", "*.py"),
+    ("scraper/danword", "scraper/danword", "*.py"),
+]
+# Individual files that don't fit the directory pattern
+CORDELIA_EXTRA_FILES = [
+    ("data/base_catalog.json", "data/base_catalog.json"),
+]
 
 
 HONEYPOT_LOCAL = PROJECT_ROOT / "honeypot"
@@ -251,6 +280,178 @@ def _render_honeypot_deploy():
                         steps.append(("Regenerate sitemaps", False, result.stderr or "Failed."))
                 except Exception as e:
                     steps.append(("Regenerate sitemaps", False, str(e)))
+
+        # Show results
+        for label, ok, msg in steps:
+            if ok:
+                st.success(f"{label}: {msg}")
+            else:
+                st.error(f"{label}: {msg}")
+
+
+def _render_cordelia_deploy():
+    """Deploy databases and/or code to the Cordelia droplet."""
+    st.caption("Deploy to justcordelia.com — upload databases, code, or both.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        deploy_db = st.checkbox("Deploy databases", value=True, key="co_deploy_db")
+        deploy_code = st.checkbox("Deploy code", value=False, key="co_deploy_code")
+    with col2:
+        if deploy_db:
+            clues_size = CLUES_DB.stat().st_size / 1024 / 1024
+            ref_size = CRYPTIC_NEW_DB.stat().st_size / 1024 / 1024 if CRYPTIC_NEW_DB.exists() else 0
+            st.write(f"**clues_master.db:** {clues_size:.0f} MB")
+            st.write(f"**cryptic_new.db:** {ref_size:.0f} MB")
+
+    if not deploy_db and not deploy_code:
+        st.info("Select at least one option to deploy.")
+        return
+
+    if st.button("Deploy to Cordelia", type="primary", key="deploy_cordelia"):
+        steps = []
+        failed = False
+
+        # Step 1: Upload code
+        if deploy_code and not failed:
+            with st.spinner("Uploading code files..."):
+                uploaded = 0
+                # Upload directories (glob pattern)
+                for local_dir, remote_dir, pattern in CORDELIA_CODE_DIRS:
+                    local_path = PROJECT_ROOT / local_dir
+                    if not local_path.exists():
+                        continue
+                    # Ensure remote directory exists
+                    subprocess.run(
+                        ["ssh", CORDELIA_DROPLET, f"mkdir -p {CORDELIA_REMOTE}/{remote_dir}"],
+                        capture_output=True, timeout=10,
+                    )
+                    if pattern is None:
+                        # Upload entire directory
+                        try:
+                            result = subprocess.run(
+                                ["scp", "-r", str(local_path) + "/.", f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/"],
+                                capture_output=True, text=True, timeout=60,
+                                encoding="utf-8", errors="replace",
+                            )
+                            if result.returncode == 0:
+                                uploaded += 1
+                            else:
+                                steps.append(("Upload code", False, f"Failed on {local_dir}: {result.stderr}"))
+                                failed = True
+                                break
+                        except Exception as e:
+                            steps.append(("Upload code", False, f"Failed on {local_dir}: {e}"))
+                            failed = True
+                            break
+                    else:
+                        # Upload matching files
+                        import glob
+                        files = glob.glob(str(local_path / pattern))
+                        for f in files:
+                            fname = Path(f).name
+                            try:
+                                result = subprocess.run(
+                                    ["scp", f, f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/{fname}"],
+                                    capture_output=True, text=True, timeout=30,
+                                    encoding="utf-8", errors="replace",
+                                )
+                                if result.returncode != 0:
+                                    steps.append(("Upload code", False, f"Failed on {remote_dir}/{fname}: {result.stderr}"))
+                                    failed = True
+                                    break
+                                uploaded += 1
+                            except Exception as e:
+                                steps.append(("Upload code", False, f"Failed on {remote_dir}/{fname}: {e}"))
+                                failed = True
+                                break
+                    if failed:
+                        break
+
+                # Upload extra individual files
+                if not failed:
+                    for local_file, remote_file in CORDELIA_EXTRA_FILES:
+                        local_path = PROJECT_ROOT / local_file
+                        if not local_path.exists():
+                            continue
+                        try:
+                            result = subprocess.run(
+                                ["scp", str(local_path), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_file}"],
+                                capture_output=True, text=True, timeout=30,
+                                encoding="utf-8", errors="replace",
+                            )
+                            if result.returncode == 0:
+                                uploaded += 1
+                            else:
+                                steps.append(("Upload code", False, f"Failed on {remote_file}: {result.stderr}"))
+                                failed = True
+                                break
+                        except Exception as e:
+                            steps.append(("Upload code", False, f"Failed on {remote_file}: {e}"))
+                            failed = True
+                            break
+
+                if not failed:
+                    steps.append(("Upload code", True, f"{uploaded} items uploaded."))
+
+        # Step 2: Upload databases
+        if deploy_db and not failed:
+            with st.spinner("Uploading clues_master.db..."):
+                try:
+                    result = subprocess.run(
+                        ["scp", str(CLUES_DB), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/clues_master.db"],
+                        capture_output=True, text=True, timeout=600,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if result.returncode == 0:
+                        steps.append(("Upload clues_master.db", True, "Done."))
+                    else:
+                        steps.append(("Upload clues_master.db", False, result.stderr or "Failed."))
+                        failed = True
+                except subprocess.TimeoutExpired:
+                    steps.append(("Upload clues_master.db", False, "Timed out after 10 minutes."))
+                    failed = True
+                except Exception as e:
+                    steps.append(("Upload clues_master.db", False, str(e)))
+                    failed = True
+
+            if not failed and CRYPTIC_NEW_DB.exists():
+                with st.spinner("Uploading cryptic_new.db..."):
+                    try:
+                        result = subprocess.run(
+                            ["scp", str(CRYPTIC_NEW_DB), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/cryptic_new.db"],
+                            capture_output=True, text=True, timeout=600,
+                            encoding="utf-8", errors="replace",
+                        )
+                        if result.returncode == 0:
+                            steps.append(("Upload cryptic_new.db", True, "Done."))
+                        else:
+                            steps.append(("Upload cryptic_new.db", False, result.stderr or "Failed."))
+                            failed = True
+                    except subprocess.TimeoutExpired:
+                        steps.append(("Upload cryptic_new.db", False, "Timed out after 10 minutes."))
+                        failed = True
+                    except Exception as e:
+                        steps.append(("Upload cryptic_new.db", False, str(e)))
+                        failed = True
+
+        # Step 3: Restart service
+        if not failed:
+            with st.spinner("Restarting Cordelia service..."):
+                try:
+                    result = subprocess.run(
+                        ["ssh", CORDELIA_DROPLET, "systemctl restart cordelia"],
+                        capture_output=True, text=True, timeout=120,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if result.returncode == 0:
+                        steps.append(("Restart service", True, "Service restarted."))
+                    else:
+                        steps.append(("Restart service", False, result.stderr or "Restart failed."))
+                        failed = True
+                except Exception as e:
+                    steps.append(("Restart service", False, str(e)))
+                    failed = True
 
         # Show results
         for label, ok, msg in steps:

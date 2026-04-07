@@ -560,8 +560,9 @@ def main():
     print("DONE")
     print(f"{'=' * 60}")
 
-    # Sync DB to honeypot site
+    # Sync DBs to live sites
     _sync_honeypot()
+    _sync_cordelia()
 
 
 def _sync_honeypot():
@@ -611,6 +612,66 @@ def _sync_honeypot():
             print(f"  Sitemap generation failed: {result.stderr}")
     except Exception as e:
         print(f"  Honeypot sync error: {e}")
+
+
+CORDELIA_DROPLET = "root@165.232.46.255"
+CRYPTIC_NEW_DB = PROJECT_ROOT / 'data' / 'cryptic_new.db'
+
+
+def _sync_cordelia():
+    """Copy both databases to the Cordelia server and restart."""
+    import subprocess
+
+    clues_db = CLUES_MASTER_DB
+    ref_db = CRYPTIC_NEW_DB
+
+    if not clues_db.exists():
+        print("Cordelia sync: clues_master.db not found, skipping")
+        return
+
+    print("\nSyncing DBs to Cordelia (justcordelia.com)...")
+    try:
+        # Upload clues_master.db
+        result = subprocess.run(
+            ["scp", str(clues_db), f"{CORDELIA_DROPLET}:/opt/cordelia/data/clues_master.db"],
+            timeout=600,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            print(f"  SCP clues_master.db failed: {result.stderr}")
+            return
+        print("  clues_master.db uploaded")
+
+        # Upload cryptic_new.db
+        if ref_db.exists():
+            result = subprocess.run(
+                ["scp", str(ref_db), f"{CORDELIA_DROPLET}:/opt/cordelia/data/cryptic_new.db"],
+                timeout=600,
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                print(f"  SCP cryptic_new.db failed: {result.stderr}")
+                return
+            print("  cryptic_new.db uploaded")
+        else:
+            print("  cryptic_new.db not found, skipping")
+
+        # Restart service
+        result = subprocess.run(
+            ["ssh", CORDELIA_DROPLET, "systemctl restart cordelia"],
+            timeout=120,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            print("  Cordelia synced and restarted")
+        else:
+            print(f"  Restart failed: {result.stderr}")
+
+    except Exception as e:
+        print(f"  Cordelia sync error: {e}")
 
 
 if __name__ == "__main__":

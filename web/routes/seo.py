@@ -1,5 +1,7 @@
 """SEO routes — sitemaps and robots.txt."""
 
+from datetime import date
+
 from flask import Blueprint, Response, request, current_app
 
 from web.db import get_db
@@ -42,15 +44,19 @@ def sitemap_index():
 
     num_pages = max(1, (total + SITEMAP_PAGE_SIZE - 1) // SITEMAP_PAGE_SIZE)
 
+    today = date.today().isoformat()
+
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
     for page in range(1, num_pages + 1):
         xml.append("  <sitemap>")
         xml.append(f"    <loc>{host}/sitemap-clues-{page}.xml</loc>")
+        xml.append(f"    <lastmod>{today}</lastmod>")
         xml.append("  </sitemap>")
     # Puzzle pages sitemap
     xml.append("  <sitemap>")
     xml.append(f"    <loc>{host}/sitemap-puzzles.xml</loc>")
+    xml.append(f"    <lastmod>{today}</lastmod>")
     xml.append("  </sitemap>")
     xml.append("</sitemapindex>")
 
