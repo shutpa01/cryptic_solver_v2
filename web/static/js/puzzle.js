@@ -57,7 +57,7 @@ function openToolsOverlay(clueId) {
 
     // Pre-fetch similar clues
     if (clueText) {
-        var simUrl = '/helper/similar?q=' + encodeURIComponent(clueText);
+        var simUrl = '/helper/similar?q=' + encodeURIComponent(clueText) + '&ht=' + _ht;
         if (enumVal) simUrl += '&enum=' + encodeURIComponent(enumVal);
         if (label) simUrl += '&label=' + encodeURIComponent(label);
         if (clueId) simUrl += '&clue_id=' + encodeURIComponent(clueId);
@@ -146,7 +146,7 @@ function overlayWordHelp(span) {
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
 
     // Word lookup in the overlay results area
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#solver-results', swap: 'innerHTML'});
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#solver-results', swap: 'innerHTML'});
 }
 
 function _toolsFillAnswer(word) {
@@ -329,7 +329,7 @@ function wordHelp(span) {
     document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {
         if (e.id !== target) e.innerHTML = '';
     });
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#' + target, swap: 'innerHTML'});
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#' + target, swap: 'innerHTML'});
 }
 function _clearSelection() {
     _selectedWords.forEach(function(w) {
@@ -968,7 +968,7 @@ function _fetchMatchCountsStaggered() {
 
     if (Object.keys(queries).length === 0) return;
 
-    fetch('/helper/pattern-counts?patterns=' + encodeURIComponent(JSON.stringify(queries)))
+    fetch('/helper/pattern-counts?patterns=' + encodeURIComponent(JSON.stringify(queries)) + '&ht=' + _ht)
         .then(function(r) { return r.json(); })
         .then(function(counts) {
             var cached = {};
@@ -1019,7 +1019,7 @@ function _insertEnumBreaks(pat, enumStr) {
 }
 
 function _fetchMatchCount(el, patternStr, enumStr) {
-    var url = '/helper/pattern-count?pattern=' + encodeURIComponent(patternStr);
+    var url = '/helper/pattern-count?pattern=' + encodeURIComponent(patternStr) + '&ht=' + _ht;
     if (enumStr) url += '&enum=' + encodeURIComponent(enumStr);
     fetch(url)
         .then(function(r) { return r.text(); })
@@ -1092,7 +1092,7 @@ function patternFromCrossing(el, crossingStr) {
     patInput.value = patternStr;
     document.getElementById('pattern-include').value = '';
     // Auto-search with enum
-    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr);
+    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr) + '&ht=' + _ht;
     if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
     htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
 }

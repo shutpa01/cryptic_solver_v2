@@ -266,7 +266,7 @@ function wordHelp(span) {
     document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {
         if (e.id !== target) e.innerHTML = '';
     });
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#' + target, swap: 'innerHTML'});
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#' + target, swap: 'innerHTML'});
 }
 function _clearSelection() {
     _selectedWords.forEach(function(w) {

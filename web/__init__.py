@@ -203,6 +203,12 @@ def create_app(config_name=None):
             session.permanent = True
         g.is_admin = session.get("admin", False)
 
+    @app.context_processor
+    def inject_helper_token():
+        """Make helper token available in all templates."""
+        from web.routes.helper import generate_helper_token
+        return {"helper_token": generate_helper_token()}
+
     # Register blueprints
     from web.routes.browse import bp as browse_bp
     from web.routes.puzzle import bp as puzzle_bp

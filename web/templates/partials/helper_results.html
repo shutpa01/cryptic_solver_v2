@@ -31,7 +31,7 @@
             {% for group in meanings %}
             <div class="mt-1" id="meanings-{{ group.length }}">
                 <span class="text-blue-400 text-xs cursor-pointer hover:text-blue-600 hover:underline font-bold"
-                      hx-get="/helper/meanings?word={{ word }}&letters={{ group.length }}"
+                      hx-get="/helper/meanings?word={{ word }}&letters={{ group.length }}&ht={{ helper_token }}"
                       hx-target="#meanings-{{ group.length }}"
                       hx-swap="innerHTML"
                       title="Show all {{ group.length }}-letter matches">({{ group.length }})</span>

@@ -25,6 +25,7 @@
         }
     }
     </script>
+    <script>var _ht = "{{ helper_token }}";</script>
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <style>
         /* Tier badge colours */
@@ -93,7 +94,8 @@
             <!-- Pattern tab -->
             <div id="solver-pattern" class="p-3 border-b border-gray-100 hidden">
                 <p class="text-xs text-gray-500 mb-2">Known letters + ? for missing, - between words</p>
-                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum" class="flex gap-2">
+                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token" class="flex gap-2">
+                    <input type="hidden" id="helper-token" name="ht" value="{{ helper_token }}">
                     <input type="hidden" id="pattern-enum" name="enum" value="">
                     <input type="text" name="pattern" id="pattern-input"
                            placeholder="e.g. S?O?E or OX??RD-S?RE?T"
@@ -174,7 +176,7 @@
         display.classList.remove('hidden');
         display.setAttribute('data-word', word);
         display.innerHTML = '<span class="text-gray-400">Looking up ' + word + '...</span>';
-        fetch('/helper/word-info?word=' + encodeURIComponent(word))
+        fetch('/helper/word-info?word=' + encodeURIComponent(word) + '&ht=' + _ht)
             .then(function(r) { return r.text(); })
             .then(function(text) {
                 display.innerHTML = '<strong>' + word + '</strong>: ' + text;
@@ -192,6 +194,7 @@
             var url = '/helper/pattern?pattern=' + encodeURIComponent(patVal);
             if (includeVal) url += '&include=' + encodeURIComponent(includeVal);
             if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
+            url += '&ht=' + _ht;
             htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
         }, 400);
     }
@@ -312,7 +315,7 @@
     function anagramSolve() {
         var letters = _getAnagramLetters();
         if (letters.length < 2) return;
-        htmx.ajax('GET', '/helper/anagram?letters=' + encodeURIComponent(letters),
+        htmx.ajax('GET', '/helper/anagram?letters=' + encodeURIComponent(letters) + '&ht=' + _ht,
                    {target: '#solver-results', swap: 'innerHTML'});
     }
 
@@ -417,7 +420,7 @@
         if (openBtn) openBtn.classList.add('hidden');
         solverTab('similar');
         document.getElementById('similar-hint').textContent = 'Searching...';
-        var url = '/helper/similar?q=' + encodeURIComponent(clueText);
+        var url = '/helper/similar?q=' + encodeURIComponent(clueText) + '&ht=' + _ht;
         if (enumeration) url += '&enum=' + encodeURIComponent(enumeration);
         if (clueLabel) url += '&label=' + encodeURIComponent(clueLabel);
         if (clueId) url += '&clue_id=' + encodeURIComponent(clueId);

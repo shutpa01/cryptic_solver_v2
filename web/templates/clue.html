@@ -306,7 +306,7 @@ function wordHelp(span) {
     }
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase), {target: '#' + target, swap: 'innerHTML'});
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#' + target, swap: 'innerHTML'});
 }
 function _clearSelection() {
     _selectedWords.forEach(function(w) {

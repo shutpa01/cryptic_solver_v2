@@ -1,5 +1,10 @@
 """Helper widget routes — solver's toolkit for word lookups, pattern search,
-anagram solving, and similar clue search."""
+anagram solving, and similar clue search.
+
+All endpoints require a valid helper token (ht parameter) to prevent
+bulk scraping of the reference database. Tokens are generated per page
+load and expire after 2 hours.
+"""
 
 import re
 import sqlite3
@@ -7,7 +12,8 @@ from pathlib import Path
 
 import json
 
-from flask import Blueprint, request, render_template, abort, g, jsonify
+from flask import Blueprint, request, render_template, abort, g, jsonify, current_app
+from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 # Stop words to ignore when searching for similar clues
 _STOP_WORDS = frozenset(
@@ -16,6 +22,52 @@ _STOP_WORDS = frozenset(
 )
 
 bp = Blueprint("helper", __name__)
+
+HELPER_TOKEN_MAX_AGE = 7200  # 2 hours
+
+
+def generate_helper_token():
+    """Generate a signed token for helper endpoint access."""
+    s = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
+    return s.dumps({"helper": True}, salt="helper-access")
+
+
+_rate_limit_store = {}  # IP -> (count, window_start)
+RATE_LIMIT_MAX = 60     # requests per window
+RATE_LIMIT_WINDOW = 60  # seconds
+
+
+@bp.before_request
+def _require_helper_token():
+    """Validate helper token and enforce rate limiting.
+    Admin users bypass both checks."""
+    if getattr(g, 'is_admin', False):
+        return
+
+    # Token validation
+    token = request.args.get("ht", "")
+    if not token:
+        abort(403)
+    s = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
+    try:
+        s.loads(token, max_age=HELPER_TOKEN_MAX_AGE, salt="helper-access")
+    except (BadSignature, SignatureExpired):
+        abort(403)
+
+    # Rate limiting
+    import time
+    ip = request.remote_addr or "unknown"
+    now = time.time()
+    if ip in _rate_limit_store:
+        count, window_start = _rate_limit_store[ip]
+        if now - window_start > RATE_LIMIT_WINDOW:
+            _rate_limit_store[ip] = (1, now)
+        elif count >= RATE_LIMIT_MAX:
+            abort(429)
+        else:
+            _rate_limit_store[ip] = (count + 1, window_start)
+    else:
+        _rate_limit_store[ip] = (1, now)
 
 _BASE = Path(__file__).resolve().parent.parent.parent
 REF_DB = str(_BASE / "data" / "cryptic_new.db")

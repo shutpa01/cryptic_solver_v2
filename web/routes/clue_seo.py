@@ -72,17 +72,17 @@ def generate_faq_schema(clue, steps):
 
     faq_entries = []
 
-    # Q1: What does [clue] mean?
+    # Q1: What does [clue] mean? — teaser only, no definition/explanation
     faq_entries.append({
         "@type": "Question",
         "name": f'What does the cryptic crossword clue "{clue_display}" mean?',
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": _build_meaning_answer(clue),
+            "text": "This cryptic clue uses wordplay to arrive at the answer. Visit the page for progressive hints — definition, wordplay type, and a full step-by-step explanation.",
         },
     })
 
-    # Q2: What is the answer?
+    # Q2: What is the answer? — answers are freely available elsewhere
     answer = clue.get("answer", "")
     if answer:
         faq_entries.append({
@@ -91,19 +91,6 @@ def generate_faq_schema(clue, steps):
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": f"The answer is {answer}.",
-            },
-        })
-
-    # Q3: What type of wordplay is used?
-    wordplay_type = clue.get("wordplay_type")
-    if wordplay_type:
-        wp_label = _wordplay_label(wordplay_type)
-        faq_entries.append({
-            "@type": "Question",
-            "name": f'What type of wordplay is used in "{clue_display}"?',
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": f"This clue uses {wp_label} as its wordplay technique.",
             },
         })
 

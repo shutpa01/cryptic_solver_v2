@@ -410,7 +410,8 @@
                 class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Similar</button>
     </div>
     <div id="solver-pattern" class="p-4 border-b border-gray-100 hidden">
-        <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum" class="flex gap-2">
+        <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token-puzzle" class="flex gap-2">
+            <input type="hidden" id="helper-token-puzzle" name="ht" value="{{ helper_token }}">
             <input type="hidden" id="pattern-enum" name="enum" value="">
             <input type="text" name="pattern" id="pattern-input"
                    placeholder="e.g. S?O?E or ?A?T?E"
