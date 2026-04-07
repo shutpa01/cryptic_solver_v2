@@ -127,18 +127,28 @@
                 {% endif %}
             </p>
             <div class="flex gap-1 mt-0.5 solve-hide-badges">
+                {% if g.is_admin %}
                 <span class="text-xs font-mono px-1 py-0.5 rounded shrink-0
                     {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
                     {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
                     {% elif clue.solve_source == 'P' %}bg-orange-100 text-orange-700
                     {% else %}bg-gray-100 text-gray-400{% endif %}">{{ clue.solve_source }}</span>
                 <span class="tier-{{ clue.tier | lower }} text-xs font-medium px-1.5 py-0.5 rounded shrink-0"
-                      title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">{{ clue.tier }}{% if g.is_admin and clue.confidence is not none %}<span class="text-[10px] ml-0.5 opacity-70">{{ (clue.confidence * 100) | int }}</span>{% endif %}</span>
-                {% if g.is_admin and not clue.ai_explanation and not clue.definition %}
+                      title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">{{ clue.tier }}{% if clue.confidence is not none %}<span class="text-[10px] ml-0.5 opacity-70">{{ (clue.confidence * 100) | int }}</span>{% endif %}</span>
+                {% if not clue.ai_explanation and not clue.definition %}
                 <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-red-100 text-red-700 animate-pulse">NO EXPLANATION</span>
                 {% endif %}
                 {% if clue | def_missing %}
                 <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-100 text-amber-700" title="Definition '{{ clue.definition }}' → {{ clue.answer }} not in reference DB">DEF?</span>
+                {% endif %}
+                {% else %}
+                {% if clue.tier == 'HIGH' %}
+                <span title="Cordelia is confident about this explanation">🌸🌸🌸</span>
+                {% elif clue.tier == 'MEDIUM' %}
+                <span title="Cordelia thinks this is right but isn't completely sure">🌸🌸</span>
+                {% elif clue.tier == 'LOW' %}
+                <span title="Cordelia's best guess — take with a pinch of salt">🌸</span>
+                {% endif %}
                 {% endif %}
             </div>
             {# Solve mode input — hidden until solve mode activated #}

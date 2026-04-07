@@ -68,6 +68,7 @@
         <span class="text-gray-300">|</span>
         <span>{{ clue.publication_date }}</span>
         {% endif %}
+        {% if g.is_admin %}
         <span class="text-xs font-mono px-1.5 py-0.5 rounded shrink-0
             {% if clue.solve_source == 'S' %}bg-blue-100 text-blue-700
             {% elif clue.solve_source == 'SE' %}bg-cyan-100 text-cyan-700
@@ -77,6 +78,15 @@
               title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">
             {{ clue.tier }}
         </span>
+        {% else %}
+        {% if clue.tier == 'HIGH' %}
+        <span title="Cordelia is confident about this explanation">🌸🌸🌸</span>
+        {% elif clue.tier == 'MEDIUM' %}
+        <span title="Cordelia thinks this is right but isn't completely sure">🌸🌸</span>
+        {% elif clue.tier == 'LOW' %}
+        <span title="Cordelia's best guess — take with a pinch of salt">🌸</span>
+        {% endif %}
+        {% endif %}
     </div>
 
     {# Hint reveal buttons — same pattern as puzzle.html #}
@@ -126,7 +136,7 @@
                 class="text-sm px-3 py-1.5 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
-        <button hx-post="/admin/rerun/{{ clue.id }}"
+        <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#rerun-spinner-{{ clue.id }}"
