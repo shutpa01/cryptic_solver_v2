@@ -1132,7 +1132,8 @@ function saveAllToDb() {
 // Restore solve mode if it was active, or auto-activate for prize puzzles
 // Admin users: never auto-restore (they're reviewing, not solving)
 document.addEventListener('DOMContentLoaded', function() {
-    if (!_cfg.isAdmin && (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1')) {
+    if (!_cfg.isAdmin && (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1'
+            || new URLSearchParams(window.location.search).get('solve') === '1')) {
         toggleSolveMode();
     }
 

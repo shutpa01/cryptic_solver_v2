@@ -210,7 +210,7 @@
                 <strong>Just Cordelia</strong>. I've got a built-in thesaurus, anagram solver, pattern matcher,
                 similar clue search, and more. Give it a try!
             </p>
-            <a href="{{ clue.puzzle_url }}"
+            <a href="{{ clue.puzzle_url }}?solve=1"
                class="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
                 <span>Solve {{ clue.source | source_name }} #{{ clue.puzzle_number }} with me</span>
                 <span>&rarr;</span>
