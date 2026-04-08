@@ -184,7 +184,7 @@ def _render_editor(clue_id, row):
         st.session_state[expl_key] = row["ai_explanation"] or ""
 
     with st.form(key=f"edit_form_{clue_id}"):
-        new_def = st.text_input("Definition", key=def_key)
+        new_def = st.text_area("Definition", key=def_key, height=68)
         new_type = st.text_input("Wordplay type", key=type_key)
         new_expl = st.text_area("Explanation", key=expl_key)
         if st.form_submit_button("Save & Approve"):
