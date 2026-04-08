@@ -72,18 +72,40 @@ def generate_faq_schema(clue, steps):
 
     faq_entries = []
 
-    # Q1: What does [clue] mean? — teaser only, no definition/explanation
+    answer = clue.get("answer", "")
+    definition = clue.get("definition")
+    wordplay_type = clue.get("wordplay_type")
+    ai_explanation = clue.get("ai_explanation")
+    confidence = clue.get("confidence")
+    is_high = confidence is not None and confidence >= 0.7
+
+    # Q1: What does [clue] mean?
+    if is_high and ai_explanation:
+        # HIGH confidence — include the full explanation for GEO
+        meaning_parts = []
+        if definition:
+            meaning_parts.append(f'The definition is "{definition}".')
+        if wordplay_type:
+            wp_label = _wordplay_label(wordplay_type)
+            meaning_parts.append(f"The wordplay uses {wp_label}.")
+        meaning_parts.append(ai_explanation)
+        if answer:
+            meaning_parts.append(f"The answer is {answer}.")
+        meaning_text = " ".join(meaning_parts)
+    else:
+        # Not HIGH — teaser only
+        meaning_text = "This cryptic clue uses wordplay to arrive at the answer. Visit the page for progressive hints — definition, wordplay type, and a full step-by-step explanation."
+
     faq_entries.append({
         "@type": "Question",
         "name": f'What does the cryptic crossword clue "{clue_display}" mean?',
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "This cryptic clue uses wordplay to arrive at the answer. Visit the page for progressive hints — definition, wordplay type, and a full step-by-step explanation.",
+            "text": meaning_text,
         },
     })
 
-    # Q2: What is the answer? — answers are freely available elsewhere
-    answer = clue.get("answer", "")
+    # Q2: What is the answer?
     if answer:
         faq_entries.append({
             "@type": "Question",
