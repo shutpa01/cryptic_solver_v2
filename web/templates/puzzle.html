@@ -117,13 +117,13 @@
                 {% if g.is_admin %}
                 <span id="silly-{{ clue.id }}" hx-post="/admin/silly/{{ clue.id }}" hx-target="#silly-{{ clue.id }}" hx-swap="outerHTML">
                     {% if clue.silly_award %}
-                    <span class="text-lg cursor-pointer" title="Cordelia's Silly Award — what were they thinking?!">&#127942;</span>
+                    <span class="text-lg cursor-pointer" title="Cordelia's Silly Award — what were they thinking?!"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5 rotate-180" alt="silly"></span>
                     {% else %}
-                    <span class="text-lg cursor-pointer opacity-20 hover:opacity-100" title="Award Cordelia's Silly Award">&#127942;</span>
+                    <span class="text-lg cursor-pointer opacity-20 hover:opacity-100" title="Award Cordelia's Silly Award"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5 rotate-180" alt="silly"></span>
                     {% endif %}
                 </span>
                 {% elif clue.silly_award %}
-                <span class="text-lg" title="Cordelia's Silly Award — what were they thinking?!">&#127942;</span>
+                <span class="text-lg" title="Cordelia's Silly Award — what were they thinking?!"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5 rotate-180" alt="silly"></span>
                 {% endif %}
             </p>
             <div class="flex gap-1 mt-0.5 solve-hide-badges">
@@ -484,7 +484,7 @@ var _puzzleBrowseTips = [
 // Solve mode entry tip (just the tools pointer)
 window._cordeliaTipsByMode = {
     solve: [
-        {id: 'solve-tools', text: 'The <strong>Solver tools</strong> button (top right) are your best friend. Pattern finder, anagram solver, and similar clue search &mdash; all right there.', position: 'near-tools'}
+        {id: 'solve-tools', text: 'See the <strong>Tools</strong> button next to each clue? That\'s your pattern finder, anagram solver, and similar clue search &mdash; all right there when you need them.'}
     ]
 };
 

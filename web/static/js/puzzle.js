@@ -549,7 +549,7 @@ function solveCheck(input) {
             result.textContent = 'The letter at position ' + conflict.position + ' must be ' + conflict.expected + ' \u2014 does your answer fit?';
         } else {
             result.className = 'solve-result text-xs text-red-500';
-            result.textContent = 'Not right';
+            result.innerHTML = 'Not right &nbsp;<span class="text-gray-400 cursor-pointer hover:text-red-500 underline" onclick="this.closest(\'.solve-input\').querySelector(\'.solve-answer\').value=\'\';this.closest(\'.solve-input\').querySelector(\'.solve-answer\').classList.remove(\'border-red-400\');this.closest(\'.solve-input\').querySelector(\'.solve-answer\').classList.add(\'border-gray-300\');this.closest(\'.solve-input\').querySelector(\'.solve-answer\').disabled=false;this.closest(\'.solve-input\').querySelector(\'.solve-answer\').focus();this.parentElement.textContent=\'\'">Clear</span>';
             input.classList.remove('border-gray-300', 'border-green-400');
             input.classList.add('border-red-400');
             // Shake animation
