@@ -22,7 +22,9 @@
                 <th class="px-4 py-2">No.</th>
                 <th class="px-4 py-2">Date</th>
                 <th class="px-4 py-2 text-center">Clues</th>
-                <th class="px-4 py-2 text-center">% with explanations</th>
+                <th class="px-4 py-2 text-center">Answers</th>
+                <th class="px-4 py-2 text-center">Definitions</th>
+                <th class="px-4 py-2 text-center">Explanations</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -36,10 +38,26 @@
                 <td class="px-4 py-2 text-center">{{ p.clue_count }}</td>
                 <td class="px-4 py-2 text-center">
                     <span class="inline-block px-2 py-0.5 rounded text-xs font-medium
-                        {% if p.coverage_pct >= 70 %}bg-green-100 text-green-700
-                        {% elif p.coverage_pct >= 30 %}bg-yellow-100 text-yellow-700
+                        {% if p.answer_pct >= 90 %}bg-green-100 text-green-700
+                        {% elif p.answer_pct >= 50 %}bg-yellow-100 text-yellow-700
                         {% else %}bg-gray-100 text-gray-500{% endif %}">
-                        {{ p.coverage_pct }}%
+                        {{ p.answer_pct }}%
+                    </span>
+                </td>
+                <td class="px-4 py-2 text-center">
+                    <span class="inline-block px-2 py-0.5 rounded text-xs font-medium
+                        {% if p.def_pct >= 70 %}bg-green-100 text-green-700
+                        {% elif p.def_pct >= 30 %}bg-yellow-100 text-yellow-700
+                        {% else %}bg-gray-100 text-gray-500{% endif %}">
+                        {{ p.def_pct }}%
+                    </span>
+                </td>
+                <td class="px-4 py-2 text-center">
+                    <span class="inline-block px-2 py-0.5 rounded text-xs font-medium
+                        {% if p.expl_pct >= 70 %}bg-green-100 text-green-700
+                        {% elif p.expl_pct >= 30 %}bg-yellow-100 text-yellow-700
+                        {% else %}bg-gray-100 text-gray-500{% endif %}">
+                        {{ p.expl_pct }}%
                     </span>
                 </td>
             </tr>

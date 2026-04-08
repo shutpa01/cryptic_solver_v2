@@ -265,9 +265,9 @@ def get_puzzle_list(source, type_slug, page=1):
         """SELECT puzzle_number,
                   MAX(publication_date) AS publication_date,
                   COUNT(*) AS clue_count,
-                  SUM(CASE WHEN definition IS NOT NULL
-                            AND wordplay_type IS NOT NULL THEN 1 ELSE 0 END) AS hints_high,
-                  SUM(CASE WHEN definition IS NOT NULL THEN 1 ELSE 0 END) AS hints_with_def
+                  SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS with_answer,
+                  SUM(CASE WHEN definition IS NOT NULL AND definition != '' THEN 1 ELSE 0 END) AS with_def,
+                  SUM(CASE WHEN ai_explanation IS NOT NULL AND ai_explanation != '' THEN 1 ELSE 0 END) AS with_expl
            FROM clues
            WHERE %s
            GROUP BY puzzle_number
@@ -279,14 +279,16 @@ def get_puzzle_list(source, type_slug, page=1):
     puzzles = []
     for r in rows:
         clue_count = r["clue_count"]
-        high = r["hints_high"] or 0
-        coverage_pct = round(100 * high / clue_count) if clue_count else 0
+        with_answer = r["with_answer"] or 0
+        with_def = r["with_def"] or 0
+        with_expl = r["with_expl"] or 0
         puzzles.append({
             "puzzle_number": r["puzzle_number"],
             "publication_date": r["publication_date"],
             "clue_count": clue_count,
-            "hints_high": high,
-            "coverage_pct": coverage_pct,
+            "answer_pct": round(100 * with_answer / clue_count) if clue_count else 0,
+            "def_pct": round(100 * with_def / clue_count) if clue_count else 0,
+            "expl_pct": round(100 * with_expl / clue_count) if clue_count else 0,
         })
 
     return puzzles, total_pages
