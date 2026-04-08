@@ -261,18 +261,27 @@ def get_puzzle_list(source, type_slug, page=1):
     total_pages = max(1, (total + per_page - 1) // per_page)
     offset = (page - 1) * per_page
 
+    # Qualify the WHERE clause column names for the JOIN
+    qualified_where = (where
+        .replace("source", "c.source")
+        .replace("puzzle_number", "c.puzzle_number")
+        .replace("publication_date", "c.publication_date"))
+    # Fix any double-qualification from nested replacements
+    qualified_where = qualified_where.replace("c.c.", "c.")
+
     rows = db.execute(
-        """SELECT puzzle_number,
-                  MAX(publication_date) AS publication_date,
+        """SELECT c.puzzle_number,
+                  MAX(c.publication_date) AS publication_date,
                   COUNT(*) AS clue_count,
-                  SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS with_answer,
-                  SUM(CASE WHEN definition IS NOT NULL AND definition != '' THEN 1 ELSE 0 END) AS with_def,
-                  SUM(CASE WHEN ai_explanation IS NOT NULL AND ai_explanation != '' THEN 1 ELSE 0 END) AS with_expl
-           FROM clues
+                  SUM(CASE WHEN c.answer IS NOT NULL AND c.answer != '' THEN 1 ELSE 0 END) AS with_answer,
+                  SUM(CASE WHEN c.definition IS NOT NULL AND c.definition != '' THEN 1 ELSE 0 END) AS with_def,
+                  SUM(CASE WHEN se.confidence >= 0.7 THEN 1 ELSE 0 END) AS with_expl
+           FROM clues c
+           LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE %s
-           GROUP BY puzzle_number
-           ORDER BY MAX(publication_date) DESC
-           LIMIT ? OFFSET ?""" % where,
+           GROUP BY c.puzzle_number
+           ORDER BY MAX(c.publication_date) DESC
+           LIMIT ? OFFSET ?""" % qualified_where,
         params + [per_page, offset],
     ).fetchall()
 
