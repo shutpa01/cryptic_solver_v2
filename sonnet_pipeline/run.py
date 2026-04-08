@@ -956,11 +956,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 validation["confidence"].upper(), validation["score"],
                 " | ".join("%s=%s" % (k, v) for k, v in validation["checks"].items())))
             print("   Status: ASSEMBLED (%s)" % tier)
-            # Sonnet explanations are used for enrichment only — not stored as solves.
-            # To reactivate Sonnet direct solves, uncomment below.
-            # if write_db:
-            #     store_result(conn, cid, sonnet_out, assembly, validation, tier)
-            #     conn.commit()
+            if write_db:
+                store_result(conn, cid, sonnet_out, assembly, validation, tier)
+                conn.commit()
 
             # Extract enrichment gaps from Sonnet's explanation and queue
             # them directly to pending_enrichments for reviewer
