@@ -121,28 +121,27 @@ def source_name_filter(value):
 # Slug helpers
 # ---------------------------------------------------------------------------
 
-def make_slug(clue_text, answer):
-    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
-    ans = re.sub(r"[^A-Za-z0-9]", "", answer or "").upper()
-    if not text or not ans:
+def make_slug(clue_text, answer, clue_id=None):
+    """Build a URL slug from clue text. Answer is NOT included in the slug."""
+    if not clue_id:
         return None
-    return f"{text}-{ans}"
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    if not text:
+        return None
+    # Truncate to keep URLs reasonable (max ~80 chars of clue text)
+    words = text.split("-")[:12]
+    text = "-".join(words)
+    return f"{clue_id}-{text}"
 
 
 def parse_slug(slug):
-    """Extract clue words and answer from slug."""
-    segments = slug.split("-")
-    answer_parts = []
-    for seg in reversed(segments):
-        if seg == seg.upper() and seg.isalpha():
-            answer_parts.insert(0, seg)
-        else:
-            break
-    if not answer_parts:
+    """Extract clue ID from slug. Returns (clue_id, slug_text) or (None, None)."""
+    parts = slug.split("-", 1)
+    if not parts or not parts[0].isdigit():
         return None, None
-    answer = "".join(answer_parts)
-    clue_words = segments[: len(segments) - len(answer_parts)]
-    return " ".join(clue_words), answer
+    clue_id = int(parts[0])
+    slug_text = parts[1] if len(parts) > 1 else ""
+    return clue_id, slug_text
 
 
 # ---------------------------------------------------------------------------
@@ -471,7 +470,7 @@ def search():
     where_clause = " AND ".join(conditions)
 
     results = db.execute(f"""
-        SELECT c.clue_text, c.answer, c.definition, c.enumeration,
+        SELECT c.id, c.clue_text, c.answer, c.definition, c.enumeration,
                c.source, c.puzzle_number, c.wordplay_type
         FROM clues c
         WHERE {where_clause}
@@ -533,7 +532,7 @@ def search_suggest():
     where_clause = " AND ".join(conditions)
 
     rows = db.execute(f"""
-        SELECT c.clue_text, c.answer, c.enumeration, c.source
+        SELECT c.id, c.clue_text, c.answer, c.enumeration, c.source
         FROM clues c
         WHERE {where_clause}
           AND c.answer IS NOT NULL AND length(c.answer) > 0
@@ -545,7 +544,7 @@ def search_suggest():
 
     results = []
     for r in rows:
-        slug = make_slug(r["clue_text"], r["answer"])
+        slug = make_slug(r["clue_text"], r["answer"], clue_id=r["id"])
         if slug:
             enum = f" ({r['enumeration']})" if r["enumeration"] else ""
             results.append({
@@ -601,8 +600,8 @@ def source_page(source):
 
 @app.route("/clue/<slug>")
 def clue_page(slug):
-    clue_text_hint, answer = parse_slug(slug)
-    if not answer:
+    clue_id, slug_text = parse_slug(slug)
+    if not clue_id:
         abort(404)
 
     db = get_db()
@@ -614,27 +613,11 @@ def clue_page(slug):
                se.components, se.confidence
         FROM clues c
         LEFT JOIN structured_explanations se ON se.clue_id = c.id
-        WHERE c.answer = ? AND c.clue_text LIKE ?
+        WHERE c.id = ?
           AND c.source IN {ALLOWED_SOURCES_SQL}
           {EXCLUDE_NON_CRYPTIC_C}
         LIMIT 1
-    """, (answer, f"%{clue_text_hint.replace(' ', '%')}%")).fetchone()
-
-    if row is None:
-        words = clue_text_hint.split()[:3]
-        pattern = "%".join(words) + "%"
-        row = db.execute(f"""
-            SELECT c.clue_text, c.answer, c.definition, c.enumeration, c.source,
-                   c.puzzle_number, c.clue_number, c.direction, c.publication_date,
-                   c.wordplay_type, c.ai_explanation, c.explanation,
-                   se.components, se.confidence
-            FROM clues c
-            LEFT JOIN structured_explanations se ON se.clue_id = c.id
-            WHERE c.answer = ? AND lower(c.clue_text) LIKE ?
-              AND c.source IN {ALLOWED_SOURCES_SQL}
-              {EXCLUDE_NON_CRYPTIC_C}
-            LIMIT 1
-        """, (answer, pattern.lower())).fetchone()
+    """, (clue_id,)).fetchone()
 
     if row is None:
         abort(404)
@@ -674,7 +657,7 @@ def clue_page(slug):
           )
         ORDER BY publication_date DESC
         LIMIT 5
-    """, (answer, row["clue_text"], answer, row["clue_text"])).fetchall()
+    """, (row["answer"], row["clue_text"], row["answer"], row["clue_text"])).fetchall()
 
     source_puzzle_url = get_source_puzzle_url(row["source"], row["puzzle_number"])
 
@@ -709,7 +692,7 @@ def puzzle_page(source, puzzle_number):
     db = get_db()
 
     rows = db.execute("""
-        SELECT c.clue_text, c.answer, c.definition, c.enumeration,
+        SELECT c.id, c.clue_text, c.answer, c.definition, c.enumeration,
                c.clue_number, c.direction, c.publication_date,
                c.wordplay_type, c.ai_explanation, c.explanation,
                se.components, se.confidence
