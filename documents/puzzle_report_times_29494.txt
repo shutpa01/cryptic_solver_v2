@@ -1,0 +1,818 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29494
+Generated: 2026-03-19 12:16:31
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        26/30 (86%)
+    Signature:      4
+    Sig+Enriched:   3
+    Sonnet:         16
+    DB Fallback:    3
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   12  18A, 24D, 25A, 9D, 1D, 12A, 13A, 15A, 27A, 28A, 4A, 7D
+  Medium (40-79): 8  17D, 19D, 20A, 23A, 26A, 29A, 5D, 8D
+  Low (<40):    6  1A, 10A, 16D, 2D, 21D, 6D
+  Failed:       4  11A, 14A, 22D, 3D
+  Average:      61/100
+
+COST: $2.1825 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (39 entries)
+------------------------------------------------------------
+  SANDIEGO: "City" -> SANDIEGO  (missing from definition_answers_augmented)
+  ROSIN: "a help when varnishing" -> ROSIN  (missing from definition_answers_augmented)
+  WARHEAD: "That could be incendiary" -> WARHEAD  (missing from definition_answers_augmented)
+  ENFANTTERRIBLE: "That's an embarrassment" -> ENFANTTERRIBLE  (missing from definition_answers_augmented)
+  NEARLYNEW: "good nick" -> NEARLYNEW  (missing from definition_answers_augmented)
+  TROVE: "store" -> TROVE  (missing from definition_answers_augmented)
+  FLECK: "Spot" -> FLECK  (missing from definition_answers_augmented)
+  SIDEROSIS: "Complaint" -> SIDEROSIS  (missing from definition_answers_augmented)
+  GRADIENT: "One's inclined" -> GRADIENT  (missing from definition_answers_augmented)
+  DRAGGLE: "Trail" -> DRAGGLE  (missing from definition_answers_augmented)
+  DREAR: "Writer's miserable" -> DREAR  (missing from definition_answers_augmented)
+  EREMITE: "Loner's" -> EREMITE  (missing from definition_answers_augmented)
+  SCENIC: "Beautiful" -> SCENIC  (missing from definition_answers_augmented)
+  BERKSHIRE: "land west of London" -> BERKSHIRE  (missing from definition_answers_augmented)
+  CYLINDER: "Solid" -> CYLINDER  (missing from definition_answers_augmented)
+  ASPECT: "Act like" -> ASPECT  (missing from definition_answers_augmented)
+  WELLLIKED: "Popular" -> WELLLIKED  (missing from definition_answers_augmented)
+  RETAGGED: "Called again" -> RETAGGED  (missing from definition_answers_augmented)
+  ANTIC: "buffoon" -> ANTIC  (missing from definition_answers_augmented)
+  DEEPEN: "Increase strength" -> DEEPEN  (missing from definition_answers_augmented)
+  DODOWN: mug -> DO  (missing from abbreviations)
+  DODOWN: lead -> DOWN  (missing from synonyms_pairs)
+  DANDRUFF: Trump's -> RUFF  (missing from synonyms_pairs)
+  NEARLYNEW: con -> N  (missing from abbreviations)
+  NEARLYNEW: man -> W  (missing from abbreviations)
+  SIDEROSIS: papers -> SIDE  (missing from synonyms_pairs)
+  SIDEROSIS: raised -> R  (missing from abbreviations)
+  SIDEROSIS: ulcer -> O  (missing from abbreviations)
+  ANTHILL: Benny, for example -> HILL  (missing from synonyms_pairs)
+  DRAGGLE: bearing pain -> DRAG  (missing from synonyms_pairs)
+  EREMITE: suitable moment -> ERE  (missing from abbreviations)
+  CATERER: collars -> ER  (missing from abbreviations)
+  BERKSHIRE: Fools -> BERKS  (missing from synonyms_pairs)
+  CYLINDER: shelf delivered with -> CYL  (missing from abbreviations)
+  ASPECT: court -> A  (missing from abbreviations)
+  EDWARDWOODWARD: charges -> WARD  (missing from synonyms_pairs)
+  ANTIC: casual job -> ANT  (missing from abbreviations)
+  ANTIC: great old -> IC  (missing from abbreviations)
+  DEEPEN: hideaway -> DEEP  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (5)
+------------------------------------------------------------
+  DODOWN = 1 (20/100): no pieces verified in DB
+  DRAGGLE = 2 (25/100): no pieces verified in DB
+  CATERER = 23 (45/100): no pieces verified in DB
+  NAILS = 26 (65/100): no pieces verified in DB
+  ANTIC = 6 (5/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (3)
+------------------------------------------------------------
+  GRADIENT = 17 (50/100): def="One's inclined" (not in DB, odd position)
+  DREAR = 20 (61/100): def="Writer's miserable" (not in DB, odd position)
+  EREMITE = 21 (38/100): def="Loner's" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  11. Outgoing type stripped twice in store = TROVE
+  14. Spot sheep collectively shifting over to middle of field = FLECK
+  22. Beautiful actions excuse turning up now and then = SCENIC
+  3. Popular Liberal upset butcher in garden = WELLLIKED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/30  12A, 13A, 15A, 7D
+  Unverified explain.:   5  23A, 26A, 1D, 2D, 6D
+  Weak definition:       3  20A, 17D, 21D
+  DB gap:                24  4A, 10A, 11A, 14A, 18A, 20A, 23A, 25A, 27A, 28A, 29A, 1D, 2D, 3D, 5D, 6D, 8D, 9D, 16D, 17D, 19D, 21D, 22D, 24D
+  Failed:                4  11A, 14A, 3D, 22D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   18A  SANDIEGO      City hospital to decline work (3,5)
+                      SAN (synonym of "hospital") + DIE (synonym of "decline") + GO (synonym of "work"); definition: "City"  [HIGH]
+   24D  ROSIN         Partly lifting ottoman is ordinarily a help when varnishing (5)
+                      hidden reversed in "ottoman is ordinarily" [hidden: "Partly"]; definition: "a help when varnishing"  [HIGH]
+   25A  WARHEAD       Revolutionary Green leader? That could be incendiary (7)
+                      RAW (synonym of "Green") + HEAD (synonym of "leader?") [reversal: "Revolutionary"]; definition: "That could be incendiary"  [HIGH]
+    9D  ENFANTTERRIBLE  Enter bar in felt buckles? That’s an embarrassment (6,8)
+                      anagram of ENTERBARINFELT ("Enter bar in felt") [anagram: "buckles?"] = ENFANTTERRIBLE; definition: "That's an embarrassment"  [HIGH]
+    1A  DODOWN        Belittle bridge opponents with “mug to lead” (2,4)
+                      DO(synonym of "mug") + DOWN(synonym of "lead")  [LOW]
+    1D  DANDRUFF      Fine curtailed Trump’s flakiness? (8)
+                      DAND(deletion from "Fine") + RUFF(synonym of "Trump's")  [HIGH]
+   10A  NEARLYNEW     Criminal lawyer and con man spoke at last in good nick (6,3)
+                      NEARLY(lawyer and) + N(synonym of "con") + E(last letter of "spoke") + W(synonym of "man")  [LOW]
+   11A  TROVE         Outgoing type stripped twice in store (5)
+                      ---  [FAIL]
+   12A  REGALIA       Bring back one beer to accompany a big cigar (7)
+                      REGALI(reversal of "one beer") + A(a)  [HIGH]
+   13A  RECYCLE       Seek further use for components within grey vehicle (7)
+                      strip outer letters from GREY(grey) + CYCLE(synonym of "vehicle")  [HIGH]
+   14A  FLECK         Spot sheep collectively shifting over to middle of field (5)
+                      ---  [FAIL]
+   15A  TOWNSHIP      Community has charging point finally switched on (8)
+                      delete OP from TOP(synonym of "point") + OWNS(synonym of "has") + HIP(synonym of "switched")  [HIGH]
+   16D  SIDEROSIS     Complaint papers raised ulcer acquired by relative (9)
+                      SIDE(synonym of "papers") + R(abbr. "raised") + O(abbr. "ulcer") + SIS(synonym of "relative")  [LOW]
+   17D  GRADIENT      One’s inclined to bend the limits of radioisotope dating (8)
+                      delete TH from THE(the), anagram of DATING(dating)+E+R(first letter of "radioisotope") = GRADIENT  [MED]
+   19D  ANTHILL       Pile of workers want to go topless — Benny, for example (7)
+                      ANT(deletion from "want") + HILL(synonym of "Benny, for example")  [MED]
+    2D  DRAGGLE       Trail broken leg, bearing pain (7)
+                      DRAG(synonym of "bearing pain") + GLE(leg)  [LOW]
+   20A  DREAR         Writer’s miserable doctor tried, having neglected case (5)
+                      DR(abbr. "doctor") + EAR(deletion from "tried")  [MED]
+   21D  EREMITE       Loner’s suitable moment to return, before crowds (7)
+                      ERE(synonym of "suitable moment") + MITE(deletion from "crowds")  [LOW]
+   22D  SCENIC        Beautiful actions excuse turning up now and then (6)
+                      ---  [FAIL]
+   23A  CATERER       Drained theatre nurse maybe collars food supplier (7)
+                      CATER(drained theatre nurse maybe) + ER(synonym of "collars")  [MED]
+   26A  NAILS         Catches slowcoach delaying son’s appearance (5)
+                      anagram of SNAIL(slowcoach) = NAILS  [MED]
+   27A  BERKSHIRE     Fools lease land west of London (9)
+                      BERKS (synonym of "Fools") + HIRE (synonym of "lease"); definition: "land west of London"  [HIGH]
+   28A  CYLINDER      Solid shelf delivered with fashionable red backing (8)
+                      CYL (synonym of "shelf delivered with") + IN (synonym of "fashionable") + RED ("red") [reversal: "backing"]; definition: "Solid"  [HIGH]
+   29A  ASPECT        Act like court has sealed the end for MS Outlook (6)
+                      A(abbr. "court") + SPECT(deletion from "outlook")  [MED]
+    3D  WELLLIKED     Popular Liberal upset butcher in garden (4-5)
+                      ---  [FAIL]
+    4A  RETAGGED      Called again about faulty gadget (8)
+                      anagram of GADGET ("gadget") [anagram: "faulty"] + RE (abbreviation of "about") = RETAGGED; definition: "Called again"  [HIGH]
+    5D  EDWARDWOODWARD  Actor and journalist on identical charges having pinched fuel (6,8)
+                      EDWARD(Edward) + WOOD(synonym of "fuel") + WARD(synonym of "charges")  [MED]
+    6D  ANTIC         Casual job rejected by great old buffoon (5)
+                      ANT(synonym of "casual job") + IC(synonym of "great old")  [LOW]
+    7D  GNOCCHI       Coaching failed to yield first-class dumplings (7)
+                      anagram of COCHING(deletion from "Coaching") = GNOCCHI  [HIGH]
+    8D  DEEPEN        Increase strength of hideaway, covering leak up (6)
+                      DEEP(synonym of "hideaway") + EN(reversal of "leak")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] SANDIEGO  18A. City hospital to decline work
+  Answer: SANDIEGO
+  Tier: Signature | Confidence: 100/100
+  Definition: "City"
+  Wordplay: charade
+  Explanation: SAN (synonym of "hospital") + DIE (synonym of "decline") + GO (synonym of "work"); definition: "City"
+  ----------------------------------------------------------------------
+
+  [HIGH] ROSIN  24D. Partly lifting ottoman is ordinarily a help when varnishing
+  Answer: ROSIN
+  Tier: Signature | Confidence: 100/100
+  Definition: "a help when varnishing"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "ottoman is ordinarily" [hidden: "Partly"]; definition: "a help when varnishing"
+  ----------------------------------------------------------------------
+
+  [HIGH] WARHEAD  25A. Revolutionary Green leader? That could be incendiary
+  Answer: WARHEAD
+  Tier: Signature | Confidence: 100/100
+  Definition: "That could be incendiary"
+  Wordplay: charade + reversal
+  Explanation: RAW (synonym of "Green") + HEAD (synonym of "leader?") [reversal: "Revolutionary"]; definition: "That could be incendiary"
+  ----------------------------------------------------------------------
+
+  [HIGH] ENFANTTERRIBLE  9D. Enter bar in felt buckles? That’s an embarrassment
+  Answer: ENFANTTERRIBLE
+  Tier: Signature | Confidence: 100/100
+  Definition: "That's an embarrassment"
+  Wordplay: anagram
+  Explanation: anagram of ENTERBARINFELT ("Enter bar in felt") [anagram: "buckles?"] = ENFANTTERRIBLE; definition: "That's an embarrassment"
+  ----------------------------------------------------------------------
+
+  [LOW] DODOWN  1A. Belittle bridge opponents with “mug to lead”
+  Answer: DODOWN
+  Tier: Sonnet | Confidence: 20/100
+  Definition: "Belittle"
+  Wordplay type: charade
+  Components:
+    synonym            mug                       -> DO
+    synonym            lead                      -> DOWN
+  Assembly: charade — DO(synonym of "mug") + DOWN(synonym of "lead")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      belittle: syn=BAD,HER,HIS,PUT,PLAY,LAUGH,MOUTH,WRITE,DEMEAN,LESSEN
+      bridge: syn=ARCH,CARD,GAME,JOIN,SPAN,CROSS,A GAME
+      opponents: syn=ALSO,RIVALS,FOE,ANTI,ARCH,EAST,MATE,THEM,ENEMY,RIVAL,TIGER
+      with: syn=DOWN*,W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW; abbr=AND,ON,W*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+    Definitions:
+      "Belittle" -> DODOWN (definition match)
+  AI Reasoning:
+    DO (mug means attack/do someone) + DOWN (lead metal falls down) = DODOWN
+  ----------------------------------------------------------------------
+
+  [HIGH] DANDRUFF  1D. Fine curtailed Trump’s flakiness?
+  Answer: DANDRUFF
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "flakiness"
+  Wordplay type: charade
+  Components:
+    deletion           Fine                      -> DAND [DANDY, "curtailed"=deletion]
+    synonym            Trump's                   -> RUFF
+  Assembly: charade — DAND(deletion from "Fine") + RUFF(synonym of "Trump's")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fine: syn=A,F,A1,OK,SO,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD,RIG; abbr=F*,OK
+      curtailed: syn=FAST,BRIEF,CRISP,PITHY,SHORT,TERSE,ABRUPT,DOCKED,LITTLE,SUDDEN,COMPACT,CONCISE,LACONIC,SUMMARY,TRIMMED; ind=deletion,parts
+    Definitions:
+      "flakiness" -> DANDRUFF (definition match)
+  AI Reasoning:
+    Fine (DANDY) curtailed (last letter deleted) gives DAND, plus Trump's (RUFF, card game term) = DANDRUFF
+  ----------------------------------------------------------------------
+
+  [LOW] NEARLYNEW  10A. Criminal lawyer and con man spoke at last in good nick
+  Answer: NEARLYNEW
+  Tier: Sonnet | Confidence: -92/100
+  Definition: "good nick"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     lawyer and                -> NEARLY
+    synonym            con                       -> N
+    synonym            man                       -> W
+    last_letter        spoke                     -> E
+  Assembly: charade — NEARLY(lawyer and) + N(synonym of "con") + E(last letter of "spoke") + W(synonym of "man")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/4 (25%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: N, W | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      criminal: syn=C,CON,BENT,EVIL,FISH,HOOD,PERP,THUG,BADDY,CROOK,FELON,FENCE,THIEF,UNDER,BADLOT; abbr=C,CON; ind=anagram
+      lawyer: syn=SILK,BRIEF,LEGAL,SOLON,TRIAL,JURIST,COUNSEL,SHYSTER,ADVOCATE,ATTORNEY,LAWGIVER,LAWMAKER,ADVOCATES,BARRISTER,COCOUNSEL; abbr=DA
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      con: syn=IN,RIP,BILL,BURN,CARD,FAST,GAFF,HAVE,LEAD,NONE,PULL,SCAM,SELL,SKIN,SWIZ
+      man: syn=ED,HE,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,IAN,JOE,KID,LAD; abbr=AL,DAN,ED,HE,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      spoke: syn=PUT,RUNG,SAID,TOLD,PASSED,RADIAL,RADIUS,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,PHRASED,RECITED,UTTERED
+      at: syn=EAR*,IN,BED,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      in: syn=NEAR*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      good: syn=G,OK,ON,PI,SO,ACE,ALL,APT,BIG,FIT,LOW,OUT,PET,SAD,USE; abbr=G,PI
+      nick: syn=CAN,COP,CUT,DIG,HOW,JUG,NAB,NET,RAP,ROB,WAY,BUST,CAST,CHIP,FAST
+      criminal lawyer: syn=TRIAL,LAWYER,ATTORNEY
+      con man: syn=TED HEATH,TO SUPPLY
+      at last: ind=parts
+      at last: syn=LATER,TRIPE,INTIME,BALONEY,FINALLY,RUBBISH,SOMEDAY,COBBLERS,DESSERTS,NONSENSE
+      in good: syn=FREAK,MAYBE,MISFIT,MAVERICK,ECCENTRIC
+    Definitions:
+      "in good nick" -> NEARLYNEW (definition match)
+  AI Reasoning:
+    Criminal anagrams 'lawyer and' to NEARLY, then 'con man spoke at last' gives N+W+E rearranged as NEW
+  ----------------------------------------------------------------------
+
+  [FAILED] TROVE  11A. Outgoing type stripped twice in store
+  Answer: TROVE
+  Tier: --- | Confidence: 0/100
+  Definition: "store"
+  Wordplay type: deletion
+  Components:
+    deletion           Outgoing type             -> TROVE
+  DB Lookups:
+    DB lookups:
+      type: syn=ILK,IMP,PEG,SET,TYP,AXIS,BORN,CLUB,DOWN,FORM,KIND,LIKE,MARK,RANK,SORT; ind=anagram
+      stripped: syn=RAW,BALD,BARE,FREE,NUDE,OPEN,CLEAR,FRANK,NAKED,PLAIN; ind=deletion,parts
+      twice: syn=BIS
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      store: syn=UP,AIM,ARM,BOX,EYE,FIX,GEL,LAY,LOT,OFF,POT,PUT,SIT,TEN,TON; fodder=STORE(4/5 anagram match)
+      in store: syn=OUT,FREE,NIGH,OPEN
+    Definitions:
+      "in store" -> TROVE (definition match)
+  AI Reasoning:
+    EXTROVERT with outer letters stripped twice (E,T then X,R) yields TROVE
+  ----------------------------------------------------------------------
+
+  [HIGH] REGALIA  12A. Bring back one beer to accompany a big cigar
+  Answer: REGALIA
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "a big cigar"
+  Wordplay type: charade
+  Components:
+    reversal           one beer                  -> REGALI
+    literal            a                         -> A
+  Assembly: charade — REGALI(reversal of "one beer") + A(a)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bring: syn=DO,GO,A A,ACT,BAG,BED,FAG,GET,RUN,SAY,TUG,USE,WAY,WIN,BILL
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O; sounds=won
+      beer: syn=IT,ALE,GIN,IPA,MUM,NIP,PEG,POP,RUM,TOT,ALE,,BELT,BREW,GROG,HOME; abbr=ALE; sounds=bier
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      accompany: syn=SEE,GROK,TWIG,OCCUR,ATTEND,CONVOY,DECODE,ESCORT,IDEATE,INTUIT,SQUIRE,ATTENDS,COGNIZE,COMPANY,COMPASS
+      big: syn=A1,IN,BAT,BOP,FAB,FIT,GET,GUN,HOT,KEY,POP,RAM,RAP,WIN,ZAP
+      cigar: syn=SMOK,SMOKE,PANAMA,CHEROOT
+      bring back: syn=FIX,SHOP,REFIT,RENEW,REPAIR,RETURN,REBUILD,RECOVER,REPLACE,RESTORE
+      a big: syn=COMITY
+    Definitions:
+      "cigar" -> REGALIA (definition match)
+      "a big cigar" -> REGALIA (definition match)
+  AI Reasoning:
+    ILAGER (I+LAGER for 'one beer') reversed by 'bring back' gives REGALI, plus A gives REGALIA
+  ----------------------------------------------------------------------
+
+  [HIGH] RECYCLE  13A. Seek further use for components within grey vehicle
+  Answer: RECYCLE
+  Tier: DB Fallback | Confidence: 95/100
+  Definition: "Seek further use for"
+  Wordplay type: deletion
+  Components:
+    synonym            vehicle                   -> CYCLE
+    literal            grey                      -> GREY
+  Assembly: outer_deletion — strip outer letters from GREY(grey) + CYCLE(synonym of "vehicle")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      seek: syn=A A,ASK,GET,NAB,SEE,TRY,ASKS,CALL,COMB,FEEL,FISH,GRAB,HUNT,LOOK,NAIL
+      further: syn=HIP,TOO,YET,ABET,ALSO,CHIC,ELSE,HELP,INTO,MINT,MORE,SOME,THAT,THEN,WHAT
+      use: syn=A,AM,BE,DO,IS,NO,ACT,ARE,DIG,FAG,GET,HIT,JOB,PUT,RUN; abbr=DO; ind=anagram; sounds=ewes,yews
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      components: syn=PART,PARTS,FACTORS,MEMBERS,FACTOR,MEMBER,PORTION; ind=anagram?,hidden?
+      within: syn=IN,ACE,BIT,CRY,CUT,DAB,NIP,PEG,RAY,WHY,WIT,BUZZ,CASE,GURU,HAIR; abbr=IN; ind=container,hidden,insertion,parts
+      grey: syn=OLD,AGED,ASHY,DRAB,DULL,ASHEN,HORSE,SLATE,CLOUDY,DISMAL,GLOOMY,LEADEN,SOMBRE,DULL PM,ELDERLY; abbr=G
+      vehicle: syn=CYCLE*,BUS,CAB,CAR,VAN,CART,FORT,MEAN,PAWN,SLED,TAXI,TOOL,TRAM,TRAP,WALL; abbr=BUS,CAR,VAN
+  AI Reasoning:
+    RECYCLE is hidden within the letters of 'grey vehicle' when written as 'greyvehicle'
+  ----------------------------------------------------------------------
+
+  [FAILED] FLECK  14A. Spot sheep collectively shifting over to middle of field
+  Answer: FLECK
+  Tier: --- | Confidence: 0/100
+  Definition: "Spot"
+  Wordplay type: substitution
+  Components:
+    synonym            sheep collectively        -> FLOCK
+    core_letters       middle of field           -> E
+  DB Lookups:
+    DB lookups:
+      spot: syn=22,AD,ACE,BIT,BOX,DAB,DIG,DIS,DOT,EYE,FIX,FLY,ITS,JAM,NIP
+      sheep: syn=EWE,RAM,DOVE,LAMB,RAMS,ANGEL
+      collectively: syn=ALL
+      shifting: syn=MOVE,DOING; abbr=S; ind=anagram
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O,ON,UP; ind=anagram,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      middle: syn=LOW,MID,MOB,RAG,TAG,CORE,DEEP,HERD,HERE,MEAN,POOR,ROUT,SCUM,DEPTH,HEART; abbr=M; ind=parts
+      field: syn=ACT,AIR,LEA,LOT,USE,AREA,DIRT,DUST,FIEF,FLIP,GAME,HACK,JUNK,KEEP,LAWN
+    Definitions:
+      "Spot" -> FLECK (definition match)
+  AI Reasoning:
+    FLOCK (sheep collectively) with O substituted by E (middle of field) gives FLECK
+  ----------------------------------------------------------------------
+
+  [HIGH] TOWNSHIP  15A. Community has charging point finally switched on
+  Answer: TOWNSHIP
+  Tier: DB Fallback | Confidence: 90/100
+  Definition: "Community"
+  Wordplay type: deletion
+  Components:
+    synonym            has                       -> OWNS
+    synonym            point                     -> TOP
+    synonym            switched                  -> HIP
+  Assembly: deletion — delete OP from TOP(synonym of "point") + OWNS(synonym of "has") + HIP(synonym of "switched")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees | yields_check=pass (deletion verified) | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      community: syn=TOWN*,C,LOT,SET,BODY,CLAN,FOLD,GANG,PACK,RING,A LOT,BUNCH,CLASS,CORPS,COVEN; abbr=C
+      has: syn=OWNS*,EATS,GOES,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      point: syn=TIP*,TOP*,PT,AIM,ARM,CUT,DOT,END,ITS,NET,NIB,NUB,PEG,PIP,SET; abbr=E,N*,NE,NW,PT,S*,SE,SW,W*
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      switched: syn=HIP*,DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,SHOT,SPED,TORE,ABOUT,DROVE,FIRED,FLUNG; ind=anagram,reversal
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      switched on: syn=LIT,ALERT,WITH IT
+    Definitions:
+      "Community" -> TOWNSHIP (definition match)
+  AI Reasoning:
+    Anagram of HAS + TOWNS (charging = attacking/rushing towards) + P (point finally) switched on (anagram indicator) gives TOWNSHIP
+  ----------------------------------------------------------------------
+
+  [LOW] SIDEROSIS  16D. Complaint papers raised ulcer acquired by relative
+  Answer: SIDEROSIS
+  Tier: Sonnet | Confidence: 3/100
+  Definition: "Complaint"
+  Wordplay type: charade
+  Components:
+    synonym            papers                    -> SIDE
+    abbreviation       raised                    -> R
+    abbreviation       ulcer                     -> O
+    synonym            relative                  -> SIS
+  Assembly: charade — SIDE(synonym of "papers") + R(abbr. "raised") + O(abbr. "ulcer") + SIS(synonym of "relative")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/4 (25%) | unverified_claims=3 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      complaint: syn=FLU,RAP,ACNE,AGUE,BEEF,BERI,FUNK,FUSS,KICK,STYE,TALE,TRUE,BLEAT,CLAIM,COUNT
+      papers: syn=ID*,HOW,ACID,RAGS,REAM,EXAMS,PRESS,SHEAF,WRITE,ESSAYS,THEMES,ANNUALS,DOSSIER,PICTURE,RECORDS; abbr=ID*; ind=container?
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      ulcer: syn=SORE,ABSCESS,BEDSORE,DISORDER,COMPLAINT
+      acquired: syn=DID,DUG,GET,GOT,HIT,PUT,SAW,WIN,WON,BORE,BRED,DRAW,DREW,EARN,FELT; ind=container?
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      relative: syn=SIS*,A,MA,BRO,DAD,KIN,NAN,SIB,SON,AUNT,GRAN,NEAR,WIFE,AUNTY,GREAT
+  AI Reasoning:
+    Charade of SIDE (papers) + R (raised) + O (ulcer) + SIS (relative) = SIDEROSIS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GRADIENT  17D. One’s inclined to bend the limits of radioisotope dating
+  Answer: GRADIENT
+  Tier: DB Fallback | Confidence: 50/100
+  Definition: "One's inclined"
+  Wordplay type: anagram
+  Components:
+    literal            dating                    -> DATING
+    literal            the                       -> THE
+    first_letter       radioisotope              -> R
+  Assembly: deletion+anagram — delete TH from THE(the), anagram of DATING(dating)+E+R(first letter of "radioisotope") = GRADIENT
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=FAIL: deletion gives=E answer=GRADIENT | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      inclined: syn=APT,PET,DEAR,FOND,GAME,WONT,ATILT,GIVEN,LEANT,LOVED,PRONE,READY,SWEET,A BANK,APTEST
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      bend: syn=IT,ACT,AIM,ARC,BOW,FIT,PUT,RIG,SET,WAY,AIMS,ANON,ARCH,ARCS,EDIT; ind=anagram?
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      limits: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES; ind=deletion,parts
+      dating: syn=CAN,SEEING,COMPANY; fodder=DATING(6/8 anagram match)
+      inclined to: syn=FLUID,RUNNY,LIQUID,ELASTIC,PLIABLE
+      to bend: syn=CURVE,CAMBER,PREBEND,PARABOLA
+      the limits: syn=EDGE,ROOM,SIDE,LIMIT,BORDER,MARGIN
+    Definitions:
+      "One’s inclined" -> GRADIENT (definition match)
+  AI Reasoning:
+    GRADIENT is hidden within 'radioisotope dating' with 'bend' indicating the extraction method
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ANTHILL  19D. Pile of workers want to go topless — Benny, for example
+  Answer: ANTHILL
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "Pile of workers"
+  Wordplay type: charade
+  Components:
+    deletion           want                      -> ANT
+    synonym            Benny, for example        -> HILL
+  Assembly: charade — ANT(deletion from "want") + HILL(synonym of "Benny, for example")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      pile: syn=A,BAR,BED,LOT,MOW,POT,TON,WAD,BANK,BOMB,COCK,DEAL,DOWN,DRAY,GOBS
+      workers: syn=ANT*,MAN,MEN,ANTS,FOOT,GIRL,EMEND,TYRANTS,HAG,HEX,RED,BAWD,DRAB,GRUB,HAND; abbr=MEN,ANT*,BEE,HAND
+      want: syn=IF,AIM,DIE,FOR,THE,YOU,ACHE,BORN,CARE,FEEL,FIVE,HOPE,LACK,LESS,LIKE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      topless: syn=RAW,BARE,NUDE,NAKED,PEELED,UNCLAD,DENUDED; ind=acrostic,deletion,parts
+      benny: syn=HILL*
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      example: syn=CASE,ROLE,IDEAL,MODEL,SAMPLE,TASTER,EPITOME,PATTERN,WARNING
+      to go: syn=ACT,AIR,PEE,PUT,ACTS,AIRS,BAKE,BALL,EXIT,QUIT
+      for example: abbr=EG
+      for example: syn=ILL*,I,EG,IN,WO,X?,BOB,CAT,GOD,INN
+    Definitions:
+      "Pile of workers" -> ANTHILL (definition match)
+  AI Reasoning:
+    ANT (want without top letter W) + HILL (Benny Hill as an example of Hills) = ANTHILL
+  ----------------------------------------------------------------------
+
+  [LOW] DRAGGLE  2D. Trail broken leg, bearing pain
+  Answer: DRAGGLE
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Trail"
+  Wordplay type: charade
+  Components:
+    synonym            bearing pain              -> DRAG
+    anagram_fodder     leg                       -> GLE
+  Assembly: charade — DRAG(synonym of "bearing pain") + GLE(leg)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      trail: syn=DRAG*,DOG,GUN,PATH,PISTE,SCENT,SPOOR,TRACK,AIRWAY,COURSE,FOLLOW,PURSUE,STREET
+      broken: syn=BAD,BUST,HURT,MISS,AMISS,BUMPY,HARSH,LUMPY,NUBBY,RIVEN,ROUGH,RUTTY,TAMED,BURRED,COARSE; ind=anagram
+      leg: syn=DRAG*,GO,ON,CAN,DIE,END,FLY,GET,LAP,LUG,MAR,PAD,PIN,PRY,RUN; abbr=ON
+      bearing: syn=BODY,EAST,LOOK,WEST,GESTE,GOING,NORTH,ACTION,CEDING,GIVING,HAVING,PAYING,SAVING,STANCE,TAKING; abbr=NE,NW,SE,SW; ind=container
+      pain: syn=SO,GYP,WOE,ACHE,CARE,HEED,HURT,PANG,PEST,RACK,WORK,ACHES,AGONY,COLIC,LABOR; abbr=ACHE; sounds=pane
+  AI Reasoning:
+    DRAG (bearing pain) + GLE (anagram of leg) = DRAGGLE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DREAR  20A. Writer’s miserable doctor tried, having neglected case
+  Answer: DREAR
+  Tier: Sonnet | Confidence: 61/100
+  Definition: "Writer's miserable"
+  Wordplay type: charade
+  Components:
+    abbreviation       doctor                    -> DR
+    deletion           tried                     -> EAR
+  Assembly: charade — DR(abbr. "doctor") + EAR(deletion from "tried")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      miserable: syn=DREAR*,BAD,BUM,DOG,LOW,NOT,RUN,SAD,BLUE,DARK,DOWN,GLUM,GOOD,IDLE,KEEN; ind=anagram?
+      doctor: syn=DR*,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D*,DR*,GP,MB,MO; ind=anagram
+      tried: syn=MAD,BEST,GOOD,SAFE,SORE,SURE,TIME,TRUE,ANGRY,CROSS,FUSSY,HEARD,HUFFY,IRATE,IRKED
+      having: syn=GAIN,GOING,HANDS
+      neglected: syn=DOG,RUN,IDLE,MEAN,VOID,EMPTY,WASTE; ind=anagram?
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+  AI Reasoning:
+    DR (doctor) + EAR (HEARD with outer letters removed) = DREAR
+  ----------------------------------------------------------------------
+
+  [LOW] EREMITE  21D. Loner’s suitable moment to return, before crowds
+  Answer: EREMITE
+  Tier: Sonnet | Confidence: 38/100
+  Definition: "Loner's"
+  Wordplay type: charade
+  Components:
+    synonym            suitable moment           -> ERE
+    deletion           crowds                    -> MITE
+  Assembly: charade — ERE(synonym of "suitable moment") + MITE(deletion from "crowds")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      suitable: syn=APT,FIT,ABLE,BEST,GOOD,KILL,MEET,ABLER,ADAPT,EQUAL,HAPPY,RIGHT,APTEST,BETTER,FITTED
+      moment: syn=MO,BIT,DAY,EON,ERA,NOW,BEAT,HEAD,JIFF,SAME,SNAP,SPAN,TICK,TIME,WINK; abbr=MO
+      to: syn=ERE*,BY,OF,UP,ADO,BOS,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      return: syn=NET,PAY,WAY,BEAR,BORN,COME,GAIN,GIVE,TIME,GIVES,LUCRE,PLACE,REPLY,YIELD,A GOOD; ind=reversal
+      before: syn=ERE*,OF,ON,TO,UP,ARC,BOW,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE*,PRE
+      crowds: syn=LOTS,MOBS,HOSTS,HORDES,MASSES,SWARMS,THRONGS,LOT,MOB,SET,ARMY,BIKE,BODY,CLAN,CORE
+      to return: ind=reversal
+  AI Reasoning:
+    ERE (suitable moment/beforehand) + MITE (crowds minus final S) = EREMITE
+  ----------------------------------------------------------------------
+
+  [FAILED] SCENIC  22D. Beautiful actions excuse turning up now and then
+  Answer: SCENIC
+  Tier: --- | Confidence: 0/100
+  Definition: "Beautiful"
+  Wordplay type: charade
+  Components:
+    synonym            actions                   -> ACTIONS
+    synonym            excuse                    -> EXCUSE
+  DB Lookups:
+    DB lookups:
+      beautiful: syn=A1,OK,FAB,HOT,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COOL,CUTE,DOPE,DOWN,FAIR
+      actions: syn=ACT,DEED,FEAT,PLOT,SUIT,CRIES,DOING,PLEAS,STORY,SUITS,THING,BATTLE,COMBAT,SUITS?,DO; ind=anagram
+      excuse: syn=MY,ITS,AWAY,PASS,PLEA,ALIBI,ASIDE,REMIT,ALIBIS,BYPASS,FORGET,IGNORE,PARDON,REASON,SLIGHT
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING,COILED,COMING,CURLED,CURVED,EATING,FOXING,HAZING,IRKING,JIVING,JOKING; ind=anagram,reversal
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      now: syn=AS,IN,IS,IT,ON,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      then: syn=SO,ANY,NEX,TOO,YET,ALSO,EACH,INTO,MORE,NEXT,WHAT,ABOUT,AGAIN,ROUND,AROUND
+      turning up: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING
+      now and then: syn=ON,AYE,NOW,OFT
+    Definitions:
+      "Beautiful" -> SCENIC (definition match)
+  AI Reasoning:
+    Charade of 'actions' + 'excuse', then reversed ('turning up'), then alternate letters taken ('now and then')
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CATERER  23A. Drained theatre nurse maybe collars food supplier
+  Answer: CATERER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "food supplier"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     drained theatre nurse maybe -> CATER
+    synonym            collars                   -> ER
+  Assembly: charade — CATER(drained theatre nurse maybe) + ER(synonym of "collars")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      drained: syn=DRY,ARID,BEAT,BODY,BONY,DEAD,DONE,GONE,LIMP,LOGY,POOR,SERE,SUNK,USED,WORN; ind=parts
+      theatre: syn=REP,HERE,TEAR,WARM,ARENA,DRAMA,FIELD,HOUSE,LYRIC,ODEON,ON OR,PLACE,STAGE,THERE,ALMEIDA; abbr=T*; fodder=THEATRE(5/7 anagram match)
+      nurse: syn=CARER*,CARE*,A,DO,EN,BAG,BAR,EYE,ARMS,BABY,BEST,BORN,DRUG,FEED,HAVE; abbr=EN,RN,TEND
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER,BREWER,FLOWER,LIKELY,MAYHAP,MISFIT,PERHAP,RESEAT,SINGER; ind=anagram
+      collars: syn=BAGS,BUGS,COPS,DIGS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,BAILS,BOOKS,COMES
+      food: syn=IF,EGG,BEEF,CHOP,CHOW,DIET,DISH,EATS,EDAM,EGGS,FAIR,FARE,FEED,FETA,FISH
+      supplier: syn=CATERER*,BUYER,DEALER,HAWKER,JOBBER,SELLER,TRADER,VENDOR,BUTCHER,HUSTLER,PEDDLER
+    Definitions:
+      "supplier" -> CATERER (definition match)
+      "food supplier" -> CATERER (definition match)
+  AI Reasoning:
+    Anagram of letters from 'drained theatre nurse' gives CATER, plus ER from 'collars' gives CATERER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NAILS  26A. Catches slowcoach delaying son’s appearance
+  Answer: NAILS
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Catches"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     slowcoach                 -> SNAIL
+  Assembly: anagram — anagram of SNAIL(slowcoach) = NAILS
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      catches: syn=NAILS*,22,CANS,DAMS,DIES,DIGS,ENDS,GETS,GOES,LAND,SEES,BEATS,BESTS,BUNGS,DROPS; ind=container
+      slowcoach: syn=SNAIL
+      appearance: syn=MY,AIR,FEE,ITS,TOP,VIP,ANTE,CAST,COST,FACE,FORM,GARB,ICON,LOOK,MASK
+    Definitions:
+      "Catches" -> NAILS (definition match)
+  AI Reasoning:
+    SNAIL (slowcoach) anagrammed (delaying) gives NAILS
+  ----------------------------------------------------------------------
+
+  [HIGH] BERKSHIRE  27A. Fools lease land west of London
+  Answer: BERKSHIRE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "land west of London"
+  Wordplay: charade
+  Explanation: BERKS (synonym of "Fools") + HIRE (synonym of "lease"); definition: "land west of London"
+  ----------------------------------------------------------------------
+
+  [HIGH] CYLINDER  28A. Solid shelf delivered with fashionable red backing
+  Answer: CYLINDER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Solid"
+  Wordplay: charade + reversal
+  Explanation: CYL (synonym of "shelf delivered with") + IN (synonym of "fashionable") + RED ("red") [reversal: "backing"]; definition: "Solid"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ASPECT  29A. Act like court has sealed the end for MS Outlook
+  Answer: ASPECT
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Act like"
+  Wordplay type: charade
+  Components:
+    abbreviation       court                     -> A
+    deletion           outlook                   -> SPECT [PROSPECT, "end"=deletion]
+  Assembly: charade — A(abbr. "court") + SPECT(deletion from "outlook")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      act: syn=DO,A A,AIM,AIR,BIT,FAG,LAW,PUT,RUN,SEX,TUG,USE,AIRS,BALL,BEND
+      like: syn=AS*,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS*
+      court: syn=CT*,ACT*,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT*,ct*
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      sealed: syn=CANNED
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      for: syn=AS*,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      outlook: syn=ANON,MIND,VIEW,AERIE,ANGLE,POINT,A VIEW,ANGLED,ANGLES,FUTURE; ind=anagram?
+      the end: syn=OMEGA
+    Definitions:
+      "Outlook" -> ASPECT (definition match)
+  AI Reasoning:
+    A (court designation) + SPECT (relating to outlook/view) = ASPECT
+  ----------------------------------------------------------------------
+
+  [FAILED] WELLLIKED  3D. Popular Liberal upset butcher in garden
+  Answer: WELLLIKED
+  Tier: --- | Confidence: 0/100
+  Definition: "Popular"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Liberal                   -> LIBERAL
+    anagram_fodder     butcher in garden         -> LKED
+  DB Lookups:
+    DB lookups:
+      popular: syn=LIKED*,IN,BIG,HIT,HOT,LOW,POP,DEAR,FOND,OPEN,RATE,RIFE,AGAIN,AIRED,CHEAP; abbr=IN,in
+      liberal: syn=L,BALD,BARE,FREE,LEFT,OPEN,AMPLE,BROAD,CLEAR,FRANK,NAKED,PLAIN,AMPLER,CANDID,DIRECT; abbr=L*; ind=anagram
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      butcher: syn=GUN,KILL,DECKO,MANGLE,MEATMAN,ASSASSIN,MASSACRE,MURDERER,SUPPLIER,SLAUGHTER; ind=anagram
+      in: syn=WELL*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      garden: syn=HOE,RUN,THE,BURG,CITY,DIGS,EDEN,FLAT,HALL,OF A,PARK,PLOT,TOWN,WING,YARD
+    Definitions:
+      "Popular" -> WELLLIKED (definition match)
+  AI Reasoning:
+    Anagram of selected letters from Liberal + butcher in garden, with upset as anagram indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] RETAGGED  4A. Called again about faulty gadget
+  Answer: RETAGGED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Called again"
+  Wordplay: anagram + charade
+  Explanation: anagram of GADGET ("gadget") [anagram: "faulty"] + RE (abbreviation of "about") = RETAGGED; definition: "Called again"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EDWARDWOODWARD  5D. Actor and journalist on identical charges having pinched fuel
+  Answer: EDWARDWOODWARD
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "Actor and journalist"
+  Wordplay type: charade
+  Components:
+    literal            Edward                    -> EDWARD
+    synonym            fuel                      -> WOOD
+    synonym            charges                   -> WARD
+  Assembly: charade — EDWARD(Edward) + WOOD(synonym of "fuel") + WARD(synonym of "charges")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['edward']
+  DB Lookups:
+    DB lookups:
+      actor: syn=HAM,ARMY,EXTRA,IRONS,NIVEN,PARTY,THESP,BOODLE,CLUTCH,JACOBI,MUMMER,PLAYER,WELLES,ACTRESS,BLESSED
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      journalist: syn=ED*,HACK,DOUCET,EDITOR,MORGAN,NEWSMAN,REPORTER,ANCHORMAN,ANCHOR MAN,NEWS EDITOR,CORRESPONDENT; abbr=ED*
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      identical: syn=ME,TOO,AKIN,EVEN,LIKE,SAME,SUCH,TWIN,VERY,ALIKE,DITTO,EQUAL,ALLIED,COGENT,JOINED
+      charges: syn=WAR*,WARD*,WORD*,DOS,FEW,BETS,CARE,DATA,FACE,FEES,FITS,FOCI,GOES,JOBS,LAYS; abbr=C
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      pinched: syn=GOT,GAUNT,STOLE,BAGGED,BUSTED,CAUGHT,COPPED,HOOKED,LANDED,NABBED,NAILED,NETTED,NICKED,RAN IN,RAPPED; ind=container
+      fuel: syn=WOOD*,ME,GAS,OIL,COAL,COKE,DERV,FEED,PEAT,JUICE,POWER,DIESEL,ENERGY,INCITE,PETROL
+      actor and: syn=LOVEY-DOVEY
+    Definitions:
+      "Actor and journalist" -> EDWARDWOODWARD (definition match)
+  AI Reasoning:
+    Charade of EDWARD + WOOD (fuel) + WARD (charges) creating the run-together name EDWARDWOODWARD
+  ----------------------------------------------------------------------
+
+  [LOW] ANTIC  6D. Casual job rejected by great old buffoon
+  Answer: ANTIC
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "buffoon"
+  Wordplay type: charade
+  Components:
+    synonym            casual job                -> ANT
+    synonym            great old                 -> IC
+  Assembly: charade — ANT(synonym of "casual job") + IC(synonym of "great old")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      casual: syn=MISS; ind=anagram?
+      job: syn=DO,CUT,END,FEE,MUD,PAY,TAX,USE,BEAR,BELT,DUTY,HAND,HIRE,LAND,LEVY
+      rejected: syn=OUT,IDLE,LEFT,VOID,EMPTY,WASTE; ind=deletion,reversal
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      great: syn=A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET,HOT; abbr=G,GR; sounds=grate
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O
+      buffoon: syn=TOP,FOOL,COMIC
+      old buffoon: syn=ANTIC*
+    Definitions:
+      "old buffoon" -> ANTIC (definition match)
+  AI Reasoning:
+    Casual job gives ANT (worker), great old gives IC, combining to form ANTIC
+  ----------------------------------------------------------------------
+
+  [HIGH] GNOCCHI  7D. Coaching failed to yield first-class dumplings
+  Answer: GNOCCHI
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "dumplings"
+  Wordplay type: anagram
+  Components:
+    deletion           Coaching                  -> COCHING
+  Assembly: anagram — anagram of COCHING(deletion from "Coaching") = GNOCCHI
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      coaching: syn=ROAD; fodder=COACHING(7/7 anagram match)
+      failed: syn=AN,DIED,FELL,QUIT,WENT,BROKE,ENDED,CEASED,CLOSED,EXITED,HALTED,LAPSED,LET UP,MISSED,PARTED; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      yield: syn=DO,GO,A A,ACT,BED,FAG,GET,NEW,PAY,RUN,SAY,TUG,USE,WAY,BACK; ind=anagram?
+      first-class: syn=A1,AI,OK,BIG,FAB,HOT,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      class: syn=ILK,LOT,LOW,PEG,SET,TOP,AXIS,BANK,BLOC,BODY,BORN,BOSS,CLAN,CLUB,DOWN
+      dumplings: syn=GNOCCHI*,DOUGH,GYOZA,KNISH,PUDDING
+    Definitions:
+      "dumplings" -> GNOCCHI (definition match)
+  AI Reasoning:
+    COACHING minus A (first-class grade) gives COCHING, which anagrams via 'failed' to GNOCCHI
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DEEPEN  8D. Increase strength of hideaway, covering leak up
+  Answer: DEEPEN
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Increase strength"
+  Wordplay type: charade
+  Components:
+    synonym            hideaway                  -> DEEP
+    reversal           leak                      -> EN
+  Assembly: charade — DEEP(synonym of "hideaway") + EN(reversal of "leak")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      increase: syn=DEEPEN*,UP,ADD,BAR,WAX,ADDS,BOOM,FIRE,FORK,GAIN,GIVE,GROW,PLUS,RISE,ADDED
+      strength: syn=ASSET,BRAWN,FORCE,FORTE,MIGHT,POWER,SINEW,THEWS,ENERGY,SINEWS
+      hideaway: syn=LAIR,REFUGE
+      covering: syn=BIN,BOX,POD,RUG,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE; ind=container,deletion,parts
+      leak: syn=SPILL,ESCAPE; sounds=leek
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+    Definitions:
+      "Increase" -> DEEPEN (definition match)
+      "Increase strength of" -> DEEPEN (definition match)
+  AI Reasoning:
+    DEEP (hideaway) + EN (NE/northeast reversed by 'up') combines to make DEEPEN
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,56 @@
+{
+  "source": "times",
+  "puzzle": "29495",
+  "stats": {
+    "total": 28,
+    "assembled": 28,
+    "high": 23,
+    "medium": 5,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 88.03571428571429
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "individual",
+      "letters": "PER",
+      "answer": "PERSIMMON",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Fruit in individual one millimetre slices",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Music group",
+      "answer": "OCTET",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Music group centre to concoct etudes",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stones",
+      "answer": "OPALS",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Old hit for Rolling Stones",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Order",
+      "answer": "RIOTACT",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Order to dispel mob’s former capital judgment",
+      "score": 75
+    }
+  ]
+}

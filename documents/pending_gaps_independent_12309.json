@@ -1,0 +1,56 @@
+{
+  "source": "independent",
+  "puzzle": "12309",
+  "stats": {
+    "total": 30,
+    "assembled": 28,
+    "high": 25,
+    "medium": 3,
+    "low": 0,
+    "failed": 2,
+    "avg_score": 90.64285714285714
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "shot",
+      "letters": "BANG",
+      "answer": "SLAPBANG",
+      "clue_number": "15",
+      "direction": null,
+      "clue": "Allies after uprising shot dead",
+      "score": 48
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "opening",
+      "answer": "CHASM",
+      "clue_number": "9",
+      "direction": null,
+      "clue": "A little belch as mouth opening",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dead",
+      "answer": "SLAPBANG",
+      "clue_number": "15",
+      "direction": null,
+      "clue": "Allies after uprising shot dead",
+      "score": 48
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Yucky",
+      "answer": "ICKY",
+      "clue_number": "30",
+      "direction": null,
+      "clue": "Yucky cookie surface licked off",
+      "score": 0
+    }
+  ]
+}

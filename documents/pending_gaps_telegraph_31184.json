@@ -1,0 +1,282 @@
+{
+  "source": "telegraph",
+  "puzzle": "31184",
+  "stats": {
+    "total": 28,
+    "assembled": 24,
+    "high": 16,
+    "medium": 7,
+    "low": 1,
+    "failed": 4,
+    "avg_score": 76.375
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "holder of The Ashes",
+      "letters": "PURN",
+      "answer": "SPURN",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Reject odds on holder of The Ashes",
+      "score": 54
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "one's other half",
+      "letters": "HUBBY",
+      "answer": "CHUBBY",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Charlie (one's other half) is a bit roly-poly",
+      "score": 69
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "colour sergeant",
+      "letters": "NCO",
+      "answer": "UNCOOL",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Old-fashioned uniform for one colour sergeant? Nothing left",
+      "score": 88
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "in",
+      "letters": "L",
+      "answer": "TULSA",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "First to teach student in America, OK city",
+      "score": 56
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "OK",
+      "letters": "A",
+      "answer": "TULSA",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "First to teach student in America, OK city",
+      "score": 56
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Long",
+      "letters": "DIE",
+      "answer": "DIET",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Long, tense parliament",
+      "score": 84
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "shoo-in",
+      "letters": "CERT",
+      "answer": "CONCERTO",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Tory shoo-in beginning to orchestrate work for players",
+      "score": 52
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Church bigwig",
+      "answer": "ARCHBISHOP",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Church bigwig, a Roman Catholic hard man",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "editor's work",
+      "answer": "REDACTION",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Response involving day editor's work",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "group of ministers",
+      "answer": "CABINET",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Shed alien group of ministers",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "underground section",
+      "answer": "RHIZOME",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Heinz regularly seen in Italian city underground section",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bloke close to Victoria",
+      "answer": "Prince Albert",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "After work pint with cerebral bloke close to Victoria",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Illuminate",
+      "answer": "ENLIGHTEN",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Illuminate new line in 18, draining last energy",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Shellfish",
+      "answer": "OSTRACOD",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Shellfish roast arranged on top of white fish",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "items to be purchased",
+      "answer": "shopping list",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Chopin and Liszt casually discussed items to be purchased?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "It's pretty cold here",
+      "answer": "Alaska",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "It's pretty cold here – unfortunately, koala cleared out",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "roly-poly",
+      "answer": "CHUBBY",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Charlie (one's other half) is a bit roly-poly",
+      "score": 69
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mischievous individual",
+      "answer": "GREMLIN",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Russian government gets new leader, mischievous individual",
+      "score": 34
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Item produced by automaker",
+      "answer": "CABRIOLET",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Item produced by automaker (new CEO, T Blair)",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dive",
+      "answer": "CANNONBALL",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Shot dispensed from large barrel in dive?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "country",
+      "answer": "banana republic",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Lots of hands get chopped off in this country!",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Vital neurotransmitter",
+      "answer": "SEROTONIN",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Vital neurotransmitter derived from ironstone",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "System command",
+      "answer": "ORDER",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "System command",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one controlled by locks",
+      "answer": "PRISONER",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Dnepr is one river (including one controlled by locks)",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "work for players",
+      "answer": "CONCERTO",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Tory shoo-in beginning to orchestrate work for players",
+      "score": 52
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Area vulnerable to Paris strike?",
+      "answer": "Achilles tendon",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Area vulnerable to Paris strike?",
+      "score": 75
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "source": "guardian",
+  "puzzle": "29962",
+  "stats": {
+    "total": 32,
+    "assembled": 32,
+    "high": 30,
+    "medium": 1,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 87.40625
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Titanic",
+      "letters": "ONSHIP",
+      "answer": "ABANDONSHIP",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Titanic orchestra perhaps, and what they didn’t do",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "orchestra",
+      "letters": "ABAND",
+      "answer": "ABANDONSHIP",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Titanic orchestra perhaps, and what they didn’t do",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "two degrees",
+      "letters": "BAMA",
+      "answer": "OBAMA",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Love to get two degrees? Yes we can, he said",
+      "score": -68
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Japanese art",
+      "answer": "IKEBANA",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Japanese art has elements of childlike banality",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bother",
+      "answer": "PEEVE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Bother first lady after exercise",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "what they didn't do",
+      "answer": "ABANDONSHIP",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Titanic orchestra perhaps, and what they didn’t do",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Yes we can, he said",
+      "answer": "OBAMA",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Love to get two degrees? Yes we can, he said",
+      "score": -68
+    }
+  ]
+}

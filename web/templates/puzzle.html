@@ -611,7 +611,7 @@ solveCheck = function(input) {
     if (_tutStep === 5 && guess === answer) {
         _tutAdvance(6);
         setTimeout(function() {
-            _tutTip('Brilliant! Now hit <strong>Add to grid</strong> to place your answer. Then try <strong>Show grid</strong> &mdash; watch what happens to the crossing letters.');
+            _tutTip('Brilliant! <strong>FEAST</strong>: "Twist" told us to rearrange, and "fate\'s" gave us the letters &mdash; FATES rearranged = FEAST. "Blow-out" is the definition. <br><br>Now hit <strong>Add to grid</strong> to place your answer. Then try <strong>Show grid</strong> &mdash; watch what happens to the crossing letters.');
         }, 800);
     }
 };
@@ -621,22 +621,109 @@ var _origSolveAddToGrid = solveAddToGrid;
 solveAddToGrid = function(input) {
     _origSolveAddToGrid(input);
 
-    // Step 6 → 7: user added to grid
+    // Step 6 → 7: user added first answer to grid
     if (_tutStep === 6) {
         _tutAdvance(7);
         setTimeout(function() {
-            _tutTip('See those letters appearing next to the other clues? Those are <strong>crossing letters</strong> &mdash; they come from the answer you just placed. The pattern finder will use them automatically. Now you\'ve used every tool on one clue! <br><br>The rest are yours. And remember &mdash; if you get stuck, every clue has <strong>hint buttons</strong> underneath. Definition, wordplay type, full explanation &mdash; as much or as little as you need. You\'re never on your own.');
+            _tutTip('See those letters appearing next to the other clues? Those are <strong>crossing letters</strong> &mdash; they come from the answer you just placed. The pattern finder uses them automatically. <br><br>One down, nine to go! Try another clue &mdash; click on any word to explore it, or use the <strong>Tools</strong> and <strong>Hints</strong>. I\'ll be right here.');
         }, 1500);
     }
 };
 
-// Hook hints — explain they're everywhere
+// === PERSISTENT CORDELIA FOR CLUES 2-10 ===
+
+// Clue type map for contextual tips + answer explanations
+var _tutClueTypes = {
+    {% for clue in across + down %}
+    "{{ clue.id }}": {type: "{{ clue.wordplay_type }}", label: "{{ clue.clue_number }}{{ clue.direction[0] }}", answer: "{{ clue.answer }}", expl: {{ clue.ai_explanation | tojson }}},
+    {% endfor %}
+};
+
+var _tutTypeHints = {
+    'anagram': 'This one\'s an <strong>anagram</strong> &mdash; look for an indicator like "broken", "wild", or "twisted", then find the fodder letters to rearrange. The <strong>Anagram solver</strong> in Tools is your best friend here.',
+    'hidden': 'This is a <strong>hidden word</strong> &mdash; the answer is literally spelled out inside the clue, spanning across words. Look for indicators like "in", "part of", or "some". Read the clue slowly and see if you can spot it.',
+    'double_definition': 'This is a <strong>double definition</strong> &mdash; two meanings of the same word, side by side. No wordplay tricks, just think of a word that means both things.',
+    'charade': 'This is a <strong>charade</strong> &mdash; the answer is built from pieces joined together. Click the words to look up synonyms and abbreviations, then see if the pieces fit.',
+    'homophone': 'This is a <strong>homophone</strong> &mdash; the answer sounds like another word. Look for indicators like "we hear", "reportedly", or "sounds like".'
+};
+
+// Track which clues have had type tips shown
+var _tutTypeTipShown = {};
+var _tutCorrectCount = 0;
+var _tutLastFocusedForTip = null;
+
+// Hook solve input focus — show type-specific tip for each new clue
+var _origSolveInputFocus2 = solveInputFocus;
+solveInputFocus = function(input) {
+    _origSolveInputFocus2(input);
+    if (_tutStep < 7) return;  // still in guided walkthrough
+
+    var clueId = input.dataset.clueId;
+    if (clueId === _tutLastFocusedForTip) return;  // don't repeat for same clue
+    if (input.disabled) return;  // already solved
+    _tutLastFocusedForTip = clueId;
+
+    var info = _tutClueTypes[clueId];
+    if (info && !_tutTypeTipShown[clueId]) {
+        _tutTypeTipShown[clueId] = true;
+        var hint = _tutTypeHints[info.type];
+        if (hint) {
+            _tutStep++;
+            _tutTip('<strong>' + info.label.toUpperCase() + '</strong>: ' + hint);
+        }
+    }
+};
+
+// Hook solveCheck — encouragement on each correct answer after clue 1
+var _origSolveCheck2 = solveCheck;
+solveCheck = function(input) {
+    _origSolveCheck2(input);
+    if (_tutStep < 7) return;  // still in guided walkthrough
+
+    var card = input.closest('.clue-card');
+    var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+    var guess = input.value.replace(/\s/g, '').toUpperCase();
+
+    if (guess === answer) {
+        _tutCorrectCount++;
+        var clueId = input.dataset.clueId;
+        var info = _tutClueTypes[clueId];
+        var total = document.querySelectorAll('.clue-card').length;
+        var remaining = total - _tutCorrectCount - 1;  // -1 for clue 1 already done
+
+        // Build explanation in Cordelia's voice
+        var expl = info && info.expl ? '<br><br><strong>' + info.answer + '</strong>: ' + info.expl : '';
+
+        if (remaining > 0) {
+            var encouragements = [
+                'Nice one!',
+                'Brilliant!',
+                'Lovely!',
+                'That\'s it!',
+                'Well done!',
+                'You\'re flying!',
+                'Spot on!',
+                'Nailed it!',
+                'Look at you go!'
+            ];
+            var enc = encouragements[Math.min(_tutCorrectCount - 1, encouragements.length - 1)];
+            var msg = enc + expl + '<br><br>' + remaining + ' to go. Don\'t forget <strong>Add to grid</strong> for those crossing letters.';
+            setTimeout(function() {
+                _tutStep++;
+                _tutTip(msg);
+            }, 800);
+        }
+    }
+};
+
+// Hook hints — first time, explain they're everywhere
 var _tutHintShown = false;
 document.body.addEventListener('htmx:afterSwap', function(e) {
     if (e.target.id && e.target.id.startsWith('hints-') && !_tutHintShown && _tutStep >= 7) {
         _tutHintShown = true;
         setTimeout(function() {
-            _tutTip('Those hints are on <strong>every single clue</strong> on the site. You\'re never stuck.');
+            _tutStep++;
+            _tutTip('Those hints are on <strong>every single clue</strong> on the site &mdash; definition, wordplay type, full explanation, answer. As much or as little as you need. You\'re never on your own.');
         }, 500);
     }
 });
@@ -650,7 +737,8 @@ _updateProgress = function() {
         var m = el.textContent.match(/^(\d+)\/(\d+)/);
         if (m && parseInt(m[1]) === parseInt(m[2]) && parseInt(m[2]) > 0) {
             setTimeout(function() {
-                _tutTip('You\'ve done it! Every tool you just used is on every puzzle on the site. Pick one and have a go &mdash; I\'ll be right here. <a href="/puzzles" style="color:#4f46e5;font-weight:600;text-decoration:underline">Browse puzzles &rarr;</a>');
+                _tutStep++;
+                _tutTip('You\'ve done it &mdash; every single one! And you know what? All the tools you just used, all the hints, all the word lookups &mdash; they\'re right there on every one of the thousands of puzzles on the site. Go pick one. I\'ll be there. <br><br><a href="/puzzles" style="color:#4f46e5;font-weight:600;text-decoration:underline">Browse puzzles &rarr;</a>');
             }, 500);
         }
     }

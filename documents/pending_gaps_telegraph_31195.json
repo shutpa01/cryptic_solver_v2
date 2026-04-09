@@ -1,0 +1,353 @@
+{
+  "source": "telegraph",
+  "puzzle": "31195",
+  "stats": {
+    "total": 32,
+    "assembled": 29,
+    "high": 16,
+    "medium": 11,
+    "low": 2,
+    "failed": 3,
+    "avg_score": 71.96551724137932
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Victorian",
+      "letters": "PRIM",
+      "answer": "PRIMROSE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Victorian grew flower",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "about",
+      "letters": "PRE",
+      "answer": "PRESERVE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep quiet about what Novak Djokovic might do",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "church",
+      "letters": "COT",
+      "answer": "COTTAGE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Too much silver found in church residence",
+      "score": 45
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "too much",
+      "letters": "TE",
+      "answer": "COTTAGE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Too much silver found in church residence",
+      "score": 45
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "German",
+      "letters": "MIT",
+      "answer": "SMITTEN",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Besotted with German after last of tweets on X",
+      "score": 25
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "begs",
+      "letters": "ASKS",
+      "answer": "MASKS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Maiden begs for veils",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Start keeping",
+      "letters": "SECURE",
+      "answer": "SECURED",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Start keeping worthless dog tied up",
+      "score": 40
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "1,000",
+      "letters": "M",
+      "answer": "MASTERS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Gains a thorough knowledge of 1,000 plants",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Forbidding",
+      "answer": "GRIM",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Forbidding finally crossing border",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Problem",
+      "answer": "ISSUE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Problem in the US simply rejected",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "clients",
+      "answer": "CUSTOMERS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Doctor cures most clients",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rocket?",
+      "answer": "SPACECRAFT",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "RAF accepts new rocket?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "commended",
+      "answer": "PRAISED",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Padre is bizarrely commended",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Unusual",
+      "answer": "STRANGE",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Unusual row after second tango",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "flower",
+      "answer": "PRIMROSE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Victorian grew flower",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "exam",
+      "answer": "TEST",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "First-rate student welcomes exam",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Think",
+      "answer": "CONSIDER",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Think about prisoners on island, ruddy upset",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Keep quiet",
+      "answer": "PRESERVE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep quiet about what Novak Djokovic might do",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Most wee",
+      "answer": "SMALLEST",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Most wee from cat smells around Charlie's shed",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hampers",
+      "answer": "SADDLES",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Small oars scratching top of picnic hampers",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Constable maybe produced this",
+      "answer": "LANDSCAPE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Constable maybe produced this bag and small cloak",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Besotted with",
+      "answer": "SMITTEN",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Besotted with German after last of tweets on X",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mammal moved nearer lake",
+      "answer": "CAMEL",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Mammal moved nearer lake",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "veils",
+      "answer": "MASKS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Maiden begs for veils",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Breed",
+      "answer": "RAISE",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Breed fish, we're told",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Kinky inclination",
+      "answer": "BENT",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Kinky inclination",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Someone who helps",
+      "answer": "ASSISTANT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Someone who helps animal is hesitant? Not half!",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "requirements",
+      "answer": "NEEDS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Regularly infer editor's requirements",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where riders might compete, no matter what",
+      "answer": "in any event",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Where riders might compete, no matter what",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gains a thorough knowledge of",
+      "answer": "MASTERS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Gains a thorough knowledge of 1,000 plants",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cut",
+      "answer": "REAP",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "State again wanting carbon cut",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Muslim leader",
+      "answer": "EMEER",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Muslim leader always embraces this writer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Do assemble below gap in the mountains",
+      "answer": "pass muster",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Do assemble below gap in the mountains",
+      "score": 45
+    }
+  ]
+}

@@ -660,22 +660,33 @@ def _verify_combo(op, entry, slot_values, slot_word_groups,
 
 
 def _verify_reversal_combo(combo, answer):
-    """Try reversing each piece in turn; check if concatenation = answer."""
-    # Try each piece reversed
-    for rev_idx in range(len(combo)):
-        parts = list(combo)
-        parts[rev_idx] = parts[rev_idx][::-1]
-        if "".join(parts) == answer:
+    """Try reversing each piece in turn; check if concatenation = answer.
+
+    Also tries permutations (up to 4 pieces) since clue word order
+    may not match the answer letter order.
+    """
+    from itertools import permutations as _perms
+
+    combos_to_try = [combo]
+    if len(combo) <= 4:
+        combos_to_try = list(_perms(combo))
+
+    for perm in combos_to_try:
+        # Try each single piece reversed
+        for rev_idx in range(len(perm)):
+            parts = list(perm)
+            parts[rev_idx] = parts[rev_idx][::-1]
+            if "".join(parts) == answer:
+                return combo
+        # Try reversing the entire concatenation
+        if "".join(perm)[::-1] == answer:
             return combo
-    # Try reversing the entire concatenation (e.g. ART+X+E → ARTXE → EXTRA)
-    if "".join(combo)[::-1] == answer:
-        return combo
-    # Also try all pieces reversed individually (pure multi-piece reversal)
-    if len(combo) > 1:
-        parts = [p[::-1] for p in combo]
-        if "".join(parts) == answer:
-            return combo
-    # Single piece pure reversal
+        # Try all pieces reversed individually
+        if len(perm) > 1:
+            parts = [p[::-1] for p in perm]
+            if "".join(parts) == answer:
+                return combo
+    # Single piece pure reversal (no permutation needed)
     if len(combo) == 1 and combo[0][::-1] == answer:
         return combo
     return None

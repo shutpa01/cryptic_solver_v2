@@ -1,0 +1,410 @@
+{
+  "source": "telegraph",
+  "puzzle": "31186",
+  "stats": {
+    "total": 32,
+    "assembled": 26,
+    "high": 17,
+    "medium": 5,
+    "low": 4,
+    "failed": 0,
+    "avg_score": 74.15384615384616
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Romeo's",
+      "letters": "R",
+      "answer": "AMOUR",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Mail in which Romeo's rejected love",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Group",
+      "letters": "SECT",
+      "answer": "SECTORAL",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Group speaking about district",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "speaking",
+      "letters": "ORAL",
+      "answer": "SECTORAL",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Group speaking about district",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "article",
+      "letters": "THISE",
+      "answer": "AUTHORISE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Accredit gold is found in gold article",
+      "score": -5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "close to twelve",
+      "letters": "OVER",
+      "answer": "over-exact",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Fastidious close to twelve times cutting ham",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "times cutting ham",
+      "letters": "EXACT",
+      "answer": "over-exact",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Fastidious close to twelve times cutting ham",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "ship",
+      "letters": "US",
+      "answer": "Odysseus",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Adventurer you'd see briefly at sea in possession of ship",
+      "score": 28
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bladed tools",
+      "letters": "AXES",
+      "answer": "LAXEST",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Lieutenant carrying bladed tools is most careless",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "jump",
+      "letters": "HOP",
+      "answer": "HOPE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Long jump second in decathlon",
+      "score": 58
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "group",
+      "letters": "ATES",
+      "answer": "DEBATES",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Discusses group in pit retiring",
+      "score": 48
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "about",
+      "letters": "DE",
+      "answer": "DETAILING",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Giving particulars about diamonds selling, but not originally",
+      "score": 43
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "support",
+      "letters": "LACK",
+      "answer": "BLACK",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Chess player's need to support bishop",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "of books in car",
+      "letters": "AUDIO",
+      "answer": "AUDIOTAPE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Recording of books in car – copy",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "- copy",
+      "letters": "TAPE",
+      "answer": "AUDIOTAPE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Recording of books in car – copy",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Greek",
+      "letters": "TAU",
+      "answer": "TAUPE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Letter from Greek ends in plaintive tone",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Small amount",
+      "answer": "DOT",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Small amount of pet odour going round",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Run away",
+      "answer": "ELOPE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Run away from cruel operative",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Aliens",
+      "answer": "OUTSIDERS",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Aliens do sure sit funnily",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "love",
+      "answer": "AMOUR",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Mail in which Romeo's rejected love",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "river",
+      "answer": "TEES",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Kid heard river",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dull",
+      "answer": "DRAB",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Dull poet turned up",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "district",
+      "answer": "SECTORAL",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Group speaking about district",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Martial artists",
+      "answer": "kick boxers",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Martial artists abandon underwear",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Accredit",
+      "answer": "AUTHORISE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Accredit gold is found in gold article",
+      "score": -5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Appraised",
+      "answer": "EVALUATED",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Appraised a valet due to be relocated",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fastidious",
+      "answer": "over-exact",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Fastidious close to twelve times cutting ham",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Adventurer",
+      "answer": "Odysseus",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Adventurer you'd see briefly at sea in possession of ship",
+      "score": 28
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "most careless",
+      "answer": "LAXEST",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Lieutenant carrying bladed tools is most careless",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "somewhere in America",
+      "answer": "IDAHO",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "I had a house somewhere in America",
+      "score": 54
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rotating",
+      "answer": "ALTERNATE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Advanced behind, to catch seabird rotating",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Becomes overly enthused about acquiring vases",
+      "answer": "turns to",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Becomes overly enthused about acquiring vases",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Discusses",
+      "answer": "DEBATES",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Discusses group in pit retiring",
+      "score": 48
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Giving particulars",
+      "answer": "DETAILING",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Giving particulars about diamonds selling, but not originally",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show-off",
+      "answer": "BOASTER",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Show-off son wearing straw hat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chess player's need",
+      "answer": "BLACK",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Chess player's need to support bishop",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Recording",
+      "answer": "AUDIOTAPE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Recording of books in car – copy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tone",
+      "answer": "TAUPE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Letter from Greek ends in plaintive tone",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Once more talk",
+      "answer": "REHASH",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Once more talk about that woman climbing tree",
+      "score": 100
+    }
+  ]
+}

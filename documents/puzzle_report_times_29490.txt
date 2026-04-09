@@ -1,0 +1,87 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29490
+Generated: 2026-03-20 16:08:57
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        0/1 (0%)
+    Sonnet:         0
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   0  
+  Medium (40-79): 0  
+  Low (<40):    0  
+  Failed:       1  1A
+  Average:      0/100
+
+COST: $0.0373 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (1 entries)
+------------------------------------------------------------
+  CAMEO: "Small part" -> CAMEO  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  1. Small part detached, dropping very loudly = CAMEO
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/1  
+  DB gap:                1  1A
+  Failed:                1  1A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  CAMEO         Small part detached, dropping very loudly (5)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [FAILED] CAMEO  1A. Small part detached, dropping very loudly
+  Answer: CAMEO
+  Tier: --- | Confidence: 0/100
+  Definition: "Small part"
+  Wordplay type: deletion
+  Components:
+    deletion           detached                  -> CAMEO
+  DB Lookups:
+    DB lookups:
+      small: syn=S,ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY; abbr=S
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      detached: syn=DRY,COLD,COOL,FREE,ALONE,ALOOF,APART,BLOOD,FRAIL,HEART,QUIET,STAND; ind=deletion
+      dropping: syn=DIRT,DUNG,DUST,JUNK,LOSS,POOP,SCAT,SOIL,DRECK,FECES,FIELD,GOING,NIGHT,PLAIN,SHEET; ind=deletion
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V; sounds=vary
+      loudly: abbr=F,FF
+      very loudly: syn=FF
+    Definitions:
+      "Small part" -> CAMEO (definition match)
+  AI Reasoning:
+    detached (CAME OFF) dropping very loudly (FF) gives CAMEO
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

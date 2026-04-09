@@ -1,0 +1,87 @@
+{
+  "source": "independent",
+  "puzzle": "12307",
+  "stats": {
+    "total": 27,
+    "assembled": 27,
+    "high": 22,
+    "medium": 5,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 88.81481481481481
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "backbencher",
+      "letters": "MP",
+      "answer": "STAMPDUTY",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Time a backbencher say gets involved in study about taxation",
+      "score": 61
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Company",
+      "letters": "FIR",
+      "answer": "FIRSTAID",
+      "clue_number": "3",
+      "direction": null,
+      "clue": "Company calm and dignified wants money for medical assistance",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Potter",
+      "answer": "WIZARD",
+      "clue_number": "11",
+      "direction": null,
+      "clue": "Potter with headless reptile?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Nick's",
+      "answer": "NAIL",
+      "clue_number": "15",
+      "direction": null,
+      "clue": "Nick's one wearing nothing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "somewhere in Canada",
+      "answer": "MANITOBA",
+      "clue_number": "2",
+      "direction": null,
+      "clue": "Male adrift in a boat somewhere in Canada",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "taxation",
+      "answer": "STAMPDUTY",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Time a backbencher say gets involved in study about taxation",
+      "score": 61
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "medical assistance",
+      "answer": "FIRSTAID",
+      "clue_number": "3",
+      "direction": null,
+      "clue": "Company calm and dignified wants money for medical assistance",
+      "score": 47
+    }
+  ]
+}

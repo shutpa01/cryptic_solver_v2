@@ -1,0 +1,401 @@
+{
+  "source": "times",
+  "puzzle": "29497",
+  "stats": {
+    "total": 29,
+    "assembled": 29,
+    "high": 14,
+    "medium": 10,
+    "low": 5,
+    "failed": 0,
+    "avg_score": 64.82758620689656
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "office",
+      "letters": "CO",
+      "answer": "COWRITER",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Bully office worker’s latest pen-pal?",
+      "score": -5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "worker",
+      "letters": "WRITER",
+      "answer": "COWRITER",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Bully office worker’s latest pen-pal?",
+      "score": -5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "square",
+      "letters": "ON",
+      "answer": "ONTIME",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Tiny character entering square promptly",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "tiny character",
+      "letters": "TIME",
+      "answer": "ONTIME",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Tiny character entering square promptly",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "impose keeping record",
+      "letters": "FOLOGIST",
+      "answer": "UFOLOGIST",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "You impose keeping record for one with alien beliefs",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "very",
+      "letters": "MO",
+      "answer": "MOSQUITO",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Sucker very shortly left with nothing",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "shortly",
+      "letters": "S",
+      "answer": "MOSQUITO",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Sucker very shortly left with nothing",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Hammer",
+      "letters": "TOOL",
+      "answer": "TOOLSHED",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Hammer home excessively large drop?",
+      "score": 37
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Ran",
+      "letters": "LED",
+      "answer": "DELL",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Ran around back of tropical valley",
+      "score": 57
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "most amusing",
+      "letters": "HOOT",
+      "answer": "HOOTENANNY",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Party’s most amusing person ultimately the GOAT?",
+      "score": -18
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "GOAT",
+      "letters": "ANNY",
+      "answer": "HOOTENANNY",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Party’s most amusing person ultimately the GOAT?",
+      "score": -18
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "sack",
+      "letters": "AXE",
+      "answer": "ICEAXE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Mountaineering kit in sack on rocks",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "tantrum",
+      "letters": "STUP",
+      "answer": "GASTROPUB",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Listening device set up to capture a tantrum in eatery",
+      "score": -4
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "group involving several families",
+      "letters": "TRIBE",
+      "answer": "DIATRIBE",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Harsh criticism set back support group involving several families",
+      "score": 43
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "objection",
+      "letters": "BUT",
+      "answer": "REBUT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Provide counterargument to objection introduced by engineers",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "rock music",
+      "letters": "METAL",
+      "answer": "BASEMETAL",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Perhaps lead guitar heard on rock music",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bottom's",
+      "answer": "RUMP",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Bottom’s strange head from Puck",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "entrance",
+      "answer": "PORTAL",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Wine and beer mostly for entrance",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Burns may have consumed this",
+      "answer": "HAGGIS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Burns may have consumed this witch, finally saving lives",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Head and Shoulders not working?",
+      "answer": "BUST",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Head and Shoulders not working?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "pen-pal",
+      "answer": "COWRITER",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Bully office worker’s latest pen-pal?",
+      "score": -5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "promptly",
+      "answer": "ONTIME",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Tiny character entering square promptly",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one with alien beliefs",
+      "answer": "UFOLOGIST",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "You impose keeping record for one with alien beliefs",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sucker",
+      "answer": "MOSQUITO",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Sucker very shortly left with nothing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Attempt pass on the wrong side?",
+      "answer": "UNDERTAKE",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Attempt pass on the wrong side?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "drop?",
+      "answer": "TOOLSHED",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Hammer home excessively large drop?",
+      "score": 37
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "coin",
+      "answer": "DOUBLOON",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Perform universal blessing holding pound coin",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dish from the Philippines",
+      "answer": "ADOBO",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Fuss over skin of buffalo in dish from the Philippines",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Part of pin",
+      "answer": "TIBIA",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Part of pin starts to topple if bowling in alley",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "old warrior",
+      "answer": "SPEARMAN",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Fresh parmesan for old warrior",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mountaineering kit",
+      "answer": "ICEAXE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Mountaineering kit in sack on rocks",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Rest during the day",
+      "answer": "SIESTA",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Rest during the day inside messiest apartment",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Harsh criticism",
+      "answer": "DIATRIBE",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Harsh criticism set back support group involving several families",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "highbrow cinema",
+      "answer": "ARTHOUSE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Share out bananas in highbrow cinema",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Provide counterargument",
+      "answer": "REBUT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Provide counterargument to objection introduced by engineers",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Perhaps lead",
+      "answer": "BASEMETAL",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Perhaps lead guitar heard on rock music",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Trap",
+      "answer": "LOBSTERPOT",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Trap chaotic protest on pitch",
+      "score": 100
+    }
+  ]
+}

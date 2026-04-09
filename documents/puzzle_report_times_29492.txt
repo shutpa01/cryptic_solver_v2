@@ -1,0 +1,83 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29492
+Generated: 2026-03-18 05:43:39
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        1/1 (100%)
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   1  29A
+  Medium (40-79): 0  
+  Low (<40):    0  
+  Failed:       0  
+  Average:      91/100
+
+COST: $0.0194 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS: none detected
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/1  29A
+  No issues detected.
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   29A  CORSET        Garment’s stiff — pressure’s released by assistant at the back (6)
+                      CORSE(deletion from "stiff") + T(last letter of "assistant")  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] CORSET  29A. Garment’s stiff — pressure’s released by assistant at the back
+  Answer: CORSET
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "Garment"
+  Wordplay type: charade
+  Components:
+    deletion           stiff                     -> CORSE
+    last_letter        assistant                 -> T
+  Assembly: charade — CORSE(deletion from "stiff") + T(last letter of "assistant")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stiff: syn=BAD,BIT,BOD,BOY,CAT,COY,CUT,EGG,GUY,ITS,JOE,LAD,LIT,MAN,PIE
+      released: syn=AXED,FREE,QUIT,FIRED,FREED,LOOSE,OUTED,UNDID,CANNED,CHASED,EXILED,ISSUED,OUSTED,ROUTED,SACKED
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      assistant: syn=PA,AID,MAN,AIDE,AIDS,GIRL,HELP,LIKE,MATE,AIDES,AIDS:,DEPUTY,HELPER,LACKEY,SECOND; abbr=PA
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      at the: syn=SET*,GO,ACE,AGE,AID,APT,BAG,BIT,BOA,BUG
+      the back: syn=FILM
+  AI Reasoning:
+    CORPSE (stiff) minus P (pressure) gives CORSE, plus T (last letter of assistant/servant) makes CORSET
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

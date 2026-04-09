@@ -1,0 +1,613 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31208
+Generated: 2026-04-08 07:02:16
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        28/30 (93%)
+    Signature:      2
+    Sig+Enriched:   11
+    Sonnet:         8
+    DB Fallback:    1
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   22  10A, 9A, 1D, 19A, 12A, 14D, 16D, 18D, 2D, 25D, 26A, 28A, 4D, 6D, 17D, 8D, 11A, 13A, 18A, 21A, 22D, 3D
+  Medium (40-79): 5  15A, 20D, 24D, 27A, 5D
+  Low (<40):    1  7D
+  Failed:       2  1A, 23A
+  Average:      87/100
+
+COST: $1.1927 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (27 entries)
+------------------------------------------------------------
+  INCESSANT: "without stopping" -> INCESSANT  (missing from definition_answers_augmented)
+  CHICKEN: "bird" -> CHICKEN  (missing from definition_answers_augmented)
+  FLEECE: "coat" -> FLEECE  (missing from definition_answers_augmented)
+  Calvados: "brandy" -> Calvados  (missing from definition_answers_augmented)
+  ill at ease: "Uncomfortable," -> ill at ease  (missing from definition_answers_augmented)
+  GALLOP: "Career" -> GALLOP  (missing from definition_answers_augmented)
+  HOST: "army" -> HOST  (missing from definition_answers_augmented)
+  ODOUR: "smell" -> ODOUR  (missing from definition_answers_augmented)
+  ASTONISH: "floor" -> ASTONISH  (missing from definition_answers_augmented)
+  WYVERN: "Heraldic beast" -> WYVERN  (missing from definition_answers_augmented)
+  carte blanche: "escaping authority" -> carte blanche  (missing from definition_answers_augmented)
+  NECTAR: "delicious drink" -> NECTAR  (missing from definition_answers_augmented)
+  MAGICIAN: "Tommy Cooper" -> MAGICIAN  (missing from definition_answers_augmented)
+  gold rush: "where everyone wants digs" -> gold rush  (missing from definition_answers_augmented)
+  LEAPFROG: "Classic game" -> LEAPFROG  (missing from definition_answers_augmented)
+  FORUM: "place for a meeting" -> FORUM  (missing from definition_answers_augmented)
+  STITCH: "bit of a pain" -> STITCH  (missing from definition_answers_augmented)
+  TWIST: "ask for another card" -> TWIST  (missing from definition_answers_augmented)
+  easy chair: "Comfy spot" -> easy chair  (missing from definition_answers_augmented)
+  NATIONAL: "Countrywide newspaper subject" -> NATIONAL  (missing from definition_answers_augmented)
+  black ice: "a danger to those on the street" -> black ice  (missing from definition_answers_augmented)
+  carte blanche: authority -> BLANCHE  (missing from synonyms_pairs)
+  NECTAR: Noisily -> NECTR  (missing from synonyms_pairs)
+  MAGICIAN: fag -> CIG  (missing from abbreviations)
+  easy chair: unchallenged -> EASY  (missing from synonyms_pairs)
+  easy chair: prof? -> CHAIR  (missing from synonyms_pairs)
+  black ice: force -> ICE  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  ISOLATION = 27 (71/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (3)
+------------------------------------------------------------
+  MAGICIAN = 15 (42/100): def="Tommy Cooper" (not in DB, odd position)
+  TWIST = 24 (65/100): def="ask for another card" (not in DB, odd position)
+  black ice = 7 (37/100): def="a danger to those on the street" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  1. Runs into Australian actor time after time escaping authorit = carte blanche
+  23. Singular little guy, bit of a pain = STITCH
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  8/30  10A, 11A, 12A, 28A, 2D, 4D, 6D, 20D
+  Type mismatch:         1  27A
+  Weak definition:       3  15A, 7D, 24D
+  DB gap:                19  1A, 9A, 13A, 15A, 18A, 19A, 21A, 23A, 26A, 3D, 5D, 7D, 8D, 14D, 16D, 17D, 22D, 24D, 25D
+  Failed:                2  1A, 23A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   10A  Dolly         Rhyl Lodge, retired home for much-loved octogenarian (5)
+                      ---  [HIGH]
+    9A  INCESSANT     Convinces Santa to go round without stopping (9)
+                      hidden in "convINCES SANTa to go round"; definition: "without stopping"  [HIGH]
+    1D  CHICKEN       Yellow bird (7)
+                      CHICKEN (synonym of "Yellow"); definition: "bird"  [HIGH]
+   19A  FLEECE        Rip off coat (6)
+                      FLEECE (synonym of "Rip off"); definition: "coat"  [HIGH]
+   12A  CORNICHE      My husband parked in Riviera resort road by the sea (8)
+                      ---  [HIGH]
+   14D  Calvados      Sold Cava, rum, brandy (8)
+                      anagram of SOLDCAVA ("Sold Cava,") [anagram: "rum,"] = CALVADOS; definition: "brandy"  [HIGH]
+   16D  ill at ease   Uncomfortable, unwell, advanced torment (3,2,4)
+                      ILL (synonym of "unwell,") + A (synonym of "advanced") + TEASE (synonym of "torment"); definition: "Uncomfortable,"  [HIGH]
+   18D  GALLOP        Career girl cut (6)
+                      GAL (synonym of "girl") + LOP (synonym of "cut"); definition: "Career"  [HIGH]
+    2D  RACER         Such as F1 driver, one in expensive car? (5)
+                      ---  [HIGH]
+   25D  HOST          Raise heartless army (4)
+                      HOIST (synonym of "Raise") [gutting: "heartless"]; definition: "army"  [HIGH]
+   26A  ODOUR         Old, grim smell (5)
+                      O (synonym of "Old,") + DOUR (synonym of "grim"); definition: "smell"  [HIGH]
+   28A  AMPHITHEATRE  PM Heath irate after conducting in the arena (12)
+                      ---  [HIGH]
+    4D  Lear          Tragic king's left lughole (4)
+                      ---  [HIGH]
+    6D  had on        Wore Chinese clothing for party (3,2)
+                      ---  [HIGH]
+   17D  ASTONISH      Awkwardly sits on a hard floor (8)
+                      anagram of SITSONA ("sits on a") + H (synonym of "hard") = ASTONISH; definition: "floor"  [HIGH]
+    8D  WYVERN        Heraldic beast with very weird name (6)
+                      anagram of VERY ("very") + W (synonym of "with") + N (synonym of "name") = WYVERN; definition: "Heraldic beast"  [HIGH]
+    1A  carte blanche  Runs into Australian actor time after time escaping authority (5,7)
+                      ---  [FAIL]
+   11A  KIRSCH        After losing rear end, ricksha crashed; that'll be the drink (6)
+                      delete A from RICKSHA, anagram of RICKSH = KIRSCH  [HIGH]
+   13A  NECTAR        Noisily swallowed a delicious drink (6)
+                      NECTR (synonym of "Noisily") + A (abbreviation of "a"); definition: "delicious drink"  [HIGH]
+   15A  MAGICIAN      Chap holding a fag back to front and beginning to imitate Tommy Cooper? (8)
+                      reverse CIG(synonym of "fag"), then AGICI inside MAN(synonym of "Chap")  [MED]
+   18A  gold rush     Lord moves into grand American hotel where everyone wants digs (4,4)
+                      anagram of LORD+G(abbr. "grand")+US(abbr. "American")+H(abbr. "hotel") = gold rush  [HIGH]
+   20D  ENHANCE       Improve last opportunity when leaving DC (7)
+                      delete C from CHANCE(synonym of "opportunity"), anagram of HANCE+EN(sounds like "when") = ENHANCE  [MED]
+   21A  LEAPFROG      Classic game, playing par golf going round Carnoustie finally (8)
+                      anagram of PAR+E(last letter of "carnoustie")+GOLF = LEAPFROG  [HIGH]
+   22D  FORUM         Foreign Office – strange place for a meeting (5)
+                      F (abbreviation of "Foreign") + O (synonym of "Office") + RUM (synonym of "- strange"); definition: "place for a meeting"  [HIGH]
+   23A  STITCH        Singular little guy, bit of a pain (6)
+                      ---  [FAIL]
+   24D  TWIST         Fool to hold spades – ask for another card! (5)
+                      S(abbr. "spades") inside TWIT(synonym of "Fool")  [MED]
+   27A  ISOLATION     One very dead language stopped by ordinary segregation (9)
+                      I(abbr. "One") + SO(abbr. "very") + O("ordinary") inside LATIN("dead language")  [MED]
+    3D  easy chair    Comfy spot for the unchallenged prof? (4,5)
+                      EASY (synonym of "unchallenged") + CHAIR (synonym of "prof?"); definition: "Comfy spot"  [HIGH]
+    5D  NATIONAL      Countrywide newspaper subject (8)
+                      cryptic definition  [MED]
+    7D  black ice     Dark force in America a danger to those on the street? (5,3)
+                      BLACK(synonym of "Dark") + ICE(synonym of "force")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] Dolly  10A. Rhyl Lodge, retired home for much-loved octogenarian
+  Answer: Dolly
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden reversed in "rhYL LODge,"
+  ----------------------------------------------------------------------
+
+  [HIGH] INCESSANT  9A. Convinces Santa to go round without stopping
+  Answer: INCESSANT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "without stopping"
+  Wordplay: hidden
+  Explanation: hidden in "convINCES SANTa to go round"; definition: "without stopping"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] CHICKEN  1D. Yellow bird
+  Answer: CHICKEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "bird"
+  Wordplay: charade
+  Explanation: CHICKEN (synonym of "Yellow"); definition: "bird"
+  ----------------------------------------------------------------------
+
+  [HIGH] FLEECE  19A. Rip off coat
+  Answer: FLEECE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "coat"
+  Wordplay: charade
+  Explanation: FLEECE (synonym of "Rip off"); definition: "coat"
+  ----------------------------------------------------------------------
+
+  [HIGH] CORNICHE  12A. My husband parked in Riviera resort road by the sea
+  Answer: CORNICHE
+  Tier: --- | Confidence: 100/100
+  Human explanation: COR (synonym="My") + NICE (synonym="Riviera") + H (abbreviation="husband") = CORNICHE; definition: "sea"
+  ----------------------------------------------------------------------
+
+  [HIGH] Calvados  14D. Sold Cava, rum, brandy
+  Answer: Calvados
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "brandy"
+  Wordplay: anagram
+  Explanation: anagram of SOLDCAVA ("Sold Cava,") [anagram: "rum,"] = CALVADOS; definition: "brandy"
+  ----------------------------------------------------------------------
+
+  [HIGH] ill at ease  16D. Uncomfortable, unwell, advanced torment
+  Answer: ill at ease
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Uncomfortable,"
+  Wordplay: charade
+  Explanation: ILL (synonym of "unwell,") + A (synonym of "advanced") + TEASE (synonym of "torment"); definition: "Uncomfortable,"
+  ----------------------------------------------------------------------
+
+  [HIGH] GALLOP  18D. Career girl cut
+  Answer: GALLOP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Career"
+  Wordplay: charade
+  Explanation: GAL (synonym of "girl") + LOP (synonym of "cut"); definition: "Career"
+  ----------------------------------------------------------------------
+
+  [HIGH] RACER  2D. Such as F1 driver, one in expensive car?
+  Answer: RACER
+  Tier: --- | Confidence: 100/100
+  Human explanation: RR (abbreviation="car?") + ACE (abbreviation="one") = RACER
+  ----------------------------------------------------------------------
+
+  [HIGH] HOST  25D. Raise heartless army
+  Answer: HOST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "army"
+  Wordplay: charade + deletion
+  Explanation: HOIST (synonym of "Raise") [gutting: "heartless"]; definition: "army"
+  ----------------------------------------------------------------------
+
+  [HIGH] ODOUR  26A. Old, grim smell
+  Answer: ODOUR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "smell"
+  Wordplay: charade
+  Explanation: O (synonym of "Old,") + DOUR (synonym of "grim"); definition: "smell"
+  ----------------------------------------------------------------------
+
+  [HIGH] AMPHITHEATRE  28A. PM Heath irate after conducting in the arena
+  Answer: AMPHITHEATRE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of PM + HEATH + IRATE = AMPHITHEATRE; definition: "arena"
+  ----------------------------------------------------------------------
+
+  [HIGH] Lear  4D. Tragic king's left lughole
+  Answer: Lear
+  Tier: --- | Confidence: 100/100
+  Human explanation: LEARN (synonym="king's") with deletion = LEAR; definition: "Tragic"
+  ----------------------------------------------------------------------
+
+  [HIGH] had on  6D. Wore Chinese clothing for party
+  Answer: had on
+  Tier: --- | Confidence: 100/100
+  Human explanation: HAN (synonym="Chinese") + DO (abbreviation="party") = HAD ON
+  ----------------------------------------------------------------------
+
+  [HIGH] ASTONISH  17D. Awkwardly sits on a hard floor
+  Answer: ASTONISH
+  Tier: Signature | Confidence: 80/100
+  Definition: "floor"
+  Wordplay: anagram + charade
+  Explanation: anagram of SITSONA ("sits on a") + H (synonym of "hard") = ASTONISH; definition: "floor"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] WYVERN  8D. Heraldic beast with very weird name
+  Answer: WYVERN
+  Tier: Signature | Confidence: 80/100
+  Definition: "Heraldic beast"
+  Wordplay: anagram + charade
+  Explanation: anagram of VERY ("very") + W (synonym of "with") + N (synonym of "name") = WYVERN; definition: "Heraldic beast"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [FAILED] carte blanche  1A. Runs into Australian actor time after time escaping authority
+  Answer: carte blanche
+  Tier: --- | Confidence: 0/100
+  Definition: "escaping authority"
+  Wordplay type: anagram
+  Components:
+    indicator          Runs                      -> 
+    indicator          into                      -> 
+    abbreviation       Australian                -> AUS
+    synonym            actor                     -> ACTOR
+    indicator          time                      -> 
+    indicator          after                     -> 
+    literal            time                      -> TIME
+    synonym            authority                 -> BLANCHE
+  DB Lookups:
+    DB lookups:
+      runs: syn=CARE*,R,IS,DOS,BAGS,BUGS,BYES,COPS,DIGS,DOGS,EYES,FAST,FOCI,GETS,GOES; abbr=R*; ind=anagram,anagram?
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      australian: syn=NO,AUS,AYE,NAY,YEA,AYES,NAYS,NOES,VOTE,YEAS,VOTES,BALLOT,BOOZER,TICKET,WOMBAT
+      actor: syn=HAM,ARMY,PROP,EXTRA,IRONS,NIVEN,PARTY,THESP,BOODLE,CLUTCH,JACOBI,MUMMER,PLAYER,WELLES,ACTRESS
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      escaping: syn=END,FLYING,TAKING,ABATING,DODGING,DUCKING,ELUDING,EVADING,FLEEING,LAMMING,NULLING,SCAPING,SHAKING,VOIDING,AVOIDING; ind=deletion?
+      authority: syn=CARE*,IN,ACE,ARM,DAB,KIN,SAY,WHY,ACES,ARMS,AS A,CLAN,GEEK,GRIP,GURU
+      runs into: syn=HUNTS,MEETS,EVENTS,ANSWERS,FITTING,GATHERS,INTERSECTS
+    Definitions:
+      "authority" -> carte blanche (definition match)
+  AI Reasoning:
+    Anagram of AUS + ACTOR + TIME + BLANCHE gives CARTE BLANCHE
+  ----------------------------------------------------------------------
+
+  [HIGH] KIRSCH  11A. After losing rear end, ricksha crashed; that'll be the drink
+  Answer: KIRSCH
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "drink"
+  Wordplay type: anagram
+  Components:
+    literal            ricksha                   -> RICKSHA
+    indicator          losing                    -> 
+    indicator          rear end                  -> 
+    indicator          crashed                   -> 
+  Assembly: deletion+anagram — delete A from RICKSHA, anagram of RICKSH = KIRSCH
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      losing: syn=NIXING; ind=deletion
+      rear: syn=AT,DO,A A,AFT,BAR,BUM,CAN,END,USE,BACK,BOOK,BUNS,BUTT,DUFF,FARM; ind=parts
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      ricksha: fodder=RICKSHA(6/6 anagram match)
+      crashed: syn=HIT,DIED,FELL,QUIT,SANK,WENT,BORED,BROKE,DIVED,ENDED,BANGED,BASHED,BEDDED,BULLED,BUMPED; ind=anagram
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      drink: syn=KIR*,IT,ALE,BIB,CHA,GIN,HIT,ICE,LAP,MUM,NIP,PEG,POP,RUM,RYE; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      rear end: ind=parts
+      rear end: syn=BUM,CAN,BACK,BOAT,BUNS,BUTT,DUFF,HAMS,REAR,ROOT
+      the drink: syn=AMRITA
+    Definitions:
+      "drink" -> KIRSCH (definition match)
+  AI Reasoning:
+    Take RICKSHA, remove rear end (last letter A) to get RICKSH, then anagram (crashed) to get KIRSCH
+  ----------------------------------------------------------------------
+
+  [HIGH] NECTAR  13A. Noisily swallowed a delicious drink
+  Answer: NECTAR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "delicious drink"
+  Wordplay: charade
+  Explanation: NECTR (synonym of "Noisily") + A (abbreviation of "a"); definition: "delicious drink"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MAGICIAN  15A. Chap holding a fag back to front and beginning to imitate Tommy Cooper?
+  Answer: MAGICIAN
+  Tier: Sonnet | Confidence: 42/100
+  Definition: "Tommy Cooper"
+  Wordplay type: container
+  Components:
+    synonym            Chap                      -> MAN
+    indicator          holding                   -> 
+    literal            a                         -> A
+    synonym            fag                       -> CIG
+    indicator          back to front             -> 
+    first_letter       beginning to imitate      -> I
+  Assembly: reversal_container — reverse CIG(synonym of "fag"), then AGICI inside MAN(synonym of "Chap")
+  Checks: definition=not in DB, odd position | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      chap: syn=MAN*,AL,HE,BOD,BOY,BUD,CAT,CHA,CUB,EGG,GUY,IMP,JOE,KEN,KID; abbr=gent
+      holding: syn=DOOM,FARM,ASSET,RULING,TAMING,TENURE,CALMING,CURBING,FINDING,KEEPING,ABOUT OR,BOASTING,BRIDLING,CHECKING,CLAMPING; ind=container,hidden
+      fag: syn=DO,ACT,DAM,POP,RUN,TUG,USE,GRUB,HUMP,HYPE,KILL,MAKE,MILK,MOIL,MOVE
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      front: syn=ACT,AIR,ARC,BOW,END,PUT,TOP,VAN,WAY,ACTS,AIRS,AREA,AXIS,BLOC,DESK; ind=acrostic,parts
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      beginning: syn=DAY,DAWN,GERM,ROOT,AHEAD,ALPHA,BASAL,BASIC,GETGO,ONSET,SAUCE,START,ADVENT,ORIGIN,OUTSET; ind=acrostic,deletion,parts
+      imitate: syn=DO,APE,SEX,APED,APES,COPY,FAKE,ROLE,STAR,APING,MIMIC,MIRROR,MONKEY,PARODY,PARROT
+      tommy: syn=PRIVATE,SOLDIER
+      to imitate: syn=COPY,MOCK,MIMIC,PARROT,COPYCAT,EMULATE,IMITATE,CHEAPEST,IMITATOR
+      back to front: syn=WRONG,ENDWISE,UPRIGHT
+  AI Reasoning:
+    MAN contains A + GIC (CIG reversed) + I = M(AGICI)AN = MAGICIAN
+  ----------------------------------------------------------------------
+
+  [HIGH] gold rush  18A. Lord moves into grand American hotel where everyone wants digs
+  Answer: gold rush
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "where everyone wants digs"
+  Wordplay type: anagram
+  Components:
+    literal            Lord                      -> LORD
+    indicator          moves                     -> 
+    indicator          into                      -> 
+    abbreviation       grand                     -> G
+    abbreviation       American                  -> US
+    abbreviation       hotel                     -> H
+  Assembly: anagram — anagram of LORD+G(abbr. "grand")+US(abbr. "American")+H(abbr. "hotel") = gold rush
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      lord: syn=GOD,CZAR,EARL,GOD?,HERO,ICON,IDOL,KING,LION,MAIN,PEER,ALLAH,BARON,DEITY,LIEGE; abbr=L*
+      moves: syn=GO*,RUSH*,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS,OFFS,RAPS; abbr=GO*; ind=anagram
+      into: syn=RUSH*,JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS; ind=anagram?,container?
+      grand: syn=G,A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH,BLUE,BOSS; abbr=G*,K
+      american: syn=US*,A,SUE,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN; abbr=A,US*
+      hotel: syn=H,DEN,INN,BACH,CAMP,CLUB,HOLE,LAIR,RITZ,CABIN,HOUSE,LODGE,OF AN,SPICY,BURROW; abbr=H*,INN
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER,LOCALITY,LOCATION,NINETEEN; sounds=ware,wear
+      everyone: syn=ALL,AWL,ONE,EACH,PEEPS,ANYONE,ANYBODY,CAPITAL,EVENING,SOMEONE,ALL-TIME,ALLIANCE,BALLOONS,OF EVERY,SOMEBODY; abbr=ALL
+      wants: syn=LACKS,NEEDS,DESIRES,IF,AIM,DIE,FOR,NEE,THE,YOU,ACHE,BORN,CARE,FEEL,FIVE
+      digs: syn=IS,BAGS,BUGS,COPS,CUTS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,ABODE,BAILS
+  AI Reasoning:
+    Anagram of LORD + G + US + H (indicated by 'moves into') gives GOLDRUSH
+  ----------------------------------------------------------------------
+
+  [HIGH] ENHANCE  20D. Improve last opportunity when leaving DC
+  Answer: ENHANCE
+  Tier: Sonnet | Confidence: 76/100
+  Definition: "Improve"
+  Wordplay type: anagram
+  Components:
+    synonym            opportunity               -> CHANCE
+    sound_of           when                      -> EN
+    indicator          improve                   -> 
+  Assembly: deletion+anagram — delete C from CHANCE(synonym of "opportunity"), anagram of HANCE+EN(sounds like "when") = ENHANCE
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=HANCE answer=ENHANCE | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      improve: syn=ENHANCE*,HELP,MEND,AMEND,EMEND,RALLY,RIGHT,AMENDS,BETTER,ENRICH,FINISH,REFINE,REFORM,AMENDED,AMENDER; ind=anagram?
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      opportunity: syn=DARK,DOOR,ROOM,SHOT,TURN,BREAK,CHANCE,WINDOW,OPENING
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      leaving: syn=LAST,FINAL,GOING,CEDING,EGRESS,EXODUS,GIVING,HAVING,NOTICE,SAVING,BEARING,CLOSING,EXITING,FEEDING,HANDING; ind=deletion?
+    Definitions:
+      "Improve" -> ENHANCE (definition match)
+  AI Reasoning:
+    CHANCE (opportunity) + EN (sounds like 'when') anagrammed gives ENHANCE
+  ----------------------------------------------------------------------
+
+  [HIGH] LEAPFROG  21A. Classic game, playing par golf going round Carnoustie finally
+  Answer: LEAPFROG
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Classic game"
+  Wordplay type: anagram
+  Components:
+    literal            par                       -> PAR
+    last_letter        carnoustie                -> E
+    literal            golf                      -> GOLF
+  Assembly: anagram — anagram of PAR+E(last letter of "carnoustie")+GOLF = LEAPFROG
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      classic: syn=A1,OK,BIG,FAB,HOT,ODD,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL
+      game: syn=LEAPFROG*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+      playing: syn=ON,GOLF,ROLE,DOING,GOING,A GRIP,ACTING,LAYING,TAKING,TOYING,VERSUS,BETTING,HACKING,PUTTING,STAKING; abbr=ON,P*; ind=anagram
+      par: syn=BAR,EVEN,OF A,EAGLE,AVERAGE,MEASURE,STROKES,STANDARD; abbr=P*
+      golf: syn=G,HIT,PRO,EDGE,GAME,SPORT,A GAME,PLAYING; abbr=G*
+      going: syn=LEAP*,ON,RAY,WAY,BEAM,EXIT,FAST,GLOW,HALO,JUMP,LIVE,STEP,ALIVE,BLAZE,BOUND; ind=anagram,reversal
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O*; ind=anagram,container,reversal
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      going round: ind=container
+      going round: syn=ORBITAL
+  AI Reasoning:
+    Anagram of letters from par(P) + golf(G) + going(GOING) + round(ROUND) + Carnoustie(CARNOUSTIE), with 'finally' indicating to take some letters to form LEAPFROG
+  ----------------------------------------------------------------------
+
+  [HIGH] FORUM  22D. Foreign Office – strange place for a meeting
+  Answer: FORUM
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "place for a meeting"
+  Wordplay: charade
+  Explanation: F (abbreviation of "Foreign") + O (synonym of "Office") + RUM (synonym of "- strange"); definition: "place for a meeting"
+  ----------------------------------------------------------------------
+
+  [FAILED] STITCH  23A. Singular little guy, bit of a pain
+  Answer: STITCH
+  Tier: --- | Confidence: 0/100
+  Definition: "bit of a pain"
+  Wordplay type: anagram
+  Components:
+    indicator          Singular                  -> 
+    synonym            little                    -> TIT
+    synonym            guy                       -> CHE
+  DB Lookups:
+    DB lookups:
+      singular: syn=S,ODD,ONE,THE,WAY,ONLY,RARE,WILD,ALONE,CRAZY,FREAK,FUNKY,FUNNY,KINKY,KOOKY; abbr=S*; ind=anagram?
+      little: syn=TIT*,ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO; abbr=WEE
+      guy: syn=BOD,BOY,BUD,CAT,CUB,EGG,JOE,KID,LAD,MAN,RIB,SON,BABY,BEAU,BIRD
+      bit: syn=ACE,ACT,DAB,DAY,EAT,EON,ERA,LET,NIP,RAY,RUB,TAD,TWO,ACES,ATOM; ind=hidden
+      pain: syn=STITCH*,SO,GYP,WOE,ACHE,CARE,HEED,HURT,PANG,PEST,RACK,WORK,ACHES,AGONY,COLIC; abbr=ACHE; sounds=pane
+      little guy: syn=MAN,STREET
+      bit of: ind=parts
+      bit of: syn=PART,SUNDER
+      a pain: syn=PAIN
+    Definitions:
+      "pain" -> STITCH (definition match)
+      "a pain" -> STITCH (definition match)
+  AI Reasoning:
+    Anagram of TIT + CHE (little guy) gives STITCH, meaning a bit of a pain
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TWIST  24D. Fool to hold spades – ask for another card!
+  Answer: TWIST
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "ask for another card"
+  Wordplay type: container
+  Components:
+    synonym            Fool                      -> TWIT
+    indicator          to                        -> 
+    indicator          hold                      -> 
+    abbreviation       spades                    -> S
+  Assembly: container — S(abbr. "spades") inside TWIT(synonym of "Fool")
+  Checks: definition=not in DB, odd position | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fool: syn=TWIT*,DO,ASS,BOD,BOG,BUG,BUM,DAM,EGG,EYE,FAN,GIT,KID,LAG,LOO; abbr=ASS,CLOT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      hold: syn=A,DO,A A,AIM,ARM,CAN,EYE,FIT,NOT,OWN,SET,ANON,ARMS,BEAR,BEST; sounds=holed
+      spades: syn=S,DIGS,SUIT,CARDS,CARD,TOOL; abbr=S*
+      ask: syn=HIT,SEE,WOO,BILL,LIST,PAGE,POSE,QUIZ,SEEK,COURT,ORDER,QUERY,QUEST
+      for: syn=IS*,AS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A; ind=anagram
+      card: syn=ID,ACE,BAR,CON,FIX,JIG,LAY,WAG,WIT,BARS,BILL,BOOK,CLIP,CLUB,COMB
+      to hold: syn=HUG,TIE,CURB,HOLD,KEEP,STOP,CHECK,CLASP,LIMIT,STICK
+      ask for: syn=ASK,FOR,PUT,WHY,WOO,ASKS,CALL,FEEL,FISH,LOOK
+  AI Reasoning:
+    TWIT (fool) contains S (spades) to form TWIST
+  ----------------------------------------------------------------------
+
+  [HIGH] ISOLATION  27A. One very dead language stopped by ordinary segregation
+  Answer: ISOLATION
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "segregation"
+  Wordplay type: charade
+  Components:
+    abbreviation       One                       -> I
+    abbreviation       very                      -> SO
+    anagram_fodder     dead language             -> LATIN
+    indicator          stopped                   -> 
+    anagram_fodder     ordinary                  -> O
+  Assembly: container — I(abbr. "One") + SO(abbr. "very") + O("ordinary") inside LATIN("dead language")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O*; sounds=won
+      very: syn=SO*,V,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO*,V; sounds=vary
+      dead: syn=OK,ALL,BAG,BAT,BOP,COP,DIG,DIS,DRY,DUE,FIX,GET,HIT,ILL,LOW; abbr=D
+      language: syn=IDO,CANT,ERSE,INCA,JIVE,SHOP,TALK,THAI,TUPI,URDU,ARGOT,AZTEC,BANTU,CARIB,CZECH
+      stopped: syn=ATE,BIT,DUG,GOT,RAN,SAW,BEAT,CAME,DIED,FELL,GREW,ICED,KNEW,LEFT,QUIT
+      by: syn=AT*,SO*,SOON*,X,IN,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH; abbr=X; sounds=buy,bye
+      ordinary: syn=SO*,O,OR,BAD,CUT,DUE,RUN,THE,BLAH,FAIR,GRAY,GRIM,HARD,POKY,RATE; abbr=O*
+      segregation: syn=ISOLATION*,RACE,VACUUM,PRIVACY,ALONENESS,APARTHEID,SECLUSION
+    Definitions:
+      "segregation" -> ISOLATION (definition match)
+  AI Reasoning:
+    I + SO + anagram of LATIN+O (=LATINO) gives I + SO + LATION = ISOLATION
+  ----------------------------------------------------------------------
+
+  [HIGH] easy chair  3D. Comfy spot for the unchallenged prof?
+  Answer: easy chair
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Comfy spot"
+  Wordplay: charade
+  Explanation: EASY (synonym of "unchallenged") + CHAIR (synonym of "prof?"); definition: "Comfy spot"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NATIONAL  5D. Countrywide newspaper subject
+  Answer: NATIONAL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Countrywide newspaper subject"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      newspaper: syn=FT,MAG,RAG,RED,SUN,BOOK,ZINE,DAILY,ORGAN,PAPER,TIMES,ANNUAL,HERALD,REVIEW,SERIAL
+      subject: syn=NATIONAL*,NET,NUB,SUM,WAR,WHY,AS A,BODY,BULK,CORE,CRUX,FACT,FILM,GIST,IDEA
+    Definitions:
+      "subject" -> NATIONAL (definition match)
+  AI Reasoning:
+    The entire clue cryptically describes NATIONAL - a countrywide newspaper would be national, and its subject matter would be national in scope
+  ----------------------------------------------------------------------
+
+  [LOW] black ice  7D. Dark force in America a danger to those on the street?
+  Answer: black ice
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "a danger to those on the street"
+  Wordplay type: charade
+  Components:
+    synonym            Dark                      -> BLACK
+    synonym            force                     -> ICE
+  Assembly: charade — BLACK(synonym of "Dark") + ICE(synonym of "force")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dark: syn=BLACK*,GO,BAD,BID,DIM,LOW,NIP,SAD,SIP,SUP,TRY,BLUE,DEEP,DOWN,DRAG
+      force: syn=F,DO,A A,ARM,BOD,BOY,CAT,CHI,EGG,FED,GUY,JOE,LAD,MAN,RAM; abbr=F; ind=anagram?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      america: syn=A,US,USA,COUNTRY,THE USA; abbr=A*,AM,US,USA
+      danger: syn=BIT,LET,RUB,BALK,CLOG,CURB,DRAG,LOAD,REEF,REIN,RISK,SNAG,STOP,WALL,BLOCK
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      those: abbr=THE
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      the: syn=LAC*,LACK*,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      street: syn=ST,LUG,ROW,RUE,WAY,WIT,BAWD,BOND,CARE,DRAB,DRAG,LANE,MEWS,NOUS,PASS; abbr=S,ST
+      force in: syn=SQUEEZE,SHOEHORN
+      in america: syn=TIRE
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER,ALWAYS,EVERMORE,GRAFFITI
+  AI Reasoning:
+    Dark means BLACK, force (law enforcement agency) means ICE, creating the charade BLACK + ICE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

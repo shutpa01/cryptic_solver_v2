@@ -1,0 +1,241 @@
+{
+  "source": "telegraph",
+  "puzzle": "31172",
+  "stats": {
+    "total": 32,
+    "assembled": 31,
+    "high": 21,
+    "medium": 10,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 74.38709677419355
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "naughty",
+      "letters": "RUDE",
+      "answer": "PRUDENT",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Vigilant, finding naughty books behind piano",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "in Irish county",
+      "letters": "TOUCH",
+      "answer": "touch down",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Land in Irish county, south of border",
+      "score": 92
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "daft",
+      "letters": "ST",
+      "answer": "Austria",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Country song about America, ultimately daft",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "man who wrote nonsense",
+      "letters": "LEAR",
+      "answer": "CLEAR",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Plain Conservative man who wrote nonsense",
+      "score": 77
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "scraps",
+      "letters": "SPAR",
+      "answer": "SPARROWS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Dispute over scraps for garden birds",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dispute",
+      "letters": "ROWS",
+      "answer": "SPARROWS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Dispute over scraps for garden birds",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Vigilant",
+      "answer": "PRUDENT",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Vigilant, finding naughty books behind piano",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maybe actress",
+      "answer": "THESPIAN",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Maybe actress Sophia oddly appearing in two articles",
+      "score": 53
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "musical performance",
+      "answer": "pop concert",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Dad firm favourite to host November musical performance",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "put down",
+      "answer": "SQUASHED",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Fruit drink journalist put down",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Waters",
+      "answer": "IRRIGATES",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Waters great iris that's struggling",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Agrees",
+      "answer": "CONCURS",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Agrees copper must pursue fraud with robbers on vacation",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "electrical accessory",
+      "answer": "ADAPTOR",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Prod at a faulty electrical accessory",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Plain",
+      "answer": "CLEAR",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Plain Conservative man who wrote nonsense",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "I might tell you to stop",
+      "answer": "road sign",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "I might tell you to stop playing organ with Sid",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chubby Checker or Detroit Spinner",
+      "answer": "TWISTER",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Chubby Checker or Detroit Spinner?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "prepares tea",
+      "answer": "BREWS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Reportedly hurt by unkind words, prepares tea?",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Catching bouquet easily?",
+      "answer": "sharp-nosed",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Catching bouquet easily?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bags",
+      "answer": "ATTAINS",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Thanks for turning up with new satin bags",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "spirit",
+      "answer": "ESSENCE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Rock sequences with Queen lacking spirit",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fill with optimism",
+      "answer": "ELATE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Occasionally feel sad, then fill with optimism",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "garden birds",
+      "answer": "SPARROWS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Dispute over scraps for garden birds",
+      "score": 55
+    }
+  ]
+}

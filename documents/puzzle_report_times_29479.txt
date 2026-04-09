@@ -1,0 +1,797 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29479
+Generated: 2026-03-05 06:16:14
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        27/28 (96%)
+    Sonnet:         27
+    DB Fallback:    0
+    Cached (no API): 19
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  1A, 1D, 10A, 12A, 13D, 15A, 16A, 17A, 18D, 19A, 19D, 2D, 23A, 26A, 3D, 4D, 5A, 7D, 8D, 9A
+  Medium (40-79): 6  14D, 20A, 22A, 24D, 25A, 6D
+  Low (<40):    1  21D
+  Failed:       1  11D
+  Average:      82/100
+
+COST: $0.0579 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (4 entries)
+------------------------------------------------------------
+  OFFTHERECORD: "Not for release" -> OFFTHERECORD  (missing from definition_answers_augmented)
+  DISINTERESTED: "Just" -> DISINTERESTED  (missing from definition_answers_augmented)
+  STARSTRUCK: begin circling -> STRUCK  (missing from synonyms_pairs)
+  SYNECDOCHE: players mustn't cross -> OCHE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  MYNA = 21 (30/100): AI=hidden, assembled=charade
+  TEA = 24 (45/100): AI=homophone, assembled=charade
+  CONQUER = 6 (45/100): AI=homophone, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (4 clues)
+------------------------------------------------------------
+  ANORAK (90/100): N <- brute force (no clue basis)
+  STRAIGHTFLUSH (90/100): LUSH <- "green" (synonym)
+  COHABITEE (85/100): E <- brute force (no clue basis)
+  ROMANTIC (82/100): M <- "most" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (5)
+------------------------------------------------------------
+  MYNA = 21 (30/100): answer used in own explanation
+  YELLOW = 22 (50/100): answer used in own explanation
+  TEA = 24 (45/100): answer used in own explanation
+  ARDENT = 25 (65/100): answer used in own explanation
+  CONQUER = 6 (45/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (4)
+------------------------------------------------------------
+  MYNA = 21 (30/100): single piece equals full answer; no pieces verified in DB
+  YELLOW = 22 (50/100): no pieces verified in DB
+  TEA = 24 (45/100): single piece equals full answer
+  CONQUER = 6 (45/100): single piece equals full answer
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  11. Not for release, as lesser album tracks can end up being = OFFTHERECORD
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  14/28  5A, 9A, 15A, 16A, 26A, 2D, 3D, 4D, 7D, 8D, 13D, 18D, 19D, 19D
+  Type mismatch:         3  6D, 21D, 24D
+  Fabricated mapping:    4  10A, 12A, 17A, 23A
+  Circular assembly:     5  22A, 25A, 6D, 21D, 24D
+  Unverified explain.:   4  22A, 6D, 21D, 24D
+  DB gap:                4  20A, 1D, 11D, 14D
+  Failed:                1  11D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  SPACEBAR      One often depressed during a long sentence? (5-3)
+                      cryptic definition  [HIGH]
+    1D  STARSTRUCK    Overawed by fame, begin circling middle of massive crowd (10)
+                      STAR(fame) + STRUCK(begin circling)  [HIGH]
+   10A  ANORAK        Artist wearing an adequate coat (6)
+                      A(an) + N + RA(artist) inside OK(adequate)  [HIGH]
+   11D  OFFTHERECORD  Not for release, as lesser album tracks can end up being (3,3,6)
+                      ---  [FAIL]
+   12A  STRAIGHTFLUSH  Hand looking green, perhaps, after this graft goes wrong (8,5)
+                      anagram of THISGRAFT(this graft)+LUSH  [HIGH]
+   13D  RESCHEDULED   Seducer held out and found another date? (11)
+                      delete OUT from SEDUCERHELDOUT(Seducer held out), anagram of SEDUCERHELD  [HIGH]
+   14D  SYNECDOCHE    Figure of speech synchronised, shifting constant line players mustn’t cross (10)
+                      delete CL from SYNCEDCL(synchronised constant line), anagram of SYNCED+OCHE(players mustn't cross)  [MED]
+   15A  RISER         Pipe initially really isn’t secure enough, right? (5)
+                      RISE(really isn't secure enough) + R(right)  [HIGH]
+   16A  LATERALLY     Recent resurgence from one side (9)
+                      delete LY from LATELY(Recent) + RALLY(resurgence)  [HIGH]
+   17A  COHABITEE     Partner’s dependency on firm made trouble ultimately (9)
+                      CO(firm) + HABIT(dependency) + E(trouble ultimately) + E(trouble ultimately)  [HIGH]
+   18D  BASSOON       Be up front — because, shortly, you might blow it (7)
+                      B(Be) + AS(because) + SOON(shortly)  [HIGH]
+   19A  PASSE         Come through close to here on the way out (5)
+                      PASS(Come through) + E(close to here)  [HIGH]
+   19D  PREDAWN       Piece absorbing colour before it gets light (7)
+                      RED(gets) inside PAWN(piece)  [HIGH]
+    2D  AMP           Support for speaker on stage from first-class politician (3)
+                      A(first) + MP(politician)  [HIGH]
+   20A  DISINTERESTED  Just not giving a damn (13)
+                      double definition  [MED]
+   21D  MYNA          Creature that flies some miles up (4)
+                      MYNA(some miles)  [LOW]
+   22A  YELLOW        Cowardly manner in which to express pain? (6)
+                      cryptic definition  [MED]
+   23A  ROMANTIC      Imaginary, fabulous bird eating most of insect (8)
+                      MAN inside ROTIC(fabulous bird)  [HIGH]
+   24D  TEA           Caddy could provide this support for golfer, we’re told (3)
+                      TEA(we're told)  [MED]
+   25A  ARDENT        Passionate, somewhat wayward entrepreneur (6)
+                      hidden in 'wayward entrepreneur'  [MED]
+   26A  EDENTATE      Toothless ex-PM had to follow Thatcher’s lead (8)
+                      EDEN(ex-PM) + T(Thatcher's lead) + ATE(had)  [HIGH]
+    3D  EARLIER       Aristocrat meeting one former queen some time ago (7)
+                      EARL(Aristocrat) + I(one) + ER(former queen)  [HIGH]
+    4D  ANNIHILATING  Hammering thing in with a nail badly (12)
+                      anagram of IN(with)+A(a)+NAIL(nail)+THING(thing)  [HIGH]
+    5A  SCREWY        Eccentric gang occupying the outskirts of Stepney (6)
+                      CREW(gang) inside SY(Stepney)  [HIGH]
+    6D  CONQUER       Best nut, so it’s said (7)
+                      CONQUER(nut)  [MED]
+    7D  EARTHCLOSET   The real cost must be re-worked, for convenience? (5,6)
+                      anagram of THEREALCOST(The real cost)  [HIGH]
+    8D  YOKE          Books regularly checked by the old couple (4)
+                      Y(by) + OK(books) + E(the)  [HIGH]
+    9A  APPARENT      Obvious role of mother, say, following return of father (8)
+                      reverse PA(father) + PARENT(mother)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. One often depressed during a long sentence?
+  Answer: SPACEBAR
+  Tier: Cached | Confidence: 90/100
+  Definition: "One often depressed"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=ACE*,UN,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE*,I,O; sounds=won
+      often: syn=AND,ANY,AYE,LOT,NOW,OFT,ANEW,EACH,EVER,MUCH,OVER,TIME,A LOT,AGAIN,NEWLY
+      depressed: syn=APE,BAD,FEY,LOW,MAD,NOT,ODD,OFF,SAD,WUD,AMOK,BATS,BLUE,DAFT,DARK
+      during: syn=BY,IN,AMID,OVER,PENDING,THROUGH; abbr=IN; ind=container,insertion
+      long: syn=AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC,EVER; abbr=PINE
+      sentence: syn=DOOM,FINE,LIFE,TIME,JUDGE,WORDS,PUNISH,RULING,CONDEMN,FINDING,HOLDING,VERDICT,A PERIOD,JUDGMENT,SPOTTING
+      a long: syn=DO,GO,ON,BED,CON,EYE,FLY,GET,HIE,RIP
+    Definitions:
+      "One often depressed" -> SPACEBAR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 1. Overawed by fame, begin circling middle of massive crowd
+  Answer: STARSTRUCK
+  Tier: Cached | Confidence: 92/100
+  Definition: "Overawed"
+  Wordplay type: charade
+  Components:
+    synonym            fame                      -> STAR
+    synonym            begin circling            -> STRUCK
+  Assembly: charade — STAR(fame) + STRUCK(begin circling)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      overawed: syn=STARSTRUCK*,MARRIED,UNNERVED,DAUNTED BY
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      fame: syn=STAR*,DIS,REP,VIP,GIRD,ICON,LOON,NAME,NOTE,ODOR,POKE,QUIZ,SLAP,ZANY,CELEB
+      begin: syn=GET,SET,DAWN,FALL,FORM,LEAD,MOOT,NEED,OPEN,RICH,ARISE,AROSE,BREAK,COVER,DEBUT
+      circling: syn=ABOUT,CRAZY,CURVY,WINDY,COILED,CURLED,CURVED,JAGGED,SPIRAL,UNEVEN,ZIGZAG,BENDING,COILING,CROOKED,CURLING; ind=anagram?,container
+      middle: syn=LOW,MID,MOB,RAG,TAG,CORE,DEEP,HERD,HERE,MEAN,POOR,ROUT,SCUM,DEPTH,HEART; abbr=M; ind=parts
+      massive: syn=BIG,HUGE,SIZE,GIANT,HEAVY,JUMBO,LARGE,POSSE,IMMENSE,MAMMOTH,COLOSSAL,HERCULEAN,ASTRONOMIC,LARGESCALE,MONUMENTAL
+      crowd: syn=LOT,MOB,SET,ARMY,BIKE,BODY,CLAN,CORE,CRAM,FOLD,GANG,HEFT,HERD,HOST,MASS
+    Definitions:
+      "Overawed" -> STARSTRUCK (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Artist wearing an adequate coat
+  Answer: ANORAK
+  Tier: Cached | Confidence: 90/100
+  Definition: "coat"
+  Wordplay type: container
+  Components:
+    abbreviation       an                        -> A
+    synonym            adequate                  -> OK
+    abbreviation       artist                    -> RA
+  Assembly: container — A(an) + N + RA(artist) inside OK(adequate)
+  Brute gap: +N
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      artist: syn=RA*,ACE,DAB,ONO,PRE,ACES,DALI,EMIN,ETTY,GEEK,GOYA,GURU,HALS,HAND,KLEE; abbr=RA*
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      adequate: syn=OK,FIT,BEST,FINE,GOOD,JAKE,OKAY,TEST,AMPLE,DUCKY,OF AN,BETTER,DECENT,ENOUGH
+      coat: syn=ANORAK*,FUR,MAC,HAIR,PELT,SKIN,WOOL,COVER,ICING,JAPAN,PARKA,SHEET,BEDAUB,ENAMEL,FLEECE; ind=deletion,parts; sounds=cote
+    Definitions:
+      "coat" -> ANORAK (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 11. Not for release, as lesser album tracks can end up being
+  Answer: OFFTHERECORD
+  Tier: --- | Confidence: 0/100
+  Definition: "Not for release"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     lesser album tracks can end -> LESSERALBUMTRACKSCANEND
+  DB Lookups:
+    DB lookups:
+      not: syn=OFF*,SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      release: syn=AD,ADS,CAN,FLY,HIM,BABY,BAIL,BILL,DOOR,EMIT,FILM,FREE,GIVE,PART,PLUG
+      as: syn=OF*,LI,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      lesser: syn=FEW,TWO,LESS,LEAST,LOWER,LOWER IN,SECONDARY
+      album: syn=RECORD*,LP,FIB,HOW,LIE,BOOK,PULP,TALE,TEXT,TOME,WORK,YARN,FABLE,FOLIO,NOVEL
+      tracks: syn=CAPS,CUES,DOGS,ENDS,EYES,GOES,KINS,LAYS,RUNS,TAGS,WAYS,ALBUM,AREAS,BLOOD,CLANS
+      can: syn=A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY,JUG; abbr=C*,TIN; ind=anagram?
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      up: syn=OF*,ERE*,TO,ADD,BAR,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      not for: syn=ANTI
+      end up: syn=CEASE,FINISH,VARNISH,TURN OUT
+    Definitions:
+      "Not for release" -> OFFTHERECORD (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Hand looking green, perhaps, after this graft goes wrong
+  Answer: STRAIGHTFLUSH
+  Tier: Cached | Confidence: 90/100
+  Definition: "Hand"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     this graft                -> THISGRAFT
+  Assembly: anagram — anagram of THISGRAFT(this graft)+LUSH
+  Gap fill: [('green', 'LUSH', 'synonym')]
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      hand: syn=STRAIGHT*,ME,ACE,AID,DAB,JOB,MAN,OLD,SET,USE,WAY,ACES,AIDS,ANON,BLOC
+      looking: syn=GOING,ACTING,AIMING,AIRING,GIVING,MAKING,FEELING,MEANING,RAISING,SEEKING,SEEMING,STATING,VENTING,VOICING,ALLOWING; ind=anagram,reversal
+      green: syn=LUSH*,ECO,ELF,FAY,NEW,RAW,CASH,GOLD,JACK,LAWN,LIME,LONG,NAIF,NOTE,PELF
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T*,TH
+      graft: syn=SHOOT,HARD WORK,CORRUPTION,THE NURSERY,IS HARD WORK,WHATS NEEDED
+      goes: syn=HAS,ACTS,AIMS,AIRS,BETS,CANS,DAMS,DIES,DIPS,DOES,DOGS,EBBS,ENDS,ERRS,EYES; ind=anagram
+      wrong: syn=IT,NO,ATE,BAD,BUG,EAT,GET,GOT,ILL,IRE,IRK,MAD,NOT,OFF,SIN; abbr=TORT,X; ind=anagram
+    Definitions:
+      "Hand" -> STRAIGHTFLUSH (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. Seducer held out and found another date?
+  Answer: RESCHEDULED
+  Tier: Cached | Confidence: 80/100
+  Definition: "found another date"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Seducer held out          -> SEDUCERHELDOUT
+  Assembly: deletion+anagram — delete OUT from SEDUCERHELDOUT(Seducer held out), anagram of SEDUCERHELD
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      seducer: syn=CAD,RAKE,WOLF,FLIRT,CASANOVA,LOTHARIO,WOMANISER
+      held: syn=RULED*,HAD,MET,PUT,RAN,BORN,FELT,KEPT,MADE,BATED,DUPED,KEPT?,RATED,TAMED,BOUGHT; ind=container,hidden
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      found: syn=ATE,DUG,GOT,RAN,SAW,BASE,BEAT,CAME,CAST,GREW,ICED,KNEW,SLEW,TOOK,WENT
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A; ind=anagram
+      date: syn=DAY,RUN,SEE,IDES,LIFE,SAME,TAKE,TIME,AGAIN,COURT,EPOCH,FRUIT,LOVER,MONEY,TRYST; abbr=D*
+    Definitions:
+      "found another date" -> RESCHEDULED (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 14. Figure of speech synchronised, shifting constant line players mustn’t cross
+  Answer: SYNECDOCHE
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Figure of speech"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     synchronised constant line -> SYNCEDCL
+    synonym            players mustn't cross     -> OCHE
+  Assembly: deletion+anagram — delete CL from SYNCEDCL(synchronised constant line), anagram of SYNCED+OCHE(players mustn't cross)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/2 (50%) | fodder_in_clue=missing: ['synchronised constant line']
+  DB Lookups:
+    DB lookups:
+      figure: syn=DO*,MY,OK,A A,BAG,BED,END,FEE,FIX,HOW,ITS,NOT,OPT,PUT,SET
+      speech: syn=RANT,TALK,TERM,WORD,DRONE,IDIOM,LINGO,PITCH,SPIEL,TERMS,WORDS,EULOGY,HOMILY,IDIOMS,MOTHER; ind=homophone
+      synchronised: abbr=synced
+      shifting: syn=MOVE,DOING,HIDING,LACING,MOVING,BASHING,BASTING,BATTING,BEATING,BELTING,ERRATIC,FIBBING,LASHING,LICKING,MAULING; abbr=S*; ind=anagram
+      constant: syn=24,AN,ON,BEST,EVEN,FAST,GOOD,TRUE,FIXED,LOYAL,BETTER,STABLE,STEADY,DURABLE,ENDLESS; abbr=C*,E*
+      line: syn=OCHE*,ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG; abbr=L,RY
+      players: syn=ALSO,CAST,TEAM,OCTET,SQUAD,ACTORS,ELEVEN,FIFERS,CASTLED,OBOISTS,CELLISTS,FORWARDS,ACTRESSES,MUSICIANS,ORCHESTRA; abbr=CAST,P
+      cross: syn=GO,TV,BED,BOX,CUT,MAD,TWO,WAY,ANKH,BOTH,CARD,COME,CRUX,EASY,FORD; abbr=ROOD,X
+      figure of speech: syn=IMAGE,THEME,TROPE,FIGURE
+    Definitions:
+      "Figure of speech" -> SYNECDOCHE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 15. Pipe initially really isn’t secure enough, right?
+  Answer: RISER
+  Tier: Cached | Confidence: 92/100
+  Definition: "Pipe"
+  Wordplay type: charade
+  Components:
+    first_letter       really isn't secure enough -> RISE
+    abbreviation       right                     -> R
+  Assembly: charade — RISE(really isn't secure enough) + R(right)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      pipe: syn=A,CAN,HOY,KEG,TUB,TUG,TUN,VAT,BUTT,CASK,DRUM,DUCT,KEEL,LINE,SING
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      really: syn=BE,BY,SO,FAR,HOW,LOT,TOO,WAY,BONE,DAMN,DANG,EVER,FULL,MOST,MUCH; abbr=SO
+      secure: syn=DO,A A,COP,EYE,GET,LOW,NAB,NET,PAY,RAP,SAD,SET,TIE,USE,WAR; abbr=NAIL; ind=container?
+      enough: syn=OF,OK,OR,ALL,BIT,FAT,NOT,OUT,ABLY,DEAD,EASY,ECHT,EVEN,FAST,FILL
+      right: syn=OK,ON,PC,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT,NOT; abbr=DEXTER,R*,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+    Definitions:
+      "Pipe" -> RISER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Recent resurgence from one side
+  Answer: LATERALLY
+  Tier: Cached | Confidence: 80/100
+  Definition: "from one side"
+  Wordplay type: deletion
+  Components:
+    synonym            Recent                    -> LATELY
+    synonym            resurgence                -> RALLY
+  Assembly: deletion — delete LY from LATELY(Recent) + RALLY(resurgence)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      recent: syn=LATE*,LATELY*,MOD,NEW,NOW,JUST,ONLY,BEING,NEWLY,EXTANT,MODERN,CURRENT,FRESHLY,INSTANT,NOUVEAU
+      resurgence: syn=RALLY*,REVIVAL
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      one: syn=ALL*,UN,ACE,AGE,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      side: syn=LATERAL*,ARC,BAD,OFF,ONE,SET,WAY,ANON,AXIS,BANK,BLOC,BODY,EDGE,EVIL,FACE; abbr=S; sounds=sighed
+    Definitions:
+      "from one side" -> LATERALLY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Partner’s dependency on firm made trouble ultimately
+  Answer: COHABITEE
+  Tier: Cached | Confidence: 85/100
+  Definition: "Partner"
+  Wordplay type: charade
+  Components:
+    synonym            firm                      -> CO
+    synonym            dependency                -> HABIT
+    last_letter        trouble ultimately        -> E
+  Assembly: charade — CO(firm) + HABIT(dependency) + E(trouble ultimately) + E(trouble ultimately)
+  Brute gap: +E
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      dependency: syn=HABIT*,SEA,CITY,ROSS,GREAT,STATE,COLONY,STATES,THEORY,GENERAL,SPECIAL,ADDICTION,ISLEOFMAN
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      firm: syn=CO*,OR,AGE,DIE,ONE,OUT,SET,CARE,EASY,FAST,FEAR,FLAT,GOOD,HARD,IRON; abbr=CO*
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      trouble: syn=ADO,AIL,BID,BOX,BUG,DOG,ILL,NUT,WOO,AS A,CASE,FACT,FEAR,FRET,FUSS; abbr=AIL; ind=anagram
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      dependency on: syn=ADDITION,INCREMENT
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Be up front — because, shortly, you might blow it
+  Answer: BASSOON
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "you might blow it"
+  Wordplay type: charade
+  Components:
+    first_letter       Be                        -> B
+    synonym            because                   -> AS
+    synonym            shortly                   -> SOON
+  Assembly: charade — B(Be) + AS(because) + SOON(shortly)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      front: syn=ACT,AIR,ARC,END,PUT,TOP,VAN,WAY,ACTS,AIRS,AREA,AXIS,BLOC,DESK,FACE; ind=acrostic,parts
+      because: syn=AS*,IS,FOR,HOW,NOW,THAT,WITH,AS IS,AS IT,CAUSE,HENCE,SINCE,DUE TO,SANITY,SEEING; ind=container?
+      shortly: syn=SOON*,BY,AND,ANON,BEFORE,CURTLY,BRIEFLY,CRISPLY,INBRIEF,PITHILY,TERSELY; ind=parts
+      you: syn=YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY; ind=anagram?; sounds=mite
+      blow: syn=BE,DO,GO,IT,ARE,BAT,BOP,BOX,DAB,FLY,HIT,POP,RAP,SEA,SIP
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Come through close to here on the way out
+  Answer: PASSE
+  Tier: Cached | Confidence: 92/100
+  Definition: "on the way out"
+  Wordplay type: charade
+  Components:
+    synonym            Come through              -> PASS
+    last_letter        close to here             -> E
+  Assembly: charade — PASS(Come through) + E(close to here)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      come: syn=PASS*,AM,AT,BE,DO,GO,IS,ACT,ARE,BAG,BED,GET,HAP,LIE,RUN; ind=anagram
+      through: syn=PASS*,BY,DO,IN,OF,ON,TO,UP,ALL,MID,OUT,PER,ROW,SUM,VIA; sounds=threw
+      close: syn=PASS*,BY,GO,IN,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      on: syn=AS*,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      way: syn=PASS*,BE,DO,GO,NO,RD,ST,AIR,ARC,BET,FIT,GET,HAP,HOW,LAG; abbr=RD,ST; ind=anagram; sounds=weigh,whey
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      come through: syn=BULGE
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER
+      the way: abbr=ST
+      the way: syn=ST,AIR,FORM,PATH,STYLE
+      way out: syn=EXIT,QUIT,LEAVE
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Piece absorbing colour before it gets light
+  Answer: PREDAWN
+  Tier: Cached | Confidence: 92/100
+  Definition: "light"
+  Wordplay type: container
+  Components:
+    synonym            piece                     -> PAWN
+    synonym            gets                      -> RED
+  Assembly: container — RED(gets) inside PAWN(piece)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      piece: syn=PAWN*,22,DO,A A,ARM,BAR,BIT,CUT,END,GAT,GUN,JOB,ROD,SIX,USE; ind=hidden; sounds=peace
+      absorbing: syn=BIBBING,BUSYING,GULPING,MEETING,SIPPING,SOAKING,SUPPING; ind=container
+      colour: syn=RED*,HUE,PEA,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI,LEMON
+      before: syn=PRE*,OF,ON,TO,UP,ARC,BOW,ERE,GAS,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE*
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      gets: syn=RED*,BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS; abbr=G,GE
+      light: syn=DAWN*,AT,TO,ALE,ARC,DAY,FEE,LED,LIT,LUX,OIL,RAY,SUN,VIP,WAY; abbr=LAND
+    Definitions:
+      "light" -> PREDAWN (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. Support for speaker on stage from first-class politician
+  Answer: AMP
+  Tier: Cached | Confidence: 100/100
+  Definition: "Support for speaker"
+  Wordplay type: charade
+  Components:
+    abbreviation       first                     -> A
+    synonym            politician                -> MP
+  Assembly: charade — A(first) + MP(politician)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      support: syn=A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE; abbr=AID,BACK,BRA,TEE
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      speaker: ind=homophone
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ; abbr=RE,S
+      stage: syn=AIM,CAB,CUT,FIX,GEL,GIG,LAP,LAY,LEG,PEG,PUT,RIG,SIT,WAY
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      first-class: syn=A1,OK,BIG,FAB,HOT,THE,TOO,TOP
+      first: syn=BIG,EYE,IST,KEY,POP,TOP; abbr=A*,IST; ind=acrostic,parts
+      class: syn=ILK,LOT,LOW,PEG,SET,TOP
+      politician: syn=MP*; abbr=MP*,TORY; ind=container?
+    Definitions:
+      "Support for speaker" -> AMP (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Just not giving a damn
+  Answer: DISINTERESTED
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Just"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      just: syn=DISINTERESTED*,BUT,DUE,ITS,NEW,NOW,YET,BEST,EVEN,FAIR,FIRM,FULL,GOOD,HARD,LATE
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      giving: syn=FREE,WAXY,BENDY,GOING,WAXEN,ACTING,AIMING,AIRING,CARING,CEDING,FEMALE,HAVING,LIMBER,MAKING,MOTHER; ind=anagram
+      damn: syn=HER,HIS,HOW,LOT,OUT,TOO,WAY,BARE,BODY,BONE,DANG,DEAD,EVER,FAIR,FLAT; sounds=dam
+      giving a: syn=DESCRIBING,EXPLAINING
+  ----------------------------------------------------------------------
+
+  [LOW] 21. Creature that flies some miles up
+  Answer: MYNA
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "Creature that flies"
+  Wordplay type: hidden
+  Components:
+    hidden             some miles                -> MYNA
+  Assembly: charade — MYNA(some miles)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      creature: syn=ASS,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,NUN,OWL,PIG,SON,BABY,BEAU
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      flies: syn=HIES,JETS,LAMS,MOVE,NIPS,RAMS,RIPS,ROAD,RUNS,ZIPS
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A*,PART,S; ind=hidden; sounds=sum
+      miles: syn=AFAR,LONG,RACE,UNIT; abbr=M*
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+    Definitions:
+      "Creature that flies" -> MYNA (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 22. Cowardly manner in which to express pain?
+  Answer: YELLOW
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Cowardly"
+  Wordplay type: cryptic_definition
+  Components:
+    synonym            manner in which to express pain -> YELLOW
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      cowardly: syn=YELLOW*,AFRAID,CRAVEN
+      manner: syn=AIR,HOW,WAY,CAST,FORM,KIND,LIKE,NICK,RITE,SHOT,SORT,TACK,TRIM,TYPE,A CAP; sounds=manor
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      which: syn=QUI,THAT,WHAT,POETRY; sounds=witch
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      express: syn=2,IS,AIR,BED,ODD,PUT,SAY,SET,WAY,AIRS,BODY,FAST,GIVE,LOOK,MEAN
+      pain: syn=SO,GYP,WOE,ACHE,CARE,HEED,HURT,PANG,PEST,RACK,WORK,ACHES,AGONY,COLIC,LABOR; abbr=ACHE; sounds=pane
+      in which: syn=HERE
+    Definitions:
+      "Cowardly" -> YELLOW (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Imaginary, fabulous bird eating most of insect
+  Answer: ROMANTIC
+  Tier: Cached | Confidence: 82/100
+  Definition: "Imaginary"
+  Wordplay type: container
+  Components:
+    synonym            fabulous bird             -> ROTIC
+    deletion           insect                    -> AN [ANT, "most"=deletion]
+  Assembly: container — MAN inside ROTIC(fabulous bird)
+  Gap fill: [('most', 'M', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      imaginary: syn=FAUX,MAKE,FAMED,ERSATZ,FABLED,UNREAL,BELIEVE,FANCIED,FICTIVE,MADE-UP,PRETEND,REFINED,STORIED,FABULOUS,FANCIFUL
+      fabulous: syn=A1,OK,BIG,EYE,FAB,HOT,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL
+      bird: syn=MAN*,AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MEW,MOA,OWL,SON; abbr=HEN; sounds=burred
+      eating: syn=GOING,ICING,WRONG,COMING,DINING,EDIBLE,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING; ind=container
+      most: syn=AN*,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      insect: syn=ANT*,O,BEE,BUG,DOR,FLY,SAY,CULT,FLEA,GNAT,MOTH,ZERO,APHID,BEAST,DWARF; abbr=ANT*
+      most of: ind=parts
+    Definitions:
+      "Imaginary" -> ROMANTIC (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 24. Caddy could provide this support for golfer, we’re told
+  Answer: TEA
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Caddy could provide this"
+  Wordplay type: homophone
+  Components:
+    sound_of           we're told                -> TEA
+  Assembly: charade — TEA(we're told)
+  Note: dropped piece 0
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=homophone, assembled=charade | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer
+  DB Lookups:
+    DB lookups:
+      caddy: syn=BIN,BOX,POD,SEA
+      could: syn=MAY; abbr=IS; ind=anagram
+      provide: syn=WAY; abbr=P; ind=anagram
+      this: syn=END,SET,THI; abbr=T*,TH
+      support: syn=A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE; abbr=AID,BACK,BRA,TEE
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      told: syn=PUT; ind=homophone; sounds=tolled
+      could provide: ind=anagram
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 25. Passionate, somewhat wayward entrepreneur
+  Answer: ARDENT
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Passionate"
+  Wordplay type: hidden
+  Components:
+    hidden             wayward entrepreneur      -> ARDENT
+  Assembly: hidden — hidden in 'wayward entrepreneur'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      passionate: syn=ARDENT*,HOT,RED,AVID,KEEN,LEWD,WARM,CRAZY,EAGER,FIERY,HORNY,ITCHY,MATEY,PALSY,RANDY
+      somewhat: syn=OF,OR,BIT,NOT,KIND,LESS,LIKE,MORE,MUCH,SORT,A BIT,A FEW,CLEAN,QUITE,ENOUGH; ind=hidden
+      wayward: syn=BALKY,REBEL,UNRULY,WILFUL; ind=anagram?
+    Definitions:
+      "Passionate" -> ARDENT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 26. Toothless ex-PM had to follow Thatcher’s lead
+  Answer: EDENTATE
+  Tier: Cached | Confidence: 100/100
+  Definition: "Toothless"
+  Wordplay type: charade
+  Components:
+    synonym            ex-PM                     -> EDEN
+    synonym            had                       -> ATE
+    first_letter       Thatcher's lead           -> T
+  Assembly: charade — EDEN(ex-PM) + T(Thatcher's lead) + ATE(had)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      toothless: syn=EDENTATE*
+      ex-pm: syn=EDEN*
+      ex: syn=PERUSED,OLDFLAME
+      pm: syn=EDEN*,KEIR,PITT,DERBY,HEATH,SUNAK,ATTLEE,ASQUITH,AUTOPSY,BALDWIN,TRUDEAU,WALPOLE,AISQUITH,DISRAELI,IRONLADY
+      had: syn=ATE*,DUG,GOT,MET,SAW,BODE,BORE,BORN,FELT,HELD,KNEW,MADE,SEEN,TOOK,WENT; abbr=ATE*,HA
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      follow: syn=DO,GO,UP,BED,CUT,DOG,EYE,RUN,TAG,WAY,BOTH,CODA,EASY,HANG,HEAD
+      lead: syn=GO,BED,CON,CUE,LAY,LIE,RUN,TIP,TOP,VAN,WAY,BAIT,BEAR,BORN,BOSS; abbr=L,PB; ind=acrostic,parts; sounds=led
+      to follow: syn=TAIL
+    Definitions:
+      "Toothless" -> EDENTATE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Aristocrat meeting one former queen some time ago
+  Answer: EARLIER
+  Tier: Cached | Confidence: 95/100
+  Definition: "some time ago"
+  Wordplay type: charade
+  Components:
+    synonym            Aristocrat                -> EARL
+    abbreviation       one                       -> I
+    abbreviation       former queen              -> ER
+  Assembly: charade — EARL(Aristocrat) + I(one) + ER(former queen)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      aristocrat: syn=EARL*,BLUE,BARON,NOBLE,BARONET,GRANDEE
+      meeting: syn=GO,GET,PAY,TIE,BEAR,BIDE,DATE,FACE,FILL,FIND,FOOT,HACK,KEEP,QUIT,TAKE
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      former: syn=EARLIER*,EX,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST; abbr=EX,OLD
+      queen: syn=ER*,QU,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE,ARCHER,ELLERY; abbr=ER*,HER,HM,Q,QU,R*
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A*,PART,S; ind=hidden; sounds=sum
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      ago: syn=EARLIER*,BACK,PAST,SINCE; ind=container?
+      former queen: syn=CITY,QUEEN,CAPITAL,ELEANOR,JULIANA
+      some time: syn=JUNE,WOMAN
+    Definitions:
+      "some time ago" -> EARLIER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Hammering thing in with a nail badly
+  Answer: ANNIHILATING
+  Tier: Cached | Confidence: 100/100
+  Definition: "Hammering"
+  Wordplay type: anagram
+  Components:
+    synonym            with                      -> IN
+    literal            a                         -> A
+    literal            nail                      -> NAIL
+    literal            thing                     -> THING
+  Assembly: anagram — anagram of IN(with)+A(a)+NAIL(nail)+THING(thing)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hammering: syn=BODY,TASK,DOING,HIDING,LACING,TONGUE,BASHING,BASTING,BATTING,BEATING,BELTING,FIBBING,LASHING,LICKING,MAULING
+      thing: syn=ACT,AIM,BAG,BOD,BOY,CAT,EGG,END,GET,GUY,HAP,JOE,LAD,MAN,SON; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      with: syn=IN*,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      nail: syn=BAG,BOB,BOX,COP,DIG,FIX,GET,HIT,NAB,NET,PIN,RAP,TAG,ZAP,BILL
+      badly: syn=AY,SO,BAD,FAR,HOW,ILL,LOT,TOO,WAY,WOE,ALAS,BONE,DAMN,DANG,EVER; ind=anagram
+      with a: syn=SEA GOD
+    Definitions:
+      "Hammering" -> ANNIHILATING (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Eccentric gang occupying the outskirts of Stepney
+  Answer: SCREWY
+  Tier: Cached | Confidence: 92/100
+  Definition: "Eccentric"
+  Wordplay type: container
+  Components:
+    first_letter       Stepney                   -> SY
+    synonym            gang                      -> CREW
+  Assembly: container — CREW(gang) inside SY(Stepney)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      eccentric: syn=APE,CAM,FEY,MAD,NUT,ODD,OFF,RUM,WUD,AMOK,BATS,BOHO,CARD,DAFT,EDGY; ind=anagram
+      gang: syn=CREW*,LOT,SET,BAND,BODY,JETS,RING,TASK,TEAM,A LOT,CLASS,CROWD,GROUP,MAFIA,PARTY
+      occupying: ind=container,insertion
+      the: syn=SCREWY*,LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED; abbr=T,TH,UP,YE
+      outskirts: ind=container,deletion,parts
+    Definitions:
+      "Eccentric" -> SCREWY (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 6. Best nut, so it’s said
+  Answer: CONQUER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Best"
+  Wordplay type: homophone
+  Components:
+    sound_of           nut                       -> CONQUER
+  Assembly: charade — CONQUER(nut)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=homophone, assembled=charade | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer
+  DB Lookups:
+    DB lookups:
+      best: syn=CONQUER*,A,AI,OK,ACE,ALL,APT,BUY,CAP,FAT,FIT,GET,OWN,SEE,TOP
+      nut: syn=BUG,FAN,GIT,BERK,BOHO,BUFF,BUTT,CASE,FOOL,HALF,HEAD,KOOK,SIMP,TRUE,WHAT
+      so: syn=ON*,BY,OK,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET,ALSO; sounds=sew,sow
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED,ALLEGED,ASSUMED,AVERRED,CLOTHED,COUCHED,INTONED; ind=homophone
+      it’s said: ind=homophone
+    Definitions:
+      "Best" -> CONQUER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. The real cost must be re-worked, for convenience?
+  Answer: EARTHCLOSET
+  Tier: Cached | Confidence: 100/100
+  Definition: "convenience"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     The real cost             -> THEREALCOST
+  Assembly: anagram — anagram of THEREALCOST(The real cost)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      real: syn=GO,SO,BAG,BUG,COP,DIG,FAR,HOW,IRK,LOT,NAB,NOT,RUN,SEE,TOO; sounds=reel
+      cost: syn=GO,BED,FEE,RUN,VIP,WAY,ANTE,BOOK,CAST,EASY,FACE,FORM,GARB,HANG,HEAD
+      must: syn=DO,EYE,BEST,HAVE,NEED,NONE,GOTTA,SHALL,DEMAND,SHOULD,NEW WINE,CONDITION,ESSENTIAL,HAS TO BE,NECESSITY
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      re: syn=AG,DE,ONTAP,TO SHIP,COMEBACK
+      worked: syn=DID,DUG,GOT,HIT,PUT,RAN,SAW,WON,BORE,BRED,DREW,FELT,KNEW,MADE,RISE; ind=anagram
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      convenience: syn=BOD,BOG,BUG,CAN,DAM,EGG,FAN,LOO,NOB,SUM,BATH,BENT,BUFF,DIKE,DUCK
+      must be: ind=anagram
+    Definitions:
+      "convenience" -> EARTHCLOSET (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. Books regularly checked by the old couple
+  Answer: YOKE
+  Tier: Cached | Confidence: 97/100
+  Definition: "couple"
+  Wordplay type: charade
+  Components:
+    last_letter        by                        -> Y
+    last_letter        the                       -> E
+    alternate_letters  books                     -> OK
+  Assembly: charade — Y(by) + OK(books) + E(the)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      books: syn=NT,OT,HOW,LIT,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS; abbr=NT,OT,B,TOME
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH; ind=parts
+      checked: syn=MET,RAN,HELD,KEPT
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      couple: syn=YOKE*,DUO,FEW,OWT,TIE,TWO,DUET,DYAD,FUSE,HOOK,ITEM,JOIN,LINK,MATE,NOWT
+    Definitions:
+      "couple" -> YOKE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. Obvious role of mother, say, following return of father
+  Answer: APPARENT
+  Tier: Cached | Confidence: 100/100
+  Definition: "Obvious"
+  Wordplay type: reversal
+  Components:
+    synonym            father                    -> PA
+    synonym            mother                    -> PARENT
+  Assembly: reversal — reverse PA(father) + PARENT(mother)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      obvious: syn=APPARENT*,BALD,FAIR,FREE,LAST,OPEN,RANK,SURE,BROAD,CLEAR,GROSS,LUCID,OVERT,PLAIN,SHINY
+      role: syn=DO,ACT,APE,CUT,DID,END,HAM,JOB,USE,ACME,ACTS,APED,APES,APEX,BELT; sounds=roll
+      mother: syn=PARENT*,BE,MA,DAM,MOM,MUM,NUN,RAW,SOD,BARE,BEAR,BORN,CARE,DEAN,DROP; abbr=M,MA
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      following: syn=BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH,AFTER; abbr=F; ind=anagram?
+      return: syn=NET,PAY,WAY,BEAR,BORN,COME,GAIN,GIVE,TIME,GIVES,LUCRE,PLACE,REPLY,YIELD,A GOOD; ind=reversal
+      father: syn=PA*,PARENT*,FR,DAD,GET,GOD,GUV,NUN,OLD,PAL,POP,ABBA,ABBÉ,ALLY,CHUM; abbr=F,FR,PA*,SIRE
+    Definitions:
+      "Obvious" -> APPARENT (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

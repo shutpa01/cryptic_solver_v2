@@ -1,0 +1,76 @@
+{
+  "source": "telegraph",
+  "puzzle": "31178",
+  "stats": {
+    "total": 32,
+    "assembled": 28,
+    "high": 22,
+    "medium": 5,
+    "low": 1,
+    "failed": 4,
+    "avg_score": 84.14285714285714
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "US city",
+      "answer": "Baltimore",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "US city extra supportive of a spin-off of Indian cuisine",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dainty",
+      "answer": "EDUCATED",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "As he left the Sorbonne, le duc ate dainty sandwiches",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "trouble",
+      "answer": "AGGRO",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Deleted content of appalling Grok – endless trouble",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Room",
+      "answer": "LATITUDE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Room height, length raised",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Go into",
+      "answer": "ENTER",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Go into two hospital departments",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "busy",
+      "letters": "ON",
+      "answer": "LESSON",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Period at school not as busy?",
+      "score": 70
+    }
+  ]
+}

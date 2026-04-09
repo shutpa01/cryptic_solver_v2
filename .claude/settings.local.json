@@ -22,7 +22,23 @@
       "WebFetch(domain:crosswordgenius.com)",
       "WebFetch(domain:www.crosswordgenius.com)",
       "WebFetch(domain:www.crosswordunclued.com)",
-      "WebFetch(domain:bestforpuzzles.com)"
+      "WebFetch(domain:bestforpuzzles.com)",
+      "WebFetch(domain:edition.independent.co.uk)",
+      "WebFetch(domain:docs.pugpig.com)",
+      "WebFetch(domain:business.puzzler.com)",
+      "WebFetch(domain:puzzles.independent.co.uk)",
+      "WebFetch(domain:amuselabs.com)",
+      "WebFetch(domain:amuselabs.github.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.dailymail.co.uk)",
+      "WebFetch(domain:puzzles.dailymail.co.uk)",
+      "WebFetch(domain:www.mailplus.co.uk)",
+      "WebFetch(domain:api.mailplus.co.uk)",
+      "WebFetch(domain:appdailymailplus.akamaized.net)",
+      "WebFetch(domain:clairesclues.xyz)",
+      "WebFetch(domain:lookup.icann.org)",
+      "WebFetch(domain:justcordelia.com)",
+      "WebFetch(domain:llmrefs.com)"
     ]
   }
 }

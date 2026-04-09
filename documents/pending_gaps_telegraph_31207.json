@@ -1,0 +1,303 @@
+{
+  "source": "telegraph",
+  "puzzle": "31207",
+  "stats": {
+    "total": 32,
+    "assembled": 29,
+    "high": 26,
+    "medium": 2,
+    "low": 1,
+    "failed": 3,
+    "avg_score": 91.89655172413794
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "member of the clergy",
+      "letters": "CURATE",
+      "answer": "ACCURATE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Exact chapter covered by a member of the clergy",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "this,",
+      "letters": "OFF",
+      "answer": "on and off",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Donna could be this, periodically",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "vessels",
+      "letters": "CANS",
+      "answer": "OCEANS",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Old vessels crossing eastern waters",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "person requiring medical care",
+      "letters": "PATIENT",
+      "answer": "IMPATIENT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "One masculine person requiring medical care is aching",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "recording",
+      "letters": "CD",
+      "answer": "CEASED",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Stopped recording, possibly, keeping calm",
+      "score": 52
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "garden tool -",
+      "letters": "RAKE",
+      "answer": "DRAKE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Finally lobbed garden tool – duck!",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "large",
+      "letters": "FAT",
+      "answer": "FRIGATE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Formation of masts, sails, etc, in large European ship",
+      "score": 30
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "masts, sails, etc",
+      "letters": "RIG",
+      "answer": "FRIGATE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Formation of masts, sails, etc, in large European ship",
+      "score": 30
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "not working",
+      "answer": "IDLE",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Somewhat timid leader's not working",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Avoids",
+      "answer": "MISSES",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Avoids girls",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Prison",
+      "answer": "STIR",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Prison commotion",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "nanny",
+      "answer": "NURSEMAID",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Sister angry about current nanny",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "selected",
+      "answer": "CHOSE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Conservative underwear is selected",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "train",
+      "answer": "EXPRESS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Old, smooth type of train",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "signals",
+      "answer": "GESTURES",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Doctor greets us making signals",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Raised",
+      "answer": "REARED",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Raised concerning answer with socialist",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Find",
+      "answer": "DISCOVER",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Find out record with six balls?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "weight",
+      "answer": "EMPHASIS",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Same hips, different weight",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Exact",
+      "answer": "ACCURATE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Exact chapter covered by a member of the clergy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "boring",
+      "answer": "DRILL",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Day on river, under the weather – this could be boring",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "periodically",
+      "answer": "on and off",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Donna could be this, periodically",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "waters",
+      "answer": "OCEANS",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Old vessels crossing eastern waters",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "is aching",
+      "answer": "IMPATIENT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "One masculine person requiring medical care is aching",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Guy's",
+      "answer": "TAUNT",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Guy's tango with female relative",
+      "score": 52
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "newspaper pieces",
+      "answer": "ARTICLES",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Anthea potentially has three of these newspaper pieces",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "duck!",
+      "answer": "DRAKE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Finally lobbed garden tool – duck!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "suit",
+      "answer": "SPADES",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Sunglasses husband exchanged for shop's last suit",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Most important",
+      "answer": "PRINCIPAL",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Most important rule we're told",
+      "score": 0
+    }
+  ]
+}

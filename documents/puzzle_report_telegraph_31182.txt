@@ -1,0 +1,858 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31182
+Generated: 2026-03-09 08:03:14
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        30/32 (93%)
+    Sonnet:         30
+    DB Fallback:    0
+    Cached (no API): 29
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   15  1A, 1D, 10A, 12A, 14A, 14D, 15D, 17D, 2D, 21D, 23D, 24A, 29A, 3A, 9D
+  Medium (40-79): 13  11A, 16A, 18D, 19A, 20A, 22A, 24D, 25D, 26A, 27A, 4D, 5D, 8D
+  Low (<40):    2  13A, 7D
+  Failed:       2  28A, 6D
+  Average:      76/100
+
+COST: $0.0212 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (24 entries)
+------------------------------------------------------------
+  Auden: "Poet's" -> Auden  (missing from definition_answers_augmented)
+  BRUTALISM: "architectural style" -> BRUTALISM  (missing from definition_answers_augmented)
+  PARAMOUNT: "Superior" -> PARAMOUNT  (missing from definition_answers_augmented)
+  PROSPERED: "did well" -> PROSPERED  (missing from definition_answers_augmented)
+  COMEDIANS: "stand-ups" -> COMEDIANS  (missing from definition_answers_augmented)
+  SHOEHORN: "Might this help you get into Oxford?" -> SHOEHORN  (missing from definition_answers_augmented)
+  ASLEEP: "No longer conscious" -> ASLEEP  (missing from definition_answers_augmented)
+  MANIFESTO: "list of policies" -> MANIFESTO  (missing from definition_answers_augmented)
+  LAPSE: "Error of judgement" -> LAPSE  (missing from definition_answers_augmented)
+  LABS: "Where scientists might be found" -> LABS  (missing from definition_answers_augmented)
+  UNDER: "Fewer" -> UNDER  (missing from definition_answers_augmented)
+  The Tempest: "Play" -> The Tempest  (missing from definition_answers_augmented)
+  ENNOBLES: "Gives honour to" -> ENNOBLES  (missing from definition_answers_augmented)
+  Icarus: "Ill-fated high-flier's" -> Icarus  (missing from definition_answers_augmented)
+  DISMANTLE: "take apart" -> DISMANTLE  (missing from definition_answers_augmented)
+  steam iron: "that could neaten clothes" -> steam iron  (missing from definition_answers_augmented)
+  REINFORCE: restriction -> REIN  (missing from synonyms_pairs)
+  REINFORCE: supporting -> FOR  (missing from synonyms_pairs)
+  UNDER: foreign -> UN  (missing from synonyms_pairs)
+  UNDER: articles -> DER  (missing from synonyms_pairs)
+  Edinburgh: hired gun -> EDINBURG  (missing from synonyms_pairs)
+  The Tempest: a particular -> TEMPEST  (missing from synonyms_pairs)
+  DISMANTLE: Mostly awful -> DIS  (missing from synonyms_pairs)
+  Iran: was -> RAN  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (4)
+------------------------------------------------------------
+  SNIPE = 11 (50/100): answer used in own explanation
+  ETHOS = 25 (65/100): answer used in own explanation
+  Icarus = 5 (65/100): answer used in own explanation
+  ALIBI = 7 (30/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (7)
+------------------------------------------------------------
+  SNIPE = 11 (50/100): no pieces verified in DB
+  BRUTALISM = 13 (35/100): no pieces verified in DB
+  THEORIES = 18 (70/100): no pieces verified in DB
+  LABS = 24 (55/100): no pieces verified in DB
+  UNDER = 26 (55/100): no pieces verified in DB
+  Edinburgh = 27 (70/100): no pieces verified in DB
+  ALIBI = 7 (30/100): single piece equals full answer; no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  steam iron = 8 (75/100): def="that could neaten clothes" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  28. Play a particular English politician in audition = The Tempest
+  6. Mostly awful religious books the French take apart = DISMANTLE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  8/32  3A, 10A, 16A, 19A, 29A, 1D, 1D, 23D
+  Circular assembly:     4  11A, 5D, 7D, 25D
+  Unverified explain.:   7  11A, 13A, 26A, 27A, 7D, 18D, 24D
+  Weak definition:       1  8D
+  DB gap:                18  12A, 13A, 20A, 22A, 26A, 27A, 28A, 2D, 4D, 5D, 6D, 8D, 9D, 14D, 15D, 17D, 21D, 24D
+  Failed:                2  28A, 6D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  RACY          Blue fish catching cold (4)
+                      C(cold) inside RAY(fish)  [HIGH]
+    1D  RUMBA         Dance with game business graduate (5)
+                      RU(game) + MBA(business graduate)  [HIGH]
+   10A  MEMORANDA     Notes Mike and Lisa finally going around capital, towards the west (9)
+                      delete N from AND(and), anagram of MEAN(the)+AD+M(mike)+OR(finally)  [HIGH]
+   11A  SNIPE         From a distance, shoot bird (5)
+                      double definition  [MED]
+   12A  Auden         Poet's gold study (5)
+                      AU(gold) + DEN(study)  [HIGH]
+   13A  BRUTALISM     British muralist's confused architectural style (9)
+                      delete S from BMURALISTS(British muralist's), anagram of BMURALIST  [LOW]
+   14A  pea green     Writer receiving consent for colour of boat in nonsense poem (3,5)
+                      AGREE(consent) inside PEN(writer)  [HIGH]
+   14D  PARAMOUNT     Superior standard quantity (9)
+                      PAR(standard) + AMOUNT(quantity)  [HIGH]
+   15D  REINFORCE     Strengthen restriction supporting church (9)
+                      REIN(restriction) + FOR(supporting) + CE(church)  [HIGH]
+   16A  STUPOR        Run over, sits back in daze (6)
+                      STIS(sits back) - IS + O(over)  [MED]
+   17D  PROSPERED     Respectable editor, ringing Head of Sales, did well (9)
+                      S(Head of Sales) inside PROPER(respectable) + ED(editor)  [HIGH]
+   18D  THEORIES      Politicians pinching that man's ideas (8)
+                      HE(that man's) inside TORIES(Politicians)  [MED]
+   19A  Russia        Old German state's leader leaves country (6)
+                      delete P from PRUSSIA  [MED]
+    2D  COMEDIANS     Function bored by average stand-ups (9)
+                      MEDIAN(average) inside COS(function)  [HIGH]
+   20A  SHOEHORN      Might this help you get into Oxford? (8)
+                      cryptic definition  [MED]
+   21D  ASLEEP        No longer conscious of snake taking shelter (6)
+                      LEE(shelter) inside ASP(snake)  [HIGH]
+   22A  MANIFESTO     Soften aim after rewriting list of policies (9)
+                      anagram of SOFTEN+AIM  [MED]
+   23D  NUDGE         Prompt northern extremists to abandon budget (5)
+                      N(northern) + UDGE(budget)  [HIGH]
+   24A  LAPSE         Error of judgement in large part of church (5)
+                      L(large) + APSE(part of church)  [HIGH]
+   24D  LABS          Where scientists might be found with initially loose stomach muscles (4)
+                      L(initially loose) + ABS(stomach muscles)  [MED]
+   25D  ETHOS         Greet host, holding spirit (5)
+                      hidden in 'greET HOSt,'  [MED]
+   26A  UNDER         Fewer than two foreign articles (5)
+                      UN(foreign) + DER(articles)  [MED]
+   27A  Edinburgh     Bishop captured by hired gun running city (9)
+                      EDINBURG(hired gun) + H(bishop)  [MED]
+   28A  The Tempest   Play a particular English politician in audition (3,7)
+                      ---  [FAIL]
+   29A  ODES          Barely modest lyric poems (4)
+                      double definition  [HIGH]
+    3A  behind bars   In prison, criminal bribed Hans (6,4)
+                      anagram of BRIBEDHANS(bribed Hans)  [HIGH]
+    4D  ENNOBLES      Gives honour to Lennon, ablest to ignore all outsiders (8)
+                      ENN(lennon) + O(outsiders) + strip outer letters from ABLEST(ablest)  [MED]
+    5D  Icarus        Ill-fated high-flier's letters from America rushed (6)
+                      hidden in 'amerICA RUShed'  [MED]
+    6D  DISMANTLE     Mostly awful religious books the French take apart (9)
+                      ---  [FAIL]
+    7D  ALIBI         Defence of library blocking ChatGPT? (5)
+                      ALIBI(library blocking ChatGPT)  [LOW]
+    8D  steam iron    New order for marines to implement that could neaten clothes? (5,4)
+                      anagram of MARINESTO(marines to)  [MED]
+    9D  Iran          I was in charge of country (4)
+                      I(I) + RAN(was)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Blue fish catching cold
+  Answer: RACY
+  Tier: Cached | Confidence: 100/100
+  Definition: "Blue"
+  Wordplay type: container
+  Components:
+    synonym            fish                      -> RAY
+    abbreviation       cold                      -> C
+  Assembly: container — C(cold) inside RAY(fish)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      blue: syn=RACY*,A,AGE,BAD,EON,FAB,HOT,LOW,NOT,OFF,SAD,SEA,SKY,TOP,A-OK; sounds=blew
+      fish: syn=RAY*,AHI,BOD,BOX,BOY,CAT,COD,DAB,EEL,EGG,FIX,GAR,GUY,IDE,JAM; abbr=GAR,IDE,LING,RAY
+      catching: ind=container
+      cold: syn=A1,BAT,BIG,BOP,CUT,DIS,FAB,HIT,ICY,LOW,PAN,RAM,RAP,TAP,ZAP; abbr=C*
+    Definitions:
+      "Blue" -> RACY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 1. Dance with game business graduate
+  Answer: RUMBA
+  Tier: Cached | Confidence: 100/100
+  Definition: "Dance"
+  Wordplay type: charade
+  Components:
+    abbreviation       game                      -> RU
+    synonym            business graduate         -> MBA
+  Assembly: charade — RU(game) + MBA(business graduate)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dance: syn=RUMBA*,BOP,CHA,HOP,JIG,ONE,BALL,FOOT,HULA,JIVE,LIMB,PASO,PROM,REEL,SHAG; abbr=BALL; ind=anagram
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      game: syn=RU*,GO,LI,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA,BOUT; abbr=GO,RU*; ind=anagram
+      business: syn=CO,ADO,AIM,CUT,END,JOB,TWO,USE,AREA,AS A,BELT,CARE,DESK,DUTY,FACT; abbr=CO
+      graduate: syn=BA*,MA; abbr=BA*,MA
+      business graduate: syn=MBA*
+    Definitions:
+      "Dance" -> RUMBA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Notes Mike and Lisa finally going around capital, towards the west
+  Answer: MEMORANDA
+  Tier: Cached | Confidence: 80/100
+  Definition: "Notes"
+  Wordplay type: anagram
+  Components:
+    synonym            the                       -> MEAN
+    literal            and                       -> AND
+    first_letter       mike                      -> M
+    synonym            finally                   -> OR
+  Assembly: deletion+anagram — delete N from AND(and), anagram of MEAN(the)+AD+M(mike)+OR(finally)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      notes: syn=MEMORANDA*,MEMO*,DOGS,EYES,GOES,RUNS,TAGS,FLATS,HEEDS,MEMOS,MINDS,NAMES,CHASES,COVERS,EMAILS; abbr=A*,B,C,D*,DO,E*,F,FA,G,LA,MI,N*,NB,RE,SI,SO,SOL,TE,TI
+      mike: syn=MIC; abbr=M*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      lisa: syn=WOMAN
+      finally: syn=OR*,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      going: syn=ON,RAY,WAY,BEAM,EXIT,FAST,GLOW,HALO,JUMP,LEAP,LIVE,STEP,ALIVE,BLAZE,BOUND; ind=anagram,reversal
+      around: syn=OR*,BY,CA,IN,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      capital: syn=MEAN*,A1,MY,OK,BIG,EYE,FAB,HOT,HUB,KEY,THE,TOO,TOP,A-OK,ARCH; abbr=BERLIN,EDINBURGH,LONDON,MADRID,PARIS,ROME; ind=acrostic,parts; sounds=capitol
+      towards: syn=AS,OF,ON,EAR,HUB,USE,BASE,CAST,CORE,FACE,HEED,LIKE,LOOK,MIND,PEEK; abbr=AT
+      the: syn=MEAN*,LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      west: syn=HEAD,POINT,SEE OR,BEARING,CREAMTEA,OCCIDENT; abbr=W; ind=reversal
+      the west: syn=WEST,OCCIDENT
+    Definitions:
+      "Notes" -> MEMORANDA (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 11. From a distance, shoot bird
+  Answer: SNIPE
+  Tier: Cached | Confidence: 50/100
+  Definition: "bird"
+  Wordplay type: double_definition
+  Components:
+    synonym            From a distance, shoot    -> SNIPE
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      distance: syn=WAY,DIRT,DUST,FIEF,GAME,JUNK,LEAD,POOP,SCAT,SOIL,WALK,DRECK,FECES,FIELD,FRONT
+      shoot: syn=NIP*,IT,BAG,DOT,FLY,GAB,GAS,GUN,HIE,JAW,JET,MUG,NIX,POP,RAM; sounds=chute
+      bird: syn=SNIPE*,AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MAN,MEW,MOA,OWL; abbr=HEN; sounds=burred
+      from a distance: syn=AFAR
+    Definitions:
+      "bird" -> SNIPE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Poet's gold study
+  Answer: Auden
+  Tier: Cached | Confidence: 85/100
+  Definition: "Poet's"
+  Wordplay type: charade
+  Components:
+    abbreviation       gold                      -> AU
+    synonym            study                     -> DEN
+  Assembly: charade — AU(gold) + DEN(study)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      poet's: syn=AUDEN*,OVID,A,POE,BARD,EATS,MUSE,OWEN,DANTE,DONNE,ELIOT,HEINE,HOMER,KEATS,LORCA
+      gold: syn=AU*,OR,GOL,LONG,NOTE,UPON,AMBER,AURIC,GREEN,LEGAL,METAL,MONEY; abbr=AU*,OR,or
+      study: syn=DEN*,AUDEN*,CON,HER,HIS,EXAM,FEEL,MUCH,QUIZ,READ,SCAN,SWOT,TEST,VIEW,AUDIT; abbr=CON,READ
+    Definitions:
+      "study" -> Auden (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 13. British muralist's confused architectural style
+  Answer: BRUTALISM
+  Tier: Cached | Confidence: 35/100
+  Definition: "architectural style"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     British muralist's        -> BMURALISTS
+  Assembly: deletion+anagram — delete S from BMURALISTS(British muralist's), anagram of BMURALIST
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      british: syn=BR*,UK,RACE,NATIONA; abbr=B*,BR*
+      muralist's: syn=PAINTER; fodder=MURALISTS(8/9 anagram match)
+      confused: syn=ATE,DUG,GOT,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,LOST,SLEW,TOOK,WENT,ATSEA; ind=anagram
+      style: syn=GO,A A,DUB,FAD,HOT,HOW,TON,WAY,AFRO,BORN,BUZZ,CALL,CAST,CHIC,DASH; ind=anagram; sounds=stile
+      architectural style: syn=BOND,GREEK,IONIC,ORDER
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Writer receiving consent for colour of boat in nonsense poem
+  Answer: pea green
+  Tier: Cached | Confidence: 100/100
+  Definition: "colour"
+  Wordplay type: container
+  Components:
+    synonym            writer                    -> PEN
+    synonym            consent                   -> AGREE
+  Assembly: container — AGREE(consent) inside PEN(writer)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      writer: syn=PEN*,MAN,MOO,NIB,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET,AESOP,DEFOE,ELIOT; abbr=PEN
+      receiving: syn=TAKE,ADMIT,ENTER,TAKING,ENTERING; ind=container
+      consent: syn=AGREE*,OK,THE,LEAVE,ACCEDE,AGREED,AGREES,ASSENT,PERMIT,A GREED,ACCEDES,ASSENTS,LICENSE,SUPPORT,AGREEING
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      colour: syn=PEA*,PEAGREEN*,HUE,RED,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI
+      boat: syn=AT,ARK,ART,BUM,MAN,SUB,ARGO,BUNS,BUTT,DUFF,HAMS,JUNK,KEEL,ROOT,RUMP; abbr=SCOW
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      nonsense: syn=NO,COD,ROT,TWO,BLAH,BOSH,BULL,BUNK,TALK,TOSH,BALLS,FOLLY,TRASH,TRIPE,TRUTH
+      poem: syn=EGY,ODE,SONG,ELEGY,HAIKU,IDYLL,ILIAD,LYRIC,RHYME,VERSE,SONNET,ECLOGUE,ENGLISH,RONDEAU,SESTINA; abbr=ODE
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Superior standard quantity
+  Answer: PARAMOUNT
+  Tier: Cached | Confidence: 85/100
+  Definition: "Superior"
+  Wordplay type: charade
+  Components:
+    synonym            standard                  -> PAR
+    synonym            quantity                  -> AMOUNT
+  Assembly: charade — PAR(standard) + AMOUNT(quantity)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      superior: syn=A1,OK,BIG,FAB,HOT,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL,DONE
+      standard: syn=PAR*,PARA*,PART*,AD,IF,BAR,CUT,RUN,THE,ARIA,FLAG,JACK,MARK,NORM,ROLE
+      quantity: syn=AMOUNT*,A,LOT,POT,SUM,TON,WAD,DEAL,GOBS,HEAP,MANY,MASS,MESS,MUCH,PACK
+  ----------------------------------------------------------------------
+
+  [HIGH] 15. Strengthen restriction supporting church
+  Answer: REINFORCE
+  Tier: Cached | Confidence: 90/100
+  Definition: "Strengthen"
+  Wordplay type: charade
+  Components:
+    synonym            restriction               -> REIN
+    synonym            supporting                -> FOR
+    synonym            church                    -> CE
+  Assembly: charade — REIN(restriction) + FOR(supporting) + CE(church)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      strengthen: syn=REINFORCE*,STEP,BRACE,RALLY,READY,AERATE,ANNEAL,FOLLOW,SEASON,AMPLIFY,ANNEALS,BEEF UP,CONFIRM,RAMP UP,TONE UP
+      restriction: syn=TIE,CURB,CHECK,LIMIT,RESERVE,CLAMPDOWN,CONDITION,RESTRAINT,STRICTURE,WILLPOWER
+      supporting: syn=PRO,DRINK,BEHIND,GIVING,TOTING,BACKING,BEARING,BRACING,CARTING,EARNING,FENCING,FENDING,HAULING,INSTEAD,KEEPING; ind=parts
+      church: syn=CE*,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH,CLOTH; abbr=C*,CE*,CH
+    Definitions:
+      "Strengthen" -> REINFORCE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Run over, sits back in daze
+  Answer: STUPOR
+  Tier: Cached | Confidence: 77/100
+  Definition: "daze"
+  Wordplay type: substitution
+  Components:
+    abbreviation       run                       -> R
+    reversal           sits back                 -> STIS
+    synonym            over                      -> UP
+  Assembly: substitution — STIS(sits back) - IS + O(over)
+  Checks: definition=confirmed in DB | wordplay_type=substitution | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      run: syn=BE,DO,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB,GAS,GET; abbr=R*; ind=anagram?
+      over: syn=UP*,BY,ON,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON,UP*; ind=anagram,reversal
+      sits: syn=IS,PUTS,TAKES,AM,BE,DO,ARE,HAP,LAY,LIE,SET,BEAR,BIDE,BORN,COME
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      daze: syn=STUPOR*,STUN,TRANCE; sounds=days
+      run over: syn=GO,ECHO,STEP,POINT,RECAP,SPEED,REPEAT,REVIEW
+    Definitions:
+      "daze" -> STUPOR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Respectable editor, ringing Head of Sales, did well
+  Answer: PROSPERED
+  Tier: Cached | Confidence: 80/100
+  Definition: "did well"
+  Wordplay type: container
+  Components:
+    synonym            respectable               -> PROPER
+    synonym            editor                    -> ED
+    first_letter       Head of Sales             -> S
+  Assembly: container — S(Head of Sales) inside PROPER(respectable) + ED(editor)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      respectable: syn=PROPER*,OK,BEST,FINE,GOOD,JAKE,JUST,LUSH,NAME,NICE,OKAY,TIDY,BOOMY,DUCKY,MAJOR
+      editor: syn=ED*,OF A,JOURNO,AMENDER,MY BOSS,RUBBISH,FROM THE,JOURNALIS; abbr=ED*
+      ringing: syn=BALD,BARE,ECHO,FAIR,FREE,LAST,LOUD,NEAT,OPEN,PURE,SURE,TIDY,BROAD,CLANG,CLEAN; ind=container
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H,NESS; ind=acrostic,deletion,parts
+      sales: syn=DEALS,PRICE,TRADES,AUCTIONS,DEAL,TRADE,VALUE,BAZAAR,CHARGE,RETAIL,AUCTION; sounds=sail
+      did: syn=SPED*,DUG,GOT,HIT,LAY,PUT,RAN,SAT,SAW,WAS,WON,ACED,BEAT,BILL,BLEW
+      well: syn=AH,HA,IN,LO,MY,NO,OH,OK,SO,AHA,ALL,FIE,FIT,GAD,GEE
+      did well: syn=SHONE,SURGED,THRIVED,EXCELLED
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Politicians pinching that man's ideas
+  Answer: THEORIES
+  Tier: Cached | Confidence: 70/100
+  Definition: "ideas"
+  Wordplay type: container
+  Components:
+    synonym            Politicians               -> TORIES
+    synonym            that man's                -> HE
+  Assembly: container — HE(that man's) inside TORIES(Politicians)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      politicians: syn=MPS,GREENS,SENATE,LIB DEMS,LIBERALS,STATISTS,MP,EURO,GOVE,HUNT,TORY,GREEN,LIBDEM,MACRON,MEMBER; abbr=MP,TORY; ind=container?
+      pinching: syn=MEAN,CHEAP,CLOSE,MINGY,SPARE,THEFT,TIGHT,STINGY,CHINTZY,MISERLY,SPARING,STINTING; ind=container
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH*,YON
+      man's: syn=HE*,HEATH,WASTE,BARREN,DESERT,ED,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY; abbr=AL,DAN,ED,HE*,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      ideas: syn=THEORIES*,AIMS,ENDS,MIND,ROLE,GOALS,MARKS,PLANS,VIEWS,DREAMS,IDEALS,IMAGES,MODELS,POINTS,THINGS
+      that man's: syn=HIS
+    Definitions:
+      "ideas" -> THEORIES (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 19. Old German state's leader leaves country
+  Answer: Russia
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "country"
+  Wordplay type: deletion
+  Assembly: deletion — delete P from PRUSSIA
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      german: syn=GER,OTTO,HEGEL,DIETER,TONGUE; abbr=G
+      state's: syn=IS,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS,AIRS; abbr=AVER; ind=anagram,homophone
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      leaves: syn=COS,HAS,TEA,BAGS,GOES,LETS,OMIT,BEARS,CEDES,CRESS,DROPS,DUMPS,EXITS,FEEDS,FLEES; abbr=GO; ind=deletion
+      country: syn=RUSSIA*,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL; abbr=MALI
+      german state's: syn=REICH
+    Definitions:
+      "country" -> Russia (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. Function bored by average stand-ups
+  Answer: COMEDIANS
+  Tier: Cached | Confidence: 85/100
+  Definition: "stand-ups"
+  Wordplay type: container
+  Components:
+    synonym            function                  -> COS
+    synonym            average                   -> MEDIAN
+  Assembly: container — MEDIAN(average) inside COS(function)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      function: syn=COS*,DO,ACT,CUT,END,FAG,GET,JOB,POP,RUN,SIN,TUG,USE,ACTS,BANG; abbr=DO
+      bored: syn=HIT,TRI,SANK,DIVED,TIRED,BANGED,BASHED,BEDDED,BULLED,BUMPED,DIPPED,FED UP,JAMMED,PUSHED,RAMMED; ind=container; sounds=board
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      average: syn=MEDIAN*,MEAN*,SO,CUT,PAR,RUN,THE,NORM,ANGER,MEAN?,TO BE,COMMON,COURSE,DEMEAN,FACTOR
+      stand-ups: syn=TOP,JUST,PURE,TRUE,ALONE,CLEAN,ERECT,MORAL,NOBLE,PLUMB,STAND,DECENT,HONEST,LIFTED,MODEST
+      stand: syn=COME*,A,AM,BE,DO,GO,IS,OR,AIM,ARE,BAG,FLY,HAP,JUT,LAY
+      ups: syn=DAWNS,FORMS,LIFTS,RISES,SOARS,ARISES,BEGINS,BREAKS,CLIMBS,MOUNTS,RAISES,STARTS,AERATES,APPEARS,ASCENDS; ind=reversal
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Might this help you get into Oxford?
+  Answer: SHOEHORN
+  Tier: Cached | Confidence: 75/100
+  Definition: "Might this help you get into Oxford?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY,STRENGTH; ind=anagram?; sounds=mite
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      help: syn=ME,AID,HIM,MAN,SOS,ABET,AIDS,BACK,BOON,CARE,EASE,FILL,GIRL,HAND,LIFT; abbr=AID
+      you: syn=YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT,BEQUEATH; abbr=U,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      oxford: syn=SHOE*,EIGHT,OF THE; abbr=O*
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. No longer conscious of snake taking shelter
+  Answer: ASLEEP
+  Tier: Cached | Confidence: 85/100
+  Definition: "No longer conscious"
+  Wordplay type: container
+  Components:
+    synonym            snake                     -> ASP
+    synonym            shelter                   -> LEE
+  Assembly: container — LEE(shelter) inside ASP(snake)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      longer: syn=MARK; ind=anagram?
+      conscious: syn=HIP,SET,DEEP,RAPT,WISE,ABOUT,ALERT,ALIVE,AWAKE,AWARE,HEADY,SAVVY,SHARP,SMART,INTENT; ind=container?
+      snake: syn=ASP*,BOA,CAD,CUR,DOG,GUN,HUM,RAT,SOD,SON,BOOR,BRIM,BUZZ,COIL,CRUD
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      shelter: syn=LEE*,FLY,HUT,CASE,HOME,LEAN,TAKE,TENT,TOWN,YURT,BOARD,COVER,HAVEN,HOUSE,IGLOO; abbr=LEE*
+      no longer: abbr=EX
+      no longer: syn=HOT,OLD,DARK,GAGA,ONCE,SOLO,WHEN,AFTER,ANTSY,BLACK
+      conscious of: syn=AWARE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 22. Soften aim after rewriting list of policies
+  Answer: MANIFESTO
+  Tier: Cached | Confidence: 65/100
+  Definition: "list of policies"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     soften aim                -> SOFTENAI
+  Assembly: anagram — anagram of SOFTEN+AIM
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=FAIL: pieces=SOFTENAI answer=MANIFESTO | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soften: syn=MELT,WEAR,RELENT,TEMPER,CUSHION,MACERATE,MODERATE,MODULATE
+      aim: syn=ACT,BUY,END,FIT,GET,SET,BEAR,BEND,CALL,CAST,CULL,GOAL,GRIP,HAVE,HEAD; abbr=END
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      list: syn=ASK,FAT,FEE,PUT,RUN,TIP,BEND,BEST,BOOK,CANT,CARD,COCK,COST,FEES,HEEL
+      policies: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Prompt northern extremists to abandon budget
+  Answer: NUDGE
+  Tier: Cached | Confidence: 96/100
+  Definition: "Prompt"
+  Wordplay type: charade
+  Components:
+    abbreviation       northern                  -> N
+    deletion           budget                    -> UDGE
+  Assembly: charade — N(northern) + UDGE(budget)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      prompt: syn=NUDGE*,DO,JO,A A,ACT,CUE,FAG,RUN,TUG,USE,BOOK,DRAW,FAST,FEED,GRUB
+      northern: syn=TUBE,UPPER; abbr=N*
+      extremists: syn=LEFT,REDS,YOUNG,OF A,TROT,RABID,ULTRA; ind=container?,hidden?,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      abandon: syn=CEDE,DROP,EASE,FROM,KICK,PART,QUIT,DITCH,LEAVE,SCRUB,WAIVE,YIELD; ind=anagram?
+      budget: syn=A,NO,LOW,FUND,GIVE,PLAN,POOL,RATE,ALLOT,CHART,CHEAP,CUPPY,FORCE,FRAME,KITTY
+    Definitions:
+      "Prompt" -> NUDGE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Error of judgement in large part of church
+  Answer: LAPSE
+  Tier: Cached | Confidence: 85/100
+  Definition: "Error of judgement"
+  Wordplay type: charade
+  Components:
+    abbreviation       large                     -> L
+    synonym            part of church            -> APSE
+  Assembly: charade — L(large) + APSE(part of church)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      error: syn=LAPSE*,OLD,BISH,BOOB,SLIP,TRIP,TYPO,AMISS,BOTCH,CRIME,FAULT,WRONG; ind=anagram
+      judgement: syn=FATWA,TASTE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L*,OS
+      part: syn=LAPSE*,DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      church: syn=CE,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH,CLOTH; abbr=C,CE,CH
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+      part of church: syn=APSE*,LANE,NAVE,WING
+    Definitions:
+      "Error" -> LAPSE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 24. Where scientists might be found with initially loose stomach muscles
+  Answer: LABS
+  Tier: Cached | Confidence: 55/100
+  Definition: "Where scientists might be found"
+  Wordplay type: charade
+  Components:
+    first_letter       initially loose           -> L
+    synonym            stomach muscles           -> ABS
+  Assembly: charade — L(initially loose) + ABS(stomach muscles)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE; sounds=ware,wear
+      scientists: syn=SAY,COX,BOHR; ind=anagram,anagram?
+      might: syn=MAY; ind=anagram?; sounds=mite
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      found: syn=ATE,DUG,GOT,RAN,SAW,BASE,BEAT,CAME,CAST,GREW,ICED,KNEW,SLEW,TOOK,WENT
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      initially: syn=FEAR,LOTS; ind=acrostic,deletion,parts
+      loose: syn=LAX,FIRE,FREE,LIMP,SHOT,SICK,TAKE; ind=anagram
+      stomach: syn=A,OR,AIM,MET,TUM,ARMS,BEAR,BORN,CARE,CRAW,FAST,FIVE,LIVE,MEET,SEAT; ind=deletion,parts
+      muscles: syn=ABS*,AB*,ARM,SIX,PECS,DO,A A,LAT,PEC,USE,BEEF,BOOK,LOVE,LUCK,MAIN; abbr=AB*,PEC; ind=anagram?; sounds=mussel
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 25. Greet host, holding spirit
+  Answer: ETHOS
+  Tier: Cached | Confidence: 65/100
+  Definition: "spirit"
+  Wordplay type: hidden
+  Components:
+    hidden             Greet host,               -> ETHOS
+  Assembly: hidden — hidden in 'greET HOSt,'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      greet: syn=HAIL
+      host: syn=ARMY,BIKE,CORE,CRAM,HEFT,HERD,MASS,ROUT,BRUNT,CHIEF,CROWD,CRUSH,DROVE,EMCEE,FLOCK; fodder=HOST(4/5 anagram match)
+      holding: syn=DOOM,FARM,ASSET; ind=container,hidden
+      spirit: syn=ETHOS*,DI,EG,RUM,BRIO,ELAN,GROG,MIND,MOOD,PERI,DEMON,DJINN,DRINK,DRYAD,FAIRY; abbr=GIN,GO,RUM
+    Definitions:
+      "spirit" -> ETHOS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 26. Fewer than two foreign articles
+  Answer: UNDER
+  Tier: Cached | Confidence: 55/100
+  Definition: "Fewer"
+  Wordplay type: charade
+  Components:
+    synonym            foreign                   -> UN
+    synonym            articles                  -> DER
+  Assembly: charade — UN(foreign) + DER(articles)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      than: syn=BAR,BUT,EAT,AIRY,CHAW,CHEW,ELSE,FRET,GNAW,SAVE,SMUG,SUCK,VAIN,CHAMP,COCKY
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      foreign: syn=BORN,ALIEN; abbr=F; ind=anagram
+      articles: syn=THE,ESSAY,ITEMS,PAPER,THEME,WRITE,AN,ITEM,FAITH,PIECE,THING; abbr=A,AN,THE
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Bishop captured by hired gun running city
+  Answer: Edinburgh
+  Tier: Cached | Confidence: 70/100
+  Definition: "city"
+  Wordplay type: charade
+  Components:
+    synonym            hired gun                 -> EDINBURG
+    abbreviation       bishop                    -> H
+  Assembly: charade — EDINBURG(hired gun) + H(bishop)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      bishop: syn=RR,MAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,LORD,MATE,PEER; abbr=B*,DD,RR
+      captured: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,GAVE,KNEW,MADE,QUIT
+      by: syn=IN*,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      hired: syn=FURY,NINJA,ASSASSIN,EMPLOYED
+      gun: syn=ARM,BIG,CAD,CUR,DOG,GAT,ICE,NET,NOB,POP,RAT,REV,ROD,RUN,SIX
+      running: syn=ON,ARM,CARE,FAST,GRIP,HAND,HOLD,LIVE,MOVE,SWAY,A ROW,ALIVE,GOING,GRASP,HANDS; abbr=ON; ind=anagram
+      city: syn=BURG*,EDINBURGH*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+    Definitions:
+      "city" -> Edinburgh (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 28. Play a particular English politician in audition
+  Answer: The Tempest
+  Tier: --- | Confidence: 0/100
+  Definition: "Play"
+  Wordplay type: homophone
+  Components:
+    synonym            a particular              -> TEMPEST
+    sound_of           English politician        -> TEMP EST
+  DB Lookups:
+    DB lookups:
+      play: syn=DO,GO,ACT,BET,BUM,END,FUN,JIG,LAG,LAY,NOH,PUT,TOY,USE,ACTS; ind=anagram
+      particular: syn=OLD,DATA,FACT,FULL,ITEM,NICE,PART,PRIM,DATUM,EXACT,FUSSY,PICKY,POINT,PRIVY,CHOOSY; abbr=PRIM; ind=anagram
+      english: syn=ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT,DANDY; abbr=E*
+      politician: syn=MP*,EURO,GOVE,HUNT,TORY,GREEN,LIBDEM,MACRON,MEMBER,NEOCON,PERSON,LIBERAL,RADICAL,SENATOR,STARMER; abbr=MP*,TORY; ind=container?
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      audition: syn=TEST*,EXAM,QUIZ,FINAL,PROBE,RETEST,REVIEW,CHECKUP,HEARING,INQUIRY,MIDTERM,MIDYEAR,PRETEST,BOARD(S),RESEARCH; ind=homophone
+      a particular: syn=PEST*,INSECT,LOCUST,SERIES,SEQUENCE,STRIPPER,CONTINUUM
+      in audition: ind=homophone
+    Definitions:
+      "Play" -> The Tempest (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 29. Barely modest lyric poems
+  Answer: ODES
+  Tier: Cached | Confidence: 90/100
+  Definition: "lyric poems"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      barely: syn=JUST,SKIN
+      modest: syn=COY,FEW,SHY,ANTI,BARE,DAMN,FLAT,MEEK,PURE,RANK,TOOM,TRUE,VOID; ind=container?
+      lyric: syn=ODE*,LAY,ARIA,PART,POEM,SONG
+      poems: syn=ODES*,ODE*,EGY,SONG; abbr=ODE*
+    Definitions:
+      "poems" -> ODES (definition match)
+      "lyric poems" -> ODES (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. In prison, criminal bribed Hans
+  Answer: behind bars
+  Tier: Cached | Confidence: 100/100
+  Definition: "In prison"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     bribed Hans               -> BRIBEDHANS
+  Assembly: anagram — anagram of BRIBEDHANS(bribed Hans)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      prison: syn=CAN,JUG,BIRD,CAGE,CAIN,GAOL,JAIL,NICK,ODQU,STIR,CLINK,GULAG,LIMBO,COOLER,DEPEND; abbr=NICK,STIR
+      criminal: syn=CON,BENT,EVIL,FISH,HOOD,PERP,THUG,BADDY,CROOK,FELON,FENCE,THIEF,UNDER,BADLOT,BANDIT; abbr=C,CON; ind=anagram
+      bribed: syn=HAD,HELD,DUPED,BOUGHT,BURNED,GAFFED,GULLED,HAD ON,HOAXED,MISLED,NURSED,SNOWED,ALLOWED,BIRTHED,BLUFFED
+      hans: syn=DYNASTY
+      in prison: syn=PENT,CAGED,IMPRISONED
+    Definitions:
+      "In prison" -> behind bars (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 4. Gives honour to Lennon, ablest to ignore all outsiders
+  Answer: ENNOBLES
+  Tier: Cached | Confidence: 62/100
+  Definition: "Gives honour to"
+  Wordplay type: deletion
+  Components:
+    first_letter       outsiders                 -> O
+    alternate_letters  lennon                    -> ENN
+    literal            ablest                    -> ABLEST
+  Assembly: outer_deletion — ENN(lennon) + O(outsiders) + strip outer letters from ABLEST(ablest)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      gives: syn=GO,AIR,HAS,OKS,OUT,PAY,AIRS,BEAR,BEND,BOWS,DIES,DROP,FEED,GOES,HAND; ind=anagram
+      honour: syn=ENNOBLE*,A,MBE,OBE,KEEP,LAUD,AWARD,CROWN,EXTOL,MEDAL,ESTEEM,REVERE,REWARD,SALUTE,ESTEEM:; abbr=H
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      lennon: syn=SINGER
+      ignore: syn=MY,CUT,END,ITS,FAIL,PASS,SKIP,SNUB,TAKE,ANGER,ASIDE,BLANK,FLOUT,REMIT,BYPASS; ind=deletion
+      all: syn=OK,KEY,ONE,OUT,PER,SAY,ABLY,BEST,DEAD,EACH,EASY,EVEN,FAST,FINE,FLAT; abbr=AL,EVERYONE; sounds=awl
+      outsiders: syn=ALIENS,NUT,BOHO,KOOK,ALIEN,CRANK,EIGHT,FREAK,LONER,CODGER,MISFIT,WEIRDO,ANOMALY,DEVIANT,HERETIC; ind=deletion,parts
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 5. Ill-fated high-flier's letters from America rushed
+  Answer: Icarus
+  Tier: Cached | Confidence: 65/100
+  Definition: "Ill-fated high-flier's"
+  Wordplay type: hidden
+  Components:
+    hidden             letters from America rushed -> ICARUS
+  Assembly: hidden — hidden in 'amerICA RUShed'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      ill-fated: syn=LUCK,STAR
+      ill: syn=AY,ART,BAD,NOT,OFF,RUN,WOE,ALAS,BONY,BUSH,DEAD,DOWN,FROM,HARD,HARM; abbr=CROOK,V; ind=anagram
+      high-flier's: syn=ICARUS*,KITE,EAGLE
+      high: syn=OR,UP,BIG,CUT,DIS,ITS,LIT,OFF,PIE,POP,SKY,TOP,WET,ACME,AIRY; abbr=H,UP; ind=anagram; sounds=hi
+      flier's: syn=OWL,TIT,DOVE,ERNE,IBIS,TEST,WREN,EGRET,GREBE,HERON,OUSEL,PLANE,RAVEN,RIDGE,ROBIN
+      letters: syn=POST,OMEGAS,MU,ETA,GEE,INK,PEN,PSI,RHO,TAU,TEA,BETA,CARD,CUSS,IOTA; abbr=A*,B,N; ind=anagram
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      america: syn=US*,USA; abbr=A*,AM,US*,USA
+      rushed: syn=DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,MOVE,SHOT,SPED,TORE,DRIVE,DROVE,FIRED,FLUNG
+  ----------------------------------------------------------------------
+
+  [FAILED] 6. Mostly awful religious books the French take apart
+  Answer: DISMANTLE
+  Tier: --- | Confidence: 0/100
+  Definition: "take apart"
+  Wordplay type: charade
+  Components:
+    synonym            Mostly awful              -> DIS
+    abbreviation       religious books           -> OT
+    abbreviation       the French                -> LE
+  DB Lookups:
+    DB lookups:
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY; ind=deletion,parts
+      awful: syn=SO,EYE,FAR,GUT,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DIRE,EVER,FOUL; ind=anagram
+      religious: syn=HOT,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HOLY,LINE,MATE,MONK,PEER; abbr=R
+      books: syn=NT*,OT,HOW,LIT,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS; abbr=NT*,OT,B,TOME
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      french: syn=FR,DOOR,GATE,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN,NAPOLEON,SWEARING,TRAPDOOR; abbr=DE,FR,LA,LE*,UN
+      take: syn=DISMANTLE*,DIE*,A,DO,GO,OR,ACT,BAG,BUY,CON,COP,CUT,DAY,END,EYE; abbr=T*
+      apart: syn=ACT,AIM,BUY,DIP,EBB,FIT,FIX,GEL,GET,LAY,PUT,SIT,AFAR,AWAY,BEAR
+      religious books: abbr=OT
+      religious books: syn=OT
+      the french: abbr=L*,LA,LE*,LES
+      take apart: syn=DISMANTLE*,STRIP,DESTROY,DEMOLISH,SEPARATE
+    Definitions:
+      "take apart" -> DISMANTLE (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 7. Defence of library blocking ChatGPT?
+  Answer: ALIBI
+  Tier: Cached | Confidence: 30/100
+  Definition: "Defence"
+  Wordplay type: charade
+  Components:
+    hidden             library blocking ChatGPT  -> ALIBI
+  Assembly: charade — ALIBI(library blocking ChatGPT)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      defence: syn=ALIBI*,DYKE
+      library: syn=HERE; abbr=L*
+      blocking: ind=container
+    Definitions:
+      "Defence" -> ALIBI (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. New order for marines to implement that could neaten clothes?
+  Answer: steam iron
+  Tier: Cached | Confidence: 75/100
+  Definition: "that could neaten clothes"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     marines to                -> MARINESTO
+  Assembly: anagram — anagram of MARINESTO(marines to)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      order: syn=DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW,PUT; ind=anagram
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      marines: syn=SAM,FORCE,SOLDIERS,SEA,JOLLY,SOLDIER,COMMANDO,NAUTICAL,SEAWATER,ADMIRALTY,SEAFARING,THALASSIC; abbr=M*,RM; fodder=MARINES(7/9 anagram match)
+      to: syn=STIR*,BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR; ind=reversal; sounds=too,two
+      implement: syn=JIG,USE,BENT,BIAS,BONE,FORK,PAWN,PLAY,PLOY,RUSE,TOOL,TURN,WILE,AGENT,APPLY
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      could: syn=MAY,MIGHT; abbr=IS; ind=anagram
+      neaten: syn=TIDY,GROOM,TIDY UP
+      clothes: syn=KIT,RIG,BETS,BRAG,DUDS,FITS,GARB,GEAR,GOES,LAYS,PUTS,RAGS,SAYS,SETS,TOGS; ind=deletion; sounds=close
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. I was in charge of country
+  Answer: Iran
+  Tier: Cached | Confidence: 92/100
+  Definition: "country"
+  Wordplay type: charade
+  Components:
+    literal            I                         -> I
+    synonym            was                       -> RAN
+  Assembly: charade — I(I) + RAN(was)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      was: syn=DID,LAY,SAT,BORE,CAME,KNEW; abbr=WA
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      charge: syn=DO,GO,MY,SO,ACT,AIR,ARM,ASK,BED,BID,BUY,COP,DIG,FEE,FEW; abbr=C
+      country: syn=IRAN*,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL; abbr=MALI
+      in charge: abbr=IC
+      in charge: syn=IC,CODE,HEAD,HIGH
+    Definitions:
+      "country" -> Iran (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,369 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12310
+Generated: 2026-03-23 08:36:04
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        28/30 (93%)
+    Signature:      3
+    Sig+Enriched:   1
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   24  21?, 29?, 30?, 1?, 11?, 12?, 14?, 15?, 16?, 18?, 19?, 2?, 22?, 23?, 24?, 27?, 28?, 4?, 5?, 6?, 7?, 8?, 9?, 10?
+  Medium (40-79): 3  20?, 26?, 3?
+  Low (<40):    1  25?
+  Failed:       2  13?, 17?
+  Average:      86/100
+
+COST: $0.2802 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (10 entries)
+------------------------------------------------------------
+  THROW: "host" -> THROW  (missing from definition_answers_augmented)
+  STEIN: "mug" -> STEIN  (missing from definition_answers_augmented)
+  PLEASE: "Give me a break" -> PLEASE  (missing from definition_answers_augmented)
+  PAUSE: "Break" -> PAUSE  (missing from definition_answers_augmented)
+  ONTHENAIL: "Now" -> ONTHENAIL  (missing from definition_answers_augmented)
+  BUNFIGHT: "Where" -> BUNFIGHT  (missing from definition_answers_augmented)
+  PLEASE: shelter checks -> LEASE  (missing from synonyms_pairs)
+  ONTHENAIL: likely -> ON  (missing from abbreviations)
+  ONTHENAIL: later -> THEN  (missing from synonyms_pairs)
+  ONTHENAIL: ill -> AIL  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  ONTHENAIL = 25 (-15/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  13. Accept better offer than that of leader with university cour = GAZUMP
+  17. Break hands on the blower = PAUSE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  23/30  20, 30, 1, 11, 2, 12, 22, 23, 4, 14, 24, 5, 15, 6, 16, 26, 7, 27, 8, 18, 28, 9, 19
+  Unverified explain.:   1  25
+  DB gap:                6  3, 10, 17, 21, 25, 29
+  Failed:                2  13, 17
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   21?  THROW         Shy host (5)
+                      THROW (synonym of "Shy"); definition: "host"  [HIGH]
+   29?  STEIN         I sent ugly mug (5)
+                      anagram of ISENT ("I sent") [anagram: "ugly"] = STEIN; definition: "mug"  [HIGH]
+   30?  UFO           Beauford stocks rarely-seen transport (3)
+                      hidden in "Beauford stocks rarely-seen transport"  [HIGH]
+    1?  SPACECADET    s i p (10)
+                      ---  [HIGH]
+   11?  PEREMPTORY    European politician fills in words of Conservative expecting obedience (10)
+                      ---  [HIGH]
+   12?  SOSO          Average broadcasts for audience (4)
+                      ---  [HIGH]
+   14?  IDOLISED      Glorified marriage commitment created falsehood to protect son (8)
+                      ---  [HIGH]
+   15?  OLIO          Variety show that's disappointing group of stars reportedly (4)
+                      ---  [HIGH]
+   16?  WUNDERKIND    Prodigy's flaw ultimately: not good enough! (10)
+                      ---  [HIGH]
+   18?  COFFEETABLE   Wire securing pedal in furniture (11)
+                      ---  [HIGH]
+   19?  CIGARETTE     Desperately target ice burn (9)
+                      ---  [HIGH]
+    2?  DOPE          Take part in school sports sick (4)
+                      ---  [HIGH]
+   20?  DETRAIN       Get off updated version of Tinder adult breaks (7)
+                      ---  [MED]
+   22?  DAL           Left bill over dish (3)
+                      ---  [HIGH]
+   23?  PLOTHOLES     Potentially feature mistakes of learner overwhelmed by street hazards (9)
+                      ---  [HIGH]
+   24?  RAISEASTINK   According to instruction knits article or object? (11)
+                      ---  [HIGH]
+   26?  PUPPYLOVE     Teen's crushing score of zero after pressure at university exhausted possibly (9)
+                      ---  [MED]
+   27?  UTOPIAN       Having plans for Nirvana Kurt regularly moving over to front of instrument (7)
+                      ---  [HIGH]
+   28?  PAPAW         Fruit from food for baby that I find adorable (5)
+                      ---  [HIGH]
+    4?  ROLLON        Soon let's hope for solution to BO (6)
+                      ---  [HIGH]
+    5?  MEME          Shared bit of content egotist's mantra? (4)
+                      ---  [HIGH]
+    6?  ROADWORTHY    Fine for driving Tory Howard when drunk (10)
+                      ---  [HIGH]
+    7?  LOSTIT        Bird following two big signs hit the roof (6)
+                      ---  [HIGH]
+    8?  NUPTIAL       Casually plan suit without head of union (7)
+                      ---  [HIGH]
+    9?  TABLEAU       Picture representing key field essential to agriculture (7)
+                      ---  [HIGH]
+   10?  PLEASE        Give me a break quietly when shelter checks (6)
+                      P (abbreviation of "quietly") + LEASE (synonym of "shelter checks"); definition: "Give me a break"  [HIGH]
+   13?  GAZUMP        Accept better offer than that of leader with university course change withdrawn (6)
+                      ---  [FAIL]
+   17?  PAUSE         Break hands on the blower (5)
+                      ---  [FAIL]
+   25?  ONTHENAIL     Now likely later to become ill (9)
+                      ON(synonym of "likely") + THEN(synonym of "later") + AIL(synonym of "ill")  [LOW]
+    3?  BUNFIGHT      Where Spooner's entertaining with something to eat? (8)
+                      spoonerism of FUN BIGHT → BUN FIGHT  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] THROW  21?. Shy host
+  Answer: THROW
+  Tier: Signature | Confidence: 100/100
+  Definition: "host"
+  Wordplay: charade
+  Explanation: THROW (synonym of "Shy"); definition: "host"
+  ----------------------------------------------------------------------
+
+  [HIGH] STEIN  29?. I sent ugly mug
+  Answer: STEIN
+  Tier: Signature | Confidence: 100/100
+  Definition: "mug"
+  Wordplay: anagram
+  Explanation: anagram of ISENT ("I sent") [anagram: "ugly"] = STEIN; definition: "mug"
+  ----------------------------------------------------------------------
+
+  [HIGH] UFO  30?. Beauford stocks rarely-seen transport
+  Answer: UFO
+  Tier: Signature | Confidence: 80/100
+  Wordplay: hidden
+  Explanation: hidden in "Beauford stocks rarely-seen transport"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SPACECADET  1?. s i p
+  Answer: SPACECADET
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PEREMPTORY  11?. European politician fills in words of Conservative expecting obedience
+  Answer: PEREMPTORY
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SOSO  12?. Average broadcasts for audience
+  Answer: SOSO
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] IDOLISED  14?. Glorified marriage commitment created falsehood to protect son
+  Answer: IDOLISED
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OLIO  15?. Variety show that's disappointing group of stars reportedly
+  Answer: OLIO
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] WUNDERKIND  16?. Prodigy's flaw ultimately: not good enough!
+  Answer: WUNDERKIND
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] COFFEETABLE  18?. Wire securing pedal in furniture
+  Answer: COFFEETABLE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CIGARETTE  19?. Desperately target ice burn
+  Answer: CIGARETTE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DOPE  2?. Take part in school sports sick
+  Answer: DOPE
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DETRAIN  20?. Get off updated version of Tinder adult breaks
+  Answer: DETRAIN
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DAL  22?. Left bill over dish
+  Answer: DAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PLOTHOLES  23?. Potentially feature mistakes of learner overwhelmed by street hazards
+  Answer: PLOTHOLES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RAISEASTINK  24?. According to instruction knits article or object?
+  Answer: RAISEASTINK
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PUPPYLOVE  26?. Teen's crushing score of zero after pressure at university exhausted possibly
+  Answer: PUPPYLOVE
+  Tier: --- | Confidence: 75/100
+  ----------------------------------------------------------------------
+
+  [HIGH] UTOPIAN  27?. Having plans for Nirvana Kurt regularly moving over to front of instrument
+  Answer: UTOPIAN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PAPAW  28?. Fruit from food for baby that I find adorable
+  Answer: PAPAW
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ROLLON  4?. Soon let's hope for solution to BO
+  Answer: ROLLON
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MEME  5?. Shared bit of content egotist's mantra?
+  Answer: MEME
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ROADWORTHY  6?. Fine for driving Tory Howard when drunk
+  Answer: ROADWORTHY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LOSTIT  7?. Bird following two big signs hit the roof
+  Answer: LOSTIT
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NUPTIAL  8?. Casually plan suit without head of union
+  Answer: NUPTIAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TABLEAU  9?. Picture representing key field essential to agriculture
+  Answer: TABLEAU
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PLEASE  10?. Give me a break quietly when shelter checks
+  Answer: PLEASE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Give me a break"
+  Wordplay: charade
+  Explanation: P (abbreviation of "quietly") + LEASE (synonym of "shelter checks"); definition: "Give me a break"
+  ----------------------------------------------------------------------
+
+  [FAILED] GAZUMP  13?. Accept better offer than that of leader with university course change withdrawn
+  Answer: GAZUMP
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      accept: syn=A,DO,GO,OK,OR,AIM,BUY,EYE,NOT,SAY,ARMS,BEAR,BEST,BIDE,BORN; ind=container?; sounds=except
+      better: syn=A,OK,SO,ACE,ALL,APT,CAP,FAT,FIT,OUT,TOP,ABLE,ABLY,BEAT,CUTE; abbr=CAP
+      offer: syn=BID,PAY,WAY,BALL,DEAL,GIFT,GIVE,LEND,PASS,POSE,VOTE,CARRY,GIVES,MOUNT,PLACE
+      than: syn=BAR,BUT,EAT,AIRY,CHAW,CHEW,ELSE,FRET,GNAW,SAVE,SMUG,SUCK,VAIN,CHAMP,COCKY
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      university: syn=U,UNI,YALE,OXFORD; abbr=U*,UNI
+      course: syn=A,GO,IT,ARC,CUT,DOG,FLY,GUN,HIE,JET,NIP,POT,RAM,RIP,RUN; abbr=ASCOT; sounds=coarse
+      change: syn=DO,HAY,CASH,CENT,COIN,COPE,DIME,EDIT,FARE,FLUX,GOLD,JACK,KALE,LONG,LOOT; abbr=C; ind=anagram
+      withdrawn: syn=COY,SHY,MEEK,OF A,FAZED,JUMPY,STIFF,TIMID,UPSET,ADRIFT,CLUMSY,DEMURE,GAUCHE,MODEST,REMOTE; ind=reversal
+  ----------------------------------------------------------------------
+
+  [FAILED] PAUSE  17?. Break hands on the blower
+  Answer: PAUSE
+  Tier: --- | Confidence: 0/100
+  Definition: "Break"
+  Wordplay type: homophone
+  Components:
+    sound_of           hands                     -> PAUSE
+  DB Lookups:
+    DB lookups:
+      break: syn=USE*,PAUSE*,DO,GO,IT,ACT,CAN,CUT,DIE,END,FAG,FLY,GAP,LAY,MAR; ind=anagram; sounds=brake
+      hands: syn=USE*,ME,ARM,HAS,MAN,BAGS,BODY,CARE,CREW,GAIN,GIRL,GOES,GRIP,HOLD,LETS
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      blower: syn=PHONE
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER
+    Definitions:
+      "Break" -> PAUSE (definition match)
+  AI Reasoning:
+    HANDS = PAWS, and PAWS sounds like PAUSE, with 'on the blower' indicating homophone
+  ----------------------------------------------------------------------
+
+  [LOW] ONTHENAIL  25?. Now likely later to become ill
+  Answer: ONTHENAIL
+  Tier: Sonnet | Confidence: -15/100
+  Definition: "Now"
+  Wordplay type: charade
+  Components:
+    synonym            likely                    -> ON
+    synonym            later                     -> THEN
+    synonym            ill                       -> AIL
+  Assembly: charade — ON(synonym of "likely") + THEN(synonym of "later") + AIL(synonym of "ill")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=3 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      now: syn=ON*,AS,IN,IS,IT,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      likely: syn=APT,CUTE,FAIR,GOOD,NEAR,ODDS,ROSY,BONNY,MAYBE,PRONE,BETTER,BRIGHT,COMELY,COMING,FUTURE
+      later: syn=LOW,NEW,NOW,OLD,YET,COLD,DEAD,GONE,HIGH,JUST,NEXT,ONCE,ONLY,PAST,AFTER
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      become: syn=GO,AGE,BED,GET,RUN,WAX,WAY,COME,EASY,EVEN,GROW,HANG,HEAD,LIFE,PAST; ind=anagram
+      ill: syn=AY,ART,BAD,NOT,OFF,RUN,WOE,ALAS,BONY,BUSH,DEAD,DOWN,FROM,HARD,HARM; abbr=CROOK,V; ind=anagram
+      to become: syn=DIE,EXPIRE,COLLAPSE
+  AI Reasoning:
+    Charade of likely=ON + later=THEN + ill=AIL to give ONTHENAIL (meaning 'now')
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BUNFIGHT  3?. Where Spooner's entertaining with something to eat?
+  Answer: BUNFIGHT
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Where"
+  Wordplay type: spoonerism
+  Components:
+    synonym            entertaining              -> FUN
+    synonym            something to eat          -> BITE
+  Assembly: spoonerism — spoonerism of FUN BIGHT → BUN FIGHT
+  Checks: definition=position OK (start/end of clue) | wordplay_type=spoonerism | type_evidence=assembled, AI agrees | yields_check=pass (spoonerism assembled) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER,LOCALITY,LOCATION,NINETEEN; sounds=ware,wear
+      spooner's: syn=LADLE
+      entertaining: syn=FUN,AMUSING,AT HOME,HOSTING,ABOUT OR; ind=container
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      eat: syn=AT,BIT,BUG,CAN,GET,IRK,PUT,VEX,WAX,BOMB,BURY,DINE,DRUB,DUST,FARE
+      to eat: syn=FISH,GAME,FLOOD,ENGULF,SARDINE,SWIMMER
+      something to eat: syn=BUN*,ONE,PIE,POD
+  AI Reasoning:
+    Spoonerism of FUN BITE (entertaining + something to eat) creates BUNFIGHT
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

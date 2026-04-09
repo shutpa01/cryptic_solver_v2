@@ -1,0 +1,706 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29961
+Generated: 2026-03-23 14:26:08
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        29/30 (96%)
+    Signature:      4
+    Sig+Enriched:   9
+    Sonnet:         14
+    DB Fallback:    2
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   15  17D, 21A, 24D, 4D, 14A, 15D, 16D, 2D, 20D, 26A, 3D, 5A, 6D, 7D, 8D
+  Medium (40-79): 6  10A, 11A, 12A, 22A, 27A, 9A
+  Low (<40):    8  1A, 13D, 18A, 19D, 23D, 25A, 28A, 5D
+  Failed:       1  1D
+  Average:      63/100
+
+COST: $1.4408 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (37 entries)
+------------------------------------------------------------
+  MUSCADET: "wine" -> MUSCADET  (missing from definition_answers_augmented)
+  ITCH: "Desire" -> ITCH  (missing from definition_answers_augmented)
+  IRON: "Press" -> IRON  (missing from definition_answers_augmented)
+  CAPITAL: "Serious crime – using criminal's money?" -> CAPITAL  (missing from definition_answers_augmented)
+  ALLBUTAFEW: "Overwhelming majority" -> ALLBUTAFEW  (missing from definition_answers_augmented)
+  ORAL: "mouthy" -> ORAL  (missing from definition_answers_augmented)
+  ASPERSIONS: "they can be cast" -> ASPERSIONS  (missing from definition_answers_augmented)
+  HORNETSNEST: "a difficult situation" -> HORNETSNEST  (missing from definition_answers_augmented)
+  ACUPUNCTURE: "Point...for needlework" -> ACUPUNCTURE  (missing from definition_answers_augmented)
+  ANGINA: "causing pain" -> ANGINA  (missing from definition_answers_augmented)
+  PIMPLY: "spots" -> PIMPLY  (missing from definition_answers_augmented)
+  ESTEEM: "Value" -> ESTEEM  (missing from definition_answers_augmented)
+  AMPERSANDS: "They're held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid" -> AMPERSANDS  (missing from definition_answers_augmented)
+  UNDERWEAR: "Like Bishop Auckland's pants?" -> UNDERWEAR  (missing from definition_answers_augmented)
+  OPINE: "Surmise" -> OPINE  (missing from definition_answers_augmented)
+  SITONIT: "Put off deciding what to do with a chair" -> SITONIT  (missing from definition_answers_augmented)
+  YESMAAM: "whatever you say" -> YESMAAM  (missing from definition_answers_augmented)
+  THROUGHOUT: "from start to finish" -> THROUGHOUT  (missing from definition_answers_augmented)
+  ONTHEMENU: "is being served" -> ONTHEMENU  (missing from definition_answers_augmented)
+  FEAT: "achievement!" -> FEAT  (missing from definition_answers_augmented)
+  NOTARIES: "Legal workers" -> NOTARIES  (missing from definition_answers_augmented)
+  ESCALATE: "Raise" -> ESCALATE  (missing from definition_answers_augmented)
+  MIMER: "silent performer" -> MIMER  (missing from definition_answers_augmented)
+  ALLBUTAFEW: relief -> FEW  (missing from abbreviations)
+  ASPERSIONS: people -> PERSONS  (missing from synonyms_pairs)
+  ACUPUNCTURE: prize -> CU  (missing from abbreviations)
+  ACUPUNCTURE: Point in time -> PUNCTURE  (missing from synonyms_pairs)
+  AMPERSANDS: case for sheriffs -> SANDS  (missing from synonyms_pairs)
+  EARLY: Sandwich-like -> EARL  (missing from synonyms_pairs)
+  EARLY: ? -> Y  (missing from abbreviations)
+  YESMAAM: Same -> YES  (missing from abbreviations)
+  THROUGHOUT: report -> THROUGH  (missing from synonyms_pairs)
+  ONTHEMENU: Their responsibility -> ONTHEM  (missing from synonyms_pairs)
+  ONTHEMENU: to -> E  (missing from abbreviations)
+  NOTARIES: ignoring -> NOT  (missing from abbreviations)
+  NOTARIES: those born in March or April -> ARIES  (missing from synonyms_pairs)
+  ESCALATE: after hours -> LATE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  ANGINA = 19 (35/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (4)
+------------------------------------------------------------
+  CATHARTIC = 10 (70/100): no pieces verified in DB
+  ANGINA = 19 (35/100): no pieces verified in DB
+  EARLY = 23 (20/100): no pieces verified in DB
+  YESMAAM = 28 (25/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (5)
+------------------------------------------------------------
+  CAPITAL = 1 (30/100): def="Serious crime – using criminal's money?" (not in DB, odd position)
+  ORAL = 12 (57/100): def="mouthy" (not in DB, odd position)
+  ACUPUNCTURE = 18 (15/100): def="Point...for needlework" (not in DB, odd position)
+  AMPERSANDS = 22 (45/100): def="They're held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid" (not in DB, odd position)
+  UNDERWEAR = 25 (35/100): def="Like Bishop Auckland's pants?" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  1. Arrives clutching a gift, but a fancy soldier’s attire = COMBAT
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  3/30  4D, 15D, 16D
+  Type mismatch:         1  19D
+  Unverified explain.:   4  10A, 28A, 19D, 23D
+  Weak definition:       5  12A, 18A, 22A, 25A, 1D
+  DB gap:                24  9A, 11A, 12A, 14A, 18A, 21A, 22A, 25A, 26A, 27A, 28A, 1D, 2D, 3D, 5D, 6D, 7D, 8D, 13D, 17D, 19D, 20D, 23D, 24D
+  Failed:                1  1D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   17D  MUSCADET      Total reversal on trainee making wine (8)
+                      SUM (synonym of "Total") + CADET (synonym of "trainee") [reversal: "reversal"]; definition: "wine"  [HIGH]
+   21A  ITCH          Desire to get some kitchenware (4)
+                      hidden in "get some kitchenware"; definition: "Desire"  [HIGH]
+   24D  IRON          Press club (4)
+                      IRON (synonym of "club"); definition: "Press"  [HIGH]
+    4D  LYCRA         Some terribly cramped cycling gear (5)
+                      hidden in "terribly cramped cycling gear" [hidden: "Some"]  [HIGH]
+    1A  CAPITAL       Serious crime – using criminal’s money? (7,7)
+                      double definition  [LOW]
+    1D  COMBAT        Arrives clutching a gift, but a fancy soldier’s attire (6,8)
+                      ---  [FAIL]
+   10A  CATHARTIC     Purging most of the Arctic a muddle (9)
+                      anagram of THARCTICA("most of the Arctic a") = CATHARTIC  [MED]
+   11A  ALLBUTAFEW    Overwhelming majority expressed relief after everyone played tuba (3,3,1,3)
+                      ALL(synonym of "everyone") + BUT("tuba") + A("tuba") + FEW(synonym of "relief")  [MED]
+   12A  ORAL          Your fault every now and then, to get mouthy? (4)
+                      OR(alternate letters of "your") + AL(alternate letters of "fault")  [MED]
+   13D  ASPERSIONS    Like people around one, they can be cast (10)
+                      AS(synonym of "Like") + I(synonym of "one") inside PERSONS(synonym of "people")  [LOW]
+   14A  HORNETSNEST   Straight coverage of outrageous rents in a difficult situation (7,4)
+                      anagram of RENTS+HONEST(synonym of "straight") = HORNETSNEST  [HIGH]
+   15D  RECUMBENT     Lying about wobbly bum is modern (9)
+                      UMB("bum") inside RECENT(synonym of "modern")  [HIGH]
+   16D  FATIGUES      See 1 (8)
+                      FATIGUES (synonym of "See 1")  [HIGH]
+   18A  ACUPUNCTURE   Point in time when Juliet left after a prize for needlework (11)
+                      A + CU(abbr. "prize") + PUNCTURE(synonym of "Point in time")  [LOW]
+   19D  ANGINA        Articles about booze causing pain (6)
+                      GIN("booze") inside ANA("Articles")  [LOW]
+    2D  PIMPLY        After start of play, suggest getting spots (6)
+                      P (first letter of "play,") + IMPLY (synonym of "suggest") [first letter: "start"]; definition: "spots"  [HIGH]
+   20D  ESTEEM        Value committee finally meets up (6)
+                      E (last letter of "committee") + MEETS ("meets") [last letter: "finally"]; definition: "Value"  [HIGH]
+   22A  AMPERSANDS    They’re held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid before noon, each case for sheriffs (10)
+                      AM(abbr. "before noon") + PER(synonym of "each") + SANDS(synonym of "case for sheriffs")  [MED]
+   23D  EARLY         Sandwich-like ahead of time? (5)
+                      EARL(synonym of "Sandwich-like") + Y(abbr. "?")  [LOW]
+   25A  UNDERWEAR     Like Bishop Auckland’s pants? (9)
+                      cryptic definition  [LOW]
+   26A  OPINE         Surmise long after love (5)
+                      O (synonym of "love") + PINE (synonym of "long"); definition: "Surmise"  [HIGH]
+   27A  SITONIT       Put off deciding what to do with a chair (3,2,2)
+                      double definition  [MED]
+   28A  YESMAAM       Same problem in root whatever you say (3,4)
+                      YES(synonym of "Same") + MAAM("root")  [LOW]
+    3D  THROUGHOUT    Dismissed report from start to finish (10)
+                      THROUGH (synonym of "report") + OUT (synonym of "Dismissed"); definition: "from start to finish"  [HIGH]
+    5A  OFFENCE       See 1 (7)
+                      OFFENCE (synonym of "See 1")  [HIGH]
+    5D  ONTHEMENU     Their responsibility to send one back to France is being served (2,3,4)
+                      ONTHEM(synonym of "Their responsibility") + E(synonym of "to") + NU(UN reversed, "one")  [LOW]
+    6D  FEAT          Overweight and eating lettuce? At last, an achievement! (4)
+                      FAT (synonym of "Overweight") + E (letters from "eating lettuce?") [container: "last,"]; definition: "achievement!"  [HIGH]
+    7D  NOTARIES      Legal workers ignoring those born in March or April (8)
+                      NOT (synonym of "ignoring") + ARIES (synonym of "those born in March or April"); definition: "Legal workers"  [HIGH]
+    8D  ESCALATE      Raise special case after hours (8)
+                      anagram of CASE ("case") + LATE (synonym of "after hours") [anagram: "special"] = ESCALATE; definition: "Raise"  [HIGH]
+    9A  MIMER         Note musical entertainment role to begin with silent performer (5)
+                      MI(synonym of "Note") + M(first letter of "musical") + E(first letter of "entertainment") + R(first letter of "role")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] MUSCADET  17D. Total reversal on trainee making wine
+  Answer: MUSCADET
+  Tier: Signature | Confidence: 100/100
+  Definition: "wine"
+  Wordplay: charade + reversal
+  Explanation: SUM (synonym of "Total") + CADET (synonym of "trainee") [reversal: "reversal"]; definition: "wine"
+  ----------------------------------------------------------------------
+
+  [HIGH] ITCH  21A. Desire to get some kitchenware
+  Answer: ITCH
+  Tier: Signature | Confidence: 80/100
+  Definition: "Desire"
+  Wordplay: hidden
+  Explanation: hidden in "get some kitchenware"; definition: "Desire"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] IRON  24D. Press club
+  Answer: IRON
+  Tier: Signature | Confidence: 100/100
+  Definition: "Press"
+  Wordplay: charade
+  Explanation: IRON (synonym of "club"); definition: "Press"
+  ----------------------------------------------------------------------
+
+  [HIGH] LYCRA  4D. Some terribly cramped cycling gear
+  Answer: LYCRA
+  Tier: Signature | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "terribly cramped cycling gear" [hidden: "Some"]
+  ----------------------------------------------------------------------
+
+  [LOW] CAPITAL  1A. Serious crime – using criminal’s money?
+  Answer: CAPITAL
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "Serious crime – using criminal's money?"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=not in DB, odd position | wordplay_type=double_definition | type_evidence=assembled, AI agrees | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      serious: syn=NO,GRIM,GRAVE,GROSS,HEAVY,MAJOR,RISKY,SOBER,STAID,STERN,SEDATE,SEVERE,SOLEMN,SOMBRE,UNSAFE
+      crime: syn=CON,SIN,DEBT,FALL,PITY,VICE,ABUSE,ARSON,BREAK,ERROR,FAULT,FRAUD,HEIST,SHAME,THEFT
+      using: syn=WITH,RENAL,ABUSING,BASHING,MILKING,PIMPING,SERVING,WORKING; abbr=BY; ind=anagram
+      money: syn=CAPITAL*,DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST; abbr=BREAD,CASH,DOSH
+      serious crime: syn=CRIME,MOTIVE,OFFENCE,PERFIDY,TREASON
+    Definitions:
+      "money" -> CAPITAL (definition match)
+  AI Reasoning:
+    Both 'serious crime' (capital offense) and 'criminal's money' (capital/wealth) define CAPITAL in different senses
+  ----------------------------------------------------------------------
+
+  [FAILED] COMBAT  1D. Arrives clutching a gift, but a fancy soldier’s attire
+  Answer: COMBAT
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      arrives: syn=COME,LAND,AHEAD,THRIVE,IT,AGE,HIT,OWN,INTO,SHOW,SNOB,AGAIN,COMER,NABOB,REACH
+      clutching: ind=container?
+      gift: syn=BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,BATH,BENT,BOON,BUFF,COMP,DIKE
+      but: syn=OF,BAR,FOR,THO,YET,FAIR,FROM,JUST,MOST,MUCH,NEAR,NIGH,ONLY,SAVE,THAN; sounds=butt
+      fancy: syn=BE,MY,ARE,BIT,DIG,FAD,HER,HIS,ITS,RED,SEE,TOP,USE,CAKE,FINE; ind=anagram
+      attire: syn=KIT,RIG,DECK,DUDS,GARB,GEAR,GOWN,RAGS,ROBE,SARI,SUIT,TOGS,WEAR,ARRAY,DRESS
+      a fancy: syn=RUM,CARD,CASE,OUTR,CRANK
+  ----------------------------------------------------------------------
+
+  [HIGH] CATHARTIC  10A. Purging most of the Arctic a muddle
+  Answer: CATHARTIC
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Purging"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     most of the Arctic a      -> THARCTICA
+  Assembly: anagram — anagram of THARCTICA("most of the Arctic a") = CATHARTIC
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      purging: syn=CATHARTIC*,CATHARSIS
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      arctic: syn=ICY,COLD,COOL,HARD,HERE,OF A,BLOOD,CHILL,GELID,NIPPY,POLAR,BITTER,CHILLY,FRIGID,FROSTY
+      muddle: syn=FOG,FOX,GET,HER,HIS,ICE,NET,RAP,ALSO,BAIL,DUST,FREE,GLOM,GROK,ITCH; ind=anagram
+      most of: ind=parts
+      of the: syn=MITRE,CHEETAH
+    Definitions:
+      "Purging" -> CATHARTIC (definition match)
+  AI Reasoning:
+    Most of 'the Arctic a' gives THARCTICA after deletion, which anagrams to CATHARTIC
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ALLBUTAFEW  11A. Overwhelming majority expressed relief after everyone played tuba
+  Answer: ALLBUTAFEW
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Overwhelming majority"
+  Wordplay type: charade
+  Components:
+    synonym            everyone                  -> ALL
+    anagram_fodder     tuba                      -> BUT
+    anagram_fodder     tuba                      -> A
+    synonym            relief                    -> FEW
+  Assembly: charade — ALL(synonym of "everyone") + BUT("tuba") + A("tuba") + FEW(synonym of "relief")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      overwhelming: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH,SOGGY; ind=container?
+      majority: syn=ARMY,BIKE,CORE,CRAM,HEFT,HERD,HOST,MASS,ROUT,BRUNT,CHIEF,CROWD,CRUSH,DROVE,FLOCK
+      expressed: syn=PUT,SAID,TOLD,SPOKE,URGED,PASSED,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,PHRASED,RECITED,PREMISED,PRESUMED; ind=homophone
+      relief: syn=AID,ALMS,CARE,EASE,FILL,HAND,HELP,LIFT,SHOW,BOOST,COVER,FAVOR,HOARD,LETUP,LOCUM
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      everyone: syn=ALL*,AWL,ONE,EACH,PEEPS,ANYONE,ANYBODY,CAPITAL,EVENING,SOMEONE,ALL-TIME,ALLIANCE,BALLOONS,OF EVERY,SOMEBODY; abbr=ALL*
+      played: syn=DID,MADE,ROLE,TOOK,ACTED,TIRED,TOYED,A GRIP,ROMPED,SERVED,WORKED,ACHIEVED,EXECUTED,AROUND OR,COMMITTED; ind=anagram
+      tuba: syn=HORN,INSTRUMENT
+  AI Reasoning:
+    ALL (everyone) + BUT+A (anagram of tuba split) + FEW (relief as scarcity) = ALLBUTAFEW
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ORAL  12A. Your fault every now and then, to get mouthy?
+  Answer: ORAL
+  Tier: DB Fallback | Confidence: 57/100
+  Definition: "mouthy"
+  Wordplay type: charade
+  Components:
+    alternate_letters  fault                     -> AL
+    alternate_letters  your                      -> OR
+  Assembly: charade — OR(alternate letters of "your") + AL(alternate letters of "fault")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      your: syn=YR,THY; abbr=YR; sounds=yore,you're
+      fault: syn=MAR,RAP,SIN,BOOB,COLD,DEAD,FLAW,FLUB,GAFF,GOOF,MARK,ONUS,SCAR,SLIP,TASK; ind=anagram?
+      every: syn=ACE,AID,ALL,ANY,ARC,BOW,CUT,EYE,HUB,PEG,ARCH,BEND,BENT,BOON,CORE; abbr=ALL; ind=parts
+      now: syn=AS,IN,IS,IT,ON,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      then: syn=SO,ANY,NEX,TOO,YET,ALSO,EACH,INTO,MORE,NEXT,WHAT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      to get: ind=anagram
+      to get: syn=OFF,BABY,DEEP,LEGS,LOSE,QUIT,RUIN
+      now and then: syn=ON,AYE,NOW,OFT
+  AI Reasoning:
+    Taking alternate letters from 'Your fault' gives ORAL, which means relating to the mouth (mouthy)
+  ----------------------------------------------------------------------
+
+  [LOW] ASPERSIONS  13D. Like people around one, they can be cast
+  Answer: ASPERSIONS
+  Tier: Sonnet | Confidence: -5/100
+  Definition: "they can be cast"
+  Wordplay type: container
+  Components:
+    synonym            Like                      -> AS
+    synonym            people                    -> PERSONS
+    synonym            one                       -> I
+  Assembly: container — AS(synonym of "Like") + I(synonym of "one") inside PERSONS(synonym of "people")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: I | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      like: syn=AS*,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS*
+      people: syn=ELF,FAY,HAG,IMP,KIN,MEN,MOB,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN,CUES; abbr=MEN
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      one: syn=PERSON*,I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN; abbr=A*,ACE,I*,O*; sounds=won
+      they: syn=HUMDINGERS; ind=anagram,homophone
+      can: syn=A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY,JUG; abbr=C,TIN; ind=anagram?
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      cast: syn=MY,AIM,DID,EYE,FEE,HOW,LOB,PEG,RAN,SET,SHY,VIP,WAY,AIMS,ANTE; abbr=PLAYERS; ind=anagram,reversal; sounds=caste
+      can be: syn=SHED
+  AI Reasoning:
+    AS PERSONS (like people) contains I (one) to form ASPERSIONS
+  ----------------------------------------------------------------------
+
+  [HIGH] HORNETSNEST  14A. Straight coverage of outrageous rents in a difficult situation
+  Answer: HORNETSNEST
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "a difficult situation"
+  Wordplay type: anagram
+  Components:
+    literal            rents                     -> RENTS
+    synonym            straight                  -> HONEST
+  Assembly: anagram — anagram of RENTS+HONEST(synonym of "straight") = HORNETSNEST
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      straight: syn=HONEST*,UP,OUT,BALD,BARE,BEST,DEAD,EVEN,FINE,FREE,GOOD,HAND,JUST,NEAT,OPEN; ind=anagram?; sounds=strait
+      coverage: syn=NEWS,CONTENT,SURFACE,INSURANCE,MADNESS OR
+      outrageous: syn=OVER,UNFAIR,UNHEARD,FLAGRANT,HORRIBLE,IMPROPER,INFAMOUS,INFERNAL,SHOCKING,EGREGIOUS,EXORBITANT,IMMODERATE,OVERTHETOP,DISGRACEFUL; ind=anagram
+      rents: syn=RIPS,TEARS,OUTLETS,ARMHOLES,BAG,DEN,GAP,LET,PIT,RIP,STY,BIND,DENT,DINT,DUMP; ind=anagram
+      in: syn=HOT*,BY,IT,RH,BIG,DEF,HEP,HIP,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      difficult: syn=ILL,DEEP,HARD,TALL,DODGY,HAIRY,HEAVY,NASTY,ROUGH,SPINY,STEEP,STIFF,TOUGH,AUGEAN,CATCHY; ind=anagram
+      situation: syn=FIX,JAM,JOB,USE,CASE,DEAL,DUTY,HAND,HEAD,HOLE,HOUR,LAST,PART,PASS,POST
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      difficult situation: syn=BOX,FIX,JAM,BARK,SIGN,SPOT,STEW,GRATE,GRAZE,JAPAN
+      a difficult situation: syn=BIND,DILEMMA,PROBLEM,QUANDARY
+  AI Reasoning:
+    outrageous indicates anagram of letters that spell hornets rent to give HORNETSNEST
+  ----------------------------------------------------------------------
+
+  [HIGH] RECUMBENT  15D. Lying about wobbly bum is modern
+  Answer: RECUMBENT
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "Lying"
+  Wordplay type: container
+  Components:
+    synonym            modern                    -> RECENT
+    anagram_fodder     bum                       -> UMB
+  Assembly: container — UMB("bum") inside RECENT(synonym of "modern")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      lying: syn=RECUMBENT*,BAD,ABED,PRONE,SUPINE,CROOKED,FIBBING,SITUATE,DECEITFUL,DISHONEST,INSINCERE,INVENTION,MENDACITY,PROSTRATE
+      about: syn=RE*,BENT*,C,AS,BY,CA,OF,ON,OR,TO,UP,ARC,BOW,BUT,CUT; abbr=C*,CA,OF,ON,OVER,RE*; ind=anagram,container,reversal
+      wobbly: syn=LOOSE,AQUIVER,DODDERY,TOTTERY,UNSTABLE; ind=anagram
+      bum: syn=BAD,CAN,LAG,LOW,NOT,TEN,BACK,BOAT,BUNS,BUTT,DOZE,DUFF,FOOL,HAMS,IDLE; ind=anagram?
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      modern: syn=RECENT*,UP,AGE,HOT,MOD,NEW,RED,BEING,SPACE,STATE,EXTANT,LATTER,CURRENT,INSTANT,NEW AND; abbr=IN
+    Definitions:
+      "Lying" -> RECUMBENT (definition match)
+  AI Reasoning:
+    RECENT (modern) contains UMB (anagram of bum) to give RECUMBENT
+  ----------------------------------------------------------------------
+
+  [HIGH] FATIGUES  16D. See 1
+  Answer: FATIGUES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: FATIGUES (synonym of "See 1")
+  ----------------------------------------------------------------------
+
+  [LOW] ACUPUNCTURE  18A. Point in time when Juliet left after a prize for needlework
+  Answer: ACUPUNCTURE
+  Tier: Sonnet | Confidence: 15/100
+  Definition: "Point...for needlework"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    abbreviation       prize                     -> CU
+    synonym            Point in time             -> PUNCTURE
+  Assembly: charade — A + CU(abbr. "prize") + PUNCTURE(synonym of "Point in time")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      point: syn=PT,AIM,ARM,CUT,DOT,END,ITS,NET,NIB,NUB,PEG,PIP,SET,SUM,TIP; abbr=E*,N*,NE,NW,PT,S,SE,SW,W
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      juliet: syn=HEROINE; abbr=J
+      left: syn=L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      prize: syn=CUP*,A1,OK,BIG,FAB,GEM,HOT,LEG,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      needlework: syn=TATTOO,CROCHET,TAPESTRY,BY EXAMPLE,EMBROIDERY,TAPESTRIES
+      point in: syn=EAST,TOWN,STEVENAGE
+      in time: syn=LATER,INTIME,SOMEDAY,TOO LATE,LATER BUT,EVENTUALLY
+      a prize: syn=TOP
+  AI Reasoning:
+    A + CU (from prize=cup) + PUNCTURE (from 'point in time'=juncture, with J→P substitution indicated by 'when Juliet left')
+  ----------------------------------------------------------------------
+
+  [LOW] ANGINA  19D. Articles about booze causing pain
+  Answer: ANGINA
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "causing pain"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Articles                  -> ANA
+    anagram_fodder     booze                     -> GIN
+  Assembly: container — GIN("booze") inside ANA("Articles")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      articles: syn=AN*,DER,THE,ESSAY,ITEMS,PAPER,THEME,WRITE,ESSAYS,PAPERS,PIECES,THEMES,A,ITEM,FAITH; abbr=A*,AN*,THE
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      booze: syn=GIN*,IT,ALE,HIT,MUM,NIP,PEG,POP,RUM,TOT,ALE,,AQUA,ASTI,BEER,BELT
+      causing: syn=RISE,DOING,MAKING; ind=anagram
+      pain: syn=SO,GYP,WOE,ACHE,CARE,HEED,HURT,PANG,PEST,RACK,WORK,ACHES,AGONY,COLIC,LABOR; abbr=ACHE; sounds=pane
+      causing pain: syn=PAIN,EVERY
+    Definitions:
+      "pain" -> ANGINA (definition match)
+  AI Reasoning:
+    Articles (ANA) + booze (GIN) anagrammed by 'about' gives ANGINA
+  ----------------------------------------------------------------------
+
+  [HIGH] PIMPLY  2D. After start of play, suggest getting spots
+  Answer: PIMPLY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "spots"
+  Wordplay: acrostic + charade
+  Explanation: P (first letter of "play,") + IMPLY (synonym of "suggest") [first letter: "start"]; definition: "spots"
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTEEM  20D. Value committee finally meets up
+  Answer: ESTEEM
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Value"
+  Wordplay: charade + parts + reversal
+  Explanation: E (last letter of "committee") + MEETS ("meets") [last letter: "finally"]; definition: "Value"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] AMPERSANDS  22A. They’re held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid before noon, each case for sheriffs
+  Answer: AMPERSANDS
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "They're held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid"
+  Wordplay type: charade
+  Components:
+    abbreviation       before noon               -> AM
+    synonym            each                      -> PER
+    synonym            case for sheriffs         -> SANDS
+  Assembly: charade — AM(abbr. "before noon") + PER(synonym of "each") + SANDS(synonym of "case for sheriffs")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      held: syn=HAD,MET,PUT,RAN,BORN,FELT,KEPT,MADE,BATED,DUPED,KEPT?,RATED,RULED,TAMED,BOUGHT; ind=container,hidden
+      by: syn=PER*,X,AT,IN,SO,TO,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      butch: syn=MACHO,MANLY,TOUGH
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      kid: syn=BOY,BUD,CAT,CUB,FUN,GUY,IMP,JOE,LAD,MAN,RIB,SON,TAD,TOT,BABE; abbr=RAG
+      before: syn=OF,ON,TO,UP,ARC,BOW,ERE,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE
+      noon: syn=N,BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,TOP,BATH,BENT,BUFF,DIKE; abbr=N*; ind=container?
+      each: syn=PER*,EA,SO,ALL,ANY,NOW,POP,APOP,HEAD,THEN,AGAIN,EVERY,OFTEN,A HEAD,APIECE; abbr=EA,ea
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      for: syn=PER*,AS,IS,TO,BAR,BUT,HOW,NOW,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      sheriffs: syn=COP,MAN,BULL,DICK,FUZZ,HEAT,BOBBY,JUDGE,COPPER,LAWMAN,POLICE,SHAMUS,SHOOTS,SLEUTH,CAPTAIN
+      held by: ind=insertion
+      held by: abbr=IN
+      before noon: abbr=AM*
+      before noon: syn=AM*,AMASS,BABEL,CHAOS,THREE,AURORA,BEDLAM,GATHER,UPROAR,COLLECT
+  AI Reasoning:
+    AM (before noon) + PER (each) + SANDS (case for sheriffs) forms AMPERSANDS, which are the & symbols held by the famous partnerships mentioned
+  ----------------------------------------------------------------------
+
+  [LOW] EARLY  23D. Sandwich-like ahead of time?
+  Answer: EARLY
+  Tier: Sonnet | Confidence: 20/100
+  Definition: "ahead of time"
+  Wordplay type: charade
+  Components:
+    synonym            Sandwich-like             -> EARL
+    abbreviation       ?                         -> Y
+  Assembly: charade — EARL(synonym of "Sandwich-like") + Y(abbr. "?")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      sandwich: syn=SUB,BUTTY,ROUND,SNACK,STUFF; ind=container?
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      ahead: syn=EARLY*,OF,ON,TO,UP,ERE,FORE,AFORE,ALONG,BASIC,FORTH,PRIOR
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      ahead of: syn=OF,TO,UP
+    Definitions:
+      "ahead of time" -> EARLY (definition match)
+  AI Reasoning:
+    EARL (Earl of Sandwich) + Y (from question mark meaning 'yes') = EARLY
+  ----------------------------------------------------------------------
+
+  [LOW] UNDERWEAR  25A. Like Bishop Auckland’s pants?
+  Answer: UNDERWEAR
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "Like Bishop Auckland's pants?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=not in DB, odd position | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      bishop: syn=B,RR,MAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,LORD,MATE; abbr=B,DD,RR
+      pants: syn=UNDERWEAR*,IS,DUFF,POOR,DROSS,GASPS,INEPT,BOXERS,BRIEFS,SLACKS,BREATHS,CHRONIC,DRAWERS,EXHALES,RUBBISH; ind=anagram
+  AI Reasoning:
+    The entire clue cryptically defines underwear as garments 'like' pants that a personified place would wear
+  ----------------------------------------------------------------------
+
+  [HIGH] OPINE  26A. Surmise long after love
+  Answer: OPINE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Surmise"
+  Wordplay: charade
+  Explanation: O (synonym of "love") + PINE (synonym of "long"); definition: "Surmise"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SITONIT  27A. Put off deciding what to do with a chair
+  Answer: SITONIT
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Put off deciding what to do with a chair"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      off: syn=ON*,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      deciding: syn=OR,BALD,FAIR,FREE,LAST,MAKE,OPEN,SURE,BROAD,LUCID,PLAIN,SHINY,SUNNY,BRIGHT,LIMPID
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      do: syn=SIT*,BE,GO,IS,MY,PI,411,A A,ACT,ADO,AND,ARE,BED,BET,BUY; abbr=C,PARTY; sounds=dew,due
+      with: syn=ON*,TO*,W,BY,IN,OF,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON*,W
+      chair: syn=HEAD,HELM,LEAD,SEAT,CHECK,SEDAN,SWEAT,LEADER,OFFICE,SETTEE,REIN(S),SPEAKER
+      put off: ind=anagram?
+      put off: syn=HER,HIS,PUT,TEN,DAMP,FIRE,HANG,HOLD,STAY,STOP
+      to do: syn=REAL,LEGIT,RIGHT,DECENT,PRISSY,PROPER,CORRECT,FITTING,GENTEEL,ONPAPER
+      with a: syn=SEA GOD
+      a chair: syn=GLOW,CHAIR,SUDOR,SWEAT,LABOUR
+  AI Reasoning:
+    Both 'Put off deciding' (meaning postpone/delay) and 'what to do with a chair' (literally sit on it) define the same answer SITONIT
+  ----------------------------------------------------------------------
+
+  [LOW] YESMAAM  28A. Same problem in root whatever you say
+  Answer: YESMAAM
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "whatever you say"
+  Wordplay type: charade
+  Components:
+    synonym            Same                      -> YES
+    anagram_fodder     root                      -> MAAM
+  Assembly: charade — YES(synonym of "Same") + MAAM("root")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      same: syn=ME,AGE,AIR,DAY,ERA,RUN,TOO,AKIN,DATE,EVEN,LIFE,LIKE,LULL,PUFF,SHIP
+      problem: syn=ILL,NUT,RUB,SUM,ACHE,AS A,CASE,FACT,KNOT,MESS,PEST,SNAG,WHAT,BRAIN,HITCH; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      root: syn=BE,BUM,FIT,NET,NUB,PUT,RIG,SUM,ALSO,BASE,BEND,BOAT,BUNS,BUTT,CORE; ind=parts; sounds=route
+      whatever: syn=OR,ANY,YOU,PACE,RATE,WHAT,WHATNOT,WHETHER
+      you: syn=YE*,U,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U,Y*,YE*,YO; ind=anagram; sounds=ewe,yew
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+  AI Reasoning:
+    Same gives YES (agreement), and root anagrams with problem as indicator to give MAAM
+  ----------------------------------------------------------------------
+
+  [HIGH] THROUGHOUT  3D. Dismissed report from start to finish
+  Answer: THROUGHOUT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "from start to finish"
+  Wordplay: charade
+  Explanation: THROUGH (synonym of "report") + OUT (synonym of "Dismissed"); definition: "from start to finish"
+  ----------------------------------------------------------------------
+
+  [HIGH] OFFENCE  5A. See 1
+  Answer: OFFENCE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: OFFENCE (synonym of "See 1")
+  ----------------------------------------------------------------------
+
+  [LOW] ONTHEMENU  5D. Their responsibility to send one back to France is being served
+  Answer: ONTHEMENU
+  Tier: Sonnet | Confidence: -98/100
+  Definition: "is being served"
+  Wordplay type: charade
+  Components:
+    synonym            Their responsibility      -> ONTHEM
+    synonym            to                        -> E
+    reversal           one                       -> NU
+  Assembly: charade — ONTHEM(synonym of "Their responsibility") + E(synonym of "to") + NU(UN reversed, "one")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/3 (17%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: ONTHEM, E | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      their: syn=BEE,EYE,FOX,GET,VEX,BABY,BEAT,BIDE,COUP,KINK,LACK,MAZE,NEED,POSE,STAY; sounds=there,they're
+      responsibility: syn=DO,JOB,TAX,USE,BUCK,DUTY,HAND,LEVY,NEED,ONUS,PART,POST,ROLE,TASK,WORK
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      send: syn=MAIL,SHIP,ELATE,REMIT,SHOOT,PARODY,CONSIGN,DELIGHT,FORWARD,TAKEOFF,DESPATCH,DISPATCH,TRANSFER,TRANSMIT,TRANSPORT
+      one: syn=ME*,I,AN,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I,O*; sounds=won
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      france: syn=COUNTRY,REPUBLIC; abbr=f
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      served: syn=DID,RAN,BILL,BRED,MADE,TOOK,USED,WENT,ACTED,BEGOT,BROKE,DROVE,FORCE,MOVED,SWEAT; ind=anagram,reversal?
+      to send: syn=NEW,VAN,WAY,AREA,BACK,GIVE,HAND,MOVE,PASS,ROLE
+      being served: ind=anagram?
+  AI Reasoning:
+    ONTHEM (their responsibility) + E (to) + NU (French 'one' reversed) = ONTHEMENU
+  ----------------------------------------------------------------------
+
+  [HIGH] FEAT  6D. Overweight and eating lettuce? At last, an achievement!
+  Answer: FEAT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "achievement!"
+  Wordplay: charade + container
+  Explanation: FAT (synonym of "Overweight") + E (letters from "eating lettuce?") [container: "last,"]; definition: "achievement!"
+  Checks: missing_indicator_for_pos_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] NOTARIES  7D. Legal workers ignoring those born in March or April
+  Answer: NOTARIES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Legal workers"
+  Wordplay: charade
+  Explanation: NOT (synonym of "ignoring") + ARIES (synonym of "those born in March or April"); definition: "Legal workers"
+  ----------------------------------------------------------------------
+
+  [HIGH] ESCALATE  8D. Raise special case after hours
+  Answer: ESCALATE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Raise"
+  Wordplay: anagram + charade
+  Explanation: anagram of CASE ("case") + LATE (synonym of "after hours") [anagram: "special"] = ESCALATE; definition: "Raise"
+  ----------------------------------------------------------------------
+
+  [HIGH] MIMER  9A. Note musical entertainment role to begin with silent performer
+  Answer: MIMER
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "silent performer"
+  Wordplay type: charade
+  Components:
+    synonym            Note                      -> MI
+    first_letter       musical                   -> M
+    first_letter       entertainment             -> E
+    first_letter       role                      -> R
+  Assembly: charade — MI(synonym of "Note") + M(first letter of "musical") + E(first letter of "entertainment") + R(first letter of "role")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      note: syn=ME*,MI*,N,DO,FA,LA,MY,RE,TE,TI,UT,AIR,CRY,DOH,EAR; abbr=A,B,C,D,DO,E*,F,FA,G,LA,MI*,N,NB,RE,SI,SO,SOL,TE,TI
+      musical: syn=CATS,HAIR,SHOW,ANNIE,CHESS,EVITA,LYRIC,POPPY,SWEET,TONAL
+      entertainment: syn=FUN,PLAY,SHOW,CHEER,DISCO,OPERA
+      role: syn=MIME*,DO,ACT,APE,CUT,DID,END,HAM,JOB,USE,ACME,ACTS,APED,APES,APEX; sounds=roll
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      begin: syn=GET,SET,DAWN,FALL,FORM,LEAD,MOOT,NEED,OPEN,RICH,ARISE,AROSE,BREAK,COVER,DEBUT
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      silent: syn=MUM,TOP,DUMB,MUM?,MUTE,MOVIE,MUTED,STILL,TACIT; abbr=T
+      performer: syn=MIME*,ACT,SAY,TAP,APER,DIVA,DOER,TURN,ACTOR,CLOWN,MIMIC
+      musical entertainment: syn=WORK,MUSIC
+      to begin with: syn=FIRST
+    Definitions:
+      "performer" -> MIMER (definition match)
+  AI Reasoning:
+    MI (musical note) + first letters of 'musical entertainment role' (M-E-R) = MIMER
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

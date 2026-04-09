@@ -30,13 +30,16 @@ DEFAULT_DB = PROJECT_ROOT / "data" / "clues_master.db"
 SITEMAP_DIR = Path(__file__).resolve().parent / "static" / "sitemaps"
 
 
-def make_slug(clue_text, answer):
-    """Generate URL slug from clue text and answer."""
-    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
-    ans = re.sub(r"[^A-Za-z0-9]", "", answer or "").upper()
-    if not text or not ans:
+def make_slug(clue_text, answer, clue_id=None):
+    """Generate URL slug from clue ID and clue text. Answer is NOT included."""
+    if not clue_id:
         return None
-    return f"{text}-{ans}"
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    if not text:
+        return None
+    words = text.split("-")[:12]
+    text = "-".join(words)
+    return f"{clue_id}-{text}"
 
 
 def ensure_slug_column(conn):
@@ -108,7 +111,7 @@ def generate_slugs(db_path, dry_run=False):
 
         updates = []
         for clue_id, clue_text, answer in rows:
-            slug = make_slug(clue_text, answer)
+            slug = make_slug(clue_text, answer, clue_id=clue_id)
             if slug:
                 updates.append((slug, clue_id))
 
@@ -227,7 +230,19 @@ if __name__ == "__main__":
     parser.add_argument("--domain", default=DEFAULT_DOMAIN, help="Site domain")
     parser.add_argument("--db", default=None, help="Path to clues DB")
     parser.add_argument("--dry-run", action="store_true", help="Show counts only")
+    parser.add_argument("--regenerate", action="store_true",
+                        help="Clear all existing slugs and regenerate (use after format change)")
     args = parser.parse_args()
 
-    db = Path(args.db) if args.db else DEFAULT_DB
-    run(db_path=db, domain=args.domain, dry_run=args.dry_run)
+    db_path = Path(args.db) if args.db else DEFAULT_DB
+
+    if args.regenerate and not args.dry_run:
+        print("Clearing all existing slugs for regeneration...")
+        conn = sqlite3.connect(str(db_path), timeout=30)
+        conn.execute("UPDATE clues SET slug = NULL WHERE slug IS NOT NULL")
+        conn.commit()
+        cleared = conn.total_changes
+        conn.close()
+        print(f"  Cleared {cleared:,} slugs")
+
+    run(db_path=db_path, domain=args.domain, dry_run=args.dry_run)

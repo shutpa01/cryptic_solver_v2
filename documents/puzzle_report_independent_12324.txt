@@ -1,0 +1,678 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12324
+Generated: 2026-04-08 06:36:53
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      38
+  Assembled:        37/38 (97%)
+    Signature:      2
+    Sig+Enriched:   7
+    Sonnet:         3
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   32  12A, 6D, 11A, 18D, 20D, 24D, 25A, 9A, 14D, 17A, 1A, 10A, 11A, 12A, 13A, 15D, 16A, 18D, 19A, 2D, 20D, 21A, 22A, 23D, 24D, 25A, 28A, 4D, 5A, 5D, 6D, 9A
+  Medium (40-79): 5  3D, 7D, 19D, 26A, 8D
+  Low (<40):    0  
+  Failed:       1  27A
+  Average:      91/100
+
+COST: $0.4038 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (47 entries)
+------------------------------------------------------------
+  ECHO: "to reflect" -> ECHO  (missing from definition_answers_augmented)
+  DEPRESS: "covers" -> DEPRESS  (missing from definition_answers_augmented)
+  NOSWEAT: "You're welcome" -> NOSWEAT  (missing from definition_answers_augmented)
+  ADMIRE: "respect" -> ADMIRE  (missing from definition_answers_augmented)
+  WINTRIER: "more frosty?" -> WINTRIER  (missing from definition_answers_augmented)
+  REMAINDER: "rest" -> REMAINDER  (missing from definition_answers_augmented)
+  IMPUGN: "Challenge" -> IMPUGN  (missing from definition_answers_augmented)
+  DAPPLE: "marked with spots" -> DAPPLE  (missing from definition_answers_augmented)
+  POTATO: "Murphy's successful shot at snooker" -> POTATO  (missing from definition_answers_augmented)
+  AGONYUNCLE: "trying to help" -> AGONYUNCLE  (missing from definition_answers_augmented)
+  ECHO: "Beseech" -> ECHO  (missing from definition_answers_augmented)
+  GRADIENT: "it could be a slippery slope" -> GRADIENT  (missing from definition_answers_augmented)
+  DRUMSTICK: "Short leg" -> DRUMSTICK  (missing from definition_answers_augmented)
+  SKIDDY: "treacherous" -> SKIDDY  (missing from definition_answers_augmented)
+  NOSWEAT: "You're welcome" -> NOSWEAT  (missing from definition_answers_augmented)
+  BOHEMIAN: "a Czech" -> BOHEMIAN  (missing from definition_answers_augmented)
+  AXING: "Sacking" -> AXING  (missing from definition_answers_augmented)
+  HOSANNA: "praise the Lord" -> HOSANNA  (missing from definition_answers_augmented)
+  MISS: "unmarried woman" -> MISS  (missing from definition_answers_augmented)
+  STRESSTEST: "cardiological examination" -> STRESSTEST  (missing from definition_answers_augmented)
+  TOTES: "Absolutely" -> TOTES  (missing from definition_answers_augmented)
+  SHAHS: "Persian leaders" -> SHAHS  (missing from definition_answers_augmented)
+  ADMIRE: "respect" -> ADMIRE  (missing from definition_answers_augmented)
+  ASSIST: "Help" -> ASSIST  (missing from definition_answers_augmented)
+  PUTON: "Don and Vladimir, say" -> PUTON  (missing from definition_answers_augmented)
+  EPICURE: "Gourmet" -> EPICURE  (missing from definition_answers_augmented)
+  HEDGEROW: "a key part of sustainable farming" -> HEDGEROW  (missing from definition_answers_augmented)
+  HARICOT: "Bean" -> HARICOT  (missing from definition_answers_augmented)
+  DEPRESS: "Humble" -> DEPRESS  (missing from definition_answers_augmented)
+  EXTREMISM: "Zealotry" -> EXTREMISM  (missing from definition_answers_augmented)
+  WINTRIER: "more frosty" -> WINTRIER  (missing from definition_answers_augmented)
+  BARISTA: "Serving" -> BARISTA  (missing from definition_answers_augmented)
+  SANDTRAP: "Something to avoid when driving" -> SANDTRAP  (missing from definition_answers_augmented)
+  KRAKATOA: "volcano" -> KRAKATOA  (missing from definition_answers_augmented)
+  WINTRIER: in -> IN  (missing from abbreviations)
+  WINTRIER: German city -> TRIER  (missing from synonyms_pairs)
+  REMAINDER: Memo -> REMINDER  (missing from synonyms_pairs)
+  GRADIENT: nurses -> DIE  (missing from abbreviations)
+  SKIDDY: Broadcaster -> SKY  (missing from abbreviations)
+  STRESSTEST: Emphasises -> STRESSES  (missing from synonyms_pairs)
+  TOTES: Drinks -> TOTS  (missing from synonyms_pairs)
+  PUTON: Don -> PUT  (missing from abbreviations)
+  PUTON: India -> N  (missing from abbreviations)
+  HEDGEROW: would -> D  (missing from abbreviations)
+  SANDTRAP: bores -> SAND  (missing from synonyms_pairs)
+  SANDTRAP: regions -> PART  (missing from synonyms_pairs)
+  OCTAHEDRA: place of worship briefly -> CATHEDRA  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  BARISTA = 19 (60/100): AI=anagram, assembled=charade
+  SANDTRAP = 26 (42/100): AI=charade, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  27. Reportedly fracture part of foot next to American volcano = KRAKATOA
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/38  
+  Type mismatch:         2  26A, 19D
+  DB gap:                28  1A, 9A, 10A, 11A, 12A, 13A, 16A, 17A, 21A, 22A, 25A, 26A, 27A, 28A, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 14D, 15D, 18D, 19D, 20D, 23D, 24D
+  Failed:                1  27A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   12A  ECHO          Beseech other guards to reflect (4)
+                      hidden in "beseECH Other guards"; definition: "to reflect"  [HIGH]
+    6D  DEPRESS       Humble hairdresser pedantically lifting covers (7)
+                      hidden reversed in "humble hairdreSSER PEDantically" [reversal: "lifting"]; definition: "covers"  [HIGH]
+   11A  AGONYUNCLE    Upset clean young man trying to help (5,5)
+                      ---  [HIGH]
+   18D  NOSWEAT       You're welcome to a news broadcast (2,5)
+                      anagram of TOANEWS ("to a news") [anagram: "broadcast"] = NOSWEAT; definition: "You're welcome"  [HIGH]
+   20D  HOSANNA       Hotel beginning to offer small Pavlova, praise the Lord (7)
+                      ---  [HIGH]
+   24D  SHAHS         Persian leaders from the north and from the south (5)
+                      ---  [HIGH]
+   25A  ADMIRE        I dream about respect (6)
+                      anagram of IDREAM ("I dream") [anagram: "about"] = ADMIRE; definition: "respect"  [HIGH]
+    9A  WINTRIER      Women in German city more frosty? (8)
+                      W (synonym of "Women") + IN (synonym of "in") + TRIER (synonym of "German city"); definition: "more frosty?"  [HIGH]
+   14D  REMAINDER     Memo to take a rest (9)
+                      REMINDER (synonym of "Memo") + A (synonym of "to take"); definition: "rest"  [HIGH]
+   17A  IMPUGN        Challenge naughty child with fake gun (6)
+                      anagram of GUN ("gun") + IMP (synonym of "child") = IMPUGN; definition: "Challenge"  [HIGH]
+    1A  DAPPLE        Bit of dried fruit is marked with spots (6)
+                      D (first letter of "dried") + APPLE (synonym of "fruit") [first letter: "Bit of"]; definition: "marked with spots"  [HIGH]
+   10A  POTATO        Murphy's successful shot at snooker, essentially (6)
+                      ---  [HIGH]
+   11A  AGONYUNCLE    Upset clean young man trying to help (5,5)
+                      ---  [HIGH]
+   12A  ECHO          Beseech other guards to reflect (4)
+                      ---  [HIGH]
+   13A  GRADIENT      Allow nurses to depart — it could be a slippery slope? (8)
+                      ---  [HIGH]
+   15D  DRUMSTICK     Short leg struck mid-off! (9)
+                      ---  [HIGH]
+   16A  SKIDDY        Broadcaster assuming setter had died is treacherous (6)
+                      ---  [HIGH]
+   18D  NOSWEAT       You're welcome to a news broadcast (2,5)
+                      ---  [HIGH]
+   19A  BOHEMIAN      Nasty smell next to trap overwhelming a Czech (8)
+                      ---  [HIGH]
+    2D  AXING         Sacking Postecoglou shortly to protect team (5)
+                      ---  [HIGH]
+   20D  HOSANNA       Hotel beginning to offer small Pavlova, praise the Lord (7)
+                      ---  [HIGH]
+   21A  MISS          Yearn for unmarried woman (4)
+                      ---  [HIGH]
+   22A  STRESSTEST    Emphasises time to take temperature for cardiological examination (6,4)
+                      ---  [HIGH]
+   23D  TOTES         Drinks around Spain? Absolutely (5)
+                      TOTS (synonym of "Drinks") + E (abbreviation of "Spain?"); definition: "Absolutely"  [HIGH]
+   24D  SHAHS         Persian leaders from the north and from the south (5)
+                      ---  [HIGH]
+   25A  ADMIRE        I dream about respect (6)
+                      ---  [HIGH]
+   28A  ASSIST        Help someone intolerant of idiots? (6)
+                      ---  [HIGH]
+    3D  PUTON         Don and Vladimir, say, having nothing for India (3,2)
+                      ---  [MED]
+    4D  EPICURE       Gourmet's impressive main course in North Yorkshire (7)
+                      ---  [HIGH]
+    5A  HEDGEROW      Man would develop ultimate in quince jams, a key part of sustainable farming (8)
+                      ---  [HIGH]
+    5D  HARICOT       Bean Charlie's dropped in carriage (7)
+                      ---  [HIGH]
+    6D  DEPRESS       Humble hairdresser pedantically lifting covers (7)
+                      ---  [HIGH]
+    7D  EXTREMISM     Zealotry of old, mostly negligent, male accepting Trump's overture (9)
+                      ---  [MED]
+    9A  WINTRIER      Women in German city more frosty? (8)
+                      ---  [HIGH]
+   19D  BARISTA       Serving ace to exclude the possibility of one returning at speed, primarily (7)
+                      BAR(synonym of "exclude") + I(abbr. "one") + S(first letter of "speed") + T(abbr. "the") + A(abbr. "ace")  [MED]
+   26A  SANDTRAP      Something to avoid when driving in backward regions with bores (4,4)
+                      SAND(synonym of "bores") + reverse PART(synonym of "regions")  [MED]
+   27A  KRAKATOA      Reportedly fracture part of foot next to American volcano (8)
+                      ---  [FAIL]
+    8D  OCTAHEDRA     Figures in old place of worship briefly lowering top of altar (9)
+                      delete A from CATHEDRA(synonym of "place of worship briefly"), anagram of O(abbr. "old")+CATHEDR+A(first letter of "top of altar") = OCTAHEDRA  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ECHO  12A. Beseech other guards to reflect
+  Answer: ECHO
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "to reflect"
+  Wordplay: hidden
+  Explanation: hidden in "beseECH Other guards"; definition: "to reflect"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPRESS  6D. Humble hairdresser pedantically lifting covers
+  Answer: DEPRESS
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "covers"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "humble hairdreSSER PEDantically" [reversal: "lifting"]; definition: "covers"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] AGONYUNCLE  11A. Upset clean young man trying to help
+  Answer: AGONYUNCLE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of CLEAN + YOUNG = AGONYUNCLE
+  ----------------------------------------------------------------------
+
+  [HIGH] NOSWEAT  18D. You're welcome to a news broadcast
+  Answer: NOSWEAT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "You're welcome"
+  Wordplay: anagram
+  Explanation: anagram of TOANEWS ("to a news") [anagram: "broadcast"] = NOSWEAT; definition: "You're welcome"
+  ----------------------------------------------------------------------
+
+  [HIGH] HOSANNA  20D. Hotel beginning to offer small Pavlova, praise the Lord
+  Answer: HOSANNA
+  Tier: --- | Confidence: 100/100
+  Human explanation: H (abbreviation="Hotel") + O (first_letter="offer") + S (abbreviation="small") + ANNA (synonym="Pavlova,") = HOSANNA; definition: "praise the Lord"
+  ----------------------------------------------------------------------
+
+  [HIGH] SHAHS  24D. Persian leaders from the north and from the south
+  Answer: SHAHS
+  Tier: --- | Confidence: 100/100
+  Human explanation: SHAH (synonym="leaders") + S (abbreviation="south") = SHAHS; definition: "Persian"
+  ----------------------------------------------------------------------
+
+  [HIGH] ADMIRE  25A. I dream about respect
+  Answer: ADMIRE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "respect"
+  Wordplay: anagram
+  Explanation: anagram of IDREAM ("I dream") [anagram: "about"] = ADMIRE; definition: "respect"
+  ----------------------------------------------------------------------
+
+  [HIGH] WINTRIER  9A. Women in German city more frosty?
+  Answer: WINTRIER
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "more frosty?"
+  Wordplay: charade
+  Explanation: W (synonym of "Women") + IN (synonym of "in") + TRIER (synonym of "German city"); definition: "more frosty?"
+  Checks: syn_'in'=in_unconfirmed_(real_=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] REMAINDER  14D. Memo to take a rest
+  Answer: REMAINDER
+  Tier: Signature | Confidence: 100/100
+  Definition: "rest"
+  Wordplay: charade
+  Explanation: REMINDER (synonym of "Memo") + A (synonym of "to take"); definition: "rest"
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPUGN  17A. Challenge naughty child with fake gun
+  Answer: IMPUGN
+  Tier: Signature | Confidence: 80/100
+  Definition: "Challenge"
+  Wordplay: anagram + charade
+  Explanation: anagram of GUN ("gun") + IMP (synonym of "child") = IMPUGN; definition: "Challenge"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] DAPPLE  1A. Bit of dried fruit is marked with spots
+  Answer: DAPPLE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "marked with spots"
+  Wordplay: acrostic + charade
+  Explanation: D (first letter of "dried") + APPLE (synonym of "fruit") [first letter: "Bit of"]; definition: "marked with spots"
+  ----------------------------------------------------------------------
+
+  [HIGH] POTATO  10A. Murphy's successful shot at snooker, essentially
+  Answer: POTATO
+  Tier: --- | Confidence: 80/100
+  Definition: "Murphy's successful shot at snooker"
+  Wordplay type: charade
+  Components:
+    synonym            shot at snooker           -> POT
+    literal            at                        -> AT
+    core_letters       essentially               -> O
+  AI Reasoning:
+    POT (snooker shot) + AT (literal) + O (middle letter of snooker) = POTATO, a reference to Shaun Murphy
+  ----------------------------------------------------------------------
+
+  [HIGH] AGONYUNCLE  11A. Upset clean young man trying to help
+  Answer: AGONYUNCLE
+  Tier: --- | Confidence: 100/100
+  Definition: "trying to help"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     clean                     -> CLEAN
+    anagram_fodder     young                     -> YOUNG
+  AI Reasoning:
+    CLEAN + YOUNG anagrammed (upset) = AGONYUNCLE, which means someone trying to help (agony uncle)
+  ----------------------------------------------------------------------
+
+  [HIGH] ECHO  12A. Beseech other guards to reflect
+  Answer: ECHO
+  Tier: --- | Confidence: 100/100
+  Definition: "Beseech"
+  Wordplay type: hidden
+  Components:
+    hidden             guards                    -> ECHO
+  AI Reasoning:
+    ECHO is hidden in the word 'guards' reading the letters: b-ECHO-thers (from 'beseech other guards')
+  ----------------------------------------------------------------------
+
+  [HIGH] GRADIENT  13A. Allow nurses to depart — it could be a slippery slope?
+  Answer: GRADIENT
+  Tier: --- | Confidence: 90/100
+  Definition: "it could be a slippery slope"
+  Wordplay type: container
+  Components:
+    synonym            Allow                     -> GRANT
+    abbreviation       nurses                    -> DIE
+  AI Reasoning:
+    GRANT (allow) contains DIE (nurses depart/die), forming GRADIENT (slippery slope)
+  ----------------------------------------------------------------------
+
+  [HIGH] DRUMSTICK  15D. Short leg struck mid-off!
+  Answer: DRUMSTICK
+  Tier: --- | Confidence: 100/100
+  Definition: "Short leg"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     STRUCK                    -> STRUCK
+    anagram_fodder     MID                       -> MID
+  AI Reasoning:
+    STRUCK + MID anagrammed (with OFF removed as indicator) = DRUMSTICK (a chicken leg)
+  ----------------------------------------------------------------------
+
+  [HIGH] SKIDDY  16A. Broadcaster assuming setter had died is treacherous
+  Answer: SKIDDY
+  Tier: --- | Confidence: 100/100
+  Definition: "treacherous"
+  Wordplay type: container
+  Components:
+    synonym            Broadcaster               -> SKY
+    first_letter       setter                    -> I
+    literal            had                       -> D
+    first_letter       died                      -> D
+  AI Reasoning:
+    SKY (broadcaster) contains I'D (setter had) + D (died), giving SKI(D)DY = SKIDDY (treacherous/slippery)
+  ----------------------------------------------------------------------
+
+  [HIGH] NOSWEAT  18D. You're welcome to a news broadcast
+  Answer: NOSWEAT
+  Tier: --- | Confidence: 100/100
+  Definition: "You're welcome"
+  Wordplay type: anagram
+  Components:
+    literal            broadcast                 -> TO
+    literal            a                         -> A
+    literal            news                      -> NEWS
+  AI Reasoning:
+    TO + A + NEWS is an anagram of NO SWEAT (meaning 'you're welcome')
+  ----------------------------------------------------------------------
+
+  [HIGH] BOHEMIAN  19A. Nasty smell next to trap overwhelming a Czech
+  Answer: BOHEMIAN
+  Tier: --- | Confidence: 100/100
+  Definition: "a Czech"
+  Wordplay type: charade
+  Components:
+    abbreviation       smell                     -> BO
+    literal            trap                      -> HEM IN
+    literal            overwhelming              -> A
+  AI Reasoning:
+    BO (body odour) + HEM IN (trap/surround) containing A (overwhelming) = BOHEMIAN
+  ----------------------------------------------------------------------
+
+  [HIGH] AXING  2D. Sacking Postecoglou shortly to protect team
+  Answer: AXING
+  Tier: --- | Confidence: 95/100
+  Definition: "Sacking"
+  Wordplay type: container
+  Components:
+    first_letter       Postecoglou               -> ANG
+    abbreviation       eleven                    -> XI
+  AI Reasoning:
+    ANG (Ange Postecoglou's forename, shortened) contains XI (Roman numerals for eleven/team players) = AXING (sacking)
+  ----------------------------------------------------------------------
+
+  [HIGH] HOSANNA  20D. Hotel beginning to offer small Pavlova, praise the Lord
+  Answer: HOSANNA
+  Tier: --- | Confidence: 100/100
+  Definition: "praise the Lord"
+  Wordplay type: charade
+  Components:
+    abbreviation       Hotel                     -> H
+    first_letter       offer                     -> O
+    abbreviation       small                     -> S
+    literal            Pavlova                   -> ANNA
+  AI Reasoning:
+    H (hotel phonetic alphabet) + O (first of offer) + S (small abbreviation) + ANNA (ballerina's first name) = HOSANNA
+  ----------------------------------------------------------------------
+
+  [HIGH] MISS  21A. Yearn for unmarried woman
+  Answer: MISS
+  Tier: --- | Confidence: 90/100
+  Definition: "unmarried woman"
+  Wordplay type: double_definition
+  AI Reasoning:
+    MISS has two meanings: to yearn for (verb) and an unmarried woman (noun)
+  ----------------------------------------------------------------------
+
+  [HIGH] STRESSTEST  22A. Emphasises time to take temperature for cardiological examination
+  Answer: STRESSTEST
+  Tier: --- | Confidence: 100/100
+  Definition: "cardiological examination"
+  Wordplay type: container
+  Components:
+    synonym            Emphasises                -> STRESSES
+    abbreviation       time                      -> T
+    abbreviation       temperature               -> T
+  AI Reasoning:
+    STRESSES (emphasises) + T (time) contains T (temperature), giving STRESS-T-TEST
+  ----------------------------------------------------------------------
+
+  [HIGH] TOTES  23D. Drinks around Spain? Absolutely
+  Answer: TOTES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Absolutely"
+  Wordplay: charade
+  Explanation: TOTS (synonym of "Drinks") + E (abbreviation of "Spain?"); definition: "Absolutely"
+  ----------------------------------------------------------------------
+
+  [HIGH] SHAHS  24D. Persian leaders from the north and from the south
+  Answer: SHAHS
+  Tier: --- | Confidence: 90/100
+  Definition: "Persian leaders"
+  Wordplay type: double_definition
+  AI Reasoning:
+    SHAHS is a palindrome that reads identically from north (top) to south (bottom), creating a cryptic definition where the same word means 'Persian leaders from the north' and 'Persian leaders from the south'
+  ----------------------------------------------------------------------
+
+  [HIGH] ADMIRE  25A. I dream about respect
+  Answer: ADMIRE
+  Tier: --- | Confidence: 100/100
+  Definition: "respect"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     I DREAM                   -> IDREAM
+  AI Reasoning:
+    IDREAM is an anagram (indicated by 'about') of ADMIRE, which means respect
+  ----------------------------------------------------------------------
+
+  [HIGH] ASSIST  28A. Help someone intolerant of idiots?
+  Answer: ASSIST
+  Tier: --- | Confidence: 100/100
+  Definition: "Help"
+  Wordplay type: charade
+  Components:
+    literal            someone intolerant of idiots -> ASS
+    literal            someone intolerant of idiots -> IST
+  AI Reasoning:
+    ASSIST = ASS (idiots) + IST (suffix for someone prejudiced against/intolerant of something), forming a charade where the suffix -IST creates 'assit' meaning someone intolerant of asses/idiots, which is a homophone/pun on ASSIST (help).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PUTON  3D. Don and Vladimir, say, having nothing for India
+  Answer: PUTON
+  Tier: --- | Confidence: 75/100
+  Definition: "Don and Vladimir, say"
+  Wordplay type: charade
+  Components:
+    synonym            Don                       -> PUT
+    literal            nothing                   -> O
+    abbreviation       India                     -> N
+  AI Reasoning:
+    PUT (don/assume) + O (nothing/zero) + N (India's radio codeword) = PUTON (Putin, Vladimir Putin)
+  ----------------------------------------------------------------------
+
+  [HIGH] EPICURE  4D. Gourmet's impressive main course in North Yorkshire
+  Answer: EPICURE
+  Tier: --- | Confidence: 100/100
+  Definition: "Gourmet"
+  Wordplay type: charade
+  Components:
+    synonym            impressive                -> EPIC
+    literal            Ure                       -> URE
+  AI Reasoning:
+    EPIC (synonym for impressive) + URE (river in North Yorkshire, a 'main' course as it flows to the sea) = EPICURE (gourmet)
+  ----------------------------------------------------------------------
+
+  [HIGH] HEDGEROW  5A. Man would develop ultimate in quince jams, a key part of sustainable farming
+  Answer: HEDGEROW
+  Tier: --- | Confidence: 95/100
+  Definition: "a key part of sustainable farming"
+  Wordplay type: charade
+  Components:
+    synonym            Man                       -> HE
+    abbreviation       would                     -> D
+    last_letter        ultimate in quince        -> E
+    anagram_fodder     jams                      -> GROW
+  AI Reasoning:
+    HE (man) + D (would) + E (final letter of quince) + GROW (anagram of jams) = HEDGEROW
+  ----------------------------------------------------------------------
+
+  [HIGH] HARICOT  5D. Bean Charlie's dropped in carriage
+  Answer: HARICOT
+  Tier: --- | Confidence: 100/100
+  Definition: "Bean"
+  Wordplay type: container
+  Components:
+    abbreviation       Charlie                   -> C
+    literal            carriage                  -> HARIOT
+  AI Reasoning:
+    CHARIOT (carriage) with C (Charlie) inserted into it to form HARICOT (bean)
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPRESS  6D. Humble hairdresser pedantically lifting covers
+  Answer: DEPRESS
+  Tier: --- | Confidence: 100/100
+  Definition: "Humble"
+  Wordplay type: container
+  Components:
+    hidden             hairdresser               -> SSER
+    hidden             pedantically              -> PED
+  AI Reasoning:
+    SSER (from hairdreSSER) and PED (from PEDantically) are hidden words that combine to form SSERPЕД, which reversed (lifting) gives DEPRESS (humble)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXTREMISM  7D. Zealotry of old, mostly negligent, male accepting Trump's overture
+  Answer: EXTREMISM
+  Tier: --- | Confidence: 70/100
+  Definition: "Zealotry"
+  Wordplay type: container
+  Components:
+    abbreviation       old                       -> EX
+    literal            negligent                 -> REMIS
+    deletion           mostly                    -> REMIS [REMISS - S]
+    abbreviation       male                      -> M
+    first_letter       Trump's overture          -> T
+  AI Reasoning:
+    EX (of old) + REMIS (negligent, mostly = REMISS minus S) + M (male) containing T (first letter of Trump) = EXTREMISM
+  ----------------------------------------------------------------------
+
+  [HIGH] WINTRIER  9A. Women in German city more frosty?
+  Answer: WINTRIER
+  Tier: --- | Confidence: 100/100
+  Definition: "more frosty"
+  Wordplay type: charade
+  Components:
+    abbreviation       Women                     -> W
+    literal            in                        -> IN
+    literal            German city               -> TRIER
+  AI Reasoning:
+    W (abbreviation for women) + IN (literal) + TRIER (German city) = WINTRIER (comparative form of wintry, meaning more frosty)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BARISTA  19D. Serving ace to exclude the possibility of one returning at speed, primarily
+  Answer: BARISTA
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Serving"
+  Wordplay type: anagram
+  Components:
+    indicator          serving                   -> 
+    abbreviation       ace                       -> A
+    synonym            exclude                   -> BAR
+    abbreviation       the                       -> T
+    abbreviation       one                       -> I
+    first_letter       speed                     -> S
+    indicator          primarily                 -> 
+  Assembly: charade — BAR(synonym of "exclude") + I(abbr. "one") + S(first letter of "speed") + T(abbr. "the") + A(abbr. "ace")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      serving: syn=FRY,TEA,BAKE,BITE,CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,GULP,LUAU,MEAL; ind=anagram?
+      ace: syn=A,BIT,DAB,NIP,ONE,PRO,RAY,BEST,DEFT,GOOD,GURU,HAIR,HAND,HINT,INCH; abbr=A*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      exclude: syn=BAR*,BAN,MISS,OMIT,RULE,DEBAR,SUSPEND
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      possibility: syn=FIX,JAM,CASE,HEAD,HOLE,HOUR,LAST,PASS,SPOT,EVENT,PINCH,AT ALL,CLIMAX,CLUTCH,CORNER
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O; sounds=won
+      returning: syn=HOME,STOP,COMING,GIVING,PAYING,BEARING,UNDOING; ind=reversal
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      speed: syn=IT,FLY,MPH,RUN,CLIP,DRUG,FAST,LICK,MOVE,PACE,PAST,RACE,RATE,RUSH,SHOT; abbr=MPH,RATE
+      primarily: syn=BY,AND,LAIC,LAIR,LARGE,MAINLY,MOSTLY,CHIEFLY,FIRSTLY,GENERAL,OVERALL; ind=acrostic,parts
+      the possibility: syn=CHANCEL
+      of one: syn=NIT,SAY,TOO,AKIN,AREA,BEAN,BOOK,CHAP,GIRL,HEAD
+  AI Reasoning:
+    Anagram of letters from ace(A) + exclude(BAR) + the(T) + one(I) + speed primarily(S) = ABARTIS → BARISTA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SANDTRAP  26A. Something to avoid when driving in backward regions with bores
+  Answer: SANDTRAP
+  Tier: Sonnet | Confidence: 42/100
+  Definition: "Something to avoid when driving"
+  Wordplay type: charade
+  Components:
+    synonym            bores                     -> SAND
+    synonym            regions                   -> PART
+    indicator          backward                  -> 
+  Assembly: reversal — SAND(synonym of "bores") + reverse PART(synonym of "regions")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      avoid: syn=END,LEG,OUT,DUCK,NULL,SHUN,SKIP,STAY,VOID,A LEG,ABATE,ANNUL,DODGE,ELUDE,EVADE
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      driving: syn=ARM,FAST,MOVE,ROAD,SKIDDING; ind=anagram?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      backward: syn=COY,SHY,BACK,LEFT,MEEK,SYNE,ABOUT,AGONE,FAZED,JUMPY,STIFF,TIMID,UPSET,CLUMSY,DEMURE; ind=reversal
+      regions: syn=AREAS,PLACES,DOMAINS,GENERAL,CUT,END,JOB,AREA,ASIA,BELT,LAND,MOST,NECK,PART,ROLE
+      with: syn=AND*,W,BY,IN,OF,ON,TO,UP,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND*,ON,W
+      bores: syn=AWL,BOB,DID,DUG,GOT,HAD,HIT,LAY,MET,PUT,SAT,SAW,TAG,WAS,WON; sounds=boar
+      to avoid: syn=LIST,PLAN,ROTA,DODGE,AGENDA,ROSTER,CALENDAR,SCHEDULE
+  AI Reasoning:
+    Definition 'something to avoid when driving' + charade of SAND (bores) + TRAP (backward PART)
+  ----------------------------------------------------------------------
+
+  [FAILED] KRAKATOA  27A. Reportedly fracture part of foot next to American volcano
+  Answer: KRAKATOA
+  Tier: --- | Confidence: 0/100
+  Definition: "volcano"
+  Wordplay type: homophone
+  Components:
+    indicator          Reportedly                -> 
+    synonym            fracture                  -> CRACK
+    synonym            part of foot              -> ATOE
+    abbreviation       American                  -> A
+  DB Lookups:
+    DB lookups:
+      reportedly: syn=MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,PERHAPS,PLAINLY,VISIBLY,CREDIBLY,POSSIBLY,PROBABLY,THEY SAY; ind=homophone
+      fracture: syn=LEG,NEW,EVEN,WIND,A LEG,BREAK,COVER; ind=anagram?
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      foot: syn=AT*,FT,ADD,LAG,PAD,PAW,PAY,SUM,ANTE,BASE,GRUB,HAVE,IAMB,KEEP,LAGS; ind=parts
+      next: syn=BY,ON,FAIR,MOST,MUCH,NEAR,NIGH,PAST,SOON,THEN,UPON,ABOUT,AFTER,BELOW,CLOSE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      american: syn=A,US,SUE,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN; abbr=A*,US
+      volcano: syn=ETNA,TIME,THIRD
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+      next to: abbr=BY
+      next to: syn=AN,BY,OR,BUT,DOOR,FAIR,JUST,LESS,MORE,MOST
+      part of foot: syn=INCH,UNIT,CHAIN,CREEP
+  AI Reasoning:
+    CRACK ATOE A sounds like KRAKATOA when spoken aloud
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OCTAHEDRA  8D. Figures in old place of worship briefly lowering top of altar
+  Answer: OCTAHEDRA
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Figures"
+  Wordplay type: anagram
+  Components:
+    abbreviation       old                       -> O
+    synonym            place of worship briefly  -> CATHEDRA
+    indicator          lowering                  -> 
+    first_letter       top of altar              -> A
+  Assembly: deletion+anagram — delete A from CATHEDRA(synonym of "place of worship briefly"), anagram of O(abbr. "old")+CATHEDR+A(first letter of "top of altar") = OCTAHEDRA
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=CATHEDR answer=OCTAHEDRA | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      figures: syn=BETS,DATA,FACE,FITS,GOES,LAYS,LIST,MAIN,MATH,PUTS,SAYS,SETS,UNIT,CALLS,CONES; ind=anagram?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      place: syn=AM,BE,DO,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END,FEE,FIX; abbr=LAY,PL
+      worship: syn=LOSE,LOVE,ADORE,HEART,ADORED,ADORER,ADORES,PRAISE,REVERE,ADORING,ADULATE,IDOLISE,PRAYING,ADULATED,IDOLATRY
+      briefly: syn=CURTLY,IN SUM,CRISPLY,INSHORT,PITHILY,SHORTLY,TERSELY,IN SHORT,COMPACTLY,CONCISELY,IN A WORD,SUMMARILY,TOUCHBASE; ind=deletion,parts
+      lowering: syn=NEAR,HEAVY,COMING,FUTURE,LIKELY,AUSTERE,AWAITED,BREWING,LOOMING,NEARING,OMINOUS,PENDING,SINKING,DEMOTION,EXPECTED
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T*,UP; ind=acrostic,deletion,parts
+      altar: syn=TABLE; sounds=alter
+      of worship: syn=TEMPLE
+      place of worship: syn=FAT,WAT,BROW,TENT
+    Definitions:
+      "Figures" -> OCTAHEDRA (definition match)
+  AI Reasoning:
+    O + CATHEDRA (cathedral briefly) + A (top of altar) anagrams via 'lowering' to OCTAHEDRA
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

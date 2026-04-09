@@ -1,0 +1,309 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12307
+Generated: 2026-03-20 07:29:49
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      27
+  Assembled:        27/27 (100%)
+    Signature:      4
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   22  11?, 15?, 2?, 27?, 1?, 12?, 13?, 14?, 16?, 17?, 18?, 19?, 20?, 24?, 25?, 26?, 4?, 5?, 6?, 7?, 8?, 9?
+  Medium (40-79): 5  10?, 21?, 22?, 23?, 3?
+  Low (<40):    0  
+  Failed:       0  
+  Average:      89/100
+
+COST: $0.2007 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (7 entries)
+------------------------------------------------------------
+  WIZARD: "Potter" -> WIZARD  (missing from definition_answers_augmented)
+  NAIL: "Nick's" -> NAIL  (missing from definition_answers_augmented)
+  MANITOBA: "somewhere in Canada" -> MANITOBA  (missing from definition_answers_augmented)
+  STAMPDUTY: "taxation" -> STAMPDUTY  (missing from definition_answers_augmented)
+  FIRSTAID: "medical assistance" -> FIRSTAID  (missing from definition_answers_augmented)
+  STAMPDUTY: backbencher -> MP  (missing from abbreviations)
+  FIRSTAID: Company -> FIR  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  22/27  10, 20, 1, 21, 12, 22, 13, 4, 14, 24, 5, 25, 6, 16, 26, 7, 17, 27, 8, 18, 9, 19
+  DB gap:                5  2, 3, 11, 15, 23
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11?  WIZARD        Potter with headless reptile?
+                      W (synonym of "with") + LIZARD (synonym of "reptile?") [beheading: "headless"]; definition: "Potter"  [HIGH]
+   15?  NAIL          Nick's one wearing nothing
+                      A (abbreviation of "one") + NIL (synonym of "nothing") [container: "wearing"]; definition: "Nick's"  [HIGH]
+    2?  MANITOBA      Male adrift in a boat somewhere in Canada
+                      anagram of INABOAT ("in a boat") [anagram: "adrift"] + M (abbreviation of "Male") = MANITOBA; definition: "somewhere in Canada"  [HIGH]
+   27?  ARIA          E Ariadne auf Naxos x
+                      hidden in "E Ariadne auf Naxos x"  [HIGH]
+    1?  INDIGO        Friendly king leaves before I turn blue
+                      ---  [HIGH]
+   10?  HARDWARESHOP  Ironmonger's speeds across a road initially worrying having obstructed police from the start
+                      ---  [MED]
+   12?  OBITUARY      Tribute to Ruby (AI modified)
+                      ---  [HIGH]
+   13?  ONEARMED      Person carrying weapon like a bandit
+                      ---  [HIGH]
+   14?  KEYPAD        Secretary ultimately relied on essential part of phone
+                      ---  [HIGH]
+   16?  INSTAGRAM     Fashionable males may be on it
+                      ---  [HIGH]
+   17?  ORANGE        Fruit from Algerian port say sent back
+                      ---  [HIGH]
+   18?  MIDDLEOFTHEROAD  Unexciting and generally dangerous to walk here
+                      ---  [HIGH]
+   19?  NOTARIES      Officials whose birthdays for sure aren't in the last week of March or the first two of April
+                      ---  [HIGH]
+   20?  TEDDY         President Roosevelt's undergarment
+                      ---  [HIGH]
+   21?  BETTEDAVIS    Film star's diabetes variant's limitations should be dealt with
+                      ---  [MED]
+   22?  EXCAVATION    Dig old wine? Crazy on it!
+                      ---  [MED]
+   24?  ASWANDAM      Faith maybe will protect swimmer in river structure
+                      ---  [HIGH]
+   25?  SHRIEK        The first person in film to make you cry
+                      ---  [HIGH]
+   26?  DRAMA         Drive the core of hostile Palestinians to cause tragedy?
+                      ---  [HIGH]
+    4?  TODATE        Thus far Fox media's right to back terms of current ceasefire
+                      ---  [HIGH]
+    5?  ANGELARAYNER  Reagan nearly condemned British politician
+                      ---  [HIGH]
+    6?  OXER          Jump from dog without lead
+                      ---  [HIGH]
+    7?  OVERSEAS      Victor's engaged in old language when abroad
+                      ---  [HIGH]
+    8?  MARMOSET      Monkey business is done here including some that's criminal
+                      ---  [HIGH]
+    9?  AXIS          Military alliance using vehicles that won't start
+                      ---  [HIGH]
+   23?  STAMPDUTY     Time a backbencher say gets involved in study about taxation
+                      anagram of T(abbr. "Time")+A(a)+MP(abbr. "backbencher")+STUDY(study) = STAMPDUTY  [MED]
+    3?  FIRSTAID      Company calm and dignified wants money for medical assistance
+                      FIR(synonym of "Company") + STAID(synonym of "calm and dignified")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] WIZARD  11?. Potter with headless reptile?
+  Answer: WIZARD
+  Tier: Signature | Confidence: 100/100
+  Definition: "Potter"
+  Wordplay: charade + deletion
+  Explanation: W (synonym of "with") + LIZARD (synonym of "reptile?") [beheading: "headless"]; definition: "Potter"
+  ----------------------------------------------------------------------
+
+  [HIGH] NAIL  15?. Nick's one wearing nothing
+  Answer: NAIL
+  Tier: Signature | Confidence: 100/100
+  Definition: "Nick's"
+  Wordplay: charade + container
+  Explanation: A (abbreviation of "one") + NIL (synonym of "nothing") [container: "wearing"]; definition: "Nick's"
+  ----------------------------------------------------------------------
+
+  [HIGH] MANITOBA  2?. Male adrift in a boat somewhere in Canada
+  Answer: MANITOBA
+  Tier: Signature | Confidence: 100/100
+  Definition: "somewhere in Canada"
+  Wordplay: anagram + charade
+  Explanation: anagram of INABOAT ("in a boat") [anagram: "adrift"] + M (abbreviation of "Male") = MANITOBA; definition: "somewhere in Canada"
+  ----------------------------------------------------------------------
+
+  [HIGH] ARIA  27?. E Ariadne auf Naxos x
+  Answer: ARIA
+  Tier: Signature | Confidence: 80/100
+  Wordplay: hidden
+  Explanation: hidden in "E Ariadne auf Naxos x"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] INDIGO  1?. Friendly king leaves before I turn blue
+  Answer: INDIGO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HARDWARESHOP  10?. Ironmonger's speeds across a road initially worrying having obstructed police from the start
+  Answer: HARDWARESHOP
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OBITUARY  12?. Tribute to Ruby (AI modified)
+  Answer: OBITUARY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ONEARMED  13?. Person carrying weapon like a bandit
+  Answer: ONEARMED
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] KEYPAD  14?. Secretary ultimately relied on essential part of phone
+  Answer: KEYPAD
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] INSTAGRAM  16?. Fashionable males may be on it
+  Answer: INSTAGRAM
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ORANGE  17?. Fruit from Algerian port say sent back
+  Answer: ORANGE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MIDDLEOFTHEROAD  18?. Unexciting and generally dangerous to walk here
+  Answer: MIDDLEOFTHEROAD
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NOTARIES  19?. Officials whose birthdays for sure aren't in the last week of March or the first two of April
+  Answer: NOTARIES
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TEDDY  20?. President Roosevelt's undergarment
+  Answer: TEDDY
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BETTEDAVIS  21?. Film star's diabetes variant's limitations should be dealt with
+  Answer: BETTEDAVIS
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXCAVATION  22?. Dig old wine? Crazy on it!
+  Answer: EXCAVATION
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ASWANDAM  24?. Faith maybe will protect swimmer in river structure
+  Answer: ASWANDAM
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SHRIEK  25?. The first person in film to make you cry
+  Answer: SHRIEK
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAMA  26?. Drive the core of hostile Palestinians to cause tragedy?
+  Answer: DRAMA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TODATE  4?. Thus far Fox media's right to back terms of current ceasefire
+  Answer: TODATE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ANGELARAYNER  5?. Reagan nearly condemned British politician
+  Answer: ANGELARAYNER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OXER  6?. Jump from dog without lead
+  Answer: OXER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OVERSEAS  7?. Victor's engaged in old language when abroad
+  Answer: OVERSEAS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MARMOSET  8?. Monkey business is done here including some that's criminal
+  Answer: MARMOSET
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AXIS  9?. Military alliance using vehicles that won't start
+  Answer: AXIS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] STAMPDUTY  23?. Time a backbencher say gets involved in study about taxation
+  Answer: STAMPDUTY
+  Tier: Sonnet | Confidence: 61/100
+  Definition: "taxation"
+  Wordplay type: anagram
+  Components:
+    abbreviation       Time                      -> T
+    literal            a                         -> A
+    abbreviation       backbencher               -> MP
+    literal            study                     -> STUDY
+  Assembly: anagram — anagram of T(abbr. "Time")+A(a)+MP(abbr. "backbencher")+STUDY(study) = STAMPDUTY
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      gets: syn=BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS,OFFS; abbr=G,GE
+      involved: syn=GOT,WON,BORE,DEEP,DREW,GAVE,MADE,QUIT,RAPT,TOOK,ALERT,ALIVE,ASKED,CAGED,FANCY; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      study: syn=CON,DEN,HER,HIS,CRAM,EXAM,FEEL,MUCH,QUIZ,READ,SCAN,SWOT,TEST,VIEW,AUDEN; abbr=CON,READ
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      involved in: ind=insertion
+      in study: syn=LEARNING
+  AI Reasoning:
+    TAMP (from 'Time a backbencher say' as homophone) combines with STUDY, then 'gets involved' indicates anagram of TAMPSTUDY to give STAMPDUTY
+  ----------------------------------------------------------------------
+
+  [MEDIUM] FIRSTAID  3?. Company calm and dignified wants money for medical assistance
+  Answer: FIRSTAID
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "medical assistance"
+  Wordplay type: charade
+  Components:
+    synonym            Company                   -> FIR
+    synonym            calm and dignified        -> STAID
+  Assembly: charade — FIR(synonym of "Company") + STAID(synonym of "calm and dignified")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      company: syn=BE,CO,ARE,FAN,RUN,SEE,TEN,TWO,ARMY,BAND,CARE,CAST,CHUM,CREW,DATE; abbr=CO
+      calm: syn=CAL,ANTI,COOL,EASE,EASY,EVEN,LOWN,LULL,ALLAY,EQUAL,LEVEL,ORDER,PEACE,QUELL,QUIET
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      dignified: syn=GRAVE,SOBER,AUGUST,SEDATE,AUGUST?,ENNOBLED,HONOURED,IMPOSING
+      wants: syn=LACKS,NEEDS,DESIRES,IF,AIM,DIE,FOR,THE,YOU,ACHE,BORN,CARE,FEEL,FIVE,HOPE
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      medical: syn=DOC,DOCS,HOME,TEST,HOMES,MEDIC,NURSE,AIDMAN,AIDMEN,CLINIC,DOCTOR,INTERN,MEDICO,MEDICS,NURSES; abbr=M
+      assistance: syn=AID*,AIDS,CARE,HAND,HELP,LIFT,AIDS:,BOOST,EVERY,FAVOR,STATE,ADVICE,ASSIST,AT THE,LEG UP
+      calm and dignified: syn=STAID*,CALM,SOBER,BECALM
+  AI Reasoning:
+    FIR (company of trees) + STAID (calm and dignified) = FIRSTAID
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

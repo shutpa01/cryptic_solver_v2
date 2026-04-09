@@ -1,0 +1,452 @@
+{
+  "source": "times",
+  "puzzle": "29496",
+  "stats": {
+    "total": 30,
+    "assembled": 27,
+    "high": 15,
+    "medium": 6,
+    "low": 6,
+    "failed": 3,
+    "avg_score": 64.85185185185185
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Part of Ireland",
+      "letters": "CLARE",
+      "answer": "CLARET",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Part of Ireland beginning to tax alcohol",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "coats",
+      "letters": "MACS",
+      "answer": "SCAM",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Fleece coats sent north",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "mouth",
+      "letters": "LIP",
+      "answer": "OXLIP",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Nil by mouth for one in bed?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "extraction facility",
+      "letters": "MINE",
+      "answer": "LUMINESCENT",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "South of large uranium extraction facility, detect glowing",
+      "score": 27
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "detect",
+      "letters": "SCENT",
+      "answer": "LUMINESCENT",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "South of large uranium extraction facility, detect glowing",
+      "score": 27
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Welsh politician",
+      "letters": "MS",
+      "answer": "ALMS",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Charitable donations from key Liberal Welsh politician",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "the writer's",
+      "letters": "MOSITY",
+      "answer": "POMPOSITY",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Withdrawing work put forward, puncturing the writer’s self-importance",
+      "score": -7
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "King Queen turned on very old emperor",
+      "letters": "SOONER",
+      "answer": "SOONERORLATER",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Eventually, King, Queen and others turned on very old emperor",
+      "score": -25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "others",
+      "letters": "OR",
+      "answer": "SOONERORLATER",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Eventually, King, Queen and others turned on very old emperor",
+      "score": -25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "record label",
+      "letters": "EMI",
+      "answer": "EMIGRANTS",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Those leaving the country record label before awards",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "awards",
+      "letters": "GRANTS",
+      "answer": "EMIGRANTS",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Those leaving the country record label before awards",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "briefly",
+      "letters": "R",
+      "answer": "MATERNITY",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Couple briefly trying swimming for pregnant women",
+      "score": 45
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "First-class",
+      "letters": "A",
+      "answer": "LAUNCHPAD",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "First-class meal and accommodation comprises good starting point",
+      "score": 10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "accommodation",
+      "letters": "PAD",
+      "answer": "LAUNCHPAD",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "First-class meal and accommodation comprises good starting point",
+      "score": 10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Party",
+      "letters": "DU",
+      "answer": "DUPE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Party drug hoax",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "drug",
+      "letters": "PE",
+      "answer": "DUPE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Party drug hoax",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "magazine",
+      "letters": "HEAT",
+      "answer": "INSHEATHE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Enclose fashionable society magazine article missing introduction",
+      "score": -9
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pay",
+      "answer": "WAGES",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Pay comedian less, essentially",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chat",
+      "answer": "GAS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Chat cut short",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Resin",
+      "answer": "ELEMI",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Resin from tree, one packed with energy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fleece",
+      "answer": "SCAM",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Fleece coats sent north",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "town",
+      "answer": "WHITSTABLE",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "With success, go over border of Lincolnshire town",
+      "score": 12
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one in bed?",
+      "answer": "OXLIP",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Nil by mouth for one in bed?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "With regular instances of unrest, he and Islam tangled",
+      "answer": "SALMANRUSHDIE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "With regular instances of unrest, he and Islam tangled",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "glowing",
+      "answer": "LUMINESCENT",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "South of large uranium extraction facility, detect glowing",
+      "score": 27
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Court icon",
+      "answer": "ARTHURASHE",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "You are in a right mess with European Court icon",
+      "score": 59
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Charitable donations",
+      "answer": "ALMS",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Charitable donations from key Liberal Welsh politician",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Someone criticising",
+      "answer": "DISPARAGER",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Someone criticising lively drag parties heartlessly",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "person with outdated views",
+      "answer": "DINOSAUR",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Deviant is around person with outdated views",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "very slowly",
+      "answer": "LENTISSIMO",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Instil some reforms very slowly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "the important part",
+      "answer": "PITH",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Periodically print the important part",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Eventually",
+      "answer": "SOONERORLATER",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Eventually, King, Queen and others turned on very old emperor",
+      "score": -25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Those leaving the country",
+      "answer": "EMIGRANTS",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Those leaving the country record label before awards",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Clear of all charges,",
+      "answer": "NET",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Clear of all charges, X is on the rise",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "for pregnant women",
+      "answer": "MATERNITY",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Couple briefly trying swimming for pregnant women",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Perhaps",
+      "answer": "TITLE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Perhaps Mr Levy has left for hotel",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Alternate",
+      "answer": "SEESAW",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Alternate pronunciation of maritime proverb",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "starting point",
+      "answer": "LAUNCHPAD",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "First-class meal and accommodation comprises good starting point",
+      "score": 10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Services computers etc controlled by viruses?",
+      "answer": "INSHEATHE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Services computers etc controlled by viruses?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "soups",
+      "answer": "CHOWDERS",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Those in debt supporting children, eating the last of tinned soups",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hoax",
+      "answer": "DUPE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Party drug hoax",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Enclose",
+      "answer": "INSHEATHE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Enclose fashionable society magazine article missing introduction",
+      "score": -9
+    }
+  ]
+}

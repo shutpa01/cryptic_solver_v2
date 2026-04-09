@@ -1,0 +1,345 @@
+{
+  "source": "times",
+  "puzzle": "29485",
+  "stats": {
+    "total": 30,
+    "assembled": 25,
+    "high": 15,
+    "medium": 8,
+    "low": 2,
+    "failed": 5,
+    "avg_score": 72.72
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dance",
+      "answer": "WATUSI",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Dicky waits round university for dance",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Who's beginning to anticipate a new Ring in development?",
+      "answer": "WAGNERIAN",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Who’s beginning to anticipate a new Ring in development?",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "who understands when person's lying",
+      "answer": "PSYCHOANALYST",
+      "clue_number": "10",
+      "direction": "down",
+      "clue": "A sly sycophant possibly who understands when person’s lying?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Overlooked",
+      "answer": "INTHESHADE",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Overlooked point he’s had emphasised to some extent",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "accountant",
+      "answer": "TREASURER",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Deal mostly with less dubious accountant?",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Baby",
+      "answer": "JOEY",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Baby boomer’s delight consuming Ecstasy",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "scale",
+      "answer": "YARDSTICK",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "More than one American garden parasite produces scale",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Trafficked mammal's",
+      "answer": "PANGOLIN",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Trafficked mammal’s long suffering during distress",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "composer",
+      "answer": "TOSTI",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Excerpt from Rigoletto stirred composer",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Liver",
+      "answer": "SALAMANDER",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Liver in flames looking bloody unfortunately flipped when chap’s interrupted",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "source of meal",
+      "answer": "MANIOC",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Mother raised money as source of meal",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "religious follower",
+      "answer": "RASTAFARI",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "An emperor overthrown by unusually fair religious follower",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A large number",
+      "answer": "GROSS",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "A large number of birds without beak",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cause to feel humiliated",
+      "answer": "MORTIFY",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "I’m forty — moving cause to feel humiliated",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A nerd",
+      "answer": "ANORAK",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "A nerd or a kagoule? One of the two there will do!",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Drink",
+      "answer": "SPRITZER",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Drink salesmen turning up outside hotel",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Teacher",
+      "answer": "EDUCATOR",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Teacher turned offensive when bored by Roman statesman",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Deceit",
+      "answer": "DOUBLEDEALING",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Deceit upped London borough by 100 per cent",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bird call",
+      "answer": "CUCKOO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "What’s about in our land that bird call introduces?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Black Sea port once",
+      "answer": "TREBIZOND",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Rage engulfs business circle in Black Sea port once",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "station in Australia",
+      "answer": "RANCH",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Billions lost from local railway station in Australia",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "it keeps things fresher",
+      "answer": "GASTRAP",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Backing separate sink — it keeps things fresher",
+      "score": 57
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "rather mean",
+      "letters": "ISH",
+      "answer": "YELLOWISH",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "What was the Left? Rather mean and a bit cowardly?",
+      "score": 92
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "parasite",
+      "letters": "STICK",
+      "answer": "YARDSTICK",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "More than one American garden parasite produces scale",
+      "score": 77
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "long",
+      "letters": "PANG",
+      "answer": "PANGOLIN",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Trafficked mammal’s long suffering during distress",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "suffering",
+      "letters": "OL",
+      "answer": "PANGOLIN",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Trafficked mammal’s long suffering during distress",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "everybody's",
+      "letters": "OUR",
+      "answer": "ODOUR",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Social event smothered by everybody’s scent",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "medal",
+      "letters": "GOLD",
+      "answer": "GOLDONI",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Medal being presented by current Italian dramatist",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "outside",
+      "letters": "SPRITZ",
+      "answer": "SPRITZER",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Drink salesmen turning up outside hotel",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "upped",
+      "letters": "DOUBLE",
+      "answer": "DOUBLEDEALING",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Deceit upped London borough by 100 per cent",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "London borough",
+      "letters": "DEALING",
+      "answer": "DOUBLEDEALING",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Deceit upped London borough by 100 per cent",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "business",
+      "letters": "BIZ",
+      "answer": "TREBIZOND",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Rage engulfs business circle in Black Sea port once",
+      "score": 80
+    }
+  ]
+}

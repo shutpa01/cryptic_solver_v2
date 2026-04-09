@@ -1,0 +1,382 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29964
+Generated: 2026-03-26 17:18:51
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        32/33 (96%)
+    Signature:      2
+    Sig+Enriched:   2
+    Sonnet:         3
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   28  6D, 9A, 24D, 26A, 7D, 1D, 10A, 11A, 12A, 13A, 15A, 16D, 17D, 18D, 20D, 23D, 24A, 24D, 25A, 27A, 3D, 4D, 5D, 6D, 8D, 9A, 19A, 2D
+  Medium (40-79): 3  18A, 21D, 22A
+  Low (<40):    1  1A
+  Failed:       1  14D
+  Average:      91/100
+
+COST: $0.0764 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (9 entries)
+------------------------------------------------------------
+  ERNES: "seabirds?" -> ERNES  (missing from definition_answers_augmented)
+  RINSE: "swill" -> RINSE  (missing from definition_answers_augmented)
+  OXEYE: "Flower" -> OXEYE  (missing from definition_answers_augmented)
+  PROFIT: "gain" -> PROFIT  (missing from definition_answers_augmented)
+  CHESSMATCHES: "he wins lots, ultimately, in these" -> CHESSMATCHES  (missing from definition_answers_augmented)
+  SENESCENCE: "Ageing" -> SENESCENCE  (missing from definition_answers_augmented)
+  PROFIT: Supportive -> PRO  (missing from abbreviations)
+  CHESSMATCHES: Friend -> CHESS  (missing from synonyms_pairs)
+  CHESSMATCHES: check after check -> MATCHES  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  ELECTIVE = 2 (85/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  CHESSMATCHES = 1 (10/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  14. Wagner opera is upsetting for one supporter withdrawing name = SIEGFRIED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  22/33  10A, 11A, 12A, 13A, 15A, 22A, 25A, 27A, 3D, 4D, 5D, 8D, 16D, 17D, 18D, 18D, 20D, 21D, 23D, 24D, 24D, 24D
+  Type mismatch:         1  2D
+  Unverified explain.:   1  1A
+  DB gap:                6  1A, 9A, 19A, 26A, 6D, 7D
+  Failed:                1  14D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    6D  ERNES         Holderness home to these seabirds? (5)
+                      hidden in "Holderness home to these"; definition: "seabirds?"  [HIGH]
+    9A  RINSE         Some farmer in search for swill (5)
+                      hidden in "farmer in search" [hidden: "Some"]; definition: "swill"  [HIGH]
+   24D  ANNOY         Upset speaker after cutting off opening (5)
+                      ---  [HIGH]
+   26A  OXEYE         Flower from old times getting attention (2-3)
+                      O (synonym of "old") + X (abbreviation of "times") + EYE (synonym of "attention"); definition: "Flower"  [HIGH]
+    7D  PROFIT        Supportive of appropriate gain (6)
+                      PRO (synonym of "Supportive") + FIT (synonym of "appropriate"); definition: "gain"  [HIGH]
+    1D  CONTRALTO     Singer’s reduced mastery around key (9)
+                      ---  [HIGH]
+   10A  LABYRINTH     Experimental area: year in this removing one’s perplexity (9)
+                      ---  [HIGH]
+   11A  FIRSTLY       Trees beside end of street likely gutted at the outset (7)
+                      ---  [HIGH]
+   12A  TUNISIA       Island I found surrounded by fish in part of Africa (7)
+                      ---  [HIGH]
+   13A  TELEVISUAL    Sadly values-lite, like much broadcasting (10)
+                      ---  [HIGH]
+   15A  SWOT          Committed pupil pulls back (4)
+                      ---  [HIGH]
+   16D  WINDBREAK     Beach feature to coil on vacation (9)
+                      ---  [HIGH]
+   17D  ECCEHOMO      Image of Jesus church’s taken in two ways – half holy, half mock (4,4)
+                      ---  [HIGH]
+   18A  SLOE          This gin gets legions drunk (4)
+                      ---  [MED]
+   18D  SYRUPY        Informant about your University is unnaturally sweet (6)
+                      ---  [HIGH]
+   20D  ESCHEW        Repudiate key source of hope we elevated (6)
+                      ---  [HIGH]
+   21D  FOODIE        One fond of chow initially fond of cartoon dog … (6)
+                      ---  [MED]
+   22A  REPROOF       Rebuke? Republican hitting ceiling (7)
+                      ---  [MED]
+   23D  PLUTO         … cartoon dog left in position with repeated character in cartoon (5)
+                      ---  [HIGH]
+   24A  ALEMBIC       Old still beer getting mark with pen (7)
+                      ---  [HIGH]
+   24D  ANNOY         Upset speaker after cutting off opening (5)
+                      ---  [HIGH]
+   25A  POUNDSIGN     Thumps one with Guardian heartlessly – it’s a mark of the Greens? (5,4)
+                      ---  [HIGH]
+   27A  DOMESDAYBOOK  Yes, bad mood may be aggravated by merely adequate historic records (8,4)
+                      ---  [HIGH]
+    3D  SULKY         Light carriage being put out? (5)
+                      ---  [HIGH]
+    4D  ARBITRATE     Judge Australia to have right measure of information supply (9)
+                      ---  [HIGH]
+    5D  CORONA        Expression of surprise regarding one feature of daffodil (6)
+                      ---  [HIGH]
+    6D  ERNES         Holderness home to these seabirds? (5)
+                      ---  [HIGH]
+    8D  THWART        Prevent hot fighting in midst of battle (6)
+                      ---  [HIGH]
+    9A  RINSE         Some farmer in search for swill (5)
+                      ---  [HIGH]
+    1A  CHESSMATCHES  Friend’s securing check after check – he wins lots, ultimately, in these (5,7)
+                      CHESS(synonym of "Friend") + MATCHES(synonym of "check after check")  [LOW]
+   14D  SIEGFRIED     Wagner opera is upsetting for one supporter withdrawing name (9)
+                      ---  [ERR]
+   19A  SENESCENCE    Ageing somehow seen linked to knowledge I released (10)
+                      anagram of SEEN+SCENCE(deletion from "knowledge I released") = SENESCENCE  [HIGH]
+    2D  ELECTIVE      Optional having European active around English court (8)
+                      E(abbr. "European") + E(abbr. "European")+CT(abbr. "court") inside LIVE(synonym of "active")  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ERNES  6D. Holderness home to these seabirds?
+  Answer: ERNES
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "seabirds?"
+  Wordplay: hidden
+  Explanation: hidden in "Holderness home to these"; definition: "seabirds?"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] RINSE  9A. Some farmer in search for swill
+  Answer: RINSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "swill"
+  Wordplay: hidden
+  Explanation: hidden in "farmer in search" [hidden: "Some"]; definition: "swill"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANNOY  24D. Upset speaker after cutting off opening
+  Answer: ANNOY
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "Upset" and "speaker after cutting off opening" both mean ANNOY
+  ----------------------------------------------------------------------
+
+  [HIGH] OXEYE  26A. Flower from old times getting attention
+  Answer: OXEYE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Flower"
+  Wordplay: charade
+  Explanation: O (synonym of "old") + X (abbreviation of "times") + EYE (synonym of "attention"); definition: "Flower"
+  ----------------------------------------------------------------------
+
+  [HIGH] PROFIT  7D. Supportive of appropriate gain
+  Answer: PROFIT
+  Tier: Signature | Confidence: 100/100
+  Definition: "gain"
+  Wordplay: charade
+  Explanation: PRO (synonym of "Supportive") + FIT (synonym of "appropriate"); definition: "gain"
+  ----------------------------------------------------------------------
+
+  [HIGH] CONTRALTO  1D. Singer’s reduced mastery around key
+  Answer: CONTRALTO
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LABYRINTH  10A. Experimental area: year in this removing one’s perplexity
+  Answer: LABYRINTH
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] FIRSTLY  11A. Trees beside end of street likely gutted at the outset
+  Answer: FIRSTLY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TUNISIA  12A. Island I found surrounded by fish in part of Africa
+  Answer: TUNISIA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TELEVISUAL  13A. Sadly values-lite, like much broadcasting
+  Answer: TELEVISUAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SWOT  15A. Committed pupil pulls back
+  Answer: SWOT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] WINDBREAK  16D. Beach feature to coil on vacation
+  Answer: WINDBREAK
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ECCEHOMO  17D. Image of Jesus church’s taken in two ways – half holy, half mock
+  Answer: ECCEHOMO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SLOE  18A. This gin gets legions drunk
+  Answer: SLOE
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SYRUPY  18D. Informant about your University is unnaturally sweet
+  Answer: SYRUPY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ESCHEW  20D. Repudiate key source of hope we elevated
+  Answer: ESCHEW
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] FOODIE  21D. One fond of chow initially fond of cartoon dog …
+  Answer: FOODIE
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] REPROOF  22A. Rebuke? Republican hitting ceiling
+  Answer: REPROOF
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PLUTO  23D. … cartoon dog left in position with repeated character in cartoon
+  Answer: PLUTO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ALEMBIC  24A. Old still beer getting mark with pen
+  Answer: ALEMBIC
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ANNOY  24D. Upset speaker after cutting off opening
+  Answer: ANNOY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] POUNDSIGN  25A. Thumps one with Guardian heartlessly – it’s a mark of the Greens?
+  Answer: POUNDSIGN
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DOMESDAYBOOK  27A. Yes, bad mood may be aggravated by merely adequate historic records
+  Answer: DOMESDAYBOOK
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SULKY  3D. Light carriage being put out?
+  Answer: SULKY
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ARBITRATE  4D. Judge Australia to have right measure of information supply
+  Answer: ARBITRATE
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CORONA  5D. Expression of surprise regarding one feature of daffodil
+  Answer: CORONA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ERNES  6D. Holderness home to these seabirds?
+  Answer: ERNES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] THWART  8D. Prevent hot fighting in midst of battle
+  Answer: THWART
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RINSE  9A. Some farmer in search for swill
+  Answer: RINSE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [LOW] CHESSMATCHES  1A. Friend’s securing check after check – he wins lots, ultimately, in these
+  Answer: CHESSMATCHES
+  Tier: Sonnet | Confidence: 10/100
+  Definition: "he wins lots, ultimately, in these"
+  Wordplay type: charade
+  Components:
+    synonym            Friend                    -> CHESS
+    synonym            check after check         -> MATCHES
+  Assembly: charade — CHESS(synonym of "Friend") + MATCHES(synonym of "check after check")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      securing: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container?
+      check: syn=CH*,A,GO,NO,ADD,BED,BIT,DAM,END,FIN,FIT,LET,MOT,ONE,RUB; abbr=CH*; ind=container?; sounds=czech
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      he: syn=NAG,TOM,BIRO,DOER,TEAC,COMER,DOERS,LAUGH,STEED,COMERS,EQUINE,HUMMER,HUMMERS,HUSTLER,LUCIFER
+      wins: syn=GETS,DRAWS,FORMS,GAINS,LANDS,MAKES,REAPS,ATTAINS,CARRIES,GARNERS,OBTAINS,SECURES,ACQUIRES,CAPTURES,COMES BY
+      lots: syn=SAY,BAGS,LOAD,MANY,TASK,ACRES,NOEND,REAMS,SITES,CROWDS,DOZENS,MASSES,OODLES,PLENTY,STACKS
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      these: syn=ANTS,NEAR,ODES,TWOS,FELLS,ROOTS,TOGAS,CLOSER,GNOMES,HITHER,NIGHER,ARREARS,DIETERS,DRAWERS,INCOMES
+  AI Reasoning:
+    CHESS (friend/chess companion) + MATCHES (check after check, where check means to match/verify) = CHESSMATCHES
+  ----------------------------------------------------------------------
+
+  [ERROR] 14. Wagner opera is upsetting for one supporter withdrawing name = SIEGFRIED
+  ----------------------------------------------------------------------
+
+  [HIGH] SENESCENCE  19A. Ageing somehow seen linked to knowledge I released
+  Answer: SENESCENCE
+  Tier: Sonnet | Confidence: 81/100
+  Definition: "Ageing"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     seen                      -> SEEN
+    deletion           knowledge I released      -> SCENCE
+  Assembly: anagram — anagram of SEEN+SCENCE(deletion from "knowledge I released") = SENESCENCE
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ageing: syn=OLD,AGED,GROW,OLDER,RIPEN,MATURE,SENIOR,ANCIENT,DEVELOP,ELDERLY,GROW UP,PAST IT,PROGRESS,GERIATRIC,GETTING ON
+      somehow: syn=ANYWAY,INAWAY; ind=anagram
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      linked: syn=NEAR,NIGH,CLOSE,FLUSH,JOINED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,JOINING,NEAREST,RIMMING,TANGENT,VERGING
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      knowledge: syn=MY,EYE,GEN,HOW,KEN,AXIS,GAPE,GAZE,KNOW,LORE,NOTE,LOCUS,NAVEL,NEXUS,SKILL
+      released: syn=AXED,FREE,QUIT,FIRED,FREED,LOOSE,OUTED,UNDID,CANNED,CHASED,EXILED,ISSUED,OUSTED,ROUTED,SACKED
+  AI Reasoning:
+    SEEN + SCENCE (SCIENCE minus I) anagrammed by 'somehow' gives SENESCENCE
+  ----------------------------------------------------------------------
+
+  [HIGH] ELECTIVE  2D. Optional having European active around English court
+  Answer: ELECTIVE
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Optional"
+  Wordplay type: charade
+  Components:
+    abbreviation       European                  -> E
+    synonym            active                    -> LIVE
+    abbreviation       English                   -> E
+    abbreviation       court                     -> CT
+  Assembly: container — E(abbr. "European") + E(abbr. "European")+CT(abbr. "court") inside LIVE(synonym of "active")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      optional: syn=ELECTIVE*
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      european: syn=E,P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?; abbr=E*
+      active: syn=ON,GAY,PRY,ATIT,BUSY,LIVE,PERT,RACY,SPRY,ALIVE,BRISK,DOING,GOING,JAZZY,PEPPY; ind=anagram?
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E*
+      court: syn=CT*,ELECT*,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE; abbr=CT*,ct*
+    Definitions:
+      "Optional" -> ELECTIVE (definition match)
+  AI Reasoning:
+    E + LIVE containing (E+CT) gives E + LECTIVE = ELECTIVE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

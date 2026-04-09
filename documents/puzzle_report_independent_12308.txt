@@ -1,0 +1,355 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12308
+Generated: 2026-03-20 10:48:34
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        32/33 (96%)
+    Signature:      1
+    Sig+Enriched:   1
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   27  4?, 1?, 10?, 11?, 12?, 13?, 16?, 17?, 18?, 2?, 20?, 21?, 22?, 24?, 25?, 26?, 28?, 29?, 3?, 30?, 31?, 5?, 6?, 7?, 8?, 9?, 32?
+  Medium (40-79): 5  14?, 15?, 27?, 19?, 23?
+  Low (<40):    0  
+  Failed:       1  33?
+  Average:      88/100
+
+COST: $0.2763 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (4 entries)
+------------------------------------------------------------
+  MISGUIDED: "Ill-advised" -> MISGUIDED  (missing from definition_answers_augmented)
+  GLEE: "Wind Eastern expressing a sort of air" -> GLEE  (missing from definition_answers_augmented)
+  PETER: "Early religious leader's" -> PETER  (missing from definition_answers_augmented)
+  OBOE: "organ stop" -> OBOE  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  HYDRA = 23 (50/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  33. Tramps uncovered organ stop = OBOE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  28/33  10, 20, 30, 1, 11, 21, 31, 2, 12, 22, 3, 13, 14, 24, 5, 15, 25, 6, 16, 26, 7, 17, 27, 8, 18, 28, 9, 29
+  Unverified explain.:   1  23
+  DB gap:                4  4, 19, 32, 33
+  Failed:                1  33
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    4?  MISGUIDED     Ill-advised mug died horribly touring island
+                      anagram of MUGDIED ("mug died") + IS (abbreviation of "island") [anagram: "horribly"] = MISGUIDED; definition: "Ill-advised"  [HIGH]
+    1?  CAT           Whip Australian into court
+                      ---  [HIGH]
+   10?  JUICES        Drinks almost all of pitcher and gets cold
+                      ---  [HIGH]
+   11?  SEPULCHRAL    Gloomy cellar - push for redecoration
+                      ---  [HIGH]
+   12?  USER          University series providing enjoyment of right
+                      ---  [HIGH]
+   13?  OSTRACISE     Cut off very large signal? Is blocking that
+                      ---  [HIGH]
+   14?  BRAIN         Most of border invaded by American intelligence
+                      ---  [MED]
+   15?  NURSINGHOME   Carol’s husband among our men treated in hospice
+                      ---  [MED]
+   16?  YES           Detectives heading off? Agreed
+                      ---  [HIGH]
+   17?  COMEDIC       Funny to arrive and risk missing end of game
+                      ---  [HIGH]
+   18?  TWITCHING     Tense description of midnight activity of bird-watchers
+                      ---  [HIGH]
+    2?  GRANDFATHER   Old man to understand about rupees and francs
+                      ---  [HIGH]
+   20?  ADMITS        Takes responsibility for posters put around Cambridge University
+                      ---  [HIGH]
+   21?  DESTIJL       Dada-inspired movement of French - this is just loony at the outset
+                      ---  [HIGH]
+   22?  ADULTEROUS    Attracted by wife-swapping? Naughtily aroused - and ultimately participating!
+                      ---  [HIGH]
+   24?  REDHEAT       Poorly earthed – rather high temperature
+                      ---  [HIGH]
+   25?  MODIGLIANI    Italian painter floundering amid oil and gin
+                      ---  [HIGH]
+   26?  CAR           Attachment to airship – concern with end dropping off
+                      ---  [HIGH]
+   27?  NECESSARY     Obligatory rise in desire receiving moving caress
+                      ---  [MED]
+   28?  BASSOON       Wind-player’s a fool opening gift
+                      ---  [HIGH]
+   29?  ECHOING       Resonant house in city in Gabon
+                      ---  [HIGH]
+    3?  MAIZE         A choice of ways forward when bringing in one crop
+                      ---  [HIGH]
+   30?  STRINGS       Police operations involving Republican? They’re pulled by those in power
+                      ---  [HIGH]
+   31?  GAZEBO        Garden feature? Regard common garden shrub being trimmed
+                      ---  [HIGH]
+    5?  DUCK          Have nothing to do with love
+                      ---  [HIGH]
+    6?  STRIPTEASE    Burlesque act - parties set to be enlivened
+                      ---  [HIGH]
+    7?  CLIPON        Against fastening on edge like some earrings?
+                      ---  [HIGH]
+    8?  CLARINET      Wind-player popular when in drink
+                      ---  [HIGH]
+    9?  BAGPIPER      Good quantity of wine in pub for wind-player
+                      ---  [HIGH]
+   19?  GLEE          Wind Eastern expressing a sort of air
+                      double definition  [MED]
+   23?  HYDRA         Monster - English writer almost entirely upset
+                      anagram of HARDY(synonym of "English writer") = HYDRA  [MED]
+   32?  PETER         Early religious leader’s time imprisoned by Lord
+                      T (synonym of "time") + PEER (synonym of "Lord") [container: "imprisoned"]; definition: "Early religious leader's"  [HIGH]
+   33?  OBOE          Tramps uncovered organ stop
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] MISGUIDED  4?. Ill-advised mug died horribly touring island
+  Answer: MISGUIDED
+  Tier: Signature | Confidence: 100/100
+  Definition: "Ill-advised"
+  Wordplay: anagram + charade
+  Explanation: anagram of MUGDIED ("mug died") + IS (abbreviation of "island") [anagram: "horribly"] = MISGUIDED; definition: "Ill-advised"
+  ----------------------------------------------------------------------
+
+  [HIGH] CAT  1?. Whip Australian into court
+  Answer: CAT
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] JUICES  10?. Drinks almost all of pitcher and gets cold
+  Answer: JUICES
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SEPULCHRAL  11?. Gloomy cellar - push for redecoration
+  Answer: SEPULCHRAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] USER  12?. University series providing enjoyment of right
+  Answer: USER
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OSTRACISE  13?. Cut off very large signal? Is blocking that
+  Answer: OSTRACISE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BRAIN  14?. Most of border invaded by American intelligence
+  Answer: BRAIN
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NURSINGHOME  15?. Carol’s husband among our men treated in hospice
+  Answer: NURSINGHOME
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] YES  16?. Detectives heading off? Agreed
+  Answer: YES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] COMEDIC  17?. Funny to arrive and risk missing end of game
+  Answer: COMEDIC
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TWITCHING  18?. Tense description of midnight activity of bird-watchers
+  Answer: TWITCHING
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] GRANDFATHER  2?. Old man to understand about rupees and francs
+  Answer: GRANDFATHER
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ADMITS  20?. Takes responsibility for posters put around Cambridge University
+  Answer: ADMITS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DESTIJL  21?. Dada-inspired movement of French - this is just loony at the outset
+  Answer: DESTIJL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ADULTEROUS  22?. Attracted by wife-swapping? Naughtily aroused - and ultimately participating!
+  Answer: ADULTEROUS
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] REDHEAT  24?. Poorly earthed – rather high temperature
+  Answer: REDHEAT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MODIGLIANI  25?. Italian painter floundering amid oil and gin
+  Answer: MODIGLIANI
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CAR  26?. Attachment to airship – concern with end dropping off
+  Answer: CAR
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NECESSARY  27?. Obligatory rise in desire receiving moving caress
+  Answer: NECESSARY
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BASSOON  28?. Wind-player’s a fool opening gift
+  Answer: BASSOON
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ECHOING  29?. Resonant house in city in Gabon
+  Answer: ECHOING
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MAIZE  3?. A choice of ways forward when bringing in one crop
+  Answer: MAIZE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STRINGS  30?. Police operations involving Republican? They’re pulled by those in power
+  Answer: STRINGS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] GAZEBO  31?. Garden feature? Regard common garden shrub being trimmed
+  Answer: GAZEBO
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DUCK  5?. Have nothing to do with love
+  Answer: DUCK
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STRIPTEASE  6?. Burlesque act - parties set to be enlivened
+  Answer: STRIPTEASE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CLIPON  7?. Against fastening on edge like some earrings?
+  Answer: CLIPON
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CLARINET  8?. Wind-player popular when in drink
+  Answer: CLARINET
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BAGPIPER  9?. Good quantity of wine in pub for wind-player
+  Answer: BAGPIPER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GLEE  19?. Wind Eastern expressing a sort of air
+  Answer: GLEE
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Wind Eastern expressing a sort of air"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wind: syn=GO,AIR,ARC,BAG,BOW,BUG,CAN,COP,DIE,DIG,END,FLY,GAS,HOT,IRK; ind=anagram
+      eastern: syn=E; abbr=E*
+      sort: syn=BE,ARE,BOD,BOY,CAT,EGG,GUY,ICE,ILK,JOE,LAD,MAN,PEG,SON,TEN; ind=anagram
+      air: syn=ACT,DRY,FAN,GAS,IRE,JET,LAY,MAD,PAD,PET,SEA,WAY,AURA,BILE,BODY; sounds=heir,err
+      sort of: ind=anagram
+      sort of: syn=OF,OR,BIT,NOT,KIND,LESS,LIKE,MORE,MUCH
+  AI Reasoning:
+    Both 'Wind Eastern expressing' (showing spirited joy) and 'a sort of air' (type of song) define GLEE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HYDRA  23?. Monster - English writer almost entirely upset
+  Answer: HYDRA
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Monster"
+  Wordplay type: anagram
+  Components:
+    synonym            English writer            -> HARDY
+  Assembly: anagram — anagram of HARDY(synonym of "English writer") = HYDRA
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      monster: syn=HYDRA*,NO,ORC,HUGE,NAZI,OGRE,SIZE,AFRIT,BEAST,BRUTE,DEMON,DEVIL,FIEND,FREAK,GIANT
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E
+      writer: syn=ME,BIC,MAN,MOO,NIB,PEN,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET,AESOP; abbr=I,PEN
+      almost: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E,P,R*; ind=parts
+      entirely: syn=OK,ALL,OUT,ABLY,BEST,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD,OVER,WELL; ind=deletion
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      almost entirely: ind=parts
+    Definitions:
+      "Monster" -> HYDRA (definition match)
+  AI Reasoning:
+    HARDY (English writer) anagrammed ('almost entirely upset') gives HYDRA
+  ----------------------------------------------------------------------
+
+  [HIGH] PETER  32?. Early religious leader’s time imprisoned by Lord
+  Answer: PETER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Early religious leader's"
+  Wordplay: charade + container
+  Explanation: T (synonym of "time") + PEER (synonym of "Lord") [container: "imprisoned"]; definition: "Early religious leader's"
+  ----------------------------------------------------------------------
+
+  [FAILED] OBOE  33?. Tramps uncovered organ stop
+  Answer: OBOE
+  Tier: --- | Confidence: 0/100
+  Definition: "organ stop"
+  Wordplay type: deletion
+  Components:
+    deletion           Tramps                    -> OBOE
+  DB Lookups:
+    DB lookups:
+      tramps: syn=BUMS,BUM,MAN,HIKE,PLOD,SLOG,STEP,TREK,WALK
+      uncovered: syn=RAW,BALD,BARE,FREE,NUDE,OPEN; ind=hidden,parts
+      organ: syn=EAR,EYE,SAY,FORT,LUNG,MEAN,NOSE,PAWN,TOOL,WALL,WARD
+      stop: syn=GO,BAR,BIT,CAN,CUT,DAM,DIE,END,GET,JAM,LAY,LEG,LET,MIX,NEW; ind=deletion
+    Definitions:
+      "stop" -> OBOE (definition match)
+  AI Reasoning:
+    TRAMPS = HOBOES, 'uncovered' indicates removing outer letters H and S to get OBOE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

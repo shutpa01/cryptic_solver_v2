@@ -7,21 +7,20 @@
     <list default="true" id="b288f877-3025-4f2d-8699-32a27fdc7cf9" name="Changes" comment="pre speed improvement">
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/honeypot/templates/clue.html" beforeDir="false" afterPath="$PROJECT_DIR$/honeypot/templates/clue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraper/danword/danword_lookup.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/danword/danword_lookup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraper/orchestrator/puzzle_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/orchestrator/puzzle_scraper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/batch_enrichment.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/batch_enrichment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/sig_adapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/sig_adapter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/data/clues.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/data/clues.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/generate_slugs.py" beforeDir="false" afterPath="$PROJECT_DIR$/honeypot/generate_slugs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/templates/puzzle.html" beforeDir="false" afterPath="$PROJECT_DIR$/honeypot/templates/puzzle.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/honeypot/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/honeypot/templates/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/fifteensquared/fifteensquared_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/fifteensquared/fifteensquared_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/fifteensquared/test_fifteensquared.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/fifteensquared/test_fifteensquared.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signature_solver/base_matcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/base_matcher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signature_solver/matcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/matcher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signature_solver/word_analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/signature_solver/word_analyzer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sonnet_pipeline/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sonnet_pipeline/verify_explanation.py" beforeDir="false" afterPath="$PROJECT_DIR$/sonnet_pipeline/verify_explanation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/explainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/explainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/routes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/routes/puzzle.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/routes/puzzle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/partials/grid.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/grid.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/static/js/puzzle.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/static/js/puzzle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/templates/partials/admin_rerun_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/partials/admin_rerun_result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/templates/puzzle.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/puzzle.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,23 +58,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.daily_scraper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.danword_lookup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.puzzle_scraper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run.executor&quot;: &quot;Run&quot;,
-    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
-    &quot;Python.telegraph_manual_Harvest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.times_all.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.daily_scraper.executor": "Run",
+    "Python.danword_lookup.executor": "Run",
+    "Python.puzzle_scraper.executor": "Run",
+    "Python.report.executor": "Run",
+    "Python.run.executor": "Run",
+    "Python.scratch.executor": "Run",
+    "Python.telegraph_all.executor": "Run",
+    "Python.telegraph_manual_Harvest.executor": "Run",
+    "Python.times_all.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -219,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773984850995</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="pre speed improvement">
+      <option name="closed" value="true" />
+      <created>1774710478702</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1774710478702</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

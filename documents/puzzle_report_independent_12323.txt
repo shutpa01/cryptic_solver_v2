@@ -1,0 +1,627 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12323
+Generated: 2026-04-07 08:14:20
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      39
+  Assembled:        39/39 (100%)
+    Signature:      2
+    Sig+Enriched:   9
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   36  1D, 11A, 15D, 17A, 23A, 25D, 8D, 9A, 5A, 7A, 1D, 10A, 11A, 12A, 13A, 13D, 14D, 15A, 15D, 16D, 17A, 18D, 2D, 20A, 21D, 22D, 24D, 25A, 25D, 26A, 27A, 28A, 4D, 5D, 8D, 9A
+  Medium (40-79): 2  19A, 6D
+  Low (<40):    1  3D
+  Failed:       0  
+  Average:      92/100
+
+COST: $0.1830 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (54 entries)
+------------------------------------------------------------
+  RETRANSMIT: "further broadcast" -> RETRANSMIT  (missing from definition_answers_augmented)
+  AFRO: "Do" -> AFRO  (missing from definition_answers_augmented)
+  DANGERS: "threats" -> DANGERS  (missing from definition_answers_augmented)
+  ZERO: "Nothing's" -> ZERO  (missing from definition_answers_augmented)
+  TIER: "Row" -> TIER  (missing from definition_answers_augmented)
+  AMERICA: "superpower" -> AMERICA  (missing from definition_answers_augmented)
+  PEACE: "Silence" -> PEACE  (missing from definition_answers_augmented)
+  RETRANSMIT: "further broadcast" -> RETRANSMIT  (missing from definition_answers_augmented)
+  NECKS: "Quickly drinks" -> NECKS  (missing from definition_answers_augmented)
+  AFRO: "hairstyle" -> AFRO  (missing from definition_answers_augmented)
+  STANDARD: "Flag" -> STANDARD  (missing from definition_answers_augmented)
+  RIDING: "on horse?" -> RIDING  (missing from definition_answers_augmented)
+  RED: "An example of this" -> RED  (missing from definition_answers_augmented)
+  DILLPICKLE: "one put in a sandwich" -> DILLPICKLE  (missing from definition_answers_augmented)
+  DAMNED: "cursed" -> DAMNED  (missing from definition_answers_augmented)
+  DANGERS: "threats" -> DANGERS  (missing from definition_answers_augmented)
+  END: "Bottom of knight" -> END  (missing from definition_answers_augmented)
+  ADULTS: "mature folk" -> ADULTS  (missing from definition_answers_augmented)
+  BONKED: "Had it with being hit really hard" -> BONKED  (missing from definition_answers_augmented)
+  UNITED: "tough youth seen by college" -> UNITED  (missing from definition_answers_augmented)
+  VIENNA: "capital" -> VIENNA  (missing from definition_answers_augmented)
+  OCCUPIED: "Busy as some regions of Ukraine" -> OCCUPIED  (missing from definition_answers_augmented)
+  COOLIT: "Chill" -> COOLIT  (missing from definition_answers_augmented)
+  ENTER: "Record" -> ENTER  (missing from definition_answers_augmented)
+  OBAN: "Port town in western Scotland" -> OBAN  (missing from definition_answers_augmented)
+  TOKYO: "here" -> TOKYO  (missing from definition_answers_augmented)
+  TIER: "Row" -> TIER  (missing from definition_answers_augmented)
+  CITY: "perhaps" -> CITY  (missing from definition_answers_augmented)
+  SHAME: "Pity" -> SHAME  (missing from definition_answers_augmented)
+  DRILLER: "dentist?" -> DRILLER  (missing from definition_answers_augmented)
+  CAVA: "Spanish sparkling wine" -> CAVA  (missing from definition_answers_augmented)
+  AGENT: "setter" -> AGENT  (missing from definition_answers_augmented)
+  ERRANDS: "missions" -> ERRANDS  (missing from definition_answers_augmented)
+  YEAR: "for a time" -> YEAR  (missing from definition_answers_augmented)
+  ARCADE: "shopping precinct" -> ARCADE  (missing from definition_answers_augmented)
+  DANGERS: Democrat's -> D  (missing from abbreviations)
+  AFRO: nothing -> AF  (missing from abbreviations)
+  AFRO: men -> RO  (missing from abbreviations)
+  STANDARD: base -> STAND  (missing from synonyms_pairs)
+  RIDING: princess -> DI  (missing from abbreviations)
+  DILLPICKLE: jam -> PICKLE  (missing from synonyms_pairs)
+  DAMNED: Scottish hooligan -> NED  (missing from abbreviations)
+  DANGERS: Democrat's -> D  (missing from abbreviations)
+  END: my boss -> ED  (missing from abbreviations)
+  UNITED: tough youth -> TED  (missing from abbreviations)
+  VIENNA: news -> NN  (missing from abbreviations)
+  COOLIT: dotard -> COOT  (missing from synonyms_pairs)
+  ENTER: retired -> RET  (missing from abbreviations)
+  CITY: 9:25 -> Y  (missing from abbreviations)
+  DRILLER: not as healthy -> ILLER  (missing from synonyms_pairs)
+  YEAR: YMCA -> Y  (missing from abbreviations)
+  OPUS: revolting -> PUS  (missing from abbreviations)
+  OPUS: sailor -> O  (missing from abbreviations)
+  ARCADE: Dutch -> D  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  OPUS = 3 (10/100): AI=anagram, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  OPUS = 3 (10/100): no pieces verified in DB
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/39  
+  Type mismatch:         1  3D
+  Unverified explain.:   1  3D
+  DB gap:                28  7A, 9A, 10A, 11A, 12A, 17A, 19A, 20A, 23A, 26A, 27A, 28A, 1D, 2D, 3D, 4D, 5D, 6D, 8D, 13D, 14D, 15D, 16D, 18D, 21D, 22D, 24D, 25D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  RETRANSMIT    Awful rant merits further broadcast (10)
+                      anagram of RANTMERITS ("rant merits") [anagram: "Awful"] = RETRANSMIT; definition: "further broadcast"  [HIGH]
+   11A  AFRO          Do nothing about contrary men (4)
+                      FA (synonym of "nothing") + OR (synonym of "men"); definition: "Do"  [HIGH]
+   15D  DANGERS       French city supporting Democrat's threats (7)
+                      D (synonym of "Democrat's") [last letter: "supporting"] + ANGERS (synonym of "French city"); definition: "threats"  [HIGH]
+   17A  ADULTS        Soprano stuck on Blue for mature folk (6)
+                      ---  [HIGH]
+   23A  ZERO          Nothing's unknown about rejected love (4)
+                      Z (abbreviation of "unknown") + RE (synonym of "about") + O (synonym of "love"); definition: "Nothing's"  [HIGH]
+   25D  TIER          Row and draw revolver at the front (4)
+                      TIE (synonym of "draw") + R (first letter of "revolver") [first letter: "at"]; definition: "Row"  [HIGH]
+    8D  ERRANDS       Go wrong with foremost of SAS missions? (7)
+                      ---  [HIGH]
+    9A  YEAR          Listener put on YMCA for a time (4)
+                      ---  [HIGH]
+    5A  AMERICA       A crime spun by a superpower (7)
+                      anagram of ACRIME ("A crime") + A ("a") = AMERICA; definition: "superpower"  [HIGH]
+    7A  PEACE         Silence in composition on the radio (5)
+                      PEACE (sounds like "composition"); definition: "Silence"  [HIGH]
+    1D  RETRANSMIT    Awful rant merits further broadcast (10)
+                      ---  [HIGH]
+   10A  NECKS         Quickly drinks new lager brand out of barrel (5)
+                      ---  [HIGH]
+   11A  AFRO          Do nothing about contrary men (4)
+                      ---  [HIGH]
+   12A  STANDARD      Flag radical twirled in base? (8)
+                      ---  [HIGH]
+   13A  RIDING        Call about princess on horse? (6)
+                      RING (synonym of "Call") + DI (abbreviation of "princess"); definition: "on horse?"  [HIGH]
+   13D  RED           An example of this could be cherry wine (3)
+                      ---  [HIGH]
+   14D  DILLPICKLE    Dead crummy jam one put in a sandwich? (4,6)
+                      ---  [HIGH]
+   15A  DAMNED        Lawyer male Scottish hooligan cursed (6)
+                      DA (abbreviation of "Lawyer") + M (synonym of "male") + NED (synonym of "Scottish hooligan"); definition: "cursed"  [HIGH]
+   15D  DANGERS       French city supporting Democrat's threats (7)
+                      ---  [HIGH]
+   16D  END           Bottom of knight pinched by my boss (3)
+                      ---  [HIGH]
+   17A  ADULTS        Soprano stuck on Blue for mature folk (6)
+                      ---  [HIGH]
+   18D  BONKED        Had it with being hit really hard? (6)
+                      ---  [HIGH]
+   19A  UNITED        One tough youth seen by college (6)
+                      ---  [MED]
+    2D  VIENNA        Struggle to get news on a capital (6)
+                      ---  [HIGH]
+   20A  OCCUPIED      Busy as some regions of Ukraine? (8)
+                      ---  [HIGH]
+   21D  COOLIT        Chill dotard catches close to Bhopal, India (4,2)
+                      ---  [HIGH]
+   22D  ENTER         Record retired north European spins (5)
+                      RET (abbreviation of "retired") + N (synonym of "north") + E (synonym of "European"); definition: "Record"  [HIGH]
+   24D  OBAN          Outlaw after drop of overpriced port (4)
+                      ---  [HIGH]
+   25A  TOKYO         Took up stealing Yen here? (5)
+                      ---  [HIGH]
+   25D  TIER          Row and draw revolver at the front (4)
+                      ---  [HIGH]
+   26A  CITY          Jerk coming round by 9:25, perhaps! (4)
+                      ---  [HIGH]
+   27A  SHAME         American punches quiet Hoskins? Pity! (5)
+                      ---  [HIGH]
+   28A  DRILLER       Doctor not as healthy as dentist? (7)
+                      DR (synonym of "Doctor") + ILLER (synonym of "not as healthy"); definition: "dentist?"  [HIGH]
+    4D  CAVA          Drink of cold coffee judge left out (4)
+                      ---  [HIGH]
+    5D  AGENT         Dope inhaled by vacuously abhorrent setter (5)
+                      ---  [HIGH]
+    8D  ERRANDS       Go wrong with foremost of SAS missions? (7)
+                      ---  [HIGH]
+    9A  YEAR          Listener put on YMCA for a time (4)
+                      ---  [HIGH]
+    3D  OPUS          Work's flipping revolting, sailor holds (4)
+                      O(abbr. "sailor") + PUS(synonym of "revolting")  [LOW]
+    6D  ARCADE        A new race to save Dutch shopping precinct (6)
+                      anagram of A+ECAR(RACE reversed, "race")+D(abbr. "Dutch") = ARCADE  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] RETRANSMIT  1D. Awful rant merits further broadcast
+  Answer: RETRANSMIT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "further broadcast"
+  Wordplay: anagram
+  Explanation: anagram of RANTMERITS ("rant merits") [anagram: "Awful"] = RETRANSMIT; definition: "further broadcast"
+  ----------------------------------------------------------------------
+
+  [HIGH] AFRO  11A. Do nothing about contrary men
+  Answer: AFRO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Do"
+  Wordplay: charade
+  Explanation: FA (synonym of "nothing") + OR (synonym of "men"); definition: "Do"
+  ----------------------------------------------------------------------
+
+  [HIGH] DANGERS  15D. French city supporting Democrat's threats
+  Answer: DANGERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "threats"
+  Wordplay: charade + parts
+  Explanation: D (synonym of "Democrat's") [last letter: "supporting"] + ANGERS (synonym of "French city"); definition: "threats"
+  ----------------------------------------------------------------------
+
+  [HIGH] ADULTS  17A. Soprano stuck on Blue for mature folk
+  Answer: ADULTS
+  Tier: --- | Confidence: 100/100
+  Human explanation: ADULT (synonym="Blue") + S (abbreviation="Soprano") = ADULTS; definition: "folk"
+  ----------------------------------------------------------------------
+
+  [HIGH] ZERO  23A. Nothing's unknown about rejected love
+  Answer: ZERO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Nothing's"
+  Wordplay: charade
+  Explanation: Z (abbreviation of "unknown") + RE (synonym of "about") + O (synonym of "love"); definition: "Nothing's"
+  ----------------------------------------------------------------------
+
+  [HIGH] TIER  25D. Row and draw revolver at the front
+  Answer: TIER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Row"
+  Wordplay: acrostic + charade
+  Explanation: TIE (synonym of "draw") + R (first letter of "revolver") [first letter: "at"]; definition: "Row"
+  ----------------------------------------------------------------------
+
+  [HIGH] ERRANDS  8D. Go wrong with foremost of SAS missions?
+  Answer: ERRANDS
+  Tier: --- | Confidence: 100/100
+  Human explanation: ERRAND (synonym="missions?") + S (first_letter="SAS") = ERRANDS
+  ----------------------------------------------------------------------
+
+  [HIGH] YEAR  9A. Listener put on YMCA for a time
+  Answer: YEAR
+  Tier: --- | Confidence: 100/100
+  Human explanation: Y (first_letter="YMCA") + EAR (GEAR="put", remove first letter) = YEAR; definition: "a time"
+  ----------------------------------------------------------------------
+
+  [HIGH] AMERICA  5A. A crime spun by a superpower
+  Answer: AMERICA
+  Tier: Signature | Confidence: 80/100
+  Definition: "superpower"
+  Wordplay: anagram
+  Explanation: anagram of ACRIME ("A crime") + A ("a") = AMERICA; definition: "superpower"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] PEACE  7A. Silence in composition on the radio
+  Answer: PEACE
+  Tier: Signature | Confidence: 80/100
+  Definition: "Silence"
+  Wordplay: homophone
+  Explanation: PEACE (sounds like "composition"); definition: "Silence"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] RETRANSMIT  1D. Awful rant merits further broadcast
+  Answer: RETRANSMIT
+  Tier: --- | Confidence: 100/100
+  Definition: "further broadcast"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     rant                      -> RANT
+    anagram_fodder     merits                    -> MERITS
+  AI Reasoning:
+    RANT + MERITS anagrammed (indicated by 'awful') = RETRANSMIT
+  ----------------------------------------------------------------------
+
+  [HIGH] NECKS  10A. Quickly drinks new lager brand out of barrel
+  Answer: NECKS
+  Tier: --- | Confidence: 100/100
+  Definition: "Quickly drinks"
+  Wordplay type: charade
+  Components:
+    abbreviation       new                       -> N
+    deletion           lager brand               -> ECKS [BECKS - B]
+  AI Reasoning:
+    N (abbreviation for 'new') + ECKS (from 'Becks' lager with B removed, abbreviation for barrel). NECKS = to drink quickly.
+  ----------------------------------------------------------------------
+
+  [HIGH] AFRO  11A. Do nothing about contrary men
+  Answer: AFRO
+  Tier: --- | Confidence: 90/100
+  Definition: "hairstyle"
+  Wordplay type: charade
+  Components:
+    abbreviation       nothing                   -> AF [FA - ?]
+    abbreviation       men                       -> RO [OR - ?]
+  AI Reasoning:
+    FA (nothing, reversed) + OR (men/other ranks, reversed) = AFRO (hairstyle)
+  ----------------------------------------------------------------------
+
+  [HIGH] STANDARD  12A. Flag radical twirled in base?
+  Answer: STANDARD
+  Tier: --- | Confidence: 100/100
+  Definition: "Flag"
+  Wordplay type: container
+  Components:
+    synonym            base                      -> STAND
+    reversal           radical                   -> DAR
+  AI Reasoning:
+    STAND (base/lampstand) contains DAR (RAD reversed/twirled), giving STANDARD (flag)
+  ----------------------------------------------------------------------
+
+  [HIGH] RIDING  13A. Call about princess on horse?
+  Answer: RIDING
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "on horse?"
+  Wordplay: charade
+  Explanation: RING (synonym of "Call") + DI (abbreviation of "princess"); definition: "on horse?"
+  ----------------------------------------------------------------------
+
+  [HIGH] RED  13D. An example of this could be cherry wine
+  Answer: RED
+  Tier: --- | Confidence: 90/100
+  Definition: "An example of this"
+  Wordplay type: double_definition
+  AI Reasoning:
+    Cherry red is a shade of red (definition 1); red wine is a type of wine (definition 2). Both meanings of RED are present in the clue.
+  ----------------------------------------------------------------------
+
+  [HIGH] DILLPICKLE  14D. Dead crummy jam one put in a sandwich?
+  Answer: DILLPICKLE
+  Tier: --- | Confidence: 80/100
+  Definition: "one put in a sandwich"
+  Wordplay type: charade
+  Components:
+    abbreviation       Dead                      -> D
+    synonym            crummy                    -> ILL
+    synonym            jam                       -> PICKLE
+  AI Reasoning:
+    Charade combining D (dead abbreviated) + ILL (crummy means unsatisfactory/ill) + PICKLE (jam means a difficult situation/pickle), forming DILLPICKLE, a sandwich ingredient.
+  ----------------------------------------------------------------------
+
+  [HIGH] DAMNED  15A. Lawyer male Scottish hooligan cursed
+  Answer: DAMNED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "cursed"
+  Wordplay: charade
+  Explanation: DA (abbreviation of "Lawyer") + M (synonym of "male") + NED (synonym of "Scottish hooligan"); definition: "cursed"
+  ----------------------------------------------------------------------
+
+  [HIGH] DANGERS  15D. French city supporting Democrat's threats
+  Answer: DANGERS
+  Tier: --- | Confidence: 100/100
+  Definition: "threats"
+  Wordplay type: charade
+  Components:
+    abbreviation       Democrat's                -> D
+    literal            French city               -> ANGERS
+  AI Reasoning:
+    D (Democrat abbreviation) + ANGERS (French city) = DANGERS (threats)
+  ----------------------------------------------------------------------
+
+  [HIGH] END  16D. Bottom of knight pinched by my boss
+  Answer: END
+  Tier: --- | Confidence: 95/100
+  Definition: "Bottom of knight"
+  Wordplay type: container
+  Components:
+    abbreviation       knight                    -> N
+    abbreviation       my boss                   -> ED
+  AI Reasoning:
+    N (chess notation for knight) is contained within ED (editor, the crossword setter's boss), giving END
+  ----------------------------------------------------------------------
+
+  [HIGH] ADULTS  17A. Soprano stuck on Blue for mature folk
+  Answer: ADULTS
+  Tier: --- | Confidence: 100/100
+  Definition: "mature folk"
+  Wordplay type: charade
+  Components:
+    abbreviation       Soprano                   -> S
+    synonym            Blue                      -> ADULT
+  AI Reasoning:
+    S (soprano abbreviation) + ADULT (blue = adult/mature content) = ADULTS
+  ----------------------------------------------------------------------
+
+  [HIGH] BONKED  18D. Had it with being hit really hard?
+  Answer: BONKED
+  Tier: --- | Confidence: 90/100
+  Definition: "Had it with being hit really hard"
+  Wordplay type: double_definition
+  AI Reasoning:
+    BONKED has two meanings: (1) 'had it with' = engaged in sexual intercourse (slang), (2) 'being hit really hard' = struck/hit (slang). The clue exploits both meanings simultaneously.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] UNITED  19A. One tough youth seen by college
+  Answer: UNITED
+  Tier: --- | Confidence: 70/100
+  Definition: "tough youth seen by college"
+  Wordplay type: charade
+  Components:
+    abbreviation       college                   -> UNI
+    synonym            tough youth               -> TED
+  AI Reasoning:
+    UNI (abbreviation for university/college) + TED (variant of Teddy boy, a tough youth subculture) = UNITED
+  ----------------------------------------------------------------------
+
+  [HIGH] VIENNA  2D. Struggle to get news on a capital
+  Answer: VIENNA
+  Tier: --- | Confidence: 95/100
+  Definition: "capital"
+  Wordplay type: charade
+  Components:
+    synonym            struggle                  -> VIE
+    abbreviation       news                      -> NN
+    literal            a                         -> A
+  AI Reasoning:
+    VIE (struggle) + NN (news abbreviated as N×2) + A (literal) = VIENNA, the capital of Austria
+  ----------------------------------------------------------------------
+
+  [HIGH] OCCUPIED  20A. Busy as some regions of Ukraine?
+  Answer: OCCUPIED
+  Tier: --- | Confidence: 90/100
+  Definition: "Busy as some regions of Ukraine"
+  Wordplay type: double_definition
+  AI Reasoning:
+    Double definition: 'occupied' means both 'busy/engaged' and 'militarily taken over' (as in occupied Ukraine)
+  ----------------------------------------------------------------------
+
+  [HIGH] COOLIT  21D. Chill dotard catches close to Bhopal, India
+  Answer: COOLIT
+  Tier: --- | Confidence: 80/100
+  Definition: "Chill"
+  Wordplay type: container
+  Components:
+    synonym            dotard                    -> COOT
+    last_letter        Bhopal                    -> L
+    abbreviation       India                     -> I
+  AI Reasoning:
+    COOT (dotard) contains L (last letter of Bhopal) and I (India phonetic alphabet), giving COOLIT which sounds like 'cool it' (chill command)
+  ----------------------------------------------------------------------
+
+  [HIGH] ENTER  22D. Record retired north European spins
+  Answer: ENTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Record"
+  Wordplay: charade
+  Explanation: RET (abbreviation of "retired") + N (synonym of "north") + E (synonym of "European"); definition: "Record"
+  ----------------------------------------------------------------------
+
+  [HIGH] OBAN  24D. Outlaw after drop of overpriced port
+  Answer: OBAN
+  Tier: --- | Confidence: 100/100
+  Definition: "Port town in western Scotland"
+  Wordplay type: charade
+  Components:
+    first_letter       overpriced                -> O
+    synonym            outlaw                    -> BAN
+  AI Reasoning:
+    O (first letter of 'overpriced', a drop) + BAN (outlaw) = OBAN, a Scottish port town
+  ----------------------------------------------------------------------
+
+  [HIGH] TOKYO  25A. Took up stealing Yen here?
+  Answer: TOKYO
+  Tier: --- | Confidence: 100/100
+  Definition: "here"
+  Wordplay type: container
+  Components:
+    anagram_fodder     Took                      -> TOKO
+    abbreviation       Yen                       -> Y
+  AI Reasoning:
+    TOOK anagrammed (up = disorder) gives TOKO; Y (abbreviation for Yen) is inserted (stealing = container) to give TOKYO
+  ----------------------------------------------------------------------
+
+  [HIGH] TIER  25D. Row and draw revolver at the front
+  Answer: TIER
+  Tier: --- | Confidence: 100/100
+  Definition: "Row"
+  Wordplay type: charade
+  Components:
+    synonym            draw                      -> TIE
+    first_letter       revolver                  -> R
+  AI Reasoning:
+    TIE (draw/tie in sports) + R (front letter of revolver) = TIER (row of seats)
+  ----------------------------------------------------------------------
+
+  [HIGH] CITY  26A. Jerk coming round by 9:25, perhaps!
+  Answer: CITY
+  Tier: --- | Confidence: 95/100
+  Definition: "perhaps"
+  Wordplay type: charade
+  Components:
+    reversal           Jerk                      -> CIT [TIC - ?]
+    abbreviation       9:25                      -> Y
+  AI Reasoning:
+    TIC (jerk/involuntary movement) reversed to CIT, concatenated with Y (abbreviation for YEAR, referenced at 9:25 in the grid), spells CITY
+  ----------------------------------------------------------------------
+
+  [HIGH] SHAME  27A. American punches quiet Hoskins? Pity!
+  Answer: SHAME
+  Tier: --- | Confidence: 100/100
+  Definition: "Pity"
+  Wordplay type: container
+  Components:
+    synonym            quiet                     -> SH
+    abbreviation       American                  -> A
+    literal            Hoskins                   -> ME
+  AI Reasoning:
+    SH (quiet) contains A (American) and ME (Hoskins) inserted, forming SHAME (pity)
+  ----------------------------------------------------------------------
+
+  [HIGH] DRILLER  28A. Doctor not as healthy as dentist?
+  Answer: DRILLER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "dentist?"
+  Wordplay: charade
+  Explanation: DR (synonym of "Doctor") + ILLER (synonym of "not as healthy"); definition: "dentist?"
+  ----------------------------------------------------------------------
+
+  [HIGH] CAVA  4D. Drink of cold coffee judge left out
+  Answer: CAVA
+  Tier: --- | Confidence: 100/100
+  Definition: "Spanish sparkling wine"
+  Wordplay type: charade
+  Components:
+    abbreviation       cold                      -> C
+    deletion           coffee                    -> AVA [JAVA - J]
+  AI Reasoning:
+    C (cold abbreviated) + AVA (Java with J for judge removed) = CAVA, a Spanish sparkling wine
+  ----------------------------------------------------------------------
+
+  [HIGH] AGENT  5D. Dope inhaled by vacuously abhorrent setter
+  Answer: AGENT
+  Tier: --- | Confidence: 100/100
+  Definition: "setter"
+  Wordplay type: container
+  Components:
+    deletion           abhorrent                 -> AT [ABHORRENT - BHORREN]
+    synonym            dope                      -> GEN
+  AI Reasoning:
+    Container: GEN (dope/information) is contained in AT (vacuously abhorrent = outer letters only), giving A-GEN-T = AGENT (setter/letting agent)
+  ----------------------------------------------------------------------
+
+  [HIGH] ERRANDS  8D. Go wrong with foremost of SAS missions?
+  Answer: ERRANDS
+  Tier: --- | Confidence: 100/100
+  Definition: "missions"
+  Wordplay type: charade
+  Components:
+    synonym            Go wrong                  -> ERR
+    literal            with                      -> AND
+    first_letter       SAS                       -> S
+  AI Reasoning:
+    ERR (synonym for go wrong) + AND (literal 'with') + S (first letter of SAS) = ERRANDS
+  ----------------------------------------------------------------------
+
+  [HIGH] YEAR  9A. Listener put on YMCA for a time
+  Answer: YEAR
+  Tier: --- | Confidence: 95/100
+  Definition: "for a time"
+  Wordplay type: charade
+  Components:
+    abbreviation       YMCA                      -> Y
+    synonym            Listener                  -> EAR
+  AI Reasoning:
+    Y (from YMCA) + EAR (listener/organ) = YEAR (a period of time)
+  ----------------------------------------------------------------------
+
+  [LOW] OPUS  3D. Work's flipping revolting, sailor holds
+  Answer: OPUS
+  Tier: Sonnet | Confidence: 10/100
+  Definition: "Work's"
+  Wordplay type: anagram
+  Components:
+    synonym            revolting                 -> PUS
+    indicator          flipping                  -> 
+    abbreviation       sailor                    -> O
+    indicator          revolting                 -> 
+  Assembly: charade — O(abbr. "sailor") + PUS(synonym of "revolting")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      work's: syn=OP*,OPUS*,DO,GO,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW; abbr=GO,OP*,POST; ind=anagram
+      flipping: syn=BATS; ind=reversal
+      revolting: ind=anagram?,reversal?
+      sailor: syn=AB,DOG,SEA,TAR,JACK,SALT; abbr=AB,JACK,OS,RN,SALT,TAR
+      holds: syn=RUNS,A,DO,A A,AIM,ARM,CAN,EYE,FIT,NOT,OWN,SET,ANON,ARMS,BEAR; ind=container,hidden; sounds=holed
+  AI Reasoning:
+    PUS (revolting) is flipped to SUP, combined with O (sailor), then anagrammed (revolting) to make OPUS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ARCADE  6D. A new race to save Dutch shopping precinct
+  Answer: ARCADE
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "shopping precinct"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     A                         -> A
+    reversal           race                      -> ECAR
+    indicator          to                        -> 
+    abbreviation       Dutch                     -> D
+    indicator          new                       -> 
+  Assembly: anagram — anagram of A+ECAR(RACE reversed, "race")+D(abbr. "Dutch") = ARCADE
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      race: syn=IT,FLY,HIE,JET,KIN,LAP,LEG,NIP,RAM,RIP,ROW,RUN,TIE,VIE,WAR; abbr=SPRINT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      save: syn=OF,BAR,BUT,FOR,SET,WAR,FREE,FROM,KEEP,THAN,WALL,ASIDE,BRING,DO IT,OTHER
+      dutch: syn=WIFE,MISSUS
+      precinct: syn=AREA,DESK,FIEF,GAME,WALK,WARD,FIELD,FRONT,PLAIN,SHEET,WASTE,ACTION,BARONY,BATTLE,BRANCH
+      to save: syn=CACHE,HOARD,STORE
+      shopping precinct: syn=MALL,MASS
+  AI Reasoning:
+    Anagram of A + RACE (reversed by 'to') + D (from Dutch) = AECARD anagrammed by 'new' gives ARCADE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

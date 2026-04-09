@@ -1,0 +1,666 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29511
+Generated: 2026-04-08 07:10:43
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      43
+  Assembled:        41/43 (95%)
+    Signature:      2
+    Sig+Enriched:   10
+    Sonnet:         0
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   36  27A, 15A, 16D, 17D, 18A, 2D, 20D, 22A, 26D, 29A, 3D, 5A, 9A, 23A, 28A, 1A, 1D, 11D, 13A, 14D, 15A, 16D, 17D, 19D, 2D, 20D, 22A, 25A, 26D, 27A, 29A, 3D, 5A, 6D, 7D, 8D
+  Medium (40-79): 3  12A, 24D, 4D
+  Low (<40):    0  
+  Failed:       2  10A, 21D
+  Average:      94/100
+
+COST: $0.2837 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (44 entries)
+------------------------------------------------------------
+  EVITA: "Show" -> EVITA  (missing from definition_answers_augmented)
+  SYSTEMATICALLY: "according to a plan" -> SYSTEMATICALLY  (missing from definition_answers_augmented)
+  MASKING: "Disguising" -> MASKING  (missing from definition_answers_augmented)
+  SPOTTERS: "watches" -> SPOTTERS  (missing from definition_answers_augmented)
+  PROCRASTINATED: "Were indecisive" -> PROCRASTINATED  (missing from definition_answers_augmented)
+  REVELRY: "party fun?" -> REVELRY  (missing from definition_answers_augmented)
+  ORTHOPTERAN: "Insect" -> ORTHOPTERAN  (missing from definition_answers_augmented)
+  ANDHOW: "A new ship?" -> ANDHOW  (missing from definition_answers_augmented)
+  STICKY: "Awkward" -> STICKY  (missing from definition_answers_augmented)
+  SESTET: "Group" -> SESTET  (missing from definition_answers_augmented)
+  FORSOOTH: "indeed" -> FORSOOTH  (missing from definition_answers_augmented)
+  FORMAT: "French mathematician" -> FORMAT  (missing from definition_answers_augmented)
+  MAESTRI: "great players" -> MAESTRI  (missing from definition_answers_augmented)
+  ABLOOM: "blossoming" -> ABLOOM  (missing from definition_answers_augmented)
+  DETERGED: "being made clean" -> DETERGED  (missing from definition_answers_augmented)
+  ENCHANTRESS: "Attractive woman" -> ENCHANTRESS  (missing from definition_answers_augmented)
+  SYSTEMATICALLY: "according to a plan" -> SYSTEMATICALLY  (missing from definition_answers_augmented)
+  MASKING: "Disguising" -> MASKING  (missing from definition_answers_augmented)
+  SPOTTERS: "watches" -> SPOTTERS  (missing from definition_answers_augmented)
+  PROCRASTINATED: "Were indecisive" -> PROCRASTINATED  (missing from definition_answers_augmented)
+  ORESTES: "Greek avenger" -> ORESTES  (missing from definition_answers_augmented)
+  REVELRY: "party fun" -> REVELRY  (missing from definition_answers_augmented)
+  ETCHING: "Impression" -> ETCHING  (missing from definition_answers_augmented)
+  TREENAIL: "long wooden pin or nail to fasten the planks of a ship to its timbers" -> TREENAIL  (missing from definition_answers_augmented)
+  EDDY: "Founder of religious sect" -> EDDY  (missing from definition_answers_augmented)
+  ESTRANGED: ""disaffected"?" -> ESTRANGED  (missing from definition_answers_augmented)
+  ABE: "Name of murder victim" -> ABE  (missing from definition_answers_augmented)
+  EVITA: "Show" -> EVITA  (missing from definition_answers_augmented)
+  EYESIGHT: "Pupil is needed for this" -> EYESIGHT  (missing from definition_answers_augmented)
+  ORTHOPTERAN: "Insect" -> ORTHOPTERAN  (missing from definition_answers_augmented)
+  TOAD: "nasty person" -> TOAD  (missing from definition_answers_augmented)
+  ANDHOW: "A new ship?" -> ANDHOW  (missing from definition_answers_augmented)
+  NUN: "A sort of single person" -> NUN  (missing from definition_answers_augmented)
+  HAIRGEL: "fix locks" -> HAIRGEL  (missing from definition_answers_augmented)
+  WEEKDAYS: "periods" -> WEEKDAYS  (missing from definition_answers_augmented)
+  RIVET: "stand with three legs" -> RIVET  (missing from definition_answers_augmented)
+  ALMANDINE: "another precious stone" -> ALMANDINE  (missing from definition_answers_augmented)
+  TYRANT: "One of the oppressive types" -> TYRANT  (missing from definition_answers_augmented)
+  SESTET: - don't cancel it -> STET  (missing from synonyms_pairs)
+  MASKING: ruler -> ASKING  (missing from synonyms_pairs)
+  SPOTTERS: of -> S  (missing from abbreviations)
+  ORESTES: remains -> RESTS  (missing from synonyms_pairs)
+  ESTRANGED: Parisian -> EST  (missing from abbreviations)
+  ANDHOW: ship -> DHOW  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  10. A row about fellow taking diamonds or another precious stone = ALMANDINE
+  21. One of the oppressive types — those people heartlessly rage = TYRANT
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/43  
+  DB gap:                29  5A, 9A, 10A, 12A, 13A, 15A, 18A, 22A, 23A, 25A, 27A, 28A, 29A, 1D, 2D, 3D, 4D, 6D, 7D, 8D, 11D, 14D, 16D, 17D, 19D, 20D, 21D, 24D, 26D
+  Failed:                2  10A, 21D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   27A  EVITA         Show some incredible vitality (5)
+                      hidden in "incrediblE VITAlity" [hidden: "some"]; definition: "Show"  [HIGH]
+   15A  SYSTEMATICALLY  A mystical style configured according to a plan (14)
+                      anagram of AMYSTICALSTYLE ("A mystical style") [anagram: "configured"] = SYSTEMATICALLY; definition: "according to a plan"  [HIGH]
+   16D  MASKING       Disguising male in the role of ruler (7)
+                      M (synonym of "male") + AS (synonym of "role") + KING (synonym of "ruler"); definition: "Disguising"  [HIGH]
+   17D  SPOTTERS      Son of Harry maybe watches (8)
+                      S (synonym of "Son") + POTTERS (synonym of "Harry maybe"); definition: "watches"  [HIGH]
+   18A  PROCRASTINATED  Were indecisive priest and actor miscast? (14)
+                      anagram of PRIESTANDACTOR ("priest and actor") [anagram: "miscast?"] = PROCRASTINATED; definition: "Were indecisive"  [HIGH]
+    2D  REVELRY       Your bar set up for party fun? (7)
+                      YR (synonym of "Your") + LEVER (synonym of "bar") [reversal: "set up"]; definition: "party fun?"  [HIGH]
+   20D  ETCHING       Impression created by winsome female’s leaving (7)
+                      ---  [HIGH]
+   22A  TREENAIL      Pin never to be inserted the wrong way round in end-piece (8)
+                      ---  [HIGH]
+   26D  ABE           Name of murder victim shortened, one way or another! (3)
+                      ---  [HIGH]
+   29A  EYESIGHT      Pupil is needed for this crew? Certainly will be in it (8)
+                      ---  [HIGH]
+    3D  ORTHOPTERAN   Insect moving round on the parrot (11)
+                      anagram of ONTHEPARROT ("on the parrot") [anagram: "moving"] = ORTHOPTERAN; definition: "Insect"  [HIGH]
+    5A  ANDHOW        A new ship? Very much so! (3,3)
+                      AND (synonym of "much") + HOW (synonym of "Very"); definition: "A new ship?"  [HIGH]
+    9A  RIVET         Bolt stand with three legs after first bit has fallen off (5)
+                      ---  [HIGH]
+   23A  STICKY        Awkward staff close to mutiny (6)
+                      STICK (synonym of "staff") + Y (last letter of "mutiny") [last letter: "close"]; definition: "Awkward"  [HIGH]
+   28A  SESTET        Group in home counties — don’t cancel it (6)
+                      SE (abbreviation of "home counties") + STET (synonym of "- don't cancel it"); definition: "Group"  [HIGH]
+    1A  FORSOOTH      Thus duck may be seen in Scottish river, indeed! (8)
+                      ---  [HIGH]
+    1D  FORMAT        French mathematician having love for English design (6)
+                      ---  [HIGH]
+   11D  MAESTRI       Team is run to develop great players (7)
+                      anagram of TEAMIS ("Team is") + R (abbreviation of "run") [anagram: "develop"] = MAESTRI; definition: "great players"  [HIGH]
+   12A  ABLOOM        A period of prosperity in which pound is seen to be blossoming (6)
+                      ---  [MED]
+   13A  DETERGED      Act to save time, work unit being made clean (8)
+                      ---  [HIGH]
+   14D  ENCHANTRESS   Attractive woman guys without maiden sing about on ship (11)
+                      ---  [HIGH]
+   15A  SYSTEMATICALLY  A mystical style configured according to a plan (14)
+                      ---  [HIGH]
+   16D  MASKING       Disguising male in the role of ruler (7)
+                      ---  [HIGH]
+   17D  SPOTTERS      Son of Harry maybe watches (8)
+                      ---  [HIGH]
+   18A  PROCRASTINATED  Were indecisive priest and actor miscast? (14)
+                      ---  [MED]
+   19D  ORESTES       Greek avenger, old, remains full of energy (7)
+                      ---  [HIGH]
+    2D  REVELRY       Your bar set up for party fun? (7)
+                      ---  [HIGH]
+   20D  ETCHING       Impression created by winsome female’s leaving (7)
+                      ---  [HIGH]
+   22A  TREENAIL      Pin never to be inserted the wrong way round in end-piece (8)
+                      ---  [HIGH]
+   24D  EDDY          Founder of religious sect recalled you once entertaining theologian (4)
+                      ---  [MED]
+   25A  ESTRANGED     Is Parisian classified as “disaffected”? (9)
+                      EST (synonym of "Parisian") + RANGED (synonym of "classified"); definition: ""disaffected"?"  [HIGH]
+   26D  ABE           Name of murder victim shortened, one way or another! (3)
+                      ---  [HIGH]
+   27A  EVITA         Show some incredible vitality (5)
+                      ---  [HIGH]
+   29A  EYESIGHT      Pupil is needed for this crew? Certainly will be in it (8)
+                      ---  [HIGH]
+    3D  ORTHOPTERAN   Insect moving round on the parrot (11)
+                      ---  [HIGH]
+    4D  TOAD          Spot revolutionary protecting a nasty person (4)
+                      ---  [MED]
+    5A  ANDHOW        A new ship? Very much so! (3,3)
+                      ---  [HIGH]
+    6D  NUN           A sort of single person? Not a single person, we hear (3)
+                      ---  [HIGH]
+    7D  HAIRGEL       Setter intended to fix locks? (4,3)
+                      ---  [HIGH]
+    8D  WEEKDAYS      “Sunless” periods, as you might surmise? (8)
+                      ---  [HIGH]
+    9A  RIVET         Bolt stand with three legs after first bit has fallen off (5)
+                      ---  [MED]
+   10A  ALMANDINE     A row about fellow taking diamonds or another precious stone (9)
+                      ---  [FAIL]
+   21D  TYRANT        One of the oppressive types — those people heartlessly rage (6)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] EVITA  27A. Show some incredible vitality
+  Answer: EVITA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Show"
+  Wordplay: hidden
+  Explanation: hidden in "incrediblE VITAlity" [hidden: "some"]; definition: "Show"
+  ----------------------------------------------------------------------
+
+  [HIGH] SYSTEMATICALLY  15A. A mystical style configured according to a plan
+  Answer: SYSTEMATICALLY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "according to a plan"
+  Wordplay: anagram
+  Explanation: anagram of AMYSTICALSTYLE ("A mystical style") [anagram: "configured"] = SYSTEMATICALLY; definition: "according to a plan"
+  ----------------------------------------------------------------------
+
+  [HIGH] MASKING  16D. Disguising male in the role of ruler
+  Answer: MASKING
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Disguising"
+  Wordplay: charade
+  Explanation: M (synonym of "male") + AS (synonym of "role") + KING (synonym of "ruler"); definition: "Disguising"
+  ----------------------------------------------------------------------
+
+  [HIGH] SPOTTERS  17D. Son of Harry maybe watches
+  Answer: SPOTTERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "watches"
+  Wordplay: charade
+  Explanation: S (synonym of "Son") + POTTERS (synonym of "Harry maybe"); definition: "watches"
+  ----------------------------------------------------------------------
+
+  [HIGH] PROCRASTINATED  18A. Were indecisive priest and actor miscast?
+  Answer: PROCRASTINATED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Were indecisive"
+  Wordplay: anagram
+  Explanation: anagram of PRIESTANDACTOR ("priest and actor") [anagram: "miscast?"] = PROCRASTINATED; definition: "Were indecisive"
+  ----------------------------------------------------------------------
+
+  [HIGH] REVELRY  2D. Your bar set up for party fun?
+  Answer: REVELRY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "party fun?"
+  Wordplay: charade + reversal
+  Explanation: YR (synonym of "Your") + LEVER (synonym of "bar") [reversal: "set up"]; definition: "party fun?"
+  ----------------------------------------------------------------------
+
+  [HIGH] ETCHING  20D. Impression created by winsome female’s leaving
+  Answer: ETCHING
+  Tier: --- | Confidence: 100/100
+  Human explanation: FETCHING (synonym="winsome") with deletion = ETCHING; definition: "Impression"
+  ----------------------------------------------------------------------
+
+  [HIGH] TREENAIL  22A. Pin never to be inserted the wrong way round in end-piece
+  Answer: TREENAIL
+  Tier: --- | Confidence: 100/100
+  Human explanation: TREE (STREET="way", remove outer letters) + NAIL (synonym="Pin") = TREENAIL; definition: "end-piece"
+  ----------------------------------------------------------------------
+
+  [HIGH] ABE  26D. Name of murder victim shortened, one way or another!
+  Answer: ABE
+  Tier: --- | Confidence: 100/100
+  Human explanation: ABEL (synonym="murder victim") with deletion = ABE; definition: "Name"
+  ----------------------------------------------------------------------
+
+  [HIGH] EYESIGHT  29A. Pupil is needed for this crew? Certainly will be in it
+  Answer: EYESIGHT
+  Tier: --- | Confidence: 100/100
+  Human explanation: EIGHT (synonym="crew?") + YES (synonym="Certainly") = EYESIGHT; definition: "Pupil"
+  ----------------------------------------------------------------------
+
+  [HIGH] ORTHOPTERAN  3D. Insect moving round on the parrot
+  Answer: ORTHOPTERAN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Insect"
+  Wordplay: anagram
+  Explanation: anagram of ONTHEPARROT ("on the parrot") [anagram: "moving"] = ORTHOPTERAN; definition: "Insect"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANDHOW  5A. A new ship? Very much so!
+  Answer: ANDHOW
+  Tier: Sig+Enriched | Confidence: 95/100
+  Definition: "A new ship?"
+  Wordplay: charade
+  Explanation: AND (synonym of "much") + HOW (synonym of "Very"); definition: "A new ship?"
+  Checks: unverified_link_'so!'=-5
+  ----------------------------------------------------------------------
+
+  [HIGH] RIVET  9A. Bolt stand with three legs after first bit has fallen off
+  Answer: RIVET
+  Tier: --- | Confidence: 100/100
+  Human explanation: TRIVET (synonym="stand") with deletion = RIVET; definition: "Bolt"
+  ----------------------------------------------------------------------
+
+  [HIGH] STICKY  23A. Awkward staff close to mutiny
+  Answer: STICKY
+  Tier: Signature | Confidence: 100/100
+  Definition: "Awkward"
+  Wordplay: charade + parts
+  Explanation: STICK (synonym of "staff") + Y (last letter of "mutiny") [last letter: "close"]; definition: "Awkward"
+  ----------------------------------------------------------------------
+
+  [HIGH] SESTET  28A. Group in home counties — don’t cancel it
+  Answer: SESTET
+  Tier: Signature | Confidence: 100/100
+  Definition: "Group"
+  Wordplay: charade
+  Explanation: SE (abbreviation of "home counties") + STET (synonym of "- don't cancel it"); definition: "Group"
+  ----------------------------------------------------------------------
+
+  [HIGH] FORSOOTH  1A. Thus duck may be seen in Scottish river, indeed!
+  Answer: FORSOOTH
+  Tier: --- | Confidence: 100/100
+  Definition: "indeed"
+  Wordplay type: container
+  Components:
+    literal            duck                      -> O
+    synonym            Thus                      -> SO
+    literal            Scottish river            -> FORTH
+  AI Reasoning:
+    FORTH (Scottish river) contains SO (thus) and O (duck), giving FOR(SO)O(TH) = FORSOOTH (indeed)
+  ----------------------------------------------------------------------
+
+  [HIGH] FORMAT  1D. French mathematician having love for English design
+  Answer: FORMAT
+  Tier: --- | Confidence: 100/100
+  Definition: "French mathematician"
+  Wordplay type: substitution
+  Components:
+    substitution       FERMAT                    -> FORMAT
+  AI Reasoning:
+    FERMAT (French mathematician) with E (English) substituted for O (love) gives FORMAT
+  ----------------------------------------------------------------------
+
+  [HIGH] MAESTRI  11D. Team is run to develop great players
+  Answer: MAESTRI
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "great players"
+  Wordplay: anagram + charade
+  Explanation: anagram of TEAMIS ("Team is") + R (abbreviation of "run") [anagram: "develop"] = MAESTRI; definition: "great players"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ABLOOM  12A. A period of prosperity in which pound is seen to be blossoming
+  Answer: ABLOOM
+  Tier: --- | Confidence: 70/100
+  Definition: "blossoming"
+  Wordplay type: container
+  Components:
+    abbreviation       pound                     -> L
+    literal            period of prosperity      -> BOOM
+  AI Reasoning:
+    L (pound) is inserted into BOOM (period of prosperity) to create ABLOOM (blossoming), with A appearing at start and end as container markers
+  ----------------------------------------------------------------------
+
+  [HIGH] DETERGED  13A. Act to save time, work unit being made clean
+  Answer: DETERGED
+  Tier: --- | Confidence: 100/100
+  Definition: "being made clean"
+  Wordplay type: container
+  Components:
+    synonym            act                       -> DEED
+    abbreviation       time                      -> T
+    synonym            work unit                 -> ERG
+  AI Reasoning:
+    DEED (container) wraps around T + ERG (contents) to form DETERGED: DE(T+ERG)ED
+  ----------------------------------------------------------------------
+
+  [HIGH] ENCHANTRESS  14D. Attractive woman guys without maiden sing about on ship
+  Answer: ENCHANTRESS
+  Tier: --- | Confidence: 100/100
+  Definition: "Attractive woman"
+  Wordplay type: charade
+  Components:
+    deletion           guys without maiden       -> EN [MEN - M]
+    synonym            sing                      -> CHANT
+    abbreviation       about                     -> RE
+    abbreviation       ship                      -> SS
+  AI Reasoning:
+    Charade combining EN (men minus M) + CHANT (sing) + RE (about) + SS (ship) = ENCHANTRESS
+  ----------------------------------------------------------------------
+
+  [HIGH] SYSTEMATICALLY  15A. A mystical style configured according to a plan
+  Answer: SYSTEMATICALLY
+  Tier: --- | Confidence: 100/100
+  Definition: "according to a plan"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     A MYSTICAL STYLE          -> AMYSTICALSTYLE
+  AI Reasoning:
+    SYSTEMATICALLY is an anagram of the letters in 'A MYSTICAL STYLE', with 'configured' as the anagram indicator.
+  ----------------------------------------------------------------------
+
+  [HIGH] MASKING  16D. Disguising male in the role of ruler
+  Answer: MASKING
+  Tier: --- | Confidence: 80/100
+  Definition: "Disguising"
+  Wordplay type: charade
+  Components:
+    abbreviation       male                      -> M
+    synonym            ruler                     -> ASKING
+  AI Reasoning:
+    M (abbreviation for male) + AS KING (in the role of ruler, where 'as' means 'in the role of') = MASKING
+  ----------------------------------------------------------------------
+
+  [HIGH] SPOTTERS  17D. Son of Harry maybe watches
+  Answer: SPOTTERS
+  Tier: --- | Confidence: 95/100
+  Definition: "watches"
+  Wordplay type: charade
+  Components:
+    first_letter       Son                       -> S
+    literal            Harry                     -> POTTER
+    abbreviation       of                        -> S
+  AI Reasoning:
+    S (son's initial) + POTTER (Harry Potter) + S (of = possessive) = SPOTTERS (groups of watchers)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PROCRASTINATED  18A. Were indecisive priest and actor miscast?
+  Answer: PROCRASTINATED
+  Tier: --- | Confidence: 70/100
+  Definition: "Were indecisive"
+  Wordplay type: anagram
+  Components:
+    literal            priest                    -> PRIEST
+    literal            and                       -> 
+    literal            actor                     -> ACTOR
+  AI Reasoning:
+    PRIEST + ACTOR anagrammed (miscast) = PROCRASTINATED (were indecisive)
+  ----------------------------------------------------------------------
+
+  [HIGH] ORESTES  19D. Greek avenger, old, remains full of energy
+  Answer: ORESTES
+  Tier: --- | Confidence: 80/100
+  Definition: "Greek avenger"
+  Wordplay type: container
+  Components:
+    abbreviation       old                       -> O
+    synonym            remains                   -> RESTS
+    abbreviation       energy                    -> E
+  AI Reasoning:
+    O (old) + E (energy) inserted into RESTS (remains) = ORESTES, the Greek avenger from the Oresteia
+  ----------------------------------------------------------------------
+
+  [HIGH] REVELRY  2D. Your bar set up for party fun?
+  Answer: REVELRY
+  Tier: --- | Confidence: 100/100
+  Definition: "party fun"
+  Wordplay type: charade
+  Components:
+    abbreviation       Your                      -> YR
+    reversal           bar                       -> REVEL [LEVER - ?]
+  AI Reasoning:
+    YR (abbreviation for 'your') + LEVER (bar) reversed to REVEL = REVELRY
+  ----------------------------------------------------------------------
+
+  [HIGH] ETCHING  20D. Impression created by winsome female’s leaving
+  Answer: ETCHING
+  Tier: --- | Confidence: 100/100
+  Definition: "Impression"
+  Wordplay type: deletion
+  Components:
+    deletion           winsome                   -> ETCHING [FETCHING - F]
+  AI Reasoning:
+    FETCHING (winsome) with F (female) removed leaves ETCHING (impression created by acid on metal).
+  ----------------------------------------------------------------------
+
+  [HIGH] TREENAIL  22A. Pin never to be inserted the wrong way round in end-piece
+  Answer: TREENAIL
+  Tier: --- | Confidence: 100/100
+  Definition: "long wooden pin or nail to fasten the planks of a ship to its timbers"
+  Wordplay type: container
+  Components:
+    reversal           never                     -> NEER
+    literal            end-piece                 -> TAIL
+  AI Reasoning:
+    NEER (never) reversed to REEN is inserted inside TAIL (end-piece) to give TREENAIL
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EDDY  24D. Founder of religious sect recalled you once entertaining theologian
+  Answer: EDDY
+  Tier: --- | Confidence: 70/100
+  Definition: "Founder of religious sect"
+  Wordplay type: charade
+  Components:
+    literal            you                       -> YE
+    reversal           you                       -> EY
+    abbreviation       theologian                -> DD
+  AI Reasoning:
+    YE (archaic 'you') reversed to EY, plus DD (Doctor of Divinity, theologian) = EDDY, the surname of Mary Baker Eddy, founder of Christian Science.
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTRANGED  25A. Is Parisian classified as “disaffected”?
+  Answer: ESTRANGED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: ""disaffected"?"
+  Wordplay: charade
+  Explanation: EST (synonym of "Parisian") + RANGED (synonym of "classified"); definition: ""disaffected"?"
+  ----------------------------------------------------------------------
+
+  [HIGH] ABE  26D. Name of murder victim shortened, one way or another!
+  Answer: ABE
+  Tier: --- | Confidence: 90/100
+  Definition: "Name of murder victim"
+  Wordplay type: double_definition
+  AI Reasoning:
+    ABE is a double definition: short for ABEL (biblical first murder victim) and short for ABRAHAM (Lincoln, assassinated). Two different ways of shortening names of murder victims.
+  ----------------------------------------------------------------------
+
+  [HIGH] EVITA  27A. Show some incredible vitality
+  Answer: EVITA
+  Tier: --- | Confidence: 100/100
+  Definition: "Show"
+  Wordplay type: hidden
+  Components:
+    hidden             some incredible vitality  -> EVITA
+  AI Reasoning:
+    EVITA is hidden in the sequence 'some incredible vitality' (som**E V**ital**ITA**lity), where 'Show' is the definition (referring to the musical/film 'Evita').
+  ----------------------------------------------------------------------
+
+  [HIGH] EYESIGHT  29A. Pupil is needed for this crew? Certainly will be in it
+  Answer: EYESIGHT
+  Tier: --- | Confidence: 100/100
+  Definition: "Pupil is needed for this"
+  Wordplay type: container
+  Components:
+    synonym            Certainly                 -> YES
+    synonym            crew                      -> EIGHT
+  AI Reasoning:
+    YES (certainly) contains EIGHT (crew), giving EY(EIGHT)S = EYESIGHT; pupil refers to the pupil of the eye
+  ----------------------------------------------------------------------
+
+  [HIGH] ORTHOPTERAN  3D. Insect moving round on the parrot
+  Answer: ORTHOPTERAN
+  Tier: --- | Confidence: 100/100
+  Definition: "Insect"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     on the parrot             -> ONTHEPARROT
+  AI Reasoning:
+    Anagram of ON THE PARROT (moving round) gives ORTHOPTERAN, an insect order
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TOAD  4D. Spot revolutionary protecting a nasty person
+  Answer: TOAD
+  Tier: --- | Confidence: 70/100
+  Definition: "nasty person"
+  Wordplay type: container
+  Components:
+    literal            spot                      -> DOT
+    reversal           spot                      -> DOT
+    literal            a                         -> A
+  AI Reasoning:
+    DOT (spot) reversed to TOD, with A (a) inserted in the middle to form TOAD (nasty person)
+  ----------------------------------------------------------------------
+
+  [HIGH] ANDHOW  5A. A new ship? Very much so!
+  Answer: ANDHOW
+  Tier: --- | Confidence: 80/100
+  Definition: "A new ship?"
+  Wordplay type: charade
+  Components:
+    literal            A                         -> A
+    first_letter       new                       -> N
+    synonym            ship                      -> DHOW
+  AI Reasoning:
+    A + N (first letter of 'new') + DHOW (a type of ship) = ANDHOW, which means 'very much so'
+  ----------------------------------------------------------------------
+
+  [HIGH] NUN  6D. A sort of single person? Not a single person, we hear
+  Answer: NUN
+  Tier: --- | Confidence: 85/100
+  Definition: "A sort of single person"
+  Wordplay type: homophone
+  Components:
+    sound_of           single person             -> NUN
+  AI Reasoning:
+    NUN sounds like NONE (not a single person); homophone indicated by 'we hear'
+  ----------------------------------------------------------------------
+
+  [HIGH] HAIRGEL  7D. Setter intended to fix locks?
+  Answer: HAIRGEL
+  Tier: --- | Confidence: 90/100
+  Definition: "fix locks"
+  Wordplay type: double_definition
+  AI Reasoning:
+    Double definition: HAIRGEL both fixes/styles locks (hair) and the clue misleadingly suggests locks (doors) needing fixing
+  ----------------------------------------------------------------------
+
+  [HIGH] WEEKDAYS  8D. “Sunless” periods, as you might surmise?
+  Answer: WEEKDAYS
+  Tier: --- | Confidence: 100/100
+  Definition: "periods"
+  Wordplay type: deletion
+  Components:
+    deletion           Sunless                   -> WEEKDAYS [SUNDAYS - SUN]
+  AI Reasoning:
+    SUNDAYS with SUN (abbreviation for Sunday) deleted leaves WEEKDAYS, which are periods without Sunday.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RIVET  9A. Bolt stand with three legs after first bit has fallen off
+  Answer: RIVET
+  Tier: --- | Confidence: 70/100
+  Definition: "stand with three legs"
+  Wordplay type: deletion
+  Components:
+    literal            Bolt                      -> RIVET
+    deletion           TRIVET                    -> RIVET [TRIVET - T]
+  AI Reasoning:
+    TRIVET (a stand with three legs) loses its first letter T, leaving RIVET (a bolt). The clue uses 'Bolt' as the definition and 'stand with three legs after first bit has fallen off' as the wordplay indicator.
+  ----------------------------------------------------------------------
+
+  [FAILED] ALMANDINE  10A. A row about fellow taking diamonds or another precious stone
+  Answer: ALMANDINE
+  Tier: --- | Confidence: 0/100
+  Definition: "another precious stone"
+  Wordplay type: charade
+  Components:
+    literal            A                         -> A
+    indicator          about                     -> 
+    synonym            row                       -> DIN
+    synonym            fellow                    -> MAN
+    indicator          taking                    -> 
+    abbreviation       diamonds                  -> D
+    literal            or                        -> OR
+  DB Lookups:
+    DB lookups:
+      row: syn=AND*,DIN*,DO,TO,ADO,FOR,OAR,SET,WAY,BANK,DRAG,DUST,FALL,FEUD,FILE; sounds=roe
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      fellow: syn=MAN*,MAIN*,F,HE,BOD,BOY,BUD,CAT,CUB,DON,EGG,FOE,GUY,JOE,KEN; abbr=F,MAN*
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      diamonds: syn=D,ICE,NICE,SUIT,NICER,ROCKS,RHOMBI,STONES,SUITOR,A GIRLS,ICE FLOE,RETICENCE,ACE,ROCK,JEWEL; abbr=D*
+      or: syn=GO,OUT,RES,SAY,SET,YET,BEAR,BIDE,FAIR,FIRM,HACK,HIGH,LIKE,MEET,MOST; sounds=oar,ore
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A*; ind=anagram
+      precious: syn=IN*,BIG,HOT,PET,POP,CUTE,DEAR,FOND,GOOD,HIGH,NICE,RUBY,TWEE,VERY,ELECT
+      stone: syn=ST,GEM,OUT,PIT,SAY,BARE,BODY,DAMN,DEAD,EDGE,FAIR,FLAT,JADE,ONYX,OPAL; abbr=PIT,ST
+      a row: syn=AND*,DIN*,ADO,AIR,ASS,DOG,END,FLY,FOR,GAS
+      precious stone: syn=GEM,OPAL,STONE,GEMSTONE
+    Definitions:
+      "stone" -> ALMANDINE (definition match)
+      "precious stone" -> ALMANDINE (definition match)
+      "another precious stone" -> ALMANDINE (definition match)
+  AI Reasoning:
+    A + anagram of (DIN + MAN + D + OR) where 'about' indicates the anagram operation
+  ----------------------------------------------------------------------
+
+  [FAILED] TYRANT  21D. One of the oppressive types — those people heartlessly rage
+  Answer: TYRANT
+  Tier: --- | Confidence: 0/100
+  Definition: "One of the oppressive types"
+  Wordplay type: charade
+  Components:
+    synonym            those people              -> TYRANT
+    indicator          heartlessly               -> 
+  DB Lookups:
+    DB lookups:
+      one: syn=AN*,I,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I,O; sounds=won
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      oppressive: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH,SOGGY
+      types: syn=ILKS,KINDS,LIKES,MARKS,OLIOS,SORTS,STEWS,BREEDS,GENRES,GUMBOS,HASHES,INPUTS,ORDERS,SALADS,ILK; ind=anagram
+      those: abbr=THE
+      people: syn=ELF,FAY,HAG,IMP,KIN,MEN,MOB,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN,CUES; abbr=MEN
+      heartlessly: ind=deletion,parts
+      rage: syn=AT,GO,AIR,FAD,HOT,IRE,OIL,TON,BOTH,BUZZ,CHIC,FEEL,FLAP,FURY,LAST; abbr=R*
+      one of: syn=HAS,DIET,EATS,FARE,FOOD,GRUB,TUCK,DINES,TAKES,SCOFFS
+      of the: syn=MITRE
+      those people: syn=THEM,UFOS
+  AI Reasoning:
+    Those people (in context of oppressive types) gives TYRANT directly, with heartlessly as a confirming indicator
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,574 @@
+{
+  "source": "independent",
+  "puzzle": "12323",
+  "stats": {
+    "total": 39,
+    "assembled": 39,
+    "high": 36,
+    "medium": 2,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 92.23076923076923
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Democrat's",
+      "letters": "D",
+      "answer": "DANGERS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "French city supporting Democrat's threats",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "nothing",
+      "letters": "AF",
+      "answer": "AFRO",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Do nothing about contrary men",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "men",
+      "letters": "RO",
+      "answer": "AFRO",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Do nothing about contrary men",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "base",
+      "letters": "STAND",
+      "answer": "STANDARD",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Flag radical twirled in base?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "princess",
+      "letters": "DI",
+      "answer": "RIDING",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Call about princess on horse?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "jam",
+      "letters": "PICKLE",
+      "answer": "DILLPICKLE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Dead crummy jam one put in a sandwich?",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Scottish hooligan",
+      "letters": "NED",
+      "answer": "DAMNED",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Lawyer male Scottish hooligan cursed",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Democrat's",
+      "letters": "D",
+      "answer": "DANGERS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "French city supporting Democrat's threats",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "my boss",
+      "letters": "ED",
+      "answer": "END",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Bottom of knight pinched by my boss",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "tough youth",
+      "letters": "TED",
+      "answer": "UNITED",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "One tough youth seen by college",
+      "score": 70
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "news",
+      "letters": "NN",
+      "answer": "VIENNA",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Struggle to get news on a capital",
+      "score": 95
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dotard",
+      "letters": "COOT",
+      "answer": "COOLIT",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Chill dotard catches close to Bhopal, India",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "retired",
+      "letters": "RET",
+      "answer": "ENTER",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Record retired north European spins",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "9:25",
+      "letters": "Y",
+      "answer": "CITY",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Jerk coming round by 9:25, perhaps!",
+      "score": 95
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "not as healthy",
+      "letters": "ILLER",
+      "answer": "DRILLER",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Doctor not as healthy as dentist?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "YMCA",
+      "letters": "Y",
+      "answer": "YEAR",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Listener put on YMCA for a time",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "revolting",
+      "letters": "PUS",
+      "answer": "OPUS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Work's flipping revolting, sailor holds",
+      "score": 10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "sailor",
+      "letters": "O",
+      "answer": "OPUS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Work's flipping revolting, sailor holds",
+      "score": 10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Dutch",
+      "letters": "D",
+      "answer": "ARCADE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "A new race to save Dutch shopping precinct",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "further broadcast",
+      "answer": "RETRANSMIT",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Awful rant merits further broadcast",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Do",
+      "answer": "AFRO",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Do nothing about contrary men",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "threats",
+      "answer": "DANGERS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "French city supporting Democrat's threats",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Nothing's",
+      "answer": "ZERO",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Nothing's unknown about rejected love",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Row",
+      "answer": "TIER",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Row and draw revolver at the front",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "superpower",
+      "answer": "AMERICA",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "A crime spun by a superpower",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Silence",
+      "answer": "PEACE",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Silence in composition on the radio",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "further broadcast",
+      "answer": "RETRANSMIT",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Awful rant merits further broadcast",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Quickly drinks",
+      "answer": "NECKS",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Quickly drinks new lager brand out of barrel",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hairstyle",
+      "answer": "AFRO",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Do nothing about contrary men",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Flag",
+      "answer": "STANDARD",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Flag radical twirled in base?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "on horse?",
+      "answer": "RIDING",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Call about princess on horse?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "An example of this",
+      "answer": "RED",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "An example of this could be cherry wine",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one put in a sandwich",
+      "answer": "DILLPICKLE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Dead crummy jam one put in a sandwich?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cursed",
+      "answer": "DAMNED",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Lawyer male Scottish hooligan cursed",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "threats",
+      "answer": "DANGERS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "French city supporting Democrat's threats",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bottom of knight",
+      "answer": "END",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Bottom of knight pinched by my boss",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mature folk",
+      "answer": "ADULTS",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Soprano stuck on Blue for mature folk",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Had it with being hit really hard",
+      "answer": "BONKED",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Had it with being hit really hard?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tough youth seen by college",
+      "answer": "UNITED",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "One tough youth seen by college",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "capital",
+      "answer": "VIENNA",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Struggle to get news on a capital",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Busy as some regions of Ukraine",
+      "answer": "OCCUPIED",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Busy as some regions of Ukraine?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chill",
+      "answer": "COOLIT",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Chill dotard catches close to Bhopal, India",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Record",
+      "answer": "ENTER",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Record retired north European spins",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Port town in western Scotland",
+      "answer": "OBAN",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Outlaw after drop of overpriced port",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "here",
+      "answer": "TOKYO",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Took up stealing Yen here?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Row",
+      "answer": "TIER",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Row and draw revolver at the front",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "perhaps",
+      "answer": "CITY",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Jerk coming round by 9:25, perhaps!",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pity",
+      "answer": "SHAME",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "American punches quiet Hoskins? Pity!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dentist?",
+      "answer": "DRILLER",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Doctor not as healthy as dentist?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Spanish sparkling wine",
+      "answer": "CAVA",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Drink of cold coffee judge left out",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "setter",
+      "answer": "AGENT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Dope inhaled by vacuously abhorrent setter",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "missions",
+      "answer": "ERRANDS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Go wrong with foremost of SAS missions?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "for a time",
+      "answer": "YEAR",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Listener put on YMCA for a time",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "shopping precinct",
+      "answer": "ARCADE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "A new race to save Dutch shopping precinct",
+      "score": 57
+    }
+  ]
+}

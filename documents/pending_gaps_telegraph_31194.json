@@ -1,0 +1,289 @@
+{
+  "source": "telegraph",
+  "puzzle": "31194",
+  "stats": {
+    "total": 30,
+    "assembled": 26,
+    "high": 21,
+    "medium": 3,
+    "low": 2,
+    "failed": 4,
+    "avg_score": 77.6923076923077
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "woman's",
+      "letters": "HER",
+      "answer": "NOWHERE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Currently, that woman's on ecstasy in remote place",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "this person's",
+      "letters": "I",
+      "answer": "Turin",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Go around this person's Italian city",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Bank",
+      "letters": "TOWN",
+      "answer": "town crier",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Bank securing personal credit for former news presenter?",
+      "score": 15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "established",
+      "letters": "DESTINE",
+      "answer": "CLANDESTINELY",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Family established in Cambridgeshire city nursing daughter in secret",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "See",
+      "answer": "DATE",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "See fruit",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "performer",
+      "answer": "ARTISTE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "To an extent, part is terrifying for performer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "country",
+      "answer": "Argentina",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Some fear gent in African country",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Understanding",
+      "answer": "INSIGHT",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Understanding current things badly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "remote place",
+      "answer": "NOWHERE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Currently, that woman's on ecstasy in remote place",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Italian city",
+      "answer": "Turin",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Go around this person's Italian city",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "division",
+      "answer": "DEPARTMENT",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Leave chaps beginning to teach division",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "former news presenter",
+      "answer": "town crier",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Bank securing personal credit for former news presenter?",
+      "score": 15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in secret",
+      "answer": "CLANDESTINELY",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Family established in Cambridgeshire city nursing daughter in secret",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Intervene",
+      "answer": "MEDIATE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Intervene and think carefully, having no time",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Cognisant",
+      "answer": "AWARE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Cognisant of fighting in A&E",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "final section",
+      "answer": "ENDGAME",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Need AGM to change final section",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Questioned",
+      "answer": "ASKED",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Questioned male leaving with face covered",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "issue",
+      "answer": "EDITION",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Rebellion without singular issue",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "from Asian country",
+      "answer": "Pakistani",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Unorthodox pianist entertaining a king from Asian country",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cast out",
+      "answer": "EXILE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Former priest from the east cast out",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "travel by horse",
+      "answer": "RIDE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Naked women getting married travel by horse",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sport",
+      "answer": "VOLLEYBALL",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Everyone follows strangely lovely British sport",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Philosopher's",
+      "answer": "Rene Descartes",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Philosopher's rent decreases, oddly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "an essential element of natural gas",
+      "answer": "METHANE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Encountered that guy purchasing an essential element of natural gas",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Old South American's",
+      "answer": "Inca",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Old South American's tiny scar discovered",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "money in Nigeria",
+      "answer": "NAIRA",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "New operatic song raised money in Nigeria",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Deals with",
+      "answer": "AGREEMENTS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Deals with representatives detaining mere criminal",
+      "score": 72
+    }
+  ]
+}

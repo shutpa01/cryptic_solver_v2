@@ -1,0 +1,431 @@
+{
+  "source": "guardian",
+  "puzzle": "29973",
+  "stats": {
+    "total": 37,
+    "assembled": 35,
+    "high": 34,
+    "medium": 1,
+    "low": 0,
+    "failed": 2,
+    "avg_score": 96.0
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "missile",
+      "letters": "ARROW",
+      "answer": "NARROW",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "New missile limited in scope",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "counterargument",
+      "letters": "CON",
+      "answer": "CONTRACT",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Make short counterargument with pamphlet",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "missile",
+      "letters": "ARROW",
+      "answer": "NARROW",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "New missile limited in scope",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "agree",
+      "letters": "DEIGN",
+      "answer": "DESIGN",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Reluctantly agree about son’s intention",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "counterargument",
+      "letters": "CON",
+      "answer": "CONTRACT",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Make short counterargument with pamphlet",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "monarch",
+      "letters": "R",
+      "answer": "TROPIC",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Subject embracing monarch in global circle",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "straightforward",
+      "answer": "SIMPLE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "In some clues, I’m pleasantly straightforward",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Eye problem",
+      "answer": "STYE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Eye problem from middle of last year",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What helps reproduce stock,",
+      "answer": "POLLENTUBE",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "What helps reproduce stock, say? Pet bull one redeployed",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Poet's",
+      "answer": "MILTON",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Poet’s one line in masculine style",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "limited in scope",
+      "answer": "NARROW",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "New missile limited in scope",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Humble",
+      "answer": "MEAN",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Humble soldiers protecting area",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Something used by cooks",
+      "answer": "SAUCEPAN",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Something used by cooks in USA – pecan nuts",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Make short",
+      "answer": "CONTRACT",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Make short counterargument with pamphlet",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "It's uttered",
+      "answer": "VOCALISM",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "It’s uttered very briefly on weird social media, initially",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sleeveless cloak",
+      "answer": "CAPE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Cold primate in sleeveless cloak",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Kind of fool",
+      "answer": "GOOSEBERRY",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Kind of fool whose company isn’t wanted?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "pleasantly straightforward",
+      "answer": "SIMPLE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "In some clues, I’m pleasantly straightforward",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What helps reproduce stock",
+      "answer": "POLLENTUBE",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "What helps reproduce stock, say? Pet bull one redeployed",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to intrigue",
+      "answer": "INTEREST",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Present setter’s anagram to intrigue",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Poet's",
+      "answer": "MILTON",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Poet’s one line in masculine style",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Supplier of drug",
+      "answer": "OPIUMDEN",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Supplier of drug mostly impounded, destroyed",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Economist",
+      "answer": "KEYNES",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Economist making crucial point inconclusively",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Free",
+      "answer": "GRATIS",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Free traitor imprisoned by US troops",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Eye problem",
+      "answer": "STYE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Eye problem from middle of last year",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Private",
+      "answer": "INTERIOR",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Private put in grave situation backed foreign ruler",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "limited in scope",
+      "answer": "NARROW",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "New missile limited in scope",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "intention",
+      "answer": "DESIGN",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Reluctantly agree about son’s intention",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "statement of principle",
+      "answer": "DICTUM",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Richard’s pronouncement on corporation, statement of principle",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "piece of mathematics",
+      "answer": "ARITHMETIC",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Thing reversed in chart I revised as piece of mathematics",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Humble soldiers",
+      "answer": "MEAN",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Humble soldiers protecting area",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fit for sports event",
+      "answer": "MEET",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "These days, rarely fit for sports event",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stand-in to make score of ten, say",
+      "answer": "DOUBLE",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Stand-in to make score of ten, say",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Something used by cooks",
+      "answer": "SAUCEPAN",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Something used by cooks in USA – pecan nuts",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Seaweed",
+      "answer": "TANGLE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Seaweed gourmet ultimately put on fish",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wide open spaces",
+      "answer": "AGORAS",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Wide open spaces since found, after a journey over river",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Make short",
+      "answer": "CONTRACT",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Make short counterargument with pamphlet",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "global circle",
+      "answer": "TROPIC",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Subject embracing monarch in global circle",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Part of ship",
+      "answer": "BRIDGE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Part of ship that crosses river, often",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Problem pupil",
+      "answer": "ABSENTEE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Problem pupil stimulated in a communal meeting",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Radicals",
+      "answer": "FIREBRANDS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Radicals assuming rising changes image",
+      "score": 0
+    }
+  ]
+}

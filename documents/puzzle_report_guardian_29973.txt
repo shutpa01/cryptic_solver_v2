@@ -1,0 +1,583 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29973
+Generated: 2026-04-06 18:00:13
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      37
+  Assembled:        35/37 (94%)
+    Sig+Enriched:   11
+    Sonnet:         0
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   34  12A, 2D, 13D, 15A, 19D, 21D, 24A, 26A, 7A, 10A, 11A, 12A, 13D, 14A, 15A, 16D, 17A, 18D, 19D, 2D, 20A, 21D, 22A, 22D, 23A, 24A, 24D, 25A, 26A, 3D, 6D, 7A, 8D, 9A
+  Medium (40-79): 1  1D
+  Low (<40):    0  
+  Failed:       2  4D, 5D
+  Average:      96/100
+
+COST: $0.2988 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (41 entries)
+------------------------------------------------------------
+  SIMPLE: "straightforward" -> SIMPLE  (missing from definition_answers_augmented)
+  STYE: "Eye problem" -> STYE  (missing from definition_answers_augmented)
+  POLLENTUBE: "What helps reproduce stock," -> POLLENTUBE  (missing from definition_answers_augmented)
+  MILTON: "Poet's" -> MILTON  (missing from definition_answers_augmented)
+  NARROW: "limited in scope" -> NARROW  (missing from definition_answers_augmented)
+  MEAN: "Humble" -> MEAN  (missing from definition_answers_augmented)
+  SAUCEPAN: "Something used by cooks" -> SAUCEPAN  (missing from definition_answers_augmented)
+  CONTRACT: "Make short" -> CONTRACT  (missing from definition_answers_augmented)
+  VOCALISM: "It's uttered" -> VOCALISM  (missing from definition_answers_augmented)
+  CAPE: "sleeveless cloak" -> CAPE  (missing from definition_answers_augmented)
+  GOOSEBERRY: "Kind of fool" -> GOOSEBERRY  (missing from definition_answers_augmented)
+  SIMPLE: "pleasantly straightforward" -> SIMPLE  (missing from definition_answers_augmented)
+  POLLENTUBE: "What helps reproduce stock" -> POLLENTUBE  (missing from definition_answers_augmented)
+  INTEREST: "to intrigue" -> INTEREST  (missing from definition_answers_augmented)
+  MILTON: "Poet's" -> MILTON  (missing from definition_answers_augmented)
+  OPIUMDEN: "Supplier of drug" -> OPIUMDEN  (missing from definition_answers_augmented)
+  KEYNES: "Economist" -> KEYNES  (missing from definition_answers_augmented)
+  GRATIS: "Free" -> GRATIS  (missing from definition_answers_augmented)
+  STYE: "Eye problem" -> STYE  (missing from definition_answers_augmented)
+  INTERIOR: "Private" -> INTERIOR  (missing from definition_answers_augmented)
+  NARROW: "limited in scope" -> NARROW  (missing from definition_answers_augmented)
+  DESIGN: "intention" -> DESIGN  (missing from definition_answers_augmented)
+  DICTUM: "statement of principle" -> DICTUM  (missing from definition_answers_augmented)
+  ARITHMETIC: "piece of mathematics" -> ARITHMETIC  (missing from definition_answers_augmented)
+  MEAN: "Humble soldiers" -> MEAN  (missing from definition_answers_augmented)
+  MEET: "fit for sports event" -> MEET  (missing from definition_answers_augmented)
+  DOUBLE: "Stand-in to make score of ten, say" -> DOUBLE  (missing from definition_answers_augmented)
+  SAUCEPAN: "Something used by cooks" -> SAUCEPAN  (missing from definition_answers_augmented)
+  TANGLE: "Seaweed" -> TANGLE  (missing from definition_answers_augmented)
+  AGORAS: "Wide open spaces" -> AGORAS  (missing from definition_answers_augmented)
+  CONTRACT: "Make short" -> CONTRACT  (missing from definition_answers_augmented)
+  TROPIC: "global circle" -> TROPIC  (missing from definition_answers_augmented)
+  BRIDGE: "Part of ship" -> BRIDGE  (missing from definition_answers_augmented)
+  ABSENTEE: "Problem pupil" -> ABSENTEE  (missing from definition_answers_augmented)
+  FIREBRANDS: "Radicals" -> FIREBRANDS  (missing from definition_answers_augmented)
+  NARROW: missile -> ARROW  (missing from synonyms_pairs)
+  CONTRACT: counterargument -> CON  (missing from abbreviations)
+  NARROW: missile -> ARROW  (missing from synonyms_pairs)
+  DESIGN: agree -> DEIGN  (missing from synonyms_pairs)
+  CONTRACT: counterargument -> CON  (missing from abbreviations)
+  TROPIC: monarch -> R  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  4. Problem pupil stimulated in a communal meeting = ABSENTEE
+  5. Radicals assuming rising changes image = FIREBRANDS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/37  18D
+  DB gap:                25  7A, 9A, 10A, 11A, 12A, 14A, 15A, 17A, 20A, 23A, 25A, 26A, 1D, 2D, 3D, 4D, 5D, 6D, 8D, 13D, 16D, 19D, 21D, 22D, 24D
+  Failed:                2  4D, 5D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   12A  SIMPLE        In some clues, I’m pleasantly straightforward (6)
+                      hidden in "clueS, I'M PLEasantly" [hidden: "In"]; definition: "straightforward"  [HIGH]
+    2D  STYE          Eye problem from middle of last year (4)
+                      hidden in "laST YEar" [hidden: "from"]; definition: "Eye problem"  [HIGH]
+   13D  POLLENTUBE    What helps reproduce stock, say? Pet bull one redeployed (6,4)
+                      anagram of PETBULLONE ("Pet bull one") [anagram: "redeployed"] = POLLENTUBE; definition: "What helps reproduce stock,"  [HIGH]
+   15A  MILTON        Poet’s one line in masculine style (6)
+                      M (abbreviation of "masculine") + I (synonym of "one") + L (synonym of "line") + TON (synonym of "style"); definition: "Poet's"  [HIGH]
+   19D  GRATIS        Free traitor imprisoned by US troops (6)
+                      ---  [HIGH]
+   21D  NARROW        New missile limited in scope (6)
+                      N (synonym of "New") + ARROW (synonym of "missile"); definition: "limited in scope"  [HIGH]
+   24A  MEAN          Humble soldiers protecting area (4)
+                      MEN (synonym of "soldiers") + A (synonym of "area"); definition: "Humble"  [HIGH]
+   26A  SAUCEPAN      Something used by cooks in USA – pecan nuts (8)
+                      anagram of USAPECAN ("USA - pecan") [anagram: "nuts"] = SAUCEPAN; definition: "Something used by cooks"  [HIGH]
+    7A  CONTRACT      Make short counterargument with pamphlet (8)
+                      CON (synonym of "counterargument") + TRACT (synonym of "pamphlet"); definition: "Make short"  [HIGH]
+    1D  VOCALISM      It’s uttered very briefly on weird social media, initially (8)
+                      ---  [MED]
+   10A  CAPE          Cold primate in sleeveless cloak (4)
+                      C (synonym of "Cold") + APE (synonym of "primate"); definition: "sleeveless cloak"  [HIGH]
+   11A  GOOSEBERRY    Kind of fool whose company isn’t wanted? (10)
+                      ---  [HIGH]
+   12A  SIMPLE        In some clues, I’m pleasantly straightforward (6)
+                      ---  [HIGH]
+   13D  POLLENTUBE    What helps reproduce stock, say? Pet bull one redeployed (6,4)
+                      ---  [HIGH]
+   14A  INTEREST      Present setter’s anagram to intrigue (8)
+                      ---  [HIGH]
+   15A  MILTON        Poet’s one line in masculine style (6)
+                      ---  [HIGH]
+   16D  OPIUMDEN      Supplier of drug mostly impounded, destroyed (5,3)
+                      ---  [HIGH]
+   17A  KEYNES        Economist making crucial point inconclusively (6)
+                      ---  [HIGH]
+   18D  SIGNAWAY      Relinquish or keep subscribing? (4,4)
+                      SIGNAWAY (synonym of "Relinquish or keep subscribing?")  [HIGH]
+   19D  GRATIS        Free traitor imprisoned by US troops (6)
+                      ---  [HIGH]
+    2D  STYE          Eye problem from middle of last year (4)
+                      ---  [HIGH]
+   20A  INTERIOR      Private put in grave situation backed foreign ruler (8)
+                      ---  [HIGH]
+   21D  NARROW        New missile limited in scope (6)
+                      ---  [HIGH]
+   22A  DESIGN        Reluctantly agree about son’s intention (6)
+                      ---  [HIGH]
+   22D  DICTUM        Richard’s pronouncement on corporation, statement of principle (6)
+                      ---  [HIGH]
+   23A  ARITHMETIC    Thing reversed in chart I revised as piece of mathematics (10)
+                      ---  [HIGH]
+   24A  MEAN          Humble soldiers protecting area (4)
+                      ---  [HIGH]
+   24D  MEET          These days, rarely fit for sports event (4)
+                      ---  [HIGH]
+   25A  DOUBLE        Stand-in to make score of ten, say (6)
+                      ---  [HIGH]
+   26A  SAUCEPAN      Something used by cooks in USA – pecan nuts (8)
+                      ---  [HIGH]
+    3D  TANGLE        Seaweed gourmet ultimately put on fish (6)
+                      ---  [HIGH]
+    6D  AGORAS        Wide open spaces since found, after a journey over river (6)
+                      ---  [HIGH]
+    7A  CONTRACT      Make short counterargument with pamphlet (8)
+                      ---  [HIGH]
+    8D  TROPIC        Subject embracing monarch in global circle (6)
+                      TOPIC (synonym of "Subject") + R (abbreviation of "monarch"); definition: "global circle"  [HIGH]
+    9A  BRIDGE        Part of ship that crosses river, often (6)
+                      ---  [HIGH]
+    4D  ABSENTEE      Problem pupil stimulated in a communal meeting (8)
+                      ---  [FAIL]
+    5D  FIREBRANDS    Radicals assuming rising changes image (10)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] SIMPLE  12A. In some clues, I’m pleasantly straightforward
+  Answer: SIMPLE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "straightforward"
+  Wordplay: hidden
+  Explanation: hidden in "clueS, I'M PLEasantly" [hidden: "In"]; definition: "straightforward"
+  ----------------------------------------------------------------------
+
+  [HIGH] STYE  2D. Eye problem from middle of last year
+  Answer: STYE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Eye problem"
+  Wordplay: hidden
+  Explanation: hidden in "laST YEar" [hidden: "from"]; definition: "Eye problem"
+  ----------------------------------------------------------------------
+
+  [HIGH] POLLENTUBE  13D. What helps reproduce stock, say? Pet bull one redeployed
+  Answer: POLLENTUBE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "What helps reproduce stock,"
+  Wordplay: anagram
+  Explanation: anagram of PETBULLONE ("Pet bull one") [anagram: "redeployed"] = POLLENTUBE; definition: "What helps reproduce stock,"
+  ----------------------------------------------------------------------
+
+  [HIGH] MILTON  15A. Poet’s one line in masculine style
+  Answer: MILTON
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Poet's"
+  Wordplay: charade
+  Explanation: M (abbreviation of "masculine") + I (synonym of "one") + L (synonym of "line") + TON (synonym of "style"); definition: "Poet's"
+  ----------------------------------------------------------------------
+
+  [HIGH] GRATIS  19D. Free traitor imprisoned by US troops
+  Answer: GRATIS
+  Tier: --- | Confidence: 100/100
+  Human explanation: GIS (synonym="US") + RAT (synonym="traitor") = GRATIS; definition: "Free"
+  ----------------------------------------------------------------------
+
+  [HIGH] NARROW  21D. New missile limited in scope
+  Answer: NARROW
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "limited in scope"
+  Wordplay: charade
+  Explanation: N (synonym of "New") + ARROW (synonym of "missile"); definition: "limited in scope"
+  ----------------------------------------------------------------------
+
+  [HIGH] MEAN  24A. Humble soldiers protecting area
+  Answer: MEAN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Humble"
+  Wordplay: charade
+  Explanation: MEN (synonym of "soldiers") + A (synonym of "area"); definition: "Humble"
+  ----------------------------------------------------------------------
+
+  [HIGH] SAUCEPAN  26A. Something used by cooks in USA – pecan nuts
+  Answer: SAUCEPAN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Something used by cooks"
+  Wordplay: anagram
+  Explanation: anagram of USAPECAN ("USA - pecan") [anagram: "nuts"] = SAUCEPAN; definition: "Something used by cooks"
+  ----------------------------------------------------------------------
+
+  [HIGH] CONTRACT  7A. Make short counterargument with pamphlet
+  Answer: CONTRACT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Make short"
+  Wordplay: charade
+  Explanation: CON (synonym of "counterargument") + TRACT (synonym of "pamphlet"); definition: "Make short"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] VOCALISM  1D. It’s uttered very briefly on weird social media, initially
+  Answer: VOCALISM
+  Tier: --- | Confidence: 70/100
+  Definition: "It's uttered"
+  Wordplay type: charade
+  Components:
+    first_letter       very                      -> V
+    anagram_fodder     weird                     -> OCALISM
+    anagram_fodder     social                    -> OCALISM
+    first_letter       media                     -> M
+  AI Reasoning:
+    V (first letter of 'very') + OCALISM (anagram of 'social') + M (first letter of 'media') = VOCALISM
+  ----------------------------------------------------------------------
+
+  [HIGH] CAPE  10A. Cold primate in sleeveless cloak
+  Answer: CAPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "sleeveless cloak"
+  Wordplay: charade
+  Explanation: C (synonym of "Cold") + APE (synonym of "primate"); definition: "sleeveless cloak"
+  ----------------------------------------------------------------------
+
+  [HIGH] GOOSEBERRY  11A. Kind of fool whose company isn’t wanted?
+  Answer: GOOSEBERRY
+  Tier: --- | Confidence: 90/100
+  Definition: "Kind of fool"
+  Wordplay type: double_definition
+  AI Reasoning:
+    GOOSEBERRY is both a type of fool (archaic term) and someone whose company isn't wanted (third wheel/unwanted guest)
+  ----------------------------------------------------------------------
+
+  [HIGH] SIMPLE  12A. In some clues, I’m pleasantly straightforward
+  Answer: SIMPLE
+  Tier: --- | Confidence: 100/100
+  Definition: "pleasantly straightforward"
+  Wordplay type: hidden
+  Components:
+    hidden             clues I'm pleasantly      -> SIMPLE
+  AI Reasoning:
+    SIMPLE is hidden across the words 'clueS I'M PLEasantly' reading the consecutive letters S-I-M-P-L-E
+  ----------------------------------------------------------------------
+
+  [HIGH] POLLENTUBE  13D. What helps reproduce stock, say? Pet bull one redeployed
+  Answer: POLLENTUBE
+  Tier: --- | Confidence: 100/100
+  Definition: "What helps reproduce stock"
+  Wordplay type: anagram
+  Components:
+    literal            Pet                       -> PET
+    literal            bull                      -> BULL
+    literal            one                       -> ONE
+  AI Reasoning:
+    PET + BULL + ONE anagrammed (redeployed) = POLLENTUBE; stock refers to a plant, which reproduces via pollen tube
+  ----------------------------------------------------------------------
+
+  [HIGH] INTEREST  14A. Present setter’s anagram to intrigue
+  Answer: INTEREST
+  Tier: --- | Confidence: 95/100
+  Definition: "to intrigue"
+  Wordplay type: charade
+  Components:
+    abbreviation       Present                   -> IN
+    anagram_fodder     setter's                  -> TEREST
+  AI Reasoning:
+    IN (present as abbreviation) + SETTER anagrammed to TEREST = INTEREST (to intrigue)
+  ----------------------------------------------------------------------
+
+  [HIGH] MILTON  15A. Poet’s one line in masculine style
+  Answer: MILTON
+  Tier: --- | Confidence: 100/100
+  Definition: "Poet's"
+  Wordplay type: charade
+  Components:
+    first_letter       one                       -> M
+    first_letter       line                      -> I
+    first_letter       masculine                 -> L
+    literal            style                     -> TON
+  AI Reasoning:
+    M (one=M), I (line=I), L (masculine=L), TON (style/tone) = MILTON, the famous poet
+  ----------------------------------------------------------------------
+
+  [HIGH] OPIUMDEN  16D. Supplier of drug mostly impounded, destroyed
+  Answer: OPIUMDEN
+  Tier: --- | Confidence: 100/100
+  Definition: "Supplier of drug"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     impounded, destroyed      -> IMPOUNDE
+  AI Reasoning:
+    IMPOUNDE (from 'impounded' with final D deleted as indicator) is anagrammed to spell OPIUMDEN
+  ----------------------------------------------------------------------
+
+  [HIGH] KEYNES  17A. Economist making crucial point inconclusively
+  Answer: KEYNES
+  Tier: --- | Confidence: 100/100
+  Definition: "Economist"
+  Wordplay type: charade
+  Components:
+    synonym            crucial                   -> KEY
+    deletion           point                     -> NES [NESS - S]
+  AI Reasoning:
+    KEY (synonym for crucial) + NES (NESS with final S deleted, meaning a geographical headland/point, used inconclusively) = KEYNES, the economist
+  ----------------------------------------------------------------------
+
+  [HIGH] SIGNAWAY  18D. Relinquish or keep subscribing?
+  Answer: SIGNAWAY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: SIGNAWAY (synonym of "Relinquish or keep subscribing?")
+  ----------------------------------------------------------------------
+
+  [HIGH] GRATIS  19D. Free traitor imprisoned by US troops
+  Answer: GRATIS
+  Tier: --- | Confidence: 90/100
+  Definition: "Free"
+  Wordplay type: container
+  Components:
+    abbreviation       US troops                 -> GIS
+    synonym            traitor                   -> RAT
+  AI Reasoning:
+    RAT (traitor) is contained within GIS (US soldiers/GIs) to form GRATIS (free)
+  ----------------------------------------------------------------------
+
+  [HIGH] STYE  2D. Eye problem from middle of last year
+  Answer: STYE
+  Tier: --- | Confidence: 100/100
+  Definition: "Eye problem"
+  Wordplay type: hidden
+  Components:
+    hidden             last year                 -> STYE
+  AI Reasoning:
+    STYE is hidden in the middle letters of 'laST YEar' (reading across the two words)
+  ----------------------------------------------------------------------
+
+  [HIGH] INTERIOR  20A. Private put in grave situation backed foreign ruler
+  Answer: INTERIOR
+  Tier: --- | Confidence: 100/100
+  Definition: "Private"
+  Wordplay type: charade
+  Components:
+    synonym            put in grave              -> INTER
+    reversal           foreign ruler             -> IOR [ROI - ?]
+  AI Reasoning:
+    INTER (to bury/put in grave) + ROI reversed (French king) = INTERIOR (private/inner)
+  ----------------------------------------------------------------------
+
+  [HIGH] NARROW  21D. New missile limited in scope
+  Answer: NARROW
+  Tier: --- | Confidence: 100/100
+  Definition: "limited in scope"
+  Wordplay type: charade
+  Components:
+    first_letter       New                       -> N
+    synonym            missile                   -> ARROW
+  AI Reasoning:
+    N (first letter of 'New') + ARROW (a missile) = NARROW
+  ----------------------------------------------------------------------
+
+  [HIGH] DESIGN  22A. Reluctantly agree about son’s intention
+  Answer: DESIGN
+  Tier: --- | Confidence: 80/100
+  Definition: "intention"
+  Wordplay type: container
+  Components:
+    synonym            agree                     -> DEIGN
+    abbreviation       son                       -> S
+  AI Reasoning:
+    DEIGN (reluctantly agree) contains S (son's initial) = DESIGN (intention)
+  ----------------------------------------------------------------------
+
+  [HIGH] DICTUM  22D. Richard’s pronouncement on corporation, statement of principle
+  Answer: DICTUM
+  Tier: --- | Confidence: 85/100
+  Definition: "statement of principle"
+  Wordplay type: charade
+  Components:
+    sound_of           Richard's                 -> DIC
+    synonym            corporation               -> TUM
+  AI Reasoning:
+    DIC (sounds like 'Dick', nickname for Richard) + TUM (stomach/corporation) = DICTUM (pronouncement/statement of principle)
+  ----------------------------------------------------------------------
+
+  [HIGH] ARITHMETIC  23A. Thing reversed in chart I revised as piece of mathematics
+  Answer: ARITHMETIC
+  Tier: --- | Confidence: 100/100
+  Definition: "piece of mathematics"
+  Wordplay type: container
+  Components:
+    literal            chart                     -> CHART
+    literal            I                         -> I
+    reversal           thing                     -> METI
+  AI Reasoning:
+    CHART + I + reversed ITEM (METI) = ARITHMETIC; METI is contained within CHART I rearranged
+  ----------------------------------------------------------------------
+
+  [HIGH] MEAN  24A. Humble soldiers protecting area
+  Answer: MEAN
+  Tier: --- | Confidence: 100/100
+  Definition: "Humble soldiers"
+  Wordplay type: container
+  Components:
+    synonym            soldiers                  -> MEN
+    abbreviation       area                      -> A
+  AI Reasoning:
+    MEN (soldiers) contains A (area abbreviation) = MEAN (humble)
+  ----------------------------------------------------------------------
+
+  [HIGH] MEET  24D. These days, rarely fit for sports event
+  Answer: MEET
+  Tier: --- | Confidence: 90/100
+  Definition: "fit for sports event"
+  Wordplay type: double_definition
+  AI Reasoning:
+    MEET has two meanings: (1) a sports event/gathering, and (2) an archaic/rare word meaning 'fitting' or 'appropriate' — the clue plays on both definitions
+  ----------------------------------------------------------------------
+
+  [HIGH] DOUBLE  25A. Stand-in to make score of ten, say
+  Answer: DOUBLE
+  Tier: --- | Confidence: 90/100
+  Definition: "Stand-in to make score of ten, say"
+  Wordplay type: cryptic_definition
+  AI Reasoning:
+    DOUBLE is a cryptic definition: it means both 'stand-in' (an actor's double) and 'to make a score of ten' (double 10 = 20, or double in darts = outer ring worth double points)
+  ----------------------------------------------------------------------
+
+  [HIGH] SAUCEPAN  26A. Something used by cooks in USA – pecan nuts
+  Answer: SAUCEPAN
+  Tier: --- | Confidence: 100/100
+  Definition: "Something used by cooks"
+  Wordplay type: anagram
+  Components:
+    literal            USA                       -> USA
+    literal            PECAN                     -> PECAN
+  AI Reasoning:
+    USA PECAN is an anagram of SAUCEPAN, a cooking utensil
+  ----------------------------------------------------------------------
+
+  [HIGH] TANGLE  3D. Seaweed gourmet ultimately put on fish
+  Answer: TANGLE
+  Tier: --- | Confidence: 100/100
+  Definition: "Seaweed"
+  Wordplay type: charade
+  Components:
+    last_letter        gourmet                   -> T
+    synonym            fish                      -> ANGLE
+  AI Reasoning:
+    Last letter of 'gourmet' (T) + ANGLE (to fish) = TANGLE (seaweed)
+  ----------------------------------------------------------------------
+
+  [HIGH] AGORAS  6D. Wide open spaces since found, after a journey over river
+  Answer: AGORAS
+  Tier: --- | Confidence: 100/100
+  Definition: "Wide open spaces"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    synonym            journey                   -> GO
+    abbreviation       river                     -> R
+    synonym            since                     -> AS
+  AI Reasoning:
+    A + GO (journey) + R (river) + AS (since) = AGORAS (wide open spaces/marketplaces)
+  ----------------------------------------------------------------------
+
+  [HIGH] CONTRACT  7A. Make short counterargument with pamphlet
+  Answer: CONTRACT
+  Tier: --- | Confidence: 80/100
+  Definition: "Make short"
+  Wordplay type: charade
+  Components:
+    synonym            counterargument           -> CON
+    synonym            pamphlet                  -> TRACT
+  AI Reasoning:
+    CON (counterargument) + TRACT (pamphlet) = CONTRACT (make short/reduce)
+  ----------------------------------------------------------------------
+
+  [HIGH] TROPIC  8D. Subject embracing monarch in global circle
+  Answer: TROPIC
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "global circle"
+  Wordplay: charade
+  Explanation: TOPIC (synonym of "Subject") + R (abbreviation of "monarch"); definition: "global circle"
+  ----------------------------------------------------------------------
+
+  [HIGH] BRIDGE  9A. Part of ship that crosses river, often
+  Answer: BRIDGE
+  Tier: --- | Confidence: 90/100
+  Definition: "Part of ship"
+  Wordplay type: double_definition
+  AI Reasoning:
+    BRIDGE is both a part of a ship (the command center) and a structure that crosses a river
+  ----------------------------------------------------------------------
+
+  [FAILED] ABSENTEE  4D. Problem pupil stimulated in a communal meeting
+  Answer: ABSENTEE
+  Tier: --- | Confidence: 0/100
+  Definition: "Problem pupil"
+  Wordplay type: hidden
+  Components:
+    hidden             stimulated                -> ABSENTEE
+    indicator          in                        -> 
+  DB Lookups:
+    DB lookups:
+      problem: syn=ILL,NUT,RUB,SUM,ACHE,AS A,CASE,FACT,KNOT,MESS,PEST,SNAG,WHAT,BRAIN,HITCH; ind=anagram
+      pupil: syn=ME,DAY,IDEAL,TUTEE,JUNIOR,ACOLYTE,COMPANY,LEARNER,SCHOLAR,STUDENT,A LOOKER,ACOLYTES,ADHERENT,DISCIPLE,EXCHANGE
+      stimulated: syn=JOGGED,POWERED,AWAKENED,PROVOKED; ind=anagram?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      communal: syn=OPEN,RIFE,AIRED,JOINT,COMMON,MUTUAL,POOLED,POSTED,PUBLIC,SHARED,UNITED,CURRENT,GENERAL,POPULAR,REPUTED
+      meeting: syn=GO,GET,LEA,PAY,TIE,BEAR,BIDE,DATE,FACE,FILL,FIND,FOOT,HACK,KEEP,QUIT
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+  AI Reasoning:
+    ABSENTEE is hidden within 'stimulated in a communal meeting' with 'in' as the hidden word indicator
+  ----------------------------------------------------------------------
+
+  [FAILED] FIREBRANDS  5D. Radicals assuming rising changes image
+  Answer: FIREBRANDS
+  Tier: --- | Confidence: 0/100
+  Definition: "Radicals"
+  Wordplay type: container
+  Components:
+    indicator          assuming                  -> 
+    indicator          rising                    -> 
+    indicator          changes                   -> 
+    anagram_fodder     image                     -> IMAGE
+  DB Lookups:
+    DB lookups:
+      radicals: syn=REDS*,LEFT,ROOTS,YOUNG,SOCIAL,LEFTIES,WINGERS,LEFTISTS,LIBERALS,ALARMISTS,REFORMERS,EXTREMISTS,REFORMISTS,A1,OK
+      assuming: syn=BEAR,FAKE,SHAM,FEIGN,GUESS,ACCEPT,AFFECT,FEEING,HIRING,PAYING,PUT ON,PLACING,PREMISE,PRESUME,PRETEND; ind=container
+      rising: syn=LIFT,RIOT,RISE,SOAR,CLIMB,TIDAL,ASCENT,MUTINY,REVOLT,UPWARD,ONTHEUP,BUILDING,OUTBREAK,UPRISING,ASCENDENT; ind=reversal
+      changes: syn=ADAPTS,ALTERS,AMENDS,FLUXES,BECOMES,MUTATES,REVIEWS,REVISES,VAGARIES,REVISIONS,TRANSFORMS,VARIATIONS,DO,HAY,CASH; abbr=C; ind=anagram
+      image: syn=PA,DAD,PIC,POP,SEE,SET,COPY,DRAW,ICON,IDEA,IDOL,IKON,LIMN,LINE,MIND
+  AI Reasoning:
+    Radicals is definition; wordplay involves anagramming IMAGE, reversing it, and having it contained via 'assuming' to produce FIREBRANDS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

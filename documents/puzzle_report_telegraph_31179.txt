@@ -1,0 +1,824 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31179
+Generated: 2026-03-05 23:06:04
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        22/30 (73%)
+    Sonnet:         21
+    DB Fallback:    1
+    Cached (no API): 22
+  Failed:           8
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   17  1D, 1A, 10A, 11D, 13A, 14D, 17D, 19D, 20A, 23A, 24A, 27A, 28A, 29A, 3D, 4D, 6A
+  Medium (40-79): 4  18A, 2D, 5D, 8D
+  Low (<40):    1  26A
+  Failed:       8  12A, 15A, 16A, 21D, 22D, 25D, 7D, 9A
+  Average:      84/100
+
+COST: $0.0455 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (12 entries)
+------------------------------------------------------------
+  LESS: "Not so much" -> LESS  (missing from definition_answers_augmented)
+  OUTCROPS: "Appearances" -> OUTCROPS  (missing from definition_answers_augmented)
+  Briton: "UK citizen" -> Briton  (missing from definition_answers_augmented)
+  NUDISM: "One barely believes in it?" -> NUDISM  (missing from definition_answers_augmented)
+  KATYDID: "American six-footer" -> KATYDID  (missing from definition_answers_augmented)
+  STANCE: "attitude" -> STANCE  (missing from definition_answers_augmented)
+  Dyer: "actor" -> Dyer  (missing from definition_answers_augmented)
+  AILMENT: "complaint" -> AILMENT  (missing from definition_answers_augmented)
+  TELEVISION: "Set" -> TELEVISION  (missing from definition_answers_augmented)
+  DOWNMARKET: Northern Ireland -> MARKET  (missing from synonyms_pairs)
+  OUTCROPS: wear -> CROP  (missing from synonyms_pairs)
+  Tutu: put down twice -> TUT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  Rhodes = 5 (62/100): AI=substitution, assembled=deletion
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (3)
+------------------------------------------------------------
+  SALIENT = 2 (50/100): answer used in own explanation
+  KNOT = 26 (30/100): answer used in own explanation
+  SHORTENING = 8 (65/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  SALIENT = 2 (50/100): no pieces verified in DB
+  KNOT = 26 (30/100): single piece equals full answer; no pieces verified in DB
+
+FAILED TO ASSEMBLE (8)
+------------------------------------------------------------
+  12. Tutorial cut by a third? Not so much = LESS
+  15. Appearances of old uniform, flipping wear Charlie plugs = OUTCROPS
+  16. Composer said to be UK citizen = Briton
+  21. American six-footer Perry possibly cheated = KATYDID
+  22. Princess abandoning aloofness in attitude = STANCE
+  25. Reportedly dreadful 1 Across actor = Dyer
+  7. 8 Down no rudely brief complaint = AILMENT
+  9. Set report about four allowed to retire = TELEVISION
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  15/30  1A, 1A, 6A, 10A, 13A, 20A, 23A, 24A, 27A, 29A, 3D, 4D, 11D, 17D, 19D
+  Type mismatch:         1  5D
+  Circular assembly:     3  26A, 2D, 8D
+  Unverified explain.:   2  26A, 2D
+  DB gap:                11  9A, 12A, 15A, 16A, 18A, 28A, 7D, 14D, 21D, 22D, 25D
+  Failed:                8  9A, 12A, 15A, 16A, 7D, 21D, 22D, 25D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  EATS          Consumes food items vegans reject, except starter (4)
+                      anagram of EAST(reject)  [HIGH]
+    1A  Eastenders    Soap star needs to work on posture finally (10)
+                      anagram of STAR(star)+NEEDS(needs)+E(posture)  [HIGH]
+   10A  ALTO          Singer, in key or right to be sacked? (4)
+                      ALT(key) + O(or)  [HIGH]
+   11D  STORYTELLERS  Traders describing Conservative cabinet ultimately as liars (12)
+                      TORY(Conservative)+T(cabinet ultimately) inside SELLERS(Traders)  [HIGH]
+   12A  LESS          Tutorial cut by a third? Not so much (4)
+                      ---  [FAIL]
+   13A  TREATMENT     Handling banker suppressing bad temper regularly (9)
+                      anagram of TRENT(banker)+TEMA(temper regularly)  [HIGH]
+   14D  DOWNMARKET    Cheap place to shop in Northern Ireland? (10)
+                      DOWN(place) + MARKET(Northern Ireland)  [HIGH]
+   15A  OUTCROPS      Appearances of old uniform, flipping wear Charlie plugs (8)
+                      ---  [FAIL]
+   16A  Briton        Composer said to be UK citizen (6)
+                      ---  [FAIL]
+   17D  CONCERTO      Musical work at intervals Costa Rica mounts, entertaining formerly (8)
+                      ONCE(formerly) inside CR(Costa Rica) + TO(mounts)  [HIGH]
+   18A  NUDISM        One barely believes in it? (6)
+                      cryptic definition  [MED]
+   19D  Detroit       Almost too tired to play for City (7)
+                      delete TOO from TOOTIREDTO(too tired to), anagram of TIREDTO  [HIGH]
+    2D  SALIENT       Striking revolutionary that Neil astonishingly defends (7)
+                      hidden reversed in 'that Neil astonishingly'  [MED]
+   20A  GOATSKIN      Son and family, following attack, hide from nanny perhaps (8)
+                      GOAT(nanny) + S(Son) + KIN(family)  [HIGH]
+   21D  KATYDID       American six-footer Perry possibly cheated (7)
+                      ---  [FAIL]
+   22D  STANCE        Princess abandoning aloofness in attitude (6)
+                      ---  [FAIL]
+   23A  AUTHENTIC     Genuine article relative keeps, one cherished originally (9)
+                      THE(article) inside AUNT(relative) + I(one) + C(cherished)  [HIGH]
+   24A  LATE          Departed behind schedule (4)
+                      double definition  [HIGH]
+   25D  Dyer          Reportedly dreadful 1 Across actor (4)
+                      ---  [FAIL]
+   26A  KNOT          Hit back in tie (4)
+                      KNOT(Hit back in)  [LOW]
+   27A  UNFRIENDLY    Riled, funny eccentric becomes hostile (10)
+                      anagram of RILED+FUNNY  [HIGH]
+   28A  Tutu          Old archbishop in France you put down twice (4)
+                      TUT(put down twice) + U(you)  [HIGH]
+   29A  RECONSIDER    Think better of Republican doctor I censored (10)
+                      R(Republican) + E(doctor) + CONSIDER(think)  [HIGH]
+    3D  Elvis Presley  The King somehow is very sleepy, shortly after crossing lake (5,7)
+                      anagram of SLEEPY(sleepy)+R(after)+ELVIS(the king)  [HIGH]
+    4D  DESKTOPS      Sees journalist upset receiving a thousand for computers (8)
+                      DE(journalist upset) + reverse SPOTS(sees), then K(thousand) inside STOPS  [HIGH]
+    5D  Rhodes        Island needs huge crowds having promoted run (6)
+                      R(run) + delete R from HORDES(huge crowds)  [MED]
+    6A  PASS          Achieve exam success while away (4)
+                      double definition  [HIGH]
+    7D  AILMENT       8 Down no rudely brief complaint (7)
+                      ---  [FAIL]
+    8D  SHORTENING    Reducing fat in pastry (10)
+                      double definition  [MED]
+    9A  TELEVISION    Set report about four allowed to retire (10)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Consumes food items vegans reject, except starter
+  Answer: EATS
+  Tier: Cached+Fallback | Confidence: 100/100
+  Definition: "Consumes"
+  Wordplay type: anagram
+  Components:
+    deletion           reject                    -> EAST [LEAST, "starter"=deletion]
+  Assembly: anagram — anagram of EAST(reject)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      consumes: syn=EATS*,EAT*,ATE,PUT,USE,DRAW,PLAY,USED; ind=container
+      food: syn=EATS*,IF,EGG,BEEF,CHOP,CHOW,DIET,DISH,EDAM,EGGS,FAIR,FARE,FEED,FETA,FISH
+      items: syn=DATA,GEAR,JOBS,PART,MY,SO,411,DUO,FEW,GEN,INFO,MANY,NEWS,PAIR,UNIT
+      vegans: syn=VEGA
+      reject: syn=ME,BABY,DEEP,DENY,LOSE,MISS,PASS,SHED,TURN,VETO; ind=deletion
+      except: syn=OF,BAR,BUT,FOR,YET,FROM,MISS,ONLY,RULE,SAVE,THAN,THAT,WHAT; sounds=accept
+      starter: ind=acrostic,parts
+      food items: syn=BRIE,CAKE
+    Definitions:
+      "Consumes" -> EATS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 1. Soap star needs to work on posture finally
+  Answer: Eastenders
+  Tier: Cached | Confidence: 100/100
+  Definition: "Soap"
+  Wordplay type: anagram
+  Components:
+    literal            star                      -> STAR
+    literal            needs                     -> NEEDS
+    last_letter        posture                   -> E
+  Assembly: anagram — anagram of STAR(star)+NEEDS(needs)+E(posture)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soap: syn=EASTENDERS*,WASHE,CORRIE,CLEANER,FLATTER,CLEANSER,DETERGENT,TV SERIES,NEIGHBOURS
+      star: syn=A,DO,ACE,ACT,APE,FAB,FEE,HAM,HOT,PIP,SUN,TOP,VIP,A-OK,ANTE; abbr=S*
+      needs: syn=LACKS,WANTS,MISSES,DEMANDS,ENTAILS,OFFICES,PERFORCE,REQUIRES,PINES FOR,THEY MUST,BLACK SWAN,CONDITIONS,INEVITABLY,IPSO FACTO,DO; ind=anagram?; sounds=knead,kneed
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      work: syn=END*,DO,GO,OP,A A,ACT,AIM,ART,CUT,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+      on: syn=AS*,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      posture: syn=BODY,DEAL,SIGN,SCENE,STORY,BEHIND,BEARING,OPINION,PICTURE,ATTITUDE,CARRIAGE,ATTITUDES,LANGUAGES,SITUATION
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      to work: syn=ADO,AND,CHAOS,SKIMP,SPARE,STINT,FIGURE,UNREST,UPROAR,POLYGON
+    Definitions:
+      "Soap" -> Eastenders (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Singer, in key or right to be sacked?
+  Answer: ALTO
+  Tier: Cached | Confidence: 92/100
+  Definition: "Singer"
+  Wordplay type: charade
+  Components:
+    synonym            key                       -> ALT
+    synonym            or                        -> O
+  Assembly: charade — ALT(key) + O(or)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      singer: syn=ALTO*,SAY,BASS,CHER,DIVA,GAGA,LULU,PIAF,SWAN,VOTE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      key: syn=ALT*,ALL,BIG,DEL,ESC,FAN,GET,TAB,VEX,ABET,ARCH,CAMP,CLUB,CORE,DOOR; abbr=A*,B,C,D,E,F,G
+      or: syn=GO,OUT,RES,SAY,SET,YET,BEAR,BIDE,FAIR,FIRM,HACK,HIGH,LIKE,MEET,MOST; sounds=oar,ore
+      right: syn=OK,ON,PC,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT,NOT; abbr=DEXTER,R,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      sacked: syn=AXED; ind=anagram,deletion
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE
+    Definitions:
+      "Singer" -> ALTO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Traders describing Conservative cabinet ultimately as liars
+  Answer: STORYTELLERS
+  Tier: Cached | Confidence: 90/100
+  Definition: "liars"
+  Wordplay type: container
+  Components:
+    synonym            Traders                   -> SELLERS
+    synonym            Conservative              -> TORY
+    last_letter        cabinet ultimately        -> T
+  Assembly: container — TORY(Conservative)+T(cabinet ultimately) inside SELLERS(Traders)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      traders: syn=PEOPLE,DEALERS,AIRCRAFT,MERCHANTS,HABERDASHERS,MAN,SHIP,BUYER,DEALER,HAWKER,HOSIER,JOBBER,SELLER,VENDOR,FLORIST
+      describing: syn=PAINTING,EXPLAINING,EXPLANATORY,ILLUSTRATING
+      conservative: syn=TORY*,CON,DIE,KEY,LOW,OLD,BLUE,SAFE,CREEP,RIGHT,SCHOOL,DIEHARD,OLDFOGEY,ORTHODOX,RIGHTWING; abbr=C,CON
+      cabinet: syn=SAFE,CLOSET,ARMOIRE,ASSEMBLY,CUPBOARD,SHOWCASE,WARDROBE,FURNITURE,MINISTERS,SECRETAIRE
+      ultimately: syn=OR*,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      liars: syn=STORYTELLER*,PERJURER,THE WHOLE; sounds=lyre
+    Definitions:
+      "liars" -> STORYTELLERS (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 12. Tutorial cut by a third? Not so much
+  Answer: LESS
+  Tier: --- | Confidence: 0/100
+  Definition: "Not so much"
+  Wordplay type: deletion
+  Components:
+    literal            Tutorial                  -> TUTORIAL
+    deletion           a third                   -> UTORIA
+  DB Lookups:
+    DB lookups:
+      cut: syn=DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW,NIP; ind=deletion,hidden,parts
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      third: syn=POOR,PUMP,QUIZ
+      not: syn=LESS*,SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE; ind=anagram?,deletion; sounds=knot
+      so: syn=BY,OK,ON,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET,ALSO; sounds=sew,sow
+      much: syn=LESS*,A,AN,DO,OR,SO,TO,ACE,ACT,AND,AYE,BIG,BUT,DAB,DIG
+      not so much: syn=LESS*
+    Definitions:
+      "much" -> LESS (definition match)
+      "Not so much" -> LESS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. Handling banker suppressing bad temper regularly
+  Answer: TREATMENT
+  Tier: Cached | Confidence: 88/100
+  Definition: "Handling"
+  Wordplay type: anagram
+  Components:
+    synonym            banker                    -> TRENT
+    alternate_letters  temper regularly          -> TEMA
+  Assembly: anagram — anagram of TRENT(banker)+TEMA(temper regularly)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      handling: syn=TREATMENT*,ARM,CARE,GRIP,HOLD,SWAY,DOING,GOING,GRASP,HANDS,POWER,REIGN,USING,A GRIP,ACTING; ind=container
+      banker: syn=CAN,HOY,KEG,TUB,TUG,TUN,VAT,BUTT,CASK,DRUM,KEEL,PIPE,TAXI,TEES,TUB,
+      suppressing: syn=BUYING,TAKING,SINKING,STIFLING,TRUSTING,ACCEPTING,BELIEVING,CREDITING,POCKETING
+      bad: syn=BUM,DIS,ILL,LOW,OFF,RUN,SAD,SIN,BLAH,BLUE,BUSH,DARK,DIRE,DOWN,EVIL; abbr=B,OFF; ind=anagram
+      temper: syn=AIR,IRE,PET,AIRS,AURA,CASE,MIND,MOOD,NOTE,RAGE,ROAD,ANGER,INURE,STROP,ANNEAL
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,COMMONLY; ind=parts
+      bad temper: syn=FURY,MOOD,ANGER,PADDY,STROP,TEMPER,CRITICISM,PETULANCE,SULKINESS
+    Definitions:
+      "Handling" -> TREATMENT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Cheap place to shop in Northern Ireland?
+  Answer: DOWNMARKET
+  Tier: Cached | Confidence: 92/100
+  Definition: "Cheap place to shop"
+  Wordplay type: charade
+  Components:
+    synonym            place                     -> DOWN
+    synonym            Northern Ireland          -> MARKET
+  Assembly: charade — DOWN(place) + MARKET(Northern Ireland)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cheap: syn=BAD,BUM,LOW,NOT,TWO,WET,COZY,DULL,EASY,KEEN,MEAN,MILD,POOR,PUNK,RATE; sounds=cheep
+      place: syn=DO*,DOWN*,MAKE*,AM,BE,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END; abbr=LAY,PL
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      shop: syn=BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,STORE,BETRAY,BODEGA,OUTLET,TELLON,FACTORY
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      northern: syn=TUBE,UPPER; abbr=N*
+      ireland: syn=ERIN,HERE,ISLE,ISLAND,COUNTRY,TO COME,REPUBLIC
+      northern ireland: syn=PERU,GHANA,GREECE,LATVIA,REGINA,BOLIVIA,COUNTRY,HOLLAND,CAMEROON,TANZANIA
+      place to shop: syn=ARCADE
+  ----------------------------------------------------------------------
+
+  [FAILED] 15. Appearances of old uniform, flipping wear Charlie plugs
+  Answer: OUTCROPS
+  Tier: --- | Confidence: 0/100
+  Definition: "Appearances"
+  Wordplay type: container
+  Components:
+    synonym            old uniform               -> OUT
+    synonym            wear                      -> CROP
+    abbreviation       Charlie                   -> C
+  DB Lookups:
+    DB lookups:
+      appearances: syn=FACE,LOOK,MIEN,NAME,SHOW,FACES,GUISE,NAMES,ADVENT,ASPECT,ARRIVAL,VENEERS,PRESENCE,MY,AIR
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      uniform: syn=EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT,LIVERY,OUTFIT,STABLE,STEADY,ALIGNED,COSTUME,RAIMENT,REGULAR,CONSTANT; abbr=U*
+      flipping: syn=BATS,BLASTED,SPRITZER; ind=reversal
+      wear: syn=DO,GO,OR,BUG,DON,EAT,FAG,GET,IRK,KIT,MAR,RIG,RUB,SAP,VEX; sounds=ware,where
+      charlie: syn=NIT,CLOT,DOPE,FOOL,LOON,CHUMP,IDIOT,TWERP,WALLY,DUFFER,DUMDUM,LUMMOX,NITWIT,ASSIGNS,JACKASS; abbr=C*
+      plugs: syn=FLY,CANS,DAMS,DIES,ENDS,FAGS,GETS,GOES,GUNS,POPS,TUGS,BEATS,BESTS,BUNGS,DROPS; ind=container?
+    Definitions:
+      "Appearances" -> OUTCROPS (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 16. Composer said to be UK citizen
+  Answer: Briton
+  Tier: --- | Confidence: 0/100
+  Definition: "UK citizen"
+  Wordplay type: homophone
+  Components:
+    synonym            Composer                  -> BRITTEN
+  DB Lookups:
+    DB lookups:
+      composer: syn=SAY,ARNE,BACH,BERG,CAGE,ORFF,BINGE,BIZET,ELGAR,GLUCK,GRIEG,HOLST,LEHAR,LISZT,PARRY; abbr=BACH,ELGAR,HANDEL,MOZART
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED; ind=homophone
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      citizen: syn=CIT,ELDER,SAUDI,TOWNIE
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,APPLY,EXIST,ABOUND,BEGGED,PRAYED
+    Definitions:
+      "citizen" -> Briton (definition match)
+      "UK citizen" -> Briton (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Musical work at intervals Costa Rica mounts, entertaining formerly
+  Answer: CONCERTO
+  Tier: Cached | Confidence: 92/100
+  Definition: "Musical work"
+  Wordplay type: container
+  Components:
+    abbreviation       Costa Rica                -> CR
+    synonym            formerly                  -> ONCE
+    reversal           mounts                    -> TO
+  Assembly: container — ONCE(formerly) inside CR(Costa Rica) + TO(mounts)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/3 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      musical: syn=CATS,HAIR,SHOW,ANNIE,CHESS,EVITA,LYRIC,POPPY,SWEET,TONAL,DULCET,MELLOW,OLIVER,CHICAGO,CHIMING
+      work: syn=CONCERTO*,DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW; abbr=GO,OP,POST; ind=anagram
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      intervals: syn=LEGAL,BREAKS,PAUSES,SPACES,IN PLAY,BIT,DAY,DEN,EON,ERA,GAP,PIT,RIP,STY,BEAT; ind=parts
+      costa: syn=RIB
+      mounts: syn=UPS,DAWNS,FORMS,GIVES,LIFTS,RISES,SOARS,ABOARD,ARISES,BEGINS,BREAKS,CLIMBS,OFFERS,STAGES,STARTS; ind=reversal
+      entertaining: syn=FUN,AMUSING,AT HOME,HOSTING,ABOUT OR; ind=container
+      formerly: syn=ON*,ONCE*,ERST,AFORE,AHEAD,ALONG,BURMA,FORTH,AHEAD?,BEFORE,ONWARD,ALREADY,EARLIER,FORWARD,FORWARDS; abbr=EX
+      musical work: syn=CONCERTO*,OPUS,WORK,DRAMA,MAYBE,MUSIC,OPERA,PIECE,RONDO,EMPEROR
+      at intervals: syn=EPISODIC
+      costa rica: syn=COUNTRY,ETHIOPIA,REPUBLIC
+    Definitions:
+      "Musical work" -> CONCERTO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. One barely believes in it?
+  Answer: NUDISM
+  Tier: Cached | Confidence: 75/100
+  Definition: "One barely believes in it?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      barely: syn=JUST,SKIN,HARDLY
+      believes: syn=THINKS,DO,ACT,BAG,BUY,DIG,GET,HIT,PUT,SEE,WIN,BEAR,CALL,DEEM,DRAW
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+    Definitions:
+      "One barely" -> NUDISM (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Almost too tired to play for City
+  Answer: Detroit
+  Tier: Cached | Confidence: 80/100
+  Definition: "City"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     too tired to              -> TOOTIREDTO
+  Assembly: deletion+anagram — delete TOO from TOOTIREDTO(too tired to), anagram of TIREDTO
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      almost: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E*,P,R*; ind=parts
+      too: syn=SO,FAB,FAR,HOT,HOW,LOT,NOT,TOP,WAY,YET,A-OK,AKIN,ALSO,BONE,BOSS; sounds=to,two
+      tired: syn=OLD,BEAT,BODY,DEAD,DONE,GONE,LIMP,LOGY,SUNK,WORN,BORED,BOUND,ENDED,JADED,KAPUT; fodder=TIRED(5/7 anagram match)
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      play: syn=DO,GO,ACT,BET,BUM,END,FUN,JIG,LAG,LAY,NOH,PUT,TOY,USE,ACTS; ind=anagram
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      city: syn=DETROIT*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+    Definitions:
+      "City" -> Detroit (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 2. Striking revolutionary that Neil astonishingly defends
+  Answer: SALIENT
+  Tier: Cached | Confidence: 50/100
+  Definition: "Striking"
+  Wordplay type: hidden
+  Components:
+    hidden             that Neil astonishingly   -> SALIENT
+  Assembly: hidden_reversed — hidden reversed in 'that Neil astonishingly'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      striking: syn=SALIENT*,EYE,OUT,BOLD,KEEN,RANK,WISE,BRASH,BRAVE,COCKY,FRESH,GROSS,GUTSY,GUTTY,HARDY; ind=anagram,insertion
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG,CASTRO,MAOIST,SOCIAL,ATTACHE,EXTREME; ind=anagram,reversal
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      neil: syn=BOY,MAN
+      astonishingly: ind=anagram?
+      defends: syn=RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS,COVERS,FENCES
+    Definitions:
+      "Striking" -> SALIENT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Son and family, following attack, hide from nanny perhaps
+  Answer: GOATSKIN
+  Tier: Cached | Confidence: 100/100
+  Definition: "hide"
+  Wordplay type: charade
+  Components:
+    synonym            nanny                     -> GOAT
+    abbreviation       Son                       -> S
+    synonym            family                    -> KIN
+  Assembly: charade — GOAT(nanny) + S(Son) + KIN(family)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      son: syn=BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY,BOOR; abbr=S*; sounds=sun
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      family: syn=KIN*,DOC,EMT,NUN,PAL,SET,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,DOCS,EMTS,FOLK; abbr=KIN*
+      following: syn=BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH,AFTER; abbr=F; ind=anagram?
+      attack: syn=AT*,BAT,BOP,BOX,DAB,FIT,FLY,HIT,JOB,MUG,RAP,SET,SIC,WAR,BANG
+      hide: syn=SKIN*,GOATSKIN*,A,FUR,LIE,POD,SIT,BARK,BEAT,CASE,HULL,HUSK,LAIR,MAIL,MASK; ind=parts
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      nanny: syn=GOAT*,BUTTER,PARENT,AU PAIR,INDULGE,DRYNURSE; ind=anagram?
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+  ----------------------------------------------------------------------
+
+  [FAILED] 21. American six-footer Perry possibly cheated
+  Answer: KATYDID
+  Tier: --- | Confidence: 0/100
+  Definition: "American six-footer"
+  Wordplay type: anagram
+  Components:
+    literal            Perry                     -> PERRY
+    synonym            cheated                   -> DID
+  DB Lookups:
+    DB lookups:
+      american: syn=US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS; abbr=A*,US
+      six-footer: syn=INSECT,BLOWFLY,TERMITE
+      six: syn=VI,ARM,GAT,GUN,ROD,EVEN,HEAT,AK-47,PIECE,RIFLE,MUSKET,PISTOL,ROSCOE,CARBINE,FIREARM; abbr=VI
+      footer: ind=container?
+      perry: syn=DRINK
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY; ind=anagram
+      cheated: syn=DID*,HAD,DONE,STUNG,A BILL,FOOLED
+  ----------------------------------------------------------------------
+
+  [FAILED] 22. Princess abandoning aloofness in attitude
+  Answer: STANCE
+  Tier: --- | Confidence: 0/100
+  Definition: "attitude"
+  Wordplay type: deletion
+  DB Lookups:
+    DB lookups:
+      princess: syn=DIVA,QUEEN,ROYAL,ISOLDE
+      abandoning: syn=QUIT,GOING,LEAVE,CEDING,DESERT,GIVING,HAVING,MAROON,SAVING,STRAND; ind=deletion
+      aloofness: syn=COLD,COOL,FROSTY,REMOTE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      attitude: syn=STANCE*,BODY,MIND,POSE,SIDE,VIEW,GUISE,POISE; abbr=POSE
+    Definitions:
+      "attitude" -> STANCE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Genuine article relative keeps, one cherished originally
+  Answer: AUTHENTIC
+  Tier: Cached | Confidence: 100/100
+  Definition: "Genuine"
+  Wordplay type: container
+  Components:
+    first_letter       cherished                 -> C
+    abbreviation       article                   -> THE
+    synonym            relative                  -> AUNT
+    abbreviation       one                       -> I
+  Assembly: container — THE(article) inside AUNT(relative) + I(one) + C(cherished)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      genuine: syn=AUTHENTIC*,ECHT,REAL,TRUE,VERY,FRANK,HEART,RIGHT,TRUCE,ACTUAL,DEVOUT,ENOUGH,HONEST,SIMPLE,ARTLESS
+      article: syn=THE*,AN,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE,A LEADER; abbr=A*,AN,THE*
+      relative: syn=AUNT*,A,BRO,DAD,KIN,NAN,SIB,SIS,SON,GRAN,NEAR,WIFE,AUNTY,GREAT,INLAW
+      keeps: syn=OWNS,RUNS,CURBS,FENDS,FILES,FILLS,HOLDS,MEETS,PACKS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      cherished: syn=IN,BIG,HAD,HOT,PET,POP,BORN,DEAR,FOND,GOOD,HELD,NICE,DUPED,ELECT,FADDY
+      originally: syn=FIRST,FIRSTLY,MERMAID,AT FIRST,INITIALLY,PRIMARILY; ind=acrostic,anagram?,parts
+    Definitions:
+      "Genuine" -> AUTHENTIC (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Departed behind schedule
+  Answer: LATE
+  Tier: Cached | Confidence: 90/100
+  Definition: "behind schedule"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      departed: syn=ATE*,LATE*,BIT,DUG,GOT,LOW,RAN,SAW,BEAT,BODY,CAME,COLD,DEAD,DIED,DONE
+      behind: syn=LATE*,OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL; abbr=AFT; ind=container,parts
+      schedule: syn=PUT,BILL,CARD,LIST,PLAN,ROTA,WAIT
+      behind schedule: syn=LATE*
+    Definitions:
+      "Departed" -> LATE (definition match)
+      "behind schedule" -> LATE (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 25. Reportedly dreadful 1 Across actor
+  Answer: Dyer
+  Tier: --- | Confidence: 0/100
+  Definition: "actor"
+  Wordplay type: homophone
+  Components:
+    synonym            dreadful                  -> DIRE
+  DB Lookups:
+    DB lookups:
+      reportedly: ind=homophone
+      dreadful: syn=OUT,BARE,BODY,DAMN,DEAD,DEEP,DIRE,FAIR,FLAT,HAIR,HARD,NAFF,PURE,RANK,TOOM; ind=anagram
+      across: syn=BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL,COME; ind=container
+      actor: syn=HAM,ARMY
+    Definitions:
+      "actor" -> Dyer (definition match)
+    Cross-references:
+      Clue 1 answer = Eastenders
+  ----------------------------------------------------------------------
+
+  [LOW] 26. Hit back in tie
+  Answer: KNOT
+  Tier: Cached | Confidence: 30/100
+  Definition: "tie"
+  Wordplay type: charade
+  Components:
+    hidden             Hit back in               -> KNOT
+  Assembly: charade — KNOT(Hit back in)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      hit: syn=DO,A A,ASK,BAG,BAT,BIB,BOB,BOP,BOX,DAB,DID,DUG,GET,GOT,LAM; abbr=LAM; ind=anagram
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      tie: syn=KNOT*,CAN,FIX,MET,BAND,BIND,BOND,CORD,DEAD,DEAL,DRAW,GLUE,HEAT,JOIN,KNIT; sounds=thai
+    Definitions:
+      "tie" -> KNOT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Riled, funny eccentric becomes hostile
+  Answer: UNFRIENDLY
+  Tier: Cached | Confidence: 80/100
+  Definition: "hostile"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Riled, funny eccentric    -> RILEDFUNNYECCENTRIC
+  Assembly: anagram — anagram of RILED+FUNNY
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=FAIL: pieces=RILEDFUNNYECCENTRIC answer=UNFRIENDLY | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      riled: syn=BE,IN,ATE,DUG,FED,GOT,HOT,MAD,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW
+      funny: syn=FAR,GAG,ODD,OFF,ONE,RIB,RUM,THE,WAY,YUK,BOFF,BUTT,JEST,JOKE,JOSH; ind=anagram
+      eccentric: syn=APE,CAM,FEY,MAD,NUT,ODD,OFF,RUM,WUD,AMOK,BATS,BOHO,CARD,DAFT,EDGY; ind=anagram
+      becomes: syn=BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,BAILS,BOOKS; ind=anagram
+      hostile: syn=UNFRIENDLY*,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,ENEMY,HARSH,HEAVY,PROSY
+    Definitions:
+      "hostile" -> UNFRIENDLY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 28. Old archbishop in France you put down twice
+  Answer: Tutu
+  Tier: Cached | Confidence: 92/100
+  Definition: "Old archbishop"
+  Wordplay type: charade
+  Components:
+    abbreviation       you                       -> U
+    synonym            put down twice            -> TUT
+  Assembly: charade — TUT(put down twice) + U(you)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      archbishop: syn=TUTU*,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,MATE,MONK,PEER,POPE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      france: abbr=f
+      you: syn=YE,ONE,LIKE,THEE,THOU,WANT,WISH; abbr=U*,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      twice: syn=BIS
+      in france: abbr=EN
+      put down: syn=BAD,BET,EAT,FED,GOT,HER,HIS,KEY,LOG,PUT
+    Definitions:
+      "Old archbishop" -> Tutu (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 29. Think better of Republican doctor I censored
+  Answer: RECONSIDER
+  Tier: Cached | Confidence: 95/100
+  Definition: "Think better of"
+  Wordplay type: charade
+  Components:
+    abbreviation       Republican                -> R
+    abbreviation       doctor                    -> E
+    synonym            think                     -> CONSIDER
+  Assembly: charade — R(Republican) + E(doctor) + CONSIDER(think)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      think: syn=CONSIDER*,SO,BAG,FAR,NOT,TOO,DEEM,FEEL,FULL,HEAD,HOLD,LIKE,LINE,MIND,MOST
+      better: syn=A,OK,SO,ACE,ALL,APT,CAP,FAT,FIT,OUT,TOP,ABLE,ABLY,BEAT,CUTE; abbr=CAP
+      republican: syn=SAY,BUSH,MAYBE,PARTY,TRUMP,LINCOLN,POPULAR,GARIBALDI,DEMOCRATIC,GOVERNMENT,POLITICIAN; abbr=R*
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D*,DR,GP,MB,MO; ind=anagram
+      censored: syn=MADE CUTS; fodder=CENSORED(8/10 anagram match)
+    Definitions:
+      "Think better of" -> RECONSIDER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. The King somehow is very sleepy, shortly after crossing lake
+  Answer: Elvis Presley
+  Tier: Cached | Confidence: 100/100
+  Definition: "The King"
+  Wordplay type: anagram
+  Components:
+    literal            sleepy                    -> SLEEPY
+    last_letter        after                     -> R
+    synonym            the king                  -> ELVIS
+  Assembly: anagram — anagram of SLEEPY(sleepy)+R(after)+ELVIS(the king)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+      somehow: syn=ANYWAY,INAWAY; ind=anagram
+      is: syn=ISLE*,DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME
+      very: syn=SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD,EVER; abbr=SO,V*; sounds=vary
+      sleepy: syn=BODY,HEAVY,QUIET,TIRED,LETHARGIC
+      shortly: syn=BY,AND,ANON,SOON,BEFORE,CURTLY,BRIEFLY,CRISPLY,INBRIEF,PITHILY,TERSELY,BRIEFLY,,IN BRIEF,VERYSOON,COMPACTLY; ind=parts
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      crossing: syn=FORD,SAIL,SPAN,CORNER,CRUISE,VOYAGE,PASSAGE,JUNCTION,CARREFOUR,CROSSROAD,TRAVERSAL,FOOTBRIDGE,CROSSWAY(S),BARNESBRIDGE,INTERSECTION; ind=container
+      lake: syn=SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL,BASIN,HURON,LOUGH,OXBOW,STANK,TAHOE; abbr=L*,LA
+      the king: syn=ELVIS*,SINGER
+    Definitions:
+      "The King" -> Elvis Presley (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Sees journalist upset receiving a thousand for computers
+  Answer: DESKTOPS
+  Tier: Cached | Confidence: 92/100
+  Definition: "computers"
+  Wordplay type: container
+  Components:
+    reversal           journalist upset          -> DE
+    synonym            sees                      -> SPOTS
+    abbreviation       thousand                  -> K
+  Assembly: reversal_container — DE(journalist upset) + reverse SPOTS(sees), then K(thousand) inside STOPS
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/3 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      sees: syn=HAS,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,NABS,NETS,OFFS,RAPS,RUNS,BAILS,BIDES; abbr=C,ELY,LO,V; sounds=seas,seize,sea
+      journalist: syn=ED,HACK,DOUCET,EDITOR,MORGAN,NEWSMAN,REPORTER; abbr=ED
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      receiving: syn=TAKE,ADMIT,ENTER,TAKING,ENTERING; ind=container
+      thousand: syn=GRAND,NUMBER,CARDINAL,QUANTITY; abbr=G,K*,M
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      computers: syn=DESKTOPS*,DESKTOP*,LAPTOPS,CAP,MAC,PAD,PILL,LAPTOP,CAPSULE,LOZENGE,NOTEPAD,SCANNER,NOTEBOOK; abbr=PC; ind=reversal?
+      receiving a: syn=TIMID,CRAVEN,PHOBIC,SCARED,FEARFUL,HIDEOUS
+      a thousand: syn=GRANDPA,ANCESTOR,RELATION,RELATIVE
+    Definitions:
+      "computers" -> DESKTOPS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 5. Island needs huge crowds having promoted run
+  Answer: Rhodes
+  Tier: Cached | Confidence: 62/100
+  Definition: "Island"
+  Wordplay type: substitution
+  Components:
+    synonym            huge crowds               -> HORDES
+    abbreviation       run                       -> R
+  Assembly: deletion — R(run) + delete R from HORDES(huge crowds)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_mismatch=AI=substitution, assembled=deletion | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      island: syn=RHODES*,IS,AIT,KEY,SAY,BALI,BUTE,CUBA,ELBA,EYOT,GOZO,GUAM,INCH,IONA,ISLE; abbr=I,IS
+      needs: syn=LACKS,WANTS,MISSES,DO,UP,AIM,EYE,JOB,TAX,THE,BEAR,BEST,BORN,CARE,DAWN; ind=anagram?; sounds=knead,kneed
+      huge: syn=OS,MEGA,SIZE,VAST,GIANT,GRAND,GREAT,JUMBO,OBESE,SUPER,TITAN,VASTY,BUMPER,COSMIC,HEROIC
+      crowds: syn=LOTS,MOBS,HOSTS,HORDES,MASSES,SWARMS,LOT,MOB,SET,ARMY,BIKE,BODY,CLAN,CORE,CRAM
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING
+      promoted: syn=UP,CUT,GREW,PARED,BOBBED,DOCKED,NIPPED,POLLED,PRUNED,PUSHED,PUT UP,RAISED,REARED,SHAVED,TENDED; ind=reversal?
+      run: syn=BE,DO,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB,GAS,GET; abbr=R*; ind=anagram?
+    Definitions:
+      "Island" -> Rhodes (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 6. Achieve exam success while away
+  Answer: PASS
+  Tier: Cached | Confidence: 90/100
+  Definition: "Achieve exam success"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      achieve: syn=DO,A A,BIG,GET,HIT,USE,WIN,BOOK,GAIN,HEAD,HOPE,LOVE,MAKE,MEET,MOST
+      exam: syn=ORAL,QUIZ,SCAN,TEST,THIS,VIEW
+      success: syn=MY,HER,HIS,HIT,ITS,WIN,BABY,COUP,FAME,MISS
+      while: syn=AS*,IS,BIT,DAY,EON,ERA,NOW,BEAT,JIFF,MUCH,PAIN,SPAN,WHEN,WINK,WORK; abbr=AS*; sounds=wile
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      while away: syn=PASS*
+    Definitions:
+      "while away" -> PASS (definition match)
+      "Achieve exam success" -> PASS (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 7. 8 Down no rudely brief complaint
+  Answer: AILMENT
+  Tier: --- | Confidence: 0/100
+  Definition: "complaint"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     no rudely brief           -> NOSHORT
+  DB Lookups:
+    DB lookups:
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      rudely: ind=anagram?
+      brief: syn=US,HIM,JOB,LOW,SHY,SUM,CASE,CURT,FAST,FILL,LESS,SILK,TELL,BLUFF,BLUNT; ind=parts
+      complaint: syn=AILMENT*,FLU,RAP,ACNE,AGUE,BEEF,BERI,FUNK,FUSS,KICK,STYE,TALE,TRUE,BLEAT,CLAIM
+      rudely brief: syn=SHORT
+    Definitions:
+      "complaint" -> AILMENT (definition match)
+    Cross-references:
+      Clue 8 answer = SHORTENING
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 8. Reducing fat in pastry
+  Answer: SHORTENING
+  Tier: Cached | Confidence: 65/100
+  Definition: "Reducing"
+  Wordplay type: double_definition
+  Components:
+    synonym            fat                       -> SHORTENING
+    synonym            pastry                    -> SHORTENING
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=1/2 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      fat: syn=SHORTENING*,D,AT,TOP,WHO,BEST,DEEP,FLAB,FULL,LARD,LIST,PICK,PINK,RICH,SUET
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      pastry: syn=DAD,PIE,FILO,FOOD,DOUGH,TORTE,TRIAL,TUILE,AFTERS,CHURRO,DANISH,ECLAIR,SAMOSA,YUMYUM,BAKLAVA
+    Definitions:
+      "Reducing" -> SHORTENING (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 9. Set report about four allowed to retire
+  Answer: TELEVISION
+  Tier: --- | Confidence: 0/100
+  Definition: "Set"
+  Wordplay type: container
+  Components:
+    synonym            report                    -> TELL
+    abbreviation       four                      -> IV
+    synonym            allowed                   -> LET
+    synonym            about                     -> ON
+  DB Lookups:
+    DB lookups:
+      set: syn=TELE*,TELEVISION*,GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL; abbr=SE; ind=anagram
+      report: syn=A,AD,MY,NO,FEW,FLY,LOG,POP,PUT,REP,SAY,SET,BANG,BLOG,BOOM; ind=homophone
+      about: syn=ON*,AS,BY,CA,OF,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY,YAW; abbr=C,CA,OF,ON*,OVER,RE; ind=anagram,container,reversal
+      four: syn=IV,BED,CAB,COT,FAB,GIG,HAY,HOT,KIP,PAD,RIG,TOP,A-OK,BOSS,BRAG; abbr=IV; sounds=for,fore
+      allowed: syn=HAD,LET,PUT,FELT,HAVE,HELD,ISLE,LEFT,MADE,ADMIT,AGREE,ALLOT,AWFUL,DUPED,GRANT; abbr=LET; sounds=aloud
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      retire: syn=BED,CAN,EBB,HIM,LIE,AWAY,BACK,DOOR,FALL,FIRE,LOSE,PULL,SHOW,TURN,REMOVE; ind=reversal
+      allowed to: syn=WIRE,CABLE,ALLOWED,MESSAGE,TELEGRAM
+    Definitions:
+      "Set" -> TELEVISION (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

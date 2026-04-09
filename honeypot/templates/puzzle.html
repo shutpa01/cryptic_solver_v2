@@ -38,7 +38,7 @@
 <li class="puzzle-clue">
     <div class="puzzle-clue-header">
         <span class="clue-number">{{ c.clue_number }}</span>
-        {% set slug = make_slug(c.clue_text, c.answer) %}
+        {% set slug = make_slug(c.clue_text, c.answer, clue_id=c.id) %}
         {% if slug %}
         <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>
         {% else %}

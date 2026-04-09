@@ -1,0 +1,1017 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31189
+Generated: 2026-03-17 09:21:49
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        28/32 (87%)
+    Signature:      4
+    Sig+Enriched:   7
+    Sonnet:         11
+    DB Fallback:    6
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  17D, 2D, 20A, 4D, 1A, 1D, 10A, 13A, 14D, 15A, 18A, 21D, 22D, 23D, 24A, 26A, 27A, 4A, 7D, 8D
+  Medium (40-79): 8  11A, 12A, 16D, 19D, 28A, 3D, 6D, 9A
+  Low (<40):    0  
+  Failed:       4  23A, 25D, 29A, 5D
+  Average:      80/100
+
+COST: $0.2898 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (24 entries)
+------------------------------------------------------------
+  INSTANCE: "example" -> INSTANCE  (missing from definition_answers_augmented)
+  TENCH: "fish" -> TENCH  (missing from definition_answers_augmented)
+  BRIDGE: "Join" -> BRIDGE  (missing from definition_answers_augmented)
+  SEAMEN: "Crew" -> SEAMEN  (missing from definition_answers_augmented)
+  PURGE: "Scrub" -> PURGE  (missing from definition_answers_augmented)
+  HARDSHIP: "Want" -> HARDSHIP  (missing from definition_answers_augmented)
+  ACCIDENT: "Mishap" -> ACCIDENT  (missing from definition_answers_augmented)
+  TRUMPET: "Something that's blown" -> TRUMPET  (missing from definition_answers_augmented)
+  UNAWARE: "in the dark" -> UNAWARE  (missing from definition_answers_augmented)
+  ABIDE: "Put up with" -> ABIDE  (missing from definition_answers_augmented)
+  PLANS: "Designs" -> PLANS  (missing from definition_answers_augmented)
+  NAUGHTIER: "more filthy" -> NAUGHTIER  (missing from definition_answers_augmented)
+  Snead: "Golfer" -> Snead  (missing from definition_answers_augmented)
+  TROUNCE: "Censure" -> TROUNCE  (missing from definition_answers_augmented)
+  RATIONAL: "Well-balanced" -> RATIONAL  (missing from definition_answers_augmented)
+  REPLIED: "Responded" -> REPLIED  (missing from definition_answers_augmented)
+  STRETCHED: "Prolonged" -> STRETCHED  (missing from definition_answers_augmented)
+  PREFERRED: official -> REF  (missing from abbreviations)
+  ACCIDENT: writer -> I  (missing from abbreviations)
+  ACCIDENT: had, -> D  (missing from abbreviations)
+  UNAWARE: A Parisian -> UNE  (missing from abbreviations)
+  UNAWARE: welcomes -> A  (missing from abbreviations)
+  PLANS: aircraft base -> SNALP  (missing from synonyms_pairs)
+  STRETCHED: time -> STRETCH  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  ENHANCE = 11 (72/100): AI=anagram, assembled=charade
+  PREFERRED = 16 (44/100): AI=anagram, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  23. Something that's blown cap inside out, finally = TRUMPET
+  25. Put up with a US president wanting Greenland, essentially = ABIDE
+  29. Golfer unhappy about unfinished trap = Snead
+  5. Well-balanced horse race with new leader = RATIONAL
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  11/32  9A, 12A, 13A, 28A, 1D, 1D, 8D, 14D, 19D, 21D, 22D
+  Type mismatch:         2  11A, 16D
+  DB gap:                18  4A, 10A, 15A, 18A, 20A, 24A, 26A, 27A, 29A, 2D, 3D, 5D, 6D, 7D, 16D, 17D, 23D, 25D
+  Failed:                4  29A, 5D, 23D, 25D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   17D  INSTANCE      Cool attitude, for example (8)
+                      IN(synonym of "Cool") + STANCE(synonym of "attitude,")  [HIGH]
+    2D  TENCH         Often chippy wraps fish (5)
+                      hidden in 'ofTEN CHippy wraps'  [HIGH]
+   20A  BRIDGE        Join game (6)
+                      double definition  [HIGH]
+    4D  SEAMEN        Crew spotted touring before noon (6)
+                      SEEN(synonym of "spotted") + AM(synonym of "before noon")  [HIGH]
+    1A  OCTET         Group's honesty oddly absent outside court (5)
+                      CT(abbr. "court") inside OET(alternate letters of "honesty")  [HIGH]
+    1D  ORCHESTRA     Group of players snarled at scorer around end of match (9)
+                      anagram of H(last letter of "match")+AT(at)+SCORER(scorer) = ORCHESTRA  [HIGH]
+   10A  PURGE         Scrub page with egg on (5)
+                      P(abbr. "page") + URGE(synonym of "egg")  [HIGH]
+   11A  ENHANCE       Deny chances, after losing cases, to improve (7)
+                      EN(deletion from "Deny") + HANCE(deletion from "chances")  [MED]
+   12A  OMITTED       Old, short glove daughter left out (7)
+                      O(abbr. "old") + MITTE(glove) + D(abbr. "daughter")  [MED]
+   13A  Thebes        The finest shed behind ancient city (6)
+                      THE(The) + BES(deletion from "finest")  [HIGH]
+   14D  ENCOURAGE     Cheer North European returning with bottle (9)
+                      E(abbr. "european") + N(first letter of "north") + COURAGE(synonym of "bottle")  [HIGH]
+   15A  HARDSHIP      Want rigid vessel (8)
+                      HARD(synonym of "rigid") + SHIP(synonym of "vessel")  [HIGH]
+   16D  PREFERRED     Favoured match official, under pressure, made a mistake (9)
+                      P(abbr. "under pressure") + REF(synonym of "official") + ERRED(synonym of "made a mistake")  [MED]
+   18A  ACCIDENT      Mishap this writer had, in a manner of speaking (8)
+                      I(synonym of "writer") + D(abbr. "had,") + ACCENT(synonym of "manner of speaking")  [HIGH]
+   19D  DEPOSIT       Security is raised in warehouse (7)
+                      anagram of IS(is)+DEPOT(synonym of "warehouse") = DEPOSIT  [MED]
+   21D  REACHES       Comes to grief regularly with long spades (7)
+                      RE(alternate letters of "grief") + ACHE(synonym of "long") + S(abbr. "spades")  [HIGH]
+   22D  AUGUST        Dignified Roman leader ignores us (6)
+                      delete US from AUGUSTUS  [HIGH]
+   23A  TRUMPET       Something that's blown cap inside out, finally (7)
+                      ---  [FAIL]
+   23D  top up        Refill pot, potentially? (3,2)
+                      double definition  [HIGH]
+   24A  UNAWARE       A Parisian welcomes a fight in the dark (7)
+                      UNE(synonym of "A Parisian") + A(synonym of "welcomes") + WAR(synonym of "fight")  [HIGH]
+   25D  ABIDE         Put up with a US president wanting Greenland, essentially (5)
+                      ---  [FAIL]
+   26A  PLANS         Designs aircraft base rejected (5)
+                      reverse SNALP(synonym of "aircraft base")  [HIGH]
+   27A  NAUGHTIER     Muddy huge train getting more filthy (9)
+                      anagram of TRAIN(train)+HUGE(huge) = NAUGHTIER  [HIGH]
+   28A  PRETTIEST     Most attractive quiet street – it's round the bend (9)
+                      delete S from ST(abbr. "street"), anagram of P(abbr. "quiet")+T+ITS(it's)+REET(street) = T  [MED]
+   29A  Snead         Golfer unhappy about unfinished trap (5)
+                      ---  [FAIL]
+    3D  TROUNCE       Censure star occasionally that's put on weight (7)
+                      TR(alternate letters of "star") + OUNCE(synonym of "weight")  [MED]
+    4A  SURPRISED     Shocked American turns and runs, followed by terrible spider (9)
+                      anagram of US(abbr. "American")+R(abbr. "runs")+SPIDER(spider) = SURPRISED  [HIGH]
+    5D  RATIONAL      Well-balanced horse race with new leader (8)
+                      ---  [FAIL]
+    6D  REPLIED       Responded about parking and told a fib (7)
+                      RE(synonym of "about") + P(abbr. "parking") + LIE(synonym of "fib") + D(last letter of "told")  [MED]
+    7D  STRETCHED     Prolonged time inside with editor (9)
+                      STRETCH(synonym of "time") + ED(synonym of "editor")  [HIGH]
+    8D  DREAD         King seized by absolute fear (5)
+                      R(abbr. "King") inside DEAD(synonym of "absolute")  [HIGH]
+    9A  CONSONANT     Abuse almost constant on X? (9)
+                      delete T from CONSTANT(constant), anagram of CONSTAN+ON(on) = CONSTAN  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] INSTANCE  17D. Cool attitude, for example
+  Answer: INSTANCE
+  Tier: Signature | Confidence: 82/100
+  Definition: "example"
+  Wordplay type: charade
+  Components:
+    synonym            Cool                      -> IN
+    synonym            attitude,                 -> STANCE
+  Assembly: charade — IN(synonym of "Cool") + STANCE(synonym of "attitude,")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'cool'=in_verified=+5 | syn_f_'attitude,'=stance_verif=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] TENCH  2D. Often chippy wraps fish
+  Answer: TENCH
+  Tier: Signature | Confidence: 82/100
+  Definition: "fish"
+  Wordplay type: hidden
+  Components:
+    hidden             Often chippy wraps        -> OFTENCHIPPYWRAPS
+  Assembly: hidden — hidden in 'ofTEN CHippy wraps'
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'often_chippy_wraps'_mec=+3 | all_1_pieces_verified=+19
+  ----------------------------------------------------------------------
+
+  [HIGH] BRIDGE  20A. Join game
+  Answer: BRIDGE
+  Tier: Signature | Confidence: 82/100
+  Definition: "Join"
+  Wordplay type: double_definition
+  Components:
+    synonym            game                      -> BRIDGE
+  Assembly: double_definition — double definition
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'game'=bridge_verified=+5 | all_1_pieces_verified=+17
+  ----------------------------------------------------------------------
+
+  [HIGH] SEAMEN  4D. Crew spotted touring before noon
+  Answer: SEAMEN
+  Tier: Signature | Confidence: 82/100
+  Definition: "Crew"
+  Wordplay type: charade
+  Components:
+    synonym            spotted                   -> SEEN
+    synonym            before noon               -> AM
+  Assembly: charade — SEEN(synonym of "spotted") + AM(synonym of "before noon")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'spotted'=seen_verified=+5 | syn_f_'before_noon'=am_verifie=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] OCTET  1A. Group's honesty oddly absent outside court
+  Answer: OCTET
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "Group"
+  Wordplay type: container
+  Components:
+    alternate_letters  honesty                   -> OET
+    abbreviation       court                     -> CT
+  Assembly: container — CT(abbr. "court") inside OET(alternate letters of "honesty")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      group's: syn=OCTET*,ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT; abbr=CLAN,GP,SET
+      honesty: syn=CLEAN,TRUTH
+      oddly: ind=anagram,parts
+      absent: syn=OUT,AWAY; ind=deletion
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      court: syn=CT*,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT*,ct*
+  AI Reasoning:
+    Definition: "Group" (an octet is a group of eight).
+    
+    Wordplay: container. "honesty oddly" = take odd letters from HONESTY = H-N-S-Y. "absent" indicates deletion, so we remove these odd letters. "outside court" indicates CT (court abbreviation) goes inside something.
+    
+    Wait, let me reconsider: "oddly absent" could mean the odd letters are absent/deleted from "honesty", leaving the even letters: O-E-T. Then "outside court" means these letters go around CT: O + CT + ET = OCTET.
+    
+    Actually, simpler: "honesty oddly absent" = remove odd-positioned letters from HONESTY, leaving O-E-T. "outside court" = O-E-T contains CT = O(CT)ET = OCTET.
+  ----------------------------------------------------------------------
+
+  [HIGH] ORCHESTRA  1D. Group of players snarled at scorer around end of match
+  Answer: ORCHESTRA
+  Tier: DB Fallback | Confidence: 95/100
+  Definition: "Group of players"
+  Wordplay type: anagram
+  Components:
+    last_letter        match                     -> H
+    literal            at                        -> AT
+    literal            scorer                    -> SCORER
+  Assembly: anagram — anagram of H(last letter of "match")+AT(at)+SCORER(scorer) = ORCHESTRA
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+      players: syn=ORCHESTRA*,ALSO,CAST,TEAM,OCTET,SQUAD,ACTORS,ELEVEN,FIFERS,CASTLED,OBOISTS,CELLISTS,FORWARDS,ACTRESSES,MUSICIANS; abbr=CAST,P
+      snarled: ind=anagram?
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      scorer: syn=TEST,BARTOK,ETCHER,LYRIST,SMETANA,ALBINONI,ARRANGER,COMPOSER,LYRICIST,MELODIST,MUSICIAN,SCRATCHER,SONGSMITH,TUNESMITH
+      around: syn=OR*,BY,CA,IN,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      match: syn=FIT,FOE,MET,PUT,RIG,TIE,WAR,BEND,BOUT,COPY,EDIT,FACE,FINE,GAME,GEAR
+      end of: ind=parts
+      group of players: syn=ORCHESTRA*,BAND,HALLE,HORSE
+      end of match: syn=NO-SIDE
+    Definitions:
+      "Group" -> ORCHESTRA (definition match)
+      "Group of players" -> ORCHESTRA (definition match)
+  AI Reasoning:
+    Definition: "Group of players" (an orchestra is a group of players).
+    
+    Wordplay: container. "snarled" is the anagram indicator, "around" is the container indicator.
+    
+    - "scorer" = anagram fodder → ORCHESTRA (minus H)
+    - "end of match" = H (last letter of "match")
+    - "around" indicates H goes inside the anagram of "scorer"
+    
+    Wait, let me recalculate:
+    - "scorer" has 6 letters, but ORCHESTRA has 9
+    - "snarled at scorer" = anagram of "at scorer" = anagram of ATSCORER = ORCHESTRA (8 letters)
+    - "around end of match" = H (from "match") goes around/inside
+    - But this gives 8+1=9 letters total
+    
+    Actually: "snarled at scorer" = anagram of "atscorer" (8 letters) = ORCHESTR, then "around end of match" = H inserted = ORCHESTRA.
+  ----------------------------------------------------------------------
+
+  [HIGH] PURGE  10A. Scrub page with egg on
+  Answer: PURGE
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Scrub"
+  Wordplay type: charade
+  Components:
+    abbreviation       page                      -> P
+    synonym            egg                       -> URGE
+  Assembly: charade — P(abbr. "page") + URGE(synonym of "egg")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'page'=p_verified=+5 | syn_f_'egg'=urge_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] ENHANCE  11A. Deny chances, after losing cases, to improve
+  Answer: ENHANCE
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "improve"
+  Wordplay type: anagram
+  Components:
+    deletion           Deny                      -> EN
+    deletion           chances                   -> HANCE
+  Assembly: charade — EN(deletion from "Deny") + HANCE(deletion from "chances")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deny: syn=MISS,REBUT,DISOWN,FORBID,NEGATE,REFUSE,REFUTE,REJECT,WONDER,DISAVOW,GAINSAY,RENEGUE
+      chances: syn=IS,ODDS,RISKS,HAPPENS,AM,BE,DO,GO,AGE,ARE,BED,HAP,LIE,PAY,SIT; fodder=CHANCES(5/7 anagram match)
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      losing: syn=NIXING,BLOWING,DENYING,DUMPING,FALLING,JUNKING,PASSING,TOSSING,WASTING; ind=deletion
+      cases: syn=SEA,BINS,HOPE,PODS,BOXES,HULLS,HUSKS,ARMORS,CHESTS,COVERS,SHELLS,TRUNKS,CADDIES,CASINGS,CASKETS; ind=parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      improve: syn=ENHANCE*,HELP,MEND,AMEND,EMEND,RALLY,RIGHT,AMENDS,BETTER,ENRICH,FINISH,REFINE,REFORM,AMENDED,AMENDER; ind=anagram?
+    Definitions:
+      "improve" -> ENHANCE (definition match)
+      "to improve" -> ENHANCE (definition match)
+  AI Reasoning:
+    Definition: "improve" (enhance means to improve).
+    
+    Wordplay: deletion + anagram. "Deny chances" = DENY + CHANCES. "losing cases" indicates deletion of outer letters (first and last letters). "after" indicates anagram.
+    
+    DENY loses cases (D and Y) → EN
+    CHANCES loses cases (C and S) → HANCE
+    
+    "after" signals anagram of the remaining letters: EN + HANCE → ENHANCE.
+  ----------------------------------------------------------------------
+
+  [HIGH] OMITTED  12A. Old, short glove daughter left out
+  Answer: OMITTED
+  Tier: DB Fallback | Confidence: 77/100
+  Definition: "left out"
+  Wordplay type: charade
+  Components:
+    truncation         glove                     -> MITTE
+    abbreviation       old                       -> O
+    abbreviation       daughter                  -> D
+  Assembly: charade — O(abbr. "old") + MITTE(glove) + D(abbr. "daughter")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      short: syn=GO,DIP,EBB,FLY,GET,HIE,JOG,LIE,LOW,RIP,SHY,TOT,WAX,ZIP,BILL; abbr=S; ind=deletion,parts
+      glove: syn=MITTEN
+      daughter: syn=GIRL,DRIVERS,PROGENY; abbr=D*
+      left: syn=OMITTED*,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      left out: syn=OMITTED*,CUT,HAND,UNUSED
+    Definitions:
+      "left out" -> OMITTED (definition match)
+  AI Reasoning:
+    Definition: "left out" (OMITTED is a synonym for left out).
+    Wordplay: deletion. "Old" = O (abbreviation). "glove" = MITTEN (synonym). "short" is the deletion indicator. "daughter" = D (abbreviation).
+    O + MITTEN with D deleted = O + MITTE = OMITTED.
+    
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually, this appears to be a charade: "Old" = O, and we need to find how "short glove daughter left out" gives us MITTED.
+    
+    Looking at the known lookup: "left out" = OMITTED (synonym). This suggests the entire clue may be defining OMITTED, with "Old, short glove daughter" providing wordplay.
+    
+    Rethinking: "glove" = MITTEN, "short" (deletion indicator) removes something, "daughter" = D. If we remove D from MITTEN = MITTE, then O + MITTE + D = OMITTED.
+    
+    Actually: O (old) + MITTED (from "short glove daughter" where MITTEN loses N but gains D) = OMITTED.
+    
+    Let me try again: This is likely a double definition where the entire clue defines OMITTED as "left out."
+  ----------------------------------------------------------------------
+
+  [HIGH] Thebes  13A. The finest shed behind ancient city
+  Answer: Thebes
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "ancient city"
+  Wordplay type: charade
+  Components:
+    literal            The                       -> THE
+    deletion           finest                    -> BES [BEST - T(the)]
+  Assembly: charade — THE(The) + BES(deletion from "finest")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      finest: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,TOP,BABY,BEAU,BEST,BIRD,BODY,BUCK
+      shed: syn=HUT,BABY,CAST,DEEP,DUMP,HOME,JUNK,LEAN,LOSE,MOLT,PART,SLIP,TOSS,CABIN,CHUCK; ind=deletion
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      ancient: syn=AGE,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,LONG,OLD,,ONCE,OVER,PAST
+      city: syn=EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA,NICE; abbr=EC,LA,NY,ec; ind=anagram
+      ancient city: abbr=UR
+      ancient city: syn=THEBES*,UR,CITY,ROLE,TROY,PETRA,SPARTA
+    Definitions:
+      "ancient city" -> Thebes (definition match)
+  AI Reasoning:
+    Definition: "ancient city" (Thebes is an ancient city).
+    Wordplay: deletion. "The finest" = THE BEST (synonym for finest). "shed" is the deletion indicator. "behind" indicates what to remove - the letters B-E-H-I-N-D from THE BEST? No, that doesn't work.
+    
+    Let me reconsider: "behind" could mean the back/end letters. "The finest" = THE BEST, and if we "shed" (remove) the "behind" (back letters), we remove ST from THE BEST, leaving THEBE. That's close but not THEBES.
+    
+    Actually, looking at the known lookups: "the" = TH, and "ancient city" = THEBES directly. So this appears to be: TH + something = THEBES. If "finest" = EBES somehow?
+    
+    Rethinking: "The finest shed behind" - if "shed" means remove and "behind" means the back part, then from "The finest" (THE BEST), removing "behind" (the end) gives us the front part THE, plus we need BES.
+    
+    Wait - "The finest" could be parsed as TH (the) + E (first letter of "finest") + BES (remaining letters of "finest" = BEST with T shed/removed) = THEBES.
+    
+    Actually: THE (the) + BES (BEST with T shed) = THEBES.
+  ----------------------------------------------------------------------
+
+  [HIGH] ENCOURAGE  14D. Cheer North European returning with bottle
+  Answer: ENCOURAGE
+  Tier: DB Fallback | Confidence: 90/100
+  Definition: "Cheer"
+  Wordplay type: charade
+  Components:
+    first_letter       north                     -> N
+    abbreviation       european                  -> E
+    synonym            bottle                    -> COURAGE
+  Assembly: charade — E(abbr. "european") + N(first letter of "north") + COURAGE(synonym of "bottle")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cheer: syn=ENCOURAGE*,RAH,BUOY,CITE,CLAP,FETE,HAIL,LAUD,MIND,RISE,TOUT,BRAVO,ELATE,EXTOL,HONOR
+      north: syn=POLE,POINT,PLAYER,DIRECTION,THE POINT; abbr=N*; ind=reversal
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*; fodder=EUROPEAN(7/9 anagram match)
+      returning: syn=HOME,STOP,COMING,GIVING,PAYING,BEARING,UNDOING,REPLYING,YIELDING,ANSWERING,RECURSIVE,REJOINING,REPLACING,RESTORING,RETORTING; ind=reversal
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      bottle: syn=COURAGE*,ALE,CAN,GIN,MUM,NIP,PEG,POP,RUM,TOT,ALE,,AQUA,BEER,BELT,BREW; abbr=B,VIAL; ind=container
+    Definitions:
+      "Cheer" -> ENCOURAGE (definition match)
+  AI Reasoning:
+    Definition: "Cheer" (ENCOURAGE is a synonym for cheer).
+    
+    Wordplay: This appears to be a double definition. The clue gives us "Cheer" which directly maps to ENCOURAGE as confirmed in the known lookups.
+    
+    The remaining words "North European returning with bottle" don't produce a clear wordplay mechanism that yields ENCOURAGE, despite the indicator words provided. The most straightforward interpretation is that "Cheer" serves as both the definition and the answer through direct synonymy.
+  ----------------------------------------------------------------------
+
+  [HIGH] HARDSHIP  15A. Want rigid vessel
+  Answer: HARDSHIP
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Want"
+  Wordplay type: charade
+  Components:
+    synonym            rigid                     -> HARD
+    synonym            vessel                    -> SHIP
+  Assembly: charade — HARD(synonym of "rigid") + SHIP(synonym of "vessel")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'rigid'=hard_verified=+5 | syn_f_'vessel'=ship_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PREFERRED  16D. Favoured match official, under pressure, made a mistake
+  Answer: PREFERRED
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "Favoured"
+  Wordplay type: anagram
+  Components:
+    synonym            official                  -> REF
+    abbreviation       under pressure            -> P
+    synonym            made a mistake            -> ERRED
+  Assembly: charade — P(abbr. "under pressure") + REF(synonym of "official") + ERRED(synonym of "made a mistake")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      favoured: syn=PREFERRED*,LUCKY,ENDORSED
+      match: syn=FIT,FOE,MET,PUT,RIG,TIE,WAR,BEND,BOUT,COPY,EDIT,FACE,FINE,GAME,GEAR
+      official: syn=AGA,FROM,HEAD,CHAIR,ELDER,REEVE,CONSUL,FLUNKY,FORMAL,MINION,NOTARY,PUBLIC,BAILIFF,CORONER,EQUERRY
+      under: syn=BAD,BOW,ILL,LIT,LOW,WET,DOWN,FALL,HIGH,LESS,PUNK,QUIT,SICK,AFOOT,BELOW
+      pressure: syn=DO,A A,ARM,USE,BOOK,LOVE,MAKE,MEET,MOST,MUCH,NICE,DRIVE,FORCE,PRESS,SCENE; abbr=P*
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      mistake: syn=ERR*,BOO,MAR,RAP,SIN,BEAT,BISH,BOOB,FLAW,FLUB,GAFF,GOOF,MARK,MISS,ONUS; abbr=BISH; ind=anagram?
+      match official: syn=REF*,ONE,JUDGE,UMPIRE,DECIDER,REFEREE,LINESMAN,MEDIATOR,OFFICIAL,ARBITRATE
+      under pressure: syn=HOUNDED,HARASSED,PROVOKED,STRESSED,AFFLICTED,HENPECKED,OVERTAXED,TORMENTED
+      made a: syn=PREFERRED*,JET,PET,SEA,ROLE,WIND,CRIED,MEWED,OPTED,SHOWN
+      a mistake: syn=SAY,GOOF,TYPO,WOLF,ERROR,IDIOT,BOOBOO,HOWLER,BANSHEE,BLUNDER
+      made a mistake: syn=ERRED*
+    Definitions:
+      "Favoured" -> PREFERRED (definition match)
+  AI Reasoning:
+    Definition: "Favoured" (PREFERRED is a synonym for favoured).
+    Wordplay: anagram. "made" and "mistake" are anagram indicators.
+    Fodder: "official, under pressure" = REF (match official) + P (pressure) + ERRED (made a mistake) = REFPERRED.
+    Wait, that's 9 letters but wrong order. Let me reconsider the fodder.
+    Actually: REF + P + ERRED = REFPERRED, which anagrammed gives PREFERRED.
+  ----------------------------------------------------------------------
+
+  [HIGH] ACCIDENT  18A. Mishap this writer had, in a manner of speaking
+  Answer: ACCIDENT
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Mishap"
+  Wordplay type: charade
+  Components:
+    synonym            writer                    -> I
+    abbreviation       had,                      -> D
+    synonym            manner of speaking        -> ACCENT
+  Assembly: charade — I(synonym of "writer") + D(abbr. "had,") + ACCENT(synonym of "manner of speaking")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'writer'=i_verified=+5 | abr_f_'had,'=d_verified=+5 | syn_f_'manner_of_speaking'=acc=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPOSIT  19D. Security is raised in warehouse
+  Answer: DEPOSIT
+  Tier: DB Fallback | Confidence: 75/100
+  Definition: "Security"
+  Wordplay type: anagram
+  Components:
+    literal            is                        -> IS
+    synonym            warehouse                 -> DEPOT
+  Assembly: anagram — anagram of IS(is)+DEPOT(synonym of "warehouse") = DEPOSIT
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      security: syn=DEPOSIT*,BAIL,FORT,GAGE,PAWN,TOOL,WALL,WARD,AEGIS,AGENT,ARMOR,CAUSE,COURT,COVER,GUARD
+      is: syn=SIT*,DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,TAS,USE,BEAR,COME,COOK
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      in: syn=IT*,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      warehouse: syn=DEPOSIT*,DEPOT*,STORE,GODOWN; ind=reversal?
+    Definitions:
+      "Security" -> DEPOSIT (definition match)
+      "warehouse" -> DEPOSIT (definition match)
+  AI Reasoning:
+    Definition: "Security" (a deposit is security/collateral).
+    Wordplay: reversal + container. "is" = SIT (known lookup), "raised" = reversal indicator. SIT reversed = TIS. "in warehouse" = container, with TIS inside DEPOT (warehouse). DEPOT containing TIS = DE + TIS + POT, but that doesn't work.
+    
+    Let me reconsider: "warehouse" could be DEPOT. "is raised" = SIT reversed = TIS. "in warehouse" means TIS goes inside DEPOT: DE(TIS)POT = DEPOSIT? No, that's 8 letters.
+    
+    Actually: DEPOT (warehouse) contains SIT (is) raised = TIS: DE(TIS)POT doesn't work.
+    
+    Wait - "Security is raised in warehouse": Security = DEPOSIT is the definition. The wordplay must create DEPOSIT from the remaining words. But since "security" is the definition, there's no wordplay here - this appears to be a straight definition where DEPOSIT means security.
+    
+    Actually, re-reading: This is likely a double definition where both "Security" and the result of the wordplay mean DEPOSIT, but let me try the wordplay: DEPOT (warehouse) with SIT (is) reversed to TIS, but the container mechanism doesn't produce DEPOSIT.
+    
+    This appears to be a double definition: "Security" = DEPOSIT, and the wordplay should also lead to DEPOSIT, but the mechanics don't clearly work with the given indicators.
+  ----------------------------------------------------------------------
+
+  [HIGH] REACHES  21D. Comes to grief regularly with long spades
+  Answer: REACHES
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "Comes to"
+  Wordplay type: charade
+  Components:
+    alternate_letters  grief                     -> RE
+    synonym            long                      -> ACHE
+    abbreviation       spades                    -> S
+  Assembly: charade — RE(alternate letters of "grief") + ACHE(synonym of "long") + S(abbr. "spades")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      comes: syn=REACHES*,IS,BAGS,BUGS,COPS,DIGS,DOES,FAST,GETS,GOES,ICES,NABS,NETS,OFFS,RAPS; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      grief: syn=WOE,TEST,AGGRO,MISERY,SORROW,ANGUISH,SADNESS,TROUBLE; ind=anagram?
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      long: syn=ACHE*,AGE,AYE,EON,FAR,OLD,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC,EVER; abbr=PINE
+      spades: syn=DIGS,SUIT,CARDS,DIGGERS,CARD,TOOL; abbr=S*
+      comes to: syn=REACHES*,NAMES,SETTLES
+    Definitions:
+      "Comes to" -> REACHES (definition match)
+  AI Reasoning:
+    Definition: "Comes to" (REACHES is a synonym for "comes to").
+    
+    Wordplay: charade. "regularly" indicates taking regular letters (every other letter) from "grief" = G-R-I-E-F → taking 1st, 3rd, 5th letters = GIF. Wait, that doesn't work.
+    
+    Let me reconsider using the known lookups:
+    - "long" = ACHE (synonym)
+    - "spades" = S (abbreviation)
+    - But we need REACHES (7 letters)
+    
+    Actually, looking at the known lookups, "comes to" = REACHES is the definition, not wordplay.
+    
+    Wordplay: "regularly" indicates taking regular (alternate) letters from "grief" = G-R-I-E-F → R-E = RE. Then "long spades" = ACHE + S = ACHES. RE + ACHES = REACHES.
+  ----------------------------------------------------------------------
+
+  [HIGH] AUGUST  22D. Dignified Roman leader ignores us
+  Answer: AUGUST
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Dignified"
+  Wordplay type: deletion
+  Assembly: deletion — delete US from AUGUSTUS
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dignified: syn=AUGUST*,GRAVE,SOBER,SEDATE
+      roman: syn=TYPE,NATIVE; abbr=R
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      ignores: syn=END,CUTS,MY,CUT,ITS,FAIL,PASS,SKIP,SNUB,TAKE,ANGER,ASIDE,BLANK,FLOUT,REMIT; ind=deletion,deletion?
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM; abbr=US*
+    Definitions:
+      "Dignified" -> AUGUST (definition match)
+  AI Reasoning:
+    Definition: "Dignified" (august means dignified).
+    Wordplay: deletion. "Roman" = AUGUSTUS (Roman emperor). "leader ignores us" = remove the first letters US. AUGUSTUS − US = AUGUST.
+    
+    The wordplay uses "leader" as a deletion indicator (remove from the beginning) and "ignores" as a deletion indicator, with "us" being the letters to delete.
+  ----------------------------------------------------------------------
+
+  [FAILED] TRUMPET  23A. Something that's blown cap inside out, finally
+  Answer: TRUMPET
+  Tier: --- | Confidence: 0/100
+  Definition: "Something that's blown"
+  Wordplay type: anagram
+  Components:
+    literal            cap inside                -> CAPINSIDE
+    last_letter        finally                   -> Y
+  DB Lookups:
+    DB lookups:
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      that's: syn=SO,SURE,TRULY,EASILY,INDEED,REALLY,SURELY,ALRIGHT,CLEARLY,PLAINLY,AS,GO,EAT,FAR,FIT; abbr=TH,YON
+      blown: syn=TUMID,PUFFED,TURGID,BLOATED,SWOLLEN
+      cap: syn=END,LID,TEN,TOP,BEAT,DRUG,EDGE,HAT,,KEPI,PILL,BERET,COVER,EXCEL,LIMIT,OUTDO; abbr=TOP; ind=anagram?
+      inside: syn=GUT,MID,TOP,HEART,INNER,PRIVY,RELIC,SPACE,COURSE,HUSHED,INMOST,INWARD,MIDDLE,SECRET,SOURCE; abbr=IN; ind=container,hidden,insertion,parts
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      something that's: syn=BOOZE,ALCOPOP,ETHANOL
+      inside out: ind=parts
+      inside out: syn=FROM,FULLY,WIDELY,ALL OUT,BROADLY,ROUNDLY,THROUGH,TOTALLY
+  AI Reasoning:
+    Definition: "Something that's blown" (a trumpet is blown).
+    
+    Wordplay: anagram. "out" is the anagram indicator.
+    Fodder: "cap inside" + "finally" = CAP + INSIDE + T (final letter of "finally") = CAPINSIDET
+    Wait, that's too many letters.
+    
+    Let me reconsider: "finally" means the final letter of a word. Looking at the structure, "cap inside" could mean the letters of CAP go inside something, but with "out" as anagram indicator, I need anagram fodder.
+    
+    Actually: "cap inside" (3 letters) + final letter of something = anagram fodder for TRUMPET (7 letters).
+    "cap inside out" - if "out" is the anagram indicator, then "cap inside" needs to provide 6 letters, plus "finally" gives 1 more.
+    
+    Rethinking: "inside out" could be a reversal indicator. "cap" reversed = PAC, but that doesn't work.
+    
+    Let me try: anagram of "cap" + "inside" + final letter of "trumpet" (T)? No, that's circular.
+    
+    Actually: anagram fodder is "TRUMPET" itself, indicated by "out". The clue is telling us to anagram the letters that spell TRUMPET, which are found in "cap inside" + final letter of some word. But this seems forced.
+    
+    Simpler interpretation: "out" as anagram indicator, anagram fodder = letters that spell TRUMPET. The wordplay describes the anagram: CAP (3) + INSIDE (6) rearranged, but that's 9 letters for a 7-letter answer.
+    
+    Let me try: anagram of "TRUMPET" indicated by "out", where the anagram fodder comes from parsing "cap inside finally" somehow to get the letters T-R-U-M-P-E-T.
+    
+    Actually, this might be: anagram ("out") of letters from "cap inside" + final letter = anagram of some 7-letter combination = TRUMPET.
+    
+    Given the complexity, this appears to be an anagram where "out" indicates rearrangement of letters that spell TRUMPET, derived from the phrase "cap inside finally" through some parsing I'm not seeing clearly.
+  ----------------------------------------------------------------------
+
+  [HIGH] top up  23D. Refill pot, potentially?
+  Answer: top up
+  Tier: Sig+Enriched | Confidence: 82/100
+  Wordplay type: double_definition
+  Components:
+    synonym            Refill pot, potentially?  -> TOPUP
+  Assembly: double_definition — double definition
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'refill_pot,_potentially=+5 | all_1_pieces_verified=+17
+  ----------------------------------------------------------------------
+
+  [HIGH] UNAWARE  24A. A Parisian welcomes a fight in the dark
+  Answer: UNAWARE
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "in the dark"
+  Wordplay type: charade
+  Components:
+    synonym            A Parisian                -> UNE
+    synonym            welcomes                  -> A
+    synonym            fight                     -> WAR
+  Assembly: charade — UNE(synonym of "A Parisian") + A(synonym of "welcomes") + WAR(synonym of "fight")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'a_parisian'=une_verifie=+5 | syn_f_'welcomes'=a_verified=+5 | syn_f_'fight'=war_verified=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [FAILED] ABIDE  25D. Put up with a US president wanting Greenland, essentially
+  Answer: ABIDE
+  Tier: --- | Confidence: 0/100
+  Definition: "Put up with"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    synonym            US president              -> ABE
+    core_letters       Greenland, essentially    -> I
+  DB Lookups:
+    DB lookups:
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE; abbr=US
+      president: syn=IKE,BUSH,FORD,PRES,TAFT,ADAMS,ASSAD,BIDEN,CHAIR,FORD?,GRANT,HAYES,NIXON,OBAMA,POTUS; abbr=P
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      essentially: ind=deletion,parts
+      put up: syn=ABIDE*,DO,UP,A A,BAR,BET,DID,DUG,GOT,HIT
+      us president: syn=ABE,ADAMS,NIXON,TEDDY
+      put up with: syn=ABIDE*,BEAR,HAIR,TAKE
+    Definitions:
+      "Put up" -> ABIDE (definition match)
+      "Put up with" -> ABIDE (definition match)
+  AI Reasoning:
+    Definition: "Put up with" (ABIDE is a synonym for "put up with").
+    
+    Since "put up with" directly maps to ABIDE as confirmed in the known lookups, this appears to be a double definition where both "Put up with" and the rest of the clue define ABIDE in different ways.
+    
+    The wordplay portion would involve the US president and Greenland references, but given the direct synonym match, this is most likely a double definition clue.
+  ----------------------------------------------------------------------
+
+  [HIGH] PLANS  26A. Designs aircraft base rejected
+  Answer: PLANS
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Designs"
+  Wordplay type: reversal
+  Components:
+    synonym            aircraft base             -> SNALP
+  Assembly: reversal — reverse SNALP(synonym of "aircraft base")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'aircraft_base'=snalp_ve=+5 | indicator_'rejected'_verified=+4 | all_2_pieces_verified=+13
+  ----------------------------------------------------------------------
+
+  [HIGH] NAUGHTIER  27A. Muddy huge train getting more filthy
+  Answer: NAUGHTIER
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "more filthy"
+  Wordplay type: anagram
+  Components:
+    literal            train                     -> TRAIN
+    literal            huge                      -> HUGE
+  Assembly: anagram — anagram of TRAIN(train)+HUGE(huge) = NAUGHTIER
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      muddy: syn=DYE,FOX,GET,HER,HIS,ICE,MAR,NET,RAP,BAIL,COLD,DAUB,DIRE,FOUL,GAUM
+      huge: syn=OS,MEGA,SIZE,VAST,GIANT,GRAND,GREAT,JUMBO,OBESE,SUPER,TITAN,VASTY,BUMPER,COSMIC,HEROIC
+      train: syn=AIM,BUM,CUE,SET,AIMS,BACK,BUNS,BUTT,CHOO,DUFF,FILE,HAMS,HEAD,HOME,LINE; ind=anagram
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      filthy: syn=HOW,LOT,TOO,WAY,BLUE,BONE,COLD,DAMN,DANG,DIRE,EVER,FOUL,FULL,SORE,SUCH
+      more filthy: syn=DIRTIER,MUDDIER,SOOTIER
+  AI Reasoning:
+    Definition: "more filthy" (naughtier means more filthy/badly behaved).
+    Wordplay: anagram. "train" is the anagram indicator.
+    Fodder: "Muddy huge" = MUDDY HUGE → rearranged → NAUGHTIER.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PRETTIEST  28A. Most attractive quiet street – it's round the bend
+  Answer: PRETTIEST
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Most attractive"
+  Wordplay type: anagram
+  Components:
+    abbreviation       quiet                     -> P
+    abbreviation       street                    -> ST
+    literal            it's                      -> ITS
+    anagram_fodder     street                    -> REET
+  Assembly: deletion+anagram — delete S from ST(abbr. "street"), anagram of P(abbr. "quiet")+T+ITS(it's)+REET(street) = T
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=T answer=PRETTIEST | pieces_validated=4/4 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      attractive: syn=HOT,CUTE,FAIR,GOOD,JAKE,SEXY,BONNY,DISHY,DUCKY,ELFIN,EXACT,JOLLY,TASTY,TONIC,BETTER
+      quiet: syn=IT,SH,DRY,KEY,LOW,ANTI,CALM,COOL,HUSH,LOWN,LULL,SOFT,EQUAL,FRAIL,LEVEL; abbr=P*,SH
+      street: syn=ST*,LUG,ROW,WAY,WIT,BAWD,BOND,CARE,DRAB,DRAG,LANE,MEWS,NOUS,PASS,PATH; abbr=S*,ST*
+      it's: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      round: syn=MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP,LIFE; abbr=O; ind=anagram,container,reversal
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      bend: syn=IT,ACT,AIM,ARC,BOW,FIT,PUT,RIG,SET,WAY,AIMS,ANON,ARCH,ARCS,EDIT; ind=anagram?
+      most attractive: syn=PRETTIEST*
+      round the bend: syn=OF MIND
+    Definitions:
+      "Most attractive" -> PRETTIEST (definition match)
+  AI Reasoning:
+    Definition: "Most attractive" (PRETTIEST is a synonym).
+    Wordplay: anagram. "round the bend" indicates an anagram (both "round" and "bend" are anagram indicators).
+    Fodder: "quiet street it's" = P (quiet) + ST (street) + ITS = PSTITS
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually, looking at the known lookups, "most attractive" is already the definition (synonym PRETTIEST).
+    
+    Let me try: "quiet street – it's" as anagram fodder.
+    P (quiet) + ST (street) + ITS = P + ST + ITS = PSTITS
+    Anagrammed by "round the bend" = PRETTIEST.
+    
+    Wait, that's only 6 letters (PSTITS) but need 9 for PRETTIEST.
+    
+    Rethinking: The dash suggests "quiet street" and "it's round the bend" are separate parts.
+    "it's round the bend" = anagram of "its" = no, that's only 3 letters.
+    
+    Let me try: anagram of "quiet street its" = P + ST + ITS = PSTITS (6 letters), but need 9.
+    
+    Actually, looking more carefully: anagram of "PRETTIEST" itself from the letters in "quiet street it's" - but that doesn't give enough letters.
+    
+    Let me reconsider the structure: Maybe it's an anagram of a longer phrase.
+    "quiet street – it's" = P + STREET + ITS = PSTREETITS = 10 letters
+    Anagrammed = PRETTIEST (9 letters) - but that leaves an extra letter.
+    
+    Actually: anagram of "STREETPIT" (street + pit, where "pit" could come from rearranging part of the clue) = no, this isn't working.
+    
+    Let me try: PRETTIEST is an anagram of "STREET" + "TIP" where TIP comes from rearranging "PIT" or similar. But I need to find 9 letters total.
+    
+    Reconsidering: anagram of "STREET" + "TIP" = 9 letters, anagrammed to PRETTIEST by "round the bend".
+  ----------------------------------------------------------------------
+
+  [FAILED] Snead  29A. Golfer unhappy about unfinished trap
+  Answer: Snead
+  Tier: --- | Confidence: 0/100
+  Definition: "Golfer"
+  Wordplay type: deletion
+  Components:
+    synonym            trap                      -> SNARE
+    deletion           unfinished                -> RE
+  DB Lookups:
+    DB lookups:
+      golfer: syn=SNEAD*
+      unhappy: syn=SAD*,BAD,LOW,NOT,BLUE,DARK,DOWN,GLUM,GOOD,LUCK,SIDE,STAR,SURE,WARM,AMISS; ind=anagram
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      unfinished: syn=RAW,RUDE,CRUDE; ind=deletion,parts
+      trap: syn=BAG,CAB,COP,DIG,GET,GIG,GIN,GOB,GUN,JAR,MUG,NAB,NET,PEN,RAP; abbr=GIN
+    Definitions:
+      "Golfer" -> Snead (definition match)
+  AI Reasoning:
+    Definition: "Golfer" (Snead is a golfer - confirmed by the known lookup).
+    Wordplay: deletion. "trap" = SNARE (synonym). "unfinished" is the deletion indicator, meaning remove the last letter. SNARE - E = SNAR...
+    
+    Wait, that gives SNAR, not SNEAD. Let me reconsider.
+    
+    Actually, looking at this more carefully: "unhappy about unfinished trap" could be an anagram. "unhappy" and "about" are both anagram indicators. "unfinished trap" = TRAP with last letter removed = TRA. But TRA anagrammed doesn't give SNEAD.
+    
+    Let me try: "unfinished" could mean taking part of a word. If "trap" = SNARE, then "unfinished trap" could be SNEA (removing the RE ending). But that's not quite right either.
+    
+    Actually, "trap" = SNEAD directly seems to be the answer, with the wordplay being more cryptic. The clue may be a cryptic definition where "unhappy about unfinished trap" cryptically describes a golfer named SNEAD.
+  ----------------------------------------------------------------------
+
+  [HIGH] TROUNCE  3D. Censure star occasionally that's put on weight
+  Answer: TROUNCE
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "Censure"
+  Wordplay type: charade
+  Components:
+    alternate_letters  star                      -> TR
+    synonym            weight                    -> OUNCE
+  Assembly: charade — TR(alternate letters of "star") + OUNCE(synonym of "weight")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      censure: syn=ACT,HER,HIS,JOB,COLD,DEAD,TASK,BLAME,BRING,HARSH,SLATE,TONGUE,ACCOUNT,ARRAIGN,REPROOF; fodder=CENSURE(5/7 anagram match)
+      star: syn=A,DO,ACE,ACT,APE,FAB,FEE,HAM,HOT,PIP,SUN,TOP,VIP,A-OK,ANTE; abbr=S
+      occasionally: syn=ON,AYE,NOW,OFT,EVER,FROM,MUCH,OFTEN,WHILE,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER
+      that's: syn=SO,SURE,TRULY,EASILY,INDEED,REALLY,SURELY,ALRIGHT,CLEARLY,PLAINLY,AS,GO,EAT,FAR,FIT; abbr=TH,YON
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      weight: syn=OUNCE*,IN,FAT,LOB,LUG,PEG,PRY,TON,TOW,TUG,BODY,BULK,CAST,CORE,DASH; abbr=OZ,T*,TON,W; sounds=wait
+      put on: syn=ACT,DON,COPY,FAKE,MOVE,PASS,SHAM,SWAY,WEAR,FEIGN
+  AI Reasoning:
+    Definition: "Censure" (to trounce means to censure/criticize severely).
+    
+    Wordplay: charade. "star occasionally" = TR (taking alternate letters from sTaR). "weight" = OUNCE (confirmed synonym). TR + OUNCE = TROUNCE.
+  ----------------------------------------------------------------------
+
+  [HIGH] SURPRISED  4A. Shocked American turns and runs, followed by terrible spider
+  Answer: SURPRISED
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "Shocked"
+  Wordplay type: anagram
+  Components:
+    abbreviation       American                  -> US
+    abbreviation       runs                      -> R
+    anagram_fodder     spider                    -> SPIDER
+  Assembly: anagram — anagram of US(abbr. "American")+R(abbr. "runs")+SPIDER(spider) = SURPRISED
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      shocked: syn=SURPRISED*,AGAPE,AFRAID,AGHAST,AMAZED,ALARMED,STUNNED,TASERED,APPALLED,OUTRAGED,STARTLED,ASTOUNDED,AWESTRUCK,HORRIFIED; ind=anagram?
+      american: syn=US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS,ANGELENO; abbr=A,US
+      turns: syn=BAGS,BUGS,COPS,DIGS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,ABOUT,BAILS,BENTS; abbr=GO,ROLL; ind=anagram,reversal; sounds=tern
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      runs: syn=IS*,DOS,BAGS,BUGS,BYES,CARE,COPS,DIGS,DOGS,EYES,FAST,FOCI,GETS,GOES,HIES; abbr=R*; ind=anagram,anagram?
+      followed: syn=RAN,EYED,WENT,NOTED,ARISEN,CHASED,COPIED,DOGGED,HEEDED,MINDED,OBEYED,TAGGED,TAILED,TRACED,COURSED
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      terrible: syn=BAD,BUM,LOW,NOT,DEEP,DIRE,HAIR,HARD,KEEN,POOR,PUNK,RATE,ACUTE,AWFUL,CHEAP; ind=anagram
+      spider: syn=REST,A REST,SPINNER,ARACHNID,ON TABLE,SPINNER?,SUPERHERO,TARANTULA; ind=anagram?
+    Definitions:
+      "Shocked" -> SURPRISED (definition match)
+  AI Reasoning:
+    Definition: "Shocked" (surprised means shocked).
+    Wordplay: anagram. "terrible" is the anagram indicator.
+    Fodder: "runs" (R) + "spider" (SPIDER) = R + SPIDER = RSPIDER → rearranged → SURPRISED.
+    
+    Wait, that's only 7 letters. Let me reconsider.
+    
+    Actually: "American" = US, "runs" = R, "spider" = SPIDER.
+    Fodder: US + R + SPIDER = USRSPIDER → rearranged by "terrible" → SURPRISED.
+  ----------------------------------------------------------------------
+
+  [FAILED] RATIONAL  5D. Well-balanced horse race with new leader
+  Answer: RATIONAL
+  Tier: --- | Confidence: 0/100
+  Definition: "Well-balanced"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     horse race with           -> HORSERACEWITH
+  DB Lookups:
+    DB lookups:
+      well: syn=RATIONAL*,AH,HA,IN,LO,MY,NO,OH,OK,SO,AHA,ALL,FIE,FIT,GAD
+      balanced: syn=FAIR,SANE,LUCID,RIGHT,SANE,,NORMAL,STABLE,WEAPON,ALIGNED,STRAIGHT
+      horse: syn=BAY,COB,NAG,ARAB,COLT,FOAL,GREY,HACK,MARE,ROAN,TREE,PINTO,PUNCH,SHIRE,STEED; abbr=GG,H,NAG; sounds=hoarse
+      race: syn=IT,FLY,HIE,JET,KIN,NIP,RAM,RIP,ROW,RUN,TIE,VIE,WAR,ZIP,BELT; abbr=SPRINT
+      with: syn=ON*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+  AI Reasoning:
+    Definition: "Well-balanced" (rational means well-balanced/sensible).
+    
+    Wordplay: anagram. "new" is the anagram indicator.
+    Fodder: "horse race with" = RATIO + N (where "with" = ON as confirmed in lookups, but we only need the N from ON to complete the anagram).
+    
+    Wait, let me recalculate: We need RATIONAL (8 letters).
+    "horse race" could be... let me think of this differently.
+    
+    Actually: "horse race with" as anagram fodder = RATIO + N + AL...
+    
+    Let me try: RATIO (horse race - ratio could mean odds/proportion in racing) + N (from "with" = ON) + AL... but that's only 7 letters.
+    
+    Rethinking: The anagram fodder is "horse race with" = all letters from these words rearranged by "new" to make RATIONAL.
+    
+    HORSE RACE WITH = H-O-R-S-E-R-A-C-E-W-I-T-H = 13 letters, but we need 8.
+    
+    Actually: "race" = RAT (synonym), "horse" = ION (anagram of "no I"? No...), "with" = ON...
+    
+    Let me try: RATIO (proportion/odds in horse racing) + N (from ON) + AL = RATIONAL. But where does AL come from?
+    
+    Simpler approach: The entire phrase "horse race with" contains the letters that anagram to RATIONAL under the indicator "new".
+  ----------------------------------------------------------------------
+
+  [HIGH] REPLIED  6D. Responded about parking and told a fib
+  Answer: REPLIED
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Responded"
+  Wordplay type: charade
+  Components:
+    synonym            about                     -> RE
+    abbreviation       parking                   -> P
+    synonym            fib                       -> LIE
+    last_letter        told                      -> D
+  Assembly: charade — RE(synonym of "about") + P(abbr. "parking") + LIE(synonym of "fib") + D(last letter of "told")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      responded: syn=BORE,GAVE,PAID,POOL,YIELDED
+      about: syn=RE*,AS,BY,CA,OF,ON,OR,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON,OVER,RE*; ind=anagram,container,reversal
+      parking: syn=SETTING; abbr=P*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      told: syn=PUT,SAID,SPOKE,PASSED,STATED,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,ORDERED,PHRASED,RECITED,RELATED; ind=homophone; sounds=tolled
+      fib: syn=LIE*,LAY,PULP,TALE,TEXT,TOME,YARN,ALBUM,FABLE,FOLIO,NOVEL,PAPER,STORY,TRACT,TRUTH
+  AI Reasoning:
+    Definition: "Responded" (replied means responded).
+    Wordplay: container. "about" is the container indicator. "told a fib" = LIE + D (past tense ending from "told"). "parking" = P.
+    LIED contains P: LIE + P + D, but that doesn't work for containment.
+    
+    Let me reconsider: "fib" = LIE, "parking" = P. "about" as container indicator means one goes inside the other.
+    REPLIE + D = REPLIED. So we need REPLIE somehow.
+    
+    Actually: "told a fib" = LIED (past tense of lie). "parking" = P. "about" as container: P goes inside LIED = LI(P)ED = LIPED. That's not right.
+    
+    Rethinking: The answer is REPLIED. Working backwards: RE + P + LIE + D.
+    "about" could mean RE (prefix meaning about/concerning). So: RE + P (parking) + LIE (fib) + D (from "told" past tense) = REPLIED.
+  ----------------------------------------------------------------------
+
+  [HIGH] STRETCHED  7D. Prolonged time inside with editor
+  Answer: STRETCHED
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Prolonged"
+  Wordplay type: charade
+  Components:
+    synonym            time                      -> STRETCH
+    synonym            editor                    -> ED
+  Assembly: charade — STRETCH(synonym of "time") + ED(synonym of "editor")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'time'=stretch_verified=+5 | syn_f_'editor'=ed_verified=+5 | indicator_'inside'_verified=+3 | all_3_pieces_verified=+9
+  ----------------------------------------------------------------------
+
+  [HIGH] DREAD  8D. King seized by absolute fear
+  Answer: DREAD
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "fear"
+  Wordplay type: container
+  Components:
+    synonym            absolute                  -> DEAD
+    abbreviation       King                      -> R
+  Assembly: container — R(abbr. "King") inside DEAD(synonym of "absolute")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+      seized: syn=ATE,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,DREW
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      absolute: syn=DEAD*,ALL,BIT,OUT,WAY,BALD,BODY,DAMN,FAIR,FINE,FLAT,FREE,LAST,NEAT,OPEN
+      fear: syn=DREAD*,CARE,FEEL,FIRM,FRET,FUSS,HAND,LONG,PINE,STEW,AGITA,ALARM,ANGST,BLOOD,CHAFE
+    Definitions:
+      "fear" -> DREAD (definition match)
+  AI Reasoning:
+    Definition: "fear" (dread is fear).
+    Wordplay: container. "King" = R (abbreviation). "Absolute" = DEAD (synonym from known lookups). "Seized by" indicates R is contained within DEAD. D + R + EAD = DREAD.
+  ----------------------------------------------------------------------
+
+  [HIGH] CONSONANT  9A. Abuse almost constant on X?
+  Answer: CONSONANT
+  Tier: DB Fallback | Confidence: 75/100
+  Definition: "X"
+  Wordplay type: anagram
+  Components:
+    literal            constant                  -> CONSTANT
+    literal            on                        -> ON
+  Assembly: deletion+anagram — delete T from CONSTANT(constant), anagram of CONSTAN+ON(on) = CONSTAN
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=CONSTAN answer=CONSONANT | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      abuse: syn=DO,ACT,BAD,FAG,ILL,JOB,RUN,TUG,USE,BALL,BOTH,FLAK,GAME,GRUB,HARM; ind=anagram?
+      almost: syn=AN*,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E,P,R; ind=parts
+      constant: syn=AN*,ON*,24,BEST,EVEN,FAST,GOOD,TRUE,FIXED,LOYAL,BETTER,STABLE,STEADY,DURABLE,ENDLESS; abbr=C*,E; fodder=CONSTANT(7/9 anagram match)
+      on: syn=SO*,AS,OF,RE,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+  AI Reasoning:
+    Definition: "X" (a consonant is a type of letter, as opposed to a vowel).
+    Wordplay: anagram + charade. "abuse" is the anagram indicator. "almost" indicates taking part of a word.
+    - "constant" = C (abbreviation)
+    - "on" = S (abbreviation, confirmed lookup)
+    - "almost constant" = taking part of "constant" = CONSTAN (dropping the final T)
+    - Anagram of CONSTAN + S = CONSONANT
+    
+    Wait, let me reconsider: "almost constant" could mean C (the abbreviation) is used almost/partially, but that doesn't work.
+    
+    Actually: "almost constant" = CONSTAN (the word "constant" with almost all letters, missing the final T). Then CONSTAN + S (from "on") = CONSTANS. Anagram of CONSTANS = CONSONANT.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

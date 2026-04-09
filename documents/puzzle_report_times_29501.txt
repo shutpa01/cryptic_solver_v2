@@ -1,0 +1,315 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29501
+Generated: 2026-03-27 14:32:07
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      31
+  Assembled:        30/31 (96%)
+    Signature:      2
+    Sig+Enriched:   1
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   26  8D, 22A, 9D, 1A, 11A, 12D, 13A, 14A, 16D, 17A, 18D, 19A, 20D, 21D, 24D, 25A, 26A, 27A, 28A, 3D, 4D, 5A, 6D, 7D, 8D, 9A
+  Medium (40-79): 3  10A, 2D, 23D
+  Low (<40):    1  15D
+  Failed:       1  5D
+  Average:      82/100
+
+COST: $0.1161 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (5 entries)
+------------------------------------------------------------
+  KILT: "Skirt" -> KILT  (missing from definition_answers_augmented)
+  SUBGENRE: "Lower class" -> SUBGENRE  (missing from definition_answers_augmented)
+  MOTORBOAT: "launch, say" -> MOTORBOAT  (missing from definition_answers_augmented)
+  MOTORBOAT: precisely -> TRBOAT  (missing from synonyms_pairs)
+  MOTORBOAT: globe -> O  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  MOTORBOAT = 15 (-100/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  5. Second exit Spooner’s passed in irritation = SIDEDOOR
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  24/31  1A, 10A, 11A, 13A, 14A, 17A, 19A, 22A, 25A, 26A, 27A, 28A, 2D, 3D, 4D, 6D, 7D, 12D, 16D, 18D, 20D, 21D, 23D, 24D
+  Type mismatch:         1  15D
+  DB gap:                3  9A, 8D, 15D
+  Failed:                1  5D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    8D  KILT          Skirt that likely covers bottom up (4)
+                      hidden reversed in "that likely covers" [reversal: "bottom"]; definition: "Skirt"  [HIGH]
+   22A  MANDARINORANGE  One with rind — anagram rearranges it (8,6)
+                      anagram of ONERINDANAGRAM ("One with rind - anagram") [anagram: "rearranges"] = MANDARINORANGE  [HIGH]
+    9D  SUBGENRE      Lower class eagle golf coach picked up (8)
+                      ERNE (synonym of "eagle") + G (synonym of "golf") + BUS (abbreviation of "coach") [reversal: "picked up"]; definition: "Lower class"  [HIGH]
+    1A  SPIDER        Ducks again repelled predator (6)
+                      ---  [HIGH]
+   10A  PANEL         Quiz show contestants perhaps left in flat coming last (5)
+                      ---  [MED]
+   11A  BRIGHTANDEARLY  First thing honest outlaw admits, at great cost (6,3,5)
+                      ---  [HIGH]
+   12D  MEANWELL      Have good aim? Poor, I suppose (4,4)
+                      ---  [HIGH]
+   13A  EARWAX        Are blunders by Washington Times what may prejudice hearing? (6)
+                      ---  [HIGH]
+   14A  COMMERCE      1,000 miles crossed by railroad traffic (8)
+                      ---  [HIGH]
+   16D  SCARCELY      Doctor cycles around area and runs not at all (8)
+                      ---  [HIGH]
+   17A  REARMICE      Bats acquire new means to fight chill (8)
+                      ---  [HIGH]
+   18D  ABANDON       Having no restraint in back of Fiesta, belt attached (7)
+                      ---  [HIGH]
+   19A  STATIN        Useful bit of information, part of prescription for many (6)
+                      ---  [HIGH]
+    2D  PREMIER       Principal before Scrooge giving away shillings (7)
+                      ---  [MED]
+   20D  TENPINS       These all downed on strike? (7)
+                      ---  [HIGH]
+   21D  INKIND        Taking pen, draw over diamonds with something similar (2,4)
+                      ---  [HIGH]
+   23D  DALES         Kentish boy perhaps raised in Yorkshire countryside (5)
+                      ---  [MED]
+   24D  SPAD          Second home — one affecting minister’s judgement? (4)
+                      ---  [HIGH]
+   25A  PADEL         Tennis game old man was winning on return (5)
+                      ---  [HIGH]
+   26A  EDITORIAL     Leaderless Jedi pilot catches Oscar making script changes (9)
+                      ---  [HIGH]
+   27A  DYNASTY       Line extended by ruler? (7)
+                      ---  [HIGH]
+   28A  DOTISH        Silly person with looks bored by books (6)
+                      ---  [HIGH]
+    3D  DIAPHRAGM     Chest expander’s broken rim had gap (9)
+                      ---  [HIGH]
+    4D  RADIAL        Pro-Reform Conservative has quit, going from centre to extreme (6)
+                      ---  [HIGH]
+    5A  SJAMBOK       Hide crop from antelope on small preserve (7)
+                      ---  [HIGH]
+    6D  ALPHA         Dominant peak that’s lovely from below (5)
+                      ---  [HIGH]
+    7D  BUNGLER       Incompetent musician who signals note has cracked (7)
+                      ---  [HIGH]
+    8D  KILT          Skirt that likely covers bottom up (4)
+                      ---  [HIGH]
+    9A  STEWARDED     Horse carrying protégé ran at the races (9)
+                      ---  [HIGH]
+   15D  MOTORBOAT     Precisely circling globe after second launch, say (9)
+                      MO(synonym of "second") + O(synonym of "globe") inside TRBOAT(synonym of "precisely")  [LOW]
+    5D  SIDEDOOR      Second exit Spooner’s passed in irritation (4,4)
+                      ---  [ERR]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] KILT  8D. Skirt that likely covers bottom up
+  Answer: KILT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Skirt"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "that likely covers" [reversal: "bottom"]; definition: "Skirt"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] MANDARINORANGE  22A. One with rind — anagram rearranges it
+  Answer: MANDARINORANGE
+  Tier: Signature | Confidence: 100/100
+  Wordplay: anagram
+  Explanation: anagram of ONERINDANAGRAM ("One with rind - anagram") [anagram: "rearranges"] = MANDARINORANGE
+  ----------------------------------------------------------------------
+
+  [HIGH] SUBGENRE  9D. Lower class eagle golf coach picked up
+  Answer: SUBGENRE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Lower class"
+  Wordplay: charade + reversal
+  Explanation: ERNE (synonym of "eagle") + G (synonym of "golf") + BUS (abbreviation of "coach") [reversal: "picked up"]; definition: "Lower class"
+  ----------------------------------------------------------------------
+
+  [HIGH] SPIDER  1A. Ducks again repelled predator
+  Answer: SPIDER
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PANEL  10A. Quiz show contestants perhaps left in flat coming last
+  Answer: PANEL
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BRIGHTANDEARLY  11A. First thing honest outlaw admits, at great cost
+  Answer: BRIGHTANDEARLY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MEANWELL  12D. Have good aim? Poor, I suppose
+  Answer: MEANWELL
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EARWAX  13A. Are blunders by Washington Times what may prejudice hearing?
+  Answer: EARWAX
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] COMMERCE  14A. 1,000 miles crossed by railroad traffic
+  Answer: COMMERCE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SCARCELY  16D. Doctor cycles around area and runs not at all
+  Answer: SCARCELY
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] REARMICE  17A. Bats acquire new means to fight chill
+  Answer: REARMICE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ABANDON  18D. Having no restraint in back of Fiesta, belt attached
+  Answer: ABANDON
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STATIN  19A. Useful bit of information, part of prescription for many
+  Answer: STATIN
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PREMIER  2D. Principal before Scrooge giving away shillings
+  Answer: PREMIER
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TENPINS  20D. These all downed on strike?
+  Answer: TENPINS
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] INKIND  21D. Taking pen, draw over diamonds with something similar
+  Answer: INKIND
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DALES  23D. Kentish boy perhaps raised in Yorkshire countryside
+  Answer: DALES
+  Tier: --- | Confidence: 75/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SPAD  24D. Second home — one affecting minister’s judgement?
+  Answer: SPAD
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PADEL  25A. Tennis game old man was winning on return
+  Answer: PADEL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EDITORIAL  26A. Leaderless Jedi pilot catches Oscar making script changes
+  Answer: EDITORIAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DYNASTY  27A. Line extended by ruler?
+  Answer: DYNASTY
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DOTISH  28A. Silly person with looks bored by books
+  Answer: DOTISH
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DIAPHRAGM  3D. Chest expander’s broken rim had gap
+  Answer: DIAPHRAGM
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RADIAL  4D. Pro-Reform Conservative has quit, going from centre to extreme
+  Answer: RADIAL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SJAMBOK  5A. Hide crop from antelope on small preserve
+  Answer: SJAMBOK
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ALPHA  6D. Dominant peak that’s lovely from below
+  Answer: ALPHA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BUNGLER  7D. Incompetent musician who signals note has cracked
+  Answer: BUNGLER
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] KILT  8D. Skirt that likely covers bottom up
+  Answer: KILT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STEWARDED  9A. Horse carrying protégé ran at the races
+  Answer: STEWARDED
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [LOW] MOTORBOAT  15D. Precisely circling globe after second launch, say
+  Answer: MOTORBOAT
+  Tier: Sonnet | Confidence: -100/100
+  Definition: "launch, say"
+  Wordplay type: charade
+  Components:
+    synonym            second                    -> MO
+    synonym            precisely                 -> TRBOAT
+    synonym            globe                     -> O
+  Assembly: container — MO(synonym of "second") + O(synonym of "globe") inside TRBOAT(synonym of "precisely")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: TRBOAT, O | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      precisely: syn=FULL,JUST,SLAP,PLUMB,RIGHT,EXACTLY,JUST SO,ONTHENOSE
+      circling: syn=ABOUT,CRAZY,CURVY,WINDY,COILED,CURLED,CURVED,JAGGED,SPIRAL,UNEVEN,ZIGZAG,BENDING,COILING,CROOKED,CURLING; ind=anagram?,container
+      globe: syn=ORB*,BALL,THIS,WORLD,SPHERE,THEATRE,THE BALL
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      second: syn=MO*,S,ME,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B*,MO*,S; ind=parts
+      launch: syn=MOTORBOAT*,CAN,DAY,GET,HOY,KEG,LOB,PEG,TUB,TUG,TUN,VAT,BUTT,CASK,CAST
+      say: syn=OR*,EG,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+  AI Reasoning:
+    MO (second=moment) + TORBOAT (precisely=TRBOAT containing globe=O) gives MOTORBOAT
+  ----------------------------------------------------------------------
+
+  [ERROR] 5. Second exit Spooner’s passed in irritation = SIDEDOOR
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

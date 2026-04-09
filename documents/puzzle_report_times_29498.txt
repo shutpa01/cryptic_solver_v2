@@ -1,0 +1,317 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29498
+Generated: 2026-03-24 07:23:36
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        30/30 (100%)
+    Signature:      6
+    Sig+Enriched:   1
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   28  1A, 16A, 17D, 2D, 20A, 7D, 1D, 10A, 11A, 12A, 13D, 14A, 15D, 19D, 20D, 22D, 23D, 24D, 25A, 26A, 28A, 3D, 4A, 5D, 6D, 8D, 9D, 21A
+  Medium (40-79): 2  18A, 27A
+  Low (<40):    0  
+  Failed:       0  
+  Average:      93/100
+
+COST: $0.0649 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (6 entries)
+------------------------------------------------------------
+  ASSUME: "Appropriate" -> ASSUME  (missing from definition_answers_augmented)
+  WHELP: "Give birth" -> WHELP  (missing from definition_answers_augmented)
+  OBJECTIVE: "Fair" -> OBJECTIVE  (missing from definition_answers_augmented)
+  REPRESENTATION: "sketch, perhaps" -> REPRESENTATION  (missing from definition_answers_augmented)
+  EGGPLANT: "great vegetable" -> EGGPLANT  (missing from definition_answers_augmented)
+  REPRESENTATION: second -> RE  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  23/30  4A, 10A, 11A, 12A, 14A, 16A, 18A, 25A, 26A, 28A, 2D, 3D, 5D, 6D, 8D, 9D, 13D, 15D, 17D, 19D, 22D, 23D, 24D
+  DB gap:                5  21A, 27A, 1D, 7D, 20D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  ASSUME        Appropriate how birds returned (6)
+                      AS (synonym of "how") + EMUS (synonym of "birds") [reversal: "returned"]; definition: "Appropriate"  [HIGH]
+   16A  TIEDYEING     Dingy tee I transformed with this? (3-6)
+                      anagram of DINGYTEEI ("Dingy tee I") [anagram: "transformed"] = TIEDYEING  [HIGH]
+   17D  EMMENTAL      Cooked mean melt with this? (8)
+                      anagram of MEANMELT ("mean melt") [anagram: "Cooked"] = EMMENTAL  [HIGH]
+    2D  SPROG         Tiny excerpt from Pilgrim’s Progress (5)
+                      hidden in "Tiny excerpt from Pilgrim's Progress"  [HIGH]
+   20A  WHELP         Give birth with assistance (5)
+                      W (synonym of "with") + HELP (synonym of "assistance"); definition: "Give birth"  [HIGH]
+    7D  OBJECTIVE     Fair goal (9)
+                      OBJECTIVE (synonym of "goal"); definition: "Fair"  [HIGH]
+    1D  AUTODIDACT    Learner without instruction went to work under car (10)
+                      ---  [HIGH]
+   10A  TARANTULA     Creature natural at jumping (9)
+                      ---  [HIGH]
+   11A  DIJON         City lover from Scotland surrounded by noise (5)
+                      ---  [HIGH]
+   12A  DIGESTIVETRACT  Food processor gives diet out by leaflet (9,5)
+                      ---  [HIGH]
+   13D  AGAPANTHUS    Plant cookware in stove so (10)
+                      ---  [HIGH]
+   14A  DELFT         Pottery line coming in handy (5)
+                      ---  [HIGH]
+   15D  LETTERING     Latvian band including English characters (9)
+                      ---  [HIGH]
+   18A  CATACLYSM     Debacle minutes after agent for change nearly admits Conservative (9)
+                      ---  [MED]
+   19D  CARAMEL       Artist dressed in light brown or dark brown (7)
+                      ---  [HIGH]
+   20D  WEATHER       Erode article, erode all round (7)
+                      ---  [HIGH]
+   22D  SEDAN         American transporter used van failing to start (5)
+                      ---  [HIGH]
+   23D  IMINE         Organic compound one is digging up? (5)
+                      ---  [HIGH]
+   24D  ZONE          Pizza shunned by California region (4)
+                      ---  [HIGH]
+   25A  ODIUM         Hatred banning leader from platform (5)
+                      ---  [HIGH]
+   26A  DEATHWISH     Desire to cease cooking wheat in chef’s creation (5,4)
+                      ---  [HIGH]
+   28A  BREEKS        Garment belonging to Glaswegian bachelor smells (6)
+                      ---  [HIGH]
+    3D  MINDSET       Disapproves of alien attitude (7)
+                      ---  [HIGH]
+    4A  JEROBOAM      What’s Oscar carried back in preserve bottle? (8)
+                      ---  [HIGH]
+    5D  ERASE         Eliminate onset of Americanisation in language (5)
+                      ---  [HIGH]
+    6D  ORDERLY       Controlled German article seized by French airport (7)
+                      ---  [HIGH]
+    8D  MANX          Times piece introduces language of island race (4)
+                      ---  [HIGH]
+    9D  QUAINTLY      Internal lake splits dock in an odd way (8)
+                      ---  [HIGH]
+   21A  REPRESENTATION  The giving of second award for sketch, perhaps (14)
+                      RE (abbreviation of "second") + PRESENTATION (synonym of "award"); definition: "sketch, perhaps"  [HIGH]
+   27A  EGGPLANT      Intend to stuff, say, great vegetable (8)
+                      EGG(sounds like "say") + PLAN(synonym of "Intend") + T("to")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ASSUME  1A. Appropriate how birds returned
+  Answer: ASSUME
+  Tier: Signature | Confidence: 100/100
+  Definition: "Appropriate"
+  Wordplay: charade + reversal
+  Explanation: AS (synonym of "how") + EMUS (synonym of "birds") [reversal: "returned"]; definition: "Appropriate"
+  ----------------------------------------------------------------------
+
+  [HIGH] TIEDYEING  16A. Dingy tee I transformed with this?
+  Answer: TIEDYEING
+  Tier: Signature | Confidence: 95/100
+  Wordplay: anagram
+  Explanation: anagram of DINGYTEEI ("Dingy tee I") [anagram: "transformed"] = TIEDYEING
+  Checks: unverified_link_'this?'=-5
+  ----------------------------------------------------------------------
+
+  [HIGH] EMMENTAL  17D. Cooked mean melt with this?
+  Answer: EMMENTAL
+  Tier: Signature | Confidence: 95/100
+  Wordplay: anagram
+  Explanation: anagram of MEANMELT ("mean melt") [anagram: "Cooked"] = EMMENTAL
+  Checks: unverified_link_'this?'=-5
+  ----------------------------------------------------------------------
+
+  [HIGH] SPROG  2D. Tiny excerpt from Pilgrim’s Progress
+  Answer: SPROG
+  Tier: Signature | Confidence: 80/100
+  Wordplay: hidden
+  Explanation: hidden in "Tiny excerpt from Pilgrim's Progress"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] WHELP  20A. Give birth with assistance
+  Answer: WHELP
+  Tier: Signature | Confidence: 100/100
+  Definition: "Give birth"
+  Wordplay: charade
+  Explanation: W (synonym of "with") + HELP (synonym of "assistance"); definition: "Give birth"
+  ----------------------------------------------------------------------
+
+  [HIGH] OBJECTIVE  7D. Fair goal
+  Answer: OBJECTIVE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Fair"
+  Wordplay: charade
+  Explanation: OBJECTIVE (synonym of "goal"); definition: "Fair"
+  ----------------------------------------------------------------------
+
+  [HIGH] AUTODIDACT  1D. Learner without instruction went to work under car
+  Answer: AUTODIDACT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TARANTULA  10A. Creature natural at jumping
+  Answer: TARANTULA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DIJON  11A. City lover from Scotland surrounded by noise
+  Answer: DIJON
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DIGESTIVETRACT  12A. Food processor gives diet out by leaflet
+  Answer: DIGESTIVETRACT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AGAPANTHUS  13D. Plant cookware in stove so
+  Answer: AGAPANTHUS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DELFT  14A. Pottery line coming in handy
+  Answer: DELFT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LETTERING  15D. Latvian band including English characters
+  Answer: LETTERING
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CATACLYSM  18A. Debacle minutes after agent for change nearly admits Conservative
+  Answer: CATACLYSM
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CARAMEL  19D. Artist dressed in light brown or dark brown
+  Answer: CARAMEL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] WEATHER  20D. Erode article, erode all round
+  Answer: WEATHER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SEDAN  22D. American transporter used van failing to start
+  Answer: SEDAN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] IMINE  23D. Organic compound one is digging up?
+  Answer: IMINE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ZONE  24D. Pizza shunned by California region
+  Answer: ZONE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ODIUM  25A. Hatred banning leader from platform
+  Answer: ODIUM
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DEATHWISH  26A. Desire to cease cooking wheat in chef’s creation
+  Answer: DEATHWISH
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BREEKS  28A. Garment belonging to Glaswegian bachelor smells
+  Answer: BREEKS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MINDSET  3D. Disapproves of alien attitude
+  Answer: MINDSET
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] JEROBOAM  4A. What’s Oscar carried back in preserve bottle?
+  Answer: JEROBOAM
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ERASE  5D. Eliminate onset of Americanisation in language
+  Answer: ERASE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ORDERLY  6D. Controlled German article seized by French airport
+  Answer: ORDERLY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MANX  8D. Times piece introduces language of island race
+  Answer: MANX
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] QUAINTLY  9D. Internal lake splits dock in an odd way
+  Answer: QUAINTLY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] REPRESENTATION  21A. The giving of second award for sketch, perhaps
+  Answer: REPRESENTATION
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "sketch, perhaps"
+  Wordplay: charade
+  Explanation: RE (abbreviation of "second") + PRESENTATION (synonym of "award"); definition: "sketch, perhaps"
+  ----------------------------------------------------------------------
+
+  [HIGH] EGGPLANT  27A. Intend to stuff, say, great vegetable
+  Answer: EGGPLANT
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "great vegetable"
+  Wordplay type: charade
+  Components:
+    sound_of           say                       -> EGG
+    synonym            Intend                    -> PLAN
+    literal            to                        -> T
+  Assembly: charade — EGG(sounds like "say") + PLAN(synonym of "Intend") + T("to")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      intend: syn=PLAN*,GO,AIM,EYE,AIMS,HOPE,LOOK,MEAN,TOWN,TURN,AIMED,ALLOW,GREAT,WEIGH,ASPIRE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      stuff: syn=DAM,JAM,JOB,KIT,LOT,PIP,RAM,RIG,BRIM,BUNG,CAKE,CLOG,CLOT,CRAM,DUDS; abbr=RAM
+      say: syn=EG*,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG*; ind=anagram,homophone
+      great: syn=PLAN*,A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET; abbr=G*,GR; sounds=grate
+      vegetable: syn=EGGPLANT*,PEA,BEAN,BEET,FOOD,KALE,LEEK,NEEP,OKRA,SPUD,CHARD,ONION,CELERY,MARROW,POTATO
+      to stuff: syn=TIE,ASCOT,STOCK,CRAVAT,NECKTIE,MENSWEAR,NECKWEAR
+    Definitions:
+      "vegetable" -> EGGPLANT (definition match)
+  AI Reasoning:
+    EGG (from 'say' = E.G. sounding like 'egg') + PLANT (from 'Intend' = PLAN with T stuffed in from 'to')
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

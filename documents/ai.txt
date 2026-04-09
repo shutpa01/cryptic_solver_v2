@@ -1,0 +1,59 @@
+10/28 assembled, 18 errors. The streaming is likely causing API errors on some clues. Let me check what the errors are:                                                                                                                                       
+● Read 1 file (ctrl+o to expand)                                                                                                
+                                                               
+● Connection errors — the 10,000 token thinking budget is too high, causing timeouts. The clues that DID succeed have excellent 
+  explanations and 8/10 scored HIGH. I need to reduce the thinking budget and add retry logic:
+                                                                                                                                
+● Update(sonnet_pipeline\solver.py)                                                                                               ⎿  Added 17 lines, removed 9 lines
+      888                                                                                                                             889      messages = example_messages + [{"role": "user", "content": user_msg}]
+      890                                                                                                                       
+      891 -    with client.messages.stream(                                                                              
+      892 -        model=model,                                                                                          
+      893 -        max_tokens=16000,                                                                                            
+      894 -        temperature=1,  # required by extended thinking                                                              
+      895 -        thinking={"type": "enabled", "budget_tokens": 10000},                                                        
+      896 -        system=REASONING_PROMPT,                                                                                     
+      897 -        messages=messages,                                                                                           
+      898 -    ) as stream:                                                                                                     
+      899 -        response = stream.get_final_message()                                                                        
+      891 +    for attempt in range(3):                                                                                         
+      892 +        try:                                                                                                         
+      893 +            with client.messages.stream(                                                                             
+      894 +                model=model,                                                                                         
+      895 +                max_tokens=4000,                                                                                     
+      896 +                temperature=1,  # required by extended thinking                                                      
+      897 +                thinking={"type": "enabled", "budget_tokens": 2000},                                                 
+      898 +                system=REASONING_PROMPT,                                                                             
+      899 +                messages=messages,                                                                                   
+      900 +            ) as stream:                                                                                             
+      901 +                response = stream.get_final_message()                                                                
+      902 +            break                                                                                                    
+      903 +        except Exception as e:                                                                                       
+      904 +            if attempt < 2:                                                                                          
+      905 +                time.sleep(2 * (attempt + 1))                                                                        
+      906 +                continue                                                                                             
+      907 +            raise                                                                                                    
+      908
+      909      # Extract only the text block (not the thinking block)
+      910      explanation = ""
+
+● Reduced thinking budget from 10,000 to 2,000 tokens (these are short clues, not complex maths), max_tokens from 16,000 to
+  4,000, and added retry with backoff. Let me re-run:
+                                                                                                                                ● Bash(python -c "
+      import sqlite3…)                                                                                                          
+  ⎿  Cleared                                                
+
+  Bash(echo "1" | python -m sonnet_pipeline.run 31180 --source telegraph --write-db --no-review 2>&1)
+  ⎿  1. Run Full Pipeline   (solve → DB additions → re-run → manual)
+       2. DB Additions only   (review/approve reference DB inserts)                                                             
+       3. Manual Explanations (enter definition/type/explanation)
+                                                                                                                                
+     Choose [1/2/3]:                                                                                                            
+     +6 lines (3m 41s · timeout 10m)                                                                                                 ctrl+b to run in background                                                                                                
+                                                                                                                                ✻ Orbiting… (19m 30s · ↓ 1.1k tokens)                       
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ▪▪▪ ─
+❯  
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ accept edits on (shift+tab to cycle) · esc to interrupt
+

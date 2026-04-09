@@ -1,0 +1,833 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29482
+Generated: 2026-03-05 06:37:54
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        24/30 (80%)
+    Sonnet:         23
+    DB Fallback:    1
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   8  1A, 18D, 19A, 2D, 25A, 27A, 7D, 8A
+  Medium (40-79): 8  10D, 11A, 13A, 17A, 21D, 22A, 4D, 5D
+  Low (<40):    8  1D, 12A, 23A, 23D, 26A, 3D, 6D, 9A
+  Failed:       6  14D, 15A, 16D, 20D, 24A, 5A
+  Average:      61/100
+
+COST: $0.1962 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (28 entries)
+------------------------------------------------------------
+  BERKOFF: "playwright" -> BERKOFF  (missing from definition_answers_augmented)
+  BRECONBEACONS: "national park" -> BRECONBEACONS  (missing from definition_answers_augmented)
+  SHADOWCABINET: "Selected MPs" -> SHADOWCABINET  (missing from definition_answers_augmented)
+  BATHCUBE: "Die" -> BATHCUBE  (missing from definition_answers_augmented)
+  CLEVELAND: "Old county" -> CLEVELAND  (missing from definition_answers_augmented)
+  STINKO: "Drunken" -> STINKO  (missing from definition_answers_augmented)
+  RYDERCUP: "sporting event" -> RYDERCUP  (missing from definition_answers_augmented)
+  PYTHONIC: "Snake-like" -> PYTHONIC  (missing from definition_answers_augmented)
+  NAUTILI: "molluscs" -> NAUTILI  (missing from definition_answers_augmented)
+  JANSKY: "Radio astronomer's source of celestial observations" -> JANSKY  (missing from definition_answers_augmented)
+  ONTHEGAME: "solicitor" -> ONTHEGAME  (missing from definition_answers_augmented)
+  BLURB: "promotional description" -> BLURB  (missing from definition_answers_augmented)
+  BRAZE: "One way to join" -> BRAZE  (missing from definition_answers_augmented)
+  SKODA: "Car" -> SKODA  (missing from definition_answers_augmented)
+  SECTARIAN: "Narrow-minded" -> SECTARIAN  (missing from definition_answers_augmented)
+  HEYDAY: "Bloom's" -> HEYDAY  (missing from definition_answers_augmented)
+  FANCLUBS: "admirers" -> FANCLUBS  (missing from definition_answers_augmented)
+  GASBAG: "chatterbox" -> GASBAG  (missing from definition_answers_augmented)
+  GHETTO: "lowly quarter" -> GHETTO  (missing from definition_answers_augmented)
+  SASQUATCH: "Hairy beast" -> SASQUATCH  (missing from definition_answers_augmented)
+  SKIPS: "captains" -> SKIPS  (missing from definition_answers_augmented)
+  SHADOWCABINET: case -> CABINET  (missing from synonyms_pairs)
+  BATHCUBE: hot water -> CUBE  (missing from synonyms_pairs)
+  RYDERCUP: great success -> CUP  (missing from synonyms_pairs)
+  JANSKY: early -> JAN  (missing from synonyms_pairs)
+  JANSKY: celestial -> SKY  (missing from synonyms_pairs)
+  FANCLUBS: suit -> CLUB  (missing from synonyms_pairs)
+  GASBAG: court order briefly -> BAG  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (9)
+------------------------------------------------------------
+  SHADOWCABINET = 10 (67/100): AI=container, assembled=charade
+  LITHUANIA = 12 (25/100): AI=container, assembled=anagram
+  BLURB = 23 (25/100): AI=hidden, assembled=charade
+  BRAZE = 23 (30/100): AI=reversal, assembled=anagram
+  HEYDAY = 26 (37/100): AI=container, assembled=deletion
+  OCTET = 3 (30/100): AI=hidden, assembled=charade
+  FANCLUBS = 4 (72/100): AI=anagram, assembled=charade
+  SASQUATCH = 6 (25/100): AI=hidden, assembled=charade
+  SKIPS = 9 (25/100): AI=hidden, assembled=charade
+
+ANAGRAM FALLBACKS — likely wrong mechanism (2)
+------------------------------------------------------------
+  LITHUANIA = 12 (25/100): AI suggested container, fell back to anagram
+  BRAZE = 23 (30/100): AI suggested reversal, fell back to anagram
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  BRECONBEACONS (25/100): B <- "been" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (5)
+------------------------------------------------------------
+  AVOCET = 17 (65/100): answer used in own explanation
+  BLURB = 23 (25/100): answer used in own explanation
+  OCTET = 3 (30/100): answer used in own explanation
+  SASQUATCH = 6 (25/100): answer used in own explanation
+  SKIPS = 9 (25/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (9)
+------------------------------------------------------------
+  BRECONBEACONS = 1 (25/100): no pieces verified in DB
+  LITHUANIA = 12 (25/100): no pieces verified in DB
+  BATHCUBE = 13 (55/100): no pieces verified in DB
+  JANSKY = 21 (45/100): no pieces verified in DB
+  BLURB = 23 (25/100): single piece equals full answer; no pieces verified in DB
+  BRAZE = 23 (30/100): no pieces verified in DB
+  OCTET = 3 (30/100): single piece equals full answer; no pieces verified in DB
+  SASQUATCH = 6 (25/100): single piece equals full answer; no pieces verified in DB
+  SKIPS = 9 (25/100): single piece equals full answer; no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (4)
+------------------------------------------------------------
+  JANSKY = 21 (45/100): def="Radio astronomer's source of celestial observations" (not in DB, odd position)
+  ONTHEGAME = 22 (75/100): def="solicitor" (not in DB, odd position)
+  HEYDAY = 26 (37/100): def="Bloom's" (not in DB, odd position)
+  GHETTO = 5 (75/100): def="lowly quarter" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  14. Old county Conservative getting even afterwards = CLEVELAND
+  15. Drunken idiots rolling over floor = STINKO
+  16. Jockey announced “great success” after losing round in sport = RYDERCUP
+  20. Report of bad general situation for molluscs = NAUTILI
+  24. Car manufacturer endorses backing Russian agreement = SKODA
+  5. Court order briefly introduced to silence chatterbox = GASBAG
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  6/30  8A, 11A, 27A, 2D, 7D, 18D
+  Type mismatch:         8  9A, 12A, 26A, 3D, 4D, 6D, 10D, 23D
+  Anagram fallback:      2  12A, 23D
+  Fabricated mapping:    1  1D
+  Circular assembly:     5  9A, 17A, 3D, 6D, 23D
+  Unverified explain.:   8  9A, 12A, 13A, 1D, 3D, 6D, 21D, 23D
+  Weak definition:       4  22A, 26A, 5D, 21D
+  DB gap:                18  9A, 13A, 15A, 19A, 22A, 24A, 25A, 26A, 1D, 4D, 5D, 6D, 10D, 14D, 16D, 20D, 21D, 23D
+  Failed:                6  15A, 24A, 5D, 14D, 16D, 20D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  BERKOFF       Fool cancelled radical playwright (7)
+                      BERK(Fool) + OFF(cancelled)  [HIGH]
+    1D  BRECONBEACONS  Raccoon’s been shot south of British national park (6,7)
+                      anagram of RACCOONS+BEEN+B  [LOW]
+   10D  SHADOWCABINET  Selected MPs secretly follow case surrounding TV (6,7)
+                      SHADOW(follow) + CABINET(case)  [MED]
+   11A  OVERT         Public secret initially suppressed (5)
+                      delete C from COVERT  [MED]
+   12A  LITHUANIA     First couple from Hungary trapped in rioting Italian republic (9)
+                      delete H from HU(First couple from Hungary), anagram of LITHANIA(rioting Italian)+U  [LOW]
+   13A  BATHCUBE      Die in hot water? (8)
+                      BATH(hot water) + CUBE(hot water)  [MED]
+   14D  CLEVELAND     Old county Conservative getting even afterwards (9)
+                      ---  [FAIL]
+   15A  STINKO        Drunken idiots rolling over floor (6)
+                      ---  [FAIL]
+   16D  RYDERCUP      Jockey announced “great success” after losing round in sporting event (5,3)
+                      ---  [FAIL]
+   17A  AVOCET        Flier takes part in viva voce tests (6)
+                      hidden in 'viva voce tests'  [MED]
+   18D  OUTCOME       Public company starts to manufacture excellent product (7)
+                      OUT(Public) + CO(company) + ME(starts to manufacture excellent)  [HIGH]
+   19A  PYTHONIC      Snake-like, unusually hypnotic (8)
+                      anagram of HYPNOTIC(hypnotic)  [HIGH]
+    2D  RAIMENT       Intend to wear ripped clothing (7)
+                      AIM(intend) inside RENT(ripped)  [HIGH]
+   20D  NAUTILI       Report of bad general situation for molluscs (7)
+                      ---  [FAIL]
+   21D  JANSKY        Radio astronomer’s source of celestial observations early in year? (6)
+                      JAN(early) + SKY(celestial)  [MED]
+   22A  ONTHEGAME     Goethe upset with man working as a solicitor? (2,3,4)
+                      anagram of GOETHE(Goethe)+MAN(man)  [MED]
+   23A  BLURB         Uncovered disparagements in, say, King’s promotional description (5)
+                      BLURB(disparagements in, say, King's)  [LOW]
+   23D  BRAZE         One way to join equid when cycling (5)
+                      anagram of ZEBRA(equid)  [LOW]
+   24A  SKODA         Car manufacturer endorses backing Russian agreement (5)
+                      ---  [FAIL]
+   25A  SECTARIAN     Narrow-minded Jack stops fighting in case (9)
+                      anagram of TAR(jack)+CASE(case)+IN(in)  [HIGH]
+   26A  HEYDAY        Bloom’s colour about to be hidden by grass (6)
+                      HEYD(colour about to be) + delete H from HAY(grass)  [LOW]
+   27A  PREDICT       Foretell old Brit will consume wine (7)
+                      RED(wine) inside PICT(old Brit)  [HIGH]
+    3D  OCTET         Group table depleted in a month (5)
+                      OCTET(table depleted in a month)  [LOW]
+    4D  FANCLUBS      At first, factoids and numbers suit organised admirers (3,5)
+                      F(first) + A(and) + N(numbers) + CLUB(suit) + S(organised)  [MED]
+    5A  GASBAG        Court order briefly introduced to silence chatterbox (6)
+                      ---  [FAIL]
+    5D  GHETTO        Male races in run for lowly quarter? (6)
+                      HETT inside GO(run)  [MED]
+    6D  SASQUATCH     Hairy beast crouching in small out-of-bounds dacha (9)
+                      SASQUATCH(small out-of-bounds dacha)  [LOW]
+    7D  AVIGNON       French city soon collects six grand (7)
+                      VI(six)+G(grand) inside ANON(soon)  [HIGH]
+    8A  EXISTENCE     Being sixteen, boisterous and extremely carefree (9)
+                      anagram of SIXTEEN(sixteen)+CE(extremely carefree)  [HIGH]
+    9A  SKIPS         Superficially deals with captains (5)
+                      SKIPS(Superficially deals)  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Fool cancelled radical playwright
+  Answer: BERKOFF
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "playwright"
+  Wordplay type: charade
+  Components:
+    synonym            Fool                      -> BERK
+    synonym            cancelled                 -> OFF
+  Assembly: charade — BERK(Fool) + OFF(cancelled)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fool: syn=BERK*,DO,ASS,BOD,BOG,BUG,BUM,DAM,EGG,EYE,FAN,GIT,KID,LAG,LOO; abbr=ASS,CLOT
+      cancelled: syn=OFF*,DELETED,TURNOFF
+      radical: syn=A1,OK,BIG,FAB,HOT,LSD,TOO,TOP,A-OK,AMYL,BLUE,BOSS,BRAG,COLD,COOL
+      playwright: syn=SHAW,IBSEN,ORTON,ONEILL,BECKETT,BENNETT,DELILLO,IONESCO,MARLOWE,MAUGHAM,MOLIERE,OSBORNE,PAINTER
+  ----------------------------------------------------------------------
+
+  [LOW] 1. Raccoon’s been shot south of British national park
+  Answer: BRECONBEACONS
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "national park"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Raccoon's been            -> RACCOONSBEN
+  Assembly: anagram — anagram of RACCOONS+BEEN+B
+  Gap fill: [('been', 'B', 'first_letter')]
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=FAIL: pieces=RACCOONSBENB answer=BRECONBEACONS | pieces_validated=0/1 (0%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s) | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      been: syn=BORN; sounds=bin
+      shot: syn=GO,IN,ALE,BID,DID,FLY,GIN,GUN,HIE,JAB,MUG,MUM,NIP,PEG,PIC; abbr=GO; ind=anagram
+      south: syn=DOWN,POINT; abbr=S*; ind=reversal
+      british: syn=BR*,UK,RACE,NATIONA; abbr=B*,BR*
+      national: syn=TAI,ARMY,FINN,HOST,SCOT,THAI,ARRAY,CIVIL,HOSTS,IRAQI,IRISH,OMANI,RANKS,SWEDE,TIMES; abbr=N*
+      park: syn=REC*,YARD,ACRES,WHOLE,GARDEN,GROUND,ACREAGE,DEMESNE,DEPOSIT,PREMISES,SERENGETI
+      national park: syn=BROADS,YOSEMITE,SNOWDONIA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 10. Selected MPs secretly follow case surrounding TV
+  Answer: SHADOWCABINET
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Selected MPs"
+  Wordplay type: container
+  Components:
+    synonym            case                      -> CABINET
+    synonym            follow                    -> SHADOW
+  Assembly: charade — SHADOW(follow) + CABINET(case)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      selected: syn=IN*,BIG,HOT,POP,DEAR,FOND,CHOSE,ELECT,FADDY,LARGE,LOVED,SWEET,VOGUE,CHOICE,CHOSEN
+      mps: syn=REDCAPS,BACKBENCHERS
+      secretly: syn=IN*,CAMERA,HUGGER,QUIETLY,INCAMERA,INWARDLY,BACKSTAGE,IN CAMERA,INCOGNITO,ONTHESIDE,PRIVATELY,IN PRIVATE,INTIMATELY,UNOBSERVED,IN CONFIDENCE
+      follow: syn=DO*,SHADOW*,GO,UP,BED,CUT,DOG,EYE,RUN,TAG,WAY,BOTH,CODA,EASY,HANG
+      case: syn=BIN*,SET*,BOX,FIT,GEL,LOG,NUT,POD,SEA,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      surrounding: syn=NEAR,NIGH,CLOSE,FLUSH,JOINED,LINKED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,JOINING,NEAREST,RIMMING,TANGENT; ind=container
+      tv: syn=SET*,BOX,HOME,TUBE,CROSS,TELLY,SCREEN,SITCOM,BOOB TUBE,BROADCAST,DRAGQUEEN,IDIOT BOX,TELEVISION,SMALLSCREEN,CROSSDRESSER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 11. Public secret initially suppressed
+  Answer: OVERT
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Public"
+  Wordplay type: deletion
+  Assembly: deletion — delete C from COVERT
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      public: syn=OVERT*,BE,DO,ACT,BAR,BET,DIG,FIT,FOR,GET,HAP,HIT,INN,KIN,LAG; abbr=OUT,P
+      secret: syn=DRY,KEY,TOP,WHY,COOL,DARK,DOOR,HOLE,OF A,OPEN,CODED,FRAIL,INNER,PRIVY,QUIET
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      suppressed: syn=TOP,MUTED
+    Definitions:
+      "Public" -> OVERT (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 12. First couple from Hungary trapped in rioting Italian republic
+  Answer: LITHUANIA
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "republic"
+  Wordplay type: container
+  Components:
+    anagram_fodder     rioting Italian           -> LITHANIA
+    first_letter       First couple from Hungary -> HU
+  Assembly: deletion+anagram — delete H from HU(First couple from Hungary), anagram of LITHANIA(rioting Italian)+U
+  WARNING: Anagram fallback — AI suggested container
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_mismatch=AI=container, assembled=anagram | anagram_fallback=AI suggested container, fell back to anagram | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      couple: syn=DUO,FEW,OWT,TIE,TWO,DUET,DYAD,FUSE,HOOK,ITEM,JOIN,LINK,MATE,NOWT,PAIR
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      hungary: syn=COUNTRY
+      trapped: syn=ATE,DUG,GOT,RAN,SAW,BACK,BEAT,CAME,GREW,ICED,KNEW,SLEW,TOOK,WENT,BEGOT; ind=container
+      in: syn=IT*,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      rioting: ind=anagram
+      italian: syn=IT*,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS,TORPEDO; abbr=I*,IT*; fodder=ITALIAN(7/9 anagram match)
+      republic: syn=LITHUANIA*,SAY,SEA,CITY,CUBA,HOME,RULE,TOGO,GREAT,HAITI,INDIA,NEPAL,NIGER,STATE,FRANCE
+    Definitions:
+      "republic" -> LITHUANIA (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 13. Die in hot water?
+  Answer: BATHCUBE
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "Die"
+  Wordplay type: charade
+  Components:
+    synonym            hot water                 -> BATH
+    synonym            hot water                 -> CUBE
+  Assembly: charade — BATH(hot water) + CUBE(hot water)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      die: syn=GO,IT,CAN,CUT,DIP,EBB,END,GET,LEG,LET,NEW,OUT,SET,AWAY,BOMB; abbr=D; sounds=dye
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      hot: syn=BE*,A1,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY,LIT; abbr=H*,IN
+      water: syn=BATH*,BATHE*,ALE,BOG,CAN,COT,CUT,GOO,GUM,HAY,KIP,LOO,PAD,PEE,SEA
+      hot water: syn=FIX,JAM,JET,BECK,BURN,FLOW,HEAD,HOLE,HOUR,LAST
+  ----------------------------------------------------------------------
+
+  [FAILED] 14. Old county Conservative getting even afterwards
+  Answer: CLEVELAND
+  Tier: --- | Confidence: 0/100
+  Definition: "Old county"
+  Wordplay type: charade
+  Components:
+    abbreviation       Conservative              -> C
+    literal            getting                   -> GETTING
+    synonym            even                      -> LEVEL
+    synonym            afterwards                -> AFTER
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      county: syn=BEDS,MAYO,BUCKS,ESSEX,HERTS,MEATH,NOTTS,SHIRE,SLIGO,ANTRIM,DORSET,REGION,STAFFS,SURREY,SUSSEX; abbr=C*,CO
+      conservative: syn=CON,DIE,KEY,LOW,OLD,BLUE,SAFE,TORY,CREEP,RIGHT,SCHOOL,DIEHARD,OLDFOGEY,ORTHODOX,RIGHTWING; abbr=C*,CON
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      even: syn=LAND*,LEVEL*,CLEAN*,GO,ME,OK,ALL,BAG,BUG,CAN,COP,DIE,DIG,END,FLY; ind=parts
+      afterwards: syn=NEXT,THEN,AFTER,LATER
+  ----------------------------------------------------------------------
+
+  [FAILED] 15. Drunken idiots rolling over floor
+  Answer: STINKO
+  Tier: --- | Confidence: 0/100
+  Definition: "Drunken"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     idiots                    -> IDIOTS
+    abbreviation       over                      -> O
+  DB Lookups:
+    DB lookups:
+      drunken: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram
+      idiots: syn=KNOW,NUTS,FOOLS,TOOLS,TWITS,CHUMPS,CLOWNS,DWEEBS,ASS,FOO,MUG,NIT,OAF,BERK,BOZO
+      rolling: syn=RICH,ROAD,WAVY,BUMPY,HARSH,LUMPY,NUBBY,ROUGH,RUTTY,BROKEN,BURRED,COARSE,JAGGED,KNOBBY,KNURLY; ind=anagram,reversal
+      over: syn=BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON,UP; ind=anagram,reversal
+      floor: syn=AT,ACT,BED,BUY,FIT,GET,AWAY,BALL,BASE,BEAR,CALL,COLD,CULL,DEAD,DECK; abbr=KO*; ind=parts
+  ----------------------------------------------------------------------
+
+  [FAILED] 16. Jockey announced “great success” after losing round in sporting event
+  Answer: RYDERCUP
+  Tier: --- | Confidence: 0/100
+  Definition: "sporting event"
+  Wordplay type: charade
+  Components:
+    synonym            Jockey                    -> RIDER
+    synonym            great success             -> CUP
+  DB Lookups:
+    DB lookups:
+      jockey: syn=VIE,RIDER,STEER,ATHLETE,PIGGOTT
+      announced: syn=OPEN,POST,RIFE,AIRED,BLARE,BLAZE,FLASH,SOUND,HERALD,POSTED,PUBLIC,SHARED,SPOKEN,STATED,CURRENT; ind=homophone
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      losing: syn=NIXING,BLOWING,DENYING,DUMPING,FALLING,JUNKING,PASSING,TOSSING,WASTING,CHUCKING,DITCHING,DROPPING,NEGATING,PITCHING,REFUSING; ind=deletion
+      round: syn=MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP,LIFE; abbr=O; ind=anagram,container,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      sporting: syn=FAIR,DOING,GOING,ACTING,LAYING,TAKING,TOYING,BETTING,HACKING,LARKING,PLAYING,PUTTING,ROMPING,STAKING,DALLYING; ind=anagram?,insertion
+      event: syn=DO,END,GET,HAP,POP,BANG,BASH,BLOW,BOOM,BOUT,CASE,CLAP,FETE,GAME,MEET; abbr=HAPPENING
+      sporting event: syn=MEET,RACE,EVENT,CONTEST,MEETING,REGATTA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 17. Flier takes part in viva voce tests
+  Answer: AVOCET
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Flier"
+  Wordplay type: hidden
+  Components:
+    hidden             viva voce                 -> AVOCET
+  Assembly: hidden — hidden in 'viva voce tests'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      flier: syn=OWL,TIT,DOVE,ERNE,IBIS,TEST,WREN,EGRET,GREBE,HERON,OUSEL,PLANE,RAVEN,RIDGE,ROBIN
+      takes: syn=DAY,HAS,BAGS,CANS,DAMS,DIES,EATS,ENDS,GETS,GOES,SEES,SITS,USES,BEATS,BESTS; abbr=T*; ind=container
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      viva: syn=TEST
+      tests: syn=TAX,TRY,EXAM,QUIZ,EXAMS,TRIAL,TRIES,CHECKS,FINALS,SAMPLE,STRAIN,TRIALS,OK,ACE,BIG; abbr=ORAL
+      viva voce: ind=homophone
+    Definitions:
+      "Flier" -> AVOCET (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Public company starts to manufacture excellent product
+  Answer: OUTCOME
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "product"
+  Wordplay type: charade
+  Components:
+    synonym            Public                    -> OUT
+    abbreviation       company                   -> CO
+    first_letter       starts to manufacture excellent -> ME
+  Assembly: charade — OUT(Public) + CO(company) + ME(starts to manufacture excellent)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      public: syn=OUT*,COME*,BE,DO,ACT,BAR,BET,DIG,FIT,FOR,GET,HAP,HIT,INN,KIN; abbr=OUT*,P
+      company: syn=CO*,BE,ARE,FAN,RUN,SEE,TEN,TWO,ARMY,BAND,CARE,CAST,CHUM,CREW,DATE; abbr=CO*
+      starts: syn=OUT*,UPS,LEAD,DAWNS,FORMS,JUMPS,LIFTS,OPENS,RISES,SOARS,ALARMS,ARISES,ASPECT,BEGINS,BREAKS; abbr=GO; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      manufacture: syn=DO,A A,USE,BOOK,FORM,LOVE,MAKE,MEET,MOST,MUCH,NICE,SCENE,THINK,COMMON,PUBLIC; ind=anagram?
+      excellent: syn=A1,AI,OK,ACE,BIG,DEF,FAB,HOT,LIT,THE,TOO,TOP,A-OK,BLUE,BOSS; abbr=AI,E*
+      product: syn=OUTCOME*,GET,FATE,SEED,WORK,CHILD,FRUIT,ISSUE,LABOR,SPAWN,THING,YIELD,AFFAIR,COURSE,EFFECT
+    Definitions:
+      "product" -> OUTCOME (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Snake-like, unusually hypnotic
+  Answer: PYTHONIC
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Snake-like"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     hypnotic                  -> HYPNOTIC
+  Assembly: anagram — anagram of HYPNOTIC(hypnotic)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      snake: syn=PYTHON*,ASP,BOA,CAD,CUR,DOG,GUN,HUM,RAT,SOD,SON,BOOR,BRIM,BUZZ,COIL
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      unusually: syn=EXTRA,ODDLY,SUDDENLY; ind=anagram
+      hypnotic: syn=SECURITY; fodder=HYPNOTIC(8/8 anagram match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. Intend to wear ripped clothing
+  Answer: RAIMENT
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "clothing"
+  Wordplay type: container
+  Components:
+    synonym            ripped                    -> RENT
+    synonym            intend                    -> AIM
+  Assembly: container — AIM(intend) inside RENT(ripped)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      intend: syn=AIM*,GO,EYE,AIMS,HOPE,LOOK,MEAN,PLAN,TOWN,TURN,AIMED,ALLOW,GREAT,WEIGH,ASPIRE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      wear: syn=RAIMENT*,DO,GO,OR,BUG,DON,EAT,FAG,GET,IRK,KIT,MAR,RIG,RUB,SAP; sounds=ware,where
+      ripped: syn=RENT*,DID,ITS,LIT,PIE,RAN,WET,BEAT,BLEW,CAST,FLEW,HIED,HIGH,MOVE,SHOT
+      clothing: syn=RAIMENT*,KIT,RIG,SAY,BELT,DUDS,GARB,GEAR,RAGS,TOGS,WEAR,APRON,DHOTI,DRESS,GEAR,; ind=container
+    Definitions:
+      "clothing" -> RAIMENT (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 20. Report of bad general situation for molluscs
+  Answer: NAUTILI
+  Tier: --- | Confidence: 0/100
+  Definition: "molluscs"
+  Wordplay type: homophone
+  Components:
+    sound_of           bad general situation     -> NAUGHTY LEE
+  DB Lookups:
+    DB lookups:
+      report: syn=A,AD,MY,NO,FEW,FLY,LOG,POP,PUT,REP,SAY,SET,BANG,BLOG,BOOM; ind=homophone
+      bad: syn=BUM,DIS,ILL,LOW,OFF,RUN,SAD,SIN,BLAH,BLUE,BUSH,DARK,DIRE,DOWN,EVIL; abbr=B,OFF; ind=anagram
+      general: syn=ALL,DOC,EMT,EYE,FAN,IKE,REP,BOSS,BUFF,CZAR,DIET,DOCS,EMTS,FANS,HAIG; abbr=G
+      situation: syn=FIX,JAM,JOB,USE,CASE,DEAL,DUTY,HAND,HEAD,HOLE,HOUR,LAST,PART,PASS,POST
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      molluscs: syn=NAUTILI*
+    Definitions:
+      "molluscs" -> NAUTILI (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 21. Radio astronomer’s source of celestial observations early in year?
+  Answer: JANSKY
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Radio astronomer's source of celestial observations"
+  Wordplay type: charade
+  Components:
+    synonym            early                     -> JAN
+    synonym            celestial                 -> SKY
+  Assembly: charade — JAN(early) + SKY(celestial)
+  Checks: definition=not in DB, odd position | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      radio: syn=SET,TUNER,WAVES,MEDIUM,TRANNY; ind=homophone
+      source: syn=BE,FONT,HEAD,ROOT,SEED,WELL,ERATO,ONSET,CRADLE,ENGINE,INSIDE,ORIGIN,SPRING; ind=acrostic,parts
+      celestial: syn=HOLY,STAR,GODLY,MORAL,PIOUS,CHASTE,COSMIC,DEVOUT
+      observations: syn=TEST,TRIAL,AT,MY,EYE,NOTE,WARD,DRIVE,EYRIE,OTHER,SHAPE,TRUST,NOTICE,TOWARD
+      early: syn=EARL,SOON,AHEAD,PRIMAL
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      year: syn=TIME,PERIOD; abbr=Y*,YR
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Goethe upset with man working as a solicitor?
+  Answer: ONTHEGAME
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "solicitor"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Goethe                    -> GOETHE
+    anagram_fodder     man                       -> MAN
+  Assembly: anagram — anagram of GOETHE(Goethe)+MAN(man)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      with: syn=ON*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W
+      man: syn=HE*,ED,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,JOE,KID,LAD,LUG; abbr=AL,DAN,ED,HE*,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      working: syn=ON*,LIVE,RISE,ALIVE,DOING,DRONE,GOING,PALMY,USING,USUAL,ACTIVE,LABOUR,LIVING,MAKING,USABLE; abbr=A*,ON*; ind=anagram
+      as: syn=ON*,LI,OF,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      solicitor: syn=PIMP,TOUT,STOUT,TRIAL,BEGGAR,LAWYER,TOURIST,ATTORNEY,CANVASSER
+      as a: syn=THEME,KEY,WHY,BEST,CARE,CASE,DIET,FACT,KNOT,MAIL
+  ----------------------------------------------------------------------
+
+  [LOW] 23. Uncovered disparagements in, say, King’s promotional description
+  Answer: BLURB
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "promotional description"
+  Wordplay type: hidden
+  Components:
+    hidden             disparagements in, say, King's -> BLURB
+  Assembly: charade — BLURB(disparagements in, say, King's)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      uncovered: syn=RAW,BALD,BARE,FREE,NUDE,OPEN,BARED,CLEAR,FRANK,NAKED,PLAIN; ind=hidden,parts
+      disparagements: syn=BAD,JOB,PUT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      promotional: syn=RISE
+      description: syn=BORN,KIND,LIKE,SORT,TYPE,A CAP,CLASS,ORDER
+  ----------------------------------------------------------------------
+
+  [LOW] 23. One way to join equid when cycling
+  Answer: BRAZE
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "One way to join"
+  Wordplay type: reversal
+  Components:
+    synonym            equid                     -> ZEBRA
+  Assembly: anagram — anagram of ZEBRA(equid)
+  WARNING: Anagram fallback — AI suggested reversal
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_mismatch=AI=reversal, assembled=anagram | anagram_fallback=AI suggested reversal, fell back to anagram | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      way: syn=BE,DO,GO,NO,RD,ST,AIR,ARC,BET,FIT,GET,HAP,HOW,LAG,LAY; abbr=RD,ST; ind=anagram; sounds=weigh,whey
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      join: syn=ADD,TIE,ABUT,ALLY,BASE,BLOC,FUSE,GLUE,HOOK,KNIT,LINK,SEAM,SIGN,TEAM,YOKE
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE; abbr=AS; ind=homophone
+      cycling: syn=RIDE,SPORT; ind=anagram?
+      to join: syn=SWEDE
+  ----------------------------------------------------------------------
+
+  [FAILED] 24. Car manufacturer endorses backing Russian agreement
+  Answer: SKODA
+  Tier: --- | Confidence: 0/100
+  Definition: "Car"
+  Wordplay type: container
+  Components:
+    reversal           backing Russian           -> VALS
+    synonym            agreement                 -> OK
+  DB Lookups:
+    DB lookups:
+      car: syn=BAR,BUS,KIA,PUB,TOP,AUDI,AUTO,FIAT,LADA,LAND,LIMO,MERC,MINI,SEAT,TOWN; abbr=FORD,RR
+      manufacturer: syn=BRAND,MAKER
+      endorses: syn=BACKS,BACK,FILL,RISE,SIGN
+      backing: syn=AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL,SKIN; ind=reversal
+      russian: syn=SLAV,TSAR
+      agreement: syn=OK,YES,DEAL,OF A,PACT,TUNE,UNION
+    Definitions:
+      "Car" -> SKODA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 25. Narrow-minded Jack stops fighting in case
+  Answer: SECTARIAN
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Narrow-minded"
+  Wordplay type: anagram
+  Components:
+    synonym            jack                      -> TAR
+    literal            case                      -> CASE
+    literal            in                        -> IN
+  Assembly: anagram — anagram of TAR(jack)+CASE(case)+IN(in)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      narrow-minded: syn=LESS,LEAST,SMALL,LITTLE,INSULAR,ILLIBERAL
+      narrow: syn=FINE,HOME,LANK,LESS,MEAN,SLIM,THIN,CLOSE,LANKY,LEAST,RANGY,REEDY,SMALL,SPARE,TAPER
+      minded: syn=RAN,EYED,GAME,WENT,CARED,NOTED,READY,AT THE,CALLED,DOGGED,HEEDED,OBEYED,TAGGED,TAILED,TRACED; ind=container?
+      jack: syn=TAR*,AD,BOD,BOY,BUD,CAT,CUB,DOG,EGG,GUY,JOE,KID,LAD,MAN,SEA; abbr=J
+      stops: syn=BARS,CANS,DAMS,DIES,ENDS,FAGS,GETS,GOES,GUNS,POPS,TUGS,BEATS,BESTS,BUNGS,DROPS; ind=deletion,insertion
+      fighting: syn=WAR,AGGRO,ACTION,STRIFE,IN A ROW,SCRAPPER,SCUFFLING; abbr=WAR; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      in case: syn=LEST,PACKED AS
+  ----------------------------------------------------------------------
+
+  [LOW] 26. Bloom’s colour about to be hidden by grass
+  Answer: HEYDAY
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "Bloom's"
+  Wordplay type: container
+  Components:
+    synonym            grass                     -> HAY
+    anagram_fodder     colour about to be        -> HEYD
+  Assembly: deletion — HEYD(colour about to be) + delete H from HAY(grass)
+  Checks: definition=not in DB, odd position | wordplay_type=deletion | type_mismatch=AI=container, assembled=deletion | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      colour: syn=HUE,PEA,RED,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI,LEMON
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY,YAW; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      hidden: syn=DRY,COOL,DOOR,FRAIL,QUIET,ARCANE,COVERT,FROSTY,LATENT,OFFISH,RECORD,REMOTE,SECRET,SLIGHT; ind=anagram?,hidden
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      grass: syn=HAY*,LEA,LOT,OAT,POT,RAT,RYE,HASH,LAWN,MOOR,PLAT,PLOT,REED,SING,CROFT; ind=container?
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,APPLY,EXIST,ABOUND,BEGGED,PRAYED
+      hidden by: ind=insertion
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Foretell old Brit will consume wine
+  Answer: PREDICT
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "Foretell"
+  Wordplay type: container
+  Components:
+    synonym            old Brit                  -> PICT
+    synonym            wine                      -> RED
+  Assembly: container — RED(wine) inside PICT(old Brit)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      foretell: syn=PREDICT*,BODE,READ,WAIT,AUGUR,AUGURS,HERALD,BETWEEN
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      brit: syn=QUEEN
+      will: syn=THE,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE,ACCORD,CHOICE,CHOOSE,OPTION
+      consume: syn=ATE,EAT,PUT,USE,DRAW,PLAY,USED,ALIVE,HOUSE,SPEND,INGEST,DEPLETE,SOMEONE,SWALLOW; ind=container
+      wine: syn=RED*,ALE,GIN,MUM,NIP,PEG,POP,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT,BREW; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+    Definitions:
+      "Foretell" -> PREDICT (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 3. Group table depleted in a month
+  Answer: OCTET
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "Group"
+  Wordplay type: hidden
+  Components:
+    hidden             table depleted in a month -> OCTET
+  Assembly: charade — OCTET(table depleted in a month)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      group: syn=OCTET*,ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT; abbr=CLAN,GP,SET
+      table: syn=GO,IF,ADD,ARC,BET,BOW,FIT,FIX,FLY,FRY,GET,HIE,JOG,LIE,PUT
+      depleted: syn=DRY,ARID,BONY,DEAD,POOR,SERE,USED,BAKED,BLEAK,SPENT,STARK,WASTE; ind=parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      month: syn=MO,DEC,MAY,NOV,ADAR,JUNE,SEPT,APRIL,NISAN; abbr=DEC,M,MO
+      in a: syn=FINE,MOLE,WITH,AFIRE
+      a month: syn=SEP,TIME,MONTH
+    Definitions:
+      "Group" -> OCTET (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. At first, factoids and numbers suit organised admirers
+  Answer: FANCLUBS
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "admirers"
+  Wordplay type: anagram
+  Components:
+    first_letter       first                     -> F
+    first_letter       and                       -> A
+    first_letter       numbers                   -> N
+    synonym            suit                      -> CLUB
+    anagram_fodder     organised                 -> S
+  Assembly: charade — F(first) + A(and) + N(numbers) + CLUB(suit) + S(organised)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | yields_check=pass | pieces_validated=4/5 (80%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      numbers: syn=FEE,VIP,ANTE,BOOK,CAST,COST,FORM,GARB,ICON,LOOK,MATH,MIEN,NAME,ONES,STAR; abbr=N*,NO,TEN
+      suit: syn=DO,GO,BED,FIT,PUT,RIG,WAY,BEND,BILL,CASE,EASY,EDIT,FILL,FINE,GEAR; abbr=FIT
+      organised: syn=HELD,TIGHT,CURATED,MANAGED,PLANNED,ARRANGED,IN ORDER,PREPARED; ind=anagram
+      admirers: syn=FAN*,ME,COMPANY,DOTER,LOVER,ESTEEM,REGARD,SUITOR,RESPECT,FOLLOWER,IDOLATER
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+  ----------------------------------------------------------------------
+
+  [FAILED] 5. Court order briefly introduced to silence chatterbox
+  Answer: GASBAG
+  Tier: --- | Confidence: 0/100
+  Definition: "chatterbox"
+  Wordplay type: charade
+  Components:
+    synonym            silence                   -> GAG
+    synonym            court order briefly       -> BAG
+  DB Lookups:
+    DB lookups:
+      court: syn=CT,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT,ct
+      order: syn=DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW,PUT; ind=anagram
+      briefly: syn=CURTLY,IN SUM; ind=deletion,parts
+      introduced: syn=BORN; ind=container?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      silence: syn=GAG*,SH,MUM,PUT,SIT,DOWN,MUTE,PEACE,QUELL,QUIET,STILL,OF THE; abbr=SH
+      chatterbox: syn=GASBAG*,SENSE,GOSSIP
+      court order: syn=BAN,FEW,ASBO,MANY,WRIT,LEGAL,WORDS,CHARGE,DECREE
+    Definitions:
+      "chatterbox" -> GASBAG (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Male races in run for lowly quarter?
+  Answer: GHETTO
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "lowly quarter"
+  Wordplay type: container
+  Components:
+    synonym            run                       -> GO
+    synonym            male                      -> HE
+    synonym            races                     -> TT
+  Assembly: container — HETT inside GO(run)
+  Checks: definition=not in DB, odd position | wordplay_type=container | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      male: syn=HE*,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM,BABY; abbr=A,HE*,M,PA; sounds=mail
+      races: syn=TT*,CAPS,CUES,ENDS,HIES,KINS,LAMS,LAYS,MOVE,NIPS,RAMS,RIPS,RUNS,WAYS,AREAS; abbr=TT*,SPRINT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      run: syn=BE,DO,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB,GAS,GET; abbr=R; ind=anagram?
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      lowly: syn=LOW,MEAN,MEEK,BELOW,CLASS,UNDER,COMMON,DEMURE,HUMBLE,HUMBLY,MEEKLY,MIDDLE,MODEST,VULGAR
+      quarter: syn=COIN,HOME,LIMB,MEAT,NABE,OF A,TAKE,BOARD,HOUSE,AT THE,FOURTH,HAUNCH
+    Definitions:
+      "quarter" -> GHETTO (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 6. Hairy beast crouching in small out-of-bounds dacha
+  Answer: SASQUATCH
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Hairy beast"
+  Wordplay type: hidden
+  Components:
+    hidden             small out-of-bounds dacha -> SASQUATCH
+  Assembly: charade — SASQUATCH(small out-of-bounds dacha)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      hairy: syn=RISKY,TOUGH,PILOSE,BEARDED,HIRSUTE,MASTODON,WHISKERY,DANGEROUS,DIFFICULT
+      beast: syn=NO,BOD,CAD,CUR,DOG,DZO,EGG,GNU,GUN,GUY,JOB,MAN,RAT,SOD,SON
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      small: syn=ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY,PUNY; abbr=S*
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      bounds: syn=CAPS,CUES,ENDS,HEMS,KINS,LAYS,RIMS,WAYS,AREAS,BLOOD,BRIMS,CLANS,CORDS,DUCTS,FIEFS; ind=anagram?
+      dacha: syn=HOUSE
+      hairy beast: syn=BEAR
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. French city soon collects six grand
+  Answer: AVIGNON
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "French city"
+  Wordplay type: container
+  Components:
+    synonym            soon                      -> ANON
+    synonym            six                       -> VI
+    abbreviation       grand                     -> G
+  Assembly: container — VI(six)+G(grand) inside ANON(soon)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      french: syn=FR,DOOR,GATE,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN; abbr=DE,FR,LA,LE,UN
+      city: syn=EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA,NICE; abbr=EC,LA,NY,ec; ind=anagram
+      soon: syn=ANON*,BY,MO,AND,HOT,FAIN,FAST,NEXT,ONCE,WHEN,APACE,CANON,EARLY,FIRST,QUICK
+      collects: syn=AMASSES,GATHERS,MET,MEET,PICK,AMASS,FETCH,GLEAN,GROUP,ACCRUE,GATHER,GLEAN:,PRAYER,AMASSED,CONTAIN; ind=container?
+      six: syn=VI*,ARM,GAT,GUN,ROD,EVEN,HEAT,AK-47,PIECE,RIFLE,MUSKET,PISTOL,ROSCOE,CARBINE,FIREARM; abbr=VI*
+      grand: syn=A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH,BLUE,BOSS,BRAG; abbr=G*,K
+      french city: syn=AVIGNON*,CITY,LENS,PORT,DIJON,LILLE,LYONS,NIMES,PARIS,ROUEN
+    Definitions:
+      "French city" -> AVIGNON (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. Being sixteen, boisterous and extremely carefree
+  Answer: EXISTENCE
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "Being"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     sixteen                   -> SIXTEEN
+    first_letter       extremely carefree        -> CE
+  Assembly: anagram — anagram of SIXTEEN(sixteen)+CE(extremely carefree)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      being: syn=EXISTENCE*,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD
+      sixteen: syn=SQUARE; fodder=SIXTEEN(7/9 anagram match)
+      boisterous: syn=ROUGH,ROWDY,LIVELY
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      extremely: syn=SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      carefree: syn=MAY,CARE,HAPPY,SUNNY,BLITHE,BREEZY,HALCYON,RELAXED,DEBONAIR,LEISURELY
+    Definitions:
+      "Being" -> EXISTENCE (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 9. Superficially deals with captains
+  Answer: SKIPS
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "captains"
+  Wordplay type: hidden
+  Components:
+    hidden             Superficially deals       -> SKIPS
+  Assembly: charade — SKIPS(Superficially deals)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      deals: syn=DAY,ACTS,SALES,TRADE,A,OK,BID,BUY,COP,END,FIX,GET,LOT,OPT,POT; ind=anagram?
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      captains: syn=SKIP*,SEA,MAIN,TEST,DUCTS,HEADS,JEFES,LINES,PIPES,TUBES,COP,MAN,AHAB,BOSS,BULL
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1241,8 +1241,8 @@ Use your thinking to reason through the clue. Then output ONLY valid JSON with:
 - "wordplay_type": one of: charade, container, anagram, deletion, hidden, reversal, homophone, cryptic_definition, acrostic, spoonerism, substitution. NEVER use double_definition — double definitions are solved mechanically before you see the clue, so if you receive a clue it is NOT a double definition.
 - "pieces": array of objects, each with:
   - "clue_word": the word(s) from the clue
-  - "letters": the uppercase letters this produces AFTER any operations (deletions, reversals, etc.)
-  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters, deletion, hidden
+  - "letters": the uppercase letters this produces
+  - "mechanism": synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, sound_of, alternate_letters, core_letters, deletion, hidden, indicator
 - "_reasoning": a one-line summary of the wordplay logic
 
 Rules:
@@ -1251,9 +1251,9 @@ Rules:
 - FUNDAMENTAL: Every non-definition, non-link word in the clue should have a role in the wordplay. If your explanation leaves words unaccounted for, reconsider.
 - The pieces' letters, when concatenated (for charade) or assembled via the wordplay_type, MUST spell the full answer.
 - Each piece must map to the SMALLEST unit of the clue: split into individual words or short phrases, not lumped together. E.g. "to" and "American" are separate pieces, never "to American" as one piece.
-- Indicator words (anagram indicators, reversal indicators, container indicators) are NEVER pieces. They signal the operation but contribute NO letters. Do not include them in any piece's "clue_word".
+- Indicator words MUST be included as pieces with mechanism "indicator" and empty letters "". They signal the operation but contribute NO letters. E.g. {"clue_word": "broken", "letters": "", "mechanism": "indicator"}.
 - For reversals within a charade: use mechanism "reversal" for the reversed piece, not "anagram_fodder". E.g. "to" reversed = OT should be {"clue_word": "to", "letters": "OT", "mechanism": "reversal"}.
-- For deletions: show the RESULT after deletion, not the deleted letter. E.g. if CORPSE minus P = CORSE, the piece is {"clue_word": "stiff", "letters": "CORSE", "mechanism": "deletion"}.
+- For deletions: show the SOURCE word BEFORE deletion with its full letters and mechanism "synonym" or "abbreviation". The deletion indicator gets mechanism "indicator". E.g. MAMMON with outer letters removed = AMMO: {"clue_word": "wealth", "letters": "MAMMON", "mechanism": "synonym"}, {"clue_word": "boundless", "letters": "", "mechanism": "indicator"}. The assembler will apply the deletion using the wordplay_type.
 - For anagrams: pieces are the raw fodder letters BEFORE rearrangement.
 - For containers: show outer and inner pieces separately.
 - For hidden words: one piece with the spanning clue words and mechanism "hidden".

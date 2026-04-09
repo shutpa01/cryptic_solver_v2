@@ -1,0 +1,307 @@
+{
+  "source": "telegraph",
+  "puzzle": "31180",
+  "stats": {
+    "total": 28,
+    "assembled": 28,
+    "high": 18,
+    "medium": 10,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 73.25
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Potential",
+      "letters": "LOOSE",
+      "answer": "loose ends",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Potential clue for \"send\", details yet to be settled",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "This person",
+      "letters": "ME",
+      "answer": "MEDIC",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "This person, \"spotty thing\" firing European physician",
+      "score": 96
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "chaser",
+      "letters": "HORSE",
+      "answer": "hobby-horse",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Obsession of Scottish cyclist, drinking heads from beer and brandy chaser?",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Keeps",
+      "letters": "SAYS",
+      "answer": "say-so",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Keeps quiet getting seal of approval?",
+      "score": 45
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "wisher",
+      "letters": "HER",
+      "answer": "SHERPA",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Well-wisher paints the setting for guide",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bride's words",
+      "letters": "IDO",
+      "answer": "IDOLS",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "People admired bride's words, terms of eternal fondness",
+      "score": 55
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "daughters",
+      "letters": "DD",
+      "answer": "ODDS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Likelihood of daughters wearing Boss only evens",
+      "score": 88
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "maiden",
+      "letters": "MID",
+      "answer": "MIDTERM",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Hillary Clinton's election papers in maiden name",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "papers",
+      "letters": "TERM",
+      "answer": "MIDTERM",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Hillary Clinton's election papers in maiden name",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Come again",
+      "letters": "EH",
+      "answer": "BEHEST",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "\"Come again\" included in most fitting request",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cut",
+      "letters": "SEA",
+      "answer": "NAUSEA",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "First hint of Nescafé Gold cut bum's sickness",
+      "score": 85
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Queen",
+      "letters": "GAL",
+      "answer": "GALLERY",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Maybe Tate and Lyle regularly used by Queen to keep cheerful – quite the opposite",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fair play",
+      "answer": "EGALITARIANISM",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Ignoring one small ministerial saga confounded fair play",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "details yet to be settled",
+      "answer": "loose ends",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Potential clue for \"send\", details yet to be settled",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one observed in the main",
+      "answer": "sea urchin",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Reform enrich USA, one observed in the main",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Perk for frequent fliers?",
+      "answer": "BIRDSEED",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Perk for frequent fliers?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Live with",
+      "answer": "COHABIT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Live with half-concealed coke dependency",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maintains",
+      "answer": "CONTENDS",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Maintains company margins checking books",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Vilification",
+      "answer": "ASPERSION",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Vilification when individual gets to grips with another?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "medical data",
+      "answer": "blood group",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Heart perhaps added to family's medical data",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "early",
+      "answer": "in time",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Early pint free from restrictions – pour out on the counter",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "seal of approval",
+      "answer": "say-so",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Keeps quiet getting seal of approval?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "People admired",
+      "answer": "IDOLS",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "People admired bride's words, terms of eternal fondness",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a mood-inducing number",
+      "answer": "theme song",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Appear with G-string for Spooner, a mood-inducing number?",
+      "score": 42
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hillary Clinton's election",
+      "answer": "MIDTERM",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Hillary Clinton's election papers in maiden name",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "wind",
+      "answer": "BEND",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Wind in November cutting through retirement place",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maybe Tate",
+      "answer": "GALLERY",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Maybe Tate and Lyle regularly used by Queen to keep cheerful – quite the opposite",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Lasting",
+      "answer": "AGELESS",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Lasting without salary? Wife has to go",
+      "score": 50
+    }
+  ]
+}

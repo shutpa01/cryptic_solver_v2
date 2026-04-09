@@ -1,0 +1,55 @@
+{
+  "source": "independent",
+  "puzzle": "12308",
+  "stats": {
+    "total": 33,
+    "assembled": 32,
+    "high": 27,
+    "medium": 5,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 88.4375
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ill-advised",
+      "answer": "MISGUIDED",
+      "clue_number": "4",
+      "direction": null,
+      "clue": "Ill-advised mug died horribly touring island",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wind Eastern expressing a sort of air",
+      "answer": "GLEE",
+      "clue_number": "19",
+      "direction": null,
+      "clue": "Wind Eastern expressing a sort of air",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Early religious leader's",
+      "answer": "PETER",
+      "clue_number": "32",
+      "direction": null,
+      "clue": "Early religious leader’s time imprisoned by Lord",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "organ stop",
+      "answer": "OBOE",
+      "clue_number": "33",
+      "direction": null,
+      "clue": "Tramps uncovered organ stop",
+      "score": 0
+    }
+  ]
+}

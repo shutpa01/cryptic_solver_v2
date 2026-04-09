@@ -1,0 +1,36 @@
+{
+  "source": "times",
+  "puzzle": "29492",
+  "stats": {
+    "total": 1,
+    "assembled": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 0.0
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "at the back",
+      "letters": "SET",
+      "answer": "CORSET",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Garment’s stiff — pressure’s released by assistant at the back",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Garment's stiff",
+      "answer": "CORSET",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Garment’s stiff — pressure’s released by assistant at the back",
+      "score": 0
+    }
+  ]
+}

@@ -160,11 +160,22 @@ def get_max_page(category_url: str) -> int:
 # ============================================================
 
 def parse_fts_table(content: Tag) -> list[dict]:
-    """Parse modern fts-table format posts."""
+    """Parse modern fts-table format posts.
+
+    Two sub-variants:
+      A) fts-table: structured <table> with fts-group/fts-subgroup TD classes
+      B) fts-list: nested <div> elements with fts-group/fts-subgroup div classes
+    """
     fts_div = content.find('div', class_=lambda c: c and 'fts' in c)
     if not fts_div:
         return []
 
+    # Variant B: fts-list (div-based, no table)
+    fts_classes = fts_div.get('class', [])
+    if 'fts-list' in fts_classes:
+        return _parse_fts_list(fts_div)
+
+    # Variant A: fts-table (table-based)
     table = fts_div.find('table')
     if not table:
         return []
@@ -242,36 +253,202 @@ def parse_fts_table(content: Tag) -> list[dict]:
     return clues
 
 
-def parse_paragraph_format(content: Tag) -> list[dict]:
-    """Parse legacy paragraph-based format posts.
+def _parse_fts_list(fts_div: Tag) -> list[dict]:
+    """Parse fts-list format: nested divs with fts-group/fts-subgroup classes.
 
-    Structure: <p> tags containing:
-      - Blue span with clue number + clue text
-      - Red/dark bold span with ANSWER
-      - Explanation text after the answer
-    Direction headers are <strong>Across</strong> / <strong>Down</strong>
+    Structure:
+      div.fts.fts-list
+        div.fts-group  → "ACROSS" or "DOWN" (direction header)
+        div             → wrapper containing per-clue divs
+          div.fts-group → one per clue
+            div.fts-subgroup → clue text (e.g. "8. Rugged comedian... (8)")
+            div.fts-subgroup → answer (e.g. "CARPETED")
+            div.fts-subgroup → explanation
     """
     clues = []
     direction = None
+
+    for child in fts_div.children:
+        if not isinstance(child, Tag):
+            continue
+
+        child_classes = child.get('class', [])
+
+        # Direction header: top-level fts-group with "ACROSS" or "DOWN"
+        if 'fts-group' in child_classes:
+            text = child.get_text(strip=True).lower()
+            if 'across' in text:
+                direction = 'across'
+            elif 'down' in text:
+                direction = 'down'
+            continue
+
+        if not direction:
+            continue
+
+        # Wrapper div containing fts-group divs (one per clue)
+        clue_groups = child.find_all('div', class_='fts-group', recursive=False)
+        for group in clue_groups:
+            subgroups = group.find_all('div', class_='fts-subgroup', recursive=False)
+            if len(subgroups) < 2:
+                continue
+
+            # First subgroup: clue text (starts with number)
+            clue_text = subgroups[0].get_text(strip=True)
+            num_match = re.match(r'^(\d+[\s./]*(?:\d+)?)', clue_text)
+            if not num_match:
+                continue
+            clue_num = num_match.group(1).strip().rstrip('.')
+
+            # Second subgroup: answer
+            answer = subgroups[1].get_text(strip=True)
+            if not answer or len(answer) < 2:
+                continue
+
+            # Third subgroup (if present): explanation
+            explanation = ''
+            if len(subgroups) >= 3:
+                explanation = subgroups[2].get_text(separator=' ', strip=True)
+
+            clues.append({
+                'clue_number': clue_num,
+                'direction': direction,
+                'answer': answer.upper(),
+                'explanation': explanation,
+            })
+
+    return clues
+
+
+def _extract_answer_from_explanation(expl_line: str) -> tuple[str, str]:
+    """Extract answer and remaining explanation from an explanation line.
+
+    Common patterns:
+      - "= ANSWER" or "= ANSWER rest"
+      - "ANSWER (definition) rest"
+      - "(wordplay)* ANSWER"
+      - "explanation text = ANSWER"
+
+    Returns (answer, explanation) or ('', '') if no answer found.
+    """
+    expl_line = expl_line.strip()
+    if not expl_line:
+        return '', ''
+
+    # Pattern 1: "= ANSWER" anywhere in the line
+    eq_match = re.search(r'=\s+([A-Z][A-Z\s\-\']*[A-Z])\b', expl_line)
+    if eq_match:
+        answer = eq_match.group(1).strip()
+        if len(answer.replace(' ', '').replace('-', '')) >= 2:
+            return answer, expl_line
+
+    # Pattern 2: ALL-CAPS word(s) at the start or standalone
+    caps_match = re.match(r'^\(?[^A-Z]*\)?\s*([A-Z][A-Z\s\-\']*[A-Z])\b', expl_line)
+    if caps_match:
+        answer = caps_match.group(1).strip()
+        if len(answer.replace(' ', '').replace('-', '')) >= 2:
+            return answer, expl_line
+
+    # Pattern 3: Find any ALL-CAPS word(s) in the line (2+ consecutive caps letters)
+    caps_match = re.search(r'\b([A-Z][A-Z\s\-\']{0,}[A-Z])\b', expl_line)
+    if caps_match:
+        answer = caps_match.group(1).strip()
+        if len(answer.replace(' ', '').replace('-', '')) >= 2:
+            return answer, expl_line
+
+    # Pattern 4: Single all-caps word (e.g., "AFRO")
+    caps_match = re.search(r'\b([A-Z]{3,})\b', expl_line)
+    if caps_match:
+        return caps_match.group(1), expl_line
+
+    return '', ''
+
+
+def _split_p_on_br(element: Tag) -> list[str]:
+    """Split a <p> element's content on <br/> tags, returning text lines."""
+    html_str = str(element)
+    html_str = re.sub(r'<br\s*/?>', '\n', html_str)
+    line_soup = BeautifulSoup(html_str, 'html.parser')
+    return [l.strip() for l in line_soup.get_text().split('\n') if l.strip()]
+
+
+def parse_paragraph_format(content: Tag) -> list[dict]:
+    """Parse legacy paragraph-based format posts.
+
+    Handles multiple sub-variants:
+      A) <p> tags with bold ANSWER in <strong>/<b>
+      B) <p> tags with clue on line 1 and explanation (containing CAPS answer) on line 2,
+         separated by <br/>
+      C) Direction headers combined with first clue via <br/>
+
+    Direction headers: <strong>Across</strong> / <strong>Down</strong>
+    (may be standalone or combined with first clue in same <p> via <br/>)
+    """
+    clues = []
+    direction = None
+
+    # Clue number regex: matches "8", "12/14", "1,17", "1/17"
+    CLUE_NUM_RE = re.compile(r'^(\d+[\s/,]*\d*)\s')
+
+    def _process_clue_pair(clue_line: str, expl_line: str, cur_dir: str):
+        """Process a clue_line + explanation_line pair."""
+        clue_line = clue_line.strip()
+        expl_line = expl_line.strip()
+        if not clue_line:
+            return
+
+        num_match = CLUE_NUM_RE.match(clue_line)
+        if not num_match:
+            return
+        clue_num = num_match.group(1).strip().rstrip(',').rstrip('.')
+
+        answer, explanation = _extract_answer_from_explanation(expl_line)
+        if not answer:
+            return
+
+        clues.append({
+            'clue_number': clue_num,
+            'direction': cur_dir,
+            'answer': answer.upper(),
+            'explanation': explanation,
+        })
 
     for element in content.children:
         if not isinstance(element, Tag):
             continue
 
         text = element.get_text(strip=True)
+        if not text:
+            continue
 
         # Direction headers
         if element.name in ('p', 'h2', 'h3', 'h4'):
             lower = text.lower()
-            if lower in ('across', 'down') or (
-                element.find(['strong', 'b']) and
-                element.find(['strong', 'b']).get_text(strip=True).lower() in ('across', 'down')
-            ):
-                if 'across' in lower:
-                    direction = 'across'
-                elif 'down' in lower:
-                    direction = 'down'
+
+            # Check for standalone direction header
+            if lower in ('across', 'down'):
+                direction = lower
                 continue
+
+            # Check for bold direction header (may be combined with first clue)
+            bold_tag = element.find(['strong', 'b'])
+            if bold_tag:
+                bold_text = bold_tag.get_text(strip=True).lower()
+                if bold_text in ('across', 'down'):
+                    direction = bold_text
+
+                    # The direction header may be combined with clue text via <br/>
+                    if element.name == 'p':
+                        lines = _split_p_on_br(element)
+                        # lines[0] = "Across"/"Down", lines[1] = clue, lines[2] = explanation
+                        if len(lines) >= 3:
+                            _process_clue_pair(lines[1], lines[2], direction)
+                        # Could have more clue pairs: lines[3]=clue, lines[4]=expl, etc.
+                        i = 3
+                        while i + 1 < len(lines):
+                            _process_clue_pair(lines[i], lines[i + 1], direction)
+                            i += 2
+                    continue
 
         if not direction:
             continue
@@ -279,41 +456,66 @@ def parse_paragraph_format(content: Tag) -> list[dict]:
         if element.name != 'p':
             continue
 
-        # Look for answer in bold/strong (all-caps, 3+ letters)
+        # First try: look for answer in bold/strong (all-caps, 3+ letters)
         answer = ''
-        answer_tag = None
         for tag in element.find_all(['strong', 'b']):
             candidate = tag.get_text(strip=True)
-            # Remove any enumeration suffix like (7)
             candidate = re.sub(r'\s*\([\d,\-\s]+\)\s*$', '', candidate)
             if candidate == candidate.upper() and len(candidate) >= 3 and re.match(r'^[A-Z\s\-\']+$', candidate):
                 answer = candidate
-                answer_tag = tag
                 break
 
-        if not answer:
+        if answer:
+            # Extract clue number from the beginning of the paragraph
+            full_text = element.get_text(separator=' ', strip=True)
+            num_match = re.match(r'^(\d+[\s,/]*(?:\d+)?)', full_text)
+            clue_num = num_match.group(1).strip().rstrip(',') if num_match else ''
+
+            # Extract explanation: text after the answer
+            explanation = ''
+            ans_pos = full_text.find(answer)
+            if ans_pos >= 0:
+                explanation = full_text[ans_pos + len(answer):].strip()
+                explanation = re.sub(r'^[\s\-\u2013\u2014:\.]+', '', explanation).strip()
+
+            if clue_num:
+                clues.append({
+                    'clue_number': clue_num,
+                    'direction': direction,
+                    'answer': answer,
+                    'explanation': explanation,
+                })
             continue
 
-        # Extract clue number from the beginning of the paragraph
-        full_text = element.get_text(separator=' ', strip=True)
-        num_match = re.match(r'^(\d+[\s,]*(?:\d+)?)', full_text)
-        clue_num = num_match.group(1).strip().rstrip(',') if num_match else ''
-
-        # Extract explanation: text after the answer
-        explanation = ''
-        ans_pos = full_text.find(answer)
-        if ans_pos >= 0:
-            explanation = full_text[ans_pos + len(answer):].strip()
-            # Clean leading separators
-            explanation = re.sub(r'^[\s\-\u2013\u2014:\.]+', '', explanation).strip()
-
-        if clue_num:
-            clues.append({
-                'clue_number': clue_num,
-                'direction': direction,
-                'answer': answer,
-                'explanation': explanation,
-            })
+        # Second try: split paragraph on <br/> and pair clue+explanation lines
+        lines = _split_p_on_br(element)
+        if len(lines) >= 2:
+            # Pair lines: lines[0]=clue, lines[1]=explanation
+            _process_clue_pair(lines[0], lines[1], direction)
+            # Handle additional pairs in same paragraph
+            i = 2
+            while i + 1 < len(lines):
+                _process_clue_pair(lines[i], lines[i + 1], direction)
+                i += 2
+        elif len(lines) == 1:
+            # Single line — might have answer inline after enumeration
+            line = lines[0]
+            num_match = CLUE_NUM_RE.match(line)
+            if num_match:
+                clue_num = num_match.group(1).strip().rstrip(',').rstrip('.')
+                rest = line[num_match.end():]
+                # Look for answer after enumeration
+                enum_match = re.search(r'\([\d,\-\s]+\)\s*', rest)
+                if enum_match:
+                    after_enum = rest[enum_match.end():]
+                    answer, explanation = _extract_answer_from_explanation(after_enum)
+                    if answer:
+                        clues.append({
+                            'clue_number': clue_num,
+                            'direction': direction,
+                            'answer': answer.upper(),
+                            'explanation': explanation if explanation else after_enum,
+                        })
 
     return clues
 
@@ -356,6 +558,18 @@ def parse_plain_table(content: Tag) -> list[dict]:
 
         rows = element.find_all('tr')
         for row in rows:
+            # Check for direction header in <th> elements (common variant)
+            ths = row.find_all('th')
+            if ths:
+                # Get all text from the th, including nested spans
+                th_text = ths[0].get_text(strip=True).lower()
+                if 'across' in th_text:
+                    direction = 'across'
+                    continue
+                elif 'down' in th_text:
+                    direction = 'down'
+                    continue
+
             tds = row.find_all('td')
             if not tds:
                 continue
@@ -430,6 +644,166 @@ def parse_plain_table(content: Tag) -> list[dict]:
     return clues
 
 
+def parse_two_col_detail_table(content: Tag) -> list[dict]:
+    """Parse 2-column table format: TD[0]=clue number, TD[1]=detail (clue + answer + explanation).
+
+    Common on fifteensquared for Independent puzzles. Structure:
+      - Header row: "No" | "Detail" (bold, skip)
+      - Direction row: "Across"/"Down" (bold in TD[0], skip)
+      - Data rows: clue_number | detail cell containing:
+          - Red-coloured span with clue text
+          - Blue bold ANSWER
+          - Explanation text in subsequent <p> tags
+
+    Only matches tables that have exactly 2 columns with a "No"/"Detail" header
+    or direction headers in bold.
+    """
+    tables = content.find_all('table')
+    if not tables:
+        return []
+
+    clues = []
+    direction = None
+
+    for element in content.children:
+        if not isinstance(element, Tag):
+            continue
+
+        # Check for direction header in <p>, <h2>, etc. before table
+        if element.name in ('p', 'h2', 'h3', 'h4'):
+            text = element.get_text(strip=True).lower()
+            if text in ('across', 'down'):
+                direction = text
+                continue
+            bold = element.find(['strong', 'b'])
+            if bold and bold.get_text(strip=True).lower() in ('across', 'down'):
+                direction = bold.get_text(strip=True).lower()
+                continue
+
+        if element.name != 'table':
+            continue
+
+        # Check if this is a 2-col detail table
+        rows = element.find_all('tr')
+        if not rows:
+            continue
+
+        # Verify it's a 2-column table (check first few data rows)
+        col_counts = []
+        for r in rows[:5]:
+            tds = r.find_all('td')
+            if tds:
+                col_counts.append(len(tds))
+        if not col_counts or max(col_counts) > 2:
+            continue  # Not a 2-col table
+
+        for row in rows:
+            # Check for direction header in <th> elements
+            ths = row.find_all('th')
+            if ths:
+                th_text = ths[0].get_text(strip=True).lower()
+                if 'across' in th_text:
+                    direction = 'across'
+                    continue
+                elif 'down' in th_text:
+                    direction = 'down'
+                    continue
+
+            tds = row.find_all('td')
+            if not tds:
+                continue
+
+            # Skip header row ("No" | "Detail")
+            first_text = tds[0].get_text(strip=True)
+            if first_text.lower() in ('no', 'no.', '#', 'number'):
+                continue
+
+            # Check for direction header in first TD
+            first_lower = first_text.lower()
+            if first_lower in ('across', 'down'):
+                direction = first_lower
+                continue
+            bold = tds[0].find(['strong', 'b'])
+            if bold and bold.get_text(strip=True).lower() in ('across', 'down'):
+                direction = bold.get_text(strip=True).lower()
+                continue
+
+            if len(tds) != 2:
+                continue
+            if not direction:
+                continue
+
+            # TD[0] = clue number
+            clue_num_text = first_text.strip()
+            if not clue_num_text or not clue_num_text[0].isdigit():
+                continue
+
+            # Clean clue number (handle "12/14" linked clues)
+            clue_num_text = clue_num_text.split()[0]  # take first part
+
+            # TD[1] = detail cell: find answer in blue bold
+            detail_td = tds[1]
+            answer = ''
+            explanation_parts = []
+
+            # Look for answer in bold tags (typically blue-coloured)
+            for tag in detail_td.find_all(['strong', 'b']):
+                candidate = tag.get_text(strip=True)
+                # Remove enumeration suffix
+                candidate = re.sub(r'\s*\([\d,\-\s]+\)\s*$', '', candidate)
+                if (candidate == candidate.upper() and len(candidate) >= 2
+                        and re.match(r'^[A-Z\s\-\']+$', candidate)):
+                    answer = candidate
+                    break
+
+            if not answer:
+                # Fallback: look for ALL-CAPS word in the text after enumeration
+                full_text = detail_td.get_text(separator=' ', strip=True)
+                # Find text after the enumeration
+                enum_match = re.search(r'\(\d[\d,\-\s]*\)', full_text)
+                if enum_match:
+                    after_enum = full_text[enum_match.end():]
+                    caps_match = re.search(r'\b([A-Z][A-Z\s\-\']{1,}[A-Z])\b', after_enum)
+                    if caps_match:
+                        answer = caps_match.group(1).strip()
+
+            if not answer:
+                continue
+
+            # Extract explanation: text after the answer
+            # Get all <p> tags in the detail cell — first <p> is usually the clue,
+            # subsequent ones are answer + explanation
+            p_tags = detail_td.find_all('p')
+            if len(p_tags) >= 2:
+                # Skip first paragraph (clue text), collect rest as explanation
+                expl_texts = []
+                for p in p_tags[1:]:
+                    p_text = p.get_text(separator=' ', strip=True)
+                    if p_text:
+                        expl_texts.append(p_text)
+                explanation = ' '.join(expl_texts)
+            else:
+                # Single block — try to extract after the enumeration+answer
+                full_text = detail_td.get_text(separator=' ', strip=True)
+                ans_pos = full_text.find(answer)
+                if ans_pos >= 0:
+                    explanation = full_text[ans_pos + len(answer):].strip()
+                else:
+                    explanation = ''
+
+            # Clean leading separators
+            explanation = re.sub(r'^[\s\-\u2013\u2014:\.]+', '', explanation).strip()
+
+            clues.append({
+                'clue_number': clue_num_text,
+                'direction': direction,
+                'answer': answer.upper(),
+                'explanation': explanation,
+            })
+
+    return clues
+
+
 def parse_post(html: str) -> list[dict]:
     """Parse a fifteensquared blog post. Auto-detects format."""
     soup = BeautifulSoup(html, 'html.parser')
@@ -442,7 +816,12 @@ def parse_post(html: str) -> list[dict]:
     if clues:
         return clues
 
-    # Try plain table format
+    # Try 2-column detail table format (common on Independent)
+    clues = parse_two_col_detail_table(content)
+    if clues:
+        return clues
+
+    # Try plain 3-column table format
     clues = parse_plain_table(content)
     if clues:
         return clues

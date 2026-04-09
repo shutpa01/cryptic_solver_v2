@@ -1,0 +1,262 @@
+{
+  "source": "telegraph",
+  "puzzle": "31189",
+  "stats": {
+    "total": 32,
+    "assembled": 28,
+    "high": 26,
+    "medium": 2,
+    "low": 0,
+    "failed": 4,
+    "avg_score": 80.5
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "official",
+      "letters": "REF",
+      "answer": "PREFERRED",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Favoured match official, under pressure, made a mistake",
+      "score": 44
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "writer",
+      "letters": "I",
+      "answer": "ACCIDENT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Mishap this writer had, in a manner of speaking",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "had,",
+      "letters": "D",
+      "answer": "ACCIDENT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Mishap this writer had, in a manner of speaking",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "A Parisian",
+      "letters": "UNE",
+      "answer": "UNAWARE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "A Parisian welcomes a fight in the dark",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "welcomes",
+      "letters": "A",
+      "answer": "UNAWARE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "A Parisian welcomes a fight in the dark",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "aircraft base",
+      "letters": "SNALP",
+      "answer": "PLANS",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Designs aircraft base rejected",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "time",
+      "letters": "STRETCH",
+      "answer": "STRETCHED",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Prolonged time inside with editor",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "example",
+      "answer": "INSTANCE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Cool attitude, for example",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fish",
+      "answer": "TENCH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Often chippy wraps fish",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Join",
+      "answer": "BRIDGE",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Join game",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Crew",
+      "answer": "SEAMEN",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Crew spotted touring before noon",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Scrub",
+      "answer": "PURGE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Scrub page with egg on",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Want",
+      "answer": "HARDSHIP",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Want rigid vessel",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mishap",
+      "answer": "ACCIDENT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Mishap this writer had, in a manner of speaking",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Something that's blown",
+      "answer": "TRUMPET",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Something that's blown cap inside out, finally",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in the dark",
+      "answer": "UNAWARE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "A Parisian welcomes a fight in the dark",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Put up with",
+      "answer": "ABIDE",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Put up with a US president wanting Greenland, essentially",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Designs",
+      "answer": "PLANS",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Designs aircraft base rejected",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "more filthy",
+      "answer": "NAUGHTIER",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Muddy huge train getting more filthy",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Golfer",
+      "answer": "Snead",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Golfer unhappy about unfinished trap",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Censure",
+      "answer": "TROUNCE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Censure star occasionally that's put on weight",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Well-balanced",
+      "answer": "RATIONAL",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Well-balanced horse race with new leader",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Responded",
+      "answer": "REPLIED",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Responded about parking and told a fib",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Prolonged",
+      "answer": "STRETCHED",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Prolonged time inside with editor",
+      "score": 82
+    }
+  ]
+}

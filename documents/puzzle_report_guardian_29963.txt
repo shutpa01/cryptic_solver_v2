@@ -1,0 +1,382 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29963
+Generated: 2026-03-25 08:43:44
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        31/32 (96%)
+    Signature:      5
+    Sig+Enriched:   5
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   27  25D, 7D, 20D, 11A, 12A, 22D, 29A, 8D, 1A, 10A, 13A, 17A, 19A, 20D, 21D, 23A, 24A, 25D, 27A, 3D, 5A, 6D, 7D, 9D, 16A, 2D, 28A
+  Medium (40-79): 3  14A, 4D, 26A
+  Low (<40):    1  15D
+  Failed:       1  18D
+  Average:      90/100
+
+COST: $0.1732 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (21 entries)
+------------------------------------------------------------
+  DYLAN: "Welshman" -> DYLAN  (missing from definition_answers_augmented)
+  SUPREMO: "Boss" -> SUPREMO  (missing from definition_answers_augmented)
+  TAMBOURINE: "instrument" -> TAMBOURINE  (missing from definition_answers_augmented)
+  CASSIS: "drink" -> CASSIS  (missing from definition_answers_augmented)
+  LIGHTS: "Matches" -> LIGHTS  (missing from definition_answers_augmented)
+  COUNTER: "Oppose" -> COUNTER  (missing from definition_answers_augmented)
+  RANKING: "position" -> RANKING  (missing from definition_answers_augmented)
+  GREENBELT: "open area outside town" -> GREENBELT  (missing from definition_answers_augmented)
+  SONGS: "records ..." -> SONGS  (missing from definition_answers_augmented)
+  LEAFAGE: "vegetation" -> LEAFAGE  (missing from definition_answers_augmented)
+  BLUECHEESE: "food" -> BLUECHEESE  (missing from definition_answers_augmented)
+  PROTEST: "Demonstrate" -> PROTEST  (missing from definition_answers_augmented)
+  GREENBELT: party -> GREEN  (missing from synonyms_pairs)
+  GREENBELT: Sing loudly -> BELT  (missing from synonyms_pairs)
+  SONGS: Relatives -> SONS  (missing from synonyms_pairs)
+  SONGS: £1,000 -> G  (missing from abbreviations)
+  LEAFAGE: General -> LEE  (missing from abbreviations)
+  LEAFAGE: hides -> A  (missing from abbreviations)
+  LEAFAGE: cigarette -> FAG  (missing from abbreviations)
+  BLUECHEESE: York -> EE  (missing from abbreviations)
+  PROTEST: cricket's longest format -> TEST  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  GREENBELT = 15 (5/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  18. During chaotic reign, no good prince becomes smoker? = INHALER
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  17/32  1A, 5A, 10A, 13A, 14A, 17A, 19A, 23A, 24A, 27A, 3D, 4D, 6D, 7D, 7D, 9D, 21D
+  Unverified explain.:   1  15D
+  DB gap:                12  11A, 12A, 16A, 26A, 28A, 29A, 2D, 8D, 15D, 20D, 22D, 25D
+  Failed:                1  18D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   25D  DYLAN         Welshman taking part in Normandy landings (5)
+                      hidden in "taking part in Normandy landings"; definition: "Welshman"  [HIGH]
+    7D  THREEFOUR     Elizabeth Reef – our secret signature (5-4)
+                      ---  [HIGH]
+   20D  SUPREMO       Boss to drink more rum (7)
+                      anagram of MORE ("more") [anagram: "rum"] + SUP (abbreviation of "drink") = SUPREMO; definition: "Boss"  [HIGH]
+   11A  TAMBOURINE    Playing tuba in Rome with another instrument (10)
+                      anagram of TUBAINROME ("tuba in Rome") [anagram: "another"] = TAMBOURINE; definition: "instrument"  [HIGH]
+   12A  CASSIS        Cold musician’s unlimited drink (6)
+                      C (synonym of "Cold") + BASSIST (synonym of "musician's") [deletion: "unlimited"]; definition: "drink"  [HIGH]
+   22D  LIGHTS        Matches 50 and 88? Pointless at first (6)
+                      LIGHT (synonym of "first") [last letter: "at"] + S (last letter of "50 and 88? Pointless"); definition: "Matches"  [HIGH]
+   29A  COUNTER       Oppose noble queen (7)
+                      COUNT (synonym of "noble") + ER (synonym of "queen"); definition: "Oppose"  [HIGH]
+    8D  RANKING       Managed royal position (7)
+                      RAN (synonym of "Managed") + KING (synonym of "royal"); definition: "position"  [HIGH]
+    1A  BLOWING       Spoiling old woman wearing jewellery (7)
+                      ---  [HIGH]
+   10A  MANN          Novelist in a state penning article (4)
+                      ---  [HIGH]
+   13A  ONTHEAIR      Live report of where Prince William’s crown might be? (2,3,3)
+                      ---  [HIGH]
+   14A  GEOGRAPHY     Subject’s alter ego ‘Gary’ seen outside pub (9)
+                      ---  [MED]
+   17A  TIMES         … by backing group holding note (5)
+                      ---  [HIGH]
+   19A  CONSTRUCT     Make president replace politician with court after tricks (9)
+                      ---  [HIGH]
+   20D  SUPREMO       Boss to drink more rum (7)
+                      ---  [HIGH]
+   21D  CULTURE       Growth of bird has head increase by a factor of 20 (7)
+                      ---  [HIGH]
+   23A  CHANGING      Reforming c-capital punishment (8)
+                      ---  [HIGH]
+   24A  PEDDLE        Sell bicycle part to the audience (6)
+                      ---  [HIGH]
+   25D  DYLAN         Welshman taking part in Normandy landings (5)
+                      ---  [HIGH]
+   27A  LAUD          Praise God for all to hear (4)
+                      ---  [HIGH]
+    3D  WINDS         Snakes and ladders board in Fiji now ends being flipped (5)
+                      ---  [HIGH]
+    4D  NATASHA       Woman’s brown back has a fracture (7)
+                      ---  [MED]
+    5A  BATTERY       Modern cricketer gets final boundary of series (7)
+                      ---  [HIGH]
+    6D  ADOPTS        Chooses a pet with no tail, a bit tame in afterthought (6)
+                      ---  [HIGH]
+    7D  THREEFOUR     Elizabeth Reef – our secret signature (5-4)
+                      ---  [HIGH]
+    9D  SMOOTHTONGUED  Sand dune got moved – plausible? (6-7)
+                      ---  [HIGH]
+   15D  GREENBELT     Sing loudly following party in open area outside town (5,4)
+                      GREEN(synonym of "party") + BELT(synonym of "Sing loudly")  [LOW]
+   16A  SONGS         Relatives stealing £1,000 records … (5)
+                      SONS (synonym of "Relatives") + G (abbreviation of "£1,000") [container: "stealing"]; definition: "records ..."  [HIGH]
+   18D  INHALER       During chaotic reign, no good prince becomes smoker? (7)
+                      ---  [ERR]
+    2D  LEAFAGE       General hides a cigarette in vegetation (7)
+                      LEE (synonym of "General") + A (synonym of "hides") + FAG (synonym of "cigarette"); definition: "vegetation"  [HIGH]
+   26A  BLUECHEESE    Low church, perhaps York, returned English food (4,6)
+                      BLUE(synonym of "Low") + CH(abbr. "church") + EE(synonym of "York") + SE(ES reversed, "English")  [MED]
+   28A  PROTEST       Demonstrate in favour of cricket’s longest format (7)
+                      PRO (synonym of "in favour") + TEST (synonym of "cricket's longest format"); definition: "Demonstrate"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DYLAN  25D. Welshman taking part in Normandy landings
+  Answer: DYLAN
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Welshman"
+  Wordplay: hidden
+  Explanation: hidden in "taking part in Normandy landings"; definition: "Welshman"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] THREEFOUR  7D. Elizabeth Reef – our secret signature
+  Answer: THREEFOUR
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden in "Elizabeth Reef – our"
+  ----------------------------------------------------------------------
+
+  [HIGH] SUPREMO  20D. Boss to drink more rum
+  Answer: SUPREMO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Boss"
+  Wordplay: anagram + charade
+  Explanation: anagram of MORE ("more") [anagram: "rum"] + SUP (abbreviation of "drink") = SUPREMO; definition: "Boss"
+  ----------------------------------------------------------------------
+
+  [HIGH] TAMBOURINE  11A. Playing tuba in Rome with another instrument
+  Answer: TAMBOURINE
+  Tier: Signature | Confidence: 100/100
+  Definition: "instrument"
+  Wordplay: anagram
+  Explanation: anagram of TUBAINROME ("tuba in Rome") [anagram: "another"] = TAMBOURINE; definition: "instrument"
+  ----------------------------------------------------------------------
+
+  [HIGH] CASSIS  12A. Cold musician’s unlimited drink
+  Answer: CASSIS
+  Tier: Signature | Confidence: 100/100
+  Definition: "drink"
+  Wordplay: charade + deletion
+  Explanation: C (synonym of "Cold") + BASSIST (synonym of "musician's") [deletion: "unlimited"]; definition: "drink"
+  ----------------------------------------------------------------------
+
+  [HIGH] LIGHTS  22D. Matches 50 and 88? Pointless at first
+  Answer: LIGHTS
+  Tier: Signature | Confidence: 100/100
+  Definition: "Matches"
+  Wordplay: charade + parts
+  Explanation: LIGHT (synonym of "first") [last letter: "at"] + S (last letter of "50 and 88? Pointless"); definition: "Matches"
+  ----------------------------------------------------------------------
+
+  [HIGH] COUNTER  29A. Oppose noble queen
+  Answer: COUNTER
+  Tier: Signature | Confidence: 100/100
+  Definition: "Oppose"
+  Wordplay: charade
+  Explanation: COUNT (synonym of "noble") + ER (synonym of "queen"); definition: "Oppose"
+  ----------------------------------------------------------------------
+
+  [HIGH] RANKING  8D. Managed royal position
+  Answer: RANKING
+  Tier: Signature | Confidence: 100/100
+  Definition: "position"
+  Wordplay: charade
+  Explanation: RAN (synonym of "Managed") + KING (synonym of "royal"); definition: "position"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLOWING  1A. Spoiling old woman wearing jewellery
+  Answer: BLOWING
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MANN  10A. Novelist in a state penning article
+  Answer: MANN
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ONTHEAIR  13A. Live report of where Prince William’s crown might be?
+  Answer: ONTHEAIR
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GEOGRAPHY  14A. Subject’s alter ego ‘Gary’ seen outside pub
+  Answer: GEOGRAPHY
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TIMES  17A. … by backing group holding note
+  Answer: TIMES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CONSTRUCT  19A. Make president replace politician with court after tricks
+  Answer: CONSTRUCT
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SUPREMO  20D. Boss to drink more rum
+  Answer: SUPREMO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CULTURE  21D. Growth of bird has head increase by a factor of 20
+  Answer: CULTURE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CHANGING  23A. Reforming c-capital punishment
+  Answer: CHANGING
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PEDDLE  24A. Sell bicycle part to the audience
+  Answer: PEDDLE
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DYLAN  25D. Welshman taking part in Normandy landings
+  Answer: DYLAN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LAUD  27A. Praise God for all to hear
+  Answer: LAUD
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] WINDS  3D. Snakes and ladders board in Fiji now ends being flipped
+  Answer: WINDS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NATASHA  4D. Woman’s brown back has a fracture
+  Answer: NATASHA
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BATTERY  5A. Modern cricketer gets final boundary of series
+  Answer: BATTERY
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ADOPTS  6D. Chooses a pet with no tail, a bit tame in afterthought
+  Answer: ADOPTS
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] THREEFOUR  7D. Elizabeth Reef – our secret signature
+  Answer: THREEFOUR
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SMOOTHTONGUED  9D. Sand dune got moved – plausible?
+  Answer: SMOOTHTONGUED
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [LOW] GREENBELT  15D. Sing loudly following party in open area outside town
+  Answer: GREENBELT
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "open area outside town"
+  Wordplay type: charade
+  Components:
+    synonym            party                     -> GREEN
+    synonym            Sing loudly               -> BELT
+  Assembly: charade — GREEN(synonym of "party") + BELT(synonym of "Sing loudly")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      sing: syn=A A,CRY,ALTO,BLAB,CALL,LILT,PIPE,RISE,UPON,CAROL,CHANT,CROON,GRASS,YODEL,CHORUS; abbr=S
+      loudly: syn=STRIDENT; abbr=F,FF
+      following: syn=F,BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH; abbr=F; ind=anagram?
+      party: syn=DO,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN; abbr=CON,DO,LAB,P
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      open: syn=UP,FOR,GET,KEY,LIE,OPE,OUT,AIRS,AIRY,AJAR,AWED,BALD,BARE,FAIR,FALL
+      area: syn=GREENBELT*,A,ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,REALM; abbr=A; ind=anagram
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      town: syn=DO,AIM,BET,BUS,CAR,DIE,END,FIT,GET,HUT,LAG,LAY,LIE,PUT,RUN
+  AI Reasoning:
+    GREEN (party) + BELT (sing loudly), with 'following' indicating the order
+  ----------------------------------------------------------------------
+
+  [HIGH] SONGS  16A. Relatives stealing £1,000 records …
+  Answer: SONGS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "records ..."
+  Wordplay: charade + container
+  Explanation: SONS (synonym of "Relatives") + G (abbreviation of "£1,000") [container: "stealing"]; definition: "records ..."
+  ----------------------------------------------------------------------
+
+  [ERROR] 18. During chaotic reign, no good prince becomes smoker? = INHALER
+  ----------------------------------------------------------------------
+
+  [HIGH] LEAFAGE  2D. General hides a cigarette in vegetation
+  Answer: LEAFAGE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "vegetation"
+  Wordplay: charade
+  Explanation: LEE (synonym of "General") + A (synonym of "hides") + FAG (synonym of "cigarette"); definition: "vegetation"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BLUECHEESE  26A. Low church, perhaps York, returned English food
+  Answer: BLUECHEESE
+  Tier: Sonnet | Confidence: 49/100
+  Definition: "food"
+  Wordplay type: charade
+  Components:
+    synonym            Low                       -> BLUE
+    abbreviation       church                    -> CH
+    synonym            York                      -> EE
+    reversal           English                   -> SE
+  Assembly: charade — BLUE(synonym of "Low") + CH(abbr. "church") + EE(synonym of "York") + SE(ES reversed, "English")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (62%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      low: syn=BLUE*,BAD,BAY,BUM,CAW,COO,CRY,FEW,MEW,MOO,NOT,SAD,SHY,YAP,YIP; abbr=MOO; sounds=lo
+      church: syn=CH*,C,CE,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH; abbr=C*,CE,CH*
+      perhaps: syn=CHEESE*,CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE; ind=anagram,parts
+      york: syn=SEE,CITY,HOUSE,RACECOURSE; abbr=Y
+      returned: syn=BACK,BORE,BORN,GAVE,PAID,CHANGE,ECHOED,NOTICED,REPLIED,TO ROLL,YIELDED,ANSWERED,REJOINED,REPLACED,RESTORED; ind=reversal
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E*
+      food: syn=CHEESE*,IF,EGG,BEEF,CHOP,CHOW,DIET,DISH,EATS,EDAM,EGGS,FAIR,FARE,FEED,FETA
+  AI Reasoning:
+    BLUE (low/sad) + CH (church abbrev) + EE (from York) + SE (English=ES reversed) = BLUECHEESE
+  ----------------------------------------------------------------------
+
+  [HIGH] PROTEST  28A. Demonstrate in favour of cricket’s longest format
+  Answer: PROTEST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Demonstrate"
+  Wordplay: charade
+  Explanation: PRO (synonym of "in favour") + TEST (synonym of "cricket's longest format"); definition: "Demonstrate"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

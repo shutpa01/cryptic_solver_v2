@@ -1,0 +1,1003 @@
+================================================================================
+RANDOM SAMPLE: 100 MEDIUM-60 RESULTS (from 7,584 total)
+================================================================================
+
+--- #1 ---
+Source: guardian #28509
+Clue: In North Dakota, she had a gun wrapped in cotton wool
+Answer: NANNIED
+Definition: wrapped in cotton wool
+Type: container
+  [?] ND         <- ND                             (synonym)
+  [Y] ANNIE      <- Annie Oakley, famous American  (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #2 ---
+Source: times #29363
+Clue: Fifty netted by not so common killer
+Answer: STRANGLER
+Definition: killer
+Type: container
+  [?] STRANGER   <- not so common                  (synonym)
+  [Y] L          <- fifty                          (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #3 ---
+Source: guardian #28174
+Clue: Pence's 'thing'? Just a little bit
+Answer: PARTICLE
+Definition: Just a little bit
+Type: charade
+  [?] P          <- Pence's                        (abbreviation)
+  [Y] ARTICLE    <- 'thing'?                       (synonym)
+Checks: definition=verified | piece:abbreviation=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #4 ---
+Source: guardian #27768
+Clue: Cancellation period definite
+Answer: ERASURE
+Definition: Cancellation
+Type: charade
+  [Y] ERA        <- period                         (synonym)
+  [?] SURE       <- SURE                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #5 ---
+Source: times #28964
+Clue: Very valuable publicity? Neat!
+Answer: PRICELESS
+Definition: Very valuable
+Type: charade
+  [Y] PR         <- publicity – Public Relations   (synonym)
+  [?] ICELESS    <- neat – not necessarily, just i (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #6 ---
+Source: times #29033
+Clue: Small individual upset player on pitch
+Answer: SWEEPER
+Definition: player on pitch
+Type: charade
+  [Y] S          <- Small                          (deletion)
+  [?] WEEPER     <- individual upset               (synonym)
+Checks: definition=verified | piece:deletion=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #7 ---
+Source: times #29096
+Clue: One accompanying touring team on trailer
+Answer: WAGON
+Definition: trailer
+Type: charade
+  [?] WAG        <- one accompanying touring team  (synonym)
+  [Y] ON         <- on                             (literal)
+Checks: definition=verified | piece:synonym=unverifiable | piece:literal=verified | assembly=verified
+
+--- #8 ---
+Source: independent #12114
+Clue: Suppress outbursts about half-cut lech
+Answer: STIFLE
+Definition: Suppress
+Type: charade
+  [?] STIF       <- =outbursts; “about” indicates  (synonym)
+  [Y] LE         <- lech                           (deletion)
+Checks: definition=verified | piece:synonym=unverifiable | piece:deletion=verified | assembly=verified
+
+--- #9 ---
+Source: guardian #27826
+Clue: Sunday cruciverbalist, maybe, who has cutting edge?
+Answer: SWORDMAN
+Definition: who has cutting edge?
+Type: charade
+  [Y] S          <- Sunday                         (deletion)
+  [?] WORDMAN    <- WORDMAN                        (synonym)
+Checks: definition=verified | piece:deletion=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #10 ---
+Source: guardian #29845
+Clue: Skin on show in retreat
+Answer: HIDEOUT
+Definition: retreat
+Type: charade
+  [Y] HIDE       <- skin                           (synonym)
+  [?] OUT        <- on show                        (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #11 ---
+Source: guardian #28397
+Clue: Fine material cut, so lustrous
+Answer: SILVERY
+Definition: lustrous
+Type: charade
+  [?] SIL        <- SIL                            (synonym)
+  [Y] VERY       <- ‘so’                           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #12 ---
+Source: guardian #27775
+Clue: Agreement to limit combat leads to discharge
+Answer: DEFRAYAL
+Definition: discharge
+Type: container
+  [Y] DEAL       <- Agreement                      (synonym)
+  [?] FRAY       <- FRAY                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #13 ---
+Source: guardian #25729
+Clue: Number of games to support check
+Answer: SETBACK
+Definition: check
+Type: charade
+  [?] SET        <- a number of games, e.g. in ten (synonym)
+  [Y] BACK       <- support                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #14 ---
+Source: guardian #28815
+Clue: Poetry virtually set in concrete — a change for the worse
+Answer: REVERSAL
+Definition: change for the worse
+Type: container
+  [Y] REAL       <- concrete                       (synonym)
+  [?] VERS       <- VERS                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #15 ---
+Source: guardian #29873
+Clue: Individual who’s busy protecting pit boss
+Answer: DOMINEER
+Definition: boss
+Type: container
+  [?] DOER       <- ‘individual who’s busy’        (synonym)
+  [Y] MINE       <- ‘pit’                          (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #16 ---
+Source: times #28214
+Clue: Group of countries meeting slight problem separate
+Answer: UNHITCH
+Definition: separate
+Type: charade
+  [?] UN         <- group of countries – United Na (synonym)
+  [Y] HITCH      <- slight problem                 (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #17 ---
+Source: times #28641
+Clue: 22 hell-bound rejects
+Answer: DISOWNS
+Definition: rejects
+Type: container
+  [Y] DIS        <- hell                           (synonym)
+  [?] SOWN       <- synonym for answer to 22a      (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #18 ---
+Source: guardian #27735
+Clue: Pick up king's knight
+Answer: LEARN
+Definition: Pick up
+Type: charade
+  [?] LEAR       <- king's                         (synonym)
+  [Y] N          <- knight                         (abbreviation)
+Checks: definition=verified | piece:synonym=unverifiable | piece:abbreviation=verified | assembly=verified
+
+--- #19 ---
+Source: guardian #27825
+Clue: Mother's request for silk
+Answer: DAMASK
+Definition: silk
+Type: charade
+  [?] DAM        <- Mother's                       (synonym)
+  [Y] ASK        <- request                        (abbreviation)
+Checks: definition=verified | piece:synonym=unverifiable | piece:abbreviation=verified | assembly=verified
+
+--- #20 ---
+Source: independent #12209
+Clue: US sex worker gets with Hoskins in a cottage?
+Answer: HOME
+Definition: cottage?
+Type: charade
+  [?] HO         <- American derogatory term for a (synonym)
+  [Y] ME         <- Hoskins, the setter            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #21 ---
+Source: independent #11918
+Clue: Holidaymaker losing money in scam?
+Answer: CAPER
+Definition: scam?
+Type: charade
+  [Y] CA         <- scam?                          (deletion)
+  [?] PER        <- holidaymaker                   (synonym)
+Checks: definition=verified | piece:deletion=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #22 ---
+Source: guardian #29535
+Clue: Judge wraps up investigation on cycling rogue
+Answer: REPROBATE
+Definition: rogue
+Type: container
+  [Y] RATE       <- ‘judge’                        (synonym)
+  [?] EPROB      <- EPROB                          (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #23 ---
+Source: guardian #28934
+Clue: Came across Ted welcoming partygoers
+Answer: TRAVERSED
+Definition: Came across
+Type: container
+  [Y] TED        <- Ted                            (literal)
+  [?] RAVERS     <- partygoers                     (synonym)
+Checks: definition=verified | piece:literal=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #24 ---
+Source: guardian #28650
+Clue: Contribution to out-take is reversed!
+Answer: INPUT
+Definition: Contribution
+Type: charade
+  [?] IN         <- IN                             (synonym)
+  [Y] PUT        <- is                             (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #25 ---
+Source: telegraph #29245
+Clue: Spellbound artist exercises
+Answer: Rapt
+Definition: Spellbound
+Type: charade
+  [Y] RA         <- artist                         (abbreviation)
+  [?] PT         <- exercises                      (abbreviation)
+Checks: definition=verified | piece:abbreviation=verified | piece:abbreviation=unverifiable | assembly=verified
+
+--- #26 ---
+Source: times #28310
+Clue: Curmudgeon spotted with daughter out for fruit
+Answer: CRAB APPLE
+Definition: fruit
+Type: charade
+  [?] CRAB       <- curmudgeon                     (synonym)
+  [Y] APPLE      <- spotted                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #27 ---
+Source: times #29150
+Clue: French ref's unfair person
+Answer: FRUMP
+Definition: unfair person
+Type: charade
+  [Y] FR         <- French                         (synonym)
+  [?] UMP        <- ref                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #28 ---
+Source: guardian #28067
+Clue: Fine head — using it?
+Answer: THINKING
+Definition: — using it?
+Type: charade
+  [Y] THIN       <- Fine                           (synonym)
+  [?] KING       <- KING                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #29 ---
+Source: guardian #28475
+Clue: Characters upset princess with things
+Answer: IDENTITIES
+Definition: Characters
+Type: reversal
+  [?] DI         <- princess                       (reversal)
+  [Y] ENTITIES   <- things                         (synonym)
+Checks: definition=verified | piece:reversal=unverifiable | piece:synonym=verified | assembly=wrong | reversal=verified
+
+--- #30 ---
+Source: guardian #28226
+Clue: How to greet the Queen in shady part of garden?
+Answer: BOWER
+Definition: shady part of garden?
+Type: charade
+  [?] BOW        <- BOW                            (synonym)
+  [Y] ER         <- the Queen                      (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #31 ---
+Source: guardian #28816
+Clue: Something to excite a fan of necking bad French port
+Answer: SAINTMALO
+Definition: port
+Type: charade
+  [Y] SA         <- sex appeal, ‘something to exci (synonym)
+  [?] INTMALO    <- INTMALO                        (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #32 ---
+Source: guardian #29112
+Clue: Earnestly ask about home for creature
+Answer: BEING
+Definition: creature
+Type: container
+  [?] BEG        <- "earnestly ask for"            (synonym)
+  [Y] IN         <- "home"                         (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #33 ---
+Source: times #29101
+Clue: Weapon readily found round Lake
+Answer: RIFLE
+Definition: Weapon
+Type: container
+  [?] RIFE       <- readily found                  (synonym)
+  [Y] L          <- lake                           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #34 ---
+Source: independent #11396
+Clue: Pressure on terminus still to come?
+Answer: PENDING
+Definition: still to come?
+Type: charade
+  [Y] P          <- abbreviation for pressure      (synonym)
+  [?] ENDING     <- terminus                       (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #35 ---
+Source: guardian #28686
+Clue: Flamboyant bachelor's game has no limits
+Answer: BAROQUE
+Definition: Flamboyant
+Type: charade
+  [Y] BA         <- Bachelor of Arts               (synonym)
+  [?] ROQUE      <- ROQUE                          (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #36 ---
+Source: times #28955
+Clue: Regretfully admitting leader of British airstrike is missing
+Answer: AFRAID
+Definition: Regretfully admitting
+Type: charade
+  [?] AF         <- AF                             (synonym)
+  [Y] RAID       <- British airstrike              (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #37 ---
+Source: guardian #26884
+Clue: Painter, way less than a month through the alcohol
+Answer: GAUGUIN
+Definition: Painter
+Type: container
+  [Y] GIN        <- “alcohol” Definition: Painter  (synonym)
+  [?] AUGU       <- AUGU                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #38 ---
+Source: guardian #26070
+Clue: Managed without fur that's rendered unserviceable
+Answer: DISABLED
+Definition: rendered unserviceable
+Type: container
+  [?] DID        <- DID                            (synonym)
+  [Y] SABLE      <- fur                            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #39 ---
+Source: telegraph #30860
+Clue: Mark's chasing sailor making passes
+Answer: ABSTAINS
+Definition: making passes
+Type: charade
+  [?] ABSTAIN    <- Mark's                         (synonym)
+  [Y] S          <- sailor                         (first_letter)
+Checks: definition=verified | piece:synonym=unverifiable | piece:first_letter=verified | assembly=verified
+
+--- #40 ---
+Source: guardian #27515
+Clue: Attractive woman needing a lot of money to strip
+Answer: BOMBSHELL
+Definition: Attractive woman
+Type: charade
+  [Y] BOMB       <- lot                            (synonym)
+  [?] SHELL      <- SHELL                          (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #41 ---
+Source: guardian #26923
+Clue: Language OK for Willi and Virginia
+Answer: JAVA
+Definition: Language
+Type: charade
+  [?] JA         <- JA                             (synonym)
+  [Y] VA         <- Virginia                       (abbreviation)
+Checks: definition=verified | piece:synonym=unverifiable | piece:abbreviation=verified | assembly=verified
+
+--- #42 ---
+Source: times #29258
+Clue: Brown perhaps touches the earth before spring
+Answer: LANDSCAPER
+Definition: Brown perhaps
+Type: charade
+  [?] LANDS      <- touches the earth              (synonym)
+  [Y] CAPER      <- spring                         (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #43 ---
+Source: guardian #28263
+Clue: Has bath just before bed for a fresh start
+Answer: CLEANSLATE
+Definition: a fresh start
+Type: charade
+  [?] CLEANS     <- CLEANS                         (synonym)
+  [Y] LATE       <- has bath just before bed       (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #44 ---
+Source: times #28640
+Clue: Someone who flogs whiskey needing cooler
+Answer: WHIPPER
+Definition: Someone who flogs
+Type: charade
+  [Y] W          <- whiskey                        (synonym)
+  [?] HIPPER     <- cooler                         (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #45 ---
+Source: independent #11632
+Clue: Detectives scent returning trouble
+Answer: DISTURB
+Definition: trouble
+Type: reversal
+  [Y] DIS        <- Detectives                     (synonym)
+  [?] BRUT       <- BRUT                           (reversal)
+Checks: definition=verified | piece:synonym=verified | piece:reversal=unverifiable | assembly=wrong | reversal=verified
+
+--- #46 ---
+Source: times #28957
+Clue: Drug finishing off naive novelist
+Answer: GREENE
+Definition: novelist
+Type: charade
+  [Y] GREEN      <- naive                          (synonym)
+  [?] E          <- drug                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #47 ---
+Source: independent #12080
+Clue: Severe line mostly taken by bloke
+Answer: STRINGENT
+Definition: Severe
+Type: charade
+  [?] STRIN      <- STRIN                          (synonym)
+  [Y] GENT       <- =bloke                         (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #48 ---
+Source: times #29111
+Clue: Summit briefly going into recess brings calm
+Answer: APPEASE
+Definition: calm
+Type: container
+  [Y] APSE       <- recess, in a church            (synonym)
+  [?] PEA        <- PEA                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #49 ---
+Source: guardian #27455
+Clue: Grandma's tent out of bounds for Arctic explorer
+Answer: NANSEN
+Definition: Arctic explorer
+Type: charade
+  [?] NANS       <- NANS                           (synonym)
+  [Y] EN         <- tent                           (deletion)
+Checks: definition=verified | piece:synonym=unverifiable | piece:deletion=verified | assembly=verified
+
+--- #50 ---
+Source: times #28823
+Clue: Material in publication on Muslim festival coming up
+Answer: ORGANDIE
+Definition: Material
+Type: reversal
+  [Y] ORGAN      <- publication                    (synonym)
+  [?] EID        <- Muslim festival                (reversal)
+Checks: definition=verified | piece:synonym=verified | piece:reversal=unverifiable | assembly=wrong | reversal=verified
+
+--- #51 ---
+Source: independent #12194
+Clue: Tea hot served in Central America …
+Answer: CHA
+Definition: Tea
+Type: container
+  [?] CA         <- Central America                (synonym)
+  [Y] H          <- hot                            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #52 ---
+Source: independent #12212
+Clue: Better periods after skipping British tour
+Answer: OUTSTRIP
+Definition: Better
+Type: charade
+  [?] OUTS       <- as in “bouts of illness” = per (synonym)
+  [Y] TRIP       <- tour = journey                 (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #53 ---
+Source: guardian #29194
+Clue: Recovered from vaccination? Went too far
+Answer: OVERSHOT
+Definition: Went too far
+Type: charade
+  [Y] OVER       <- Recovered                      (deletion)
+  [?] SHOT       <- SHOT                           (synonym)
+Checks: definition=verified | piece:deletion=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #54 ---
+Source: times #29390
+Clue: Always embracing jolly host
+Answer: ARMY
+Definition: host
+Type: container
+  [Y] AY         <- always                         (synonym)
+  [?] RM         <- Royal Marine, or “jolly”       (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #55 ---
+Source: independent #11597
+Clue: Belief is breaking enemy?
+Answer: THEISM
+Definition: Belief
+Type: container
+  [?] THEM       <- the enemy as in them and us    (synonym)
+  [Y] IS         <- is                             (literal)
+Checks: definition=verified | piece:synonym=unverifiable | piece:literal=verified | assembly=wrong | container=verified
+
+--- #56 ---
+Source: guardian #26318
+Clue: Random swipe catches smelly tourist
+Answer: HOLIDAYMAKER
+Definition: tourist
+Type: container
+  [Y] HAYMAKER   <- swipe                          (synonym)
+  [?] OLID       <- OLID                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #57 ---
+Source: independent #11625
+Clue: Burning torch of unfinished passion pursued by lover
+Answer: FLAMBEAU
+Definition: Burning torch
+Type: charade
+  [?] FLAM       <- FLAM                           (synonym)
+  [Y] BEAU       <- lover                          (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #58 ---
+Source: times #28180
+Clue: A possibly slow film
+Answer: KEY LARGO
+Definition: film
+Type: charade
+  [?] KEY        <- KEY                            (synonym)
+  [Y] LARGO      <- slow                           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #59 ---
+Source: independent #11801
+Clue: Large and small guitar book
+Answer: LUKE
+Definition: book
+Type: charade
+  [Y] L          <- large                          (synonym)
+  [?] UKE        <- ukulele; small guitar          (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #60 ---
+Source: guardian #26911
+Clue: Present goal preceding cry of pain
+Answer: ENDOW
+Definition: Present
+Type: charade
+  [Y] END        <- “goal”                         (synonym)
+  [?] OW         <- “cry of pain”                  (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #61 ---
+Source: telegraph #28399
+Clue: Penny's on edge, being prudish
+Answer: Prim
+Definition: prudish
+Type: charade
+  [?] P          <- Penny's                        (abbreviation)
+  [Y] RIM        <- edge,                          (synonym)
+Checks: definition=verified | piece:abbreviation=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #62 ---
+Source: guardian #27927
+Clue: Fowl with head covered?
+Answer: CAPON
+Definition: Fowl
+Type: charade
+  [?] CAP        <- CAP                            (synonym)
+  [Y] ON         <- with                           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #63 ---
+Source: guardian #29032
+Clue: Fly, perhaps, one swallowed by nocturnal insectivore
+Answer: BAIT
+Definition: Fly, perhaps,
+Type: container
+  [?] BAT        <- nocturnal insectivore          (synonym)
+  [Y] I          <- one                            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #64 ---
+Source: times #28370
+Clue: The King almost killed — victim taken outside
+Answer: PRESLEY
+Definition: The King
+Type: container
+  [Y] PREY       <- victim                         (synonym)
+  [?] SLE        <- SLE                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #65 ---
+Source: times #29335
+Clue: Nurse almost guaranteed prize
+Answer: TREASURE
+Definition: prize
+Type: charade
+  [?] TREA       <- TREA                           (synonym)
+  [Y] SURE       <- guaranteed                     (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #66 ---
+Source: guardian #24801
+Clue: View from air over London, say
+Answer: LOOKSEE
+Definition: View
+Type: charade
+  [Y] LOOK       <- air                            (synonym)
+  [?] SEE        <- Bishop’s area                  (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #67 ---
+Source: times #28731
+Clue: Road with bend ahead in Lancaster?
+Answer: WARPLANE
+Definition: Road
+Type: charade
+  [?] WARP       <- bend                           (synonym)
+  [Y] LANE       <- road                           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #68 ---
+Source: times #29426
+Clue: Standard item of cavalier language
+Answer: PARLANCE
+Definition: language
+Type: charade
+  [Y] PAR        <- standard                       (synonym)
+  [?] LANCE      <- item of cavalier               (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #69 ---
+Source: guardian #28800
+Clue: Pressure on one copying exam questions
+Answer: PAPER
+Definition: exam questions
+Type: charade
+  [Y] P          <- Pressure                       (synonym)
+  [?] APER       <- one copying                    (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #70 ---
+Source: times #28910
+Clue: Codebreaker admitting to providing private education
+Answer: TUTORING
+Definition: providing private education
+Type: container
+  [?] TURING     <- codebreaker – Alan             (synonym)
+  [Y] TO         <- to                             (literal)
+Checks: definition=verified | piece:synonym=unverifiable | piece:literal=verified | assembly=wrong | container=verified
+
+--- #71 ---
+Source: guardian #26617
+Clue: Doll that is subjected to cruel remark
+Answer: BARBIE
+Definition: Doll
+Type: charade
+  [?] BARB       <- BARB                           (synonym)
+  [Y] IE         <- that is                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #72 ---
+Source: guardian #28555
+Clue: Put on stone and mellowed
+Answer: STAGED
+Definition: Put on
+Type: charade
+  [Y] ST         <- stone                          (synonym)
+  [?] AGED       <- mellowed                       (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #73 ---
+Source: guardian #28587
+Clue: Longing for England, Browning now reviewed parade?
+Answer: MARCHPAST
+Definition: parade?
+Type: charade
+  [Y] MARCH      <- parade?                        (synonym)
+  [?] PAST       <- PAST                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #74 ---
+Source: guardian #25817
+Clue: Snatch leather with soft coating
+Answer: KIDNAP
+Definition: Snatch
+Type: charade
+  [Y] KID        <- leather                        (synonym)
+  [?] NAP        <- NAP                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #75 ---
+Source: guardian #26145
+Clue: Dancer's habit of setting up band brother with Destiny
+Answer: MAILLOT
+Definition: Dancer's habit
+Type: reversal
+  [?] LIAM       <- LIAM                           (reversal)
+  [Y] LOT        <- band                           (synonym)
+Checks: definition=verified | piece:reversal=unverifiable | piece:synonym=verified | assembly=wrong | reversal=verified
+
+--- #76 ---
+Source: times #28775
+Clue: Worked on encasing Egyptian god in precious stone
+Answer: DIAMOND
+Definition: precious stone
+Type: container
+  [Y] DID        <- worked on                      (synonym)
+  [?] AMON       <- AMON                           (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #77 ---
+Source: guardian #28728
+Clue: Wine the French rejected drunk by agent
+Answer: MOSELLE
+Definition: Wine
+Type: container
+  [Y] MOLE       <- ‘agent’                        (synonym)
+  [?] SEL        <- SEL                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #78 ---
+Source: times #29171
+Clue: Parisian who cut a piece of cake is feeling sick
+Answer: QUEASY
+Definition: feeling sick
+Type: charade
+  [?] QU         <- QU                             (synonym)
+  [Y] EASY       <- a piece of cake                (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #79 ---
+Source: guardian #28196
+Clue: Having wasted time, daughter married
+Answer: DALLIED
+Definition: Having wasted time,
+Type: charade
+  [Y] D          <- daughter                       (synonym)
+  [?] ALLIED     <- married                        (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #80 ---
+Source: times #29447
+Clue: Zoom call having to suppress extremes of noise
+Answer: TELEPHOTO
+Definition: Zoom
+Type: charade
+  [?] TELEPHO    <- TELEPHO                        (synonym)
+  [Y] TO         <- to                             (literal)
+Checks: definition=verified | piece:synonym=unverifiable | piece:literal=verified | assembly=verified
+
+--- #81 ---
+Source: telegraph #28187
+Clue: Assume responsibility for fool employee
+Answer: Take in hand
+Definition: Assume responsibility
+Type: charade
+  [?] TAKEIN     <- fool                           (synonym)
+  [Y] HAND       <- employee                       (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #82 ---
+Source: guardian #28441
+Clue: Join priest cutting piece of cake?
+Answer: SPLICE
+Definition: Join
+Type: container
+  [Y] SLICE      <- piece of cake                  (synonym)
+  [?] P          <- priest                         (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #83 ---
+Source: independent #11894
+Clue: Attack from the air? Airmen in difficult position mostly
+Answer: STRAFE
+Definition: Attack from the air?
+Type: container
+  [?] STE        <- STE                            (synonym)
+  [Y] RAF        <- airmen                         (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #84 ---
+Source: guardian #27350
+Clue: Leftist who's gently run media empire
+Answer: TROTSKY
+Definition: Leftist
+Type: charade
+  [Y] TROT       <- run                            (synonym)
+  [?] SKY        <- SKY                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #85 ---
+Source: guardian #29389
+Clue: Boost Chinese and UK measures of distance
+Answer: LIFT
+Definition: Boost
+Type: charade
+  [?] LI         <- a Chinese measure of distance  (synonym)
+  [Y] FT         <- foot, a British one            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #86 ---
+Source: independent #12238
+Clue: Pass over vast areas creating disorder
+Answer: DISEASE
+Definition: disorder
+Type: container
+  [Y] DIE        <- pass                           (synonym)
+  [?] SEAS       <- vast areas                     (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #87 ---
+Source: guardian #26203
+Clue: Drawing equipment arrives without permit
+Answer: COMPASSES
+Definition: Drawing equipment
+Type: container
+  [?] COMES      <- COMES                          (synonym)
+  [Y] PASS       <- without                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #88 ---
+Source: guardian #29535
+Clue: Bring up note, interrupting unfinished ballot
+Answer: VOMIT
+Definition: Bring up
+Type: container
+  [?] VOT        <- VOT                            (synonym)
+  [Y] MI         <- ‘note’ of the sol-fa           (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #89 ---
+Source: guardian #26093
+Clue: Where to find reserves of French bank
+Answer: DEPOT
+Definition: Where to find reserves
+Type: charade
+  [Y] DE         <- French                         (abbreviation)
+  [?] POT        <- POT                            (synonym)
+Checks: definition=verified | piece:abbreviation=verified | piece:synonym=unverifiable | assembly=verified
+
+--- #90 ---
+Source: independent #12197
+Clue: Revolving piece that secures a climber
+Answer: LIANA
+Definition: climber
+Type: reversal
+  [?] NAIL       <- ‘piece that secures’           (reversal)
+  [Y] A          <- a                              (literal)
+Checks: definition=verified | piece:reversal=unverifiable | piece:literal=verified | assembly=wrong | reversal=verified
+
+--- #91 ---
+Source: guardian #29194
+Clue: Fed up? I’m smiling on camera to get lift
+Answer: CHEESEDOFF
+Definition: Fed up?
+Type: charade
+  [?] CHEESE     <- said to make one smile for a p (synonym)
+  [Y] DOFF       <- to lift                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #92 ---
+Source: independent #11770
+Clue: Bitterly cold for one retracting cover
+Answer: GELID
+Definition: Bitterly cold
+Type: reversal
+  [?] EG         <- EG                             (reversal)
+  [Y] LID        <- cover                          (synonym)
+Checks: definition=verified | piece:reversal=unverifiable | piece:synonym=verified | assembly=wrong | reversal=verified
+
+--- #93 ---
+Source: guardian #29041
+Clue: Call to stop article by multinational medical group
+Answer: WHOA
+Definition: Call to stop
+Type: charade
+  [?] WHO        <- World Health Organisation – mu (synonym)
+  [Y] A          <- article                        (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #94 ---
+Source: guardian #28527
+Clue: How's your father after little brother sent back cycle?
+Answer: ORBIT
+Definition: cycle?
+Type: charade
+  [?] ORB        <- little brother                 (synonym)
+  [Y] IT         <- sex, so "how's your father"    (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #95 ---
+Source: guardian #26546
+Clue: Fairly drab Friday food? Bring in the meat!
+Answer: FRUMPISH
+Definition: Fairly drab
+Type: container
+  [?] FISH       <- traditionally eaten on Fridays (synonym)
+  [Y] RUMP       <- meat!                          (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=wrong | container=verified
+
+--- #96 ---
+Source: independent #11582
+Clue: Fan covering latest from top seed
+Answer: PEANUT
+Definition: seed
+Type: charade
+  [?] PEA        <- a homophone – without an indic (synonym)
+  [Y] NUT        <- fan                            (synonym)
+Checks: definition=verified | piece:synonym=unverifiable | piece:synonym=verified | assembly=verified
+
+--- #97 ---
+Source: times #29251
+Clue: Blooming American interrupting Highland dance!
+Answer: FLAMING
+Definition: Blooming
+Type: container
+  [?] FLING      <- FLING                          (synonym)
+  [Y] AM         <- American                       (deletion)
+Checks: definition=verified | piece:synonym=unverifiable | piece:deletion=verified | assembly=wrong | container=verified
+
+--- #98 ---
+Source: times #28760
+Clue: Fantasist of dismal aspect touring Maine
+Answer: DREAMER
+Definition: Fantasist
+Type: container
+  [Y] DREAR      <- of dismal aspect               (synonym)
+  [?] ME         <- Maine                          (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #99 ---
+Source: times #28790
+Clue: Anger gripping almost all in French train
+Answer: ENTOURAGE
+Definition: train
+Type: container
+  [Y] ENRAGE     <- anger                          (synonym)
+  [?] TOU        <- TOU                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=wrong | container=verified
+
+--- #100 ---
+Source: independent #11938
+Clue: He perhaps is prudent to lose weight being simple
+Answer: ELEMENTARY
+Definition: simple
+Type: charade
+  [Y] ELEMENT    <- perhaps                        (synonym)
+  [?] ARY        <- ARY                            (synonym)
+Checks: definition=verified | piece:synonym=verified | piece:synonym=unverifiable | assembly=verified

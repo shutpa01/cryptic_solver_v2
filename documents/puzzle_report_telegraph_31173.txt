@@ -1,0 +1,762 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31173
+Generated: 2026-03-05 23:56:31
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      29
+  Assembled:        28/29 (96%)
+    Sonnet:         26
+    DB Fallback:    2
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   19  1A, 1D, 11A, 12A, 14A, 17D, 18D, 2D, 21A, 23D, 24D, 24A, 27A, 28A, 29A, 30A, 5D, 6A, 8D
+  Medium (40-79): 9  10A, 13A, 15D, 16A, 19A, 22D, 25A, 3D, 4D
+  Low (<40):    0  
+  Failed:       1  20D
+  Average:      85/100
+
+COST: $0.1868 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (11 entries)
+------------------------------------------------------------
+  CHARACTER: "identity" -> CHARACTER  (missing from definition_answers_augmented)
+  SWEDE: "Scandinavian" -> SWEDE  (missing from definition_answers_augmented)
+  SOARS: "Glides" -> SOARS  (missing from definition_answers_augmented)
+  SEASON: "Salt perhaps" -> SEASON  (missing from definition_answers_augmented)
+  MARCHED: "Walked solemnly" -> MARCHED  (missing from definition_answers_augmented)
+  DOPIER: "More idiotic" -> DOPIER  (missing from definition_answers_augmented)
+  MISERY: "despair" -> MISERY  (missing from definition_answers_augmented)
+  TOAST: "Drink" -> TOAST  (missing from definition_answers_augmented)
+  ODEON: occupied -> OD  (missing from synonyms_pairs)
+  ODEON: time -> ON  (missing from synonyms_pairs)
+  ENDURANCE: acquiring -> ANCE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (4)
+------------------------------------------------------------
+  ODEON = 10 (60/100): AI=container, assembled=charade
+  RINGLET = 13 (60/100): AI=container, assembled=charade
+  ENDURANCE = 17 (80/100): AI=container, assembled=charade
+  SOARS = 19 (55/100): AI=charade, assembled=deletion
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  SWEDE (75/100): S <- "scandinavian" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (2)
+------------------------------------------------------------
+  CHARACTER = 15 (45/100): answer used in own explanation
+  Sinatra = 3 (65/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  ODEON = 10 (60/100): no pieces verified in DB
+  RINGLET = 13 (60/100): no pieces verified in DB
+  CHARACTER = 15 (45/100): single piece equals full answer
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  20. Salt perhaps playing under large waves = SEASON
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  17/29  6A, 11A, 12A, 14A, 21A, 24A, 24A, 25A, 27A, 28A, 29A, 30A, 1D, 1D, 2D, 4D, 18D
+  Type mismatch:         4  10A, 13A, 19A, 17D
+  Fabricated mapping:    1  16A
+  Circular assembly:     2  3D, 15D
+  Unverified explain.:   3  10A, 13A, 15D
+  DB gap:                10  10A, 16A, 19A, 5D, 8D, 15D, 17D, 20D, 22D, 23D
+  Failed:                1  20D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  POTASSIUM     Smashing atoms up is creating element (9)
+                      anagram of ATOMSUPIS(atoms up is)  [HIGH]
+    1D  PROGNOSIS     Terribly poor signs seeing medical forecast (9)
+                      anagram of POORSIGNS(poor signs)  [HIGH]
+   10A  ODEON         Theatre occupied vacant time (5)
+                      OD(occupied) + E(vacant) + ON(time)  [MED]
+   11A  DYSPEPSIA     Remedy sipped, say, getting indigestion (9)
+                      anagram of SIPPED(sipped)+SAY(say)  [HIGH]
+   12A  NEPOTIC       Relatively helpful? (7)
+                      cryptic definition  [HIGH]
+   13A  RINGLET       Answering letter enclosing lock of hair (7)
+                      RING(Answering) + LET(letter)  [MED]
+   14A  Socrates      Help comprehending case for philosopher (8)
+                      CRATE(case) inside SOS(help)  [HIGH]
+   15D  CHARACTER     Licence to withhold account identity (9)
+                      CHARACTER(identity)  [MED]
+   16A  SWEDE         Scandinavian with Estonia due east, initially (5)
+                      S + W(with) + E(Estonia) + D(due) + E(Estonia)  [MED]
+   17D  ENDURANCE     Finish United run acquiring new stamina (9)
+                      END(Finish) + UR(United run) + ANCE(acquiring)  [HIGH]
+   18D  KNICKERS      Grand pound shop's opening showing pants (8)
+                      K(Grand) + NICKER(pound) + S(shop's opening)  [HIGH]
+   19A  SOARS         Glides using paddle on board ship (5)
+                      delete O from SO(on) + OAR(paddle) + S(ship)  [MED]
+    2D  TWERP         Silly Queen cuts time with power (5)
+                      T(time) + W(with) + ER(Queen) + P(power)  [HIGH]
+   20D  SEASON        Salt perhaps playing under large waves (6)
+                      ---  [FAIL]
+   21A  ANIMATED      Single partner inside also excited (8)
+                      IMATE inside AND(also)  [HIGH]
+   22D  MARCHED       Walked solemnly and bowed after Mass (7)
+                      MARCH(after) + delete BOW from BOWED(bowed)  [MED]
+   23D  DOPIER        More idiotic support following party (6)
+                      DO(party) + PIER(support)  [HIGH]
+   24D  BEANO         Exclude nothing about sweetheart for party (5)
+                      E(sweetheart) inside BAN(Exclude) + O(nothing)  [HIGH]
+   24A  BRAVADO       Victor given trouble after supporter's boasting (7)
+                      BRA(supporter's) + V(Victor) + ADO(trouble)  [HIGH]
+   25A  CORSAIR       Reportedly bawdy song for pirate (7)
+                      COARSE AIR sounds like CORSAIR  [MED]
+   27A  AUTHORISE     Hires out a buggy producing permit (9)
+                      anagram of HIRESOUTA(hires out a)  [HIGH]
+   28A  HUMAN         Kind of smell, essentially dank (5)
+                      HUM(smell) + AN(dank)  [HIGH]
+   29A  OGRE          Monster therefore returns (4)
+                      reverse ERGO(therefore)  [HIGH]
+    3D  Sinatra       Fans in a trance catching singer (7)
+                      hidden in 'Fans in a trance'  [MED]
+   30A  RESIDENCE     Decree nisi without one moving house (9)
+                      anagram of DECREENIS(Decree nisi without one)  [HIGH]
+    4D  INDICTED      Represented with no adult being charged (8)
+                      delete A from INDICATED  [MED]
+    5D  MISERY        Lives in jolly heartless despair (6)
+                      IS(Lives) inside MERY(jolly heartless)  [HIGH]
+    6A  FIST          Hand is good, holding spades (4)
+                      S(spades) inside FIT(good)  [HIGH]
+    8D  TOAST         Drink while surrounded by drink (5)
+                      AS(while) inside TOT(drink)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Smashing atoms up is creating element
+  Answer: POTASSIUM
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "element"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     atoms up is               -> ATOMSUPIS
+  Assembly: anagram — anagram of ATOMSUPIS(atoms up is)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      smashing: syn=SUPER,SWELL,SUPERB,BREAKING,BALL HARD,EXCELLENT,WONDERFUL; ind=anagram
+      atoms: syn=ACES,BITS,DABS,NIPS,RAYS,DRAMS,HINTS,LICKS,MITES,MOTES,SNAPS,SNIPS,SPOTS,CRUMBS,FLECKS; sounds=adam
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      is: syn=TAS*,DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,USE,BEAR,COME,COOK
+      creating: syn=RISE,DOING,MAKING,CAUSING,WORKING,BREEDING,BRINGING,BUILDING,INDUCING,INVOKING,SPAWNING,YIELDING,BEGETTING,EFFECTING,PRODUCING; ind=anagram
+      element: syn=POTASSIUM*,CO,BIT,ONE,SAY,AREA,DESK,FIEF,GAME,NEON,PART,UNIT,WALK,ZINC,ARGON
+    Definitions:
+      "element" -> POTASSIUM (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 1. Terribly poor signs seeing medical forecast
+  Answer: PROGNOSIS
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "medical forecast"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     poor signs                -> POORSIGNS
+  Assembly: anagram — anagram of POORSIGNS(poor signs)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      terribly: syn=AY,SO,FAR,HOW,ILL,LOT,NOT,TOO,WAY,WOE,ALAS,BONE,DAMN,DANG,EVER; ind=anagram
+      poor: syn=TO,BAD,BUM,DRY,ILL,LOW,NOT,OFF,SUB,ARID,BODY,BONY,BUSH,DEAD,FROM; abbr=WEAK; ind=anagram
+      signs: syn=FLY,SHOW,SIGN,INSET,MARKS,OBELI,OMENS,HOUSES,TOKENS,PLAQUES,AUSPICES,GESTURES,INITIALS,NOTATION,PORTENTS
+      seeing: syn=IS*,AS,FOR,HOW,NOW,THAT,AS IS,AS IT,CAUSE,GOING,ICING,OPTIC,SINCE,COMING,DATING; ind=anagram
+      medical: syn=DOC,DOCS,HOME,TEST,HOMES,MEDIC,NURSE,AIDMAN,AIDMEN,CLINIC,DOCTOR,INTERN,MEDICO,MEDICS,NURSES; abbr=M
+      forecast: syn=READ,AUGUR,AUGURS,DIVINE,EXPECT,BETWEEN,PORTEND,PREDICT,PRESAGE,PROJECT,PRESAGED,PROPHECY,PORTENDED
+    Definitions:
+      "forecast" -> PROGNOSIS (definition match)
+      "medical forecast" -> PROGNOSIS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 10. Theatre occupied vacant time
+  Answer: ODEON
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Theatre"
+  Wordplay type: container
+  Components:
+    synonym            occupied                  -> OD
+    synonym            vacant                    -> E
+    synonym            time                      -> ON
+  Assembly: charade — OD(occupied) + E(vacant) + ON(time)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=0/3 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      theatre: syn=ODEON*,REP,HERE,TEAR,WARM,ARENA,DRAMA,FIELD,HOUSE,LYRIC,ON OR,PLACE,STAGE,THERE; abbr=T
+      occupied: syn=BUSY; ind=container
+      vacant: syn=OFF,RAW,BARE,BODY,DAMN,DEAD,FLAT,FREE,IDLE,PURE,RANK,TOOM,VOID,BLANK,CLEAN; ind=container,deletion,parts
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+    Definitions:
+      "Theatre" -> ODEON (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Remedy sipped, say, getting indigestion
+  Answer: DYSPEPSIA
+  Tier: DB Fallback | Confidence: 100/100
+  Definition: "indigestion"
+  Wordplay type: anagram
+  Components:
+    literal            sipped                    -> SIPPED
+    literal            say                       -> SAY
+  Assembly: anagram — anagram of SIPPED(sipped)+SAY(say)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      remedy: syn=CURE,DRUG,HEAL,MEND,AMEND,ATONE,INCUR,RIGHT,SALVE,TONIC,AMENDS,PHYSIC,SECURE,WONDER,AMENDED; ind=anagram
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      indigestion: syn=DYSPEPSIA*
+    Definitions:
+      "indigestion" -> DYSPEPSIA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Relatively helpful?
+  Answer: NEPOTIC
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Relatively helpful"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      relatively: syn=OF,OR,BIT,NOT,KIND,LESS,LIKE,MORE,MUCH,SORT,A BIT,A FEW,CLEAN,QUITE,ENOUGH
+      helpful: syn=CUTE,FAIR,GOOD,JAKE,KIND,BONNY,DUCKY,EXACT,JOLLY,OFUSE,TASTY,TONIC,BETTER,COMELY,DULCET
+    Definitions:
+      "Relatively helpful" -> NEPOTIC (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 13. Answering letter enclosing lock of hair
+  Answer: RINGLET
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "lock of hair"
+  Wordplay type: container
+  Components:
+    synonym            Answering                 -> RING
+    synonym            letter                    -> LET
+  Assembly: charade — RING(Answering) + LET(letter)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      answering: syn=GO,FIT,FILL,JIBE,KEEP,MEET,WORK,AGREE,BREAK,CHECK,CRACK,REPLY,SOLVE,TALLY,ACCORD
+      letter: syn=MU,ETA,GEE,INK,PEN,PSI,RHO,TAU,TEA,BETA,CARD,CUSS,IOTA,MAIL,MEMO; abbr=A,B,N*
+      enclosing: syn=NEAR,NIGH,CLOSE,FLUSH,JOINED,LINKED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,JOINING,NEAREST,RIMMING,TANGENT; ind=container
+      lock: syn=RINGLET*,HAIR,LEAD,THING,TRESS,SECURE,CONFINE; sounds=loch
+      hair: syn=RINGLET*,DO,ACE,BOB,BUN,CUT,FUR,HOP,IRK,MOP,PUG,RUB,ACES,BLED,COAT; sounds=hare
+      lock of hair: syn=RINGLET*,CURL,HAIR,LOCK
+    Definitions:
+      "hair" -> RINGLET (definition match)
+      "lock of hair" -> RINGLET (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Help comprehending case for philosopher
+  Answer: Socrates
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "philosopher"
+  Wordplay type: container
+  Components:
+    synonym            help                      -> SOS
+    synonym            case                      -> CRATE
+  Assembly: container — CRATE(case) inside SOS(help)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      help: syn=SOS*,ME,AID,HIM,MAN,ABET,AIDS,BACK,BOON,CARE,EASE,FILL,GIRL,HAND,LIFT; abbr=AID
+      comprehending: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,RULING,SEEING,SIRING
+      case: syn=CRATE*,BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT; ind=parts
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      philosopher: syn=SOCRATES*,HUME,KANT,ZENO,BACON,CAMUS,COMTE,HEGEL,LOCKE,PLATO,STOIC,ARENDT,SARTRE,BENTHAM,BERGSON
+    Definitions:
+      "philosopher" -> Socrates (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 15. Licence to withhold account identity
+  Answer: CHARACTER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "identity"
+  Wordplay type: charade
+  Components:
+    synonym            identity                  -> CHARACTER
+  Assembly: charade — CHARACTER(identity)
+  Note: dropped piece 0
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer
+  DB Lookups:
+    DB lookups:
+      licence: syn=PERMIT,FREEDOM,WARRANT,LATITUDE,COPYRIGHT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      withhold: syn=BAG,EYE,ANON,HANG,HOLD,KEEP,LINE,ONTO,STEP,COURT,PEACE,A BRIEF
+      account: syn=AC*,RATE*,NO,A A,ACC,AIM,BAG,BUM,END,ILL,SET,TAB,USE,WHY,BILL; abbr=AC*
+      identity: syn=CHARACTER*,ID,MIND,NAME,SELF,OF THE,BY CARD,ONENESS,SAMENESS; abbr=ID
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Scandinavian with Estonia due east, initially
+  Answer: SWEDE
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Scandinavian"
+  Wordplay type: charade
+  Components:
+    abbreviation       with                      -> W
+    first_letter       Estonia                   -> E
+    first_letter       due                       -> D
+    abbreviation       east                      -> E
+  Assembly: charade — S + W(with) + E(Estonia) + D(due) + E(Estonia)
+  Gap fill: [('scandinavian', 'S', 'first_letter')]
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      scandinavian: syn=LAPP,NORSE
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W*
+      estonia: syn=HERE,LAND,STATE
+      due: syn=DEAD,FAIR,FULL,JUST,OWED,ROSY,OWING,RIGHT,SANDY,STRAW,SUNNY,TAWNY; sounds=dew,do
+      east: syn=POINT; abbr=E*; ind=reversal
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Finish United run acquiring new stamina
+  Answer: ENDURANCE
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "stamina"
+  Wordplay type: container
+  Components:
+    synonym            Finish                    -> END
+    abbreviation       United run                -> UR
+    synonym            acquiring                 -> ANCE
+  Assembly: charade — END(Finish) + UR(United run) + ANCE(acquiring)
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      finish: syn=END*,RACE*,GO,OK,CAN,DIE,FIX,LET,OPT,RUN,SET,DEAL,DROP,EDGE,END,; ind=parts
+      united: syn=ONE,ALLY,CLUB,FUSE,JOIN,NEAR,NIGH,TEAM,CAUSE,CLOSE,FLUSH,FUSED,JOINT,MARRY,UNIFY; abbr=U*
+      run: syn=ENDURE*,RACE*,BE,DO,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB; abbr=R*; ind=anagram?
+      acquiring: syn=GET,GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING; ind=container
+      new: syn=END*,UP,AGE,CAN,DIE,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      stamina: syn=ENDURANCE*,FIBRE,POWER,BOTTOM,ENERGY,VIGOUR,STRENGTH,FORTITUDE
+    Definitions:
+      "stamina" -> ENDURANCE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Grand pound shop's opening showing pants
+  Answer: KNICKERS
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "pants"
+  Wordplay type: charade
+  Components:
+    abbreviation       Grand                     -> K
+    synonym            pound                     -> NICKER
+    first_letter       shop's opening            -> S
+  Assembly: charade — K(Grand) + NICKER(pound) + S(shop's opening)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      grand: syn=A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH,BLUE,BOSS,BRAG; abbr=G,K*
+      pound: syn=NICKER*,A,BAT,BIG,BOP,BOX,DAB,HIT,RAP,SIP,SUP,BANG,BASH,BEAT,BELT; abbr=L,LB,P; ind=anagram?
+      shop's: syn=BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,STORE,BETRAY,BODEGA,OUTLET,TELLON,FACTORY
+      opening: syn=DEN,GAP,PIT,RIP,STY,ADIT,BIND,DARK,DENT,DINT,DOOR,DUMP,GASH,GATE,GULF; abbr=DOOR; ind=acrostic,deletion,parts
+      showing: syn=OVERT,RERUN,VISIBLE,CONTEMPT,EXPOSURE,MEEKNESS; ind=hidden
+      pants: syn=KNICKERS*,IS,DUFF,POOR,DROSS,GASPS,INEPT,BOXERS,BRIEFS,SLACKS,BREATHS,CHRONIC,DRAWERS,EXHALES,RUBBISH; ind=anagram
+    Definitions:
+      "pants" -> KNICKERS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 19. Glides using paddle on board ship
+  Answer: SOARS
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "Glides"
+  Wordplay type: charade
+  Components:
+    synonym            on                        -> SO
+    synonym            paddle                    -> OAR
+    abbreviation       ship                      -> S
+  Assembly: deletion — delete O from SO(on) + OAR(paddle) + S(ship)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_mismatch=AI=charade, assembled=deletion | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      glides: syn=SOARS*,HIES,LAMS,NIPS,RAMS,RIPS,RUNS,SAGS,BELTS,BLOWS,BOLTS,BOMBS,BOWLS,FADES,FALLS
+      using: syn=WITH,RENAL; abbr=BY; ind=anagram
+      paddle: syn=OAR*,ROAR,BLADE,CANOE
+      on: syn=SO*,AS,OF,RE,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      board: syn=BE,DO,ARC,BET,BOW,FIT,FRY,GET,HAP,LAG,LAY,LIE,RUN,SAG,TEA; ind=container?; sounds=bored
+      ship: syn=SS,AIR,ARK,MAN,TUB,ARGO,BOAT,KEEL,NESS,SAME,SEND,TOSS,CRAFT,LINER,OILER; abbr=S*,SS
+      on board: ind=container
+      on board: abbr=S*,SS
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. Silly Queen cuts time with power
+  Answer: TWERP
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Silly"
+  Wordplay type: charade
+  Components:
+    abbreviation       time                      -> T
+    abbreviation       Queen                     -> ER
+    abbreviation       with                      -> W
+    abbreviation       power                     -> P
+  Assembly: charade — T(time) + W(with) + ER(Queen) + P(power)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      silly: syn=MAD,ODD,DAFT,GAGA,GOON,HALF,LIKE,WEAK,ZANY,ADDLE,APISH,BALMY,BARMY,BATTY,CRAZY; ind=anagram
+      queen: syn=ER*,QU,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=ER*,HER,HM,Q,QU,R*
+      cuts: syn=AXES,DIGS,LOPS,ABOUT,BARBS,CHOPS,DARTS,DISES,DOCKS,GIRDS,NAMES,POKES,SLAPS,SLURS,TEARS; ind=deletion,hidden,parts
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W*
+      power: syn=ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL,WALL; abbr=P*; fodder=POWER(4/5 anagram match)
+    Definitions:
+      "Silly" -> TWERP (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 20. Salt perhaps playing under large waves
+  Answer: SEASON
+  Tier: --- | Confidence: 0/100
+  Definition: "Salt perhaps"
+  Wordplay type: anagram
+  Components:
+    literal            under                     -> UNDER
+    abbreviation       large                     -> L
+  DB Lookups:
+    DB lookups:
+      salt: syn=SEA*,SEASON*,AB,DOG,OLD,POTASH,RATING,SAILOR,SALINE,SEAMAN
+      perhaps: syn=SEASON*,CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE; ind=anagram,parts
+      playing: syn=GOLF,ROLE,DOING,GOING,A GRIP,ACTING,LAYING,TAKING,TOYING,VERSUS; abbr=ON*,P; ind=anagram
+      under: syn=BAD,BOW,ILL,LIT,LOW,WET,DOWN,FALL,HIGH,LESS,PUNK,QUIT,SICK,AFOOT,BELOW
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L,OS
+      waves: syn=SIGN,OCEAN,RADIO,SPATE,TIDAL,GROUND,RIPPLE,ROLLER,SIGNAL; ind=anagram,anagram?; sounds=waive
+      salt perhaps: syn=SEASON*
+    Definitions:
+      "Salt" -> SEASON (definition match)
+      "Salt perhaps" -> SEASON (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. Single partner inside also excited
+  Answer: ANIMATED
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "excited"
+  Wordplay type: container
+  Components:
+    synonym            also                      -> AND
+    abbreviation       single                    -> I
+    synonym            partner                   -> MATE
+  Assembly: container — IMATE inside AND(also)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      single: syn=EX,ID,ONE,OUT,OWN,RUN,SET,TAG,TAX,CULL,DUTY,FIRE,FIRM,FREE,ITEM; abbr=I*,LONE
+      partner: syn=MATE*,FEE,JOB,MAN,NUN,PAL,PAY,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HALF
+      inside: syn=GUT,MID,TOP,HEART,INNER,PRIVY,RELIC,SPACE,COURSE,HUSHED,INMOST,INWARD,MIDDLE,SECRET,SOURCE; abbr=IN; ind=container,hidden,insertion,parts
+      also: syn=AND*,SO,DOG,DUD,TOO,YET,BOMB,BUST,DOGS,DUDS,FLOP,HASH,INTO,MESS,MISS; abbr=AND
+      excited: syn=ANIMATED*,HOT,MAD,WUD,AGOG,AVID,GAGA,KEEN,LIKE,LOCO,NUTS,WILD,ANTSY,ASTIR,AWOKE; abbr=UP; ind=anagram
+    Definitions:
+      "excited" -> ANIMATED (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 22. Walked solemnly and bowed after Mass
+  Answer: MARCHED
+  Tier: DB Fallback | Confidence: 65/100
+  Definition: "Walked solemnly"
+  Wordplay type: deletion
+  Components:
+    synonym            after                     -> MARCH
+    literal            bowed                     -> BOWED
+  Assembly: deletion — MARCH(after) + delete BOW from BOWED(bowed)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      walked: syn=TROD,PACED,AMBLED,STRODE,STEPPED
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      bowed: syn=BENT,WAVY,ABOUT,COILED,CURLED,CURVED,KINKED,LOOPED,SPIRAL,TURNED,TWINED,WARPED,ZIGZAG,COILING,CROOKED; sounds=bode
+      after: syn=MARCH*,BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET; ind=anagram
+      mass: syn=A,LOT,MOB,POT,SEA,TON,WAD,ARMY,BIKE,BODY,BULK,CLAN,CORE,CRAM,DEAL; abbr=M*; ind=container?
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. More idiotic support following party
+  Answer: DOPIER
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "More idiotic"
+  Wordplay type: charade
+  Components:
+    synonym            party                     -> DO
+    synonym            support                   -> PIER
+  Assembly: charade — DO(party) + PIER(support)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      idiotic: syn=CRAZY,SILLY,ABSURD,STUPID; ind=anagram?
+      support: syn=PIER*,A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE,ABET; abbr=AID,BACK,BRA,TEE
+      following: syn=BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH,AFTER; abbr=F; ind=anagram?
+      party: syn=DO*,BOD,BOY,CAT,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN,POP; abbr=CON,DO*,LAB,P*
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Exclude nothing about sweetheart for party
+  Answer: BEANO
+  Tier: Sonnet | Confidence: 97/100
+  Definition: "party"
+  Wordplay type: container
+  Components:
+    synonym            Exclude                   -> BAN
+    abbreviation       nothing                   -> O
+    core_letters       sweetheart                -> E
+  Assembly: container — E(sweetheart) inside BAN(Exclude) + O(nothing)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      exclude: syn=BAN,BAR,MISS,OMIT,RULE,DEBAR
+      nothing: syn=NO*,O,OF,OH,ON,NIL,NIX,PUT,TWO,ZIP,DODO,DOLT,DOPE,DORK,GOOF; abbr=NIL,O*
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY,YAW; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      sweetheart: syn=JO,HON,HOT,PIP,BEAU,DEAR,ELSE,LOVE,LULU,ANGEL,BEAUT,DAISY,DANDY,DILLY,DOOZY; ind=container?
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      party: syn=BEANO*,DO,BOD,BOY,CAT,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN; abbr=CON,DO,LAB,P
+    Definitions:
+      "party" -> BEANO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Victor given trouble after supporter's boasting
+  Answer: BRAVADO
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "boasting"
+  Wordplay type: charade
+  Components:
+    synonym            supporter's               -> BRA
+    abbreviation       Victor                    -> V
+    synonym            trouble                   -> ADO
+  Assembly: charade — BRA(supporter's) + V(Victor) + ADO(trouble)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      victor: syn=VIC,HUGO,INNER; abbr=V*
+      given: syn=IF,APT,ONE,SET,BORN,FIRM,FLAT,HARD,NORM,SOME,SURE,USED,WONT,BASIS,CANON
+      trouble: syn=ADO*,AIL,BID,BOX,BUG,DOG,ILL,NUT,WOO,AS A,CASE,FACT,FEAR,FRET,FUSS; abbr=AIL; ind=anagram
+      after: syn=DO*,BE,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      supporter's: syn=BRA*,FAN,NUN,PAL,TEE,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FILL,FOLK,LINE,MAIN; abbr=BRA*
+      boasting: syn=BRAVADO*,RULING,TAMING,CALMING,CROWING,CURBING,HOLDING,KEEPING
+    Definitions:
+      "boasting" -> BRAVADO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 25. Reportedly bawdy song for pirate
+  Answer: CORSAIR
+  Tier: Sonnet | Confidence: 76/100
+  Definition: "pirate"
+  Wordplay type: homophone
+  Components:
+    sound_of           bawdy                     -> COARSE
+    synonym            song                      -> AIR
+  Assembly: homophone — COARSE AIR sounds like CORSAIR
+  Checks: definition=confirmed in DB | wordplay_type=homophone | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      reportedly: syn=MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,PERHAPS,PLAINLY,VISIBLY; ind=homophone
+      bawdy: syn=OFF,BLUE,EARTHY,RIBALD
+      song: syn=AIR*,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR*,ARIA
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      pirate: syn=CORSAIR*,COP,DIG,NAB,NET,RAP,BUST,CRIB,GLOM,GROK,HOOK,KIDD,NAIL,NICK,SMEE
+      for pirate: syn=ROVER
+    Definitions:
+      "pirate" -> CORSAIR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Hires out a buggy producing permit
+  Answer: AUTHORISE
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "permit"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     hires out a               -> HIRESOUT A
+  Assembly: anagram — anagram of HIRESOUTA(hires out a)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hires: syn=TIME,CHARGES,EMPLOYS,RECRUITS,JOB,PAY,RENT,SIGN,TAKE,LEASE,PLACE,ASSUME,RENTAL,CHARTER,PARTNER; sounds=higher
+      out: syn=OR*,OK,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      buggy: syn=CAB,GIG,RIG,BABY,CART,FOUR,TRAP,COACH,COUPÉ,STAGE,TONGA,CALASH,CHAISE,HANSOM,LANDAU; ind=anagram?
+      producing: syn=RISE*,DOING,GOING,CEDING,GIVING,HAVING,MAKING,SAVING,BEARING,CAUSING,FEEDING,HANDING,LEAVING,PASSING,VESTING; ind=anagram
+      permit: syn=OR*,AUTHORISE*,DO,BAG,EYE,LET,BEST,HAVE,NONE,PASS,SIGN,VISA,AGREE,ALLOW,ALONE; ind=container?
+    Definitions:
+      "permit" -> AUTHORISE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 28. Kind of smell, essentially dank
+  Answer: HUMAN
+  Tier: Sonnet | Confidence: 96/100
+  Definition: "Kind"
+  Wordplay type: charade
+  Components:
+    synonym            smell                     -> HUM
+    core_letters       dank                      -> AN
+  Assembly: charade — HUM(smell) + AN(dank)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      kind: syn=ILK,SET,AXIS,BORN,CLUB,GOOD,LIKE,SORT,TIER,TYPE,WARM,A CAP,ANGLE,BLOCK,BOARD; ind=anagram
+      smell: syn=HUM*,AIR,BIT,CAN,DAB,NIP,RAY,RED,SEE,TAD,DRAM,FEEL,FUNK,HINT,LICK; abbr=BO
+      essentially: ind=deletion,parts
+      kind of: ind=anagram
+      kind of: syn=OR,BIT,NOT,LESS,LIKE,MORE,MUCH,SORT,A BIT,A FEW
+    Definitions:
+      "Kind" -> HUMAN (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 29. Monster therefore returns
+  Answer: OGRE
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Monster"
+  Wordplay type: reversal
+  Components:
+    synonym            therefore                 -> ERGO
+  Assembly: reversal — reverse ERGO(therefore)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      monster: syn=OGRE*,NO,ORC,HUGE,NAZI,SIZE
+      therefore: syn=SO,ERGO,THUS; abbr=SO; ind=reversal?
+      returns: syn=TIME,NET,PAY,WAY,BEAR,BORN,COME,GAIN,GIVE; ind=reversal
+    Definitions:
+      "Monster" -> OGRE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 3. Fans in a trance catching singer
+  Answer: Sinatra
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "singer"
+  Wordplay type: hidden
+  Components:
+    hidden             Fans in a trance          -> SINATRA
+  Assembly: hidden — hidden in 'Fans in a trance'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      fans: syn=ME,BUGS,NUTS,BUFFS,FOOLS,HEADS,FIENDS,FREAKS,HOUNDS,LOVERS,MAVENS,ADDICTS,COMPANY,GENERAL,JUNKIES; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      trance: syn=DAZE,DREAM,SPELL,STUDY,ECSTASY
+      catching: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      singer: syn=SINATRA*,SAY,ALTO,BASS,CHER,DIVA,GAGA,LULU,PIAF,SWAN,VOTE,ADELE,BASSO,DYLAN,ELVIS
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      in a trance: syn=RAPT,CHARMED,RIVETED
+    Definitions:
+      "singer" -> Sinatra (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 30. Decree nisi without one moving house
+  Answer: RESIDENCE
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "house"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Decree nisi without one   -> DECREENIS
+  Assembly: anagram — anagram of DECREENIS(Decree nisi without one)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      decree: syn=MY,SO,FEW,LAW,MANY,RULE,WORD,WRIT,EDICT,ENACT,FATWA,ORDER,UKASE,WORDS,A WORD
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      one: syn=SIDE*,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK; abbr=A,ACE,I*,O; sounds=won
+      moving: syn=TEAR,ASTIR,GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,OFFING,POSING,RILING,SEEING,SIRING; ind=anagram
+      house: syn=DEN*,RESIDENCE*,HO,BAR,BOX,CAT,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN; abbr=HO; ind=parts
+    Definitions:
+      "house" -> RESIDENCE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 4. Represented with no adult being charged
+  Answer: INDICTED
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "charged"
+  Wordplay type: deletion
+  Assembly: deletion — delete A from INDICATED
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      represented: syn=ROLE; ind=anagram
+      with: syn=IN*,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      adult: syn=BLUE,FULL,RIPE,ALGAE,GROWN,IMAGO,MATURE,RISQUE,AMPUTEE,GROWNUP,MATURED,RIPENED,GROWN UP,GROWN-UP; abbr=A
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      charged: syn=INDICTED*,HOT,RAN,RED,FEED,HAIR,LIVE,MIND,TORE,WARM,FIERY,HEART,KICKY,MATEY,PALSY
+      with no: syn=ABNORMAL,ATYPICAL
+    Definitions:
+      "charged" -> INDICTED (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Lives in jolly heartless despair
+  Answer: MISERY
+  Tier: Sonnet | Confidence: 81/100
+  Definition: "despair"
+  Wordplay type: container
+  Components:
+    deletion           jolly heartless           -> MERY
+    synonym            Lives                     -> IS
+  Assembly: container — IS(Lives) inside MERY(jolly heartless)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      lives: syn=IS*,RUNS,GESTS,TIMES,DWELLS,EPOCHS,AM,BE,DO,GO,ON,ARE,HAP,HOT,LIE; abbr=IS*,BE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      jolly: syn=SO,FAB,FAR,HOW,LOT,NOT,PET,TOO,WAY,A-OK,BONE,BOSS,BRAG,COOL,CUTE; abbr=RM; ind=anagram?
+      heartless: syn=NO,CASE,COLD,HARD,TAKE,BRUTE,CRUEL,STONY,BRUTAL,SAVAGE,WANTON; abbr=T; ind=deletion,parts
+      despair: syn=MISERY*,FEAR,FRET,FUSS,LONG,LOSE,PINE,STEW,CHAFE,HEART,SWEAT,WORRY,YEARN,BOTHER,COUPLE; ind=anagram?
+  ----------------------------------------------------------------------
+
+  [HIGH] 6. Hand is good, holding spades
+  Answer: FIST
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Hand"
+  Wordplay type: container
+  Components:
+    synonym            good                      -> FIT
+    abbreviation       spades                    -> S
+  Assembly: container — S(spades) inside FIT(good)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hand: syn=FIST*,ME,ACE,AID,DAB,JOB,MAN,OLD,SET,USE,WAY,ACES,AIDS,ANON,BLOC
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      good: syn=FIT*,OK,ON,SO,ACE,ALL,APT,BIG,LOW,OUT,PET,SAD,USE,ABLE,ABLY; abbr=G,PI
+      holding: syn=DOOM,FARM; ind=container,hidden
+      spades: syn=DIGS,SUIT,CARD,TOOL; abbr=S*
+    Definitions:
+      "Hand" -> FIST (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. Drink while surrounded by drink
+  Answer: TOAST
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Drink"
+  Wordplay type: container
+  Components:
+    synonym            drink                     -> TOT
+    synonym            while                     -> AS
+  Assembly: container — AS(while) inside TOT(drink)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      drink: syn=TOT*,IT,ALE,BIB,CHA,GIN,HIT,ICE,KIR,LAP,MUM,NIP,PEG,POP,RUM; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      while: syn=AS*,IS,BIT,DAY,EON,ERA,NOW,BEAT,JIFF,MUCH,PAIN,SPAN,WHEN,WINK,WORK; abbr=AS*; sounds=wile
+      surrounded: syn=AMID,GIRT,HELD,AMONG,BESET; ind=container
+      by: syn=TO*,IN,SO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      surrounded by: ind=insertion
+      surrounded by: syn=IN,MID,AMID,OVER,AMONG,MIDST
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,758 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12311
+Generated: 2026-03-24 14:10:14
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        28/33 (84%)
+    Signature:      6
+    Sig+Enriched:   5
+    Sonnet:         17
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   15  15?, 18?, 20?, 24?, 32?, 33?, 17?, 19?, 2?, 22?, 27?, 3?, 31?, 5?, 8?
+  Medium (40-79): 9  12?, 13?, 14?, 16?, 21?, 30?, 6?, 7?, 9?
+  Low (<40):    4  1?, 10?, 11?, 23?
+  Failed:       5  25?, 26?, 28?, 29?, 4?
+  Average:      71/100
+
+COST: $1.6522 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (39 entries)
+------------------------------------------------------------
+  DIPSTICK: "Fool" -> DIPSTICK  (missing from definition_answers_augmented)
+  HOUR: "period" -> HOUR  (missing from definition_answers_augmented)
+  FATHER: "relative" -> FATHER  (missing from definition_answers_augmented)
+  ALARM: "Panic" -> ALARM  (missing from definition_answers_augmented)
+  UNIT: "detachment" -> UNIT  (missing from definition_answers_augmented)
+  DEPTH: "That's as low as it gets" -> DEPTH  (missing from definition_answers_augmented)
+  APNEA: "Trouble with inspiration for Springsteen?" -> APNEA  (missing from definition_answers_augmented)
+  INHERE: "Exist as an essential part" -> INHERE  (missing from definition_answers_augmented)
+  TRADEDEALS: "commercial treaties" -> TRADEDEALS  (missing from definition_answers_augmented)
+  HAND: "Palm and what's attached a bunch of bananas" -> HAND  (missing from definition_answers_augmented)
+  MIAOUED: "Spoke like a Persian perhaps" -> MIAOUED  (missing from definition_answers_augmented)
+  CEMETERY: "burial plot" -> CEMETERY  (missing from definition_answers_augmented)
+  TOTEM: "symbol" -> TOTEM  (missing from definition_answers_augmented)
+  PARAMECIA: "Pond-dwellers" -> PARAMECIA  (missing from definition_answers_augmented)
+  THREWOFF: "Distracted" -> THREWOFF  (missing from definition_answers_augmented)
+  HOROLOGY: "Time-study" -> HOROLOGY  (missing from definition_answers_augmented)
+  ESCAPEMENT: "clocking mechanism" -> ESCAPEMENT  (missing from definition_answers_augmented)
+  GRAND: "Piano" -> GRAND  (missing from definition_answers_augmented)
+  THERAPIST: "Personal counsellor" -> THERAPIST  (missing from definition_answers_augmented)
+  ATOMIC: "elemental building blocks" -> ATOMIC  (missing from definition_answers_augmented)
+  RACQUET: "Handled sports equipment" -> RACQUET  (missing from definition_answers_augmented)
+  TIME: "something taken by the patient" -> TIME  (missing from definition_answers_augmented)
+  ANGLOPHILE: "England supporter" -> ANGLOPHILE  (missing from definition_answers_augmented)
+  CUCKOO: "Bird sound" -> CUCKOO  (missing from definition_answers_augmented)
+  GAMUT: "range" -> GAMUT  (missing from definition_answers_augmented)
+  COY: "Not saying much" -> COY  (missing from definition_answers_augmented)
+  DEPTH: dept -> DEPT  (missing from synonyms_pairs)
+  APNEA: support group -> AA  (missing from abbreviations)
+  INHERE: the definition ought to be -> IN  (missing from abbreviations)
+  INHERE: where -> HERE  (missing from synonyms_pairs)
+  TOTEM: Add -> TO  (missing from abbreviations)
+  TOTEM: space -> TEM  (missing from abbreviations)
+  OCULI: round -> I  (missing from abbreviations)
+  CUCKOO: eggs -> OO  (missing from abbreviations)
+  GAMUT: School -> G  (missing from abbreviations)
+  GAMUT: uniform -> A  (missing from abbreviations)
+  GAMUT: summer -> M  (missing from abbreviations)
+  GAMUT: shirt -> UT  (missing from abbreviations)
+  COY: Yorkshireman -> Y  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  DEPTH = 1 (18/100): AI=substitution, assembled=charade
+  MIAOUED = 14 (55/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  INHERE = 11 (5/100): no pieces verified in DB
+  ATOMIC = 30 (45/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  25. Piano lacking seventh note given away = GRAND
+  26. Relax fit for semi-formal attire = LOUNGESUIT
+  28. Where to find the time and day some Biblical end arrives = CALENDAR
+  29. I go back and forth write and occasionally double up with a  = PENDULUM
+  4. Handled sports equipment - a scam they say = RACQUET
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  3/33  31, 3, 15
+  Type mismatch:         2  1, 14
+  Unverified explain.:   2  11, 30
+  DB gap:                27  1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 30, 32, 33
+  Failed:                5  4, 25, 26, 28, 29
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   15?  SUNDIAL       Unreliable time indicator united island in revolt (7)
+                      anagram of ISLAND ("island") [anagram: "Unreliable"] + U (abbreviation of "united") = SUNDIAL  [HIGH]
+   18?  DIPSTICK      Fool declines credit (8)
+                      DIPS (synonym of "declines") + TICK (synonym of "credit"); definition: "Fool"  [HIGH]
+   20?  HOUR          Excursion heading off after hot period (4)
+                      TOUR (synonym of "Excursion") + H (abbreviation of "hot") [deletion: "heading off"]; definition: "period"  [HIGH]
+   24?  FATHER        Article boring distant relative (6)
+                      THE (synonym of "Article") + FAR (synonym of "distant") [container: "boring"]; definition: "relative"  [HIGH]
+   32?  ALARM         Panic contained by Territorial Army (5)
+                      hidden in "Territorial Army" [hidden: "contained"]; definition: "Panic"  [HIGH]
+   33?  UNIT          Briefly join detachment (4)
+                      UNITE (synonym of "join") [curtailing: "Briefly"]; definition: "detachment"  [HIGH]
+    1?  DEPTH         Pressure to replace article in the end? That's as low as it gets (5)
+                      DEPT + H(core of "the")  [LOW]
+   10?  APNEA         Trouble with inspiration for Springsteen? Quietly new drug embraced by support group (5)
+                      P(synonym of "quietly")+N(abbr. "new")+E(abbr. "drug") inside AA(synonym of "support group")  [LOW]
+   11?  INHERE        Exist as an essential part where the definition ought to be (6)
+                      IN(synonym of "the definition ought to be") + HERE(synonym of "where")  [LOW]
+   12?  TRADEDEALS    Craft moral principles leader ditched for commercial treaties (10)
+                      TRADE(synonym of "Craft") + DEALS(deletion from "moral principles")  [MED]
+   13?  HAND          Palm and what's attached a bunch of bananas (4)
+                      double definition  [MED]
+   14?  MIAOUED       Spoke like a Persian perhaps but extremely misinformed about every vowel (7)
+                      M(first letter of "misinformed") + IAOUE("every vowel") + D(last letter of "misinformed")  [MED]
+   16?  CEMETERY      I'm kept nearby at regular intervals to follow church burial plot (8)
+                      CE(abbr. "church") + METERY(alternate letters of "I'm kept nearby")  [MED]
+   17?  TOTEM         Add space symbol (5)
+                      TO (synonym of "Add") + TEM (synonym of "space"); definition: "symbol"  [HIGH]
+   19?  PARAMECIA     Pond-dwellers came and a pair reproduced (9)
+                      anagram of CAME ("came") + PAIR ("pair") [anagram: "reproduced"] + A (abbreviation of "a") = PARAMECIA; definition: "Pond-dwellers"  [HIGH]
+    2?  THREWOFF      Distracted cast not currently performing (8)
+                      THREW (synonym of "cast") + OFF (synonym of "not currently performing"); definition: "Distracted"  [HIGH]
+   21?  HOROLOGY      Time-study men I now see set up record year (8)
+                      HORO(OROH reversed, "I now see") + LOG(synonym of "record") + Y(abbr. "year")  [MED]
+   22?  ESCAPEMENT    Key American gym crew with time clocking mechanism (10)
+                      ESC (synonym of "Key") + A (synonym of "American") + PE (synonym of "gym") + MEN (synonym of "crew") + T (synonym of "time"); definition: "clocking mechanism"  [HIGH]
+   23?  OCULI         Eye doctor scrubbing cover of sealant round windows (5)
+                      OCUL(deletion from "Eye doctor") + I(synonym of "round")  [LOW]
+   25?  GRAND         Piano lacking seventh note given away (5)
+                      ---  [FAIL]
+   26?  LOUNGESUIT    Relax fit for semi-formal attire (10)
+                      ---  [ERR]
+   27?  THERAPIST     Personal counsellor priest that mostly messed up (9)
+                      anagram of PRIEST+THA(deletion from "that mostly") = THERAPIST  [HIGH]
+   28?  CALENDAR      Where to find the time and day some Biblical end arrives (8)
+                      ---  [ERR]
+   29?  PENDULUM      I go back and forth write and occasionally double up with a hint of mirth (8)
+                      ---  [ERR]
+    3?  PURSUER       Disorganised runners-up withdrawing names one after another (7)
+                      anagram of RUERSUP(deletion from "runners-up withdrawing names") = PURSUER  [HIGH]
+   30?  ATOMIC        The first half of the alphabet at first is centrepiece of elemental building blocks (6)
+                      A(first letter of "The first half of the alphabet at first") + TOMIC("centrepiece")  [MED]
+   31?  GLASS         Exhausted genteel American behind mirror (5)
+                      GL(deletion from "genteel") + ASS(ASSURANCE minus URANCE, "american")  [HIGH]
+    4?  RACQUET       Handled sports equipment - a scam they say (7)
+                      ---  [FAIL]
+    5?  TIME          Reportedly leaves something taken by the patient (4)
+                      THYME sounds like TIME  [HIGH]
+    6?  ANGLOPHILE    England supporter hoping all playing finally contribute (10)
+                      ANGLOPHIL("hoping all") + E(last letter of "contribute")  [MED]
+    7?  CUCKOO        Bird sound from hen dropping large eggs (6)
+                      CUCK(deletion from "hen") + OO(synonym of "eggs")  [MED]
+    8?  GAMUT         School uniform summer shirt range (5)
+                      G (synonym of "School") + A (synonym of "uniform") + M (synonym of "summer") + UT (synonym of "shirt"); definition: "range"  [HIGH]
+    9?  COY           Not saying much about old Yorkshireman in the van (3)
+                      C(abbr. "about") + O(abbr. "old") + Y(abbr. "Yorkshireman")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] SUNDIAL  15?. Unreliable time indicator united island in revolt
+  Answer: SUNDIAL
+  Tier: Signature | Confidence: 100/100
+  Wordplay: anagram + charade
+  Explanation: anagram of ISLAND ("island") [anagram: "Unreliable"] + U (abbreviation of "united") = SUNDIAL
+  ----------------------------------------------------------------------
+
+  [HIGH] DIPSTICK  18?. Fool declines credit
+  Answer: DIPSTICK
+  Tier: Signature | Confidence: 100/100
+  Definition: "Fool"
+  Wordplay: charade
+  Explanation: DIPS (synonym of "declines") + TICK (synonym of "credit"); definition: "Fool"
+  ----------------------------------------------------------------------
+
+  [HIGH] HOUR  20?. Excursion heading off after hot period
+  Answer: HOUR
+  Tier: Signature | Confidence: 100/100
+  Definition: "period"
+  Wordplay: charade + deletion
+  Explanation: TOUR (synonym of "Excursion") + H (abbreviation of "hot") [deletion: "heading off"]; definition: "period"
+  ----------------------------------------------------------------------
+
+  [HIGH] FATHER  24?. Article boring distant relative
+  Answer: FATHER
+  Tier: Signature | Confidence: 100/100
+  Definition: "relative"
+  Wordplay: charade + container
+  Explanation: THE (synonym of "Article") + FAR (synonym of "distant") [container: "boring"]; definition: "relative"
+  ----------------------------------------------------------------------
+
+  [HIGH] ALARM  32?. Panic contained by Territorial Army
+  Answer: ALARM
+  Tier: Signature | Confidence: 100/100
+  Definition: "Panic"
+  Wordplay: hidden
+  Explanation: hidden in "Territorial Army" [hidden: "contained"]; definition: "Panic"
+  ----------------------------------------------------------------------
+
+  [HIGH] UNIT  33?. Briefly join detachment
+  Answer: UNIT
+  Tier: Signature | Confidence: 100/100
+  Definition: "detachment"
+  Wordplay: charade + deletion
+  Explanation: UNITE (synonym of "join") [curtailing: "Briefly"]; definition: "detachment"
+  ----------------------------------------------------------------------
+
+  [LOW] DEPTH  1?. Pressure to replace article in the end? That's as low as it gets
+  Answer: DEPTH
+  Tier: Sonnet | Confidence: 18/100
+  Definition: "That's as low as it gets"
+  Wordplay type: substitution
+  Components:
+    synonym            dept                      -> DEPT
+    core_letters       the                       -> H
+  Assembly: charade — DEPT + H(core of "the")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=substitution, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['dept']
+  DB Lookups:
+    DB lookups:
+      pressure: syn=P,DO,A A,ARM,USE,BOOK,LOVE,MAKE,MEET,MOST,MUCH,NICE,DRIVE,FORCE,PRESS; abbr=P*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      replace: syn=CUT; ind=anagram?
+      article: syn=A,AN,THE,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE; abbr=A,AN,THE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      that's: syn=SO,SURE,TRULY,AS,GO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY; abbr=TH*,YON
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      low: syn=BAD,BAY,BUM,CAW,COO,CRY,FEW,MEW,MOO,NOT,SAD,SHY,YAP,YIP,BARK; abbr=MOO; sounds=lo
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      gets: syn=BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS,OFFS; abbr=G,GE
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED
+      the end: syn=OMEGA
+      as it: syn=BIT,FOR,HOW,NOW,YET,JUST,MUCH,NEXT,ONCE,PAIN
+      in the end: syn=YET,AGAIN,LATER
+  AI Reasoning:
+    Replace 'the' in 'the end' with 'dept' (pressure-related) while keeping 'h' from 'the' to form DEPTH
+  ----------------------------------------------------------------------
+
+  [LOW] APNEA  10?. Trouble with inspiration for Springsteen? Quietly new drug embraced by support group
+  Answer: APNEA
+  Tier: Sonnet | Confidence: -28/100
+  Definition: "Trouble with inspiration for Springsteen?"
+  Wordplay type: container
+  Components:
+    synonym            support group             -> AA
+    synonym            quietly                   -> P
+    abbreviation       new                       -> N
+    abbreviation       drug                      -> E
+  Assembly: container — P(synonym of "quietly")+N(abbr. "new")+E(abbr. "drug") inside AA(synonym of "support group")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: P | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      trouble: syn=ADO,AIL,BID,BOX,BUG,DOG,ILL,NUT,WOO,AS A,CASE,FACT,FEAR,FRET,FUSS; abbr=AIL; ind=anagram
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      inspiration: syn=BE,CLIO,FORT,MUSE,TOOL,WALL,WARD,AEGIS,AGENT,ARMOR,CAUSE,COVER,ERATO,GUARD,IDEAS
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      quietly: syn=LAYER,PIANO,QUIET,STILL; abbr=P*
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE*,UNUSUAL; ind=anagram; sounds=gnu,knew
+      drug: syn=CAP,POT,ACID,CURE,DOPE,DOSE,DROP,HEAL,HEMP,MEND,METH,PILL,SHOT,BHANG,BOLUS; abbr=E*,POT
+      embraced: syn=GOT,WON,DREW,GAVE,MADE,QUIT; ind=container
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      support: syn=A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE,ABET,AIDS; abbr=AID,BACK,BRA,TEE
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+      trouble with: syn=ADORN
+      embraced by: ind=insertion
+  AI Reasoning:
+    PNE (quietly new drug) is embraced by AA (support group) to form APNEA
+  ----------------------------------------------------------------------
+
+  [LOW] INHERE  11?. Exist as an essential part where the definition ought to be
+  Answer: INHERE
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Exist as an essential part"
+  Wordplay type: charade
+  Components:
+    synonym            the definition ought to be -> IN
+    synonym            where                     -> HERE
+  Assembly: charade — IN(synonym of "the definition ought to be") + HERE(synonym of "where")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      exist: syn=AM,BE,DO,IS,ARE,HAP,LIE,SIT,BEAR,COME,COOK,EASY,LIVE,PASS,RANK
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A
+      essential: syn=ALL,KEY,DIRE,LAKE,MUST,NEED,BASIC,INNER,VITAL,CRYING,NEEDBE,NEEDED
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE; sounds=ware,wear
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      ought: syn=SHOULD
+      to: syn=ERE*,BY,OF,UP,ADO,BOS,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      the definition: syn=ROUGH,WATCH
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,APPLY,EXIST,ABOUND,BEGGED,PRAYED
+  AI Reasoning:
+    Charade of IN (the definition ought to be positioned in the clue) + HERE (where/location) = INHERE
+  ----------------------------------------------------------------------
+
+  [HIGH] TRADEDEALS  12?. Craft moral principles leader ditched for commercial treaties
+  Answer: TRADEDEALS
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "commercial treaties"
+  Wordplay type: charade
+  Components:
+    synonym            Craft                     -> TRADE
+    deletion           moral principles          -> DEALS
+  Assembly: charade — TRADE(synonym of "Craft") + DEALS(deletion from "moral principles")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      craft: syn=TRADE*,AT,ART,BUM,END,ARTS,BOAT,BUNS,BUTT,DRAW,DUFF,HAMS,LESS,LINE,ROOT; ind=anagram
+      moral: syn=IF,BEST,GOOD,HOLY,JUST,NORM,PURE,TRUE,BASIS,CANON,CLEAN,GIVEN,GODLY,NOBLE,PIOUS
+      principles: syn=ROLE,CREDO,RULES,ABC(S),BASICS,MORALS,TENETS,GRAMMAR,ALPHABET,ELEMENTS,STANDARD,THEORIES,RUDIMENTS,STANDARDS,ESSENTIALS; ind=container?; sounds=principal
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      ditched: syn=LEFT,LOST,JETTISONED; ind=deletion?
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      commercial: syn=AD*,FLY,INK,BILL,HYPE,PLUG,SIGN,SPOT,WEAR,WORD,PROMO,READY,STORY,WRITE,ADVERT; abbr=AD*
+      treaties: syn=JUDGES AS,AGREEMENTS
+  AI Reasoning:
+    TRADE (craft) + DEALS (moral principles with leader ditched) = TRADEDEALS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HAND  13?. Palm and what's attached a bunch of bananas
+  Answer: HAND
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Palm and what's attached a bunch of bananas"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      palm: syn=HAND*,WIN,COCO,PASS,SAGO,TREE
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      what's: syn=HA*,TOO,YET,ALSO,MORE,THEN,AH,EH,LO,MY,NO,OH,AHA,FIE,GAD; abbr=EH; ind=homophone
+      attached: syn=FIX,SET,FAST,FIRM,FOND,NAME,NEAR,NIGH,SNUG,TAUT,TIED
+      bunch: syn=JUT,LOT,MOB,POT,SET,TON,WAD,BANK,BIKE,BODY,BUMP,CLAN,CRAM,DEAL,FOLD; ind=container?
+      bananas: syn=APE,FEY,MAD,ODD,OFF,WUD,AMOK,BATS,DAFT,EDGY,LIKE,LOCO,NUTS; ind=anagram
+  AI Reasoning:
+    Double definition where 'palm' means the inner surface of a hand, and 'what's attached a bunch of bananas' refers to what grips/holds bananas (a hand)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MIAOUED  14?. Spoke like a Persian perhaps but extremely misinformed about every vowel
+  Answer: MIAOUED
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "Spoke like a Persian perhaps"
+  Wordplay type: container
+  Components:
+    first_letter       misinformed               -> M
+    literal            every vowel               -> IAOUE
+    last_letter        misinformed               -> D
+  Assembly: charade — M(first letter of "misinformed") + IAOUE("every vowel") + D(last letter of "misinformed")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      spoke: syn=PUT,RUNG,SAID,TOLD,PASSED,RADIAL,RADIUS,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,PHRASED,RECITED,UTTERED
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      but: syn=OF,BAR,FOR,THO,YET,FAIR,FROM,JUST,MOST,MUCH,NEAR,NIGH,ONLY,SAVE,THAN; sounds=butt
+      extremely: syn=SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      misinformed: syn=HAD,HELD,DUPED,BOUGHT,BRIBED,BURNED,GAFFED,GULLED,HAD ON,HOAXED,MISLED,NURSED,SNOWED,ALLOWED,BIRTHED
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      every: syn=ACE,AID,ALL,ANY,ARC,BOW,CUT,EYE,HUB,PEG,ARCH,BEND,BENT,BOON,CORE; abbr=ALL; ind=parts
+      vowel: syn=I,LETTER
+      like a: syn=COW,BULLY,TROLL,COERCE,HARASS,HECTOR,MENACE,TYRANT,OPPRESS,TAUREAN
+  AI Reasoning:
+    M and D (extreme letters of 'misinformed') contain all vowels (I-A-O-U-E) to spell MIAOUED
+  ----------------------------------------------------------------------
+
+  [HIGH] CEMETERY  16?. I'm kept nearby at regular intervals to follow church burial plot
+  Answer: CEMETERY
+  Tier: Sonnet | Confidence: 76/100
+  Definition: "burial plot"
+  Wordplay type: charade
+  Components:
+    abbreviation       church                    -> CE
+    alternate_letters  I'm kept nearby           -> METERY
+  Assembly: charade — CE(abbr. "church") + METERY(alternate letters of "I'm kept nearby")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      kept: syn=MET*,RAN,HELD,HEXED,RULED,SAVED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED,FORGOT,GUIDED; ind=container?
+      nearby: syn=BY,IN,DOOR,HARD,NEAR,NEXT,NIGH,CLOSE,FLUSH,AROUND,JOINED,LINKED,UNITED,A ROUND,AMBIENT
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      regular: syn=24,AT,GI,ALL,DAY,END,MAN,OUT,ARMS,BARE,BODY,DAMN,DEAD,EVEN,FAIR; ind=parts
+      intervals: syn=LEGAL,BREAKS,PAUSES,SPACES,IN PLAY,BIT,DAY,DEN,EON,ERA,GAP,PIT,RIP,STY,BEAT; ind=parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      follow: syn=DO,GO,UP,BED,CUT,DOG,EYE,RUN,TAG,WAY,BOTH,CODA,EASY,HANG,HEAD
+      church: syn=CE*,C,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH; abbr=C*,CE*,CH
+      burial: syn=TOMB,GRAVE,BURYING,OBSEQUY
+      plot: syn=BED,LEA,LOT,HOPE,LAWN,MOOR,PLAN,PLAT,SITE,A LOT,ACRES,CABAL,CHART,CROFT,FIELD; abbr=BED,WEB
+      to follow: syn=TAIL
+      at regular intervals: syn=HELLO,ORGAN,DIGEST,EPISODIC
+  AI Reasoning:
+    Church abbreviation CE plus alternate letters from 'I'm kept nearby' gives METERY, forming CEMETERY
+  ----------------------------------------------------------------------
+
+  [HIGH] TOTEM  17?. Add space symbol
+  Answer: TOTEM
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "symbol"
+  Wordplay: charade
+  Explanation: TO (synonym of "Add") + TEM (synonym of "space"); definition: "symbol"
+  ----------------------------------------------------------------------
+
+  [HIGH] PARAMECIA  19?. Pond-dwellers came and a pair reproduced
+  Answer: PARAMECIA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Pond-dwellers"
+  Wordplay: anagram + charade
+  Explanation: anagram of CAME ("came") + PAIR ("pair") [anagram: "reproduced"] + A (abbreviation of "a") = PARAMECIA; definition: "Pond-dwellers"
+  ----------------------------------------------------------------------
+
+  [HIGH] THREWOFF  2?. Distracted cast not currently performing
+  Answer: THREWOFF
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Distracted"
+  Wordplay: charade
+  Explanation: THREW (synonym of "cast") + OFF (synonym of "not currently performing"); definition: "Distracted"
+  ----------------------------------------------------------------------
+
+  [HIGH] HOROLOGY  21?. Time-study men I now see set up record year
+  Answer: HOROLOGY
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Time-study"
+  Wordplay type: charade
+  Components:
+    reversal           I now see                 -> HORO
+    synonym            record                    -> LOG
+    abbreviation       year                      -> Y
+  Assembly: charade — HORO(OROH reversed, "I now see") + LOG(synonym of "record") + Y(abbr. "year")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      study: syn=CON,DEN,HER,HIS,CRAM,EXAM,FEEL,MUCH,QUIZ,READ,SCAN,SWOT,TEST,VIEW,AUDEN; abbr=CON,READ
+      men: syn=OR*,CATS,CREW,GUYS,JOES,LADS,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,TROOP,BLOKES,FELLAS; abbr=OR*
+      now: syn=AS,IN,IS,IT,ON,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      see: syn=LO*,V,DO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD; abbr=C,ELY,LO*,V; sounds=sea
+      set: syn=OR*,RO*,LOG*,GO,OK,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY; abbr=SE; ind=anagram
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      record: syn=LOG*,A,EP,LP,NO,PUT,SET,BLOG,CARD,CASE,CASH,DISC,GIVE,LIST,MARK; abbr=DISC,EP,LP,R*,ep
+      year: syn=Y,YR,TIME,PERIOD; abbr=Y*,YR
+      set up: ind=reversal
+      set up: syn=DO,UP,A A,ARM,BAR,BED,DID,DUG,GET,GOT
+  AI Reasoning:
+    HORO (from 'I now see' reversed by 'set up') + LOG (record) + Y (year) = HOROLOGY
+  ----------------------------------------------------------------------
+
+  [HIGH] ESCAPEMENT  22?. Key American gym crew with time clocking mechanism
+  Answer: ESCAPEMENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "clocking mechanism"
+  Wordplay: charade
+  Explanation: ESC (synonym of "Key") + A (synonym of "American") + PE (synonym of "gym") + MEN (synonym of "crew") + T (synonym of "time"); definition: "clocking mechanism"
+  ----------------------------------------------------------------------
+
+  [LOW] OCULI  23?. Eye doctor scrubbing cover of sealant round windows
+  Answer: OCULI
+  Tier: Sonnet | Confidence: 3/100
+  Definition: "windows"
+  Wordplay type: charade
+  Components:
+    deletion           Eye doctor                -> OCUL
+    synonym            round                     -> I
+  Assembly: charade — OCUL(deletion from "Eye doctor") + I(synonym of "round")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: I | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      eye: syn=AT,GO,BUY,EAR,HER,HIS,HUB,OWN,RAP,RED,SEE,SPY,AXIS,BAND,BASE; sounds=aye,i
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D,DR,GP,MB,MO; ind=anagram
+      cover: syn=AN,GO,BED,BIN,BOX,CAN,CAP,CUT,DIE,END,EYE,FAG,FLY,FOX,HUB; ind=parts
+      sealant: syn=BOND,WATER
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O*; ind=anagram,container,reversal
+      windows: syn=A,GAP,GUT,LAG,POT,LULL,REST,USER,BELLY,BUYER,COMMA,GLOSS,GUEST,LAPSE,ORIEL; ind=container
+    Definitions:
+      "windows" -> OCULI (definition match)
+  AI Reasoning:
+    OCULS (eye doctor) minus S (cover of sealant) plus I (round as Roman numeral) gives OCULI
+  ----------------------------------------------------------------------
+
+  [FAILED] GRAND  25?. Piano lacking seventh note given away
+  Answer: GRAND
+  Tier: --- | Confidence: 0/100
+  Definition: "Piano"
+  Wordplay type: deletion
+  Components:
+    synonym            given away                -> GRANTED
+    sound_of           seventh note              -> TE
+  DB Lookups:
+    DB lookups:
+      piano: syn=GRAND*,P,LEG; abbr=P,PT
+      lacking: syn=ILL,LOW,SHY,WIN,BUSH,CURT,FAST,LAME,PUNK,SIZE,SOUR,WACK,BLUFF,BLUNT,BRIEF; ind=deletion
+      note: syn=N,DO,FA,LA,ME,MI,MY,RE,TE,TI,UT,AIR,CRY,DOH,EAR; abbr=A*,B,C,D*,DO,E,F,FA,G*,LA,MI,N*,NB,RE,SI,SO,SOL,TE,TI
+      given: syn=IF,APT,ONE,SET,BORN,FIRM,FLAT,HARD,NORM,SOME,SURE,USED,WONT,BASIS,CANON
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      given away: syn=SHOWN
+    Definitions:
+      "Piano" -> GRAND (definition match)
+  AI Reasoning:
+    GRANTED (given away) minus TE (seventh note 'ti' sounds like T-E) equals GRAND
+  ----------------------------------------------------------------------
+
+  [ERROR] 26. Relax fit for semi-formal attire = LOUNGESUIT
+  ----------------------------------------------------------------------
+
+  [HIGH] THERAPIST  27?. Personal counsellor priest that mostly messed up
+  Answer: THERAPIST
+  Tier: Sonnet | Confidence: 81/100
+  Definition: "Personal counsellor"
+  Wordplay type: anagram
+  Components:
+    literal            priest                    -> PRIEST
+    deletion           that mostly               -> THA
+  Assembly: anagram — anagram of PRIEST+THA(deletion from "that mostly") = THERAPIST
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      personal: syn=OWN,TOP,PRIVY,UNIQUE,PRIVATE,INTIMATE,PECULIAR,SEPARATE,SINGULAR,ADHOMINEM,INDIVIDUA,OFFENSIVE; abbr=P*
+      counsellor: syn=THERAPIST*,MENTOR,ADVISER,ADVISOR
+      priest: syn=ELI,LAM,REV,ABBE,IMAM,LAMA,LEVI,ABBOT,CLERK,DRUID,MAGUS,PADRE,ZADOK,CLERIC,CLERK,; abbr=DD,ELI,PR,RR
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH*,YON
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY; ind=deletion,parts
+      messed: syn=AWRY,FORCE; ind=anagram?
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      messed up: syn=ERRED,LEADING,OFFENDED,MISJUDGED
+  AI Reasoning:
+    Anagram of PRIEST + THA (THAT minus last letter) gives THERAPIST
+  ----------------------------------------------------------------------
+
+  [ERROR] 28. Where to find the time and day some Biblical end arrives = CALENDAR
+  ----------------------------------------------------------------------
+
+  [ERROR] 29. I go back and forth write and occasionally double up with a hint of mirth = PENDULUM
+  ----------------------------------------------------------------------
+
+  [HIGH] PURSUER  3?. Disorganised runners-up withdrawing names one after another
+  Answer: PURSUER
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "one after another"
+  Wordplay type: anagram
+  Components:
+    deletion           runners-up withdrawing names -> RUERSUP
+  Assembly: anagram — anagram of RUERSUP(deletion from "runners-up withdrawing names") = PURSUER
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      disorganised: syn=HIT,SCATTY,CHAOTIC; ind=anagram
+      runners-up: fodder=RUNNERSUP(7/7 anagram match)
+      runners: syn=SKIS,SHOOTS,SLEDGE,GO,SKI,BEAN,NOSE,PAGE,STEM,NIGER,RACER,RHINE,WATER,GROOVE,SEVERN; abbr=SKI; fodder=RUNNERS(5/7 anagram match)
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      names: syn=CUT,DIG,DIS,DUB,FIX,OPT,REP,SET,TAG,VIP,BARB,CALL,CITE,CULL,CUTS; abbr=N
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I,O; sounds=won
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A; ind=anagram
+      one after another: syn=PURSUER*,FAN,SIKH,SHEEP
+  AI Reasoning:
+    RUNNERS-UP minus the two N's (cryptically indicated by 'names') gives RUERSUP, which anagrams to PURSUER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ATOMIC  30?. The first half of the alphabet at first is centrepiece of elemental building blocks
+  Answer: ATOMIC
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "elemental building blocks"
+  Wordplay type: charade
+  Components:
+    first_letter       The first half of the alphabet at first -> A
+    anagram_fodder     centrepiece               -> TOMIC
+  Assembly: charade — A(first letter of "The first half of the alphabet at first") + TOMIC("centrepiece")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      half: syn=AT*,MAD,NUT,ANON,DAFT,DEMI,DODO,DOLT,DOPE,DORK,DUEL,DULL,DUMB,EVER,FOOL; ind=deletion
+      alphabet: syn=ABC(S),BASICS,SERIES
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      elemental: syn=BASIC
+      building: syn=UP,HUT,WAX,BARN,BOOM,DIGS,FLAT,GAIN,HYPE,MAKE,MASS,REAR,RISE,SHED,WING; ind=anagram
+      blocks: syn=CANS,DAMS,DIES,ENDS,FAGS,GETS,GOES,GUNS,POPS,SETS,TUGS,BEATS,BESTS,BLOCS,BUNGS; ind=container; sounds=bloc
+      of the: syn=MITRE
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+      building blocks: syn=PART,PARTS,FACTOR,MEMBER
+  AI Reasoning:
+    A (first of first half of alphabet) + anagram of letters from centrepiece gives ATOMIC
+  ----------------------------------------------------------------------
+
+  [HIGH] GLASS  31?. Exhausted genteel American behind mirror
+  Answer: GLASS
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "mirror"
+  Wordplay type: charade
+  Components:
+    deletion           genteel                   -> GL
+    deletion           american                  -> ASS [ASSURANCE, "behind"=deletion]
+  Assembly: charade — GL(deletion from "genteel") + ASS(ASSURANCE minus URANCE, "american")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      exhausted: syn=DID,BEAT,BODY,DEAD,DONE,GONE,JADE,LIMP,LOGY,SHOT,SUNK,USED,WORN,EMPTY,ENDED
+      genteel: syn=BLUE,NICE,PURE,TRUE,WELL,ATTIC,CIVIL,CLASS,CLEAN,GREAT,MORAL,NOBLE
+      american: syn=A,US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN; abbr=A*,US
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      mirror: syn=GLASS*,APE,ECHO,ROLE,DAILY,IMAGE,MODEL
+      american behind: syn=ASS*
+    Definitions:
+      "mirror" -> GLASS (definition match)
+  AI Reasoning:
+    GL from exhausted GENTEEL plus ASS (American slang) gives GLASS
+  ----------------------------------------------------------------------
+
+  [FAILED] RACQUET  4?. Handled sports equipment - a scam they say
+  Answer: RACQUET
+  Tier: --- | Confidence: 0/100
+  Definition: "Handled sports equipment"
+  Wordplay type: homophone
+  Components:
+    sound_of           a scam                    -> RACQUET
+  DB Lookups:
+    DB lookups:
+      handled: syn=DID,HAD,MET,RAN,SAW,BODE,BORE,BORN,BRED,FELT,HELD,KEPT,KNEW,MADE,TOOK
+      sports: syn=PE,MAIN,BUTTS,GAMES,JESTS,JOKES,MARKS,MOCKS,SWEAR,TARGETS,RU,BUS,CAR,FUN,NUN; abbr=RU,WEAR
+      equipment: syn=KIT,RIG,DUDS,GEAR,RAGS,TOGS,TOOL,WEAR,CRACK,DRESS,GEAR,,GOODS,HABIT,PLANT,SONAR
+      scam: syn=CON,CARD,ROOK,CAPER,DODGE,FRAUD,GRIFT,SHORT,STING,TRICK,FIDDLE,LIFTED,RACKET,DECEIVE,SWINDLE
+      they: ind=anagram,homophone
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      sports equipment: syn=GAME,SPORT
+      they say: ind=homophone
+  AI Reasoning:
+    A scam = RACKET, which sounds like RACQUET when spoken (indicated by 'they say')
+  ----------------------------------------------------------------------
+
+  [HIGH] TIME  5?. Reportedly leaves something taken by the patient
+  Answer: TIME
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "something taken by the patient"
+  Wordplay type: homophone
+  Components:
+    synonym            leaves                    -> THYME
+  Assembly: homophone — THYME sounds like TIME
+  Checks: definition=position OK (start/end of clue) | wordplay_type=homophone | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (homophone: THYME sounds like TIME) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      reportedly: ind=homophone
+      leaves: syn=COS,HAS,TEA,BAGS,GOES,LETS,OMIT,GO,IF,BAG,CAN,DIE,END,LET,NEW; abbr=GO; ind=deletion
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      taken: syn=BORN; ind=container
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      patient: syn=CASE; ind=anagram?
+  AI Reasoning:
+    THYME (leaves/herb) sounds like TIME when spoken (reportedly)
+  ----------------------------------------------------------------------
+
+  [HIGH] ANGLOPHILE  6?. England supporter hoping all playing finally contribute
+  Answer: ANGLOPHILE
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "England supporter"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     hoping all                -> ANGLOPHIL
+    last_letter        contribute                -> E
+  Assembly: charade — ANGLOPHIL("hoping all") + E(last letter of "contribute")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      england: syn=E,OF A,STATE,OF THE,BLIGHTY,COUNTRY; abbr=E*
+      supporter: syn=BRA,FAN,NUN,PAL,TEE,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FILL,FOLK,LINE,MAIN; abbr=BRA
+      all: syn=OK,KEY,ONE,OUT,PER,SAY,ABLY,BEST,DEAD,EACH,EASY,EVEN,FAST,FINE,FLAT; abbr=AL,EVERYONE; sounds=awl
+      playing: syn=ON,GOLF,ROLE,DOING,GOING,A GRIP,ACTING,LAYING,TAKING,TOYING,VERSUS,BETTING,HACKING,PUTTING,STAKING; abbr=ON,P*; ind=anagram
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      contribute: syn=ARM,WAY,GIVE,GIVES,PLACE,SHARE,A GOOD,SUPPLY,MEASURE,PRESENT
+  AI Reasoning:
+    Anagram of 'hoping all' plus final letter of 'contribute' creates ANGLOPHIL + E
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CUCKOO  7?. Bird sound from hen dropping large eggs
+  Answer: CUCKOO
+  Tier: Sonnet | Confidence: 48/100
+  Definition: "Bird sound"
+  Wordplay type: charade
+  Components:
+    deletion           hen                       -> CUCK
+    synonym            eggs                      -> OO
+  Assembly: charade — CUCK(deletion from "hen") + OO(synonym of "eggs")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bird: syn=AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MAN,MEW,MOA,OWL,SON; abbr=HEN; sounds=burred
+      sound: syn=DO,A A,ACT,AIR,BAY,CRY,FIT,USE,WAY,ABLE,ACTS,AIRS,BAWL,BEEP,BEST; ind=homophone
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      hen: syn=BIRD,LASS,LAYER,FEMALE,HENDON,OF YET
+      dropping: syn=DIRT,DUNG,DUST,JUNK,LOSS,POOP,SCAT,SOIL,DRECK,FECES,FIELD,GOING,NIGHT,PLAIN,SHEET; ind=deletion
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L,OS
+      eggs: syn=OVA,ROE,FOOD,CAVIAR,CLUTCH,BOD,BOG,BOY,BUG,CAT,DAM,FAN,GUY,JOE,LAD
+    Definitions:
+      "Bird" -> CUCKOO (definition match)
+  AI Reasoning:
+    CLUCK (hen sound) drops L (large) to give CUCK, plus OO (eggs) makes CUCKOO
+  ----------------------------------------------------------------------
+
+  [HIGH] GAMUT  8?. School uniform summer shirt range
+  Answer: GAMUT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "range"
+  Wordplay: charade
+  Explanation: G (synonym of "School") + A (synonym of "uniform") + M (synonym of "summer") + UT (synonym of "shirt"); definition: "range"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] COY  9?. Not saying much about old Yorkshireman in the van
+  Answer: COY
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Not saying much"
+  Wordplay type: charade
+  Components:
+    abbreviation       about                     -> C
+    abbreviation       old                       -> O
+    abbreviation       Yorkshireman              -> Y
+  Assembly: charade — C(abbr. "about") + O(abbr. "old") + Y(abbr. "Yorkshireman")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO; ind=anagram?,deletion; sounds=knot
+      saying: syn=DO,MY,411,FEW,GEN,SAW
+      much: syn=A,AN,DO,OR,SO,TO,ACE,ACT,AND,AYE,BIG,BUT,DAB,DIG,FAR
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET; abbr=EX,O*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP; abbr=T,TH,UP,YE
+      van: syn=NIR; abbr=VA
+      in the: syn=LOW,SAD
+  AI Reasoning:
+    C (about/circa) + O (old) + Y (Yorkshireman) = COY, with 'in the van' indicating the order
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

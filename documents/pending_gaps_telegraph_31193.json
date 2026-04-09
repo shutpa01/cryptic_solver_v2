@@ -1,0 +1,290 @@
+{
+  "source": "telegraph",
+  "puzzle": "31193",
+  "stats": {
+    "total": 32,
+    "assembled": 31,
+    "high": 21,
+    "medium": 8,
+    "low": 2,
+    "failed": 1,
+    "avg_score": 79.80645161290323
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "in",
+      "letters": "IN",
+      "answer": "ABYSSINIA",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Old country's bottomless pit in one area",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "list",
+      "letters": "PAST",
+      "answer": "ANTIPASTI",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Ace new wine with list introduced for starters",
+      "score": 4
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Metropolis director",
+      "letters": "LANG",
+      "answer": "SLANG",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Informal talk succeeded with Metropolis director",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "outside",
+      "letters": "DIM",
+      "answer": "DIMWITTED",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Stupid wife wearing glove stopped working outside",
+      "score": 25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "stopped working",
+      "letters": "ED",
+      "answer": "DIMWITTED",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Stupid wife wearing glove stopped working outside",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Number one",
+      "answer": "UNITY",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Number one college extremely trendy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "weight",
+      "answer": "TONNAGE",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Character restricting badger's weight",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show",
+      "answer": "SPECTACLE",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Show place set out around clubs",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Old country's",
+      "answer": "ABYSSINIA",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Old country's bottomless pit in one area",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "become confused",
+      "answer": "ADDLE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Two daughters into the beer become confused",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "King's",
+      "answer": "HAROLD",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "King's a king in control",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "harsh lawmaker",
+      "answer": "DRACO",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Old wit sent up harsh lawmaker",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Inventive sort",
+      "answer": "TESLA",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Inventive sort decorates Lancastrian houses",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "food from elsewhere",
+      "answer": "ENCHILADA",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Deal with China involved food from elsewhere",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "poetry",
+      "answer": "CANTO",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Worker in firm's poetry",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "anger",
+      "answer": "annoyance",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Article, canny one, excited anger",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "earlier",
+      "answer": "BEFOREHAND",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Action at Wimbledon on live, or earlier",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Finish",
+      "answer": "STOP",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Finish second and first",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Situation resolved by changing one's locks?",
+      "answer": "bad hair day",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Situation resolved by changing one's locks?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Seen here: Normans having Saxons in stitches?",
+      "answer": "bayeux",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Seen here: Normans having Saxons in stitches?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gladiator",
+      "answer": "SPARTACUS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Gladiator to practise fighting distributed scuta",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Informal talk",
+      "answer": "SLANG",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Informal talk succeeded with Metropolis director",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fight",
+      "answer": "BATTLEOF",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Fight notable as leaders of the Saxons scattered",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stupid",
+      "answer": "DIMWITTED",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Stupid wife wearing glove stopped working outside",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What might be flat – as a pancake?",
+      "answer": "BATTERY",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "What might be flat – as a pancake?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "religious adherent",
+      "answer": "RASTA",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Recall a leading Russian religious adherent",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "See 18 Down",
+      "answer": "HASTINGS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "See 18 Down",
+      "score": 40
+    }
+  ]
+}

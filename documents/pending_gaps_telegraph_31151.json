@@ -1,0 +1,95 @@
+{
+  "source": "telegraph",
+  "puzzle": "31151",
+  "stats": {
+    "total": 28,
+    "assembled": 22,
+    "high": 17,
+    "medium": 3,
+    "low": 2,
+    "failed": 6,
+    "avg_score": 81.95454545454545
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "James Bond",
+      "answer": "daniel craig",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "European smuggling one large, exploding cigar for James Bond",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "letters from abroad",
+      "answer": "IOTAS",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Current postman's periodically mislaid letters from abroad",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "seasonal treat",
+      "answer": "Easter egg",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Daisy tucked into case of edible goods, a seasonal treat",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One in a powerful suit picking up tricks",
+      "answer": "trump card",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "US leader – rotter is about right! One in a powerful suit picking up tricks",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "People tending to beds",
+      "answer": "GARDENERS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "People tending to beds collect small covers from Parisian",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Performer who will take a big bow?",
+      "answer": "CELLIST",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Performer who will take a big bow?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Myopic",
+      "answer": "near-sighted",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Myopic prophet given a title, according to Spooner",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "lounge",
+      "answer": "sitting room",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Model can do her hair etc in lounge",
+      "score": 0
+    }
+  ]
+}

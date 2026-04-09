@@ -1,0 +1,701 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29510
+Generated: 2026-04-07 07:15:39
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      39
+  Assembled:        37/39 (94%)
+    Sig+Enriched:   5
+    Sonnet:         0
+    DB Fallback:    2
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   32  24A, 1A, 12A, 13A, 21A, 28A, 5A, 6D, 8D, 9A, 1A, 1D, 10A, 12A, 13A, 15D, 16D, 18D, 19D, 2D, 21A, 22D, 23D, 24A, 26A, 3D, 4D, 5A, 5D, 6D, 8D, 9A
+  Medium (40-79): 5  11A, 25A, 27A, 17A, 20D
+  Low (<40):    0  
+  Failed:       2  14D, 7D
+  Average:      93/100
+
+COST: $0.7755 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (37 entries)
+------------------------------------------------------------
+  TERSE: "Short" -> TERSE  (missing from definition_answers_augmented)
+  SWALLOW: "down" -> SWALLOW  (missing from definition_answers_augmented)
+  COGITOERGOSUM: "proof of life?" -> COGITOERGOSUM  (missing from definition_answers_augmented)
+  OKLAHOMA: "OK?" -> OKLAHOMA  (missing from definition_answers_augmented)
+  ATLIBERTY: "free" -> ATLIBERTY  (missing from definition_answers_augmented)
+  SWALLOW: "Plant" -> SWALLOW  (missing from definition_answers_augmented)
+  SHANDY: "it could be in the round" -> SHANDY  (missing from definition_answers_augmented)
+  STILL: "Where drinks are made" -> STILL  (missing from definition_answers_augmented)
+  DELHI: "City" -> DELHI  (missing from definition_answers_augmented)
+  ESTABLISH: "institute" -> ESTABLISH  (missing from definition_answers_augmented)
+  COGITOERGOSUM: "proof of life" -> COGITOERGOSUM  (missing from definition_answers_augmented)
+  SUGARCOAT: "Increase appeal of" -> SUGARCOAT  (missing from definition_answers_augmented)
+  LIKETHAT: "appreciate formal headwear" -> LIKETHAT  (missing from definition_answers_augmented)
+  ATAPUSH: "Where you shouldn't pull with difficulty" -> ATAPUSH  (missing from definition_answers_augmented)
+  INTERIM: "acting" -> INTERIM  (missing from definition_answers_augmented)
+  ALLBLACKS: "national sports team" -> ALLBLACKS  (missing from definition_answers_augmented)
+  EXPIATION: "making amends" -> EXPIATION  (missing from definition_answers_augmented)
+  PANDA: "Chinese native" -> PANDA  (missing from definition_answers_augmented)
+  ICIER: "More distant" -> ICIER  (missing from definition_answers_augmented)
+  TERSE: "Short" -> TERSE  (missing from definition_answers_augmented)
+  HINDU: "One's observant" -> HINDU  (missing from definition_answers_augmented)
+  ISHERWOOD: "Writer" -> ISHERWOOD  (missing from definition_answers_augmented)
+  TEACHER: "schoolmaster" -> TEACHER  (missing from definition_answers_augmented)
+  LOBBING: "activity to influence legislators" -> LOBBING  (missing from definition_answers_augmented)
+  WORCESTER: "compound in Midlands city" -> WORCESTER  (missing from definition_answers_augmented)
+  CONBRIO: "spirit" -> CONBRIO  (missing from definition_answers_augmented)
+  CRYPT: "Tomb" -> CRYPT  (missing from definition_answers_augmented)
+  NOSEBAG: "where muzzle may be covered" -> NOSEBAG  (missing from definition_answers_augmented)
+  OKLAHOMA: "OK" -> OKLAHOMA  (missing from definition_answers_augmented)
+  ATLIBERTY: "free" -> ATLIBERTY  (missing from definition_answers_augmented)
+  EMMENTHAL: "Swiss" -> EMMENTHAL  (missing from definition_answers_augmented)
+  SEEDED: "the best at Wimbledon" -> SEEDED  (missing from definition_answers_augmented)
+  REIKI: "Therapy" -> REIKI  (missing from definition_answers_augmented)
+  SHANDY: handy -> HANDY  (missing from synonyms_pairs)
+  ATAPUSH: pull with difficulty -> ATA  (missing from abbreviations)
+  EXPIATION: Emigrant -> EXP  (missing from abbreviations)
+  HINDU: probing -> IN  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  INSTAGRAMMING = 17 (45/100): def="?" (none identified)
+  SEEDED = 20 (70/100): def="the best at Wimbledon" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  14. Swiss production cast Hamlet around king and queen, say = EMMENTHAL
+  7. Therapy that’s more pointed without special backing = REIKI
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/39  28A
+  Weak definition:       2  17A, 20D
+  DB gap:                26  9A, 10A, 11A, 12A, 13A, 21A, 24A, 25A, 26A, 27A, 1D, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 14D, 15D, 16D, 18D, 19D, 20D, 22D, 23D
+  Failed:                2  7D, 14D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   24A  TERSE         Short characters sitting in booster seat (5)
+                      hidden in "sitting in boosTER SEat" [hidden: "characters"]; definition: "Short"  [HIGH]
+    1A  SWALLOW       Plant holding partition down (7)
+                      SOW (synonym of "Plant") + WALL (synonym of "partition") [container: "holding"]; definition: "down"  [HIGH]
+   12A  ESTABLISH     Go into the Spanish sort of institute (9)
+                      ---  [HIGH]
+   13A  COGITOERGOSUM  Drunk groom got us ice as proof of life? (6,4,3)
+                      anagram of GROOMGOTUSICE ("groom got us ice") [anagram: "Drunk"] = COGITOERGOSUM; definition: "proof of life?"  [HIGH]
+   21A  EXPIATION     Emigrant touring island next to Iona, not quite making amends (9)
+                      ---  [HIGH]
+   28A  LIMITED       Song about Cambridge University lacking in scope (7)
+                      ---  [HIGH]
+    5A  CONBRIO       Company note port is full of spirit (3,4)
+                      ---  [HIGH]
+    6D  NOSEBAG       Ban goes awry where muzzle may be covered (7)
+                      ---  [HIGH]
+    8D  OKLAHOMA      Running amok with Halo, OK? (8)
+                      anagram of AMOKHALO ("amok with Halo,") [anagram: "Running"] = OKLAHOMA; definition: "OK?"  [HIGH]
+    9A  ATLIBERTY     Tribal yet unusually free (2,7)
+                      anagram of TRIBALYET ("Tribal yet") [anagram: "unusually"] = ATLIBERTY; definition: "free"  [HIGH]
+    1A  SWALLOW       Plant holding partition down (7)
+                      ---  [HIGH]
+    1D  SHANDY        Salomé’s opening nearby, it could be in the round (6)
+                      ---  [HIGH]
+   10A  STILL         Where drinks are made without added carbon dioxide (5)
+                      ---  [HIGH]
+   11A  DELHI         City kept changing sides before international (5)
+                      ---  [MED]
+   12A  ESTABLISH     Go into the Spanish sort of institute (9)
+                      ---  [HIGH]
+   13A  COGITOERGOSUM  Drunk groom got us ice as proof of life? (6,4,3)
+                      ---  [HIGH]
+   15D  SUGARCOAT     Increase appeal of cold Italian sauces, recalled on the way up (5-4)
+                      ---  [HIGH]
+   16D  LIKETHAT      Instantly appreciate formal headwear when out of work (4,4)
+                      ---  [HIGH]
+   18D  ATAPUSH       Where you shouldn’t pull with difficulty? (2,1,4)
+                      ---  [HIGH]
+   19D  INTERIM       British playwright dismissing top writer’s acting (7)
+                      ---  [HIGH]
+    2D  ALLBLACKS     Social cycling doesn’t involve national sports team (3,6)
+                      ---  [HIGH]
+   21A  EXPIATION     Emigrant touring island next to Iona, not quite making amends (9)
+                      ---  [HIGH]
+   22D  PANDA         Chinese native with makings of father? (5)
+                      ---  [HIGH]
+   23D  ICIER         More distant royal once found beneath here in Versailles (5)
+                      ---  [HIGH]
+   24A  TERSE         Short characters sitting in booster seat (5)
+                      ---  [HIGH]
+   25A  HINDU         One’s observant in probing high-definition movie certificate (5)
+                      ---  [MED]
+   26A  ISHERWOOD     Writer originally identifying location for Robin Hood (9)
+                      ---  [HIGH]
+   27A  TEACHER       A head bitten by short seabird’s beak (7)
+                      ---  [MED]
+    3D  LOBBING       Launching activity to influence legislators with years to go (7)
+                      ---  [HIGH]
+    4D  WORCESTER     Brag about compound in Midlands city (9)
+                      ---  [HIGH]
+    5A  CONBRIO       Company note port is full of spirit (3,4)
+                      ---  [HIGH]
+    5D  CRYPT         Tomb Raider: you play at first in skin of Croft (5)
+                      ---  [HIGH]
+    6D  NOSEBAG       Ban goes awry where muzzle may be covered (7)
+                      ---  [HIGH]
+    8D  OKLAHOMA      Running amok with Halo, OK? (8)
+                      ---  [HIGH]
+    9A  ATLIBERTY     Tribal yet unusually free (2,7)
+                      ---  [HIGH]
+   14D  EMMENTHAL     Swiss production cast Hamlet around king and queen, say (9)
+                      ---  [FAIL]
+   17A  INSTAGRAMMING  Sharing on social media popular with men only? Smashing! (13)
+                      delete SH from SHARING, anagram of IN(synonym of "with")+M(first letter of "men")+STAG(synonym of "social")+M(first letter of "men")+ARING = INSTAGRAMMING  [MED]
+   20D  SEEDED        Get very tired after knocking out American amongst the best at Wimbledon? (6)
+                      delete D from SEED(synonym of "get") + DED(ENDED minus EN, "tired") [out]  [MED]
+    7D  REIKI         Therapy that’s more pointed without special backing (5)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] TERSE  24A. Short characters sitting in booster seat
+  Answer: TERSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Short"
+  Wordplay: hidden
+  Explanation: hidden in "sitting in boosTER SEat" [hidden: "characters"]; definition: "Short"
+  Human explanation: Hidden [characters sitting in] {boos} TER SE {at}
+  ----------------------------------------------------------------------
+
+  [HIGH] SWALLOW  1A. Plant holding partition down
+  Answer: SWALLOW
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "down"
+  Wordplay: charade + container
+  Explanation: SOW (synonym of "Plant") + WALL (synonym of "partition") [container: "holding"]; definition: "down"
+  Human explanation: S~OW ( to plant) containing [holding] WALL (partition)
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTABLISH  12A. Go into the Spanish sort of institute
+  Answer: ESTABLISH
+  Tier: --- | Confidence: 100/100
+  Human explanation: EL (abbreviation="the Spanish") + ISH (synonym="sort of") + STAB (synonym="Go") = ESTABLISH; definition: "institute"
+  ----------------------------------------------------------------------
+
+  [HIGH] COGITOERGOSUM  13A. Drunk groom got us ice as proof of life?
+  Answer: COGITOERGOSUM
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "proof of life?"
+  Wordplay: anagram
+  Explanation: anagram of GROOMGOTUSICE ("groom got us ice") [anagram: "Drunk"] = COGITOERGOSUM; definition: "proof of life?"
+  Human explanation: Anagram [drunk] of GROOM GOT US ICE . The saying associated with the French scientist and philosopher René Descartes usually translates as “I think, therefore I am”.
+  ----------------------------------------------------------------------
+
+  [HIGH] EXPIATION  21A. Emigrant touring island next to Iona, not quite making amends
+  Answer: EXPIATION
+  Tier: --- | Confidence: 100/100
+  Human explanation: EXPAT (synonym="Emigrant") + I (abbreviation="island") + ON (synonym="next") + I (first_letter="Iona,") = EXPIATION; definition: "amends"
+  ----------------------------------------------------------------------
+
+  [HIGH] LIMITED  28A. Song about Cambridge University lacking in scope
+  Answer: LIMITED
+  Tier: --- | Confidence: 100/100
+  Human explanation: LIED (synonym="Song") + MIT (synonym="University") = LIMITED
+  ----------------------------------------------------------------------
+
+  [HIGH] CONBRIO  5A. Company note port is full of spirit
+  Answer: CONBRIO
+  Tier: --- | Confidence: 100/100
+  Human explanation: CO (abbreviation="Company") + BRIO (synonym="spirit") + N (abbreviation="note") = CONBRIO
+  ----------------------------------------------------------------------
+
+  [HIGH] NOSEBAG  6D. Ban goes awry where muzzle may be covered
+  Answer: NOSEBAG
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of BAN + GOES = NOSEBAG
+  ----------------------------------------------------------------------
+
+  [HIGH] OKLAHOMA  8D. Running amok with Halo, OK?
+  Answer: OKLAHOMA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "OK?"
+  Wordplay: anagram
+  Explanation: anagram of AMOKHALO ("amok with Halo,") [anagram: "Running"] = OKLAHOMA; definition: "OK?"
+  Human explanation: Anagram [running] of AMOK HALO
+  ----------------------------------------------------------------------
+
+  [HIGH] ATLIBERTY  9A. Tribal yet unusually free
+  Answer: ATLIBERTY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "free"
+  Wordplay: anagram
+  Explanation: anagram of TRIBALYET ("Tribal yet") [anagram: "unusually"] = ATLIBERTY; definition: "free"
+  Human explanation: Anagram [unusually] of TRIBAL YET
+  ----------------------------------------------------------------------
+
+  [HIGH] SWALLOW  1A. Plant holding partition down
+  Answer: SWALLOW
+  Tier: --- | Confidence: 100/100
+  Definition: "Plant"
+  Wordplay type: container
+  Components:
+    first_letter       sow                       -> S
+    last_letters       sow                       -> OW
+    synonym            partition                 -> WALL
+  Human explanation: S~OW ( to plant) containing [holding] WALL (partition)
+  AI Reasoning:
+    SOW (to plant) contains WALL (partition) inside it: S + WALL + OW = SWALLOW
+  ----------------------------------------------------------------------
+
+  [HIGH] SHANDY  1D. Salomé’s opening nearby, it could be in the round
+  Answer: SHANDY
+  Tier: --- | Confidence: 80/100
+  Definition: "it could be in the round"
+  Wordplay type: charade
+  Components:
+    first_letter       Salomé's                  -> S
+    synonym            handy                     -> HANDY
+  Human explanation: S {alomé’s} [opening], HANDY (nearby). ‘Round’ as in a round of drinks.
+  AI Reasoning:
+    S (opening of Salomé) + HANDY (nearby) = SHANDY, a drink served in rounds
+  ----------------------------------------------------------------------
+
+  [HIGH] STILL  10A. Where drinks are made without added carbon dioxide
+  Answer: STILL
+  Tier: --- | Confidence: 90/100
+  Definition: "Where drinks are made"
+  Wordplay type: double_definition
+  AI Reasoning:
+    STILL has two meanings: (1) a distillery apparatus where drinks are made, and (2) an adjective meaning non-carbonated (still water/juice vs fizzy)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DELHI  11A. City kept changing sides before international
+  Answer: DELHI
+  Tier: --- | Confidence: 70/100
+  Definition: "City"
+  Wordplay type: charade
+  Components:
+    synonym            kept                      -> HELD
+    reversal           changing sides            -> DELH
+    abbreviation       international             -> I
+  Human explanation: HELD (kept} changing sides becomes DELH , then I (international)
+  AI Reasoning:
+    HELD (kept) reversed to DELH, then add I (international abbreviation) to spell DELHI
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTABLISH  12A. Go into the Spanish sort of institute
+  Answer: ESTABLISH
+  Tier: --- | Confidence: 100/100
+  Definition: "institute"
+  Wordplay type: container
+  Components:
+    literal            Spanish                   -> E
+    synonym            Go                        -> STAB
+    literal            Spanish                   -> L
+    literal            sort of                   -> ISH
+  Human explanation: STAB (go – shot, try ) contained by [into] E~L (‘the’ Spanish), -ISH (sort of)
+  AI Reasoning:
+    STAB (go/try) is contained within E...L (Spanish 'the'), then ISH (sort of) appended: E + STAB + L + ISH = ESTABLISH
+  ----------------------------------------------------------------------
+
+  [HIGH] COGITOERGOSUM  13A. Drunk groom got us ice as proof of life?
+  Answer: COGITOERGOSUM
+  Tier: --- | Confidence: 100/100
+  Definition: "proof of life"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     groom                     -> GROOM
+    anagram_fodder     got                       -> GOT
+    anagram_fodder     us                        -> US
+    anagram_fodder     ice                       -> ICE
+  Human explanation: Anagram [drunk] of GROOM GOT US ICE . The saying associated with the French scientist and philosopher René Descartes usually translates as “I think, therefore I am”.
+  AI Reasoning:
+    GROOM GOT US ICE is anagrammed (indicated by 'drunk') to spell COGITO ERGO SUM, Descartes' famous philosophical statement meaning 'I think, therefore I am' (proof of life/existence)
+  ----------------------------------------------------------------------
+
+  [HIGH] SUGARCOAT  15D. Increase appeal of cold Italian sauces, recalled on the way up
+  Answer: SUGARCOAT
+  Tier: --- | Confidence: 100/100
+  Definition: "Increase appeal of"
+  Wordplay type: charade
+  Components:
+    abbreviation       cold                      -> C
+    reversal           Italian sauces            -> SUGAR
+    reversal           the way                   -> TAO
+  Human explanation: C (cold) + RAGUS (Italian sauces) reversed [recalled], then TAO (the way) reversed [up]. SOED: Tao – Confucianism. The way, method, or norm to be followed, esp. in conduct. I’m glad I didn’t need the 
+  AI Reasoning:
+    C + RAGUS reversed (SUGAR) + TAO reversed (OAT) = SUGARCOAT, meaning to increase appeal of something
+  ----------------------------------------------------------------------
+
+  [HIGH] LIKETHAT  16D. Instantly appreciate formal headwear when out of work
+  Answer: LIKETHAT
+  Tier: --- | Confidence: 100/100
+  Definition: "appreciate formal headwear"
+  Wordplay type: charade
+  Components:
+    synonym            appreciate                -> LIKE
+    deletion           out of work               -> T [TOP - OP]
+    literal            formal headwear           -> HAT
+  Human explanation: LIKE (appreciate), T {op} HAT (formal headwear) [when out of work – op ]
+  AI Reasoning:
+    LIKE (synonym for appreciate) + T (from TOP with OP deleted, indicating out of work) + HAT (formal headwear) = LIKETHAT
+  ----------------------------------------------------------------------
+
+  [HIGH] ATAPUSH  18D. Where you shouldn’t pull with difficulty?
+  Answer: ATAPUSH
+  Tier: --- | Confidence: 90/100
+  Definition: "Where you shouldn't pull with difficulty"
+  Wordplay type: charade
+  Components:
+    abbreviation       pull with difficulty      -> ATA
+    literal            Where you shouldn't       -> PUSH
+  Human explanation: A cryptic hint precedes the literal
+  AI Reasoning:
+    ATA (abbreviation of 'a tug at') + PUSH (literal) = ATAPUSH, a place where you shouldn't push
+  ----------------------------------------------------------------------
+
+  [HIGH] INTERIM  19D. British playwright dismissing top writer’s acting
+  Answer: INTERIM
+  Tier: --- | Confidence: 95/100
+  Definition: "acting"
+  Wordplay type: charade
+  Components:
+    deletion           playwright                -> INTER [PINTER - P]
+    abbreviation       writer's                  -> IM
+  Human explanation: {p} INTER (British playwright – Harold ) [dismissing top], I’M (writer’s)
+  AI Reasoning:
+    PINTER (Harold Pinter, British playwright) with P removed = INTER; I'M (writer's, first-person contraction) = IM; concatenated: INTERIM (acting/temporary role)
+  ----------------------------------------------------------------------
+
+  [HIGH] ALLBLACKS  2D. Social cycling doesn’t involve national sports team
+  Answer: ALLBLACKS
+  Tier: --- | Confidence: 80/100
+  Definition: "national sports team"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     cycling                   -> ALL
+    literal            social                    -> B
+    synonym            doesn't involve           -> LACKS
+  Human explanation: BALL (social) cycling becomes ALL / B , then LACKS (doesn’t involve)
+  AI Reasoning:
+    BALL (social gathering) is cycled/anagrammed to ALL, B is extracted, and LACKS (doesn't involve) is added as a synonym to form ALLBLACKS (New Zealand rugby team).
+  ----------------------------------------------------------------------
+
+  [HIGH] EXPIATION  21A. Emigrant touring island next to Iona, not quite making amends
+  Answer: EXPIATION
+  Tier: --- | Confidence: 90/100
+  Definition: "making amends"
+  Wordplay type: container
+  Components:
+    abbreviation       Emigrant                  -> EXP
+    abbreviation       island                    -> I
+    literal            Iona                      -> ION
+    deletion           amends                    -> AT [ATONEMENT - ONEMENT]
+  Human explanation: EXP~AT (migrant) containing [touring] I (island), then ION {a} [not quite]
+  AI Reasoning:
+    EXP (emigrant) contains I (island) and ION (Iona), then AT (not quite making amends, i.e., 'atonement' with 'onement' removed)
+  ----------------------------------------------------------------------
+
+  [HIGH] PANDA  22D. Chinese native with makings of father?
+  Answer: PANDA
+  Tier: --- | Confidence: 100/100
+  Definition: "Chinese native"
+  Wordplay type: charade
+  Components:
+    abbreviation       father                    -> PA
+    literal            makings of father         -> ND
+    literal            makings of father         -> A
+  Human explanation: P AND A (makings of father – PA )
+  AI Reasoning:
+    PA (father) + AND (makings/letters of father) + A (makings/letters of father) = PANDA, a Chinese native animal
+  ----------------------------------------------------------------------
+
+  [HIGH] ICIER  23D. More distant royal once found beneath here in Versailles
+  Answer: ICIER
+  Tier: --- | Confidence: 100/100
+  Definition: "More distant"
+  Wordplay type: container
+  Components:
+    literal            here                      -> ICI
+    literal            royal once                -> ER
+  Human explanation: ICI (‘here’ in Versailles), ER (royal once)
+  AI Reasoning:
+    ICI (French for 'here', found in Versailles) contains ER (Elizabeth Regina, royal once), giving ICIER (more distant/cold)
+  ----------------------------------------------------------------------
+
+  [HIGH] TERSE  24A. Short characters sitting in booster seat
+  Answer: TERSE
+  Tier: --- | Confidence: 100/100
+  Definition: "Short"
+  Wordplay type: hidden
+  Components:
+    hidden             booster seat              -> TERSE
+  Human explanation: Hidden [characters sitting in] {boos} TER SE {at}
+  AI Reasoning:
+    TERSE is hidden within 'boosTERSEat' (booster seat with letters rearranged conceptually, or reading through the phrase)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HINDU  25A. One’s observant in probing high-definition movie certificate
+  Answer: HINDU
+  Tier: --- | Confidence: 70/100
+  Definition: "One's observant"
+  Wordplay type: container
+  Components:
+    abbreviation       high-definition           -> HD
+    synonym            probing                   -> IN
+    abbreviation       movie certificate         -> U
+  Human explanation: IN contained by [probing} H~D (high-definition), then U (movie certificate – universal )
+  AI Reasoning:
+    HD (high-definition) contains IN (probing), giving HIND, then U (Universal certificate) appended gives HINDU
+  ----------------------------------------------------------------------
+
+  [HIGH] ISHERWOOD  26A. Writer originally identifying location for Robin Hood
+  Answer: ISHERWOOD
+  Tier: --- | Confidence: 100/100
+  Definition: "Writer"
+  Wordplay type: charade
+  Components:
+    first_letter       identifying               -> I
+    literal            Sherwood                  -> SHERWOOD
+  Human explanation: I {dentifying} [originally] SHERWOOD (location for Robin Hood – Sherwood Forest ). Christopher Isherwood (1904-1986) is perhaps most famous as the author of Goodbye to Berlin .
+  AI Reasoning:
+    First letter of 'identifying' (I) + Sherwood (location for Robin Hood) = ISHERWOOD (Christopher Isherwood, the writer)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TEACHER  27A. A head bitten by short seabird’s beak
+  Answer: TEACHER
+  Tier: --- | Confidence: 70/100
+  Definition: "schoolmaster"
+  Wordplay type: container
+  Components:
+    synonym            head                      -> EACH
+    literal            seabird                   -> TERN
+  Human explanation: EACH (a head – per person ) contained [bitten] T~ER {n} (seabird) [short]. Complaints will be voiced in some quarters as ‘beak’ is British slang for judge, magistrate, headmaster or schoolmaster,  and
+  AI Reasoning:
+    EACH (per person/head) contains TERN (seabird, with N removed for 'short') = TEACHER (schoolmaster/beak)
+  ----------------------------------------------------------------------
+
+  [HIGH] LOBBING  3D. Launching activity to influence legislators with years to go
+  Answer: LOBBING
+  Tier: --- | Confidence: 100/100
+  Definition: "activity to influence legislators"
+  Wordplay type: deletion
+  Components:
+    deletion           Launching activity to influence legislators with years to go -> LOBBING [LOBBYING - Y]
+  Human explanation: LOBB {y} ING (activity to influence legislators) [years to go]
+  AI Reasoning:
+    LOBBYING (influencing legislators) with Y (years) removed = LOBBING (launching activity)
+  ----------------------------------------------------------------------
+
+  [HIGH] WORCESTER  4D. Brag about compound in Midlands city
+  Answer: WORCESTER
+  Tier: --- | Confidence: 100/100
+  Definition: "compound in Midlands city"
+  Wordplay type: charade
+  Components:
+    reversal           brag                      -> WORC [CROW - ?]
+    synonym            compound                  -> ESTER
+  Human explanation: CROW (brag) reversed [about], ESTER (compound). ‘Ester’ featured in the QC I blogged yesterday when it was clued as ‘floral smelling compound’, so it was fresh in my mind.
+  AI Reasoning:
+    CROW (brag) reversed gives WORC; ESTER (compound) appended; together they spell WORCESTER (Midlands city)
+  ----------------------------------------------------------------------
+
+  [HIGH] CONBRIO  5A. Company note port is full of spirit
+  Answer: CONBRIO
+  Tier: --- | Confidence: 100/100
+  Definition: "spirit"
+  Wordplay type: charade
+  Components:
+    abbreviation       Company                   -> CO
+    abbreviation       note                      -> NB
+    literal            port                      -> RIO
+  Human explanation: CO (company), NB (note – nota bene ), RIO (port). A musical direction.
+  AI Reasoning:
+    CO (company abbreviation) + NB (nota bene abbreviation) + RIO (port city) = CON BRIO, a musical direction meaning 'with spirit'
+  ----------------------------------------------------------------------
+
+  [HIGH] CRYPT  5D. Tomb Raider: you play at first in skin of Croft
+  Answer: CRYPT
+  Tier: --- | Confidence: 100/100
+  Definition: "Tomb"
+  Wordplay type: container
+  Components:
+    first_letter       Croft                     -> C
+    first_letter       Raider                    -> R
+    first_letter       you                       -> Y
+    first_letter       play                      -> P
+    last_letter        skin                      -> T
+  Human explanation: R {aider} + Y {ou} + P {lay} [at first] contained by [in] C {rof} T [skin of…]
+  AI Reasoning:
+    First letters of 'Croft', 'Raider', 'you', 'play' plus last letter of 'skin' (outer container) spell CRYPT, a tomb.
+  ----------------------------------------------------------------------
+
+  [HIGH] NOSEBAG  6D. Ban goes awry where muzzle may be covered
+  Answer: NOSEBAG
+  Tier: --- | Confidence: 100/100
+  Definition: "where muzzle may be covered"
+  Wordplay type: anagram
+  Components:
+    literal            Ban                       -> BAN
+    literal            goes                      -> GOES
+  Human explanation: Anagram [awry] of BAN GOES . More nostalgic memories of our Express Dairy milkman’s horse and cart!
+  AI Reasoning:
+    BAN GOES is anagrammed (indicated by 'awry') to spell NOSEBAG, a feed bag placed over a horse's muzzle
+  ----------------------------------------------------------------------
+
+  [HIGH] OKLAHOMA  8D. Running amok with Halo, OK?
+  Answer: OKLAHOMA
+  Tier: --- | Confidence: 100/100
+  Definition: "OK"
+  Wordplay type: anagram
+  Components:
+    literal            Halo                      -> HALO
+    literal            amok                      -> AMOK
+  Human explanation: Anagram [running] of AMOK HALO
+  AI Reasoning:
+    AMOK and HALO are anagrammed (indicated by 'running amok') to spell OKLAHOMA
+  ----------------------------------------------------------------------
+
+  [HIGH] ATLIBERTY  9A. Tribal yet unusually free
+  Answer: ATLIBERTY
+  Tier: --- | Confidence: 100/100
+  Definition: "free"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Tribal                    -> TRIBAL
+    anagram_fodder     yet                       -> YET
+  Human explanation: Anagram [unusually] of TRIBAL YET
+  AI Reasoning:
+    TRIBAL YET is an anagram (indicated by 'unusually') of ATLIBERTY, which means 'free'
+  ----------------------------------------------------------------------
+
+  [FAILED] EMMENTHAL  14D. Swiss production cast Hamlet around king and queen, say
+  Answer: EMMENTHAL
+  Tier: --- | Confidence: 0/100
+  Definition: "Swiss"
+  Wordplay type: anagram
+  Components:
+    indicator          production                -> 
+    synonym            cast                      -> CAST
+    literal            Hamlet                    -> HAMLET
+    abbreviation       king                      -> K
+    abbreviation       queen                     -> Q
+    abbreviation       say                       -> EG
+  DB Lookups:
+    DB lookups:
+      swiss: syn=EUROPEAN
+      production: syn=GET,FATE,GETS,SEED,SHOW,WORK,CHILD,FRUIT,ISSUE,LABOR,SPAWN,THING,YIELD,AFFAIR,EFFECT; ind=anagram
+      cast: syn=MY,AIM,DID,EYE,FEE,HOW,LOB,PEG,RAN,SET,SHY,VIP,WAY,AIMS,ANTE; abbr=PLAYERS; ind=anagram,reversal; sounds=caste
+      hamlet: syn=PLAY,STOP,TOWN,PRINCE,THORPE,TRAGEDY
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      king: syn=K,R,MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR; abbr=K,R,REX
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      queen: syn=R,ER,QU,CAT,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=ER,HER,HM,Q,QU,R
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+  AI Reasoning:
+    Anagram of CAST+HAMLET+K+Q+EG (where 'say'='e.g.') produces EMMENTHAL
+  ----------------------------------------------------------------------
+
+  [MEDIUM] INSTAGRAMMING  17A. Sharing on social media popular with men only? Smashing!
+  Answer: INSTAGRAMMING
+  Tier: DB Fallback | Confidence: 45/100
+  Wordplay type: anagram
+  Components:
+    synonym            with                      -> IN
+    first_letter       men                       -> M
+    synonym            social                    -> STAG
+    first_letter       media                     -> M
+    literal            sharing                   -> SHARING
+  Assembly: deletion+anagram — delete SH from SHARING, anagram of IN(synonym of "with")+M(first letter of "men")+STAG(synonym of "social")+M(first letter of "men")+ARING = INSTAGRAMMING
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=FAIL: deletion gives=ARING answer=INSTAGRAMMING | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      social: syn=STAG*,DO,RED,TEA,BAKE,BALL,BASH,BOON,FETE,FREE,GALA,GOOD,KIND,ORGY,PINK
+      media: syn=IM,MEAN,AGENT,MEANS,ORGAN,PRESS,AGENCY,MIDDLE,MILIEU,ORGANS,CLIMATE,DAILIES,SETTING,VEHICLE,CHANNELS
+      popular: syn=IN*,BIG,HIT,HOT,LOW,POP,DEAR,FOND,OPEN,RATE,RIFE,AGAIN,AIRED,CHEAP,CUPPY; abbr=IN*,in*
+      with: syn=IN*,W,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      men: syn=OR,CATS,CREW,GUYS,JOES,LADS,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,TROOP,BLOKES,FELLAS; abbr=OR
+      only: syn=BUT,NEW,NOW,ONE,YET,JUST,LATE,LONE,MERE,SOLE,THAT,WHAT,ALONE,LATER,NEWLY
+      smashing: syn=SUPER,SWELL,SUPERB,BREAKING,BALL HARD,EXCELLENT,WONDERFUL,MARVELLOUS,TREMENDOUS,LOVELY JUBBLY; ind=anagram
+      popular with: syn=HERE,INDIA,STATE,ANOTHER,COUNTRY,REPUBLIC,DEMOCRACY
+  ----------------------------------------------------------------------
+
+  [HIGH] SEEDED  20D. Get very tired after knocking out American amongst the best at Wimbledon?
+  Answer: SEEDED
+  Tier: DB Fallback | Confidence: 70/100
+  Definition: "the best at Wimbledon"
+  Wordplay type: deletion
+  Components:
+    synonym            get                       -> SEED
+    deletion           tired                     -> DED [ENDED, "out"=deletion]
+  Assembly: deletion — delete D from SEED(synonym of "get") + DED(ENDED minus EN, "tired") [out]
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=not in DB, odd position | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      get: syn=SEE*,SEED*,DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE; abbr=G,GE
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V; sounds=vary
+      tired: syn=OLD,BEAT,BODY,DEAD,DONE,GONE,LIMP,LOGY,SUNK,WORN,BORED,BOUND,ENDED,JADED,KAPUT
+      after: syn=SEE*,BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET; ind=anagram
+      knocking: syn=TASK; ind=reversal?
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      american: syn=A,US,SUE,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE; abbr=A,US
+      amongst: syn=MID,AMID,MIDST; ind=container,hidden,insertion
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      best: syn=SEE*,A,AI,OK,ACE,ALL,APT,BUY,CAP,FAT,FIT,GET,OWN,TOP,WHO
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      wimbledon: syn=SET,SERVE
+      get very: syn=SANDAL
+      the best: syn=LOW,OFF,WHO,BEST,CONE,FOUR,LIST,PICK,CREAM,ELITE
+  Human explanation: SEE (get), DE {a} D (very tired) [knocking out American]
+  AI Reasoning:
+    SEED + DEAD = SEEDEAD, then delete A (American) to get SEEDED
+  ----------------------------------------------------------------------
+
+  [FAILED] REIKI  7D. Therapy that’s more pointed without special backing
+  Answer: REIKI
+  Tier: --- | Confidence: 0/100
+  Definition: "Therapy"
+  Wordplay type: hidden
+  Components:
+    hidden             more pointed without special backing -> REIKI
+  DB Lookups:
+    DB lookups:
+      therapy: syn=CURE,REHAB
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      pointed: syn=BARB,EDGY,HEAD,KEEN,EDGED,HARSH,HONED,NOISY,RASPY,SHARP,SPIKY
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      special: syn=IN,SP,ACE,BIG,HOT,ILL,ONE,PET,POP,SET,TOP,CARD,DEAR,FINE,FOND; abbr=SP; ind=anagram
+      backing: syn=AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL,SKIN; ind=reversal
+  Human explanation: (sp) IKIER (more pointed) [without special] reversed [backing]. When this answer showed up in the 15×15 on Monday of last week I noted that it had appeared here on 4 previous occasions and each time I
+  AI Reasoning:
+    REIKI is hidden within the phrase 'more pointed without special backing'
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

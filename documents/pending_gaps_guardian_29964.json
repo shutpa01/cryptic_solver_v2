@@ -1,0 +1,108 @@
+{
+  "source": "guardian",
+  "puzzle": "29964",
+  "stats": {
+    "total": 33,
+    "assembled": 32,
+    "high": 28,
+    "medium": 3,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 90.65625
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Supportive",
+      "letters": "PRO",
+      "answer": "PROFIT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Supportive of appropriate gain",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Friend",
+      "letters": "CHESS",
+      "answer": "CHESSMATCHES",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Friend’s securing check after check – he wins lots, ultimately, in these",
+      "score": 10
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "check after check",
+      "letters": "MATCHES",
+      "answer": "CHESSMATCHES",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Friend’s securing check after check – he wins lots, ultimately, in these",
+      "score": 10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "seabirds?",
+      "answer": "ERNES",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Holderness home to these seabirds?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "swill",
+      "answer": "RINSE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Some farmer in search for swill",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Flower",
+      "answer": "OXEYE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Flower from old times getting attention",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "gain",
+      "answer": "PROFIT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Supportive of appropriate gain",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "he wins lots, ultimately, in these",
+      "answer": "CHESSMATCHES",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Friend’s securing check after check – he wins lots, ultimately, in these",
+      "score": 10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ageing",
+      "answer": "SENESCENCE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Ageing somehow seen linked to knowledge I released",
+      "score": 81
+    }
+  ]
+}

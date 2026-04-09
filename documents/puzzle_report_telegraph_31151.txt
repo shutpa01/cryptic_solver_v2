@@ -1,0 +1,777 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31151
+Generated: 2026-03-06 21:36:28
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        22/28 (78%)
+    Sonnet:         22
+    DB Fallback:    0
+    Cached (no API): 19
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   14  10A, 11A, 12A, 18A, 2D, 20D, 22A, 23A, 24A, 3D, 4D, 5D, 8A, 9D
+  Medium (40-79): 6  13A, 17D, 18D, 21D, 6D, 7A
+  Low (<40):    2  1D, 19A
+  Failed:       6  1A, 14D, 15D, 16A, 25A, 7D
+  Average:      82/100
+
+COST: $0.0625 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (8 entries)
+------------------------------------------------------------
+  daniel craig: "James Bond" -> daniel craig  (missing from definition_answers_augmented)
+  IOTAS: "letters from abroad" -> IOTAS  (missing from definition_answers_augmented)
+  Easter egg: "seasonal treat" -> Easter egg  (missing from definition_answers_augmented)
+  trump card: "One in a powerful suit picking up tricks" -> trump card  (missing from definition_answers_augmented)
+  GARDENERS: "People tending to beds" -> GARDENERS  (missing from definition_answers_augmented)
+  CELLIST: "Performer who will take a big bow?" -> CELLIST  (missing from definition_answers_augmented)
+  near-sighted: "Myopic" -> near-sighted  (missing from definition_answers_augmented)
+  sitting room: "lounge" -> sitting room  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (4)
+------------------------------------------------------------
+  DECLUTTER = 1 (30/100): answer used in own explanation
+  INELASTIC = 13 (65/100): answer used in own explanation
+  ORATORY = 19 (30/100): answer used in own explanation
+  YOURS = 21 (65/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  DECLUTTER = 1 (30/100): single piece equals full answer; no pieces verified in DB
+  EROTICA = 17 (70/100): no pieces verified in DB
+  ORATORY = 19 (30/100): single piece equals full answer; no pieces verified in DB
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  1. European smuggling one large, exploding cigar for James Bond = daniel craig
+  14. Daisy tucked into case of edible goods, a seasonal treat = Easter egg
+  15. US leader – rotter is about right! One in a powerful suit pi = trump card
+  16. People tending to beds collect small covers from Parisian = GARDENERS
+  25. Myopic prophet given a title, according to Spooner = near-sighted
+  7. Model can do her hair etc in lounge = sitting room
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  13/28  8A, 10A, 11A, 22A, 23A, 24A, 2D, 3D, 4D, 5D, 6D, 9D, 20D
+  Circular assembly:     4  1A, 13A, 19A, 21D
+  Unverified explain.:   3  1A, 19A, 17D
+  DB gap:                8  1A, 12A, 16A, 18A, 25A, 7D, 14D, 15D
+  Failed:                6  1A, 16A, 25A, 7D, 14D, 15D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  DECLUTTER     Straighten out Geordie presenter, say, drinking litres (9)
+                      DECLUTTER(Geordie presenter, say)  [LOW]
+    1A  daniel craig  European smuggling one large, exploding cigar for James Bond (6,5)
+                      ---  [FAIL]
+   10A  Trudeau       Ex-PM of Germany invested in real gold (7)
+                      D(Germany) inside TRUE(real) + AU(gold)  [HIGH]
+   11A  SHAMPOO       Head cleaner in Post Office wearing fake ring (7)
+                      SHAM(fake) + PO(Post Office) + O(ring)  [HIGH]
+   12A  IOTAS         Current postman's periodically mislaid letters from abroad (5)
+                      I(current) + OTAS(postman's)  [HIGH]
+   13A  INELASTIC     Saccharine last ice-cream, somewhat hard (9)
+                      hidden in 'Saccharine last ice-cream,'  [MED]
+   14D  Easter egg    Daisy tucked into case of edible goods, a seasonal treat (6,3)
+                      ---  [FAIL]
+   15D  trump card    US leader – rotter is about right! One in a powerful suit picking up tricks (5,4)
+                      ---  [FAIL]
+   16A  GARDENERS     People tending to beds collect small covers from Parisian (9)
+                      ---  [FAIL]
+   17D  EROTICA       Rio ate first of curried stews – spicy stuff! (7)
+                      anagram of RIOATEC(Rio ate first of curried)  [MED]
+   18D  CELLIST       Performer who will take a big bow? (7)
+                      cryptic definition  [MED]
+   18A  CRUEL         Heartless Conservative left to admit regret (5)
+                      C(Conservative) + RUE(regret) + L(left)  [HIGH]
+   19A  ORATORY       Speechifying from either a Labourite ____? (7)
+                      ORATORY(either a Labourite)  [LOW]
+    2D  NESTERS       High-fliers who have become home-makers? (7)
+                      cryptic definition  [HIGH]
+   20D  ARGON         King in a lot of pain – it's gas (5)
+                      R(King) inside AGON(a lot of pain)  [HIGH]
+   21D  YOURS         The solver's joy? Our setter welcomes it (5)
+                      hidden in 'joy? Our setter'  [MED]
+   22A  ELLIPSE       Oval shape, different around rim (7)
+                      LIP(rim) inside ELSE(different)  [HIGH]
+   23A  MAGNITUDE     I'd augment bust size (9)
+                      anagram of IDAUGMENT(I'd augment)  [HIGH]
+   24A  IMAGE         Concern of PR department that is saving publication (5)
+                      MAG(publication) inside IE(that is)  [HIGH]
+   25A  near-sighted  Myopic prophet given a title, according to Spooner (4-7)
+                      ---  [FAIL]
+    3D  EXCLUSIVE     Unique cryptic clues, I've written over ten (9)
+                      anagram of CLUESIVE(clues, I've)+X(ten)  [HIGH]
+    4D  CENTS         Picked up perfumes for a little cash (5)
+                      anagram of SCENT(perfumes)  [HIGH]
+    5D  Ali Baba      Fighter with degrees in Old Persian (3,4)
+                      ALI(fighter) + BA(degrees) + BA(degrees)  [HIGH]
+    6D  GRASP         Clutch pot son knocked off piano (5)
+                      delete S from GRASS(pot) + P(piano)  [MED]
+    7A  SOCKS         Husband avoids surprises, getting unimaginative Christmas present? (5)
+                      delete H from SHOCKS  [MED]
+    7D  sitting room  Model can do her hair etc in lounge (7,4)
+                      ---  [FAIL]
+    8A  CANDIDATE     Frank and Anthea regularly ignored job-seeker (9)
+                      CANDID(Frank) + ATE(Anthea regularly)  [HIGH]
+    9D  Eton College  Where young Boris was strangely genteel and cool (4,7)
+                      anagram of GENTEEL+COOL  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [LOW] 1. Straighten out Geordie presenter, say, drinking litres
+  Answer: DECLUTTER
+  Tier: Cached | Confidence: 30/100
+  Definition: "Straighten out"
+  Wordplay type: charade
+  Components:
+    synonym            Geordie presenter, say    -> DECLUTTER
+  Assembly: charade — DECLUTTER(Geordie presenter, say)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      straighten: syn=GET UP,UNWIND,CORRECT
+      out: syn=UTTER*,OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY; ind=anagram,deletion
+      geordie: syn=DIALECT
+      presenter: syn=HOST,ANCHOR,COMPERE,ANNOUNCER,ENTERTAIN
+      say: syn=UTTER*,EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE; abbr=EG; ind=anagram,homophone
+      drinking: syn=SALOON,BIBBING,BOOZING,GULPING,LAPPING,SIPPING,SOAKING,SUPPING,GUZZLING,HOISTING,IMBIBING,QUAFFING,SLURPING,SPONGING,SWIGGING
+      litres: syn=MEASURE,CAPACITY; abbr=L*; ind=container?
+      straighten out: syn=OFFER,WIDEN,EXTEND,SPREAD,BROADEN,PROLONG,SPINOUT,STRETCH,CLEAR UP,LENGTHEN
+    Definitions:
+      "Straighten out" -> DECLUTTER (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 1. European smuggling one large, exploding cigar for James Bond
+  Answer: daniel craig
+  Tier: --- | Confidence: 0/100
+  Definition: "James Bond"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     large cigar               -> LCIGAR
+  DB Lookups:
+    DB lookups:
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      smuggling: syn=DAY; ind=container?,hidden
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L*,OS
+      exploding: ind=anagram
+      cigar: syn=SMOK,SMOKE,PANAMA,CHEROOT,PERFECTO,PANATELLA
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      bond: syn=HIT,SPY,TIE,BAIL,BAND,BIND,CORD,DEAL,GLUE,KNIT,KNOT,LINK,OATH,PACT,SIZE
+      james bond: syn=REP,SPY,BOND,MOLE,PEEP,SPOT,AGENT,NINJA,SNOOP,BROKER
+    Definitions:
+      "James Bond" -> daniel craig (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Ex-PM of Germany invested in real gold
+  Answer: Trudeau
+  Tier: Cached | Confidence: 100/100
+  Definition: "Ex-PM"
+  Wordplay type: container
+  Components:
+    synonym            real                      -> TRUE
+    abbreviation       Germany                   -> D
+    abbreviation       gold                      -> AU
+  Assembly: container — D(Germany) inside TRUE(real) + AU(gold)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ex-pm: syn=EDEN
+      ex: syn=PERUSED
+      pm: syn=TRUDEAU*,EDEN,KEIR,PITT,DERBY,HEATH,SUNAK,ATTLEE,ASQUITH,AUTOPSY,BALDWIN,WALPOLE
+      germany: syn=COUNTRY; abbr=D*,G,GER
+      invested: syn=DAY; ind=container
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      real: syn=GO,SO,BAG,BUG,COP,DIG,FAR,HOW,IRK,LOT,NAB,NOT,RUN,SEE,TOO; sounds=reel
+      gold: syn=AU*,OR,GOL,LONG,NOTE,UPON,AMBER,AURIC,GREEN,LEGAL,METAL,MONEY,CHANGE,NUGGET,THEBEST; abbr=AU*,OR,or
+      invested in: ind=insertion
+    Definitions:
+      "Ex-PM" -> Trudeau (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Head cleaner in Post Office wearing fake ring
+  Answer: SHAMPOO
+  Tier: Cached | Confidence: 100/100
+  Definition: "Head cleaner"
+  Wordplay type: charade
+  Components:
+    synonym            fake                      -> SHAM
+    abbreviation       Post Office               -> PO
+    abbreviation       ring                      -> O
+  Assembly: charade — SHAM(fake) + PO(Post Office) + O(ring)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H*,NESS; ind=acrostic,deletion,parts
+      cleaner: syn=SHAMPOO*,MOP,VAC,AJAX,CHAR,SOAP,SWAB,BESOM,CLOTH,DAILY,LOOFA,PURER,DUSTER,NAPKIN,SPONGE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      post: syn=JOB,USE,AS A,BILL,DUTY,FACT,HAND,JAMB,MAIL,PART,PIER,ROLE,TASK,WHAT,WORK; abbr=P*
+      office: syn=DO,ARM,JOB,TAX,USE,DESK,DUTY,HAND,LEVY,NEED,PART,POST,ROLE,TASK,WORK; abbr=O*
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      fake: syn=SHAM*,ACT,COD,MAN,PUT,TWO,CARD,LEFT,PASS,ALIAS,FALSE,FEIGN,FORGE,FRAUD,AFFECT; ind=anagram
+      ring: syn=MY,EYE,LOT,MOB,SET,BAND,BELL,BIKE,BODY,CALL,CLAN,CRAM,DIAL,FOLD,HALO; abbr=O*,R; sounds=wring
+      head cleaner: syn=SHAMPOO*,BOGUS,CLEAN,LIQUID,CLEANER
+      post office: abbr=PO*
+      post office: syn=PO*
+    Definitions:
+      "Head cleaner" -> SHAMPOO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Current postman's periodically mislaid letters from abroad
+  Answer: IOTAS
+  Tier: Cached | Confidence: 81/100
+  Definition: "letters from abroad"
+  Wordplay type: charade
+  Components:
+    abbreviation       current                   -> I
+    alternate_letters  postman's                 -> OTAS
+  Assembly: charade — I(current) + OTAS(postman's)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      current: syn=UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLUX,GLUT,GUSH,HAVE; abbr=I*; sounds=currant
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+      mislaid: syn=A1,BIG,FAB,A-OK,BOSS,BRAG,COLD,COOL,DONE,DOPE,DOWN,GONE,HYPE,KEEN,LEFT
+      letters: syn=IOTA*,POST,MU,ETA,GEE,INK,PEN,PSI,RHO,TAU,TEA,BETA,CARD,CUSS,MAIL; abbr=A*,B,N; ind=anagram
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      abroad: syn=FRO,OFF,OUT,WAY,AFAR,AWAY,AWOL,DOWN,GONE,ABOUT,APART,ASIDE,HENCE,ROUND,RUMOR; ind=anagram
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 13. Saccharine last ice-cream, somewhat hard
+  Answer: INELASTIC
+  Tier: Cached | Confidence: 65/100
+  Definition: "hard"
+  Wordplay type: hidden
+  Components:
+    hidden             Saccharine last ice-cream -> INELASTIC
+  Assembly: hidden — hidden in 'Saccharine last ice-cream,'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      saccharine: syn=BOX,FEEL,SICKLY
+      last: syn=LAS*,GO,PI,BAG,END,FAD,FIX,JAM,LAG,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      ice: syn=FOX,GEM,GET,GUN,NET,OFF,PUT,RAP,BAIL,COOL,FLOE,GAUD,GLOM,GROK,ITCH; abbr=IC*
+      cream: syn=AT,EAT,FAT,OFF,TOP,WHO,BEST,CONE,EDGE,LIST,PICK,PINK,PULL,SKIN,ELECT
+      somewhat: syn=OF,OR,BIT,NOT,KIND,LESS,LIKE,MORE,MUCH,SORT,A BIT,A FEW,CLEAN,QUITE,ENOUGH; ind=hidden
+      hard: syn=IN*,BY,NO,OF,AGE,BAD,ICY,ILL,ONE,PAT,SET,BEST,BLAH,CASE,COLD; abbr=H
+    Definitions:
+      "hard" -> INELASTIC (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 14. Daisy tucked into case of edible goods, a seasonal treat
+  Answer: Easter egg
+  Tier: --- | Confidence: 0/100
+  Definition: "seasonal treat"
+  Wordplay type: container
+  Components:
+    first_letter       case of edible            -> EE
+    synonym            Daisy                     -> ASTER
+    first_letter       case of goods             -> GS
+  DB Lookups:
+    DB lookups:
+      daisy: syn=ASTER*,HON,HOT,PIP,DEAR,ELSE,LOVE,LULU,BEAUT,DANDY,DILLY,DOOZY,DREAM,FLAME,HONEY
+      tucked: ind=container
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      edible: syn=EATING,EATABLE,ESCULENT
+      goods: syn=JOB,KIT,LOT,RIG,ARGO,CASE,DUDS,GEAR,RAGS,TOGS,WEAR,CARGO,DRESS,GEAR,,HABIT; abbr=G*,PI
+      seasonal: syn=PERHAPS?; ind=anagram?
+      treat: syn=AM,BE,DO,GO,IS,ACT,ARE,BET,BIT,GAS,JOY,LAY,LIE,PAY,SIT; ind=anagram?
+      tucked into: ind=insertion
+      case of: ind=parts
+    Definitions:
+      "seasonal treat" -> Easter egg (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 15. US leader – rotter is about right! One in a powerful suit picking up tricks
+  Answer: trump card
+  Tier: --- | Confidence: 0/100
+  Definition: "One in a powerful suit picking up tricks"
+  Wordplay type: charade
+  Components:
+    first_letter       US leader                 -> U
+    synonym            rotter                    -> CAD
+    abbreviation       about                     -> C
+    abbreviation       right                     -> R
+  DB Lookups:
+    DB lookups:
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM,AMERICA,APPRISE,FILL IN,MANKIND,ORLANDO,SENIORS,ACQUAINT; abbr=US
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      rotter: syn=SO,CAD,CUR,DOG,GUN,RAT,SOD,SON,BOOR,CRUD,FINK,HAUL,HEEL,JERK,LOUT
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      about: syn=CA*,AS,BY,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY,YAW; abbr=C*,CA*,OF,ON,OVER,RE; ind=anagram,container,reversal
+      right: syn=PC*,OK,ON,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT,NOT; abbr=DEXTER,R*,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      powerful: syn=HEAVY,COGENT,MIGHTY,POTENT,STRONG,STURDY,POWERED,VIOLENT,ALMIGHTY,ATHLETIC,PUISSANT,THICKSET,HERCULEAN,IMPORTANT
+      suit: syn=DO,GO,BED,FIT,PUT,RIG,WAY,BEND,BILL,CASE,CLUB,EASY,EDIT,FILL,FINE; abbr=FIT
+      picking: syn=CHOICE,ELECTION
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      tricks: syn=CARD*,TRUMP*,END,CONS,MAGIC,RUSES,STUNTS,CHICANERY,OUTSMARTS,DO,CON,EYE,JIG,RAP,SPY; ind=anagram?
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      picking up: syn=DAY,GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING
+  ----------------------------------------------------------------------
+
+  [FAILED] 16. People tending to beds collect small covers from Parisian
+  Answer: GARDENERS
+  Tier: --- | Confidence: 0/100
+  Definition: "People tending to beds"
+  Wordplay type: charade
+  Components:
+    synonym            collect                   -> GATHER
+    abbreviation       small                     -> S
+    deletion           from                      -> DES [DESERT, "covers"=deletion]
+  DB Lookups:
+    DB lookups:
+      people: syn=ELF,FAY,HAG,IMP,KIN,MEN,MOB,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN,CUES; abbr=MEN
+      tending: syn=APT,WONT,GIVEN,PRONE,APTEST,CERTAIN,INCLINED
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      beds: syn=PLOTS,COUNTY,STRATA,BORDERS,SHORTENED,AT,BE,DO,BAR,BET,COT,FIT,FIX,GET,HAP; abbr=COT
+      collect: syn=MET,MEET,PICK,AMASS,FETCH,GLEAN,GROUP,ACCRUE,GATHER,GLEAN:,PRAYER,AMASSED,AMASSES,CONTAIN,CONTROL
+      small: syn=ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY,PUNY; abbr=S*
+      covers: syn=AN,BINS,DOGS,EYES,FILL,GOES,PART,PODS,RUNS,TAGS,TOPS,BOXES,CASES,COVER,CURBS; ind=container,parts
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      parisian: syn=CITIZEN; ind=container?
+      tending to: syn=GRAVE,TOUCH,SEVERE,URGENT,CRUCIAL,GINGERY,CRITICAL,CENSORIAL,DESPERATE,INTRINSIC
+      to beds: syn=BE,DO,BED,BET,DIE,FIT,FIX,GET,HAP,LAG
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Rio ate first of curried stews – spicy stuff!
+  Answer: EROTICA
+  Tier: Cached | Confidence: 70/100
+  Definition: "spicy stuff"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Rio ate first of curried  -> RIOATEC
+  Assembly: anagram — anagram of RIOATEC(Rio ate first of curried)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      rio: syn=HA,CLA,WAR,PORT
+      ate: syn=DUG,FED,GOT,PEN,RAN,SAW,BEAT,CAME,DINE,FARE,FEED,FRET,GREW,ICED,KNEW; sounds=eight
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      curried: syn=DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,SHOT,SPED,TORE,DROVE,FIRED,FLUNG,HARED,HIDED
+      stews: syn=ILKS,KINDS,LIKES,OLIOS,SORTS,TYPES,BREEDS,GENRES,GUMBOS,HASHES,ORDERS,SALADS,BOTCHES,CLASSES,JUMBLES; ind=anagram
+      spicy: syn=EROTIC*,OFF,BLUE,FIERY,HOTEL,NAUGHTY,PICANTE
+      stuff: syn=DAM,JAM,JOB,KIT,LOT,PIP,RAM,RIG,BRIM,BUNG,CAKE,CLOG,CLOT,CRAM,DUDS; abbr=RAM
+      first of: ind=parts
+    Definitions:
+      "spicy stuff" -> EROTICA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Performer who will take a big bow?
+  Answer: CELLIST
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Performer who will take a big bow?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      performer: syn=ACT,SAY,TAP,APER,DIVA,DOER,MIME,TURN,ACTOR,CLOWN,MIMIC,ARTIST,BUSKER,DANCER,MUMMER
+      who: syn=FAT,TOP,BEST,PICK,PINK,TOPS,CREAM,ELECT,ELITE,PICKS,PINKS,PRIDE,PRIME,A-LIST,CAVIAR
+      will: syn=THE,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE,ACCORD,CHOICE,CHOOSE,OPTION
+      take: syn=A,DO,GO,OR,ACT,BAG,BUY,CON,COP,CUT,DAY,DIE,END,EYE,FAG; abbr=T*
+      big: syn=A1,IN,BAT,BOP,FAB,FIT,GET,GUN,HOT,KEY,POP,RAM,RAP,WIN,ZAP
+      bow: syn=ARC,SAY,ANON,ARCH,ARCS,BARK,BEND,FALL,GIVE,HAVE,NEAR,PROW,TURN,WIND,ABOUT; ind=anagram?; sounds=beau,bough
+      a big: syn=COMITY
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Heartless Conservative left to admit regret
+  Answer: CRUEL
+  Tier: Cached | Confidence: 100/100
+  Definition: "Heartless"
+  Wordplay type: charade
+  Components:
+    abbreviation       Conservative              -> C
+    abbreviation       left                      -> L
+    synonym            regret                    -> RUE
+  Assembly: charade — C(Conservative) + RUE(regret) + L(left)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      heartless: syn=CRUEL*,NO,CASE,COLD,HARD,TAKE,BRUTE,STONY; abbr=T; ind=deletion,parts
+      conservative: syn=CON,DIE,KEY,LOW,OLD,BLUE,SAFE,TORY,CREEP,RIGHT; abbr=C*,CON
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      admit: syn=OWN,AVOW,SEAT,TAKE,AGREE,ALLOW,ENTER,GRANT,OWNER,OWNUP
+      regret: syn=RUE*,ROUX,LAUGH,MOURN,RUPEE; abbr=RUE*
+    Definitions:
+      "Heartless" -> CRUEL (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 19. Speechifying from either a Labourite ____?
+  Answer: ORATORY
+  Tier: Cached | Confidence: 30/100
+  Definition: "Speechifying"
+  Wordplay type: charade
+  Components:
+    hidden             either a Labourite        -> ORATORY
+  Assembly: charade — ORATORY(either a Labourite)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      speechifying: syn=ORATORY*
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      either: syn=ALL,ANY,TOO,YET,ALSO,EACH,INTO,MORE,THEN,WHAT,AGAIN,EVERY,WHAT'S,WITHAL,BESIDES
+    Definitions:
+      "Speechifying" -> ORATORY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. High-fliers who have become home-makers?
+  Answer: NESTERS
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "High-fliers"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      high-fliers: syn=JETS,KITE,EAGLE,ICARUS
+      high: syn=OR,UP,BIG,CUT,DIS,ITS,LIT,OFF,PIE,POP,SKY,TOP,WET,ACME,AIRY; abbr=H,UP; ind=anagram; sounds=hi
+      fliers: syn=TEST,EGRETS,OUSELS,AIRCREW,OWL,TIT,DOVE,ERNE,IBIS,WREN,EGRET,GREBE,HERON,OUSEL,PLANE
+      who: syn=FAT,TOP,BEST,PICK,PINK,TOPS,CREAM,ELECT,ELITE,PICKS,PINKS,PRIDE,PRIME,A-LIST,CAVIAR
+      have: syn=A,AIM,ARC,BAG,BOW,BUY,CON,EAT,EYE,GAS,HUB,LET,OWN,PAY,RED; sounds=halve
+      become: syn=GO,AGE,BED,GET,RUN,WAX,WAY,COME,EASY,EVEN,GROW,HANG,HEAD,LIFE,PAST; ind=anagram
+      home: syn=NEST*,IN,TV,AIM,ALE,ARM,BAY,BOX,GIN,LCD,MUM,NIP,PAD,PEG,POP; abbr=IN,NEST*,in
+      makers: syn=GOD?,HERO,ICON,IDOL,KING,LORD,ALLAH,DEITY,AUTHOR,CHURCH,FATHER,YAHWEH,BUILDER,CREATOR,ETERNAL
+    Definitions:
+      "High-fliers" -> NESTERS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. King in a lot of pain – it's gas
+  Answer: ARGON
+  Tier: Cached | Confidence: 92/100
+  Definition: "gas"
+  Wordplay type: container
+  Components:
+    synonym            a lot of pain             -> AGON
+    abbreviation       King                      -> R
+  Assembly: container — R(King) inside AGON(a lot of pain)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      lot: syn=A,SO,FAR,LEA,OFT,POT,SET,TON,TOO,WAD,WAY,BAND,BANK,BODY,BONE
+      pain: syn=SO,GYP,WOE,ACHE,CARE,HEED,HURT,PANG,PEST,RACK,WORK,ACHES,AGONY,COLIC,LABOR; abbr=ACHE; sounds=pane
+      it's: syn=GO*,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      gas: syn=ARGON*,GAB,HOT,JAW,JOY,RAP,RUN,AIRS,BLAB,BRAG,CHAT,FUEL,HAVE,KICK,NEAR; ind=anagram?
+      in a: syn=FINE,MOLE,WITH,AFIRE
+      a lot: abbr=MANY
+      a lot: syn=ANY,CAN,DIE,END,HOW,LOT,OFT,PAD,POT,SET
+      a lot of: syn=BAGS,LOTS,MANY,HEAPS
+    Definitions:
+      "gas" -> ARGON (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 21. The solver's joy? Our setter welcomes it
+  Answer: YOURS
+  Tier: Cached | Confidence: 65/100
+  Definition: "The solver's"
+  Wordplay type: hidden
+  Components:
+    hidden             joy? Our setter           -> YOURS
+  Assembly: hidden — hidden in 'joy? Our setter'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      solver's: syn=YOU*,GRIP
+      joy: syn=GAS,GLEE,KICK,SHOW,BLISS,FEAST,MANNA,TREAT
+      our: abbr=C; sounds=hour
+      setter: syn=ME,BOW,DOG,GEL,GAFF,KITE; abbr=DOG,I,ME
+      welcomes: syn=GIVES,A,HI,AVE,EAT,FAB,PET,A-OK,BEST,BOSS,BRAG,COOL,DEAR,DOPE,DOWN; abbr=HI; ind=container?
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      the solver's: syn=RE
+    Definitions:
+      "The solver's" -> YOURS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Oval shape, different around rim
+  Answer: ELLIPSE
+  Tier: Cached | Confidence: 92/100
+  Definition: "Oval shape"
+  Wordplay type: container
+  Components:
+    synonym            different                 -> ELSE
+    synonym            rim                       -> LIP
+  Assembly: container — LIP(rim) inside ELSE(different)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      oval: syn=ELLIPSE*,SHAPE,ANNULAR
+      shape: syn=ELLIPSE*,OK,END,FEE,FIT,FIX,HOW,OPT,PUT,RIG,SET,VIP,WAY,ANTE,BEND; ind=anagram
+      different: syn=NEW,JURY,EXTRA,OTHER,PINCH,SPARE,SECOND,SUNDRY,UNLIKE,ANOTHER,DISTANT,DIVERSE,SEVERAL,UNALIKE,UNUSUAL; ind=anagram
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      rim: syn=LIP*,END,HEM,BRIM,EDGE,APRON,BOUND,FRAME,LIMIT,SKIRT,VERGE,BORDER,EDGING,FRINGE,MARGIN; ind=parts
+    Definitions:
+      "Oval" -> ELLIPSE (definition match)
+      "Oval shape" -> ELLIPSE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. I'd augment bust size
+  Answer: MAGNITUDE
+  Tier: Cached | Confidence: 100/100
+  Definition: "size"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     I'd augment               -> IDAUGMENT
+  Assembly: anagram — anagram of IDAUGMENT(I'd augment)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      augment: syn=UP,ADD,BAR,ADDS,ADDED,BOOST,RAISE,SWELL,ADD TO,ADDING,AERATE,EXPAND,EXTEND,FOLLOW,AMPLIFY; fodder=AUGMENT(7/9 anagram match)
+      bust: syn=BAT,BIG,BOP,BOX,BUS,COP,DAB,DIG,DUD,HIT,LEG,NAB,NET,NEW,RAP; ind=anagram
+      size: syn=MAGNITUDE*,TIE,TOY,TRY,WEE,BAND,BIND,BOND,BULK,CORD,DEAL,DEEM,FINE,GLUE,HEAR; sounds=sighs
+    Definitions:
+      "size" -> MAGNITUDE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Concern of PR department that is saving publication
+  Answer: IMAGE
+  Tier: Cached | Confidence: 100/100
+  Definition: "Concern of PR department"
+  Wordplay type: container
+  Components:
+    synonym            publication               -> MAG
+    abbreviation       that is                   -> IE
+  Assembly: container — MAG(publication) inside IE(that is)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      concern: syn=AIL,JOB,USE,AILS,BASE,CARE,DEAL,DUTY,FEAR,FIRM,FUSS,HAND,PART,POST,ROLE
+      department: syn=ARM,LAY,AREA,DESK,FIEF,GAME,LINE,OF A,UNIT,WALK,AREAS,ARENA,FIELD,FRONT,REALM; abbr=D
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      is: syn=GE*,DO,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      saving: syn=OF,BAR,BUT,CUT,FOR,YET,FROM,ONLY,SAVE,THAN,THAT,WHAT,ASIDE,GOING,OTHER
+      publication: syn=MAG*,HELLO,ISSUE,ORGAN,WRITE; ind=container?
+      that is: abbr=IE
+      that is: syn=IE,EST,IDEST,TOWIT
+  ----------------------------------------------------------------------
+
+  [FAILED] 25. Myopic prophet given a title, according to Spooner
+  Answer: near-sighted
+  Tier: --- | Confidence: 0/100
+  Definition: "Myopic"
+  Wordplay type: spoonerism
+  Components:
+    synonym            prophet                   -> SEER
+    synonym            title                     -> SIR
+  DB Lookups:
+    DB lookups:
+      myopic: syn=NEARSIGHTED*
+      prophet: syn=AMOS,SEER,AUGUR,MOSES,MOUTH,NAHUM,POINT,AUGURS,DOCTOR,ELIJAH,ELISHA,PERSON,WONDER,WORKER,ISHMAEL; sounds=profit
+      given: syn=IF,APT,ONE,SET,BORN,FIRM,FLAT,HARD,NORM,SOME,SURE,USED,WONT,BASIS,CANON
+      title: syn=A A,BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SIR,SUM,BATH,BENT,BUFF,CALL
+      according: syn=GO,FIT,JIBE,VEST,AGREE,AWARD,CHECK,GRANT,TALLY,ANSWER,COHERE,CONFER,SQUARE,COMPORT,CONFORM; ind=homophone
+      to: syn=NEAR*,BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      spooner: syn=LADLE
+      according to: syn=PER
+    Definitions:
+      "Myopic" -> near-sighted (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Unique cryptic clues, I've written over ten
+  Answer: EXCLUSIVE
+  Tier: Cached | Confidence: 100/100
+  Definition: "Unique"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     clues, I've               -> CLUESI'VE
+    abbreviation       ten                       -> X
+  Assembly: anagram — anagram of CLUESIVE(clues, I've)+X(ten)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      unique: syn=ODD,ONE,THE,WAY,ONLY,RARE,SOLE,WILD,ALONE,CRAZY,FREAK,FRESH,FUNKY,FUNNY,KINKY
+      cryptic: syn=DARK,DEEP,ARCANE,CATTLE,GNOMIC,HIDDEN,KENNEL,MYSTIC,ENIGMATIC,SHORTHORN; ind=anagram
+      clues: syn=HINT,TIPS,HINTS,LEADS,CUE,IDEA,LEAD,THIS,SCENT,SCOOBY,INKLING; sounds=clew
+      written: ind=reversal
+      over: syn=BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O,ON,UP; ind=anagram,reversal
+      ten: syn=BUM,CAP,FEZ,FIN,FOX,HAT,LID,ONE,RUN,SAG,TAM,TWO,BABE,BASE,BIKE; abbr=X*
+    Definitions:
+      "Unique" -> EXCLUSIVE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Picked up perfumes for a little cash
+  Answer: CENTS
+  Tier: Cached | Confidence: 100/100
+  Definition: "a little cash"
+  Wordplay type: anagram
+  Components:
+    synonym            perfumes                  -> SCENT
+  Assembly: anagram — anagram of SCENT(perfumes)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      picked: syn=IN,BIG,HOT,POP,DEAR,FOND,TOOT,CHOSE,EATEN,ELECT,FADDY,GORED,LARGE,LOVED,STUCK
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      perfumes: syn=FUNK,MUSK,ODOR,REEK,TANG,AROMA,ATTAR,FETOR,MUSK,,ODOUR,SAVOR,SCENT,SMELL,SMOKE,SNIFF
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      little: syn=ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO,WEE; abbr=WEE
+      cash: syn=FIN,ONE,TEN,TWO,BILL,BUCK,COIN,FIVE,LONG,NOTE,PELF,UPON,BREAD,CHECK,CHIPS; sounds=cache
+      picked up: syn=ATE,DAY,DUG,GOT,RAN,SAW,BEAT,CAME,GREW,ICED
+      a little: syn=ACE,ACT,BIT,BOX,CAT,CUT,DAB,FEW,GUN,HIT
+      little cash: syn=CENT*
+    Definitions:
+      "a little cash" -> CENTS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Fighter with degrees in Old Persian
+  Answer: Ali Baba
+  Tier: Cached | Confidence: 100/100
+  Definition: "Old Persian"
+  Wordplay type: charade
+  Components:
+    synonym            fighter                   -> ALI
+    abbreviation       degrees                   -> BA
+    abbreviation       degrees                   -> BA
+  Assembly: charade — ALI(fighter) + BA(degrees) + BA(degrees)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fighter: syn=ALI*,AT,AIR,MAN,ARMS,NINJA,TYSON,AIRSHIP,BATTLER,DUELLER,MATADOR,SOLDIER,WARRIOR
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      degrees: syn=BA*,LOCI,PARTS,RANKS,ROLES,RUNGS,TASKS,WORKS,LEVELS,POINTS,STRATA,VENUES,WHERES,LOCALES,REACHES; abbr=BA*,D,MA
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      old persian: syn=MEDE
+    Definitions:
+      "Old Persian" -> Ali Baba (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 6. Clutch pot son knocked off piano
+  Answer: GRASP
+  Tier: Cached | Confidence: 72/100
+  Definition: "Clutch"
+  Wordplay type: deletion
+  Components:
+    synonym            pot                       -> GRASS
+    abbreviation       piano                     -> P
+  Assembly: deletion — delete S from GRASS(pot) + P(piano)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      clutch: syn=GRASP*,ARM,BAG,FIX,JAM,LOT,SET,ARMS,ARMY,BANK,BODY,CARE,CLOT,EGGS,GRIP
+      pot: syn=A,IN,CAN,LOT,PAN,TON,TUM,WAD,DEAL,GOBS,HEAP,MASS,MESS,MUCH,NOTE
+      son: syn=BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY,BOOR; abbr=S*; sounds=sun
+      knocked: syn=HIT,SANK,TASK,BORED,BOXED,DIVED,SMOTE; ind=deletion,reversal
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      piano: syn=LEG,GRAND; abbr=P*,PT
+      knocked off: syn=ATE,DUG,GOT,RAN,SAW,ACED,BEAT,CAME,GREW,ICED
+    Definitions:
+      "Clutch" -> GRASP (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 7. Husband avoids surprises, getting unimaginative Christmas present?
+  Answer: SOCKS
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "unimaginative Christmas present"
+  Wordplay type: deletion
+  Assembly: deletion — delete H from SHOCKS
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      husband: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,OLD,BABY,BEAU,BIRD,BODY,BUCK,CHAP; abbr=H
+      avoids: syn=END,DUCKS,SHUNS,LEG,DUCK,NULL,SHUN,SKIP,STAY,VOID,A LEG,ABATE,ANNUL,DODGE,ELUDE
+      surprises: syn=ROCKS,GOB,JAR,MUG,WEB,YAP,FROM,JOLT,ROCK,STUN,TRAP,AMAZE,FLOOR,MOUTH,SHOCK
+      getting: syn=AGED,GOING,ICING,WRONG
+      unimaginative: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH,SOGGY
+      christmas: syn=NOEL,XMAS,YULE
+      present: syn=IN,ARM,HOT,MOD,NEW,NOW,WAY,BALL,GIFT,GIVE,HAND,HERE,HOST,RILL,SHOW
+    Definitions:
+      "unimaginative Christmas present" -> SOCKS (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 7. Model can do her hair etc in lounge
+  Answer: sitting room
+  Tier: --- | Confidence: 0/100
+  Definition: "lounge"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Model can do her hair etc in -> MODELCANDOHERHAIRETCIN
+  DB Lookups:
+    DB lookups:
+      model: syn=SIT*,FIT,PIN,PUT,SAY,TOY,ACME,APEX,BABY,DOLL,EDIT,FINE,GEAR,IDEA,MAKE; abbr=SIT*; ind=anagram
+      can: syn=TIN*,A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY; abbr=C,TIN*; ind=anagram?
+      do: syn=SIT*,BE,GO,IS,MY,PI,411,A A,ACT,ADO,AND,ARE,BED,BET,BUY; abbr=C,PARTY; sounds=dew,due
+      her: syn=NO,BEE,EYE,FOX,GET,VEX,BABY,BEAT,BIDE,COUP,DAMN,FAZE,FOUL,KINK,MAZE
+      hair: syn=DO,ACE,BOB,BUN,CUT,FUR,HOP,IRK,MOP,PUG,RUB,ACES,BLED,COAT,CONK; sounds=hare
+      etc: syn=DECOR,GRILL,LINEN,ANDSOON,STRINGS,EDENTATA,HERITAGE,AND SO ON,ANDSOFORTH,ANDTHELIKE
+      in: syn=IT*,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      lounge: syn=ROOM*,BUM,LAG,LIE,TEN,BASK,DOZE,EASE,FOOL,HANG,IDLE,KILL,LAZE,LAZY,LOAF; ind=container?
+    Definitions:
+      "lounge" -> sitting room (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. Frank and Anthea regularly ignored job-seeker
+  Answer: CANDIDATE
+  Tier: Cached | Confidence: 96/100
+  Definition: "job-seeker"
+  Wordplay type: charade
+  Components:
+    synonym            Frank                     -> CANDID
+    alternate_letters  Anthea regularly          -> ATE
+  Assembly: charade — CANDID(Frank) + ATE(Anthea regularly)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      frank: syn=CANDID*,CANDIDATE*,UP,OLD,OUT,BALD,BARE,FREE,NEAT,OPEN,PURE,BROAD,CLEAR,HEART,NAIVE; sounds=franc
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,COMMONLY; ind=parts
+      ignored: syn=CUT,END,IDLE,VOID,EMPTY,WASTE,FORGOT,JUNKED,REFUSE,SHABBY,VACANT,DISUSED,EXCUSED,FLOUTED,FORGAVE; ind=deletion?
+      job: syn=DO,CUT,END,FEE,MUD,PAY,TAX,USE,BEAR,BELT,DUTY,HAND,HIRE,LAND,LEVY
+      seeker: syn=CANDIDATE*,SON,ASPIRANT,SEARCHER,APPLICANT
+      regularly ignored: ind=parts
+    Definitions:
+      "Frank" -> CANDIDATE (definition match)
+      "job-seeker" -> CANDIDATE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. Where young Boris was strangely genteel and cool
+  Answer: Eton College
+  Tier: Cached | Confidence: 80/100
+  Definition: "Where young Boris was"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     genteel and cool          -> GENTEELANDCOOL
+  Assembly: anagram — anagram of GENTEEL+COOL
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=FAIL: pieces=GENTEELANDCOOL answer=ETONCOLLEGE | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER,LOCALITY,LOCATION,NINETEEN; sounds=ware,wear
+      young: syn=BIG,GET,KIN,NEW,RED,BABY,GONE,REDS,SEED,BROOD,CHILD,CRAZY,FRUIT,GREEN,HATCH; abbr=Y
+      boris: syn=MAN,YELTSIN
+      was: syn=DID,LAY,SAT,BORE,CAME,KNEW,LEANT,LIVED,RATED,STOOD,TYPED,BEFELL,COOKED,GRADED,HAPPED; abbr=WA
+      strangely: syn=ODDLY,UNUSUALLY; ind=anagram
+      genteel: syn=BLUE,NICE,PURE,TRUE,WELL,ATTIC,CIVIL,CLASS,CLEAN,GREAT,MORAL,NOBLE,DECENT,HONEST,MODEST
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      cool: syn=A,A1,IN,IT,OK,BIG,DEF,DRY,FAB,FAN,HEP,HIP,HOT,ICE,ICY; abbr=IN
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

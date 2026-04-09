@@ -1,0 +1,109 @@
+{
+  "source": "telegraph",
+  "puzzle": "31181",
+  "stats": {
+    "total": 31,
+    "assembled": 28,
+    "high": 23,
+    "medium": 3,
+    "low": 2,
+    "failed": 3,
+    "avg_score": 84.78571428571429
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "See 26 Across",
+      "answer": "LARK",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "See 26 Across",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Soused",
+      "answer": "DRENCHED",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Soused Democrat forced to renounce whiskey",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Rick in Casablanca",
+      "answer": "BLAINE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Rick in Casablanca and Abilene endlessly drunk",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "South Korean yogi liked nutty 19 Across's line for 9 Down",
+      "answer": "HERESLOOKINGATYOUKID",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "South Korean yogi liked nutty 19 Across's line for 9 Down",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hot snack",
+      "answer": "ENCHILADA",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Ena holding youngster eats a hot snack",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "whiskey",
+      "letters": "D",
+      "answer": "DRENCHED",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Soused Democrat forced to renounce whiskey",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "in test",
+      "letters": "MOST",
+      "answer": "UPPERMOST",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Top meal without starter succeeded in test",
+      "score": 88
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "eats",
+      "letters": "CHIL",
+      "answer": "ENCHILADA",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Ena holding youngster eats a hot snack",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "that",
+      "letters": "ONE",
+      "answer": "TWENTYONE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Time passed with that European card game",
+      "score": 92
+    }
+  ]
+}

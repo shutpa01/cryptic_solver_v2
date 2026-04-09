@@ -1,0 +1,389 @@
+{
+  "source": "times",
+  "puzzle": "29510",
+  "stats": {
+    "total": 39,
+    "assembled": 37,
+    "high": 33,
+    "medium": 4,
+    "low": 0,
+    "failed": 2,
+    "avg_score": 93.24324324324324
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "handy",
+      "letters": "HANDY",
+      "answer": "SHANDY",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Salomé’s opening nearby, it could be in the round",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "pull with difficulty",
+      "letters": "ATA",
+      "answer": "ATAPUSH",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Where you shouldn’t pull with difficulty?",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Emigrant",
+      "letters": "EXP",
+      "answer": "EXPIATION",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Emigrant touring island next to Iona, not quite making amends",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "probing",
+      "letters": "IN",
+      "answer": "HINDU",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "One’s observant in probing high-definition movie certificate",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Short",
+      "answer": "TERSE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Short characters sitting in booster seat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "down",
+      "answer": "SWALLOW",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Plant holding partition down",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "proof of life?",
+      "answer": "COGITOERGOSUM",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Drunk groom got us ice as proof of life?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "OK?",
+      "answer": "OKLAHOMA",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Running amok with Halo, OK?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "free",
+      "answer": "ATLIBERTY",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Tribal yet unusually free",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Plant",
+      "answer": "SWALLOW",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Plant holding partition down",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "it could be in the round",
+      "answer": "SHANDY",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Salomé’s opening nearby, it could be in the round",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where drinks are made",
+      "answer": "STILL",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Where drinks are made without added carbon dioxide",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "City",
+      "answer": "DELHI",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "City kept changing sides before international",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "institute",
+      "answer": "ESTABLISH",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Go into the Spanish sort of institute",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "proof of life",
+      "answer": "COGITOERGOSUM",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Drunk groom got us ice as proof of life?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Increase appeal of",
+      "answer": "SUGARCOAT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Increase appeal of cold Italian sauces, recalled on the way up",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "appreciate formal headwear",
+      "answer": "LIKETHAT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Instantly appreciate formal headwear when out of work",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where you shouldn't pull with difficulty",
+      "answer": "ATAPUSH",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Where you shouldn’t pull with difficulty?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "acting",
+      "answer": "INTERIM",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "British playwright dismissing top writer’s acting",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "national sports team",
+      "answer": "ALLBLACKS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Social cycling doesn’t involve national sports team",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "making amends",
+      "answer": "EXPIATION",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Emigrant touring island next to Iona, not quite making amends",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chinese native",
+      "answer": "PANDA",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Chinese native with makings of father?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "More distant",
+      "answer": "ICIER",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "More distant royal once found beneath here in Versailles",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Short",
+      "answer": "TERSE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Short characters sitting in booster seat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One's observant",
+      "answer": "HINDU",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "One’s observant in probing high-definition movie certificate",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Writer",
+      "answer": "ISHERWOOD",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Writer originally identifying location for Robin Hood",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "schoolmaster",
+      "answer": "TEACHER",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "A head bitten by short seabird’s beak",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "activity to influence legislators",
+      "answer": "LOBBING",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Launching activity to influence legislators with years to go",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "compound in Midlands city",
+      "answer": "WORCESTER",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Brag about compound in Midlands city",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "spirit",
+      "answer": "CONBRIO",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Company note port is full of spirit",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tomb",
+      "answer": "CRYPT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Tomb Raider: you play at first in skin of Croft",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "where muzzle may be covered",
+      "answer": "NOSEBAG",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Ban goes awry where muzzle may be covered",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "OK",
+      "answer": "OKLAHOMA",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Running amok with Halo, OK?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "free",
+      "answer": "ATLIBERTY",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Tribal yet unusually free",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Swiss",
+      "answer": "EMMENTHAL",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Swiss production cast Hamlet around king and queen, say",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "the best at Wimbledon",
+      "answer": "SEEDED",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Get very tired after knocking out American amongst the best at Wimbledon?",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Therapy",
+      "answer": "REIKI",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Therapy that’s more pointed without special backing",
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "source": "independent",
+  "puzzle": "12310",
+  "stats": {
+    "total": 30,
+    "assembled": 28,
+    "high": 24,
+    "medium": 3,
+    "low": 1,
+    "failed": 2,
+    "avg_score": 86.5
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "shelter checks",
+      "letters": "LEASE",
+      "answer": "PLEASE",
+      "clue_number": "10",
+      "direction": null,
+      "clue": "Give me a break quietly when shelter checks",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "likely",
+      "letters": "ON",
+      "answer": "ONTHENAIL",
+      "clue_number": "25",
+      "direction": null,
+      "clue": "Now likely later to become ill",
+      "score": -15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "later",
+      "letters": "THEN",
+      "answer": "ONTHENAIL",
+      "clue_number": "25",
+      "direction": null,
+      "clue": "Now likely later to become ill",
+      "score": -15
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "ill",
+      "letters": "AIL",
+      "answer": "ONTHENAIL",
+      "clue_number": "25",
+      "direction": null,
+      "clue": "Now likely later to become ill",
+      "score": -15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "host",
+      "answer": "THROW",
+      "clue_number": "21",
+      "direction": null,
+      "clue": "Shy host",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mug",
+      "answer": "STEIN",
+      "clue_number": "29",
+      "direction": null,
+      "clue": "I sent ugly mug",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Give me a break",
+      "answer": "PLEASE",
+      "clue_number": "10",
+      "direction": null,
+      "clue": "Give me a break quietly when shelter checks",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Break",
+      "answer": "PAUSE",
+      "clue_number": "17",
+      "direction": null,
+      "clue": "Break hands on the blower",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Now",
+      "answer": "ONTHENAIL",
+      "clue_number": "25",
+      "direction": null,
+      "clue": "Now likely later to become ill",
+      "score": -15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where",
+      "answer": "BUNFIGHT",
+      "clue_number": "3",
+      "direction": null,
+      "clue": "Where Spooner's entertaining with something to eat?",
+      "score": 47
+    }
+  ]
+}

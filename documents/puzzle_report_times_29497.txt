@@ -1,0 +1,720 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29497
+Generated: 2026-03-23 07:52:27
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      29
+  Assembled:        29/29 (100%)
+    Signature:      2
+    Sig+Enriched:   8
+    Sonnet:         18
+    DB Fallback:    1
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   13  13A, 21A, 14D, 15A, 2D, 23A, 24D, 27A, 28A, 4D, 5D, 6D, 9A
+  Medium (40-79): 11  1A, 10A, 16D, 18A, 19A, 20D, 22D, 25A, 5A, 7D, 8D
+  Low (<40):    5  11A, 12A, 17D, 26A, 3D
+  Failed:       0  
+  Average:      65/100
+
+COST: $1.6181 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (37 entries)
+------------------------------------------------------------
+  RUMP: "Bottom's" -> RUMP  (missing from definition_answers_augmented)
+  PORTAL: "entrance" -> PORTAL  (missing from definition_answers_augmented)
+  HAGGIS: "Burns may have consumed this" -> HAGGIS  (missing from definition_answers_augmented)
+  BUST: "Head and Shoulders not working?" -> BUST  (missing from definition_answers_augmented)
+  COWRITER: "pen-pal" -> COWRITER  (missing from definition_answers_augmented)
+  ONTIME: "promptly" -> ONTIME  (missing from definition_answers_augmented)
+  UFOLOGIST: "one with alien beliefs" -> UFOLOGIST  (missing from definition_answers_augmented)
+  MOSQUITO: "Sucker" -> MOSQUITO  (missing from definition_answers_augmented)
+  UNDERTAKE: "Attempt pass on the wrong side?" -> UNDERTAKE  (missing from definition_answers_augmented)
+  TOOLSHED: "drop?" -> TOOLSHED  (missing from definition_answers_augmented)
+  DOUBLOON: "coin" -> DOUBLOON  (missing from definition_answers_augmented)
+  ADOBO: "dish from the Philippines" -> ADOBO  (missing from definition_answers_augmented)
+  TIBIA: "Part of pin" -> TIBIA  (missing from definition_answers_augmented)
+  SPEARMAN: "old warrior" -> SPEARMAN  (missing from definition_answers_augmented)
+  ICEAXE: "Mountaineering kit" -> ICEAXE  (missing from definition_answers_augmented)
+  SIESTA: "Rest during the day" -> SIESTA  (missing from definition_answers_augmented)
+  DIATRIBE: "Harsh criticism" -> DIATRIBE  (missing from definition_answers_augmented)
+  ARTHOUSE: "highbrow cinema" -> ARTHOUSE  (missing from definition_answers_augmented)
+  REBUT: "Provide counterargument" -> REBUT  (missing from definition_answers_augmented)
+  BASEMETAL: "Perhaps lead" -> BASEMETAL  (missing from definition_answers_augmented)
+  LOBSTERPOT: "Trap" -> LOBSTERPOT  (missing from definition_answers_augmented)
+  COWRITER: office -> CO  (missing from abbreviations)
+  COWRITER: worker -> WRITER  (missing from synonyms_pairs)
+  ONTIME: square -> ON  (missing from abbreviations)
+  ONTIME: tiny character -> TIME  (missing from synonyms_pairs)
+  UFOLOGIST: impose keeping record -> FOLOGIST  (missing from synonyms_pairs)
+  MOSQUITO: very -> MO  (missing from abbreviations)
+  MOSQUITO: shortly -> S  (missing from abbreviations)
+  TOOLSHED: Hammer -> TOOL  (missing from synonyms_pairs)
+  DELL: Ran -> LED  (missing from abbreviations)
+  HOOTENANNY: most amusing -> HOOT  (missing from synonyms_pairs)
+  HOOTENANNY: GOAT -> ANNY  (missing from synonyms_pairs)
+  ICEAXE: sack -> AXE  (missing from abbreviations)
+  GASTROPUB: tantrum -> STUP  (missing from synonyms_pairs)
+  DIATRIBE: group involving several families -> TRIBE  (missing from synonyms_pairs)
+  REBUT: objection -> BUT  (missing from abbreviations)
+  BASEMETAL: rock music -> METAL  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  DOUBLOON = 18 (65/100): AI=charade, assembled=container
+  DELL = 19 (57/100): AI=container, assembled=reversal
+  TIBIA = 22 (60/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  COWRITER = 11 (-5/100): no pieces verified in DB
+  ONTIME = 12 (5/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  COWRITER = 11 (-5/100): def="pen-pal" (not in DB, odd position)
+  TOOLSHED = 17 (37/100): def="drop?" (not in DB, odd position)
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/29  25A, 27A, 20D, 24D
+  Type mismatch:         3  18A, 19A, 22D
+  Unverified explain.:   2  11A, 12A
+  Weak definition:       2  11A, 17D
+  DB gap:                24  1A, 9A, 10A, 11A, 12A, 13A, 15A, 18A, 19A, 21A, 23A, 26A, 28A, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 14D, 16D, 17D, 22D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   13A  RUMP          Bottom’s strange head from Puck (4)
+                      RUM (synonym of "strange") + P (first letter of "Puck") [first letter: "head"]; definition: "Bottom's"  [HIGH]
+   21A  PORTAL        Wine and beer mostly for entrance (6)
+                      PORT (synonym of "Wine") + ALE (synonym of "beer") [curtailing: "mostly"]; definition: "entrance"  [HIGH]
+    1A  HAGGIS        Burns may have consumed this witch, finally saving lives (6)
+                      HAG(synonym of "witch") + GIS("saving lives")  [MED]
+   10A  BUST          Head and Shoulders not working? (4)
+                      cryptic definition  [MED]
+   11A  COWRITER      Bully office worker’s latest pen-pal? (8)
+                      CO(abbr. "office") + WRITER(synonym of "worker")  [LOW]
+   12A  ONTIME        Tiny character entering square promptly (2,4)
+                      ON(synonym of "square") + TIME(synonym of "tiny character")  [LOW]
+   14D  UFOLOGIST     You impose keeping record for one with alien beliefs (9)
+                      U (synonym of "You") + FOLOGIST (synonym of "impose keeping record"); definition: "one with alien beliefs"  [HIGH]
+   15A  MOSQUITO      Sucker very shortly left with nothing (8)
+                      MO (synonym of "very") + S (abbreviation of "shortly") + QUIT (synonym of "left") + O (synonym of "nothing"); definition: "Sucker"  [HIGH]
+   16D  UNDERTAKE     Attempt pass on the wrong side? (9)
+                      double definition  [MED]
+   17D  TOOLSHED      Hammer home excessively large drop? (8)
+                      TOOL(synonym of "Hammer") + SHED(synonym of "home")  [LOW]
+   18A  DOUBLOON      Perform universal blessing holding pound coin (8)
+                      DO(synonym of "Perform") + U(abbr. "universal") + L(abbr. "pound") inside BOON(synonym of "blessing")  [MED]
+   19A  DELL          Ran around back of tropical valley (4)
+                      reverse LED(synonym of "Ran") + L(last letter of "back of tropical")  [MED]
+    2D  ADOBO         Fuss over skin of buffalo in dish from the Philippines (5)
+                      ADO (synonym of "Fuss") + BO (middle of "buffalo") [outer letters: "skin"]; definition: "dish from the Philippines"  [HIGH]
+   20D  YEMENI        Arab second in line after enemy messed up (6)
+                      YEMEN("enemy") + I("line")  [MED]
+   22D  TIBIA         Part of pin starts to topple if bowling in alley (5)
+                      T(first letter of "topple") + I(first letter of "if") + B(first letter of "bowling") + I(first letter of "if") + A(first letter of "alley")  [MED]
+   23A  SPEARMAN      Fresh parmesan for old warrior (8)
+                      anagram of PARMESAN ("parmesan") [anagram: "Fresh"] = SPEARMAN; definition: "old warrior"  [HIGH]
+   24D  ANNEX         Queen on social media platform is appropriate (5)
+                      ANNE(synonym of "Queen") + X("social media platform")  [HIGH]
+   25A  LIMB          Chimp initially leaving to scale branch (4)
+                      delete C from CLIMB(synonym of "scale")  [MED]
+   26A  HOOTENANNY    Party’s most amusing person ultimately the GOAT? (10)
+                      HOOT(synonym of "most amusing") + E("the") + N(last letter of "person") + ANNY(synonym of "GOAT")  [LOW]
+   27A  STRADDLE      Go across empty supermarket, dizzy after finishing off cider (8)
+                      ST(first letter of "supermarket") + R(last letter of "cider") + ADDLE(synonym of "dizzy")  [HIGH]
+   28A  ICEAXE        Mountaineering kit in sack on rocks (3,3)
+                      ICE (synonym of "rocks") + AXE (synonym of "sack"); definition: "Mountaineering kit"  [HIGH]
+    3D  GASTROPUB     Listening device set up to capture a tantrum in eatery (9)
+                      delete T from TO, anagram of O+GRAB(synonym of "capture")+STUP(synonym of "tantrum") = GASTROPUB  [LOW]
+    4D  SIESTA        Rest during the day inside messiest apartment (6)
+                      hidden in "messiest apartment" [hidden: "inside"]; definition: "Rest during the day"  [HIGH]
+    5A  DIATRIBE      Harsh criticism set back support group involving several families (8)
+                      DIA(AID reversed, "support") + TRIBE(synonym of "group involving several families")  [MED]
+    5D  DEPARTMENTSTORE  Go with guys and rent Downing Street shop (10,5)
+                      DEPART(synonym of "Go") + MEN(synonym of "guys") + T(last letter of "rent") + STORE(hidden in "Downing Street")  [HIGH]
+    6D  ARTHOUSE      Share out bananas in highbrow cinema (8)
+                      anagram of SHAREOUT ("Share out") [anagram: "bananas"] = ARTHOUSE; definition: "highbrow cinema"  [HIGH]
+    7D  REBUT         Provide counterargument to objection introduced by engineers (5)
+                      RE(abbr. "engineers") + BUT(synonym of "objection")  [MED]
+    8D  BASEMETAL     Perhaps lead guitar heard on rock music (4,5)
+                      BASE(sounds like "guitar") + METAL(synonym of "rock music")  [MED]
+    9A  LOBSTERPOT    Trap chaotic protest on pitch (7,3)
+                      anagram of PROTEST ("protest") + LOB (synonym of "pitch") [anagram: "chaotic"] = LOBSTERPOT; definition: "Trap"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] RUMP  13A. Bottom’s strange head from Puck
+  Answer: RUMP
+  Tier: Signature | Confidence: 100/100
+  Definition: "Bottom's"
+  Wordplay: acrostic + charade
+  Explanation: RUM (synonym of "strange") + P (first letter of "Puck") [first letter: "head"]; definition: "Bottom's"
+  ----------------------------------------------------------------------
+
+  [HIGH] PORTAL  21A. Wine and beer mostly for entrance
+  Answer: PORTAL
+  Tier: Signature | Confidence: 100/100
+  Definition: "entrance"
+  Wordplay: charade + deletion
+  Explanation: PORT (synonym of "Wine") + ALE (synonym of "beer") [curtailing: "mostly"]; definition: "entrance"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HAGGIS  1A. Burns may have consumed this witch, finally saving lives
+  Answer: HAGGIS
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Burns may have consumed this"
+  Wordplay type: charade
+  Components:
+    synonym            witch                     -> HAG
+    anagram_fodder     saving lives              -> GIS
+  Assembly: charade — HAG(synonym of "witch") + GIS("saving lives")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      burns: syn=BECKS,DRAINS,SINGES,SPENDS,A,CON,BEAT,CHAR,DRAW,ETCH,FIRE,GAFF,HAVE,ITCH,KILL
+      may: syn=CAN,GAY,LADY,TIME,COULD,MIGHT,MONTH,BLITHE,BREEZY,MELLOW
+      have: syn=A,AIM,ARC,BAG,BOW,BUY,CON,EAT,EYE,GAS,HUB,LET,OWN,PAY,RED; sounds=halve
+      consumed: syn=ATE,DRY,ARID,BONY,DEAD,GONE,POOR,SERE,USED,BAKED,BLEAK,EATEN,SPENT,STARK,WASTE; ind=container
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      witch: syn=HAG*,KILL,SIBYL,DOCTOR,VIRAGO,WONDER,WORKER; sounds=which
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      saving: syn=OF,BAR,BUT,CUT,FOR,YET,FROM,ONLY,SAVE,THAN,THAT,WHAT,ASIDE,GOING,OTHER
+      lives: syn=IS*,RUNS,GESTS,TIMES,DWELLS,EPOCHS,AM,BE,DO,GO,ON,ARE,HAP,HOT,LIE; abbr=IS*,BE
+  AI Reasoning:
+    HAG (witch) + GIS (anagram of selected letters from 'saving lives' indicated by 'finally') = HAGGIS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BUST  10A. Head and Shoulders not working?
+  Answer: BUST
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Head and Shoulders not working?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      head: syn=BUST*,A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG; abbr=H,NESS; ind=acrostic,deletion,parts
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      shoulders: syn=A,CUT,ARMS,BEAR,BORN,CASH,GOLD,HACK,JACK,KERF,NICK,PELF,SNUB,TAKE; ind=deletion,parts
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      working: syn=ON,LIVE,RISE; abbr=A,ON; ind=anagram
+      not working: syn=IDLE
+      head and shoulders: syn=BY
+    Definitions:
+      "not working" -> BUST (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines BUST - 'Head and Shoulders' describes a bust sculpture, while 'not working' means broken/bust
+  ----------------------------------------------------------------------
+
+  [LOW] COWRITER  11A. Bully office worker’s latest pen-pal?
+  Answer: COWRITER
+  Tier: Sonnet | Confidence: -5/100
+  Definition: "pen-pal"
+  Wordplay type: charade
+  Components:
+    abbreviation       office                    -> CO
+    synonym            worker                    -> WRITER
+  Assembly: charade — CO(abbr. "office") + WRITER(synonym of "worker")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      bully: syn=COW*,A1,OK,ARM,BIG,FAB,HOT,TOO,TOP,USE,A-OK,BLUE,BOSS,BRAG,COLD; ind=anagram?
+      office: syn=O,DO,ARM,JOB,TAX,USE,DESK,DUTY,HAND,LEVY,NEED,PART,POST,ROLE,TASK; abbr=O*
+      latest: syn=GO,FAD,HOT,NEW,TON,BUZZ,CHIC,FEEL,LAST,MODE,NEWS,RAGE,CRAZE,FINAL,FLASH
+      pen: syn=WRITE*,BOX,CAN,MAN,STY,BIRO,CAGE,COOP,LIVE,SIGN,WALL,HEDGE,HOUSE,LARGE,SMALL; abbr=PE
+      pal: syn=BUD,NUN,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,MAIN,MATE,OF A,PEER,POPE
+  AI Reasoning:
+    CO (office/company abbreviation) + WRITER (type of worker) = COWRITER
+  ----------------------------------------------------------------------
+
+  [LOW] ONTIME  12A. Tiny character entering square promptly
+  Answer: ONTIME
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "promptly"
+  Wordplay type: charade
+  Components:
+    synonym            square                    -> ON
+    synonym            tiny character            -> TIME
+  Assembly: charade — ON(synonym of "square") + TIME(synonym of "tiny character")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      tiny: syn=BABY,MINI,SIZE,SMALL,ATOMIC,LITTLE,MINUTE
+      character: syn=AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      entering: syn=PUT ON,TAKING; ind=container,insertion
+      square: syn=DO,GO,BED,BUY,EYE,FIT,OUT,PAY,PUT,RIG,WAY,BEND,BEST,EASY,EDIT
+      promptly: syn=ON*,NOW,AWAY,RIGHT,SHARP
+  AI Reasoning:
+    Square means 'on' (from 'on the square'), tiny character means 'time' (brief duration), charade gives ON+TIME=ONTIME
+  ----------------------------------------------------------------------
+
+  [HIGH] UFOLOGIST  14D. You impose keeping record for one with alien beliefs
+  Answer: UFOLOGIST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "one with alien beliefs"
+  Wordplay: charade
+  Explanation: U (synonym of "You") + FOLOGIST (synonym of "impose keeping record"); definition: "one with alien beliefs"
+  ----------------------------------------------------------------------
+
+  [HIGH] MOSQUITO  15A. Sucker very shortly left with nothing
+  Answer: MOSQUITO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Sucker"
+  Wordplay: charade
+  Explanation: MO (synonym of "very") + S (abbreviation of "shortly") + QUIT (synonym of "left") + O (synonym of "nothing"); definition: "Sucker"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] UNDERTAKE  16D. Attempt pass on the wrong side?
+  Answer: UNDERTAKE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Attempt pass on the wrong side?"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      attempt: syn=GO,AIR,BID,SHY,TRY,DARK,HOPE,MAIN,PASS,SEEK,SHOT,STAB,A TRY,ASSAY,CRACK; ind=container?
+      pass: syn=AM,BE,DO,GO,IS,A A,ACT,AGE,ARE,BED,BID,CAN,COL,DIE,END; abbr=COL,GO,GO BY
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      the: syn=UNDER*,LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED; abbr=T*,TH,UP,YE
+      wrong: syn=IT,NO,ATE,BAD,BUG,EAT,GET,GOT,ILL,IRE,IRK,MAD,NOT,OFF,SIN; abbr=TORT,X; ind=anagram
+      side: syn=ARC,BAD,OFF,ONE,SET,WAY,ANON,AXIS,BANK,BLOC,BODY,EDGE,EVIL,FACE,HAND; abbr=S; sounds=sighed
+      pass on: syn=MOVE,SEND,CARRY,RELAY,FORWARD,TRANSMIT,BROADCAST
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER,ALWAYS,EVERMORE,GRAFFITI,ETERNALLY
+  AI Reasoning:
+    Double definition where 'Attempt' and 'pass on the wrong side' both define UNDERTAKE (to attempt something, and the driving term for overtaking on the wrong side)
+  ----------------------------------------------------------------------
+
+  [LOW] TOOLSHED  17D. Hammer home excessively large drop?
+  Answer: TOOLSHED
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "drop?"
+  Wordplay type: charade
+  Components:
+    synonym            Hammer                    -> TOOL
+    synonym            home                      -> SHED
+  Assembly: charade — TOOL(synonym of "Hammer") + SHED(synonym of "home")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hammer: syn=A,BIG,BOB,BOX,HIT,TAG,ZAP,BEAT,BONE,BONK,BORE,COLD,DEAD,DRAW,HEAD; ind=anagram?
+      home: syn=SHED*,IN,TV,AIM,ALE,ARM,BAY,BOX,GIN,LCD,MUM,NIP,PAD,PEG,POP; abbr=IN,NEST,in
+      excessively: syn=TOO*,WITH,UNDULY
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L*,OS
+      drop: syn=A,DO,GO,IT,A A,ABA,CAN,CUT,DIE,DIP,EBB,END,EYE,GUN,LAY
+  AI Reasoning:
+    TOOL (hammer) + SHED (home) = TOOLSHED, which is a place to drop/store things
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DOUBLOON  18A. Perform universal blessing holding pound coin
+  Answer: DOUBLOON
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "coin"
+  Wordplay type: charade
+  Components:
+    synonym            Perform                   -> DO
+    abbreviation       universal                 -> U
+    synonym            blessing                  -> BOON
+    abbreviation       pound                     -> L
+  Assembly: container — DO(synonym of "Perform") + U(abbr. "universal") + L(abbr. "pound") inside BOON(synonym of "blessing")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      perform: syn=DO*,A A,ACT,AIM,FAG,RUN,TUG,USE,ACTS,BALL,BOOK,BOTH,CARE,FIVE,GAME; abbr=DO*
+      universal: syn=U,IN,ALL,FULL,WALL,COVER,ALL IN,AND AN,AROUND,COMMON,COSMIC,GLOBAL,A ROUND,GENERAL,GENERIC; abbr=U*; ind=container?
+      blessing: syn=OK,BILL,BOON,GOOD,ASSET,GRACE,ASSENT,HEALTH,PRAYER,AND ALL,BENEFIT,BENISON,CONSENT,LICENSE,SUPPORT
+      holding: syn=DOOM,FARM,ASSET,RULING,TAMING,TENURE,CALMING,CURBING,FINDING,KEEPING,ABOUT OR,BOASTING,BRIDLING,CHECKING,CLAMPING; ind=container,hidden
+      pound: syn=A,LB,BAT,BIG,BOP,BOX,DAB,HIT,RAP,SIP,SUP,BANG,BASH,BEAT,BELT; abbr=L*,LB,P; ind=anagram?
+      coin: syn=CENT,DIME,DISC,EURO,HAVE,KALE,LONG,NOTE,BUCKS,DUCAT,LEGAL,LOLLY,MONEY,NOBLE,PIECE
+  AI Reasoning:
+    DO + U + BLOON (where BOON holds L via container operation) = DOUBLOON
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DELL  19A. Ran around back of tropical valley
+  Answer: DELL
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "valley"
+  Wordplay type: container
+  Components:
+    synonym            Ran                       -> LED
+    last_letter        back of tropical          -> L
+  Assembly: reversal — reverse LED(synonym of "Ran") + L(last letter of "back of tropical")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=reversal | type_mismatch=AI=container, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ran: syn=ATE,DID,DUG,GOT,MET,SAW,BEAT,BLED,BLEW,BRED,CAME,CAST,EYED,FAST,FLEW
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      tropical: syn=HOT,LOW
+      valley: syn=DELL*,CWM,RIA,DALE,DENE,GLEN,VALE; ind=container?
+  AI Reasoning:
+    LED (synonym for 'ran') contains L (back of tropical) to make DELL
+  ----------------------------------------------------------------------
+
+  [HIGH] ADOBO  2D. Fuss over skin of buffalo in dish from the Philippines
+  Answer: ADOBO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "dish from the Philippines"
+  Wordplay: charade + parts
+  Explanation: ADO (synonym of "Fuss") + BO (middle of "buffalo") [outer letters: "skin"]; definition: "dish from the Philippines"
+  ----------------------------------------------------------------------
+
+  [HIGH] YEMENI  20D. Arab second in line after enemy messed up
+  Answer: YEMENI
+  Tier: Sonnet | Confidence: 78/100
+  Definition: "Arab"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     enemy                     -> YEMEN
+    second_letter      line                      -> I
+  Assembly: charade — YEMEN("enemy") + I("line")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      arab: syn=YEMENI*,CH,HORSE,IRAQI,OMANI,SAUDI
+      second: syn=ME*,S,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B,MO,S; ind=parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      line: syn=L,ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG; abbr=L,RY
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      enemy: syn=FOE,YOU,TIME,RIVAL; fodder=ENEMY(5/6 anagram match)
+      messed: syn=AWRY,FORCE; ind=anagram?
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      messed up: syn=ERRED
+    Definitions:
+      "Arab" -> YEMENI (definition match)
+  AI Reasoning:
+    YEMEN (anagram of 'enemy') + I (second letter of 'line') = YEMENI
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TIBIA  22D. Part of pin starts to topple if bowling in alley
+  Answer: TIBIA
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Part of pin"
+  Wordplay type: acrostic
+  Components:
+    first_letter       topple                    -> T
+    first_letter       if                        -> I
+    first_letter       bowling                   -> B
+    first_letter       in                        -> I
+    first_letter       alley                     -> A
+  Assembly: charade — T(first letter of "topple") + I(first letter of "if") + B(first letter of "bowling") + I(first letter of "if") + A(first letter of "alley")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      pin: syn=FIX,LEG,AXLE,NAIL,OF A,A LEG,DOWEL,MODEL,RIVET
+      starts: syn=OUT,UPS,LEAD,DAWNS,FORMS,JUMPS,LIFTS,OPENS,RISES,SOARS,GO,BAG,DAY,GET,JUT; abbr=GO; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      topple: syn=FALL,LINE,TRIP,APART,SHORT; ind=anagram?
+      if: syn=CHOW,EATS,FARE,FOOD,GRUB,LIKE,MEAT,NORM,WANT,WISH,BASIS,BREAD,CANON,CHUCK,GIVEN
+      bowling: syn=GAME,MOVE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      alley: syn=ROW,WAY,DRAG,LANE,MAIN,MEWS,PASS,PIKE,ROAD,WALK,BYWAY,DRIVE,PLACE,ROUTE,TRACE
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+  AI Reasoning:
+    First letters of 'topple if bowling in alley' spell TIBIA, with 'starts to' as the acrostic indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] SPEARMAN  23A. Fresh parmesan for old warrior
+  Answer: SPEARMAN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "old warrior"
+  Wordplay: anagram
+  Explanation: anagram of PARMESAN ("parmesan") [anagram: "Fresh"] = SPEARMAN; definition: "old warrior"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANNEX  24D. Queen on social media platform is appropriate
+  Answer: ANNEX
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "appropriate"
+  Wordplay type: charade
+  Components:
+    synonym            Queen                     -> ANNE
+    literal            social media platform     -> X
+  Assembly: charade — ANNE(synonym of "Queen") + X("social media platform")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      queen: syn=ANNE*,R,ER,QU,HER,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=ER,HER,HM,Q,QU,R
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      social: syn=DO,RED,TEA,BAKE,BALL,BASH,BOON,FETE,FREE,GALA,GOOD,KIND,ORGY,PINK,PROM
+      media: syn=IM,MEAN,AGENT,MEANS,ORGAN,PRESS
+      platform: syn=DAIS,DECK,EXIT,OF A,PIER,BASIS,FORUM,ODIUM,STAGE,STAND,VENUE
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      appropriate: syn=APT,BAG,FIT,MIS,NIP,BEST,GOOD,HOOK,KILL,LIFT,MEET,NICK,PALM,TAKE,WHIP
+    Definitions:
+      "appropriate" -> ANNEX (definition match)
+  AI Reasoning:
+    ANNE (Queen) + X (social media platform) gives ANNEX (to appropriate)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LIMB  25A. Chimp initially leaving to scale branch
+  Answer: LIMB
+  Tier: DB Fallback | Confidence: 57/100
+  Definition: "branch"
+  Wordplay type: deletion
+  Components:
+    synonym            scale                     -> CLIMB
+    abbreviation       (single letter)           -> C
+  Assembly: deletion — delete C from CLIMB(synonym of "scale")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      chimp: syn=APE
+      initially: syn=FEAR,LOTS; ind=acrostic,deletion,parts
+      leaving: syn=LAST; ind=deletion?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      scale: syn=ORD
+      branch: syn=LIMB*,ARM,ROW,WAY,CELL,CLUB,DESK,DRAG,FIEF,FORK,KILL,LANE,MAIN,MEWS,PASS
+    Definitions:
+      "branch" -> LIMB (definition match)
+  AI Reasoning:
+    SCALE (climb) loses C (chimp initially) to give LIMB
+  ----------------------------------------------------------------------
+
+  [LOW] HOOTENANNY  26A. Party’s most amusing person ultimately the GOAT?
+  Answer: HOOTENANNY
+  Tier: Sonnet | Confidence: -18/100
+  Definition: "Party"
+  Wordplay type: charade
+  Components:
+    synonym            most amusing              -> HOOT
+    literal            the                       -> E
+    last_letter        person                    -> N
+    synonym            GOAT                      -> ANNY
+  Assembly: charade — HOOT(synonym of "most amusing") + E("the") + N(last letter of "person") + ANNY(synonym of "GOAT")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: ANNY | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      most: syn=AN*,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      amusing: syn=FUN,RICH,DROLL,FUNNY,JOLLY,WITTY,DIVERT,REGALE,COMICAL,DISPORT,AROUND OR,DIVERTING,ENJOYABLE,ENTERTAIN,FACETIOUS
+      person: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY,BUCK; ind=anagram
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      goat: syn=NANNY*,BOY,GUY,KID,FALL,IBEX,BILLY,CAPRI,BUTTER
+      most amusing: syn=DROLLEST
+  AI Reasoning:
+    HOOT (most amusing) + E (from 'the') + N (person ultimately) + ANNY (the GOAT = nanny goat)
+  ----------------------------------------------------------------------
+
+  [HIGH] STRADDLE  27A. Go across empty supermarket, dizzy after finishing off cider
+  Answer: STRADDLE
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Go across"
+  Wordplay type: charade
+  Components:
+    first_letter       supermarket               -> ST
+    last_letter        cider                     -> R
+    synonym            dizzy                     -> ADDLE
+  Assembly: charade — ST(first letter of "supermarket") + R(last letter of "cider") + ADDLE(synonym of "dizzy")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      across: syn=BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL,COME; ind=container
+      empty: syn=NO,WIN,BARE,BEAR,DAMN,FLAT,FREE,IDLE,PURE,RANK,TOOM,VAIN,VOID,BLANK,CLEAN; ind=container?,deletion,parts
+      supermarket: syn=ALDI,COOP,STORE
+      dizzy: syn=ADDLE*,BIG,HOT,FAST,FIRE,GONE,KEEN,ACUTE,BRISK,DAZED,DOPEY,GIDDY,HASTY,LIGHT,MUZZY; ind=anagram?
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      finishing: syn=DYING,EBBING,ENDING,WANING,ABATING,CEASING,CLOSING,LAPSING,PASSING,EXPIRING,QUITTING,STOPPING; ind=deletion,parts
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      cider: syn=DRINK
+      go across: syn=STRADDLE*,COVER,BRIDGE,BESTRIDE
+    Definitions:
+      "Go across" -> STRADDLE (definition match)
+  AI Reasoning:
+    ST (outer letters of supermarket when emptied) + R (last letter of cider) + ADDLE (synonym for dizzy) positioned as RADDLE after R, giving ST + RADDLE
+  ----------------------------------------------------------------------
+
+  [HIGH] ICEAXE  28A. Mountaineering kit in sack on rocks
+  Answer: ICEAXE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Mountaineering kit"
+  Wordplay: charade
+  Explanation: ICE (synonym of "rocks") + AXE (synonym of "sack"); definition: "Mountaineering kit"
+  ----------------------------------------------------------------------
+
+  [LOW] GASTROPUB  3D. Listening device set up to capture a tantrum in eatery
+  Answer: GASTROPUB
+  Tier: Sonnet | Confidence: -4/100
+  Definition: "eatery"
+  Wordplay type: anagram
+  Components:
+    literal            to                        -> TO
+    synonym            capture                   -> GRAB
+    literal            a                         -> A
+    synonym            tantrum                   -> STUP
+  Assembly: deletion+anagram — delete T from TO, anagram of O+GRAB(synonym of "capture")+STUP(synonym of "tantrum") = GASTROPUB
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=O answer=GASTROPUB | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: STUP | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      device: syn=END,JIG,BENT,BIAS,BONE,CARD,EVIL,IPAD,PAWN,PLAN,PLAY,PLOY,RUSE,TOOL,TURN
+      set: syn=RO*,GO,OK,OR,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      capture: syn=DO,A A,BAG,COP,GET,GUN,NAB,NET,RAP,USE,WIN,BALL,BOOK,COME,DEAD; ind=container?
+      tantrum: syn=FIT,PET,RAGE,OF AN,PADDY,SCENE,BEHIND,TEMPER,OUTBURST,PETTIFOG,HISSY FIT,HYSTERICS
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      eatery: syn=GASTROPUB*,BAR,INN,SAY,CAFF,CAFÉ,DINER,GRILL,BISTRO,COFFEE,TAVERN,BARROOM,BEANERY,TEAROOM,PIZZERIA
+      set up: ind=reversal
+      set up: syn=DO,UP,A A,ARM,BAR,BED,DID,DUG,GET,GOT
+      up to: syn=UP,AS MANY,AS BEFORE
+      a tantrum: syn=MAKEUP,NATURE,OUTLOOK,ATTITUDE,CHARACTER
+    Definitions:
+      "eatery" -> GASTROPUB (definition match)
+  AI Reasoning:
+    Anagram of 'to grab a stup' (capture=grab, tantrum=stup) with 'set up' as indicator gives GASTROPUB
+  ----------------------------------------------------------------------
+
+  [HIGH] SIESTA  4D. Rest during the day inside messiest apartment
+  Answer: SIESTA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Rest during the day"
+  Wordplay: hidden
+  Explanation: hidden in "messiest apartment" [hidden: "inside"]; definition: "Rest during the day"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DIATRIBE  5A. Harsh criticism set back support group involving several families
+  Answer: DIATRIBE
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Harsh criticism"
+  Wordplay type: charade
+  Components:
+    reversal           support                   -> DIA
+    synonym            group involving several families -> TRIBE
+  Assembly: charade — DIA(AID reversed, "support") + TRIBE(synonym of "group involving several families")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      harsh: syn=BAD,KEY,RAW,BLAH,EDGY,FOUL,GRAY,GRIM,HARD,HAZY,ICKY,KEEN,POKY,RUDE,SOUR; ind=anagram?
+      criticism: syn=BAD,JOB,FLAK,SNIPE,STICK,STROP,IMPUGN,NOTICE,STICKY,TONGUE,ANALYSIS,BRICKBAT,DOMESTIC,FEEDBACK,OPINIONS
+      set: syn=DIE*,GO,OK,OR,RO,TV,AGE,AIM,BED,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      support: syn=A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE,ABET,AIDS; abbr=AID,BACK,BRA,TEE
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      several: syn=FEW,MANY,SOME,A FEW,MIXED,OTHER,DIVERS,EITHER,LEGION,MYRIAD,SINGLE,SUNDRY,UNLIKE,UNTOLD,VARIED
+      families: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES
+      harsh criticism: syn=FLAK,ABUSE
+  AI Reasoning:
+    DIA (reversed AID) + TRIBE (group of families) = DIATRIBE
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPARTMENTSTORE  5D. Go with guys and rent Downing Street shop
+  Answer: DEPARTMENTSTORE
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "shop"
+  Wordplay type: charade
+  Components:
+    synonym            Go                        -> DEPART
+    synonym            guys                      -> MEN
+    last_letter        rent                      -> T
+    hidden             Downing Street            -> STORE
+  Assembly: charade — DEPART(synonym of "Go") + MEN(synonym of "guys") + T(last letter of "rent") + STORE(hidden in "Downing Street")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      go: syn=OR*,PART*,DEPART*,PAST*,BE,DO,IT,AGE,BET,BID,CAN,CUT,DIE,END,EYE; ind=anagram
+      with: syn=TO*,W,BY,IN,OF,ON,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      guys: syn=MEN*,CATS,JOES,LADS,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,ROPES,ACT AS,BLOKES,FELLAS,GENTS,
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      rent: syn=DENT*,BAG,DEN,GAP,LET,PIT,RIP,STY,BIND,DINT,DUMP,GULF,HAVE,HIRE,HOLE; ind=anagram
+      downing: syn=EATING,CONSUMING,INGESTING,SWALLOWING,GETTING DOWN,PUTTING AWAY,PUTTING DOWN
+      street: syn=ST*,LUG,ROW,WAY,WIT,BAWD,BOND,CARE,DRAB,DRAG,LANE,MEWS,NOUS,PASS,PATH; abbr=S*,ST*
+      shop: syn=STORE*,DEPARTMENTSTORE*,BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,BETRAY,BODEGA,OUTLET,TELLON
+      go with: syn=ADDITION,COMPANION,COMPLEMENT
+      downing street: syn=CENTRE OF POWER
+  AI Reasoning:
+    DEPART (go) + MEN (guys) + T (last letter of rent) + STORE (hidden in Downing Street) = DEPARTMENTSTORE
+  ----------------------------------------------------------------------
+
+  [HIGH] ARTHOUSE  6D. Share out bananas in highbrow cinema
+  Answer: ARTHOUSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "highbrow cinema"
+  Wordplay: anagram
+  Explanation: anagram of SHAREOUT ("Share out") [anagram: "bananas"] = ARTHOUSE; definition: "highbrow cinema"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] REBUT  7D. Provide counterargument to objection introduced by engineers
+  Answer: REBUT
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Provide counterargument"
+  Wordplay type: charade
+  Components:
+    abbreviation       engineers                 -> RE
+    synonym            objection                 -> BUT
+  Assembly: charade — RE(abbr. "engineers") + BUT(synonym of "objection")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      provide: syn=WAY,FEED,GIVE,HAND,KEEP,CATER,ENDOW,ENDUE,EQUIP,GIVES,OFFER,PLACE; abbr=P; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      objection: syn=FUNK,FUSS,KICK,DEMUR,STINK
+      introduced: syn=BORN; ind=container?
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      engineers: syn=RE*,E,PLOTS,PLAN,PLOT,WATT,TESLA; abbr=CE,E*,RE*,ME; ind=anagram
+  AI Reasoning:
+    RE (Royal Engineers) + BUT (objection) in sequence gives REBUT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BASEMETAL  8D. Perhaps lead guitar heard on rock music
+  Answer: BASEMETAL
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Perhaps lead"
+  Wordplay type: charade
+  Components:
+    sound_of           guitar                    -> BASE
+    synonym            rock music                -> METAL
+  Assembly: charade — BASE(sounds like "guitar") + METAL(synonym of "rock music")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      lead: syn=METAL*,BASEMETAL*,GO,PB,BED,CON,CUE,LAY,LIE,RUN,TIP,TOP,VAN,WAY,BAIT; abbr=L*,PB; ind=acrostic,parts; sounds=led
+      guitar: syn=OF A,ACOUSTIC
+      heard: syn=DUG,GOT,HAD,FELT,MADE,SEEN,AURAL,CLEAR,KNOWN,NOTED,SPIED,TRIED,AUDIAL,AUDILE,BEHELD; ind=homophone; sounds=herd
+      on: syn=AS*,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      rock: syn=BASE*,GEM,GIB,ICE,ORE,ROC,TOR,BASS,CRAG,FOOT,GAUD,HALT,HARD,JERK,JOLT; ind=anagram
+      music: syn=AIM,FIX,GAB,GEL,HIP,JAW,LAY,POP,PUT,RAP,SIT,SKA,BEND,CAST,CHAT
+      perhaps lead: syn=METAL*,TIN?
+  AI Reasoning:
+    BASE (homophone of bass guitar) + METAL (type of rock music) = BASEMETAL
+  ----------------------------------------------------------------------
+
+  [HIGH] LOBSTERPOT  9A. Trap chaotic protest on pitch
+  Answer: LOBSTERPOT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Trap"
+  Wordplay: anagram + charade
+  Explanation: anagram of PROTEST ("protest") + LOB (synonym of "pitch") [anagram: "chaotic"] = LOBSTERPOT; definition: "Trap"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

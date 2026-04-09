@@ -1,0 +1,1342 @@
+============================================================
+BACKFILL FIFTEENSQUARED EXPLANATIONS
+============================================================
+  672 puzzles to process
+  [1/672] independent #1 (31 clues)...    fifteensquared: 29 clues from Independent 12,317 by Penelope (format: fts_list)
+ 29 fetched, 0 matched
+  [2/672] independent #1633 (28 clues)...    fifteensquared: 32 clues from Independent 11633 / Crosophile (format: two_col_table)
+ 32 fetched, 0 matched
+  [3/672] independent #1634 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [4/672] independent #1635 (31 clues)...    fifteensquared: 30 clues from Independent 11,635 by Filbert (format: fts_list)
+ 30 fetched, 0 matched
+  [5/672] independent #1636 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1636 Atrica (format: paragraph)
+ 30 fetched, 30 matched
+  [6/672] independent #1637 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [7/672] independent #1638 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [8/672] independent #1639 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,639 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [9/672] independent #1640 (28 clues)...    fifteensquared: 32 clues from Independent 11,640 by Wire (format: fts_list)
+ 32 fetched, 0 matched
+  [10/672] independent #1641 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [11/672] independent #1642 (32 clues)...    fifteensquared: 28 clues from Independent 11642 / Twin (format: two_col_table)
+ 28 fetched, 0 matched
+  [12/672] independent #1643 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,643 by Brunel (format: fts_table)
+ 30 fetched, 30 matched
+  [13/672] independent #1644 (31 clues)...    fifteensquared: 32 clues from Independent 11,644 by Salty (format: fts_list)
+ 32 fetched, 0 matched
+  [14/672] independent #1645 (27 clues)...    fifteensquared: 26 clues from Independent 11,645 by Tees (format: fts_list)
+ 26 fetched, 0 matched
+  [15/672] independent #1646 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [16/672] independent #1647 (29 clues)...    fifteensquared: 31 clues from Independent 11647 / Hoskins (format: two_col_table)
+ 31 fetched, 0 matched
+  [17/672] independent #1648 (31 clues)...    fifteensquared: 27 clues from Independent on Sunday 1648 Tees (format: paragraph)
+ 27 fetched, 27 matched
+  [18/672] independent #1649 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [19/672] independent #1650 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [20/672] independent #1651 (29 clues)...    fifteensquared: 31 clues from Independent 11,651 by Grecian (format: fts_table)
+ 31 fetched, 0 matched
+  [21/672] independent #1652 (28 clues)...    fifteensquared: 30 clues from Independent 11652 / Atrica (format: two_col_table)
+ 30 fetched, 0 matched
+  [22/672] independent #1653 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [23/672] independent #1654 (29 clues)...    fifteensquared: 32 clues from Independent 11,654 by Phi (format: fts_list)
+ 32 fetched, 0 matched
+  [24/672] independent #1655 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,655 by Italicus (format: fts_table)
+ 32 fetched, 32 matched
+  [25/672] independent #1656 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1656 Hoskins (format: paragraph)
+ 32 fetched, 32 matched
+  [26/672] independent #1657 (32 clues)...    fifteensquared: 30 clues from Independent 11657 / Hippogryph (format: two_col_table)
+ 30 fetched, 0 matched
+  [27/672] independent #1658 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [28/672] independent #1659 (28 clues)...    fifteensquared: 28 clues from Independent 11,659 by Filbert (format: fts_list)
+ 28 fetched, 0 matched
+  [29/672] independent #1660 (28 clues)...    fifteensquared: 27 clues from Independent on Sunday 1660 Tees (format: paragraph)
+ 27 fetched, 27 matched
+  [30/672] independent #1662 (34 clues)...    fifteensquared: 26 clues from Independent 11,662 by Tees (format: fts_list)
+ 26 fetched, 0 matched
+  [31/672] independent #1663 (34 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,663 by Wire (format: fts_table)
+ 32 fetched, 30 matched
+  [32/672] independent #1664 (30 clues)...    fifteensquared: 28 clues from Independent 11,664 by Rodriguez (format: fts_list)
+ 28 fetched, 0 matched
+  [33/672] independent #1665 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [34/672] independent #1666 (32 clues)...    fifteensquared: 30 clues from Independent 11666 / Phi (format: two_col_table)
+ 30 fetched, 0 matched
+  [35/672] independent #1667 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,667 by Tees (format: fts_table)
+ 28 fetched, 28 matched
+  [36/672] independent #1668 (30 clues)...    fifteensquared: 26 clues from Independent on Sunday 1668 Alchemi (format: paragraph)
+ 26 fetched, 26 matched
+  [37/672] independent #1669 (28 clues)...    fifteensquared: 32 clues from Independent 11,669 by Norman (format: fts_list)
+ 32 fetched, 0 matched
+  [38/672] independent #1670 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [39/672] independent #1671 (29 clues)...    fifteensquared: 30 clues from Independent 11671 / Wire (format: two_col_table)
+ 30 fetched, 0 matched
+  [40/672] independent #1672 (31 clues)...    fifteensquared: 31 clues from Independent on Sunday 1672 Hoskins (format: paragraph)
+ 31 fetched, 31 matched
+  [41/672] independent #1673 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [42/672] independent #1674 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [43/672] independent #1675 (36 clues)...    fifteensquared: 36 clues from Independent on Sunday 1,675 by Blythe (format: fts_table)
+ 36 fetched, 36 matched
+  [44/672] independent #1676 (32 clues)...    fifteensquared: 30 clues from Independent 11676 / Filbert (format: two_col_table)
+ 30 fetched, 0 matched
+  [45/672] independent #1677 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [46/672] independent #1678 (28 clues)...    fifteensquared: 32 clues from Independent 11,678 by Phi (format: fts_list)
+ 32 fetched, 0 matched
+  [47/672] independent #1679 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [48/672] independent #1680 (33 clues)...    fifteensquared: 32 clues from Independent 11,680 by Vigo (format: fts_list)
+ 32 fetched, 0 matched
+  [49/672] independent #1681 (28 clues)...    fifteensquared: 29 clues from Independent 11681 / Grecian (format: two_col_table)
+ 29 fetched, 0 matched
+  [50/672] independent #1682 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [51/672] independent #1683 (32 clues)...    fifteensquared: 28 clues from Independent 11,683 by Rodriguez (format: fts_list)
+ 28 fetched, 0 matched
+  [52/672] independent #1684 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1684 Tees (format: paragraph)
+ 30 fetched, 30 matched
+  [53/672] independent #1685 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [54/672] independent #1686 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [55/672] independent #1687 (33 clues)...    fifteensquared: 31 clues from Independent on Sunday 1,687 by Wire (format: fts_list)
+ 31 fetched, 31 matched
+  [56/672] independent #1688 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1688 Hoskins (format: paragraph)
+ 28 fetched, 28 matched
+  [57/672] independent #1689 (32 clues)...    fifteensquared: 30 clues from Independent 11,689 by Serpent (format: fts_list)
+ 30 fetched, 0 matched
+  [58/672] independent #1690 (28 clues)...    fifteensquared: 30 clues from Independent 11690 / Phi (format: two_col_table)
+ 30 fetched, 0 matched
+  [59/672] independent #1691 (32 clues)...    fifteensquared: 27 clues from Independent 11,691 by Tees (format: fts_list)
+ 27 fetched, 0 matched
+  [60/672] independent #1692 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1692 Shabbo (format: paragraph)
+ 32 fetched, 32 matched
+  [61/672] independent #1693 (32 clues)...    fifteensquared: 33 clues from Independent 11,693 by Stamp (format: fts_list)
+ 33 fetched, 1 matched
+  [62/672] independent #1694 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,694 by Skinny (format: fts_list)
+ 32 fetched, 32 matched
+  [63/672] independent #1695 (32 clues)...    fifteensquared: 29 clues from Independent 11695 / Filbert (format: two_col_table)
+ 29 fetched, 0 matched
+  [64/672] independent #1696 (30 clues)...    fifteensquared: 29 clues from Independent on Sunday 1696 Brunel (format: paragraph)
+ 29 fetched, 29 matched
+  [65/672] independent #1697 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [66/672] independent #1698 (28 clues)...    fifteensquared: 30 clues from Independent 11,698 by Wire (format: fts_list)
+ 30 fetched, 0 matched
+  [67/672] independent #1699 (32 clues)...    fifteensquared: 26 clues from Independent 11,699 by Raider (format: fts_table)
+ 26 fetched, 0 matched
+  [68/672] independent #1700 (32 clues)...    fifteensquared: 27 clues from Independent 11700 / Filbert (format: two_col_table)
+ 27 fetched, 0 matched
+  [69/672] independent #1701 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [70/672] independent #1702 (32 clues)...    fifteensquared: 32 clues from Independent 11,702 by Phi (format: fts_list)
+ 32 fetched, 0 matched
+  [71/672] independent #1703 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,703 by Hypnos (format: fts_list)
+ 32 fetched, 32 matched
+  [72/672] independent #1704 (28 clues)... not found
+  [73/672] independent #1705 (30 clues)...    fifteensquared: 17 clues from Independent 11705 / Deri (format: paragraph)
+ 17 fetched, 0 matched
+  [74/672] independent #1706 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [75/672] independent #1707 (30 clues)...    fifteensquared: 28 clues from Independent 11,707 by Rodriguez (format: fts_list)
+ 28 fetched, 0 matched
+  [76/672] independent #1708 (29 clues)...    fifteensquared: 29 clues from Independent 11,708 by Phi (format: fts_table)
+ 29 fetched, 0 matched
+  [77/672] independent #1709 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [78/672] independent #1710 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [79/672] independent #1711 (37 clues)...    fifteensquared: 31 clues from Independent 11,711 by Filbert (format: fts_list)
+ 31 fetched, 0 matched
+  [80/672] independent #1712 (32 clues)...    fifteensquared: 30 clues from Independent 11,712 by Quince (format: fts_list)
+ 30 fetched, 0 matched
+  [81/672] independent #1713 (37 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [82/672] independent #1714 (34 clues)...    fifteensquared: 28 clues from Independent 11714 / Phi (format: two_col_table)
+ 28 fetched, 0 matched
+  [83/672] independent #1715 (37 clues)...    fifteensquared: 37 clues from Independent on Sunday 1,715 by Kairos (format: fts_list)
+ 37 fetched, 37 matched
+  [84/672] independent #1716 (28 clues)...    fifteensquared: 30 clues from Independent 11,716 by Twin (format: fts_list)
+ 30 fetched, 0 matched
+  [85/672] independent #1717 (32 clues)...    fifteensquared: 28 clues from Independent 11,717 by Knut (format: fts_list)
+ 28 fetched, 1 matched
+  [86/672] independent #1718 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [87/672] independent #1719 (28 clues)...    fifteensquared: 27 clues from Independent 11719 / Wiglaf (format: two_col_table)
+ 27 fetched, 0 matched
+  [88/672] independent #1720 (28 clues)...    fifteensquared: 26 clues from Independent on Sunday 1720 Hippogryph (format: paragraph)
+ 26 fetched, 26 matched
+  [89/672] independent #1721 (32 clues)...    fifteensquared: 28 clues from Independent 11,721 by Filbert (format: fts_list)
+ 28 fetched, 0 matched
+  [90/672] independent #1722 (39 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [91/672] independent #1723 (32 clues)...    fifteensquared: 32 clues from Independent 11,723 by Grecian (format: fts_table)
+ 32 fetched, 0 matched
+  [92/672] independent #1724 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1724 Filbert (format: paragraph)
+ 28 fetched, 28 matched
+  [93/672] independent #1725 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [94/672] independent #1726 (33 clues)...    fifteensquared: 32 clues from Independent 11,726 by Phi (format: fts_list)
+ 32 fetched, 0 matched
+  [95/672] independent #1727 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,727 by Xestobium (format: fts_list)
+ 30 fetched, 30 matched
+  [96/672] independent #1728 (31 clues)...    fifteensquared: 31 clues from Independent on Sunday 1728 Tees (format: paragraph)
+ 31 fetched, 31 matched
+  [97/672] independent #1729 (32 clues)...    fifteensquared: 33 clues from Independent 11729 / Eccles (format: two_col_table)
+ 33 fetched, 0 matched
+  [98/672] independent #1730 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [99/672] independent #1731 (30 clues)...    fifteensquared: 32 clues from Independent 11,731 by Bluebird (format: fts_list)
+ 32 fetched, 0 matched
+  [100/672] independent #1732 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1732 Hoskins (format: paragraph)
+ 28 fetched, 28 matched
+  [101/672] independent #1733 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [102/672] independent #1734 (32 clues)...    fifteensquared: 32 clues from Independent 11,734 by Gila (format: fts_table)
+ 32 fetched, 0 matched
+  [103/672] independent #1735 (33 clues)...    fifteensquared: 33 clues from Independent on Sunday 1,735 by Coot (format: fts_list)
+ 33 fetched, 33 matched
+  [104/672] independent #1736 (30 clues)...    fifteensquared: 29 clues from Independent 11,736 by Eccles (format: fts_list)
+ 29 fetched, 1 matched
+  [105/672] independent #1737 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [106/672] independent #1738 (26 clues)...    fifteensquared: 30 clues from Independent 11738 / Phi (format: two_col_table)
+ 30 fetched, 0 matched
+  [107/672] independent #1739 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [108/672] independent #1740 (30 clues)...    fifteensquared: 18 clues from Independent on Sunday 1,740 by Xestobium (format: paragraph)
+ 18 fetched, 18 matched
+  [109/672] independent #1741 (32 clues)...    fifteensquared: 31 clues from Independent 11741 / Nimrod (format: two_col_table)
+ 31 fetched, 0 matched
+  [110/672] independent #1742 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [111/672] independent #1743 (32 clues)...    fifteensquared: 30 clues from Independent 11743 / Methuselah (format: two_col_table)
+ 30 fetched, 0 matched
+  [112/672] independent #1744 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1744 Lark (format: paragraph)
+ 28 fetched, 28 matched
+  [113/672] independent #1745 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [114/672] independent #1746 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [115/672] independent #1747 (28 clues)...    fifteensquared: 29 clues from Independent 11,747 by Grecian (format: fts_table)
+ 29 fetched, 0 matched
+  [116/672] independent #1748 (30 clues)...    fifteensquared: 30 clues from Independent 11,748 by Filbert (format: fts_table)
+ 30 fetched, 0 matched
+  [117/672] independent #1749 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [118/672] independent #1750 (28 clues)...    fifteensquared: 28 clues from Independent 11,750 by Phi (format: fts_list)
+ 28 fetched, 0 matched
+  [119/672] independent #1751 (31 clues)...    fifteensquared: 30 clues from Independent 11,751 by Eccles (format: fts_list)
+ 30 fetched, 0 matched
+  [120/672] independent #1752 (30 clues)...    fifteensquared: 28 clues from Independent 11,752 by Filbert (format: fts_list)
+ 28 fetched, 0 matched
+  [121/672] independent #1753 (31 clues)...    fifteensquared: 32 clues from Independent 11,753 by Hoskins (format: fts_table)
+ 32 fetched, 1 matched
+  [122/672] independent #1754 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [123/672] independent #1755 (30 clues)...    fifteensquared: 30 clues from Independent 11,755 by Quince (format: fts_list)
+ 30 fetched, 0 matched
+  [124/672] independent #1756 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1756 Filbert (format: paragraph)
+ 30 fetched, 30 matched
+  [125/672] independent #1757 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [126/672] independent #1758 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [127/672] independent #1759 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,759 by Hoskins (format: fts_list)
+ 32 fetched, 32 matched
+  [128/672] independent #1760 (30 clues)...    fifteensquared: 27 clues from Independent 11,760 by Eccles (format: fts_list)
+ 27 fetched, 0 matched
+  [129/672] independent #1761 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [130/672] independent #1762 (26 clues)...    fifteensquared: 32 clues from Independent 11762 / Phi (format: two_col_table)
+ 32 fetched, 0 matched
+  [131/672] independent #1763 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,763 by Lark (format: fts_table)
+ 28 fetched, 28 matched
+  [132/672] independent #1764 (31 clues)...    fifteensquared: 31 clues from Independent on Sunday 1764 Tees (format: paragraph)
+ 31 fetched, 31 matched
+  [133/672] independent #1765 (28 clues)...    fifteensquared: 30 clues from Independent 11,765 by Mev (format: fts_list)
+ 30 fetched, 0 matched
+  [134/672] independent #1766 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [135/672] independent #1767 (30 clues)...    fifteensquared: 28 clues from Independent 11767 / Rodriguez (format: two_col_table)
+ 28 fetched, 0 matched
+  [136/672] independent #1768 (31 clues)...    fifteensquared: 28 clues from Independent on Sunday 1768 Tees (format: paragraph)
+ 28 fetched, 28 matched
+  [137/672] independent #1769 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [138/672] independent #1770 (30 clues)...    fifteensquared: 36 clues from Independent 11,770 by Coot (format: fts_table)
+ 36 fetched, 0 matched
+  [139/672] independent #1771 (30 clues)...    fifteensquared: 30 clues from Independent 11,771 by Filbert (format: fts_table)
+ 30 fetched, 0 matched
+  [140/672] independent #1772 (28 clues)...    fifteensquared: 28 clues from Independent 11772 / Eccles (format: two_col_table)
+ 28 fetched, 0 matched
+  [141/672] independent #1773 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [142/672] independent #1774 (34 clues)...    fifteensquared: 30 clues from Independent 11,774 by Phi (format: fts_list)
+ 30 fetched, 0 matched
+  [143/672] independent #1775 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,775 by Hoskins (format: fts_list)
+ 30 fetched, 30 matched
+  [144/672] independent #1776 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1776 Skinny (format: paragraph)
+ 32 fetched, 32 matched
+  [145/672] independent #1777 (29 clues)...    fifteensquared: 31 clues from Independent 11777 /Atrica (format: two_col_table)
+ 31 fetched, 0 matched
+  [146/672] independent #1778 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [147/672] independent #1779 (30 clues)...    fifteensquared: 30 clues from Independent 11,779 by Filbert (format: fts_list)
+ 30 fetched, 0 matched
+  [148/672] independent #1780 (30 clues)...    fifteensquared: 29 clues from Independent 11,780 by Phi (format: fts_table)
+ 29 fetched, 0 matched
+  [149/672] independent #1781 (30 clues)...    fifteensquared: 30 clues from Independent 11,781 by Bluebird (format: fts_list)
+ 30 fetched, 0 matched
+  [150/672] independent #1782 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [151/672] independent #1783 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,783 by Vigo (format: fts_table)
+ 32 fetched, 32 matched
+  [152/672] independent #1784 (32 clues)...    fifteensquared: 30 clues from Independent 11,784 by Eccles (format: fts_list)
+ 30 fetched, 0 matched
+  [153/672] independent #1785 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [154/672] independent #1786 (30 clues)...    fifteensquared: 32 clues from Independent 11786 / Phi (format: two_col_table)
+ 32 fetched, 0 matched
+  [155/672] independent #1787 (29 clues)...    fifteensquared: 29 clues from Independent on Sunday 1,787 by Italicus (format: fts_table)
+ 29 fetched, 29 matched
+  [156/672] independent #1788 (32 clues)...    fifteensquared: 29 clues from Independent 11,788 by Crosophile (format: fts_table)
+ 29 fetched, 0 matched
+  [157/672] independent #1789 (32 clues)...    fifteensquared: 32 clues from Independent 11,789 by Phi (format: fts_list)
+ 32 fetched, 0 matched
+  [158/672] independent #1790 (30 clues)...    fifteensquared: 34 clues from Independent 11,790 by Kairos (format: fts_table)
+ 34 fetched, 0 matched
+  [159/672] independent #1791 (31 clues)...    fifteensquared: 28 clues from Independent 11791 / Tack (format: two_col_table)
+ 28 fetched, 0 matched
+  [160/672] independent #1792 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1792 Deri (format: paragraph)
+ 32 fetched, 32 matched
+  [161/672] independent #1793 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [162/672] independent #1794 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [163/672] independent #1795 (32 clues)...    fifteensquared: 32 clues from Independent 11,795 by Vigo (format: fts_table)
+ 32 fetched, 0 matched
+  [164/672] independent #1796 (30 clues)...    fifteensquared: 29 clues from Independent 11796 / Eccles (format: two_col_table)
+ 29 fetched, 0 matched
+  [165/672] independent #1797 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [166/672] independent #1798 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [167/672] independent #1799 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [168/672] independent #1800 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [169/672] independent #1801 (29 clues)...    fifteensquared: 30 clues from Independent 11801 / Filbert (format: two_col_table)
+ 30 fetched, 0 matched
+  [170/672] independent #1802 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [171/672] independent #1803 (26 clues)...    fifteensquared: 26 clues from Independent on Sunday 1,803 by Filbert (format: fts_list)
+ 26 fetched, 26 matched
+  [172/672] independent #1804 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [173/672] independent #1805 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [174/672] independent #1806 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [175/672] independent #1807 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,807 by Salty (format: fts_list)
+ 30 fetched, 30 matched
+  [176/672] independent #1808 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [177/672] independent #1809 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [178/672] independent #1810 (30 clues)...    fifteensquared: 29 clues from Independent 11810 / Phi (format: two_col_table)
+ 29 fetched, 1 matched
+  [179/672] independent #1811 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,811 by Filbert (format: fts_list)
+ 28 fetched, 28 matched
+  [180/672] independent #1812 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [181/672] independent #1813 (24 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [182/672] independent #1814 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [183/672] independent #1815 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,815 by Filbert (format: fts_list)
+ 28 fetched, 28 matched
+  [184/672] independent #1816 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [185/672] independent #1817 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [186/672] independent #1818 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [187/672] independent #1819 (26 clues)...    fifteensquared: 26 clues from Independent on Sunday 1,819 by Filbert (format: fts_list)
+ 26 fetched, 26 matched
+  [188/672] independent #1820 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [189/672] independent #1821 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [190/672] independent #1822 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [191/672] independent #1823 (32 clues)...    fifteensquared: 32 clues from Independent on Sunday 1,823 by Liari (format: fts_list)
+ 32 fetched, 32 matched
+  [192/672] independent #1824 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [193/672] independent #1825 (28 clues)...    fifteensquared: 28 clues from Independent 11825 / Bard (format: two_col_table)
+ 28 fetched, 0 matched
+  [194/672] independent #1826 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [195/672] independent #1827 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,827 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [196/672] independent #1828 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [197/672] independent #1829 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [198/672] independent #1830 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [199/672] independent #1831 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,831 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [200/672] independent #1832 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [201/672] independent #1833 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [202/672] independent #1834 (28 clues)...    fifteensquared: 30 clues from Independent 11834 / Phi (format: two_col_table)
+ 30 fetched, 0 matched
+  [203/672] independent #1835 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,835 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [204/672] independent #1836 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [205/672] independent #1837 (29 clues)...    fifteensquared: 32 clues from Independent 11,837 by Coot (format: fts_list)
+ 32 fetched, 0 matched
+  [206/672] independent #1838 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [207/672] independent #1839 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,839 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [208/672] independent #1840 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [209/672] independent #1841 (27 clues)...    fifteensquared: 31 clues from Independent 11,841 by Bluebird (format: fts_list)
+ 31 fetched, 0 matched
+  [210/672] independent #1842 (28 clues)...    fifteensquared: 28 clues from Independent 11,842 by Wire (format: fts_list)
+ 28 fetched, 0 matched
+  [211/672] independent #1843 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,843 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [212/672] independent #1844 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [213/672] independent #1845 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [214/672] independent #1846 (30 clues)...    fifteensquared: 28 clues from Independent 11,846 by Phi (format: fts_list)
+ 28 fetched, 0 matched
+  [215/672] independent #1847 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,847 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [216/672] independent #1848 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [217/672] independent #1849 (30 clues)...    fifteensquared: 30 clues from Independent 11849 / Hippogryph (format: two_col_table)
+ 30 fetched, 0 matched
+  [218/672] independent #1850 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [219/672] independent #1851 (26 clues)...    fifteensquared: 26 clues from Independent on Sunday 1,851 by Filbert (format: fts_table)
+ 26 fetched, 26 matched
+  [220/672] independent #1852 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [221/672] independent #1853 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [222/672] independent #1854 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [223/672] independent #1855 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,855 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [224/672] independent #1856 (30 clues)...    fifteensquared: 30 clues from Independent 11,856 by Eccles (format: fts_list)
+ 30 fetched, 0 matched
+  [225/672] independent #1857 (38 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [226/672] independent #1858 (28 clues)...    fifteensquared: 32 clues from Independent 11858 / Hoskins (format: two_col_table)
+ 32 fetched, 0 matched
+  [227/672] independent #1859 (30 clues)...    fifteensquared: 30 clues from Independent on Sunday 1,859 by Filbert (format: fts_table)
+ 30 fetched, 30 matched
+  [228/672] independent #1860 (30 clues)...    fifteensquared: 28 clues from Independent 11,860 by Umpire (format: fts_list)
+ 28 fetched, 0 matched
+  [229/672] independent #1861 (28 clues)...    fifteensquared: 26 clues from Independent 11,861 by Tack (format: fts_list)
+ 26 fetched, 0 matched
+  [230/672] independent #1862 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [231/672] independent #1863 (27 clues)...    fifteensquared: 27 clues from Independent on Sunday 1,863 by Filbert (format: fts_table)
+ 27 fetched, 27 matched
+  [232/672] independent #1864 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [233/672] independent #1865 (28 clues)...    fifteensquared: 29 clues from Independent 11,803 by Monk (format: fts_list)
+ 29 fetched, 0 matched
+  [234/672] independent #1866 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [235/672] independent #1867 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,867 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [236/672] independent #1868 (28 clues)...    fifteensquared: 30 clues from Independent 11868 / Eccles (format: two_col_table)
+ 30 fetched, 0 matched
+  [237/672] independent #1869 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [238/672] independent #1870 (28 clues)...    fifteensquared: 30 clues from Independent 11,870 by Phi (format: fts_list)
+ 30 fetched, 0 matched
+  [239/672] independent #1871 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,871 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [240/672] independent #1872 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [241/672] independent #1873 (29 clues)...    fifteensquared: 33 clues from Independent 11873 / Knut (format: two_col_table)
+ 33 fetched, 0 matched
+  [242/672] independent #1874 (49 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [243/672] independent #1875 (29 clues)...    fifteensquared: 29 clues from Independent on Sunday 1,875 by Madcap (format: fts_table)
+ 29 fetched, 29 matched
+  [244/672] independent #1876 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [245/672] independent #1877 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [246/672] independent #1878 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [247/672] independent #1879 (28 clues)...    fifteensquared: 28 clues from Independent on Sunday 1,879 by Filbert (format: fts_table)
+ 28 fetched, 28 matched
+  [248/672] independent #1880 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [249/672] independent #1881 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [250/672] independent #1882 (27 clues)...    fifteensquared: 28 clues from Independent 11882 / Phi (format: two_col_table)
+ 28 fetched, 0 matched
+  [251/672] independent #10816 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [252/672] independent #10819 (32 clues)...    fifteensquared: 32 clues from Independent 10,819 / Gila (format: plain_table)
+ 32 fetched, 2 matched
+  [253/672] independent #10822 (32 clues)...    fifteensquared: 32 clues from Independent 10,822 by Maize (format: fts_list)
+ 32 fetched, 32 matched
+  [254/672] independent #10823 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [255/672] independent #10824 (31 clues)...    fifteensquared: 30 clues from Independent 10,824 / Crosophile (format: plain_table)
+ 30 fetched, 2 matched
+  [256/672] independent #10828 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [257/672] independent #10833 (29 clues)...    fifteensquared: 29 clues from Independent 10,833 / Phi (format: plain_table)
+ 29 fetched, 0 matched
+  [258/672] independent #10834 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [259/672] independent #10838 (32 clues)...    fifteensquared: 32 clues from Independent 10,838 / Bluth (format: plain_table)
+ 32 fetched, 1 matched
+  [260/672] independent #10840 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [261/672] independent #10841 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [262/672] independent #10843 (28 clues)...    fifteensquared: 27 clues from Independent 10,843 / Klingsor (format: plain_table)
+ 27 fetched, 0 matched
+  [263/672] independent #10846 (28 clues)... not found
+  [264/672] independent #10848 (30 clues)...    fifteensquared: 30 clues from Independent 10,848 / Phi (format: plain_table)
+ 30 fetched, 0 matched
+  [265/672] independent #10852 (28 clues)...    fifteensquared: 26 clues from Independent 10,852 by Tees (format: fts_list)
+ 26 fetched, 26 matched
+  [266/672] independent #10857 (32 clues)...    fifteensquared: 32 clues from Independent 10,857 / Phi (format: plain_table)
+ 32 fetched, 0 matched
+  [267/672] independent #10858 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [268/672] independent #10859 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [269/672] independent #10862 (30 clues)...    fifteensquared: 29 clues from Independent 10,862 / Alchemi (format: plain_table)
+ 29 fetched, 0 matched
+  [270/672] independent #10864 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [271/672] independent #10867 (30 clues)...    fifteensquared: 30 clues from Independent 10,867 / Tees (format: plain_table)
+ 30 fetched, 1 matched
+  [272/672] independent #10870 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [273/672] independent #10872 (30 clues)...    fifteensquared: 30 clues from Independent 10,872 / Dill (format: plain_table)
+ 30 fetched, 1 matched
+  [274/672] independent #10876 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [275/672] independent #10877 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [276/672] independent #10881 (28 clues)...    fifteensquared: 28 clues from Independent 10,881 / Phi (format: plain_table)
+ 28 fetched, 0 matched
+  [277/672] independent #10882 (32 clues)...    fifteensquared: 32 clues from Independent 10,882 by Bluth (format: fts_list)
+ 32 fetched, 32 matched
+  [278/672] independent #10886 (28 clues)...    fifteensquared: 28 clues from Independent 10,886 / Rodriguez (format: plain_table)
+ 28 fetched, 0 matched
+  [279/672] independent #10888 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [280/672] independent #10891 (30 clues)...    fifteensquared: 28 clues from Independent 10,891 / Bluth (format: plain_table)
+ 28 fetched, 4 matched
+  [281/672] independent #10894 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [282/672] independent #10895 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [283/672] independent #10896 (28 clues)...    fifteensquared: 27 clues from Independent 10,896 / Knut (format: plain_table)
+ 27 fetched, 0 matched
+  [284/672] independent #10900 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [285/672] independent #10905 (30 clues)...    fifteensquared: 29 clues from Independent 10,905 / Phi (format: plain_table)
+ 29 fetched, 1 matched
+  [286/672] independent #10906 (35 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [287/672] independent #10910 (30 clues)...    fifteensquared: 30 clues from Independent 10,910 / Serpent (format: plain_table)
+ 30 fetched, 1 matched
+  [288/672] independent #10912 (28 clues)...    fifteensquared: 26 clues from Independent 10,912 by Rodriguez (format: fts_list)
+ 26 fetched, 26 matched
+  [289/672] independent #10913 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [290/672] independent #10915 (30 clues)...    fifteensquared: 29 clues from Independent 10,915 / Tees (format: plain_table)
+ 29 fetched, 0 matched
+  [291/672] independent #10918 (22 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [292/672] independent #10920 (29 clues)...    fifteensquared: 29 clues from Independent 10,920 / Radian (format: plain_table)
+ 29 fetched, 0 matched
+  [293/672] independent #10924 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [294/672] independent #10929 (32 clues)...    fifteensquared: 32 clues from Independent 10,929 / Hoskins (format: plain_table)
+ 32 fetched, 0 matched
+  [295/672] independent #10930 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [296/672] independent #10931 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [297/672] independent #10934 (28 clues)...    fifteensquared: 28 clues from Independent 10,934 / Serpent (format: plain_table)
+ 28 fetched, 1 matched
+  [298/672] independent #10936 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [299/672] independent #10939 (32 clues)...    fifteensquared: 32 clues from Independent 10,939 / Hoskins (format: plain_table)
+ 32 fetched, 0 matched
+  [300/672] independent #10942 (27 clues)...    fifteensquared: 27 clues from Independent 10,942 by Rodriguez (format: fts_list)
+ 27 fetched, 27 matched
+  [301/672] independent #10944 (27 clues)...    fifteensquared: 26 clues from Independent 10,944 / Radian (format: plain_table)
+ 26 fetched, 0 matched
+  [302/672] independent #10948 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [303/672] independent #10949 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [304/672] independent #10953 (34 clues)...    fifteensquared: 34 clues from Independent 10,953 / Phi (format: plain_table)
+ 34 fetched, 0 matched
+  [305/672] independent #10954 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [306/672] independent #10958 (30 clues)...    fifteensquared: 26 clues from Independent 10,958 / Tees (format: plain_table)
+ 26 fetched, 0 matched
+  [307/672] independent #10960 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [308/672] independent #10963 (31 clues)...    fifteensquared: 29 clues from Independent 10,963 / Tees (format: plain_table)
+ 29 fetched, 0 matched
+  [309/672] independent #10966 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [310/672] independent #10967 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [311/672] independent #10968 (30 clues)...    fifteensquared: 29 clues from Independent 10,968 / Knut (format: plain_table)
+ 29 fetched, 2 matched
+  [312/672] independent #10972 (31 clues)...    fifteensquared: 29 clues from Independent 10,972 by Serpent (format: fts_list)
+ 29 fetched, 29 matched
+  [313/672] independent #10977 (26 clues)...    fifteensquared: 26 clues from Independent 10,977 / Phi (format: plain_table)
+ 26 fetched, 0 matched
+  [314/672] independent #10978 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [315/672] independent #10982 (26 clues)...    fifteensquared: 25 clues from Independent 10,982 / Morph (format: plain_table)
+ 25 fetched, 0 matched
+  [316/672] independent #10984 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [317/672] independent #10986 (30 clues)...    fifteensquared: 30 clues from Independent 10,986 / Eccles (format: plain_table)
+ 30 fetched, 2 matched
+  [318/672] independent #10989 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [319/672] independent #10991 (32 clues)...    fifteensquared: 32 clues from Independent 10,991 / Filbert (format: plain_table)
+ 32 fetched, 1 matched
+  [320/672] independent #10995 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [321/672] independent #11000 (30 clues)...    fifteensquared: 30 clues from Independent 11,000 / Phi (format: plain_table)
+ 30 fetched, 1 matched
+  [322/672] independent #11001 (32 clues)...    fifteensquared: 30 clues from Independent 11,001 by Serpent (format: fts_list)
+ 30 fetched, 30 matched
+  [323/672] independent #11002 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [324/672] independent #11005 (32 clues)...    fifteensquared: 32 clues from Independent 11,005 / Phi (format: plain_table)
+ 32 fetched, 1 matched
+  [325/672] independent #11007 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [326/672] independent #11010 (29 clues)...    fifteensquared: 29 clues from Independent 11,010 / Eccles (format: plain_table)
+ 29 fetched, 0 matched
+  [327/672] independent #11013 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [328/672] independent #11015 (30 clues)...    fifteensquared: 30 clues from Independent 11,015 / Bluebird (format: plain_table)
+ 30 fetched, 0 matched
+  [329/672] independent #11019 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [330/672] independent #11020 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [331/672] independent #11024 (29 clues)...    fifteensquared: 29 clues from Independent 11,024 / Phi (format: plain_table)
+ 29 fetched, 0 matched
+  [332/672] independent #11025 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [333/672] independent #11029 (28 clues)...    fifteensquared: 28 clues from Independent 11,029 / Klingsor (format: plain_table)
+ 28 fetched, 1 matched
+  [334/672] independent #11031 (30 clues)...    fifteensquared: 30 clues from Independent 11,031 by Rodriguez (format: fts_list)
+ 30 fetched, 30 matched
+  [335/672] independent #11034 (30 clues)...    fifteensquared: 30 clues from Independent 11,034 / Eccles (format: plain_table)
+ 30 fetched, 2 matched
+  [336/672] independent #11037 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [337/672] independent #11038 (25 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [338/672] independent #11039 (29 clues)...    fifteensquared: 26 clues from Independent 11,039 / Tees (format: plain_table)
+ 26 fetched, 0 matched
+  [339/672] independent #11043 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [340/672] independent #11048 (30 clues)...    fifteensquared: 29 clues from Independent 11,048 / Phi (format: plain_table)
+ 29 fetched, 1 matched
+  [341/672] independent #11049 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [342/672] independent #11053 (33 clues)...    fifteensquared: 33 clues from Independent 11,053 / Bluth (format: plain_table)
+ 33 fetched, 2 matched
+  [343/672] independent #11055 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [344/672] independent #11056 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [345/672] independent #11058 (29 clues)...    fifteensquared: 27 clues from Independent 11,058 / Methuselah (format: plain_table)
+ 27 fetched, 3 matched
+  [346/672] independent #11061 (28 clues)...    fifteensquared: 28 clues from Independent 11,061 by Tees (format: fts_list)
+ 28 fetched, 28 matched
+  [347/672] independent #11063 (29 clues)...    fifteensquared: 28 clues from Independent 11,063 / Radian (format: plain_table)
+ 28 fetched, 3 matched
+  [348/672] independent #11067 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [349/672] independent #11072 (30 clues)...    fifteensquared: 29 clues from Independent 11,072 / Phi (format: plain_table)
+ 29 fetched, 1 matched
+  [350/672] independent #11073 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [351/672] independent #11074 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [352/672] independent #11077 (23 clues)...    fifteensquared: 22 clues from Independent 11,077 / Knut (format: plain_table)
+ 22 fetched, 0 matched
+  [353/672] independent #11079 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [354/672] independent #11082 (32 clues)...    fifteensquared: 30 clues from Independent 11,082 / Bluebird (format: plain_table)
+ 30 fetched, 1 matched
+  [355/672] independent #11083 (29 clues)... not found
+  [356/672] independent #11085 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [357/672] independent #11087 (27 clues)...    fifteensquared: 27 clues from Independent 11,087 / Radian (format: plain_table)
+ 27 fetched, 0 matched
+  [358/672] independent #11091 (32 clues)...    fifteensquared: 32 clues from Independent 11,091 by Serpent (format: fts_list)
+ 32 fetched, 32 matched
+  [359/672] independent #11092 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [360/672] independent #11096 (30 clues)...    fifteensquared: 30 clues from Independent 11,096 / Phi (format: plain_table)
+ 30 fetched, 0 matched
+  [361/672] independent #11097 (24 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [362/672] independent #11101 (32 clues)...    fifteensquared: 30 clues from Independent 11,101 / Knut (format: plain_table)
+ 30 fetched, 0 matched
+  [363/672] independent #11103 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [364/672] independent #11106 (30 clues)...    fifteensquared: 30 clues from Independent 11,106 / Eccles (format: plain_table)
+ 30 fetched, 0 matched
+  [365/672] independent #11109 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [366/672] independent #11110 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [367/672] independent #11111 (29 clues)...    fifteensquared: 29 clues from Independent 11,111 / Radian (format: plain_table)
+ 29 fetched, 0 matched
+  [368/672] independent #11115 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [369/672] independent #11120 (30 clues)...    fifteensquared: 30 clues from Independent 11,120 / Phi (format: plain_table)
+ 30 fetched, 0 matched
+  [370/672] independent #11121 (30 clues)...    fifteensquared: 30 clues from Independent 11,121 by Rodriguez (format: fts_list)
+ 30 fetched, 30 matched
+  [371/672] independent #11125 (32 clues)...    fifteensquared: 32 clues from Independent 11,125 / Serpent (format: plain_table)
+ 32 fetched, 0 matched
+  [372/672] independent #11127 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [373/672] independent #11128 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [374/672] independent #11130 (30 clues)...    fifteensquared: 30 clues from Independent 11,130 / Brunel (format: plain_table)
+ 30 fetched, 0 matched
+  [375/672] independent #11131 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [376/672] independent #11133 (36 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [377/672] independent #11135 (29 clues)...    fifteensquared: 29 clues from Independent 11,135 / Radian (format: plain_table)
+ 29 fetched, 0 matched
+  [378/672] independent #11139 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [379/672] independent #11144 (32 clues)...    fifteensquared: 32 clues from Independent 11,144 / Phi (format: plain_table)
+ 32 fetched, 0 matched
+  [380/672] independent #11145 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [381/672] independent #11146 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [382/672] independent #11149 (30 clues)...    fifteensquared: 30 clues from Independent 11,149 / Serpent (format: plain_table)
+ 30 fetched, 2 matched
+  [383/672] independent #11151 (32 clues)...    fifteensquared: 28 clues from Independent 11,151 by Tyrus (format: fts_list)
+ 28 fetched, 28 matched
+  [384/672] independent #11154 (31 clues)...    fifteensquared: 31 clues from Independent 11,154 / Crosophile (format: plain_table)
+ 31 fetched, 1 matched
+  [385/672] independent #11157 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [386/672] independent #11159 (30 clues)...    fifteensquared: 29 clues from Independent 11,159 / Alchemi (format: plain_table)
+ 29 fetched, 2 matched
+  [387/672] independent #11163 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [388/672] independent #11164 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [389/672] independent #11168 (32 clues)...    fifteensquared: 32 clues from Independent 11,168 / Phi (format: plain_table)
+ 32 fetched, 1 matched
+  [390/672] independent #11169 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [391/672] independent #11173 (27 clues)...    fifteensquared: 27 clues from Independent 11,173 / Rodriguez (format: plain_table)
+ 27 fetched, 0 matched
+  [392/672] independent #11175 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [393/672] independent #11178 (32 clues)...    fifteensquared: 32 clues from Independent 11,178 / Hoskins (format: plain_table)
+ 32 fetched, 1 matched
+  [394/672] independent #11181 (28 clues)...    fifteensquared: 28 clues from Independent 11,181 by Wire (format: fts_list)
+ 28 fetched, 28 matched
+  [395/672] independent #11182 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [396/672] independent #11183 (28 clues)...    fifteensquared: 26 clues from Independent 11,183 / Filbert (format: plain_table)
+ 26 fetched, 0 matched
+  [397/672] independent #11187 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [398/672] independent #11192 (33 clues)...    fifteensquared: 33 clues from Independent 11,192 / Phi (format: plain_table)
+ 33 fetched, 1 matched
+  [399/672] independent #11193 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [400/672] independent #11197 (30 clues)...    fifteensquared: 30 clues from Independent 11,197 / Filbert (format: plain_table)
+ 30 fetched, 0 matched
+  [401/672] independent #11199 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [402/672] independent #11200 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [403/672] independent #11202 (30 clues)...    fifteensquared: 30 clues from Independent 11,202 / Hippogryph (format: plain_table)
+ 30 fetched, 0 matched
+  [404/672] independent #11205 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [405/672] independent #11207 (30 clues)...    fifteensquared: 30 clues from Independent 11,207 / Alchemi (format: plain_table)
+ 30 fetched, 2 matched
+  [406/672] independent #11211 (29 clues)...    fifteensquared: 29 clues from Independent 11,211 by Serpent (format: fts_list)
+ 29 fetched, 29 matched
+  [407/672] independent #11216 (32 clues)...    fifteensquared: 32 clues from Independent 11,216 / Phi (format: plain_table)
+ 32 fetched, 0 matched
+  [408/672] independent #11217 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [409/672] independent #11218 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [410/672] independent #11221 (30 clues)...    fifteensquared: 29 clues from Independent 11,221 / Filbert (format: plain_table)
+ 29 fetched, 0 matched
+  [411/672] independent #11223 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [412/672] independent #11226 (30 clues)...    fifteensquared: 29 clues from Independent 11,226 / Raich (format: plain_table)
+ 29 fetched, 0 matched
+  [413/672] independent #11229 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [414/672] independent #11231 (30 clues)...    fifteensquared: 30 clues from Independent 11,231 / Grecian (format: plain_table)
+ 30 fetched, 1 matched
+  [415/672] independent #11233 (32 clues)... not found
+  [416/672] independent #11235 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [417/672] independent #11236 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [418/672] independent #11240 (32 clues)...    fifteensquared: 32 clues from Independent 11,240 / Phi (format: plain_table)
+ 32 fetched, 1 matched
+  [419/672] independent #11241 (30 clues)...    fifteensquared: 30 clues from Independent 11,241 by Quince (format: fts_list)
+ 30 fetched, 30 matched
+  [420/672] independent #11245 (28 clues)...    fifteensquared: 28 clues from Independent 11,245 / Filbert (format: plain_table)
+ 28 fetched, 0 matched
+  [421/672] independent #11247 (32 clues)...    fifteensquared: 32 clues from Independent 11247 / Ringoe (format: two_col_table)
+ 32 fetched, 0 matched
+  [422/672] independent #11250 (28 clues)...    fifteensquared: 28 clues from Independent 11,250 / Skinny (format: plain_table)
+ 28 fetched, 1 matched
+  [423/672] independent #11253 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [424/672] independent #11254 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [425/672] independent #11255 (36 clues)...    fifteensquared: 35 clues from Independent 11,255 / Hippogryph (format: plain_table)
+ 35 fetched, 1 matched
+  [426/672] independent #11259 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [427/672] independent #11264 (30 clues)...    fifteensquared: 28 clues from Independent 11,264 / Phi (format: plain_table)
+ 28 fetched, 0 matched
+  [428/672] independent #11265 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [429/672] independent #11269 (33 clues)...    fifteensquared: 32 clues from Independent 11,269 / Bluth (format: plain_table)
+ 32 fetched, 1 matched
+  [430/672] independent #11271 (30 clues)...    fifteensquared: 28 clues from Independent 11,271 by Tyrus (format: fts_list)
+ 28 fetched, 28 matched
+  [431/672] independent #11272 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [432/672] independent #11274 (32 clues)...    fifteensquared: 31 clues from Independent 11,274 / Mev (format: plain_table)
+ 31 fetched, 0 matched
+  [433/672] independent #11277 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [434/672] independent #11283 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [435/672] independent #11288 (32 clues)...    fifteensquared: 31 clues from Independent 11,288 / Phi (format: plain_table)
+ 31 fetched, 1 matched
+  [436/672] independent #11289 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [437/672] independent #11301 (28 clues)...    fifteensquared: 28 clues from Independent 11,301 by Phi (format: fts_list)
+ 28 fetched, 28 matched
+  [438/672] independent #11303 (34 clues)...    fifteensquared: 33 clues from Independent 11,303 / Filbert (format: plain_table)
+ 33 fetched, 1 matched
+  [439/672] independent #11313 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [440/672] independent #11319 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [441/672] independent #11325 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [442/672] independent #11331 (32 clues)...    fifteensquared: 32 clues from Independent 11,331 by Serpent (format: fts_list)
+ 32 fetched, 32 matched
+  [443/672] independent #11337 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [444/672] independent #11341 (32 clues)...    fifteensquared: 31 clues from Independent 11,341 / Methuselah (format: plain_table)
+ 31 fetched, 4 matched
+  [445/672] independent #11343 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [446/672] independent #11349 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [447/672] independent #11355 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [448/672] independent #11361 (30 clues)...    fifteensquared: 26 clues from Independent 11,361 by Bluth (format: fts_list)
+ 26 fetched, 26 matched
+  [449/672] independent #11362 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [450/672] independent #11365 (26 clues)...    fifteensquared: 24 clues from Independent 11,365 / Rodriguez (format: plain_table)
+ 24 fetched, 1 matched
+  [451/672] independent #11367 (30 clues)...    fifteensquared: 4 clues from Independent No. 11,367 by Serpent (format: paragraph)
+ 4 fetched, 0 matched
+  [452/672] independent #11373 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [453/672] independent #11379 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [454/672] independent #11389 (32 clues)...    fifteensquared: 31 clues from Independent 11,389 / Methuselah (format: plain_table)
+ 31 fetched, 2 matched
+  [455/672] independent #11391 (28 clues)...    fifteensquared: 28 clues from Independent 11,391 by Serpent (format: fts_list)
+ 28 fetched, 28 matched
+  [456/672] independent #11397 (25 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [457/672] independent #11403 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [458/672] independent #11409 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [459/672] independent #11421 (30 clues)...    fifteensquared: 30 clues from Independent 11,421 by Serpent (format: fts_list)
+ 30 fetched, 30 matched
+  [460/672] independent #11427 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [461/672] independent #11433 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [462/672] independent #11434 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [463/672] independent #11439 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [464/672] independent #11442 (30 clues)...    fifteensquared: 29 clues from Independent 11,442 / Eccles (format: plain_table)
+ 29 fetched, 0 matched
+  [465/672] independent #11451 (31 clues)...    fifteensquared: 30 clues from Independent 11,451 by Wire (format: fts_list)
+ 30 fetched, 30 matched
+  [466/672] independent #11457 (30 clues)... not found
+  [467/672] independent #11463 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [468/672] independent #11469 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [469/672] independent #11481 (32 clues)...    fifteensquared: 32 clues from Independent 11,481 by Wire (format: fts_list)
+ 32 fetched, 32 matched
+  [470/672] independent #11485 (34 clues)...    fifteensquared: 33 clues from Independent 11,485 / Wiglaf (format: plain_table)
+ 33 fetched, 2 matched
+  [471/672] independent #11487 (30 clues)...    fifteensquared: 27 clues from Independent No.11,487 by Tees (format: paragraph)
+ 27 fetched, 25 matched
+  [472/672] independent #11493 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [473/672] independent #11499 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [474/672] independent #11505 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [475/672] independent #11507 (31 clues)...    fifteensquared: 31 clues from Independent No. 11,507 by Filbert (format: paragraph)
+ 31 fetched, 29 matched
+  [476/672] independent #11509 (30 clues)...    fifteensquared: 29 clues from Independent 11,509 / Quince (format: plain_table)
+ 29 fetched, 4 matched
+  [477/672] independent #11511 (28 clues)...    fifteensquared: 28 clues from Independent 11,511 by Tyrus (format: fts_list)
+ 28 fetched, 28 matched
+  [478/672] independent #11517 (30 clues)...    fifteensquared: 29 clues from Independent No. 11,517 Monk (format: paragraph)
+ 29 fetched, 28 matched
+  [479/672] independent #11523 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [480/672] independent #11528 (30 clues)...    fifteensquared: 28 clues from Independent 11,528 / Coot (format: plain_table)
+ 28 fetched, 4 matched
+  [481/672] independent #11529 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [482/672] independent #11541 (29 clues)...    fifteensquared: 27 clues from Independent 11,541 by Methuselah (format: fts_list)
+ 27 fetched, 27 matched
+  [483/672] independent #11547 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [484/672] independent #11553 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [485/672] independent #11557 (29 clues)...    fifteensquared: 29 clues from Independent 11,557 / Bluth (format: plain_table)
+ 29 fetched, 3 matched
+  [486/672] independent #11559 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [487/672] independent #11562 (32 clues)...    fifteensquared: 30 clues from Independent 11,562 / Knut (format: plain_table)
+ 30 fetched, 0 matched
+  [488/672] independent #11567 (29 clues)...    fifteensquared: 27 clues from Independent 11,567 / Filbert (format: plain_table)
+ 27 fetched, 0 matched
+  [489/672] independent #11571 (30 clues)...    fifteensquared: 30 clues from Independent 11,571 by Quince (format: fts_list)
+ 30 fetched, 30 matched
+  [490/672] independent #11577 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [491/672] independent #11583 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [492/672] independent #11586 (28 clues)...    fifteensquared: 27 clues from Independent 11,586 / Tees (format: plain_table)
+ 27 fetched, 1 matched
+  [493/672] independent #11589 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [494/672] independent #11600 (30 clues)...    fifteensquared: 28 clues from Independent 11,600 / Phi (format: plain_table)
+ 28 fetched, 1 matched
+  [495/672] independent #11601 (27 clues)...    fifteensquared: 27 clues from Independent 11,601 by Monk (format: fts_list)
+ 27 fetched, 27 matched
+  [496/672] independent #11605 (34 clues)...    fifteensquared: 28 clues from Independent 11,605 / Bluth (format: plain_table)
+ 28 fetched, 1 matched
+  [497/672] independent #11607 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [498/672] independent #11613 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [499/672] independent #11619 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [500/672] independent #11631 (28 clues)...    fifteensquared: 28 clues from Independent 11,631 by Serpent (format: fts_list)
+ 28 fetched, 28 matched
+  [501/672] independent #11637 (28 clues)...    fifteensquared: 28 clues from Independent No. 11,637 by Knut (format: paragraph)
+ 28 fetched, 27 matched
+  [502/672] independent #11643 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [503/672] independent #11649 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [504/672] independent #11661 (28 clues)...    fifteensquared: 28 clues from Independent 11,661 by Tyrus (format: fts_list)
+ 28 fetched, 28 matched
+  [505/672] independent #11663 (31 clues)...    fifteensquared: 30 clues from Independent 11,663 / Filbert (format: plain_table)
+ 30 fetched, 2 matched
+  [506/672] independent #11667 (32 clues)...    fifteensquared: 28 clues from Independent No. 11,667 by Bluth (format: paragraph)
+ 28 fetched, 27 matched
+  [507/672] independent #11673 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [508/672] independent #11679 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [509/672] independent #11685 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [510/672] independent #11687 (32 clues)...    fifteensquared: 31 clues from Independent 11,687 / Italicus (format: plain_table)
+ 31 fetched, 0 matched
+  [511/672] independent #11691 (31 clues)...    fifteensquared: 27 clues from Independent 11,691 by Tees (format: fts_list)
+ 27 fetched, 27 matched
+  [512/672] independent #11697 (31 clues)...    fifteensquared: 31 clues from Independent No. 11,697 by Bluebird (format: paragraph)
+ 31 fetched, 31 matched
+  [513/672] independent #11701 (33 clues)...    fifteensquared: 31 clues from Independent 11,701 / Bluth (format: plain_table)
+ 31 fetched, 0 matched
+  [514/672] independent #11703 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [515/672] independent #11709 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [516/672] independent #11715 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [517/672] independent #11721 (28 clues)...    fifteensquared: 28 clues from Independent 11,721 by Filbert (format: fts_list)
+ 28 fetched, 28 matched
+  [518/672] independent #11722 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [519/672] independent #11724 (35 clues)... not found
+  [520/672] independent #11727 (26 clues)...    fifteensquared: 21 clues from Independent No. 11,727 by Bluth (format: paragraph)
+ 21 fetched, 18 matched
+  [521/672] independent #11733 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [522/672] independent #11739 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [523/672] independent #11745 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [524/672] independent #11749 (30 clues)...    fifteensquared: 27 clues from Independent 11,749 / Bluth (format: plain_table)
+ 27 fetched, 1 matched
+  [525/672] independent #11751 (30 clues)...    fifteensquared: 30 clues from Independent 11,751 by Eccles (format: fts_list)
+ 30 fetched, 30 matched
+  [526/672] independent #11754 (32 clues)...    fifteensquared: 32 clues from Independent 11,754 / Umpire (format: plain_table)
+ 32 fetched, 3 matched
+  [527/672] independent #11757 (32 clues)...    fifteensquared: 32 clues from Independent No: 11,757 by Tyrus (format: paragraph)
+ 32 fetched, 26 matched
+  [528/672] independent #11758 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [529/672] independent #11759 (32 clues)...    fifteensquared: 29 clues from Independent 11,759 / Knut (format: plain_table)
+ 29 fetched, 0 matched
+  [530/672] independent #11763 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [531/672] independent #11768 (27 clues)...    fifteensquared: 27 clues from Independent 11,768 / Phi (format: plain_table)
+ 27 fetched, 1 matched
+  [532/672] independent #11769 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [533/672] independent #11773 (28 clues)...    fifteensquared: 26 clues from Independent 11,773 / Bluth (format: plain_table)
+ 26 fetched, 2 matched
+  [534/672] independent #11775 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [535/672] independent #11776 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [536/672] independent #11778 (28 clues)...    fifteensquared: 28 clues from Independent 11,778 / Mog (format: plain_table)
+ 28 fetched, 1 matched
+  [537/672] independent #11781 (30 clues)...    fifteensquared: 30 clues from Independent 11,781 by Bluebird (format: fts_list)
+ 30 fetched, 30 matched
+  [538/672] independent #11783 (36 clues)...    fifteensquared: 36 clues from Independent 11,783 / Knut (format: plain_table)
+ 36 fetched, 1 matched
+  [539/672] independent #11787 (29 clues)...    fifteensquared: 23 clues from Independent No.11,787 by Punk (format: paragraph)
+ 23 fetched, 20 matched
+  [540/672] independent #11792 (33 clues)...    fifteensquared: 33 clues from Independent 11,792 / Stamp (format: plain_table)
+ 33 fetched, 24 matched
+  [541/672] independent #11793 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [542/672] independent #11794 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [543/672] independent #11797 (26 clues)...    fifteensquared: 25 clues from Independent 11,797 / Grecian (format: plain_table)
+ 25 fetched, 0 matched
+  [544/672] independent #11798 (34 clues)...    fifteensquared: 19 clues from Independent 11,798 by Phi (format: paragraph)
+ 19 fetched, 19 matched
+  [545/672] independent #11799 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [546/672] independent #11802 (30 clues)... not found
+  [547/672] independent #11805 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [548/672] independent #11807 (31 clues)...    fifteensquared: 31 clues from Independent 11,807 / Atrica (format: plain_table)
+ 31 fetched, 0 matched
+  [549/672] independent #11811 (32 clues)...    fifteensquared: 32 clues from Independent 11,811 by Bluebird (format: fts_list)
+ 32 fetched, 32 matched
+  [550/672] independent #11812 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [551/672] independent #11816 (32 clues)...    fifteensquared: 32 clues from Independent 11,816 / Phi (format: plain_table)
+ 32 fetched, 1 matched
+  [552/672] independent #11817 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [553/672] independent #11823 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [554/672] independent #11827 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [555/672] independent #11829 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [556/672] independent #11830 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [557/672] independent #11831 (36 clues)...    fifteensquared: 34 clues from Independent 11,831 / Grecian (format: plain_table)
+ 34 fetched, 1 matched
+  [558/672] independent #11835 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [559/672] independent #11841 (32 clues)...    fifteensquared: 31 clues from Independent 11,841 by Bluebird (format: fts_list)
+ 31 fetched, 31 matched
+  [560/672] independent #11847 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [561/672] independent #11853 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [562/672] independent #11859 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [563/672] independent #11865 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [564/672] independent #11869 (32 clues)...    fifteensquared: 29 clues from Independent 11,869 / Methuselah (format: plain_table)
+ 29 fetched, 2 matched
+  [565/672] independent #11871 (32 clues)...    fifteensquared: 30 clues from Independent 11,871 by Tyrus (format: fts_list)
+ 30 fetched, 30 matched
+  [566/672] independent #11877 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [567/672] independent #11883 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [568/672] independent #11889 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [569/672] independent #11895 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [570/672] independent #11901 (32 clues)...    fifteensquared: 29 clues from Independent 11,901 by Bluth (format: fts_list)
+ 29 fetched, 29 matched
+  [571/672] independent #11907 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [572/672] independent #11913 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [573/672] independent #11919 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [574/672] independent #11920 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [575/672] independent #11925 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [576/672] independent #11931 (32 clues)...    fifteensquared: 32 clues from Independent 11,931 by Twin (format: fts_list)
+ 32 fetched, 32 matched
+  [577/672] independent #11937 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [578/672] independent #11938 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [579/672] independent #11941 (28 clues)...    fifteensquared: 25 clues from Independent 11,941 / Stetson (format: plain_table)
+ 25 fetched, 0 matched
+  [580/672] independent #11943 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [581/672] independent #11949 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [582/672] independent #11951 (29 clues)...    fifteensquared: 28 clues from Independent 11,951 / Filbert (format: plain_table)
+ 28 fetched, 1 matched
+  [583/672] independent #11955 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [584/672] independent #11961 (32 clues)...    fifteensquared: 32 clues from Independent 11,961 by Twin (format: fts_list)
+ 32 fetched, 32 matched
+  [585/672] independent #11965 (32 clues)...    fifteensquared: 32 clues from Independent 11,965 / Hoskins (format: plain_table)
+ 32 fetched, 0 matched
+  [586/672] independent #11967 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [587/672] independent #11970 (32 clues)...    fifteensquared: 32 clues from Independent 11,970 / Eccles (format: plain_table)
+ 32 fetched, 2 matched
+  [588/672] independent #11973 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [589/672] independent #11974 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [590/672] independent #11975 (32 clues)...    fifteensquared: 30 clues from Independent 11,975 / Tees (format: plain_table)
+ 30 fetched, 0 matched
+  [591/672] independent #11979 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [592/672] independent #11984 (28 clues)...    fifteensquared: 27 clues from Independent 11,984 / Phi (format: plain_table)
+ 27 fetched, 1 matched
+  [593/672] independent #11985 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [594/672] independent #11989 (30 clues)...    fifteensquared: 26 clues from Independent 11,989 / Bluth (format: plain_table)
+ 26 fetched, 2 matched
+  [595/672] independent #11991 (32 clues)...    fifteensquared: 32 clues from Independent 11,991 by Phi (format: fts_list)
+ 32 fetched, 32 matched
+  [596/672] independent #11992 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [597/672] independent #11994 (34 clues)...    fifteensquared: 34 clues from Independent 11,994 / Eccles (format: plain_table)
+ 34 fetched, 0 matched
+  [598/672] independent #11997 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [599/672] independent #11999 (31 clues)...    fifteensquared: 31 clues from Independent 11,999 / Hoskins (format: plain_table)
+ 31 fetched, 1 matched
+  [600/672] independent #12003 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [601/672] independent #12008 (30 clues)...    fifteensquared: 30 clues from Independent 12,008 / Mog (format: plain_table)
+ 30 fetched, 0 matched
+  [602/672] independent #12009 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [603/672] independent #12010 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [604/672] independent #12013 (32 clues)...    fifteensquared: 31 clues from Independent 12,013 / Deri (format: plain_table)
+ 31 fetched, 1 matched
+  [605/672] independent #12015 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [606/672] independent #12018 (34 clues)...    fifteensquared: 34 clues from Independent 12,018 / Eccles (format: plain_table)
+ 34 fetched, 3 matched
+  [607/672] independent #12021 (31 clues)...    fifteensquared: 26 clues from Independent 12,021 by Bluebird (format: fts_list)
+ 26 fetched, 26 matched
+  [608/672] independent #12023 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [609/672] independent #12027 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [610/672] independent #12028 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [611/672] independent #12032 (29 clues)...    fifteensquared: 29 clues from Independent 12,032 / Phi (format: plain_table)
+ 29 fetched, 4 matched
+  [612/672] independent #12033 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [613/672] independent #12037 (35 clues)...    fifteensquared: 35 clues from Independent 12,037 / Stamp (format: plain_table)
+ 35 fetched, 2 matched
+  [614/672] independent #12039 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [615/672] independent #12042 (28 clues)...    fifteensquared: 28 clues from Independent 12,042 / Eccles (format: plain_table)
+ 28 fetched, 4 matched
+  [616/672] independent #12045 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [617/672] independent #12046 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [618/672] independent #12047 (32 clues)...    fifteensquared: 32 clues from Independent 12,047 / Magus (format: plain_table)
+ 32 fetched, 1 matched
+  [619/672] independent #12051 (30 clues)...    fifteensquared: 30 clues from Independent 12,051 by Tyrus (format: fts_list)
+ 30 fetched, 30 matched
+  [620/672] independent #12057 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [621/672] independent #12063 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [622/672] independent #12069 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [623/672] independent #12071 (36 clues)...    fifteensquared: 34 clues from Independent 12,071 / Maize (format: plain_table)
+ 34 fetched, 3 matched
+  [624/672] independent #12075 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [625/672] independent #12081 (28 clues)...    fifteensquared: 28 clues from Independent 12,081 by Mev (format: fts_list)
+ 28 fetched, 28 matched
+  [626/672] independent #12087 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [627/672] independent #12093 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [628/672] independent #12099 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [629/672] independent #12103 (30 clues)... not found
+  [630/672] independent #12105 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [631/672] independent #12109 (31 clues)...    fifteensquared: 29 clues from Independent 12,109 / Bluth (format: plain_table)
+ 29 fetched, 0 matched
+  [632/672] independent #12111 (32 clues)...    fifteensquared: 32 clues from Independent 12,111 by Maize (format: fts_list)
+ 32 fetched, 32 matched
+  [633/672] independent #12117 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [634/672] independent #12118 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [635/672] independent #12123 (34 clues)... not found
+  [636/672] independent #12124 (32 clues)... not found
+  [637/672] independent #12129 (30 clues)...    fifteensquared: 29 clues from Independent 12,129 by Methuselah (format: fts_table)
+ 29 fetched, 28 matched
+  [638/672] independent #12135 (29 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [639/672] independent #12141 (34 clues)...    fifteensquared: 34 clues from Independent 12,141 by Tyrus (format: fts_list)
+ 34 fetched, 34 matched
+  [640/672] independent #12147 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [641/672] independent #12153 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [642/672] independent #12165 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [643/672] independent #12171 (30 clues)...    fifteensquared: 30 clues from Independent 12,171 by Twin (format: fts_list)
+ 30 fetched, 30 matched
+  [644/672] independent #12176 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [645/672] independent #12177 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [646/672] independent #12183 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [647/672] independent #12195 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [648/672] independent #12201 (34 clues)...    fifteensquared: 34 clues from Independent 12,201 by Umpire (format: fts_list)
+ 34 fetched, 34 matched
+  [649/672] independent #12207 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [650/672] independent #12210 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [651/672] independent #12213 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [652/672] independent #12225 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [653/672] independent #12231 (24 clues)...    fifteensquared: 24 clues from Independent 12,231 by Quince (format: fts_list)
+ 24 fetched, 24 matched
+  [654/672] independent #12237 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [655/672] independent #12243 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [656/672] independent #12244 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [657/672] independent #12247 (32 clues)... not found
+  [658/672] independent #12249 (30 clues)...    fifteensquared: 30 clues from Independent 12,249 by Bluebird (format: fts_table)
+ 30 fetched, 30 matched
+  [659/672] independent #12255 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [660/672] independent #12261 (34 clues)...    fifteensquared: 32 clues from Independent 12,261 by Umpire (format: fts_list)
+ 32 fetched, 32 matched
+  [661/672] independent #12267 (28 clues)...    fifteensquared: 26 clues from Independent 12,267 by Dalibor (format: fts_table)
+ 26 fetched, 24 matched
+  [662/672] independent #12273 (34 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [663/672] independent #12279 (34 clues)...    fifteensquared: 33 clues from Independent 12,279 by Mev (format: fts_table)
+ 33 fetched, 32 matched
+  [664/672] independent #12280 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [665/672] independent #12285 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [666/672] independent #12291 (30 clues)...    fifteensquared: 30 clues from Independent 12,291 by Wiglaf (format: fts_list)
+ 30 fetched, 30 matched
+  [667/672] independent #12297 (32 clues)...    fifteensquared: 32 clues from Independent 12,297 by Bluebird (format: fts_table)
+ 32 fetched, 32 matched
+  [668/672] independent #12298 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [669/672] independent #12303 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [670/672] independent #12311 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [671/672] independent #12315 (27 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [672/672] independent #12316 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+
+Done:
+  Fetched: 347
+  Not found: 325
+  Total clues matched: 3718

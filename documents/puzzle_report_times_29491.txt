@@ -1,0 +1,875 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29491
+Generated: 2026-03-16 16:06:57
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        22/28 (78%)
+    Signature:      6
+    Sig+Enriched:   4
+    Sonnet:         11
+    DB Fallback:    1
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   16  11A, 16D, 22A, 23D, 24A, 6D, 1D, 12A, 2D, 20D, 21A, 26A, 3A, 4D, 5D, 7D
+  Medium (40-79): 6  1A, 10D, 15D, 19D, 25A, 8D
+  Low (<40):    0  
+  Failed:       6  13A, 14A, 17D, 18A, 27A, 9A
+  Average:      78/100
+
+COST: $0.2119 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (27 entries)
+------------------------------------------------------------
+  OUTLINE: "main points" -> OUTLINE  (missing from definition_answers_augmented)
+  HACIENDA: "Mexican plantation" -> HACIENDA  (missing from definition_answers_augmented)
+  ISRAELITE: "Hebrew" -> ISRAELITE  (missing from definition_answers_augmented)
+  REEVE: "official from past" -> REEVE  (missing from definition_answers_augmented)
+  RAILING: "Protesting" -> RAILING  (missing from definition_answers_augmented)
+  ESTABLISHMENT: "Formation" -> ESTABLISHMENT  (missing from definition_answers_augmented)
+  BUSHBABY: "cute little creature" -> BUSHBABY  (missing from definition_answers_augmented)
+  BLAIR: "PM" -> BLAIR  (missing from definition_answers_augmented)
+  BALLANDCHAIN: "spouse" -> BALLANDCHAIN  (missing from definition_answers_augmented)
+  STEERAGE: "cheap accommodation" -> STEERAGE  (missing from definition_answers_augmented)
+  HEARTTOHEART: "a revealing exchange" -> HEARTTOHEART  (missing from definition_answers_augmented)
+  AGORA: "assembly" -> AGORA  (missing from definition_answers_augmented)
+  LUMINARIES: "Prominent figures" -> LUMINARIES  (missing from definition_answers_augmented)
+  MATE: "Assistant" -> MATE  (missing from definition_answers_augmented)
+  TRIBAL: "family" -> TRIBAL  (missing from definition_answers_augmented)
+  SIROCCO: "A blow" -> SIROCCO  (missing from definition_answers_augmented)
+  HACIENDA: area -> A  (missing from abbreviations)
+  REEVE: English -> E  (missing from abbreviations)
+  RAILING: Republican -> R  (missing from abbreviations)
+  CONCATENATION: European -> E  (missing from abbreviations)
+  BALLANDCHAIN: song -> BALL  (missing from synonyms_pairs)
+  ESTONIA: society -> S  (missing from abbreviations)
+  ESTONIA: ChatGPT among others -> AI  (missing from abbreviations)
+  PROSPECTUS: european -> E  (missing from abbreviations)
+  SHERRY: reluctant -> SHY  (missing from abbreviations)
+  SHERRY: European -> E  (missing from abbreviations)
+  SIROCCO: if French -> SI  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  CONCATENATION = 10 (60/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  CONCATENATION (60/100): C <- "chap" (first_letter)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  13. When caught, clamour for PM = BLAIR
+  14. Romantic song sequence enthralling new spouse? = BALLANDCHAIN
+  17. Usher periodically wangles cheap accommodation = STEERAGE
+  18. Might it indicate a revealing exchange? = HEARTTOHEART
+  27. Assistant’s final check = MATE
+  9. A blow if French business has to absorb most of shock = SIROCCO
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  7/28  12A, 2D, 4D, 5D, 15D, 19D, 20D
+  Type mismatch:         1  10D
+  Fabricated mapping:    1  10D
+  DB gap:                20  3A, 9A, 11A, 13A, 14A, 18A, 21A, 22A, 24A, 25A, 26A, 27A, 1D, 6D, 7D, 8D, 10D, 16D, 17D, 23D
+  Failed:                6  9A, 13A, 14A, 18A, 27A, 17D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11A  OUTLINE       Divulged policy’s main points (7)
+                      OUT(synonym of "Divulged") + LINE(synonym of "policy's")  [HIGH]
+   16D  HACIENDA      Chained off area in Mexican plantation (8)
+                      CHAINED(Chained) + A(abbr. "area")  [HIGH]
+   22A  ISRAELITE     New realities for Hebrew (9)
+                      anagram of REALITIES(realities)  [HIGH]
+   23D  REEVE         Always around, guarding English official from past (5)
+                      EVER(synonym of "Always") + E(abbr. "English")  [HIGH]
+   24A  RAILING       Protesting Republican in a bad way (7)
+                      R(abbr. "Republican") + AILING(synonym of "bad")  [HIGH]
+    6D  ESTABLISHMENT  Formation of the ruling class (13)
+                      double definition  [HIGH]
+    1A  BUFF          Expert left out of deception (4)
+                      delete L from BLUFF  [MED]
+    1D  BUSHBABY      President’s youngest child, cute little creature (8)
+                      BUSH(synonym of "President's") + BABY(synonym of "youngest child,")  [HIGH]
+   10D  CONCATENATION  Joining European race with Italian chap in the lead (13)
+                      C + ON(synonym of "with") + CAT(synonym of "chap") + E(abbr. "European") + NATION(synonym of "race")  [MED]
+   12A  BRAINWAVE     Head of brotherhood drops rash idea (9)
+                      B(first letter of "brotherhood") + RAINWAVE(deletion from "drops rash")  [HIGH]
+   13A  BLAIR         When caught, clamour for PM (5)
+                      ---  [FAIL]
+   14A  BALLANDCHAIN  Romantic song sequence enthralling new spouse? (4,3,5)
+                      ---  [FAIL]
+   15D  DERRINGER     Gun going astray in revolutionary socialist’s possession (9)
+                      DER(reversal of "socialist") + RINGER(possession going)  [MED]
+   17D  STEERAGE      Usher periodically wangles cheap accommodation (8)
+                      ---  [FAIL]
+   18A  HEARTTOHEART  Might it indicate a revealing exchange? (5-2-5)
+                      ---  [FAIL]
+   19D  BARREL        Part of rifle butt (6)
+                      double definition  [MED]
+    2D  FORMALLY      Pupils team up in a methodical way (8)
+                      FORM(synonym of "Pupils") + ALLY(synonym of "team")  [HIGH]
+   20D  PODIUM        On which one may speak of dishonour, quietly at first (6)
+                      P(first letter of "quietly") + ODIUM(synonym of "dishonour")  [HIGH]
+   21A  AGORA         Nothing dividing city assembly (5)
+                      O(synonym of "Nothing") + AGRA(synonym of "city")  [HIGH]
+   25A  ESTONIA       State school accepting society backing ChatGPT among others (7)
+                      reverse AI(synonym of "ChatGPT among others"), then S(abbr. "society") inside ETON(synonym of "school") + IA  [MED]
+   26A  LUMINARIES    Prominent figures rattled Mailer in US (10)
+                      anagram of MAILERINUS(Mailer in US)  [HIGH]
+   27A  MATE          Assistant’s final check (4)
+                      ---  [FAIL]
+    3A  PROSPECTUS    Brochure mistakenly supports involving European Commission (10)
+                      anagram of C(abbr. "commission")+E(abbr. "european")+SUPPORTS(supports)  [HIGH]
+    4D  RIOJA         Wine and port meets with Hamburg sommelier’s approval (5)
+                      RIO(synonym of "port") + JA(synonym of "Hamburg sommelier's approval")  [HIGH]
+    5D  STONECHAT     Tweeter’s mostly drunken gossip (9)
+                      STONE(mostly drunken) + CHAT(synonym of "gossip")  [HIGH]
+    7D  TRIBAL        Bishop intervening in case concerning family (6)
+                      B(abbr. "Bishop") + TRIAL(synonym of "case")  [HIGH]
+    8D  SHERRY        Perhaps Pedro Ximénez reluctant to welcome European bishop (6)
+                      E(abbr. "European")+RR(abbr. "bishop") inside SHY(synonym of "reluctant")  [MED]
+    9A  SIROCCO       A blow if French business has to absorb most of shock (7)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] OUTLINE  11A. Divulged policy’s main points
+  Answer: OUTLINE
+  Tier: Signature | Confidence: 82/100
+  Definition: "main points"
+  Wordplay type: charade
+  Components:
+    synonym            Divulged                  -> OUT
+    synonym            policy's                  -> LINE
+  Assembly: charade — OUT(synonym of "Divulged") + LINE(synonym of "policy's")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'divulged'=out_verified=+5 | syn_f_'policy's'=line_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] HACIENDA  16D. Chained off area in Mexican plantation
+  Answer: HACIENDA
+  Tier: Signature | Confidence: 82/100
+  Definition: "Mexican plantation"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     Chained                   -> CHAINED
+    abbreviation       area                      -> A
+  Assembly: charade — CHAINED(Chained) + A(abbr. "area")
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'chained'_mechanically_v=+3 | abr_f_'area'=a_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] ISRAELITE  22A. New realities for Hebrew
+  Answer: ISRAELITE
+  Tier: Signature | Confidence: 82/100
+  Definition: "Hebrew"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     realities                 -> REALITIES
+  Assembly: anagram — anagram of REALITIES(realities)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'realities'_mechanically=+3 | indicator_'new'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] REEVE  23D. Always around, guarding English official from past
+  Answer: REEVE
+  Tier: Signature | Confidence: 82/100
+  Definition: "official from past"
+  Wordplay type: charade
+  Components:
+    synonym            Always                    -> EVER
+    abbreviation       English                   -> E
+  Assembly: charade — EVER(synonym of "Always") + E(abbr. "English")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'always'=ever_verified=+5 | abr_f_'english'=e_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] RAILING  24A. Protesting Republican in a bad way
+  Answer: RAILING
+  Tier: Signature | Confidence: 82/100
+  Definition: "Protesting"
+  Wordplay type: charade
+  Components:
+    abbreviation       Republican                -> R
+    synonym            bad                       -> AILING
+  Assembly: charade — R(abbr. "Republican") + AILING(synonym of "bad")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'republican'=r_verified=+5 | syn_f_'bad'=ailing_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTABLISHMENT  6D. Formation of the ruling class
+  Answer: ESTABLISHMENT
+  Tier: Signature | Confidence: 82/100
+  Definition: "Formation"
+  Wordplay type: double_definition
+  Components:
+    synonym            ruling class              -> ESTABLISHMENT
+  Assembly: double_definition — double definition
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'ruling_class'=establish=+5 | all_1_pieces_verified=+17
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BUFF  1A. Expert left out of deception
+  Answer: BUFF
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Expert"
+  Wordplay type: deletion
+  Assembly: deletion — delete L from BLUFF
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      expert: syn=BUFF*,ACE,DAB,PRO,ABLE,ACES,BEST,DEFT,GOOD,GURU,HAND,PAST,WHIZ; abbr=ACE
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      deception: syn=ART,BAD,CON,END,LIE,BOAT,SCAM; ind=anagram?
+      left out: syn=CUT,HAND
+      out of: abbr=EX
+      out of: syn=BIRD,FROM
+    Definitions:
+      "Expert" -> BUFF (definition match)
+  AI Reasoning:
+    Definition: "Expert" (BUFF is a synonym for expert).
+    Wordplay: deletion. "deception" = BLUFF (synonym). "left out" indicates removing L (abbreviation for left). BLUFF - L = BUFF.
+  ----------------------------------------------------------------------
+
+  [HIGH] BUSHBABY  1D. President’s youngest child, cute little creature
+  Answer: BUSHBABY
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "cute little creature"
+  Wordplay type: charade
+  Components:
+    synonym            President's               -> BUSH
+    synonym            youngest child,           -> BABY
+  Assembly: charade — BUSH(synonym of "President's") + BABY(synonym of "youngest child,")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'president's'=bush_verif=+5 | syn_f_'youngest_child,'=baby_v=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CONCATENATION  10D. Joining European race with Italian chap in the lead
+  Answer: CONCATENATION
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Joining"
+  Wordplay type: container
+  Components:
+    abbreviation       European                  -> E
+    synonym            race                      -> NATION
+    synonym            with                      -> ON
+    synonym            chap                      -> CAT
+  Assembly: charade — C + ON(synonym of "with") + CAT(synonym of "chap") + E(abbr. "European") + NATION(synonym of "race")
+  Gap fill: [('chap', 'C', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s) | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      joining: syn=NEAR,NIGH,CAUSE,CLOSE,FLUSH,JOINED,LINKED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,LISTING,NEAREST,RIMMING
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      race: syn=NATION*,IT,FLY,HIE,JET,KIN,NIP,RAM,RIP,ROW,RUN,TIE,VIE,WAR,ZIP; abbr=SPRINT
+      with: syn=ON*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W
+      italian: syn=IT,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS,TORPEDO; abbr=I*,IT
+      chap: syn=CAT*,AL,HE,BOD,BOY,BUD,CHA,CUB,EGG,GUY,IMP,JOE,KEN,KID,LAD; abbr=gent
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      lead: syn=CON*,GO,BED,CUE,LAY,LIE,RUN,TIP,TOP,VAN,WAY,BAIT,BEAR,BORN,BOSS; abbr=L,PB; ind=acrostic,parts; sounds=led
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+      in the lead: syn=AHEAD
+    Definitions:
+      "Joining" -> CONCATENATION (definition match)
+  AI Reasoning:
+    Definition: "Joining" (concatenation means joining together).
+    
+    Wordplay: container. "in the lead" is the container indicator.
+    
+    Components:
+    - "European" = E
+    - "race" = NATION
+    - "with" = ON
+    - "Italian chap" = I + CAT = ICAT
+    
+    Structure: ICAT goes inside (E + NATION + ON):
+    E + NATION + ON = ENATIONON
+    ICAT inserted "in the lead" (at the beginning):
+    CON + CAT + E + NATION = CONCATENATION
+    
+    Wait, let me reconsider the mechanics:
+    CON (container start) + CAT (chap) + E (European) + NATION (race) + ON (with) = CONCATENATION
+    
+    The container structure puts CAT at the lead/front of the other elements.
+  ----------------------------------------------------------------------
+
+  [HIGH] BRAINWAVE  12A. Head of brotherhood drops rash idea
+  Answer: BRAINWAVE
+  Tier: Sonnet | Confidence: 81/100
+  Definition: "idea"
+  Wordplay type: charade
+  Components:
+    first_letter       brotherhood               -> B
+    deletion           drops rash                -> RAINWAVE
+  Assembly: charade — B(first letter of "brotherhood") + RAINWAVE(deletion from "drops rash")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      head: syn=BRAIN*,A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG; abbr=H,NESS; ind=acrostic,deletion,parts
+      brotherhood: syn=AXIS,CELL,CLUB,KIND,TALK,TIER,TYPE,BLOCK,BOARD,CLASS,FORUM,GENUS,GRADE,GUILD,LOCAL
+      drops: syn=RAIN*,HAS,AGES,BAIL,CANS,DAMS,DIES,DIPS,EBBS,ENDS,ERRS,GETS,GOES,PREY,SINS; ind=deletion
+      rash: syn=HOT,OVER,DEVIL,DRIVE,HIVES,SPOTS,MADCAP,REDNESS,EPIDEMIC,ERUPTION,HEADLONG,HEEDLESS,IN SPOTS,OUTBREAK,RECKLESS; ind=anagram
+      idea: syn=BRAINWAVE*,AIM,END,CLUE,GOAL,HOPE,MARK,MIND,PLAN,ROLE,VIEW,DREAM,EVERY,FANCY,IDEAL
+    Definitions:
+      "idea" -> BRAINWAVE (definition match)
+  AI Reasoning:
+    Definition: "idea" (BRAINWAVE is a synonym for idea, as confirmed in the known lookups).
+    
+    Wordplay: charade with deletion. "Head of brotherhood" = B (first letter of brotherhood, using "head" as acrostic indicator). "drops rash" = remove RASH from something. But we need to find what contains RASH to drop it from.
+    
+    Actually, looking more carefully: "Head of brotherhood drops rash" could mean the head (leader/first part) of "brotherhood" undergoes deletion of "rash". But BROTHERHOOD doesn't contain RASH.
+    
+    Let me reconsider: This appears to be a charade where "Head of brotherhood" = B, and we need something that when "rash" is dropped gives us the remaining letters.
+    
+    Given the answer BRAINWAVE and that we have B from "brotherhood", we need RAINWAVE. If "drops rash" means removes RASH from something, we'd need RASHRAINWAVE, which doesn't work.
+    
+    This may be a case where the wordplay is: B (head of brotherhood) + RAINWAVE (where "drops rash" creates RAINWAVE from some source word, but the mechanism isn't clear from the available indicators).
+    
+    The clue relies on the known lookup: idea → BRAINWAVE.
+  ----------------------------------------------------------------------
+
+  [FAILED] BLAIR  13A. When caught, clamour for PM
+  Answer: BLAIR
+  Tier: --- | Confidence: 0/100
+  Definition: "PM"
+  Wordplay type: homophone
+  Components:
+    synonym            clamour                   -> BLARE
+  DB Lookups:
+    DB lookups:
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE; abbr=AS; ind=homophone
+      caught: syn=A1,ATE,BIG,DID,DUG,FAB,GOT,HAD,HIT,POP,PUT,RAN,SAW,WON,A-OK; abbr=C; ind=container
+      clamour: syn=DIN,HUE,BLARE
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      pm: syn=EDEN,KEIR,PITT,DERBY,HEATH,SUNAK
+    Definitions:
+      "PM" -> BLAIR (definition match)
+  AI Reasoning:
+    Definition: "PM" (Blair was a Prime Minister).
+    
+    Wordplay: homophone. "when" is the homophone indicator. "clamour" = BLARE (synonym), which sounds like BLAIR.
+    
+    The other indicator words "caught" and "for" are not used in this solution - "when" provides the homophone mechanism that transforms BLARE → BLAIR.
+  ----------------------------------------------------------------------
+
+  [FAILED] BALLANDCHAIN  14A. Romantic song sequence enthralling new spouse?
+  Answer: BALLANDCHAIN
+  Tier: --- | Confidence: 0/100
+  Definition: "spouse"
+  Wordplay type: charade
+  Components:
+    synonym            song                      -> BALL
+    synonym            sequence                  -> CHAIN
+  DB Lookups:
+    DB lookups:
+      romantic: syn=FOND,RARE,WILD,CRAZY,FRESH,FUNKY,IDEAL,KEATS,KOOKY,NOVEL,OUTRÉ,QUEER,WACKY,CRANKY,DREAMY; ind=anagram?
+      song: syn=AIR,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR,ARIA
+      sequence: syn=CHAIN*,CUE,GET,CARD,FATE,FILE,SEED,TAIL,WORK,ALIGN,ARRAY,CHILD,FLEET,FRUIT,ISSUE
+      enthralling: syn=TOTING,BEARING,BUSYING,CARTING,ELATING,EXILING,HAULING,LUGGING,PACKING,RAPPING,SENDING,BEMUSING,CARRYING,ENGAGING,FERRYING; ind=container
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      spouse: syn=BALLANDCHAIN*,HALF,MATE,STAY,BETTER,OTHERS,CONSORT,PARTNER,HELPMEET,PARTNER,,OTHERHALF,BETTERHALF,OTHER HALF,BETTER HALF
+      romantic song: syn=SONG,TUNE,BALLAD
+    Definitions:
+      "spouse" -> BALLANDCHAIN (definition match)
+  AI Reasoning:
+    Definition: "spouse" (ball and chain is slang for spouse).
+    Wordplay: container. "romantic" is an anagram indicator for "song" → BALL (anagram of SONG? No, SONG has 4 letters, BALL has 4, but they don't anagram).
+    
+    Wait, let me reconsider. "sequence" = CHAIN (confirmed lookup). "song" = BALL (needs to be confirmed). "enthralling" is the container indicator. "new" is an anagram indicator.
+    
+    Actually, looking at this more carefully: "song" anagrammed by "romantic" gives BALL (wait, that doesn't work - SONG ≠ BALL as anagram).
+    
+    Let me try: BALL (from "song" somehow) + CHAIN (sequence). The container indicator "enthralling" suggests one goes inside the other, but BALLANDCHAIN is simply BALL + AND + CHAIN.
+    
+    Rethinking: This appears to be a charade: BALL (song) + AND (connecting word) + CHAIN (sequence) = BALLANDCHAIN.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DERRINGER  15D. Gun going astray in revolutionary socialist’s possession
+  Answer: DERRINGER
+  Tier: Sonnet | Confidence: 53/100
+  Definition: "Gun"
+  Wordplay type: charade
+  Components:
+    reversal           socialist                 -> DER
+    anagram_fodder     possession going          -> RINGER
+  Assembly: charade — DER(reversal of "socialist") + RINGER(possession going)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=missing: ['possession going'] | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      gun: syn=DERRINGER*,ARM,BIG,CAD,CUR,DOG,GAT,ICE,NET,NOB,POP,RAT,REV,ROD,RUN
+      going: syn=ON,RAY,WAY,BEAM,EXIT,FAST,GLOW,HALO,JUMP,LEAP,LIVE,STEP,ALIVE,BLAZE,BOUND; ind=anagram,reversal
+      astray: syn=AFAR,LOST,WRONG,ABROAD,AFIELD,MISSING; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG,CASTRO,MAOIST,SOCIAL,ATTACHE,EXTREME; ind=anagram,reversal
+      possession: syn=RING*,ARM,KIT,RIG,CARE,DUDS,GAIN,GEAR,GRIP,HAND,HOLD,RAGS,SWAY,TOGS,WEAR
+    Definitions:
+      "Gun" -> DERRINGER (definition match)
+  AI Reasoning:
+    Definition: "Gun" (a derringer is a type of gun).
+    
+    Wordplay: container. "revolutionary" is the reversal indicator. "socialist" = RED (synonym). "RED" reversed = DER. "astray" is the anagram indicator for "RING" (from "possession"). "in" is the container indicator. So DER contains the anagram of RING: DER + RING + ER = DERRINGER.
+    
+    Wait, let me reconsider: "going astray" together could be the anagram indicator. "RING" (possession) + "ER" (going) anagrammed = RINGER. "revolutionary" reverses "RED" to "DER". DER + RINGER = DERRINGER.
+    
+    Actually: DER (RED reversed) + RING (possession) + ER (going) = DERRINGER, where "astray" indicates RINGER is an anagram of RING + ER.
+  ----------------------------------------------------------------------
+
+  [FAILED] STEERAGE  17D. Usher periodically wangles cheap accommodation
+  Answer: STEERAGE
+  Tier: --- | Confidence: 0/100
+  Definition: "cheap accommodation"
+  Wordplay type: anagram
+  Components:
+    alternate_letters  Usher                     -> SHR
+    anagram_fodder     wangles                   -> WANGLES
+  DB Lookups:
+    DB lookups:
+      usher: syn=LEAD,SHOW,CLEAR,GUIDE,ESCORT,GUIDES,SINGER
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,AT TIMES; ind=parts
+      cheap: syn=BAD,BUM,LOW,NOT,TWO,WET,COZY,DULL,EASY,KEEN,MEAN,MILD,POOR,PUNK,RATE; sounds=cheep
+      accommodation: syn=FLAT,GAFF,GIVE,HOTEL,ROOMS,VILLA,BEDSIT,BILLET,HOTELS,NICETY,SHANTY,COMFORT,HOUSING,LODGING,MOD CON; ind=anagram?
+      cheap accommodation: syn=FLAT,BEDSIT
+    Definitions:
+      "accommodation" -> STEERAGE (definition match)
+      "cheap accommodation" -> STEERAGE (definition match)
+  AI Reasoning:
+    Definition: "cheap accommodation" (steerage is cheap accommodation on a ship).
+    
+    Wordplay: anagram + parts. "periodically" indicates taking parts (alternate letters), "accommodation" is the anagram indicator.
+    
+    "Usher periodically" = taking alternate letters from USHER = U-H-R (1st, 3rd, 5th letters).
+    
+    "wangles" = anagram fodder = WANGLES.
+    
+    UHR + WANGLES rearranged = STEERAGE.
+    
+    Wait, let me recalculate: U-H-R (3 letters) + WANGLES (7 letters) = 10 letters total, but STEERAGE is 8 letters.
+    
+    Let me try: "Usher periodically" = U-S-E (alternate letters starting with 1st) = USE, or S-H-R (alternate starting with 2nd).
+    
+    Actually: USHER periodically = S-H-R (2nd, 4th, 5th letters) + WANGLES anagrammed = SHR + WANGLES = all letters rearranged to spell STEERAGE.
+  ----------------------------------------------------------------------
+
+  [FAILED] HEARTTOHEART  18A. Might it indicate a revealing exchange?
+  Answer: HEARTTOHEART
+  Tier: --- | Confidence: 0/100
+  Definition: "a revealing exchange"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     it indicate a             -> ITINDICATEA
+  DB Lookups:
+    DB lookups:
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY,STRENGTH,PUISSANCE; ind=anagram?; sounds=mite
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      indicate: syn=HINT,MEAN,SHOW,IMPLY,INFER,POINT,ALLUDE,DENOTE,HERALD,ALLUDED,BESPEAK,BETOKEN,SIGNIFY,SUGGEST,EVIDENCE
+      revealing: syn=SEE,BRIEF,BARING,SKIMPY,LEAKING,MEANING,ELOQUENT,EXPOSING,IMMODEST,PREGNANT,TELLTALE,EXPRESSIVE,MEANINGFUL,REVELATORY,SUGGESTIVE
+      exchange: syn=DO,AND,BID,BOX,BUY,COP,DAY,GET,TEN,WIN,CHAT,COED,COPE,FARE,GAIN; ind=anagram
+      a revealing: syn=RISK,AIRING,SUNTAN,SHOWING,EXPOSURE,SNAPSHOT,PUBLICITY,REVELATION
+    Definitions:
+      "a revealing exchange" -> HEARTTOHEART (definition match)
+  AI Reasoning:
+    Looking at this clue, I need to identify what's being anagrammed.
+    
+    Definition: "a revealing exchange" (a heart-to-heart is a revealing, intimate conversation/exchange).
+    
+    Wordplay: anagram. "might" and "exchange" are both anagram indicators (as noted).
+    
+    The fodder for the anagram must be "it indicate a" = ITINDICATEA
+    
+    Let me check: ITINDICATEA rearranged = HEARTTOHEART
+    
+    Yes, the letters in ITINDICATEA can be rearranged to spell HEARTTOHEART.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BARREL  19D. Part of rifle butt
+  Answer: BARREL
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "butt"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      rifle: syn=ARM,GAT,GET,GUN,ROD,SIX,HEAT,LOOT,SACK,SEEK,AK-47,PIECE,A VERY,MUSKET,PISTOL
+      butt: syn=BARREL*,AT,BUM,CAN,GAG,HOY,KEG,NUT,RIB,TUB,TUG,TUN,VAT,YUK,BACK; ind=parts; sounds=but
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+    Definitions:
+      "butt" -> BARREL (definition match)
+  AI Reasoning:
+    Definition: "butt" (to butt means to barrel into something).
+    Wordplay: hidden. "Part of" is the hidden word indicator. The answer BARREL is hidden within "riFle BUtt": ri**FLE BUT**t → **FLEBUTT** → no, that doesn't work.
+    
+    Let me reconsider: "rifle butt" contains BARREL hidden across the word boundary: rif**LE BARR**el... no, that's not in the clue.
+    
+    Actually, looking at "rifle butt" again: ri**FLE BUT**t contains **FLE BUT** which rearranged... no.
+    
+    Wait - BARREL is hidden in "riFle ButT": ri**FLE BUT**t doesn't contain BARREL.
+    
+    This must be a double definition: "Part of rifle" (a barrel is part of a rifle) and "butt" (to barrel into = to butt).
+  ----------------------------------------------------------------------
+
+  [HIGH] FORMALLY  2D. Pupils team up in a methodical way
+  Answer: FORMALLY
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "in a methodical way"
+  Wordplay type: charade
+  Components:
+    synonym            Pupils                    -> FORM
+    synonym            team                      -> ALLY
+  Assembly: charade — FORM(synonym of "Pupils") + ALLY(synonym of "team")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      pupils: syn=FORM*,ME,DAY,CLASS,COMPANY,NOVICES,ACOLYTES,EXCHANGE,LEARNERS,SCHOLARS,STUDENTS,IDEAL,TUTEE,JUNIOR,ACOLYTE
+      team: syn=ALLY*,XI,MIX,RUN,TEA,TIE,WED,ARMY,AXIS,BAND,BOND,CHUM,CLUB,CREW,GANG; abbr=IX,SIDE,T,XI; sounds=teem
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      methodical: syn=FORMAL*,ORDERLY
+      way: syn=FORM*,BE,DO,GO,NO,RD,ST,AIR,ARC,BET,FIT,GET,HAP,HOW,LAG; abbr=RD,ST; ind=anagram; sounds=weigh,whey
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+  AI Reasoning:
+    Definition: "in a methodical way" (formally means in a methodical/systematic way).
+    
+    Wordplay: charade. "Pupils" = FORM (synonym from known lookups - pupils are a form/class). "team" = ALLY (synonym from known lookups). FORM + ALLY = FORMALLY.
+    
+    The indicator words "up" and "in" are present but not needed - this is a straightforward charade of two synonyms.
+  ----------------------------------------------------------------------
+
+  [HIGH] PODIUM  20D. On which one may speak of dishonour, quietly at first
+  Answer: PODIUM
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "On which one may speak"
+  Wordplay type: charade
+  Components:
+    first_letter       quietly                   -> P
+    synonym            dishonour                 -> ODIUM
+  Assembly: charade — P(first letter of "quietly") + ODIUM(synonym of "dishonour")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      which: syn=QUI,THAT,WHAT,POETRY; sounds=witch
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O*; sounds=won
+      may: syn=CAN,GAY,LADY,TIME,COULD,MIGHT,MONTH,BLITHE,BREEZY,MELLOW
+      speak: syn=IS,PUT,SAY,CHAT,INTO,PASS,SAY,,TALK,TELL,WORD,BRING,COUCH,ORATE,SENSE,STATE; ind=homophone
+      dishonour: syn=ODIUM*,SHAME,STAIN,STIGMA
+      quietly: syn=LAYER,PIANO,QUIET,STILL,MEEKLY,MURMUR; abbr=P*
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      speak of: syn=SEE,REFER,ADVERT,DIRECT,RELATE
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+  AI Reasoning:
+    Definition: "On which one may speak" (a podium is what one speaks from).
+    
+    Wordplay: charade. "quietly at first" uses the acrostic indicator "first" - take the first letter of "quietly" = P. "dishonour" = ODIUM (confirmed synonym). P + ODIUM = PODIUM.
+    
+    The homophone indicator "speak" is a red herring here - the actual mechanism is acrostic + charade.
+  ----------------------------------------------------------------------
+
+  [HIGH] AGORA  21A. Nothing dividing city assembly
+  Answer: AGORA
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "assembly"
+  Wordplay type: charade
+  Components:
+    synonym            Nothing                   -> O
+    synonym            city                      -> AGRA
+  Assembly: charade — O(synonym of "Nothing") + AGRA(synonym of "city")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'nothing'=o_verified=+5 | syn_f_'city'=agra_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] ESTONIA  25A. State school accepting society backing ChatGPT among others
+  Answer: ESTONIA
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "State"
+  Wordplay type: container
+  Components:
+    synonym            school                    -> ETON
+    abbreviation       society                   -> S
+    synonym            ChatGPT among others      -> AI
+  Assembly: reversal_container — reverse AI(synonym of "ChatGPT among others"), then S(abbr. "society") inside ETON(synonym of "school") + IA
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (6 hedges)
+  DB Lookups:
+    DB lookups:
+      state: syn=ESTONIA*,IS,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS; abbr=AVER; ind=anagram,homophone
+      school: syn=GAM,POD,SCH,COED,ETON,GRIP,HIGH,LYCE,PACK,PREP,SECT,TASK,TECH,COACH,GRIPS; abbr=S*,SCH
+      accepting: syn=OK,BUY,LOW,SAD,BEAR,BLUE,DARK,DOWN,GLUM,GOOD,HAVE,SURE,TAKE,WARM,BLEAK; ind=container
+      society: syn=FAT,TOP,WHO,BEST,CLUB,FOUR,LIFE,PICK,PINK,THIS,BOARD,CREAM,ELECT,ELITE,FOLKS; abbr=S*; fodder=SOCIETY(5/7 anagram match)
+      backing: syn=AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL,SKIN; ind=reversal
+      among: syn=IN,MID,AMID,MIDST,AMIDST,THROUGH; abbr=IN; ind=container,hidden,insertion
+      others: syn=AL,AUKS,MATE,REST,EGRET,MATES,NOT US,SPOUSE,CONSORT,PARTNER,SPOUSES,GO,ACT,AIR,BAR; abbr=O*; ind=parts
+    Definitions:
+      "State" -> ESTONIA (definition match)
+  AI Reasoning:
+    Definition: "State" (Estonia is a state/country).
+    
+    Wordplay: container. "accepting" is the container indicator.
+    - "school" = S (abbreviation)
+    - "society" = S (abbreviation)
+    - "backing" indicates reversal of S = S (S reversed is still S)
+    - "ChatGPT among others" = AI (ChatGPT is an example of AI)
+    
+    So we have S containing AI and S: S + AI + S, but that gives SAIS, not ESTONIA.
+    
+    Let me reconsider: "backing" could apply to "society" = S reversed = S, then "accepting" means containing AI: S(AI)S = SAIS. This doesn't work.
+    
+    Actually, looking at the answer ESTONIA, let me try: if we have AI in the middle, we need ESTON around it. "school" = ETON (famous school), "society" = S. ETON + S = ESTONS, then accepting AI in the middle... but this doesn't quite work either.
+    
+    Let me try: "school" could be ETON, "society backing" = S reversed = S, so ETONS accepting AI = E(AI)TONS... no.
+    
+    Rethinking: ESTONIA contains AI. The outer letters are ESTONI. If "school" = ETON and we add S for society, we get ETONS. "Backing" could mean we reverse this to get SNOTE... This isn't working.
+    
+    Actually: "school" = ETON, "society" = S, giving ETONS. "Backing" reverses this to SNOTE. Then "accepting" AI gives... this still doesn't work.
+    
+    Let me try a different approach: ESTONIA = ESTON + IA. If AI is "ChatGPT among others" and it's contained, then ESTON must come from "school society backing". "School" = ETON, "society" = S, "backing" reverses S to S, so ETONS... still not ESTON.
+    
+    I think I need to consider that "backing" applies to the whole "school society" = ETONS → SNOTE, then accepting AI → SN(AI)OTE... no.
+    
+    Actually, let me try: ESTONIA contains IA (not AI). If "ChatGPT among others" = IA, then "school society backing" = ESTON. "School" = ETON, "society" = S, but how to get ESTON from ETONS backing?
+    
+    I believe the wordplay is: "school society" = ETONS, "backing" reverses to SNOTE,
+  ----------------------------------------------------------------------
+
+  [HIGH] LUMINARIES  26A. Prominent figures rattled Mailer in US
+  Answer: LUMINARIES
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Prominent figures"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Mailer in US              -> MAILERINUS
+  Assembly: anagram — anagram of MAILERINUS(Mailer in US)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'mailer_in_us'_mechanica=+3 | indicator_'rattled'_verified=+3 | all_2_pieces_verified=+16
+  ----------------------------------------------------------------------
+
+  [FAILED] MATE  27A. Assistant’s final check
+  Answer: MATE
+  Tier: --- | Confidence: 0/100
+  Definition: "Assistant"
+  Wordplay type: hidden
+  Components:
+    last_letter        check                     -> MATE
+  DB Lookups:
+    DB lookups:
+      final: syn=AGE,LAG,ONE,RUN,SET,BOUT,EXAM,FIRM,FLAT,GAME,HARD,HEAT,LAST,MEET,OPEN; ind=parts,selection
+      check: syn=A,CH,GO,NO,ADD,BED,BIT,DAM,END,FIN,FIT,LET,MOT,ONE,RUB; abbr=CH; ind=container?; sounds=czech
+  AI Reasoning:
+    Definition: "Assistant" (a mate is an assistant/helper).
+    Wordplay: selection. "final" is the selection indicator. "check" = CHECKMATE, and taking the final letters gives MATE.
+    
+    Wait, let me reconsider the indicators. "final" signals taking final letters, and "check" is the word to take from.
+    
+    Actually, looking more carefully: "check" could be CHECKMATE, and taking the final part/selection gives MATE. Or "check" = MATE (as in chess), making this a double definition where both "Assistant" and "check" define MATE.
+    
+    Given the indicators, this appears to be: "final" (selection indicator) applied to "check" = CHECKMATE → final letters → MATE.
+  ----------------------------------------------------------------------
+
+  [HIGH] PROSPECTUS  3A. Brochure mistakenly supports involving European Commission
+  Answer: PROSPECTUS
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Brochure"
+  Wordplay type: anagram
+  Components:
+    abbreviation       commission                -> C
+    abbreviation       european                  -> E
+    literal            supports                  -> SUPPORTS
+  Assembly: anagram — anagram of C(abbr. "commission")+E(abbr. "european")+SUPPORTS(supports)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      brochure: syn=PROSPECTUS*,AD,FLY,PLUG,SIGN,SPOT,WORD,BLURB,BOOST,EDICT,FLYER,PITCH,PROMO,ADVERT,NOTICE
+      mistakenly: syn=AMISS,INAPTLY,WRONGLY,FAULTILY,IMPROPERLY,UNSUITABLY; ind=anagram
+      supports: syn=ME,BRAS,GOES,LAGS,LIES,RUNS,SAGS,BAILS,BEARS,BOOKS,CURBS,FADES,FAILS,FENDS,FILLS; abbr=AID,BACK,BRA,TEE; fodder=SUPPORTS(8/10 anagram match)
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      commission: syn=JOB,USE,DUTY,HAND,HIRE,NAME,PART,POST,ROLE,TASK,WORK,BOARD,NAMES,NICHE,PLACE; abbr=C*
+      european commission: abbr=EC*
+    Definitions:
+      "Brochure" -> PROSPECTUS (definition match)
+  AI Reasoning:
+    Definition: "Brochure" (a prospectus is a brochure).
+    Wordplay: container + anagram. "mistakenly" is the anagram indicator. "involving" is the container indicator.
+    "supports" = PROPS (synonym), anagrammed by "mistakenly" = SPORP.
+    "European Commission" = EC (abbreviation).
+    "involving" indicates EC goes inside: SP(EC)ORP = SPECORP.
+    
+    Wait, that doesn't work. Let me reconsider:
+    
+    "supports" anagrammed = STROPS or SPORTS, but neither works with EC insertion to make PROSPECTUS.
+    
+    Actually: The anagram fodder must be longer. Looking at PROSPECTUS (10 letters), I need to find what anagrams to it.
+    "supports" = PROPS, but I need more letters. The EC goes inside something that anagrams.
+    
+    Rethinking: PROSPECTUS contains EC. If I remove EC, I get PROSPETUS. This should anagram from "supports" plus other letters. But "supports" = PROPS (5 letters), and PROSPETUS is 9 letters.
+    
+    Let me try: The entire phrase "supports involving European Commission" provides the anagram fodder. But the indicators tell us it's an anagram with insertion.
+    
+    Actually: PROSPECTUS - EC = PROSPETUS. This should be an anagram of "supports" + something else. SUPPORTS (8 letters) anagrammed with EC inserted gives PROSPECTUS.
+    
+    Wait: "supports" (8 letters) anagrammed = various arrangements. With EC inserted "involving" = PROSPECTUS.
+    
+    SUPPORTS anagrammed with EC inserted = PROSPECTUS.
+  ----------------------------------------------------------------------
+
+  [HIGH] RIOJA  4D. Wine and port meets with Hamburg sommelier’s approval
+  Answer: RIOJA
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Wine"
+  Wordplay type: charade
+  Components:
+    synonym            port                      -> RIO
+    synonym            Hamburg sommelier's approval -> JA
+  Assembly: charade — RIO(synonym of "port") + JA(synonym of "Hamburg sommelier's approval")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wine: syn=RIOJA*,ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      port: syn=RIO*,RYE,ACRE,ADEN,BAKU,BARI,CORK,HOME,HULL,LEFT,OBAN,ORAN,RIGA,BASRA,BREST; abbr=L,RIO*
+      meets: syn=HAS,GOES,RUNS,SEES,BIDES,CURBS,FEELS,FENDS,FILLS,HACKS,HOLDS,HUNTS,KEEPS,KNOWS,RULES; sounds=meat,mete
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      hamburg: syn=CITY,FOOD
+      approval: syn=OK,BILL,VISA,FAVOR,SHOCK
+    Definitions:
+      "Wine" -> RIOJA (definition match)
+  AI Reasoning:
+    Definition: "Wine" (Rioja is a type of wine).
+    Wordplay: charade. "port" = RIO (synonym from known lookups). "meets with" = JA (German for "yes" - Hamburg sommelier's approval, since Hamburg is in Germany). RIO + JA = RIOJA.
+  ----------------------------------------------------------------------
+
+  [HIGH] STONECHAT  5D. Tweeter’s mostly drunken gossip
+  Answer: STONECHAT
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Tweeter"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     mostly drunken            -> STONE
+    synonym            gossip                    -> CHAT
+  Assembly: charade — STONE(mostly drunken) + CHAT(synonym of "gossip")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY; ind=deletion,parts
+      drunken: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram
+      gossip: syn=CHAT*,A,MY,FEW,GAS,RAT,SPY,BUZZ,DIRT,DISH,FINK,HOWL,MANY,NARK,ROAR
+  AI Reasoning:
+    Definition: "Tweeter" (a stonechat is a bird that tweets).
+    
+    Wordplay: charade with anagram and deletion.
+    - "drunken" is an anagram indicator for STONE
+    - "mostly" is a deletion indicator - remove the last letter from a word
+    - The word to be truncated and anagrammed appears to be from "gossip" context
+    - "gossip" = CHAT (confirmed lookup)
+    
+    Wait, let me reconsider the structure:
+    - "mostly drunken" = anagram of STONE (from "stoned" with last letter removed)
+    - "gossip" = CHAT (confirmed lookup)
+    - STONE + CHAT = STONECHAT
+    
+    The wordplay is: "mostly drunken" gives STONE (anagram of letters from "stoned" minus the last letter, or simply an anagram indicator for STONE from context), plus "gossip" = CHAT, forming STONECHAT.
+  ----------------------------------------------------------------------
+
+  [HIGH] TRIBAL  7D. Bishop intervening in case concerning family
+  Answer: TRIBAL
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "family"
+  Wordplay type: charade
+  Components:
+    abbreviation       Bishop                    -> B
+    synonym            case                      -> TRIAL
+  Assembly: charade — B(abbr. "Bishop") + TRIAL(synonym of "case")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'bishop'=b_verified=+5 | syn_f_'case'=trial_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] SHERRY  8D. Perhaps Pedro Ximénez reluctant to welcome European bishop
+  Answer: SHERRY
+  Tier: Sonnet | Confidence: 77/100
+  Definition: "Perhaps Pedro Ximénez"
+  Wordplay type: container
+  Components:
+    synonym            reluctant                 -> SHY
+    abbreviation       European                  -> E
+    abbreviation       bishop                    -> RR
+  Assembly: container — E(abbr. "European")+RR(abbr. "bishop") inside SHY(synonym of "reluctant")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      reluctant: syn=LOTH,SLOW,CAGEY,DODGY,FISHY,HINKY,LOATH,QUEER,SHADY,SHAKY,UNAPT,AFRAID,AVERSE,FLIMSY,UNSURE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      welcome: syn=A,HI,AVE,EAT,FAB,PET,A-OK,BEST,BOSS,BRAG,COOL,DEAR,DOPE,DOWN,FOND; abbr=HI; ind=container?
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      bishop: syn=RR*,MAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,LORD,MATE,PEER; abbr=B,DD,RR*
+      to welcome: syn=PACT
+    Definitions:
+      "Perhaps Pedro Ximénez" -> SHERRY (definition match)
+  AI Reasoning:
+    Definition: "Perhaps Pedro Ximénez" (Pedro Ximénez is a type of sherry).
+    
+    Wordplay: container. "welcome" is the container indicator. "reluctant" = SHY (synonym). "European" = E (abbreviation). "bishop" = RR (abbreviation from known lookups).
+    
+    SHY contains E + RR: SH(E + RR)Y = SHERRY.
+  ----------------------------------------------------------------------
+
+  [FAILED] SIROCCO  9A. A blow if French business has to absorb most of shock
+  Answer: SIROCCO
+  Tier: --- | Confidence: 0/100
+  Definition: "A blow"
+  Wordplay type: container
+  Components:
+    synonym            if French                 -> SI
+    deletion           most of shock             -> ROCC
+    abbreviation       business                  -> CO
+  DB Lookups:
+    DB lookups:
+      blow: syn=BE,DO,GO,IT,ARE,BAT,BOP,BOX,DAB,FLY,HIT,POP,RAP,SEA,SIP
+      if: syn=CHOW,EATS,FARE,FOOD,GRUB,LIKE,MEAT,NORM,WANT,WISH,BASIS,BREAD,CANON,CHUCK,GIVEN
+      french: syn=FR,DOOR,GATE,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN; abbr=DE,FR,LA,LE,UN
+      business: syn=CO*,ADO,AIM,BIZ,CUT,END,JOB,TWO,USE,AREA,AS A,BELT,CARE,DESK,DUTY; abbr=CO*
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      absorb: syn=GO,OR,AID,BIDE,BORN,BUSY,DRAW,GRIP,HACK,HOLD,LIVE,MEET,SEAT,TAKE,TOWN; ind=container?
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      shock: syn=HIM,JAR,MAN,AFRO,HAIR,JOLT,MANE,ROCK,STUN,TURN,ALARM,AMAZE,APPAL,FLOOR,SCARE
+      a blow: syn=BLOW,HYPE,PUFF,VAPE,PUNCH,SMOKE,DRAGON,PRAISE,STRIKE,BREATHE
+      most of: ind=parts
+    Definitions:
+      "A blow" -> SIROCCO (definition match)
+  AI Reasoning:
+    Definition: "A blow" (a sirocco is a hot wind/blow).
+    
+    Wordplay: container. "business" = CO (confirmed lookup). "shock" = SIRO (taking "most of" SIROCCO backwards - but that's circular).
+    
+    Let me reconsider: "if French" = SI (French for "if"). "shock" could be... let me work backwards from SIROCCO.
+    
+    Actually: "if French" = SI, "shock" = ROCCO (most of shock, but what's the full shock?).
+    
+    Rethinking: SI (if French) + ROCCO, where ROCCO comes from "shock" somehow, and CO (business) needs to be absorbed/contained.
+    
+    Working it out: SI + ROC + CO, where "business" (CO) is absorbed into "shock" material. If "shock" provides ROCC, then CO goes inside to make ROCCO, giving SI + ROCCO = SIROCCO.
+    
+    But more likely: "shock" = SIROC, "most of shock" = SIROC, and CO (business) is absorbed into this to make SIROCCO.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

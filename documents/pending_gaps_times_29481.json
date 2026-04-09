@@ -1,0 +1,65 @@
+{
+  "source": "times",
+  "puzzle": "29481",
+  "stats": {
+    "total": 30,
+    "assembled": 26,
+    "high": 22,
+    "medium": 3,
+    "low": 1,
+    "failed": 4,
+    "avg_score": 86.34615384615384
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maybe",
+      "answer": "FAIRYTALE",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Maybe account opening once money finally gets put in — just heard back",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Winged beast",
+      "answer": "MASONWASP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Winged beast’s mouth biting child; reptilian creature",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "River",
+      "answer": "CLYDE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Coldly shifting out of the ark on Delaware River",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Resource",
+      "answer": "SEWINGKIT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Resource for one running satire involving soap family",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "venture",
+      "answer": "DARE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Cut short shady European venture",
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "source": "guardian",
+  "puzzle": "29963",
+  "stats": {
+    "total": 32,
+    "assembled": 31,
+    "high": 27,
+    "medium": 3,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 89.96774193548387
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "party",
+      "letters": "GREEN",
+      "answer": "GREENBELT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Sing loudly following party in open area outside town",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Sing loudly",
+      "letters": "BELT",
+      "answer": "GREENBELT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Sing loudly following party in open area outside town",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Relatives",
+      "letters": "SONS",
+      "answer": "SONGS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Relatives stealing £1,000 records …",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "£1,000",
+      "letters": "G",
+      "answer": "SONGS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Relatives stealing £1,000 records …",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "General",
+      "letters": "LEE",
+      "answer": "LEAFAGE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "General hides a cigarette in vegetation",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "hides",
+      "letters": "A",
+      "answer": "LEAFAGE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "General hides a cigarette in vegetation",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "cigarette",
+      "letters": "FAG",
+      "answer": "LEAFAGE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "General hides a cigarette in vegetation",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "York",
+      "letters": "EE",
+      "answer": "BLUECHEESE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Low church, perhaps York, returned English food",
+      "score": 49
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cricket's longest format",
+      "letters": "TEST",
+      "answer": "PROTEST",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Demonstrate in favour of cricket’s longest format",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Welshman",
+      "answer": "DYLAN",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Welshman taking part in Normandy landings",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Boss",
+      "answer": "SUPREMO",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Boss to drink more rum",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "instrument",
+      "answer": "TAMBOURINE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Playing tuba in Rome with another instrument",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "drink",
+      "answer": "CASSIS",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Cold musician’s unlimited drink",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Matches",
+      "answer": "LIGHTS",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Matches 50 and 88? Pointless at first",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Oppose",
+      "answer": "COUNTER",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Oppose noble queen",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "position",
+      "answer": "RANKING",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Managed royal position",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "open area outside town",
+      "answer": "GREENBELT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Sing loudly following party in open area outside town",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "records ...",
+      "answer": "SONGS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Relatives stealing £1,000 records …",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "vegetation",
+      "answer": "LEAFAGE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "General hides a cigarette in vegetation",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "food",
+      "answer": "BLUECHEESE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Low church, perhaps York, returned English food",
+      "score": 49
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Demonstrate",
+      "answer": "PROTEST",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Demonstrate in favour of cricket’s longest format",
+      "score": 100
+    }
+  ]
+}

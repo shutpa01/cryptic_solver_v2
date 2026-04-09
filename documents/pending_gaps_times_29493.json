@@ -1,0 +1,57 @@
+{
+  "source": "times",
+  "puzzle": "29493",
+  "stats": {
+    "total": 31,
+    "assembled": 30,
+    "high": 29,
+    "medium": 0,
+    "low": 1,
+    "failed": 1,
+    "avg_score": 92.96666666666667
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Maidservant",
+      "letters": "AYA",
+      "answer": "AYATOLLAH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Maidservant bearing a ring for religious leader",
+      "score": -16
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ring",
+      "letters": "TOLL",
+      "answer": "AYATOLLAH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Maidservant bearing a ring for religious leader",
+      "score": -16
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "disfigurement",
+      "answer": "SCAR",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Almost terrifying disfigurement",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Interest",
+      "answer": "PURSUIT",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Interest announced for every case",
+      "score": 0
+    }
+  ]
+}

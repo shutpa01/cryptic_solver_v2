@@ -1,0 +1,25 @@
+{
+  "source": "times",
+  "puzzle": "29490",
+  "stats": {
+    "total": 1,
+    "assembled": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 0.0
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Small part",
+      "answer": "CAMEO",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Small part detached, dropping very loudly",
+      "score": 0
+    }
+  ]
+}

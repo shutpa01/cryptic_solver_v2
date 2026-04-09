@@ -1,0 +1,677 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31193
+Generated: 2026-03-22 12:59:44
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        31/32 (96%)
+    Signature:      13
+    Sig+Enriched:   2
+    Sonnet:         12
+    DB Fallback:    4
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   21  12A, 14A, 16D, 17D, 19A, 21D, 25D, 26A, 27A, 28A, 3D, 30A, 9D, 15D, 16A, 22A, 23D, 29A, 4D, 5D, 6A
+  Medium (40-79): 8  1A, 1D, 10A, 18D, 20A, 24D, 7D, 8D
+  Low (<40):    2  13A, 2D
+  Failed:       1  11A
+  Average:      80/100
+
+COST: $0.8665 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (27 entries)
+------------------------------------------------------------
+  UNITY: "Number one" -> UNITY  (missing from definition_answers_augmented)
+  TONNAGE: "weight" -> TONNAGE  (missing from definition_answers_augmented)
+  SPECTACLE: "Show" -> SPECTACLE  (missing from definition_answers_augmented)
+  ABYSSINIA: "Old country's" -> ABYSSINIA  (missing from definition_answers_augmented)
+  ADDLE: "become confused" -> ADDLE  (missing from definition_answers_augmented)
+  HAROLD: "King's" -> HAROLD  (missing from definition_answers_augmented)
+  DRACO: "harsh lawmaker" -> DRACO  (missing from definition_answers_augmented)
+  TESLA: "Inventive sort" -> TESLA  (missing from definition_answers_augmented)
+  ENCHILADA: "food from elsewhere" -> ENCHILADA  (missing from definition_answers_augmented)
+  CANTO: "poetry" -> CANTO  (missing from definition_answers_augmented)
+  annoyance: "anger" -> annoyance  (missing from definition_answers_augmented)
+  BEFOREHAND: "earlier" -> BEFOREHAND  (missing from definition_answers_augmented)
+  STOP: "Finish" -> STOP  (missing from definition_answers_augmented)
+  bad hair day: "Situation resolved by changing one's locks?" -> bad hair day  (missing from definition_answers_augmented)
+  bayeux: "Seen here: Normans having Saxons in stitches?" -> bayeux  (missing from definition_answers_augmented)
+  SPARTACUS: "Gladiator" -> SPARTACUS  (missing from definition_answers_augmented)
+  SLANG: "Informal talk" -> SLANG  (missing from definition_answers_augmented)
+  BATTLEOF: "Fight" -> BATTLEOF  (missing from definition_answers_augmented)
+  DIMWITTED: "Stupid" -> DIMWITTED  (missing from definition_answers_augmented)
+  BATTERY: "What might be flat – as a pancake?" -> BATTERY  (missing from definition_answers_augmented)
+  RASTA: "religious adherent" -> RASTA  (missing from definition_answers_augmented)
+  HASTINGS: "See 18 Down" -> HASTINGS  (missing from definition_answers_augmented)
+  ABYSSINIA: in -> IN  (missing from abbreviations)
+  ANTIPASTI: list -> PAST  (missing from synonyms_pairs)
+  SLANG: Metropolis director -> LANG  (missing from synonyms_pairs)
+  DIMWITTED: outside -> DIM  (missing from abbreviations)
+  DIMWITTED: stopped working -> ED  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  11. Gladiator to practise fighting distributed scuta = SPARTACUS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  9/32  6A, 10A, 22A, 29A, 5D, 7D, 15D, 23D, 24D
+  DB gap:                21  11A, 12A, 13A, 14A, 16A, 19A, 20A, 26A, 27A, 28A, 30A, 1D, 2D, 3D, 4D, 8D, 9D, 17D, 18D, 21D, 25D
+  Failed:                1  11A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   12A  UNITY         Number one college extremely trendy (5)
+                      UNI (synonym of "college") + TY (middle of "trendy") [outer letters: "extremely"]; definition: "Number one"  [HIGH]
+   14A  TONNAGE       Character restricting badger's weight (7)
+                      TONE (synonym of "Character") + NAG (synonym of "badger's") [container: "restricting"]; definition: "weight"  [HIGH]
+   16D  SPECTACLE     Show place set out around clubs (9)
+                      anagram of PLACESET ("place set") + C (abbreviation of "clubs") [anagram: "out"] = SPECTACLE; definition: "Show"  [HIGH]
+   17D  ABYSSINIA     Old country's bottomless pit in one area (9)
+                      ABYSS (synonym of "bottomless pit") + IN (synonym of "in") + I (synonym of "one") + A (synonym of "area"); definition: "Old country's"  [HIGH]
+   19A  ADDLE         Two daughters into the beer become confused (5)
+                      DD (abbreviation of "Two daughters") + ALE (synonym of "beer"); definition: "become confused"  [HIGH]
+   21D  HAROLD        King's a king in control (6)
+                      A (abbreviation of "a") + R (synonym of "king") + HOLD (synonym of "control"); definition: "King's"  [HIGH]
+   25D  DRACO         Old wit sent up harsh lawmaker (5)
+                      O (synonym of "Old") + CARD (synonym of "wit") [reversal: "sent"]; definition: "harsh lawmaker"  [HIGH]
+   26A  TESLA         Inventive sort decorates Lancastrian houses (5)
+                      hidden in "decorates Lancastrian" [hidden: "houses"]; definition: "Inventive sort"  [HIGH]
+   27A  ENCHILADA     Deal with China involved food from elsewhere (9)
+                      anagram of DEALCHINA ("Deal with China") [anagram: "involved"] = ENCHILADA; definition: "food from elsewhere"  [HIGH]
+   28A  CANTO         Worker in firm's poetry (5)
+                      ANT (synonym of "Worker") + CO (synonym of "firm's"); definition: "poetry"  [HIGH]
+    3D  annoyance     Article, canny one, excited anger (9)
+                      anagram of CANNYONE ("canny one,") [anagram: "excited"] + A (abbreviation of "Article,") = ANNOYANCE; definition: "anger"  [HIGH]
+   30A  BEFOREHAND    Action at Wimbledon on live, or earlier (10)
+                      BE (synonym of "live,") + FOREHAND (synonym of "Action at Wimbledon"); definition: "earlier"  [HIGH]
+    9D  STOP          Finish second and first (4)
+                      S (synonym of "second") + TOP (synonym of "first"); definition: "Finish"  [HIGH]
+    1A  bad hair day  Situation resolved by changing one's locks? (3,4,3)
+                      cryptic definition  [MED]
+    1D  bayeux        Seen here: Normans having Saxons in stitches? (6)
+                      cryptic definition  [MED]
+   10A  yemen         Arabs here, missing start, watch team (5)
+                      delete E from EYE(synonym of "watch") + MEN(synonym of "team")  [MED]
+   11A  SPARTACUS     Gladiator to practise fighting distributed scuta (9)
+                      ---  [FAIL]
+   13A  ANTIPASTI     Ace new wine with list introduced for starters (9)
+                      A(synonym of "Ace") + N(abbr. "new") + TI(last letter of "wine") + PAST(synonym of "list") + I(first letter of "introduced")  [LOW]
+   15D  ARBITRATE     Judge computing speed following a run (9)
+                      A + R(abbr. "run") + BITRATE(synonym of "computing speed")  [HIGH]
+   16A  SLANG         Informal talk succeeded with Metropolis director (5)
+                      S (synonym of "succeeded") + LANG (synonym of "Metropolis director"); definition: "Informal talk"  [HIGH]
+   18D  BATTLEOF      Fight notable as leaders of the Saxons scattered (6,2,8)
+                      delete N from NOTABLE, anagram of F(last letter of "of")+OTABLE+T(first letter of "the") = BATTLEOF  [MED]
+    2D  DIMWITTED     Stupid wife wearing glove stopped working outside (3-6)
+                      DIM(synonym of "outside") + W(abbr. "wife") + ITT(deletion from "glove") + ED(synonym of "stopped working")  [LOW]
+   20A  BATTERY       What might be flat – as a pancake? (7)
+                      cryptic definition  [MED]
+   22A  TOLERATED     Okay to take to Dart eel that wriggles (9)
+                      TO + LERATED("Dart eel")  [HIGH]
+   23D  LYCRA         Stars penning ultimately erotic material (5)
+                      C(last letter of "ultimately erotic") inside LYRA(synonym of "Stars")  [HIGH]
+   24D  RAID          Power lacking in very quick incursion (4)
+                      delete P from RAPID(synonym of "quick")  [MED]
+   29A  FLAB          Great to cover large rolls of flesh (4)
+                      L(abbr. "large") inside FAB(synonym of "Great")  [HIGH]
+    4D  RASTA         Recall a leading Russian religious adherent (5)
+                      A ("a") + TSAR (synonym of "leading Russian") [reversal: "Recall"]; definition: "religious adherent"  [HIGH]
+    5D  APARTMENT     Approve including role: act ultimately flat (9)
+                      PART(synonym of "role") inside AMEN(synonym of "Approve") + T(last letter of "act ultimately")  [HIGH]
+    6A  ARCH          Length taken from wood for bow (4)
+                      anagram of RACH(deletion from "length") = ARCH  [HIGH]
+    7D  ROCKS         Stuns in dresses, not feminine (5)
+                      delete F from FROCKS(synonym of "dresses")  [MED]
+    8D  HASTINGS      See 18 Down
+                      cryptic definition  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] UNITY  12A. Number one college extremely trendy
+  Answer: UNITY
+  Tier: Signature | Confidence: 100/100
+  Definition: "Number one"
+  Wordplay: charade + parts
+  Explanation: UNI (synonym of "college") + TY (middle of "trendy") [outer letters: "extremely"]; definition: "Number one"
+  ----------------------------------------------------------------------
+
+  [HIGH] TONNAGE  14A. Character restricting badger's weight
+  Answer: TONNAGE
+  Tier: Signature | Confidence: 100/100
+  Definition: "weight"
+  Wordplay: charade + container
+  Explanation: TONE (synonym of "Character") + NAG (synonym of "badger's") [container: "restricting"]; definition: "weight"
+  ----------------------------------------------------------------------
+
+  [HIGH] SPECTACLE  16D. Show place set out around clubs
+  Answer: SPECTACLE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Show"
+  Wordplay: anagram + charade
+  Explanation: anagram of PLACESET ("place set") + C (abbreviation of "clubs") [anagram: "out"] = SPECTACLE; definition: "Show"
+  ----------------------------------------------------------------------
+
+  [HIGH] ABYSSINIA  17D. Old country's bottomless pit in one area
+  Answer: ABYSSINIA
+  Tier: Signature | Confidence: 80/100
+  Definition: "Old country's"
+  Wordplay: charade
+  Explanation: ABYSS (synonym of "bottomless pit") + IN (synonym of "in") + I (synonym of "one") + A (synonym of "area"); definition: "Old country's"
+  Checks: syn_'in'=in_unconfirmed_(real_=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] ADDLE  19A. Two daughters into the beer become confused
+  Answer: ADDLE
+  Tier: Signature | Confidence: 100/100
+  Definition: "become confused"
+  Wordplay: charade
+  Explanation: DD (abbreviation of "Two daughters") + ALE (synonym of "beer"); definition: "become confused"
+  ----------------------------------------------------------------------
+
+  [HIGH] HAROLD  21D. King's a king in control
+  Answer: HAROLD
+  Tier: Signature | Confidence: 100/100
+  Definition: "King's"
+  Wordplay: charade
+  Explanation: A (abbreviation of "a") + R (synonym of "king") + HOLD (synonym of "control"); definition: "King's"
+  ----------------------------------------------------------------------
+
+  [HIGH] DRACO  25D. Old wit sent up harsh lawmaker
+  Answer: DRACO
+  Tier: Signature | Confidence: 100/100
+  Definition: "harsh lawmaker"
+  Wordplay: charade + reversal
+  Explanation: O (synonym of "Old") + CARD (synonym of "wit") [reversal: "sent"]; definition: "harsh lawmaker"
+  ----------------------------------------------------------------------
+
+  [HIGH] TESLA  26A. Inventive sort decorates Lancastrian houses
+  Answer: TESLA
+  Tier: Signature | Confidence: 100/100
+  Definition: "Inventive sort"
+  Wordplay: hidden
+  Explanation: hidden in "decorates Lancastrian" [hidden: "houses"]; definition: "Inventive sort"
+  ----------------------------------------------------------------------
+
+  [HIGH] ENCHILADA  27A. Deal with China involved food from elsewhere
+  Answer: ENCHILADA
+  Tier: Signature | Confidence: 100/100
+  Definition: "food from elsewhere"
+  Wordplay: anagram
+  Explanation: anagram of DEALCHINA ("Deal with China") [anagram: "involved"] = ENCHILADA; definition: "food from elsewhere"
+  ----------------------------------------------------------------------
+
+  [HIGH] CANTO  28A. Worker in firm's poetry
+  Answer: CANTO
+  Tier: Signature | Confidence: 100/100
+  Definition: "poetry"
+  Wordplay: charade
+  Explanation: ANT (synonym of "Worker") + CO (synonym of "firm's"); definition: "poetry"
+  ----------------------------------------------------------------------
+
+  [HIGH] annoyance  3D. Article, canny one, excited anger
+  Answer: annoyance
+  Tier: Signature | Confidence: 100/100
+  Definition: "anger"
+  Wordplay: anagram + charade
+  Explanation: anagram of CANNYONE ("canny one,") [anagram: "excited"] + A (abbreviation of "Article,") = ANNOYANCE; definition: "anger"
+  ----------------------------------------------------------------------
+
+  [HIGH] BEFOREHAND  30A. Action at Wimbledon on live, or earlier
+  Answer: BEFOREHAND
+  Tier: Signature | Confidence: 100/100
+  Definition: "earlier"
+  Wordplay: charade
+  Explanation: BE (synonym of "live,") + FOREHAND (synonym of "Action at Wimbledon"); definition: "earlier"
+  ----------------------------------------------------------------------
+
+  [HIGH] STOP  9D. Finish second and first
+  Answer: STOP
+  Tier: Signature | Confidence: 100/100
+  Definition: "Finish"
+  Wordplay: charade
+  Explanation: S (synonym of "second") + TOP (synonym of "first"); definition: "Finish"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] bad hair day  1A. Situation resolved by changing one's locks?
+  Answer: bad hair day
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Situation resolved by changing one's locks?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      situation: syn=FIX,JAM,JOB,USE,CASE,DEAL,DUTY,HAND,HEAD,HOLE,HOUR,LAST,PART,PASS,POST
+      resolved: syn=OR,DIE,OUT,SET,FIRM,OPEN,UPON,FIXED,SINGLE,WORKED,SETTLED,ANNOTATED,DETERMINED,RECONCILED,WORKED OUT; ind=anagram
+      by: syn=HARD*,X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      changing: syn=MISS,UNEVEN,ASTATIC,ERRATIC,UNEQUAL,VARYING,ADAPTING,ADAPTIVE,ALTERING,SHIFTING,UNSTABLE,UNSTEADY,IRREGULAR,REFORMING,SWITCHING; ind=anagram
+      one's: syn=HARD*,AM,MY,BABY,COUP,BOAST,GLORY,HONOR,JEWEL,PRIDE,REBEL,CREDIT,TROPHY,REALIST,SUCCESS; abbr=I*,A*,ACE,O; sounds=won
+      locks: syn=HAIR*,LEAD,BOLTS,DREADS,SECURES,RINGLETS,STRESSES,THING,TRESS,SECURE,CONFINE,RINGLET,IMPRISON,RAT-TAIL,TRESPASS; sounds=loch
+  AI Reasoning:
+    The entire clue cryptically describes 'bad hair day' as a situation that would be resolved by changing one's locks (where 'locks' means hair, not door locks)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] bayeux  1D. Seen here: Normans having Saxons in stitches?
+  Answer: bayeux
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Seen here: Normans having Saxons in stitches?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      normans: syn=BOY,NORM,FELLOW
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      stitches: syn=MENDS
+      in stitches: syn=JOCOSE
+  AI Reasoning:
+    The entire clue cryptically describes Bayeux through the Bayeux Tapestry - a place where you can see Normans and Saxons depicted in actual stitches
+  ----------------------------------------------------------------------
+
+  [MEDIUM] yemen  10A. Arabs here, missing start, watch team
+  Answer: yemen
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Arabs here"
+  Wordplay type: deletion
+  Components:
+    synonym            watch                     -> EYE
+    synonym            team                      -> MEN
+  Assembly: deletion — delete E from EYE(synonym of "watch") + MEN(synonym of "team")
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      arabs: syn=CH,HORSE,IRAQI,OMANI,SAUDI
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      missing: syn=A1,BIG,FAB,ILL,OUT,A-OK,AWAY,AWOL,BOSS,BRAG,BUSH,COLD,COOL,DONE,DOPE; ind=deletion
+      start: syn=GO,BAG,DAY,GET,JUT,RUN,SET,BOLT,DAWN,FALL,FORM,JUMP,LEAD,MOVE,NEED; abbr=GO; ind=acrostic,parts
+      watch: syn=AN,EYE,CARE,HEED,LESS,MIND,NOTE,OGLE,TEST,VIEW,AGREE,AWAIT,COVER,DRIVE,GUARD
+      team: syn=XI,MIX,RUN,TEA,TIE,WED,ALLY,ARMY,AXIS,BAND,BOND,CHUM,CLUB,CREW,GANG; abbr=IX,MEN*,SIDE,T,XI; sounds=teem
+    Definitions:
+      "Arabs here" -> yemen (definition match)
+  AI Reasoning:
+    WATCH=EYE + TEAM=MEN gives EYEMEN, then 'missing start' deletes first letter E to give YEMEN
+  ----------------------------------------------------------------------
+
+  [FAILED] SPARTACUS  11A. Gladiator to practise fighting distributed scuta
+  Answer: SPARTACUS
+  Tier: --- | Confidence: 0/100
+  Definition: "Gladiator"
+  Wordplay type: charade
+  Components:
+    synonym            to practise fighting      -> SPAR
+    anagram_fodder     scuta                     -> SCUTA
+  DB Lookups:
+    DB lookups:
+      gladiator: syn=SPARTACUS*,FILM,FIGHTER,PICTURE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      practise: syn=OBSERVE,WARM UP,REHEARSE
+      fighting: syn=WAR,AGGRO,ACTION,STRIFE,IN A ROW,SCRAPPER,SCUFFLING; abbr=WAR; ind=anagram
+      distributed: syn=DAY,WAS,RATED,STOOD,TYPED,GRADED,PEGGED,PLACED,RANGED,RANKED,SORTED,CLASSED,DIVIDED,GROUPED,ASSORTED; ind=anagram
+      to practise fighting: syn=SPAR*
+    Definitions:
+      "Gladiator" -> SPARTACUS (definition match)
+  AI Reasoning:
+    SPAR (to practise fighting) + anagram of SCUTA (distributed) = SPARTACUS
+  ----------------------------------------------------------------------
+
+  [LOW] ANTIPASTI  13A. Ace new wine with list introduced for starters
+  Answer: ANTIPASTI
+  Tier: Sonnet | Confidence: 4/100
+  Definition: "starters"
+  Wordplay type: charade
+  Components:
+    synonym            Ace                       -> A
+    abbreviation       new                       -> N
+    last_letter        wine                      -> TI
+    synonym            list                      -> PAST
+    first_letter       introduced                -> I
+  Assembly: charade — A(synonym of "Ace") + N(abbr. "new") + TI(last letter of "wine") + PAST(synonym of "list") + I(first letter of "introduced")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/5 (60%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: A | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ace: syn=PAST*,A,BIT,DAB,NIP,ONE,PRO,RAY,BEST,DEFT,GOOD,GURU,HAIR,HAND,HINT; abbr=A*
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      wine: syn=ASTI*,ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,BEER,BELT,BREW; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      list: syn=TIP*,ASK,FAT,FEE,PUT,RUN,BEND,BEST,BOOK,CANT,CARD,COCK,COST,FEES,HEEL
+      introduced: syn=BORN,DONATED,BESTOWED,EDGED IN,INJECTED,INSERTED,GAVE AWAY,PRESENTED,WORKED IN; ind=container?
+      for: syn=AS*,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      starters: syn=ANTIPASTI*,TAPAS,ORIGINS,APPETISER,INITIATES,BROTH,COURSE,RECIPE,BEGINNER,ANTIPASTO,CARPACCIO; ind=acrostic,parts
+    Definitions:
+      "starters" -> ANTIPASTI (definition match)
+      "for starters" -> ANTIPASTI (definition match)
+  AI Reasoning:
+    Charade of A(ce) + N(ew) + TI(last letters of CHIANTI wine) + PAST(list as record) + I(introduced) = ANTIPASTI
+  ----------------------------------------------------------------------
+
+  [HIGH] ARBITRATE  15D. Judge computing speed following a run
+  Answer: ARBITRATE
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Judge"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    abbreviation       run                       -> R
+    synonym            computing speed           -> BITRATE
+  Assembly: charade — A + R(abbr. "run") + BITRATE(synonym of "computing speed")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      judge: syn=RATE*,ARBITRATE*,J,DO,A A,BED,PUT,REF,TRY,USE,BEAK,BOOK,CALL,DRAW,FEEL; abbr=J,RATE*,REF
+      computing: syn=IT*
+      speed: syn=IT*,RATE*,FLY,MPH,RUN,CLIP,DRUG,FAST,LICK,MOVE,PACE,PAST,RACE,SHOT,STEP; abbr=MPH,RATE*
+      following: syn=F,BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH; abbr=F; ind=anagram?
+      run: syn=IT*,ARE*,R,BE,DO,GO,ACT,AGE,BAD,BED,BYE,FAG,FLY,GAB,GAS; abbr=R*; ind=anagram?
+      computing speed: syn=BITRATE*
+    Definitions:
+      "Judge" -> ARBITRATE (definition match)
+  AI Reasoning:
+    A (a) + R (run) + BITRATE (computing speed) concatenated in sequence as indicated by 'following'
+  ----------------------------------------------------------------------
+
+  [HIGH] SLANG  16A. Informal talk succeeded with Metropolis director
+  Answer: SLANG
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Informal talk"
+  Wordplay: charade
+  Explanation: S (synonym of "succeeded") + LANG (synonym of "Metropolis director"); definition: "Informal talk"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BATTLEOF  18D. Fight notable as leaders of the Saxons scattered
+  Answer: BATTLEOF
+  Tier: DB Fallback | Confidence: 65/100
+  Definition: "Fight"
+  Wordplay type: anagram
+  Components:
+    last_letter        of                        -> F
+    literal            notable                   -> NOTABLE
+    first_letter       the                       -> T
+  Assembly: deletion+anagram — delete N from NOTABLE, anagram of F(last letter of "of")+OTABLE+T(first letter of "the") = BATTLEOF
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=OTABLE answer=BATTLEOF | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fight: syn=BATTLE*,DO,MY,BOX,ITS,JAR,LAY,POP,ROW,SET,VIE,WAR,ARIA,BOUT,BUCK; abbr=BOX,TO
+      notable: syn=DIS,FEE,REP,VIP,ANTE,CAST,CLAY,COST,FAME,FORM,GARB,GIRD,ICON,LOOK,MAIN; fodder=NOTABLE(6/8 anagram match)
+      as: syn=OF*,LI,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      leaders: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES; ind=acrostic,deletion,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      saxons: syn=DISCIPLE
+      scattered: syn=OR,CAN,HIT,MISS,SPARSE,STREWN,AIMLESS,PEPPERED,SPORADIC; ind=anagram
+      of the: syn=MITRE,CHEETAH
+  AI Reasoning:
+    Anagram of 'notable as' plus first letters of 'the Saxons' (T,S), though the letter matching appears imperfect
+  ----------------------------------------------------------------------
+
+  [LOW] DIMWITTED  2D. Stupid wife wearing glove stopped working outside
+  Answer: DIMWITTED
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Stupid"
+  Wordplay type: charade
+  Components:
+    synonym            outside                   -> DIM
+    abbreviation       wife                      -> W
+    deletion           glove                     -> ITT
+    synonym            stopped working           -> ED
+  Assembly: charade — DIM(synonym of "outside") + W(abbr. "wife") + ITT(deletion from "glove") + ED(synonym of "stopped working")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/4 (38%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stupid: syn=DIM*,DRY,MAD,OLD,WET,AGED,ARID,COZY,DAFT,DOPY,DRAB,DULL,DUMB,FLAT,GAGA; abbr=DAFT; ind=anagram
+      wife: syn=W,MRS,OLD,LADY,MRS.,STAY,DUTCH,MADAM,WIFEY,WOMAN,MISSUS,INDOORS,OLDLADY,PARTNER,SULTANA; abbr=W*
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      glove: syn=MITTEN,GAUNTLET
+      stopped: syn=DIED*,ATE,BIT,DUG,GOT,RAN,SAW,BEAT,CAME,FELL,GREW,ICED,KNEW,LEFT,QUIT
+      working: syn=ON,LIVE,RISE,ALIVE,DOING,DRONE,GOING,PALMY,USING,USUAL,ACTIVE,LABOUR,LIVING,MAKING,USABLE; abbr=A,ON; ind=anagram
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      stopped working: syn=BED,ABED,LEFT,BORED,FORMER,RETIRED,BOWEDOUT,EMERITUS,WITHDREW,COMMUNIST
+  AI Reasoning:
+    DIM (outside/dim) + W (wife) + ITT (glove with letter worn away) + ED (stopped working) = DIMWITTED
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BATTERY  20A. What might be flat – as a pancake?
+  Answer: BATTERY
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "What might be flat – as a pancake?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY; ind=anagram?; sounds=mite
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      flat: syn=OK,AGE,ALL,DIM,DRY,OLD,ONE,OUT,PAD,SET,ABLY,AGED,ARID,BARE,BEST; abbr=EVEN,PAD; ind=anagram?
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      pancake: syn=BLINI,CREPE,LATKE,MAKEUP
+      as a: syn=KEY,WHY,BEST,CARE,CASE,DIET,FACT,KNOT,MAIL,POST
+  AI Reasoning:
+    The entire clue cryptically defines BATTERY - asking what might be 'flat' (discharged), with 'as a pancake' completing the common phrase to reinforce the concept of flatness.
+  ----------------------------------------------------------------------
+
+  [HIGH] TOLERATED  22A. Okay to take to Dart eel that wriggles
+  Answer: TOLERATED
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "Okay"
+  Wordplay type: charade
+  Components:
+    literal            to                        -> TO
+    anagram_fodder     Dart eel                  -> LERATED
+  Assembly: charade — TO + LERATED("Dart eel")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      okay: syn=FINE,GOOD,JAKE,DUCKY,SO-SO,AGREED,DECENT,RIGHTO,ALRIGHT,APPROVE,FAIRISH,ADEQUATE,PASSABLE,AGREEABLE,ALL RIGHT; abbr=OK
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      take: syn=TOLERATE*,A,DO,GO,OR,ACT,BAG,BUY,CON,COP,CUT,DAY,DIE,END,EYE; abbr=T*
+      dart: syn=CUT,DIG,DIS,PUT,RUN,ZIP,BARB,BLOT,BOLT,GIRD,NAME,ONUS,POKE,SLAP,SLUR
+      eel: syn=FISH,SWIMMER,ANGUILLA
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      wriggles: syn=SAGS,BOWLS,FALLS,FLOWS,LURKS,MOLTS,ROLLS,SAILS,SHEDS,SKIMS,SLIPS,TRIPS,WINDS,WORMS,COASTS; ind=anagram?
+      to take: syn=A,GET,SEE,DISH,GRIP,POET,SEAT,SOME,STAR,VIPS
+    Definitions:
+      "Okay" -> TOLERATED (definition match)
+  AI Reasoning:
+    TO plus anagram of DART EEL (indicated by 'that wriggles') makes TOLERATED
+  ----------------------------------------------------------------------
+
+  [HIGH] LYCRA  23D. Stars penning ultimately erotic material
+  Answer: LYCRA
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "material"
+  Wordplay type: container
+  Components:
+    synonym            Stars                     -> LYRA
+    last_letter        ultimately erotic         -> C
+  Assembly: container — C(last letter of "ultimately erotic") inside LYRA(synonym of "Stars")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stars: syn=LYRA*,MAIN,STAR,URSA,DRACO,IDOLS,NAMES,ORION,A,DO,ACE,ACT,APE,FAB,FEE; abbr=S
+      penning: ind=container
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER; ind=deletion,parts
+      erotic: syn=HOT,SEXY,SPICY
+      material: syn=LYCRA*,BIG,KIT,AKIN,DATA,ECRU,FELT,GEAR,JEAN,LACE,LAME,LIKE,LINT,MUCH,REAL; ind=anagram
+    Definitions:
+      "material" -> LYCRA (definition match)
+  AI Reasoning:
+    LYRA (stars/constellation) contains C (last letter of erotic) to form LYCRA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RAID  24D. Power lacking in very quick incursion
+  Answer: RAID
+  Tier: DB Fallback | Confidence: 62/100
+  Definition: "incursion"
+  Wordplay type: deletion
+  Components:
+    synonym            quick                     -> RAPID
+    abbreviation       (single letter)           -> P
+  Assembly: deletion — delete P from RAPID(synonym of "quick")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      power: syn=P,ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL; abbr=P
+      lacking: syn=ILL,LOW,SHY,WIN,BUSH,CURT,FAST,LAME,PUNK,SIZE,SOUR,WACK; ind=deletion
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V; sounds=vary
+      quick: syn=A1,BIG,FAB,HOT,POP,A-OK,ARCH,BOLD,BOSS,BRAG,COLD,COOL,DONE,DOPE,DOWN
+      incursion: syn=RAID*,AIR
+      lacking in: abbr=NO
+    Definitions:
+      "incursion" -> RAID (definition match)
+  AI Reasoning:
+    RAPID (very quick) minus P (power) gives RAID
+  ----------------------------------------------------------------------
+
+  [HIGH] FLAB  29A. Great to cover large rolls of flesh
+  Answer: FLAB
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "rolls of flesh"
+  Wordplay type: container
+  Components:
+    synonym            Great                     -> FAB
+    abbreviation       large                     -> L
+  Assembly: container — L(abbr. "large") inside FAB(synonym of "Great")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      great: syn=FAB*,A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAR,FIT,GET,HOT; abbr=G,GR; sounds=grate
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      cover: syn=AN,GO,BED,BIN,BOX,CAN,CAP,CUT,DIE,END,EYE,FAG,FLY,FOX,HUB; ind=parts
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST; abbr=BIG,L*,OS
+      rolls: syn=BAPS,ROAD,SAGS,RUN,BALL,DRUM,HALT,JERK,JOLT,LIST,NOTE,PAST,REEL,ROCK,ROTA; ind=anagram?; sounds=role
+      flesh: syn=RI,PULP
+    Definitions:
+      "rolls of flesh" -> FLAB (definition match)
+  AI Reasoning:
+    FAB (great) contains L (large) to form FLAB
+  ----------------------------------------------------------------------
+
+  [HIGH] RASTA  4D. Recall a leading Russian religious adherent
+  Answer: RASTA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "religious adherent"
+  Wordplay: charade + reversal
+  Explanation: A ("a") + TSAR (synonym of "leading Russian") [reversal: "Recall"]; definition: "religious adherent"
+  ----------------------------------------------------------------------
+
+  [HIGH] APARTMENT  5D. Approve including role: act ultimately flat
+  Answer: APARTMENT
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "flat"
+  Wordplay type: container
+  Components:
+    synonym            Approve                   -> AMEN
+    last_letter        act ultimately            -> T
+    synonym            role                      -> PART
+  Assembly: container — PART(synonym of "role") inside AMEN(synonym of "Approve") + T(last letter of "act ultimately")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      approve: syn=OK,END,FIX,OPT,SET,AMEN,DEAL,OKAY,PLAN,RISE,SIGN,TEST,CHART,CLEAR,CLOSE
+      including: syn=INC,PEN,CAGE,PLUS,CARRY,HEDGE,HOUSE,BESIDE,BEYOND,CAGING,CLOSET,CORRAL,ENCAGE,ENCASE,ENTAIL; ind=container
+      role: syn=PART*,DO,ACT,APE,CUT,DID,END,HAM,JOB,USE,ACME,ACTS,APED,APES,APEX; sounds=roll
+      act: syn=APART*,DO,A A,AIM,AIR,BIT,FAG,LAW,PUT,RUN,SEX,TUG,USE,AIRS,BALL
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      flat: syn=APARTMENT*,OK,AGE,ALL,DIM,DRY,OLD,ONE,OUT,PAD,SET,ABLY,AGED,ARID,BARE; abbr=EVEN,PAD; ind=anagram?
+    Definitions:
+      "flat" -> APARTMENT (definition match)
+  AI Reasoning:
+    AMEN (approve) + T (last of act) = AMENT, which includes PART (role) to give APARTMENT
+  ----------------------------------------------------------------------
+
+  [HIGH] ARCH  6A. Length taken from wood for bow
+  Answer: ARCH
+  Tier: DB Fallback | Confidence: 87/100
+  Definition: "bow"
+  Wordplay type: anagram
+  Components:
+    deletion           length                    -> RACH
+  Assembly: anagram — anagram of RACH(deletion from "length") = ARCH
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      length: syn=L,ELL,WAY,DIRT,DUST,FIEF,GAME,JUNK,LEAD,POOP,SCAT,SOIL,TERM,WALK; abbr=L
+      taken: syn=BORN; ind=container
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      wood: syn=ASH,ELM,FIR,BOWL,CLUB,DEAL,LIME,TEAK; abbr=ASH; sounds=would
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      bow: syn=ARC*,ARCH*,SAY,ANON,ARCS,BARK,BEND,FALL,GIVE,HAVE,NEAR,PROW,TURN,WIND; ind=anagram?; sounds=beau,bough
+    Definitions:
+      "bow" -> ARCH (definition match)
+  AI Reasoning:
+    LARCH (wood) minus L (Length) equals ARCH
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ROCKS  7D. Stuns in dresses, not feminine
+  Answer: ROCKS
+  Tier: DB Fallback | Confidence: 62/100
+  Definition: "Stuns"
+  Wordplay type: deletion
+  Components:
+    synonym            dresses                   -> FROCKS
+    abbreviation       (single letter)           -> F
+  Assembly: deletion — delete F from FROCKS(synonym of "dresses")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      stuns: syn=ROCK*,WOW,DAZE,AMAZE,FLOOR,SHAKE,SHOCK,TASER
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      dresses: syn=TOGS,BANDS,CREWS,DRAGS,FIRMS,GANGS,GARBS,ROBES,TEAMS
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      feminine: syn=F,WAXY,BENDY,WAXEN; abbr=F
+    Definitions:
+      "Stuns" -> ROCKS (definition match)
+  AI Reasoning:
+    FROCKS (dresses) with F removed (not feminine) gives ROCKS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HASTINGS  8D. See 18 Down
+  Answer: HASTINGS
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "See 18 Down"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      see: syn=V,DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD; abbr=C,ELY,LO,V; sounds=sea
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+    Cross-references:
+      Clue 18 answer = BATTLEOF
+  AI Reasoning:
+    Cross-reference clue directing solver to another clue for the definition and wordplay
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

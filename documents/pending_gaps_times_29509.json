@@ -1,0 +1,478 @@
+{
+  "source": "times",
+  "puzzle": "29509",
+  "stats": {
+    "total": 40,
+    "assembled": 39,
+    "high": 35,
+    "medium": 4,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 94.1025641025641
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "man's",
+      "letters": "STAFF",
+      "answer": "DISTAFF",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Reversing identity, man's female",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Psychic powers",
+      "letters": "ESP",
+      "answer": "ESPIONAGE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Psychic powers in later years keeping old in secret work",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Endeavour",
+      "letters": "DEED",
+      "answer": "DEDICATED",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Single-minded inspector with Jaguar perhaps in Endeavour",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "incorporated",
+      "letters": "INC",
+      "answer": "INCOLDBLOOD",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "True crime work incorporated elderly relatives",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "rider",
+      "letters": "COIL",
+      "answer": "CODICIL",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Willing rider Richard endlessly breaking wind",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Labour",
+      "letters": "AV",
+      "answer": "TRAVAIL",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Path to secure a victory for Labour",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Density",
+      "letters": "D",
+      "answer": "MIDST",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Density in low cloud that's thick",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "low cloud",
+      "letters": "MIST",
+      "answer": "MIDST",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Density in low cloud that's thick",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "writer",
+      "letters": "E",
+      "answer": "ELM",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Line this writer grasps when climbing tree",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "coach",
+      "letters": "TUT",
+      "answer": "TUTORED",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Did coach express disapproval? Nothing revolutionary",
+      "score": 75
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "express",
+      "letters": "O",
+      "answer": "TUTORED",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Did coach express disapproval? Nothing revolutionary",
+      "score": 75
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "troops",
+      "letters": "PLA",
+      "answer": "PLATO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Greek troops not willing to participate",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "freemasons",
+      "letters": "LODGE",
+      "answer": "LODGEMENT",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Deposit from freemasons close to Craft?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Writer",
+      "answer": "DANIELDEFOE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Writer of Aeneid led astray",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "nick",
+      "answer": "CUT",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Copper beginning to tire in nick",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Did coach",
+      "answer": "TUTORED",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Did coach express disapproval? Nothing revolutionary",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "female",
+      "answer": "DISTAFF",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Reversing identity, man's female",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bank",
+      "answer": "WATERSIDE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "We must admit trade is mismanaged in bank?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "more sage",
+      "answer": "WISER",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "One desiring less herb to begin with and more sage",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Slowly stewed beef",
+      "answer": "BRAISED",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Slowly stewed beef initially increased in intensity",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Field Bernabéu team",
+      "answer": "REALM",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Field Bernabéu team, missing second half",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "secret work",
+      "answer": "ESPIONAGE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Psychic powers in later years keeping old in secret work",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Animal long dead",
+      "answer": "PTERODACTYL",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Animal long dead at Clyde port reanimated",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Powerful group",
+      "answer": "OLIGARCHY",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Powerful group of 50 swelling fantastic gay choir",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Writer",
+      "answer": "DANIELDEFOE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Writer of Aeneid led astray",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Single-minded",
+      "answer": "DEDICATED",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Single-minded inspector with Jaguar perhaps in Endeavour",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "True crime work",
+      "answer": "INCOLDBLOOD",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "True crime work incorporated elderly relatives",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Willing",
+      "answer": "CODICIL",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Willing rider Richard endlessly breaking wind",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "nick",
+      "answer": "CUT",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Copper beginning to tire in nick",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Comfort",
+      "answer": "CHEERIO",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Comfort maiden Zeus seduced for so long",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Path to secure a victory for Labour",
+      "answer": "TRAVAIL",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Path to secure a victory for Labour",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Constellation",
+      "answer": "ANDROMEDA",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Constellation also wandered: Alpha moved to the east",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "communicating",
+      "answer": "OUIJA",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Board somehow communicating green light from Macron, then Merz",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Best",
+      "answer": "CREAM",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Best study hard to get grip on English",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "thick",
+      "answer": "MIDST",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Density in low cloud that's thick",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Drug lord",
+      "answer": "COCAINE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Drug lord who ran to restrain murderer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tree",
+      "answer": "ELM",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Line this writer grasps when climbing tree",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Did coach express disapproval",
+      "answer": "TUTORED",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Did coach express disapproval? Nothing revolutionary",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Black Sea resort",
+      "answer": "YALTA",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Agent on vacation was resting around Black Sea resort",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tactless",
+      "answer": "MALADROIT",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Tactless whisky promotion French king stops",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "form for example",
+      "answer": "ROLEMODEL",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Rock embracing European form for example",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Decline",
+      "answer": "EBB",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Decline leads to everyone being broke",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Greek",
+      "answer": "PLATO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Greek troops not willing to participate",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "exclusive seafood",
+      "answer": "SCALLOP",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Leaving a duck, everyone tucks into exclusive seafood",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Unbeatable",
+      "answer": "IMPREGNABLE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Unbeatable chorizo served up by Puck?",
+      "score": 0
+    }
+  ]
+}

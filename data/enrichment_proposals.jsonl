@@ -1,0 +1,20 @@
+{"word": "fee", "letters": "DION", "count": 1, "type": "residual", "source": "answer=ADMISSION, confirmed=[daughter,->MISS, best->A]"}
+{"word": "charging", "letters": "RED", "count": 1, "type": "residual", "source": "answer=RESIDED, confirmed=[Party->SIDE]"}
+{"word": "stiff", "letters": "RBS", "count": 1, "type": "residual", "source": "answer=THROBS, confirmed=[this->TH, one->O]"}
+{"word": "approval", "letters": "PAS", "count": 1, "type": "residual", "source": "answer=PAROLES, confirmed=[standard->ROLE, cries->RO, Spain->E]"}
+{"word": "made an", "letters": "LENT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "advance fast", "letters": "LENT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "swear", "letters": "RE", "count": 1, "type": "residual", "source": "answer=RECOURSE, confirmed=[a->COURSE, second->S, old->O]"}
+{"word": "like", "letters": "LC", "count": 1, "type": "residual", "source": "answer=LACY, confirmed=[some->A, underwear?->Y]"}
+{"word": "snooker", "letters": "BREAK", "count": 1, "type": "residual", "source": "answer=BREAKBREAKBREAK, confirmed=[rest,->BREAK, interrupt->BREAK]"}
+{"word": "successfully", "letters": "WEL", "count": 1, "type": "residual", "source": "answer=TOWEL, confirmed=[one->O, this->T, in->T]"}
+{"word": "booming", "letters": "UP", "count": 1, "type": "residual", "source": "answer=TRADEUP, confirmed=[Business->TRADE]"}
+{"word": "burden", "letters": "UT", "count": 1, "type": "residual", "source": "answer=YAKUT, confirmed=[beast->YAK]"}
+{"word": "leather", "letters": "TN", "count": 1, "type": "residual", "source": "answer=TANG, confirmed=[Make->A, good->G]"}
+{"word": "having", "letters": "E", "count": 1, "type": "residual", "source": "answer=ABET, confirmed=[second->B, letter,->BET, the->T, first->A]"}
+{"word": "something to grease", "letters": "SWEETENER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "belfast", "letters": "NI", "count": 1, "type": "residual", "source": "answer=NICHE, confirmed=[revolutionary->CHE]"}
+{"word": "joke", "letters": "GEST", "count": 1, "type": "residual", "source": "answer=INGEST, confirmed=[a->IN, during->IN]"}
+{"word": "reach", "letters": "AL", "count": 1, "type": "residual", "source": "answer=ATLAS, confirmed=[time->T, for->AS]"}
+{"word": "elevating", "letters": "ATIT", "count": 1, "type": "residual", "source": "answer=ARTIST, confirmed=[force,->S, King->R]"}
+{"word": "prone", "letters": "AS", "count": 1, "type": "residual", "source": "answer=TAILENDS, confirmed=[Is->IL, cover->END, trouble->AIL, in->T]"}

@@ -1,0 +1,164 @@
+{
+  "source": "telegraph",
+  "puzzle": "31174",
+  "stats": {
+    "total": 30,
+    "assembled": 29,
+    "high": 16,
+    "medium": 13,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 68.75862068965517
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "relative",
+      "letters": "MA",
+      "answer": "RIGMAROLE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Equip relative with part in play Palaver",
+      "score": 59
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "kiln",
+      "letters": "ROAST",
+      "answer": "roast beef",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Dish from kiln Head of Banking brought into bank",
+      "score": 70
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Two chapters",
+      "letters": "CC",
+      "answer": "Accra",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Two chapters by artist on area in city",
+      "score": 62
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "horny male",
+      "letters": "RAM",
+      "answer": "ASHRAM",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "A horny male maintains silence in retreat",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "club",
+      "letters": "MAC",
+      "answer": "MACKEREL",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Swimmer Kelvin welcomed by club on loch",
+      "score": 58
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Nipper",
+      "letters": "CRAB",
+      "answer": "crab-apple",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Nipper spotted peeled fruit",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "spotted",
+      "letters": "APPLE",
+      "answer": "crab-apple",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Nipper spotted peeled fruit",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Reach",
+      "letters": "CONTRACT",
+      "answer": "contract bridge",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Reach part of ship storing essentially cured game",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "part of ship",
+      "letters": "BRIDGE",
+      "answer": "contract bridge",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Reach part of ship storing essentially cured game",
+      "score": 44
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "papers",
+      "answer": "PRESENT",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Tense leader ignoring papers",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Agreements",
+      "answer": "ENTENTES",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Agreements between ten testy nurses",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Thankless wretch",
+      "answer": "INGRATE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Thankless wretch lost garnet south of Italy",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "teaching session",
+      "answer": "SEMINAR",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Half rushed back for teaching session",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Make progress",
+      "answer": "stepping stones",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Make progress with these animals upset over noises",
+      "score": 0
+    }
+  ]
+}

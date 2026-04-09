@@ -32,7 +32,7 @@
         class="text-xs px-2.5 py-1 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
     Edit
 </button>
-<button hx-post="/admin/rerun/{{ clue.id }}"
+<button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
         hx-target="#explain-{{ clue.id }}"
         hx-swap="innerHTML"
         hx-indicator="#rerun-spinner-{{ clue.id }}"

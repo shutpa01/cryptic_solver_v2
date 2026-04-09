@@ -1,0 +1,697 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31194
+Generated: 2026-03-23 06:34:44
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        26/30 (86%)
+    Signature:      6
+    Sig+Enriched:   6
+    Sonnet:         14
+    DB Fallback:    0
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   16  1D, 15A, 17D, 20A, 5D, 9A, 1A, 12A, 13A, 16A, 18A, 20D, 24D, 25A, 26A, 3D
+  Medium (40-79): 8  11D, 14D, 2D, 21A, 28A, 4D, 7D, 8D
+  Low (<40):    2  10A, 19D
+  Failed:       4  22D, 23A, 27A, 6A
+  Average:      78/100
+
+COST: $1.0219 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (27 entries)
+------------------------------------------------------------
+  DATE: "See" -> DATE  (missing from definition_answers_augmented)
+  ARTISTE: "performer" -> ARTISTE  (missing from definition_answers_augmented)
+  Argentina: "country" -> Argentina  (missing from definition_answers_augmented)
+  INSIGHT: "Understanding" -> INSIGHT  (missing from definition_answers_augmented)
+  NOWHERE: "remote place" -> NOWHERE  (missing from definition_answers_augmented)
+  Turin: "Italian city" -> Turin  (missing from definition_answers_augmented)
+  DEPARTMENT: "division" -> DEPARTMENT  (missing from definition_answers_augmented)
+  town crier: "former news presenter" -> town crier  (missing from definition_answers_augmented)
+  CLANDESTINELY: "in secret" -> CLANDESTINELY  (missing from definition_answers_augmented)
+  MEDIATE: "Intervene" -> MEDIATE  (missing from definition_answers_augmented)
+  AWARE: "Cognisant" -> AWARE  (missing from definition_answers_augmented)
+  ENDGAME: "final section" -> ENDGAME  (missing from definition_answers_augmented)
+  ASKED: "Questioned" -> ASKED  (missing from definition_answers_augmented)
+  EDITION: "issue" -> EDITION  (missing from definition_answers_augmented)
+  Pakistani: "from Asian country" -> Pakistani  (missing from definition_answers_augmented)
+  EXILE: "cast out" -> EXILE  (missing from definition_answers_augmented)
+  RIDE: "travel by horse" -> RIDE  (missing from definition_answers_augmented)
+  VOLLEYBALL: "sport" -> VOLLEYBALL  (missing from definition_answers_augmented)
+  Rene Descartes: "Philosopher's" -> Rene Descartes  (missing from definition_answers_augmented)
+  METHANE: "an essential element of natural gas" -> METHANE  (missing from definition_answers_augmented)
+  Inca: "Old South American's" -> Inca  (missing from definition_answers_augmented)
+  NAIRA: "money in Nigeria" -> NAIRA  (missing from definition_answers_augmented)
+  AGREEMENTS: "Deals with" -> AGREEMENTS  (missing from definition_answers_augmented)
+  NOWHERE: woman's -> HER  (missing from abbreviations)
+  Turin: this person's -> I  (missing from abbreviations)
+  town crier: Bank -> TOWN  (missing from synonyms_pairs)
+  CLANDESTINELY: established -> DESTINE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  TORNADO = 18 (80/100): AI=anagram, assembled=container
+  OREGANO = 19 (-50/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  town crier = 10 (15/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  town crier = 10 (15/100): def="former news presenter" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  22. Questioned male leaving with face covered = ASKED
+  23. Rebellion without singular issue = EDITION
+  27. Naked women getting married travel by horse = RIDE
+  6. Old South American's tiny scar discovered = Inca
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/30  21A, 2D, 14D, 24D
+  Type mismatch:         2  18A, 19D
+  Unverified explain.:   1  10A
+  Weak definition:       1  10A
+  DB gap:                22  1A, 6A, 9A, 10A, 12A, 13A, 15A, 16A, 23A, 25A, 26A, 27A, 28A, 3D, 4D, 5D, 7D, 8D, 11D, 17D, 20D, 22D
+  Failed:                4  6A, 23A, 27A, 22D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  DATE          See fruit (4)
+                      DATE (synonym of "fruit"); definition: "See"  [HIGH]
+   15A  ARTISTE       To an extent, part is terrifying for performer (7)
+                      hidden in "part is terrifying" [hidden: "extent,"]; definition: "performer"  [HIGH]
+   17D  Argentina     Some fear gent in African country (9)
+                      hidden in "fear gent in African" [hidden: "Some"]; definition: "country"  [HIGH]
+   20A  INSIGHT       Understanding current things badly (7)
+                      anagram of THINGS ("things") [anagram: "badly"] + I (abbreviation of "current") = INSIGHT; definition: "Understanding"  [HIGH]
+    5D  NOWHERE       Currently, that woman's on ecstasy in remote place (7)
+                      NOW (synonym of "Currently,") + HER (synonym of "woman's") + E (synonym of "ecstasy"); definition: "remote place"  [HIGH]
+    9A  Turin         Go around this person's Italian city (5)
+                      TURN (synonym of "Go") + I (abbreviation of "this person's") [container: "around"]; definition: "Italian city"  [HIGH]
+    1A  DEPARTMENT    Leave chaps beginning to teach division (10)
+                      DEPART (synonym of "Leave") + MEN (synonym of "chaps") + T (first letter of "teach") [first letter: "beginning"]; definition: "division"  [HIGH]
+   10A  town crier    Bank securing personal credit for former news presenter? (4,5)
+                      TOWN(synonym of "Bank") + CRIER("personal credit")  [LOW]
+   11D  CLANDESTINELY  Family established in Cambridgeshire city nursing daughter in secret (13)
+                      CLAN(synonym of "Family") + DESTINE(synonym of "established") + LY(hidden in "Cambridgeshire city nursing daughter")  [MED]
+   12A  MEDIATE       Intervene and think carefully, having no time (7)
+                      MEDITATE (synonym of "think") + T (abbreviation of "time") [deletion: "carefully,"]; definition: "Intervene"  [HIGH]
+   13A  AWARE         Cognisant of fighting in A&E (5)
+                      anagram of AE ("A&E") [container: "in"] + WAR (synonym of "fighting") = AWARE; definition: "Cognisant"  [HIGH]
+   14D  waste paper   Recyclable material was flipping dear? A salesman's upset (5,5)
+                      delete A from WAS, anagram of WS+TEAREPAP("dear A sales") = waste paper  [MED]
+   16A  ENDGAME       Need AGM to change final section (7)
+                      anagram of NEEDAGM ("Need AGM") [anagram: "change"] = ENDGAME; definition: "final section"  [HIGH]
+   18A  TORNADO       Royal Navy notice breaking also in storm (7)
+                      RN(abbr. "Royal Navy")+AD(synonym of "notice") inside TOO(synonym of "also")  [HIGH]
+   19D  OREGANO       Plant king's daughter is captivated by over and over again (7)
+                      O(synonym of "over") + REGAN("king's daughter") + O(synonym of "over")  [LOW]
+    2D  PERIMETER     Edge of boggy area to the north circumvented by saint (9)
+                      ERIM(MIRE reversed, "boggy area") inside PETER(synonym of "saint")  [MED]
+   20D  INITIAL       First one egg, one with endless salt (7)
+                      I(abbr. "one") + NIT(synonym of "egg") + I(abbr. "one") + AL(deletion from "endless salt")  [HIGH]
+   21A  PLAIT         Hint about maintaining the French braid (5)
+                      LA(synonym of "the French") inside PIT(TIP reversed, "Hint")  [MED]
+   22D  ASKED         Questioned male leaving with face covered (5)
+                      ---  [FAIL]
+   23A  EDITION       Rebellion without singular issue (7)
+                      ---  [FAIL]
+   24D  TEAL          Duck has drink by lake (4)
+                      TEA(synonym of "drink") + L(abbr. "lake")  [HIGH]
+   25A  Pakistani     Unorthodox pianist entertaining a king from Asian country (9)
+                      anagram of PIANIST+A+K(abbr. "king") = Pakistani  [HIGH]
+   26A  EXILE         Former priest from the east cast out (5)
+                      EX (synonym of "Former") + ELI (synonym of "priest") [reversal: "from"]; definition: "cast out"  [HIGH]
+   27A  RIDE          Naked women getting married travel by horse (4)
+                      ---  [FAIL]
+   28A  VOLLEYBALL    Everyone follows strangely lovely British sport (10)
+                      VOLLEY("lovely") + B(abbr. "British") + ALL(synonym of "everyone")  [MED]
+    3D  Rene Descartes  Philosopher's rent decreases, oddly (4,9)
+                      anagram of RENTDECREASES ("rent decreases,") [anagram: "oddly"] = RENEDESCARTES; definition: "Philosopher's"  [HIGH]
+    4D  METHANE       Encountered that guy purchasing an essential element of natural gas (7)
+                      MET(synonym of "Encountered") + HANE("that guy")  [MED]
+    6A  Inca          Old South American's tiny scar discovered (4)
+                      ---  [FAIL]
+    7D  NAIRA         New operatic song raised money in Nigeria (5)
+                      N(abbr. "New") + AIRA(ARIA reversed, "operatic song")  [MED]
+    8D  AGREEMENTS    Deals with representatives detaining mere criminal (10)
+                      REEM("mere") inside AGENTS(synonym of "representatives")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DATE  1D. See fruit
+  Answer: DATE
+  Tier: Signature | Confidence: 100/100
+  Definition: "See"
+  Wordplay: charade
+  Explanation: DATE (synonym of "fruit"); definition: "See"
+  ----------------------------------------------------------------------
+
+  [HIGH] ARTISTE  15A. To an extent, part is terrifying for performer
+  Answer: ARTISTE
+  Tier: Signature | Confidence: 100/100
+  Definition: "performer"
+  Wordplay: hidden
+  Explanation: hidden in "part is terrifying" [hidden: "extent,"]; definition: "performer"
+  ----------------------------------------------------------------------
+
+  [HIGH] Argentina  17D. Some fear gent in African country
+  Answer: Argentina
+  Tier: Signature | Confidence: 100/100
+  Definition: "country"
+  Wordplay: hidden
+  Explanation: hidden in "fear gent in African" [hidden: "Some"]; definition: "country"
+  ----------------------------------------------------------------------
+
+  [HIGH] INSIGHT  20A. Understanding current things badly
+  Answer: INSIGHT
+  Tier: Signature | Confidence: 100/100
+  Definition: "Understanding"
+  Wordplay: anagram + charade
+  Explanation: anagram of THINGS ("things") [anagram: "badly"] + I (abbreviation of "current") = INSIGHT; definition: "Understanding"
+  ----------------------------------------------------------------------
+
+  [HIGH] NOWHERE  5D. Currently, that woman's on ecstasy in remote place
+  Answer: NOWHERE
+  Tier: Signature | Confidence: 100/100
+  Definition: "remote place"
+  Wordplay: charade
+  Explanation: NOW (synonym of "Currently,") + HER (synonym of "woman's") + E (synonym of "ecstasy"); definition: "remote place"
+  ----------------------------------------------------------------------
+
+  [HIGH] Turin  9A. Go around this person's Italian city
+  Answer: Turin
+  Tier: Signature | Confidence: 100/100
+  Definition: "Italian city"
+  Wordplay: charade + container
+  Explanation: TURN (synonym of "Go") + I (abbreviation of "this person's") [container: "around"]; definition: "Italian city"
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPARTMENT  1A. Leave chaps beginning to teach division
+  Answer: DEPARTMENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "division"
+  Wordplay: acrostic + charade
+  Explanation: DEPART (synonym of "Leave") + MEN (synonym of "chaps") + T (first letter of "teach") [first letter: "beginning"]; definition: "division"
+  ----------------------------------------------------------------------
+
+  [LOW] town crier  10A. Bank securing personal credit for former news presenter?
+  Answer: town crier
+  Tier: Sonnet | Confidence: 15/100
+  Definition: "former news presenter"
+  Wordplay type: charade
+  Components:
+    synonym            Bank                      -> TOWN
+    anagram_fodder     personal credit           -> CRIER
+  Assembly: charade — TOWN(synonym of "Bank") + CRIER("personal credit")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      bank: syn=TIER*,BAR,BED,LOT,MOW,ROW,SET,TIP,BAND,BRAE,CLOT,COCK,DRAY,DYKE,HEAP; abbr=TIER
+      securing: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container?
+      personal: syn=OWN*,TOP,PRIVY,UNIQUE,PRIVATE,INTIMATE,PECULIAR,SEPARATE,SINGULAR,ADHOMINEM,INDIVIDUA,OFFENSIVE; abbr=P
+      credit: syn=CR*,IN,MY,BUY,HER,HIS,ITS,NOT,PUT,BABY,CITE,COUP,FETE,HAIL,HOPE; abbr=CR*
+      for: syn=TO*,AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      former: syn=EX,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX,OLD
+      news: syn=MY,SO,FEW,GEN,INFO,ITEM,KNOW,MANY,WORD,STORY,UNCOS,WORDS,A WORD,LATEST,REPORT; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      presenter: syn=HOST,ANCHOR,COMPERE,ANNOUNCER,ENTERTAIN
+  AI Reasoning:
+    Bank (riverbank = town) + anagram of some letters from 'personal credit' giving CRIER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CLANDESTINELY  11D. Family established in Cambridgeshire city nursing daughter in secret
+  Answer: CLANDESTINELY
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "in secret"
+  Wordplay type: charade
+  Components:
+    synonym            Family                    -> CLAN
+    synonym            established               -> DESTINE
+    hidden             Cambridgeshire city nursing daughter -> LY
+  Assembly: charade — CLAN(synonym of "Family") + DESTINE(synonym of "established") + LY(hidden in "Cambridgeshire city nursing daughter")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      family: syn=CLAN*,DOC,EMT,KIN,NUN,PAL,SET,ABBÉ,ALLY,CHUM,CURÉ,DEAN,DOCS,EMTS,FOLK; abbr=KIN
+      established: syn=EST*,PUT,SET,FINE,FIRM,LONG,BASED,FIXED,REDID,SHOWN,TUNED,EDITED,FITTED,GEARED,GUIDED
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      cambridgeshire: syn=COUNTY
+      city: syn=LA*,ELY*,LAND*,EC,NY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LIMA,NICE; abbr=EC,LA*,NY,ec; ind=anagram
+      nursing: syn=ABOUT OR; ind=container
+      daughter: syn=D,GIRL,DRIVERS,PROGENY,RELATIVE; abbr=D*
+      secret: syn=CLANDESTINE*,DRY,KEY,TOP,WHY,COOL,DARK,DOOR,HOLE,OF A,OPEN,CODED,FRAIL,INNER,PRIVY
+      in secret: syn=ASIDE,INWARDLY,ENTRENOUS,PRIVATELY,PERSONALLY
+  AI Reasoning:
+    CLAN (family) + DESTINE (established) + LY (hidden in ELY+D from Cambridgeshire city nursing daughter)
+  ----------------------------------------------------------------------
+
+  [HIGH] MEDIATE  12A. Intervene and think carefully, having no time
+  Answer: MEDIATE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Intervene"
+  Wordplay: charade + deletion
+  Explanation: MEDITATE (synonym of "think") + T (abbreviation of "time") [deletion: "carefully,"]; definition: "Intervene"
+  ----------------------------------------------------------------------
+
+  [HIGH] AWARE  13A. Cognisant of fighting in A&E
+  Answer: AWARE
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Cognisant"
+  Wordplay: anagram + charade + container
+  Explanation: anagram of AE ("A&E") [container: "in"] + WAR (synonym of "fighting") = AWARE; definition: "Cognisant"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] waste paper  14D. Recyclable material was flipping dear? A salesman's upset
+  Answer: waste paper
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Recyclable material"
+  Wordplay type: anagram
+  Components:
+    literal            was                       -> WAS
+    anagram_fodder     dear A sales              -> TEAREPAP
+  Assembly: deletion+anagram — delete A from WAS, anagram of WS+TEAREPAP("dear A sales") = waste paper
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=WS answer=WASTEPAPER | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      material: syn=BIG,KIT,AKIN,DATA,ECRU,FELT,GEAR,JEAN,LACE,LAME,LIKE,LINT,MUCH,REAL,SAME; ind=anagram
+      was: syn=DID,LAY,SAT,BORE,CAME,KNEW,LEANT,LIVED,RATED,STOOD,TYPED,BEFELL,COOKED,GRADED,HAPPED; abbr=WA*
+      flipping: syn=BATS,BLASTED,SPRITZER,INVERTING,REVERSING,SWITCHING,REVERSING,; ind=reversal
+      dear: syn=IN,BIG,HON,HOT,PET,PIP,POP,CUTE,FOND,GOOD,HIGH,LOVE,LULU,NICE,ANGEL; sounds=deer
+      salesman's: syn=REP,CLERK,CLERIC,CLERK,,DEACON,DEALER,DIVINE,PRIEST,SCRIBE,DOMINIE,CLERICAL,MINISTER,PREACHER,REGISTER,REVEREND; ind=reversal
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      a salesman's: syn=ODIUM,CARPET,REBUKE,ANSWERS,CENSURE,REPLIES,DISGRACE,REPROACH,CRITICISM
+    Definitions:
+      "Recyclable material" -> waste paper (definition match)
+  AI Reasoning:
+    Anagram of letters from 'was dear A sales' (taking 'sales' from 'salesman') with 'flipping' and 'upset' as anagram indicators
+  ----------------------------------------------------------------------
+
+  [HIGH] ENDGAME  16A. Need AGM to change final section
+  Answer: ENDGAME
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "final section"
+  Wordplay: anagram
+  Explanation: anagram of NEEDAGM ("Need AGM") [anagram: "change"] = ENDGAME; definition: "final section"
+  ----------------------------------------------------------------------
+
+  [HIGH] TORNADO  18A. Royal Navy notice breaking also in storm
+  Answer: TORNADO
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "storm"
+  Wordplay type: anagram
+  Components:
+    abbreviation       Royal Navy                -> RN
+    synonym            notice                    -> AD
+    synonym            also                      -> TOO
+  Assembly: container — RN(abbr. "Royal Navy")+AD(synonym of "notice") inside TOO(synonym of "also")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      royal: syn=R,ER,WET,COZY,DULL,KING,MAAM,MILD,SAIL,SNAP,SNUG,SOFT,WEAK,BALMY,BLAND; abbr=ER,R*
+      navy: syn=RN*,N,BLUE,FLEET,ARMADA,SAILORS,SERVICE; abbr=N*,RN*
+      notice: syn=AD*,AT,GO,MY,ACT,ADS,BAG,BUY,COP,EAR,EYE,FIT,FLY,GET,NOT; abbr=AD*
+      breaking: syn=ABOUT,RACKING; ind=anagram,container,insertion
+      also: syn=TOO*,SO,AND,DOG,DUD,YET,BOMB,BUST,DOGS,DUDS,FLOP,HASH,INTO,MESS,MISS; abbr=AND
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      storm: syn=DO*,TO*,ADO*,TORNADO*,AIR,AMY,AND,FLY,SET,SIC,WAR,GALE,INTO,RACK,RAGE; ind=anagram
+      royal navy: abbr=RN*
+    Definitions:
+      "storm" -> TORNADO (definition match)
+  AI Reasoning:
+    RN + AD + TOO anagrammed (indicated by 'breaking') gives TORNADO
+  ----------------------------------------------------------------------
+
+  [LOW] OREGANO  19D. Plant king's daughter is captivated by over and over again
+  Answer: OREGANO
+  Tier: Sonnet | Confidence: -50/100
+  Definition: "Plant"
+  Wordplay type: container
+  Components:
+    synonym            over                      -> O
+    literal            king's daughter           -> REGAN
+    synonym            over                      -> O
+  Assembly: charade — O(synonym of "over") + REGAN("king's daughter") + O(synonym of "over")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | nonsense_words=not real words: O, O | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      plant: syn=PUT,SOW,SPY,ACER,ALGA,ALOE,ARUM,BATS,DOCK,FERN,FLAG,FLAX,GUAR,HERB,IRIS; abbr=P; ind=anagram
+      king's: syn=WAD,BOMB,MINT,PILE,EARTH,BOODLE,BUNDLE,PACKET,FORTUNE,K,R,MAN,REX,GOD?,HERO; abbr=K,R*,REX
+      daughter: syn=D,GIRL,DRIVERS,PROGENY; abbr=D
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      captivated: ind=container?
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      again: syn=RE*,BE,GO,AGE,ANY,AYE,BIS,DAY,ERA,GET,HAP,OFT,RUN,TOO,WAX; abbr=RE*
+      over and over: syn=AND,AYE,LOT,NOW
+    Definitions:
+      "Plant" -> OREGANO (definition match)
+  AI Reasoning:
+    REGAN (king's daughter) is contained within O___O (over and over again) to spell OREGANO
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PERIMETER  2D. Edge of boggy area to the north circumvented by saint
+  Answer: PERIMETER
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "Edge"
+  Wordplay type: container
+  Components:
+    synonym            saint                     -> PETER
+    reversal           boggy area                -> ERIM
+  Assembly: container — ERIM(MIRE reversed, "boggy area") inside PETER(synonym of "saint")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      edge: syn=RIM*,PERIMETER*,CAP,END,GET,HEM,LIP,PIP,TOP,VAN,WAX,BEAT,BEST,BITE,BOMB
+      area: syn=A,ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,REALM,REMIT; abbr=A; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      north: syn=N,POLE,POINT,PLAYER,DIRECTION,THE POINT; abbr=N; ind=reversal
+      circumvented: syn=END,BEAT,EDGED,DODGED,FRAMED,JOINED,RIMMED,ABUTTED,BOUNDED,FLANKED,FRINGED,SKIRTED,TOUCHED,ADJOINED,BORDERED
+      by: syn=PER*,X,AT,IN,SO,TO,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      saint: syn=S,ST,BEDE,AGNES,ANSELM,MARTIN,BERNARD,BRENDAN,FRANCIS,HOLYMAN,SWITHIN,BONIFACE; abbr=ANDREW,DAVID,GEORGE,PATRICK,PAUL,PETER,S,ST
+      to the: syn=FISH,PIRANHA,STRIPPER
+    Definitions:
+      "Edge" -> PERIMETER (definition match)
+  AI Reasoning:
+    PETER (saint) contains ERIM (MIRE reversed 'to the north') to form PERIMETER
+  ----------------------------------------------------------------------
+
+  [HIGH] INITIAL  20D. First one egg, one with endless salt
+  Answer: INITIAL
+  Tier: Sonnet | Confidence: 88/100
+  Definition: "First"
+  Wordplay type: charade
+  Components:
+    abbreviation       one                       -> I
+    synonym            egg                       -> NIT
+    abbreviation       one                       -> I
+    deletion           endless salt              -> AL
+  Assembly: charade — I(abbr. "one") + NIT(synonym of "egg") + I(abbr. "one") + AL(deletion from "endless salt")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      first: syn=INITIAL*,BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE; abbr=A*,IST; ind=acrostic,parts
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O; sounds=won
+      egg: syn=NIT*,BOD,BOG,BOY,BUG,CAT,DAM,FAN,GUY,JOE,LAD,LOO,MAN,NOB,SON
+      with: syn=IN*,W,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      endless: syn=NIGHT,BORING,ETERNA,ALL DAY,ETERNAL,NONSTOP,UNDYING; ind=deletion
+      salt: syn=AB,DOG,OLD,SEA,POTASH,RATING,SAILOR,SALINE,SEAMAN,SEASON,CITRATE,LACTATE,NITRATE,OXALATE,SAILORS
+    Definitions:
+      "First" -> INITIAL (definition match)
+  AI Reasoning:
+    Charade of I (one) + NIT (egg) + I (one) + AL (salt minus last letter) = INITIAL
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PLAIT  21A. Hint about maintaining the French braid
+  Answer: PLAIT
+  Tier: Sonnet | Confidence: 63/100
+  Definition: "braid"
+  Wordplay type: container
+  Components:
+    reversal           Hint                      -> PIT
+    synonym            the French                -> LA
+  Assembly: container — LA(synonym of "the French") inside PIT(TIP reversed, "Hint")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hint: syn=ACE,BIT,CUE,DAB,NIP,RAY,TAD,TIP,ACES,CLUE,DRAM,IOTA,LEAD,LICK,MITE
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      maintaining: ind=container
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      french: syn=FR,DOOR,GATE,HATCH; abbr=DE,FR,LA*,LE,UN
+      braid: syn=PLAIT*,HAIR,WEAVE
+      the french: abbr=L*,LA*,LE,LES
+    Definitions:
+      "braid" -> PLAIT (definition match)
+  AI Reasoning:
+    TIP (hint) reversed (about) gives PIT, which contains LA (the French) to make PLAIT
+  ----------------------------------------------------------------------
+
+  [FAILED] ASKED  22D. Questioned male leaving with face covered
+  Answer: ASKED
+  Tier: --- | Confidence: 0/100
+  Definition: "Questioned"
+  Wordplay type: deletion
+  Components:
+    deletion           face covered              -> ASKED
+  DB Lookups:
+    DB lookups:
+      questioned: syn=THIRD
+      male: syn=M,HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM; abbr=A*,HE,M,PA; sounds=mail
+      leaving: syn=LAST,FINAL,GOING; ind=deletion?
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      face: syn=BOD,BOY,CAT,EGG,FEE,GUY,JOE,LAD,MAN,MAP,MET,MOW,MUG,PAN,RUM
+      covered: syn=AN,MET,RAN,EYED,HELD,KEPT,WENT,KEPT?,NOTED,OILED,RULED,TAMED; ind=container
+  AI Reasoning:
+    MASKED (face covered) with M (male) deleted gives ASKED
+  ----------------------------------------------------------------------
+
+  [FAILED] EDITION  23A. Rebellion without singular issue
+  Answer: EDITION
+  Tier: --- | Confidence: 0/100
+  Definition: "issue"
+  Wordplay type: deletion
+  Components:
+    deletion           Rebellion                 -> EDITION
+  DB Lookups:
+    DB lookups:
+      rebellion: syn=MUTINY,PUTSCH,RISING,TREASON
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      singular: syn=S,ODD,ONE,THE,WAY,ONLY,RARE,WILD,ALONE,CRAZY,FREAK,FUNKY,FUNNY,KINKY,KOOKY; abbr=S; ind=anagram?
+      issue: syn=EDITION*,ACT,BUY,FIT,GET,SON,BABY,BEAR,CALL,CULL,EMIT,EXIT,FATE,GIVE,GRIP
+    Definitions:
+      "issue" -> EDITION (definition match)
+  AI Reasoning:
+    REBELLION (sedition) without SINGULAR (S) gives EDITION
+  ----------------------------------------------------------------------
+
+  [HIGH] TEAL  24D. Duck has drink by lake
+  Answer: TEAL
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Duck"
+  Wordplay type: charade
+  Components:
+    synonym            drink                     -> TEA
+    abbreviation       lake                      -> L
+  Assembly: charade — TEA(synonym of "drink") + L(abbr. "lake")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      duck: syn=TEAL*,O,BOD,BOG,BOY,BUG,CAT,DAM,EGG,END,FAN,GUY,JOE,LAD,LEG; abbr=O
+      has: syn=EATS,GOES,OWNS,SEES; ind=hidden
+      drink: syn=TEA*,IT,ALE,BIB,CHA,GIN,HIT,ICE,KIR,LAP,MUM,NIP,PEG,POP,RUM; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA*,WINE; ind=anagram
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      lake: syn=L,SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL; abbr=L*,LA
+    Definitions:
+      "Duck" -> TEAL (definition match)
+  AI Reasoning:
+    Duck (definition) = TEA (drink) + L (lake abbreviation) = TEAL
+  ----------------------------------------------------------------------
+
+  [HIGH] Pakistani  25A. Unorthodox pianist entertaining a king from Asian country
+  Answer: Pakistani
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "from Asian country"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     pianist                   -> PIANIST
+    literal            a                         -> A
+    abbreviation       king                      -> K
+  Assembly: anagram — anagram of PIANIST+A+K(abbr. "king") = Pakistani
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      unorthodox: syn=OPEN,THERE,HERESY,STRANGE,ABERRANT,ECCENTRIC; ind=anagram
+      pianist: syn=SAY,MONK,LIBERACE,MUSICIAN,SHEARING,MONK, SAY; fodder=PIANIST(7/9 anagram match)
+      entertaining: syn=FUN,AMUSING,AT HOME,HOSTING,ABOUT OR,AROUND OR,DIVERTING,ENJOYABLE; ind=container
+      king: syn=K,R,MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR; abbr=K*,R,REX
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      asian: syn=AGRA,THAI,IRAQI,MALAY,OMANI,NEPALI,PATHAN,AFGHANI,BENGALI,IRANIAN,MALAYAN,PUNJABI,TIBETAN,FILIPINO,ORIENTAL
+      country: syn=UK,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL; abbr=MALI
+      asian country: syn=THAI,ASIAN,CHINA,STATE,BAHRAIN,COUNTRY,LEBANON,LANGUAGE,NATIONAL
+  AI Reasoning:
+    Anagram of PIANIST + A + K gives PAKISTANI
+  ----------------------------------------------------------------------
+
+  [HIGH] EXILE  26A. Former priest from the east cast out
+  Answer: EXILE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "cast out"
+  Wordplay: charade + reversal
+  Explanation: EX (synonym of "Former") + ELI (synonym of "priest") [reversal: "from"]; definition: "cast out"
+  ----------------------------------------------------------------------
+
+  [FAILED] RIDE  27A. Naked women getting married travel by horse
+  Answer: RIDE
+  Tier: --- | Confidence: 0/100
+  Definition: "travel by horse"
+  Wordplay type: deletion
+  Components:
+    deletion           women getting married     -> RIDE
+  DB Lookups:
+    DB lookups:
+      naked: syn=RAW,BALD,BARE,DRAW,FREE,NEAT,NUDE,OPEN,PURE; ind=deletion,parts
+      women: syn=W; abbr=W,w
+      getting: syn=AGED
+      married: syn=M,ONE,WED,TIED; abbr=M
+      travel: syn=RIDE*,BE,GO,IT,ARE,BED,CUT,FLY,HIE,JET,NIP,RAM,RIP,RUN,TEN; abbr=GO; ind=anagram
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      horse: syn=BAY,COB,NAG,ARAB,COLT,FOAL,GREY,HACK,MARE,ROAN,TREE; abbr=GG,H,NAG; sounds=hoarse
+  AI Reasoning:
+    Women getting married = BRIDE, naked (deletion indicator) removes first letter B to give RIDE
+  ----------------------------------------------------------------------
+
+  [HIGH] VOLLEYBALL  28A. Everyone follows strangely lovely British sport
+  Answer: VOLLEYBALL
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "sport"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     lovely                    -> VOLLEY
+    abbreviation       British                   -> B
+    synonym            everyone                  -> ALL
+  Assembly: charade — VOLLEY("lovely") + B(abbr. "British") + ALL(synonym of "everyone")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      everyone: syn=ALL*,AWL,ONE,EACH,PEEPS,ANYONE,ANYBODY,CAPITAL,EVENING,SOMEONE,ALL-TIME,ALLIANCE,BALLOONS,OF EVERY,SOMEBODY; abbr=ALL*
+      follows: syn=DOGS,EYES,GOES,RUNS,TAGS,HEEDS,MINDS,NOTES,OBEYS,TAILS,CHASES,COVERS,ENSUES,HOUNDS,STALKS
+      strangely: syn=ODDLY,UNUSUALLY; ind=anagram
+      lovely: syn=A1,OK,BIG,EYE,FAB,HOT,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL,CUTE
+      british: syn=B,BR,UK,RACE,NATIONA; abbr=B*,BR
+      sport: syn=BALL*,RU,BUS,CAR,FUN,NUN,PAL,SUV,TOY,VAN,ABBÉ,ALLY,AUTO,BOTH,BUTT; abbr=RU,WEAR
+  AI Reasoning:
+    Anagram of 'lovely' gives VOLLEY, plus B for British, plus ALL for everyone, forming VOLLEYBALL
+  ----------------------------------------------------------------------
+
+  [HIGH] Rene Descartes  3D. Philosopher's rent decreases, oddly
+  Answer: Rene Descartes
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Philosopher's"
+  Wordplay: anagram
+  Explanation: anagram of RENTDECREASES ("rent decreases,") [anagram: "oddly"] = RENEDESCARTES; definition: "Philosopher's"
+  ----------------------------------------------------------------------
+
+  [HIGH] METHANE  4D. Encountered that guy purchasing an essential element of natural gas
+  Answer: METHANE
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "an essential element of natural gas"
+  Wordplay type: charade
+  Components:
+    synonym            Encountered               -> MET
+    container          that guy                  -> HANE
+  Assembly: charade — MET(synonym of "Encountered") + HANE("that guy")
+  Note: dropped piece 2
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      encountered: syn=MET*,FACED,FOUND,CAUGHT,AGAINST,BATTLED,ENGAGED,TOOK ON; ind=reversal?
+      that: syn=THA*,AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,TOO,WAY,WHO,YET; abbr=TH*,YON
+      guy: syn=BOD,BOY,BUD,CAT,CUB,EGG,JOE,KID,LAD,MAN,RIB,SON,BABY,BEAU,BIRD
+      purchasing: syn=DAY; ind=container?
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      essential: syn=ALL,KEY,DIRE,LAKE,MUST,NEED,BASIC,INNER,VITAL,CRYING,NEEDBE,NEEDED,BURNING,CARPING,CLAMANT
+      element: syn=CO,BIT,ONE,SAY,AREA,DESK,FIEF,GAME,NEON,PART,UNIT,WALK,ZINC,ARGON,BORON; fodder=ELEMENT(5/7 anagram match)
+      natural: syn=BIG,GUT,POP,RAW,ARCH,BORN,GONE,HIGH,MUCH,NEAR,NOTE,PURE,REAL,RICH,RUDE
+      gas: syn=ETHANE*,METHANE*,GAB,HOT,JAW,JOY,RAP,RUN,AIRS,BLAB,BRAG,CHAT,FUEL,HAVE,KICK; ind=anagram?
+      essential element: syn=CORE,PITH,HEART,CENTRE,KERNEL,NUCLEUS
+    Definitions:
+      "gas" -> METHANE (definition match)
+  AI Reasoning:
+    MET (encountered) + HANE (HE containing AN, where 'purchasing' is container indicator) = METHANE
+  ----------------------------------------------------------------------
+
+  [FAILED] Inca  6A. Old South American's tiny scar discovered
+  Answer: Inca
+  Tier: --- | Confidence: 0/100
+  Definition: "Old South American's"
+  Wordplay type: hidden
+  Components:
+    hidden             tiny scar                 -> INCA
+  DB Lookups:
+    DB lookups:
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O
+      south: syn=S,DOWN; abbr=S; ind=reversal
+      american's: syn=INCA*,A,US,GUMS,ROTH,YANK; abbr=A*,US
+      tiny: syn=BABY,MINI,SIZE
+      scar: syn=SP,MAR,RAP,SIN,BOOB,FLAW,FLUB,GAFF,GOOF,MARK,ONUS,SLIP,VICE
+      discovered: syn=ATE,DUG,GOT,HAD,RAN,SAW,BEAT,BUSY,CAME,FELT,GREW,ICED,KNEW,MADE,SEEN; ind=parts
+      old south american's: syn=INCA*
+  AI Reasoning:
+    INCA is hidden within 'tiny scar' (tINy sCar), indicated by 'discovered'
+  ----------------------------------------------------------------------
+
+  [HIGH] NAIRA  7D. New operatic song raised money in Nigeria
+  Answer: NAIRA
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "money in Nigeria"
+  Wordplay type: charade
+  Components:
+    abbreviation       New                       -> N
+    reversal           operatic song             -> AIRA
+  Assembly: charade — N(abbr. "New") + AIRA(ARIA reversed, "operatic song")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      operatic: syn=MUSIC
+      song: syn=AIR*,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR*,ARIA
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      money: syn=NAIRA*,DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST; abbr=BREAD,CASH,DOSH
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      nigeria: syn=STATE
+      operatic song: syn=ARIA
+  AI Reasoning:
+    N (New) + ARIA (operatic song) reversed by 'raised' gives N + AIRA = NAIRA
+  ----------------------------------------------------------------------
+
+  [HIGH] AGREEMENTS  8D. Deals with representatives detaining mere criminal
+  Answer: AGREEMENTS
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Deals with"
+  Wordplay type: container
+  Components:
+    synonym            representatives           -> AGENTS
+    anagram_fodder     mere                      -> REEM
+  Assembly: container — REEM("mere") inside AGENTS(synonym of "representatives")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deals: syn=AGREEMENTS*,AGREEMENT*,DAY,ACTS,SALES,TRADE,TRADES,HUNDRED,AUCTIONS,BARGAINS,CONTRACTS,TRANSACTS,PROGRAMMES,A,OK; ind=anagram?
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      representatives: syn=AGENTS*,AGENT*,FAMILY,OFFICERS,DELEGATES,MP,REP,CASE,CLERK,ENVOY,PROXY,A GENT,CHARGE,DEACON,DEPUTY; ind=container?
+      mere: syn=BARE,JUST,LAKE,ONLY,POOL,PURE,VERY,LEAST,PLAIN,WATER,A LAKE,A POOL,PALTRY,SIMPLE,IN LAKE
+      criminal: syn=C,CON,BENT,EVIL,FISH,HOOD,PERP,THUG,BADDY,CROOK,FELON,FENCE,THIEF,UNDER,BADLOT; abbr=C,CON; ind=anagram
+    Definitions:
+      "Deals" -> AGREEMENTS (definition match)
+  AI Reasoning:
+    AGENTS (representatives) contains REEM (anagram of 'mere' indicated by 'criminal') to form AGREEMENTS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,413 @@
+WS3 MEDIUM QUALITY REVIEW: 50 from 16,296
+================================================================================
+
+--- #1 [score 65] anagram ---
+Clue: Thanks to natural evolution, it has a serious bite
+Answer: TARANTULA
+Def: None [?]
+Assembly: anagram assembly: sorted(TANATURAL) = sorted(TARANTULA)
+  [Y] TA         <- "Thanks" (synonym)
+  [Y] NATURAL    <- "natural" (literal)
+
+--- #2 [score 60] charade ---
+Clue: Plant you recognised in France on border
+Answer: TULIP
+Def: Plant [verified]
+Assembly: assembly: TULIP = TULIP
+  [?] TU         <- "“you in France”" (synonym)
+  [Y] LIP        <- "“border”" (synonym)
+
+--- #3 [score 65] charade ---
+Clue: A sample reduced vomit but only just
+Answer: ATASTRETCH
+Def: only just [unverifiable]
+Assembly: assembly: ATASTRETCH = ATASTRETCH
+  [Y] A          <- "A" (literal)
+  [Y] TAST       <- "TAST" (literal)
+  [Y] RETCH      <- "vomit" (synonym)
+
+--- #4 [score 45] anagram ---
+Clue: Go after version of Tosca in formal dress
+Answer: TAILCOATS
+Def: None [?]
+Assembly: anagram assembly: sorted(TAILTOSCA) = sorted(TAILCOATS)
+  [?] TAIL       <- "go after" (synonym)
+  [Y] TOSCA      <- "Tosca" (literal)
+
+--- #5 [score 40] anagram ---
+Clue: Repeatedly tame rowdy colleague
+Answer: TEAMMATE
+Def: colleague [verified]
+Assembly: anagram assembly: sorted(TAMETAME) = sorted(TEAMMATE)
+  [?] TAME       <- "repeated" (synonym)
+  [?] TAME       <- "repeated" (synonym)
+
+--- #6 [score 60] anagram ---
+Clue: Embargoes involving dodgy money? Certainly not!
+Answer: BYNOMEANS
+Def: Certainly not! [verified]
+Assembly: container assembly: YNOME inside BANS = BYNOMEANS
+  [Y] YNOME      <- "YNOME" (literal)
+  [?] BANS       <- "’embargoes’" (synonym)
+
+--- #7 [score 65] charade ---
+Clue: Parent makes request with message, wanting learner to be let off
+Answer: BEGETTER
+Def: None [?]
+Assembly: assembly: BEGETTER = BEGETTER
+  [Y] BEG        <- "BEG" (literal)
+  [Y] ETTER      <- "ETTER" (literal)
+
+--- #8 [score 50] container ---
+Clue: Dash back to rescue head of government in China, say — it's painless
+Answer: ANALGESIA
+Def: None [?]
+Assembly: container assembly: NALGE inside ASIA = ANALGESIA
+  [?] ASIA       <- "China, say" (synonym)
+  [?] NALGE      <- "ins of G, first letter of gove" (synonym)
+
+--- #9 [score 65] container ---
+Clue: Flies part of journey in pants
+Answer: LONGLEGS
+Def: Flies [verified]
+Assembly: container assembly: LEG inside LONGS = LONGLEGS
+  [?] LONGS      <- "trousers=”pants”" (synonym)
+  [?] LEG        <- "”part of journey” in LONGS=tro" (synonym)
+
+--- #10 [score 66] charade ---
+Clue: Work to support two gods denying a fall from heaven?
+Answer: RAINDROP
+Def: fall from heaven? [verified]
+Assembly: assembly: RAINDROP = RAINDROP
+  [?] RA         <- "gods" (synonym)
+  [Y] INDR       <- "INDR" (literal)
+  [Y] OP         <- "work" (synonym)
+
+--- #11 [score 70] reversal ---
+Clue: C Dynasty i
+Answer: NAMING
+Def: None [?]
+Assembly: reversal assembly: piece 0 reversed = NAMING
+  [?] AN         <- "AN" (reversal)
+  [Y] MING       <- "Dynasty" (synonym)
+
+--- #12 [score 65] anagram ---
+Clue: Boy cut by crazy inmate given protection, in a way
+Answer: LAMINATED
+Def: None [?]
+Assembly: anagram assembly: sorted(INMATELAD) = sorted(LAMINATED)
+  [Y] INMATE     <- "inmate" (literal)
+  [Y] LAD        <- "Boy" (synonym)
+
+--- #13 [score 60] charade ---
+Clue: 7 held up claw of cat perhaps
+Answer: MAMMALIAN
+Def: cat perhaps [verified]
+Assembly: assembly: MAMMALIAN = MAMMALIAN
+  [?] MAMMA      <- "‘7’ MATRIARCH" (synonym)
+  [Y] LIAN       <- "LIAN" (literal)
+
+--- #14 [score 40] charade ---
+Clue: Bureaucrat's lover, courageous for the most part
+Answer: MANDARIN
+Def: Bureaucrat's [verified]
+Assembly: assembly: MANDARIN = MANDARIN
+  [?] MAN        <- "lover, as in Stand By Your" (synonym)
+  [?] DARIN      <- "g" (synonym)
+
+--- #15 [score 60] charade ---
+Clue: Animal welfare group appeal for assistance is old hat
+Answer: PETASOS
+Def: old hat [verified]
+Assembly: assembly: PETASOS = PETASOS
+  [?] PETA       <- "abbreviation for People for th" (synonym)
+  [Y] SOS        <- "appeal" (synonym)
+
+--- #16 [score 65] charade ---
+Clue: Penalises wordplay that is too subtle
+Answer: FINESPUN
+Def: None [?]
+Assembly: assembly: FINESPUN = FINESPUN
+  [Y] FINES      <- "FINES" (literal)
+  [Y] PUN        <- "wordplay" (synonym)
+
+--- #17 [score 60] charade ---
+Clue: Well-known where yours truly pointed
+Answer: ICONIC
+Def: Well-known [verified]
+Assembly: assembly: ICONIC = ICONIC
+  [Y] I          <- "yours truly" (synonym)
+  [?] CONIC      <- "pointed" (synonym)
+
+--- #18 [score 45] anagram ---
+Clue: Relating to sort of blue film about break-up of USSR
+Answer: PRUSSIC
+Def: None [?]
+Assembly: anagram assembly: sorted(PICUSSR) = sorted(PRUSSIC)
+  [?] PIC        <- "ture" (synonym)
+  [Y] USSR       <- "USSR" (literal)
+
+--- #19 [score 65] deletion ---
+Clue: Head away from watercourse's foul odour
+Answer: REEK
+Def: None [?]
+Assembly: assembly: REEK = REEK
+  [Y] REEK       <- "creek" (deletion)
+
+--- #20 [score 65] anagram ---
+Clue: Macron's article stops baked beans sanctions
+Answer: ENABLES
+Def: None [?]
+Assembly: anagram assembly: sorted(LEBEANS) = sorted(ENABLES)
+  [Y] LE         <- "=Macron’s article, i.e. a Fren" (synonym)
+  [Y] BEANS      <- "beans" (literal)
+
+--- #21 [score 65] anagram ---
+Clue: 8 queen put on big green pants
+Answer: GINGERBEER
+Def: None [?]
+Assembly: container assembly: ER inside GINGBEER = GINGERBEER
+  [Y] ER         <- "one-time ‘queen’" (synonym)
+  [Y] GINGBEER   <- "GINGBEER" (literal)
+
+--- #22 [score 65] anagram ---
+Clue: Repeated absenteeism gets curates in trouble
+Answer: TRUANCIES
+Def: None [?]
+Assembly: anagram assembly: sorted(CURATESIN) = sorted(TRUANCIES)
+  [Y] CURATES    <- "curates" (literal)
+  [Y] IN         <- "in" (literal)
+
+--- #23 [score 60] charade ---
+Clue: As an alternative, cut celestial path
+Answer: ORBIT
+Def: path [verified]
+Assembly: assembly: ORBIT = ORBIT
+  [Y] OR         <- "alternative," (synonym)
+  [?] BIT        <- "cut" (synonym)
+
+--- #24 [score 70] container ---
+Clue: Probability in relating to one sense organ – or another
+Answer: OPTIC
+Def: None [?]
+Assembly: container assembly: P inside OTIC = OPTIC
+  [Y] OTIC       <- "relating to the ear; relating " (synonym)
+  [?] P          <- "[statistical] probability – ab" (synonym)
+
+--- #25 [score 65] anagram ---
+Clue: Pen novel for reclining dictator, some light material
+Answer: STYROFOAM
+Def: None [?]
+Assembly: anagram assembly: sorted(STYFORMAO) = sorted(STYROFOAM)
+  [Y] STY        <- "Pen" (synonym)
+  [Y] FOR        <- "for" (literal)
+  [Y] MAO        <- "MAO" (literal)
+
+--- #26 [score 70] reversal ---
+Clue: Block going backwards and forwards somewhere in Germany
+Answer: POTSDAM
+Def: None [?]
+Assembly: reversal assembly: piece 0 reversed = POTSDAM
+  [?] STOP       <- "STOP" (reversal)
+  [Y] DAM        <- "Block" (synonym)
+
+--- #27 [score 65] charade ---
+Clue: As filler, shortly check on old comedian
+Answer: GROUCHO
+Def: Groucho Marx [wiki] GROU-[t]=”filler [unverifiable]
+Assembly: assembly: GROUCHO = GROUCHO
+  [Y] GROU       <- "GROU" (literal)
+  [Y] CH         <- "check" (synonym)
+  [Y] O          <- "old" (synonym)
+
+--- #28 [score 60] charade ---
+Clue: Representative thrusts a child under spotlight initially
+Answer: SPOKESPERSON
+Def: Representative [verified]
+Assembly: assembly: SPOKESPERSON = SPOKESPERSON
+  [?] S          <- "Spotlight" (synonym)
+  [?] POKES      <- "thrusts" (synonym)
+  [Y] PER        <- "a" (synonym)
+  [Y] SON        <- "child" (synonym)
+
+--- #29 [score 45] anagram ---
+Clue: Butler cracks enigmatic clue — so not hopeless!
+Answer: CURABLE
+Def: “not hopeless!” [unverifiable]
+Assembly: anagram assembly: sorted(RABCLUE) = sorted(CURABLE)
+  [?] RAB        <- "“Butler” (referring to Rab But" (synonym)
+  [Y] CLUE       <- "clue" (literal)
+
+--- #30 [score 60] anagram ---
+Clue: Barmy army boxes tough cockney: a bit of a spar
+Answer: YARDARM
+Def: spar [verified]
+Assembly: anagram assembly: sorted(ARMYARD) = sorted(YARDARM)
+  [Y] ARMY       <- "army" (literal)
+  [?] ARD        <- "tough cockney" (synonym)
+
+--- #31 [score 65] reversal ---
+Clue: Perhaps wedge lifted root
+Answer: NEEP
+Def: root [verified]
+Assembly: reversal assembly: piece 0 reversed = NEEP
+  [?] PEEN       <- "the end of a hammer head oppos" (reversal)
+
+--- #32 [score 40] deletion ---
+Clue: Hat left out in alcove
+Answer: BOWER
+Def: alcove [verified]
+Assembly: assembly: BOWER = BOWER
+  [?] BOWER      <- "bowler" (deletion)
+
+--- #33 [score 65] anagram ---
+Clue: Bar duo plays during set of gigs (one sings)
+Answer: TROUBADOUR
+Def: None [?]
+Assembly: anagram assembly: sorted(BARDUOTOUR) = sorted(TROUBADOUR)
+  [Y] BAR        <- "Bar" (literal)
+  [Y] DUO        <- "duo" (literal)
+  [Y] TOUR       <- "TOUR" (literal)
+
+--- #34 [score 65] charade ---
+Clue: 'You have to watch this young wine' notice
+Answer: MUSTSEE
+Def: None [?]
+Assembly: assembly: MUSTSEE = MUSTSEE
+  [Y] MUST       <- "have" (synonym)
+  [Y] SEE        <- "”notice”" (synonym)
+
+--- #35 [score 65] anagram ---
+Clue: One Direction welcoming drunk in, OK being most squiffy?
+Answer: WONKIEST
+Def: None [?]
+Assembly: anagram assembly: sorted(INOKWEST) = sorted(WONKIEST)
+  [Y] IN         <- "in," (literal)
+  [Y] OK         <- "OK" (literal)
+  [Y] WEST       <- "a direction" (synonym)
+
+--- #36 [score 60] charade ---
+Clue: Booze manufactured by old revolutionaries
+Answer: MADEIRA
+Def: Booze [verified]
+Assembly: assembly: MADEIRA = MADEIRA
+  [Y] MADE       <- "manufactured" (synonym)
+  [?] IRA        <- "abbreviation for Irish Republi" (synonym)
+
+--- #37 [score 70] container ---
+Clue: Delight about South Africa's turnaround
+Answer: REVERSAL
+Def: None [?]
+Assembly: container assembly: RSA inside REVEL = REVERSAL
+  [Y] REVEL      <- "delight" (synonym)
+  [?] RSA        <- "Republic of South Africa" (synonym)
+
+--- #38 [score 60] charade ---
+Clue: A short riddle that seems very unlikely!
+Answer: ASIF
+Def: that seems very unlikely! [verified]
+Assembly: assembly: ASIF = ASIF
+  [Y] A          <- "A" (literal)
+  [?] SIF        <- "t" (synonym)
+
+--- #39 [score 60] deletion ---
+Clue: Short, dull artist leaving one section for stage
+Answer: DRAMATISE
+Def: stage [verified]
+Assembly: assembly: DRAMATISE = DRAMATISE
+  [Y] DRA        <- "drab" (deletion)
+  [?] MATISE     <- "matisse" (deletion)
+
+--- #40 [score 65] charade ---
+Clue: Old singer, if not plain beast?
+Answer: ORBISON
+Def: “Old singer” [unverifiable]
+Assembly: assembly: ORBISON = ORBISON
+  [Y] OR         <- "“if not”" (synonym)
+  [Y] BISON      <- "beast?" (synonym)
+
+--- #41 [score 65] charade ---
+Clue: When to form a union, learning, we hear, of rule in the main
+Answer: MARITIMELAW
+Def: “rule in the main” (“the main” as in “the sea”) [unverifiable]
+Assembly: assembly: MARITIMELAW = MARITIMELAW
+  [Y] MARITIME   <- "MARITIME" (literal)
+  [Y] LAW        <- "rule" (synonym)
+
+--- #42 [score 65] charade ---
+Clue: Boy working next to church making pale green porcelain
+Answer: CELADON
+Def: None [?]
+Assembly: assembly: CELADON = CELADON
+  [Y] CE         <- "church" (synonym)
+  [Y] LAD        <- "=boy" (synonym)
+  [Y] ON         <- "working" (synonym)
+
+--- #43 [score 51] charade ---
+Clue: Knowledge largely hard to find by day? None of us can see it
+Answer: INFRARED
+Def: None [?]
+Assembly: assembly: INFRARED = INFRARED
+  [Y] INF        <- "INF" (literal)
+  [?] RARE       <- "hard to find" (synonym)
+  [Y] D          <- "day" (synonym)
+
+--- #44 [score 51] charade ---
+Clue: Sociable German takes drugs - mushrooms?
+Answer: FUNGUSES
+Def: None [?]
+Assembly: assembly: FUNGUSES = FUNGUSES
+  [?] FUN        <- "=sociable, genial" (synonym)
+  [Y] G          <- "=German" (synonym)
+  [Y] USES       <- "takes" (synonym)
+
+--- #45 [score 65] anagram ---
+Clue: One coming from nowhere puts out pictures
+Answer: UPSTART
+Def: None [?]
+Assembly: anagram assembly: sorted(PUTSART) = sorted(UPSTART)
+  [Y] PUTS       <- "puts" (literal)
+  [Y] ART        <- "pictures" (synonym)
+
+--- #46 [score 45] charade ---
+Clue: Degree of warmth attending a kind of party
+Answer: TOGA
+Def: None [?]
+Assembly: assembly: TOGA = TOGA
+  [?] TOG        <- "degree of warmth – as in tog-r" (synonym)
+  [Y] A          <- "a" (literal)
+
+--- #47 [score 51] charade ---
+Clue: Irrational learner driver threatening person on the road to Canterbury
+Answer: PILGRIM
+Def: None [?]
+Assembly: assembly: PILGRIM = PILGRIM
+  [Y] PI         <- "Irrational" (synonym)
+  [Y] L          <- "learner driver" (synonym)
+  [?] GRIM       <- "threatening" (synonym)
+
+--- #48 [score 66] charade ---
+Clue: Green Party's pursuing a mission that's only half complete
+Answer: AVOCADO
+Def: Green [verified]
+Assembly: assembly: AVOCADO = AVOCADO
+  [Y] A          <- "a" (abbreviation)
+  [?] VOCA       <- "first 4 letters of the 8 [half" (synonym)
+  [Y] DO         <- "party" (synonym)
+
+--- #49 [score 66] charade ---
+Clue: Recoiling child with temperature given strange medicine
+Answer: NOSTRUM
+Def: medicine [verified]
+Assembly: assembly: NOSTRUM = NOSTRUM
+  [?] NOS        <- "SON=child; “recoiling” indicat" (synonym)
+  [Y] T          <- "=temperature" (synonym)
+  [Y] RUM        <- "=strange" (synonym)
+
+--- #50 [score 65] anagram ---
+Clue: Split up and get grease monkeys around
+Answer: SEGREGATE
+Def: None [?]
+Assembly: anagram assembly: sorted(GETGREASE) = sorted(SEGREGATE)
+  [Y] GET        <- "get" (literal)
+  [Y] GREASE     <- "grease" (literal)

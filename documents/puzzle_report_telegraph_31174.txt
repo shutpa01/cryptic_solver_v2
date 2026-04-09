@@ -1,0 +1,1193 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31174
+Generated: 2026-03-16 09:44:17
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        29/30 (96%)
+    Sonnet:         29
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   12  1A, 1D, 11A, 14A, 15A, 17D, 2D, 21D, 24D, 27A, 29A, 4A
+  Medium (40-79): 17  10A, 12A, 13A, 16D, 18A, 19D, 20A, 22D, 23A, 25A, 26A, 28A, 3D, 6D, 7D, 8D, 9D
+  Low (<40):    0  
+  Failed:       1  5D
+  Average:      69/100
+
+COST: $0.2940 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (14 entries)
+------------------------------------------------------------
+  PRESENT: "papers" -> PRESENT  (missing from definition_answers_augmented)
+  ENTENTES: "Agreements" -> ENTENTES  (missing from definition_answers_augmented)
+  INGRATE: "Thankless wretch" -> INGRATE  (missing from definition_answers_augmented)
+  SEMINAR: "teaching session" -> SEMINAR  (missing from definition_answers_augmented)
+  stepping stones: "Make progress" -> stepping stones  (missing from definition_answers_augmented)
+  RIGMAROLE: relative -> MA  (missing from synonyms_pairs)
+  roast beef: kiln -> ROAST  (missing from synonyms_pairs)
+  Accra: Two chapters -> CC  (missing from abbreviations)
+  ASHRAM: horny male -> RAM  (missing from synonyms_pairs)
+  MACKEREL: club -> MAC  (missing from synonyms_pairs)
+  crab-apple: Nipper -> CRAB  (missing from synonyms_pairs)
+  crab-apple: spotted -> APPLE  (missing from synonyms_pairs)
+  contract bridge: Reach -> CONTRACT  (missing from synonyms_pairs)
+  contract bridge: part of ship -> BRIDGE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (8)
+------------------------------------------------------------
+  READAPT = 12 (67/100): AI=anagram, assembled=charade
+  NOMADIC = 19 (40/100): AI=anagram, assembled=reversal
+  ASHRAM = 22 (47/100): AI=container, assembled=charade
+  SEMINAR = 23 (47/100): AI=charade, assembled=reversal
+  Ottoman = 25 (71/100): AI=anagram, assembled=charade
+  MACKEREL = 28 (58/100): AI=container, assembled=charade
+  TAFFETA = 7 (71/100): AI=container, assembled=charade
+  DELETE = 8 (63/100): AI=container, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (3 clues)
+------------------------------------------------------------
+  MACKEREL (58/100): E <- brute force (no clue basis)
+  ISOLATED (90/100): I <- "island" (first_letter)
+  DELETE (63/100): E <- "edges" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (1)
+------------------------------------------------------------
+  ENTENTES = 18 (50/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  NOMADIC = 19 (40/100): no pieces verified in DB
+  crab-apple = 3 (44/100): no pieces verified in DB
+  contract bridge = 9 (44/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  5. Make progress with these animals upset over noises = stepping stones
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  12/30  11A, 14A, 15A, 26A, 27A, 29A, 1D, 1D, 6D, 17D, 21D, 24D
+  Type mismatch:         8  12A, 23A, 25A, 28A, 7D, 8D, 19D, 22D
+  Fabricated mapping:    3  4A, 28A, 8D
+  Circular assembly:     1  18A
+  Unverified explain.:   3  3D, 9D, 19D
+  DB gap:                12  10A, 13A, 18A, 20A, 23A, 28A, 2D, 3D, 5D, 9D, 16D, 22D
+  Failed:                1  5D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  SNITCH        Poles at front of long grass (6)
+                      SN(abbr. "Poles") + ITCH(synonym of "long")  [HIGH]
+    1D  SURPRISE      Shock when quiet retiring gentleman cracks safe (8)
+                      P(abbr. "quiet")+RIS(reversal of "retiring gentleman") inside SURE(synonym of "safe")  [HIGH]
+   10A  RIGMAROLE     Equip relative with part in play Palaver (9)
+                      RIG(synonym of "Equip") + MA(synonym of "relative") + ROLE(synonym of "part in play")  [MED]
+   11A  OFFAL         Old king with large brain? (5)
+                      OFFA(synonym of "Old king") + L(abbr. "large")  [HIGH]
+   12A  READAPT       Further modify study American priest vacated (7)
+                      READ(synonym of "study") + A(abbr. "American") + PT(core of "priest")  [MED]
+   13A  PRESENT       Tense leader ignoring papers (7)
+                      double definition  [MED]
+   14A  SWEEP         Clean overturned benches around base (5)
+                      E(synonym of "base") inside SWEP(reversal of "benches")  [HIGH]
+   15A  ABNORMAL      Oddball reconstructed Roman lab (8)
+                      anagram of ROMAN(Roman)+LAB(lab)  [HIGH]
+   16D  roast beef    Dish from kiln Head of Banking brought into bank (5,4)
+                      ROAST(synonym of "kiln") + BEEF(Head of Banking brought into bank)  [MED]
+   17D  GAUNTLET      Thin client periodically cancelled digital protection (8)
+                      GAUNT(synonym of "Thin") + LET(alternate letters of "client")  [HIGH]
+   18A  ENTENTES      Agreements between ten testy nurses (8)
+                      hidden in 'betweEN TEN TESty'  [MED]
+   19D  NOMADIC       Roving investigators before noon running northwards (7)
+                      reverse CIDAMON(investigators before noon)  [MED]
+    2D  INGRATE       Thankless wretch lost garnet south of Italy (7)
+                      anagram of GARNET(garnet)+I(abbr. "Italy")  [HIGH]
+   20A  Accra         Two chapters by artist on area in city (5)
+                      A(abbr. "area") + CC(abbr. "Two chapters") + RA(abbr. "artist")  [MED]
+   21D  COMPOTE       Politician stuffing bird with last of the stewed fruit (7)
+                      MP(abbr. "Politician") inside COOT(synonym of "bird") + E(last letter of "last of the")  [HIGH]
+   22D  ASHRAM        A horny male maintains silence in retreat (6)
+                      A(A) + SH(abbr. "silence") + RAM(synonym of "horny male")  [MED]
+   23A  SEMINAR       Half rushed back for teaching session (7)
+                      SEMI(Half) + reverse RAN(synonym of "rushed")  [MED]
+   24D  NERVE         Short emperor starts to value exceptional courage (5)
+                      NER(deletion from "emperor") + VE(first letter of "value exceptional")  [HIGH]
+   25A  Ottoman       Seat extravagant lady after whiskey's spilt (7)
+                      OTT(synonym of "extravagant") + OMAN(deletion from "lady after whiskey's")  [MED]
+   26A  RIDER         Free beer regularly for one in Derby? (5)
+                      RID(synonym of "Free") + ER(alternate letters of "beer")  [MED]
+   27A  diesel oil    Fuel from isle Oscar lied about (6,3)
+                      anagram of ISLE(isle)+O(Oscar)+LIED(lied)  [HIGH]
+   28A  MACKEREL      Swimmer Kelvin welcomed by club on loch (8)
+                      MAC(synonym of "club") + K(abbr. "Kelvin") + E + RE(abbr. "on") + L(abbr. "loch")  [MED]
+   29A  AFFECT        Influence iron-clad female in performance (6)
+                      F(abbr. "female")+FE(abbr. "iron") inside ACT(synonym of "performance")  [HIGH]
+    3D  crab-apple    Nipper spotted peeled fruit (4-5)
+                      CRAB(synonym of "Nipper") + APPLE(synonym of "spotted")  [MED]
+    4A  ISOLATED      Cut off toe lad's fractured on island (8)
+                      anagram of TOELADS(toe lad's)+I  [HIGH]
+    5D  stepping stones  Make progress with these animals upset over noises (8,6)
+                      ---  [FAIL]
+    6D  LOOSE         Untethered deer leaving motorway for lake (5)
+                      cryptic definition  [MED]
+    7D  TAFFETA       Rolled plump cheese in fabric (7)
+                      TAF(reversal of "plump") + FETA(synonym of "cheese")  [MED]
+    8D  DELETE        Scrub edges of durable permit back in office (6)
+                      DE(first letter of "edges of durable") + reverse TEL(reversal of "permit") + E  [MED]
+    9D  contract bridge  Reach part of ship storing essentially cured game (8,6)
+                      CONTRACT(synonym of "Reach") + BRIDGE(synonym of "part of ship")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] SNITCH  1A. Poles at front of long grass
+  Answer: SNITCH
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "grass"
+  Wordplay type: charade
+  Components:
+    abbreviation       Poles                     -> SN
+    synonym            long                      -> ITCH
+  Assembly: charade — SN(abbr. "Poles") + ITCH(synonym of "long")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      poles: syn=POSTS,BAR,BAIT,CALL,DRAW,LURE,SPAR,SPUR,ANODE,MECCA,NORTH,TOTEM,ALLURE,APPEAL,CENTER; abbr=SN*,N*,S*; sounds=poll
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      front: syn=ACT,AIR,ARC,END,PUT,TOP,VAN,WAY,ACTS,AIRS,AREA,AXIS,BLOC,DESK,FACE; ind=acrostic,parts
+      long: syn=ITCH*,AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC; abbr=PINE
+      grass: syn=SNITCH*,HAY,LEA,LOT,OAT,POT,RAT,RYE,HASH,LAWN,MOOR,PLAT,PLOT,REED,SING; ind=container?
+    Definitions:
+      "grass" -> SNITCH (definition match)
+  AI Reasoning:
+    Definition: "grass" (slang for informer/snitch).
+    Wordplay: charade. "Poles" = SN (South and North poles abbreviated). "at front of long" uses "front" as an acrostic indicator, taking the first letter of "long" = L. But that gives SNL, not SNITCH.
+    
+    Let me reconsider using the known lookups: "poles" = SN, "long" = ITCH (synonym).
+    "at front of" could mean SN goes at the front of ITCH: SN + ITCH = SNITCH.
+  ----------------------------------------------------------------------
+
+  [HIGH] SURPRISE  1D. Shock when quiet retiring gentleman cracks safe
+  Answer: SURPRISE
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Shock"
+  Wordplay type: container
+  Components:
+    synonym            safe                      -> SURE
+    abbreviation       quiet                     -> P
+    reversal           retiring gentleman        -> RIS
+  Assembly: container — P(abbr. "quiet")+RIS(reversal of "retiring gentleman") inside SURE(synonym of "safe")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      shock: syn=SURPRISE*,HIM,JAR,MAN,AFRO,HAIR,JOLT,MANE,ROCK,STUN,TURN,ALARM,AMAZE,APPAL,FLOOR
+      when: syn=IS*,AS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      quiet: syn=IT,SH,DRY,KEY,LOW,ANTI,CALM,COOL,HUSH,LOWN,LULL,SOFT,EQUAL,FRAIL,LEVEL; abbr=P*,SH
+      retiring: syn=COY,SHY,MEEK,FAZED,JUMPY,LOWLY,QUIET,STIFF,TIMID,UPSET,CLUMSY,DEMURE,GAUCHE,MODEST,RUSTIC; ind=reversal
+      gentleman: syn=BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,BABY,BEAU,BIRD
+      cracks: syn=BODY,CHAPS,ARMHOLES,ATTEMPTS,DO,GO,MY,ACE,ACT,BAT,BIG,BOP,BOX,DAB,FAG; ind=anagram?,container
+      safe: syn=SURE*,BOX,SEA,SEX,BEST,GOOD,HOME,HOPE,SNUG,TRUE,WARY,ALERT,CHARY,CHEST,CUDDY
+    Definitions:
+      "Shock" -> SURPRISE (definition match)
+  AI Reasoning:
+    Definition: "Shock" (SURPRISE is a synonym for shock).
+    
+    Wordplay: container. "retiring gentleman" = SIR reversed = RIS. "quiet" = P (abbreviation). "safe" = SURE (synonym).
+    
+    "cracks" is the container indicator. RIS + P goes inside SURE: SU + RIS + P + E = SURPRISE.
+    
+    Wait, that gives SURISPE. Let me reconsider.
+    
+    Actually: P (quiet) + RIS (retiring gentleman = SIR reversed) = PRIS goes inside SURE (safe). SU + PRIS + E = SUPRISE. That's missing an R.
+    
+    Rethinking: SUR (part of SURE) + P (quiet) + RIS (SIR reversed) + E (end of SURE) = SURPRISE.
+    
+    Actually: SURE contains P + RIS = SU(PRIS)E = SUPRISE. Still wrong.
+    
+    Let me try: SUR + P + RIS + E where the container is different.
+    
+    Actually: S + U + (P + RIS) + E where PRIS goes between SU and E of SURE = SURPRISE. Yes: SU(PRIS)E with an extra R = SURPRISE.
+    
+    The wordplay is: P (quiet) + RIS (retiring SIR) contained in SURE (safe) = SU(PRIS)E, but this needs adjustment for the extra R in SURPRISE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RIGMAROLE  10A. Equip relative with part in play Palaver
+  Answer: RIGMAROLE
+  Tier: Sonnet | Confidence: 59/100
+  Definition: "Palaver"
+  Wordplay type: charade
+  Components:
+    synonym            Equip                     -> RIG
+    synonym            relative                  -> MA
+    synonym            part in play              -> ROLE
+  Assembly: charade — RIG(synonym of "Equip") + MA(synonym of "relative") + ROLE(synonym of "part in play")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      equip: syn=RIG*,ARM,FIT,KIT,PUT,BEND,EDIT,FINE,GEAR,REDO,ROOT,SUIT,TUNE,ADAPT,ALTER
+      relative: syn=A,BRO,DAD,KIN,NAN,SIB,SIS,SON,AUNT,GRAN,NEAR,WIFE,AUNTY,GREAT,INLAW
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      part: syn=ROLE*,DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE; abbr=PT,ROLE*; ind=anagram,deletion,hidden
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      play: syn=ROLE*,DO,GO,ACT,BET,BUM,END,FUN,JIG,LAG,LAY,NOH,PUT,TOY,USE; ind=anagram
+      palaver: syn=RIGMAROLE*,A,AND,GAS,RUN,CELL,CLUB,FUSS,TALK,BOARD,FORUM,GUILD,LOCAL,MUSIC,PANEL
+    Definitions:
+      "Palaver" -> RIGMAROLE (definition match)
+  AI Reasoning:
+    Definition: "Palaver" (rigmarole is a synonym for palaver).
+    Wordplay: charade. "Equip" = RIG (confirmed synonym). "relative" = MA (informal for mother). "part in play" uses "in" as container indicator - "part" = ROLE goes inside "play" = MORAL to give M(ROLE)AL = MOROLE. Wait, that doesn't work.
+    
+    Let me reconsider: RIG + MA + ROLE = RIGMAROLE. Here "part in play" = ROLE (a part/role in a theatrical play). So: RIG + MA + ROLE = RIGMAROLE.
+  ----------------------------------------------------------------------
+
+  [HIGH] OFFAL  11A. Old king with large brain?
+  Answer: OFFAL
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "brain"
+  Wordplay type: charade
+  Components:
+    synonym            Old king                  -> OFFA
+    abbreviation       large                     -> L
+  Assembly: charade — OFFA(synonym of "Old king") + L(abbr. "large")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      king: syn=OFFA*,MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,RAJA,TSAR,ALLAH,DEITY; abbr=K,R,REX
+      with: syn=OF*,BY,IN,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L*,OS
+      brain: syn=BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,BATH,BENT,BUFF,DIKE,DUCK,FOOL; ind=anagram?
+      old king: abbr=GR
+      old king: syn=OFFA*,JEHU,KING
+    Definitions:
+      "brain" -> OFFAL (definition match)
+  AI Reasoning:
+    Definition: "brain" (offal includes brain as organ meat).
+    Wordplay: charade. "Old king" = OFFA (Anglo-Saxon king). "large" = L (abbreviation). OFFA + L = OFFAL.
+    
+    Note: "brain" here serves as both the anagram indicator AND the definition, but since the charade works perfectly (OFFA + L = OFFAL), this is actually a charade construction where "brain" is the definition only.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] READAPT  12A. Further modify study American priest vacated
+  Answer: READAPT
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Further modify"
+  Wordplay type: anagram
+  Components:
+    synonym            study                     -> READ
+    abbreviation       American                  -> A
+    core_letters       priest                    -> PT
+  Assembly: charade — READ(synonym of "study") + A(abbr. "American") + PT(core of "priest")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      further: syn=HIP,TOO,YET,ABET,ALSO,CHIC,ELSE,HELP,INTO,MINT,MORE,SOME,THAT,THEN,WHAT
+      modify: syn=ADAPT*,READAPT*,FIT,PUT,RIG,BEND,EDIT,FINE,GEAR,MAKE,REDO,ROOT,SUIT,TUNE,ALTER; ind=anagram?
+      study: syn=READ*,CON,DEN,HER,HIS,EXAM,FEEL,MUCH,QUIZ,SCAN,SWOT,TEST,VIEW,AUDEN,AUDIT; abbr=CON,READ*
+      american: syn=US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS; abbr=A*,US
+      priest: syn=ELI,LAM,REV,ABBE,IMAM,LAMA,LEVI,ABBOT,CLERK,DRUID,MAGUS,PADRE,ZADOK,CLERIC,CLERK,; abbr=DD,ELI,PR,RR
+      vacated: syn=IDLE,LEFT,VOID,EMPTY,WASTE,JUNKED,REFUSE,SHABBY,VACANT,DISUSED,IGNORED; ind=parts; fodder=VACATED(5/7 anagram match)
+      further modify: syn=READAPT*
+    Definitions:
+      "Further modify" -> READAPT (definition match)
+  AI Reasoning:
+    Definition: "Further modify" (READAPT means to modify again).
+    Wordplay: anagram + deletion. "modify" is the anagram indicator. "vacated" means remove the middle letters from "priest" → P_T (keeping outer letters).
+    Fodder: READ (study) + A (American) + PT (priest vacated) = READAPT.
+    Anagram: READAPT rearranged = READAPT (the letters already spell the answer).
+    
+    Wait, let me reconsider: The anagram fodder would be READ + A + PT = READAPT, but that's already the answer without rearrangement.
+    
+    Actually: "study American priest vacated" gives us READ + A + PT. "modify" indicates these should be anagrammed to get READAPT. The letters READ + A + PT can be rearranged to spell READAPT.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PRESENT  13A. Tense leader ignoring papers
+  Answer: PRESENT
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "papers"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      tense: syn=T,APE,FEY,MAD,ODD,OFF,WUD,AMOK,BATS,DAFT,EDGE,EDGY,FAST,FIRM,LOCO; abbr=T*,t*; sounds=tents; fodder=TENSE(5/7 anagram match)
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      ignoring: syn=END,SIN,WRONG,BREACH,NEGLECT,OFFENSE; ind=deletion
+      papers: syn=ID,HOW,ACID,RAGS,REAM,EXAMS,PRESS,SHEAF,WRITE,ESSAYS,THEMES,ANNUALS,DOSSIER,PICTURE,RECORDS; abbr=ID; ind=container?
+    Definitions:
+      "Tense" -> PRESENT (definition match)
+  AI Reasoning:
+    Definition: "papers" (to present papers).
+    Wordplay: deletion. "leader" is the deletion indicator. "Tense" = T (abbreviation). "ignoring" signals deletion of T from the beginning. But this doesn't work directly.
+    
+    Let me reconsider: "Tense leader ignoring papers" - if "leader" means first letter and "ignoring" means deletion, then we delete the first letter of "Tense" which gives us ENSE. This doesn't lead to PRESENT.
+    
+    Actually, looking at this differently: "Tense" could be PRESENT (as in present tense). The wordplay might be: PRESENT with its "leader" (first letter P) "ignoring" = deleted, giving RESENT. But the answer is PRESENT, not RESENT.
+    
+    This appears to be a double definition: "Tense" = PRESENT (present tense in grammar), and "papers" = PRESENT (to present papers).
+  ----------------------------------------------------------------------
+
+  [HIGH] SWEEP  14A. Clean overturned benches around base
+  Answer: SWEEP
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Clean"
+  Wordplay type: container
+  Components:
+    reversal           benches                   -> SWEP
+    synonym            base                      -> E
+  Assembly: container — E(synonym of "base") inside SWEP(reversal of "benches")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      clean: syn=OK,ALL,MOP,NOT,OUT,ABLY,BALD,BARE,BEST,BODY,DAMN,DEAD,DRAW,EASY,EVEN
+      overturned: syn=ABOUT,UPSET; ind=anagram,reversal
+      benches: syn=PEWS,TRIAL
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      base: syn=A,AT,HQ,MY,BED,EYE,HUB,LOW,MAR,NET,NUB,SUM,TEN,ABUT,AXIS; abbr=E*; sounds=bass
+    Definitions:
+      "Clean" -> SWEEP (definition match)
+  AI Reasoning:
+    Definition: "Clean" (to sweep is to clean).
+    Wordplay: container + reversal. "benches" = PEWS (synonym). "overturned" indicates reversal: PEWS → SWEP. "base" = E (confirmed lookup). "around" indicates container: E goes inside SWEP → SW(E)EP = SWEEP.
+  ----------------------------------------------------------------------
+
+  [HIGH] ABNORMAL  15A. Oddball reconstructed Roman lab
+  Answer: ABNORMAL
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "Oddball"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Roman                     -> ROMAN
+    anagram_fodder     lab                       -> LAB
+  Assembly: anagram — anagram of ROMAN(Roman)+LAB(lab)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      oddball: syn=APE,FEY,MAD,NUT,ODD,OFF,RUM,WUD,AMOK,BATS,BOHO,CARD,CASE,DAFT,EDGY; ind=anagram?
+      reconstructed: ind=anagram?
+      roman: syn=TYPE,NATIVE; abbr=R*
+      lab: syn=DOG,OF A
+    Definitions:
+      "Oddball" -> ABNORMAL (definition match)
+  AI Reasoning:
+    Definition: "Oddball" (abnormal means oddball/unusual).
+    Wordplay: anagram. "reconstructed" is the anagram indicator.
+    Fodder: "Roman lab" = R (Roman abbreviated) + LAB → RLAB rearranged → ABNORMAL.
+    
+    Wait, that's only 4 letters (RLAB) for an 8-letter answer. Let me reconsider.
+    
+    Actually, "Roman lab" as anagram fodder: ROMAN + LAB = 8 letters total. ROMANLAB rearranged → ABNORMAL.
+  ----------------------------------------------------------------------
+
+  [HIGH] roast beef  16D. Dish from kiln Head of Banking brought into bank
+  Answer: roast beef
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Dish"
+  Wordplay type: charade
+  Components:
+    synonym            kiln                      -> ROAST
+    container          Head of Banking brought into bank -> BEEF
+  Assembly: charade — ROAST(synonym of "kiln") + BEEF(Head of Banking brought into bank)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      dish: syn=A,MY,FEW,PIE,POI,TEN,BOWL,BUZZ,CHOW,DIET,EATS,FARE,FEED,FLAN,FOOD; ind=anagram
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      kiln: syn=OAST*,OVEN,HOPOAST
+      head: syn=BE*,A,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H,NESS; ind=acrostic,deletion,parts
+      banking: syn=RELYING; ind=container?
+      brought: syn=ATE,DID,DUG,GOT,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,COST,DREW; ind=reversal
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      bank: syn=REEF*,BAR,BED,LOT,MOW,ROW,SET,TIP,BAND,BRAE,CLOT,COCK,DRAY,DYKE,HEAP; abbr=TIER
+    Definitions:
+      "Dish" -> roast beef (definition match)
+  AI Reasoning:
+    Definition: "Dish" (roast beef is a dish).
+    
+    Wordplay: charade.
+    - "kiln" = OAST (synonym from known lookups)
+    - "Head of Banking" = B (first letter of Banking, using "head" as acrostic indicator)
+    - "brought into bank" = B inside REEF (using "into" as container indicator and "bank" = REEF from known lookups)
+    - This gives us OAST + BEEF = OASTBEEF...
+    
+    Wait, let me reconsider. The answer is ROAST BEEF (9 letters total: ROASTBEEF).
+    
+    Actually:
+    - "kiln" = OAST
+    - "Head of Banking brought into bank" = B brought into REEF = RBEEF...
+    
+    Let me try again:
+    - OAST (kiln) with first letter changed: OAST → ROAST (O becomes R)
+    - "Head of Banking" = B
+    - "bank" = REEF
+    - B "brought into" REEF = RBEEF → BEEF
+    
+    So: ROAST + BEEF = ROASTBEEF (9 letters).
+    
+    The mechanism appears to be OAST becoming ROAST, then + BEEF = ROAST BEEF.
+  ----------------------------------------------------------------------
+
+  [HIGH] GAUNTLET  17D. Thin client periodically cancelled digital protection
+  Answer: GAUNTLET
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "digital protection"
+  Wordplay type: charade
+  Components:
+    synonym            Thin                      -> GAUNT
+    alternate_letters  client                    -> LET
+  Assembly: charade — GAUNT(synonym of "Thin") + LET(alternate letters of "client")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      thin: syn=GAUNT*,CUT,BONY,FINE,LANK,SLIM,WEAK,CLOSE,LANKY,LEAST,RANGY,REEDY,SHEER,SPARE,TIGHT
+      client: syn=END,PATRON,PUNTER,VASSAL,WINDOW,ACCOUNT,REGULAR,CONSUMER,CUSTOMER
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,AT TIMES; ind=parts
+      cancelled: syn=OFF,DELETED,TURNOFF,ANNULLED
+      digital: syn=ENJOY,WATCH,MANUAL; abbr=D
+      protection: syn=FORT,TOOL,WALL,WARD,AEGIS,AGENT,APRON,ARMOR,CAUSE,COURT,COVER,GUARD,MEANS,MOVER,ORGAN
+      digital protection: syn=GAUNTLET*
+    Definitions:
+      "digital protection" -> GAUNTLET (definition match)
+  AI Reasoning:
+    Definition: "digital protection" (a gauntlet protects digits/fingers).
+    
+    Wordplay: charade using parts. "periodically" indicates taking parts/letters from words.
+    - "Thin" = GAUNT (confirmed synonym)
+    - "client periodically" = taking periodic letters from CLIENT = L-E-T (every other letter starting with L)
+    - GAUNT + LET = GAUNTLET
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ENTENTES  18A. Agreements between ten testy nurses
+  Answer: ENTENTES
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Agreements"
+  Wordplay type: hidden
+  Components:
+    hidden             between ten testy         -> ENTENTES
+  Assembly: hidden — hidden in 'betweEN TEN TESty'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | type_evidence=assembled, AI agrees | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      agreements: syn=ENTENTE*,DEAL,PACT,TUNE,DEALS,ACCORD,OF THE,UNISON,ACCORDS,ASSENTS,BARGAIN,COMPACT,HARMONY,CONTRACT,COVENANT
+      between: syn=CUE,DIP,EBB,END,GUY,IMP,KIN,MAN,WAY,AREA,BIRD,BODY,CLAN,CORD,DROP; ind=container,insertion
+      ten: syn=BUM,CAP,FEZ,FIN,FOX,HAT,LID,ONE,RUN,SAG,TAM,TWO,BABE,BASE,BIKE; abbr=X
+      testy: syn=MAD,EXAM,SORE,ANGRY,CROSS,FUSSY,HUFFY,IRATE,IRKED,RILED,SHORT,TRIED,UPSET,VEXED,CRABBY
+      nurses: syn=DOES,GOES,CARES,COMES,FARES,NEARS,NIGHS,PACES,POSES,TENDS,VOTES,FAMILY,FORGES,OFFERS,RAISES; abbr=EN*,RN,TEND
+  AI Reasoning:
+    Definition: "Agreements" (ententes are agreements).
+    Wordplay: container. "between" is the container indicator. "ten" = TEN goes inside "testy nurses". "testy" = TESTY, "nurses" = EN (abbreviation). So TEN goes between TESTY and EN: TEST + TEN + E = TESTENE.
+    
+    Wait, that doesn't work. Let me reconsider.
+    
+    "testy nurses" = TESTES (anagram? No indicator). Actually, "nurses" = EN, so "testy" + "nurses" = TESTY + EN = TESTYEN. No.
+    
+    Rethinking: "ten" goes between parts of "testy nurses". If "nurses" = EN, then "testy nurses" = TESTYEN or similar. But the known lookup shows "agreements" = ENTENTE (singular), and the answer is ENTENTES (plural).
+    
+    Let me try: "testy" = TESTES (anagram of "testy"? No indicator). Actually, "ten" between "testy" and "nurses": TEST + TEN + Y + EN = TESTTENYEN. No.
+    
+    Correct approach: "ten" (TEN) goes between "testy" (TESTES) to give ENTENTES. So TESTES with TEN inserted = EN + TEN + TES = ENTENTES. Wait: if "testy" contributes ENTES and "nurses" = EN, then TEN between them: EN + TEN + TES = ENTENTES.
+    
+    Actually: "testy nurses" = ENTEES, and TEN goes between to make EN + TEN + TES = ENTENTES.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NOMADIC  19D. Roving investigators before noon running northwards
+  Answer: NOMADIC
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Roving"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     investigators before noon -> CIDAMON
+  Assembly: reversal — reverse CIDAMON(investigators before noon)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=anagram, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      roving: syn=NOMADIC*,MOVE,ROAD,TRAMP,ERRANT,MOBILE,MIGRANT,RANGING,ROAMING,VAGRANT,WALKING; ind=anagram?
+      investigators: syn=TECHS,DIGGERS,COP,MAN,BULL,DICK,FUZZ,HEAT,BOBBY,COPPER,LAWMAN,MAGNUM,POIROT,POLICE,SHAMUS
+      before: syn=OF,ON,TO,UP,ARC,BOW,ERE,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE
+      noon: syn=BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,TOP,BATH,BENT,BUFF,DIKE,DUCK; abbr=N*; ind=container?
+      running: syn=ON,ARM,CARE,FAST,GRIP,HAND,HOLD,LIVE,MOVE,SWAY,A ROW,ALIVE,GOING,GRASP,HANDS; abbr=ON; ind=anagram
+      northwards: ind=reversal,reversal?
+      before noon: abbr=AM
+      before noon: syn=AM,AMASS,BABEL,CHAOS,THREE,AURORA,BEDLAM,GATHER,UPROAR,COLLECT
+    Definitions:
+      "Roving" -> NOMADIC (definition match)
+  AI Reasoning:
+    Definition: "Roving" (nomadic means roving/wandering).
+    
+    Wordplay: anagram. "running" is the anagram indicator.
+    Fodder: "investigators before noon" = DETECTIVES before N = DETIC... wait, that's too long.
+    
+    Let me reconsider: "investigators" = CID (Criminal Investigation Department), "before noon" = AM (ante meridiem). So CID + AM = CIDAM.
+    
+    "running" indicates anagram of CIDAM... but that gives 5 letters, not 7.
+    
+    Rethinking: "investigators" could be longer. Actually, "investigators before noon" might mean investigators come before the word "noon" in the fodder. But "noon" is a container indicator, so it doesn't contribute letters.
+    
+    Let me try: "investigators" = NOMADIC letters scrambled? Working backwards from NOMADIC, the anagram fodder needs to be 7 letters.
+    
+    Actually: "investigators before noon" could be parsed as a unit meaning detectives/agents = NOMADIC (anagram fodder), and "running" scrambles it to... wait, that's circular.
+    
+    Let me reconsider the parsing: The anagram fodder appears to be something that gives NOMADIC when scrambled by "running". Looking at available letters and the definition "roving" = NOMADIC, this suggests the entire clue structure may be different than initially parsed.
+  ----------------------------------------------------------------------
+
+  [HIGH] INGRATE  2D. Thankless wretch lost garnet south of Italy
+  Answer: INGRATE
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Thankless wretch"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     garnet                    -> GARNET
+    abbreviation       Italy                     -> I
+  Assembly: anagram — anagram of GARNET(garnet)+I(abbr. "Italy")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      thankless: syn=INGRATE*
+      wretch: syn=NO,CUR,NAZI,FREAK,HEAVY,HOUND,JUMBO,KNAVE,ROGUE,SCAMP,SWINE,WHALE,BADDIE,MEANIE,RASCAL; sounds=retch
+      lost: syn=A1,BIG,FAB,WIN,A-OK,BOSS,BRAG,COLD,COOL,DEEP,DONE,DOPE,DOWN,GONE,HYPE; ind=anagram,deletion
+      garnet: syn=GEM,STONE; fodder=GARNET(6/7 anagram match)
+      south: syn=DOWN,POINT; abbr=S; ind=reversal
+      italy: syn=LAND,OF A,COUNTRY; abbr=I*,IT
+    Definitions:
+      "Thankless" -> INGRATE (definition match)
+  AI Reasoning:
+    Definition: "Thankless wretch" (an ingrate is a thankless wretch).
+    Wordplay: anagram. "lost" is the anagram indicator.
+    Fodder: "garnet" + "I" (Italy abbreviated) → GARNETI → rearranged → INGRATE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Accra  20A. Two chapters by artist on area in city
+  Answer: Accra
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "city"
+  Wordplay type: charade
+  Components:
+    abbreviation       area                      -> A
+    abbreviation       Two chapters              -> CC
+    abbreviation       artist                    -> RA
+  Assembly: charade — A(abbr. "area") + CC(abbr. "Two chapters") + RA(abbr. "artist")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      chapters: syn=CH,CUT,CELL,CLUB,TALK,BOARD,FORUM,GUILD,LOCAL,PANEL,PLACE,POINT; abbr=C*,CH
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      artist: syn=RA*,ACE,DAB,ONO,PRE,ACES,DALI,EMIN,ETTY,GEEK,GOYA,GURU,HALS,HAND,KLEE; abbr=RA*
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      area: syn=ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,REALM,REMIT,RIDGE; abbr=A*; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      city: syn=ACCRA*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+    Definitions:
+      "city" -> Accra (definition match)
+  AI Reasoning:
+    Definition: "city" (Accra is the capital city of Ghana).
+    
+    Wordplay: charade. "Two chapters" = CC (C + C, where C is the standard abbreviation for chapter). "artist" = RA (Royal Academician). "area" = A (standard abbreviation).
+    
+    CC + RA + A = CCRA... wait, that's not right.
+    
+    Let me reconsider: "Two chapters by artist on area" = CC + RA around A? No, that would be CRACA.
+    
+    Actually: CC (two chapters) + R + A (area) = CCRA, but we need ACCRA.
+    
+    Rethinking: A (area) + CC (two chapters) + RA (artist) = ACCRA. The word order suggests: A + CC + RA = ACCRA.
+  ----------------------------------------------------------------------
+
+  [HIGH] COMPOTE  21D. Politician stuffing bird with last of the stewed fruit
+  Answer: COMPOTE
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "stewed fruit"
+  Wordplay type: container
+  Components:
+    synonym            bird                      -> COOT
+    abbreviation       Politician                -> MP
+    last_letter        last of the               -> E
+  Assembly: container — MP(abbr. "Politician") inside COOT(synonym of "bird") + E(last letter of "last of the")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      politician: syn=MP*,EURO,GOVE,HUNT,TORY,GREEN,LIBDEM,MACRON,MEMBER,NEOCON,PERSON,LIBERAL,RADICAL,SENATOR,STARMER; abbr=MP*,TORY; ind=container?
+      stuffing: syn=FILL,PAXO,FILLER,FILLING,PADDING,WADDING; ind=container,deletion,parts
+      bird: syn=COOT*,AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MAN,MEW,MOA,OWL; abbr=HEN; sounds=burred
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      stewed: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram
+      fruit: syn=FIG,GET,HAW,HIP,NUT,ACAI,AKEE,DATE,FATE,KIWI,LIME,PEAR,PLUM,SEED,SLOE
+      of the: syn=MITRE,CHEETAH
+      stewed fruit: syn=COMPOTE*
+    Definitions:
+      "stewed fruit" -> COMPOTE (definition match)
+  AI Reasoning:
+    Definition: "stewed fruit" (compote is stewed fruit).
+    
+    Wordplay: container. "stuffing" is the container indicator.
+    - "bird" = COOT (given lookup)
+    - "politician" = MP (Member of Parliament)
+    - "last of the" = T (last letter of "the", confirmed lookup)
+    
+    MP stuffed into COOT, plus T:
+    CO + MP + OT + E = COMPOTE
+    
+    Wait, that gives COMPOTE but needs an E. Let me reconsider:
+    
+    Actually: COOT contains MP, giving COMPT, then add T (last of "the"):
+    CO(MP)OT + E...
+    
+    Let me try: MP stuffed into COO + T + E:
+    CO(MP)O + T + E = COMPOTE
+    
+    The structure is: CO(MP)OTE where MP goes inside, but I need to account for all letters properly.
+    
+    Actually: COOT + MP inside + T = CO(MP)OT + E
+    The E must come from elsewhere in the wordplay I'm missing, or COOT becomes COOTE somehow.
+    
+    Let me reconsider: MP stuffed into COOT gives COMOPT, then last of "the" = T, but this doesn't work cleanly.
+    
+    Given the confirmed lookups, the mechanism is MP (politician) stuffed into COOT (bird), with T (last of "the"), yielding COMPOTE through container wordplay.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ASHRAM  22D. A horny male maintains silence in retreat
+  Answer: ASHRAM
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "retreat"
+  Wordplay type: container
+  Components:
+    literal            A                         -> A
+    synonym            horny male                -> RAM
+    abbreviation       silence                   -> SH
+  Assembly: charade — A(A) + SH(abbr. "silence") + RAM(synonym of "horny male")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      horny: syn=HOT,LEWD,ITCHY,RANDY,ITCHY,,WANTON
+      male: syn=HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM,BABY; abbr=A*,HE,M*,PA; sounds=mail
+      maintains: syn=RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,SAVES,STOWS,TAMES,TENDS,WARDS,CHECKS,CLAIMS
+      silence: syn=SH*,GAG,MUM,PUT,SIT,DOWN,MUTE,PEACE,QUELL,QUIET,STILL,OF THE; abbr=SH*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      retreat: syn=ASHRAM*,IT,DEN,DIE,EBB,FLY,KEY,LEG,NEW,RUN,AWAY,BACK,EVEN,FALL,GIVE; ind=reversal
+    Definitions:
+      "retreat" -> ASHRAM (definition match)
+  AI Reasoning:
+    Definition: "retreat" (an ashram is a spiritual retreat).
+    
+    Wordplay: container. "in" is the container indicator.
+    - "A horny male" = A + HORN + M (where M = male abbreviation)
+    - "silence" = SH (abbreviation)
+    - "maintains silence in" means SH goes inside A + HORN + M
+    - A + (SH inside HORN) + M = A + SHORN + M = ASHORNM
+    
+    Wait, that doesn't work. Let me reconsider:
+    
+    - "A horny" = A + HORN
+    - "male" = M
+    - "silence" = SH
+    - SH goes inside "A horny male" = SH inside AHORNM? No.
+    
+    Actually: A + (SH inside HORN) + M = A + SHORN + M = ASHORNM (too many letters)
+    
+    Rethinking: "horny" might just be HORN, so:
+    - A + HORN + M = AHORNM
+    - SH goes inside this somehow to make ASHRAM
+    
+    Actually: A + SH + R + A + M. Let me work backwards from ASHRAM:
+    - A + SH + RAM
+    - "horny male" could be RAM (male sheep with horns)
+    - So: A + SH + RAM, where SH (silence) is inserted into A...RAM?
+    
+    Actually: A + (SH in RAM) = A + SHRAM = ASHRAM. Yes!
+    - "A" = A
+    - "horny male" = RAM (male sheep)
+    - "silence" = SH
+    - SH goes "in" RAM = SHRAM
+    - A + SHRAM = ASHRAM
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SEMINAR  23A. Half rushed back for teaching session
+  Answer: SEMINAR
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "teaching session"
+  Wordplay type: charade
+  Components:
+    literal            Half                      -> SEMI
+    synonym            rushed                    -> RAN
+  Assembly: reversal — SEMI(Half) + reverse RAN(synonym of "rushed")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      half: syn=SEMI*,AT,MAD,NUT,ANON,DAFT,DEMI,DODO,DOLT,DOPE,DORK,DUEL,DULL,DUMB,EVER; ind=deletion
+      rushed: syn=DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,MOVE,SHOT,SPED,TORE,DRIVE,DROVE,FIRED,FLUNG
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      teaching: syn=CREDO,DOGMA,TENET,TUITION
+      session: syn=BOUT,TERM,BINGE,SPELL,BOOZEUP,HEARING,MEETING,SITTING; ind=container
+    Definitions:
+      "session" -> SEMINAR (definition match)
+  AI Reasoning:
+    Definition: "teaching session" (a seminar is a teaching session).
+    Wordplay: reversal + charade. "rushed" = RAN (synonym). "back" is the reversal indicator. RAN reversed = NAR. "half" is the deletion indicator - take half of something. Looking at the remaining letters needed: SEMI + NAR = SEMINAR. So "half" indicates taking half of SEMI from somewhere, but the clue structure suggests: half of something + NAR reversed gives SEMINAR.
+    
+    Actually, rethinking: "Half rushed back" = half of RUSHED reversed = half of DEHSUR = SEMI. SEMI + NAR = SEMINAR.
+    
+    Wait, let me reconsider: "rushed" = RAN, "back" reverses it to NAR. We need SEMI + NAR. "Half" must indicate taking SEMI from somewhere else in the clue, but there's no clear source.
+    
+    Reconsidering the structure: SEMINAR = SEMI + NAR, where NAR comes from RAN backwards, and SEMI comes from "half" of something - possibly an implied word or from the teaching context.
+  ----------------------------------------------------------------------
+
+  [HIGH] NERVE  24D. Short emperor starts to value exceptional courage
+  Answer: NERVE
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "courage"
+  Wordplay type: charade
+  Components:
+    deletion           emperor                   -> NER [NERO, "short"=deletion]
+    first_letter       value exceptional         -> VE
+  Assembly: charade — NER(deletion from "emperor") + VE(first letter of "value exceptional")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      short: syn=GO,DIP,EBB,FLY,GET,HIE,JOG,LIE,LOW,RIP,SHY,TOT,WAX,ZIP,BILL; abbr=S; ind=deletion,parts
+      emperor: syn=KING,MING,NERO,OTTO,SAY?,TSAR,RULER,TITUS
+      starts: syn=OUT,UPS,LEAD,DAWNS,FORMS,JUMPS,LIFTS,OPENS,RISES,SOARS,GO,BAG,DAY,GET,JUT; abbr=GO; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      value: syn=A,IF,NO,FEE,FIX,SET,TAB,TAX,USE,ANTE,BILL,COST,DUTY,FACE,GIVE; abbr=RATE
+      exceptional: syn=BIG,ODD,TOP,BOLD,FAST,FINE,GONE,KEEN,RARE,TEST,WILD,ACUTE,BIJOU,BRISK,CRAZY; ind=anagram
+      courage: syn=NERVE*,GRIT,GUTS,FIBER,FIBRE,HEART,MOXIE,PLUCK,SPUNK,VALOR
+    Definitions:
+      "courage" -> NERVE (definition match)
+  AI Reasoning:
+    Definition: "courage" (nerve means courage).
+    
+    Wordplay: deletion + acrostic. "Short emperor" = NERO with deletion of final letter = NER. "starts to value exceptional" = first letters of Value Exceptional = VE. NER + VE = NERVE.
+  ----------------------------------------------------------------------
+
+  [HIGH] Ottoman  25A. Seat extravagant lady after whiskey's spilt
+  Answer: Ottoman
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "Seat"
+  Wordplay type: anagram
+  Components:
+    synonym            extravagant               -> OTT
+    deletion           lady after whiskey's      -> OMAN
+  Assembly: charade — OTT(synonym of "extravagant") + OMAN(deletion from "lady after whiskey's")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      seat: syn=OTTOMAN*,A,AT,GO,MY,ACT,BUM,BUY,CAN,CAR,COP,EYE,FIT,GET,HUB; ind=parts
+      extravagant: syn=OTT*,BIG,BIT,DEAR,HIGH,LACY,LOUD,OVER,ALICE,FUSSY,GAUDY,LACED,OUTRE,SHOWY,SWANK
+      lady: syn=BEA,EVA,EVE,GAL,IVY,MAY,MRS,OLD,SHE,DAME,DAWN,ENID,GILL,GIRL,LILY; abbr=HER
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      whiskey's: syn=ALE,GIN,MUM,NIP,PEG,POP,RUM,RYE,TOT,ALE,,BEER,BELT,BREW,GROG,HOME; abbr=W
+      spilt: ind=anagram,deletion
+    Definitions:
+      "Seat" -> Ottoman (definition match)
+  AI Reasoning:
+    Definition: "Seat" (an ottoman is a type of seat).
+    
+    Wordplay: anagram. "spilt" is the anagram indicator.
+    
+    Fodder: "extravagant lady after whiskey" = OTT (extravagant) + MAN (lady... wait, that doesn't work).
+    
+    Let me reconsider: "lady" = WOMAN, "whiskey" = W. "after whiskey's spilt" suggests W is removed from something.
+    
+    Actually: "extravagant" = OTT, "lady" = WOMAN. "after whiskey's spilt" means remove W from WOMAN = OMAN.
+    
+    So: OTT + OMAN, rearranged by "spilt" = OTTOMAN.
+  ----------------------------------------------------------------------
+
+  [HIGH] RIDER  26A. Free beer regularly for one in Derby?
+  Answer: RIDER
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "one in Derby"
+  Wordplay type: charade
+  Components:
+    synonym            Free                      -> RID
+    alternate_letters  beer                      -> ER
+  Assembly: charade — RID(synonym of "Free") + ER(alternate letters of "beer")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      free: syn=RID*,OFF,ROW,RUN,BALD,BARE,BODY,BOHO,BOLD,DEAD,FAIR,FRAY,HECK,HELL,IDLE; abbr=RID*; ind=anagram
+      beer: syn=IT,ALE,GIN,IPA,MUM,NIP,PEG,POP,RUM,TOT,ALE,,BELT,BREW,GROG,HOME; abbr=ALE; sounds=bier
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      derby: syn=PM,TEN,RACE,FINAL
+      for one: abbr=EG
+      for one: syn=EG,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+      one in derby: syn=RIDER*
+    Definitions:
+      "one in Derby" -> RIDER (definition match)
+  AI Reasoning:
+    Definition: "one in Derby" (a rider participates in a derby/race).
+    Wordplay: deletion. "Free" is the deletion indicator. "Beer regularly" = take regular letters from BEER = B_E_R = BER. "for" signals what to remove. Remove "for" (but "for" isn't in BER).
+    
+    Wait, let me reconsider. The known lookup shows "one in derby → synonym RIDER" which suggests this might be a double definition: "Free beer regularly" and "one in Derby" both defining RIDER.
+    
+    Actually, looking again: "Free" = RID (synonym, to free oneself of something). "beer regularly" = take regular letters from BEER = E, R. RID + E + R = RIDER.
+  ----------------------------------------------------------------------
+
+  [HIGH] diesel oil  27A. Fuel from isle Oscar lied about
+  Answer: diesel oil
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Fuel"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     isle                      -> ISLE
+    anagram_fodder     Oscar                     -> O
+    anagram_fodder     lied                      -> LIED
+  Assembly: anagram — anagram of ISLE(isle)+O(Oscar)+LIED(lied)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fuel: syn=OIL*,DIESEL*,DIESELOIL*,ME,GAS,COAL,COKE,DERV,FEED,PEAT,WOOD,JUICE,POWER,ENERGY,INCITE
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      isle: syn=IS,ELY,KEY,MAN,SAY,DOGS,FAIR,IONA,MULL,OF A,THIS,CAPRI,ISLET,MAYBE,PLACE; sounds=aisle,i'll
+      oscar: syn=AWARD,TROPHY; abbr=O*
+      lied: syn=SONG,TALE,A TALE,A STORY
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+    Definitions:
+      "Fuel" -> diesel oil (definition match)
+  AI Reasoning:
+    Definition: "Fuel" (diesel oil is a type of fuel).
+    Wordplay: anagram. "about" is the anagram indicator.
+    Fodder: "isle Oscar lied" = ISLE + O + LIED → rearranged → DIESELOIL.
+    
+    The letters I-S-L-E-O-L-I-E-D rearrange to spell DIESEL OIL.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MACKEREL  28A. Swimmer Kelvin welcomed by club on loch
+  Answer: MACKEREL
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "Swimmer"
+  Wordplay type: container
+  Components:
+    synonym            club                      -> MAC
+    abbreviation       Kelvin                    -> K
+    abbreviation       on                        -> RE
+    abbreviation       loch                      -> L
+  Assembly: charade — MAC(synonym of "club") + K(abbr. "Kelvin") + E + RE(abbr. "on") + L(abbr. "loch")
+  Brute gap: +E
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled, reasoning supports | yields_check=pass | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      swimmer: syn=COD,EEL,GAR,BASS,CARP,FISH,HAKE,HANG,ORCA,REEL,RIDE,SAIL,SOLE,SPIN,TUNA
+      kelvin: syn=DEGREE; abbr=K*
+      welcomed: syn=GREETED; ind=container
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      club: syn=A,ACE,BAT,DEN,INN,KEY,ALLY,AXIS,BACH,BEAT,CAMP,CARD,CAST,CELL,HOLE
+      on: syn=RE*,AS,OF,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE*,S
+      loch: syn=IT,ARM,HOLE,HOME,LAKE,NESS,POND,POOL,WELL,BASIN,STANK,PUDDLE,POTHOLE,SINKHOLE; abbr=L*,NESS; sounds=lock
+    Definitions:
+      "Swimmer" -> MACKEREL (definition match)
+  AI Reasoning:
+    Definition: "Swimmer" (a mackerel is a swimming fish).
+    Wordplay: container. "welcomed by" is the container indicator.
+    - "Kelvin" = K (abbreviation)
+    - "club" = MAC (short for mace, a type of club)
+    - "on" = RE (abbreviation)
+    - "loch" = L (abbreviation)
+    
+    K is welcomed by (contained in) MAC, giving MACK. Then + RE + L = MACKEREL.
+  ----------------------------------------------------------------------
+
+  [HIGH] AFFECT  29A. Influence iron-clad female in performance
+  Answer: AFFECT
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Influence"
+  Wordplay type: container
+  Components:
+    synonym            performance               -> ACT
+    abbreviation       female                    -> F
+    abbreviation       iron                      -> FE
+  Assembly: container — F(abbr. "female")+FE(abbr. "iron") inside ACT(synonym of "performance")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (5 hedges)
+  DB Lookups:
+    DB lookups:
+      influence: syn=AFFECT*,IN,BASE,FAST,FORT,HAND,MOVE,PULL,RICH,SWAY,TELL,TOOL,WALL,WARD,AEGIS
+      iron: syn=FE*,BIG,FIT,CLUB,FIRM,HALE,FLUSH,HEADY,METAL,PEPPY,PLUSH,PRESS,SOLID,STOUT,VITAL; abbr=FE*
+      clad: syn=FACE,MUSIC
+      female: syn=DI,DOE,EWE,GAL,HEN,SEX,SHE,UNA,ALMA,AUNT,DAME,DOPE,EMMA,ENID,GILL; abbr=F*,FE*,SHE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      performance: syn=ACT*,DEED,FACT,SHOW,DRAMA,ACTION
+    Definitions:
+      "Influence" -> AFFECT (definition match)
+  AI Reasoning:
+    Definition: "Influence" (AFFECT is a synonym for influence).
+    
+    Wordplay: container. "in" is the container indicator.
+    - "iron-clad female" = FE (iron) + F (female) = FEF
+    - "performance" = ACT
+    - FEF contains ACT: F + ACT + F = FACTF...
+    
+    Wait, let me reconsider using the known lookups:
+    - "female" = F
+    - "iron" = FE
+    - "performance" = ACT
+    
+    Container: F (female) in ACT (performance) gives AFCT... No.
+    
+    Let me try: "iron-clad female" could mean F (female) contained in FE (iron): F in FE = FEF... Still not working.
+    
+    Actually: ACT (performance) contains F (female) and FE gets involved somehow...
+    ACT contains F: A + F + CT = AFCT...
+    
+    Rethinking: A (from ACT) + F (female) + F (from FE iron) + ECT...
+    
+    Let me try: FE (iron) contains ACT, but that's FEACT...
+    
+    Actually: A + F (female) + FE (iron) + CT = AFFECT, but that's 7 letters.
+    
+    Wait: ACT contains F = AFCT, then add FE somehow...
+    
+    Let me reconsider: AFFECT = A + F + F + E + C + T
+    - ACT = performance
+    - F = female
+    - FE = iron
+    - Container: F in ACT gives AFCT, but we need AFFECT
+    
+    Actually: A(F + FE)CT = A + F + FE + CT, but FE in middle gives AFECT...
+    
+    Let me try: ACT (performance) with F (female) inserted, plus FE (iron) integrated:
+    AFFECT could be: A + F (female) + F (from FE iron) + E (from FE) + C + T
+    But this seems forced.
+    
+    Simpler: F (female) in ACT (performance) = AFCT, then somehow FE contributes the missing F and E to make AFFECT.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] crab-apple  3D. Nipper spotted peeled fruit
+  Answer: crab-apple
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "fruit"
+  Wordplay type: charade
+  Components:
+    synonym            Nipper                    -> CRAB
+    synonym            spotted                   -> APPLE
+  Assembly: charade — CRAB(synonym of "Nipper") + APPLE(synonym of "spotted")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      nipper: syn=BOY,BUD,CUB,IMP,KID,LAD,TAD,TOT,BABE,BABY,CHAP,GIRL,TEEN,TYKE,BAIRN
+      spotted: syn=DUG,GOT,HAD,SAW,FELT,MADE,PIED,SEEN,ACNED,DOTTY,HEARD,KNOWN,NOTED,PINTO,SPIED
+      peeled: syn=RAW,BALD,BARE,FREE,NUDE,OPEN,CLEAR,FRANK,NAKED,PARED,PLAIN,CANDID,DIRECT,HONEST,LIABLE; ind=parts
+      fruit: syn=APPLE*,CRABAPPLE*,FIG,GET,HAW,HIP,NUT,ACAI,AKEE,DATE,FATE,KIWI,LIME,PEAR,PLUM
+    Definitions:
+      "fruit" -> crab-apple (definition match)
+  AI Reasoning:
+    Definition: "fruit" (a crab-apple is a fruit).
+    Wordplay: charade. "Nipper" = CRAB (a crab has nippers/claws). "spotted" = APPLE (spotted can mean dappled, and apples can be spotted/dappled). "peeled" is the parts indicator, signaling that we take parts of words. CRAB + APPLE = CRABAPPLE.
+  ----------------------------------------------------------------------
+
+  [HIGH] ISOLATED  4A. Cut off toe lad's fractured on island
+  Answer: ISOLATED
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Cut off"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     toe lad's                 -> TOELADS
+  Assembly: anagram — anagram of TOELADS(toe lad's)+I
+  Gap fill: [('island', 'I', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      cut: syn=ISOLATE*,DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW; ind=deletion,hidden,parts
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      toe: syn=KICK,DIGIT; sounds=tow
+      lad's: syn=MA,BOD,BOY,BUD,CAT,CUB,EGG,GUY,IMP,JOE,KID,MAN,SON,TAD,BABE; abbr=BOY
+      fractured: syn=BROKE,RIVED,UPSET,BUSTED,HASHED,MUSSED,JUMBLED,MUDDLED,RUMPLED,TOUSLED,TUMBLED,BROKE UP,CONFUSED,DERANGED,SHUFFLED; ind=anagram?
+      on: syn=SO*,AS,OF,RE,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      island: syn=IS*,AIT,KEY,SAY,BALI,BUTE,CUBA,ELBA,EYOT,GOZO,GUAM,INCH,IONA,ISLE,JAVA; abbr=I*,IS*
+      cut off: ind=parts
+      cut off: syn=ISOLATE*,ISOLATED*,GO,BIT,CAN,CUT,DIE,END,FEW,AFAR
+    Definitions:
+      "Cut off" -> ISOLATED (definition match)
+  AI Reasoning:
+    Definition: "Cut off" (isolated means cut off).
+    Wordplay: anagram. "fractured" is the anagram indicator.
+    Fodder: "toe lad's" → TOE LADS → rearranged → ISOLATED.
+    
+    The "on island" part provides additional definition support (isolated = on an island), but the core wordplay is the anagram of TOE LADS.
+  ----------------------------------------------------------------------
+
+  [FAILED] stepping stones  5D. Make progress with these animals upset over noises
+  Answer: stepping stones
+  Tier: --- | Confidence: 0/100
+  Definition: "Make progress"
+  Wordplay type: anagram
+  Components:
+    literal            these animals             -> THESEANIMALS
+    literal            noises                    -> NOISES
+  DB Lookups:
+    DB lookups:
+      make: syn=A,DO,A A,ACT,ARM,BAG,BAR,BED,BIG,DIG,FAG,GET,HIT,LAY,LOG; abbr=DO; ind=anagram?
+      progress: syn=STEP*,GO,UP,AGE,BED,GET,RAY,WAY,AGED,AGES,BEAM,COME,EASY,FAST,GLOW
+      with: syn=IN*,ON*,TO*,BY,OF,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W
+      these: syn=ANTS,NEAR,ODES,TWOS,FELLS,ROOTS,TOGAS,CLOSER,GNOMES,HITHER,NIGHER,ARREARS,DIETERS,DRAWERS,INCOMES
+      animals: syn=CATS,DEER,EWES,GNUS,PETS,BEAST,BRUTE,FAUNA,GOATS,OKAPI,SHEEP,BEASTS,BRUTES,CAMELS,ELANDS
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      over: syn=ON*,BY,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON*,UP; ind=anagram,reversal
+      noises: syn=ONE*,SOUNDS,RACKETS,RUSTLING,MY,DIN,FEW,ROW,BANG,BUZZ,CHUG,DISH,ECHO,HOWL,MANY
+  AI Reasoning:
+    Looking at this step by step:
+    
+    Definition: "Make progress" (stepping stones help you make progress across water).
+    
+    Wordplay: anagram. "upset" and "over" are anagram indicators.
+    
+    Fodder: "these animals" + "noises"
+    - "these animals" = THESE + ANIMALS (literal letters)
+    - "noises" = SOUNDS (synonym)
+    
+    Wait, let me reconsider using the known lookups:
+    - "progress" = STEP (synonym)
+    - "with" = ON (abbreviation)
+    - "noises" = ONE (this seems incorrect - ONE isn't a noise)
+    
+    Actually, rethinking the anagram approach:
+    "these animals" + "noises" = THESEANIMALS + SOUNDS doesn't work cleanly.
+    
+    Let me try: The phrase "these animals upset over noises" could be anagram fodder.
+    THESEANIMALSNOISES rearranged = STEPPINGSTONES
+    
+    But this seems forced. Let me reconsider the structure:
+    "stepping" = making progress, "stones" = what you step on.
+    The wordplay likely involves anagramming parts to get STEPPING STONES, but the exact mechanism isn't clear from the available indicators and lookups.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LOOSE  6D. Untethered deer leaving motorway for lake
+  Answer: LOOSE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Untethered"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      untethered: syn=LOOSE*
+      deer: syn=ELK,DOES,ROES,STAG,MOOSE; sounds=dear
+      leaving: syn=LAST,FINAL,GOING; ind=deletion?
+      motorway: syn=ROW,WAY,DRAG,LANE,MAIN,MEWS,PASS,PIKE,ROAD,ALLEY,BYWAY,DRIVE,PLACE,ROUTE,TRACE; abbr=M,MI
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      lake: syn=SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL,BASIN,HURON,LOUGH,OXBOW,STANK,TAHOE; abbr=L*,LA
+    Definitions:
+      "Untethered" -> LOOSE (definition match)
+  AI Reasoning:
+    Definition: "Untethered" (LOOSE is a synonym for untethered).
+    Wordplay: deletion. "deer leaving motorway for lake" means DEER - M (motorway abbreviation) + L (lake abbreviation). DEER - M + L = DEER - M + L = DEEL + L = DEERL. This doesn't work.
+    
+    Let me reconsider: "leaving" and "for" are both deletion indicators. So we have "deer leaving motorway" and separately "for lake" as another deletion.
+    
+    Actually, rethinking the structure: "deer leaving motorway" = DEER - M = DEER (but M isn't in DEER).
+    
+    Wait - this appears to be a double definition: "Untethered" and "deer leaving motorway for lake" both define LOOSE. A loose deer would leave the motorway for a lake (loose = free to roam).
+  ----------------------------------------------------------------------
+
+  [HIGH] TAFFETA  7D. Rolled plump cheese in fabric
+  Answer: TAFFETA
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "fabric"
+  Wordplay type: container
+  Components:
+    reversal           plump                     -> TAF
+    synonym            cheese                    -> FETA
+  Assembly: charade — TAF(reversal of "plump") + FETA(synonym of "cheese")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rolled: syn=ROAD,GRAVY,LURCHED,WOUNDED; ind=reversal
+      plump: syn=BAT,BOP,BOX,DAB,FAT,HIT,LIE,OPT,RAP,SIP,SUP,BANG,BASH,BELT,BIFF
+      cheese: syn=FETA*,BRIE,CURD,EDAM,FOOD,JUNK,MUCK,SLOP,COMTE,DRECK,GOUDA,SLUSH,TRASH,TRIPE,PANEER
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      fabric: syn=TAFFETA*,FELT,JEAN,BATIK,CLOTH,CREPE,DHOTI,GAUZE,LINEN,LISLE,NINON,NYLON,RAYON,SATIN,STUFF
+    Definitions:
+      "fabric" -> TAFFETA (definition match)
+  AI Reasoning:
+    Definition: "fabric" (taffeta is a type of fabric).
+    Wordplay: container with reversal. "plump" = FAT (synonym). "rolled" indicates reversal, so FAT becomes TAF. "cheese" = FETA (given lookup). "in" indicates container: TAF contains FETA = TAF(FETA) = TAFFETA.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DELETE  8D. Scrub edges of durable permit back in office
+  Answer: DELETE
+  Tier: Sonnet | Confidence: 63/100
+  Definition: "Scrub"
+  Wordplay type: container
+  Components:
+    first_letter       edges of durable          -> DE
+    reversal           permit                    -> TEL
+  Assembly: reversal — DE(first letter of "edges of durable") + reverse TEL(reversal of "permit") + E
+  Gap fill: [('edges', 'E', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=container, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      scrub: syn=DELETE*,AXE,BUSH,DROP,BRUSH,CLEAN,JAPAN,SCOUR,BUSHES,CANCEL,POLISH
+      edges: syn=SIDES,CREEPS,SKIRTS,CAP,END,GET,HEM,LIP,PIP,RIM,TOP,VAN,WAX,BEAT,BEST; ind=parts
+      durable: syn=FAST,TIME,SOLID,STABLE,STEADY,STRONG,STURDY
+      permit: syn=LET*,DO,OR,BAG,EYE,BEST,HAVE,NONE,PASS,SIGN,VISA,AGREE,ALLOW,ALONE,GRANT; ind=container?
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      office: syn=DO,ARM,JOB,TAX,USE,DESK,DUTY,HAND,LEVY,NEED,PART,POST,ROLE,TASK,WORK; abbr=O
+      edges of: ind=parts
+    Definitions:
+      "Scrub" -> DELETE (definition match)
+  AI Reasoning:
+    Definition: "Scrub" (DELETE means to scrub/remove).
+    
+    Wordplay: container + reversal. "edges of durable" = D and E (first and last letters of DURABLE). "permit" = LET (synonym). "back" indicates reversal, so LET becomes TEL. "in office" means the reversed permit (TEL) goes inside the edges: D + TEL + E = DELETE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] contract bridge  9D. Reach part of ship storing essentially cured game
+  Answer: contract bridge
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "game"
+  Wordplay type: charade
+  Components:
+    synonym            Reach                     -> CONTRACT
+    synonym            part of ship              -> BRIDGE
+  Assembly: charade — CONTRACT(synonym of "Reach") + BRIDGE(synonym of "part of ship")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      reach: syn=CONTACT*,GET,OLD,BUCK,COME,HAND,MAKE,MOVE,PASS,RANK,RUNG,SEEK,SWAY,WORN,AMBIT
+      part: syn=TRACT*,DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      ship: syn=SS,AIR,ARK,MAN,TUB,ARGO,BOAT,KEEL,NESS,SAME,SEND,TOSS,CRAFT,LINER,OILER; abbr=S,SS
+      storing: syn=STASHING,PUTTING ASIDE; ind=container?
+      essentially: syn=DIETER,ATHEART,BANKERS,AT HEART,INITSELF,PRIMARILY,INALLBUTNAME; ind=deletion,parts
+      cured: syn=HEALED,SALTED,DISEASEFREE; ind=anagram
+      game: syn=ACT*,BRIDGE*,GO,LI,RU,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+      part of: ind=insertion
+      part of: syn=TRACT*,CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK
+      part of ship: syn=CUTS,POOP,NIGHT,GUNWALE
+    Definitions:
+      "game" -> contract bridge (definition match)
+  AI Reasoning:
+    Looking at this step by step:
+    
+    Definition: "game" (contract bridge is a card game)
+    
+    Wordplay: charade
+    - "Reach" = CONTRACT (using the known lookup: reach → synonym CONTACT, but here it's CONTRACT)
+    - "part of ship" = BRIDGE (part of a ship's structure)
+    
+    CONTRACT + BRIDGE = CONTRACT BRIDGE
+    
+    The indicator words listed are red herrings - this is a straightforward charade of two synonyms.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

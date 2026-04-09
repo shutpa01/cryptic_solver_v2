@@ -1,0 +1,386 @@
+{
+  "source": "guardian",
+  "puzzle": "29959",
+  "stats": {
+    "total": 30,
+    "assembled": 24,
+    "high": 10,
+    "medium": 6,
+    "low": 8,
+    "failed": 6,
+    "avg_score": 52.083333333333336
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Spice Girl",
+      "letters": "GERI",
+      "answer": "DIDGERIDOO",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Was Spice Girl impersonating duck that’s low-pitched and resonant?",
+      "score": 37
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "And also",
+      "letters": "DUE",
+      "answer": "DUENORTH",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "And also not included in song: Hamilton’s lead wanting direction",
+      "score": 25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Excellent",
+      "letters": "DE",
+      "answer": "DEFORMS",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Excellent: room’s confining, at last, Bruno Mars",
+      "score": -5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "room",
+      "letters": "FORM",
+      "answer": "DEFORMS",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Excellent: room’s confining, at last, Bruno Mars",
+      "score": -5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "set",
+      "letters": "T",
+      "answer": "TWELVE",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Figure set around mostly satisfactory constant",
+      "score": 32
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "constant",
+      "letters": "VE",
+      "answer": "TWELVE",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Figure set around mostly satisfactory constant",
+      "score": 32
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "former student",
+      "letters": "OB",
+      "answer": "THEMOB",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Former student crowned by those people – wise guys",
+      "score": 47
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "has",
+      "letters": "I",
+      "answer": "HEMISPHERE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Border has shown up throttling power in world? Not half",
+      "score": -35
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "world",
+      "letters": "SPHERE",
+      "answer": "HEMISPHERE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Border has shown up throttling power in world? Not half",
+      "score": -35
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "sizes",
+      "letters": "LMS",
+      "answer": "ALMS",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Relief: American sizes successively decreasing",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "I'm surprised",
+      "letters": "O",
+      "answer": "OBOES",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "I’m surprised by cellists’ kit that’s heard in woodwinds",
+      "score": -17
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "surly",
+      "answer": "ILLNATURED",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Intrude, all agitated and surly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Slightly rotten",
+      "answer": "HIGH",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Slightly rotten greeting yelled",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "The reverse of 'dark' and 'night'?",
+      "answer": "MIDDAY",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "The reverse of ‘dark’ and ‘night’?",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "low-pitched and resonant",
+      "answer": "DIDGERIDOO",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Was Spice Girl impersonating duck that’s low-pitched and resonant?",
+      "score": 37
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "direction",
+      "answer": "DUENORTH",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "And also not included in song: Hamilton’s lead wanting direction",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Middle of Feb, day in early May, or one late in Dec?",
+      "answer": "EVE",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Middle of Feb, day in early May, or one late in Dec?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gunman's order",
+      "answer": "HANDSUP",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Gunman’s order delivered with difficulty, it’s implied",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "means of preserving life",
+      "answer": "UHT",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Sunhats: oddly ignored means of preserving life",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mars",
+      "answer": "DEFORMS",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Excellent: room’s confining, at last, Bruno Mars",
+      "score": -5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in a state",
+      "answer": "UTAH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Playing autoharp; regrettably a pro’s left it in a state",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sicilians possibly",
+      "answer": "ISLEMEN",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Sicilians possibly expelling a Milanese, awkwardly",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "parts",
+      "answer": "DOZENTHS",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Zoned out: this is ignoring the writer’s parts",
+      "score": 63
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Character in Globe",
+      "answer": "OBERON",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Character in Globe – Roneo? – Not quite",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "wise guys",
+      "answer": "THEMOB",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Former student crowned by those people – wise guys",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "half",
+      "answer": "HEMISPHERE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Border has shown up throttling power in world? Not half",
+      "score": -35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "money in Philippines",
+      "answer": "PESO",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Peep Show regularly lost money in Philippines",
+      "score": 76
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cars offered here",
+      "answer": "AVIS",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Miles – perhaps not 500 – in cars offered here",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "woodwinds",
+      "answer": "OBOES",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "I’m surprised by cellists’ kit that’s heard in woodwinds",
+      "score": -17
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "The Agony and the Ecstasy",
+      "answer": "EMOTIONS",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Rebutted curt prig with one book, The Agony and the Ecstasy?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dance",
+      "answer": "CEILIDH",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Dance, as Marillion song on the radio",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "conveyed by piping",
+      "answer": "ARIA",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "A drowned valley that’s conveyed by piping",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "AI instructions",
+      "answer": "PSEUDOCODE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Deduce spoof largely concocted with AI instructions?",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "calm",
+      "answer": "ATREST",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Hopefully, with finale from tenor to replace bass, producing calm",
+      "score": 32
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "safe place",
+      "answer": "BOLTHOLE",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Originally, baker oversupplied lightly – 13 – he often leaves éclair in safe place",
+      "score": 66
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Zero",
+      "answer": "RESET",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Zero tolerance finally adopted during time off",
+      "score": 72
+    }
+  ]
+}

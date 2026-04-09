@@ -1,0 +1,83 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #28968
+Generated: 2026-03-09 23:14:02
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        1/1 (100%)
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   1  1D
+  Medium (40-79): 0  
+  Low (<40):    0  
+  Failed:       0  
+  Average:      92/100
+
+COST: $0.0065 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (1 entries)
+------------------------------------------------------------
+  Pastry: Father's -> PAS  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/1  
+  DB gap:                1  1D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  Pastry        Father's attempt to make dough (6)
+                      PAS(Father's) + TRY(attempt)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Father's attempt to make dough
+  Answer: Pastry
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "dough"
+  Wordplay type: charade
+  Components:
+    synonym            Father's                  -> PAS
+    synonym            attempt                   -> TRY
+  Assembly: charade — PAS(Father's) + TRY(attempt)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      father's: syn=PA*,FR,DAD,GET,GOD,GUV,NUN,OLD,PAL,POP,ABBA,ABBÉ,ALLY,CHUM,CLAN; abbr=F,FR,PA*,SIRE
+      attempt: syn=TRY*,GO,AIR,BID,SHY,DARK,HOPE,MAIN,PASS,SEEK,SHOT,STAB,A TRY,ASSAY,CRACK; ind=container?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      make: syn=A,DO,A A,ACT,ARM,BAG,BAR,BED,BIG,DIG,FAG,GET,HIT,LAY,LOG; abbr=DO; ind=anagram?
+      dough: syn=PASTRY*,FIN,ONE,TEN,TWO,BILL,BUCK,CASH,FIVE,LONG,NOTE,PELF,UPON,BREAD,CHECK; sounds=doe
+      to make: syn=PAY,BUG,EAT,GET,HER,HIS,JAR,LAW,LOW,MOO
+    Definitions:
+      "dough" -> Pastry (definition match)
+  Human explanation: — a familiar term for father, the accompanying S, and another word for attempt
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

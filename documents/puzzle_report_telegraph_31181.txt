@@ -1,0 +1,829 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31181
+Generated: 2026-03-07 23:31:28
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      31
+  Assembled:        28/31 (90%)
+    Sonnet:         28
+    DB Fallback:    0
+    Cached (no API): 23
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  1D, 10A, 11A, 12A, 14D, 15D, 16A, 17D, 18D, 20A, 22A, 23D, 25D, 27A, 28A, 3A, 4D, 5D, 7D, 8D
+  Medium (40-79): 6  1A, 13A, 2D, 24A, 26A, 29A
+  Low (<40):    2  24D, 9D
+  Failed:       3  14A, 19A, 6D
+  Average:      85/100
+
+COST: $0.0514 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (9 entries)
+------------------------------------------------------------
+  LARK: "See 26 Across" -> LARK  (missing from definition_answers_augmented)
+  DRENCHED: "Soused" -> DRENCHED  (missing from definition_answers_augmented)
+  BLAINE: "Rick in Casablanca" -> BLAINE  (missing from definition_answers_augmented)
+  HERESLOOKINGATYOUKID: "South Korean yogi liked nutty 19 Across's line for 9 Down" -> HERESLOOKINGATYOUKID  (missing from definition_answers_augmented)
+  ENCHILADA: "hot snack" -> ENCHILADA  (missing from definition_answers_augmented)
+  DRENCHED: whiskey -> D  (missing from abbreviations)
+  UPPERMOST: in test -> MOST  (missing from synonyms_pairs)
+  ENCHILADA: eats -> CHIL  (missing from synonyms_pairs)
+  TWENTYONE: that -> ONE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (5)
+------------------------------------------------------------
+  DEAD = 1 (65/100): answer used in own explanation
+  ANDROMEDA = 2 (50/100): answer used in own explanation
+  POTTY = 24 (50/100): answer used in own explanation
+  PUCK = 24 (30/100): answer used in own explanation
+  LUND = 9 (30/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (5)
+------------------------------------------------------------
+  ANDROMEDA = 2 (50/100): no pieces verified in DB
+  POTTY = 24 (50/100): no pieces verified in DB
+  PUCK = 24 (30/100): single piece equals full answer; no pieces verified in DB
+  ZEUS = 29 (70/100): no pieces verified in DB
+  LUND = 9 (30/100): single piece equals full answer; no pieces verified in DB
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  14. Soused Democrat forced to renounce whiskey = DRENCHED
+  19. Rick in Casablanca and Abilene endlessly drunk = BLAINE
+  6. Ena holding youngster eats a hot snack = ENCHILADA
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  16/31  3A, 10A, 11A, 12A, 16A, 20A, 27A, 28A, 4D, 5D, 7D, 15D, 17D, 18D, 23D, 25D
+  Circular assembly:     4  1A, 2D, 9D, 24D
+  Unverified explain.:   4  29A, 2D, 9D, 24D
+  DB gap:                7  13A, 14A, 19A, 22A, 26A, 6D, 8D
+  Failed:                3  14A, 19A, 6D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  DARTS         Shoots game (5)
+                      double definition  [HIGH]
+    1A  DEAD          Downright dull (4)
+                      double definition  [MED]
+   10A  REDGUARDS     Maoists argued furiously blocking road south (3,6)
+                      anagram of RD(road)+S(south)+ARGUED(argued)  [HIGH]
+   11A  CEASE         Refrain from church when finally contrite (5)
+                      CE(church) + AS(when) + E(finally contrite)  [HIGH]
+   12A  SWORD         Leader of soldiers, given news, means to fight (5)
+                      S(Leader of soldiers) + WORD(news)  [HIGH]
+   13A  LARK          See 26 Across
+                      cryptic definition  [MED]
+   14D  DEBAUCHER     Libertine in uniform somehow breached walls (9)
+                      anagram of BREACHED(breached)+U(uniform)  [HIGH]
+   14A  DRENCHED      Soused Democrat forced to renounce whiskey (8)
+                      ---  [FAIL]
+   15D  CONTRASTS     Differences in Nicaraguan rebels crossing street (9)
+                      ST(street) inside CONTRAS(Nicaraguan rebels)  [HIGH]
+   16A  GAZEBO        Look old taking book inside summerhouse (6)
+                      GAZE(Look) + B(book) + O(old)  [HIGH]
+   17D  EQUITABLE     Just English left on rising Italian island (9)
+                      E(english) + QUIT(left) + reverse ELBA(island)  [HIGH]
+   18D  DISTENDS      Detectives wait on southern swells (8)
+                      DIS(Detectives) + TEND(wait on) + S(southern)  [HIGH]
+   19A  BLAINE        Rick in Casablanca and Abilene endlessly drunk (6)
+                      ---  [FAIL]
+    2D  ANDROMEDA     Princess tied to rock stars in group (9)
+                      double definition  [MED]
+   20A  LIGATURE      Horrible Gaultier tie (8)
+                      anagram of GAULTIER(Gaultier)  [HIGH]
+   22A  UPPERMOST     Top meal without starter succeeded in test (9)
+                      UPPER(meal without starter) + MOST(in test)  [HIGH]
+   23D  PARKA         Old man covers chest in warm coat (5)
+                      ARK(chest) inside PA(Old man)  [HIGH]
+   24A  POTTY         Where the young go crazy (5)
+                      double definition  [MED]
+   24D  PUCK          Fairy Liquid's top removed from bottle (4)
+                      PUCK(bottle)  [LOW]
+   25D  YEATS         Wait up to welcome eastern poet (5)
+                      E(eastern) inside YATS(Wait)  [HIGH]
+   26A  HERESLOOKINGATYOUKID  South Korean yogi liked nutty 19 Across's line for 9 Down (5,7,2,3,3)
+                      cryptic definition  [MED]
+   27A  KINGCOBRA     Reptile, one ruling civil contingencies committee (4,5)
+                      KING(one ruling) + COBRA(civil contingencies committee)  [HIGH]
+   28A  RHAPSODIST    Musician knocks poet capturing hearts (10)
+                      H(hearts) inside RAPS(knocks) + ODIST(poet)  [HIGH]
+   29A  ZEUS          Olympian from Egyptian port returned (4)
+                      reverse SUEZ(Egyptian port)  [MED]
+    3A  CHAMBERPOT    Here peers sit, in Lords, returned to power (10)
+                      CHAMBER(Lords) + POT(in)  [HIGH]
+    4D  HERALDED      Proclaimed leader corrupt in high definition! (8)
+                      delete IGH from HIGH(high), anagram of H+LEADER(leader)+D(definition)  [HIGH]
+    5D  MOSCOW        Doctor on boat in capital (6)
+                      MO(Doctor) + SCOW(boat)  [HIGH]
+    6D  ENCHILADA     Ena holding youngster eats a hot snack (9)
+                      ---  [FAIL]
+    7D  PRANG         No serious accident: police initially called (5)
+                      P(police initially) + RANG(called)  [HIGH]
+    8D  TWENTYONE     Time passed with that European card game (6-3)
+                      T(Time) + WENT(passed) + Y(with) + ONE(that)  [HIGH]
+    9D  LUND          Ilsa in Casablanca, Lima and in Berlin (4)
+                      LUND(Lima and in Berlin)  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Shoots game
+  Answer: DARTS
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "game"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shoots: syn=AXES,CANS,DAMS,FAGS,GUNS,HIES,JETS,LAMS,MOVE,NIPS,POPS,RAMS,RIPS,RUNS,TUGS; sounds=chute
+      game: syn=DARTS*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+    Definitions:
+      "Shoots" -> DARTS (definition match)
+      "game" -> DARTS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 1. Downright dull
+  Answer: DEAD
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Downright"
+  Wordplay type: double_definition
+  Components:
+    synonym            Downright                 -> DEAD
+    synonym            dull                      -> DEAD
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=1/2 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      downright: syn=DEAD*,ALL,LOW,OUT,SHY,BARE,BODY,CURT,DAMN,FAIR,FAST,FLAT,PURE,RANK,TOOM
+      dull: syn=DIM,DRY,LOW,MAT,OLD,WET,AGED,ARID,COZY,DRAB,FLAT,GREY,HALF,HAZY,HOAR
+    Definitions:
+      "Downright" -> DEAD (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Maoists argued furiously blocking road south
+  Answer: REDGUARDS
+  Tier: Cached | Confidence: 100/100
+  Definition: "Maoists"
+  Wordplay type: anagram
+  Components:
+    abbreviation       road                      -> RD
+    abbreviation       south                     -> S
+    literal            argued                    -> ARGUED
+  Assembly: anagram — anagram of RD(road)+S(south)+ARGUED(argued)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      maoists: syn=RED*,SOCIAL,DEMOCRAT
+      argued: syn=ATE,DUG,GET,GOT,RAN,ROW,SAW,BEAT,CAME,GREW,ICED,KNEW,MOOT,MOVE,SLEW
+      furiously: syn=ANGRILY; ind=anagram
+      blocking: syn=BALKING,BARRING,FOILING,BAFFLING,IMPEDING,NEGATING,STALLING,DETERRENT,DETERRING,HAMPERING,HINDERING,RETARDANT,THWARTING; ind=container
+      road: syn=RD*,ST,BUS,CAB,FLY,GIG,HOP,IRE,JET,MAD,PET,ROW,WAY,BILE,CABS; abbr=AI,R*,RD*,ST,WAY; sounds=rode,rowed
+      south: syn=DOWN,POINT; abbr=S*; ind=reversal
+    Definitions:
+      "Maoists" -> REDGUARDS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Refrain from church when finally contrite
+  Answer: CEASE
+  Tier: Cached | Confidence: 100/100
+  Definition: "Refrain from"
+  Wordplay type: charade
+  Components:
+    synonym            church                    -> CE
+    synonym            when                      -> AS
+    last_letter        finally contrite          -> E
+  Assembly: charade — CE(church) + AS(when) + E(finally contrite)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      refrain: syn=DO,KEEP,QUIT,STOP
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      church: syn=CE*,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH,CLOTH; abbr=C*,CE*,CH
+      when: syn=AS*,IS,ONCE,SOON,AS IS,AS IT,WHILE; abbr=AS*; ind=homophone
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER; abbr=T; ind=parts
+      contrite: syn=RUING,SORRY
+    Definitions:
+      "Refrain from" -> CEASE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Leader of soldiers, given news, means to fight
+  Answer: SWORD
+  Tier: Cached | Confidence: 92/100
+  Definition: "means to fight"
+  Wordplay type: charade
+  Components:
+    first_letter       Leader of soldiers        -> S
+    synonym            news                      -> WORD
+  Assembly: charade — S(Leader of soldiers) + WORD(news)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      soldiers: syn=OR*,RE,GIS,MEN,UNIT,CORPS,PARAS,RANKS,AT,GI,ANT,MAN,ARMS,GRUB,PARA; abbr=GIS,MEN,OR*,RA,RE,ANT,GI,RM
+      given: syn=IF,APT,ONE,SET,BORN,FIRM,FLAT,HARD,NORM,SOME,SURE,USED,WONT,BASIS,CANON
+      news: syn=WORD*,MY,SO,FEW,GEN,INFO,ITEM,KNOW,MANY,STORY,UNCOS,WORDS,UP,AGE,CAN; abbr=N,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      means: syn=WAY,ACTS,AIMS,AIRS,FORT,GOES,MOVE,NOTE,PAWN,STEP,TOOL,WALL,WARD,AEGIS,AGENT; sounds=mien
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      fight: syn=DO,MY,BOX,ITS,JAR,LAY,POP,ROW,SET,VIE,WAR,ARIA,BOUT,BUCK,DEFY; abbr=BOX,TO
+    Definitions:
+      "means to fight" -> SWORD (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. See 26 Across
+  Answer: LARK
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "See 26 Across"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      see: syn=DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD,ESPY; abbr=C,ELY,LO,V; sounds=sea
+      across: syn=BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL,COME; ind=container
+    Cross-references:
+      Clue 26 answer = HERESLOOKINGATYOUKID
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Libertine in uniform somehow breached walls
+  Answer: DEBAUCHER
+  Tier: Cached | Confidence: 100/100
+  Definition: "Libertine"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     breached                  -> BREACHED
+    abbreviation       uniform                   -> U
+  Assembly: anagram — anagram of BREACHED(breached)+U(uniform)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      libertine: syn=EAT,RAKE,SICK,LOOSE,RAKISH,WARPED,CORRUPT,DEBASED,DONJUAN,JACKLEG,SQUISHY,UNCLEAN,BALLPARK,CASANOVA,DECADENT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      uniform: syn=EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT,LIVERY,OUTFIT,STABLE,STEADY,ALIGNED,COSTUME,RAIMENT,REGULAR,CONSTANT; abbr=U*
+      somehow: syn=ANYWAY,INAWAY; ind=anagram
+      breached: syn=BROKEN; fodder=BREACHED(8/9 anagram match)
+      walls: syn=ARMAMENTS,BAG,BAR,BAT,BIT,BOB,BOP,BOX,LET,LOG,ODD,PEN,RAM,RAP,RUB; ind=container?,parts
+      in uniform: syn=ALIKE,IDENTICAL
+    Definitions:
+      "Libertine" -> DEBAUCHER (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 14. Soused Democrat forced to renounce whiskey
+  Answer: DRENCHED
+  Tier: --- | Confidence: 0/100
+  Definition: "Soused"
+  Wordplay type: charade
+  Components:
+    abbreviation       Democrat                  -> D
+    synonym            renounce                  -> RENEGE
+    abbreviation       whiskey                   -> D
+  DB Lookups:
+    DB lookups:
+      soused: syn=DRENCHED*,ITS,LIT,PIE,WET,HIGH,AWASH,BLIND,BOOZY,DRUNK,FRIED,OILED,SOGGY,SOPPY,STIFF
+      democrat: syn=RED,OF A,PINK,LEFTY,PINKO,COMMIE,MAOIST,COMRADE,LEFTIST,LEVELER,MARXIST,RADICAL,LENINIST,LENINITE; abbr=D*
+      forced: syn=ARM,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FAUX,FELT,KNEW,MADE; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      renounce: syn=CEDE,DEED,PART,STEP,TAKE,ALIEN,CONVEY,RENDER,RENEGE,RESIGN,ABJURED,DELIVER,TURN IN,ABDICATE,ABNEGATE
+      whiskey: syn=ALE,GIN,MUM,NIP,PEG,POP,RUM,RYE,TOT,ALE,,BEER,BELT,BREW,GROG,HOME; abbr=W
+    Definitions:
+      "Soused" -> DRENCHED (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 15. Differences in Nicaraguan rebels crossing street
+  Answer: CONTRASTS
+  Tier: Cached | Confidence: 100/100
+  Definition: "Differences"
+  Wordplay type: container
+  Components:
+    synonym            Nicaraguan rebels         -> CONTRAS
+    abbreviation       street                    -> ST
+  Assembly: container — ST(street) inside CONTRAS(Nicaraguan rebels)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      differences: syn=CONTRASTS*,CONTRAST*,KICKS,DEMURS,FLUXES,FUSSES,RIGORS,STINKS,CHANGES,DEBATES,NUANCES,REVIEWS,REVISES,CHANGES,,DISPUTES; ind=anagram?
+      in: syn=CONT*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      nicaraguan: syn=LATINO
+      rebels: syn=RISES,YOUNG,CRISES,REVOLTS,ALARMISTS,MUTINEERS,RED,CADE,RISE,BALKY,ONE'S,RISEUP,UNRULY,AGAINST,DEFIANT; ind=anagram?
+      crossing: syn=FORD,SAIL,SPAN,CORNER,CRUISE,VOYAGE,PASSAGE,JUNCTION,CARREFOUR,CROSSROAD,TRAVERSAL; ind=container
+      street: syn=ST*,LUG,ROW,WAY,WIT,BAWD,BOND,CARE,DRAB,DRAG,LANE,MEWS,NOUS,PASS,PATH; abbr=S*,ST*
+      nicaraguan rebels: syn=CONTRAS*
+    Definitions:
+      "Differences" -> CONTRASTS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Look old taking book inside summerhouse
+  Answer: GAZEBO
+  Tier: Cached | Confidence: 100/100
+  Definition: "summerhouse"
+  Wordplay type: charade
+  Components:
+    synonym            Look                      -> GAZE
+    abbreviation       old                       -> O
+    abbreviation       book                      -> B
+  Assembly: charade — GAZE(Look) + B(book) + O(old)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      look: syn=GAZE*,DO,GO,MY,A A,ACT,AIR,EYE,FEE,ITS,SEE,SPY,USE,VIP,WAY; abbr=LO
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      book: syn=DO,IT,ACT,BAG,CUT,DIG,GET,HIT,HOW,MAG,PUT,SEE,SHE,WIN,ACTS; abbr=B*,NT,TOME
+      inside: syn=GUT,MID,TOP,HEART,INNER,PRIVY,RELIC,SPACE,COURSE,HUSHED,INMOST,INWARD,MIDDLE,SECRET,SOURCE; abbr=IN; ind=container,hidden,insertion,parts
+      summerhouse: syn=GAZEBO*
+    Definitions:
+      "summerhouse" -> GAZEBO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Just English left on rising Italian island
+  Answer: EQUITABLE
+  Tier: Cached | Confidence: 100/100
+  Definition: "Just"
+  Wordplay type: reversal
+  Components:
+    synonym            left                      -> QUIT
+    synonym            island                    -> ELBA
+    first_letter       english                   -> E
+  Assembly: reversal — E(english) + QUIT(left) + reverse ELBA(island)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      just: syn=EQUITABLE*,BUT,DUE,ITS,NEW,NOW,YET,BEST,EVEN,FAIR,FIRM,FULL,GOOD,HARD,LATE
+      english: syn=ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT,DANDY; abbr=E*
+      left: syn=QUIT*,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L*,LE*,PORT,SINISTER; ind=acrostic,deletion,reversal
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      rising: syn=LIFT,RIOT,RISE,SOAR,CLIMB,TIDAL,ASCENT,MUTINY,REVOLT,UPWARD,ONTHEUP,BUILDING,OUTBREAK,UPRISING,ASCENDENT; ind=reversal
+      italian: syn=IT*,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS,TORPEDO; abbr=I*,IT*
+      island: syn=IS,AIT,KEY,SAY,BALI,BUTE,CUBA,ELBA,EYOT,GOZO,GUAM,INCH,IONA,ISLE,JAVA; abbr=I*,IS
+      italian island: syn=ELBA,ISLAND
+    Definitions:
+      "Just" -> EQUITABLE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Detectives wait on southern swells
+  Answer: DISTENDS
+  Tier: Cached | Confidence: 100/100
+  Definition: "swells"
+  Wordplay type: charade
+  Components:
+    synonym            Detectives                -> DIS
+    synonym            wait on                   -> TEND
+    abbreviation       southern                  -> S
+  Assembly: charade — DIS(Detectives) + TEND(wait on) + S(southern)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      detectives: syn=DIS*,CID,SLEUTHS,COP,DET,EYE,MAN,TEC,BULL,BUSY,DICK,FUZZ,HEAT,BOBBY,REBUS; abbr=CID,D*,DI*,PI
+      wait: syn=EYE,HER,HIS,SIT,BIDE,BOOK,FOOT,HOLD,LIST,ONTO,STAY,VIEW,AWAIT,BOOKS,DELAY; sounds=weight
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      southern: syn=THIS,AUSTRAL; abbr=S*
+      swells: syn=DISTENDS*,DISTEND*,TOFFS,BLOATS,AERATES,BALLOONS,ENGORGES,A1,IN,OK,UP,ADD,BAR,BIG,DEF
+      wait on: syn=TEND*,EARN,MERIT,ATTEND,DESERVE,JUSTIFY,WARRANT
+    Definitions:
+      "swells" -> DISTENDS (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 19. Rick in Casablanca and Abilene endlessly drunk
+  Answer: BLAINE
+  Tier: --- | Confidence: 0/100
+  Definition: "Rick in Casablanca"
+  Wordplay type: deletion
+  Components:
+    literal            Abilene                   -> ABILENE
+    deletion           endlessly                 -> E
+  DB Lookups:
+    DB lookups:
+      rick: syn=ST,BAR,BED,MOW,BANK,COCK,DRAY,HEAP,KNOT,PILE,PYRE,TRAM,WAIN,WALK,ARRAY
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      casablanca: syn=CITY,FILM
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      abilene: fodder=ABILENE(6/6 anagram match)
+      endlessly: syn=OFT,ANEW,EVER,OVER,AGAIN,NEWLY,OFTEN,AFRESH,ALWAYS; abbr=E*; ind=deletion,parts
+      drunk: syn=ITS,LIT,PIE,SOT,WET,BUST,HIGH,LIST,LUSH,SOAK,TOOT,WINO,BERTH,BLIND,BOOZY; abbr=SOT; ind=anagram
+    Definitions:
+      "Rick in Casablanca" -> BLAINE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 2. Princess tied to rock stars in group
+  Answer: ANDROMEDA
+  Tier: Cached | Confidence: 50/100
+  Definition: "Princess"
+  Wordplay type: double_definition
+  Components:
+    synonym            stars in group            -> ANDROMEDA
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      princess: syn=ANDROMEDA*,DIVA,QUEEN,ROYAL,ISOLDE,ARIADNE,GENERAL,GODDESS,INFANTA,MAHARANEE
+      tied: syn=DREW,EVEN,FAST,FIRM,SNUG,TAUT,BOUND,DRAWN,STUCK,TENSE,TIGHT,BOLTED,CAUGHT,JAMMED,PENNED; sounds=tide
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      rock: syn=GEM,GIB,ICE,ROC,TOR,BASE,BASS,CRAG,FOOT,GAUD,HALT,HARD,JERK,JOLT,ROLL; ind=anagram
+      stars: syn=ANDROMEDA*,MAIN,STAR,URSA,DRACO,IDOLS,NAMES,ORION,ASTRAL,BOOTES,DWARFS,GALAXY,GEMINI,SAILOR,TAURUS; abbr=S
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+    Definitions:
+      "Princess" -> ANDROMEDA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Horrible Gaultier tie
+  Answer: LIGATURE
+  Tier: Cached | Confidence: 100/100
+  Definition: "tie"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Gaultier                  -> GAULTIER
+  Assembly: anagram — anagram of GAULTIER(Gaultier)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      horrible: syn=BUM,HAIR,KEEN,PUNK,VILE,ACUTE,AWFUL,CHEAP,DREAD,JUNKY,LOUSY,LURID,NASTY,SCARY,SUCKY; ind=anagram
+      gaultier: fodder=GAULTIER(8/8 anagram match)
+      tie: syn=LIGATURE*,CAN,FIX,MET,BAND,BIND,BOND,CORD,DEAD,DEAL,DRAW,GLUE,HEAT,JOIN,KNIT; sounds=thai
+    Definitions:
+      "tie" -> LIGATURE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Top meal without starter succeeded in test
+  Answer: UPPERMOST
+  Tier: Cached | Confidence: 88/100
+  Definition: "Top"
+  Wordplay type: charade
+  Components:
+    deletion           meal without starter      -> UPPER
+    synonym            in test                   -> MOST
+  Assembly: charade — UPPER(meal without starter) + MOST(in test)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      top: syn=MOST*,UPPERMOST*,UPMOST*,A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM; abbr=CAP,T*,UP*; ind=acrostic,deletion,parts
+      meal: syn=PIE,TEA,CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,MEAT,MENU,MESS,SLOP,BOARD
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      starter: syn=BROTH,COURSE,RECIPE,BEGINNER,ANTIPASTO,APPETISER,CARPACCIO; ind=acrostic,parts
+      succeeded: syn=OWN,RAN,WAS,ACED,EYED,WENT,AHEAD,NOTED,BEYOND,CRACKS,DOGGED,ENSUED,HEEDED,MINDED,OBEYED; abbr=S*
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      test: syn=OK,ACE,BIG,FAB,HOT,MOT,SEE,TAX,TOP,TRY,A-OK,ACES,BEES,BETA,BOSS; abbr=ORAL
+    Definitions:
+      "Top" -> UPPERMOST (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Old man covers chest in warm coat
+  Answer: PARKA
+  Tier: Cached | Confidence: 100/100
+  Definition: "warm coat"
+  Wordplay type: container
+  Components:
+    synonym            Old man                   -> PA
+    synonym            chest                     -> ARK
+  Assembly: container — ARK(chest) inside PA(Old man)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=PA*,EX,ME,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      man: syn=ED,HE,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,JOE,KID,LAD,LUG; abbr=AL,DAN,ED,HE,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      covers: syn=AN,BINS,DOGS,EYES,FILL,GOES,PART,PODS,RUNS,TAGS,TOPS,BOXES,CASES,COVER,CURBS; ind=container,parts
+      chest: syn=ARK*,BIN,BOX,POD,SEA,BUST,CASE,HOPE,HULL,HUSK,SAFE,ARMOR,BOSOM,CADDY,CASE,
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      warm: syn=HOT,LOW,RED,SAD,BLUE,DARK,DOWN,GLUM,GOOD,HEAT,KIND,SNUG,SURE,THAW,AGREE
+      coat: syn=PARKA*,FUR,MAC,HAIR,PELT,SKIN,WOOL,COVER,ICING,JAPAN,SHEET; ind=deletion,parts; sounds=cote
+      old man: abbr=DAD,PA*
+      old man: syn=PA*,AGE,BOD,BOY,CAT,DAD,EGG,GUY,JOE,LAD
+    Definitions:
+      "coat" -> PARKA (definition match)
+      "warm coat" -> PARKA (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 24. Where the young go crazy
+  Answer: POTTY
+  Tier: Cached | Confidence: 50/100
+  Definition: "crazy"
+  Wordplay type: double_definition
+  Components:
+    synonym            Where the young go        -> POTTY
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE; sounds=ware,wear
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      young: syn=BIG,GET,KIN,NEW,RED,BABY,GONE,REDS,SEED,BROOD,CHILD,CRAZY,FRUIT,GREEN,HATCH; abbr=Y*
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      crazy: syn=POTTY*,APE,FEY,HOT,MAD,NUT,ODD,OFF,WUD,AGOG,AMOK,AVID,BATS,DAFT,EDGY; ind=anagram
+    Definitions:
+      "crazy" -> POTTY (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 24. Fairy Liquid's top removed from bottle
+  Answer: PUCK
+  Tier: Cached | Confidence: 30/100
+  Definition: "Fairy"
+  Wordplay type: charade
+  Components:
+    synonym            bottle                    -> PUCK
+  Assembly: charade — PUCK(bottle)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      fairy: syn=PUCK*,PERI; sounds=ferry
+      liquid's: syn=GOO,BALD,FAIR,FREE,LAST,OPEN,SURE; ind=anagram
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T,UP; ind=acrostic,deletion,parts
+      removed: syn=DRY,FAR,AWAY,AXED,COOL,DEEP; ind=anagram,deletion
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      bottle: syn=ALE,CAN,GIN,MUM,NIP,PEG,POP,RUM,TOT,ALE,,AQUA,BEER,BELT,BREW,FACE; abbr=B,VIAL
+    Definitions:
+      "Fairy" -> PUCK (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 25. Wait up to welcome eastern poet
+  Answer: YEATS
+  Tier: Cached | Confidence: 92/100
+  Definition: "poet"
+  Wordplay type: container
+  Components:
+    synonym            Wait                      -> YATS
+    abbreviation       eastern                   -> E
+  Assembly: container — E(eastern) inside YATS(Wait)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wait: syn=EYE,HER,HIS,SIT,BIDE,BOOK,FOOT,HOLD,LIST,ONTO,STAY,VIEW,AWAIT,BOOKS,DELAY; sounds=weight
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      welcome: syn=EAT*,A,HI,AVE,FAB,PET,A-OK,BEST,BOSS,BRAG,COOL,DEAR,DOPE,DOWN,FOND; abbr=HI; ind=container?
+      eastern: abbr=E*
+      poet: syn=EATS*,YEATS*,A,POE,BARD,MUSE,OVID,OWEN,AUDEN,DANTE,DONNE,ELIOT,HEINE,HOMER,KEATS
+      up to: syn=UP
+      to welcome: syn=PACT
+    Definitions:
+      "poet" -> YEATS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 26. South Korean yogi liked nutty 19 Across's line for 9 Down
+  Answer: HERESLOOKINGATYOUKID
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "South Korean yogi liked nutty 19 Across's line for 9 Down"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      south: syn=DOWN,POINT; abbr=S*; ind=reversal
+      yogi: syn=BEAR,STRETCHER,VERY FLEXIBLE PERSON
+      liked: syn=ENJOYED,POPULAR
+      nutty: syn=APE,FEY,MAD,ODD,OFF,WUD,AMOK,AVID,BATS,DAFT,EDGY,GAGA,HALF,KEEN,LIKE; ind=anagram?
+      across's: syn=HERD*,BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL; ind=container
+      line: syn=ER*,KIN*,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,LOT,LUG,NUN; abbr=L*,RY
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      down: syn=OK*,A1,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+    Cross-references:
+      Clue 19 answer = BLAINE
+      Clue 9 answer = LUND
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Reptile, one ruling civil contingencies committee
+  Answer: KINGCOBRA
+  Tier: Cached | Confidence: 100/100
+  Definition: "Reptile"
+  Wordplay type: charade
+  Components:
+    synonym            one ruling                -> KING
+    synonym            civil contingencies committee -> COBRA
+  Assembly: charade — KING(one ruling) + COBRA(civil contingencies committee)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      reptile: syn=CAD,CUR,DOG,GUN,PET,RAT,SOD,SON,BOOR,CROC,CRUD,FINK,HAUL,HEEL,JERK
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O*; sounds=won
+      ruling: syn=DOOM,EDICT,PROLE,COMMON,CRAPPY,DECREE,INCULT,LUMPEN,REGENT,RUGGED,TAMING,CALMING,CURBING,FINDING,GENERAL
+      civil: syn=NICE,WELL,STATE,POLITE,PUBLIC,GENTEEL,SECULAR,GRACIOUS,MANNERLY,NATIONAL,COURTEOUS,WELL-BRED
+      contingencies: syn=LAST
+      committee: syn=BOARD,GROUP,QUANGO,COMPANY,COUNCIL,SELECTED,POLITBURO
+      one ruling: syn=KING*
+      civil contingencies committee: syn=COBRA*
+    Definitions:
+      "Reptile" -> KINGCOBRA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 28. Musician knocks poet capturing hearts
+  Answer: RHAPSODIST
+  Tier: Cached | Confidence: 95/100
+  Definition: "Musician"
+  Wordplay type: container
+  Components:
+    synonym            poet                      -> ODIST
+    synonym            knocks                    -> RAPS
+    abbreviation       hearts                    -> H
+  Assembly: container — H(hearts) inside RAPS(knocks) + ODIST(poet)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      musician: syn=RHAPSODIST*,LISZT,PIPER,VERDI,ARTIST,BARTOK,BRAHMS,FIDDLE,FLUTER,LUTIST,LYRIST,OBOIST,PLAYER,SCORER,VIBIST; ind=anagram?
+      knocks: syn=BODY,TASK,BAT,BIG,BOP,BOX,CRI,DAB,HIT,LAM,RAP,RAT,SIP,SUP,TAP; ind=anagram?,reversal?; sounds=nock
+      poet: syn=ODIST*,A,POE,BARD,EATS,MUSE,OVID,OWEN,AUDEN,DANTE,DONNE,ELIOT,HEINE,HOMER,KEATS
+      capturing: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      hearts: syn=SUIT,TEAM,ORGANS,SUBJECT,MY,EYE,GUT,HUB,NET,NUB,SUM,AXIS,BASE,CARD,COOL; abbr=H*; ind=deletion,parts; sounds=hart
+    Definitions:
+      "Musician" -> RHAPSODIST (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 29. Olympian from Egyptian port returned
+  Answer: ZEUS
+  Tier: Cached | Confidence: 70/100
+  Definition: "Olympian"
+  Wordplay type: reversal
+  Components:
+    synonym            Egyptian port             -> SUEZ
+  Assembly: reversal — reverse SUEZ(Egyptian port)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      olympian: syn=GOD,ARES,HOLY
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      egyptian: syn=COPT
+      port: syn=RIO,RYE,ACRE,ADEN,BAKU,BARI,CORK,HOME,HULL,LEFT,OBAN,ORAN,RIGA; abbr=L,RIO
+      returned: syn=BACK,BORE,BORN,GAVE,PAID; ind=reversal
+      egyptian port: syn=ORAL,SAID
+    Definitions:
+      "Olympian" -> ZEUS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Here peers sit, in Lords, returned to power
+  Answer: CHAMBERPOT
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Here peers sit"
+  Wordplay type: charade
+  Components:
+    synonym            Lords                     -> CHAMBER
+    synonym            in                        -> POT
+  Assembly: charade — CHAMBER(Lords) + POT(in)
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      peers: syn=MAIN,LOOKS,BARONS,NOBLES,COUNTRY,VISCOUNTS,BARONESSES,FOR LADIES,NUN,PAL,SPY,ABBÉ,ALLY,CHUM,CLAN; sounds=pier
+      sit: syn=AM*,BE*,DO,IS,ARE,HAP,LAY,LIE,SET,BEAR,BIDE,BORN,COME,COOK,HIDE
+      in: syn=POT*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      lords: syn=CHAMBER*,SAY,EARL,MAIN,TEST,EARLS,BOTHAM,COUNTRY,BARONAGE,NOBILITY,LIFEPEERS,TEST SITE,VISCOUNTS,CZAR,GOD?; abbr=L
+      returned: syn=BACK,BORE,BORN,GAVE,PAID,CHANGE,ECHOED,NOTICED,REPLIED,TO ROLL,YIELDED,ANSWERED,REJOINED,REPLACED,RESTORED; ind=reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      power: syn=ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL,WALL; abbr=P*
+    Definitions:
+      "Here peers sit" -> CHAMBERPOT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Proclaimed leader corrupt in high definition!
+  Answer: HERALDED
+  Tier: Cached | Confidence: 80/100
+  Definition: "Proclaimed"
+  Wordplay type: anagram
+  Components:
+    literal            high                      -> HIGH
+    literal            leader                    -> LEADER
+    first_letter       definition                -> D
+  Assembly: deletion+anagram — delete IGH from HIGH(high), anagram of H+LEADER(leader)+D(definition)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      proclaimed: syn=HERALDED*,OPEN,RIFE,AIRED,POSTED,PUBLIC,SHARED,CURRENT,GENERAL,POPULAR,REPUTED,RUMORED,COMMUNAL,DECLARED,DIVULGED; ind=homophone
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts; fodder=LEADER(6/8 anagram match)
+      corrupt: syn=DO,BED,BUY,EAT,EYE,PAY,ROT,BENT,BEST,DOWN,FALL,HAVE,NONE,SICK,ABASE; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      high: syn=OR,UP,BIG,CUT,DIS,ITS,LIT,OFF,PIE,POP,SKY,TOP,WET,ACME,AIRY; abbr=H*,UP; ind=anagram; sounds=hi
+      definition: syn=MEANING,PICTURE
+    Definitions:
+      "Proclaimed" -> HERALDED (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Doctor on boat in capital
+  Answer: MOSCOW
+  Tier: Cached | Confidence: 100/100
+  Definition: "capital"
+  Wordplay type: charade
+  Components:
+    abbreviation       Doctor                    -> MO
+    synonym            boat                      -> SCOW
+  Assembly: charade — MO(Doctor) + SCOW(boat)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      doctor: syn=MO*,DR,GP,MB,MD,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D,DR,GP,MB,MO*; ind=anagram
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      boat: syn=SCOW*,AT,ARK,ART,BUM,MAN,SUB,ARGO,BUNS,BUTT,DUFF,HAMS,JUNK,KEEL,ROOT; abbr=SCOW*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      capital: syn=MOSCOW*,A1,MY,OK,BIG,EYE,FAB,HOT,HUB,KEY,THE,TOO,TOP,A-OK,ARCH; abbr=BERLIN,EDINBURGH,LONDON,MADRID,PARIS,ROME; ind=acrostic,parts; sounds=capitol
+    Definitions:
+      "capital" -> MOSCOW (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 6. Ena holding youngster eats a hot snack
+  Answer: ENCHILADA
+  Tier: --- | Confidence: 0/100
+  Definition: "hot snack"
+  Wordplay type: container
+  Components:
+    literal            Ena                       -> ENA
+    synonym            youngster                 -> LAD
+    synonym            eats                      -> CHIL
+    abbreviation       hot                       -> H
+  DB Lookups:
+    DB lookups:
+      ena: syn=TO
+      holding: syn=DOOM,FARM,ASSET,RULING,TAMING,TENURE,CALMING,CURBING,FINDING,KEEPING,ABOUT OR,BOASTING,BRIDLING,CHECKING,CLAMPING; ind=container,hidden
+      youngster: syn=LAD*,BOY,BUD,CAT,CUB,GUY,IMP,JOE,KID,MAN,TAD,TOT,BABE,BABY,BUCK
+      eats: syn=IF,HAS,CHOW,DIET,DISH,FARE,FEED,FOOD,GETS,GRUB,IRKS,MEAL,MEAT,SLOP,TUCK; ind=container
+      hot: syn=A1,BE,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY,LIT; abbr=H*,IN
+      snack: syn=FRY,TEA,BAKE,BITE,CHOW,FEED,GULP,LUAU,MENU,MESS,NOSH,BOARD,BUTTY,FEAST,LUNCH
+      hot snack: syn=SNACK,TOASTIE,SANDWICH
+    Definitions:
+      "hot snack" -> ENCHILADA (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. No serious accident: police initially called
+  Answer: PRANG
+  Tier: Cached | Confidence: 100/100
+  Definition: "accident"
+  Wordplay type: charade
+  Components:
+    first_letter       police initially          -> P
+    synonym            called                    -> RANG
+  Assembly: charade — P(police initially) + RANG(called)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      serious: syn=NO,GRIM,GRAVE,GROSS,HEAVY,MAJOR,RISKY,SOBER,STAID,STERN
+      accident: syn=PRANG*,BAT,BOP,BOX,HAP,HIT,RAP,BANG,BEAT,BELT,BLOW,BUST,CHOP,CLAP,CLIP; ind=anagram?
+      police: syn=ACT,BOD,BOY,CAT,CID,COP,EGG,GUY,JOE,LAD,LAW,MAN,BABY,BEAU,BILL
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      called: syn=RANG*,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,HELD,KNEW,MADE; abbr=RANG*; ind=homophone
+  ----------------------------------------------------------------------
+
+  [HIGH] 8. Time passed with that European card game
+  Answer: TWENTYONE
+  Tier: Cached | Confidence: 92/100
+  Definition: "card game"
+  Wordplay type: charade
+  Components:
+    abbreviation       Time                      -> T
+    synonym            passed                    -> WENT
+    synonym            with                      -> Y
+    synonym            that                      -> ONE
+  Assembly: charade — T(Time) + WENT(passed) + Y(with) + ONE(that)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/4 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      passed: syn=WENT*,BIT,DID,DUG,GOT,HAD,HIT,LAY,MET,PUT,SAT,SAW,WAS,WON,BODE; sounds=past
+      with: syn=ON*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W*
+      that: syn=YON*,AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO; abbr=TH,YON*
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      card: syn=ID,ACE,BAR,CON,FIX,JIG,LAY,WAG,WIT,BARS,BILL,BOOK,CLIP,CLUB,COMB
+      game: syn=TWENTYONE*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+      card game: syn=BARK,BILL,BRAG,CROW,FARO,FAST,GAME,POTS,SELL,SKIN
+    Definitions:
+      "game" -> TWENTYONE (definition match)
+      "card game" -> TWENTYONE (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 9. Ilsa in Casablanca, Lima and in Berlin
+  Answer: LUND
+  Tier: Cached | Confidence: 30/100
+  Definition: "Ilsa in Casablanca"
+  Wordplay type: charade
+  Components:
+    hidden             Lima and in Berlin        -> LUND
+  Assembly: charade — LUND(Lima and in Berlin)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      casablanca: syn=CITY,FILM
+      lima: syn=CI,CITY; abbr=L*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      berlin: syn=CITY
+    Definitions:
+      "Ilsa in Casablanca" -> LUND (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

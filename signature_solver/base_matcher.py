@@ -194,10 +194,12 @@ def _place_spans(pattern, spans, n, word_possible, phrases, ind_type,
     """
     # Build set of indicator types assigned in this pattern, so that
     # leftover words of the same indicator type can be skipped.
-    # Only allow skipping if the pattern actually has an I-slot (meaning
-    # an indicator IS placed — extra ones of the same type are redundant).
+    # Allow skipping if: (a) the pattern has an I-slot (indicator is placed),
+    # or (b) the operation requires an indicator but it lives in the leftovers
+    # (e.g. reversal_charade 3F+0I still needs REV_I in a leftover word).
     has_i_slot = 'I' in pattern
-    assigned_ind = {ind_type} if has_i_slot and ind_type and ind_type in INDICATOR_TOKENS else None
+    op_requires_ind = ind_type and ind_type in INDICATOR_TOKENS
+    assigned_ind = {ind_type} if (has_i_slot or op_requires_ind) and ind_type else None
     results = []
     _place_recursive(pattern, spans, 0, 0, n, word_possible, phrases,
                      ind_type, assigned_ind, [], results, max_results)
@@ -352,8 +354,8 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
     elif ind_type_raw:
         required_ind_types = {ind_type_raw}
 
-    if not has_i_slots and required_ind_types and entry.n_indicator > 0:
-        # Pattern requires indicators but has no I-slots — they must be
+    if not has_i_slots and required_ind_types:
+        # Operation requires indicators but has no I-slots — they must be
         # among the leftover words. Verify each required type is present,
         # then allow those words (plus extras of the same type) to be skipped.
         for req_type in required_ind_types:
@@ -367,7 +369,7 @@ def _verify_base_placement(entry, placement, spans, words, analyses, phrases,
     # Build the set of indicator types that are "assigned" (placed or required)
     if has_i_slots:
         base_ind = set(ind_assignment.keys())
-    elif required_ind_types and entry.n_indicator > 0:
+    elif required_ind_types:
         base_ind = required_ind_types
     else:
         base_ind = set()

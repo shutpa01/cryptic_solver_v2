@@ -1,0 +1,328 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29495
+Generated: 2026-03-22 09:55:28
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        28/28 (100%)
+    Signature:      2
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   22  13A, 4D, 1A, 1D, 10D, 11A, 12A, 14A, 17D, 19A, 19D, 20D, 21A, 22D, 24A, 25A, 26A, 3D, 5D, 6D, 7D, 8A
+  Medium (40-79): 6  16A, 18D, 23A, 9A, 15D, 2D
+  Low (<40):    0  
+  Failed:       0  
+  Average:      88/100
+
+COST: $0.2161 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (4 entries)
+------------------------------------------------------------
+  OCTET: "Music group" -> OCTET  (missing from definition_answers_augmented)
+  OPALS: "Stones" -> OPALS  (missing from definition_answers_augmented)
+  RIOTACT: "Order" -> RIOTACT  (missing from definition_answers_augmented)
+  PERSIMMON: individual -> PER  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  PERSIMMON = 15 (40/100): no pieces verified in DB
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  24/28  8A, 9A, 11A, 12A, 14A, 16A, 21A, 23A, 24A, 25A, 26A, 1D, 1D, 3D, 5D, 6D, 7D, 10D, 17D, 18D, 19D, 19D, 20D, 22D
+  Unverified explain.:   1  15D
+  DB gap:                4  13A, 2D, 4D, 15D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   13A  OCTET         Music group centre to concoct etudes (5)
+                      hidden in "centre to concoct etudes"; definition: "Music group"  [HIGH]
+    4D  OPALS         Old hit for Rolling Stones (5)
+                      O (synonym of "Old") + SLAP (synonym of "hit") [reversal: "Rolling"]; definition: "Stones"  [HIGH]
+    1A  HARDSHOULDER  Emergency road layer ought to put in more granite (4,8)
+                      ---  [HIGH]
+    1D  HOTTEST       The short brush enters up most piping (7)
+                      ---  [HIGH]
+   10D  DELICATESSEN  Licensed bar limits salted nuts and charcuterie (12)
+                      ---  [HIGH]
+   11A  EYEWASH       Two types of wood on European bunk (7)
+                      ---  [HIGH]
+   12A  SENSUAL       Animal barking unless holding its lead (7)
+                      ---  [HIGH]
+   14A  SOPORIFIC     Sleepy from poor sci-fi novel (9)
+                      ---  [HIGH]
+   16A  NEBULISER     Mister Joseph’s eldest brother holding most of deposit back (9)
+                      ---  [MED]
+   17D  BEDSIDE       Doctor’s prime spot by blankets? (7)
+                      ---  [HIGH]
+   18D  LACQUER       Professor’s one needing coat (7)
+                      ---  [MED]
+   19A  EXALT         Praise movie withdrawing permissive parts (5)
+                      ---  [HIGH]
+   19D  EFFENDI       Istanbul address set up ID and iron locks in flat (7)
+                      ---  [HIGH]
+   20D  ARCHIVE       Leading writer owns record collection (7)
+                      ---  [HIGH]
+   21A  INDUCED       Batting failure masking century England’s opener got (7)
+                      ---  [HIGH]
+   22D  DEPTH         American’s parking in departure area way below (5)
+                      ---  [HIGH]
+   23A  INFECTS       Does corrupt criminal court void fines? (7)
+                      ---  [MED]
+   24A  SKIJUMP       Plane quiet with just 50 per cent aboard winter flight (3,4)
+                      ---  [HIGH]
+   25A  MANSIZE       Large poles separating cereal crop (3-4)
+                      ---  [HIGH]
+   26A  SEARCHENGINE  Charge seen in mobile web app (6,6)
+                      ---  [HIGH]
+    3D  SYNTHESES     Odd selection of sayings encapsulating these collected works? (9)
+                      ---  [HIGH]
+    5D  LAMINAR       Scaly river beast rearing up (7)
+                      ---  [HIGH]
+    6D  EARMUFF       Half-worn flea collar retaining medium protection on one side (7)
+                      ---  [HIGH]
+    7D  HOMECOUNTIES  Bucks and more in company releases (4,8)
+                      ---  [HIGH]
+    8A  OUTWORN       Couple bunging old vase no longer of use (7)
+                      ---  [HIGH]
+    9A  ADMIRED       Approved of plug diameter on sink in Slough (7)
+                      ---  [MED]
+   15D  PERSIMMON     Fruit in individual one millimetre slices (9)
+                      PER(synonym of "individual") + SIMMON("one millimetre")  [MED]
+    2D  RIOTACT       Order to dispel mob’s former capital judgment (4,3)
+                      anagram of RO("former")+ITAC("capital")+T("judgment") = RIOTACT  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] OCTET  13A. Music group centre to concoct etudes
+  Answer: OCTET
+  Tier: Signature | Confidence: 80/100
+  Definition: "Music group"
+  Wordplay: hidden
+  Explanation: hidden in "centre to concoct etudes"; definition: "Music group"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] OPALS  4D. Old hit for Rolling Stones
+  Answer: OPALS
+  Tier: Signature | Confidence: 100/100
+  Definition: "Stones"
+  Wordplay: charade + reversal
+  Explanation: O (synonym of "Old") + SLAP (synonym of "hit") [reversal: "Rolling"]; definition: "Stones"
+  ----------------------------------------------------------------------
+
+  [HIGH] HARDSHOULDER  1A. Emergency road layer ought to put in more granite
+  Answer: HARDSHOULDER
+  Tier: --- | Confidence: 80/100
+  Human explanation: SHOULD (ought) contained by (to be put in) HARDER (more granite).
+  ----------------------------------------------------------------------
+
+  [HIGH] HOTTEST  1D. The short brush enters up most piping
+  Answer: HOTTEST
+  Tier: --- | Confidence: 80/100
+  Human explanation: HOTTEST – SET-TO (brush) contained by (enters) THe minus the last (short), all reversed (up).
+  ----------------------------------------------------------------------
+
+  [HIGH] DELICATESSEN  10D. Licensed bar limits salted nuts and charcuterie
+  Answer: DELICATESSEN
+  Tier: --- | Confidence: 100/100
+  Human explanation: lICENSEd minus the first and last (bar limits) + SALTED, all anagrammed (nuts).
+  ----------------------------------------------------------------------
+
+  [HIGH] EYEWASH  11A. Two types of wood on European bunk
+  Answer: EYEWASH
+  Tier: --- | Confidence: 100/100
+  Human explanation: YES and ASH (two types of wood on E (English).
+  ----------------------------------------------------------------------
+
+  [HIGH] SENSUAL  12A. Animal barking unless holding its lead
+  Answer: SENSUAL
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of (barking) UNLESS containing (holding) Animal’s (it’s) first letter (lead).
+  ----------------------------------------------------------------------
+
+  [HIGH] SOPORIFIC  14A. Sleepy from poor sci-fi novel
+  Answer: SOPORIFIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of (novel) POOR SCI-FI.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NEBULISER  16A. Mister Joseph’s eldest brother holding most of deposit back
+  Answer: NEBULISER
+  Tier: --- | Confidence: 70/100
+  Human explanation: REUBEN (Joseph’s brother) containing (holding) all but the last of (most of) SILt (deposit), all reversed (back).
+  ----------------------------------------------------------------------
+
+  [HIGH] BEDSIDE  17D. Doctor’s prime spot by blankets?
+  Answer: BEDSIDE
+  Tier: --- | Confidence: 90/100
+  Human explanation: cryptic def: the BED SIDE is the doctor’s prime spot, also next to (by) blankets. &lit. First (prime spot) of Doctor which BESIDE (by) contains (blankets). Very clever.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LACQUER  18D. Professor’s one needing coat
+  Answer: LACQUER
+  Tier: --- | Confidence: 70/100
+  Human explanation: sounds like (professor’s) “lacker” (one needing).
+  ----------------------------------------------------------------------
+
+  [HIGH] EXALT  19A. Praise movie withdrawing permissive parts
+  Answer: EXALT
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EFFENDI  19D. Istanbul address set up ID and iron locks in flat
+  Answer: EFFENDI
+  Tier: --- | Confidence: 80/100
+  Human explanation: reversal of (set up) ID with FE, containing (locks in) FEN (flat). The address to a man of standing in (e.g.) Istanbul.
+  ----------------------------------------------------------------------
+
+  [HIGH] ARCHIVE  20D. Leading writer owns record collection
+  Answer: ARCHIVE
+  Tier: --- | Confidence: 80/100
+  Human explanation: ARCH (leading) + I’VE (writer owns).
+  ----------------------------------------------------------------------
+
+  [HIGH] INDUCED  21A. Batting failure masking century England’s opener got
+  Answer: INDUCED
+  Tier: --- | Confidence: 100/100
+  Human explanation: IN (batting) + DUD (failure), containing (masking) both C (century) and the first (opener) of England’s.
+  ----------------------------------------------------------------------
+
+  [HIGH] DEPTH  22D. American’s parking in departure area way below
+  Answer: DEPTH
+  Tier: --- | Confidence: 100/100
+  Human explanation: A (American) replaced by (is) P (parking) in DEaTH (departure).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] INFECTS  23A. Does corrupt criminal court void fines?
+  Answer: INFECTS
+  Tier: --- | Confidence: 70/100
+  Human explanation: anagram of (criminal) the first and last of (void) CourT + FINES.
+  ----------------------------------------------------------------------
+
+  [HIGH] SKIJUMP  24A. Plane quiet with just 50 per cent aboard winter flight
+  Answer: SKIJUMP
+  Tier: --- | Confidence: 80/100
+  Human explanation: SKIM (plane) and P (piano, quiet), containing (with… aboard) half of (50 per cent) JUst.
+  ----------------------------------------------------------------------
+
+  [HIGH] MANSIZE  25A. Large poles separating cereal crop
+  Answer: MANSIZE
+  Tier: --- | Confidence: 100/100
+  Human explanation: N and S (poles) contained by (separating) MAIZE (cereal crop).
+  ----------------------------------------------------------------------
+
+  [HIGH] SEARCHENGINE  26A. Charge seen in mobile web app
+  Answer: SEARCHENGINE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of (mobile) CHARGE SEEN IN.
+  ----------------------------------------------------------------------
+
+  [HIGH] SYNTHESES  3D. Odd selection of sayings encapsulating these collected works?
+  Answer: SYNTHESES
+  Tier: --- | Confidence: 100/100
+  Human explanation: every other letter from (odd collection of) SaYiNgS containing (encapsulating) THESE.
+  ----------------------------------------------------------------------
+
+  [HIGH] LAMINAR  5D. Scaly river beast rearing up
+  Answer: LAMINAR
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EARMUFF  6D. Half-worn flea collar retaining medium protection on one side
+  Answer: EARMUFF
+  Tier: --- | Confidence: 100/100
+  Human explanation: half deleted from (half-worn) flEA and RUFF (collar) containing M (medium).
+  ----------------------------------------------------------------------
+
+  [HIGH] HOMECOUNTIES  7D. Bucks and more in company releases
+  Answer: HOMECOUNTIES
+  Tier: --- | Confidence: 100/100
+  Human explanation: HOME (in) + CO (company) + UNTIES (releases).
+  ----------------------------------------------------------------------
+
+  [HIGH] OUTWORN  8A. Couple bunging old vase no longer of use
+  Answer: OUTWORN
+  Tier: --- | Confidence: 100/100
+  Human explanation: TWO (couple) contained by (bunging) O (old) and URN (vase).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ADMIRED  9A. Approved of plug diameter on sink in Slough
+  Answer: ADMIRED
+  Tier: --- | Confidence: 75/100
+  Human explanation: AD (plug) + D (diameter) next to (on) MIRE (sink in slough).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PERSIMMON  15D. Fruit in individual one millimetre slices
+  Answer: PERSIMMON
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Fruit"
+  Wordplay type: charade
+  Components:
+    synonym            individual                -> PER
+    anagram_fodder     one millimetre            -> SIMMON
+  Assembly: charade — PER(synonym of "individual") + SIMMON("one millimetre")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      fruit: syn=PERSIMMON*,FIG,GET,HAW,HIP,NUT,ACAI,AKEE,DATE,FATE,KIWI,LIME,PEAR,PLUM,SEED
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      individual: syn=PERSON*,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY; ind=anagram?
+      one: syn=PERSON*,I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN; abbr=A,ACE,I*,O*; sounds=won
+      slices: syn=SLIVERS,SECTIONS,CUT,END,JOB,BELT,BITE,BOTH,FADE,LAND,NECK,PART,ROLE,TAKE,TASK
+    Definitions:
+      "Fruit" -> PERSIMMON (definition match)
+  Human explanation: PERSON (individual) which I (one) MM (millimetre) contains (slices).
+  AI Reasoning:
+    PER (individual/per person) + SIMMON (anagram of 'one millimetre' indicated by 'slices')
+  ----------------------------------------------------------------------
+
+  [HIGH] RIOTACT  2D. Order to dispel mob’s former capital judgment
+  Answer: RIOTACT
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Order"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     former                    -> RO
+    anagram_fodder     capital                   -> ITAC
+    anagram_fodder     judgment                  -> T
+  Assembly: anagram — anagram of RO("former")+ITAC("capital")+T("judgment") = RIOTACT
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      order: syn=DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW,OBE; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      dispel: syn=CLEAR,BANISH,RELIEVE; ind=anagram?
+      former: syn=EX,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX,OLD
+      capital: syn=A1,MY,OK,BIG,EYE,FAB,HOT,HUB,KEY,THE,TOO,TOP,A-OK,ARCH,AXIS; abbr=BERLIN,EDINBURGH,LONDON,MADRID,PARIS,ROME; ind=acrostic,parts; sounds=capitol
+      judgment: syn=MY,EYE,DOOM,MIND,VIEW,FATWA,VALUE,A VIEW,RULING,STREET,TOWARD,FEELING,FINDING,HOLDING,VERDICT
+  Human explanation: RIO (former capital) + TACT (judgement).
+  AI Reasoning:
+    Anagram of selected letters from 'former capital judgment' indicated by 'dispel'
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

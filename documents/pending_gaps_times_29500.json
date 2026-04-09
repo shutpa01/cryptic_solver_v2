@@ -1,0 +1,333 @@
+{
+  "source": "times",
+  "puzzle": "29500",
+  "stats": {
+    "total": 30,
+    "assembled": 24,
+    "high": 13,
+    "medium": 5,
+    "low": 6,
+    "failed": 0,
+    "avg_score": 53.458333333333336
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Group",
+      "letters": "PAD",
+      "answer": "PADDOCK",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Group hiding rum around racing enclosure",
+      "score": 25
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "itinerant",
+      "letters": "PROVING",
+      "answer": "PROVINGGROUND",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Test site doctor about to catch itinerant on cycle",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cycle",
+      "letters": "GROUND",
+      "answer": "PROVINGGROUND",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Test site doctor about to catch itinerant on cycle",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "wearing",
+      "letters": "D",
+      "answer": "INDUS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Runner wearing uniform arrested by officer",
+      "score": -15
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "officer",
+      "letters": "INS",
+      "answer": "INDUS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Runner wearing uniform arrested by officer",
+      "score": -15
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "cold",
+      "letters": "ARC",
+      "answer": "SARCASTIC",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Cutting last of rations when beset by cold",
+      "score": 42
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "cold",
+      "letters": "TIC",
+      "answer": "SARCASTIC",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Cutting last of rations when beset by cold",
+      "score": 42
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "servant",
+      "letters": "SERF",
+      "answer": "FRESCO",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Picture old servant taking Conservative to port",
+      "score": -5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Enjoy",
+      "letters": "DIGEST",
+      "answer": "DIGESTIF",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Enjoy drug with a lot of strong drink",
+      "score": 58
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "oaf",
+      "letters": "ASS",
+      "answer": "PASSAGE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Extract oaf trapped by knight’s boy",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Asian leader",
+      "letters": "KIM",
+      "answer": "SKIMPY",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Revealing agent providing cover for Asian leader",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "metal",
+      "letters": "CU",
+      "answer": "CUTIN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Interpose one metal after another briefly",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "another",
+      "letters": "TIN",
+      "answer": "CUTIN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Interpose one metal after another briefly",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "scored",
+      "letters": "C",
+      "answer": "FINANCE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Backing of piano Anne regularly scored before church",
+      "score": 42
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "church",
+      "letters": "E",
+      "answer": "FINANCE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Backing of piano Anne regularly scored before church",
+      "score": 42
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "supporting",
+      "letters": "IS",
+      "answer": "OASIS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Island supporting nomads periodically?",
+      "score": 43
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "castle guards",
+      "letters": "KN",
+      "answer": "KNEEDEEP",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Require castle guards to be deeply involved",
+      "score": -125
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "require to be",
+      "letters": "EEDEEP",
+      "answer": "KNEEDEEP",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Require castle guards to be deeply involved",
+      "score": -125
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tree",
+      "answer": "NUTMEG",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Fanatic with stone climbing tree",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "racing enclosure",
+      "answer": "PADDOCK",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Group hiding rum around racing enclosure",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Test site",
+      "answer": "PROVINGGROUND",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Test site doctor about to catch itinerant on cycle",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Clyde?",
+      "answer": "GANGSTER",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Note anxiety beginning to ease next to River Clyde?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Extract",
+      "answer": "PASSAGE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Extract oaf trapped by knight’s boy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "producer",
+      "answer": "COMIC",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Firm MGM instructs can’t initially gag producer",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Interpose",
+      "answer": "CUTIN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Interpose one metal after another briefly",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Island",
+      "answer": "OASIS",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Island supporting nomads periodically?",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "deeply involved",
+      "answer": "KNEEDEEP",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Require castle guards to be deeply involved",
+      "score": -125
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sea vessel",
+      "answer": "BAINMARIE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Retired sailor at home having name scratched in sea vessel",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tongues",
+      "answer": "LINGOES",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Try piercing wrinkles in tongues",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "out of capital?",
+      "answer": "OVERSPENT",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Vesper not moved out of capital?",
+      "score": 100
+    }
+  ]
+}

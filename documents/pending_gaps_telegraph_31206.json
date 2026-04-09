@@ -1,0 +1,287 @@
+{
+  "source": "telegraph",
+  "puzzle": "31206",
+  "stats": {
+    "total": 32,
+    "assembled": 28,
+    "high": 21,
+    "medium": 5,
+    "low": 2,
+    "failed": 4,
+    "avg_score": 84.5
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "India's",
+      "letters": "I",
+      "answer": "SITAR",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Celebrity holding India's instrument",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "telepathy?",
+      "letters": "ESP",
+      "answer": "RESPITE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Break in ceremony limiting telepathy?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "academic publisher's",
+      "letters": "OUP",
+      "answer": "UNCOUPLE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Relative bored by academic publisher's release",
+      "score": 67
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "pit workers",
+      "letters": "MINERS",
+      "answer": "EXAMINERS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "They test former American pit workers",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "river crossing",
+      "letters": "BRIDGE",
+      "answer": "ABRIDGE",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Cut down river crossing, having advanced earlier",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "avenue",
+      "letters": "AVE",
+      "answer": "PAVES",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Quiet avenue son covers in flags?",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "senior religious figure",
+      "letters": "PRIOR",
+      "answer": "A priori",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Using reason, artificial intelligence takes in senior religious figure",
+      "score": 25
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "for losing face",
+      "letters": "NOTED",
+      "answer": "TONED",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Firm made up for losing face",
+      "score": 50
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "prods",
+      "letters": "POKE",
+      "answer": "SPOKESMAN",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Prods mum to fill in second name for representative",
+      "score": 85
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "writer's",
+      "letters": "I",
+      "answer": "IMPORTANT",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Vital the writer's left with a set of books",
+      "score": 7
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "the",
+      "letters": "M",
+      "answer": "IMPORTANT",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Vital the writer's left with a set of books",
+      "score": 7
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "idiot",
+      "letters": "LOVER",
+      "answer": "REVOLTING",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Horrible idiot boyfriend returned grand",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "dish",
+      "answer": "RISOTTO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Part of dinner is Ottoman dish",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "instrument",
+      "answer": "SITAR",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Celebrity holding India's instrument",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "power cut",
+      "answer": "OUTAGE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Heartless fury in power cut",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "profit",
+      "answer": "cash in",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Conservative remains popular, making profit",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "vessels",
+      "answer": "EWERS",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Sheep extremely restless in vessels",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "flowers",
+      "answer": "IRISES",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "One grows flowers",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "composer",
+      "answer": "Paganini",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Badly paining a composer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stupid pot belly's back",
+      "answer": "DOPEY",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Stupid pot belly's back",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Break",
+      "answer": "RESPITE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Break in ceremony limiting telepathy?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "They test",
+      "answer": "EXAMINERS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "They test former American pit workers",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Old country",
+      "answer": "Persia",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Old country record about odd bits of rustic area",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "you might get this pierced",
+      "answer": "EARLOBE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Nearly sober, lacking any boundaries, you might get this pierced",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "reason",
+      "answer": "A priori",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Using reason, artificial intelligence takes in senior religious figure",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Horrible",
+      "answer": "REVOLTING",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Horrible idiot boyfriend returned grand",
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,398 @@
+{
+  "source": "telegraph",
+  "puzzle": "31197",
+  "stats": {
+    "total": 32,
+    "assembled": 30,
+    "high": 23,
+    "medium": 4,
+    "low": 3,
+    "failed": 0,
+    "avg_score": 76.8
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "enclosure",
+      "letters": "CORRAL",
+      "answer": "CORPORAL",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Concrete enclosure housing chamberpot",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Detective's",
+      "letters": "DIS",
+      "answer": "DISGUISE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Detective's men heard to provide cover",
+      "score": 43
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "English",
+      "letters": "RE",
+      "answer": "REMAINING",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Left crew circling English Channel?",
+      "score": -15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "crew",
+      "letters": "MAIN",
+      "answer": "REMAINING",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Left crew circling English Channel?",
+      "score": -15
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Channel",
+      "letters": "ING",
+      "answer": "REMAINING",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Left crew circling English Channel?",
+      "score": -15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "story",
+      "letters": "SECRET",
+      "answer": "SECRETE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Leak inside story on sweetheart",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "acting",
+      "letters": "ON",
+      "answer": "ONSET",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Start acting in film?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "film?",
+      "letters": "SET",
+      "answer": "ONSET",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Start acting in film?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "current",
+      "letters": "TIDES",
+      "answer": "TOPSIDE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Work's involved in current cut",
+      "score": 72
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "taking to court",
+      "letters": "SUING",
+      "answer": "ISSUING",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Proceeding one's taking to court",
+      "score": -70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "more outright",
+      "letters": "BALDER",
+      "answer": "BALDERDASH",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Hint follows more outright gibberish",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "hint",
+      "letters": "DASH",
+      "answer": "BALDERDASH",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Hint follows more outright gibberish",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "upping",
+      "letters": "STEP",
+      "answer": "FOOTSTEP",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Sweetheart's overly feminine upping pace",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "revealing bust",
+      "answer": "TOPLESS",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Vessel potter partially spins revealing bust",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Travelled",
+      "answer": "RODE",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Travelled highway, we hear",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Characters",
+      "answer": "ITALICS",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Characters inclining towards the right?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "information",
+      "answer": "DATA",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "A little upset providing information",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Subsequently",
+      "answer": "THEREAFTER",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Subsequently farther with tee shot",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mysterious",
+      "answer": "ESOTERIC",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Coteries mysteriously being mysterious",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Use",
+      "answer": "OPERATION",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Use empty platitude in speech",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Speedy",
+      "answer": "RAPID",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Speedy attack capturing pawn",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Concrete",
+      "answer": "CORPORAL",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Concrete enclosure housing chamberpot",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "together",
+      "answer": "ALONG",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Nearly solo, grand getting together",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "As an alternative,",
+      "answer": "INSTEAD",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "As an alternative, detains criminal",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a draw",
+      "answer": "TOMBOLA",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Vault over line facing a draw",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tube for going under Channel?",
+      "answer": "SNORKEL",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Tube for going under Channel?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "provide cover",
+      "answer": "DISGUISE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Detective's men heard to provide cover",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "neighbourhoods",
+      "answer": "REGIONS",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Ignores dilapidated neighbourhoods",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Leak",
+      "answer": "SECRETE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Leak inside story on sweetheart",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Yield",
+      "answer": "AGREE",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Yield time embracing return of Queen",
+      "score": 76
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Start",
+      "answer": "ONSET",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Start acting in film?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Openly gaze, leering eagerly",
+      "answer": "OGLE",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Openly gaze, leering eagerly, initially",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Proceeding",
+      "answer": "ISSUING",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Proceeding one's taking to court",
+      "score": -70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "revulsion",
+      "answer": "RESISTANCE",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Terrible sins create revulsion",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stimulated",
+      "answer": "WOKEN",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Stimulated with old knowledge",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "gibberish",
+      "answer": "BALDERDASH",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Hint follows more outright gibberish",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "pace",
+      "answer": "FOOTSTEP",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Sweetheart's overly feminine upping pace",
+      "score": 47
+    }
+  ]
+}

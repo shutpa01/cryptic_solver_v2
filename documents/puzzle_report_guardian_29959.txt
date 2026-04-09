@@ -1,0 +1,836 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29959
+Generated: 2026-03-20 13:56:36
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        24/30 (80%)
+    Signature:      1
+    Sig+Enriched:   2
+    Sonnet:         19
+    DB Fallback:    2
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   6  11A, 1D, 10A, 19D, 22D, 5D
+  Medium (40-79): 10  15D, 20D, 21A, 23D, 25D, 26A, 3D, 6D, 8A, 9A
+  Low (<40):    8  12A, 13D, 14A, 18A, 23A, 24A, 27A, 7D
+  Failed:       6  16A, 17D, 2D, 26D, 28A, 4D
+  Average:      52/100
+
+COST: $1.7046 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (36 entries)
+------------------------------------------------------------
+  ILLNATURED: "surly" -> ILLNATURED  (missing from definition_answers_augmented)
+  HIGH: "Slightly rotten" -> HIGH  (missing from definition_answers_augmented)
+  MIDDAY: "The reverse of 'dark' and 'night'?" -> MIDDAY  (missing from definition_answers_augmented)
+  DIDGERIDOO: "low-pitched and resonant" -> DIDGERIDOO  (missing from definition_answers_augmented)
+  DUENORTH: "direction" -> DUENORTH  (missing from definition_answers_augmented)
+  EVE: "Middle of Feb, day in early May, or one late in Dec?" -> EVE  (missing from definition_answers_augmented)
+  HANDSUP: "Gunman's order" -> HANDSUP  (missing from definition_answers_augmented)
+  UHT: "means of preserving life" -> UHT  (missing from definition_answers_augmented)
+  DEFORMS: "Mars" -> DEFORMS  (missing from definition_answers_augmented)
+  UTAH: "in a state" -> UTAH  (missing from definition_answers_augmented)
+  ISLEMEN: "Sicilians possibly" -> ISLEMEN  (missing from definition_answers_augmented)
+  DOZENTHS: "parts" -> DOZENTHS  (missing from definition_answers_augmented)
+  OBERON: "Character in Globe" -> OBERON  (missing from definition_answers_augmented)
+  THEMOB: "wise guys" -> THEMOB  (missing from definition_answers_augmented)
+  HEMISPHERE: "half" -> HEMISPHERE  (missing from definition_answers_augmented)
+  PESO: "money in Philippines" -> PESO  (missing from definition_answers_augmented)
+  AVIS: "cars offered here" -> AVIS  (missing from definition_answers_augmented)
+  OBOES: "woodwinds" -> OBOES  (missing from definition_answers_augmented)
+  EMOTIONS: "The Agony and the Ecstasy" -> EMOTIONS  (missing from definition_answers_augmented)
+  CEILIDH: "Dance" -> CEILIDH  (missing from definition_answers_augmented)
+  ARIA: "conveyed by piping" -> ARIA  (missing from definition_answers_augmented)
+  PSEUDOCODE: "AI instructions" -> PSEUDOCODE  (missing from definition_answers_augmented)
+  ATREST: "calm" -> ATREST  (missing from definition_answers_augmented)
+  BOLTHOLE: "safe place" -> BOLTHOLE  (missing from definition_answers_augmented)
+  RESET: "Zero" -> RESET  (missing from definition_answers_augmented)
+  DIDGERIDOO: Spice Girl -> GERI  (missing from synonyms_pairs)
+  DUENORTH: And also -> DUE  (missing from abbreviations)
+  DEFORMS: Excellent -> DE  (missing from abbreviations)
+  DEFORMS: room -> FORM  (missing from synonyms_pairs)
+  TWELVE: set -> T  (missing from abbreviations)
+  TWELVE: constant -> VE  (missing from abbreviations)
+  THEMOB: former student -> OB  (missing from abbreviations)
+  HEMISPHERE: has -> I  (missing from abbreviations)
+  HEMISPHERE: world -> SPHERE  (missing from synonyms_pairs)
+  ALMS: sizes -> LMS  (missing from abbreviations)
+  OBOES: I'm surprised -> O  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  TWELVE = 23 (32/100): AI=charade, assembled=reversal
+  ATREST = 7 (32/100): AI=substitution, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  DEFORMS (-5/100): S <- brute force (no clue basis)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (2)
+------------------------------------------------------------
+  OBERON = 22 (80/100): answer used in own explanation
+  ATREST = 7 (32/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  DUENORTH = 14 (25/100): no pieces verified in DB
+  DEFORMS = 18 (-5/100): no pieces verified in DB
+  ATREST = 7 (32/100): single piece equals full answer
+
+WEAK DEFINITIONS — not confirmed in DB (4)
+------------------------------------------------------------
+  MIDDAY = 12 (35/100): def="The reverse of 'dark' and 'night'?" (not in DB, odd position)
+  DIDGERIDOO = 13 (37/100): def="low-pitched and resonant" (not in DB, odd position)
+  FOXILY = 3 (45/100): def="?" (none identified)
+  PSEUDOCODE = 6 (71/100): def="AI instructions" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  16. Gunman’s order delivered with difficulty, it’s implied = HANDSUP
+  17. Sunhats: oddly ignored means of preserving life = UHT
+  2. Playing autoharp; regrettably a pro’s left it in a state = UTAH
+  26. Miles – perhaps not 500 – in cars offered here = AVIS
+  28. Rebutted curt prig with one book, The Agony and the Ecstasy? = EMOTIONS
+  4. Dance, as Marillion song on the radio = CEILIDH
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  2/30  1D, 19D
+  Type mismatch:         2  7D, 23D
+  Fabricated mapping:    1  18A
+  Circular assembly:     2  7D, 22D
+  Unverified explain.:   3  14A, 18A, 7D
+  Weak definition:       4  12A, 3D, 6D, 13D
+  DB gap:                25  8A, 9A, 10A, 11A, 12A, 14A, 16A, 18A, 21A, 24A, 27A, 28A, 2D, 4D, 5D, 6D, 7D, 13D, 15D, 17D, 20D, 22D, 23D, 25D, 26D
+  Failed:                6  16A, 28A, 2D, 4D, 17D, 26D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11A  ILLNATURED    Intrude, all agitated and surly (3-7)
+                      anagram of INTRUDEALL ("Intrude, all") [anagram: "agitated"] = ILLNATURED; definition: "surly"  [HIGH]
+    1D  DOMINICA      Amino acid tipped for synthesis in volcanic island (8)
+                      anagram of MINOACID(deletion from "Amino acid") = DOMINICA  [HIGH]
+   10A  HIGH          Slightly rotten greeting yelled (4)
+                      HI sounds like HIGH  [HIGH]
+   12A  MIDDAY        The reverse of ‘dark’ and ‘night’? (6)
+                      cryptic definition  [LOW]
+   13D  DIDGERIDOO    Was Spice Girl impersonating duck that’s low-pitched and resonant? (10)
+                      DID(synonym of "Was") + GERI(synonym of "Spice Girl") + DOO(sounds like "duck")  [LOW]
+   14A  DUENORTH      And also not included in song: Hamilton’s lead wanting direction (3,5)
+                      DUE(synonym of "And also") + NORTH(not included in song: Hamilton's lead wanting)  [LOW]
+   15D  EVE           Middle of Feb, day in early May, or one late in Dec? (3)
+                      cryptic definition  [MED]
+   16A  HANDSUP       Gunman’s order delivered with difficulty, it’s implied (5,2)
+                      ---  [FAIL]
+   17D  UHT           Sunhats: oddly ignored means of preserving life (3)
+                      ---  [FAIL]
+   18A  DEFORMS       Excellent: room’s confining, at last, Bruno Mars (7)
+                      DE(abbr. "Excellent") + FORM(synonym of "room") + S  [LOW]
+   19D  MOVEMENT      Composition part #2 (8)
+                      MOVEMENT (synonym of "Composition part #2")  [HIGH]
+    2D  UTAH          Playing autoharp; regrettably a pro’s left it in a state (4)
+                      ---  [FAIL]
+   20D  ISLEMEN       Sicilians possibly expelling a Milanese, awkwardly (7)
+                      anagram of MILNESE(deletion from "Milanese") = ISLEMEN  [MED]
+   21A  DOZENTHS      Zoned out: this is ignoring the writer’s parts (8)
+                      DOZEN(zoned) + THS(deletion from "this")  [MED]
+   22D  OBERON        Character in Globe – Roneo? – Not quite (6)
+                      hidden in 'glOBE – RONeo?'  [HIGH]
+   23A  TWELVE        Figure set around mostly satisfactory constant (6)
+                      T(abbr. "set") + reverse LEW(WEL reversed, "satisfactory") + VE(abbr. "constant")  [LOW]
+   23D  THEMOB        Former student crowned by those people – wise guys (3,3)
+                      THEM(synonym of "those people") + OB(abbr. "former student")  [MED]
+   24A  HEMISPHERE    Border has shown up throttling power in world? Not half (10)
+                      HEM(synonym of "Border") + I(synonym of "has") + SPHERE(synonym of "world")  [LOW]
+   25D  PESO          Peep Show regularly lost money in Philippines (4)
+                      delete EP from PEEP(peep) + SO(alternate letters of "show")  [MED]
+   26A  ALMS          Relief: American sizes successively decreasing (4)
+                      A(abbr. "American") + LMS(abbr. "sizes")  [MED]
+   26D  AVIS          Miles – perhaps not 500 – in cars offered here (4)
+                      ---  [FAIL]
+   27A  OBOES         I’m surprised by cellists’ kit that’s heard in woodwinds (5)
+                      O(synonym of "I'm surprised") + BOES(sounds like "cellists' kit")  [LOW]
+   28A  EMOTIONS      Rebutted curt prig with one book, The Agony and the Ecstasy? (8)
+                      ---  [FAIL]
+    3D  FOXILY        Using cunning, zip about No 4 in Second Eleven (6)
+                      delete N from NO(no), anagram of FLY(synonym of "zip")+O+XI(synonym of "eleven") = FOXILY  [MED]
+    4D  CEILIDH       Dance, as Marillion song on the radio (7)
+                      ---  [FAIL]
+    5D  ARIA          A drowned valley that’s conveyed by piping (4)
+                      anagram of A ("A") + RIA (synonym of "drowned valley") = ARIA; definition: "conveyed by piping"  [HIGH]
+    6D  PSEUDOCODE    Deduce spoof largely concocted with AI instructions? (10)
+                      anagram of DEDUCE(Deduce)+SPOO(deletion from "spoof") = PSEUDOCODE  [MED]
+    7D  ATREST        Hopefully, with finale from tenor to replace bass, producing calm (2,4)
+                      ATREST(Hopefully)  [LOW]
+    8A  BOLTHOLE      Originally, baker oversupplied lightly – 13 – he often leaves éclair in safe place (4-4)
+                      B(first letter of "baker") + O(first letter of "oversupplied") + L(first letter of "lightly") + THOLE(he often éclair in)  [MED]
+    9A  RESET         Zero tolerance finally adopted during time off (5)
+                      E(last letter of "tolerance finally") inside REST(RESTITUTION minus ITUTION, "time") [off]  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ILLNATURED  11A. Intrude, all agitated and surly
+  Answer: ILLNATURED
+  Tier: Signature | Confidence: 100/100
+  Definition: "surly"
+  Wordplay: anagram
+  Explanation: anagram of INTRUDEALL ("Intrude, all") [anagram: "agitated"] = ILLNATURED; definition: "surly"
+  ----------------------------------------------------------------------
+
+  [HIGH] DOMINICA  1D. Amino acid tipped for synthesis in volcanic island
+  Answer: DOMINICA
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "volcanic island"
+  Wordplay type: anagram
+  Components:
+    deletion           Amino acid                -> MINOACID
+  Assembly: anagram — anagram of MINOACID(deletion from "Amino acid") = DOMINICA
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      acid: syn=RAW,DRUG,EDGY,KEEN,SOUR,TART,ACERB,EDGED,HONED,SHARP,SURLY,ACIDIC,BICARB,BITING,BITTER
+      tipped: syn=GAVE,ANGULAR; ind=reversal?
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      synthesis: syn=STOP,FUSION,PASTICHE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      volcanic: syn=AND,HOT
+      island: syn=DOMINICA*,IS,AIT,KEY,SAY,BALI,BUTE,CUBA,ELBA,EYOT,GOZO,GUAM,INCH,IONA,ISLE; abbr=I*,IS
+    Definitions:
+      "island" -> DOMINICA (definition match)
+      "volcanic island" -> DOMINICA (definition match)
+  AI Reasoning:
+    AMINOACID with first letter tipped (removed) gives MINOACID, which anagrams to DOMINICA
+  ----------------------------------------------------------------------
+
+  [HIGH] HIGH  10A. Slightly rotten greeting yelled
+  Answer: HIGH
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Slightly rotten"
+  Wordplay type: homophone
+  Components:
+    synonym            greeting                  -> HI
+  Assembly: homophone — HI sounds like HIGH
+  Checks: definition=position OK (start/end of clue) | wordplay_type=homophone | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass (homophone: HI sounds like HIGH) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      slightly: syn=BIT,TAD,JUST,LESS,SKIN
+      rotten: syn=BAD,BUM,LOW,NOT,OFF,ICKY,KEEN,POOR,PUNK,RANK,RATE,SIDE,SOUR; ind=anagram
+      greeting: syn=HI*,YO,HEY,CIAO,HAIL,HIYA; abbr=HI*
+  AI Reasoning:
+    HI (greeting) when yelled (homophone indicator) sounds like HIGH
+  ----------------------------------------------------------------------
+
+  [LOW] MIDDAY  12A. The reverse of ‘dark’ and ‘night’?
+  Answer: MIDDAY
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "The reverse of 'dark' and 'night'?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=not in DB, odd position | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      reverse: syn=BUM,BACK,BUNS,BUTT,DUFF,FLIP,HAMS,REAR,RUMP,TAIL,TURN,TUSH,ABACK,ABOUT,BOOTY; ind=reversal
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      the reverse: syn=FREE,LOOSE,UNTIE,LOOSEN
+      the reverse of: syn=BACK
+  AI Reasoning:
+    The entire clue cryptically defines MIDDAY as the opposite/reverse of both 'dark' (brightest time) and 'night' (middle of day)
+  ----------------------------------------------------------------------
+
+  [LOW] DIDGERIDOO  13D. Was Spice Girl impersonating duck that’s low-pitched and resonant?
+  Answer: DIDGERIDOO
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "low-pitched and resonant"
+  Wordplay type: charade
+  Components:
+    synonym            Was                       -> DID
+    synonym            Spice Girl                -> GERI
+    sound_of           duck                      -> DOO
+  Assembly: charade — DID(synonym of "Was") + GERI(synonym of "Spice Girl") + DOO(sounds like "duck")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      was: syn=DID*,LAY,SAT,BORE,CAME,KNEW,LEANT,LIVED,RATED,STOOD,TYPED,BEFELL,COOKED,GRADED,HAPPED; abbr=WA
+      spice: syn=FUNK,MUSK,ODOR,REEK,TANG,AROMA,ATTAR,CUMIN,FETOR,MUSK,,SAVOR,SCENT,SMELL,SNIFF,STINK
+      girl: syn=DI*,FI,JO,VI,AID,AMY,ANN,BOY,EVE,FLO,FOX,GAL,GIR,IMP,KID; abbr=ANN,DI*,FLO,GAL,LASS,RITA,SHE
+      impersonating: syn=ROLE,DOING,GOING,ACTING,LAYING,TAKING,TOYING,BETTING,HACKING,PLAYING,PUTTING,STAKING,DALLYING,DOODLING,FIELDING
+      duck: syn=O,BOD,BOG,BOY,BUG,CAT,DAM,EGG,END,FAN,GUY,JOE,LAD,LEG,LOO; abbr=O*
+      low: syn=BAD,BAY,BUM,CAW,COO,CRY,FEW,MEW,MOO,NOT,SAD,SHY,YAP,YIP,BARK; abbr=MOO; sounds=lo
+      pitched: syn=DID*,OFF,RAN,BEAT,BLEW,CAST,FLEW,HIED,SHOT,SPED,TORE,DROVE,FIRED,FLUNG,HARED; ind=anagram?
+      and: syn=DO*,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      resonant: syn=LYRIC,SWEET,TONAL,DULCET,MELLOW,BOOMING,CHIMING,CHORDAL,ECHOING,FLOWING,LILTING,LYRICAL,MELODIC,MUSICAL,RINGING
+  AI Reasoning:
+    Charade of DID (was) + GERI (Spice Girl) + DOO (duck sound) = DIDGERIDOO
+  ----------------------------------------------------------------------
+
+  [LOW] DUENORTH  14A. And also not included in song: Hamilton’s lead wanting direction
+  Answer: DUENORTH
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "direction"
+  Wordplay type: charade
+  Components:
+    synonym            And also                  -> DUE
+    anagram_fodder     not included in song: Hamilton's lead wanting -> NORTH
+  Assembly: charade — DUE(synonym of "And also") + NORTH(not included in song: Hamilton's lead wanting)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      also: syn=SO,AND,DOG,DUD,TOO,YET,BOMB,BUST,DOGS,DUDS,FLOP,HASH,INTO,MESS,MISS; abbr=AND
+      not: syn=NOR*,SO,BUM,BUY,FAR,ILL,LOW,NAY,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      included: syn=GOT,WON,DREW,GAVE,MADE,QUIT,CAGED,BAGGED,BRACED,CARTED,EARNED,GAINED,HAULED,HEDGED,HOUSED; ind=container,hidden
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      song: syn=AIR,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR,ARIA
+      lead: syn=GO,PB,BED,CON,CUE,LAY,LIE,RUN,TIP,TOP,VAN,WAY,BAIT,BEAR,BORN; abbr=L,PB; ind=acrostic,parts; sounds=led
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      direction: syn=NORTH*,MY,SO,ARM,FEW,BENT,CARE,EAST,GRIP,HOLD,MANY,SWAY,WORD,EDICT,GRASP
+      included in: ind=insertion
+  AI Reasoning:
+    DUE (also = due) + NORTH (THORN lacking H, rearranged) = DUENORTH
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EVE  15D. Middle of Feb, day in early May, or one late in Dec?
+  Answer: EVE
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Middle of Feb, day in early May, or one late in Dec?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      middle: syn=LOW,MID,MOB,RAG,TAG; abbr=M; ind=parts
+      day: syn=D,AGE,BIT,BUY,EON,ERA,FRI,SAT,SUN,WED; abbr=D
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      may: syn=CAN,GAY
+      or: syn=GO,OUT,RES,SAY,SET,YET; sounds=oar,ore
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I,O; sounds=won
+      late: syn=EX,DRY,LOW,NEW,NOW,OLD; abbr=EX
+  AI Reasoning:
+    EVE can be found in middle of February (Valentine's Eve), early May period (May Eve), or late in December (New Year's Eve)
+  ----------------------------------------------------------------------
+
+  [FAILED] HANDSUP  16A. Gunman’s order delivered with difficulty, it’s implied
+  Answer: HANDSUP
+  Tier: --- | Confidence: 0/100
+  Definition: "Gunman's order"
+  Wordplay type: hidden
+  Components:
+    hidden             delivered with difficulty, it's implied -> HANDSUP
+  DB Lookups:
+    DB lookups:
+      order: syn=DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW,OBE; ind=anagram
+      delivered: syn=HAD,RID,BORN,FREE,GAVE,HELD,HYMN,LEFT,QUIT,SAID,DEALT,DUPED,FREED,MIRED,BOUGHT
+      with: syn=UP*,AND*,HAND*,W,BY,IN,OF,ON,TO,BIG,DEF,HEP,HIP,MOD,NOW; abbr=AND*,ON,W
+      difficulty: syn=BIT,FLY,LET,RUB,BALK,CLOG,CURB,DRAG,FUNK,FUSS,HOLE,KICK,KNOT,LOAD,MESS; abbr=RUB
+      implied: syn=MEANT,TACIT
+  AI Reasoning:
+    HANDSUP is hidden within the phrase 'delivered with difficulty, it's implied'
+  ----------------------------------------------------------------------
+
+  [FAILED] UHT  17D. Sunhats: oddly ignored means of preserving life
+  Answer: UHT
+  Tier: --- | Confidence: 0/100
+  Definition: "means of preserving life"
+  Wordplay type: acrostic
+  Components:
+    alternate_letters  Sunhats                   -> UHT
+  DB Lookups:
+    DB lookups:
+      oddly: ind=anagram,parts
+      ignored: syn=CUT,END; ind=deletion?
+      means: syn=WAY,A1,OK,AIM,BAD,BIG,DOG,FAB,HOT,LOW,RUN,THE,TOO,TOP,TWO; sounds=mien
+      preserving: syn=AND
+      life: syn=GO,BAG,BOD,BOY,BUG,CAT,COP,DIG,EGG,GUY,IRK,JOE,LAD,MAN,NAB
+  AI Reasoning:
+    Taking alternate letters (even positions) from 'Sunhats' gives UHT
+  ----------------------------------------------------------------------
+
+  [LOW] DEFORMS  18A. Excellent: room’s confining, at last, Bruno Mars
+  Answer: DEFORMS
+  Tier: Sonnet | Confidence: -5/100
+  Definition: "Mars"
+  Wordplay type: charade
+  Components:
+    abbreviation       Excellent                 -> DE
+    synonym            room                      -> FORM
+  Assembly: charade — DE(abbr. "Excellent") + FORM(synonym of "room") + S
+  Brute gap: +S
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | gap_fill=1 unexplained letter(s) | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      excellent: syn=DEF*,A1,AI,OK,ACE,BIG,FAB,HOT,LIT,THE,TOO,TOP,A-OK,BLUE,BOSS; abbr=AI,E*
+      confining: syn=JAILING,JUGGING
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      mars: syn=BAR,RUINS,WORLD,ABUSES,PLANET,SPOILS,DAMAGES,DYE,LEG,NEW,RAP,SIN,BASE,BOOB,DAUB; ind=anagram?
+      at last: ind=parts
+      at last: syn=LATER,TRIPE,INTIME,BALONEY,FINALLY,RUBBISH,SOMEDAY
+  AI Reasoning:
+    DE (excellent) + FORM (room) = DEFORM, with 'Mars' as definition meaning 'spoils/deforms'
+  ----------------------------------------------------------------------
+
+  [HIGH] MOVEMENT  19D. Composition part #2
+  Answer: MOVEMENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: MOVEMENT (synonym of "Composition part #2")
+  ----------------------------------------------------------------------
+
+  [FAILED] UTAH  2D. Playing autoharp; regrettably a pro’s left it in a state
+  Answer: UTAH
+  Tier: --- | Confidence: 0/100
+  Definition: "in a state"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     autoharp                  -> UTAH
+  DB Lookups:
+    DB lookups:
+      playing: syn=ON,GOLF,ROLE; abbr=ON,P; ind=anagram
+      regrettably: syn=AY,ILL,WOE,ALAS
+      left: syn=L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      state: syn=UTAH*,IS,NY,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY; abbr=AVER; ind=anagram,homophone
+      in a: syn=FINE,MOLE,WITH
+      a state: syn=TOP,AGAR,DAZE
+    Definitions:
+      "state" -> UTAH (definition match)
+  AI Reasoning:
+    Letters U,T,A,H extracted from 'autoharp' and anagrammed (indicated by 'regrettably') to spell UTAH
+  ----------------------------------------------------------------------
+
+  [HIGH] ISLEMEN  20D. Sicilians possibly expelling a Milanese, awkwardly
+  Answer: ISLEMEN
+  Tier: Sonnet | Confidence: 77/100
+  Definition: "Sicilians possibly"
+  Wordplay type: anagram
+  Components:
+    deletion           Milanese                  -> MILNESE
+  Assembly: anagram — anagram of MILNESE(deletion from "Milanese") = ISLEMEN
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY; ind=anagram
+      milanese: syn=ITALIAN; fodder=MILANESE(7/7 anagram match)
+      awkwardly: ind=anagram
+  AI Reasoning:
+    Anagram of MILANESE with A deleted (expelled), indicated by 'awkwardly'
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DOZENTHS  21A. Zoned out: this is ignoring the writer’s parts
+  Answer: DOZENTHS
+  Tier: Sonnet | Confidence: 63/100
+  Definition: "parts"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     zoned                     -> DOZEN
+    deletion           this                      -> THS
+  Assembly: charade — DOZEN(zoned) + THS(deletion from "this")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T*,TH*
+      is: syn=DO*,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      ignoring: syn=END,SIN,WRONG,BREACH,NEGLECT,OFFENSE,INVASION,TRESPASS; ind=deletion
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      parts: syn=DO*,BAGS,BELT,BITS,BUGS,COPS,DIES,DIGS,DIPS,EBBS,ENDS,ERRS,GETS,GOES,ICES; abbr=PT,ROLE; ind=anagram,deletion,hidden,insertion
+      this is: syn=IE
+  AI Reasoning:
+    ZONED anagrammed gives DOZEN, THIS ignoring I (the writer) gives THS, combined as DOZENTHS
+  ----------------------------------------------------------------------
+
+  [HIGH] OBERON  22D. Character in Globe – Roneo? – Not quite
+  Answer: OBERON
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Character in Globe"
+  Wordplay type: hidden
+  Components:
+    hidden             Globe Roneo               -> OBERON
+  Assembly: hidden — hidden in 'glOBE – RONeo?'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | type_evidence=assembled, AI agrees, indicator in DB | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=missing: ['globe roneo'] | circular_assembly=answer used in own explanation | hidden_verified=answer confirmed in clue text
+  DB Lookups:
+    DB lookups:
+      character: syn=AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      globe: syn=ORB,BALL,THIS,WORLD,SPHERE
+      roneo: fodder=RONEO(5/6 anagram match)
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      quite: syn=OF,OK,OR,ALL,BIT,LOT,NOT,OUT,POT,TON,WAD,ABLY,BEST,DEAD,DEAL; abbr=SH; ind=deletion
+      not quite: ind=deletion,parts
+      not quite: syn=JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT
+  AI Reasoning:
+    OBERON is hidden within the letters of 'GLOBE RONEO', with 'Not quite' hinting at the extraction needed
+  ----------------------------------------------------------------------
+
+  [LOW] TWELVE  23A. Figure set around mostly satisfactory constant
+  Answer: TWELVE
+  Tier: Sonnet | Confidence: 32/100
+  Definition: "Figure"
+  Wordplay type: charade
+  Components:
+    abbreviation       set                       -> T
+    reversal           satisfactory              -> LEW
+    abbreviation       constant                  -> VE
+  Assembly: reversal — T(abbr. "set") + reverse LEW(WEL reversed, "satisfactory") + VE(abbr. "constant")
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/3 (17%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      figure: syn=DO,MY,OK,A A,BAG,BED,END,FEE,FIX,HOW,ITS,NOT,OPT,PUT,SET
+      set: syn=GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      mostly: syn=BY,AND,LARGE,MAINLY; ind=deletion,parts
+      satisfactory: syn=OK,OAK,BEST,FINE,GOOD,JAKE,OKAY,TEST,WELL,DUCKY,BETTER,DECENT
+      constant: syn=C,24,AN,ON,BEST,EVEN,FAST,GOOD,TRUE,FIXED,LOYAL,BETTER,STABLE,STEADY; abbr=C,E*
+    Definitions:
+      "Figure" -> TWELVE (definition match)
+  AI Reasoning:
+    T + reverse of WEL (mostly WELL) + VE (velocity constant) = TWELVE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] THEMOB  23D. Former student crowned by those people – wise guys
+  Answer: THEMOB
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "wise guys"
+  Wordplay type: charade
+  Components:
+    synonym            those people              -> THEM
+    abbreviation       former student            -> OB
+  Assembly: charade — THEM(synonym of "those people") + OB(abbr. "former student")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      former: syn=EX,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX,OLD
+      student: syn=DAY,SWOT,CADET,IDEAL,PUPIL,TUTEE; abbr=L
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      those: abbr=THE*
+      people: syn=MOB*,ELF,FAY,HAG,IMP,KIN,MEN,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN,CUES; abbr=MEN
+      wise: syn=HIP,ARCH,BOLD,SAGE,AWARE,BRASH,BRAVE,COCKY,ERNIE,FRESH,GUTSY,GUTTY,HARDY,HEADY,NERVY
+      guys: syn=MEN,CATS,JOES,LADS,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,ROPES,ACT AS,BLOKES,FELLAS,GENTS,
+      those people: syn=THEM*,UFOS
+      wise guys: syn=KNOW,IT,ALEC,SEER,SHOW,AUGUR,AUGURS,DOCTOR,ORACLE,PEDANT
+  AI Reasoning:
+    THEM (those people) + OB (old boy = former student) with 'crowned by' indicating the order
+  ----------------------------------------------------------------------
+
+  [LOW] HEMISPHERE  24A. Border has shown up throttling power in world? Not half
+  Answer: HEMISPHERE
+  Tier: Sonnet | Confidence: -35/100
+  Definition: "half"
+  Wordplay type: charade
+  Components:
+    synonym            Border                    -> HEM
+    synonym            has                       -> I
+    synonym            world                     -> SPHERE
+  Assembly: charade — HEM(synonym of "Border") + I(synonym of "has") + SPHERE(synonym of "world")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: I | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      border: syn=HEM*,BED,END,LIP,RIM,ABUT,BRIM,DADO,EDGE,LINE,BOUND,FRAME,HEDGE,LIMIT,SKIRT; sounds=boarder
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      shown: syn=LED,GUIDED,PROVED,ROUTED,COACHED,EVINCED,EXPOSED,FLASHED,PARADED,PILOTED,SPORTED,STEERED,TUTORED,USHERED,APPEARED; ind=reversal; sounds=shone
+      up: syn=ERE*,OF,TO,ADD,BAR,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      power: syn=P,ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL; abbr=P*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      world: syn=CAP,KIN,LID,ACME,APEX,FOLK,HEAD,MARS,PEAK,RACE,CASTE,COVER,CROWN,EARTH,FOLKS; ind=anagram?; sounds=whirled
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      half: syn=AT,MAD,NUT,ANON,DAFT,DEMI,DODO,DOLT,DOPE,DORK,DUEL,DULL,DUMB,EVER,FOOL; ind=deletion
+      shown up: syn=SHOWN,GUIDED,ROUTED,COACHED,EVINCED,EXPOSED,FLASHED,PILOTED,SPORTED,STEERED
+      not half: ind=deletion
+      not half: syn=RATHER,AWFULLY,MUCH SO,LESS THAN
+  AI Reasoning:
+    Charade of HEM (border) + I (has/first person) + SPHERE (world) to spell HEMISPHERE, defined as 'half'
+  ----------------------------------------------------------------------
+
+  [HIGH] PESO  25D. Peep Show regularly lost money in Philippines
+  Answer: PESO
+  Tier: DB Fallback | Confidence: 76/100
+  Definition: "money in Philippines"
+  Wordplay type: deletion
+  Components:
+    literal            peep                      -> PEEP
+    alternate_letters  show                      -> SO
+  Assembly: deletion — delete EP from PEEP(peep) + SO(alternate letters of "show")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      peep: syn=MY,EYE,LOW,SPY,LOOK,SPYS,VIEW
+      show: syn=AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME,EXPO; abbr=S*
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH; ind=parts
+      lost: syn=A1,BIG,FAB,WIN,A-OK,BOSS,BRAG,COLD,COOL,DEEP,DONE,DOPE,DOWN,GONE,HYPE; ind=anagram,deletion
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+  AI Reasoning:
+    Taking alternate letters from 'Peep Show' (P-e-e-p S-h-o-w) gives P-e-S-o = PESO
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ALMS  26A. Relief: American sizes successively decreasing
+  Answer: ALMS
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Relief"
+  Wordplay type: charade
+  Components:
+    abbreviation       American                  -> A
+    abbreviation       sizes                     -> LMS
+  Assembly: charade — A(abbr. "American") + LMS(abbr. "sizes")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      relief: syn=ALMS*,AID,CARE,EASE,FILL,HAND,HELP,LIFT,SHOW
+      american: syn=A,US,GUMS,INCA,ROTH,YANK; abbr=A*,US
+      sizes: syn=LEGS,TIE,TOY,TRY,WEE,BAND,BIND,BOND,BULK,CORD,DEAL,DEEM,FINE,GLUE,HEAR; sounds=sighs
+      successively: syn=HAND
+    Definitions:
+      "Relief" -> ALMS (definition match)
+  AI Reasoning:
+    A (American) + LMS (clothing sizes Large, Medium, Small in decreasing order) = ALMS
+  ----------------------------------------------------------------------
+
+  [FAILED] AVIS  26D. Miles – perhaps not 500 – in cars offered here
+  Answer: AVIS
+  Tier: --- | Confidence: 0/100
+  Definition: "cars offered here"
+  Wordplay type: hidden
+  Components:
+    hidden             perhaps not 500 – in cars -> AVIS
+  DB Lookups:
+    DB lookups:
+      miles: syn=M,AFAR,LONG,RACE,UNIT; abbr=M
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      500: abbr=D
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      cars: syn=TWO,LAND,TOWN,BAR,BUS,KIA,PUB,TOP,AUDI,AUTO,FIAT,LADA,LIMO,MERC,MINI; abbr=FORD,RR
+      offered: syn=GOT,WON,AWAY,DREW,GAVE,MADE,QUIT
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH; sounds=hear
+  AI Reasoning:
+    AVIS is hidden across 'perhAps not 500 – In carS' where V comes from the Roman numeral interpretation of 5 within 500
+  ----------------------------------------------------------------------
+
+  [LOW] OBOES  27A. I’m surprised by cellists’ kit that’s heard in woodwinds
+  Answer: OBOES
+  Tier: Sonnet | Confidence: -17/100
+  Definition: "woodwinds"
+  Wordplay type: charade
+  Components:
+    synonym            I'm surprised             -> O
+    sound_of           cellists' kit             -> BOES
+  Assembly: charade — O(synonym of "I'm surprised") + BOES(sounds like "cellists' kit")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: O | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      surprised: syn=AWED; ind=anagram?
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      kit: syn=PAC,RIG,DUDS,GEAR,RAGS,TOGS,WEAR,DRESS,EQUIP,GEAR,,GOODS,HABIT,STRIP,STUFF,WEEDS
+      heard: syn=DUG,GOT,HAD,FELT,MADE,SEEN,AURAL,CLEAR,KNOWN,NOTED,SPIED,TRIED; ind=homophone; sounds=herd
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      woodwinds: syn=LUTES
+  AI Reasoning:
+    O (exclamation of surprise) + BOES (homophone of BOWS, cellists' equipment) = OBOES
+  ----------------------------------------------------------------------
+
+  [FAILED] EMOTIONS  28A. Rebutted curt prig with one book, The Agony and the Ecstasy?
+  Answer: EMOTIONS
+  Tier: --- | Confidence: 0/100
+  Definition: "The Agony and the Ecstasy"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     curt                      -> CURT
+    anagram_fodder     prig                      -> PRIG
+    anagram_fodder     one                       -> O
+    anagram_fodder     book                      -> MET
+  DB Lookups:
+    DB lookups:
+      curt: syn=LOW,SHY,FAST,BLUFF,BLUNT,BRIEF,CRISP,FLAKY,SHORT,ABRUPT,CRISPY,CRUSTY,LITTLE,SCARCE,SHORT,; ind=parts
+      prig: syn=SNOB,MORALIST
+      with: syn=ON*,W,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON*,W
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O*; sounds=won
+      book: syn=B,DO,IT,ACT,BAG,CUT,DIG,GET,HIT,HOW,MAG,PUT,SEE,SHE,WIN; abbr=B,NT,TOME
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      agony: syn=FIT,WOE,GALE,GUSH,GUST,HELL,PAIN,WHAT,BURST,FLARE,FLASH,FLUSH,SPASM,STORM,HORROR; ind=anagram?
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      ecstasy: syn=E,JOY,DRUG,HIGH,BLISS,TRANCE,FEELING,RAPTURE,EUPHORIA,PARADISE,PLEASURE; abbr=E*; ind=anagram?,container?
+      with one: syn=ASTRIDE
+      and the: syn=CAD,CUT,DOG,ELF,EYE,GUY,HER,HIS,ILK,IMP
+  AI Reasoning:
+    Anagram of CURT + PRIG + O + MET (from 'one book') produces EMOTIONS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] FOXILY  3D. Using cunning, zip about No 4 in Second Eleven
+  Answer: FOXILY
+  Tier: DB Fallback | Confidence: 45/100
+  Wordplay type: anagram
+  Components:
+    synonym            zip                       -> FLY
+    literal            no                        -> NO
+    synonym            eleven                    -> XI
+  Assembly: deletion+anagram — delete N from NO(no), anagram of FLY(synonym of "zip")+O+XI(synonym of "eleven") = FOXILY
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=FAIL: deletion gives=O answer=FOXILY | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      using: syn=WITH,RENAL; abbr=BY; ind=anagram
+      cunning: syn=FOXY*,ART,BAD,END,ARCH,ARTS,BOAT,LESS,ARGOT,CRAFT,FRAUD,GUILE,SKILL,TRADE,ARTFUL; ind=anagram?
+      zip: syn=FLY*,GO,IT,OH,GET,RUN,DART,LIFE,MOVE,PAST,RACE,SHOT,STEP,ALONG,ARROW
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      second: syn=S,ME,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B,MO,S; ind=parts
+      eleven: syn=XI*,LEGS,TEAM,TEST,PRIME,NUMBER,THE IS
+    Cross-references:
+      Clue 4 answer = CEILIDH
+  ----------------------------------------------------------------------
+
+  [FAILED] CEILIDH  4D. Dance, as Marillion song on the radio
+  Answer: CEILIDH
+  Tier: --- | Confidence: 0/100
+  Definition: "Dance"
+  Wordplay type: homophone
+  Components:
+    sound_of           Marillion song            -> CEILIDH
+  DB Lookups:
+    DB lookups:
+      dance: syn=CEILIDH*,BOP,CHA,HOP,JIG,ONE,BALL,FOOT,HULA,JIVE,LIMB,PASO,PROM,REEL,SHAG; abbr=BALL; ind=anagram
+      as: syn=LI*,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      song: syn=AIR,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR,ARIA
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      radio: syn=SET,TUNER,WAVES,MEDIUM,TRANNY,STATION,TRANNIE; ind=homophone
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER,ALWAYS
+    Definitions:
+      "Dance" -> CEILIDH (definition match)
+  AI Reasoning:
+    Marillion song 'Kayleigh' sounds like 'CEILIDH' on the radio (homophone)
+  ----------------------------------------------------------------------
+
+  [HIGH] ARIA  5D. A drowned valley that’s conveyed by piping
+  Answer: ARIA
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "conveyed by piping"
+  Wordplay: anagram + charade
+  Explanation: anagram of A ("A") + RIA (synonym of "drowned valley") = ARIA; definition: "conveyed by piping"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] PSEUDOCODE  6D. Deduce spoof largely concocted with AI instructions?
+  Answer: PSEUDOCODE
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "AI instructions"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Deduce                    -> DEDUCE
+    deletion           spoof                     -> SPOO
+  Assembly: anagram — anagram of DEDUCE(Deduce)+SPOO(deletion from "spoof") = PSEUDOCODE
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deduce: syn=DRAW,MAKE,INFER,DECIDE,REASON,CONCLUDE,FIGURE OUT,REASON OUT,UNDERSTAND
+      spoof: syn=CON,PUT,BURN,GAFF,HAVE,LEAD,NONE,PULL,TAKE,ARODY,BIRTH,CATCH,GAMMON,JUGGLE,PARODY
+      largely: syn=BY,AND,FOR,LOT,EVEN,FLAT,MORE,MOST,MUCH,WIDE,CLEAN,FULLY,LARGE,PLUMB,ALL OF; ind=parts
+      concocted: syn=PROCESS; ind=anagram
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      instructions: syn=DOS,FEW,CARE,FOCI,MANY,ROWS,RUNS,TIDES,WINDS,WORDS,BRIEFS,DRIFTS,EDICTS,ORDERS,RECIPE; ind=anagram?
+  AI Reasoning:
+    DEDUCE + SPOO (spoof with last letter deleted) anagrammed by 'concocted' gives PSEUDOCODE
+  ----------------------------------------------------------------------
+
+  [LOW] ATREST  7D. Hopefully, with finale from tenor to replace bass, producing calm
+  Answer: ATREST
+  Tier: Sonnet | Confidence: 32/100
+  Definition: "calm"
+  Wordplay type: substitution
+  Components:
+    substitution       Hopefully                 -> ATREST
+  Assembly: charade — ATREST(Hopefully)
+  Note: dropped piece 1
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=substitution, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer
+  DB Lookups:
+    DB lookups:
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      finale: syn=END,CLOSE,ENDING,FINISH,FOLLOW; ind=container?,parts
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      tenor: syn=T,DRIFT,VOICE,SINGER,SPIRIT; abbr=T*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      replace: syn=CUT,A VERB,RETURN; ind=anagram?
+      bass: syn=LOW,DEEP,FISH,ROCK,VOICE,SINGER; abbr=B; sounds=base
+      producing: syn=RISE,DOING,GOING,CEDING,GIVING,HAVING,MAKING,SAVING; ind=anagram
+      calm: syn=CAL,ANTI,COOL,EASE,EASY,EVEN,LOWN,LULL,ALLAY,EQUAL,LEVEL,ORDER,PEACE,QUELL,QUIET
+  AI Reasoning:
+    AT BEST (hopefully) with B replaced by R (finale from tenor) gives ATREST
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BOLTHOLE  8A. Originally, baker oversupplied lightly – 13 – he often leaves éclair in safe place
+  Answer: BOLTHOLE
+  Tier: Sonnet | Confidence: 66/100
+  Definition: "safe place"
+  Wordplay type: charade
+  Components:
+    first_letter       baker                     -> B
+    first_letter       oversupplied              -> O
+    first_letter       lightly                   -> L
+    anagram_fodder     he often éclair in        -> THOLE
+  Assembly: charade — B(first letter of "baker") + O(first letter of "oversupplied") + L(first letter of "lightly") + THOLE(he often éclair in)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=missing: ['he often éclair in']
+  DB Lookups:
+    DB lookups:
+      originally: syn=FIRST,FIRSTLY,MERMAID,AT FIRST; ind=acrostic,anagram?,parts
+      baker: syn=CHEF,COOK,COOKER,GRILLER
+      lightly: syn=IN,OK,ALL,OUT,ABLY,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD,WIDE,AMPLY
+      he: syn=NAG,TOM,BIRO,DOER,TEAC,COMER,DOERS,LAUGH,STEED,COMERS,EQUINE,HUMMER,HUMMERS,HUSTLER,LUCIFER
+      often: syn=AND,ANY,AYE,LOT,NOW,OFT,ANEW,EACH,EVER,MUCH,OVER,TIME,A LOT,AGAIN,NEWLY
+      leaves: syn=COS,HAS,TEA,BAGS,GOES,LETS,OMIT,BEARS,CEDES,CRESS,DROPS,DUMPS,EXITS,FEEDS,FLEES; abbr=GO; ind=deletion
+      éclair: syn=CAKE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      safe: syn=BOX,SEA,SEX,BEST,GOOD,HOME,HOPE,SNUG,SURE,TRUE,WARY,ALERT,CHARY,CHEST,CUDDY
+      place: syn=AM,BE,DO,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END,FEE,FIX; abbr=LAY,PL
+    Cross-references:
+      Clue 13 answer = DIDGERIDOO
+  AI Reasoning:
+    First letters of 'baker oversupplied lightly' give BOL, then 'leaves' indicates anagram of 'he often éclair in' giving THOLE, combining to BOLTHOLE
+  ----------------------------------------------------------------------
+
+  [HIGH] RESET  9A. Zero tolerance finally adopted during time off
+  Answer: RESET
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Zero"
+  Wordplay type: container
+  Components:
+    deletion           time                      -> REST [RESTITUTION, "off"=deletion]
+    last_letter        tolerance finally         -> E
+  Assembly: container — E(last letter of "tolerance finally") inside REST(RESTITUTION minus ITUTION, "time") [off]
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      zero: syn=O,OH,BUM,TWO,BOAT,BUNS,BUTT,DUFF,HAMS,LOVE,NONE,ROOT,RUMP,TAIL,TUSH; abbr=O,Z
+      tolerance: syn=OK,GIVE,PLAY
+      finally: syn=SET*,OR,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER; abbr=T*; ind=parts
+      adopted: syn=THIS,WORK; ind=container?
+      during: syn=BY,IN,AMID,OVER; abbr=IN; ind=container,insertion
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      time off: syn=REST,EASE,STAY,TRIP,BREAK,LEAVE,LEGAL
+  AI Reasoning:
+    E (last letter of tolerance) is inserted into REST (time off) to form RESET
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

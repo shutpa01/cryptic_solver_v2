@@ -1,0 +1,84 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31190
+Generated: 2026-03-18 08:57:11
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        1/1 (100%)
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   0  
+  Medium (40-79): 1  2D
+  Low (<40):    0  
+  Failed:       0  
+  Average:      74/100
+
+COST: $0.1056 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS: none detected
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/1  2D
+  No issues detected.
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    2D  Herodotus     Notorious Biblical king to upset American historian (9)
+                      HEROD(synonym of "Notorious Biblical king") + OT(to) + US(abbr. "American")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] Herodotus  2D. Notorious Biblical king to upset American historian
+  Answer: Herodotus
+  Tier: Sonnet | Confidence: 74/100
+  Definition: "historian"
+  Wordplay type: charade
+  Components:
+    synonym            Notorious Biblical king   -> HEROD
+    anagram            to                        -> OT
+    abbreviation       American                  -> US
+  Assembly: charade — HEROD(synonym of "Notorious Biblical king") + OT(to) + US(abbr. "American")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      notorious: syn=FILM,STAR,POWERED,ILLFAMED,INFAMOUS
+      king: syn=HERO*,HEROD*,K,R,MAN,REX,GOD?,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA; abbr=K,R*,REX
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      american: syn=US*,A,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS; abbr=A,US*
+      historian: syn=HERODOTUS*,LIVY,TACITUS,ANNALIST,PLUTARCH,TREVELYAN; abbr=LIVY
+      to upset: syn=GET,OUTFOX
+    Definitions:
+      "historian" -> Herodotus (definition match)
+  AI Reasoning:
+    HEROD (notorious king) + anagram of TO+US (to upset American) = HEROD + OTUS = HERODOTUS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

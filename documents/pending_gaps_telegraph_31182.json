@@ -1,0 +1,263 @@
+{
+  "source": "telegraph",
+  "puzzle": "31182",
+  "stats": {
+    "total": 32,
+    "assembled": 30,
+    "high": 20,
+    "medium": 8,
+    "low": 2,
+    "failed": 2,
+    "avg_score": 75.56666666666666
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Poet's",
+      "answer": "Auden",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Poet's gold study",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "architectural style",
+      "answer": "BRUTALISM",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "British muralist's confused architectural style",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Superior",
+      "answer": "PARAMOUNT",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Superior standard quantity",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "did well",
+      "answer": "PROSPERED",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Respectable editor, ringing Head of Sales, did well",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "stand-ups",
+      "answer": "COMEDIANS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Function bored by average stand-ups",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Might this help you get into Oxford?",
+      "answer": "SHOEHORN",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Might this help you get into Oxford?",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "No longer conscious",
+      "answer": "ASLEEP",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "No longer conscious of snake taking shelter",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "list of policies",
+      "answer": "MANIFESTO",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Soften aim after rewriting list of policies",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Error of judgement",
+      "answer": "LAPSE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Error of judgement in large part of church",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where scientists might be found",
+      "answer": "LABS",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Where scientists might be found with initially loose stomach muscles",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fewer",
+      "answer": "UNDER",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Fewer than two foreign articles",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Play",
+      "answer": "The Tempest",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Play a particular English politician in audition",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gives honour to",
+      "answer": "ENNOBLES",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Gives honour to Lennon, ablest to ignore all outsiders",
+      "score": 62
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ill-fated high-flier's",
+      "answer": "Icarus",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Ill-fated high-flier's letters from America rushed",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "take apart",
+      "answer": "DISMANTLE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Mostly awful religious books the French take apart",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "that could neaten clothes",
+      "answer": "steam iron",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "New order for marines to implement that could neaten clothes?",
+      "score": 75
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "restriction",
+      "letters": "REIN",
+      "answer": "REINFORCE",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Strengthen restriction supporting church",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "supporting",
+      "letters": "FOR",
+      "answer": "REINFORCE",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Strengthen restriction supporting church",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "foreign",
+      "letters": "UN",
+      "answer": "UNDER",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Fewer than two foreign articles",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "articles",
+      "letters": "DER",
+      "answer": "UNDER",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Fewer than two foreign articles",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "hired gun",
+      "letters": "EDINBURG",
+      "answer": "Edinburgh",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Bishop captured by hired gun running city",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "a particular",
+      "letters": "TEMPEST",
+      "answer": "The Tempest",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Play a particular English politician in audition",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Mostly awful",
+      "letters": "DIS",
+      "answer": "DISMANTLE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Mostly awful religious books the French take apart",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "was",
+      "letters": "RAN",
+      "answer": "Iran",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "I was in charge of country",
+      "score": 92
+    }
+  ]
+}

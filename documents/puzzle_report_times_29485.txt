@@ -1,0 +1,825 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29485
+Generated: 2026-03-09 08:22:22
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        25/30 (83%)
+    Sonnet:         23
+    DB Fallback:    2
+    Cached (no API): 25
+  Failed:           5
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   11  1A, 11A, 12A, 13A, 16A, 21D, 22A, 25A, 26A, 27A, 7D
+  Medium (40-79): 12  1D, 10D, 14A, 17D, 18D, 19A, 2D, 24D, 28A, 5D, 8D, 9A
+  Low (<40):    2  15D, 22D
+  Failed:       5  20A, 23A, 3D, 4A, 6D
+  Average:      73/100
+
+COST: $0.0344 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (32 entries)
+------------------------------------------------------------
+  WATUSI: "dance" -> WATUSI  (missing from definition_answers_augmented)
+  WAGNERIAN: "Who's beginning to anticipate a new Ring in development?" -> WAGNERIAN  (missing from definition_answers_augmented)
+  PSYCHOANALYST: "who understands when person's lying" -> PSYCHOANALYST  (missing from definition_answers_augmented)
+  INTHESHADE: "Overlooked" -> INTHESHADE  (missing from definition_answers_augmented)
+  TREASURER: "accountant" -> TREASURER  (missing from definition_answers_augmented)
+  JOEY: "Baby" -> JOEY  (missing from definition_answers_augmented)
+  YARDSTICK: "scale" -> YARDSTICK  (missing from definition_answers_augmented)
+  PANGOLIN: "Trafficked mammal's" -> PANGOLIN  (missing from definition_answers_augmented)
+  TOSTI: "composer" -> TOSTI  (missing from definition_answers_augmented)
+  SALAMANDER: "Liver" -> SALAMANDER  (missing from definition_answers_augmented)
+  MANIOC: "source of meal" -> MANIOC  (missing from definition_answers_augmented)
+  RASTAFARI: "religious follower" -> RASTAFARI  (missing from definition_answers_augmented)
+  GROSS: "A large number" -> GROSS  (missing from definition_answers_augmented)
+  MORTIFY: "cause to feel humiliated" -> MORTIFY  (missing from definition_answers_augmented)
+  ANORAK: "A nerd" -> ANORAK  (missing from definition_answers_augmented)
+  SPRITZER: "Drink" -> SPRITZER  (missing from definition_answers_augmented)
+  EDUCATOR: "Teacher" -> EDUCATOR  (missing from definition_answers_augmented)
+  DOUBLEDEALING: "Deceit" -> DOUBLEDEALING  (missing from definition_answers_augmented)
+  CUCKOO: "bird call" -> CUCKOO  (missing from definition_answers_augmented)
+  TREBIZOND: "Black Sea port once" -> TREBIZOND  (missing from definition_answers_augmented)
+  RANCH: "station in Australia" -> RANCH  (missing from definition_answers_augmented)
+  GASTRAP: "it keeps things fresher" -> GASTRAP  (missing from definition_answers_augmented)
+  YELLOWISH: rather mean -> ISH  (missing from synonyms_pairs)
+  YARDSTICK: parasite -> STICK  (missing from synonyms_pairs)
+  PANGOLIN: long -> PANG  (missing from synonyms_pairs)
+  PANGOLIN: suffering -> OL  (missing from synonyms_pairs)
+  ODOUR: everybody's -> OUR  (missing from synonyms_pairs)
+  GOLDONI: medal -> GOLD  (missing from synonyms_pairs)
+  SPRITZER: outside -> SPRITZ  (missing from synonyms_pairs)
+  DOUBLEDEALING: upped -> DOUBLE  (missing from synonyms_pairs)
+  DOUBLEDEALING: London borough -> DEALING  (missing from synonyms_pairs)
+  TREBIZOND: business -> BIZ  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  TREASURER (35/100): R <- brute force (no clue basis)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (3)
+------------------------------------------------------------
+  INTHESHADE = 14 (65/100): answer used in own explanation
+  TOSTI = 2 (65/100): answer used in own explanation
+  RUMBA = 22 (30/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (4)
+------------------------------------------------------------
+  TREASURER = 15 (35/100): no pieces verified in DB
+  RUMBA = 22 (30/100): single piece equals full answer; no pieces verified in DB
+  ODOUR = 24 (70/100): no pieces verified in DB
+  DOUBLEDEALING = 5 (55/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (4)
+------------------------------------------------------------
+  WAGNERIAN = 1 (65/100): def="Who's beginning to anticipate a new Ring in development?" (not in DB, odd position)
+  PSYCHOANALYST = 10 (75/100): def="who understands when person's lying" (not in DB, odd position)
+  TREASURER = 15 (35/100): def="accountant" (not in DB, odd position)
+  PANGOLIN = 18 (65/100): def="Trafficked mammal's" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  20. Liver in flames looking bloody unfortunately flipped when ch = SALAMANDER
+  23. A large number of birds without beak = GROSS
+  3. Drink salesmen turning up outside hotel = SPRITZER
+  4. Teacher turned offensive when bored by Roman statesman = EDUCATOR
+  6. What’s about in our land that bird call introduces? = CUCKOO
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/30  11A, 12A, 19A, 27A
+  Fabricated mapping:    1  15D
+  Circular assembly:     3  14A, 2D, 22D
+  Unverified explain.:   4  5D, 15D, 22D, 24D
+  Weak definition:       4  1D, 10D, 15D, 18D
+  DB gap:                24  4A, 9A, 13A, 14A, 16A, 20A, 23A, 25A, 26A, 28A, 1D, 2D, 3D, 5D, 6D, 7D, 8D, 10D, 15D, 17D, 18D, 21D, 22D, 24D
+  Failed:                5  4A, 20A, 23A, 3D, 6D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  WATUSI        Dicky waits round university for dance (6)
+                      anagram of WAITS(waits)+U(university)  [HIGH]
+    1D  WAGNERIAN     Who’s beginning to anticipate a new Ring in development? (9)
+                      cryptic definition  [MED]
+   10D  PSYCHOANALYST  A sly sycophant possibly who understands when person’s lying? (13)
+                      anagram of ASLYSYCOPHANT(A sly sycophant)  [MED]
+   11A  UNCLEAN       Soiled article brought to pawnbroker (7)
+                      UNCLE(pawnbroker) + AN(article)  [HIGH]
+   12A  ELIOT         One in set following European writer (5)
+                      E(European) + LIOT(One in set)  [HIGH]
+   13A  YELLOWISH     What was the Left? Rather mean and a bit cowardly? (9)
+                      YELLOW(cowardly) + ISH(rather mean)  [HIGH]
+   14A  INTHESHADE    Overlooked point he’s had emphasised to some extent (2,3,5)
+                      hidden in 'poINT HE’S HAD Emphasised'  [MED]
+   15D  TREASURER     Deal mostly with less dubious accountant? (9)
+                      R inside TREASUER(Deal mostly with less)  [LOW]
+   16A  JOEY          Baby boomer’s delight consuming Ecstasy (4)
+                      E(Ecstasy) inside JOY(delight)  [HIGH]
+   17D  YARDSTICK     More than one American garden parasite produces scale (9)
+                      YARD(garden) + STICK(parasite)  [MED]
+   18D  PANGOLIN      Trafficked mammal’s long suffering during distress (8)
+                      PANG(long) + OL(suffering) + IN(during)  [MED]
+   19A  NOEL          A Christmas Carol — heartless story (4)
+                      delete V from NOVEL(story)  [MED]
+    2D  TOSTI         Excerpt from Rigoletto stirred composer (5)
+                      hidden in 'rigoletTO STIrred'  [MED]
+   20A  SALAMANDER    Liver in flames looking bloody unfortunately flipped when chap’s interrupted (10)
+                      ---  [FAIL]
+   21D  MANIOC        Mother raised money as source of meal (6)
+                      MA(Mother) + reverse COIN(money)  [HIGH]
+   22A  RASTAFARI     An emperor overthrown by unusually fair religious follower (9)
+                      anagram of FAIR(fair)+RASTA(religious follower)  [HIGH]
+   22D  RUMBA         Questionable degree in Afro-Cuban music (5)
+                      RUMBA(Afro-Cuban)  [LOW]
+   23A  GROSS         A large number of birds without beak (5)
+                      ---  [FAIL]
+   24D  ODOUR         Social event smothered by everybody’s scent (5)
+                      DO(social event) inside OUR(everybody's)  [MED]
+   25A  MORTIFY       I’m forty — moving cause to feel humiliated (7)
+                      anagram of IMFORTY(I'm forty)  [HIGH]
+   26A  GOLDONI       Medal being presented by current Italian dramatist (7)
+                      GOLD(medal) + ON(being presented by) + I(current)  [HIGH]
+   27A  ATROCITY      Outrage at first of redevelopments to old urban centre (8)
+                      AT(at) + R(first of redevelopments) + O(old) + CITY(urban)  [HIGH]
+   28A  ANORAK        A nerd or a kagoule? One of the two there will do! (6)
+                      double definition  [MED]
+    3D  SPRITZER      Drink salesmen turning up outside hotel (8)
+                      ---  [FAIL]
+    4A  EDUCATOR      Teacher turned offensive when bored by Roman statesman (8)
+                      ---  [FAIL]
+    5D  DOUBLEDEALING  Deceit upped London borough by 100 per cent (6-7)
+                      DOUBLE(upped) + DEALING(London borough)  [MED]
+    6D  CUCKOO        What’s about in our land that bird call introduces? (6)
+                      ---  [FAIL]
+    7D  TREBIZOND     Rage engulfs business circle in Black Sea port once (9)
+                      BIZ(business)+O(circle) inside TREND(Rage)  [HIGH]
+    8D  RANCH         Billions lost from local railway station in Australia (5)
+                      delete B from BRANCH(local)  [MED]
+    9A  GASTRAP       Backing separate sink — it keeps things fresher (3,4)
+                      delete S from SAG(sink), anagram of PARTS(separate)+AG  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Dicky waits round university for dance
+  Answer: WATUSI
+  Tier: Cached | Confidence: 85/100
+  Definition: "dance"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     waits                     -> WAITS
+    abbreviation       university                -> U
+  Assembly: anagram — anagram of WAITS(waits)+U(university)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dicky: syn=ILL,BOWTIE; ind=anagram
+      waits: syn=FOOT,FORCE,DELAYS,SERVES,EYE,HER,HIS,SIT,BIDE,BOOK,HOLD,LIST,ONTO,STAY,VIEW; sounds=weight; fodder=WAITS(5/6 anagram match)
+      round: syn=MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP,LIFE; abbr=O; ind=anagram,container,reversal
+      university: syn=UNI,YALE,OXFORD; abbr=U*,UNI
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      dance: syn=BOP,CHA,HOP,JIG,ONE,BALL,FOOT,HULA,JIVE,LIMB,PASO,PROM,REEL,SHAG,STEP; abbr=BALL; ind=anagram
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 1. Who’s beginning to anticipate a new Ring in development?
+  Answer: WAGNERIAN
+  Tier: Cached | Confidence: 65/100
+  Definition: "Who's beginning to anticipate a new Ring in development?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=not in DB, odd position | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      beginning: syn=DAY,DAWN,GERM,ROOT,AHEAD,ALPHA,BASAL,BASIC,GETGO,ONSET,SAUCE,START,ADVENT,ORIGIN,OUTSET; ind=acrostic,deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      anticipate: syn=HOPE,WAIT,AWAIT,WATCH,DIVINE,EXPECT,AGAINST,FORESEE,FOREKNOW,FIGURE ON,FORESTALL,FORETASTE
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE*,UNUSUAL; ind=anagram; sounds=gnu,knew
+      ring: syn=MY,EYE,LOT,MOB,SET,BAND,BELL,BIKE,BODY,CALL,CLAN,CRAM,DIAL,FOLD,HALO; abbr=O,R*; sounds=wring
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      development: syn=GET,FATE,SEED,WORK,CHILD,FRUIT,ISSUE,LABOR,SPAWN,THING,YIELD,AFFAIR,COURSE,EFFECT,FRUIT,; ind=anagram
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. A sly sycophant possibly who understands when person’s lying?
+  Answer: PSYCHOANALYST
+  Tier: Cached | Confidence: 75/100
+  Definition: "who understands when person's lying"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     A sly sycophant           -> ASLYSYCOPHANT
+  Assembly: anagram — anagram of ASLYSYCOPHANT(A sly sycophant)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      sly: syn=SMART,ARTFUL,CRAFTY,ARTFULLY,STEALTHY
+      sycophant: syn=ME,TOADY,COMPANY,CRAWLER,CLAQUEUR,HANGERON,PARASITE,FLATTERER,GROVELLER,BOOTLICKER
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY,CREDIBLY,ORIENTAL; ind=anagram
+      who: syn=FAT,TOP,BEST,PICK,PINK,TOPS,CREAM,ELECT,ELITE,PICKS,PINKS,PRIDE,PRIME,A-LIST,CAVIAR
+      understands: syn=DIGS,GETS,SEES,GROKS,KNOWS,MAKES,TWIGS,GRASPS,INFERS,JUDGES,SEIZES,SENSES,BEHOLDS,CATCHES,DECIDES
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      lying: syn=BAD,ABED,PRONE,SUPINE,CROOKED,FIBBING,SITUATE,DECEITFUL,DISHONEST,INSINCERE,INVENTION,MENDACITY,PROSTRATE,RECUMBENT,DISHONESTY
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Soiled article brought to pawnbroker
+  Answer: UNCLEAN
+  Tier: Cached | Confidence: 100/100
+  Definition: "Soiled"
+  Wordplay type: charade
+  Components:
+    synonym            pawnbroker                -> UNCLE
+    synonym            article                   -> AN
+  Assembly: charade — UNCLE(pawnbroker) + AN(article)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soiled: syn=UNCLEAN*,COLD,DIRE,FOUL,GAVE,BLACK,CHILL,DINGY,DIRTY,DUSTY,GRIMY,MIRED,MUCKY,MUDDY,NASTY
+      article: syn=AN*,THE,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE; abbr=A*,AN*,THE
+      brought: syn=ATE,DID,DUG,GOT,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,COST,DREW; ind=reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      pawnbroker: syn=UNCLE*
+    Definitions:
+      "Soiled" -> UNCLEAN (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. One in set following European writer
+  Answer: ELIOT
+  Tier: Cached | Confidence: 96/100
+  Definition: "writer"
+  Wordplay type: charade
+  Components:
+    abbreviation       European                  -> E
+    container          One in set                -> LIOT
+  Assembly: charade — E(European) + LIOT(One in set)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O*; sounds=won
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      set: syn=GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      following: syn=BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH,AFTER; abbr=F; ind=anagram?
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?,SWEDE; abbr=E*
+      writer: syn=ELIOT*,MAN,MOO,NIB,PEN,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET,AESOP,DEFOE; abbr=PEN
+    Definitions:
+      "writer" -> ELIOT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. What was the Left? Rather mean and a bit cowardly?
+  Answer: YELLOWISH
+  Tier: Cached | Confidence: 92/100
+  Definition: "a bit cowardly"
+  Wordplay type: charade
+  Components:
+    synonym            cowardly                  -> YELLOW
+    synonym            rather mean               -> ISH
+  Assembly: charade — YELLOW(cowardly) + ISH(rather mean)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      what: syn=LO*,AH,EH,HA,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      was: syn=DID,LAY,SAT,BORE,CAME,KNEW,LEANT,LIVED,RATED,STOOD,TYPED,BEFELL,COOKED,GRADED,HAPPED; abbr=WA
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE*
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      rather: syn=OF,OR,BIT,NOT,ABIT,FAIN,KIND,LESS,LIKE,MORE,MUCH,SOON,SORT,A BIT,A FEW
+      mean: syn=LOW*,A1,OK,AIM,BAD,BIG,DOG,FAB,HOT,RUN,THE,TOO,TOP,TWO,A-OK; sounds=mien
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      bit: syn=ACE,ACT,DAB,DAY,EAT,EON,ERA,LET,NIP,RAY,RUB,TAD,TWO,ACES,ATOM; ind=hidden
+      cowardly: syn=YELLOW*,AFRAID,CRAVEN,CHICKEN,GUTLESS,POLTROON,RECREANT,UNHEROIC,DASTARDLY,SPINELESS
+      a bit: syn=ACE,ALL,BAR,BIT,BOX,CAT,CUT,DAB,FEW,GAP
+    Definitions:
+      "a bit cowardly" -> YELLOWISH (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 14. Overlooked point he’s had emphasised to some extent
+  Answer: INTHESHADE
+  Tier: Cached | Confidence: 65/100
+  Definition: "Overlooked"
+  Wordplay type: hidden
+  Components:
+    hidden             point he's had emphasised to some extent -> INTHESHADE
+  Assembly: hidden — hidden in 'poINT HE’S HAD Emphasised'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      overlooked: syn=MET,RAN,HELD,KEPT,HEXED,KEPT?,RULED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED,FORGOT
+      point: syn=HEAD*,PT,AIM,ARM,CUT,DOT,END,ITS,NET,NIB,NUB,PEG,PIP,SET,SUM; abbr=E*,N*,NE,NW,PT,S*,SE,SW,W
+      had: syn=ATE,DUG,GOT,MET,SAW,BODE,BORE,BORN,FELT,HELD,KNEW,MADE,SEEN,TOOK,WENT; abbr=ATE,HA*
+      emphasised: syn=STRESSED; fodder=EMPHASISED(7/10 anagram match)
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A*,PART,S*; ind=hidden; sounds=sum
+      extent: syn=END,DIRT,DUST,ECHO,FIEF,GAME,IDLE,JUNK,LINE,POOP,SCAT,SIZE,SOIL,WALK,AMBIT; ind=hidden
+      to some extent: syn=IN A WAY,IN A SENSE
+  ----------------------------------------------------------------------
+
+  [LOW] 15. Deal mostly with less dubious accountant?
+  Answer: TREASURER
+  Tier: Cached | Confidence: 35/100
+  Definition: "accountant"
+  Wordplay type: container
+  Components:
+    anagram_fodder     Deal mostly with less     -> TREASUER
+  Assembly: container — R inside TREASUER(Deal mostly with less)
+  Brute gap: +R
+  Checks: definition=not in DB, odd position | wordplay_type=container | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s) | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      deal: syn=A,OK,BID,BUY,COP,DAY,END,FIX,GET,LOT,OPT,POT,SET,TIE,TON; ind=anagram?
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY; ind=deletion,parts
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      less: syn=OK,ART,LOW,TWO,FINE,LIKE,MIND,MOST,MUCH,NEAR,NIGH,PUNY,SOME,TEND,WANT; ind=deletion
+      dubious: syn=FAR,IFFY,CAGEY,DODGY,FISHY,HINKY,LOATH,QUEER,SHADY,SHAKY,UNAPT,AFRAID,FLIMSY,UNSURE,SUSPECT; ind=anagram
+      accountant: syn=CA,AUDITOR,CASHIER; abbr=CA
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Baby boomer’s delight consuming Ecstasy
+  Answer: JOEY
+  Tier: Cached | Confidence: 85/100
+  Definition: "Baby"
+  Wordplay type: container
+  Components:
+    synonym            delight                   -> JOY
+    abbreviation       Ecstasy                   -> E
+  Assembly: container — E(Ecstasy) inside JOY(delight)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      baby: syn=JOE*,MY,BOD,BOY,BUD,CAT,CUB,EGG,GUY,HER,HIS,IMP,ITS,KID,LAD
+      delight: syn=JOY*,DIM,GAS,GLEE,SEND,SHOW
+      consuming: ind=container
+      ecstasy: syn=JOY*,DRUG,HIGH; abbr=E*; ind=anagram?,container?
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. More than one American garden parasite produces scale
+  Answer: YARDSTICK
+  Tier: Cached | Confidence: 77/100
+  Definition: "scale"
+  Wordplay type: charade
+  Components:
+    synonym            garden                    -> YARD
+    synonym            parasite                  -> STICK
+  Assembly: charade — YARD(garden) + STICK(parasite)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      than: syn=BAR,BUT,EAT,AIRY,CHAW,CHEW,ELSE,FRET,GNAW,SAVE,SMUG,SUCK,VAIN,CHAMP,COCKY
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      american: syn=US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS,ANGELENO; abbr=A*,US
+      garden: syn=YARD*,HOE,RUN,THE,BURG,CITY,DIGS,EDEN,FLAT,HALL,OF A,PARK,PLOT,TOWN,WING
+      parasite: syn=TICK*,ME,FLEA,FREE,DRONE,LEECH,SPONGE,COMPANY,SPONGER,TAPEWORM,MISTLETOE,SCROUNGER,SYCOPHANT
+      produces: syn=HAS,DOES,GOES,RISE,BEARS,CEDES,DROPS,FEEDS,HANDS,MAKES,SAVES,VESTS,WORKS,BEGETS,BIRTHS; ind=anagram
+      scale: syn=ORD,CLIMB,GAMUT,MOUNT,PLATE,RANGE,RATIO,ASCEND,FACTOR,CELSIUS,D MINOR,MEASURE,RANKINE,MAGNITUDE
+      more than: syn=CASE,OVER,CRUSH,TRAMPLE,OVERPAID
+      more than one: syn=MANY,PLURAL
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 18. Trafficked mammal’s long suffering during distress
+  Answer: PANGOLIN
+  Tier: Cached | Confidence: 65/100
+  Definition: "Trafficked mammal's"
+  Wordplay type: charade
+  Components:
+    synonym            long                      -> PANG
+    synonym            during                    -> IN
+    synonym            suffering                 -> OL
+  Assembly: charade — PANG(long) + OL(suffering) + IN(during)
+  Checks: definition=not in DB, odd position | wordplay_type=charade | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      trafficked: syn=DAY
+      long: syn=AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC,EVER; abbr=PINE
+      suffering: syn=ILL,SAD,ACHE,AGONY,UPSET,BEREFT,CRYING,INFIRM,MISERY,ORDEAL,STRESS,THROES,ANGUISH,PASSION,TORMENT; ind=anagram
+      during: syn=IN*,BY,AMID,OVER,PENDING,THROUGH; abbr=IN*; ind=container,insertion
+      distress: syn=PAIN*,AIL,BUG,IRK,VEX,AILS,FRET,FUSS,GALL,HAND,HURT,ITCH,NARK,OF A,RASP; ind=anagram
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 19. A Christmas Carol — heartless story
+  Answer: NOEL
+  Tier: Cached+Fallback | Confidence: 62/100
+  Definition: "A Christmas Carol"
+  Wordplay type: deletion
+  Components:
+    synonym            story                     -> NOVEL
+    abbreviation       (single letter)           -> V
+  Assembly: deletion — delete V from NOVEL(story)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=1/2 (50%) | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      christmas: syn=NOEL*,XMAS,YULE
+      carol: syn=A,ARIA,PART,SING,SONG
+      heartless: syn=NO*,CASE,COLD,HARD,TAKE; abbr=T; ind=deletion,parts
+      story: syn=NO*,A,MY,SO,FEW,FIB,GEN,LIE,BLOG,CASE,DEAL,GIVE,INFO,ITEM,JOKE; abbr=LIE,SAGA,TALE
+    Definitions:
+      "A Christmas Carol" -> NOEL (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 2. Excerpt from Rigoletto stirred composer
+  Answer: TOSTI
+  Tier: Cached | Confidence: 65/100
+  Definition: "composer"
+  Wordplay type: hidden
+  Components:
+    hidden             Rigoletto stirred         -> TOSTI
+  Assembly: hidden — hidden in 'rigoletTO STIrred'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      excerpt: syn=PART,SCRAP,SOUND
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      rigoletto: syn=OPERA
+      stirred: ind=anagram
+      composer: syn=SAY,ARNE,BACH,BERG,CAGE,ORFF,BINGE,BIZET,ELGAR,GLUCK,GRIEG,HOLST,LEHAR,LISZT,PARRY; abbr=BACH,ELGAR,HANDEL,MOZART
+  ----------------------------------------------------------------------
+
+  [FAILED] 20. Liver in flames looking bloody unfortunately flipped when chap’s interrupted
+  Answer: SALAMANDER
+  Tier: --- | Confidence: 0/100
+  Definition: "Liver"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     flames looking bloody     -> FLAMESBLOOD
+  DB Lookups:
+    DB lookups:
+      liver: syn=ORGAN
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      flames: syn=INFERNO,A,AT,HON,OIL,PIP,BEAT,BOTH,DEAR,FIRE,LOVE,LULU,UPON,BEAUT,BLAZE
+      looking: syn=GOING,ACTING,AIMING,AIRING,GIVING,MAKING,FEELING,MEANING,RAISING,SEEKING,SEEMING,STATING,VENTING,VOICING,ALLOWING; ind=anagram,reversal
+      bloody: syn=RAW,RED,GORY,MARY,RARE,WEAR,COVER,BLESSED,CRIMSON,AGGRIEVE,SANGUINARY
+      unfortunately: syn=AY,ILL,WOE,ALAS,ALACK,BADLY,SADLY,WIRRA,VILELY,AWFULLY,HORRIBLY,HORRIDLY,TERRIBLY,VEXINGLY,UNHAPPILY; ind=anagram
+      flipped: syn=LEAFED,RIFFLED,SKIMMED,THUMBED,INVERTED,REVERSED,SUPERMAN; ind=reversal
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      interrupted: syn=MISS,PIECEMEAL; ind=container
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. Mother raised money as source of meal
+  Answer: MANIOC
+  Tier: Cached | Confidence: 85/100
+  Definition: "source of meal"
+  Wordplay type: reversal
+  Components:
+    synonym            Mother                    -> MA
+    synonym            money                     -> COIN
+  Assembly: reversal — MA(Mother) + reverse COIN(money)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      mother: syn=MA*,BE,DAM,MOM,MUM,NUN,RAW,SOD,BARE,BEAR,BORN,CARE,DEAN,DROP,GOWN; abbr=M*,MA*
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      source: syn=BE,FONT,HEAD,ROOT,SEED,WELL,ERATO,ONSET,CRADLE,ENGINE,INSIDE,ORIGIN,SPRING; ind=acrostic,parts
+      meal: syn=PIE,TEA,CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,MEAT,MENU,MESS,SLOP,BOARD
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. An emperor overthrown by unusually fair religious follower
+  Answer: RASTAFARI
+  Tier: Cached | Confidence: 85/100
+  Definition: "religious follower"
+  Wordplay type: anagram
+  Components:
+    literal            fair                      -> FAIR
+    synonym            religious follower        -> RASTA
+  Assembly: anagram — anagram of FAIR(fair)+RASTA(religious follower)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      an: syn=AR*,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      emperor: syn=KING,MING,NERO,OTTO,SAY?,TSAR,RULER,TITUS,CAESAR,KAISER,LEADER,MIKADO,TRAJAN,HADRIAN,PENGUIN
+      overthrown: ind=anagram?,reversal?
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      unusually: syn=EXTRA,ODDLY,SUDDENLY,AMAZINGLY,STRANGELY; ind=anagram
+      fair: syn=AN,OR,SO,BUT,DUE,EVE,OUT,RUN,THE,BALD,BODY,CUTE,DAMN,DEAD,EVEN; sounds=fare
+      religious: syn=HOT,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HOLY,LINE,MATE,MONK,PEER; abbr=R*
+      follower: syn=ME,FAN,SIKH,SHEEP,SHADOW,ACOLYTE,ADMIRER,APOSTLE,COMPANY,PURSUER,TRACKER,ACOLYTES,ADHERENT,DISCIPLE,HANGERON
+      religious follower: syn=RASTA*,BELIEF,DEVOTEE
+  ----------------------------------------------------------------------
+
+  [LOW] 22. Questionable degree in Afro-Cuban music
+  Answer: RUMBA
+  Tier: Cached | Confidence: 30/100
+  Definition: "music"
+  Wordplay type: charade
+  Components:
+    synonym            Afro-Cuban                -> RUMBA
+  Assembly: charade — RUMBA(Afro-Cuban)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      questionable: syn=RUM*,FAR,IFFY; ind=anagram?
+      degree: syn=CUT,PEG,INCH,MANY,RANK,RUNG,STEP,WALK,EVERY,GRADE,LEVEL,NOTCH,ORDER,PHASE,PLACE; abbr=BA*,D,MA
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      afro: syn=DO,SHOCK,STYLE
+      music: syn=RUMBA*,AIM,FIX,GAB,GEL,HIP,JAW,LAY,POP,PUT,RAP,SIT,SKA,BEND,CAST
+    Definitions:
+      "music" -> RUMBA (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 23. A large number of birds without beak
+  Answer: GROSS
+  Tier: --- | Confidence: 0/100
+  Definition: "A large number"
+  Wordplay type: deletion
+  Components:
+    synonym            birds                     -> GROUSE
+    synonym            beak                      -> USE
+  DB Lookups:
+    DB lookups:
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L,OS*
+      number: syn=O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,ONE,TEN,VIP,ACTS,ANTE,BALL; abbr=N,NO,TEN
+      birds: syn=AUKS,AVES,DISH,EMUS,DOVES,ERNES,GEESE,KITES,RHEAS,SWANS,TERNS,AUK,BOD,BOY,CAT; abbr=HEN; sounds=burred
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      beak: syn=NEB,NIB,TIP,APEX,BILL,CUSP,NOSE,PIKE,COURT,FORUM,JUDGE,REEVE,SNOOT,SNOUT
+      a large: syn=DOUBT
+      of birds: syn=AVIAN
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Social event smothered by everybody’s scent
+  Answer: ODOUR
+  Tier: Cached | Confidence: 70/100
+  Definition: "scent"
+  Wordplay type: container
+  Components:
+    synonym            everybody's               -> OUR
+    synonym            social event              -> DO
+  Assembly: container — DO(social event) inside OUR(everybody's)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      social: syn=DO*,RED,TEA,BAKE,BALL,BASH,BOON,FETE,FREE,GALA,GOOD,KIND,ORGY,PINK,PROM
+      event: syn=DO*,END,GET,HAP,POP,BANG,BASH,BLOW,BOOM,BOUT,CASE,CLAP,FETE,GAME,MEET; abbr=HAPPENING
+      smothered: syn=ACED
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      scent: syn=ODOR*,RED,SEE,CLUE,FEEL,FUNK,LIKE,MUSK,PONG,REEK,TANG,WAFT,AROMA,ATTAR,BLOOD; sounds=cent,sent
+      social event: syn=BAKE,FETE,GALA,SHOW,DANCE
+    Definitions:
+      "scent" -> ODOUR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 25. I’m forty — moving cause to feel humiliated
+  Answer: MORTIFY
+  Tier: Cached | Confidence: 85/100
+  Definition: "cause to feel humiliated"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     I'm forty                 -> IMFORTY
+  Assembly: anagram — anagram of IMFORTY(I'm forty)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      forty: syn=TWO,SINGLE; ind=homophone?; fodder=FORTY(5/7 anagram match)
+      moving: syn=TEAR,ASTIR,GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,OFFING,POSING,RILING,SEEING,SIRING; ind=anagram
+      cause: syn=AS,BE,DO,IS,A A,ACT,FAG,FOR,HOW,NOW,RUN,TUG,USE,VIP,BOOK
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      feel: syn=DO,GO,LU,ACT,BAG,EYE,FAD,HUG,NOT,PAT,PAW,PET,RED,SEE,TON; abbr=BE
+      humiliated: syn=FAZED,JUMPY,STIFF,UPSET,ABASED,CLUMSY,GAUCHE,RUSTIC,UNEASY,WOODEN,ABASHED,AWKWARD,JITTERY,LOWERED,NERVOUS
+  ----------------------------------------------------------------------
+
+  [HIGH] 26. Medal being presented by current Italian dramatist
+  Answer: GOLDONI
+  Tier: Cached | Confidence: 90/100
+  Definition: "Italian dramatist"
+  Wordplay type: charade
+  Components:
+    synonym            medal                     -> GOLD
+    abbreviation       current                   -> I
+    synonym            being presented by        -> ON
+  Assembly: charade — GOLD(medal) + ON(being presented by) + I(current)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      medal: syn=OM,DSO,GONG,AWARD,ORDER,HONOUR; sounds=metal,mettle,meddle
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      presented: syn=GOT,WON,DREW,GAVE,MADE,QUIT,BAGGED,BRACED,CARTED,EARNED,GAINED,HAULED,LANDED,LUGGED,PACKED
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      current: syn=UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLUX,GLUT,GUSH,HAVE; abbr=I*; sounds=currant
+      italian: syn=IT,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS,TORPEDO; abbr=I*,IT
+      dramatist: syn=INGE,IBSEN,BARRIE,COWARD,PINTER,WRITER,CHEKHOV,IONESCO,MOLIÈRE,OSBORNE,TERENCE,TRAVERS
+    Definitions:
+      "Italian dramatist" -> GOLDONI (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Outrage at first of redevelopments to old urban centre
+  Answer: ATROCITY
+  Tier: Cached | Confidence: 92/100
+  Definition: "Outrage"
+  Wordplay type: charade
+  Components:
+    synonym            at                        -> AT
+    first_letter       first of redevelopments   -> R
+    abbreviation       old                       -> O
+    deletion           urban                     -> CITY [OF CITY, "centre"=deletion]
+  Assembly: charade — AT(at) + R(first of redevelopments) + O(old) + CITY(urban)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/4 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      outrage: syn=ATROCITY*,AIR,CUT,DIG,DIS,HER,HIS,IRE,PUT,BARB,BLOT,DART,FURY,GIRD,NAME
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      redevelopments: ind=anagram?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      urban: syn=CITY*,POPE,BUILT,OF CITY,CITYBRED,OLD POPE,THE CITY
+      centre: syn=HQ,EYE,HUB,AXIS,BASE,CORE,SEAT,BOSOM,FOCUS,HEART,LOCUS,MECCA,MIDST,NAVEL,NEXUS; ind=deletion,parts
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+      first of: ind=parts
+    Definitions:
+      "Outrage" -> ATROCITY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 28. A nerd or a kagoule? One of the two there will do!
+  Answer: ANORAK
+  Tier: Cached | Confidence: 75/100
+  Definition: "A nerd"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      nerd: syn=ANORAK*,ASS,GEEK,WONK,DWEEB,DRIVER
+      or: syn=GO,OUT,RES,SAY,SET,YET,BEAR,BIDE,FAIR,FIRM,HACK,HIGH,LIKE,MEET,MOST; sounds=oar,ore
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O*; sounds=won
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      there: syn=NO*,AH,GO,HA,LO,OH,AHA,BAG,BUG,COP,DIG,FIE,GAD,GEE,HEY; sounds=their,they're
+      will: syn=THE,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE,ACCORD,CHOICE,CHOOSE,OPTION
+      do: syn=BE,GO,IS,MY,PI,411,A A,ACT,ADO,AND,ARE,BED,BET,BUY,CUT; abbr=C,PARTY; sounds=dew,due
+      one of: syn=HAS,DIET,EATS,FARE,FOOD,GRUB,TUCK,DINES,TAKES,SCOFFS
+      of the: syn=MITRE
+      the two: syn=BOTH
+  ----------------------------------------------------------------------
+
+  [FAILED] 3. Drink salesmen turning up outside hotel
+  Answer: SPRITZER
+  Tier: --- | Confidence: 0/100
+  Definition: "Drink"
+  Wordplay type: container
+  Components:
+    reversal           salesmen turning up       -> REPS
+    abbreviation       hotel                     -> H
+    synonym            outside                   -> SPRITZ
+  DB Lookups:
+    DB lookups:
+      drink: syn=IT*,SPRITZER*,ALE,BIB,CHA,GIN,HIT,ICE,KIR,LAP,MUM,NIP,PEG,POP,RUM; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      salesmen: syn=AGENTS
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING,COILED,COMING,CURLED,CURVED,EATING,FOXING,HAZING,IRKING,JIVING,JOKING; ind=anagram,reversal
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      hotel: syn=RITZ*,DEN,INN,BACH,CAMP,CLUB,HOLE,LAIR,CABIN,HOUSE,LODGE,OF AN,SPICY,BURROW,CHALET; abbr=H,INN
+      turning up: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING
+    Definitions:
+      "Drink" -> SPRITZER (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 4. Teacher turned offensive when bored by Roman statesman
+  Answer: EDUCATOR
+  Tier: --- | Confidence: 0/100
+  Definition: "Teacher"
+  Wordplay type: container
+  Components:
+    synonym            offensive                 -> ATTACK
+    abbreviation       Roman                     -> R
+  DB Lookups:
+    DB lookups:
+      teacher: syn=EDUCATOR*,DON,ONE,SIR,GURU,HEAD,PROF,ASTER,CHIPS,RABBI,SWAMI,TUTOR,MASTER,SENSEI,TO MOVE
+      turned: syn=ATE,BAD,DUG,GOT,OFF,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,RANK,SLEW,SOUR; ind=anagram,reversal
+      offensive: syn=AIR,TET,MAIN,RANK,RUDE,UGLY,AWFUL,FORAY,NASTY,ATTACK,CHARGE,INROAD,INSULT,RANCID,SORTIE
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      bored: syn=HIT,TRI,SANK,DIVED,TIRED,BANGED,BASHED,BEDDED,BULLED,BUMPED,DIPPED,FED UP,JAMMED,PUSHED,RAMMED; ind=container; sounds=board
+      by: syn=TO*,IN,SO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      roman: syn=TYPE,NATIVE; abbr=R*
+      statesman: syn=DEAN,BLAIR,DOYEN,ELDER,IOWAN,NESTOR,SENIOR,MANDELA,RUSSIAN,SENATOR,AMERICAN
+    Definitions:
+      "Teacher" -> EDUCATOR (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 5. Deceit upped London borough by 100 per cent
+  Answer: DOUBLEDEALING
+  Tier: Cached | Confidence: 55/100
+  Definition: "Deceit"
+  Wordplay type: charade
+  Components:
+    synonym            upped                     -> DOUBLE
+    synonym            London borough            -> DEALING
+  Assembly: charade — DOUBLE(upped) + DEALING(London borough)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      deceit: syn=ART,BAD,BOAT,LIES,CRAFT,FRAUD,GUILE,SKILL,TRADE,TRICK,TRUTH,BOTTOM,CRAFT,,DUPERY,FAKERY; ind=container?
+      upped: syn=RAISED,AERATED,INCREASED
+      london: syn=CAPITAL,DIOCESE,LEWISHAM,THE SMOKE; abbr=LON
+      borough: syn=CITY,EDGE,TOWN,GARDEN,BROOKLYN,GREENWICH,STATEN ISLAND; sounds=burro,burrow
+      by: syn=IN*,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      100: abbr=C
+      per: syn=IN*,BY,ALL,VIA,EACH,WITH,APIECE,THROUGH,THE WORD; sounds=purr
+      cent: syn=COIN,MONEY,CHANGE,FISCAL,POCKET,MONETARY,FINANCIAL,PECUNIARY; abbr=C; sounds=scent,sent
+      london borough: syn=EALING*,LAMBETH
+  ----------------------------------------------------------------------
+
+  [FAILED] 6. What’s about in our land that bird call introduces?
+  Answer: CUCKOO
+  Tier: --- | Confidence: 0/100
+  Definition: "bird call"
+  Wordplay type: charade
+  Components:
+    abbreviation       about                     -> C
+    abbreviation       our                       -> C
+    hidden             What's about in our land that -> CKOO
+  DB Lookups:
+    DB lookups:
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      our: abbr=C*; sounds=hour
+      land: syn=AT,DO,A A,AGE,BAG,BUS,CAR,COP,CUT,END,GET,JOB,NAB,NET,RAP
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      bird: syn=AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MAN,MEW,MOA,OWL,SON; abbr=HEN; sounds=burred
+      call: syn=DO,A A,AIM,BAG,BAY,BED,CRY,DUB,LOW,PUT,SEE,SET,USE,AHOY,BAIT; abbr=RING
+      introduces: syn=BAR,LOB,PEG,CAST,DASH,EDGE,HURL,MOOT,PELT,TOSS,BEGIN,BRING,CHUCK,ENTER,FLING; ind=acrostic,anagram?
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. Rage engulfs business circle in Black Sea port once
+  Answer: TREBIZOND
+  Tier: Cached | Confidence: 80/100
+  Definition: "Black Sea port once"
+  Wordplay type: container
+  Components:
+    synonym            Rage                      -> TREND
+    synonym            business                  -> BIZ
+    abbreviation       circle                    -> O
+  Assembly: container — BIZ(business)+O(circle) inside TREND(Rage)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rage: syn=TREND*,AT,GO,AIR,FAD,HOT,IRE,OIL,TON,BOTH,BUZZ,CHIC,FEEL,FLAP,FURY; abbr=R*
+      engulfs: syn=SWAMPS,SWALLOWS,FLOOD,TO EAT,AVALANCHE
+      business: syn=CO,ADO,AIM,CUT,END,JOB,TWO,USE,AREA,AS A,BELT,CARE,DESK,DUTY,FACT; abbr=CO
+      circle: syn=MY,ARC,EYE,LOT,MOB,ROW,SET,WAY,AREA,AXIS,BAND,BIKE,BLOC,BODY,CLAN; abbr=O*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      black: syn=BAD,DIM,JET,NOT,SAD,BOWL,COLD,DARK,DIRE,DUSK,EVIL,FOUL,GLUM,GRAY,INKY; abbr=B*
+      sea: syn=AIR,BIN,BOX,GOB,MED,SAY,TAR,BINS,BLOW,BLUE,CASE,DEEP,GALE,JACK,LAKE; abbr=C,MED; ind=anagram; sounds=see
+      port: syn=RIO,RYE,ACRE,ADEN,BAKU,BARI,CORK,HOME,HULL,LEFT,OBAN,ORAN,RIGA,BASRA,BREST; abbr=L,RIO
+      once: syn=AS,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,PAST,SLOW,SOLO,SOON; abbr=EX,RE*; ind=parts
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 8. Billions lost from local railway station in Australia
+  Answer: RANCH
+  Tier: Cached+Fallback | Confidence: 47/100
+  Definition: "station in Australia"
+  Wordplay type: deletion
+  Components:
+    synonym            local                     -> BRANCH
+    abbreviation       (single letter)           -> B
+  Assembly: deletion — delete B from BRANCH(local)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | pieces_validated=1/2 (50%) | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      billions: abbr=B
+      lost: syn=A1,BIG,FAB,WIN,A-OK,BOSS,BRAG,COLD,COOL,DEEP,DONE,DOPE,DOWN,GONE,HYPE; ind=anagram,deletion
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      local: syn=BAR,INN,PUB,CELL,CLUB,NEAR,TALK,BOARD,FORUM,GUILD,PANEL; abbr=INN,L
+      railway: syn=RY,RWY,RAIL,ROAD,LINES,METRO,TRACK; abbr=RY
+      station: syn=WAY,BODY,POST,RANK,RUNG,SAY?,STOP,WALK,BASIE,DEPOT,INTER,LEVEL,ORDER,PLACE,RADIO
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      australia: syn=OZ,LAND,OF A,STATE
+      railway station: syn=END,LIMIT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 9. Backing separate sink — it keeps things fresher
+  Answer: GASTRAP
+  Tier: Cached | Confidence: 57/100
+  Definition: "it keeps things fresher"
+  Wordplay type: anagram
+  Components:
+    synonym            separate                  -> PARTS
+    synonym            sink                      -> SAG
+  Assembly: deletion+anagram — delete S from SAG(sink), anagram of PARTS(separate)+AG
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      backing: syn=AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL,SKIN; ind=reversal
+      separate: syn=CUT,NEW,ODD,PEG,WAX,BOOM,DOWN,FORK,FRAY,FREE,GAIN,GIVE,JURY,PART,RANK; fodder=SEPARATE(6/7 anagram match)
+      sink: syn=GO,BED,DIE,FLY,HER,HIS,POT,SAG,WAY,BALL,DROP,EASY,FAIL,FALL,FLAG; ind=container?; sounds=sync
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      keeps: syn=OWNS,RUNS,CURBS,FENDS,FILES,FILLS,HOLDS,MEETS,PACKS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS
+      things: syn=KIT,RIG,CASE,DUDS,ENDS,GEAR,RAGS,TOGS,WEAR,DRESS,GEAR,,GOALS,GOODS,HABIT,IDEAS; ind=anagram
+      fresher: syn=NEWIE,COOLER,RUDDIER
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

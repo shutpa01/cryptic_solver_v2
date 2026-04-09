@@ -1,0 +1,424 @@
+{
+  "source": "times",
+  "puzzle": "29494",
+  "stats": {
+    "total": 30,
+    "assembled": 26,
+    "high": 12,
+    "medium": 8,
+    "low": 6,
+    "failed": 4,
+    "avg_score": 61.0
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "mug",
+      "letters": "DO",
+      "answer": "DODOWN",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Belittle bridge opponents with “mug to lead”",
+      "score": 20
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "lead",
+      "letters": "DOWN",
+      "answer": "DODOWN",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Belittle bridge opponents with “mug to lead”",
+      "score": 20
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Trump's",
+      "letters": "RUFF",
+      "answer": "DANDRUFF",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Fine curtailed Trump’s flakiness?",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "con",
+      "letters": "N",
+      "answer": "NEARLYNEW",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Criminal lawyer and con man spoke at last in good nick",
+      "score": -92
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "man",
+      "letters": "W",
+      "answer": "NEARLYNEW",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Criminal lawyer and con man spoke at last in good nick",
+      "score": -92
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "papers",
+      "letters": "SIDE",
+      "answer": "SIDEROSIS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Complaint papers raised ulcer acquired by relative",
+      "score": 3
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "raised",
+      "letters": "R",
+      "answer": "SIDEROSIS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Complaint papers raised ulcer acquired by relative",
+      "score": 3
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "ulcer",
+      "letters": "O",
+      "answer": "SIDEROSIS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Complaint papers raised ulcer acquired by relative",
+      "score": 3
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Benny, for example",
+      "letters": "HILL",
+      "answer": "ANTHILL",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Pile of workers want to go topless — Benny, for example",
+      "score": 58
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bearing pain",
+      "letters": "DRAG",
+      "answer": "DRAGGLE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Trail broken leg, bearing pain",
+      "score": 25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "suitable moment",
+      "letters": "ERE",
+      "answer": "EREMITE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Loner’s suitable moment to return, before crowds",
+      "score": 38
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "collars",
+      "letters": "ER",
+      "answer": "CATERER",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Drained theatre nurse maybe collars food supplier",
+      "score": 45
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Fools",
+      "letters": "BERKS",
+      "answer": "BERKSHIRE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Fools lease land west of London",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "shelf delivered with",
+      "letters": "CYL",
+      "answer": "CYLINDER",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Solid shelf delivered with fashionable red backing",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "court",
+      "letters": "A",
+      "answer": "ASPECT",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Act like court has sealed the end for MS Outlook",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "charges",
+      "letters": "WARD",
+      "answer": "EDWARDWOODWARD",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Actor and journalist on identical charges having pinched fuel",
+      "score": 55
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "casual job",
+      "letters": "ANT",
+      "answer": "ANTIC",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Casual job rejected by great old buffoon",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "great old",
+      "letters": "IC",
+      "answer": "ANTIC",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Casual job rejected by great old buffoon",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "hideaway",
+      "letters": "DEEP",
+      "answer": "DEEPEN",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Increase strength of hideaway, covering leak up",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "City",
+      "answer": "SANDIEGO",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "City hospital to decline work",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a help when varnishing",
+      "answer": "ROSIN",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Partly lifting ottoman is ordinarily a help when varnishing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "That could be incendiary",
+      "answer": "WARHEAD",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Revolutionary Green leader? That could be incendiary",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "That's an embarrassment",
+      "answer": "ENFANTTERRIBLE",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Enter bar in felt buckles? That’s an embarrassment",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "good nick",
+      "answer": "NEARLYNEW",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Criminal lawyer and con man spoke at last in good nick",
+      "score": -92
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "store",
+      "answer": "TROVE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Outgoing type stripped twice in store",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Spot",
+      "answer": "FLECK",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Spot sheep collectively shifting over to middle of field",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Complaint",
+      "answer": "SIDEROSIS",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Complaint papers raised ulcer acquired by relative",
+      "score": 3
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One's inclined",
+      "answer": "GRADIENT",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "One’s inclined to bend the limits of radioisotope dating",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Trail",
+      "answer": "DRAGGLE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Trail broken leg, bearing pain",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Writer's miserable",
+      "answer": "DREAR",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Writer’s miserable doctor tried, having neglected case",
+      "score": 61
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Loner's",
+      "answer": "EREMITE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Loner’s suitable moment to return, before crowds",
+      "score": 38
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Beautiful",
+      "answer": "SCENIC",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Beautiful actions excuse turning up now and then",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "land west of London",
+      "answer": "BERKSHIRE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Fools lease land west of London",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Solid",
+      "answer": "CYLINDER",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Solid shelf delivered with fashionable red backing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Act like",
+      "answer": "ASPECT",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Act like court has sealed the end for MS Outlook",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Popular",
+      "answer": "WELLLIKED",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Popular Liberal upset butcher in garden",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Called again",
+      "answer": "RETAGGED",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Called again about faulty gadget",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "buffoon",
+      "answer": "ANTIC",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Casual job rejected by great old buffoon",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Increase strength",
+      "answer": "DEEPEN",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Increase strength of hideaway, covering leak up",
+      "score": 43
+    }
+  ]
+}

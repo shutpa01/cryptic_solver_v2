@@ -1,0 +1,185 @@
+{
+  "source": "guardian",
+  "puzzle": "103",
+  "stats": {
+    "total": 20,
+    "assembled": 16,
+    "high": 12,
+    "medium": 4,
+    "low": 0,
+    "failed": 4,
+    "avg_score": 83.5625
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gentleman",
+      "answer": "SIR",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Gentleman desired bottles",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "adversary",
+      "answer": "ENEMY",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Yemen, unlikely adversary",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "infusion",
+      "answer": "GREENTEA",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Teenager brewed infusion",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bookworms",
+      "answer": "READERS",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Somewhat dread erstwhile bookworms",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sheep",
+      "answer": "EWE",
+      "clue_number": "7",
+      "direction": "across",
+      "clue": "Sheep that’s been swallowed by the werewolf",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fascination",
+      "answer": "BEGUILES",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "We’re told more than one large landmass causes fascination",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Songwriter",
+      "answer": "BRAGG",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Songwriter Billy’s riffs always guarantee great intros",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "aromatic herb",
+      "answer": "THYME",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Announced occasion for aromatic herb",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "kind of car",
+      "answer": "TRADEIN",
+      "clue_number": "10",
+      "direction": "down",
+      "clue": "Trained to reassemble kind of car",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rat-like snouty beast",
+      "answer": "TAPIR",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Tips of the antlers pierced injured rat-like snouty beast",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "choice of rice",
+      "answer": "PILAU",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Taking sample of soup, I laud choice of rice",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Feel sick",
+      "answer": "AIL",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Feel sick and ill, lurgy’s early stages",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "get too hot",
+      "answer": "SWELTER",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Messily wrestle and get too hot",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Courses",
+      "answer": "CURRENTS",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Courses of dried grapes discussed",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bigger",
+      "answer": "GREATER",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Bigger device for cheese called for",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "optician's thing",
+      "answer": "EYECHART",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "They care about optician’s thing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Rowing crew",
+      "answer": "EIGHT",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Rowing crew noisily had some grub",
+      "score": 0
+    }
+  ]
+}

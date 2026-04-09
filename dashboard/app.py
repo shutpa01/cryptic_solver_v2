@@ -1,9 +1,11 @@
 """Cryptic Solver Dashboard — admin interface for managing the site.
 
 Launch: streamlit run dashboard/app.py
+
+Navigation is handled by Streamlit's multipage system — each file in
+dashboard/pages/ appears as a sidebar entry automatically.
 """
 
-import sqlite3
 import sys
 from pathlib import Path
 
@@ -15,52 +17,5 @@ import streamlit as st
 
 st.set_page_config(page_title="Cryptic Solver Dashboard", layout="wide")
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
-CRYPTIC_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
-
-
-def get_conn(readonly=True):
-    """Get a SQLite connection to clues_master.db."""
-    if readonly:
-        uri = f"file:{CLUES_DB}?mode=ro"
-        conn = sqlite3.connect(uri, uri=True)
-    else:
-        conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-# Sidebar navigation — remember selected page across refreshes
-st.sidebar.title("Dashboard")
-_pages = ["Review Queue", "Pipeline Runner", "Scraper Control", "Site Analytics", "API Costs"]
-_default = _pages.index(st.session_state.get("_dash_page", "Review Queue"))
-page = st.sidebar.radio(
-    "Navigate",
-    _pages,
-    index=_default,
-)
-st.session_state["_dash_page"] = page
-
-# Load the appropriate page
-if page == "Review Queue":
-    import importlib
-    from dashboard.pages import review
-    importlib.reload(review)
-    review.render()
-elif page == "Pipeline Runner":
-    import importlib
-    from dashboard.pages import pipeline
-    importlib.reload(pipeline)
-    pipeline.render()
-elif page == "Scraper Control":
-    import importlib
-    from dashboard.pages import scraper
-    importlib.reload(scraper)
-    scraper.render()
-elif page == "Site Analytics":
-    from dashboard.pages import analytics
-    analytics.render()
-elif page == "API Costs":
-    from dashboard.pages import costs
-    costs.render()
+st.header("Cryptic Solver Dashboard")
+st.write("Select a page from the sidebar.")

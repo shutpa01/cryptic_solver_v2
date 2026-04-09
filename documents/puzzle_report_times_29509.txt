@@ -1,0 +1,673 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29509
+Generated: 2026-04-06 08:03:48
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      40
+  Assembled:        39/40 (97%)
+    Signature:      1
+    Sig+Enriched:   6
+    Sonnet:         3
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   35  1A, 13D, 15A, 19A, 22A, 26A, 3D, 5D, 7D, 1A, 1D, 10A, 11A, 13D, 14D, 15A, 16D, 17A, 18D, 19A, 19D, 2D, 21D, 22A, 23D, 24A, 25D, 27A, 28A, 3D, 5D, 6D, 9A, 14A, 6A
+  Medium (40-79): 3  12A, 20A, 8D
+  Low (<40):    0  
+  Failed:       1  4D
+  Average:      94/100
+
+COST: $0.2898 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (45 entries)
+------------------------------------------------------------
+  DANIELDEFOE: "Writer" -> DANIELDEFOE  (missing from definition_answers_augmented)
+  CUT: "nick" -> CUT  (missing from definition_answers_augmented)
+  TUTORED: "Did coach" -> TUTORED  (missing from definition_answers_augmented)
+  DISTAFF: "female" -> DISTAFF  (missing from definition_answers_augmented)
+  WATERSIDE: "bank" -> WATERSIDE  (missing from definition_answers_augmented)
+  WISER: "more sage" -> WISER  (missing from definition_answers_augmented)
+  BRAISED: "Slowly stewed beef" -> BRAISED  (missing from definition_answers_augmented)
+  REALM: "Field Bernabéu team" -> REALM  (missing from definition_answers_augmented)
+  ESPIONAGE: "secret work" -> ESPIONAGE  (missing from definition_answers_augmented)
+  PTERODACTYL: "Animal long dead" -> PTERODACTYL  (missing from definition_answers_augmented)
+  OLIGARCHY: "Powerful group" -> OLIGARCHY  (missing from definition_answers_augmented)
+  DANIELDEFOE: "Writer" -> DANIELDEFOE  (missing from definition_answers_augmented)
+  DEDICATED: "Single-minded" -> DEDICATED  (missing from definition_answers_augmented)
+  INCOLDBLOOD: "True crime work" -> INCOLDBLOOD  (missing from definition_answers_augmented)
+  CODICIL: "Willing" -> CODICIL  (missing from definition_answers_augmented)
+  CUT: "nick" -> CUT  (missing from definition_answers_augmented)
+  CHEERIO: "Comfort" -> CHEERIO  (missing from definition_answers_augmented)
+  TRAVAIL: "Path to secure a victory for Labour" -> TRAVAIL  (missing from definition_answers_augmented)
+  ANDROMEDA: "Constellation" -> ANDROMEDA  (missing from definition_answers_augmented)
+  OUIJA: "communicating" -> OUIJA  (missing from definition_answers_augmented)
+  CREAM: "Best" -> CREAM  (missing from definition_answers_augmented)
+  MIDST: "thick" -> MIDST  (missing from definition_answers_augmented)
+  COCAINE: "Drug lord" -> COCAINE  (missing from definition_answers_augmented)
+  ELM: "tree" -> ELM  (missing from definition_answers_augmented)
+  TUTORED: "Did coach express disapproval" -> TUTORED  (missing from definition_answers_augmented)
+  YALTA: "Black Sea resort" -> YALTA  (missing from definition_answers_augmented)
+  MALADROIT: "Tactless" -> MALADROIT  (missing from definition_answers_augmented)
+  ROLEMODEL: "form for example" -> ROLEMODEL  (missing from definition_answers_augmented)
+  EBB: "Decline" -> EBB  (missing from definition_answers_augmented)
+  PLATO: "Greek" -> PLATO  (missing from definition_answers_augmented)
+  SCALLOP: "exclusive seafood" -> SCALLOP  (missing from definition_answers_augmented)
+  IMPREGNABLE: "Unbeatable" -> IMPREGNABLE  (missing from definition_answers_augmented)
+  DISTAFF: man's -> STAFF  (missing from synonyms_pairs)
+  ESPIONAGE: Psychic powers -> ESP  (missing from abbreviations)
+  DEDICATED: Endeavour -> DEED  (missing from synonyms_pairs)
+  INCOLDBLOOD: incorporated -> INC  (missing from abbreviations)
+  CODICIL: rider -> COIL  (missing from synonyms_pairs)
+  TRAVAIL: Labour -> AV  (missing from abbreviations)
+  MIDST: Density -> D  (missing from abbreviations)
+  MIDST: low cloud -> MIST  (missing from synonyms_pairs)
+  ELM: writer -> E  (missing from abbreviations)
+  TUTORED: coach -> TUT  (missing from abbreviations)
+  TUTORED: express -> O  (missing from abbreviations)
+  PLATO: troops -> PLA  (missing from abbreviations)
+  LODGEMENT: freemasons -> LODGE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  LODGEMENT = 8 (40/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  4. Unbeatable chorizo served up by Puck? = IMPREGNABLE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/40  
+  Unverified explain.:   1  8D
+  DB gap:                28  6A, 9A, 10A, 11A, 12A, 14A, 15A, 17A, 20A, 22A, 24A, 26A, 27A, 28A, 1D, 2D, 3D, 4D, 5D, 7D, 8D, 13D, 16D, 18D, 19D, 21D, 23D, 25D
+  Failed:                1  4D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  WATERSIDE     We must admit trade is mismanaged in bank? (9)
+                      ---  [HIGH]
+   13D  PTERODACTYL   Animal long dead at Clyde port reanimated (11)
+                      ---  [HIGH]
+   15A  DANIELDEFOE   Writer of Aeneid led astray (6,5)
+                      anagram of OFAENEIDLED ("of Aeneid led") [anagram: "astray"] = DANIELDEFOE; definition: "Writer"  [HIGH]
+   19A  CUT           Copper beginning to tire in nick (3)
+                      CU (synonym of "Copper") + T (first letter of "tire") [first letter: "beginning"]; definition: "nick"  [HIGH]
+   22A  CREAM         Best study hard to get grip on English (5)
+                      ---  [HIGH]
+   26A  TUTORED       Did coach express disapproval? Nothing revolutionary (7)
+                      TUT (synonym of "express disapproval?") + O (synonym of "Nothing") + RED (synonym of "revolutionary"); definition: "Did coach"  [HIGH]
+    3D  ROLEMODEL     Rock embracing European form for example (4,5)
+                      ---  [HIGH]
+    5D  EBB           Decline leads to everyone being broke (3)
+                      ---  [HIGH]
+    7D  DISTAFF       Reversing identity, man's female (7)
+                      ID (synonym of "identity,") + STAFF (synonym of "man's") [reversal: "Reversing"]; definition: "female"  [HIGH]
+    1A  WATERSIDE     We must admit trade is mismanaged in bank? (9)
+                      ---  [HIGH]
+    1D  WISER         One desiring less herb to begin with and more sage (5)
+                      ---  [HIGH]
+   10A  BRAISED       Slowly stewed beef initially increased in intensity (7)
+                      ---  [HIGH]
+   11A  REALM         Field Bernabéu team, missing second half (5)
+                      ---  [HIGH]
+   12A  ESPIONAGE     Psychic powers in later years keeping old in secret work (9)
+                      ---  [MED]
+   13D  PTERODACTYL   Animal long dead at Clyde port reanimated (11)
+                      ---  [HIGH]
+   14D  OLIGARCHY     Powerful group of 50 swelling fantastic gay choir (9)
+                      ---  [HIGH]
+   15A  DANIELDEFOE   Writer of Aeneid led astray (6,5)
+                      ---  [HIGH]
+   16D  DEDICATED     Single-minded inspector with Jaguar perhaps in Endeavour (9)
+                      DI (synonym of "inspector") + CAT (synonym of "Jaguar") + DEED (synonym of "Endeavour"); definition: "Single-minded"  [HIGH]
+   17A  INCOLDBLOOD   True crime work incorporated elderly relatives (2,4,5)
+                      INC (abbreviation of "incorporated") + OLD (synonym of "elderly") + BLOOD (synonym of "relatives"); definition: "True crime work"  [HIGH]
+   18D  CODICIL       Willing rider Richard endlessly breaking wind (7)
+                      ---  [HIGH]
+   19A  CUT           Copper beginning to tire in nick (3)
+                      ---  [HIGH]
+   19D  CHEERIO       Comfort maiden Zeus seduced for so long (7)
+                      ---  [HIGH]
+    2D  TRAVAIL       Path to secure a victory for Labour (7)
+                      ---  [HIGH]
+   20A  ANDROMEDA     Constellation also wandered: Alpha moved to the east (9)
+                      ---  [MED]
+   21D  OUIJA         Board somehow communicating green light from Macron, then Merz (5)
+                      ---  [HIGH]
+   22A  CREAM         Best study hard to get grip on English (5)
+                      ---  [HIGH]
+   23D  MIDST         Density in low cloud that's thick (5)
+                      D (abbreviation of "Density") + MIST (synonym of "low cloud"); definition: "thick"  [HIGH]
+   24A  COCAINE       Drug lord who ran to restrain murderer (7)
+                      ---  [HIGH]
+   25D  ELM           Line this writer grasps when climbing tree (3)
+                      ---  [HIGH]
+   26A  TUTORED       Did coach express disapproval? Nothing revolutionary (7)
+                      ---  [MED]
+   27A  YALTA         Agent on vacation was resting around Black Sea resort (5)
+                      ---  [HIGH]
+   28A  MALADROIT     Tactless whisky promotion French king stops (9)
+                      ---  [HIGH]
+    3D  ROLEMODEL     Rock embracing European form for example (4,5)
+                      ---  [HIGH]
+    5D  EBB           Decline leads to everyone being broke (3)
+                      ---  [HIGH]
+    6D  PLATO         Greek troops not willing to participate (5)
+                      ---  [HIGH]
+    9A  SCALLOP       Leaving a duck, everyone tucks into exclusive seafood (7)
+                      ---  [HIGH]
+   14A  OWL           Creature hunting near ground, moving left to right (3)
+                      anagram of LOW(BILLOW minus BIL, "ground") = OWL  [HIGH]
+    4D  IMPREGNABLE   Unbeatable chorizo served up by Puck? (11)
+                      ---  [FAIL]
+    6A  PEDAL         End of Siegfried in Ring Cycle (5)
+                      D(last letter of "End of Siegfried") inside PEAL(synonym of "Ring")  [HIGH]
+    8D  LODGEMENT     Deposit from freemasons close to Craft? (9)
+                      LODGE(synonym of "freemasons") + MENT("close to")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] WATERSIDE  1A. We must admit trade is mismanaged in bank?
+  Answer: WATERSIDE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of WE + TRADE + IS = WATERSIDE; definition: "bank?"
+  ----------------------------------------------------------------------
+
+  [HIGH] PTERODACTYL  13D. Animal long dead at Clyde port reanimated
+  Answer: PTERODACTYL
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of AT + CLYDE + PORT = PTERODACTYL; definition: "Animal long dead"
+  ----------------------------------------------------------------------
+
+  [HIGH] DANIELDEFOE  15A. Writer of Aeneid led astray
+  Answer: DANIELDEFOE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Writer"
+  Wordplay: anagram
+  Explanation: anagram of OFAENEIDLED ("of Aeneid led") [anagram: "astray"] = DANIELDEFOE; definition: "Writer"
+  ----------------------------------------------------------------------
+
+  [HIGH] CUT  19A. Copper beginning to tire in nick
+  Answer: CUT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "nick"
+  Wordplay: acrostic + charade
+  Explanation: CU (synonym of "Copper") + T (first letter of "tire") [first letter: "beginning"]; definition: "nick"
+  ----------------------------------------------------------------------
+
+  [HIGH] CREAM  22A. Best study hard to get grip on English
+  Answer: CREAM
+  Tier: --- | Confidence: 100/100
+  Human explanation: CRAM (synonym="study") + E (abbreviation="English") = CREAM; definition: "Best"
+  ----------------------------------------------------------------------
+
+  [HIGH] TUTORED  26A. Did coach express disapproval? Nothing revolutionary
+  Answer: TUTORED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Did coach"
+  Wordplay: charade
+  Explanation: TUT (synonym of "express disapproval?") + O (synonym of "Nothing") + RED (synonym of "revolutionary"); definition: "Did coach"
+  ----------------------------------------------------------------------
+
+  [HIGH] ROLEMODEL  3D. Rock embracing European form for example
+  Answer: ROLEMODEL
+  Tier: --- | Confidence: 100/100
+  Human explanation: ROLL (synonym="Rock") + E (abbreviation="European") + MODE (synonym="form") = ROLEMODEL; definition: "example"
+  ----------------------------------------------------------------------
+
+  [HIGH] EBB  5D. Decline leads to everyone being broke
+  Answer: EBB
+  Tier: --- | Confidence: 100/100
+  Human explanation: E (first_letter="everyone") + B (first_letter="being") + B (first_letter="broke") = EBB; definition: "Decline"
+  ----------------------------------------------------------------------
+
+  [HIGH] DISTAFF  7D. Reversing identity, man's female
+  Answer: DISTAFF
+  Tier: Signature | Confidence: 100/100
+  Definition: "female"
+  Wordplay: charade + reversal
+  Explanation: ID (synonym of "identity,") + STAFF (synonym of "man's") [reversal: "Reversing"]; definition: "female"
+  ----------------------------------------------------------------------
+
+  [HIGH] WATERSIDE  1A. We must admit trade is mismanaged in bank?
+  Answer: WATERSIDE
+  Tier: --- | Confidence: 100/100
+  Definition: "bank"
+  Wordplay type: container
+  Components:
+    literal            We                        -> W
+    anagram_fodder     trade is                  -> ATERSIDE
+  AI Reasoning:
+    TRADE IS anagrammed to ATERSIDE, placed inside W (from We) to form WATERSIDE (a bank location)
+  ----------------------------------------------------------------------
+
+  [HIGH] WISER  1D. One desiring less herb to begin with and more sage
+  Answer: WISER
+  Tier: --- | Confidence: 100/100
+  Definition: "more sage"
+  Wordplay type: deletion
+  Components:
+    first_letter       desiring                  -> WIS [WISHER - H]
+    literal            herb                      -> ER
+  AI Reasoning:
+    WISHER (one desiring) loses H (herb) to give WIS + ER = WISER (more sage)
+  ----------------------------------------------------------------------
+
+  [HIGH] BRAISED  10A. Slowly stewed beef initially increased in intensity
+  Answer: BRAISED
+  Tier: --- | Confidence: 80/100
+  Definition: "Slowly stewed beef"
+  Wordplay type: charade
+  Components:
+    first_letter       beef                      -> B
+    synonym            increased in intensity    -> RAISED
+  AI Reasoning:
+    B (first letter of beef) + RAISED (synonym for increased in intensity) = BRAISED
+  ----------------------------------------------------------------------
+
+  [HIGH] REALM  11A. Field Bernabéu team, missing second half
+  Answer: REALM
+  Tier: --- | Confidence: 100/100
+  Definition: "Field Bernabéu team"
+  Wordplay type: deletion
+  Components:
+    deletion           Bernabéu team             -> REALM [REAL MADRID - ADRID]
+  AI Reasoning:
+    REAL MADRID (the football team) loses its second half 'ADRID' to leave REALM
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ESPIONAGE  12A. Psychic powers in later years keeping old in secret work
+  Answer: ESPIONAGE
+  Tier: --- | Confidence: 70/100
+  Definition: "secret work"
+  Wordplay type: charade
+  Components:
+    abbreviation       Psychic powers            -> ESP
+    abbreviation       old                       -> O
+    literal            in                        -> IN
+    synonym            later years               -> AGE
+  AI Reasoning:
+    ESP (psychic powers) + O (old) + IN (literal) + AGE (later years) = ESPIONAGE (secret work)
+  ----------------------------------------------------------------------
+
+  [HIGH] PTERODACTYL  13D. Animal long dead at Clyde port reanimated
+  Answer: PTERODACTYL
+  Tier: --- | Confidence: 100/100
+  Definition: "Animal long dead"
+  Wordplay type: anagram
+  Components:
+    literal            AT                        -> AT
+    literal            CLYDE                     -> CLYDE
+    literal            PORT                      -> PORT
+  AI Reasoning:
+    AT CLYDE PORT is an anagram (reanimated) of PTERODACTYL, a prehistoric flying animal
+  ----------------------------------------------------------------------
+
+  [HIGH] OLIGARCHY  14D. Powerful group of 50 swelling fantastic gay choir
+  Answer: OLIGARCHY
+  Tier: --- | Confidence: 100/100
+  Definition: "Powerful group"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     swelling                  -> OLIGARCH
+    literal            gay                       -> Y
+  AI Reasoning:
+    OLIGARCH (anagram of 'swelling') + Y (from 'gay') = OLIGARCHY; 'fantastic' is the anagram indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] DANIELDEFOE  15A. Writer of Aeneid led astray
+  Answer: DANIELDEFOE
+  Tier: --- | Confidence: 100/100
+  Definition: "Writer"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Aeneid                    -> AENEID
+    literal            OF                        -> OF
+    anagram_fodder     LED                       -> LED
+  AI Reasoning:
+    AENEID + OF + LED rearranged (led astray = anagram indicator) spells DANIEL DEFOE, a famous writer
+  ----------------------------------------------------------------------
+
+  [HIGH] DEDICATED  16D. Single-minded inspector with Jaguar perhaps in Endeavour
+  Answer: DEDICATED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Single-minded"
+  Wordplay: charade
+  Explanation: DI (synonym of "inspector") + CAT (synonym of "Jaguar") + DEED (synonym of "Endeavour"); definition: "Single-minded"
+  ----------------------------------------------------------------------
+
+  [HIGH] INCOLDBLOOD  17A. True crime work incorporated elderly relatives
+  Answer: INCOLDBLOOD
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "True crime work"
+  Wordplay: charade
+  Explanation: INC (abbreviation of "incorporated") + OLD (synonym of "elderly") + BLOOD (synonym of "relatives"); definition: "True crime work"
+  ----------------------------------------------------------------------
+
+  [HIGH] CODICIL  18D. Willing rider Richard endlessly breaking wind
+  Answer: CODICIL
+  Tier: --- | Confidence: 80/100
+  Definition: "Willing"
+  Wordplay type: container
+  Components:
+    synonym            rider                     -> COIL
+    deletion           Richard                   -> DIC [DICK - K]
+  AI Reasoning:
+    COIL (willing rider) contains DIC (Richard/Dick without final K for 'endlessly') = CODICIL (a legal supplement, meaning willing/agreeable)
+  ----------------------------------------------------------------------
+
+  [HIGH] CUT  19A. Copper beginning to tire in nick
+  Answer: CUT
+  Tier: --- | Confidence: 100/100
+  Definition: "nick"
+  Wordplay type: charade
+  Components:
+    abbreviation       Copper                    -> CU
+    first_letter       tire                      -> T
+  AI Reasoning:
+    CU (chemical symbol for copper) + T (first letter of tire) = CUT, which means a nick or small wound
+  ----------------------------------------------------------------------
+
+  [HIGH] CHEERIO  19D. Comfort maiden Zeus seduced for so long
+  Answer: CHEERIO
+  Tier: --- | Confidence: 100/100
+  Definition: "Comfort"
+  Wordplay type: charade
+  Components:
+    synonym            Comfort                   -> CHEER
+    literal            maiden Zeus seduced       -> IO
+  AI Reasoning:
+    CHEER (comfort) + IO (the maiden Zeus seduced in Greek mythology) = CHEERIO
+  ----------------------------------------------------------------------
+
+  [HIGH] TRAVAIL  2D. Path to secure a victory for Labour
+  Answer: TRAVAIL
+  Tier: --- | Confidence: 95/100
+  Definition: "Path to secure a victory for Labour"
+  Wordplay type: container
+  Components:
+    synonym            Path                      -> TRAIL
+    abbreviation       Labour                    -> AV
+  AI Reasoning:
+    TRAIL (path) contains AV (Labour/work abbreviation) = TRAVAIL (hard work/labour)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ANDROMEDA  20A. Constellation also wandered: Alpha moved to the east
+  Answer: ANDROMEDA
+  Tier: --- | Confidence: 70/100
+  Definition: "Constellation"
+  Wordplay type: charade
+  Components:
+    synonym            also                      -> AND
+    literal            wandered                  -> ROAMED
+    first_letter       Alpha moved to the east   -> A
+  AI Reasoning:
+    AND (synonym for 'also') + ROAMED (synonym for 'wandered') + A (Alpha moved east, i.e., A going to the east/end) = ANDROMEDA
+  ----------------------------------------------------------------------
+
+  [HIGH] OUIJA  21D. Board somehow communicating green light from Macron, then Merz
+  Answer: OUIJA
+  Tier: --- | Confidence: 100/100
+  Definition: "communicating"
+  Wordplay type: charade
+  Components:
+    literal            Macron                    -> OUI
+    literal            Merz                      -> JA
+  AI Reasoning:
+    OUI (French for 'yes', Macron's language) + JA (German for 'yes', Merz's language) = OUIJA board; 'green light' signals approval/yes
+  ----------------------------------------------------------------------
+
+  [HIGH] CREAM  22A. Best study hard to get grip on English
+  Answer: CREAM
+  Tier: --- | Confidence: 80/100
+  Definition: "Best"
+  Wordplay type: container
+  Components:
+    synonym            study hard                -> CRAM
+    abbreviation       English                   -> E
+  AI Reasoning:
+    CRAM (study hard) contains E (English abbreviation) to make CREAM (best)
+  ----------------------------------------------------------------------
+
+  [HIGH] MIDST  23D. Density in low cloud that's thick
+  Answer: MIDST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "thick"
+  Wordplay: charade
+  Explanation: D (abbreviation of "Density") + MIST (synonym of "low cloud"); definition: "thick"
+  ----------------------------------------------------------------------
+
+  [HIGH] COCAINE  24A. Drug lord who ran to restrain murderer
+  Answer: COCAINE
+  Tier: --- | Confidence: 100/100
+  Definition: "Drug lord"
+  Wordplay type: container
+  Components:
+    literal            Coe                       -> COE
+    literal            Cain                      -> CAIN
+  AI Reasoning:
+    CAIN (murderer from Bible) is contained within COE (Seb Coe, 'lord who ran'), giving COE + CAIN = COCAINE
+  ----------------------------------------------------------------------
+
+  [HIGH] ELM  25D. Line this writer grasps when climbing tree
+  Answer: ELM
+  Tier: --- | Confidence: 95/100
+  Definition: "tree"
+  Wordplay type: charade
+  Components:
+    abbreviation       writer                    -> E
+    reversal           ME                        -> LM
+  AI Reasoning:
+    E (writer/author abbreviation) + ME reversed (EM) = ELM, a type of tree
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TUTORED  26A. Did coach express disapproval? Nothing revolutionary
+  Answer: TUTORED
+  Tier: --- | Confidence: 75/100
+  Definition: "Did coach express disapproval"
+  Wordplay type: charade
+  Components:
+    synonym            coach                     -> TUT
+    abbreviation       express                   -> O
+    literal            Nothing revolutionary     -> RED
+  AI Reasoning:
+    TUT (disapproval sound) + O (express/say) + RED (nothing revolutionary = not red/radical) = TUTORED (coached)
+  ----------------------------------------------------------------------
+
+  [HIGH] YALTA  27A. Agent on vacation was resting around Black Sea resort
+  Answer: YALTA
+  Tier: --- | Confidence: 100/100
+  Definition: "Black Sea resort"
+  Wordplay type: reversal
+  Components:
+    literal            vacation                  -> ATLAY
+  AI Reasoning:
+    ATLAY (agent A + vacation LAY) reversed gives YALTA, the famous Black Sea resort
+  ----------------------------------------------------------------------
+
+  [HIGH] MALADROIT  28A. Tactless whisky promotion French king stops
+  Answer: MALADROIT
+  Tier: --- | Confidence: 100/100
+  Definition: "Tactless"
+  Wordplay type: container
+  Components:
+    literal            whisky                    -> MALT
+    abbreviation       promotion                 -> AD
+    literal            French king               -> ROI
+  AI Reasoning:
+    MALT (whisky) contains AD (promotion) and ROI (French king for 'king'), giving MAL-AD-ROI-T = MALADROIT (tactless)
+  ----------------------------------------------------------------------
+
+  [HIGH] ROLEMODEL  3D. Rock embracing European form for example
+  Answer: ROLEMODEL
+  Tier: --- | Confidence: 100/100
+  Definition: "form for example"
+  Wordplay type: container
+  Components:
+    synonym            Rock                      -> ROLL
+    abbreviation       European                  -> E
+    synonym            form                      -> MODE
+  AI Reasoning:
+    ROLL (rock) contains E (European) + MODE (form), giving ROLE-MODEL (form for example)
+  ----------------------------------------------------------------------
+
+  [HIGH] EBB  5D. Decline leads to everyone being broke
+  Answer: EBB
+  Tier: --- | Confidence: 100/100
+  Definition: "Decline"
+  Wordplay type: acrostic
+  Components:
+    first_letter       everyone                  -> E
+    first_letter       being                     -> B
+    first_letter       broke                     -> B
+  AI Reasoning:
+    Initial letters of 'everyone being broke' spell EBB, which means decline (as in tide ebbing)
+  ----------------------------------------------------------------------
+
+  [HIGH] PLATO  6D. Greek troops not willing to participate
+  Answer: PLATO
+  Tier: --- | Confidence: 90/100
+  Definition: "Greek"
+  Wordplay type: charade
+  Components:
+    abbreviation       troops                    -> PLA
+    literal            not willing to participate -> TO
+  AI Reasoning:
+    PLA (platoon abbreviation) + TO (not willing, as in 'I'm not on for it') = PLATO, a Greek philosopher
+  ----------------------------------------------------------------------
+
+  [HIGH] SCALLOP  9A. Leaving a duck, everyone tucks into exclusive seafood
+  Answer: SCALLOP
+  Tier: --- | Confidence: 100/100
+  Definition: "exclusive seafood"
+  Wordplay type: container
+  Components:
+    deletion           Leaving a duck            -> SC [SCOOP - O]
+    synonym            everyone                  -> ALL
+    literal            tucks into                -> OP
+  AI Reasoning:
+    SCOOP minus one O (duck) = SC; ALL (everyone) goes inside; OP (tucks into) completes the container structure to spell SCALLOP
+  ----------------------------------------------------------------------
+
+  [HIGH] OWL  14A. Creature hunting near ground, moving left to right
+  Answer: OWL
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Creature"
+  Wordplay type: anagram
+  Components:
+    deletion           ground                    -> LOW [BILLOW, "near"=deletion]
+    indicator          moving                    -> 
+  Assembly: anagram — anagram of LOW(BILLOW minus BIL, "ground") = OWL
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      creature: syn=OWL*,ASS,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,NUN,ORC,PIG,SON
+      near: syn=AN,BY,IN,OR,TO,AGE,ARC,BOW,BUT,GAS,RUN,SAY; abbr=BY; ind=parts
+      ground: syn=A,IF,BOG,EYE,HUB,LEA,LOT,REG,RUB,TEN,WHY; ind=anagram
+      moving: ind=anagram
+      left: syn=L,LET,LIP,ONE,RED; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW; ind=reversal; sounds=too,two
+      right: syn=R,OK,ON,PC,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT; abbr=DEXTER,R,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+    Definitions:
+      "Creature" -> OWL (definition match)
+  AI Reasoning:
+    LOW (hunting near ground) anagrammed by 'moving' gives OWL
+  ----------------------------------------------------------------------
+
+  [FAILED] IMPREGNABLE  4D. Unbeatable chorizo served up by Puck?
+  Answer: IMPREGNABLE
+  Tier: --- | Confidence: 0/100
+  Definition: "Unbeatable"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     chorizo                   -> CHORIZO
+    anagram_fodder     Puck                      -> PUCK
+    indicator          served                    -> 
+  DB Lookups:
+    DB lookups:
+      unbeatable: syn=IMPREGNABLE*,SET,FAST,FIRM,SNUG,BOUND,GLUED,STUCK,TIGHT,BONDED,FROZEN,JAMMED,LODGED,SECURE,WEDGED
+      chorizo: syn=FOOD,OF A,SAUSA,SAUSAGE
+      served: syn=DID,RAN,BILL,BRED,MADE,TOOK,USED,WENT,ACTED,BEGOT,BROKE,DROVE,FORCE,MOVED,SWEAT; ind=anagram,reversal?
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      puck: syn=AFRIT,FAIRY,GREEN,ROBIN,PEOPLE
+      served up: ind=reversal
+  AI Reasoning:
+    CHORIZO + PUCK anagrammed (indicated by 'served') gives IMPREGNABLE
+  ----------------------------------------------------------------------
+
+  [HIGH] PEDAL  6A. End of Siegfried in Ring Cycle
+  Answer: PEDAL
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "Cycle"
+  Wordplay type: container
+  Components:
+    last_letter        End of Siegfried          -> D
+    indicator          in                        -> 
+    synonym            Ring                      -> PEAL
+  Assembly: container — D(last letter of "End of Siegfried") inside PEAL(synonym of "Ring")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      siegfried: syn=OPERA
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      ring: syn=PEAL*,MY,EYE,LOT,MOB,SET,BAND,BELL,BIKE,BODY,CALL,CLAN,CRAM,DIAL,FOLD; abbr=O,R; sounds=wring
+      cycle: syn=PEDAL*,AGE,EYE,TEN,TWO,AEON,AGES,BAND,BLUE,HOOP,LONG,LOOP,RIDE,RING,ROTA
+      end of: ind=parts
+    Definitions:
+      "Cycle" -> PEDAL (definition match)
+  AI Reasoning:
+    D (end of Siegfried) inserted into PEAL (ring) gives PEDAL (cycle)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LODGEMENT  8D. Deposit from freemasons close to Craft?
+  Answer: LODGEMENT
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Deposit"
+  Wordplay type: charade
+  Components:
+    synonym            freemasons                -> LODGE
+    anagram_fodder     close to                  -> MENT
+    indicator          Craft                     -> 
+  Assembly: charade — LODGE(synonym of "freemasons") + MENT("close to")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      deposit: syn=LODGE*,LODGEMENT*,A,NO,BED,LAY,PUT,SET,BANK,FUND,GIVE,PARK,RENT,APART,ASIDE
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      freemasons: syn=OF A,LODGER,PERHAPS,A LODGER
+      close: syn=ME*,BY,GO,IN,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      craft: syn=AT,ART,BUM,END,ARTS,BOAT,BUNS,BUTT,DRAW,DUFF,HAMS,LESS,LINE,ROOT,RUMP; ind=anagram
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO,BESIDE,AGAINST,PENDING
+    Definitions:
+      "Deposit" -> LODGEMENT (definition match)
+  AI Reasoning:
+    LODGE (freemasons meet in lodges) + MENT (anagram of letters from 'close to' indicated by 'Craft')
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

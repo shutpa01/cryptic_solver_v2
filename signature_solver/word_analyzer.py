@@ -84,6 +84,12 @@ def analyze_words(words, answer, db):
         for s in syns_in_answer[:10]:
             wa.add_role(SYN_F, s)
 
+        # Synonyms whose REVERSE is a substring of the answer (for reversal_charade)
+        answer_rev = answer_upper[::-1]
+        for s in db.get_synonyms(w_lower, max_len=answer_len):
+            if isinstance(s, str) and len(s) >= 2 and s[::-1] in answer_upper and s not in syns_in_answer:
+                wa.add_role(SYN_F, s)
+
         # Also check for synonyms up to answer length (for full-word synonyms)
         syns_full = db.get_synonyms_of_length(w_lower, answer_len)
         for s in syns_full[:5]:

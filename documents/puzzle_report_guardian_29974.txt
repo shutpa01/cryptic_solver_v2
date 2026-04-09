@@ -1,0 +1,667 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29974
+Generated: 2026-04-07 11:23:05
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      40
+  Assembled:        40/40 (100%)
+    Sig+Enriched:   6
+    Sonnet:         3
+    DB Fallback:    1
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   32  20D, 1D, 13A, 14A, 16A, 21A, 24A, 26A, 3D, 5D, 6D, 7D, 1D, 10A, 13A, 14A, 16A, 16D, 17D, 18D, 20D, 21A, 22A, 24A, 25A, 26A, 3D, 5D, 7D, 8D, 9A, 19A
+  Medium (40-79): 5  1A, 11A, 12A, 15D, 23D
+  Low (<40):    2  2D, 4D
+  Failed:       0  
+  Average:      90/100
+
+COST: $0.3950 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (39 entries)
+------------------------------------------------------------
+  OLDAGE: "senior citizenship" -> OLDAGE  (missing from definition_answers_augmented)
+  DIPLOMATICCORPS: "group representing country" -> DIPLOMATICCORPS  (missing from definition_answers_augmented)
+  APPLESAUCE: "stewed fruit" -> APPLESAUCE  (missing from definition_answers_augmented)
+  SHOOTUP: "increase dramatically" -> SHOOTUP  (missing from definition_answers_augmented)
+  MONTAGUSHARRIER: "Bird," -> MONTAGUSHARRIER  (missing from definition_answers_augmented)
+  DARESSALAAM: "a city in Tanzania" -> DARESSALAAM  (missing from definition_answers_augmented)
+  DIPLOMATICCORPS: "group representing country" -> DIPLOMATICCORPS  (missing from definition_answers_augmented)
+  SEMINAL: "Pioneering conceptual artist" -> SEMINAL  (missing from definition_answers_augmented)
+  PROLACTIN: "a protein hormone that supports lactation" -> PROLACTIN  (missing from definition_answers_augmented)
+  NYALA: "a type of antelope" -> NYALA  (missing from definition_answers_augmented)
+  RIAL: "Bit of cash" -> RIAL  (missing from definition_answers_augmented)
+  APPLESAUCE: "stewed fruit" -> APPLESAUCE  (missing from definition_answers_augmented)
+  PARAMOUR: "Lover" -> PARAMOUR  (missing from definition_answers_augmented)
+  BRIGANDAGE: "plundering" -> BRIGANDAGE  (missing from definition_answers_augmented)
+  BEMUSE: "puzzle" -> BEMUSE  (missing from definition_answers_augmented)
+  DESKTOP: "computer location" -> DESKTOP  (missing from definition_answers_augmented)
+  GLIMPSE: "Quickly observe" -> GLIMPSE  (missing from definition_answers_augmented)
+  OLDAGE: "senior citizenship" -> OLDAGE  (missing from definition_answers_augmented)
+  MOCHA: "drink" -> MOCHA  (missing from definition_answers_augmented)
+  SNICKERED: "expressed a little amusement" -> SNICKERED  (missing from definition_answers_augmented)
+  SORTOUT: "Discipline" -> SORTOUT  (missing from definition_answers_augmented)
+  PUDDING: "Food" -> PUDDING  (missing from definition_answers_augmented)
+  STRIPTEASER: "entertainer who needs good figure" -> STRIPTEASER  (missing from definition_answers_augmented)
+  SHOOTUP: "increase dramatically" -> SHOOTUP  (missing from definition_answers_augmented)
+  ADMONISH: "getting reproach" -> ADMONISH  (missing from definition_answers_augmented)
+  MONTAGUSHARRIER: "Bird" -> MONTAGUSHARRIER  (missing from definition_answers_augmented)
+  KIPPER: "one's smoked before meal" -> KIPPER  (missing from definition_answers_augmented)
+  CLEAVE: "Stick" -> CLEAVE  (missing from definition_answers_augmented)
+  IMPASTO: "a technique used in painting" -> IMPASTO  (missing from definition_answers_augmented)
+  RASTA: "adherent of African religion" -> RASTA  (missing from definition_answers_augmented)
+  KUDOS: "commendation needed" -> KUDOS  (missing from definition_answers_augmented)
+  NYALA: wild animal -> ALA  (missing from abbreviations)
+  BEMUSE: Honour -> BEM  (missing from abbreviations)
+  DESKTOP: French -> DES  (missing from abbreviations)
+  GLIMPSE: little devils -> IMPS  (missing from synonyms_pairs)
+  SNICKERED: angry-looking -> RED  (missing from abbreviations)
+  PUDDING: favoured -> IN  (missing from abbreviations)
+  CLEAVE: around, -> C  (missing from abbreviations)
+  ARSENAL: for -> L  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  RASTA = 2 (37/100): AI=anagram, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/40  19A
+  Type mismatch:         1  2D
+  DB gap:                25  9A, 10A, 11A, 12A, 13A, 14A, 21A, 22A, 24A, 25A, 26A, 1D, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 15D, 16D, 17D, 18D, 20D, 23D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   20D  OLDAGE        Told a gentleman to conceal senior citizenship (3,3)
+                      hidden in "tOLD A GEntleman" [hidden: "conceal"]; definition: "senior citizenship"  [HIGH]
+    1D  DIPLOMATICCORPS  Awful mod politics – crap group representing country (10,5)
+                      anagram of MODPOLITICSCRAP ("mod politics - crap") [anagram: "Awful"] = DIPLOMATICCORPS; definition: "group representing country"  [HIGH]
+   13A  RIAL          Bit of cash made by heartless opponent (4)
+                      ---  [HIGH]
+   14A  APPLESAUCE    Supply a cup please for stewed fruit (5,5)
+                      anagram of ACUPPLEASE ("a cup please") [anagram: "Supply"] = APPLESAUCE; definition: "stewed fruit"  [HIGH]
+   16A  BRIGANDAGE    Group capturing apparatus, taking time plundering (10)
+                      ---  [HIGH]
+   21A  MOCHA         One drink and second drink that’s different (5)
+                      ---  [HIGH]
+   24A  SORTOUT       Discipline soldiers sunk in alcoholic drink (4,3)
+                      ---  [HIGH]
+   26A  STRIPTEASER   Starter and pies wrong for entertainer who needs good figure? (11)
+                      ---  [HIGH]
+    3D  SHOOTUP       With drink around, sound is to increase dramatically (5,2)
+                      SHOOT (synonym of "sound") + UP (synonym of "to"); definition: "increase dramatically"  [HIGH]
+    5D  ADMONISH      A fellow hugging maiden is husband getting reproach (8)
+                      ---  [HIGH]
+    6D  MONTAGUSHARRIER  Bird, exceptionally smart, hung o’er air (8,7)
+                      anagram of SMARTHUNGOERAIR ("smart, hung o'er air") [anagram: "exceptionally"] = MONTAGUSHARRIER; definition: "Bird,"  [HIGH]
+    7D  KIPPER        Captain, not opener – one’s smoked before meal (6)
+                      ---  [HIGH]
+    1A  DARESSALAAM   A girl turning over in a dream when disturbed in city (3,2,6)
+                      ---  [MED]
+    1D  DIPLOMATICCORPS  Awful mod politics – crap group representing country (10,5)
+                      ---  [HIGH]
+   10A  SEMINAL       Pioneering conceptual artist in short trade event (7)
+                      ---  [HIGH]
+   11A  PROLACTIN     Expert not to have enough money, it’s said, as milk producer’s helper (9)
+                      ---  [MED]
+   12A  NYALA         US state in the role of wild animal (5)
+                      ---  [MED]
+   13A  RIAL          Bit of cash made by heartless opponent (4)
+                      ---  [HIGH]
+   14A  APPLESAUCE    Supply a cup please for stewed fruit (5,5)
+                      ---  [HIGH]
+   15D  PARAMOUR      Lover in the morning in room losing heart (8)
+                      ---  [MED]
+   16A  BRIGANDAGE    Group capturing apparatus, taking time plundering (10)
+                      ---  [HIGH]
+   16D  BEMUSE        Honour to have value producing puzzle (6)
+                      ---  [HIGH]
+   17D  DESKTOP       Some French kit I discarded before work in computer location (7)
+                      ---  [HIGH]
+   18D  GLIMPSE       Quickly observe little devils in endless merriment (7)
+                      ---  [HIGH]
+   20D  OLDAGE        Told a gentleman to conceal senior citizenship (3,3)
+                      ---  [HIGH]
+   21A  MOCHA         One drink and second drink that’s different (5)
+                      ---  [HIGH]
+   22A  SNICKERED     Son sent to prison, one ultimately angry-looking, expressed a little amusement (9)
+                      ---  [HIGH]
+   24A  SORTOUT       Discipline soldiers sunk in alcoholic drink (4,3)
+                      ---  [HIGH]
+   25A  PUDDING       Food theologian favoured being fed to dog (7)
+                      ---  [HIGH]
+   26A  STRIPTEASER   Starter and pies wrong for entertainer who needs good figure? (11)
+                      ---  [HIGH]
+    3D  SHOOTUP       With drink around, sound is to increase dramatically (5,2)
+                      ---  [HIGH]
+    5D  ADMONISH      A fellow hugging maiden is husband getting reproach (8)
+                      ---  [HIGH]
+    6D  MONTAGUSHARRIER  Bird, exceptionally smart, hung o’er air (8,7)
+                      ---  [MED]
+    7D  KIPPER        Captain, not opener – one’s smoked before meal (6)
+                      ---  [HIGH]
+    8D  CLEAVE        Stick around, then go (6)
+                      C (abbreviation of "around,") + LEAVE (synonym of "go"); definition: "Stick"  [HIGH]
+    9A  IMPASTO       This writer’s quiet, a holy person revealed by old painting (7)
+                      ---  [HIGH]
+   19A  SHOO          Go away and make no noise with love over (4)
+                      SH("make no noise") + O(abbr. "love") + O(abbr. "love")  [HIGH]
+    2D  RASTA         A prominent Russian upset adherent of African religion (5)
+                      reverse TSAR(synonym of "prominent Russian") + A  [LOW]
+   23D  KUDOS         So getting duck not century brings reverse of commendation needed (5)
+                      delete C from DUCK, anagram of SO+DUK = KUDOS  [MED]
+    4D  ARSENAL       Ways academy may be set up for club (7)
+                      anagram of A(abbr. "academy")+SNARE("may be set")+L(synonym of "for") = ARSENAL  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] OLDAGE  20D. Told a gentleman to conceal senior citizenship
+  Answer: OLDAGE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "senior citizenship"
+  Wordplay: hidden
+  Explanation: hidden in "tOLD A GEntleman" [hidden: "conceal"]; definition: "senior citizenship"
+  ----------------------------------------------------------------------
+
+  [HIGH] DIPLOMATICCORPS  1D. Awful mod politics – crap group representing country
+  Answer: DIPLOMATICCORPS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "group representing country"
+  Wordplay: anagram
+  Explanation: anagram of MODPOLITICSCRAP ("mod politics - crap") [anagram: "Awful"] = DIPLOMATICCORPS; definition: "group representing country"
+  ----------------------------------------------------------------------
+
+  [HIGH] RIAL  13A. Bit of cash made by heartless opponent
+  Answer: RIAL
+  Tier: --- | Confidence: 100/100
+  Human explanation: RIVAL (synonym="opponent") with deletion = RIAL
+  ----------------------------------------------------------------------
+
+  [HIGH] APPLESAUCE  14A. Supply a cup please for stewed fruit
+  Answer: APPLESAUCE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "stewed fruit"
+  Wordplay: anagram
+  Explanation: anagram of ACUPPLEASE ("a cup please") [anagram: "Supply"] = APPLESAUCE; definition: "stewed fruit"
+  ----------------------------------------------------------------------
+
+  [HIGH] BRIGANDAGE  16A. Group capturing apparatus, taking time plundering
+  Answer: BRIGANDAGE
+  Tier: --- | Confidence: 100/100
+  Human explanation: BAND (synonym="Group") + AGE (abbreviation="time") + RIG (synonym="apparatus,") = BRIGANDAGE; definition: "plundering"
+  ----------------------------------------------------------------------
+
+  [HIGH] MOCHA  21A. One drink and second drink that’s different
+  Answer: MOCHA
+  Tier: --- | Confidence: 100/100
+  Human explanation: MO (abbreviation="second") + CHA (synonym="drink") = MOCHA; definition: "One drink"
+  ----------------------------------------------------------------------
+
+  [HIGH] SORTOUT  24A. Discipline soldiers sunk in alcoholic drink
+  Answer: SORTOUT
+  Tier: --- | Confidence: 100/100
+  Human explanation: STOUT (synonym="alcoholic drink") + OR (abbreviation="soldiers") = SORTOUT
+  ----------------------------------------------------------------------
+
+  [HIGH] STRIPTEASER  26A. Starter and pies wrong for entertainer who needs good figure?
+  Answer: STRIPTEASER
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of STARTER + PIES = STRIPTEASER
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOOTUP  3D. With drink around, sound is to increase dramatically
+  Answer: SHOOTUP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "increase dramatically"
+  Wordplay: charade
+  Explanation: SHOOT (synonym of "sound") + UP (synonym of "to"); definition: "increase dramatically"
+  ----------------------------------------------------------------------
+
+  [HIGH] ADMONISH  5D. A fellow hugging maiden is husband getting reproach
+  Answer: ADMONISH
+  Tier: --- | Confidence: 100/100
+  Human explanation: ADONIS (synonym="fellow") + H (abbreviation="husband") + M (abbreviation="maiden") = ADMONISH; definition: "reproach"
+  ----------------------------------------------------------------------
+
+  [HIGH] MONTAGUSHARRIER  6D. Bird, exceptionally smart, hung o’er air
+  Answer: MONTAGUSHARRIER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Bird,"
+  Wordplay: anagram
+  Explanation: anagram of SMARTHUNGOERAIR ("smart, hung o'er air") [anagram: "exceptionally"] = MONTAGUSHARRIER; definition: "Bird,"
+  ----------------------------------------------------------------------
+
+  [HIGH] KIPPER  7D. Captain, not opener – one’s smoked before meal
+  Answer: KIPPER
+  Tier: --- | Confidence: 100/100
+  Human explanation: SKIPPER (synonym="Captain,") with deletion = KIPPER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DARESSALAAM  1A. A girl turning over in a dream when disturbed in city
+  Answer: DARESSALAAM
+  Tier: --- | Confidence: 70/100
+  Definition: "a city in Tanzania"
+  Wordplay type: charade
+  Components:
+    synonym            girl                      -> LASS
+    reversal           turning over              -> SSAL
+    anagram_fodder     a dream                   -> DARESA
+  AI Reasoning:
+    LASS reversed to SSAL, plus anagram of 'a dream' (DARESA) = DARESSALAAM
+  ----------------------------------------------------------------------
+
+  [HIGH] DIPLOMATICCORPS  1D. Awful mod politics – crap group representing country
+  Answer: DIPLOMATICCORPS
+  Tier: --- | Confidence: 100/100
+  Definition: "group representing country"
+  Wordplay type: anagram
+  Components:
+    literal            mod                       -> MOD
+    literal            politics                  -> POLITICS
+    literal            crap                      -> CRAP
+  AI Reasoning:
+    MOD + POLITICS + CRAP anagrams to DIPLOMATIC CORPS (a group representing a country)
+  ----------------------------------------------------------------------
+
+  [HIGH] SEMINAL  10A. Pioneering conceptual artist in short trade event
+  Answer: SEMINAL
+  Tier: --- | Confidence: 100/100
+  Definition: "Pioneering conceptual artist"
+  Wordplay type: container
+  Components:
+    literal            EMIN                      -> EMIN
+    deletion           trade event               -> SAL [SALE - E]
+  AI Reasoning:
+    EMIN (Tracy Emin, conceptual artist) contained in SAL (SALE with E removed for 'short') = SEMINAL
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PROLACTIN  11A. Expert not to have enough money, it’s said, as milk producer’s helper
+  Answer: PROLACTIN
+  Tier: --- | Confidence: 75/100
+  Definition: "a protein hormone that supports lactation"
+  Wordplay type: charade
+  Components:
+    abbreviation       Expert                    -> PRO
+    sound_of           not to have enough money, it's said -> LACTIN
+  AI Reasoning:
+    PRO (expert) + LACTIN (sounds like 'lack tin' = lack money, where tin is slang for money) = PROLACTIN, a lactation hormone
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NYALA  12A. US state in the role of wild animal
+  Answer: NYALA
+  Tier: --- | Confidence: 75/100
+  Definition: "a type of antelope"
+  Wordplay type: charade
+  Components:
+    abbreviation       US state                  -> NY
+    synonym            wild animal               -> ALA
+  AI Reasoning:
+    NY (New York abbreviation) + ALA (à la, meaning 'in the manner of' or 'in the role of') = NYALA, a type of antelope
+  ----------------------------------------------------------------------
+
+  [HIGH] RIAL  13A. Bit of cash made by heartless opponent
+  Answer: RIAL
+  Tier: --- | Confidence: 100/100
+  Definition: "Bit of cash"
+  Wordplay type: deletion
+  Components:
+    deletion           opponent                  -> RIAL [RIVAL - V]
+  AI Reasoning:
+    RIVAL (opponent) with its central letter V removed leaves RIAL (currency/bit of cash)
+  ----------------------------------------------------------------------
+
+  [HIGH] APPLESAUCE  14A. Supply a cup please for stewed fruit
+  Answer: APPLESAUCE
+  Tier: --- | Confidence: 100/100
+  Definition: "stewed fruit"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     a cup please              -> ACUPPLEASE
+  AI Reasoning:
+    Anagram of 'a cup please' (with 'supply' as the anagram indicator) gives APPLESAUCE, which is stewed fruit.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PARAMOUR  15D. Lover in the morning in room losing heart
+  Answer: PARAMOUR
+  Tier: --- | Confidence: 70/100
+  Definition: "Lover"
+  Wordplay type: container
+  Components:
+    abbreviation       morning                   -> AM
+    deletion           room                      -> PARLOUR [PARLOUR - L]
+  AI Reasoning:
+    AM (morning abbreviation) is contained inside PARLOUR with its heart letter L removed, giving PARAMOUR (lover)
+  ----------------------------------------------------------------------
+
+  [HIGH] BRIGANDAGE  16A. Group capturing apparatus, taking time plundering
+  Answer: BRIGANDAGE
+  Tier: --- | Confidence: 100/100
+  Definition: "plundering"
+  Wordplay type: container
+  Components:
+    synonym            Group                     -> BAND
+    synonym            apparatus                 -> RIG
+    synonym            time                      -> AGE
+  AI Reasoning:
+    BAND (group) contains RIG (apparatus), then AGE (time) is added: B(RIG)AND + AGE = BRIGANDAGE
+  ----------------------------------------------------------------------
+
+  [HIGH] BEMUSE  16D. Honour to have value producing puzzle
+  Answer: BEMUSE
+  Tier: --- | Confidence: 90/100
+  Definition: "puzzle"
+  Wordplay type: charade
+  Components:
+    abbreviation       Honour                    -> BEM
+    synonym            value                     -> USE
+  AI Reasoning:
+    BEM (British Empire Medal abbreviation) + USE (synonym for value) = BEMUSE (puzzle)
+  ----------------------------------------------------------------------
+
+  [HIGH] DESKTOP  17D. Some French kit I discarded before work in computer location
+  Answer: DESKTOP
+  Tier: --- | Confidence: 80/100
+  Definition: "computer location"
+  Wordplay type: charade
+  Components:
+    synonym            French                    -> DES
+    deletion           kit                       -> KT [KIT - I]
+    abbreviation       work                      -> OP
+  AI Reasoning:
+    DES (French for 'some') + KT (from KIT with I discarded) + OP (abbreviation of opus, 'work') = DESKTOP
+  ----------------------------------------------------------------------
+
+  [HIGH] GLIMPSE  18D. Quickly observe little devils in endless merriment
+  Answer: GLIMPSE
+  Tier: --- | Confidence: 100/100
+  Definition: "Quickly observe"
+  Wordplay type: container
+  Components:
+    core_letters       merriment                 -> GLE [GLEE - E]
+    synonym            little devils             -> IMPS
+  AI Reasoning:
+    IMPS (little devils) contained in GLE (endless/core of merriment GLEE) = GLIMPSE
+  ----------------------------------------------------------------------
+
+  [HIGH] OLDAGE  20D. Told a gentleman to conceal senior citizenship
+  Answer: OLDAGE
+  Tier: --- | Confidence: 100/100
+  Definition: "senior citizenship"
+  Wordplay type: hidden
+  Components:
+    hidden             Told a gentleman          -> OLDAGE
+  AI Reasoning:
+    OLDAGE is hidden in the sequence of words: t-OLD A GE-ntleman, with the first and last letters of the clue words removed.
+  ----------------------------------------------------------------------
+
+  [HIGH] MOCHA  21A. One drink and second drink that’s different
+  Answer: MOCHA
+  Tier: --- | Confidence: 100/100
+  Definition: "drink"
+  Wordplay type: charade
+  Components:
+    synonym            second                    -> MO
+    synonym            drink                     -> CHA
+  AI Reasoning:
+    MO (moment = second) + CHA (tea = drink) concatenate to spell MOCHA, a coffee drink
+  ----------------------------------------------------------------------
+
+  [HIGH] SNICKERED  22A. Son sent to prison, one ultimately angry-looking, expressed a little amusement
+  Answer: SNICKERED
+  Tier: --- | Confidence: 80/100
+  Definition: "expressed a little amusement"
+  Wordplay type: charade
+  Components:
+    abbreviation       Son                       -> S
+    synonym            prison                    -> NICK
+    last_letter        one                       -> E
+    synonym            angry-looking             -> RED
+  AI Reasoning:
+    Charade combining S (Son abbreviation) + NICK (prison slang) + E (last letter of 'one') + RED (angry-looking) = SNICKERED
+  ----------------------------------------------------------------------
+
+  [HIGH] SORTOUT  24A. Discipline soldiers sunk in alcoholic drink
+  Answer: SORTOUT
+  Tier: --- | Confidence: 100/100
+  Definition: "Discipline"
+  Wordplay type: container
+  Components:
+    abbreviation       soldiers                  -> OR
+    literal            alcoholic drink           -> STOUT
+  AI Reasoning:
+    OR (abbreviation for Other Ranks/soldiers) is contained within STOUT (alcoholic drink), giving SORTOUT (a discipline/arrangement)
+  ----------------------------------------------------------------------
+
+  [HIGH] PUDDING  25A. Food theologian favoured being fed to dog
+  Answer: PUDDING
+  Tier: --- | Confidence: 80/100
+  Definition: "Food"
+  Wordplay type: container
+  Components:
+    abbreviation       theologian                -> DD
+    synonym            favoured                  -> IN
+    literal            dog                       -> PUG
+  AI Reasoning:
+    PUG (dog) contains DD (theologian) + IN (favoured) = PU(DD+IN)G = PUDDING (food)
+  ----------------------------------------------------------------------
+
+  [HIGH] STRIPTEASER  26A. Starter and pies wrong for entertainer who needs good figure?
+  Answer: STRIPTEASER
+  Tier: --- | Confidence: 100/100
+  Definition: "entertainer who needs good figure"
+  Wordplay type: anagram
+  Components:
+    literal            Starter                   -> S
+    literal            pies                      -> PIES
+    anagram_fodder     wrong                     -> TARTER
+  AI Reasoning:
+    S + PIES + TARTER (anagram of 'starter' indicated by 'wrong') = STRIPTEASER
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOOTUP  3D. With drink around, sound is to increase dramatically
+  Answer: SHOOTUP
+  Tier: --- | Confidence: 100/100
+  Definition: "increase dramatically"
+  Wordplay type: container
+  Components:
+    synonym            sound                     -> HOOT
+    synonym            drink                     -> SUP
+  AI Reasoning:
+    HOOT (sound) is contained within SUP (drink) around it: S-HOOT-UP = SHOOTUP (increase dramatically)
+  ----------------------------------------------------------------------
+
+  [HIGH] ADMONISH  5D. A fellow hugging maiden is husband getting reproach
+  Answer: ADMONISH
+  Tier: --- | Confidence: 100/100
+  Definition: "getting reproach"
+  Wordplay type: charade
+  Components:
+    literal            A                         -> A
+    synonym            fellow                    -> DON
+    abbreviation       maiden                    -> M
+    literal            is                        -> IS
+    abbreviation       husband                   -> H
+  AI Reasoning:
+    A + DON (fellow) around M (maiden) + IS + H (husband) = ADMONISH (getting reproach)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MONTAGUSHARRIER  6D. Bird, exceptionally smart, hung o’er air
+  Answer: MONTAGUSHARRIER
+  Tier: --- | Confidence: 70/100
+  Definition: "Bird"
+  Wordplay type: anagram
+  Components:
+    literal            smart                     -> SMART
+    literal            hung                      -> HUNG
+    literal            o'er                      -> OVER
+    literal            air                       -> AIR
+  AI Reasoning:
+    SMART + HUNG + OVER + AIR anagrams to MONTAGUSHARRIER (a type of bird); 'exceptionally' signals the anagram
+  ----------------------------------------------------------------------
+
+  [HIGH] KIPPER  7D. Captain, not opener – one’s smoked before meal
+  Answer: KIPPER
+  Tier: --- | Confidence: 100/100
+  Definition: "one's smoked before meal"
+  Wordplay type: deletion
+  Components:
+    deletion           Captain                   -> KIPPER [SKIPPER - S]
+  AI Reasoning:
+    SKIPPER (captain) loses its opening letter S to leave KIPPER (smoked fish)
+  ----------------------------------------------------------------------
+
+  [HIGH] CLEAVE  8D. Stick around, then go
+  Answer: CLEAVE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Stick"
+  Wordplay: charade
+  Explanation: C (abbreviation of "around,") + LEAVE (synonym of "go"); definition: "Stick"
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPASTO  9A. This writer’s quiet, a holy person revealed by old painting
+  Answer: IMPASTO
+  Tier: --- | Confidence: 100/100
+  Definition: "a technique used in painting"
+  Wordplay type: charade
+  Components:
+    abbreviation       writer's                  -> IM
+    abbreviation       quiet                     -> P
+    hidden             painting                  -> A
+    abbreviation       holy person               -> ST
+    abbreviation       old                       -> O
+  AI Reasoning:
+    Charade building IM (I'm) + P (piano) + A (from 'painting') + ST (saint) + O (old) = IMPASTO, a painting technique
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOO  19A. Go away and make no noise with love over
+  Answer: SHOO
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Go away"
+  Wordplay type: charade
+  Components:
+    literal            make no noise             -> SH
+    abbreviation       love                      -> O
+    literal            over                      -> O
+  Assembly: charade — SH("make no noise") + O(abbr. "love") + O(abbr. "love")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      make: syn=A,DO,A A,ACT,AIR,ARM,BAG,BAR,BED,BIG,DIG,FAG,GET,HIT,LAY; abbr=DO; ind=anagram?
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      noise: syn=MY,DIN,FEW,ONE,ROW,BANG,BUZZ,CHUG,DISH,ECHO,HOWL,MANY,ROAR,TALK,WORD
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      love: syn=O,BE,DO,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PAT,PET,PIP,PUT; abbr=NIL,O*
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      go away: syn=SHOO*,GET,OFF
+      away and: syn=CAST
+    Definitions:
+      "Go away" -> SHOO (definition match)
+  AI Reasoning:
+    SH (make no noise sound) + O (love abbrev) + O (over meaning additional) = SHOO
+  ----------------------------------------------------------------------
+
+  [LOW] RASTA  2D. A prominent Russian upset adherent of African religion
+  Answer: RASTA
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "adherent of African religion"
+  Wordplay type: anagram
+  Components:
+    literal            A                         -> A
+    synonym            prominent Russian         -> TSAR
+    indicator          upset                     -> 
+  Assembly: reversal — reverse TSAR(synonym of "prominent Russian") + A
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_mismatch=AI=anagram, assembled=reversal | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      prominent: syn=EYE,LED,BOLD,KEEN,RISE,STAR,WISE,BRASH,BRAVE,COCKY,FRESH,GUTSY,GUTTY,HARDY,LUCID
+      russian: syn=KARA,SLAV,TSAR
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      adherent: syn=ME,FAN,PUPIL
+      african: syn=BOER,HUTU,ZULU,BANTU,GIANT,JUMBO,MASAI,TITAN,TUTSI,WHALE,XHOSA
+      religion: syn=FAITH,ISLAM
+  AI Reasoning:
+    A + TSAR (prominent Russian) gives ATSAR, anagrammed by 'upset' to spell RASTA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] KUDOS  23D. So getting duck not century brings reverse of commendation needed
+  Answer: KUDOS
+  Tier: DB Fallback | Confidence: 60/100
+  Definition: "commendation needed"
+  Wordplay type: anagram
+  Components:
+    literal            so                        -> SO
+    literal            duck                      -> DUCK
+  Assembly: deletion+anagram — delete C from DUCK, anagram of SO+DUK = KUDOS
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=FAIL: deletion gives=DUK answer=KUDOS | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      so: syn=AS,BY,OK,ON,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET; sounds=sew,sow
+      getting: syn=AGED,GOING,ICING,WRONG
+      duck: syn=O,BOD,BOG,BOY,BUG,CAT,DAM,DIP,EGG,END,FAN,GUY,JOE,LAD,LEG; abbr=O*
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      century: syn=C,TON; abbr=C
+      brings: syn=DO*,BAGS,BUGS,COPS,DIGS,DOES,GETS,ICES,NABS,NETS,OFFS,RAPS,RISE,RUNS,SEES
+      reverse: syn=BUM,BACK,BUNS,BUTT,DUFF,FLIP,HAMS,REAR,RUMP,TAIL,TURN,TUSH,ABACK,ABOUT,BOOTY; ind=reversal
+      needed: syn=ALL,BORE,BORN,TOOK,ASKED,VITAL
+  AI Reasoning:
+    SO + duck(O) with operations involving century(C) and reversal to produce KUDOS
+  ----------------------------------------------------------------------
+
+  [LOW] ARSENAL  4D. Ways academy may be set up for club
+  Answer: ARSENAL
+  Tier: Sonnet | Confidence: 10/100
+  Definition: "club"
+  Wordplay type: anagram
+  Components:
+    indicator          Ways                      -> 
+    abbreviation       academy                   -> A
+    anagram_fodder     may be set                -> SNARE
+    synonym            for                       -> L
+  Assembly: anagram — anagram of A(abbr. "academy")+SNARE("may be set")+L(synonym of "for") = ARSENAL
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: L | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ways: syn=CAPS,CUES,ENDS,KINS,LAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES,LACES; abbr=RD,ST; ind=anagram,anagram?; sounds=weigh,whey
+      academy: syn=SCHOOL,SENIOR,ACADEME,COLLEGE; abbr=A*
+      may: syn=CAN,GAY,TED,LADY,TIME,COULD,MIGHT,MONTH,BLITHE,BREEZY,MELLOW,AFFABLE,THERESA
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      set: syn=GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE*; ind=anagram
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      club: syn=ARSENAL*,A,ACE,BAT,DEN,HIT,INN,KEY,ALLY,AXIS,BACH,BEAT,CAMP,CARD,CAST
+      may be: ind=anagram
+      set up: ind=reversal
+      set up: syn=DO,UP,A A,ARM,BAR,BED,DID,DUG,GET,GOT
+    Definitions:
+      "club" -> ARSENAL (definition match)
+  AI Reasoning:
+    Anagram of A + SNARE + L gives ARSENAL, with ways as anagram indicator
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

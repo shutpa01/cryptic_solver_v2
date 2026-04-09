@@ -1,0 +1,822 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29481
+Generated: 2026-03-05 11:38:46
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        26/30 (86%)
+    Sonnet:         26
+    DB Fallback:    0
+    Cached (no API): 21
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   21  1D, 1A, 11A, 12A, 13D, 15D, 17D, 18A, 19D, 2D, 20A, 20D, 21A, 22D, 23D, 24D, 27A, 3D, 4A, 6D, 9D
+  Medium (40-79): 4  10A, 14A, 16A, 25A
+  Low (<40):    1  28A
+  Failed:       4  26A, 5D, 7D, 8D
+  Average:      86/100
+
+COST: $0.0585 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (5 entries)
+------------------------------------------------------------
+  FAIRYTALE: "Maybe" -> FAIRYTALE  (missing from definition_answers_augmented)
+  MASONWASP: "Winged beast" -> MASONWASP  (missing from definition_answers_augmented)
+  CLYDE: "River" -> CLYDE  (missing from definition_answers_augmented)
+  SEWINGKIT: "Resource" -> SEWINGKIT  (missing from definition_answers_augmented)
+  DARE: "venture" -> DARE  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  MUCKRAKER = 16 (45/100): AI=spoonerism, assembled=anagram
+  EDITOR = 28 (30/100): AI=hidden, assembled=charade
+
+ANAGRAM FALLBACKS — likely wrong mechanism (1)
+------------------------------------------------------------
+  MUCKRAKER = 16 (45/100): AI suggested spoonerism, fell back to anagram
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  BREVE (90/100): E <- "key" (abbreviation)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (3)
+------------------------------------------------------------
+  INEBRIETY = 10 (65/100): answer used in own explanation
+  REFER = 14 (65/100): answer used in own explanation
+  EDITOR = 28 (30/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  MUCKRAKER = 16 (45/100): no pieces verified in DB
+  HEART = 25 (70/100): no pieces verified in DB
+  EDITOR = 28 (30/100): single piece equals full answer; no pieces verified in DB
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  26. Winged beast’s mouth biting child; reptilian creature = MASONWASP
+  5. Coldly shifting out of the ark on Delaware River = CLYDE
+  7. Resource for one running satire involving soap family = SEWINGKIT
+  8. Cut short shady European venture = DARE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  19/30  1A, 1A, 4A, 11A, 12A, 18A, 21A, 27A, 3D, 6D, 9D, 13D, 17D, 19D, 20D, 20D, 22D, 23D, 24D
+  Type mismatch:         2  16A, 28A
+  Anagram fallback:      1  16A
+  Fabricated mapping:    1  2D
+  Circular assembly:     3  10A, 14A, 28A
+  Unverified explain.:   3  16A, 25A, 28A
+  DB gap:                5  26A, 5D, 7D, 8D, 15D
+  Failed:                4  26A, 5D, 7D, 8D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  RAINFOREST    Gunners invade protecting other ranks in tropical location (10)
+                      RA(gunners) + INFOREST(invade)  [HIGH]
+    1A  ROBUST        Rugged old boy beset by fungal disease (6)
+                      OB(old boy) inside RUST(fungal disease)  [HIGH]
+   10A  INEBRIETY     State of lush fine brie typically sampled (9)
+                      hidden in 'fine brie typically'  [MED]
+   11A  ROWER         Sportsperson’s rank — first in England, right? (5)
+                      ROW(rank) + E(England) + R(right)  [HIGH]
+   12A  FRENCHDRESSING  Comedienne getting into costume leaves topper (6,8)
+                      FRENCH(comedienne) + DRESS(costume) + ING(getting)  [HIGH]
+   13D  GRIMREAPER    Funny gripe, remark snubbed last visitor (4,6)
+                      delete K from GRIPEREMARK(gripe remark), anagram of GRIPEREMAR  [HIGH]
+   14A  REFER         Pass on preference to have case of money removed (5)
+                      hidden in word 'preference'  [MED]
+   15D  FAIRYTALE     Maybe account opening once money finally gets put in — just heard back (5,4)
+                      FAIR(just) + Y(money finally) + TALE(account)  [HIGH]
+   16A  MUCKRAKER     Scandalmonger is one causing fight, so Spooner says (9)
+                      anagram of RUCK(fight)+MAKER(one)  [MED]
+   17D  COSINESS      Homely feel of function on ship (8)
+                      COS(function) + I(on) + NESS(ship)  [HIGH]
+   18A  SHILLINGS     Old bits and bobs Carol’s gathering in mound (9)
+                      HILL(mound) inside SINGS(Carol's)  [HIGH]
+   19D  LAERTES       Raised gang with genuine fabulous sailor (7)
+                      reverse SET(gang)+REAL(genuine)  [HIGH]
+    2D  BREVE         Key part of speech written up for Mark (5)
+                      reverse VERB(part of speech) + E  [HIGH]
+   20A  DATUM         Piece of information backing commercial corporation (5)
+                      reverse AD(commercial) + TUM(corporation)  [HIGH]
+   20D  DEIGNED       Stooped and edged in rocks (7)
+                      anagram of EDGED(edged)+IN(in)  [HIGH]
+   21A  HYPERSENSITIVE  Easily offended prey she invites to wrangle (14)
+                      delete TO from PREYSHEINVITESTO(prey she invites to), anagram of PREYSHEINVITES  [HIGH]
+   22D  SIMON         Wrong about second name of man (5)
+                      MO(second) inside SIN(Wrong)  [HIGH]
+   23D  INAPT         Unsuitable to sleep with stripped covers (5)
+                      delete N from IN(with) + NAP(sleep) + T(to)  [HIGH]
+   24D  CHAP          Fellow from hotel wearing headgear (4)
+                      H(hotel) inside CAP(headgear)  [HIGH]
+   25A  HEART         Courage of cycling world (5)
+                      anagram of EARTH(world)  [MED]
+   26A  MASONWASP     Winged beast’s mouth biting child; reptilian creature (5,4)
+                      ---  [FAIL]
+   27A  PHEASANT      Heats pan to cook game bird (8)
+                      anagram of HEATSPAN(Heats pan)  [HIGH]
+   28A  EDITOR        Media story exposed newspaper boss (6)
+                      EDITOR(Media story)  [LOW]
+    3D  SPRUCER       Tree surgeon’s third trimmer (7)
+                      SPRUCE(Tree) + R(surgeon's)  [HIGH]
+    4A  ACCURSED      Hateful king denounced guards (8)
+                      R(king) inside ACCUSED(denounced)  [HIGH]
+    5D  CLYDE         Coldly shifting out of the ark on Delaware River (5)
+                      ---  [FAIL]
+    6D  UPRISER       Rebel force in ancient city (7)
+                      PRISE(force) inside UR(ancient city)  [HIGH]
+    7D  SEWINGKIT     Resource for one running satire involving soap family (6,3)
+                      ---  [FAIL]
+    8D  DARE          Cut short shady European venture (4)
+                      ---  [FAIL]
+    9D  HERDSMAN      Tender wound initially moist hardens (8)
+                      anagram of HARDENS(hardens)+M(moist)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Gunners invade protecting other ranks in tropical location
+  Answer: RAINFOREST
+  Tier: Cached | Confidence: 100/100
+  Definition: "tropical location"
+  Wordplay type: charade
+  Components:
+    synonym            invade                    -> INFOREST
+    synonym            gunners                   -> RA
+  Assembly: charade — RA(gunners) + INFOREST(invade)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      gunners: syn=RA*,ARCHERS,ARCHER,BIRDER,FOWLER,HAWKER,HUNTER,NIMROD,POACHER,TRAPPER,FALCONER,HUNTRESS,HUNTSMAN,SPORTSMAN; abbr=RA*
+      invade: syn=INFOREST*,WAR,STAY,STOP,OVERRUN,ENCROACH
+      protecting: syn=SAFE,SNUG,SECURE,FENCING,FENDING,GUARDED,KEEPING,WARDING,COVERING,DEFENDED,GUARDING,SECURING,SHIELDED,DEFENDING,PROTECTED; ind=container
+      other: syn=REST*,GO,ACT,AIR,BAR,BUT,DRY,EYE,GET,NEW,OLD,RUN,SEE,SPY,WAX; abbr=O*; ind=parts
+      ranks: syn=IS,LOCI,ROWS,PARTS,ROLES,RUNGS,TASKS,WORKS,LEVELS,ORDERS,POINTS,STRATA,TITLES,VENUES,WHERES; abbr=R*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      tropical: syn=HOT,LOW,SULTRY,BOILING,CRY OUT,VERY HOT
+      location: syn=ITS,SITE,SPOT,TOWN,LOCUS,PLACE,POINT,SCENE,SIGHT,VENUE,WHERE,LOCALE,LOCALITY,OPPOSITE,POSITION
+      other ranks: abbr=OR*
+      other ranks: syn=MEN,CREW,GUYS,CHAPS,TROOP,PIECES,TROOPS,COOKIES,MARINES,RANGERS
+    Definitions:
+      "tropical location" -> RAINFOREST (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 1. Rugged old boy beset by fungal disease
+  Answer: ROBUST
+  Tier: Cached | Confidence: 92/100
+  Definition: "Rugged"
+  Wordplay type: container
+  Components:
+    synonym            fungal disease            -> RUST
+    abbreviation       old boy                   -> OB
+  Assembly: container — OB(old boy) inside RUST(fungal disease)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rugged: syn=BAD,LOW,PAT,BLAH,DEAD,GRAY,GRIM,HARD,POKY,RUDE,WILD,BLANK,BLEAK,BUMPY,CRASS
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      boy: syn=AL,BOD,CAT,EGG,GUY,IMP,JOE,KID,LAD,LEN,MAN,REX,SON,SUB,TAD; abbr=B*,LAD,SON; sounds=buoy
+      beset: syn=FLY,SET,SIC,WAR,INTO,RACK,RAID,RICH,RUSH,WALL,CURSE,HARRY,STORM,TRASH,ASSAIL; ind=container
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      disease: syn=AIL,BUG,FIT,ILL,PIP,BOUT,CLAP,GERM,GOUT,PEST,TRUE,YAWS,ERGOT,FEVER,MANGE; abbr=ME; ind=anagram?
+      old boy: abbr=OB*
+      old boy: syn=OB*
+    Definitions:
+      "Rugged" -> ROBUST (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 10. State of lush fine brie typically sampled
+  Answer: INEBRIETY
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "State of lush"
+  Wordplay type: hidden
+  Components:
+    hidden             fine brie typically       -> INEBRIETY
+  Assembly: hidden — hidden in 'fine brie typically'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      state: syn=IS,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS,AIRS; abbr=AVER; ind=anagram,homophone
+      lush: syn=ALE,GIN,MUM,NIP,PEG,POP,RUM,SOT,TOT,ALE,,ALKY,AQUA,BEER,BELT,BREW
+      fine: syn=A,A1,OK,SO,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD,RIG,THE; abbr=F,OK
+      brie: syn=CHEESE,A LAWYER,FOOD ITEM,SHORT THE
+      typically: syn=AYE,NOW,OFT,SAY,EVER,MUCH,RULE,LYRIC,OFTEN,ALWAYS,COURSE,HOURLY,LITTLE,RARELY,SELDOM
+      sampled: syn=TASTED; ind=hidden?
+      state of: syn=MOORED
+    Definitions:
+      "State of lush" -> INEBRIETY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Sportsperson’s rank — first in England, right?
+  Answer: ROWER
+  Tier: Cached | Confidence: 100/100
+  Definition: "Sportsperson's"
+  Wordplay type: charade
+  Components:
+    synonym            rank                      -> ROW
+    abbreviation       England                   -> E
+    abbreviation       right                     -> R
+  Assembly: charade — ROW(rank) + E(England) + R(right)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rank: syn=ROW*,AM,BE,DO,IS,ALL,ARE,BAD,HAP,LIE,OUT,PEG,SIT,BANK,BARE
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      england: syn=OF A,STATE; abbr=E*
+      right: syn=OK,ON,PC,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT,NOT; abbr=DEXTER,R*,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Comedienne getting into costume leaves topper
+  Answer: FRENCHDRESSING
+  Tier: Cached | Confidence: 100/100
+  Definition: "topper"
+  Wordplay type: charade
+  Components:
+    synonym            costume                   -> DRESS
+    deletion           getting                   -> ING [GOING - GO(leaves)]
+    synonym            comedienne                -> FRENCH
+  Assembly: charade — FRENCH(comedienne) + DRESS(costume) + ING(getting)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      comedienne: syn=FRENCH*,TOP,ANDREW,ACTRESS,ACTRESSES
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      costume: syn=DRESS*,SUIT,SURE,WEAR,ARRAY,READY,ARRAYS,ATTIRE,OUTFIT,APPAREL,ATTIRED,CLOTHES,EVENING,TWINSET,UNIFORM
+      leaves: syn=COS,HAS,TEA,BAGS,GOES,LETS,OMIT,BEARS,CEDES,CRESS,DROPS,DUMPS,EXITS,FEEDS,FLEES; abbr=GO; ind=deletion
+      topper: syn=HAT,TEN,A GOOD,PICTURE,HEADGEAR,A GOOD SORT
+      getting into: ind=insertion
+    Definitions:
+      "topper" -> FRENCHDRESSING (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. Funny gripe, remark snubbed last visitor
+  Answer: GRIMREAPER
+  Tier: Cached | Confidence: 80/100
+  Definition: "last visitor"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     gripe remark              -> GRIPEREMARK
+  Assembly: deletion+anagram — delete K from GRIPEREMARK(gripe remark), anagram of GRIPEREMAR
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      funny: syn=FAR,GAG,ODD,OFF,ONE,RIB,RUM,THE,WAY,YUK,BOFF,BUTT,JEST,JOKE,JOSH; ind=anagram
+      gripe: syn=AIL,ASS,BUG,EAT,FOX,GET,ICE,IRK,NAG,NET,RAP,VEX,BAIL,BEEF,CARP
+      remark: syn=EYE,RAP,RED,SEE,SPY,DUPE,FOOL,GLOM,GROK,GULL,HOAX,LOOK,NOTE,SNOW,SPOT; ind=homophone
+      snubbed: syn=IGNORED; ind=parts
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      visitor: syn=DAY,GUEST,CALLER,TOURIST,TRIPPER,STRANGER,SUNSHADE,SOJOURNER,TRAVELLER
+    Definitions:
+      "last visitor" -> GRIMREAPER (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 14. Pass on preference to have case of money removed
+  Answer: REFER
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Pass on"
+  Wordplay type: hidden
+  Components:
+    hidden             preference                -> REFER
+  Assembly: hidden_in_word — hidden in word 'preference'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      pass: syn=AM,BE,DO,GO,IS,A A,ACT,AGE,ARE,BED,BID,CAN,COL,DIE,END; abbr=COL,GO,GO BY
+      on: syn=RE*,AS,OF,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE*,S
+      preference: syn=USE,WAY,LIKE,LOVE,PICK,RISE,TASTE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      have: syn=A,AIM,ARC,BAG,BOW,BUY,CON,EAT,EYE,GAS,HUB,LET,OWN,PAY,RED; sounds=halve
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      removed: syn=DRY,FAR,AWAY,AXED,COOL,DEEP,FIRED,FRAIL,OUTED,QUIET; ind=anagram,deletion
+      pass on: syn=MOVE,SEND,CARRY,RELAY
+      to have: abbr=OWN
+      to have: syn=OWN,CAKE,DRUG,SAME,TOOL,FAIRY,PIXIE
+      case of: ind=parts
+    Definitions:
+      "Pass on" -> REFER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 15. Maybe account opening once money finally gets put in — just heard back
+  Answer: FAIRYTALE
+  Tier: Cached | Confidence: 85/100
+  Definition: "Maybe"
+  Wordplay type: charade
+  Components:
+    synonym            just                      -> FAIR
+    last_letter        money finally             -> Y
+    synonym            account                   -> TALE
+  Assembly: charade — FAIR(just) + Y(money finally) + TALE(account)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER,BREWER,FLOWER,LIKELY,MAYHAP,MISFIT,PERHAP,RESEAT,SINGER; ind=anagram
+      account: syn=TALE*,AC,NO,A A,ACC,AIM,BAG,BUM,END,ILL,SET,TAB,USE,WHY,BILL; abbr=AC
+      opening: syn=DEN,GAP,PIT,RIP,STY,ADIT,BIND,DARK,DENT,DINT,DOOR,DUMP,GASH,GATE,GULF; abbr=DOOR; ind=acrostic,deletion,parts
+      once: syn=AS,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,PAST,SLOW,SOLO,SOON; abbr=EX,RE; ind=parts
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      gets: syn=BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS,OFFS; abbr=G,GE
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      just: syn=FAIR*,BUT,DUE,ITS,NEW,NOW,YET,BEST,EVEN,FIRM,FULL,GOOD,HARD,LATE,MERE
+      heard: syn=DUG,GOT,HAD,FELT,MADE,SEEN,AURAL,CLEAR,KNOWN,NOTED,SPIED,TRIED,AUDIAL,AUDILE,BEHELD; ind=homophone; sounds=herd
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      put in: syn=ADD,LAID,INSET,PLANT,PLACED,PERHAPS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 16. Scandalmonger is one causing fight, so Spooner says
+  Answer: MUCKRAKER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Scandalmonger"
+  Wordplay type: spoonerism
+  Components:
+    synonym            fight                     -> RUCK
+    synonym            one                       -> MAKER
+  Assembly: anagram — anagram of RUCK(fight)+MAKER(one)
+  WARNING: Anagram fallback — AI suggested spoonerism
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_mismatch=AI=spoonerism, assembled=anagram | anagram_fallback=AI suggested spoonerism, fell back to anagram | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      scandalmonger: syn=GOSSIP
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      causing: syn=RISE,DOING,MAKING,WORKING,BREEDING,BRINGING,CREATING,INDUCING,INVOKING,MOURNFUL,SPAWNING,YIELDING,BEGETTING,EFFECTING,PRODUCING; ind=anagram
+      fight: syn=DO,MY,BOX,ITS,JAR,LAY,POP,ROW,SET,VIE,WAR,ARIA,BOUT,BUCK,DEFY; abbr=BOX,TO
+      so: syn=BY,OK,ON,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET,ALSO; sounds=sew,sow
+      spooner: syn=LADLE
+      says: syn=SAY,BETS,FITS,GOES,LAYS,PUTS,SETS,CALLS,EDITS,FINES,FIXES,MAKES,PLAYS,SUITS,TALKS; abbr=EG; ind=anagram,homophone
+    Definitions:
+      "Scandalmonger" -> MUCKRAKER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Homely feel of function on ship
+  Answer: COSINESS
+  Tier: Cached | Confidence: 95/100
+  Definition: "Homely feel"
+  Wordplay type: charade
+  Components:
+    synonym            function                  -> COS
+    synonym            on                        -> I
+    synonym            ship                      -> NESS
+  Assembly: charade — COS(function) + I(on) + NESS(ship)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      feel: syn=DO,GO,LU,ACT,BAG,EYE,FAD,HUG,NOT,PAT,PAW,PET,RED,SEE,TON; abbr=BE
+      function: syn=COS*,SIN*,SINE*,COSINE*,DO,ACT,CUT,END,FAG,GET,JOB,POP,RUN,TUG,USE; abbr=DO
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      ship: syn=SS*,NESS*,AIR,ARK,MAN,TUB,ARGO,BOAT,KEEL,SAME,SEND,TOSS,CRAFT,LINER,OILER; abbr=S*,SS*
+      on ship: syn=ABOARD
+    Definitions:
+      "Homely feel" -> COSINESS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Old bits and bobs Carol’s gathering in mound
+  Answer: SHILLINGS
+  Tier: Cached | Confidence: 92/100
+  Definition: "Old bits and bobs"
+  Wordplay type: container
+  Components:
+    synonym            Carol's                   -> SINGS
+    synonym            mound                     -> HILL
+  Assembly: container — HILL(mound) inside SINGS(Carol's)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O
+      bits: syn=ACES,DABS,NIPS,ODDS,RAYS,ATOMS,DRAMS,HINTS,LICKS,MITES,MOTES,PARTS,SNAPS,SNIPS,SPOTS; ind=anagram,hidden
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      bobs: syn=DUCKS,BOX,CUT,HIT,TAG,ZAP,BACK,BONK,BORE,BOTH,HAIR,HERD,HOLE,NAIL,SLOG; ind=anagram?,parts
+      gathering: syn=BAR,BED,GET,MOW,BANK,BEVY,CELL,CLUB,COCK,DRAY,HEAP,KNOT,PILE,PYRE,RICK; ind=anagram?
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      mound: syn=HILL*,BAR,BED,JUT,MOW,BANK,BUMP,COCK,DRAY,HEAP,HUMP,KNOT,LUMP,PILE,PYRE
+      bits and bobs: syn=ODDMENTS,LEFTOVERS
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Raised gang with genuine fabulous sailor
+  Answer: LAERTES
+  Tier: Cached | Confidence: 100/100
+  Definition: "sailor"
+  Wordplay type: reversal
+  Components:
+    synonym            gang                      -> SET
+    synonym            genuine                   -> REAL
+  Assembly: reversal — reverse SET(gang)+REAL(genuine)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      gang: syn=LOT,SET,BAND,BODY,CREW,JETS,RING,TASK,TEAM,A LOT,CLASS,CROWD,GROUP,MAFIA,PARTY
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      genuine: syn=ECHT,REAL,TRUE,VERY,FRANK,HEART,RIGHT,TRUCE,ACTUAL,DEVOUT,ENOUGH,HONEST,SIMPLE,ARTLESS,NATURAL
+      fabulous: syn=A1,OK,BIG,EYE,FAB,HOT,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL
+      sailor: syn=AB,DOG,SEA,TAR,JACK,SALT,JASON,STARS,BOATER,COMMON,HEARTY,LASCAR,RATING,SEAMAN,SINBAD; abbr=AB,JACK,OS,RN,SALT,TAR
+    Definitions:
+      "sailor" -> LAERTES (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. Key part of speech written up for Mark
+  Answer: BREVE
+  Tier: Cached | Confidence: 90/100
+  Definition: "Mark"
+  Wordplay type: reversal
+  Components:
+    synonym            part of speech            -> VERB
+  Assembly: reversal — reverse VERB(part of speech) + E
+  Gap fill: [('key', 'E', 'abbreviation')]
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      key: syn=ALL,ALT,BIG,DEL,ESC,FAN,GET,TAB,VEX,ABET,ARCH,CAMP,CLUB,CORE,DOOR; abbr=A,B*,C,D,E*,F,G
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      speech: syn=RANT,TALK,TERM,WORD,DRONE,IDIOM,LINGO,PITCH,SPIEL,TERMS,WORDS; ind=homophone
+      written: ind=reversal
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      mark: syn=ADD,AIM,BAR,DOT,END,GAG,MAR,PUT,RAP,RIB,SET,SIN,YUK,AIMS,BLOT; abbr=M
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+      part of speech: syn=NOUN,SUCH,VERB,WORD
+    Definitions:
+      "Mark" -> BREVE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Piece of information backing commercial corporation
+  Answer: DATUM
+  Tier: Cached | Confidence: 100/100
+  Definition: "Piece of information"
+  Wordplay type: reversal
+  Components:
+    abbreviation       commercial                -> AD
+    abbreviation       corporation               -> TUM
+  Assembly: reversal — reverse AD(commercial) + TUM(corporation)
+  Checks: definition=confirmed in DB | wordplay_type=reversal | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      piece: syn=22,DO,A A,ARM,BAR,BIT,CUT,END,GAT,GUN,JOB,ROD,SIX,USE,ARMS; ind=hidden; sounds=peace
+      information: syn=DATUM*,MY,SO,FEW,GEN,JOB,USE,DATA,DOPE,DUTY,HAND,INFO,ITEM,KNOW,MANY; abbr=GEN
+      backing: syn=AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL,SKIN; ind=reversal
+      commercial: syn=AD,FLY,INK,BILL,HYPE,PLUG,SIGN,SPOT,WEAR,WORD,PROMO,READY,STORY,WRITE; abbr=AD
+      corporation: syn=TUM*,GUT,FLAB,GUILD; abbr=TUM*
+      piece of information: syn=ITEM,MAIL,TEXT,TWEET
+    Definitions:
+      "Piece of information" -> DATUM (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Stooped and edged in rocks
+  Answer: DEIGNED
+  Tier: Cached | Confidence: 92/100
+  Definition: "Stooped"
+  Wordplay type: anagram
+  Components:
+    literal            edged                     -> EDGED
+    synonym            in                        -> IN
+  Assembly: anagram — anagram of EDGED(edged)+IN(in)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stooped: syn=DEIGNED*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      edged: syn=RAW,ACID,BEAT,EDGY,KEEN,ACERB,HARSH,HONED,NOISY,NOSED,RASPY,SHARP,SPIKY,ACIDIC,ATONAL; fodder=EDGED(5/7 anagram match)
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      rocks: syn=ICE,GEMS,REEF,REELS,SWAYS,SHAKES,STONES,GABBROS,TEETERS,GEM,GIB,ROC,TOR,BASE,BASS; ind=anagram
+    Definitions:
+      "Stooped" -> DEIGNED (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. Easily offended prey she invites to wrangle
+  Answer: HYPERSENSITIVE
+  Tier: Cached | Confidence: 80/100
+  Definition: "Easily offended"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     prey she invites to       -> PREYSHEINVITESTO
+  Assembly: deletion+anagram — delete TO from PREYSHEINVITESTO(prey she invites to), anagram of PREYSHEINVITES
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      easily: syn=BY,IN,OK,SO,ALL,OUT,ABLY,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD; ind=anagram
+      offended: syn=ERRED,DIDWRONG,PROVOKED,SLIGHTED,DISGUSTED,HURT FEELINGS
+      prey: syn=KILL,LOSS,DENTS,DROPS,FALLS,HAVOC,LUMPS,ROUTS,RUINS,LOSSES,QUARRY,TARGET,VICTIM,DEFEATS,VICTIMS; sounds=pray
+      she: syn=FI,LI,BOOK,EMMA,AGNES,ALICE,ELENA,NAOMI,NIECE,TESSA,WOMAN,AGATHA,FEMALE,ESTELLE,PANDORA
+      invites: syn=ASKS,ASK,FISH,PAGE,ASKED,COURT,ASKING,ASK FOR,REQUEST,TROUBLE,ASK FOR IT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      wrangle: syn=SET,FALL,FIRE,RACE,A ROW,ARGUE,FIGHT,WORDS,ARGUED,ARGUES,ARGUING,ARGUMENT,STRUGGLE,ARGUMENTS,ARGY-BARGY; ind=anagram?
+    Definitions:
+      "Easily offended" -> HYPERSENSITIVE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Wrong about second name of man
+  Answer: SIMON
+  Tier: Cached | Confidence: 100/100
+  Definition: "name of man"
+  Wordplay type: container
+  Components:
+    synonym            Wrong                     -> SIN
+    synonym            second                    -> MO
+  Assembly: container — MO(second) inside SIN(Wrong)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wrong: syn=SIN*,IT,NO,ATE,BAD,BUG,EAT,GET,GOT,ILL,IRE,IRK,MAD,NOT,OFF; abbr=TORT,X; ind=anagram
+      about: syn=ON*,AS,BY,CA,OF,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY,YAW; abbr=C,CA,OF,ON*,OVER,RE; ind=anagram,container,reversal
+      second: syn=MO*,ME,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK,BEAT; abbr=B,MO*,S*; ind=parts
+      name: syn=A A,AIM,CUT,DIG,DIS,DUB,FEE,FIX,GUY,NOT,OPT,PUT,REP,SET,TAG; abbr=N*
+      man: syn=SON*,ED,HE,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,JOE,KID,LAD; abbr=AL,DAN,ED,HE,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+    Definitions:
+      "name of man" -> SIMON (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Unsuitable to sleep with stripped covers
+  Answer: INAPT
+  Tier: Cached | Confidence: 80/100
+  Definition: "Unsuitable"
+  Wordplay type: deletion
+  Components:
+    synonym            with                      -> IN
+    first_letter       to                        -> T
+    synonym            sleep                     -> NAP
+  Assembly: deletion — delete N from IN(with) + NAP(sleep) + T(to)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      unsuitable: syn=INAPT*,ILL,SIDE,AMISS,INEPT,PLACE,WRONG
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      sleep: syn=NAP*,IT,BED,END,HAY,KIP,LIE,NOD,Z'S,DEAD,DOSS,DOZE,LAIR,RACK,REST
+      with: syn=IN*,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      stripped: syn=RAW,BALD,BARE,FREE,NUDE,OPEN,CLEAR,FRANK,NAKED,PLAIN; ind=deletion,parts
+      covers: syn=AN,BINS,DOGS,EYES,FILL,GOES,PART,PODS,RUNS,TAGS,TOPS,BOXES,CASES,COVER,CURBS; ind=container,parts
+    Definitions:
+      "Unsuitable" -> INAPT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Fellow from hotel wearing headgear
+  Answer: CHAP
+  Tier: Cached | Confidence: 100/100
+  Definition: "Fellow"
+  Wordplay type: container
+  Components:
+    synonym            headgear                  -> CAP
+    abbreviation       hotel                     -> H
+  Assembly: container — H(hotel) inside CAP(headgear)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fellow: syn=CHAP*,BOD,BOY,BUD,CAT,CUB,DON,EGG,FOE,GUY,JOE,KEN,KID,LAD,MAN; abbr=F,MAN
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      hotel: syn=DEN,INN,BACH,CAMP,CLUB,HOLE,LAIR,RITZ; abbr=H*,INN
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD; abbr=IN; ind=container,insertion
+      headgear: syn=CAP*,HAT,LID,SAY,TEN,HAT,,HATS,HOOD
+    Definitions:
+      "Fellow" -> CHAP (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 25. Courage of cycling world
+  Answer: HEART
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Courage"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     world                     -> EARTH
+  Assembly: anagram — anagram of EARTH(world)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      courage: syn=HEART*,GRIT,GUTS,FIBER,FIBRE,MOXIE,NERVE,PLUCK,SPUNK,VALOR
+      cycling: syn=RIDE,SPORT; ind=anagram?
+      world: syn=CAP,KIN,LID,ACME,APEX,FOLK,HEAD,MARS,PEAK,RACE,CASTE,COVER,CROWN,EARTH,FOLKS; ind=anagram?; sounds=whirled
+    Definitions:
+      "Courage" -> HEART (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 26. Winged beast’s mouth biting child; reptilian creature
+  Answer: MASONWASP
+  Tier: --- | Confidence: 0/100
+  Definition: "Winged beast"
+  Wordplay type: container
+  Components:
+    synonym            mouth                     -> MAW
+    synonym            child                     -> SON
+  DB Lookups:
+    DB lookups:
+      mouth: syn=GO,FIX,FLY,GET,GOB,HIE,JOG,LAY,LIE,MUG,NAG,RIP,RUM,SAY,SET; ind=parts
+      biting: syn=BAD,RAW,ACID,BLAH,EDGY,GRAY,GRIM,HARD,KEEN,POKY,TART,WILD,ACERB,ACRID,ACUTE; ind=container
+      child: syn=SON*,BIG,BOY,BUD,CAT,CUB,GET,GUY,IMP,JOE,KID,LAD,MAN,TAD,TOT; abbr=TOT
+      creature: syn=SON*,ASS,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,NUN,OWL,PIG,BABY,BEAU
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Heats pan to cook game bird
+  Answer: PHEASANT
+  Tier: Cached | Confidence: 100/100
+  Definition: "game bird"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Heats pan                 -> HEATSPAN
+  Assembly: anagram — anagram of HEATSPAN(Heats pan)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      heats: syn=WARMS,22,AIR,ARM,BOD,BOY,CAT,COP,EGG,GAT,GUN,GUY,HOT,JOE,LAD
+      pan: syn=WOK,COLD,DEAD,FACE,TASK,ROAST,SKILLET,BILLYCAN,DENOUNCE,STOCKPOT,TOGETHER
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      cook: syn=BE,DO,IS,ARE,FRY,HAP,LIE,RIG,SIT,BAKE,BEAR,CHEF,COME,LIVE,PASS; abbr=DO; ind=anagram
+      game: syn=PHEASANT*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+      bird: syn=PHEASANT*,AUK,BOD,BOY,CAT,EGG,EMU,GUY,HEN,JOE,LAD,MAN,MEW,MOA,OWL; abbr=HEN; sounds=burred
+      game bird: syn=PHEASANT*,BIRD,GAME,FLIER,FLYER
+    Definitions:
+      "bird" -> PHEASANT (definition match)
+      "game bird" -> PHEASANT (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 28. Media story exposed newspaper boss
+  Answer: EDITOR
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "newspaper boss"
+  Wordplay type: hidden
+  Components:
+    hidden             Media story               -> EDITOR
+  Assembly: charade — EDITOR(Media story)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=hidden, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      media: syn=IM,MEAN,AGENT,MEANS,ORGAN,PRESS,AGENCY,MIDDLE,MILIEU
+      story: syn=A,MY,NO,SO,FEW,FIB,GEN,LIE,BLOG,CASE,DEAL,GIVE,INFO,ITEM,JOKE; abbr=LIE,SAGA,TALE
+      exposed: syn=OUT,RAW,BALD,BARE,FREE,LOUT,NUDE,OPEN,ROUT,AIRED,BARED,CLEAR,FRANK,NAKED,PLAIN
+      newspaper: syn=MAG,RAG,RED,BOOK,ZINE,DAILY,ORGAN,PAPER,TIMES,ANNUAL,HERALD,REVIEW,SERIAL
+      boss: syn=A1,OK,BIG,FAB,GUV,HOT,THE,TOO,TOP,A-OK,BLUE,BRAG,COLD,COOL,DONE
+    Definitions:
+      "boss" -> EDITOR (definition match)
+      "newspaper boss" -> EDITOR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Tree surgeon’s third trimmer
+  Answer: SPRUCER
+  Tier: Cached | Confidence: 92/100
+  Definition: "trimmer"
+  Wordplay type: charade
+  Components:
+    synonym            Tree                      -> SPRUCE
+    first_letter       surgeon's                 -> R
+  Assembly: charade — SPRUCE(Tree) + R(surgeon's)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tree: syn=SPRUCE*,ASH,ELM,FIG,FIR,USE,ACER,BOON,COLA,LIFE,LIME,LINE,PALM,PINE,TEAK
+      third: syn=POOR,PUMP,QUIZ,GRILL,PUMPS,QUERY,SWEAT,GRILLS,PUMPED,SWEATS,EXAMINE,GRILLED,PUMPING,QUERIED,QUERIES
+    Definitions:
+      "trimmer" -> SPRUCER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Hateful king denounced guards
+  Answer: ACCURSED
+  Tier: Cached | Confidence: 92/100
+  Definition: "Hateful"
+  Wordplay type: container
+  Components:
+    synonym            denounced                 -> ACCUSED
+    abbreviation       king                      -> R
+  Assembly: container — R(king) inside ACCUSED(denounced)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hateful: syn=BAD,MEAN,NASTY,ODIOUS
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+      denounced: syn=TASK
+      guards: syn=RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS,COVERS,FENCES
+    Definitions:
+      "Hateful" -> ACCURSED (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 5. Coldly shifting out of the ark on Delaware River
+  Answer: CLYDE
+  Tier: --- | Confidence: 0/100
+  Definition: "River"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     out of the ark            -> COLDLY
+  DB Lookups:
+    DB lookups:
+      shifting: syn=MOVE,DOING; abbr=S; ind=anagram
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      ark: sounds=arc
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      delaware: syn=STATE
+      river: syn=CAM,DEE,FAL,TAY,URE,AIRE,AMUR,ARNO,AVON,BATH,DEEP,EBRO,ELBE,FLUX,GLUT; abbr=CAM,DEE,EXE,MA,R
+      out of: abbr=EX
+      out of: syn=BIRD,FROM,DIVER,FLIER,LUPIN,PLANT,SHELL
+      of the: syn=MITRE
+    Definitions:
+      "River" -> CLYDE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 6. Rebel force in ancient city
+  Answer: UPRISER
+  Tier: Cached | Confidence: 100/100
+  Definition: "Rebel"
+  Wordplay type: container
+  Components:
+    synonym            force                     -> PRISE
+    synonym            ancient city              -> UR
+  Assembly: container — PRISE(force) inside UR(ancient city)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rebel: syn=RISE*,RED,CADE,BALKY,ONE'S,YOUNG,RISEUP,UNRULY,AGAINST,DEFIANT,FROWARD,HERETIC,RESTIVE,TO RISE,WAYWARD
+      force: syn=PRISE*,DO,A A,ARM,BOD,BOY,CAT,CHI,EGG,FED,GUY,JOE,LAD,MAN,RAM; abbr=F; ind=anagram?
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      ancient: syn=AGE,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,LONG,OLD,,ONCE,OVER,PAST
+      city: syn=EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA,NICE; abbr=EC,LA,NY,ec; ind=anagram
+      force in: syn=SQUEEZE
+      ancient city: abbr=UR
+      ancient city: syn=UR,CITY,ROLE,TROY,PETRA,SPARTA,THEBES,EPHESUS,KNOSSOS
+    Definitions:
+      "Rebel" -> UPRISER (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 7. Resource for one running satire involving soap family
+  Answer: SEWINGKIT
+  Tier: --- | Confidence: 0/100
+  Definition: "Resource"
+  Wordplay type: container
+  Components:
+    synonym            satire                    -> SPOOF
+    abbreviation       one                       -> I
+    abbreviation       running                   -> ON
+    synonym            soap                      -> WASHE
+    abbreviation       family                    -> KIN
+  DB Lookups:
+    DB lookups:
+      resource: syn=AID,FUND,POCKET,RESORT,AMENITY,COFFERS,MINE IN,AN OFTEN,BANKROLL,FINANCES,RECOURSE,RESERVES,EXCHEQUER,EXPEDIENT
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one: syn=SET*,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      running: syn=ON,ARM,CARE,FAST,GRIP,HAND,HOLD,LIVE,MOVE,SWAY,A ROW,ALIVE,GOING,GRASP,HANDS; abbr=ON; ind=anagram
+      satire: syn=SPOOF,PARODY,LAMPOON,MOCKERY,SARCASM,RIDICULE
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      soap: syn=WASHE,CORRIE,CLEANER,FLATTER,CLEANSER,DETERGENT,TV SERIES
+      family: syn=SET*,DOC,EMT,KIN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,DOCS,EMTS,FOLK; abbr=KIN
+      for one: abbr=EG
+      for one: syn=EG,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+    Definitions:
+      "Resource" -> SEWINGKIT (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 8. Cut short shady European venture
+  Answer: DARE
+  Tier: --- | Confidence: 0/100
+  Definition: "venture"
+  Wordplay type: deletion
+  Components:
+    literal            shady                     -> SHADE
+    abbreviation       European                  -> E
+  DB Lookups:
+    DB lookups:
+      cut: syn=DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW,NIP; ind=deletion,hidden,parts
+      short: syn=GO,DIP,EBB,FLY,GET,HIE,JOG,LIE,LOW,RIP,SHY,TOT,WAX,ZIP,BILL; abbr=S; ind=deletion,parts
+      shady: syn=FAST
+      european: syn=P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV; abbr=E*
+      venture: syn=TRY,RISK
+      cut short: ind=parts
+      cut short: syn=BOB,CUT,BACK,BOTH,DOCK
+    Definitions:
+      "venture" -> DARE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. Tender wound initially moist hardens
+  Answer: HERDSMAN
+  Tier: Cached | Confidence: 100/100
+  Definition: "Tender"
+  Wordplay type: anagram
+  Components:
+    literal            hardens                   -> HARDENS
+    first_letter       moist                     -> M
+  Assembly: anagram — anagram of HARDENS(hardens)+M(moist)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tender: syn=BID,CAN,HOY,KEG,LOW,OER,PET,TUB,TUG,TUN,VAT,WAY,WET,BUTT,CASH
+      wound: syn=CUT,BITE,SORE,WEAR,ABOUT,LESION,OFFEND,SNAKED,TRAUMA,AFFRONT,CUT SAY,RAMBLED,SCREWED,TWISTED,WRAPPED; ind=anagram
+      initially: syn=FEAR,LOTS,FIRST,AT FIRST; ind=acrostic,deletion,parts
+      moist: syn=WET,DAMP,CLAMMY
+      hardens: syn=FINE,INURES,STEELS,ANNEALS,SEASONS,HARSHENS,STIFFENS,TOUGHENS,FIT,PUT,RIG,SET,BEND,CASE,EDIT; fodder=HARDENS(7/8 anagram match)
+    Definitions:
+      "Tender" -> HERDSMAN (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

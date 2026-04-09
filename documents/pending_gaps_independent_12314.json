@@ -1,0 +1,45 @@
+{
+  "source": "independent",
+  "puzzle": "12314",
+  "stats": {
+    "total": 37,
+    "assembled": 37,
+    "high": 34,
+    "medium": 3,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 94.02702702702703
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "authorisation",
+      "answer": "MANDATE",
+      "clue_number": "20",
+      "direction": null,
+      "clue": "Bloke getting to see authorisation",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "I can see what's coming",
+      "answer": "PREVIEWER",
+      "clue_number": "24",
+      "direction": null,
+      "clue": "I can see what’s coming - end of sheep sheep in stream turning turtle",
+      "score": 61
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to get clear",
+      "answer": "EXTRICATE",
+      "clue_number": "7",
+      "direction": null,
+      "clue": "I’m leaving additional part of match around one heading for car to get clear",
+      "score": 78
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "source": "telegraph",
+  "puzzle": "28968",
+  "stats": {
+    "total": 1,
+    "assembled": 1,
+    "high": 1,
+    "medium": 0,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 92.0
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Father's",
+      "letters": "PAS",
+      "answer": "Pastry",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Father's attempt to make dough",
+      "score": 92
+    }
+  ]
+}

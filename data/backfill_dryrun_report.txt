@@ -1,0 +1,2547 @@
+======================================================================
+INDEPENDENT EDITION BACKFILL [REPORT ONLY]
+======================================================================
+Date range: 2021-06-11 to 2026-03-31
+Database: C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\clues_master.db
+
+Scanning database for puzzles needing upgrade...
+  1089 puzzles need direction/clue_number upgrade
+  1094 total puzzle dates in DB
+
+Scanning edition archive...
+  Mon 05 Dec 2022 #11278: [DRY RUN] 30/30 matched
+  Tue 06 Dec 2022 #11279: [DRY RUN] 30/30 matched
+  Wed 07 Dec 2022 #11280: [DRY RUN] 33/33 matched
+  Thu 08 Dec 2022 #11281:       ANSWER-MATCH: RISHI <- (and 19 Across) Latest leader's greeting displaced
+      UNMATCHED: See 13 Across [SUNAK]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Fri 09 Dec 2022 #11282: [DRY RUN] 28/28 matched
+  Sat 10 Dec 2022 #11283:       ANSWER-MATCH: SECURITYBLANKET <- Comfort returns occasionally with <i>Strictly</i> 
+[DRY RUN] 30/30 matched
+  Sun 11 Dec 2022 #1711:       ANSWER-MATCH: GELATIN <- Be accepted around the French 25
+      ANSWER-MATCH: GORDON <- Continue embracing rampant medic or large 25
+      ANSWER-MATCH: SUN <- You and me heading up north for our evening 25
+      ANSWER-MATCH: IRISH <- Initiation of inalienable right is hard kind of 25
+      ANSWER-MATCH: ANGEL <- This 25, or a new 25
+      ANSWER-MATCH: PECTIN <- Muscle can 25
+[DRY RUN] 37/37 matched
+  Mon 12 Dec 2022 #11284: [DRY RUN] 30/30 matched
+  Tue 13 Dec 2022 #11285:       ANSWER-MATCH: TOAST <- Say &quot;Cheers!&quot; when child is eating
+      ANSWER-MATCH: EIGHTEEN <- (and 20 Across) 22 somehow goes in the heel
+      ANSWER-MATCH: RUMOURS <- Sport grieves ignoring new stories going 22
+      ANSWER-MATCH: STANDA <- (and 22 Down) Idly loiter and buy some drinks
+      ANSWER-MATCH: DISCO <- (and 5 Across) Stained club tempted to admit nothi
+      ANSWER-MATCH: ORBIT <- Gold piece's path 22
+      UNMATCHED: See 19 Across [HOLES]
+      UNMATCHED: See 28 Across [ROUND]
+      UNMATCHED: See 4 Down [LOURED]
+[DRY RUN] 29/32 matched, 3 unmatched
+  Wed 14 Dec 2022 #11286:       ANSWER-MATCH: BASE <- (and 25 Across) Crude comment is what marks the en
+      UNMATCHED: See 15 Across [LINE]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Thu 15 Dec 2022 #11287: [DRY RUN] 30/30 matched
+  Fri 16 Dec 2022 #11288:       ANSWER-MATCH: GREASY <- (and 26 Down) Pro nosegays being distributed in gr
+      UNMATCHED: See 16 Across [SPOON]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 18 Dec 2022 #1712: [DRY RUN] 32/32 matched
+  Mon 19 Dec 2022 #11290: [DRY RUN] 31/31 matched
+  Tue 20 Dec 2022 #11291:       ANSWER-MATCH: BREAKING <- (and 1 Down) Something Hollywood's good at - with 
+      ANSWER-MATCH: CLING <- (and 14 Across) Chuck McGill - fine without source
+      ANSWER-MATCH: COAL <- (and 30 Down) Some people dig this El Camino broad
+      ANSWER-MATCH: LONG <- (and 19 Down) Stoic and composed felon, Gus Fring
+      UNMATCHED: See 1 Across [BAD]
+      UNMATCHED: See 17 Across [FILM]
+      UNMATCHED: See 28 Across [MINE]
+      UNMATCHED: See 9 Down [SUFFERING]
+[DRY RUN] 34/38 matched, 4 unmatched
+  Wed 21 Dec 2022 #11292:       ANSWER-MATCH: ACUTE <- Sharp knife wound admitted to A&amp;E
+[DRY RUN] 32/32 matched
+  Thu 22 Dec 2022 #11293:       ANSWER-MATCH: ANTHEMS <- Soldiers perhaps guarding border getting 9
+      ANSWER-MATCH: ARIAS <- King invested in capital, for instance 9
+      ANSWER-MATCH: VIRTUOSIC <- Endless faith, say, and love thus for expert in 8
+      ANSWER-MATCH: PESOS <- Outline of prelude, needing help to make 9
+      ANSWER-MATCH: SUITE <- Spades perhaps beginning to excavate set of 9
+[DRY RUN] 29/29 matched
+  Fri 23 Dec 2022 #11294: [DRY RUN] 30/30 matched
+  Sat 24 Dec 2022 #11295:       ANSWER-MATCH: REENLIST <- <i>Listener </i>puzzling? Join the group again
+[DRY RUN] 32/32 matched
+  Sun 25 Dec 2022 #1713: [DRY RUN] 37/37 matched
+  Mon 26 Dec 2022 #11296:       ANSWER-MATCH: KITKATCLUB <- Cabaret venue's 10/10
+[DRY RUN] 29/29 matched
+  Tue 27 Dec 2022 #11297: [DRY RUN] 31/31 matched
+  Wed 28 Dec 2022 #11298:       ANSWER-MATCH: RUBBISHBIN <- Refuse to go into this new B&amp;B, in hubris
+[DRY RUN] 30/30 matched
+  Thu 29 Dec 2022 #11299:       ANSWER-MATCH: MIAOW <- A quote from <i>Cats </i>or <i>Revolutionary Road<
+      ANSWER-MATCH: RHYMERS <- Poets drunk sherry, transfixed by the overture to 
+      ANSWER-MATCH: WHERESWALLY <- Children's picture quiz, the answer to which is 2,
+[DRY RUN] 32/32 matched
+  Fri 30 Dec 2022 #11300:       ANSWER-MATCH: NEON <- Low-scoring draw this No. 10 clinched?
+      ANSWER-MATCH: BLEEPED <- &quot;Jump between the sheets with energy for a **
+[DRY RUN] 32/32 matched
+  Sat 31 Dec 2022 #11301:       ANSWER-MATCH: PEEL <- Policing advocate among last characters to help re
+[DRY RUN] 28/28 matched
+  Sun 01 Jan 2023 #1714: [DRY RUN] 34/34 matched
+  Mon 02 Jan 2023 #11302:       ANSWER-MATCH: ITAINTOVER <- (and 15 Across, 17 Across) We're not done yet! Unu
+      UNMATCHED: See 13 Across [TILL]
+      UNMATCHED: See 13 Across [THEFATLADYSINGS]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Tue 03 Jan 2023 #11303:       ANSWER-MATCH: EURO <- (and 1 Across) A succession of outlandish numbers 
+      UNMATCHED: See 14 Across [VISION]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Wed 04 Jan 2023 #11304: [DRY RUN] 31/31 matched
+  Thu 05 Jan 2023 #11305:       ANSWER-MATCH: TOAST <- (and 8 Down) Criminal attacks middle of fort - sol
+      ANSWER-MATCH: FILL <- (and 22 Down) Cliff's content to come back before 
+      UNMATCHED: See 7 Down [RACK]
+      UNMATCHED: See 25 Down [LIGHT]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Fri 06 Jan 2023 #11306: [DRY RUN] 32/32 matched
+  Sat 07 Jan 2023 #11307:       ANSWER-MATCH: GUTFEELING <- <i>Basic Instinct</i>'s visceral nude scene finall
+      ANSWER-MATCH: GRAVEDIGGERS <- Finally quitting <i>Taskmaster</i>, Greg Davies pl
+      ANSWER-MATCH: MYTHICAL <- This writer's just topped <i>Absolutely Fabulous</
+      ANSWER-MATCH: THEPEERAGE <- Elite leak spreads in <i>Vogue</i>
+      ANSWER-MATCH: STARVELING <- Colleague of Quince hiding, after dropping <i>Inde
+[DRY RUN] 28/28 matched
+  Sun 08 Jan 2023 #1715:       ANSWER-MATCH: DISEASE <- Complaint &quot;Incense is out of place&quot;
+[DRY RUN] 37/37 matched
+  Mon 09 Jan 2023 #11308: [DRY RUN] 29/29 matched
+  Tue 10 Jan 2023 #11309:       ANSWER-MATCH: EARACHE <- <i>What Car? </i>regularly takes up issue with tho
+[DRY RUN] 32/32 matched
+  Wed 11 Jan 2023 #11310: [DRY RUN] 29/29 matched
+  Thu 12 Jan 2023 #11311: [DRY RUN] 30/30 matched
+  Fri 13 Jan 2023 #11312: [DRY RUN] 28/28 matched
+  Sat 14 Jan 2023 #11313:       ANSWER-MATCH: SENTA <- (and 20 Down) <i>Quiller </i>actor delivered a mea
+      UNMATCHED: See 25 Across [BERGER]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Sun 15 Jan 2023 #1716: [DRY RUN] 28/28 matched
+  Mon 16 Jan 2023 #11314: [DRY RUN] 28/28 matched
+  Tue 17 Jan 2023 #11315:       ANSWER-MATCH: NOSTONE <- (and 11 Across) Every effort made by student worki
+      ANSWER-MATCH: HAVENOTS <- Safe places to absorb books such as<i> Les Misérab
+      UNMATCHED: See 28 Across [UNTURNED]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Wed 18 Jan 2023 #11316:       ANSWER-MATCH: LIGHT <- (and 15 Across) Inclined to appropriate action - h
+      ANSWER-MATCH: CUTPURSE <- Copper succeeded stopping break out - turning back
+      ANSWER-MATCH: APE <- (and 12 Down) Call secretary about old primate
+      ANSWER-MATCH: RED <- (and 28 Down) Wine spot creates problem for photo
+      UNMATCHED: See 16 Across [FINGERED]
+      UNMATCHED: See 2 Down [MAN]
+      UNMATCHED: See 21 Down [EYE]
+[DRY RUN] 29/32 matched, 3 unmatched
+  Thu 19 Jan 2023 #11317: [DRY RUN] 28/28 matched
+  Fri 20 Jan 2023 #11318: [DRY RUN] 32/32 matched
+  Sat 21 Jan 2023 #11319:       ANSWER-MATCH: MICHELLE <- (and 1 Down) Chill! I'm the one ultimately working
+      ANSWER-MATCH: VIPLANE <- Struggle to accept idea for short cut taken by 1A/
+      ANSWER-MATCH: SUBSTANDARD <- (and 18 Across) Prats, you said! Bad spend wasted 
+      ANSWER-MATCH: JOHN <- (and 22 Down) Can Chinese mate get signature?
+      UNMATCHED: See 1 Across [MONE]
+      UNMATCHED: See 15 Across [PPE]
+      UNMATCHED: See 27 Down [HANCOCK]
+[DRY RUN] 30/33 matched, 3 unmatched
+  Sun 22 Jan 2023 #1717: [DRY RUN] 32/32 matched
+  Mon 23 Jan 2023 #11320:       ANSWER-MATCH: LARGE <- Famous ship briefly stopping in Cherbourg, the <i>
+[DRY RUN] 30/30 matched
+  Tue 24 Jan 2023 #11321:       ANSWER-MATCH: STEAM <- Cook slowly leaves M&amp;S having returned sandwic
+      ANSWER-MATCH: EDSON <- (and 13 Across, 3 Across) &quot;Maradona, in conte
+      UNMATCHED: See 2 Down [ARANTESDO]
+      UNMATCHED: See 2 Down [NASCIMENTO]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Wed 25 Jan 2023 #11322:       ANSWER-MATCH: SNAP <- Speak tartly: &quot;Those are identical!&quot;
+[DRY RUN] 30/30 matched
+  Thu 26 Jan 2023 #11323:       ANSWER-MATCH: SCIFI <- <i>Amazing Stories</i> stored in disc I finalised
+[DRY RUN] 30/30 matched
+  Fri 27 Jan 2023 #11324:       ANSWER-MATCH: SUNG <- G&amp;S taken aback about a Parisian that’s perfor
+[DRY RUN] 32/32 matched
+  Sat 28 Jan 2023 #11325:       ANSWER-MATCH: UNIFORMED <- <i>Dune </i>adaptation filled with international c
+      ANSWER-MATCH: LONGTAILED <- (and 18 Across) Winger doing little at ground
+      UNMATCHED: See 6 Down [TIT]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Sun 29 Jan 2023 #1718: [DRY RUN] 32/32 matched
+  Mon 30 Jan 2023 #11326: [DRY RUN] 30/30 matched
+  Tue 31 Jan 2023 #11327:       ANSWER-MATCH: MAKERIGHT <- Power consuming Baker &quot;un-British&quot;? Corr
+[DRY RUN] 28/28 matched
+  Wed 01 Feb 2023 #11328:       ANSWER-MATCH: DATA <- <i>Star Trek</i> character slightly upset
+      ANSWER-MATCH: DIRHAM <- &quot;The capital of UAE is Riyadh&quot;, Miles sn
+[DRY RUN] 30/30 matched
+  Thu 02 Feb 2023 #11329:       ANSWER-MATCH: GREGORIAN <- (and 25 Down) Order music
+      UNMATCHED: See 6 Down [CHANT]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 03 Feb 2023 #11330: [DRY RUN] 32/32 matched
+  Sat 04 Feb 2023 #11331:       ANSWER-MATCH: AIRSHOT <- <i>Express </i>blasted failure to strike?
+      ANSWER-MATCH: PHOTOSENSITIVE <- Picture with controversial contents changed by <i>
+[DRY RUN] 32/32 matched
+  Mon 06 Feb 2023 #11332: [DRY RUN] 32/32 matched
+  Tue 07 Feb 2023 #11333:       ANSWER-MATCH: ANALEMMAS <- Find solar diagrams, having a drink with mum in M&
+      ANSWER-MATCH: THEREAND <- (and 12 Across, 26 Across) Article on champion gat
+      UNMATCHED: See 16 Down [BACK]
+      UNMATCHED: See 16 Down [AGAIN]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Wed 08 Feb 2023 #11334: [DRY RUN] 30/30 matched
+  Thu 09 Feb 2023 #11335: [DRY RUN] 28/28 matched
+  Fri 10 Feb 2023 #11336:       ANSWER-MATCH: QUERIST <- &quot;Search interrupted by odd bits of rain?&quot
+[DRY RUN] 28/28 matched
+  Sat 11 Feb 2023 #11337:       ANSWER-MATCH: INTEGER <- One, for example, in <i>Terms of Endearment</i>, <
+      ANSWER-MATCH: TOPOFTHEMORNING <- Wasted fortnight on poem for early edition of <i>H
+[DRY RUN] 30/30 matched
+  Mon 13 Feb 2023 #11338: [DRY RUN] 30/30 matched
+  Tue 14 Feb 2023 #11339:       ANSWER-MATCH: PROSECUTE <- <i>Carry On Poet </i>cures disorder
+      ANSWER-MATCH: NORWEGIANS <- Europeans swearing on <i>Carnage</i>
+      ANSWER-MATCH: WONT <- (and 27 Across, 28 Across) Song breaking law of eg
+      UNMATCHED: See 26 Down [GETFOOLED]
+      UNMATCHED: See 26 Down [AGAIN]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Wed 15 Feb 2023 #11340: [DRY RUN] 30/30 matched
+  Thu 16 Feb 2023 #11341:       ANSWER-MATCH: DARK <- (and 28 Across) Where film will end up, one way or
+      ANSWER-MATCH: AZURE <- Jazz quartet occasionally ripped off <i>Kind of Bl
+      ANSWER-MATCH: REGAIN <- Gripped by Beatlemania, geriatric recalled <i>Get 
+      ANSWER-MATCH: ICECAPS <- Things unfortunately getting heated up in Room 101
+      UNMATCHED: See 6 Across [ROOM]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 17 Feb 2023 #11342: [DRY RUN] 31/31 matched
+  Sat 18 Feb 2023 #11343: [DRY RUN] 26/26 matched
+  Mon 20 Feb 2023 #11344: [DRY RUN] 30/30 matched
+  Tue 21 Feb 2023 #11345:       ANSWER-MATCH: IAMTOOMUCH <- (and 19 Down) 6A's observation on excessive tabloi
+      ANSWER-MATCH: SPARE <- Furious book by 6A 25
+      UNMATCHED: See 13 Across [ITHESUN]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Wed 22 Feb 2023 #11346: [DRY RUN] 32/32 matched
+  Thu 23 Feb 2023 #11347:       ANSWER-MATCH: GLOVE <- (and 4 Across) Doctor vents one lung - making news
+      ANSWER-MATCH: GRAYSON <- (and 27 Across) So angry about agent coming back w
+      UNMATCHED: See 1 Across [PUPPETS]
+      UNMATCHED: See 26 Across [PERRY]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Fri 24 Feb 2023 #11348: [DRY RUN] 28/28 matched
+  Sat 25 Feb 2023 #11349:       ANSWER-MATCH: ENCHANT <- Spell &quot;preference&quot; without a 'p'
+[DRY RUN] 29/29 matched
+  Mon 27 Feb 2023 #11350: [DRY RUN] 28/28 matched
+  Tue 28 Feb 2023 #11351: [DRY RUN] 32/32 matched
+  Wed 01 Mar 2023 #11352: [DRY RUN] 28/28 matched
+  Thu 02 Mar 2023 #11353: [DRY RUN] 32/32 matched
+  Fri 03 Mar 2023 #11354: [DRY RUN] 28/28 matched
+  Sat 04 Mar 2023 #11355:       ANSWER-MATCH: WALLACE <- (and 10 Across) Recall man with a dog modelled one
+      UNMATCHED: See 7 Across [ANDGROMIT]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Sun 05 Mar 2023 #1723:       ANSWER-MATCH: ASIDES <- Principal musical numbers; they're delivered <i>so
+[DRY RUN] 32/32 matched
+  Mon 06 Mar 2023 #11356: [DRY RUN] 32/32 matched
+  Tue 07 Mar 2023 #11357: [DRY RUN] 28/28 matched
+  Wed 08 Mar 2023 #11358:       ANSWER-MATCH: NIFTY <- <i>i</i> newspaper printed in New York, which is n
+[DRY RUN] 30/30 matched
+  Thu 09 Mar 2023 #11359:       ANSWER-MATCH: DOMINIC <- (and 21 Across) Small party on the left with grouc
+      ANSWER-MATCH: ANASTYPIECE <- (and 2 Down) Cope with wife distressed in city aft
+      ANSWER-MATCH: BULLY <- (and 1 Down) Farm animal behind another heard outs
+      UNMATCHED: See 5 Across [RAAB]
+      UNMATCHED: See 18 Across [OFWORK]
+      UNMATCHED: See 23 Down [FORYOU]
+[DRY RUN] 27/30 matched, 3 unmatched
+  Fri 10 Mar 2023 #11360: [DRY RUN] 30/30 matched
+  Sat 11 Mar 2023 #11361:       ANSWER-MATCH: JUKEBOX <- (and 18 Down) Oddly blue joke cracked by Greek cha
+      ANSWER-MATCH: CROSSED <- (and 19 Down) Bohemians sounded angry at first bef
+      UNMATCHED: See 4 Down [MUSICAL]
+      UNMATCHED: See 5 Down [CHEQUES]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sun 12 Mar 2023 #1724: [DRY RUN] 28/28 matched
+  Mon 13 Mar 2023 #11362:       ANSWER-MATCH: CLOSEENCOUNTERS <- (and 26 Across) Film intimate moments with Thora?
+      ANSWER-MATCH: BEOWULF <- Book review: &quot;Woeful, it's a really hard read
+      UNMATCHED: See 21 Across [OFTHETHIRDKIND]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Tue 14 Mar 2023 #11363:       ANSWER-MATCH: CAP <- <i>Cat People </i>starts without a beat
+      ANSWER-MATCH: ARIA <- Song about racism in <i>Absolute Beginners</i>
+      ANSWER-MATCH: PANTONE <- Perhaps <i>Aladdin Sane</i>'s<i> </i>second half p
+      ANSWER-MATCH: HIPPO <- Animal power in <i>Modern Love</i>
+      ANSWER-MATCH: DVD <- David evens out production of <i>Sound and Vision<
+      ANSWER-MATCH: SINGULARITY <- Sly guitar in remix of <i>Space Oddity</i>
+      ANSWER-MATCH: CHOKER <- <i>Kooks </i>occasionally covered by female singer
+[DRY RUN] 32/32 matched
+  Wed 15 Mar 2023 #11364: [DRY RUN] 30/30 matched
+  Thu 16 Mar 2023 #11365:       ANSWER-MATCH: ALANIS <- (and 21 Across) Rolling Stones material is for a y
+      ANSWER-MATCH: SUCHAS <- (and 2 Down) One feeding wild cats sushi which cou
+      UNMATCHED: See 17 Across [MORISSETTE]
+      UNMATCHED: See 24 Across [ITIS]
+[DRY RUN] 24/26 matched, 2 unmatched
+  Fri 17 Mar 2023 #11366: [DRY RUN] 24/24 matched
+  Sat 18 Mar 2023 #11367:       ANSWER-MATCH: ARCTIC <- (and 5 Across) Critical cleric's case disheartened
+      ANSWER-MATCH: KNIGHT <- (and 28 Across) Adventurous male philosopher charg
+      ANSWER-MATCH: LEADINGQUESTION <- &quot;Number one, each way&quot; contains search t
+      ANSWER-MATCH: FRENCH <- (and 18 Down) What could enhance deal relating to 
+      ANSWER-MATCH: SEALED <- (and 20 Down) Marine directed arrangements and gui
+      UNMATCHED: See 1 Across [CIRCLE]
+      UNMATCHED: See 27 Across [ERRANT]
+      UNMATCHED: See 8 Down [POLISH]
+      UNMATCHED: See 9 Down [ORDERS]
+[DRY RUN] 26/30 matched, 4 unmatched
+  Sun 19 Mar 2023 #1725: [DRY RUN] 30/30 matched
+  Mon 20 Mar 2023 #11368: [DRY RUN] 29/29 matched
+  Tue 21 Mar 2023 #11369: [DRY RUN] 29/29 matched
+  Wed 22 Mar 2023 #11370: [DRY RUN] 29/29 matched
+  Thu 23 Mar 2023 #11371: [DRY RUN] 32/32 matched
+  Fri 24 Mar 2023 #11372:       ANSWER-MATCH: THEMIRRORCRACKD <- (and 4 Down) Cursed line implying inadequate refle
+      ANSWER-MATCH: TENNYSON <- Strain I avoided when touring US city to see autho
+      UNMATCHED: See 8 Across [FROMSIDETOSIDE]
+[DRY RUN] 25/26 matched, 1 unmatched
+  Sat 25 Mar 2023 #11373: [DRY RUN] 32/32 matched
+  Sun 26 Mar 2023 #1726:       ANSWER-MATCH: SPOKENFOR <- Already taken delivery of 4
+      ANSWER-MATCH: HARLEY <- (and 21 Down) Discovered king on yard with keen pr
+      UNMATCHED: See 7 Down [DAVIDSON]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Mon 27 Mar 2023 #11374: [DRY RUN] 28/28 matched
+  Tue 28 Mar 2023 #11375:       ANSWER-MATCH: NOON <- Small number, about 12
+[DRY RUN] 32/32 matched
+  Wed 29 Mar 2023 #11376: [DRY RUN] 28/28 matched
+  Thu 30 Mar 2023 #11377: [DRY RUN] 30/30 matched
+  Fri 31 Mar 2023 #11378:       ANSWER-MATCH: PRO <- (and 23 Across) In favour of turning in coalmine d
+      ANSWER-MATCH: PAN <- (and 15 Across) Develop move in cinematography
+      UNMATCHED: See 8 Across [FIT]
+      UNMATCHED: See 16 Across [OUT]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sat 01 Apr 2023 #11379:       ANSWER-MATCH: ENDLESS <- (and 5 Down) See 5 Down
+      UNMATCHED: See 25 Across [LOOP]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sun 02 Apr 2023 #1727: [DRY RUN] 30/30 matched
+  Mon 03 Apr 2023 #11380: [DRY RUN] 30/30 matched
+  Tue 04 Apr 2023 #11381:       ANSWER-MATCH: RENT <- (and 18 Across) Solicitor let out twisted hooligan
+      ANSWER-MATCH: TRAIN <- (and 21 Down) Mark Twain initially into working-ou
+      UNMATCHED: See 8 Down [BOY]
+      UNMATCHED: See 16 Down [SPOTTING]
+[DRY RUN] 31/33 matched, 2 unmatched
+  Wed 05 Apr 2023 #11382: [DRY RUN] 30/30 matched
+  Thu 06 Apr 2023 #11383:       ANSWER-MATCH: BARONESS <- Ordnance Survey spread out in Barnes &amp; Noble
+[DRY RUN] 32/32 matched
+  Fri 07 Apr 2023 #11384: [DRY RUN] 30/30 matched
+  Sat 08 Apr 2023 #11385:       ANSWER-MATCH: REPEATS <- Copies of <i>Spare</i>? They're heartlessly abando
+[DRY RUN] 28/28 matched
+  Sun 09 Apr 2023 #1728:       ANSWER-MATCH: VIAGRA <- <i>Sex and the City</i> — it has one staying up
+[DRY RUN] 31/31 matched
+  Mon 10 Apr 2023 #11386: [DRY RUN] 28/28 matched
+  Tue 11 Apr 2023 #11387:       ANSWER-MATCH: TOTALISER <- Child reformed Israel's system for the 20
+[DRY RUN] 32/32 matched
+  Wed 12 Apr 2023 #11388:       ANSWER-MATCH: STANDDOWN <- Laurel &amp; Hardy's fourth feature put on to ente
+[DRY RUN] 32/32 matched
+  Thu 13 Apr 2023 #11389:       ANSWER-MATCH: RINGOF <- (and 15 Across) Hob gives off this country air
+      UNMATCHED: See 6 Down [FIRE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 14 Apr 2023 #11390: [DRY RUN] 30/30 matched
+  Sat 15 Apr 2023 #11391:       ANSWER-MATCH: NEON <- Number one remixed part of <i>The Air That I Breat
+      ANSWER-MATCH: EARTHY <- <i>Listener </i>solver's no longer unrefined
+[DRY RUN] 28/28 matched
+  Sun 16 Apr 2023 #1729: [DRY RUN] 32/32 matched
+  Mon 17 Apr 2023 #11392:       ANSWER-MATCH: TROUBLE <- (and 15 Across) Cyberbully concealing email, but m
+      UNMATCHED: See 10 Across [ATMILL]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Tue 18 Apr 2023 #11393:       ANSWER-MATCH: ONSET <- <i>Inception </i>actor’s position when filming
+      ANSWER-MATCH: RHESUSES <- <i>These Foolish Things</i> finally played in devi
+      ANSWER-MATCH: TICKET <- A requirement to watch <i>Bloodsucker Alien</i>?
+[DRY RUN] 33/33 matched
+  Wed 19 Apr 2023 #11394: [DRY RUN] 29/29 matched
+  Thu 20 Apr 2023 #11395:       ANSWER-MATCH: TULLE <- Agricultural reformer with electronic 3
+      ANSWER-MATCH: OCTAL <- Cheers when cracking 0 + 150 in base 8
+      ANSWER-MATCH: SATIN <- What protesters did to get 3
+      ANSWER-MATCH: SUEDE <- For the audience, did rock and roll 3
+      ANSWER-MATCH: JUST <- (and 12 Across) American 3 I included in stuff for
+      ANSWER-MATCH: LINEN <- What poet produces, new 3
+      ANSWER-MATCH: BLUE <- (and 22 Down) Pornographic 3 in film
+      UNMATCHED: See 1 Down [WILLIAM]
+      UNMATCHED: See 23 Down [VELVET]
+[DRY RUN] 31/33 matched, 2 unmatched
+  Fri 21 Apr 2023 #11396:       UNMATCHED: Produce that is left in yard [YIELD]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sat 22 Apr 2023 #11397:       ANSWER-MATCH: TOMDICKANDHARRY <- Everybody recalled test set by dad, Nick '<i>Bonke
+[DRY RUN] 25/25 matched
+  Sun 23 Apr 2023 #1730: [DRY RUN] 30/30 matched
+  Mon 24 Apr 2023 #11398:       ANSWER-MATCH: OUTDRAW <- What the &quot;fastest gun&quot; could do - make a
+      ANSWER-MATCH: BEDSIDEMANNER <- Doctor needs &quot;med&quot; brain for this!
+[DRY RUN] 28/28 matched
+  Tue 25 Apr 2023 #11399:       ANSWER-MATCH: STOWIT <- Speech beginning as follows: &quot;Shut up&quot;
+[DRY RUN] 32/32 matched
+  Wed 26 Apr 2023 #11400:       ANSWER-MATCH: BLUE <- (and 15 Across) Somehow he sees us double number
+      ANSWER-MATCH: ENGAGEMENT <- (and 20 Across) Band that shows promise getting bu
+      ANSWER-MATCH: PASODOBLE <- Cast of soap with bold routine - ultimately, somet
+      UNMATCHED: See 14 Across [SUEDESHOES]
+      UNMATCHED: See 18 Across [RING]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Thu 27 Apr 2023 #11401:       ANSWER-MATCH: ELEGIAC <- <i>Independent </i>essentially upset about Quince,
+[DRY RUN] 32/32 matched
+  Fri 28 Apr 2023 #11402:       ANSWER-MATCH: FIRSTMATCH <- Earliest source of flame? 1A 11A was this at 18
+[DRY RUN] 36/36 matched
+  Sat 29 Apr 2023 #11403: [DRY RUN] 28/28 matched
+  Sun 30 Apr 2023 #1731: [DRY RUN] 30/30 matched
+  Mon 01 May 2023 #11404:       ANSWER-MATCH: DRAWBRIDGE <- Sketch new wife holding German adjustable spanner?
+[DRY RUN] 28/28 matched
+  Tue 02 May 2023 #11405:       ANSWER-MATCH: MUSHROOM <- (and 21 Across) Sloppy drumming shook home's inter
+      UNMATCHED: See 7 Down [KINGDOM]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Wed 03 May 2023 #11406:       ANSWER-MATCH: GUILTY <- (and 3 Down) Absolutely responsible 24 saying lust
+      ANSWER-MATCH: STORMY <- (and 18 Down) 5's porn star lady is monster when m
+      UNMATCHED: See 6 Across [ASSIN]
+      UNMATCHED: See 24 Across [DANIELS]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Thu 04 May 2023 #11407: [DRY RUN] 30/30 matched
+  Fri 05 May 2023 #11408:       ANSWER-MATCH: SCAMP <- Fiddle player’s leader, the 16
+      ANSWER-MATCH: SHAMPOO <- Picked up apologetic comment about poor actor in t
+[DRY RUN] 32/32 matched
+  Sat 06 May 2023 #11409: [DRY RUN] 33/33 matched
+  Sun 07 May 2023 #1732: [DRY RUN] 28/28 matched
+  Mon 08 May 2023 #11410: [DRY RUN] 30/30 matched
+  Tue 09 May 2023 #11411:       ANSWER-MATCH: DAMEEDNAEVERAGE <- Corrupt hosts need a comic - possibly 5's 7 31 12 
+      ANSWER-MATCH: MANUP <- Rashford &amp; co &quot;soft&quot;? Grow a pair!
+      ANSWER-MATCH: POS <- Oh, I forgot to tell you about <i>Chambers</i>
+[DRY RUN] 32/32 matched
+  Wed 10 May 2023 #11412: [DRY RUN] 30/30 matched
+  Thu 11 May 2023 #11413:       ANSWER-MATCH: TENSILE <- Sort of strength of pain relief I like <i>in extre
+[DRY RUN] 28/28 matched
+  Fri 12 May 2023 #11414: [DRY RUN] 30/30 matched
+  Sat 13 May 2023 #11415:       ANSWER-MATCH: POSTMAN <- According to Spooner, the majority of people criti
+      ANSWER-MATCH: THOUSANDS <- <i>Twist and Shout </i>beginning to sell loads
+[DRY RUN] 33/33 matched
+  Sun 14 May 2023 #1733:       ANSWER-MATCH: WOKE <- Came to like <i>The Guardian</i>
+      ANSWER-MATCH: INNATE <- <i>News at Ten </i>- viewing only middle bit with 
+[DRY RUN] 30/30 matched
+  Mon 15 May 2023 #11416: [DRY RUN] 30/30 matched
+  Tue 16 May 2023 #11417:       ANSWER-MATCH: EROGENOUS <- <i>Rogue One</i>'s cast is sexy
+      ANSWER-MATCH: JEANPAUL <- (and 26 Across) Revolutionary lecturer getting int
+      ANSWER-MATCH: LORRY <- <i>House</i> actor’s articulated vehicle
+      UNMATCHED: See 4 Down [MARAT]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Wed 17 May 2023 #11418: [DRY RUN] 30/30 matched
+  Thu 18 May 2023 #11419: [DRY RUN] 28/28 matched
+  Fri 19 May 2023 #11420:       ANSWER-MATCH: ELEVEN <- Still supporting article from 8 an hour before 26
+[DRY RUN] 28/28 matched
+  Sat 20 May 2023 #11421: [DRY RUN] 30/30 matched
+  Sun 21 May 2023 #1734:       ANSWER-MATCH: EPOCHS <- <i>Times </i>has nothing on Switzerland in records
+[DRY RUN] 32/32 matched
+  Mon 22 May 2023 #11422:       ANSWER-MATCH: AISLE <- Place in church where, briefly, &quot;I will&quot;
+      ANSWER-MATCH: SOAPSUDS <- &quot;Bubbles&quot; seen in TV series: first of al
+[DRY RUN] 32/32 matched
+  Tue 23 May 2023 #11423: [DRY RUN] 32/32 matched
+  Wed 24 May 2023 #11424: [DRY RUN] 28/28 matched
+  Thu 25 May 2023 #11425:       ANSWER-MATCH: FINDERS <- (and 10 Across) Rule of possession if nerds playin
+      ANSWER-MATCH: INSIDER <- (and 28 Across) Ingrid tries and develops informed
+      ANSWER-MATCH: DIE <- (and 12 Down, 27 Down) Cast absent, unlucky time f
+      ANSWER-MATCH: THE <- (and 13 Down, 29 Down) Strangely, Taiwan has less 
+      UNMATCHED: See 9 Across [KEEPERS]
+      UNMATCHED: See 26 Across [TRADING]
+      UNMATCHED: See 3 Down [ANOTHER]
+      UNMATCHED: See 3 Down [DAY]
+      UNMATCHED: See 6 Down [LAWISAN]
+      UNMATCHED: See 6 Down [ASS]
+[DRY RUN] 30/36 matched, 6 unmatched
+  Fri 26 May 2023 #11426: [DRY RUN] 31/31 matched
+  Sat 27 May 2023 #11427:       ANSWER-MATCH: MATHEMATICALLY <- (and 8 Across) Unnaturally calm at half-time? Yes,
+      UNMATCHED: See 1 Across [SAFE]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Sun 28 May 2023 #1735:       ANSWER-MATCH: JUST <- &quot;Simply thunderous shot! Unbelievable Jeff - 
+[DRY RUN] 33/33 matched
+  Mon 29 May 2023 #11428:       ANSWER-MATCH: ANIMATION <- I’m in a country showing <i>Rick and Morty</i>?
+[DRY RUN] 30/30 matched
+  Tue 30 May 2023 #11429: [DRY RUN] 32/32 matched
+  Wed 31 May 2023 #11430:       ANSWER-MATCH: INEVITABLE <- Certain popular musical combo's fourth cover of <i
+      ANSWER-MATCH: LEAPT <- Rose suddenly allowed to include <i>American Pie</
+[DRY RUN] 28/28 matched
+  Thu 01 Jun 2023 #11431:       ANSWER-MATCH: URBAN <- You read out article about R&amp;B style of music
+      ANSWER-MATCH: DIARY <- <i>Daily Record</i>'s rising support on line
+[DRY RUN] 30/30 matched
+  Fri 02 Jun 2023 #11432: [DRY RUN] 30/30 matched
+  Sat 03 Jun 2023 #11433:       ANSWER-MATCH: DRAWING <- Depiction of temptation in the final part of <i>Gö
+[DRY RUN] 32/32 matched
+  Sun 04 Jun 2023 #1736:       ANSWER-MATCH: OPIUM <- <i>Molto più mosso</i> providing reason for rush
+      ANSWER-MATCH: PERPENDICULAR <- Normal American criminal harried car in <i>Duel</i
+      ANSWER-MATCH: INOFF <- Unfortunate shot from <i>Home and Away</i>
+[DRY RUN] 30/30 matched
+  Mon 05 Jun 2023 #11434:       ANSWER-MATCH: SKULLAND <- (and 3 Down) Deathly reminder left with estate in 
+      UNMATCHED: See 22 Across [CROSSBONES]
+[DRY RUN] 25/26 matched, 1 unmatched
+  Tue 06 Jun 2023 #11435:       ANSWER-MATCH: WEVEHADA <- (and 3 Down) Following 2 in 22 4 on 12 13, 21 and 
+      UNMATCHED: See 5 Down [PROBLEM]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Wed 07 Jun 2023 #11436:       ANSWER-MATCH: TALENTSCOUT <- Acts to tune up - entertaining label's principal A
+[DRY RUN] 26/26 matched
+  Thu 08 Jun 2023 #11437:       ANSWER-MATCH: EDGER <- Garden tool - and who might use one on <i>EastEnde
+      ANSWER-MATCH: ECLIPSE <- <i>Sun</i>'s hiding excerpts in European edition a
+[DRY RUN] 32/32 matched
+  Fri 09 Jun 2023 #11438:       ANSWER-MATCH: UNCIVIL <- Rude university lecturer penning chapter 4
+[DRY RUN] 32/32 matched
+  Sat 10 Jun 2023 #11439: [DRY RUN] 30/30 matched
+  Sun 11 Jun 2023 #1737: [DRY RUN] 30/30 matched
+  Mon 12 Jun 2023 #11440:       ANSWER-MATCH: ATHEISM <- <i>Independent</i> articles first lady returns in 
+[DRY RUN] 28/28 matched
+  Tue 13 Jun 2023 #11441:       ANSWER-MATCH: HARRY <- (and 7 Down) Spook in tree getting into Prince and
+      ANSWER-MATCH: NOODLE <- Wally adapted opening of <i>Lorna Doone</i>
+      UNMATCHED: See 20 Across [PALMER]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Wed 14 Jun 2023 #11442:       ANSWER-MATCH: ALLTHINGS <- (and 17 Down) George Harrison's message of hope fo
+      UNMATCHED: See 12 Across [MUSTPASS]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Thu 15 Jun 2023 #11443:       ANSWER-MATCH: ENOUGHSAID <- &quot;When&quot;?
+[DRY RUN] 28/28 matched
+  Fri 16 Jun 2023 #11444: [DRY RUN] 29/29 matched
+  Sat 17 Jun 2023 #11445: [DRY RUN] 28/28 matched
+  Sun 18 Jun 2023 #1738:       ANSWER-MATCH: TEXTBOOK <- Perfect cowboy nickname: &quot;Shot Bot Jake&quot;
+      ANSWER-MATCH: BIONIC <- Writer describes <i>Particle Man</i>'s type of enh
+      ANSWER-MATCH: MIDSIXTIES <- &quot;When Twiggy first modelled&quot; - cryptic c
+[DRY RUN] 26/26 matched
+  Mon 19 Jun 2023 #11446:       ANSWER-MATCH: STERNE <- Serious-sounding writer who invented 28
+[DRY RUN] 30/30 matched
+  Tue 20 Jun 2023 #11447:       ANSWER-MATCH: NET <- Profit immediately after selling off <i>The Times<
+[DRY RUN] 33/33 matched
+  Wed 21 Jun 2023 #11448: [DRY RUN] 28/28 matched
+  Thu 22 Jun 2023 #11449:       ANSWER-MATCH: TESLA <- Leaders of Sri Lanka invested in home-grown produc
+[DRY RUN] 32/32 matched
+  Fri 23 Jun 2023 #11450:       ANSWER-MATCH: SCAB <- (and 21 Down) Curative plant has a life in South C
+      ANSWER-MATCH: TIDE <- (and 26 Down) Coastal measure, new, abandoned by c
+      UNMATCHED: See 8 Down [IOUS]
+      UNMATCHED: See 12 Down [MARK]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Sat 24 Jun 2023 #11451: [DRY RUN] 31/31 matched
+  Sun 25 Jun 2023 #1739: [DRY RUN] 32/32 matched
+  Mon 26 Jun 2023 #11452: [DRY RUN] 30/30 matched
+  Tue 27 Jun 2023 #11453: [DRY RUN] 33/33 matched
+  Wed 28 Jun 2023 #11454: [DRY RUN] 30/30 matched
+  Thu 29 Jun 2023 #11455:       ANSWER-MATCH: CAPO <- Axe clamp used in <i>The Godfather</i>
+[DRY RUN] 29/29 matched
+  Fri 30 Jun 2023 #11456: [DRY RUN] 33/33 matched
+  Sat 01 Jul 2023 #11457: [DRY RUN] 30/30 matched
+  Sun 02 Jul 2023 #1740: [DRY RUN] 30/30 matched
+  Mon 03 Jul 2023 #11458: [DRY RUN] 36/36 matched
+  Tue 04 Jul 2023 #11459: [DRY RUN] 32/32 matched
+  Wed 05 Jul 2023 #11460: [DRY RUN] 30/30 matched
+  Thu 06 Jul 2023 #11461: [DRY RUN] 30/30 matched
+  Fri 07 Jul 2023 #11462: [DRY RUN] 30/30 matched
+  Sat 08 Jul 2023 #11463:       ANSWER-MATCH: BROLLY <- <i>Times </i>restricts press coverage related to c
+[DRY RUN] 28/28 matched
+  Sun 09 Jul 2023 #1741: [DRY RUN] 32/32 matched
+  Mon 10 Jul 2023 #11464: [DRY RUN] 30/30 matched
+  Tue 11 Jul 2023 #11465:       ANSWER-MATCH: JEUX <- (and 18 Across, 19 Across) Essex juniors aren't pr
+      UNMATCHED: See 15 Across [SANS]
+      UNMATCHED: See 15 Across [FRONTIERES]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Wed 12 Jul 2023 #11466:       ANSWER-MATCH: FIRST <- &quot;Trees&quot; with T at the front!
+[DRY RUN] 39/39 matched
+  Thu 13 Jul 2023 #11467: [DRY RUN] 28/28 matched
+  Fri 14 Jul 2023 #11468: [DRY RUN] 31/31 matched
+  Sat 15 Jul 2023 #11469:       ANSWER-MATCH: EXPOUNDED <- Set forth from Dundee having been treated by P&amp
+[DRY RUN] 27/27 matched
+  Sun 16 Jul 2023 #1742:       ANSWER-MATCH: MARBLES <- Man covering R&amp;B and bit of soul rocks
+[DRY RUN] 28/28 matched
+  Mon 17 Jul 2023 #11470: [DRY RUN] 30/30 matched
+  Tue 18 Jul 2023 #11471: [DRY RUN] 30/30 matched
+  Wed 19 Jul 2023 #11472: [DRY RUN] 28/28 matched
+  Thu 20 Jul 2023 #11473: [DRY RUN] 30/30 matched
+  Fri 21 Jul 2023 #11474: [DRY RUN] 30/30 matched
+  Sat 22 Jul 2023 #11475:       ANSWER-MATCH: SUBURB <- Bus travelling north from city, heading for B&amp;
+[DRY RUN] 32/32 matched
+  Sun 23 Jul 2023 #1743:       ANSWER-MATCH: BLEARY <- <i>Times </i>coverage of King is dull
+[DRY RUN] 32/32 matched
+  Mon 24 Jul 2023 #11476:       ANSWER-MATCH: EYEPOPPING <- Amazing, revolutionary animated character <i>Pingu
+      ANSWER-MATCH: FILM <- (and 25 Across) Picture expert following glaze wit
+      UNMATCHED: See 26 Down [BUFF]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Tue 25 Jul 2023 #11477:       ANSWER-MATCH: BEES <- (and 14 Down) Best parts of the queen’s anatomy?
+      ANSWER-MATCH: BIO <- <i>Life of Brian</i>'s debut coming up, pay attent
+      ANSWER-MATCH: AIR <- (and 29 Down) A way of communicating I'm a liar, u
+      UNMATCHED: See 3 Down [KNEES]
+      UNMATCHED: See 21 Down [MAIL]
+[DRY RUN] 33/35 matched, 2 unmatched
+  Wed 26 Jul 2023 #11478: [DRY RUN] 30/30 matched
+  Thu 27 Jul 2023 #11479:       ANSWER-MATCH: STOPAT <- (and 18 Down) Eccentric in hot pants got to show g
+      UNMATCHED: See 1 Across [NOTHING]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Fri 28 Jul 2023 #11480: [DRY RUN] 31/31 matched
+  Sat 29 Jul 2023 #11481: [DRY RUN] 32/32 matched
+  Sun 30 Jul 2023 #1744: [DRY RUN] 28/28 matched
+  Mon 31 Jul 2023 #11482: [DRY RUN] 30/30 matched
+  Tue 01 Aug 2023 #11483:       ANSWER-MATCH: BICYCLE <- (and 27 Down) Song of scrambled circle by one in v
+      ANSWER-MATCH: LITTLE <- (and 30 Across, 6 Across) Wee devil’s ice cream ve
+      UNMATCHED: See 22 Down [RACE]
+      UNMATCHED: See 23 Down [DEUCE]
+      UNMATCHED: See 23 Down [COUPE]
+[DRY RUN] 28/31 matched, 3 unmatched
+  Wed 02 Aug 2023 #11484:       ANSWER-MATCH: BUTTERCUP <- Book: <i>Complete Mug's Guide to Dairy Intolerance
+[DRY RUN] 30/30 matched
+  Thu 03 Aug 2023 #11485:       ANSWER-MATCH: COOPERATE <- Be willing to assist Fed after 5
+      ANSWER-MATCH: PROVERB <- Saw R&amp;B show with New Order
+      ANSWER-MATCH: OUT <- (and 6 Down) Safe from danger in the forest? Just 
+      UNMATCHED: See 13 Down [OFTHEWOOD]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Fri 04 Aug 2023 #11486: [DRY RUN] 28/28 matched
+  Sat 05 Aug 2023 #11487:       ANSWER-MATCH: DAMEHILDA <- (and 18 Down) Broker deal with him? Fraud involvin
+      ANSWER-MATCH: GRETA <- (and 10 Across) Good old supporter opening right u
+      UNMATCHED: See 4 Across [BRACKET]
+      UNMATCHED: See 22 Down [GARBO]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sun 06 Aug 2023 #1745:       ANSWER-MATCH: ROBIN <- One tweeting &quot;men must return wine container&
+[DRY RUN] 28/28 matched
+  Mon 07 Aug 2023 #11488:       ANSWER-MATCH: RESIDUE <- Perhaps &quot;Ashes Live&quot; is entertaining for
+[DRY RUN] 30/30 matched
+  Tue 08 Aug 2023 #11489:       ANSWER-MATCH: ATMOSPHERE <- Rugby official in a field is 19
+[DRY RUN] 30/30 matched
+  Wed 09 Aug 2023 #11490: [DRY RUN] 30/30 matched
+  Thu 10 Aug 2023 #11491: [DRY RUN] 30/30 matched
+  Fri 11 Aug 2023 #11492: [DRY RUN] 31/31 matched
+  Sat 12 Aug 2023 #11493:       ANSWER-MATCH: BELLTOWER <- One who shouts about opening of theatre as venue f
+      ANSWER-MATCH: CAN <- (and 22 Down) Kayak docked with conditions embodyi
+      ANSWER-MATCH: FORNICATE <- Commit adultery - writer discovered 5,22
+      UNMATCHED: See 5 Down [OFWORMS]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Sun 13 Aug 2023 #1746:       ANSWER-MATCH: CHANTABLE <- Check with a knight on board - like something out 
+[DRY RUN] 30/30 matched
+  Mon 14 Aug 2023 #11494:       ANSWER-MATCH: GRIMSBY <- Fishing port &quot;dreary&quot; - leader in <i>Sun
+[DRY RUN] 32/32 matched
+  Tue 15 Aug 2023 #11495: [DRY RUN] 39/39 matched
+  Wed 16 Aug 2023 #11496: [DRY RUN] 31/31 matched
+  Thu 17 Aug 2023 #11497:       ANSWER-MATCH: SECOND <- (and 5 Across) His returning minister jams back wh
+      UNMATCHED: See 24 Across [COMING]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Fri 18 Aug 2023 #11498: [DRY RUN] 33/33 matched
+  Sat 19 Aug 2023 #11499:       ANSWER-MATCH: TANGENT <- Touching line by man depressed by result of <i>The
+[DRY RUN] 34/34 matched
+  Sun 20 Aug 2023 #1747: [DRY RUN] 28/28 matched
+  Mon 21 Aug 2023 #11500:       ANSWER-MATCH: CRIB <- Copy part of 18
+[DRY RUN] 28/28 matched
+  Tue 22 Aug 2023 #11501:       ANSWER-MATCH: BELLADONNA <- Toxic perennial characters from <i>Twilight </i>an
+[DRY RUN] 30/30 matched
+  Wed 23 Aug 2023 #11502:       ANSWER-MATCH: DIGITALPEN <- &quot;Finger food often eaten at breakfast&quot; s
+[DRY RUN] 28/28 matched
+  Thu 24 Aug 2023 #11503: [DRY RUN] 29/29 matched
+  Fri 25 Aug 2023 #11504: [DRY RUN] 29/29 matched
+  Sat 26 Aug 2023 #11505:       ANSWER-MATCH: HOKEY <- (and 14 Down) Dance drug taken by oversentimental 
+      ANSWER-MATCH: CHIN <- <i>Friends </i>as cut for feature
+      UNMATCHED: See 18 Across [COKEY]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sun 27 Aug 2023 #1748: [DRY RUN] 30/30 matched
+  Mon 28 Aug 2023 #11506:       ANSWER-MATCH: NAMING <- Citation in retrospective article on <i>Dynasty</i
+[DRY RUN] 26/26 matched
+  Tue 29 Aug 2023 #11507:       ANSWER-MATCH: HOBO <- Sprite and doughnut for 24
+      ANSWER-MATCH: COCKAHOOP <- Excited spaniel who listened to papa
+[DRY RUN] 31/31 matched
+  Wed 30 Aug 2023 #11508:       ANSWER-MATCH: BROWNIE <- (and 21 Down) Cake and ale perhaps receiving zero 
+      UNMATCHED: See 5 Down [POINTS]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Thu 31 Aug 2023 #11509:       ANSWER-MATCH: APPLETREE <- Pamphleteer about to shun H&amp;M's core producer?
+      ANSWER-MATCH: THROAT <- Voice expressing &quot;Bottom, thou art translated
+      ANSWER-MATCH: STRAIGHT <- (and 18 Across) Gosh, <i>The Traitors</i> cast som
+      ANSWER-MATCH: WEAVER <- One tends to warp &quot;So say all of us!&quot;
+      UNMATCHED: See 4 Down [SHOOTER]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Fri 01 Sep 2023 #11510:       ANSWER-MATCH: ESTUARIAN <- Melody amongst various tunes resembling opening of
+[DRY RUN] 30/30 matched
+  Sat 02 Sep 2023 #11511:       ANSWER-MATCH: FREEDOMOFSPEECH <- Labuschagne finally cheered off - Poms annoyed, &q
+[DRY RUN] 28/28 matched
+  Sun 03 Sep 2023 #1749:       ANSWER-MATCH: ARCTIC <- (and 14 Across) So many drunk with cricket group
+      UNMATCHED: See 1 Across [MONKEYS]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Mon 04 Sep 2023 #11512: [DRY RUN] 33/33 matched
+  Tue 05 Sep 2023 #11513:       ANSWER-MATCH: YELLOW <- (and 17 Across) Getting gospel, we lay off the Boo
+      ANSWER-MATCH: ISAAC <- (and 8 Down) Revised AV is a Mosaic source of laws
+      UNMATCHED: See 5 Across [PAGES]
+      UNMATCHED: See 28 Across [ASIMOV]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Wed 06 Sep 2023 #11514:       ANSWER-MATCH: MINUSSIGN <- Asking &quot;Is <i>Sun </i>imminently about to sho
+[DRY RUN] 30/30 matched
+  Thu 07 Sep 2023 #11515:       ANSWER-MATCH: BENEFACTOR <- Patron of restaurant turned up between 4
+[DRY RUN] 30/30 matched
+  Fri 08 Sep 2023 #11516:       ANSWER-MATCH: ALL <- (and 28 Across) Completely dismissed description o
+      ANSWER-MATCH: JOSEPHINE <- Emperor’s consort: &quot;In France I may accept hi
+      ANSWER-MATCH: PERSONAL <- (and 15 Across) Location of one elevated hermit’s 
+      ANSWER-MATCH: MAGIC <- (and 20 Down) Privileged group exciting radical cl
+      UNMATCHED: See 7 Across [OUT]
+      UNMATCHED: See 13 Across [COLUMN]
+      UNMATCHED: See 2 Down [CIRCLE]
+[DRY RUN] 29/32 matched, 3 unmatched
+  Sat 09 Sep 2023 #11517: [DRY RUN] 30/30 matched
+  Sun 10 Sep 2023 #1750: [DRY RUN] 28/28 matched
+  Mon 11 Sep 2023 #11518:       ANSWER-MATCH: DIARY <- <i>Independent</i> article found in dull journal
+[DRY RUN] 28/28 matched
+  Tue 12 Sep 2023 #11519:       ANSWER-MATCH: WRAP <- Complete filming of &quot;The Sound of Music&quot;
+[DRY RUN] 32/32 matched
+  Wed 13 Sep 2023 #11520: [DRY RUN] 30/30 matched
+  Thu 14 Sep 2023 #11521:       ANSWER-MATCH: RON <- Moody actor's comeback in <i>Casino Royale</i>
+[DRY RUN] 33/33 matched
+  Fri 15 Sep 2023 #11522:       ANSWER-MATCH: CHURCH <- (and 19 Down) Not a 6 (but 1): trench remade with 
+      UNMATCHED: See 15 Across [STRETTON]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sat 16 Sep 2023 #11523:       ANSWER-MATCH: OUTFOR <- (and 5 Down) Stunned - blooming keep course fencin
+      ANSWER-MATCH: DECONGESTANT <- Doctor gets Ant &amp; Dec on drug
+      ANSWER-MATCH: COMEINTO <- (and 22 Down) Dancer's colleague's drinking hot gr
+      UNMATCHED: See 4 Down [THECOUNT]
+      UNMATCHED: See 17 Down [EFFECT]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Sun 17 Sep 2023 #1751:       ANSWER-MATCH: HERETODAY <- (and 6 Down, 18 Down) Nasty to weedy Roger? Ooh ma
+      ANSWER-MATCH: SHORT <- (and 27 Across) Ephemeral spirit, as it happens, d
+      UNMATCHED: See 9 Across [GONE]
+      UNMATCHED: See 9 Across [TOMORROW]
+      UNMATCHED: See 19 Across [LIVED]
+[DRY RUN] 28/31 matched, 3 unmatched
+  Mon 18 Sep 2023 #11524: [DRY RUN] 30/30 matched
+  Tue 19 Sep 2023 #11525: [DRY RUN] 31/31 matched
+  Wed 20 Sep 2023 #11526: [DRY RUN] 29/29 matched
+  Thu 21 Sep 2023 #11527: [DRY RUN] 28/28 matched
+  Fri 22 Sep 2023 #11528:       ANSWER-MATCH: COSTA <- (and 20 Down) A popular destination, Southern Dale
+      ANSWER-MATCH: HOME <- (and 8 Down) &quot;You can't have it away in vehic
+      UNMATCHED: See 28 Across [DELSOL]
+      UNMATCHED: See 2 Down [ADVANTAGE]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sat 23 Sep 2023 #11529: [DRY RUN] 30/30 matched
+  Sun 24 Sep 2023 #1752: [DRY RUN] 30/30 matched
+  Mon 25 Sep 2023 #11530: [DRY RUN] 28/28 matched
+  Tue 26 Sep 2023 #11531:       ANSWER-MATCH: HOARSE <- Sounding rough when delivering gift to the 19
+[DRY RUN] 30/30 matched
+  Wed 27 Sep 2023 #11532:       ANSWER-MATCH: VIGILANT <- Very big covers left on newspaper like <i>The Obse
+[DRY RUN] 28/28 matched
+  Thu 28 Sep 2023 #11533:       ANSWER-MATCH: SITE <- Place Daisy Ashford's &quot;visitors&quot; central
+      ANSWER-MATCH: STOOGE <- &quot;I love tipples on vacation&quot; reflected P
+[DRY RUN] 29/29 matched
+  Fri 29 Sep 2023 #11534: [DRY RUN] 30/30 matched
+  Sat 30 Sep 2023 #11535: [DRY RUN] 30/30 matched
+  Sun 01 Oct 2023 #1753:       ANSWER-MATCH: SARINA <- (and 14 Across) Anagram is in: we jumbled up the E
+      UNMATCHED: See 4 Down [WIEGMAN]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Mon 02 Oct 2023 #11536: [DRY RUN] 30/30 matched
+  Tue 03 Oct 2023 #11537: [DRY RUN] 32/32 matched
+  Wed 04 Oct 2023 #11538:       ANSWER-MATCH: NATIONS <- States &quot;Drug-induced dreams reduced by 50%&qu
+[DRY RUN] 28/28 matched
+  Thu 05 Oct 2023 #11539: [DRY RUN] 30/30 matched
+  Fri 06 Oct 2023 #11540: [DRY RUN] 24/24 matched
+  Sat 07 Oct 2023 #11541:       ANSWER-MATCH: ASKING <- (and 27 Across) In role of monarch, heir ignores s
+      ANSWER-MATCH: NOUNS <- Sisters gathering round letter in <i>Sense and Sen
+      UNMATCHED: See 2 Down [PRICE]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Sun 08 Oct 2023 #1754:       ANSWER-MATCH: IRISHSEA <- &quot;Flower&quot;: hard for audience to spot this
+[DRY RUN] 32/32 matched
+  Mon 09 Oct 2023 #11542: [DRY RUN] 30/30 matched
+  Tue 10 Oct 2023 #11543:       ANSWER-MATCH: DAYS <- Emily finally getting into <i>The German Times</i>
+      ANSWER-MATCH: DROSERA <- <i>Doctor Who</i>'s final series has a carnivorous
+[DRY RUN] 32/32 matched
+  Wed 11 Oct 2023 #11544:       ANSWER-MATCH: CRYSTAL <- Shout &quot;Stop,&quot; dislodging a learner's nic
+[DRY RUN] 30/30 matched
+  Thu 12 Oct 2023 #11545:       ANSWER-MATCH: TOTHEMANOR <- (and 21 Down) Sitcom's Nora Batty ultimately wanti
+      ANSWER-MATCH: HOLD <- (and 12 Down) 13 coaches moving Hearts up to be in
+      UNMATCHED: See 2 Down [BORN]
+      UNMATCHED: See 5 Down [ALLTHEACES]
+[DRY RUN] 25/27 matched, 2 unmatched
+  Fri 13 Oct 2023 #11546: [DRY RUN] 32/32 matched
+  Sat 14 Oct 2023 #11547:       ANSWER-MATCH: EMASCULATE <- Diminish power of article by discontented sceptic 
+[DRY RUN] 28/28 matched
+  Sun 15 Oct 2023 #1755:       ANSWER-MATCH: BANDIT <- Musicians appeal for <i>Desperado</i>
+      ANSWER-MATCH: PIGLET <- Something from Farrow &amp; Ball's ultimately put 
+[DRY RUN] 30/30 matched
+  Mon 16 Oct 2023 #11548: [DRY RUN] 34/34 matched
+  Tue 17 Oct 2023 #11549: [DRY RUN] 38/38 matched
+  Wed 18 Oct 2023 #11550: [DRY RUN] 29/29 matched
+  Thu 19 Oct 2023 #11551:       ANSWER-MATCH: MEH <- Me, by the end of <i>Middlemarch</i> - &quot;this 
+      ANSWER-MATCH: MINCE <- Cut Melvyn's introduction on <i>In Our Time</i>
+[DRY RUN] 32/32 matched
+  Fri 20 Oct 2023 #11552: [DRY RUN] 23/23 matched
+  Sat 21 Oct 2023 #11553: [DRY RUN] 30/30 matched
+  Sun 22 Oct 2023 #1756: [DRY RUN] 30/30 matched
+  Mon 23 Oct 2023 #11554: [DRY RUN] 31/31 matched
+  Tue 24 Oct 2023 #11555:       ANSWER-MATCH: RADIO <- (and 20 Across) Tritium, for instance: does it pai
+      UNMATCHED: See 24 Down [ISOTOPE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Wed 25 Oct 2023 #11556: [DRY RUN] 28/28 matched
+  Thu 26 Oct 2023 #11557:       ANSWER-MATCH: LEAVENING <- Provocative agent seeing part of tour, maybe inclu
+      ANSWER-MATCH: WINSOME <- <i>Loose Women </i>is captivating
+      UNMATCHED: Rip off coat [FLEECE]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Fri 27 Oct 2023 #11558: [DRY RUN] 32/32 matched
+  Sat 28 Oct 2023 #11559: [DRY RUN] 30/30 matched
+  Sun 29 Oct 2023 #1757: [DRY RUN] 28/28 matched
+  Mon 30 Oct 2023 #11560:       ANSWER-MATCH: PICKSUP <- Elite's more expensive purchases (5.2)
+[DRY RUN] 30/30 matched
+  Tue 31 Oct 2023 #11561: [DRY RUN] 34/34 matched
+  Wed 01 Nov 2023 #11562:       ANSWER-MATCH: PARIS <- (and 4 Across) Average former England goalie escor
+      ANSWER-MATCH: LONDON <- (and 29 Across) Drunken orderly entertaining north
+      UNMATCHED: See 1 Across [HILTON]
+      UNMATCHED: See 28 Across [DERRY]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Thu 02 Nov 2023 #11563:       ANSWER-MATCH: ALTOCLEF <- Sign in a bar: &quot;Cola left to get drunk&quot;
+[DRY RUN] 28/28 matched
+  Fri 03 Nov 2023 #11564: [DRY RUN] 28/28 matched
+  Sat 04 Nov 2023 #11565:       ANSWER-MATCH: NOPE <- "Begin cycling!" "I won't!"
+[DRY RUN] 28/28 matched
+  Sun 05 Nov 2023 #1758:       ANSWER-MATCH: VAGUEST <- V&amp;A visitor becoming most faint
+      ANSWER-MATCH: IDIOM <- A particular turn of phrase: &quot;I had&quot; - o
+[DRY RUN] 28/28 matched
+  Mon 06 Nov 2023 #11566:       ANSWER-MATCH: ALFRED <- (and 10 Across) Explosive inventor's rewritten fab
+      UNMATCHED: See 23 Down [NOBEL]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Tue 07 Nov 2023 #11567:       ANSWER-MATCH: SPINY <- (and 18 Across) 5 that's pretty insane, a cuckoo
+      ANSWER-MATCH: MORRIS <- (and 26 Across) 5 14's 8 and one of 8 14 5's: jigg
+      UNMATCHED: See 17 Across [ANTEATER]
+      UNMATCHED: See 25 Across [DANCER]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Wed 08 Nov 2023 #11568:       ANSWER-MATCH: DOORPLATE <- Buffalo to leopard: &quot;This shows I belong here
+[DRY RUN] 30/30 matched
+  Thu 09 Nov 2023 #11569:       ANSWER-MATCH: ACOUSTIC <- (and 6 Across) After onset of asthma, I cut cigars
+      ANSWER-MATCH: POSTAL <- (and 27 Across) Job with firm installing supermark
+      UNMATCHED: See 1 Across [GUITAR]
+      UNMATCHED: See 26 Across [DISTRICT]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Fri 10 Nov 2023 #11570: [DRY RUN] 30/30 matched
+  Sat 11 Nov 2023 #11571: [DRY RUN] 30/30 matched
+  Sun 12 Nov 2023 #1759:       ANSWER-MATCH: SALVAGE <- Brutish type taking in end of <i>Animal Rescue</i>
+[DRY RUN] 32/32 matched
+  Mon 13 Nov 2023 #11572:       ANSWER-MATCH: DEEM <- Judge nude emperor's &quot;clothes&quot;
+[DRY RUN] 30/30 matched
+  Tue 14 Nov 2023 #11573:       ANSWER-MATCH: SAPIENCE <- <i>Origin of Species</i> a bit over the head of No
+[DRY RUN] 30/30 matched
+  Wed 15 Nov 2023 #11574: [DRY RUN] 29/29 matched
+  Thu 16 Nov 2023 #11575: [DRY RUN] 32/32 matched
+  Fri 17 Nov 2023 #11576: [DRY RUN] 27/27 matched
+  Sat 18 Nov 2023 #11577:       ANSWER-MATCH: ORKNEY <- Islands or island spanning North
+[DRY RUN] 30/30 matched
+  Sun 19 Nov 2023 #1760:       ANSWER-MATCH: GUARD <- Defend media outlet that drops <i>The Scotsman</i>
+[DRY RUN] 30/30 matched
+  Mon 20 Nov 2023 #11578: [DRY RUN] 30/30 matched
+  Tue 21 Nov 2023 #11579: [DRY RUN] 32/32 matched
+  Wed 22 Nov 2023 #11580:       ANSWER-MATCH: SUM <- Problem if there's no ring for 10
+[DRY RUN] 30/30 matched
+  Thu 23 Nov 2023 #11581: [DRY RUN] 32/32 matched
+  Fri 24 Nov 2023 #11582:       ANSWER-MATCH: WILD <- (and 28 Across) Passed time, we hear, with eccentr
+      ANSWER-MATCH: DRIPPY <- Feeble, uninteresting? <i>i</i>’s pages cutting th
+      ANSWER-MATCH: MONTREUX <- ‘Swiss city not vacantly blocking additional unive
+      UNMATCHED: See 1 Across [CARD]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sat 25 Nov 2023 #11583:       ANSWER-MATCH: FUNDRAISE <- Try to obtain money from romp with doctor (one's i
+[DRY RUN] 32/32 matched
+  Sun 26 Nov 2023 #1761: [DRY RUN] 30/30 matched
+  Mon 27 Nov 2023 #11584: [DRY RUN] 28/28 matched
+  Tue 28 Nov 2023 #11585: [DRY RUN] 32/32 matched
+  Wed 29 Nov 2023 #11586:       ANSWER-MATCH: PASS <- Pressure applied to idiot: "I don't know the answe
+      ANSWER-MATCH: RACHEL <- (and 7 Down) Several cheer falsely for Shadow Chan
+      UNMATCHED: See 5 Down [REEVES]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Thu 30 Nov 2023 #11587:       ANSWER-MATCH: IRISH <- Aching heart consumes Simon King returning from "g
+[DRY RUN] 30/30 matched
+  Fri 01 Dec 2023 #11588: [DRY RUN] 30/30 matched
+  Sat 02 Dec 2023 #11589:       ANSWER-MATCH: PETROL <- Bird recorded <i>Kind of Blue</i>
+[DRY RUN] 28/28 matched
+  Sun 03 Dec 2023 #1762: [DRY RUN] 26/26 matched
+  Mon 04 Dec 2023 #11590:       ANSWER-MATCH: RANDOM <- (and 16 Down) Way to describe all possible outcome
+      ANSWER-MATCH: DREAMING <- (and 21 Down) Feature of Oxford University Press I
+      UNMATCHED: See 1 Down [VARIABLE]
+      UNMATCHED: See 8 Down [SPIRES]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Tue 05 Dec 2023 #11591:       ANSWER-MATCH: LIFESTYLECHOICE <- Long sentence technique inherently echoic, e.g. 8 
+      ANSWER-MATCH: LAFFER <- US economist famous for his curve sounds, like, 22
+[DRY RUN] 28/28 matched
+  Wed 06 Dec 2023 #11592:       ANSWER-MATCH: ADO <- Answer briefly as before: "Bother!"
+[DRY RUN] 34/34 matched
+  Thu 07 Dec 2023 #11593:       ANSWER-MATCH: ANTONYAND <- (and 26 Across) Working tea lady with apron on can
+      UNMATCHED: See 9 Across [CLEOPATRA]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 08 Dec 2023 #11594: [DRY RUN] 32/32 matched
+  Sat 09 Dec 2023 #11595:       ANSWER-MATCH: PAKISTANI <- "Another pint?", I ask a person from abroad
+[DRY RUN] 28/28 matched
+  Sun 10 Dec 2023 #1763: [DRY RUN] 28/28 matched
+  Mon 11 Dec 2023 #11596: [DRY RUN] 28/28 matched
+  Tue 12 Dec 2023 #11597:       ANSWER-MATCH: SUBOCEAN <- Bounces along with intro to Adele's <i>Rolling in 
+      ANSWER-MATCH: KISSED <- Did Peck pretend to keep away from <i>North by Nor
+[DRY RUN] 32/32 matched
+  Wed 13 Dec 2023 #11598:       ANSWER-MATCH: REFRAIN <- Chorus of "Desist!"
+[DRY RUN] 29/29 matched
+  Thu 14 Dec 2023 #11599:       ANSWER-MATCH: OBNOXIOUS <- Dreadful private school grad with debts stuck outs
+      ANSWER-MATCH: VERBS <- Upwardly mobile clergyman going to a load of balls
+      ANSWER-MATCH: EAST <- (and 23 Down) Trouble with flies? A&E fixed up net
+      UNMATCHED: See 21 Down [ANGLIA]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 15 Dec 2023 #11600:       ANSWER-MATCH: BOLT <- (and 24 Down) Difficult situation after quantity o
+      UNMATCHED: See 4 Down [HOLE]
+      UNMATCHED: Dance beat with energy [TANGO]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sat 16 Dec 2023 #11601: [DRY RUN] 27/27 matched
+  Sun 17 Dec 2023 #1764:       ANSWER-MATCH: BOOK <- Stench from pit all right in <i>Ulysses</i>?
+      ANSWER-MATCH: ALI <- Greatest length trunk road spans?
+[DRY RUN] 31/31 matched
+  Mon 18 Dec 2023 #11602: [DRY RUN] 30/30 matched
+  Tue 19 Dec 2023 #11603: [DRY RUN] 32/32 matched
+  Wed 20 Dec 2023 #11604: [DRY RUN] 30/30 matched
+  Thu 21 Dec 2023 #11605:       ANSWER-MATCH: FOOLS <- (and 22 Down) Futile endeavour roughing up floor w
+      ANSWER-MATCH: GOLD <- (and 29 Across) Good old Bluth's highly profitable
+      ANSWER-MATCH: LEAF <- (and 23 Down) Tool for moving garden waste from me
+      ANSWER-MATCH: DEEP <- (and 1 Down) Means to preserve obscure terms from 
+      ANSWER-MATCH: SOLAR <- (and 8 Down) Things that burst out of star's trous
+      ANSWER-MATCH: SPLAT <- Sounds like a hit from <i>Bugsy Malone</i>
+      UNMATCHED: See 1 Across [ERRAND]
+      UNMATCHED: See 4 Across [MINE]
+      UNMATCHED: See 6 Across [BLOWER]
+      UNMATCHED: See 28 Across [FREEZE]
+      UNMATCHED: See 30 Across [FLARES]
+[DRY RUN] 29/34 matched, 5 unmatched
+  Fri 22 Dec 2023 #11606:       ANSWER-MATCH: THATCHER <- Former PM in truncated article, leader dropped by 
+[DRY RUN] 32/32 matched
+  Sat 23 Dec 2023 #11607:       ANSWER-MATCH: DRAFT <- (and 13 Across) He ultimately avoided military ser
+      ANSWER-MATCH: EYESORES <- "Carbuncles!" Prince finally agreed - "they're mon
+      ANSWER-MATCH: BONE <- (and 11 Across) Sub-person suffering with 'unwante
+      UNMATCHED: See 26 Across [DODGER]
+      UNMATCHED: See 28 Down [SPURS]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Sun 24 Dec 2023 #1765:       ANSWER-MATCH: NOEL <- <i>A Christmas Carol</i>'s a heartless book
+[DRY RUN] 28/28 matched
+  Mon 25 Dec 2023 #11608: [DRY RUN] 28/28 matched
+  Tue 26 Dec 2023 #11609:       ANSWER-MATCH: ITEMISE <- List of title's prime locations - almost 25
+      ANSWER-MATCH: BOB <- (and 23 Down) Singer cut Ma Baker's last line
+      ANSWER-MATCH: RINGLEADER <- <i>Spitting Image </i>covering heavy metal band's 
+      ANSWER-MATCH: SOLAR <- Latitude involved in rise of <i>The Sun</i>
+      ANSWER-MATCH: EVOKE <- Stir up memories of uplifting Janá?ek overture
+      UNMATCHED: See 18 Across [MARLEY]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Wed 27 Dec 2023 #11610: [DRY RUN] 28/28 matched
+  Thu 28 Dec 2023 #11611:       ANSWER-MATCH: CITES <- Quotes from <i>Chicago </i>and <i>Paris, Texas</i>
+      ANSWER-MATCH: NEATEN <- Tidy up the last bits of broken vase and aspidistr
+[DRY RUN] 32/32 matched
+  Fri 29 Dec 2023 #11612: [DRY RUN] 32/32 matched
+  Sat 30 Dec 2023 #11613:       ANSWER-MATCH: PELE <- Tory PM with lower energy in No. 10
+[DRY RUN] 29/29 matched
+  Sun 31 Dec 2023 #1766:       ANSWER-MATCH: LAYITON <- (and 18 Across) Exaggerate to impress as 11 might,
+      ANSWER-MATCH: THEDUKEOF <- (and 13 Down) One booted and horsed, crossing over
+      UNMATCHED: See 1 Across [WITHATROWEL]
+      UNMATCHED: See 25 Across [WELLINGTON]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Mon 01 Jan 2024 #11614: [DRY RUN] 30/30 matched
+  Tue 02 Jan 2024 #11615:       ANSWER-MATCH: BARONESS <- <i>Check Your Spades James</i>, the writer's title
+[DRY RUN] 28/28 matched
+  Wed 03 Jan 2024 #11616: [DRY RUN] 33/33 matched
+  Thu 04 Jan 2024 #11617:       ANSWER-MATCH: YOUNGPRETENDER <- <i>The Boy Who Cried Wolf </i>... Stuart perhaps?
+[DRY RUN] 28/28 matched
+  Fri 05 Jan 2024 #11618:       ANSWER-MATCH: RHYME <- Feature of many a poem? "Hard to fill lines" - the
+[DRY RUN] 33/33 matched
+  Sat 06 Jan 2024 #11619:       ANSWER-MATCH: ARMRESTS <- Starmer's struggling to produce bits of 7
+[DRY RUN] 30/30 matched
+  Sun 07 Jan 2024 #1767:       ANSWER-MATCH: PERSEVERE <- Endure each part before finale of "Walküre"
+[DRY RUN] 30/30 matched
+  Mon 08 Jan 2024 #11620: [DRY RUN] 30/30 matched
+  Tue 09 Jan 2024 #11621:       ANSWER-MATCH: LETHE <- What Wogan jocularly recalled as "river from hell"
+      ANSWER-MATCH: STINGY <- Tight bassist at the end of <i>Synchronicity</i>
+[DRY RUN] 32/32 matched
+  Wed 10 Jan 2024 #11622:       ANSWER-MATCH: DELIGHT <- Take pleasure in 500+8/50
+[DRY RUN] 30/30 matched
+  Thu 11 Jan 2024 #11623: [DRY RUN] 30/30 matched
+  Fri 12 Jan 2024 #11624: [DRY RUN] 29/29 matched
+  Sat 13 Jan 2024 #11625: [DRY RUN] 31/31 matched
+  Sun 14 Jan 2024 #1768:       ANSWER-MATCH: WALTER <- (and 4 Down, 8 Down) Manager charged with change, 
+      UNMATCHED: See 2 Down [WINTER]
+      UNMATCHED: See 2 Down [BOTTOM]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Mon 15 Jan 2024 #11626:       ANSWER-MATCH: BOOT <- (and 20 Down) Ransack headquarters for Spooner's f
+      UNMATCHED: See 11 Down [LACE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Tue 16 Jan 2024 #11627:       ANSWER-MATCH: NAY <- "No" irrelevant before "yes"
+      ANSWER-MATCH: PRIMARY <- (and 15 Across) Chromatic element of my prior ocul
+      UNMATCHED: See 22 Down [COLOUR]
+[DRY RUN] 34/35 matched, 1 unmatched
+  Wed 17 Jan 2024 #11628:       ANSWER-MATCH: TONUP <- Joke books about getting to 100
+[DRY RUN] 28/28 matched
+  Thu 18 Jan 2024 #11629:       ANSWER-MATCH: CHANTER <- Rachel endlessly reviewed books inside <i>Melody M
+[DRY RUN] 32/32 matched
+  Fri 19 Jan 2024 #11630:       ANSWER-MATCH: DEATH <- (and 25 Down) Head start in rebuilding planet dest
+      UNMATCHED: See 24 Down [STAR]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sat 20 Jan 2024 #11631: [DRY RUN] 28/28 matched
+  Sun 21 Jan 2024 #1769: [DRY RUN] 31/31 matched
+  Mon 22 Jan 2024 #11632:       ANSWER-MATCH: STANDBY <- Big characters from <i>Sunday Times</i> and <i>Tim
+      ANSWER-MATCH: PROBER <- Investigator's right over cover of Bowie and Queen
+[DRY RUN] 29/29 matched
+  Tue 23 Jan 2024 #11633: [DRY RUN] 32/32 matched
+  Wed 24 Jan 2024 #11634: [DRY RUN] 29/29 matched
+  Thu 25 Jan 2024 #11635: [DRY RUN] 30/30 matched
+  Fri 26 Jan 2024 #11636: [DRY RUN] 30/30 matched
+  Sat 27 Jan 2024 #11637:       ANSWER-MATCH: ACDC <- Old rockers caught daughter visiting adult clubs (
+      ANSWER-MATCH: HAMM <- Jon, rubbish actor first seen in <i>Mad Men</i>
+[DRY RUN] 28/28 matched
+  Sun 28 Jan 2024 #1770: [DRY RUN] 30/30 matched
+  Mon 29 Jan 2024 #11638:       ANSWER-MATCH: THRIFTY <- Economical fee about to be deducted from £3.50
+      ANSWER-MATCH: SMEE <- Duck pirate aboard the <i>Jolly Roger</i>
+[DRY RUN] 34/34 matched
+  Tue 30 Jan 2024 #11639:       ANSWER-MATCH: LEHMANN <- The French king and queen once snubbed a singer of
+[DRY RUN] 26/26 matched
+  Wed 31 Jan 2024 #11640:       ANSWER-MATCH: FLOCK <- Dress changing hands for lots of 5
+[DRY RUN] 32/32 matched
+  Thu 01 Feb 2024 #11641:       ANSWER-MATCH: FIFTYSHADES <- (and 21 Down) Remake of <i>Godfather'</i>s iffy? Y
+      UNMATCHED: See 16 Across [OFGREY]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Fri 02 Feb 2024 #11642:       ANSWER-MATCH: YESTERDAY <- Beatles song from <i>Before Midnight</i>?
+      ANSWER-MATCH: GROUNDHOGDAY <- <i>Hound Dog</i> adapted into American black and w
+[DRY RUN] 28/28 matched
+  Sat 03 Feb 2024 #11643:       ANSWER-MATCH: CANDELABRA <- Source of light awkwardly balanced on 14
+[DRY RUN] 30/30 matched
+  Mon 05 Feb 2024 #11644:       ANSWER-MATCH: LIPREADER <- Who won't need subtitles in remake of <i>Pale Ride
+      ANSWER-MATCH: EXTEND <- <i>Carry On Nurse</i> is on late
+[DRY RUN] 32/32 matched
+  Tue 06 Feb 2024 #11645:       ANSWER-MATCH: PAULA <- (and 1 Down) CEO returning award, remorseful at la
+      ANSWER-MATCH: MISTER <- (and 26 Across) Sub-postmaster against 3 in film s
+      UNMATCHED: See 10 Across [VENNELLS]
+      UNMATCHED: See 22 Down [BATES]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Wed 07 Feb 2024 #11646:       ANSWER-MATCH: MESSERSCHMITT <- State "Queen's child with German grandparent, ulti
+[DRY RUN] 27/27 matched
+  Thu 08 Feb 2024 #11647:       ANSWER-MATCH: METEORITES <- Settee Moir abused in bits of <i>Shooting Stars</i
+[DRY RUN] 31/31 matched
+  Fri 09 Feb 2024 #11648: [DRY RUN] 30/30 matched
+  Sat 10 Feb 2024 #11649: [DRY RUN] 30/30 matched
+  Mon 12 Feb 2024 #11650:       ANSWER-MATCH: ROUSSEAU <- "Sorrow indeed!" said old philosopher
+      ANSWER-MATCH: KINKAJOU <- Kinky bottomless American sweetheart you called "h
+      ANSWER-MATCH: ESCUDO <- Easy clue oddly written by party for "coin"
+[DRY RUN] 26/26 matched
+  Tue 13 Feb 2024 #11651:       ANSWER-MATCH: FEMME <- (and 22 Down) Siren song by the 21/1A
+      ANSWER-MATCH: UNFLAWED <- <i>Footloose</i> touring Florida is perfect
+      ANSWER-MATCH: DEATHSTAR <- <i>Lethal Weapon </i>ends with dark material
+      ANSWER-MATCH: ISSUE <- Affair in <i>Sons and Daughters</i>
+      UNMATCHED: See 9 Across [FATALE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Wed 14 Feb 2024 #11652: [DRY RUN] 30/30 matched
+  Thu 15 Feb 2024 #11653: [DRY RUN] 32/32 matched
+  Fri 16 Feb 2024 #11654:       ANSWER-MATCH: CRUX <- Significant moment displayed in vintage <i>Times</
+[DRY RUN] 32/32 matched
+  Sat 17 Feb 2024 #11655: [DRY RUN] 28/28 matched
+  Mon 19 Feb 2024 #11656: [DRY RUN] 30/30 matched
+  Tue 20 Feb 2024 #11657:       ANSWER-MATCH: ONEFOOT <- (and 23 Down, 4 Down) A person I have forgotten sa
+      UNMATCHED: See 27 Across [INTHE]
+      UNMATCHED: See 27 Across [GRAVE]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Wed 21 Feb 2024 #11658:       ANSWER-MATCH: EVOKE <- Elicit fine, punching fruit-picker in 4
+[DRY RUN] 30/30 matched
+  Thu 22 Feb 2024 #11659: [DRY RUN] 28/28 matched
+  Fri 23 Feb 2024 #11660: [DRY RUN] 29/29 matched
+  Sat 24 Feb 2024 #11661:       ANSWER-MATCH: ALLTHEWAY <- Drive off around town with hack: "Where do we go f
+[DRY RUN] 28/28 matched
+  Mon 26 Feb 2024 #11662:       ANSWER-MATCH: FRANZ <- (and 18 Across) Footballer, French, by an unknown 
+      ANSWER-MATCH: BAYERN <- (and 2 Down) Well-oiled machine run by 25's team
+      ANSWER-MATCH: SCENARIO <- <i>Arsenic and Old Lace</i> — synopsis needed
+      UNMATCHED: See 26 Across [BECKENBAUER]
+      UNMATCHED: See 1 Down [MUNICH]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Tue 27 Feb 2024 #11663:       ANSWER-MATCH: NO <- See 17 Across
+      UNMATCHED: (and 18 Across) Small numbers a breach of the rule [NO]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Wed 28 Feb 2024 #11664: [DRY RUN] 28/28 matched
+  Thu 29 Feb 2024 #11665:       ANSWER-MATCH: THAWOUT <- Melt <i>what</i>?
+[DRY RUN] 34/34 matched
+  Fri 01 Mar 2024 #11666: [DRY RUN] 30/30 matched
+  Sat 02 Mar 2024 #11667:       ANSWER-MATCH: CATHODERAY <- (and 13 Across) Channel starting with poem by arti
+      ANSWER-MATCH: YALE <- (and 24 Across) With guidance I naively try and su
+      ANSWER-MATCH: ALIBI <- Occasionally tabloid called out <i>Times</i>'s exc
+      ANSWER-MATCH: YELLOW <- Cowardly scream "that hurt!"
+      UNMATCHED: See 12 Across [TUBE]
+      UNMATCHED: See 23 Across [UNIVERSITY]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Sun 03 Mar 2024 #1775: [DRY RUN] 30/30 matched
+  Mon 04 Mar 2024 #11668: [DRY RUN] 29/29 matched
+  Tue 05 Mar 2024 #11669: [DRY RUN] 32/32 matched
+  Wed 06 Mar 2024 #11670:       ANSWER-MATCH: TINGE <- Cast of <i>Educating Essex</i>
+[DRY RUN] 30/30 matched
+  Thu 07 Mar 2024 #11671:       ANSWER-MATCH: HEAVEHO <- Sailor's call that possibly follows 13
+      ANSWER-MATCH: NOBRAINER <- Obvious choice playing Baron in US <i>Casualty</i>
+[DRY RUN] 30/30 matched
+  Fri 08 Mar 2024 #11672: [DRY RUN] 28/28 matched
+  Sat 09 Mar 2024 #11673:       ANSWER-MATCH: TAMEST <- Least demanding exam spanning the morning
+      ANSWER-MATCH: YONDER <- That "one year wonder" failed at the outset
+      ANSWER-MATCH: BERMUDATRIANGLE <- British admiral "Urgent - drifting English ships l
+[DRY RUN] 27/27 matched
+  Sun 10 Mar 2024 #1776: [DRY RUN] 32/32 matched
+  Mon 11 Mar 2024 #11674: [DRY RUN] 28/28 matched
+  Tue 12 Mar 2024 #11675: [DRY RUN] 31/31 matched
+  Wed 13 Mar 2024 #11676: [DRY RUN] 30/30 matched
+  Thu 14 Mar 2024 #11677:       ANSWER-MATCH: ONTHETROT <- Cast not hotter in <i>Succession</i>
+[DRY RUN] 29/29 matched
+  Fri 15 Mar 2024 #11678: [DRY RUN] 32/32 matched
+  Sat 16 Mar 2024 #11679:       ANSWER-MATCH: POSTPONE <- Put off after page 1
+      ANSWER-MATCH: GUERILLA <- 7 band member tipped 3 to cavort with 16
+      ANSWER-MATCH: LESSING <- Doris, say, arguably more "out" before end of even
+[DRY RUN] 30/30 matched
+  Sun 17 Mar 2024 #1777:       ANSWER-MATCH: MALDEMER <- Graduate student briefly put right about Sartre's 
+      ANSWER-MATCH: COFFIN <- Acrostic of "find accommodating receptacle to ento
+      ANSWER-MATCH: GRANNYKNOT <- "Poorly managed reef, greater action necessary" - 
+[DRY RUN] 29/29 matched
+  Mon 18 Mar 2024 #11680: [DRY RUN] 32/32 matched
+  Tue 19 Mar 2024 #11681:       ANSWER-MATCH: BISCUIT <- First clue regularly penned by little object of de
+      ANSWER-MATCH: SEAWARD <- Scorcese’s gutted with prize for direction of <i>T
+      ANSWER-MATCH: FRITZ <- German guy in F1
+      ANSWER-MATCH: IMPISH <- <i>Hello! </i>about to claim politician is naughty
+[DRY RUN] 29/29 matched
+  Wed 20 Mar 2024 #11682: [DRY RUN] 28/28 matched
+  Thu 21 Mar 2024 #11683: [DRY RUN] 28/28 matched
+  Fri 22 Mar 2024 #11684:       ANSWER-MATCH: MOONLIGHT <- (and 8 Down) Line in second working socket possibl
+      UNMATCHED: See 21 Across [FLITTING]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Sat 23 Mar 2024 #11685:       ANSWER-MATCH: ASSOCIATION <- (and 9 Across) Union pay for party and sport
+      ANSWER-MATCH: MARRIAGE <- (and 26 Across) Union advice: Uri Geller is a conm
+      UNMATCHED: See 1 Across [FOOTBALL]
+      UNMATCHED: See 25 Across [COUNSELLING]
+[DRY RUN] 24/26 matched, 2 unmatched
+  Sun 24 Mar 2024 #1778: [DRY RUN] 28/28 matched
+  Mon 25 Mar 2024 #11686: [DRY RUN] 32/32 matched
+  Tue 26 Mar 2024 #11687:       ANSWER-MATCH: SHANE <- (and 4 Across) Each woman sang about late lamented
+      UNMATCHED: See 27 Across [MACGOWAN]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Wed 27 Mar 2024 #11688: [DRY RUN] 28/28 matched
+  Thu 28 Mar 2024 #11689:       ANSWER-MATCH: SCATTER <- Broadcast <i>The Jazz Singer</i>?
+[DRY RUN] 30/30 matched
+  Fri 29 Mar 2024 #11690: [DRY RUN] 30/30 matched
+  Sat 30 Mar 2024 #11691:       ANSWER-MATCH: DAVE <- (and 5 Down) Hairy Biker gone has me very sad, dis
+      ANSWER-MATCH: LINEOF <- (and 16 Across) Police show vandalised NY outfield
+      UNMATCHED: See 27 Across [MYERS]
+      UNMATCHED: See 28 Across [DUTY]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Sun 31 Mar 2024 #1779: [DRY RUN] 30/30 matched
+  Mon 01 Apr 2024 #11692:       ANSWER-MATCH: THEFORCEAWAKENS <- <i>Star Wars</i> movie fan cast Ewok here, somehow
+      UNMATCHED: Old tree likely to get hollowed out [ELDERLY]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Tue 02 Apr 2024 #11693:       ANSWER-MATCH: RED <- Not enjoying <i>A Study in Scarlet</i>?
+[DRY RUN] 33/33 matched
+  Wed 03 Apr 2024 #11694:       ANSWER-MATCH: MONOTONY <- <i>Mon Oncle</i>'s lead gets Broadway award for ro
+      ANSWER-MATCH: PROGRAMME <- Expert on game reveres Alison Mitchell's masterful
+[DRY RUN] 30/30 matched
+  Thu 04 Apr 2024 #11695:       ANSWER-MATCH: TWINS <- <i>The Terminator </i>for most is the best Arnie f
+[DRY RUN] 30/30 matched
+  Fri 05 Apr 2024 #11696: [DRY RUN] 32/32 matched
+  Sat 06 Apr 2024 #11697: [DRY RUN] 31/31 matched
+  Sun 07 Apr 2024 #1780: [DRY RUN] 30/30 matched
+  Mon 08 Apr 2024 #11698: [DRY RUN] 30/30 matched
+  Tue 09 Apr 2024 #11699:       ANSWER-MATCH: SHERBET <- Get hard cuddling Rosemary? "Sweetie!"
+[DRY RUN] 26/26 matched
+  Wed 10 Apr 2024 #11700: [DRY RUN] 28/28 matched
+  Thu 11 Apr 2024 #11701:       ANSWER-MATCH: LITTLEBY <- (and 12 Across) Slowly times boring minutes
+      ANSWER-MATCH: EVERLY <- (and 23 Across) After Chuck Berry's lover settles 
+      ANSWER-MATCH: AMERICA <- Country album's cover version of <i>I Care</i>
+      UNMATCHED: See 11 Across [LITTLE]
+      UNMATCHED: See 22 Across [BROTHERS]
+[DRY RUN] 31/33 matched, 2 unmatched
+  Fri 12 Apr 2024 #11702:       ANSWER-MATCH: NAMEDROP <- Claim to know <i>who</i>? Pardon me if doubtful
+[DRY RUN] 32/32 matched
+  Sat 13 Apr 2024 #11703:       ANSWER-MATCH: ASTITCHIN <- (and 25 Down) Sufficiently early repair saving eco
+      ANSWER-MATCH: EIFFEL <- (and 11 Across) Sight in Paris, one female detecte
+      UNMATCHED: See 24 Across [TIME]
+      UNMATCHED: See 4 Down [TOWER]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Sun 14 Apr 2024 #1781: [DRY RUN] 30/30 matched
+  Mon 15 Apr 2024 #11704: [DRY RUN] 30/30 matched
+  Tue 16 Apr 2024 #11705:       ANSWER-MATCH: CBS <- <i>Charlie's Angels</i> finally stopped by British
+      ANSWER-MATCH: SOB <- Keen bass follows the intro to <i>Summer Love</i>
+      ANSWER-MATCH: PARTY <- <i>Beano</i> section: Snooty's back!
+      ANSWER-MATCH: HENRY <- Guy's expression of surprise about the end of <i>M
+[DRY RUN] 38/38 matched
+  Wed 17 Apr 2024 #11706:       ANSWER-MATCH: SLAPBANG <- <i>Friends</i> is returning with immediate impact?
+      ANSWER-MATCH: EMINEM <- "Mine," repeatedly claims songwriter
+[DRY RUN] 26/26 matched
+  Thu 18 Apr 2024 #11707: [DRY RUN] 28/28 matched
+  Fri 19 Apr 2024 #11708: [DRY RUN] 29/29 matched
+  Sat 20 Apr 2024 #11709:       ANSWER-MATCH: COOKIE <- (and 10 Across) Muppet CEO Kermit soon replaced
+      ANSWER-MATCH: SILAS <- (and 21 Down) Character who looms large in a semin
+      UNMATCHED: See 1 Down [MONSTER]
+      UNMATCHED: See 4 Down [MARNER]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sun 21 Apr 2024 #1782: [DRY RUN] 28/28 matched
+  Mon 22 Apr 2024 #11710: [DRY RUN] 30/30 matched
+  Tue 23 Apr 2024 #11711:       ANSWER-MATCH: SEVENTEEN <- Still 19, just one away from 18
+      ANSWER-MATCH: PAINLESS <- No trouble taking 50 away from 16A + 19
+[DRY RUN] 31/31 matched
+  Wed 24 Apr 2024 #11712:       ANSWER-MATCH: TAILBONE <- "Dog, second-rate individual" (that's a bit below 
+      ANSWER-MATCH: OUTRAGE <- Scandal is not in <i>Vogue</i>
+[DRY RUN] 30/30 matched
+  Thu 25 Apr 2024 #11713:       ANSWER-MATCH: SQUARE <- (and 9 Across) Position 49, perhaps before 50, say
+      ANSWER-MATCH: SOLITARY <- (and 10 Across) Contrived to silence informant cro
+      ANSWER-MATCH: BREAKINGAND <- (and 28 Across) Offence began in kindergarten sadl
+      ANSWER-MATCH: THE <- (and 29 Across) Dissertations written about causti
+      UNMATCHED: See 1 Across [LEG]
+      UNMATCHED: See 4 Across [CONFINEMENT]
+      UNMATCHED: See 26 Across [ENTERING]
+      UNMATCHED: See 27 Across [STATES]
+[DRY RUN] 29/33 matched, 4 unmatched
+  Fri 26 Apr 2024 #11714:       ANSWER-MATCH: ESCRITOIRE <- Rectories, I fancy, may be location of 12
+[DRY RUN] 28/28 matched
+  Sat 27 Apr 2024 #11715:       ANSWER-MATCH: ASH <- When hot, what 22A may throw out in 7
+[DRY RUN] 31/31 matched
+  Sun 28 Apr 2024 #1783:       ANSWER-MATCH: ALIBI <- Excuse from Crystal, "I bilked"
+[DRY RUN] 32/32 matched
+  Mon 29 Apr 2024 #11716:       ANSWER-MATCH: NINNY <- Name for alien in number 26
+      ANSWER-MATCH: CESTLAVIE <- Elvis etc tossed around a version of <i>That's Lif
+      ANSWER-MATCH: MARCIANO <- One in secret almost infiltrating second <i>Rocky<
+      ANSWER-MATCH: MOONRAKER <- Movie combining e.g. <i>Prometheus</i> and <i>The 
+[DRY RUN] 30/30 matched
+  Tue 30 Apr 2024 #11717:       ANSWER-MATCH: SUZI <- (and 19 Across) Rock star, short and dumpy, toting
+      ANSWER-MATCH: DEVIL <- Wicked follow-up to intro from <i>Daytona Demon</i
+      ANSWER-MATCH: INDRAG <- <i>Independent</i> newspaper describing RuPaul?
+      UNMATCHED: See 15 Across [QUATRO]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Wed 01 May 2024 #11718: [DRY RUN] 30/30 matched
+  Thu 02 May 2024 #11719:       ANSWER-MATCH: NINE <- (and 8 Across, 9 Across) Square creep catches grou
+      ANSWER-MATCH: BARBER <- He composed <i>Sweeney Todd</i>?
+      UNMATCHED: See 7 Across [INCH]
+      UNMATCHED: See 7 Across [NAILS]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Fri 03 May 2024 #11720: [DRY RUN] 27/27 matched
+  Sat 04 May 2024 #11721: [DRY RUN] 28/28 matched
+  Sun 05 May 2024 #1784:       ANSWER-MATCH: ATEMPORAL <- A vocal on <i>Substitute</i> or <i>Out of Time</i>
+[DRY RUN] 32/32 matched
+  Mon 06 May 2024 #11722:       ANSWER-MATCH: FINE <- (and 27 Across, 2 Down, 3 Down) From 8 28, 18A, se
+      ANSWER-MATCH: BARROW <- (and 28 Across) Pub dispute getting heated audibly
+      UNMATCHED: See 6 Down [WORDS]
+      UNMATCHED: See 6 Down [BUTTER]
+      UNMATCHED: See 6 Down [NOPARSNIPS]
+      UNMATCHED: See 8 Down [INFURNESS]
+[DRY RUN] 27/31 matched, 4 unmatched
+  Tue 07 May 2024 #11723:       ANSWER-MATCH: PEACOCK <- Spooner's main blemish is kind of 8
+      ANSWER-MATCH: MOPUP <- Finish off second issue for 15
+      ANSWER-MATCH: PAINTED <- (and 27 Down) What 25 did with <i>Madame Butterfly
+      ANSWER-MATCH: BUSH <- <i>Brief Encounter</i> is 19D for president
+      UNMATCHED: See 22 Across [LADY]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Wed 08 May 2024 #11724:       ANSWER-MATCH: EXCLUSIVE <- <i>Times</i> cuts silly clues ahead of setter's sp
+[DRY RUN] 35/35 matched
+  Thu 09 May 2024 #11725: [DRY RUN] 24/24 matched
+  Fri 10 May 2024 #11726: [DRY RUN] 32/32 matched
+  Sat 11 May 2024 #11727:       ANSWER-MATCH: DUCKING <- (and 19 Down) Form of public humiliation being in 
+      ANSWER-MATCH: PETER <- (and 16 Down) At one point, Doctor Who's in Time L
+      UNMATCHED: See 5 Down [STOOL]
+      UNMATCHED: See 8 Down [CAPALDI]
+[DRY RUN] 24/26 matched, 2 unmatched
+  Sun 12 May 2024 #1785: [DRY RUN] 28/28 matched
+  Mon 13 May 2024 #11728:       ANSWER-MATCH: DRIVETHRU <- Medic hurt possibly carrying setter's source of 1
+[DRY RUN] 30/30 matched
+  Tue 14 May 2024 #11729:       ANSWER-MATCH: SALMOND <- Scottish leader in 19A/11
+      ANSWER-MATCH: SOAK <- Water from 19A/11
+      ANSWER-MATCH: SPEAR <- Gig, perhaps, in 19A/11
+      ANSWER-MATCH: SASH <- Scarf from 19A/11
+      ANSWER-MATCH: SLIME <- Goo produced in 19A/11
+      ANSWER-MATCH: SAPPLE <- Scotsman's handwash in 19A/11
+      ANSWER-MATCH: SCORE <- Bag 20
+      ANSWER-MATCH: SPINE <- Mental toughness shown in 19A/11
+      ANSWER-MATCH: STEAK <- Meat from 19A/11
+[DRY RUN] 34/34 matched
+  Wed 15 May 2024 #11730: [DRY RUN] 28/28 matched
+  Thu 16 May 2024 #11731:       ANSWER-MATCH: THREATENING <- Sinister grannie dancing with the lead in <i>Twili
+[DRY RUN] 32/32 matched
+  Fri 17 May 2024 #11732: [DRY RUN] 32/32 matched
+  Sat 18 May 2024 #11733:       ANSWER-MATCH: ARSENIC <- As appropriate, king leaves after 12
+[DRY RUN] 28/28 matched
+  Sun 19 May 2024 #1786:       ANSWER-MATCH: BEEFEATER <- <i>Yeoman of the Guard</i> live performance amid u
+[DRY RUN] 30/30 matched
+  Mon 20 May 2024 #11734: [DRY RUN] 32/32 matched
+  Tue 21 May 2024 #11735: [DRY RUN] 28/28 matched
+  Wed 22 May 2024 #11736: [DRY RUN] 29/29 matched
+  Thu 23 May 2024 #11737:       UNMATCHED: Supply Ecstasy and crack [EQUIP]
+[DRY RUN] 26/27 matched, 1 unmatched
+  Fri 24 May 2024 #11738:       ANSWER-MATCH: LEVEE <- Historic reception the day before festival, captur
+[DRY RUN] 30/30 matched
+  Sat 25 May 2024 #11739:       ANSWER-MATCH: LEONARD <- (and 26 Across) Extremely dull romance developed w
+      ANSWER-MATCH: SKELETON <- (and 10 Across, 17 Down) Collection of 11 on to be
+      UNMATCHED: See 22 Across [MCCOY]
+      UNMATCHED: See 5 Down [INTHE]
+      UNMATCHED: See 5 Down [CUPBOARD]
+[DRY RUN] 28/31 matched, 3 unmatched
+  Sun 26 May 2024 #1787: [DRY RUN] 29/29 matched
+  Mon 27 May 2024 #11740: [DRY RUN] 30/30 matched
+  Tue 28 May 2024 #11741:       ANSWER-MATCH: RINGER <- It's imported by "doppelganger" in German
+      ANSWER-MATCH: BRICOLAGES <- Rivers' "Spanners" with abstracted depth for pop a
+[DRY RUN] 31/31 matched
+  Wed 29 May 2024 #11742: [DRY RUN] 28/28 matched
+  Thu 30 May 2024 #11743:       ANSWER-MATCH: THEOLD <- (and 27 Across, 9 Across) Novel description of Met
+      ANSWER-MATCH: TWENTY <- (and 13 Across, 19 Across, 12 Down) Subtitle trans
+      UNMATCHED: See 6 Across [MANAND]
+      UNMATCHED: See 6 Across [THESEA] (2 candidates)
+      UNMATCHED: See 23 Across [THESEA] (2 candidates)
+      UNMATCHED: (and 25 Across) Murdoch publication seethes with a [THESEA] (2 candidates)
+      UNMATCHED: See 5 Down [THOUSAND]
+      UNMATCHED: See 5 Down [LEAGUES]
+      UNMATCHED: See 5 Down [UNDERTHESEA]
+[DRY RUN] 23/30 matched, 7 unmatched
+  Fri 31 May 2024 #11744: [DRY RUN] 32/32 matched
+  Sat 01 Jun 2024 #11745: [DRY RUN] 28/28 matched
+  Sun 02 Jun 2024 #1788:       ANSWER-MATCH: ICECAPS <- Frozen wildernesses found over in Room 101
+[DRY RUN] 32/32 matched
+  Mon 03 Jun 2024 #11746:       ANSWER-MATCH: CHRISTMAS <- (and 27 Across) Ethics with Starmer questionable —
+      ANSWER-MATCH: LOCAL <- (and 1 Across) In pub the Spanish notice flawed po
+      UNMATCHED: See 14 Down [TREE]
+      UNMATCHED: See 23 Down [ELECTION]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Tue 04 Jun 2024 #11747:       ANSWER-MATCH: THE <- (and 26 Across) Ambassador absorbed by finale in P
+      UNMATCHED: See 17 Down [DELL]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Wed 05 Jun 2024 #11748: [DRY RUN] 30/30 matched
+  Thu 06 Jun 2024 #11749:       ANSWER-MATCH: ENTITY <- <i>Space Oddity</i>'s backing singer's boring exis
+      ANSWER-MATCH: AGATHA <- (and 17 Down) Novelist displaying range, putting c
+      ANSWER-MATCH: DETACHED <- (and 21 Down) Keep moving home following clinical 
+      UNMATCHED: See 1 Down [CHRISTIE]
+      UNMATCHED: See 8 Down [RETINA]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Fri 07 Jun 2024 #11750: [DRY RUN] 28/28 matched
+  Sat 08 Jun 2024 #11751:       ANSWER-MATCH: HOMESPUN <- Simple announcement of "A lemon tree, my dear Wats
+[DRY RUN] 30/30 matched
+  Sun 09 Jun 2024 #1789:       ANSWER-MATCH: TITILLATE <- "Excite a little" - that encapsulates it
+[DRY RUN] 32/32 matched
+  Tue 11 Jun 2024 #11753:       ANSWER-MATCH: MIDWAY <- Militant leader: "I'd swerve back towards the cent
+[DRY RUN] 32/32 matched
+  Wed 12 Jun 2024 #11754: [DRY RUN] 32/32 matched
+  Thu 13 Jun 2024 #11755:       ANSWER-MATCH: OMANI <- Arab newspaper follows <i>Love Island</i>
+[DRY RUN] 30/30 matched
+  Fri 14 Jun 2024 #11756: [DRY RUN] 28/28 matched
+  Sat 15 Jun 2024 #11757:       ANSWER-MATCH: PIAF <- <i>Private Eye</i> has nothing about singer
+[DRY RUN] 32/32 matched
+  Sun 16 Jun 2024 #1790:       ANSWER-MATCH: EARMARKS <- Yorkshire batter finally scores, bagging a 6
+[DRY RUN] 30/30 matched
+  Mon 17 Jun 2024 #11758: [DRY RUN] 28/28 matched
+  Tue 18 Jun 2024 #11759:       ANSWER-MATCH: WIN <- (and 27 Across) Opening with light blow that hurts
+      ANSWER-MATCH: HANG <- "Suspend Jonathan Gullis" - constituents
+      ANSWER-MATCH: LOWESTOF <- (and 21 Down) Suffolk resort hol we arranged "the 
+      ANSWER-MATCH: BELTED <- (and 17 Down) Beefy individual thumped controversi
+      UNMATCHED: See 9 Across [DOW]
+      UNMATCHED: See 1 Down [THELOW]
+      UNMATCHED: See 8 Down [GALLOWAY]
+[DRY RUN] 29/32 matched, 3 unmatched
+  Wed 19 Jun 2024 #11760: [DRY RUN] 27/27 matched
+  Thu 20 Jun 2024 #11761: [DRY RUN] 30/30 matched
+  Fri 21 Jun 2024 #11762: [DRY RUN] 32/32 matched
+  Sat 22 Jun 2024 #11763: [DRY RUN] 30/30 matched
+  Sun 23 Jun 2024 #1791:       ANSWER-MATCH: YESWEHAVE <- (and 28 Across) Hands-free connection with this nu
+      UNMATCHED: See 24 Across [NOBANANAS]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Mon 24 Jun 2024 #11764:       ANSWER-MATCH: CLIMATE <- (and 20 Across) Can Michael get around existential
+      ANSWER-MATCH: CLOSING <- (and 11 Down) Mismanaging slight income - lush’s l
+      UNMATCHED: See 15 Across [CHANGE]
+      UNMATCHED: See 5 Down [TIME]
+[DRY RUN] 32/34 matched, 2 unmatched
+  Tue 25 Jun 2024 #11765:       ANSWER-MATCH: MARTYR <- Old queen welcomes Troy Romeo who'll say "I would 
+      ANSWER-MATCH: HALLOW <- Revere <i>Computer Blue</i>
+      ANSWER-MATCH: DENEB <- Need remixed intro to <i>Baby I'm A Star</i>
+      ANSWER-MATCH: ACOLYTES <- Of Prince, The Revolution say "a fellow with radic
+      ANSWER-MATCH: PURPLE <- (and 4 Down) Regularly tape superb LPs: <i>Blue</i
+      ANSWER-MATCH: CLOUDUP <- Clue for "could become grey"
+      UNMATCHED: See 6 Down [RAIN]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Thu 27 Jun 2024 #11767:       ANSWER-MATCH: OTHELLO <- Moor boat, regularly going "ahoy there!"
+      ANSWER-MATCH: SILK <- (and 24 Down) Brief answer received by staff in co
+      ANSWER-MATCH: OVULATES <- Prepares to reproduce fancy vase, out to mould 50
+      UNMATCHED: See 9 Down [ROAD]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Fri 28 Jun 2024 #11768:       ANSWER-MATCH: LAPIDARY <- According to the inscription, large beehive houses
+      ANSWER-MATCH: PHYSICIST <- Scientist: "Working Si chips totally gutted"
+[DRY RUN] 27/27 matched
+  Sat 29 Jun 2024 #11769: [DRY RUN] 30/30 matched
+  Sun 30 Jun 2024 #1792:       ANSWER-MATCH: LIGHTENUP <- "Plug" in the comic! Take things less seriously
+[DRY RUN] 32/32 matched
+  Mon 01 Jul 2024 #11770: [DRY RUN] 36/36 matched
+  Tue 02 Jul 2024 #11771:       ANSWER-MATCH: PROTEA <- For leaves, <i>Flora of South Africa</i>
+      ANSWER-MATCH: OISE <- Part of France which <i>Esio Trot</i>'s first name
+      ANSWER-MATCH: SUBTEXT <- <i>Das Boot</i> typed with thumbs? It's not obviou
+      ANSWER-MATCH: RUSSIA <- Person in a hurry read out scene of <i>War and Pea
+      ANSWER-MATCH: IRON <- One of <i>Elements</i>, and not one <i>Through the
+      ANSWER-MATCH: OXFAM <- <i>Fantastic Mr Fox</i> making robbery primarily a
+      ANSWER-MATCH: ENTERKEYS <- Carriage returns, queen collecting <i>Notes From a
+      ANSWER-MATCH: BONDS <- Security instruments of <i>The Spy Who Loved Me</i
+[DRY RUN] 30/30 matched
+  Wed 03 Jul 2024 #11772:       ANSWER-MATCH: FALKLANDISLANDS <- <i>Columbo</i> actor wins round director in overse
+[DRY RUN] 28/28 matched
+  Thu 04 Jul 2024 #11773:       ANSWER-MATCH: PUSHING <- (and 14 Down, 18 Down) Passed on style of bra cups
+      UNMATCHED: See 8 Down [UPTHE]
+      UNMATCHED: See 8 Down [DAISIES]
+[DRY RUN] 26/28 matched, 2 unmatched
+  Fri 05 Jul 2024 #11774: [DRY RUN] 30/30 matched
+  Sat 06 Jul 2024 #11775: [DRY RUN] 30/30 matched
+  Sun 07 Jul 2024 #1793: [DRY RUN] 32/32 matched
+  Mon 08 Jul 2024 #11776: [DRY RUN] 32/32 matched
+  Tue 09 Jul 2024 #11777:       ANSWER-MATCH: MORSECODE <- Carelessly recomposed missing page, "i" needing tw
+[DRY RUN] 31/31 matched
+  Wed 10 Jul 2024 #11778: [DRY RUN] 28/28 matched
+  Thu 11 Jul 2024 #11779: [DRY RUN] 30/30 matched
+  Fri 12 Jul 2024 #11780: [DRY RUN] 29/29 matched
+  Sat 13 Jul 2024 #11781:       ANSWER-MATCH: ICECREAM <- Murder rock group's rendition of <i>Tutti Frutti</
+[DRY RUN] 30/30 matched
+  Sun 14 Jul 2024 #1794: [DRY RUN] 31/31 matched
+  Mon 15 Jul 2024 #11782:       UNMATCHED: Pass on joke you hear in summarised version [DIGEST]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Tue 16 Jul 2024 #11783:       ANSWER-MATCH: LINE <- "Misspeak" about new policy
+[DRY RUN] 36/36 matched
+  Wed 17 Jul 2024 #11784:       ANSWER-MATCH: STRIKEARAWNERVE <- Labour admitting "We are rank" stirred upset
+[DRY RUN] 30/30 matched
+  Thu 18 Jul 2024 #11785:       ANSWER-MATCH: HELL <- Opening sections of <i>Howards End</i> lots like <
+      ANSWER-MATCH: TABOO <- What might make you say "don't mention it!" and "l
+      ANSWER-MATCH: RECOVER <- Engineers do their own version of <i>Get Back</i>
+[DRY RUN] 32/32 matched
+  Fri 19 Jul 2024 #11786: [DRY RUN] 32/32 matched
+  Sat 20 Jul 2024 #11787:       ANSWER-MATCH: WINNER <- See 13 Across
+      ANSWER-MATCH: NOSE <- (and 14 Across) Sudden drop seen with void when fl
+      ANSWER-MATCH: ADULT <- (and 10 Down) Dubious item with talented nun, art 
+      ANSWER-MATCH: RASCAL <- Villain in opera venue discovered after opening of
+      UNMATCHED: See 13 Across [CHICKENDINNER]
+      UNMATCHED: (and 22 Across, 3 Down) Number one repeated, afrai [WINNER]
+      UNMATCHED: See 21 Across [DIVE]
+      UNMATCHED: See 4 Down [ENTERTAINMENT]
+[DRY RUN] 25/29 matched, 4 unmatched
+  Sun 21 Jul 2024 #1795:       ANSWER-MATCH: BOTTICELLI <- Painter of note on US phone in Program 1
+[DRY RUN] 32/32 matched
+  Mon 22 Jul 2024 #11788: [DRY RUN] 29/29 matched
+  Tue 23 Jul 2024 #11789: [DRY RUN] 32/32 matched
+  Wed 24 Jul 2024 #11790: [DRY RUN] 34/34 matched
+  Thu 25 Jul 2024 #11791:       ANSWER-MATCH: WEDDING <- Did new opener to gig, with New Order's <i>Ceremon
+      ANSWER-MATCH: SCREAMED <- "Go away to grasp English!" editor shrieked
+[DRY RUN] 28/28 matched
+  Fri 26 Jul 2024 #11792: [DRY RUN] 33/33 matched
+  Sat 27 Jul 2024 #11793: [DRY RUN] 33/33 matched
+  Sun 28 Jul 2024 #1796:       ANSWER-MATCH: FAWLTY <- (and 2 Down) Drag queen's chasing buggy we hear in
+      UNMATCHED: See 20 Down [TOWERS]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Mon 29 Jul 2024 #11794: [DRY RUN] 28/28 matched
+  Tue 30 Jul 2024 #11795: [DRY RUN] 32/32 matched
+  Wed 31 Jul 2024 #11796: [DRY RUN] 29/29 matched
+  Thu 01 Aug 2024 #11797:       ANSWER-MATCH: TIPONESHAT <- Show respect to thespian in <i>Metamorphosis</i>
+[DRY RUN] 26/26 matched
+  Fri 02 Aug 2024 #11798:       ANSWER-MATCH: MALINGER <- Avoid working translation of <i>Germinal</i>
+[DRY RUN] 34/34 matched
+  Sat 03 Aug 2024 #11799:       ANSWER-MATCH: COLEMAN <- (and 11 Across) Balances Moll's broadcast 21s
+      ANSWER-MATCH: CLEAN <- (and 22 Across) Lift from Al can end badly - not a
+      UNMATCHED: See 13 Across [BALLS]
+      UNMATCHED: See 28 Across [ANDJERK]
+[DRY RUN] 32/34 matched, 2 unmatched
+  Sun 04 Aug 2024 #1797:       ANSWER-MATCH: PENALISED <- Barking spaniel my boss subjected to discipline
+[DRY RUN] 32/32 matched
+  Mon 05 Aug 2024 #11800:       ANSWER-MATCH: WORKPLACE <- <i>The Office</i> cast lack power
+      ANSWER-MATCH: MINCEPIE <- Food for viewer of <i>EastEnders</i>
+      ANSWER-MATCH: LAZARUS <- American supporting largely indolent Australian, p
+[DRY RUN] 32/32 matched
+  Tue 06 Aug 2024 #11801:       ANSWER-MATCH: ROTHKO <- American on canvas heard "Fury, by knockout"
+[DRY RUN] 30/30 matched
+  Wed 07 Aug 2024 #11802: [DRY RUN] 30/30 matched
+  Thu 08 Aug 2024 #11803:       ANSWER-MATCH: ROCOCO <- Fancy <b>--</b> exhausted Romeo gets firm twice!
+[DRY RUN] 29/29 matched
+  Fri 09 Aug 2024 #11804: [DRY RUN] 30/30 matched
+  Sat 10 Aug 2024 #11805: [DRY RUN] 31/31 matched
+  Sun 11 Aug 2024 #1798:       ANSWER-MATCH: EMBER <- Ash planted in 15
+[DRY RUN] 30/30 matched
+  Mon 12 Aug 2024 #11806: [DRY RUN] 30/30 matched
+  Tue 13 Aug 2024 #11807:       ANSWER-MATCH: REFRAIN <- Words oft repeated conveying "Forbear!"
+      ANSWER-MATCH: HELLO <- Fellow will ring for a "how do you do?"
+      ANSWER-MATCH: SOUTHERN <- Going the other way, oddly use "north"
+[DRY RUN] 31/31 matched
+  Wed 14 Aug 2024 #11808:       ANSWER-MATCH: MADISON <- <i>Bicycle Race</i> is playing after <i>Crazy</i>
+      ANSWER-MATCH: SLAINTE <- <i>Cheers </i>killed off peripheral characters in 
+      ANSWER-MATCH: LOPEZ <- Bound to meet unknown Hispanic singer
+[DRY RUN] 34/34 matched
+  Thu 15 Aug 2024 #11809: [DRY RUN] 28/28 matched
+  Fri 16 Aug 2024 #11810:       ANSWER-MATCH: STOAT <- Kids taken aback about a villain in <i>Wind in the
+[DRY RUN] 30/30 matched
+  Sat 17 Aug 2024 #11811: [DRY RUN] 32/32 matched
+  Sun 18 Aug 2024 #1799:       ANSWER-MATCH: BOTTLEOPENER <- What suggests bee that releases "amber nectar" per
+[DRY RUN] 28/28 matched
+  Mon 19 Aug 2024 #11812:       ANSWER-MATCH: ORATING <- Talking pompously, note "a lot of fruit's round"
+      ANSWER-MATCH: HESSE <- Author aboard the SS <i>Endurance</i>
+      ANSWER-MATCH: JABBER <- "Could I vaccinate you?" "Go on"
+[DRY RUN] 31/31 matched
+  Tue 20 Aug 2024 #11813:       ANSWER-MATCH: EYE <- Seer contributing to<i> Crome Yellow</i>
+      ANSWER-MATCH: WHAT <- (and 2 Down, 27 Down) TWL's V: that with Hades swi
+      ANSWER-MATCH: THEFIRE <- (and 3 Down) He's in for playing with singular met
+      ANSWER-MATCH: THEBURIAL <- (and 4 Down) Bats left to fate here, Buddha saving
+      ANSWER-MATCH: AGAMEOF <- (and 31 Across) Hard to stop enemy with Trumpian s
+      ANSWER-MATCH: DEATH <- (and 22 Across) TWL's IV's what betrayed criminal
+      UNMATCHED: See 7 Down [THETHUNDER]
+      UNMATCHED: See 7 Down [SAID]
+      UNMATCHED: See 11 Down [SERMON]
+      UNMATCHED: See 17 Down [OFTHEDEAD]
+      UNMATCHED: See 18 Down [CHESS]
+      UNMATCHED: See 25 Down [BYWATER]
+[DRY RUN] 27/33 matched, 6 unmatched
+  Wed 21 Aug 2024 #11814:       ANSWER-MATCH: VIRAGO <- <i>Amazon v Inland Revenue</i>, in the past?
+[DRY RUN] 30/30 matched
+  Thu 22 Aug 2024 #11815: [DRY RUN] 30/30 matched
+  Fri 23 Aug 2024 #11816: [DRY RUN] 32/32 matched
+  Sat 24 Aug 2024 #11817:       ANSWER-MATCH: BILLIE <- (and 20 Across) Pop star I libel annoyed about fak
+      UNMATCHED: See 18 Across [EILISH]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Sun 25 Aug 2024 #1800:       ANSWER-MATCH: PLEIOCENE <- <i>One Piece</i> serial ultimately broadcast for a
+[DRY RUN] 32/32 matched
+  Mon 26 Aug 2024 #11818: [DRY RUN] 30/30 matched
+  Tue 27 Aug 2024 #11819:       ANSWER-MATCH: NORTHERN <- Player's bearing oddly overlooked 8
+      ANSWER-MATCH: VICTORIA <- State 8
+      ANSWER-MATCH: HAMMERSMITH <- Criticises university hospital in part of 8
+      ANSWER-MATCH: WATERLOO <- Cycling down the road into court for part of 8
+      ANSWER-MATCH: CIRCLE <- Enchantress welcomes student 8
+      ANSWER-MATCH: DISTRICT <- Hell merges with authoritarian 8
+      ANSWER-MATCH: CENTRAL <- European money artist left for 8
+      ANSWER-MATCH: ARROW <- Indicator of Arabian 8
+[DRY RUN] 32/32 matched
+  Wed 28 Aug 2024 #11820: [DRY RUN] 32/32 matched
+  Thu 29 Aug 2024 #11821:       ANSWER-MATCH: SUSPENDERBELT <- Poet Stephen welcoming American hit <i>Lingerie
+<
+[DRY RUN] 28/28 matched
+  Fri 30 Aug 2024 #11822:       ANSWER-MATCH: AIR <- (and 1 Down) Copter is a wreck ultimately after st
+      UNMATCHED: See 2 Down [POCKETS]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sat 31 Aug 2024 #11823: [DRY RUN] 30/30 matched
+  Sun 01 Sep 2024 #1801: [DRY RUN] 29/29 matched
+  Mon 02 Sep 2024 #11824:       ANSWER-MATCH: ADVENTURE <- <i>Much Ado </i>project is a thrill ride
+      ANSWER-MATCH: KNIFEEDGE <- One is keen on <i>Blade</i>
+      ANSWER-MATCH: LOITER <- Hang around unfinished toilet when working on <i>R
+      ANSWER-MATCH: CODERS <- Python handlers perhaps - like some in <i>The 1A</
+      ANSWER-MATCH: CREDIT <- <i>Constantine</i> initially leads half-hearted on
+[DRY RUN] 32/32 matched
+  Tue 03 Sep 2024 #11825:       ANSWER-MATCH: MUCHADO <- (and 24 Across, 27 Across) Letter from Greece (old
+      ANSWER-MATCH: BENEDICK <- D Icke transfigured beneath mountain, he’s in love
+      UNMATCHED: See 6 Across [ABOUT]
+      UNMATCHED: See 6 Across [NOTHING]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Wed 04 Sep 2024 #11826: [DRY RUN] 30/30 matched
+  Thu 05 Sep 2024 #11827: [DRY RUN] 30/30 matched
+  Fri 06 Sep 2024 #11828: [DRY RUN] 33/33 matched
+  Sat 07 Sep 2024 #11829: [DRY RUN] 30/30 matched
+  Sun 08 Sep 2024 #1802: [DRY RUN] 32/32 matched
+  Mon 09 Sep 2024 #11830:       ANSWER-MATCH: ELYSIAN <- (and 22 Down) Paradise Island? Yes, life is sorted
+      UNMATCHED: See 4 Down [FIELDS]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Tue 10 Sep 2024 #11831:       ANSWER-MATCH: BALL <- Bass provides introduction for <i>Everybody Dance<
+      ANSWER-MATCH: TOP <- (and 18 Across) Leader of the gang to get cheap st
+      ANSWER-MATCH: BENNY <- (and 32 Across) Comedian in New York absorbed by <
+      UNMATCHED: See 21 Across [CAT]
+      UNMATCHED: See 2 Down [HILL]
+[DRY RUN] 34/36 matched, 2 unmatched
+  Wed 11 Sep 2024 #11832:       ANSWER-MATCH: ASFARASICANSEE <- "To the best of my knowledge, Caesarean's largely 
+[DRY RUN] 28/28 matched
+  Thu 12 Sep 2024 #11833:       ANSWER-MATCH: FREEDOM <- (and 17 Down) Right rubbish home office decor
+      UNMATCHED: See 11 Across [OFCHOICE]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Fri 13 Sep 2024 #11834:       ANSWER-MATCH: BOATYMCBOATFACE <- "My cat foe a bobcat" - weird suggestion overruled
+      ANSWER-MATCH: SANDAL <- Exotic wood featured in <i>Cakes And Ale</i>
+      ANSWER-MATCH: SLOW <- (and 25 Down) Almost frozen stream perhaps showing
+      UNMATCHED: See 7 Down [BURN]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Sat 14 Sep 2024 #11835: [DRY RUN] 28/28 matched
+  Sun 15 Sep 2024 #1803: [DRY RUN] 26/26 matched
+  Mon 16 Sep 2024 #11836: [DRY RUN] 28/28 matched
+  Tue 17 Sep 2024 #11837: [DRY RUN] 32/32 matched
+  Wed 18 Sep 2024 #11838: [DRY RUN] 28/28 matched
+  Thu 19 Sep 2024 #11839:       ANSWER-MATCH: FATSDOMINO <- Rock'n'roller runs out of wind, playing piece in s
+      ANSWER-MATCH: NEON <- Glower half-way through <i>Eugene Onegin</i>
+[DRY RUN] 28/28 matched
+  Fri 20 Sep 2024 #11840:       ANSWER-MATCH: TEUTONISE <- <i>Tout Seine</i>, after translation, to become Ge
+[DRY RUN] 30/30 matched
+  Sat 21 Sep 2024 #11841: [DRY RUN] 32/32 matched
+  Sun 22 Sep 2024 #1804:       ANSWER-MATCH: THEWASTE <- (and 9 Across) Work man used to be in races with a
+      UNMATCHED: See 10 Across [LAND]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Mon 23 Sep 2024 #11842:       ANSWER-MATCH: BESTIARY <- Top journal dismissing duke's <i>Animal Studies</i
+[DRY RUN] 28/28 matched
+  Tue 24 Sep 2024 #11843:       ANSWER-MATCH: CONSERVATIVE <- Pro establishment bringing jam round at 4
+[DRY RUN] 33/33 matched
+  Wed 25 Sep 2024 #11844: [DRY RUN] 25/25 matched
+  Thu 26 Sep 2024 #11845: [DRY RUN] 30/30 matched
+  Fri 27 Sep 2024 #11846: [DRY RUN] 28/28 matched
+  Sat 28 Sep 2024 #11847: [DRY RUN] 28/28 matched
+  Sun 29 Sep 2024 #1805: [DRY RUN] 32/32 matched
+  Mon 30 Sep 2024 #11848: [DRY RUN] 30/30 matched
+  Tue 01 Oct 2024 #11849:       ANSWER-MATCH: PIGS <- <i>Seventeen Seconds</i>, one embraced by person h
+      ANSWER-MATCH: DOGS <- Backing special one in Heaven 17
+      ANSWER-MATCH: ELITE <- Frequently ignored, yells "I'm the best!"
+      ANSWER-MATCH: SHEEP <- Charles Aznavour's hit record is number 17
+[DRY RUN] 30/30 matched
+  Wed 02 Oct 2024 #11850:       ANSWER-MATCH: ETHIOPIAN <- African is playing the piano around 1
+[DRY RUN] 32/32 matched
+  Thu 03 Oct 2024 #11851: [DRY RUN] 27/27 matched
+  Fri 04 Oct 2024 #11852: [DRY RUN] 26/26 matched
+  Sat 05 Oct 2024 #11853: [DRY RUN] 32/32 matched
+  Sun 06 Oct 2024 #1806:       ANSWER-MATCH: DANCE <- Being there, but not at 10 to 2
+[DRY RUN] 30/30 matched
+  Mon 07 Oct 2024 #11854: [DRY RUN] 28/28 matched
+  Tue 08 Oct 2024 #11855:       ANSWER-MATCH: CAMERAS <- American put in a lot of money to produce <i>Chamb
+[DRY RUN] 32/32 matched
+  Wed 09 Oct 2024 #11856: [DRY RUN] 30/30 matched
+  Thu 10 Oct 2024 #11857: [DRY RUN] 28/28 matched
+  Fri 11 Oct 2024 #11858:       ANSWER-MATCH: THATCHER <- One who could have worked with Reed on <i>The Hous
+[DRY RUN] 32/32 matched
+  Sat 12 Oct 2024 #11859:       ANSWER-MATCH: ODIST <- "<i>God Is</i>" -- thus pens poet
+[DRY RUN] 32/32 matched
+  Sun 13 Oct 2024 #1807:       ANSWER-MATCH: NAVEL <- Central point arising from <i>Uncle Vanya</i>
+[DRY RUN] 30/30 matched
+  Mon 14 Oct 2024 #11860: [DRY RUN] 28/28 matched
+  Tue 15 Oct 2024 #11861:       ANSWER-MATCH: COFFIN <- Played very loudly in county home: it goes "<i>Dow
+      ANSWER-MATCH: BURSTS <- <i>Streams of Whiskey</i> dropped from bangers<i> 
+[DRY RUN] 26/26 matched
+  Wed 16 Oct 2024 #11862:       ANSWER-MATCH: ERRORFREE <- "Fore!" some characters repeatedly snarled, with n
+[DRY RUN] 30/30 matched
+  Thu 17 Oct 2024 #11863:       ANSWER-MATCH: THEGREATEST <- (and 29 Across) Ali's question about our planet ap
+      UNMATCHED: See 1 Across [SHOWONEARTH]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 18 Oct 2024 #11864: [DRY RUN] 32/32 matched
+  Sat 19 Oct 2024 #11865:       ANSWER-MATCH: ERASTUS <- <i>Times</i> journalist finally seen by American t
+      ANSWER-MATCH: THE <- (and 25 Down, 13 Across, 28 Down, 9 Across) King H
+      ANSWER-MATCH: IRRELIGIOUS <- One girl going astray with roué is anything but 28
+      ANSWER-MATCH: MANON <- (and 17 Down) Male 5-9 did you say? In Pagnol's wo
+      UNMATCHED: See 14 Across [LEGEND]
+      UNMATCHED: See 14 Across [OFTHE]
+      UNMATCHED: See 14 Across [HOLY]
+      UNMATCHED: See 14 Across [DRINKER]
+      UNMATCHED: See 26 Down [DESSOURCES]
+[DRY RUN] 28/33 matched, 5 unmatched
+  Sun 20 Oct 2024 #1808: [DRY RUN] 29/29 matched
+  Mon 21 Oct 2024 #11866:       ANSWER-MATCH: BABY <- New issue of <i>Graduate Times</i>
+[DRY RUN] 34/34 matched
+  Tue 22 Oct 2024 #11867: [DRY RUN] 37/37 matched
+  Wed 23 Oct 2024 #11868: [DRY RUN] 30/30 matched
+  Thu 24 Oct 2024 #11869:       ANSWER-MATCH: TOBEOR <- (and 4 Across) Oberon met Bottom, denied maidens, 
+      ANSWER-MATCH: MARY <- (and 27 Across) Doctor "my sly healer" for novelis
+      ANSWER-MATCH: AMNIOTIC <- (and 10 Across) A mini Tesco mistakenly knocking p
+      ANSWER-MATCH: ULNAE <- <i>Star Trek</i>'s Captain Picard essentially beam
+      UNMATCHED: See 1 Across [NOTTOBE]
+      UNMATCHED: See 19 Across [SHELLEY]
+      UNMATCHED: See 15 Down [SAC]
+[DRY RUN] 29/32 matched, 3 unmatched
+  Fri 25 Oct 2024 #11870: [DRY RUN] 30/30 matched
+  Sat 26 Oct 2024 #11871:       ANSWER-MATCH: MAGA <- (and 13 Down) Female figure on horseback acquires 
+      UNMATCHED: See 15 Across [FAN]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 27 Oct 2024 #1809: [DRY RUN] 33/33 matched
+  Mon 28 Oct 2024 #11872: [DRY RUN] 30/30 matched
+  Tue 29 Oct 2024 #11873:       ANSWER-MATCH: SISTER <- (and 9 Across) Nuns left fringe group from America
+      ANSWER-MATCH: SKI <- (and 16 Down) Film about sport that could use a li
+      UNMATCHED: See 1 Across [SLEDGE]
+      UNMATCHED: See 15 Down [RUN]
+[DRY RUN] 32/34 matched, 2 unmatched
+  Wed 30 Oct 2024 #11874: [DRY RUN] 29/29 matched
+  Thu 31 Oct 2024 #11875:       ANSWER-MATCH: JACK <- (and 4 Across) Rudely crack a joke about posh writ
+      ANSWER-MATCH: SETTER <- Crossword compiler for <i>The Sun</i>?
+      ANSWER-MATCH: SITTING <- (and 29 Across) Helpless victim modelling with not
+      ANSWER-MATCH: HOIPOLLOI <- The masses discovering who'd win with vote on <i>L
+      UNMATCHED: See 1 Across [KEROUAC]
+      UNMATCHED: See 28 Across [DUCK]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Fri 01 Nov 2024 #11876: [DRY RUN] 32/32 matched
+  Sat 02 Nov 2024 #11877:       ANSWER-MATCH: ONLY <- (and 3 Across) Never miss quiz show which inspired
+      UNMATCHED: See 1 Across [CONNECT]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Sun 03 Nov 2024 #1810:       ANSWER-MATCH: SOSO <- Indifferent Ringo at the back accompanying <i>Help
+[DRY RUN] 30/30 matched
+  Mon 04 Nov 2024 #11878: [DRY RUN] 30/30 matched
+  Tue 05 Nov 2024 #11879: [DRY RUN] 30/30 matched
+  Wed 06 Nov 2024 #11880: [DRY RUN] 33/33 matched
+  Thu 07 Nov 2024 #11881: [DRY RUN] 30/30 matched
+  Fri 08 Nov 2024 #11882: [DRY RUN] 28/28 matched
+  Sat 09 Nov 2024 #11883:       ANSWER-MATCH: PEDOMETER <- "Exercises make me exhausted" - the answer, ultima
+[DRY RUN] 32/32 matched
+  Sun 10 Nov 2024 #1811: [DRY RUN] 28/28 matched
+  Mon 11 Nov 2024 #11884: [DRY RUN] 28/28 matched
+  Tue 12 Nov 2024 #11885:       ANSWER-MATCH: GRADGRIND <- Bachelor has crush for someone only interested in 
+      ANSWER-MATCH: TIMES <- <i>X Factor</i> in complaint I'm escalating
+      ANSWER-MATCH: SISSY <- (and 19 Down) Southern skyscape is fantastic for f
+      UNMATCHED: See 16 Across [SPACEK]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Wed 13 Nov 2024 #11886:       ANSWER-MATCH: NOTUP <- Revolutionary screen showing "Umpire's call"
+[DRY RUN] 32/32 matched
+  Thu 14 Nov 2024 #11887: [DRY RUN] 28/28 matched
+  Fri 15 Nov 2024 #11888: [DRY RUN] 32/32 matched
+  Sat 16 Nov 2024 #11889: [DRY RUN] 32/32 matched
+  Sun 17 Nov 2024 #1812: [DRY RUN] 29/29 matched
+  Mon 18 Nov 2024 #11890:       ANSWER-MATCH: INTHE <- (and 12 Across) Up as 26 20 can be when 16's 4 or 
+      UNMATCHED: See 9 Across [WIND]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Tue 19 Nov 2024 #11891: [DRY RUN] 31/31 matched
+  Wed 20 Nov 2024 #11892: [DRY RUN] 28/28 matched
+  Thu 21 Nov 2024 #11893: [DRY RUN] 26/26 matched
+  Fri 22 Nov 2024 #11894: [DRY RUN] 30/30 matched
+  Sat 23 Nov 2024 #11895: [DRY RUN] 32/32 matched
+  Sun 24 Nov 2024 #1813:       ANSWER-MATCH: STARSANDSTRIPES <- <i>Sun</i> attempts to keep quiet about beach's st
+[DRY RUN] 24/24 matched
+  Mon 25 Nov 2024 #11896:       ANSWER-MATCH: MEWS <- <i>Pet Sounds</i> flyers
+      ANSWER-MATCH: PARK <- (and 19 Across) Part of London Transport containin
+      UNMATCHED: See 24 Down [LANE]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Tue 26 Nov 2024 #11897:       ANSWER-MATCH: SEAN <- It could be<i>Penn and Teller</i>'s cut short?
+      ANSWER-MATCH: UNEQUAL <- Biased article appearing in <i>Paris Match</i>
+[DRY RUN] 29/29 matched
+  Wed 27 Nov 2024 #11898: [DRY RUN] 32/32 matched
+  Thu 28 Nov 2024 #11899:       ANSWER-MATCH: VANUATU <- Country aunt made a mess of <i>Five Gold Rings</i>
+      ANSWER-MATCH: AXLE <- Rose Royce's finale that turns into <i>Car Wash?</
+      ANSWER-MATCH: SEEYOU <- "Cheerio!" copper said, symbolically
+[DRY RUN] 30/30 matched
+  Fri 29 Nov 2024 #11900:       ANSWER-MATCH: PRESTIDIGITATOR <- "God is tripartite" confused one trying to mislead
+[DRY RUN] 27/27 matched
+  Sat 30 Nov 2024 #11901:       ANSWER-MATCH: THE <- (and 3 Down) Doctor Who not interfering with Engli
+      ANSWER-MATCH: ASSUMEDNAME <- <i>Rock Me Amadeus</i> regularly sung as Falco, fo
+      UNMATCHED: See 22 Across [TOWERINGINFERNO]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 01 Dec 2024 #1814:       ANSWER-MATCH: CAN <- (and 24 Down) A vessel for storing and one for pip
+      UNMATCHED: See 6 Down [VAS]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Mon 02 Dec 2024 #11902:       ANSWER-MATCH: BESTSELLER <- Old footballer’s right to devour fashion mag and <
+      ANSWER-MATCH: MEMOIRS <- Autobiographical book from Bard in English and Fre
+[DRY RUN] 29/29 matched
+  Tue 03 Dec 2024 #11903: [DRY RUN] 34/34 matched
+  Wed 04 Dec 2024 #11904: [DRY RUN] 30/30 matched
+  Thu 05 Dec 2024 #11905:       UNMATCHED: Paper tossed around <i>Church Times </i>newspaper, [CONFETTI]
+      UNMATCHED: Feast that might accompany toast? [SPREAD]
+      UNMATCHED: Tool turned fruit into bread [NAILGUN]
+      UNMATCHED: Very crisp, black, straight lines [BONEDRY]
+      UNMATCHED: Call up First Lady without consent [EVOKE]
+      UNMATCHED: Discover comedian's middle eight moved significant [OVERCOME]
+      UNMATCHED: T-shirt design represented Eastern deity [TIEDYE]
+      UNMATCHED: What seals second team appearance [SCREWCAP]
+      UNMATCHED: Oxen trod precariously close [NEXTDOOR]
+      UNMATCHED: Legendary winger is engaging about sport [ICARUS]
+      UNMATCHED: Australian site may make a typo, e.g. in fliers [CANBERRA]
+      UNMATCHED: Conan Doyle character's superlative conclusion lea [ADLER]
+      UNMATCHED: Gunners locate treadmill [RATRACE]
+      UNMATCHED: Slowing down quietly during dance music from the 9 [BRITPOP]
+      UNMATCHED: A university grant [PERMIT]
+      UNMATCHED: Art lover hates high summer in Paris [AESTHETE]
+      UNMATCHED: Player needing racket before match with six-footer [CONTESTANT]
+      UNMATCHED: Unpleasant feeling rising, changing side of street [NOISOME]
+      UNMATCHED: 'Great score of course - I'd sounded sharp [EAGLEEYED]
+      UNMATCHED: Mickey Mouse beat Dumbo up [TINPOT]
+      UNMATCHED: Force constituent to accept an island state [PANIC]
+      UNMATCHED: Medicine struggles to eliminate one? [ENDEMIC]
+      UNMATCHED: Kinks's Ray or Dave losing fight for unknown song  [DAYS]
+      UNMATCHED: Want beans cooked this time [ABSENCE]
+      UNMATCHED: I'm avoiding outside excursion [APOSTROPHE]
+      UNMATCHED: Ceremony of religious leader touring America after [EUCHARIST]
+      UNMATCHED: Student article that's cutting edge [BOARDER]
+      UNMATCHED: Vote in favour of keeping <i>Move It</i> [XFACTOR]
+      UNMATCHED: Degenerate left church area after religious teachi [RELAPSE]
+      UNMATCHED: Rock and roll's first book penned by Jack or Tom? [MARBLE]
+      UNMATCHED: S African gathering support over Grok, say [BRAAI]
+      UNMATCHED: Bag of chopped beef [GRIP]
+0/32 matched -- DB has different puzzle for this date, SKIPPED
+  Fri 06 Dec 2024 #11906:       ANSWER-MATCH: CROSS <- (and 10 Across) See 12
+      ANSWER-MATCH: SCAM <- First to span river in Dodge
+      UNMATCHED: See 9 Across [REFERENCE]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Sat 07 Dec 2024 #11907:       ANSWER-MATCH: EYEBROW <- Academic reported on <i>EastEnders </i>for cover o
+[DRY RUN] 27/27 matched
+  Mon 09 Dec 2024 #11908: [DRY RUN] 34/34 matched
+  Tue 10 Dec 2024 #11909: [DRY RUN] 32/32 matched
+  Wed 11 Dec 2024 #11910:       ANSWER-MATCH: IMRANKHAN <- Former Prime Minister: "I am rubbish at Chinese"
+[DRY RUN] 32/32 matched
+  Thu 12 Dec 2024 #11911:       ANSWER-MATCH: OXO <- Social media company invested in O<sub>2</sub> sto
+      ANSWER-MATCH: DEERSTALKER <- Animal could be <i>Cat in the Hat</i>?
+[DRY RUN] 30/30 matched
+  Fri 13 Dec 2024 #11912: [DRY RUN] 28/28 matched
+  Sat 14 Dec 2024 #11913:       ANSWER-MATCH: NUDES <- Certain pictures - <i>Dune</i>, <i>Rocky</i>, and,
+      ANSWER-MATCH: CASSETTES <- Tapes of actors wasting time on sofas, taking 8
+      ANSWER-MATCH: LUBRICANT <- Large group of countries screening <i>Universal So
+      ANSWER-MATCH: CLASSIC <- Children perhaps in charge - could this be <i>Lord
+[DRY RUN] 32/32 matched
+  Sun 15 Dec 2024 #1816: [DRY RUN] 26/26 matched
+  Mon 16 Dec 2024 #11914: [DRY RUN] 31/31 matched
+  Tue 17 Dec 2024 #11915: [DRY RUN] 32/32 matched
+  Wed 18 Dec 2024 #11916: [DRY RUN] 33/33 matched
+  Thu 19 Dec 2024 #11917:       ANSWER-MATCH: STARE <- Watch bit of <i>EastEnders</i> after <i>Red Dwarf<
+[DRY RUN] 30/30 matched
+  Fri 20 Dec 2024 #11918: [DRY RUN] 34/34 matched
+  Sat 21 Dec 2024 #11919:       ANSWER-MATCH: ZULU <- War film that's hardly <i>The Caine Mutiny</i>
+      ANSWER-MATCH: VOCAB <- Terms of endless promise taking lead from Catch 22
+      ANSWER-MATCH: PARENTAL <- (and 21 Down) Carer's right: characters in shop ar
+      ANSWER-MATCH: PRIME <- (and 17 Down) Democratic leader recalled some secr
+      UNMATCHED: See 1 Down [LEAVE]
+      UNMATCHED: See 8 Down [MINISTER]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Sun 22 Dec 2024 #1817:       ANSWER-MATCH: TOO <- "What's one plus one?" read out in addition
+[DRY RUN] 30/30 matched
+  Mon 23 Dec 2024 #11920:       ANSWER-MATCH: THREE <- (and 23 Down) Cardinal pride in national emblem
+      UNMATCHED: See 22 Down [LIONS]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Tue 24 Dec 2024 #11921:       ANSWER-MATCH: ELEMENTARY <- (and 3 Down, 9 Across) Getting creative with 'lemo
+      ANSWER-MATCH: ARTHUR <- (and 23 Across) Duncan or 'The Royal Novel Writer'
+      ANSWER-MATCH: SHERLOCK <- (and 22 Across) Solver's female, right to secure h
+      ANSWER-MATCH: ANSWERTO <- Have <i>as</i> name <i>a</i> name, recalling 'Old 
+      UNMATCHED: See 11 Across [MYDEAR]
+      UNMATCHED: See 11 Across [WATSON]
+      UNMATCHED: See 12 Across [CONANDOYLE]
+      UNMATCHED: See 26 Across [HOLMES]
+[DRY RUN] 24/28 matched, 4 unmatched
+  Wed 25 Dec 2024 #11922: [DRY RUN] 34/34 matched
+  Thu 26 Dec 2024 #11923: [DRY RUN] 28/28 matched
+  Fri 27 Dec 2024 #11924: [DRY RUN] 31/31 matched
+  Sat 28 Dec 2024 #11925: [DRY RUN] 32/32 matched
+  Sun 29 Dec 2024 #1818: [DRY RUN] 30/30 matched
+  Mon 30 Dec 2024 #11926:       ANSWER-MATCH: SHOREDITCH <- "Sod the rich" sprayed somewhere in East London
+[DRY RUN] 26/26 matched
+  Tue 31 Dec 2024 #11927:       ANSWER-MATCH: LAID <- Face lifting produced a 20
+[DRY RUN] 37/37 matched
+  Wed 01 Jan 2025 #11928:       ANSWER-MATCH: BERLIN <- (and 32 Across) Where leader passed — capital plac
+      ANSWER-MATCH: BRIEF <- (and 14 Across) Film short meeting
+      ANSWER-MATCH: UNITED <- (and 22 Across) Global body French article briefly
+      UNMATCHED: See 5 Across [BUNKER]
+      UNMATCHED: See 12 Across [ENCOUNTER]
+      UNMATCHED: See 20 Across [NATIONS]
+[DRY RUN] 31/34 matched, 3 unmatched
+  Thu 02 Jan 2025 #11929:       ANSWER-MATCH: DRACONIAN <- "Cash only" put on the counter, quietly, to avoid 
+      ANSWER-MATCH: NEIGH <- The cry of a horse in 1984
+      ANSWER-MATCH: AGREE <- Meagre earnings covering 26
+[DRY RUN] 32/32 matched
+  Fri 03 Jan 2025 #11930: [DRY RUN] 30/30 matched
+  Sat 04 Jan 2025 #11931: [DRY RUN] 32/32 matched
+  Mon 06 Jan 2025 #11932:       ANSWER-MATCH: SOULMATE <- <i>The One and Only</i>? That’s music to try to re
+[DRY RUN] 29/29 matched
+  Tue 07 Jan 2025 #11933:       ANSWER-MATCH: ZOOLOGY <- Australian turning over journal, <i>Year in Scienc
+      ANSWER-MATCH: INUREMENT <- Getting used to REM's cracking popular tune, <i>St
+[DRY RUN] 34/34 matched
+  Wed 08 Jan 2025 #11934: [DRY RUN] 33/33 matched
+  Thu 09 Jan 2025 #11935: [DRY RUN] 30/30 matched
+  Fri 10 Jan 2025 #11936: [DRY RUN] 31/31 matched
+  Sat 11 Jan 2025 #11937:       ANSWER-MATCH: PEDANT <- "Shut up!" Bill's back interrupting nitpicker
+      ANSWER-MATCH: MASTERS <- (and 10 Across) Strokes oarsmen practised for upco
+      UNMATCHED: See 17 Across [SNOOKER]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 12 Jan 2025 #1820: [DRY RUN] 28/28 matched
+  Mon 13 Jan 2025 #11938:       ANSWER-MATCH: ROBINSON <- (and 5 Across) Islander whose work was done by Fri
+      UNMATCHED: See 1 Across [CRUSOE]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Tue 14 Jan 2025 #11939:       ANSWER-MATCH: AORTA <- Vessel carrying vital liquid in 23 or 6
+      ANSWER-MATCH: CHALK <- Writing material, hack with term for <i>Profession
+[DRY RUN] 33/33 matched
+  Wed 15 Jan 2025 #11940: [DRY RUN] 28/28 matched
+  Thu 16 Jan 2025 #11941:       ANSWER-MATCH: THEGREAT <- (and 16 Across, 15 Down) For heat get old inferno 
+      ANSWER-MATCH: ARTHURBROWN <- Harrow burnt, destroyed? He put out 16 in 1968
+      ANSWER-MATCH: PUDDING <- (and 1 Down) Dull sort left an echo where 23 16 15
+      UNMATCHED: See 23 Across [FIRE]
+      UNMATCHED: See 23 Across [OFLONDON]
+      UNMATCHED: See 7 Down [LANE]
+[DRY RUN] 25/28 matched, 3 unmatched
+  Fri 17 Jan 2025 #11942: [DRY RUN] 32/32 matched
+  Sat 18 Jan 2025 #11943: [DRY RUN] 28/28 matched
+  Sun 19 Jan 2025 #1821: [DRY RUN] 28/28 matched
+  Mon 20 Jan 2025 #11944:       ANSWER-MATCH: MUSSOLINI <- Soul's crushed, gathered by small 22
+      ANSWER-MATCH: RESTART <- "Carry On Jack" shown during holiday
+[DRY RUN] 30/30 matched
+  Tue 21 Jan 2025 #11945: [DRY RUN] 30/30 matched
+  Wed 22 Jan 2025 #11946: [DRY RUN] 34/34 matched
+  Thu 23 Jan 2025 #11947:       ANSWER-MATCH: BILLY <- (and 16 Across) Caprine outlaw?
+      ANSWER-MATCH: GENGHIS <- (and 27 Down) "Marauder" content to thank Ken Higg
+      ANSWER-MATCH: JOAN <- (and 28 Across) Visionary woman and sweetheart reg
+      UNMATCHED: See 11 Across [THEKID]
+      UNMATCHED: See 14 Across [KHAN]
+      UNMATCHED: See 31 Across [OFARC]
+[DRY RUN] 30/33 matched, 3 unmatched
+  Fri 24 Jan 2025 #11948: [DRY RUN] 28/28 matched
+  Sat 25 Jan 2025 #11949: [DRY RUN] 32/32 matched
+  Sun 26 Jan 2025 #1822:       ANSWER-MATCH: CAESAR <- "Arrest that woman," said man attacked in Senate
+[DRY RUN] 26/26 matched
+  Mon 27 Jan 2025 #11950:       ANSWER-MATCH: ALBUM <- Note turned up behind <i>Book of Memories</i>
+[DRY RUN] 29/29 matched
+  Tue 28 Jan 2025 #11951:       ANSWER-MATCH: BECKETT <- Stream <i>Alien</i> and <i>Troy</i> for writer who
+      ANSWER-MATCH: COLONEL <- (and 13 Down) 'King promoter' once, all shook up?
+      UNMATCHED: See 12 Across [TOMPARKER]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Wed 29 Jan 2025 #11952: [DRY RUN] 29/29 matched
+  Thu 30 Jan 2025 #11953: [DRY RUN] 28/28 matched
+  Fri 31 Jan 2025 #11954: [DRY RUN] 32/32 matched
+  Sat 01 Feb 2025 #11955:       ANSWER-MATCH: TARAMASALATA <- Old lady sadly turning in: "so long and thanks for
+[DRY RUN] 30/30 matched
+  Mon 03 Feb 2025 #11956: [DRY RUN] 28/28 matched
+  Tue 04 Feb 2025 #11957: [DRY RUN] 32/32 matched
+  Wed 05 Feb 2025 #11958:       ANSWER-MATCH: BRIDGEROLL <- Function of spanner, say, that can be found in pic
+[DRY RUN] 34/34 matched
+  Thu 06 Feb 2025 #11959: [DRY RUN] 28/28 matched
+  Fri 07 Feb 2025 #11960: [DRY RUN] 32/32 matched
+  Sat 08 Feb 2025 #11961:       ANSWER-MATCH: WASHER <- <i>The Ring</i> used to be a Spike Jonze movie
+      ANSWER-MATCH: LINEAMENT <- Distinctive feature of love recalled by movie abou
+[DRY RUN] 32/32 matched
+  Mon 10 Feb 2025 #11962:       ANSWER-MATCH: UNBRIDLES <- Releases new version of "Dubliners"
+      ANSWER-MATCH: ELIMINATE <- Extract from novel - "I'm in a terrible murder"
+[DRY RUN] 32/32 matched
+  Thu 22 May 2025 #12049:       ANSWER-MATCH: CYBERSEX <- "Internet relations beginning to corrupt Yankee bi
+[DRY RUN] 30/30 matched
+  Fri 23 May 2025 #12050:       ANSWER-MATCH: MIDNIGHT <- Strength to stay at home around day 12
+[DRY RUN] 32/32 matched
+  Sat 24 May 2025 #12051: [DRY RUN] 30/30 matched
+  Sun 25 May 2025 #1839: [DRY RUN] 28/28 matched
+  Mon 26 May 2025 #12052:       ANSWER-MATCH: SPANISH <- Rejecting "siestas", I don't say a word in this la
+[DRY RUN] 30/30 matched
+  Tue 27 May 2025 #12053:       ANSWER-MATCH: GRAHAM <- (and 18 Down) American biscuit, 12 11 with an exce
+      ANSWER-MATCH: RANGE <- (and 23 Down) Start of road rage connected with 4x
+      ANSWER-MATCH: SYCAMOREGAP <- Report of diseased leaf travellers picked up somew
+      UNMATCHED: See 4 Across [CRACKER]
+      UNMATCHED: See 1 Down [ROVER]
+[DRY RUN] 27/29 matched, 2 unmatched
+  Wed 28 May 2025 #12054: [DRY RUN] 28/28 matched
+  Thu 29 May 2025 #12055: [DRY RUN] 32/32 matched
+  Fri 30 May 2025 #12056: [DRY RUN] 27/27 matched
+  Sat 31 May 2025 #12057:       ANSWER-MATCH: HOOKNOSE <- Prominent feature film of the 90s: <i>Basic Instin
+[DRY RUN] 30/30 matched
+  Sun 01 Jun 2025 #1840:       ANSWER-MATCH: THEFATOWL <- (and 26 Across, 8 Down) Closed in, misused other h
+      ANSWER-MATCH: LIKEADOG <- (and 21 Across, 11 Across) Parrot to be bathed in 
+      UNMATCHED: See 9 Across [OFTHE]
+      UNMATCHED: See 9 Across [REMOVE]
+      UNMATCHED: See 7 Down [WITHTWO]
+      UNMATCHED: See 7 Down [TAILS]
+[DRY RUN] 27/31 matched, 4 unmatched
+  Mon 02 Jun 2025 #12058: [DRY RUN] 30/30 matched
+  Tue 03 Jun 2025 #12059:       ANSWER-MATCH: BEAR <- (and 7 Down) Remember Spooner's horse having no go
+      UNMATCHED: See 3 Down [INMIND]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Wed 04 Jun 2025 #12060:       ANSWER-MATCH: ERASMUS <- <i>Times </i>has to cut education programme
+[DRY RUN] 30/30 matched
+  Thu 05 Jun 2025 #12061: [DRY RUN] 32/32 matched
+  Fri 06 Jun 2025 #12062: [DRY RUN] 32/32 matched
+  Sat 07 Jun 2025 #12063: [DRY RUN] 30/30 matched
+  Sun 08 Jun 2025 #1841: [DRY RUN] 27/27 matched
+  Mon 09 Jun 2025 #12064:       ANSWER-MATCH: LETITGO <- <i>Frozen </i>song title - animated success
+      ANSWER-MATCH: PEPYS <- "Greasy peppermill on the counter" claims 17th cen
+[DRY RUN] 29/29 matched
+  Tue 10 Jun 2025 #12065:       ANSWER-MATCH: TAWNY <- Spooner's rendition of <i>Bad</i>, or <i>Golden Br
+      ANSWER-MATCH: CANDID <- Frank, defiant response to "You can't do that!"?
+[DRY RUN] 30/30 matched
+  Wed 11 Jun 2025 #12066: [DRY RUN] 28/28 matched
+  Thu 12 Jun 2025 #12067:       ANSWER-MATCH: PEACE <- (and 25 Down) Canada's leader and others taking pa
+      ANSWER-MATCH: LOLLO <- (and 9 Across) Very funny! Motown’s Diana cuddled 
+      ANSWER-MATCH: INTEGER <- <i>Get Back</i> central to popular US TV series, n
+      ANSWER-MATCH: SOCIAL <- (and 12 Across, 17 Down) Head of state made a poli
+      UNMATCHED: See 23 Across [TALKS]
+      UNMATCHED: See 27 Across [ROSSO]
+      UNMATCHED: See 8 Down [MEDIA]
+      UNMATCHED: See 8 Down [PLATFORM]
+[DRY RUN] 28/32 matched, 4 unmatched
+  Fri 13 Jun 2025 #12068:       ANSWER-MATCH: SCRAPIRON <- Recyclable material in <i>Fight Club</i>?
+[DRY RUN] 32/32 matched
+  Sat 14 Jun 2025 #12069: [DRY RUN] 30/30 matched
+  Sun 15 Jun 2025 #1842: [DRY RUN] 28/28 matched
+  Mon 16 Jun 2025 #12070: [DRY RUN] 30/30 matched
+  Tue 17 Jun 2025 #12071:       ANSWER-MATCH: WHATSIN <- (and 5 Across) Question framed by a leading lady?
+      ANSWER-MATCH: NUANCES <- Rising star accepts <i>Lethal Weapon </i>but not <
+      ANSWER-MATCH: AVESTAN <- <i>Thus Spake Zarathustra</i> gave standards about
+      ANSWER-MATCH: NOOKY <- "How's your father?" is in noisy exchanges with "A
+      UNMATCHED: See 1 Across [ANAME]
+[DRY RUN] 35/36 matched, 1 unmatched
+  Wed 18 Jun 2025 #12072:       ANSWER-MATCH: ANTHEMIC <- Cryptic hint came regarding <i>Songs of Praise
+</
+[DRY RUN] 29/29 matched
+  Thu 19 Jun 2025 #12073: [DRY RUN] 28/28 matched
+  Fri 20 Jun 2025 #12074:       ANSWER-MATCH: ORCA <- Half-cut tumbler's flipped over in 1
+      ANSWER-MATCH: IMPARTED <- <i>Independent </i>newspaper boss tackles politici
+      ANSWER-MATCH: HEAVYSET <- Stocky baddie on <i>Gogglebox</i>
+[DRY RUN] 31/31 matched
+  Sat 21 Jun 2025 #12075: [DRY RUN] 32/32 matched
+  Sun 22 Jun 2025 #1843: [DRY RUN] 30/30 matched
+  Mon 23 Jun 2025 #12076:       ANSWER-MATCH: POPLAR <- One barked "It’s cool to be non-u"
+[DRY RUN] 30/30 matched
+  Tue 24 Jun 2025 #12077:       ANSWER-MATCH: HARBINGER <- Bring her a <i>Bucks Herald</i>
+      ANSWER-MATCH: DANCE <- Waltz, for one: "Judge very put out by VP"
+[DRY RUN] 32/32 matched
+  Wed 25 Jun 2025 #12078: [DRY RUN] 32/32 matched
+  Thu 26 Jun 2025 #12079:       UNMATCHED: Without complaining, Saint Columba's left to take  [STOIC]
+      UNMATCHED: Act embodying a lack of conviction within Welsh ru [SHRUG]
+      UNMATCHED: <i>Hello Dolly</i>'s opening is screened [HID]
+      UNMATCHED: One nun takes the top off friar 'for a laugh' [INFUN]
+      UNMATCHED: Perhaps Spooner and his American agent cry [BEDFELLOW]
+      UNMATCHED: Colonel Mustard, say, or Reverend Green? [SERVICEMAN]
+      UNMATCHED: Accumulation of dirt close to canal [POOL]
+      UNMATCHED: Cool woman with a whistle? Hers gets blown [REFRESH]
+      UNMATCHED: Sportswoman to portray Queen Elizabeth on stage? [PLAYER]
+      UNMATCHED: 8, 31, 12 17, 26 21, or 6 29 24, reportedly? [POTTER]
+      UNMATCHED: Place to unwind - or not [TORONTO]
+      UNMATCHED: Choice rump steak's middle left until last [RARE]
+      UNMATCHED: Friend with depression - worried before date - did [PALPITATED]
+      UNMATCHED: Rubbish musical instrument Charlie brought round f [COLLECTOR]
+      UNMATCHED: No parking in London suburb that's close to the ce [INNER]
+      UNMATCHED: Boy George's intro removed from Karma Chameleon? [SON]
+      UNMATCHED: Waiting on a vacant driveway [READY]
+      UNMATCHED: Badger runs right through grass [HARRY]
+      UNMATCHED: Cracking cross is finished by Souza's opener for t [SCISSORS]
+      UNMATCHED: Volunteer hitman? [OFFER]
+      UNMATCHED: In control of one's movements south to get to Afri [CONTINENTS]
+      UNMATCHED: Switch side of black sword [SABRE]
+      UNMATCHED: Celeb gets snapped here, in seaside town, with swe [REDCARPET]
+      UNMATCHED: Dull, sadistic Christian? [GREY]
+      UNMATCHED: Movie auditorium assigned to screening number one [HALLOWEEN]
+      UNMATCHED: Move like a snail or like a duck, half-twisted [DAWDLE]
+      UNMATCHED: Repton's head breaking into part of his supply for [PARROTFISH]
+      UNMATCHED: Diagram recorded fault with incomplete machinery [FLOORPLAN]
+      UNMATCHED: The tips of leaves and branches are blended for in [HERBALTEA]
+      UNMATCHED: Gracious solver would put up with setter's latest  [CORDUROY]
+      UNMATCHED: Magic garment lifted around conjurer's face [TRICKS]
+      UNMATCHED: Quietly, mum spurns sherry for an alternative [PERRY]
+      UNMATCHED: Singer sung note [TENOR]
+      UNMATCHED: Punter eschewing races to get a drink [BEER]
+0/34 matched -- DB has different puzzle for this date, SKIPPED
+  Fri 27 Jun 2025 #12080: [DRY RUN] 30/30 matched
+  Sat 28 Jun 2025 #12081: [DRY RUN] 28/28 matched
+  Sun 29 Jun 2025 #1844: [DRY RUN] 30/30 matched
+  Mon 30 Jun 2025 #12082:       ANSWER-MATCH: CRIKEY <- "My shout," Isaac admitted
+      ANSWER-MATCH: SPYGLASS <- <i>Treasure Island</i> viewer?
+[DRY RUN] 30/30 matched
+  Tue 01 Jul 2025 #12083: [DRY RUN] 32/32 matched
+  Wed 02 Jul 2025 #12084: [DRY RUN] 26/26 matched
+  Thu 03 Jul 2025 #12085:       ANSWER-MATCH: WRING <- Group screening finale from <i>Oliver Twist</i>
+[DRY RUN] 30/30 matched
+  Fri 04 Jul 2025 #12086: [DRY RUN] 28/28 matched
+  Sat 05 Jul 2025 #12087:       ANSWER-MATCH: EQUALISES <- <i>Squares</i> is a sequel out
+[DRY RUN] 28/28 matched
+  Sun 06 Jul 2025 #1845:       ANSWER-MATCH: STUB <- (and 24 Across) Short pencil delivered at end of t
+      ANSWER-MATCH: COR <- (and 23 Down) Well, I never put on security belt
+      ANSWER-MATCH: TAPES <- (and 21 Down) Decoratively hung ribbons used exper
+      UNMATCHED: See 9 Across [BORN]
+      UNMATCHED: See 4 Down [DON]
+      UNMATCHED: See 7 Down [TRIED]
+[DRY RUN] 25/28 matched, 3 unmatched
+  Mon 07 Jul 2025 #12088:       ANSWER-MATCH: ROTE <- "Thoughtless repetition," lecturer's marked on pap
+[DRY RUN] 32/32 matched
+  Tue 08 Jul 2025 #12089: [DRY RUN] 31/31 matched
+  Wed 09 Jul 2025 #12090: [DRY RUN] 32/32 matched
+  Thu 10 Jul 2025 #12091:       ANSWER-MATCH: ESCHEW <- Deny the man won, following what's left of F1
+[DRY RUN] 26/26 matched
+  Fri 11 Jul 2025 #12092: [DRY RUN] 32/32 matched
+  Sat 12 Jul 2025 #12093: [DRY RUN] 32/32 matched
+  Sun 13 Jul 2025 #1846: [DRY RUN] 30/30 matched
+  Mon 14 Jul 2025 #12094:       ANSWER-MATCH: MISFIT <- <i>Hamilton </i>etc screened by film freak
+      ANSWER-MATCH: SEPIA <- <i>Sun</i> setter getting into <i>Mirror </i>raise
+[DRY RUN] 32/32 matched
+  Tue 15 Jul 2025 #12095: [DRY RUN] 32/32 matched
+  Wed 16 Jul 2025 #12096:       ANSWER-MATCH: PSALMS <- <i>Songs of Praise</i> suspended after letting min
+[DRY RUN] 30/30 matched
+  Thu 17 Jul 2025 #12097:       ANSWER-MATCH: WORKSHY <- Being this might make Spooner say "Bunk off? Whate
+      ANSWER-MATCH: NOTEPAD <- Place to jot down two potential answers to "A flat
+      ANSWER-MATCH: CANDLE <- (and 28 Across) Terribly exhausted locksmith decla
+      UNMATCHED: See 21 Down [HOLDER]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 18 Jul 2025 #12098:       ANSWER-MATCH: SUPPRESS <- Hold back drink over equipment familiar to 17
+[DRY RUN] 29/29 matched
+  Sat 19 Jul 2025 #12099:       ANSWER-MATCH: FRAILER <- More vulnerable artist found in 2
+[DRY RUN] 32/32 matched
+  Sun 20 Jul 2025 #1847:       ANSWER-MATCH: BARBICAN <- <i>Watchtower </i>article starts with insult and e
+[DRY RUN] 30/30 matched
+  Mon 21 Jul 2025 #12100:       ANSWER-MATCH: RIVIERA <- Artist introduces island: "Nice 'ere, innit?"
+[DRY RUN] 32/32 matched
+  Tue 22 Jul 2025 #12101: [DRY RUN] 32/32 matched
+  Wed 23 Jul 2025 #12102:       ANSWER-MATCH: HERESY <- "Here's Johnny!" in the end, is blasphemy
+      ANSWER-MATCH: GLOSSYMAGAZINE <- Amazingly, society goes berserk for <i>Vogue</i>?
+[DRY RUN] 28/28 matched
+  Thu 24 Jul 2025 #12103:       ANSWER-MATCH: ERASE <- <i>Times </i>editor's beginning to strike
+[DRY RUN] 30/30 matched
+  Fri 25 Jul 2025 #12104: [DRY RUN] 29/29 matched
+  Sat 26 Jul 2025 #12105:       ANSWER-MATCH: CASTINGDIRECTOR <- One arranging actor's credit in lead for <i>Gladia
+[DRY RUN] 27/27 matched
+  Sun 27 Jul 2025 #1848: [DRY RUN] 34/34 matched
+  Mon 28 Jul 2025 #12106: [DRY RUN] 30/30 matched
+  Tue 29 Jul 2025 #12107:       ANSWER-MATCH: ARAMAIC <- The words of Jesus were this: "sceptic, I am a rab
+[DRY RUN] 29/29 matched
+  Wed 30 Jul 2025 #12108:       ANSWER-MATCH: DIASPORA <- "Scattered community essentially hard work" stated
+[DRY RUN] 28/28 matched
+  Thu 31 Jul 2025 #12109:       ANSWER-MATCH: VENUS <- (and 19 Down) Discontented veggie student organisa
+      ANSWER-MATCH: SAUSAGE <- (and 24 Down) Food provided if son has a practice 
+      UNMATCHED: See 4 Down [FLYTRAP]
+      UNMATCHED: See 5 Down [ROLLS]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Fri 01 Aug 2025 #12110: [DRY RUN] 32/32 matched
+  Sat 02 Aug 2025 #12111: [DRY RUN] 32/32 matched
+  Sun 03 Aug 2025 #1849:       ANSWER-MATCH: PEN <- (and 25 Down) Shut up and learn, Parisian thought
+      UNMATCHED: See 2 Down [SEE]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Mon 04 Aug 2025 #12112: [DRY RUN] 26/26 matched
+  Tue 05 Aug 2025 #12113: [DRY RUN] 30/30 matched
+  Wed 06 Aug 2025 #12114: [DRY RUN] 28/28 matched
+  Thu 07 Aug 2025 #12115:       ANSWER-MATCH: BEAK <- Magistrate miserable having released 50
+      ANSWER-MATCH: VARESE <- <i>Changes One</i> put out by East European compos
+      ANSWER-MATCH: SIMON <- (and 8 Down) Two Frenchmen battling with Interpol 
+      UNMATCHED: See 5 Down [TEMPLAR]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Fri 08 Aug 2025 #12116:       ANSWER-MATCH: FAREWELL <- We’re off, taking trip around - <i>arrivederci</i>
+[DRY RUN] 32/32 matched
+  Sat 09 Aug 2025 #12117:       ANSWER-MATCH: TIMOR <- Finally admit I'm right to be bored by <i>Love Isl
+[DRY RUN] 32/32 matched
+  Sun 10 Aug 2025 #1850: [DRY RUN] 30/30 matched
+  Mon 11 Aug 2025 #12118:       ANSWER-MATCH: SHOPPING <- (and 18 Down) Conveyance that's certainly rolling 
+      ANSWER-MATCH: ESPY <- See something like <i>The Sixth Sense</i>?
+      ANSWER-MATCH: DOYLY <- (and 6 Across) Opera company, vehicle bringing del
+      ANSWER-MATCH: ACCIDENTAND <- (and 15 Down) Where case taken from ambulance stre
+      UNMATCHED: See 9 Across [TROLLEY]
+      UNMATCHED: See 27 Across [CARTE]
+      UNMATCHED: See 12 Down [EMERGENCY]
+[DRY RUN] 27/30 matched, 3 unmatched
+  Tue 12 Aug 2025 #12119: [DRY RUN] 32/32 matched
+  Wed 13 Aug 2025 #12120: [DRY RUN] 32/32 matched
+  Thu 14 Aug 2025 #12121:       ANSWER-MATCH: MORNING <- (and 16 Down) At first, monitor out-of-control lor
+      ANSWER-MATCH: THEGREAT <- (and 23 Down) Film gets a cheer, unexpectedly brea
+      UNMATCHED: See 14 Across [GLORY]
+      UNMATCHED: See 4 Down [ESCAPE]
+[DRY RUN] 31/33 matched, 2 unmatched
+  Fri 15 Aug 2025 #12122: [DRY RUN] 30/30 matched
+  Sat 16 Aug 2025 #12123:       ANSWER-MATCH: MALBEC <- Give funny order to "be calm and get wine"
+[DRY RUN] 34/34 matched
+  Sun 17 Aug 2025 #1851: [DRY RUN] 26/26 matched
+  Mon 18 Aug 2025 #12124: [DRY RUN] 32/32 matched
+  Tue 19 Aug 2025 #12125: [DRY RUN] 30/30 matched
+  Wed 20 Aug 2025 #12126: [DRY RUN] 32/32 matched
+  Thu 21 Aug 2025 #12127: [DRY RUN] 30/30 matched
+  Fri 22 Aug 2025 #12128: [DRY RUN] 32/32 matched
+  Sat 23 Aug 2025 #12129:       ANSWER-MATCH: MARRIAGE <- (and 20 Across) Professional charged with match fi
+      UNMATCHED: See 3 Down [COUNSELLOR]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sun 24 Aug 2025 #1852: [DRY RUN] 30/30 matched
+  Mon 25 Aug 2025 #12130:       ANSWER-MATCH: BALLAND <- (and 24 Down) Spouse's song describing new husband
+      ANSWER-MATCH: FLYON <- (and 2 Down) Hot, newly broadcast US season includ
+      ANSWER-MATCH: KNUCKLE <- (and 29 Across) Famous houses succumbed to strain 
+      UNMATCHED: See 11 Across [CHAIN]
+      UNMATCHED: See 14 Across [THEWALL]
+      UNMATCHED: See 23 Across [DOWN]
+[DRY RUN] 28/31 matched, 3 unmatched
+  Tue 26 Aug 2025 #12131: [DRY RUN] 31/31 matched
+  Wed 27 Aug 2025 #12132: [DRY RUN] 28/28 matched
+  Thu 28 Aug 2025 #12133:       ANSWER-MATCH: EAR <- Audio receiver needed to get <i>The Archers</i>
+      ANSWER-MATCH: CHESTOF <- (and 15 Across) Place to put bra and old French pa
+      UNMATCHED: See 20 Down [DRAWERS]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Fri 29 Aug 2025 #12134: [DRY RUN] 28/28 matched
+  Sat 30 Aug 2025 #12135: [DRY RUN] 29/29 matched
+  Sun 31 Aug 2025 #1853: [DRY RUN] 28/28 matched
+  Mon 01 Sep 2025 #12136: [DRY RUN] 30/30 matched
+  Tue 02 Sep 2025 #12137:       ANSWER-MATCH: WARSOF <- (and 4 Across) They inspired Shakespeare with "...
+      UNMATCHED: See 1 Across [THEROSES]
+[DRY RUN] 30/31 matched, 1 unmatched
+  Wed 03 Sep 2025 #12138:       ANSWER-MATCH: SINATRA <- <i>The Voice </i>upset artisan
+      ANSWER-MATCH: BOOMERANG <- "I'll be back!" compiler called, following disappr
+[DRY RUN] 29/29 matched
+  Thu 04 Sep 2025 #12139:       ANSWER-MATCH: LYRICISM <- Expression from Sicily - "the hearts of girls and 
+      ANSWER-MATCH: BUYER <- <i>Times </i>article read aloud for subscriber
+      ANSWER-MATCH: OVEREATEN <- Binged on <i>Homeland</i>, parts 4, 6 and 10
+[DRY RUN] 34/34 matched
+  Fri 05 Sep 2025 #12140: [DRY RUN] 28/28 matched
+  Sat 06 Sep 2025 #12141:       ANSWER-MATCH: COSMIC <- "Lettuce, me?" (Conservative great)
+      ANSWER-MATCH: AWE <- "All windmills evil" at first causing astonishment
+[DRY RUN] 34/34 matched
+  Sun 07 Sep 2025 #1854: [DRY RUN] 26/26 matched
+  Mon 08 Sep 2025 #12142: [DRY RUN] 30/30 matched
+  Tue 09 Sep 2025 #12143:       ANSWER-MATCH: PAINTS <- Adds colour to <i>Appassionata</i>'s intro in edit
+      ANSWER-MATCH: ADULTERER <- Romeo breaking date rule, possibly <i>The Man Who 
+[DRY RUN] 30/30 matched
+  Wed 10 Sep 2025 #12144:       ANSWER-MATCH: WORLD <- Promise to pen introduction for <i>Lonely Planet</
+[DRY RUN] 32/32 matched
+  Thu 11 Sep 2025 #12145:       ANSWER-MATCH: FETTERED <- At the end of the last night, we never see <i>Home
+[DRY RUN] 30/30 matched
+  Fri 12 Sep 2025 #12146: [DRY RUN] 32/32 matched
+  Sat 13 Sep 2025 #12147:       ANSWER-MATCH: VIOLENT <- 5/10 - <i>Fast & Furious</i>
+      ANSWER-MATCH: NOSWEAT <- "Elementary, Doctor Watson" - Sherlock's last poin
+[DRY RUN] 28/28 matched
+  Sun 14 Sep 2025 #1855:       ANSWER-MATCH: HEELING <- "Getting health back" read out on a list
+[DRY RUN] 30/30 matched
+  Mon 15 Sep 2025 #12148: [DRY RUN] 28/28 matched
+  Tue 16 Sep 2025 #12149:       ANSWER-MATCH: EONS <- Long periods of fame on <i>Strictly</i>
+[DRY RUN] 32/32 matched
+  Wed 17 Sep 2025 #12150:       ANSWER-MATCH: SOMMELIER <- "More limes!" snarled waiter
+[DRY RUN] 28/28 matched
+  Thu 18 Sep 2025 #12151: [DRY RUN] 28/28 matched
+  Fri 19 Sep 2025 #12152: [DRY RUN] 34/34 matched
+  Sat 20 Sep 2025 #12153:       ANSWER-MATCH: SUNDAY <- (and 8 Down) Elegant clothes? Yes, and bust will l
+      ANSWER-MATCH: SHELVE <- Put off a lot of individuals touring 14
+      UNMATCHED: See 12 Across [BEST]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 21 Sep 2025 #1856:       ANSWER-MATCH: CROSSONESHEART <- Actress on horse ordered "Show you really mean it"
+      ANSWER-MATCH: OPERA <- An answer given after 'term for <i>Rigoletto</i>?'
+      ANSWER-MATCH: SOCKS <- <i>Tootsie</i> covers male hidden in blouses
+[DRY RUN] 30/30 matched
+  Mon 22 Sep 2025 #12154: [DRY RUN] 32/32 matched
+  Tue 23 Sep 2025 #12155: [DRY RUN] 30/30 matched
+  Wed 24 Sep 2025 #12156: [DRY RUN] 28/28 matched
+  Thu 25 Sep 2025 #12157: [DRY RUN] 30/30 matched
+  Fri 26 Sep 2025 #12158: [DRY RUN] 30/30 matched
+  Sat 27 Sep 2025 #12159: [DRY RUN] 29/29 matched
+  Sun 28 Sep 2025 #1857: [DRY RUN] 38/38 matched
+  Mon 29 Sep 2025 #12160:       ANSWER-MATCH: MENU <- List of people appearing near end of <i>Nosferatu<
+[DRY RUN] 26/26 matched
+  Tue 30 Sep 2025 #12161: [DRY RUN] 28/28 matched
+  Wed 01 Oct 2025 #12162: [DRY RUN] 33/33 matched
+  Thu 02 Oct 2025 #12163:       ANSWER-MATCH: OURS <- <i>The Independent</i>'s programme to shun extremi
+      ANSWER-MATCH: SILLYSEASON <- Second review of <i>Lassie</i>? Only when there's 
+[DRY RUN] 32/32 matched
+  Fri 03 Oct 2025 #12164: [DRY RUN] 32/32 matched
+  Sat 04 Oct 2025 #12165:       ANSWER-MATCH: ABSTEMIOUSLY <- Oti Mabuse dancing like a fox for <i>Strictly</i>
+[DRY RUN] 28/28 matched
+  Sun 05 Oct 2025 #1858:       ANSWER-MATCH: STANDSUP <- Despite arrangement, doesn't date pay for drink? (
+[DRY RUN] 28/28 matched
+  Mon 06 Oct 2025 #12166: [DRY RUN] 30/30 matched
+  Tue 07 Oct 2025 #12167: [DRY RUN] 32/32 matched
+  Wed 08 Oct 2025 #12168:       ANSWER-MATCH: HARRYAND <- (and 27 Across) Pair of sketches rendering a harp 
+      ANSWER-MATCH: FALLILL <- Note written by India during losing streak: "maybe
+      UNMATCHED: See 26 Across [PAUL]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Thu 09 Oct 2025 #12169: [DRY RUN] 30/30 matched
+  Fri 10 Oct 2025 #12170:       ANSWER-MATCH: SETTLEMENT <- Resolution in <i>Hamlet</i>?
+[DRY RUN] 30/30 matched
+  Sat 11 Oct 2025 #12171: [DRY RUN] 30/30 matched
+  Sun 12 Oct 2025 #1859: [DRY RUN] 30/30 matched
+  Mon 13 Oct 2025 #12172:       ANSWER-MATCH: STARLIKE <- Keir's tangling with a discontented Left - as per 
+[DRY RUN] 30/30 matched
+  Tue 14 Oct 2025 #12173:       ANSWER-MATCH: EUROPA <- Regret returning yearly to consume Oscar content f
+      ANSWER-MATCH: PANCAKES <- Secretary twisted neck catching a small bit of 15
+      ANSWER-MATCH: DEIMOS <- Portion of 15 shows blocked by head of ITV1
+      ANSWER-MATCH: SOUP <- Very high extremity of 15
+[DRY RUN] 28/28 matched
+  Wed 15 Oct 2025 #12174:       UNMATCHED: Everybody in church welcomes a marriage [ALLIANCE]
+[DRY RUN] 26/27 matched, 1 unmatched
+  Thu 16 Oct 2025 #12175: [DRY RUN] 32/32 matched
+  Fri 17 Oct 2025 #12176: [DRY RUN] 30/30 matched
+  Sat 18 Oct 2025 #12177: [DRY RUN] 32/32 matched
+  Sun 19 Oct 2025 #1860: [DRY RUN] 30/30 matched
+  Mon 20 Oct 2025 #12178: [DRY RUN] 32/32 matched
+  Tue 21 Oct 2025 #12179:       ANSWER-MATCH: SLOWISH <- Somewhat quiet last section of Miles's <i>Kind of 
+[DRY RUN] 30/30 matched
+  Wed 22 Oct 2025 #12180: [DRY RUN] 32/32 matched
+  Thu 23 Oct 2025 #12181:       ANSWER-MATCH: NOTTING <- (and 1 Down, 2 Down) Four in romcom linked with se
+      ANSWER-MATCH: XENOLITH <- <i>Times</i> Cryptic Hotline gives 'rock fragment'
+      UNMATCHED: See 15 Across [HILL]
+      UNMATCHED: See 15 Across [CARNIVAL]
+[DRY RUN] 31/33 matched, 2 unmatched
+  Fri 24 Oct 2025 #12182: [DRY RUN] 28/28 matched
+  Sun 26 Oct 2025 #1861: [DRY RUN] 28/28 matched
+  Mon 27 Oct 2025 #12184: [DRY RUN] 30/30 matched
+  Tue 28 Oct 2025 #12185:       ANSWER-MATCH: DUO <- Musicians such as 10 switched section of <i>Cloudy
+      ANSWER-MATCH: CAMELOT <- <i>Somewhere They Can't Find Me</i> covered by Cal
+      ANSWER-MATCH: MEW <- Cry <i>Homeward Bound</i>
+      ANSWER-MATCH: YANKS <- <i>America</i>'s folk snatches
+      ANSWER-MATCH: DIAMOND <- Academic daughter tackles <i>I Am A Rock</i>
+      ANSWER-MATCH: POTHERBS <- <i>Parsley, Sage, Rosemary & Thyme</i> different o
+      ANSWER-MATCH: FLOYDMAYWEATHER <- Suspect my lady of damage caused by rubbing around
+      ANSWER-MATCH: SHOUT <- Say, greatly amplifying <i>The</i> <i>Sound of Sil
+      ANSWER-MATCH: WOMAN <- <i>Mrs Robinson</i> possibly came first astride 16
+      ANSWER-MATCH: DRYUP <- Quiet air, <i>Feelin' Groovy</i>
+      ANSWER-MATCH: THOMAS <- Husband entertained by <i>A Most Peculiar Man</i>
+[DRY RUN] 29/29 matched
+  Wed 29 Oct 2025 #12186:       ANSWER-MATCH: IRONMAIDEN <- Spiky type intoned "I am no right-winger from Sout
+[DRY RUN] 30/30 matched
+  Thu 30 Oct 2025 #12187:       ANSWER-MATCH: HUMSAND <- (and 6 Down) Smell Polish fruit stalls
+      ANSWER-MATCH: HUEAND <- (and 18 Across) Terribly raunchy with Benedick's h
+      ANSWER-MATCH: HEALTHAND <- (and 15 Across) Key worker's fate potentially seal
+      UNMATCHED: See 1 Across [HAWS]
+      UNMATCHED: See 29 Across [CRY]
+      UNMATCHED: See 8 Down [SAFETY]
+[DRY RUN] 30/33 matched, 3 unmatched
+  Fri 31 Oct 2025 #12188:       ANSWER-MATCH: SEALPOINT <- Siamese cat is nasty to spaniel
+[DRY RUN] 32/32 matched
+  Sat 01 Nov 2025 #12189:       ANSWER-MATCH: SOMEHOW <- <i>Show Me Love</i>, <i>Spinning Around</i> and <i
+[DRY RUN] 32/32 matched
+  Sun 02 Nov 2025 #1862:       ANSWER-MATCH: REFLECTION <- Official left "Out of Order" notice for considerat
+[DRY RUN] 30/30 matched
+  Mon 03 Nov 2025 #12190:       ANSWER-MATCH: CELLIST <- <i>Misty</i> not covered by chamber musician
+[DRY RUN] 32/32 matched
+  Tue 04 Nov 2025 #12191:       ANSWER-MATCH: ELEVENPLUS <- Test score's made when it goes ahead of 9
+      ANSWER-MATCH: EYEPIECE <- "The Astronomer Royal will look into this" reporte
+      ANSWER-MATCH: WORKMATE <- "The beginning or the end for weak male?" scoffed 
+      ANSWER-MATCH: SAUSAGE <- Special gold and green piece of 25
+[DRY RUN] 33/33 matched
+  Wed 05 Nov 2025 #12192: [DRY RUN] 30/30 matched
+  Thu 06 Nov 2025 #12193:       ANSWER-MATCH: NAIL <- (and 12 Across) Artificial Intelligence – oddly lo
+      ANSWER-MATCH: ETERNAL <- <i>Everlasting Love</i> – hit single over in Ameri
+      ANSWER-MATCH: ICECREAM <- (and 23 Across) Ace encore music playing – without
+      UNMATCHED: See 11 Across [CLIPPERS]
+      UNMATCHED: See 21 Across [CONE]
+[DRY RUN] 28/30 matched, 2 unmatched
+  Fri 07 Nov 2025 #12194: [DRY RUN] 30/30 matched
+  Sat 08 Nov 2025 #12195: [DRY RUN] 28/28 matched
+  Sun 09 Nov 2025 #1863: [DRY RUN] 27/27 matched
+  Mon 10 Nov 2025 #12196:       ANSWER-MATCH: REDONDO <- (and 11 Across) Bum echoed Brando somewhere close 
+      ANSWER-MATCH: KIMBERLY <- (and 7 Down) Mike Batt wryly remixed Pussycat Doll
+      UNMATCHED: See 15 Across [BEACH]
+      UNMATCHED: See 29 Across [WYATT]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Tue 11 Nov 2025 #12197: [DRY RUN] 32/32 matched
+  Wed 12 Nov 2025 #12198: [DRY RUN] 30/30 matched
+  Thu 13 Nov 2025 #12199: [DRY RUN] 30/30 matched
+  Fri 14 Nov 2025 #12200: [DRY RUN] 31/31 matched
+  Sat 15 Nov 2025 #12201: [DRY RUN] 34/34 matched
+  Sun 16 Nov 2025 #1864: [DRY RUN] 28/28 matched
+  Mon 17 Nov 2025 #12202: [DRY RUN] 31/31 matched
+  Tue 18 Nov 2025 #12203: [DRY RUN] 34/34 matched
+  Wed 19 Nov 2025 #12204:       ANSWER-MATCH: STAR <- Celebrity failing to finish <i>Iron Man</i>?
+      ANSWER-MATCH: GAZASTRIP <- <i>Grazia</i>'s head of printing excitedly secures
+      ANSWER-MATCH: MESH <- Network saved by Showtime's <i>Homeland</i>
+[DRY RUN] 34/34 matched
+  Thu 20 Nov 2025 #12205:       ANSWER-MATCH: MANPOWER <- <i>Loose Women</i> rap human resources
+[DRY RUN] 30/30 matched
+  Fri 21 Nov 2025 #12206: [DRY RUN] 32/32 matched
+  Sat 22 Nov 2025 #12207:       ANSWER-MATCH: DRAMATIS <- (and 32 Across) Some parts read in a play about pe
+      ANSWER-MATCH: SERGEANT <- <i>Soldier Soldier’</i>s after material to suit
+      UNMATCHED: See 1 Across [PERSONAE]
+[DRY RUN] 32/33 matched, 1 unmatched
+  Sun 23 Nov 2025 #1865:       ANSWER-MATCH: COURTHOUSE <- Trying venue where race might be held that accommo
+      ANSWER-MATCH: DIETITIAN <- Scoffing expert finally said "That is an old maste
+[DRY RUN] 28/28 matched
+  Mon 24 Nov 2025 #12208: [DRY RUN] 30/30 matched
+  Tue 25 Nov 2025 #12209: [DRY RUN] 31/31 matched
+  Wed 26 Nov 2025 #12210:       ANSWER-MATCH: SHIRLEY <- (and 23 Down) Try simple heel adjustment for young
+      UNMATCHED: See 8 Down [TEMPLE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Thu 27 Nov 2025 #12211: [DRY RUN] 30/30 matched
+  Fri 28 Nov 2025 #12212: [DRY RUN] 22/22 matched
+  Sat 29 Nov 2025 #12213:       ANSWER-MATCH: CORPORATE <- (and 24 Down) PO 'crime' clear to a lunatic
+      UNMATCHED: See 12 Across [MALICE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sun 30 Nov 2025 #1866: [DRY RUN] 28/28 matched
+  Mon 01 Dec 2025 #12214: [DRY RUN] 32/32 matched
+  Tue 02 Dec 2025 #12215: [DRY RUN] 30/30 matched
+  Wed 03 Dec 2025 #12216: [DRY RUN] 27/27 matched
+  Thu 04 Dec 2025 #12217: [DRY RUN] 29/29 matched
+  Fri 05 Dec 2025 #12218:       ANSWER-MATCH: SKIMPY <- Brief Kipling novel carried by <i>Observer</i>
+      ANSWER-MATCH: SUGARPLUM <- Jazz piece (American) put up before exclusive item
+      ANSWER-MATCH: WILD <- (and 23 Down) Daughter taking time to engage in sh
+      UNMATCHED: See 9 Down [TYPE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Sat 06 Dec 2025 #12219:       ANSWER-MATCH: ACID <- Cutting <i>One Hundred and One Dalmatians</i>' ope
+      ANSWER-MATCH: EVEN <- 4 is divisible by 2
+[DRY RUN] 32/32 matched
+  Sun 07 Dec 2025 #1867:       ANSWER-MATCH: HARRYSTRUMAN <- Play guitar supporting Prince, an old 21
+[DRY RUN] 28/28 matched
+  Mon 08 Dec 2025 #12220:       ANSWER-MATCH: REFERENCED <- "Samples of rare ermine traded illegally," coverin
+[DRY RUN] 30/30 matched
+  Tue 09 Dec 2025 #12221:       ANSWER-MATCH: UNDERTONE <- Whisper "need to run off"
+[DRY RUN] 32/32 matched
+  Wed 10 Dec 2025 #12222: [DRY RUN] 26/26 matched
+  Thu 11 Dec 2025 #12223:       ANSWER-MATCH: EXTRACURRICULAR <- Brief passage: "furry mice, mule and mare skinned 
+      ANSWER-MATCH: HEATHER <- (and 25 Across) Former England cricket captain Coo
+      UNMATCHED: See 8 Down [KNIGHT]
+[DRY RUN] 26/27 matched, 1 unmatched
+  Fri 12 Dec 2025 #12224:       ANSWER-MATCH: JAGGED <- Irregular Judge, old, accepting $1000
+[DRY RUN] 32/32 matched
+  Sat 13 Dec 2025 #12225: [DRY RUN] 28/28 matched
+  Sun 14 Dec 2025 #1868:       ANSWER-MATCH: MAITAI <- Would it be OK if I said "cocktail"?
+      ANSWER-MATCH: DAM <- (and 24 Down) Restrain mother hen
+      UNMATCHED: See 6 Down [PEN]
+[DRY RUN] 27/28 matched, 1 unmatched
+  Mon 15 Dec 2025 #12226:       ANSWER-MATCH: ORDER <- Military command in <i>Band of Brothers</i>?
+      ANSWER-MATCH: GOODFELLA <- Old dons playing golf with lead in <i>American Gan
+[DRY RUN] 32/32 matched
+  Tue 16 Dec 2025 #12227:       ANSWER-MATCH: IDOL <- <i>Independent</i> revitalised old star?
+[DRY RUN] 32/32 matched
+  Wed 17 Dec 2025 #12228:       ANSWER-MATCH: STARGAZING <- Astronomy scam takes in <i>Arkansas Gazette</i>
+[DRY RUN] 33/33 matched
+  Thu 18 Dec 2025 #12229:       ANSWER-MATCH: AHEM <- National Trust eschews <i>God Save the King</i>? I
+[DRY RUN] 30/30 matched
+  Sat 20 Dec 2025 #12231:       ANSWER-MATCH: HIBERNATION <- <i>Time Out</i> slammed Brian Eno hit
+      ANSWER-MATCH: MELANCHOLIA <- "I am on call," he garbled in anguish
+      ANSWER-MATCH: BULLETTRAIN <- <i>Express</i> has news<i> </i>about works being h
+      ANSWER-MATCH: IDOLATRY <- Taylor Swift dudes' hearts fluttered, liking <i>Fa
+[DRY RUN] 24/24 matched
+  Sun 21 Dec 2025 #1869:       ANSWER-MATCH: PROCLAIM <- Shout out for Hearts in matches, yelling "Goal"
+[DRY RUN] 28/28 matched
+  Mon 22 Dec 2025 #12232:       ANSWER-MATCH: AUTOMATIC <- (and 6 Across) George’s scheme involving one chasi
+      ANSWER-MATCH: SMEAR <- (and 29 Across) Political skullduggery as small bu
+      ANSWER-MATCH: ANNUS <- (and 14 Down) Mass burial twice in awfully catastr
+      ANSWER-MATCH: TELEPHONE <- (and 24 Down) Directories help one to be organised
+      UNMATCHED: See 1 Across [PILOT]
+      UNMATCHED: See 28 Across [CAMPAIGNS]
+      UNMATCHED: See 1 Down [MIRABILIS]
+      UNMATCHED: See 8 Down [BOOKS]
+[DRY RUN] 28/32 matched, 4 unmatched
+  Tue 23 Dec 2025 #12233:       ANSWER-MATCH: HERB <- Rosemary sometimes writing "Her Former Majesty" in
+      ANSWER-MATCH: LIMERICK <- "There once was a woman from Tipperary"? Doesn't w
+[DRY RUN] 34/34 matched
+  Wed 24 Dec 2025 #12234:       ANSWER-MATCH: ANYONE <- No matter who is in first class going around 26
+      ANSWER-MATCH: CROON <- Sing "The King is in the altogether" cryptically
+      ANSWER-MATCH: UTICA <- Somewhat nautical area of 26
+[DRY RUN] 26/26 matched
+  Thu 25 Dec 2025 #12235: [DRY RUN] 30/30 matched
+  Fri 26 Dec 2025 #12236:       ANSWER-MATCH: ABODE <- Tolerated a shorter version of the <i>Ancient Mari
+[DRY RUN] 36/36 matched
+  Sat 27 Dec 2025 #12237: [DRY RUN] 30/30 matched
+  Sun 28 Dec 2025 #1870: [DRY RUN] 28/28 matched
+  Mon 29 Dec 2025 #12238:       ANSWER-MATCH: SANDSTONE <- Rock <i>SS Resonance</i>?
+[DRY RUN] 32/32 matched
+  Tue 30 Dec 2025 #12239: [DRY RUN] 37/37 matched
+  Wed 31 Dec 2025 #12240:       ANSWER-MATCH: CONTRALTO <- Voice of <i>Looney Tunes</i>' biggest characters a
+[DRY RUN] 28/28 matched
+  Thu 01 Jan 2026 #12241:       ANSWER-MATCH: TILLDEATH <- (and 12 Across) Unusual oldish adult patter in Alf
+      UNMATCHED: See 1 Across [USDOPART]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Fri 02 Jan 2026 #12242: [DRY RUN] 30/30 matched
+  Sat 03 Jan 2026 #12243: [DRY RUN] 28/28 matched
+  Sun 04 Jan 2026 #1871:       ANSWER-MATCH: PIXELS <- Small screen parts taken up by <i>EastEnders</i>' 
+[DRY RUN] 28/28 matched
+  Mon 05 Jan 2026 #12244:       UNMATCHED: Raised vessel and emptied sanctified oil over inve [HYDROFOIL]
+      UNMATCHED: Mean women bagging old clothes [COATS]
+      UNMATCHED: Closed middle of Milan opera house for opera [TOSCA]
+      UNMATCHED: Pregnant? Thin lube must be smeared around interna [INTHECLUB]
+      UNMATCHED: Some steel can a metalworker turned into a shackle [MANACLE]
+      UNMATCHED: Couple will overcome resistance, that's plain [PRAIRIE]
+      UNMATCHED: Drift along in Acapulco as tourist [COAST]
+      UNMATCHED: Step aside? Step inside! [PAS]
+      UNMATCHED: Grounds here for major actor discarding Romeo [COSTA]
+      UNMATCHED: Herb loves embracing wicked daughter [OREGANO]
+      UNMATCHED: One honoured singer, a bass just starting to make  [BARONET]
+      UNMATCHED: Note about getting on, ringing in and making up [IMAGINING]
+      UNMATCHED: Travelling actors right off course [ASCOT]
+      UNMATCHED: Drunkard flips about a hundred pancakes [TACOS]
+      UNMATCHED: It might have protected Norman Hill, slashed strug [CHAINMAIL]
+      UNMATCHED: Shaking off sloth, hairy Mitch dances with beat [RHYTHMIC]
+      UNMATCHED: Includes a policeman in racket [ADDSIN]
+      UNMATCHED: Victor in any of six today failing to take over a  [NOVASCOTIA]
+      UNMATCHED: One's hung up phone [MOBILE]
+      UNMATCHED: Egg producer's shambolic supply a trader's beginni [PLATYPUS]
+      UNMATCHED: Look at from whichever way [ECCE]
+      UNMATCHED: Spoken traditional teaching praises these exalted  [LAWLORDS]
+      UNMATCHED: Uniform with fur is of practical value [USABLE]
+      UNMATCHED: Like some particular sex - no former partner finds [ASCERTAINS]
+      UNMATCHED: Half of American church supports old President's s [ABEYANCE]
+      UNMATCHED: Ramble around in countryside, initially after park [PROVINCE]
+      UNMATCHED: Shrewdly, Anglican leader voices disapproval over  [ASTUTELY]
+      UNMATCHED: Tip off policewoman: "Brunel took drug" [OPIATE]
+      UNMATCHED: Writer penning cycling journal's meaty fare [BIGMAC]
+      UNMATCHED: Reportedly downed a sugary product Violet could pr [NECTAR]
+      UNMATCHED: Maybe Amsterdam girl the setter will visit never-e [ILSE]
+0/31 matched -- DB has different puzzle for this date, SKIPPED
+  Tue 06 Jan 2026 #12245: [DRY RUN] 30/30 matched
+  Wed 07 Jan 2026 #12246: [DRY RUN] 34/34 matched
+  Thu 08 Jan 2026 #12247: [DRY RUN] 32/32 matched
+  Fri 09 Jan 2026 #12248: [DRY RUN] 32/32 matched
+  Sat 10 Jan 2026 #12249:       ANSWER-MATCH: EMBRYONIC <- Early poem's second half - reminiscent of <i>Don J
+      ANSWER-MATCH: NEIGHBOUR <- Quote from <i>Black Beauty </i>- "Beauty's beginni
+      ANSWER-MATCH: NEEP <- "North-eastern European people" - originally what 
+[DRY RUN] 30/30 matched
+  Sun 11 Jan 2026 #1872:       ANSWER-MATCH: SAFE <- Those backing hopeless idea off <i>Blue Peter</i>
+[DRY RUN] 26/26 matched
+  Mon 12 Jan 2026 #12250: [DRY RUN] 28/28 matched
+  Tue 13 Jan 2026 #12251: [DRY RUN] 27/27 matched
+  Wed 14 Jan 2026 #12252: [DRY RUN] 30/30 matched
+  Thu 15 Jan 2026 #12253:       ANSWER-MATCH: ALIBABA <- He said sesame and lettuce in buns are "burger ama
+[DRY RUN] 30/30 matched
+  Fri 16 Jan 2026 #12254:       ANSWER-MATCH: EGREGIOUS <- Notorious rogue is punished around 9
+[DRY RUN] 25/25 matched
+  Sat 17 Jan 2026 #12255: [DRY RUN] 30/30 matched
+  Sun 18 Jan 2026 #1873: [DRY RUN] 29/29 matched
+  Mon 19 Jan 2026 #12256: [DRY RUN] 32/32 matched
+  Tue 20 Jan 2026 #12257: [DRY RUN] 30/30 matched
+  Wed 21 Jan 2026 #12258:       ANSWER-MATCH: LAD <- (and 25 Down) Boy was first served from tureen
+      UNMATCHED: See 5 Down [LED]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Thu 22 Jan 2026 #12259:       ANSWER-MATCH: TWISTAND <- (and 21 Down) Hit Head of Technology with one proj
+      ANSWER-MATCH: ACT <- (and 25 Across) To right of Caliban expert conceal
+      ANSWER-MATCH: CAUTLEY <- (and 7 Across) Eucalyptus to ground, our highest f
+      ANSWER-MATCH: CAULDRON <- (and 27 Across) I run 180m downhill and consult ou
+      ANSWER-MATCH: KINDER <- (and 16 Across) A high point, the one of Akela’s l
+      ANSWER-MATCH: BROWN <- (and 7 Down) Order two pints in the end: Burton Al
+      UNMATCHED: See 8 Across [SHOUT]
+      UNMATCHED: See 9 Across [ONE]
+      UNMATCHED: See 22 Across [SPOUT]
+      UNMATCHED: See 26 Across [SNOUT]
+      UNMATCHED: See 4 Down [SCOUT]
+      UNMATCHED: See 13 Down [STOUT]
+[DRY RUN] 22/28 matched, 6 unmatched
+  Fri 23 Jan 2026 #12260: [DRY RUN] 31/31 matched
+  Tue 27 Jan 2026 #12263:       ANSWER-MATCH: SMOOCH <- <i>Cosmo </i>doctored front of Heidi's neck
+[DRY RUN] 29/29 matched
+  Thu 29 Jan 2026 #12265: [DRY RUN] 32/32 matched
+  Fri 30 Jan 2026 #12266:       ANSWER-MATCH: LAND <- (and 23 Down) Eccentric upset, coming round with l
+      UNMATCHED: See 1 Down [LORD]
+[DRY RUN] 26/27 matched, 1 unmatched
+  Sat 31 Jan 2026 #12267:       ANSWER-MATCH: NICHOLAS <- (and 2 Down) Old Pope, born in Britain, not in Ger
+      ANSWER-MATCH: LANGUAGE <- (and 17 Across) For example Dutch PM, after consum
+      UNMATCHED: See 1 Down [BREAKSPEAR]
+      UNMATCHED: See 5 Down [TEACHER]
+[DRY RUN] 26/28 matched, 2 unmatched
+  Sun 01 Feb 2026 #1875: [DRY RUN] 29/29 matched
+  Mon 02 Feb 2026 #12268:       ANSWER-MATCH: ARTNOUVEAU <- French school form ran out, beginning to exclaim "
+      ANSWER-MATCH: COAL <- (and 26 Down) Economical extracting business, perh
+      ANSWER-MATCH: APPLE <- (and 29 Across) Sweet place to see Ashes balls aft
+      UNMATCHED: See 3 Down [MINE]
+      UNMATCHED: See 7 Down [TURNOVER]
+[DRY RUN] 30/32 matched, 2 unmatched
+  Tue 03 Feb 2026 #12269:       ANSWER-MATCH: WOODCHUCK <- <i>Groundhog Day</i> shown in attempt to endear ca
+[DRY RUN] 30/30 matched
+  Wed 04 Feb 2026 #12270:       ANSWER-MATCH: PLATITUDE <- "Freedom requires power first" is a trite remark
+      ANSWER-MATCH: ACTUP <- <i>Carry On</i> performers perhaps appearing in co
+[DRY RUN] 32/32 matched
+  Thu 05 Feb 2026 #12271:       ANSWER-MATCH: NILDESPERANDUM <- Love, send D:Ream up to play <i>Things Can Only Ge
+[DRY RUN] 28/28 matched
+  Fri 06 Feb 2026 #12272:       ANSWER-MATCH: SEPIA <- Faded colour copies kept up with investment from <
+[DRY RUN] 32/32 matched
+  Sat 07 Feb 2026 #12273:       ANSWER-MATCH: EXCEL <- Outperform skinny swimmer going about 90
+      ANSWER-MATCH: TEAL <- One of the 22 players snubbed by Liverpool's no. 1
+[DRY RUN] 34/34 matched
+  Sun 08 Feb 2026 #1876: [DRY RUN] 28/28 matched
+  Mon 09 Feb 2026 #12274:       ANSWER-MATCH: PUNJABI <- Language using play on words: "setter's on strike"
+[DRY RUN] 28/28 matched
+  Tue 10 Feb 2026 #12275: [DRY RUN] 36/36 matched
+  Wed 11 Feb 2026 #12276: [DRY RUN] 32/32 matched
+  Thu 12 Feb 2026 #12277:       ANSWER-MATCH: WORSTCASE <- (and 17 Down) Does this foresee terrible cost, rec
+      ANSWER-MATCH: LONGTIME <- (and 26 Across) Greeting from one again and again 
+      ANSWER-MATCH: GAUCHE <- Sinister Parisian displaying 3
+      UNMATCHED: See 12 Across [SCENARIO]
+      UNMATCHED: See 1 Down [NOSEE]
+[DRY RUN] 29/31 matched, 2 unmatched
+  Fri 13 Feb 2026 #12278: [DRY RUN] 30/30 matched
+  Sat 14 Feb 2026 #12279:       ANSWER-MATCH: PANDORAS <- (and 19 Across) Criticise terrible roads - shock s
+      UNMATCHED: See 1 Across [JAR]
+[DRY RUN] 33/34 matched, 1 unmatched
+  Sun 15 Feb 2026 #1877: [DRY RUN] 28/28 matched
+  Mon 16 Feb 2026 #12280: [DRY RUN] 30/30 matched
+  Tue 17 Feb 2026 #12281:       ANSWER-MATCH: GLUT <- (and 30 Down) Overindulgence? Belly filled with la
+      UNMATCHED: See 20 Down [TONY]
+[DRY RUN] 37/38 matched, 1 unmatched
+  Wed 18 Feb 2026 #12282: [DRY RUN] 28/28 matched
+  Fri 20 Feb 2026 #12284: [DRY RUN] 28/28 matched
+  Sat 21 Feb 2026 #12285:       ANSWER-MATCH: IDIOMATIC <- "Keeping mum" is silly vernacular
+      ANSWER-MATCH: BUMPTIOUS <- Snooty arse sanctimonious about "end of art"
+[DRY RUN] 32/32 matched
+  Sun 22 Feb 2026 #1878: [DRY RUN] 28/28 matched
+  Mon 23 Feb 2026 #12286: [DRY RUN] 32/32 matched
+  Tue 24 Feb 2026 #12287:       ANSWER-MATCH: INTENSE <- 9 heading off to collect 10 sons - that’s 10
+[DRY RUN] 36/36 matched
+  Wed 25 Feb 2026 #12288:       ANSWER-MATCH: USURER <- Moneylender texted "You're certain to be included"
+[DRY RUN] 29/29 matched
+  Thu 26 Feb 2026 #12289: [DRY RUN] 32/32 matched
+  Fri 27 Feb 2026 #12290:       ANSWER-MATCH: MODEM <- IT device penned verse in 2000
+      ANSWER-MATCH: YELLS <- Cries: "Absolutely!," hugging couple of students
+      UNMATCHED: Coffer artist depicted with golden band [ORCHESTRA]
+[DRY RUN] 29/30 matched, 1 unmatched
+  Sat 28 Feb 2026 #12291:       ANSWER-MATCH: CONNEMARA <- Oscar Wilde's "savage beauty" could spark a new ro
+[DRY RUN] 30/30 matched
+  Sun 01 Mar 2026 #1879: [DRY RUN] 28/28 matched
+  Mon 02 Mar 2026 #12292: [DRY RUN] 26/26 matched
+  Tue 03 Mar 2026 #12293:       ANSWER-MATCH: KATE <- (and 27 Across) Singer to tempt Ham's boy, as Spoo
+      ANSWER-MATCH: WUTHERING <- (and 18 Down) <i>Rowing with Hunger</i> (Boat Race
+      ANSWER-MATCH: EMILY <- (and 6 Across) Writer's initially outrageous liber
+      UNMATCHED: See 9 Across [BUSH]
+      UNMATCHED: See 14 Down [HEIGHTS]
+      UNMATCHED: See 23 Down [BRONTE]
+[DRY RUN] 28/31 matched, 3 unmatched
+  Wed 04 Mar 2026 #12294:       ANSWER-MATCH: TWELVE <- Number one more than ten: 11
+      ANSWER-MATCH: TOME <- (and 1 Down) Catchphrase from heavy-going books, s
+      ANSWER-MATCH: VINGTETUN <- Card game score for Pierre – 11
+      UNMATCHED: See 12 Across [TOYOU]
+[DRY RUN] 28/29 matched, 1 unmatched
+  Thu 05 Mar 2026 #12295:       ANSWER-MATCH: TREACHERY <- Years after one who might be <i>Educating Rita</i>
+[DRY RUN] 32/32 matched
+  Fri 06 Mar 2026 #12296: [DRY RUN] 29/29 matched
+  Sat 07 Mar 2026 #12297: [DRY RUN] 32/32 matched
+  Sun 08 Mar 2026 #1880: [DRY RUN] 28/28 matched
+  Mon 09 Mar 2026 #12298: [DRY RUN] 28/28 matched
+  Wed 11 Mar 2026 #12300: [DRY RUN] 30/30 matched
+  Thu 12 Mar 2026 #12301: [DRY RUN] 29/29 matched
+  Fri 13 Mar 2026 #12302: [DRY RUN] 29/29 matched
+  Sat 14 Mar 2026 #12303:       ANSWER-MATCH: HOWARD <- (and 14 Across) Trump's commerce secretary distrib
+      ANSWER-MATCH: ONSIDE <- "Leg over" is "end away"
+      ANSWER-MATCH: CRYPTO <- (and 17 Down) Comfy racists busily assuming power?
+      UNMATCHED: See 12 Across [LUTNICK]
+      UNMATCHED: See 1 Down [FASCISM]
+[DRY RUN] 26/28 matched, 2 unmatched
+  Sun 15 Mar 2026 #1881: [DRY RUN] 34/34 matched
+  Mon 16 Mar 2026 #12304:       ANSWER-MATCH: WARSAW <- "Keep Calm and Carry On", say, in capital city!
+[DRY RUN] 36/36 matched
+  Tue 17 Mar 2026 #12305: [DRY RUN] 32/32 matched
+  Wed 18 Mar 2026 #12306:       ANSWER-MATCH: STAYINGTHE <- (and 27 Across) Yes, sir, Cath's misbehaving with 
+      UNMATCHED: See 24 Across [COURSE]
+[DRY RUN] 31/32 matched, 1 unmatched
+  Thu 19 Mar 2026 #12307:       ANSWER-MATCH: ARIA <- Excerpt from <i>Ariadne auf Naxos</i>
+[DRY RUN] 27/27 matched
+  Fri 20 Mar 2026 #12308: [DRY RUN] 33/33 matched
+  Sat 21 Mar 2026 #12309: [DRY RUN] 30/30 matched
+  Sun 22 Mar 2026 #1882: [DRY RUN] 27/27 matched
+  Mon 23 Mar 2026 #12310:       ANSWER-MATCH: SPACECADET <- Quarrel spanning hundred and ten years expelling l
+[DRY RUN] 30/30 matched
+  Tue 24 Mar 2026 #12311: [DRY RUN] 33/33 matched
+  Wed 25 Mar 2026 #12312:       ANSWER-MATCH: MEALTICKET <- Case of archetypal sucker stopping to pay for "fin
+[DRY RUN] 30/30 matched
+  Thu 26 Mar 2026 #12313:       ANSWER-MATCH: RUPERTOFHENTZAU <- Trouper, playing loud man at National Theatre, lea
+[DRY RUN] 29/29 matched
+  Fri 27 Mar 2026 #12314: [DRY RUN] 34/34 matched
+  Sat 28 Mar 2026 #12315: [DRY RUN] 27/27 matched
+  Sun 29 Mar 2026 #1883: [DRY RUN] 28/28 matched
+  Mon 30 Mar 2026 #12316: [DRY RUN] 32/32 matched
+
+======================================================================
+SUMMARY
+======================================================================
+
+UPGRADES:
+  Full match:      886
+  Partial match:   200
+  Wrong puzzle:    3 (DB has different clues, skipped)
+  Not available:   0
+  Clues matched:   32567
+  Clues unmatched: 352
+
+Failed puzzles saved to: C:\Users\shute\PycharmProjects\cryptic_solver_V2\scraper\independent\backfill_failures.txt
+  203 puzzles need re-scraping
+
+This was a DRY RUN. No database changes were made.
+Run with --execute to apply updates.

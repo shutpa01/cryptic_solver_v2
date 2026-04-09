@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+  <script src="https://cdn.jsdelivr.net/npm/preferred-locale@1.0.10"></script>
+  <script type="text/javascript">
+    window.makeRequest = (method, url) => {
+      return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest()
+        xhr.open(method, url)
+        xhr.onload = () => {
+          if (Math.floor(xhr.status/100) === 2) {
+            resolve(xhr.response)
+          } else {
+            reject({
+              status: xhr.status,
+              statusText: xhr.statusText,
+              response: xhr.response
+            })
+          }
+        }
+        xhr.onerror = () => {
+          reject({
+            status: xhr.status,
+            statusText: xhr.statusText
+          })
+        }
+        xhr.send()
+      })
+    }
+    window.injectStyleSheet = (url) => {
+        const element = document.createElement('link')
+        element.rel = 'stylesheet'
+        element.href = url
+        document.head.appendChild(element)
+    }
+    window.injectLanguage = (url) => {
+        makeRequest('get', url)
+            .then(response => {
+                const strings = typeof response === 'object' ? response : JSON.parse(response)
+                document.querySelectorAll("[data-i18n-key]").forEach((e) => {
+                    const valueString = strings[e.getAttribute("data-i18n-key")]
+                    if (typeof valueString === 'string') {
+                        e.innerHTML = valueString
+                    }
+                })
+            })
+            .catch(_ => {
+                console.error(`Failed to load language from: ${url}`)
+            })
+    }
+    window.injectWebConfig = (url) => {
+        return new Promise(function(resolve, reject) {
+            const script = document.createElement('script')
+            script.src = url
+            script.onload = _ => {
+                if (window.config && window.config.version) {
+                    resolve(config)
+                } else {
+                    reject('Web config failed to load')
+                }
+            }
+            script.onerror = () => reject('Web script injection failed')
+            document.head.appendChild(script)
+        });
+    }
+    window.loadWebConfig = (url, product) => {
+        window.injectWebConfig(url, product)
+            .then((config) => {
+                const {live_domain, version, timeline_css = [], css_files = [], locales = ['en-GB']} = config
+                timeline_css.concat(css_files).forEach(f => {
+                    window.injectStyleSheet(new URL(`https://${live_domain}/${product}/config/${version}/web/${f}`))
+                })
+                const pLocale = window.preferredLocale ? preferredLocale(locales, 'en-GB') : 'en-GB'
+                window.injectLanguage(new URL(`https://${live_domain}/${product}/config/${version}/web/${pLocale}/strings.json`))
+            })
+            .catch((e) => {
+                console.error(`Failed to inject web config: ${e}`)
+            })
+    }
+</script>  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+        loadWebConfig(
+            'https://edition.independent.co.uk/config_web_active_bolt.js',
+            'bolt'
+        )
+    })
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+  <style type="text/css">
+    * {
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+    }
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+    }
+    .error-page {
+        background-color: var(--error-page-background-colour, var(--app-background-colour, #f5f5f5));
+        padding: 30px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        min-height: 100vh;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+    .error-page__container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        gap: 20px;
+    }
+    .error-page__heading {
+        font-family: var(--error-page-heading-text-font, var(--bold-font-name, sans-serif));
+        font-weight: 700;
+        font-size: 40px;
+        text-align: center;
+        line-height: 48px;
+        color: var(--error-page-heading-text-colour, var(--app-background-text-colour, #1b2939));
+    }
+    .error-page__description {
+        max-width: 600px;
+        font-family: var(--error-page-description-text-font, var(--regular-font-name, sans-serif));
+        font-weight: 400;
+        font-size: 21px;
+        text-align: center;
+        line-height: 32px;
+        color: var(--error-page-description-text-colour, var(--app-background-text-colour, #1b2939));
+    }
+    .error-page__error-text {
+        max-width: 600px;
+        word-break: break-all;
+        font-family: var(--error-page-error-text-font, var(--regular-font-name, sans-serif));
+        font-weight: 400;
+        font-size: 14px;
+        text-align: center;
+        color: var(--error-page-error-text-colour, var(--app-background-text-colour, #1b2939));
+    }
+  </style>
+  <title>The Independent Daily Edition</title>
+</head>
+
+<body>
+    <div class="error-page">
+        <div class="error-page__container">
+            <h1 class="error-page__heading" data-i18n-key="error_page_heading">Page could not be found</h1>
+            <p class="error-page__description" data-i18n-key="error_page_description">
+                We&#39;re sorry, but the page you&#39;re looking for could not be found or does not exist. This may be due to an invalid link or an error in the app. Please return to the previous page and try again later.
+            </p>
+            <div class="error-page__error-text">404 - /pugpig_page/puzzler-sdk/independentmag_1.0.0.11/pml.js</div>
+        </div>
+    </div>
+</body>
+</html>

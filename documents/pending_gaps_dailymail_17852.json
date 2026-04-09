@@ -1,0 +1,207 @@
+{
+  "source": "dailymail",
+  "puzzle": "17852",
+  "stats": {
+    "total": 33,
+    "assembled": 30,
+    "high": 27,
+    "medium": 3,
+    "low": 0,
+    "failed": 3,
+    "avg_score": 90.26666666666667
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "produces",
+      "letters": "A",
+      "answer": "AGONY",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Exit in a U.S. city produces torment",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Swedish male,",
+      "letters": "ANDERS",
+      "answer": "MEANDERS",
+      "clue_number": "31",
+      "direction": "across",
+      "clue": "Writer, Swedish male, goes around listlessly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Assemble",
+      "answer": "GATHER",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Assemble in meeting at Hereford",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Whirlpool",
+      "answer": "EDDY",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Whirlpool seen in flooded dyke",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "port",
+      "answer": "ADEN",
+      "clue_number": "27",
+      "direction": "down",
+      "clue": "Some road engineers in Middle East port",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Only",
+      "answer": "JUST",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Only fair",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "trade",
+      "answer": "SWAP",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Hands from the East in trade",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Feeling",
+      "answer": "VIBE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Feeling from bachelor amid struggle",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Underhand",
+      "answer": "DECEPTIVE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Underhand edict veep devised",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Withdraw",
+      "answer": "TAKEBACK",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Withdraw opinion and support",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Renounce",
+      "answer": "WAIVE",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Renounce gesture by the sound of it",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "torment",
+      "answer": "AGONY",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Exit in a U.S. city produces torment",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Recognition of a hit?",
+      "answer": "TOUCHE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Recognition of a hit?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Narrow end to a course?",
+      "answer": "BLANKETFINISH",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Narrow end to a course?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "making one annoyed",
+      "answer": "IRKED",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Awkward ride around back of park making one annoyed",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Overlook",
+      "answer": "CONDONE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Overlook U.S. complex on Tyneside",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "light",
+      "answer": "FLAME",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Lover in brilliant light",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "listlessly",
+      "answer": "MEANDERS",
+      "clue_number": "31",
+      "direction": "across",
+      "clue": "Writer, Swedish male, goes around listlessly",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fast creatures",
+      "answer": "CHEETAHS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Fast creatures in shimmering heat among a lot of game",
+      "score": 0
+    }
+  ]
+}

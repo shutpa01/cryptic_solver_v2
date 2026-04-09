@@ -1,0 +1,1007 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31188
+Generated: 2026-03-16 12:04:07
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        32/32 (100%)
+    Signature:      7
+    Sig+Enriched:   3
+    Sonnet:         21
+    DB Fallback:    1
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   11  10A, 16A, 16D, 17A, 21D, 3D, 4D, 1A, 12D, 20D, 30A
+  Medium (40-79): 19  11A, 13D, 14A, 15D, 18A, 19A, 2D, 20A, 22A, 24A, 25D, 26D, 27D, 28A, 5D, 6D, 7D, 8D, 9A
+  Low (<40):    2  23A, 29A
+  Failed:       0  
+  Average:      70/100
+
+COST: $0.2302 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (41 entries)
+------------------------------------------------------------
+  VINDICATION: "defence" -> VINDICATION  (missing from definition_answers_augmented)
+  WEATHER: "Storm" -> WEATHER  (missing from definition_answers_augmented)
+  WORST: "Best" -> WORST  (missing from definition_answers_augmented)
+  MANOR: "house" -> MANOR  (missing from definition_answers_augmented)
+  PHANTOM: "illusion" -> PHANTOM  (missing from definition_answers_augmented)
+  CADS: "Rotters" -> CADS  (missing from definition_answers_augmented)
+  ACCLAIM: "praise" -> ACCLAIM  (missing from definition_answers_augmented)
+  MERCHANDISE: "stock" -> MERCHANDISE  (missing from definition_answers_augmented)
+  DEVELOPMENT: "building site" -> DEVELOPMENT  (missing from definition_answers_augmented)
+  THREATENING: "Warning" -> THREATENING  (missing from definition_answers_augmented)
+  TARRY: "Wait" -> TARRY  (missing from definition_answers_augmented)
+  EVIL: "really bad" -> EVIL  (missing from definition_answers_augmented)
+  CUTE: "Clever and sweetly pleasing" -> CUTE  (missing from definition_answers_augmented)
+  ILLUSTRIOUS: "Noble" -> ILLUSTRIOUS  (missing from definition_answers_augmented)
+  NONE: "No amount of touching in north-east" -> NONE  (missing from definition_answers_augmented)
+  RECOMMENDED: "Endorsed" -> RECOMMENDED  (missing from definition_answers_augmented)
+  DOTE: "Show affection towards" -> DOTE  (missing from definition_answers_augmented)
+  SNOOKER: "Trap" -> SNOOKER  (missing from definition_answers_augmented)
+  level-headed: "common sense" -> level-headed  (missing from definition_answers_augmented)
+  HERO: "Main" -> HERO  (missing from definition_answers_augmented)
+  VINDICATION: victory -> V  (missing from abbreviations)
+  VINDICATION: sign -> INDICATION  (missing from synonyms_pairs)
+  WORST: terrace -> ROW  (missing from synonyms_pairs)
+  WORST: street -> ST  (missing from synonyms_pairs)
+  MANOR: Bloke -> MAN  (missing from synonyms_pairs)
+  MANOR: old -> O  (missing from abbreviations)
+  MANOR: river -> R  (missing from abbreviations)
+  CADS: Charlie -> C  (missing from abbreviations)
+  CADS: notices -> ADS  (missing from synonyms_pairs)
+  ACCLAIM: A -> A  (missing from abbreviations)
+  ACCLAIM: constant -> C  (missing from abbreviations)
+  ACCLAIM: call -> CLAIM  (missing from synonyms_pairs)
+  WERE: number one -> WE  (missing from synonyms_pairs)
+  EXHIBIT: Chip -> BIT  (missing from synonyms_pairs)
+  EVIL: the setter's -> IVE  (missing from synonyms_pairs)
+  GRASP: tool -> RASP  (missing from synonyms_pairs)
+  OUTPLAY: unpopular -> OUT  (missing from synonyms_pairs)
+  THEREAT: that point -> THERE  (missing from synonyms_pairs)
+  ILLUSTRIOUS: American twice -> USUS  (missing from synonyms_pairs)
+  ILLUSTRIOUS: band -> TRIO  (missing from synonyms_pairs)
+  POMEGRANATE: nan -> GRAN  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  WERE = 11 (49/100): AI=container, assembled=charade
+  LUDO = 25 (75/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  WERE (49/100): E <- "end" (first_letter)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  THEREAT = 23 (39/100): no pieces verified in DB
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/32  18A, 19A, 24A, 26D
+  Type mismatch:         2  11A, 25D
+  Fabricated mapping:    1  11A
+  Unverified explain.:   1  23A
+  DB gap:                25  1A, 9A, 10A, 11A, 14A, 17A, 22A, 23A, 28A, 29A, 30A, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 12D, 13D, 15D, 16D, 20D, 21D, 27D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   10A  VINDICATION   Start of victory sign for defence (11)
+                      V(abbr. "victory") + INDICATION(synonym of "sign")  [HIGH]
+   16A  WEATHER       Storm possibly battered haw tree (7)
+                      anagram of HAWTREE(haw tree)  [HIGH]
+   16D  WORST         Best terrace erected on street (5)
+                      ROW(synonym of "terrace") + ST(synonym of "street")  [HIGH]
+   17A  MANOR         Bloke with old river house (5)
+                      MAN(synonym of "Bloke") + O(abbr. "old") + R(abbr. "river")  [HIGH]
+   21D  PHANTOM       Triumphant ombudsman's hiding illusion (7)
+                      hidden in 'triumPHANT OMbudsman's'  [HIGH]
+    3D  CADS          Rotters Charlie notices (4)
+                      C(abbr. "Charlie") + ADS(synonym of "notices")  [HIGH]
+    4D  ACCLAIM       A constant call for praise (7)
+                      A(abbr. "A") + C(abbr. "constant") + CLAIM(synonym of "call")  [HIGH]
+    1A  MERCHANDISE   Cook demeans rich stock (11)
+                      anagram of DEMEANSRICH(demeans rich)  [HIGH]
+   11A  WERE          Used to be number one around end of December (4)
+                      WE(synonym of "number one") + R(last letter of "end of December") + E  [MED]
+   12D  DEVELOPMENT   Men loved pet running into building site (11)
+                      anagram of MENLOVEDPET(Men loved pet)  [HIGH]
+   13D  THREATENING   Warning of anger then it dissipated (11)
+                      anagram of ANGER(anger)+IT(it)+THEN(then)  [MED]
+   14A  EXHIBIT       Show former love greeting Chip (7)
+                      EX(synonym of "former") + HI(synonym of "greeting") + BIT(synonym of "Chip")  [MED]
+   15D  TARRY         Wait with sailor above line (5)
+                      TAR(synonym of "sailor") + RY(abbr. "line")  [MED]
+   18A  EYED          Looked at and followed orders missing first two items (4)
+                      delete OB from OBEYED  [MED]
+   19A  MAIN          Chief is impatient on and off (4)
+                      double definition  [MED]
+    2D  EVIL          Line the setter's rejected is really bad (4)
+                      reverse IVE(synonym of "the setter's") + L(abbr. "Line")  [MED]
+   20A  GRASP         Hold good tool (5)
+                      G(abbr. "good") + RASP(synonym of "tool")  [MED]
+   20D  GAZELLE       Look around English lake initially locating graceful creature (7)
+                      GAZE(synonym of "Look") + L(abbr. "lake") + L(abbr. "lake") + E(abbr. "English")  [HIGH]
+   22A  OUTPLAY       Defeat in unpopular drama (7)
+                      OUT(synonym of "unpopular") + PLAY(synonym of "drama")  [MED]
+   23A  THEREAT       At that point England's capital is overwhelmed by menace (7)
+                      THERE(synonym of "that point") + AT(synonym of "is")  [LOW]
+   24A  MEND          Fix chess pieces close to board (4)
+                      MEN(synonym of "chess pieces") + D(last letter of "board")  [MED]
+   25D  LUDO          Leaders of Leeds United despairing over game (4)
+                      L(first letter of "Leeds") + U(first letter of "United") + D(first letter of "despairing") + O(first letter of "over")  [MED]
+   26D  SIGN          Mark swinging regularly (4)
+                      double definition  [MED]
+   27D  CUTE          Clever and sweetly pleasing (4)
+                      double definition  [MED]
+   28A  ILLUSTRIOUS   Noble, ailing American twice welcomes band (11)
+                      ILL(synonym of "ailing") + TRIO(synonym of "band") inside USUS(abbr. "American twice")  [MED]
+   29A  NONE          No amount of touching in north-east (4)
+                      cryptic definition  [LOW]
+   30A  RECOMMENDED   Endorsed mermen doc Ed shot (11)
+                      anagram of MERMENDOCED(mermen doc Ed)  [HIGH]
+    5D  DOTE          Show affection towards female creature taking time (4)
+                      T(abbr. "time") inside DOE(synonym of "female creature")  [MED]
+    6D  SNOOKER       Trap in small recess set by former monarch (7)
+                      S(abbr. "small") + NOOK(synonym of "recess") + ER(abbr. "former monarch")  [MED]
+    7D  level-headed  Stage manager and journalist showing common sense (5-6)
+                      LEVEL(synonym of "Stage") + HEAD(synonym of "Stage") + ED(abbr. "journalist")  [MED]
+    8D  POMEGRANATE   Petty officer, setter and nan consumed fruit (11)
+                      PO(abbr. "Petty officer") + ME(synonym of "setter") + GRAN(synonym of "nan") + ATE(synonym of "consumed")  [MED]
+    9A  HERO          Main character is that woman with nothing (4)
+                      HER(synonym of "that woman") + O(abbr. "nothing")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] VINDICATION  10A. Start of victory sign for defence
+  Answer: VINDICATION
+  Tier: Signature | Confidence: 82/100
+  Definition: "defence"
+  Wordplay type: charade
+  Components:
+    abbreviation       victory                   -> V
+    synonym            sign                      -> INDICATION
+  Assembly: charade — V(abbr. "victory") + INDICATION(synonym of "sign")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'victory'=v_verified=+5 | syn_f_'sign'=indication_verifi=+5 | indicator_'start'_verified=+4 | all_3_pieces_verified=+8
+  ----------------------------------------------------------------------
+
+  [HIGH] WEATHER  16A. Storm possibly battered haw tree
+  Answer: WEATHER
+  Tier: Signature | Confidence: 82/100
+  Definition: "Storm"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     haw tree                  -> HAWTREE
+  Assembly: anagram — anagram of HAWTREE(haw tree)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'haw_tree'_mechanically_=+3 | indicator_'possibly'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] WORST  16D. Best terrace erected on street
+  Answer: WORST
+  Tier: Signature | Confidence: 82/100
+  Definition: "Best"
+  Wordplay type: charade
+  Components:
+    synonym            terrace                   -> ROW
+    synonym            street                    -> ST
+  Assembly: charade — ROW(synonym of "terrace") + ST(synonym of "street")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'terrace'=row_verified=+5 | syn_f_'street'=st_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] MANOR  17A. Bloke with old river house
+  Answer: MANOR
+  Tier: Signature | Confidence: 82/100
+  Definition: "house"
+  Wordplay type: charade
+  Components:
+    synonym            Bloke                     -> MAN
+    abbreviation       old                       -> O
+    abbreviation       river                     -> R
+  Assembly: charade — MAN(synonym of "Bloke") + O(abbr. "old") + R(abbr. "river")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'bloke'=man_verified=+5 | abr_f_'old'=o_verified=+5 | abr_f_'river'=r_verified=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [HIGH] PHANTOM  21D. Triumphant ombudsman's hiding illusion
+  Answer: PHANTOM
+  Tier: Signature | Confidence: 82/100
+  Definition: "illusion"
+  Wordplay type: hidden
+  Components:
+    hidden             Triumphant ombudsman's    -> TRIUMPHANTOMBUDSMANS
+  Assembly: hidden — hidden in 'triumPHANT OMbudsman's'
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'triumphant_ombudsman's'=+3 | indicator_'hiding'_verified=+4 | all_2_pieces_verified=+15
+  ----------------------------------------------------------------------
+
+  [HIGH] CADS  3D. Rotters Charlie notices
+  Answer: CADS
+  Tier: Signature | Confidence: 82/100
+  Definition: "Rotters"
+  Wordplay type: charade
+  Components:
+    abbreviation       Charlie                   -> C
+    synonym            notices                   -> ADS
+  Assembly: charade — C(abbr. "Charlie") + ADS(synonym of "notices")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'charlie'=c_verified=+5 | syn_f_'notices'=ads_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [HIGH] ACCLAIM  4D. A constant call for praise
+  Answer: ACCLAIM
+  Tier: Signature | Confidence: 82/100
+  Definition: "praise"
+  Wordplay type: charade
+  Components:
+    abbreviation       A                         -> A
+    abbreviation       constant                  -> C
+    synonym            call                      -> CLAIM
+  Assembly: charade — A(abbr. "A") + C(abbr. "constant") + CLAIM(synonym of "call")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'a'=a_verified=+5 | abr_f_'constant'=c_verified=+5 | syn_f_'call'=claim_verified=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [HIGH] MERCHANDISE  1A. Cook demeans rich stock
+  Answer: MERCHANDISE
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "stock"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     demeans rich              -> DEMEANSRICH
+  Assembly: anagram — anagram of DEMEANSRICH(demeans rich)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'demeans_rich'_mechanica=+3 | indicator_'cook'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [MEDIUM] WERE  11A. Used to be number one around end of December
+  Answer: WERE
+  Tier: Sonnet | Confidence: 49/100
+  Definition: "Used to be"
+  Wordplay type: container
+  Components:
+    synonym            number one                -> WE
+    last_letter        end of December           -> R
+  Assembly: charade — WE(synonym of "number one") + R(last letter of "end of December") + E
+  Gap fill: [('end', 'E', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      used: syn=DRY,OLD,ARID,BONY,BURN,DEAD,MILK,PIMP,POOR,SERE,TOOK,WONT,WORK,WORN; ind=anagram
+      to: syn=ERE*,BY,OF,UP,ADO,BOS,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      number: syn=O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,ONE,TEN,VIP,ACTS,ANTE,BALL; abbr=N,NO,TEN
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I,O; sounds=won
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      december: abbr=DEC; ind=acrostic?
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE
+      number one: abbr=I
+      number one: syn=A1,OK,BIG,FAB,HIT,HOT,KEY,POP,TOO,TOP
+      end of: ind=parts
+      used to be: syn=WERE*,WAS
+    Definitions:
+      "Used to be" -> WERE (definition match)
+  AI Reasoning:
+    Definition: "Used to be" (WERE is the past tense of "to be").
+    Wordplay: This appears to be a double definition where the entire clue defines the answer. "Used to be" directly means WERE, and the rest of the clue ("number one around end of December") provides an alternative definition or confirmation.
+    
+    However, let me check if there's wordplay: "number one" = I, "end of December" = R (last letter), "around" as container indicator would give I around R, but that doesn't work for WERE.
+    
+    This is a double definition: "Used to be" = WERE (direct synonym as confirmed by the known lookup).
+  ----------------------------------------------------------------------
+
+  [HIGH] DEVELOPMENT  12D. Men loved pet running into building site
+  Answer: DEVELOPMENT
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "building site"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Men loved pet             -> MENLOVEDPET
+  Assembly: anagram — anagram of MENLOVEDPET(Men loved pet)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'men_loved_pet'_mechanic=+3 | indicator_'running'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] THREATENING  13D. Warning of anger then it dissipated
+  Answer: THREATENING
+  Tier: DB Fallback | Confidence: 70/100
+  Definition: "Warning"
+  Wordplay type: anagram
+  Components:
+    literal            anger                     -> ANGER
+    literal            it                        -> IT
+    literal            then                      -> THEN
+  Assembly: anagram — anagram of ANGER(anger)+IT(it)+THEN(then)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      warning: syn=THREAT*,TIP,CALL,FORE,OMEN,WALL,AHEAD,ALARM,ALERT,AMBER,SIREN,TOKEN,ADVICE,ALARMS,ALERTS
+      anger: syn=AIR,BUG,IRE,KEY,SIN,FURY,MIFF,RAGE,RILE,ROAD,ROIL,FUROR,RANGE,TAPIR,WRATH; abbr=IRE,RAGE; ind=anagram?
+      then: syn=SO,ANY,NEX,TOO,YET,ALSO,EACH,INTO,MORE,NEXT,WHAT,ABOUT,AGAIN,ROUND,AROUND
+      it: syn=IN*,GO,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      dissipated: syn=EAT*,SICK,LOOSE,RAKISH,WARPED,WASTED,CORRUPT,DEBASED,JACKLEG,SQUISHY,UNCLEAN,BALLPARK,DECADENT,DEGRADED,DEPRAVED
+  AI Reasoning:
+    Definition: "Warning" (threatening is a warning).
+    Wordplay: anagram. "anger" is the anagram indicator (as noted).
+    Fodder: "then it dissipated" - using the known lookup, "dissipated" = EAT, so we have THEN + IT + EAT = THENITEIT.
+    Wait, that's not right. Let me reconsider.
+    
+    Actually, looking at the known lookups: "warning" = THREAT (synonym), "dissipated" = EAT (synonym).
+    So the wordplay is: THREAT + "then it" + EAT, where "anger" indicates anagram.
+    Fodder for anagram: THREAT + THEN + IT + EAT = THREATTHENIT... no, that's too many letters.
+    
+    Let me try: The anagram fodder is "then it" + EAT = THENIT + EAT = THENITEAT.
+    Anagram of THENITEAT = THREATENING? No, wrong letter count.
+    
+    Actually: THREAT (warning) + anagram of "then it" = THREAT + anagram of THENIT = THREAT + ... this doesn't work either.
+    
+    Let me reconsider: The entire phrase after "Warning of" could be anagram fodder.
+    Anagram fodder: "then it dissipated" where "dissipated" = EAT
+    So: THEN + IT + EAT = THENITEIT (9 letters), but we need 11.
+    
+    Wait - "Warning" = THREAT is part of the answer, not the definition.
+    Definition: The whole clue defines "threatening"
+    Wordplay: THREAT + anagram of "then it" (with "anger" as anagram indicator, "dissipated" = EAT)
+    THREAT + anagram of THENIT... no.
+    
+    Actually: anagram of "then it dissipated" where "dissipated" contributes EAT
+    Anagram fodder: THEN + IT + EAT + ING (from "threatening" structure)
+    No, let me try: anagram of THREAT + THEN + IT = THREATENING.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXHIBIT  14A. Show former love greeting Chip
+  Answer: EXHIBIT
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Show"
+  Wordplay type: charade
+  Components:
+    synonym            former                    -> EX
+    synonym            greeting                  -> HI
+    synonym            Chip                      -> BIT
+  Assembly: charade — EX(synonym of "former") + HI(synonym of "greeting") + BIT(synonym of "Chip")
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      show: syn=EXHIBIT*,AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME; abbr=S
+      former: syn=EX*,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX*,OLD
+      love: syn=BE,DO,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PAT,PET,PIP,PUT,SEE; abbr=NIL,O
+      greeting: syn=HI*,HEY,CIAO,HAIL,HIYA,ALOHA,HALLO,HELLO,SALAAM,SALUTE,SHALOM,BONJOUR,NAMASTE,WELCOME,WHAT HO; abbr=HI*
+      chip: syn=DINK,NICK,MICRO,NACHO,SHARD,TOKEN,POTATO,SCRATCH
+    Definitions:
+      "Show" -> EXHIBIT (definition match)
+  AI Reasoning:
+    Definition: "Show" (exhibit means to show).
+    Wordplay: charade. "former" = EX, "love" = O (tennis score), "greeting" = HI, "Chip" = BIT (small piece). EX + HI + BIT = EXHIBIT.
+    
+    Wait, that gives EXHIBIT (7 letters) but with an extra I. Let me reconsider.
+    
+    Actually: "former" = EX, "love" = (nothing here), "greeting" = HI, "Chip" = BIT. But we need 7 letters total.
+    
+    Rethinking: EX + HI + BIT = EXHIBIT. The "love" might be incorporated differently or the parsing is: EX (former) + HI (greeting) + BIT (chip) = EXHIBIT, where "love" is just part of the surface reading.
+  ----------------------------------------------------------------------
+
+  [HIGH] TARRY  15D. Wait with sailor above line
+  Answer: TARRY
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Wait"
+  Wordplay type: charade
+  Components:
+    synonym            sailor                    -> TAR
+    abbreviation       line                      -> RY
+  Assembly: charade — TAR(synonym of "sailor") + RY(abbr. "line")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wait: syn=EYE,HER,HIS,SIT,BIDE,BOOK,FOOT,HOLD,LIST,ONTO,STAY,VIEW,AWAIT,BOOKS,DELAY; sounds=weight
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      sailor: syn=TAR*,AB,DOG,SEA,JACK,SALT,JASON,STARS; abbr=AB,JACK,OS,RN,SALT,TAR*
+      above: syn=OVER,UPON,ALOFT,SUPRA
+      line: syn=RY*,ER,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG,NUN; abbr=L,RY*
+  AI Reasoning:
+    Definition: "Wait" (tarry means to wait or linger).
+    Wordplay: charade. "sailor" = TAR (synonym), "line" = RY (abbreviation). TAR + RY = TARRY.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EYED  18A. Looked at and followed orders missing first two items
+  Answer: EYED
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Looked at"
+  Wordplay type: deletion
+  Assembly: deletion — delete OB from OBEYED
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      looked: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,KNEW,MADE,SHUT
+      at: syn=EYE*,IN,BED,EAR,EAT,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      followed: syn=EYED*,RAN,WENT
+      orders: syn=FEW,BATS,FOLK,ILKS,MANY,RODS,SAPS,TASK,DO,MY,OM,SO,AIM,ASK,BID; ind=anagram
+      missing: syn=A1,BIG,FAB,ILL,OUT,A-OK,AWAY,AWOL,BOSS,BRAG,BUSH,COLD,COOL,DONE,DOPE; ind=deletion
+      first: syn=EYE*,BIG,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      items: syn=DATA,GEAR,JOBS,PART,MY,SO,411,DUO,FEW,GEN,INFO,MANY,NEWS,PAIR,UNIT
+      looked at: syn=EYED*,SEEN
+    Definitions:
+      "Looked at" -> EYED (definition match)
+  AI Reasoning:
+    Definition: "Looked at" (EYED is a synonym for looked at).
+    Wordplay: deletion. "followed orders" = OBEYED (synonym). "missing first two" = remove the first two letters. OBEYED − OB = EYED.
+  ----------------------------------------------------------------------
+
+  [HIGH] MAIN  19A. Chief is impatient on and off
+  Answer: MAIN
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Chief"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      chief: syn=MAIN*,CH,BIG,KEY,POP,TOP,ARCH,ARMY,BIKE,BODY,CORE,CRAM,EMIR,GONE,HEAD; abbr=CH
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      impatient: syn=HOT,MAD,WUD,AGOG,AVID,GAGA,KEEN,LIKE,LOCO,NUTS,RASH,WILD
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      on and off: syn=AYE,NOW,OFT,EVER
+    Definitions:
+      "Chief" -> MAIN (definition match)
+  AI Reasoning:
+    Definition: "Chief" (MAIN is a synonym for chief).
+    Wordplay: This appears to be a double definition. Both "Chief" and the rest of the clue define MAIN - "chief" as the primary meaning, and "main" can relate to being impatient "on and off" in the sense of the main/primary state alternating.
+    
+    However, given the indicator words, let me reconsider: "impatient" could be anagram fodder with "off" as anagram indicator, but IMPATIENT doesn't anagram to MAIN. "on and off" with "off" as deletion indicator could mean removing "off" from "on and off", leaving "on and", but this doesn't yield MAIN either.
+    
+    The most straightforward reading is that this is a double definition where "chief" = MAIN directly.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EVIL  2D. Line the setter's rejected is really bad
+  Answer: EVIL
+  Tier: Sonnet | Confidence: 54/100
+  Definition: "really bad"
+  Wordplay type: reversal
+  Components:
+    abbreviation       Line                      -> L
+    synonym            the setter's              -> IVE
+  Assembly: reversal — reverse IVE(synonym of "the setter's") + L(abbr. "Line")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      line: syn=ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG,NUN; abbr=L*,RY
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      setter's: syn=ME,BOW,DOG,GEL,GAFF,KITE; abbr=DOG,I*,ME
+      rejected: syn=OUT,IDLE,LEFT,VOID; ind=deletion,reversal
+      is: syn=IL*,DO,GE,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      really: syn=BE,BY,SO,FAR,HOW,LOT,TOO,WAY,BONE,DAMN,DANG,EVER,FULL,MOST,MUCH; abbr=SO
+      bad: syn=EVIL*,BUM,DIS,ILL,LOW,OFF,RUN,SAD,SIN,BLAH,BLUE,BUSH,DARK,DIRE,DOWN; abbr=B,OFF; ind=anagram
+      the setter's: syn=ME
+    Definitions:
+      "bad" -> EVIL (definition match)
+  AI Reasoning:
+    Definition: "really bad" (evil means really bad).
+    Wordplay: reversal. "rejected" is the reversal indicator.
+    "Line the setter's" = L (line) + I (setter's, meaning "I" - the crossword setter's pronoun) = LI.
+    LI reversed = IL... wait, that doesn't work.
+    
+    Let me reconsider: "Line" = L, "the setter's" = I'VE (the setter's possession/contraction). But that's too long.
+    
+    Actually: "Line" = L, "the setter's" could be IV (Roman numeral 4, if setter = composer of music in 4/4 time? No, that's forced).
+    
+    Rethinking with the known lookups: L (line) + I (setter's) = LI. But "rejected" as reversal gives IL, not EVIL.
+    
+    Wait - maybe it's: "Line the setter's" = LIVE (anagram of EVIL), and "rejected" means reversed: LIVE → EVIL.
+    
+    Actually, let me try: L (line) + I (setter's) + VE... No.
+    
+    Simpler approach: LIVE reversed = EVIL. So "Line the setter's" must give LIVE, then "rejected" reverses it to EVIL.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GRASP  20A. Hold good tool
+  Answer: GRASP
+  Tier: Sonnet | Confidence: 69/100
+  Definition: "Hold"
+  Wordplay type: charade
+  Components:
+    abbreviation       good                      -> G
+    synonym            tool                      -> RASP
+  Assembly: charade — G(abbr. "good") + RASP(synonym of "tool")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      hold: syn=GRASP*,A,DO,A A,AIM,ARM,CAN,EYE,FIT,NOT,OWN,SET,ANON,ARMS,BEAR; sounds=holed
+      good: syn=OK,ON,SO,ACE,ALL,APT,BIG,FIT,LOW,OUT,PET,SAD,USE,ABLE,ABLY; abbr=G*,PI
+      tool: syn=GUN,HOE,MUG,PUT,SAP,SAY,ADZE,ALSO,DUPE,FORT,GULL,PAWN,THIS,WALL,WARD
+    Definitions:
+      "Hold" -> GRASP (definition match)
+  AI Reasoning:
+    Looking at this clue, I need to check if it's a double definition since "hold" is confirmed as a synonym for GRASP.
+    
+    Definition 1: "Hold" = GRASP (confirmed synonym)
+    Definition 2: "good tool" - this doesn't work as GRASP isn't a tool.
+    
+    Let me try wordplay instead:
+    Definition: "Hold" = GRASP (confirmed synonym)
+    Wordplay: charade. "good" = G (confirmed abbreviation) + "tool" = RASP (a filing tool). G + RASP = GRASP.
+    
+    The wordplay works: G (good) + RASP (tool) = GRASP (hold).
+  ----------------------------------------------------------------------
+
+  [HIGH] GAZELLE  20D. Look around English lake initially locating graceful creature
+  Answer: GAZELLE
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "graceful creature"
+  Wordplay type: charade
+  Components:
+    synonym            Look                      -> GAZE
+    abbreviation       English                   -> E
+    abbreviation       lake                      -> L
+    first_letter       locating                  -> L
+  Assembly: charade — GAZE(synonym of "Look") + L(abbr. "lake") + L(abbr. "lake") + E(abbr. "English")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      look: syn=GAZE*,DO,GO,MY,A A,ACT,AIR,EYE,FEE,ITS,SEE,SPY,USE,VIP,WAY; abbr=LO
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      english: syn=ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT,DANDY; abbr=E*
+      lake: syn=SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL,BASIN,HURON,LOUGH,OXBOW,STANK,TAHOE; abbr=L*,LA
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      locating: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING
+      graceful: syn=FINE,AGILE,ATTIC,LIGHT,LISSOM,SUPPLE,SVELTE,ELEGANT,GENTEEL,STYLISH
+      creature: syn=ASS,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,NUN,OWL,PIG,SON,BABY,BEAU
+    Definitions:
+      "graceful creature" -> GAZELLE (definition match)
+  AI Reasoning:
+    Definition: "graceful creature" (a gazelle is a graceful creature).
+    
+    Wordplay: charade.
+    - "Look" = GAZE (confirmed synonym)
+    - "English" = E (confirmed abbreviation)
+    - "lake" = L (confirmed abbreviation)
+    - "initially" signals taking the first letter of "locating" = L
+    
+    GAZE + L + L + E = GAZELLE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OUTPLAY  22A. Defeat in unpopular drama
+  Answer: OUTPLAY
+  Tier: Sonnet | Confidence: 69/100
+  Definition: "Defeat"
+  Wordplay type: charade
+  Components:
+    synonym            unpopular                 -> OUT
+    synonym            drama                     -> PLAY
+  Assembly: charade — OUT(synonym of "unpopular") + PLAY(synonym of "drama")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      defeat: syn=OUTPLAY*,A,GET,WIN,BEAT,BEST,EDGE,FELL,LICK,LOSS,ROUT,SEAT,STOP,TAKE,TANK; abbr=DE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      unpopular: syn=HATED
+      drama: syn=PLAY*,NOH,SHOW,OPERA,STAGE,CRISIS,CRISIS?,DISPLAY,MACBETH,TENSION,THEATRE
+    Definitions:
+      "Defeat" -> OUTPLAY (definition match)
+  AI Reasoning:
+    Definition: "Defeat" (OUTPLAY is a synonym for defeat).
+    Wordplay: container. "in" is the container indicator. "unpopular" = OUT (synonym). "drama" = PLAY (confirmed lookup). OUT contains PLAY? No, that would be OPLAYUT.
+    
+    Rethinking: Actually, this appears to be a charade. "unpopular" = OUT, "drama" = PLAY. OUT + PLAY = OUTPLAY, which matches the definition "defeat."
+    
+    The "in" indicators were red herrings - this is simply OUT + PLAY = OUTPLAY.
+  ----------------------------------------------------------------------
+
+  [LOW] THEREAT  23A. At that point England's capital is overwhelmed by menace
+  Answer: THEREAT
+  Tier: Sonnet | Confidence: 39/100
+  Definition: "At that point"
+  Wordplay type: charade
+  Components:
+    synonym            that point                -> THERE
+    synonym            is                        -> AT
+  Assembly: charade — THERE(synonym of "that point") + AT(synonym of "is")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      at: syn=EAT*,IN,BED,EAR,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      that: syn=EAT*,AS,GO,SO,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH*,YON
+      point: syn=PT,AIM,ARM,CUT,DOT,END,ITS,NET,NIB,NUB,PEG,PIP,SET,SUM,TIP; abbr=E*,N,NE,NW,PT,S,SE,SW,W
+      england's: syn=OF A,STATE,OF THE,BLIGHTY,COUNTRY; abbr=E*
+      capital: syn=THE*,A1,MY,OK,BIG,EYE,FAB,HOT,HUB,KEY,TOO,TOP,A-OK,ARCH,AXIS; abbr=BERLIN,EDINBURGH,LONDON,MADRID,PARIS,ROME; ind=acrostic,parts; sounds=capitol
+      is: syn=TREAT*,DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME
+      overwhelmed: syn=ACED,AWED,AMAZED,BEMUSED,DELUGED,DROWNED,OVERRAN,PUZZLED,STUNNED
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      menace: syn=THREAT*,ARM,BOX,TEN,HANG,RISK,BULLY,PERIL,TOUGH,DANGER,DANGER!,TROUBLE; ind=anagram?
+      at that point: syn=THERE*
+    Definitions:
+      "At that point" -> THEREAT (definition match)
+  AI Reasoning:
+    Definition: "At that point" (THEREAT means at that point/place).
+    
+    Wordplay: container. "is overwhelmed by menace" indicates that IS goes inside MENACE.
+    - "is" = IS (literal)
+    - "menace" = THREAT (synonym)
+    - IS inside THREAT = TH(IS)REAT = THREAT with IS inserted = THEREAT
+    
+    Wait, that doesn't work. Let me reconsider using the known lookups:
+    
+    "At that point" = THERE (from known lookup)
+    "England's capital" = E (first letter of England)
+    "is" = AT (from the indicator words showing "is" can mean AT)
+    
+    THERE + AT = THEREAT
+    
+    The wordplay is: THERE (at that point) + AT (is) = THEREAT.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MEND  24A. Fix chess pieces close to board
+  Answer: MEND
+  Tier: Sonnet | Confidence: 69/100
+  Definition: "Fix"
+  Wordplay type: charade
+  Components:
+    synonym            chess pieces              -> MEN
+    last_letter        board                     -> D
+  Assembly: charade — MEN(synonym of "chess pieces") + D(last letter of "board")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      fix: syn=END*,MEND*,22,OK,BED,BOX,FIT,JAM,LAY,OPT,PIN,PUT,RIG,SET,TIE; abbr=RIG; ind=anagram?
+      chess: syn=GAME
+      pieces: syn=MEN*,END*,BITS,PART,22,DO,A A,ARM,BAR,BIT,CUT,GAT,GUN,JOB,ROD; ind=anagram,hidden; sounds=peace
+      close: syn=ME*,END*,BY,GO,IN,OK,ARC,BOW,CAN,DAM,DIE,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      board: syn=BE,DO,ARC,BET,BOW,FIT,FRY,GET,HAP,LAG,LAY,LIE,RUN,SAG,TEA; ind=container?; sounds=bored
+      chess pieces: syn=DO,MAN,BIRD,DUPE,GULL,HOCK,KING,PAWN,ROOK,SCAM
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT
+    Definitions:
+      "Fix" -> MEND (definition match)
+  AI Reasoning:
+    Definition: "Fix" (to mend is to fix).
+    Wordplay: parts. "close to board" = take letters close to (near) the word "board" = M and D (first and last letters of "board"). But that gives MD, not MEND.
+    
+    Let me reconsider: "chess pieces" could contribute letters. Chess pieces include MEN (plural of man, informal for chess pieces). "close to" as parts indicator means take letters from "board" - the close/near letters are B and D. But MEN + BD doesn't work.
+    
+    Actually: "chess pieces" = MEN (informal term for chess pieces). "close to board" using "close to" as parts indicator = END (the end part of "board"). MEN + D = MEND.
+    
+    Wait, let me be more precise: MEN (chess pieces) + D (close to/end of "board") = MEND.
+  ----------------------------------------------------------------------
+
+  [HIGH] LUDO  25D. Leaders of Leeds United despairing over game
+  Answer: LUDO
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "game"
+  Wordplay type: acrostic
+  Components:
+    first_letter       Leeds                     -> L
+    first_letter       United                    -> U
+    first_letter       despairing                -> D
+    first_letter       over                      -> O
+  Assembly: charade — L(first letter of "Leeds") + U(first letter of "United") + D(first letter of "despairing") + O(first letter of "over")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      leaders: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH; ind=acrostic,deletion,parts
+      leeds: syn=CITY
+      united: syn=ONE,ALLY,CLUB,FUSE,JOIN,NEAR,NIGH,TEAM; abbr=U*
+      despairing: syn=LOW,SAD,BLUE,DARK,DOWN,GLUM,GOOD,SURE,WARM
+      over: syn=BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON,UP; ind=anagram,reversal
+      game: syn=LUDO*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA; abbr=GO,RU; ind=anagram
+    Definitions:
+      "game" -> LUDO (definition match)
+  AI Reasoning:
+    Definition: "game" (LUDO is a board game).
+    
+    Wordplay: acrostic. "Leaders of" is the acrostic indicator, telling us to take the first letters of the following words:
+    - **L**eeds = L
+    - **U**nited = U
+    - **D**espairing = D
+    - **O**ver = O
+    
+    L + U + D + O = LUDO.
+  ----------------------------------------------------------------------
+
+  [HIGH] SIGN  26D. Mark swinging regularly
+  Answer: SIGN
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Mark"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      mark: syn=SIGN*,SIN*,ADD,AIM,BAR,DOT,END,GAG,MAR,PUT,RAP,RIB,SET,YUK,AIMS; abbr=M
+      swinging: ind=anagram?
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH; ind=parts
+    Definitions:
+      "Mark" -> SIGN (definition match)
+  AI Reasoning:
+    Definition: "Mark" (SIGN is a synonym for mark).
+    Wordplay: This appears to be a double definition. Both "Mark" and "sign" are synonyms meaning the same thing - a mark or symbol.
+    
+    The indicator words "swinging" and "regularly" don't produce workable wordplay here, so this clue relies on the double definition of mark = sign.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CUTE  27D. Clever and sweetly pleasing
+  Answer: CUTE
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Clever and sweetly pleasing"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      clever: syn=CUTE*,BIG,ABLE,BOLD,DEFT,FAST,GONE,KEEN; ind=anagram?
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      sweetly: syn=OK,ALL,OUT,ABLY,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD,WIDE
+      pleasing: syn=CUTE*,FAB,PET,A-OK,BEST,BOSS,BRAG,COOL,DEAR,DOPE,DOWN,FOND,GONE,GOOD,HOLY
+      clever and: syn=ARCH
+    Definitions:
+      "Clever" -> CUTE (definition match)
+      "pleasing" -> CUTE (definition match)
+  AI Reasoning:
+    Looking at this clue, I need to check if there's wordplay or if this is a double definition.
+    
+    Given that "clever" is flagged as an anagram indicator, I would expect it to signal an anagram of other words in the clue. However, the only other word is "pleasing" which has 8 letters, and the answer CUTE has 4 letters - so "pleasing" cannot be anagram fodder.
+    
+    Since the known lookup confirms "pleasing → CUTE" as a synonym, and there's no viable anagram wordplay, this appears to be a **double definition**:
+    
+    Definition 1: "Clever" (CUTE can mean clever/shrewd)
+    Definition 2: "sweetly pleasing" (CUTE means attractive/pleasing)
+    
+    The word "and" simply connects the two definitions. Both "clever" and "sweetly pleasing" define CUTE with no wordplay involved.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ILLUSTRIOUS  28A. Noble, ailing American twice welcomes band
+  Answer: ILLUSTRIOUS
+  Tier: Sonnet | Confidence: 59/100
+  Definition: "Noble"
+  Wordplay type: container
+  Components:
+    synonym            ailing                    -> ILL
+    abbreviation       American twice            -> USUS
+    synonym            band                      -> TRIO
+  Assembly: container — ILL(synonym of "ailing") + TRIO(synonym of "band") inside USUS(abbr. "American twice")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      noble: syn=ILLUSTRIOUS*,A1,OK,BIG,FAB,HOT,POP,THE,TOO,TOP,A-OK,ARCH,BLUE,BOSS,BRAG
+      ailing: syn=ILL*,BAD,NOT,RUN,DOWN,LUCK,PUNK,SICK,UNDO,ALARM,UNDER,UPSET,WORRY,BOTHER,INFIRM
+      american: syn=US*,GUMS,INCA,ROTH,YANK,CARIB,IOWAN,INDIAN,KANSAN,NATIVE,YANKEE,ALASKAN,IDAHOAN,PERHAPS,ANGELENO; abbr=A,US*
+      twice: syn=BIS,DOUBLE
+      welcomes: syn=GIVES,GREETS,ACCLAIMS,EMBRACES,A,HI,AVE,EAT,FAB,PET,A-OK,BEST,BOSS,BRAG,COOL; abbr=HI; ind=container?
+      band: syn=MY,BAR,EYE,LOT,RIB,SET,TIE,BANK,BELT,BIND,BLUR,BODY,BOND,BROS,CORD; abbr=B; sounds=banned
+  AI Reasoning:
+    Definition: "Noble" (illustrious means noble/distinguished).
+    
+    Wordplay: container. "welcomes" is the container indicator.
+    - "ailing" = ILL (confirmed lookup)
+    - "American twice" = US + US = USUS (US repeated twice)
+    - "band" = TRIO (synonym for a group/band)
+    
+    Container structure: ILL + USUS around TRIO = ILL + US + TRIO + US = ILLUSTRIOUS.
+  ----------------------------------------------------------------------
+
+  [LOW] NONE  29A. No amount of touching in north-east
+  Answer: NONE
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "No amount of touching in north-east"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (6 hedges)
+  DB Lookups:
+    DB lookups:
+      no: syn=NONE*,AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB; ind=deletion; sounds=know
+      amount: syn=SUM,MANY,SIZE
+      touching: syn=ON*,AS,RE,NEAR,NIGH,VIEW,WITH
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      north: syn=POLE; abbr=N*; ind=reversal
+      east: abbr=E*; ind=reversal
+  AI Reasoning:
+    Definition: "No amount" (none means no amount).
+    Wordplay: deletion. "touching" = TONE (synonym for touching/affecting). "no" is the deletion indicator. Remove O (letter "o" from "no") from TONE = TNE. This doesn't work.
+    
+    Let me reconsider: "north-east" = NE (compass abbreviation). "touching" could be ON (as in "touching/adjacent"). "No" as deletion indicator: remove O from "touching" word. But need to find what gives NONE.
+    
+    Actually: "touching" = ONE (as in "touching/moving"). "No" deletion removes O from ONE = NE. Then add NE (north-east) = NE + NE? No.
+    
+    Rethinking: "touching" = TONE, "no" deletes N, leaving TOE + NE = doesn't work.
+    
+    Let me try: "touching" contains letters, "no" deletes something, result + NE = NONE.
+    "touching" = TONE, delete O (from "no"), get TNE, doesn't work with NE.
+    
+    Actually: NONE itself. "No" deletes O from "ONE" (touching/affecting), giving NE, then add NE (north-east) = NENE? No.
+    
+    Simpler: "touching" = ONE, "no" = N deletion, ONE - N = OE, + NE = OENE? No.
+    
+    Let me try: ONE (touching) + N (north) + E (east) = ONENE? Remove something?
+    
+    Actually: "touching" = NONE already contains the answer. This might be a hidden word where NONE is hidden in "north-east" but that doesn't work either.
+    
+    Final attempt: N (north) + ONE (touching) = NONE, where E (east) is already included? No, that's NONE.
+    
+    The answer is: N (north) + O (from "no amount") + N (north again?) + E (east) = NONE. But this seems forced.
+    
+    Most likely: This is a cryptic definition where "No amount of touching in north-east" cryptically defines NONE.
+  ----------------------------------------------------------------------
+
+  [HIGH] RECOMMENDED  30A. Endorsed mermen doc Ed shot
+  Answer: RECOMMENDED
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Endorsed"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     mermen doc Ed             -> MERMENDOCED
+  Assembly: anagram — anagram of MERMENDOCED(mermen doc Ed)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'mermen_doc_ed'_mechanic=+3 | indicator_'shot'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DOTE  5D. Show affection towards female creature taking time
+  Answer: DOTE
+  Tier: Sonnet | Confidence: 64/100
+  Definition: "Show affection towards"
+  Wordplay type: container
+  Components:
+    synonym            female creature           -> DOE
+    abbreviation       time                      -> T
+  Assembly: container — T(abbr. "time") inside DOE(synonym of "female creature")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      show: syn=AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME,EXPO; abbr=S
+      affection: syn=BUG,ILL,JIG,REP,BENT,BIAS,BONE,FAME,LOON,LOVE,NOTE,ODOR,PLAY,PLOY,QUIZ
+      towards: syn=AS,OF,ON,EAR,HUB,USE,BASE,CAST,CORE,FACE,HEED,LIKE,LOOK,MIND,PEEK; abbr=AT
+      female: syn=DOE*,DI,EWE,GAL,HEN,SEX,SHE,UNA,ALMA,AUNT,DAME,DOPE,EMMA,ENID,GILL; abbr=F,FE,SHE
+      creature: syn=ASS,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,NUN,OWL,PIG,SON,BABY,BEAU
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE; ind=container
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      show affection: syn=HUG,HOLD
+  AI Reasoning:
+    Definition: "Show affection towards" (to dote means to show affection).
+    
+    Wordplay: container. "taking" is the container indicator. "female" = DOE (known lookup), "time" = T (standard abbreviation). DOE contains T to give DOTE.
+    
+    Wait, let me reconsider the indicators. "time" is flagged as an anagram indicator, but there's nothing to anagram. Let me try: "taking" as container indicator makes more sense. DOE (female creature) taking/containing T (time) = DOTE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SNOOKER  6D. Trap in small recess set by former monarch
+  Answer: SNOOKER
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Trap"
+  Wordplay type: charade
+  Components:
+    abbreviation       small                     -> S
+    synonym            recess                    -> NOOK
+    abbreviation       former monarch            -> ER
+  Assembly: charade — S(abbr. "small") + NOOK(synonym of "recess") + ER(abbr. "former monarch")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      trap: syn=BAG,CAB,COP,DIG,GET,GIG,GIN,GOB,GUN,JAR,MUG,NAB,NET,PEN,RAP; abbr=GIN
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      small: syn=ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY,PUNY; abbr=S*
+      recess: syn=NOOK*,DEN,GAP,PIT,STY,APSE,BIND,DENT,DINT,DUMP,GULF,HOLE,HOLS,MIRE,RENT
+      set: syn=OK*,GO,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      former: syn=EX,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX,OLD
+      monarch: syn=ER*,REX,SAY,ANNE,CZAR,KING,LION,LORD,MAIN,TSAR,BARON,MOGUL,RULER,PRINCE,TYCOON; abbr=ER*
+  AI Reasoning:
+    Definition: "Trap" (to snooker someone is to trap them).
+    
+    Wordplay: container. "in" is the container indicator.
+    - "small" = S (abbreviation)
+    - "recess" = NOOK (synonym from known lookups)
+    - "former monarch" = ER (abbreviation from known lookups)
+    
+    S + NOOK + ER = SNOOKER, with the container structure being NOOK containing something, but actually it's a charade: S + NOOK + ER = SNOOKER.
+  ----------------------------------------------------------------------
+
+  [HIGH] level-headed  7D. Stage manager and journalist showing common sense
+  Answer: level-headed
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "common sense"
+  Wordplay type: charade
+  Components:
+    synonym            Stage                     -> LEVEL
+    synonym            Stage                     -> HEAD
+    abbreviation       journalist                -> ED
+  Assembly: charade — LEVEL(synonym of "Stage") + HEAD(synonym of "Stage") + ED(abbr. "journalist")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      stage: syn=HEAD*,LEVEL*,AIM,CAB,CUT,FIX,GEL,GIG,LAP,LAY,LEG,PEG,PUT,RIG,SIT
+      manager: syn=HEAD*,BOSS,COPER,RULER,GAFFER,GENERAL,ARRANGER,DIRECTOR,EMPLOYER,HOTELIER,OFFICIAL,EXECUTIVE,ORGANISER,SUPERVISOR; ind=anagram?
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      journalist: syn=ED*,HACK,DOUCET,EDITOR,MORGAN,NEWSMAN,REPORTER,ANCHORMAN,ANCHOR MAN,NEWS EDITOR; abbr=ED*
+      showing: syn=OVERT,RERUN,VISIBLE,CONTEMPT,EXPOSURE,MEEKNESS,DEPICTING; ind=hidden
+      common: syn=HEAD*,DO,OR,SO,ACT,BAD,BUM,CUT,DIG,GET,GOB,HIT,LOW,NOT,PUT
+      sense: syn=GO,COP,DIG,EAR,EYE,FAD,FOX,GAB,GAS,GET,ICE,JAW,NAB,NET,RAP; sounds=cents,scents
+      common sense: syn=WIT,LINE,NOUS,ATONE,DEPTH,NERVE,SENSE,ACUMEN,AT ONE,BRAINS
+  AI Reasoning:
+    Definition: "common sense" (level-headed means having common sense).
+    Wordplay: charade. "Stage" = LEVEL (synonym from known lookups). "manager" is an anagram indicator, but since we have known lookups, let's try the charade approach first. "journalist" = ED (abbreviation from known lookups). But LEVEL + ED = LEVELED (7 letters), not 11.
+    
+    Let me reconsider: "Stage" = LEVEL, and we also have "stage" = HEAD from lookups. So we could have LEVEL + HEAD + ED = LEVELHEADED (11 letters). This works as a charade: LEVEL (stage) + HEAD (stage, second meaning) + ED (journalist) = LEVELHEADED.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] POMEGRANATE  8D. Petty officer, setter and nan consumed fruit
+  Answer: POMEGRANATE
+  Tier: Sonnet | Confidence: 61/100
+  Definition: "fruit"
+  Wordplay type: charade
+  Components:
+    abbreviation       Petty officer             -> PO
+    synonym            setter                    -> ME
+    synonym            nan                       -> GRAN
+    synonym            consumed                  -> ATE
+  Assembly: charade — PO(abbr. "Petty officer") + ME(synonym of "setter") + GRAN(synonym of "nan") + ATE(synonym of "consumed")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      petty: syn=TWO,LESS,LEAST,MINOR,SMALL,LITTLE,MINUTE,ACCOUNT,TRIVIAL,NIGGLING,TRIFLING; abbr=P*
+      officer: syn=CO,LT,COL,COP,SEA,BULL,FUZZ,BOBBY,MAJOR,SARGE,COPPER,LAWMAN,POLICE,PUBLIC,PURSER; abbr=CO,O*
+      setter: syn=ME*,BOW,DOG,GEL,GAFF,KITE,CANINE,IN SUN,PECTIN,DOG ONE,GELATIN,HAIRGEL,IT'S ME,AGARAGAR,A PROBLEM; abbr=DOG,I,ME*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      nan: syn=FLATBREAD
+      consumed: syn=ATE*,DRY,ARID,BONY,DEAD,GONE,POOR,SERE,USED,BAKED,BLEAK,EATEN,SPENT,STARK,WASTE; ind=container
+      fruit: syn=POMEGRANATE*,FIG,GET,HAW,HIP,NUT,ACAI,AKEE,DATE,FATE,KIWI,LIME,PEAR,PLUM,SEED
+      petty officer: syn=NAVAL MAN?
+    Definitions:
+      "fruit" -> POMEGRANATE (definition match)
+  AI Reasoning:
+    Definition: "fruit" (pomegranate is a fruit).
+    Wordplay: container. "consumed" is the container indicator.
+    - "Petty officer" = PO (P = petty, O = officer)
+    - "setter" = ME (the crossword setter)
+    - "and" = AN (abbreviation)
+    - "nan" = GRAN (informal for grandmother)
+    - Container structure: PO + ME + GRAN + ATE, where "nan consumed" means GRAN contains something, but actually it's the reverse - the other elements go around/consume nan.
+    
+    Actually, rereading: POMEGRANATE = PO (petty officer) + ME (setter) + GRAN (nan) + ATE, where "consumed" indicates GRAN is contained within the other elements.
+    
+    Let me reconsider: PO + ME + GRAN + ATE = POMEGRANATE, where the container indicator "consumed" shows how these elements combine.
+  ----------------------------------------------------------------------
+
+  [HIGH] HERO  9A. Main character is that woman with nothing
+  Answer: HERO
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Main"
+  Wordplay type: charade
+  Components:
+    synonym            that woman                -> HER
+    abbreviation       nothing                   -> O
+  Assembly: charade — HER(synonym of "that woman") + O(abbr. "nothing")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      main: syn=BIG,GOD,KEY,PAL,SEA,VIP,ALLY,ARCH,BEEF,BODY,BULK,CHUM,CORE,CZAR,GODS; sounds=mane,maine
+      character: syn=AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      woman: syn=HER*,DI,ADA,ANN,ENA,EVA,EVE,IDA,MRS,SHE,SUE,VAL,ANNA,ANNE,AUNT; abbr=HER*,SHE,SUE,W
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      nothing: syn=O,NO,OF,OH,ON,NIL,NIX,PUT,TWO,ZIP,DODO,DOLT,DOPE,DORK,GOOF; abbr=NIL,O*
+      that woman: syn=HER*,SHE
+  AI Reasoning:
+    Definition: "Main" (a hero is a main character/protagonist).
+    Wordplay: charade. "that woman" = HER (synonym), "nothing" = O (abbreviation for zero). HER + O = HERO.
+    
+    The indicator "character" signals this is an acrostic mechanism, but the actual wordplay works as a simple charade of HER + O.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -110,8 +110,10 @@ def _search_wp_api(puzzle_number, cat_id):
             link = post.get('link', '')
             # Check if puzzle number appears in title or slug
             # Title may have commas: "No 29,958" → check both with and without
+            # Must be word-boundary match to avoid 1647 matching 11647
             title_clean = title.replace(',', '').replace('.', '')
-            if pnum_str in title_clean or pnum_str in slug:
+            pnum_pattern = re.compile(r'(?<!\d)' + re.escape(pnum_str) + r'(?!\d)')
+            if pnum_pattern.search(title_clean) or pnum_pattern.search(slug):
                 return link, title
 
         return None, None

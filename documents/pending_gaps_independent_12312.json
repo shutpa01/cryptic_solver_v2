@@ -1,0 +1,109 @@
+{
+  "source": "independent",
+  "puzzle": "12312",
+  "stats": {
+    "total": 33,
+    "assembled": 32,
+    "high": 29,
+    "medium": 2,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 92.75
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cards",
+      "letters": "HEART",
+      "answer": "HEARTS",
+      "clue_number": "21",
+      "direction": null,
+      "clue": "Some cards for football team",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Case of archetypal",
+      "letters": "MEAL",
+      "answer": "MEALTICKET",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Case of archetypal sucker stopping to pay for financial security",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "sucker stopping to pay for",
+      "letters": "TICKET",
+      "answer": "MEALTICKET",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Case of archetypal sucker stopping to pay for financial security",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "one's",
+      "letters": "IS",
+      "answer": "AGENESIS",
+      "clue_number": "26",
+      "direction": null,
+      "clue": "Most of country upset over one's failure to develop",
+      "score": 33
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Goes to bed",
+      "answer": "RETIRES",
+      "clue_number": "13",
+      "direction": null,
+      "clue": "Goes to bed in garret I reserved",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "football team",
+      "answer": "HEARTS",
+      "clue_number": "21",
+      "direction": null,
+      "clue": "Some cards for football team",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "reliable",
+      "answer": "SAFE",
+      "clue_number": "29",
+      "direction": null,
+      "clue": "South American iron is reliable",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "financial security",
+      "answer": "MEALTICKET",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Case of archetypal sucker stopping to pay for financial security",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "failure to develop",
+      "answer": "AGENESIS",
+      "clue_number": "26",
+      "direction": null,
+      "clue": "Most of country upset over one's failure to develop",
+      "score": 33
+    }
+  ]
+}

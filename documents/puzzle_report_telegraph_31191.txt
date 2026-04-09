@@ -1,0 +1,829 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31191
+Generated: 2026-03-19 14:39:51
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        27/32 (84%)
+    Signature:      3
+    Sig+Enriched:   5
+    Sonnet:         18
+    DB Fallback:    1
+  Failed:           5
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   13  29A, 7D, 9D, 1D, 12A, 2D, 20D, 24D, 27A, 28A, 30A, 4D, 8D
+  Medium (40-79): 10  1A, 11A, 13A, 14A, 15D, 18D, 21A, 22D, 3D, 6A
+  Low (<40):    4  10A, 19A, 23D, 26D
+  Failed:       5  16A, 17D, 24A, 25A, 5D
+  Average:      68/100
+
+COST: $1.5988 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (37 entries)
+------------------------------------------------------------
+  NOTE: "Minute" -> NOTE  (missing from definition_answers_augmented)
+  ELIMINATE: "put out" -> ELIMINATE  (missing from definition_answers_augmented)
+  POSTER: "Bill" -> POSTER  (missing from definition_answers_augmented)
+  going-over: "Close inspection" -> going-over  (missing from definition_answers_augmented)
+  Latvian: "EU citizen" -> Latvian  (missing from definition_answers_augmented)
+  REARS: "Brings up" -> REARS  (missing from definition_answers_augmented)
+  SUPERSEDE: "Replace" -> SUPERSEDE  (missing from definition_answers_augmented)
+  DISPIRIT: "Damp" -> DISPIRIT  (missing from definition_answers_augmented)
+  RANCH: "spread for Americans" -> RANCH  (missing from definition_answers_augmented)
+  RULER: "Sovereign," -> RULER  (missing from definition_answers_augmented)
+  hoo-has: "Expression of surprise" -> hoo-has  (missing from definition_answers_augmented)
+  pick-me-up: "Stimulating drink, order for one's chauffeur perhaps?" -> pick-me-up  (missing from definition_answers_augmented)
+  KNOCKER: "One criticising feature of front door" -> KNOCKER  (missing from definition_answers_augmented)
+  TWOSOME: "couple" -> TWOSOME  (missing from definition_answers_augmented)
+  PROSPER: "Succeed" -> PROSPER  (missing from definition_answers_augmented)
+  old master: "great artist" -> old master  (missing from definition_answers_augmented)
+  KRONE: "Norwegian bread" -> KRONE  (missing from definition_answers_augmented)
+  water vole: "Little beast," -> water vole  (missing from definition_answers_augmented)
+  LIGHTEST: "Most delicate" -> LIGHTEST  (missing from definition_answers_augmented)
+  IDEALS: "morals" -> IDEALS  (missing from definition_answers_augmented)
+  WELL: "Quite possibly fortunate" -> WELL  (missing from definition_answers_augmented)
+  GARIBALDI: supermarket -> ALDI  (missing from synonyms_pairs)
+  going-over: track's condition -> GOING  (missing from synonyms_pairs)
+  IDLER: credit -> D  (missing from abbreviations)
+  IDLER: nursing student's -> L  (missing from abbreviations)
+  Gregorian: George endlessly -> GREGOR  (missing from synonyms_pairs)
+  VOCALIST: very old -> VO  (missing from abbreviations)
+  CONCORDAT: plane -> CONCORD  (missing from synonyms_pairs)
+  SUPERSEDE: exceptionally good -> SUPER  (missing from synonyms_pairs)
+  SUPERSEDE: highly ranked player -> SEED  (missing from synonyms_pairs)
+  RANCH: African -> AN  (missing from abbreviations)
+  RANCH: party -> C  (missing from abbreviations)
+  RULER: accepted standard -> RULE  (missing from synonyms_pairs)
+  hoo-has: previously -> OO  (missing from abbreviations)
+  hoo-has: fusses -> HAS  (missing from abbreviations)
+  PHOTO: Italian banker -> PO  (missing from abbreviations)
+  BARBELL: Delivery problem -> BAR  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  GARIBALDI = 1 (52/100): AI=charade, assembled=container
+  Gregorian = 11 (50/100): AI=anagram, assembled=charade
+  DISPIRIT = 18 (68/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  PHOTO = 26 (20/100): no pieces verified in DB
+  BARBELL = 3 (40/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  16. Brings up sum remaining unpaid a Republican ignored = REARS
+  17. Replace exceptionally good, highly ranked player, it's said = SUPERSEDE
+  24. Overheard extremely remarkable couple = TWOSOME
+  25. Succeed with role in The Tempest? Not entirely = PROSPER
+  5. Confession of drug pusher, originally sacrificing morals = IDEALS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  3/32  12A, 8D, 23D
+  Type mismatch:         3  11A, 1D, 18D
+  Unverified explain.:   2  3D, 26D
+  DB gap:                27  6A, 10A, 11A, 13A, 14A, 16A, 19A, 21A, 25A, 27A, 28A, 29A, 30A, 1D, 2D, 3D, 4D, 5D, 7D, 9D, 15D, 17D, 18D, 20D, 22D, 24D, 26D
+  Failed:                5  16A, 25A, 5D, 17D, 24D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   29A  NOTE          Minute mark (4)
+                      NOTE (synonym of "mark"); definition: "Minute"  [HIGH]
+    7D  ELIMINATE     Bird tucks into cream put out (9)
+                      MINA (synonym of "Bird") + ELITE (synonym of "cream") [container: "tucks"]; definition: "put out"  [HIGH]
+    9D  POSTER        Bill regrets opportunities, to an extent, after retiring (6)
+                      hidden reversed in "regrets opportunities," [reversal: "to"]; definition: "Bill"  [HIGH]
+    1A  GARIBALDI     Boast about inspiring current supermarket biscuit (9)
+                      I(abbr. "current") inside GARB(BRAG reversed, "Boast") + ALDI(abbr. "supermarket")  [MED]
+    1D  going-over    Close inspection of track's condition at an end (5-4)
+                      GOING (synonym of "track's condition") + COVER (synonym of "an") [deletion: "end"]; definition: "Close inspection"  [HIGH]
+   10A  IDLER         Barely credit flipping nursing student's a lazybones (5)
+                      I(first letter of "barely") + D(synonym of "credit") + L(abbr. "nursing student's") + E(core of "barely") + R(core of "credit")  [LOW]
+   11A  Gregorian     Calendar George endlessly changes, organised around one (9)
+                      GREGOR(synonym of "George endlessly") + I(abbr. "one") + AN(changes)  [MED]
+   12A  GARMENT       Soldiers tense after scrap retreating for cover (7)
+                      GAR(RAG reversed, "scrap") + MEN(synonym of "Soldiers") + T(abbr. "tense")  [HIGH]
+   13A  Latvian       EU citizen almost delayed through congestion ultimately (7)
+                      LAT(LATE minus E, "delayed") + VIA(synonym of "through") + N(last letter of "congestion")  [MED]
+   14A  VOCALIST      Singer about to plug very old record (8)
+                      VO(abbr. "very old") + CA(abbr. "about") + LIST(synonym of "record")  [MED]
+   15D  CONCORDAT     Agreement to use empty airport as plane's new base (9)
+                      CONCORD(synonym of "plane") + AT(deletion from "airport")  [MED]
+   16A  REARS         Brings up sum remaining unpaid a Republican ignored (5)
+                      ---  [FAIL]
+   17D  SUPERSEDE     Replace exceptionally good, highly ranked player, it's said (9)
+                      ---  [FAIL]
+   18D  DISPIRIT      Damp climbing tour across Italy daughter is leading (8)
+                      D(abbr. "daughter") + I(is) + I(is) inside SPIRT(TRIPS reversed, "tour")  [MED]
+   19A  RANCH         Runs hotel hosting African party, spread for Americans (5)
+                      R(abbr. "Runs") + AN(abbr. "African") + C(abbr. "party") + H(abbr. "hotel")  [LOW]
+    2D  RULER         Sovereign, king that's below accepted standard (5)
+                      RULE (synonym of "accepted standard") + R (synonym of "king"); definition: "Sovereign,"  [HIGH]
+   20D  hoo-has       Expression of surprise when husband previously fusses (3-3)
+                      H (synonym of "husband") + OO (synonym of "previously") + HAS (synonym of "fusses"); definition: "Expression of surprise"  [HIGH]
+   21A  pick-me-up    Stimulating drink, order for one's chauffeur perhaps? (4-2-2)
+                      double definition  [MED]
+   22D  KNOCKER       One criticising feature of front door? (7)
+                      double definition  [MED]
+   23D  BESTOW        Confer over Warwickshire's opener following defeat (6)
+                      BEST(synonym of "defeat") + O(synonym of "over") + W(first letter of "Warwickshire's opener")  [LOW]
+   24A  TWOSOME       Overheard extremely remarkable couple (7)
+                      ---  [FAIL]
+   24D  THORN         Spike needs time on musical instrument (5)
+                      T(abbr. "time") + HORN(synonym of "musical instrument")  [HIGH]
+   25A  PROSPER       Succeed with role in The Tempest? Not entirely (7)
+                      ---  [FAIL]
+   26D  PHOTO         Italian banker fences recently stolen picture (5)
+                      HOT(synonym of "recently stolen") inside PO(synonym of "Italian banker")  [LOW]
+   27A  old master    Performing Dream lots will see great artist (3,6)
+                      anagram of DREAM(Dream)+LOTS(lots) = old master  [HIGH]
+   28A  KRONE         Norwegian bread from Bergen or Kristiansand brought back (5)
+                      hidden reversed in "Bergen or Kristiansand" [reversal: "brought"]; definition: "Norwegian bread"  [HIGH]
+    3D  BARBELL       Delivery problem regularly blocks obtaining gym equipment (7)
+                      BAR(synonym of "Delivery problem") + BELL(hidden in "regularly blocks obtaining")  [MED]
+   30A  water vole    Little beast, love rat we condemned (5,4)
+                      anagram of LOVERATWE ("love rat we") [anagram: "condemned"] = WATERVOLE; definition: "Little beast,"  [HIGH]
+    4D  LIGHTEST      Most delicate fellows essentially get this flustered (8)
+                      anagram of L(core of "fellows")+GET(get)+THIS(this) = LIGHTEST  [HIGH]
+    5D  IDEALS        Confession of drug pusher, originally sacrificing morals (6)
+                      ---  [FAIL]
+    6A  WELL          Quite possibly fortunate (4)
+                      double definition  [MED]
+    8D  Lenin         Revolutionary from Left periodically being elected (5)
+                      delete E from LE(LET minus T, "left") + EN(alternate letters of "being") + IN(synonym of "elected") [periodically]  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] NOTE  29A. Minute mark
+  Answer: NOTE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Minute"
+  Wordplay: charade
+  Explanation: NOTE (synonym of "mark"); definition: "Minute"
+  ----------------------------------------------------------------------
+
+  [HIGH] ELIMINATE  7D. Bird tucks into cream put out
+  Answer: ELIMINATE
+  Tier: Signature | Confidence: 100/100
+  Definition: "put out"
+  Wordplay: charade + container
+  Explanation: MINA (synonym of "Bird") + ELITE (synonym of "cream") [container: "tucks"]; definition: "put out"
+  ----------------------------------------------------------------------
+
+  [HIGH] POSTER  9D. Bill regrets opportunities, to an extent, after retiring
+  Answer: POSTER
+  Tier: Signature | Confidence: 100/100
+  Definition: "Bill"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "regrets opportunities," [reversal: "to"]; definition: "Bill"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GARIBALDI  1A. Boast about inspiring current supermarket biscuit
+  Answer: GARIBALDI
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "biscuit"
+  Wordplay type: charade
+  Components:
+    reversal           Boast                     -> GARB
+    abbreviation       current                   -> I
+    abbreviation       supermarket               -> ALDI
+  Assembly: container — I(abbr. "current") inside GARB(BRAG reversed, "Boast") + ALDI(abbr. "supermarket")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      boast: syn=MY,HER,HIS,ITS,BABY,BEAR,BLOW,BORN,BRAG,BULL,CASE,COUP,CROW,HOLD,GLORY; ind=reversal?
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      inspiring: syn=HAIR,MIND,HEART,KICKY,CHARGED,ROUSING,GALVANIC,STIRRING,ENTHUSING,THRILLING,UPLIFTING
+      current: syn=I,AC,UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLUX,GLUT; abbr=I*; sounds=currant
+      supermarket: syn=COOP,STORE,MORRISONS
+      biscuit: syn=GARIBALDI*,SNAP,WAFER,COOKIES,OATCAKE,CRACKNEL,FLAPJACK,MACAROON,DIGESTIVE,GINGERNUT,SHORTCAKE
+    Definitions:
+      "biscuit" -> GARIBALDI (definition match)
+  AI Reasoning:
+    BRAG reversed gives GARB, which contains I (current) to make GARIB, then add ALDI (supermarket) for GARIBALDI
+  ----------------------------------------------------------------------
+
+  [HIGH] going-over  1D. Close inspection of track's condition at an end
+  Answer: going-over
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Close inspection"
+  Wordplay: charade + deletion
+  Explanation: GOING (synonym of "track's condition") + COVER (synonym of "an") [deletion: "end"]; definition: "Close inspection"
+  ----------------------------------------------------------------------
+
+  [LOW] IDLER  10A. Barely credit flipping nursing student's a lazybones
+  Answer: IDLER
+  Tier: Sonnet | Confidence: -22/100
+  Definition: "lazybones"
+  Wordplay type: charade
+  Components:
+    first_letter       barely                    -> I
+    synonym            credit                    -> D
+    abbreviation       nursing student's         -> L
+    core_letters       barely                    -> E
+    core_letters       credit                    -> R
+  Assembly: charade — I(first letter of "barely") + D(synonym of "credit") + L(abbr. "nursing student's") + E(core of "barely") + R(core of "credit")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/5 (20%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: D | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      barely: syn=JUST,SKIN
+      credit: syn=CR,IN,MY,BUY,HER,HIS,ITS,NOT,PUT,BABY,CITE,COUP,FETE,HAIL,HOPE; abbr=CR
+      flipping: syn=BATS; ind=reversal
+      nursing: ind=container
+      student's: syn=DAY,SWOT,CADET,IDEAL,PUPIL,TUTEE; abbr=L*
+      lazybones: syn=IDLER*
+    Definitions:
+      "lazybones" -> IDLER (definition match)
+  AI Reasoning:
+    Charade where 'barely' gives I and E, 'credit' gives D and R, and 'nursing student's' gives L for learner
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Gregorian  11A. Calendar George endlessly changes, organised around one
+  Answer: Gregorian
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Calendar"
+  Wordplay type: anagram
+  Components:
+    synonym            George endlessly          -> GREGOR
+    anagram_fodder     changes                   -> AN
+    abbreviation       one                       -> I
+  Assembly: charade — GREGOR(synonym of "George endlessly") + I(abbr. "one") + AN(changes)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      calendar: syn=BILL,CARD,TABLE,AGENDA,CREDIT,JULIAN,AGENDAS,ALMANAC,PROGRAM,SCHEDULE,PROGRAMME
+      george: syn=KING,PILOT,FELLOW,FORMBY,AUTOPILOT
+      endlessly: syn=OFT,ANEW,EVER,OVER,AGAIN,NEWLY,OFTEN,AFRESH,ALWAYS,DE NOVO,FOREVER,FRESHLY,EVERMORE; abbr=E*; ind=deletion,parts
+      changes: syn=ADAPTS,ALTERS,AMENDS,FLUXES,MUTATES,REVIEWS,REVISES,VAGARIES,REVISIONS,DO,HAY,CASH,CENT,COIN,COPE; abbr=C; ind=anagram
+      organised: syn=HELD,TIGHT,CURATED,MANAGED,PLANNED,ARRANGED,IN ORDER,PREPARED,ASSEMBLED; ind=anagram; fodder=ORGANISED(7/9 anagram match)
+      around: syn=OR*,BY,CA,IN,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      one: syn=AN*,I,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O*; sounds=won
+    Definitions:
+      "Calendar" -> Gregorian (definition match)
+  AI Reasoning:
+    Anagram of GREGOR (from George endlessly) + AN (from changes) + I (one) with 'organised' as anagram indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] GARMENT  12A. Soldiers tense after scrap retreating for cover
+  Answer: GARMENT
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "cover"
+  Wordplay type: charade
+  Components:
+    reversal           scrap                     -> GAR
+    synonym            Soldiers                  -> MEN
+    abbreviation       tense                     -> T
+  Assembly: charade — GAR(RAG reversed, "scrap") + MEN(synonym of "Soldiers") + T(abbr. "tense")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soldiers: syn=MEN*,OR,RE,GIS,UNIT,CORPS,PARAS,RANKS,TROOPS,ENEMIES,MARINES,PLATOON,RANGERS,AT,GI; abbr=GIS,MEN*,OR,RA,RE,ANT,GI,RM*
+      tense: syn=T,APE,FEY,MAD,ODD,OFF,WUD,AMOK,BATS,DAFT,EDGE,EDGY,FAST,FIRM,LOCO; abbr=T*,t*; sounds=tents
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      scrap: syn=ME*,DO,BIN,BIT,END,JOT,RAG,SET,ATOM,BABY,DEEP,DUST,FALL,FEUD,FIRE; ind=anagram?
+      retreating: ind=reversal
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      cover: syn=AN,GO,BED,BIN,BOX,CAN,CAP,CUT,DIE,END,EYE,FAG,FLY,FOX,HUB; ind=parts
+    Definitions:
+      "cover" -> GARMENT (definition match)
+  AI Reasoning:
+    GAR (scrap=rag reversed by 'retreating') + MEN (soldiers) + T (tense abbreviation) = GARMENT
+  ----------------------------------------------------------------------
+
+  [HIGH] Latvian  13A. EU citizen almost delayed through congestion ultimately
+  Answer: Latvian
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "EU citizen"
+  Wordplay type: charade
+  Components:
+    deletion           delayed                   -> LAT [LATE - E(almost)]
+    synonym            through                   -> VIA
+    last_letter        congestion                -> N
+  Assembly: charade — LAT(LATE minus E, "delayed") + VIA(synonym of "through") + N(last letter of "congestion")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      eu: syn=US
+      citizen: syn=CIT,ELDER,SAUDI,TOWNIE,ANCIENT,BURGHER,ISRAELI,OLDSTER,SUBJECT
+      almost: syn=AN*,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E,P,R; ind=parts
+      delayed: syn=UP,LATE,ONICE,PETAL,ON ICE,AMATEUR,BELATED,HELD UP
+      through: syn=VIA*,BY,DO,IN,OF,ON,TO,UP,ALL,MID,OUT,PER,ROW,SUM,WAY; sounds=threw
+      congestion: syn=LOG JAM
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+  AI Reasoning:
+    LATE minus E (almost) + VIA (through) + N (congestion ultimately) = LATVIAN
+  ----------------------------------------------------------------------
+
+  [MEDIUM] VOCALIST  14A. Singer about to plug very old record
+  Answer: VOCALIST
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Singer"
+  Wordplay type: charade
+  Components:
+    abbreviation       very old                  -> VO
+    abbreviation       about                     -> CA
+    synonym            record                    -> LIST
+  Assembly: charade — VO(abbr. "very old") + CA(abbr. "about") + LIST(synonym of "record")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      singer: syn=VOCALIST*,SAY,ALTO,BASS,CHER,DIVA,GAGA,LULU,PIAF,SWAN,VOTE,ADELE,BASSO,DYLAN,ELVIS
+      about: syn=CA*,C,AS,BY,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA*,OF,ON,OVER,RE; ind=anagram,container,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      plug: syn=AD,DO,ACT,DAM,FAG,FLY,GUN,POP,RUN,TUG,USE,BUNG,FILL,GRUB,HUMP; ind=container?
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V*; sounds=vary
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      record: syn=LIST*,A,EP,LP,NO,LOG,PUT,SET,BLOG,CARD,CASE,CASH,DISC,GIVE,MARK; abbr=DISC,EP,LP,R,ep
+      very old: syn=OLD,OUT,TIME,ANCIENT,ARCHAIC,OBSOLETE
+      old record: abbr=EP
+      old record: syn=RESIN,RECORD,CLOBBER,SHELLAC,VARNISH
+    Definitions:
+      "Singer" -> VOCALIST (definition match)
+  AI Reasoning:
+    VO (very old) + CA (about/circa) + LIST (record) = VOCALIST, with 'to plug' indicating the joining structure
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CONCORDAT  15D. Agreement to use empty airport as plane's new base
+  Answer: CONCORDAT
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "Agreement"
+  Wordplay type: charade
+  Components:
+    synonym            plane                     -> CONCORD
+    deletion           airport                   -> AT
+  Assembly: charade — CONCORD(synonym of "plane") + AT(deletion from "airport")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      agreement: syn=CONCORDAT*,OK,YES,DEAL,OF A,PACT,TUNE,UNION,ACCORD,ASSENT,PARITY,TREATY,UNISON,BARGAIN,COMPACT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      use: syn=A,AM,BE,DO,IS,NO,ACT,ARE,DIG,FAG,GET,HIT,JOB,PUT,RUN; abbr=DO; ind=anagram; sounds=ewes,yews
+      empty: syn=NO,WIN,BARE,BEAR,DAMN,FLAT,FREE,IDLE,PURE,RANK,TOOM,VAIN,VOID,BLANK,CLEAN; ind=container?,deletion,parts
+      airport: syn=AIR,JFK,FIEF,GAME,WALK,FIELD,FRONT,PLAIN,SHEET,WASTE,WHERE,ACTION,BARONY,BATTLE,CIRCLE
+      as: syn=ON*,LI,OF,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      plane's: syn=AIR,FLY,JET,BEST,CARD,EVEN,FLAT,TREE,EVENT,FLIER,LEVEL,FLIGHT,GLIDER,SMOOTH,AIRSHIP; sounds=plain
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      base: syn=AT*,A,HQ,MY,BED,EYE,HUB,LOW,MAR,NET,NUB,SUM,TEN,ABUT,AXIS; abbr=E; sounds=bass
+      to use: syn=CHEW,CITY,CHAMP,CHOMP,MUNCH,SWEET,WARPLANE,LANCASTER,MASTICATE
+    Definitions:
+      "Agreement" -> CONCORDAT (definition match)
+  AI Reasoning:
+    CONCORD (plane) + AT (airport with middle letters deleted/emptied) = CONCORDAT
+  ----------------------------------------------------------------------
+
+  [FAILED] REARS  16A. Brings up sum remaining unpaid a Republican ignored
+  Answer: REARS
+  Tier: --- | Confidence: 0/100
+  Definition: "Brings up"
+  Wordplay type: deletion
+  Components:
+    deletion           sum remaining unpaid      -> REARS
+  DB Lookups:
+    DB lookups:
+      brings: syn=REAR*,BAGS,BUGS,COPS,DIGS,DOES,GETS,ICES,NABS,NETS,OFFS,RAPS,RISE,RUNS,SEES
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      sum: syn=ADD,BOD,BOG,BUG,DAM,EGG,FAN,LOO,NET,NOB,NUB,TOP,TOT,ADDS,BASE; abbr=S*; sounds=some
+      remaining: syn=LEFT,NETT,OVER,REST,OTHER; abbr=RESIDENT
+      unpaid: syn=DUE,OWING
+      republican: syn=R,SAY,BUSH,MAYBE,PARTY,TRUMP; abbr=R*
+      ignored: syn=CUT,END,IDLE,VOID,EMPTY,WASTE; ind=deletion?
+      brings up: ind=reversal
+      brings up: syn=CANS,DAMS,DIES,ENDS,GETS,GOES,BEATS,BESTS,BUNGS,DROPS
+    Definitions:
+      "Brings up" -> REARS (definition match)
+  AI Reasoning:
+    ARREARS (sum remaining unpaid) with first R deleted (Republican ignored) gives REARS
+  ----------------------------------------------------------------------
+
+  [FAILED] SUPERSEDE  17D. Replace exceptionally good, highly ranked player, it's said
+  Answer: SUPERSEDE
+  Tier: --- | Confidence: 0/100
+  Definition: "Replace"
+  Wordplay type: homophone
+  Components:
+    synonym            exceptionally good        -> SUPER
+    synonym            highly ranked player      -> SEED
+  DB Lookups:
+    DB lookups:
+      replace: syn=SUPERSEDE*,CUT,A VERB,RETURN,COMPETE,CUT OUT,RELIEVE,RESTORE,SUCCEED,DISPLACE,DISPLANT,PUT BACK,SUPPLANT; ind=anagram?
+      exceptionally: syn=DROP; ind=anagram
+      good: syn=G,OK,ON,PI,SO,ACE,ALL,APT,BIG,FIT,LOW,OUT,PET,SAD,USE; abbr=G,PI
+      highly: syn=SUPER*,SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,EVEN,EVER,FLAT,FULL
+      ranked: syn=WAS,RATED,STOOD,TYPED,GRADED,PEGGED,PLACED,RANGED,SORTED,CLASSED,GROUPED,ASSORTED,CODIFIED,DIGESTED,RELEGATED
+      player: syn=ALSO,LEFT,MUSO,OBOE,WING,ACTOR,GAMER,NORTH,PARTY,PIPER,THESP,ACTORS,MUMMER,OBOIST,SHARER
+      it's: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED,ALLEGED,ASSUMED,AVERRED,CLOTHED,COUCHED,INTONED; ind=homophone
+      exceptionally good: syn=GREAT,AMAZING,WONDERFUL
+      it's said: syn=ORAL
+    Definitions:
+      "Replace" -> SUPERSEDE (definition match)
+  AI Reasoning:
+    SUPER + SEED = 'SUPERSEED' which sounds like SUPERSEDE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DISPIRIT  18D. Damp climbing tour across Italy daughter is leading
+  Answer: DISPIRIT
+  Tier: Sonnet | Confidence: 68/100
+  Definition: "Damp"
+  Wordplay type: charade
+  Components:
+    abbreviation       daughter                  -> D
+    literal            is                        -> I
+    reversal           tour                      -> SPIRT
+    abbreviation       Italy                     -> I
+  Assembly: container — D(abbr. "daughter") + I(is) + I(is) inside SPIRT(TRIPS reversed, "tour")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      damp: syn=WET,MIST,HUMID,MOIST,DRIZZLE,MOISTEN,HUMIDITY
+      climbing: syn=MESA,ASCENT,SCALING,BUILDING; ind=reversal
+      tour: syn=GO,BEAT,ROAD,TERM,TRIP,TERMS,TRAVEL,CIRCUIT,JOURNEY,TRIPLET,GO ROUND; abbr=T*; ind=anagram?
+      across: syn=BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL,COME; ind=container
+      italy: syn=I,LAND,OF A,COUNTRY; abbr=I*,IT*
+      daughter: syn=D,GIRL,DRIVERS,PROGENY,RELATIVE; abbr=D*
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      leading: syn=UP,BIG,KEY,POP,TOP,ARCH,GONE,HEAD,HIGH,LEAD,MAIN,MUCH,RICH,STAR,ABOVE; abbr=UP; ind=acrostic,parts
+  AI Reasoning:
+    DI (daughter + is leading) + SPIRIT (TRIPS reversed and containing I for Italy)
+  ----------------------------------------------------------------------
+
+  [LOW] RANCH  19A. Runs hotel hosting African party, spread for Americans
+  Answer: RANCH
+  Tier: Sonnet | Confidence: 27/100
+  Definition: "spread for Americans"
+  Wordplay type: charade
+  Components:
+    abbreviation       Runs                      -> R
+    abbreviation       African                   -> AN
+    abbreviation       party                     -> C
+    abbreviation       hotel                     -> H
+  Assembly: charade — R(abbr. "Runs") + AN(abbr. "African") + C(abbr. "party") + H(abbr. "hotel")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      runs: syn=R,IS,DOS,BAGS,BUGS,BYES,CARE,COPS,DIGS,DOGS,EYES,FAST,FOCI,GETS,GOES; abbr=R*; ind=anagram,anagram?
+      hotel: syn=H,DEN,INN,BACH,CAMP,CLUB,HOLE,LAIR,RITZ,CABIN,HOUSE,LODGE,OF AN,SPICY; abbr=H*,INN
+      hosting: ind=container
+      african: syn=HUTU,ZULU,BANTU,GIANT,JUMBO,MASAI,TITAN,TUTSI,WHALE,XHOSA
+      party: syn=DO,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN; abbr=CON,DO,LAB,P
+      spread: syn=RANCH*,FRY,GET,JAM,LAY,OUT,SOW,TEA,WAX,WAY,BAKE,BITE,BOOM,CARD,CHOW; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      americans: syn=YANKS,A,US,GUMS,INCA,ROTH,YANK,CARIB,IOWAN; abbr=A*,US
+  AI Reasoning:
+    R (runs) + AN (African) + C (party/Conservative) + H (hotel) arranged by 'hosting' gives RANCH
+  ----------------------------------------------------------------------
+
+  [HIGH] RULER  2D. Sovereign, king that's below accepted standard
+  Answer: RULER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Sovereign,"
+  Wordplay: charade
+  Explanation: RULE (synonym of "accepted standard") + R (synonym of "king"); definition: "Sovereign,"
+  ----------------------------------------------------------------------
+
+  [HIGH] hoo-has  20D. Expression of surprise when husband previously fusses
+  Answer: hoo-has
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Expression of surprise"
+  Wordplay: charade
+  Explanation: H (synonym of "husband") + OO (synonym of "previously") + HAS (synonym of "fusses"); definition: "Expression of surprise"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] pick-me-up  21A. Stimulating drink, order for one's chauffeur perhaps?
+  Answer: pick-me-up
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Stimulating drink, order for one's chauffeur perhaps?"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      stimulating: syn=HAIR,MIND,HEART,KICKY,EROTIC,CHARGED,JOGGING,PIQUANT,ROUSING,BUILDING,GALVANIC,STIRRING
+      drink: syn=IT,ALE,BIB,CHA,GIN,HIT,ICE,KIR,LAP,MUM,NIP,PEG,POP,RUM,RYE; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      order: syn=DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW,OBE; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one's: syn=ME*,AM,MY,BABY,COUP,BOAST,GLORY,HONOR,JEWEL,PRIDE,REBEL,CREDIT,TROPHY,REALIST,SUCCESS; abbr=I*,A,ACE,O; sounds=won
+      chauffeur: syn=DRIVE,DRIVER
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      stimulating drink: syn=TONIC,ELIXIR
+      for one's: syn=EG,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+    Definitions:
+      "Stimulating drink" -> pick-me-up (definition match)
+  AI Reasoning:
+    Double definition: 'stimulating drink' gives the literal meaning of pick-me-up, while 'order for one's chauffeur perhaps' cryptically refers to telling a driver to 'pick me up'
+  ----------------------------------------------------------------------
+
+  [MEDIUM] KNOCKER  22D. One criticising feature of front door?
+  Answer: KNOCKER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "One criticising feature of front door"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I,O*; sounds=won
+      feature: syn=SEE,BALL,BORN,BOTH,CHIN,GAME,GROK,NOSE,NOTE,PART,PLAY,SHOW,TWIG,FACET,FIELD; ind=hidden
+      front: syn=ACT,AIR,ARC,BOW,END,PUT,TOP,VAN,WAY,ACTS,AIRS,AREA,AXIS,BLOC,DESK; ind=acrostic,parts
+      door: syn=AX,BY,CAN,KEY,TAP,WAY,COCK,FIRE,GATE,NEAR,NIGH,ROPE,SACK,ABOUT,CLOSE
+  AI Reasoning:
+    Double definition: 'One criticising' means someone who knocks/criticizes, and 'feature of front door' means a door knocker - both meanings of KNOCKER
+  ----------------------------------------------------------------------
+
+  [LOW] BESTOW  23D. Confer over Warwickshire's opener following defeat
+  Answer: BESTOW
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "Confer"
+  Wordplay type: charade
+  Components:
+    synonym            defeat                    -> BEST
+    synonym            over                      -> O
+    first_letter       Warwickshire's opener     -> W
+  Assembly: charade — BEST(synonym of "defeat") + O(synonym of "over") + W(first letter of "Warwickshire's opener")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | nonsense_words=not real words: O | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      confer: syn=BESTOW*,AWARD,TREAT,ACCORD,ADVISE
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      opener: syn=KEY,BALD,BARE,FREE,CLEAR,FRANK,INTRO,NAKED,PLAIN,VALVE,BATTER,CANDID,DIRECT,EXPERT,HONEST; ind=acrostic,deletion,parts
+      following: syn=F,BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH; abbr=F; ind=anagram?
+      defeat: syn=BEST*,A,GET,WIN,BEAT,EDGE,FELL,LICK,LOSS,ROUT,SEAT,STOP,TAKE,TANK,TRIM; abbr=DE
+    Definitions:
+      "Confer" -> BESTOW (definition match)
+  AI Reasoning:
+    BEST (defeat) + O (over) + W (Warwickshire's opener) in sequence
+  ----------------------------------------------------------------------
+
+  [FAILED] TWOSOME  24A. Overheard extremely remarkable couple
+  Answer: TWOSOME
+  Tier: --- | Confidence: 0/100
+  Definition: "couple"
+  Wordplay type: homophone
+  Components:
+    synonym            extremely                 -> TOO
+    synonym            remarkable                -> SUM
+  DB Lookups:
+    DB lookups:
+      overheard: ind=homophone
+      extremely: syn=SO*,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      remarkable: syn=EYE,FAR,ODD,OFF,THE,WAY,BOLD,KEEN,RARE,WALL,WILD,WISE,BRASH,BRAVE,COCKY; ind=anagram,homophone
+      couple: syn=TWO*,TWOSOME*,DUO,FEW,OWT,TIE,DUET,DYAD,FUSE,HOOK,ITEM,JOIN,LINK,MATE,NOWT
+    Definitions:
+      "couple" -> TWOSOME (definition match)
+  AI Reasoning:
+    TOO + SUM sounds like TWO + SOME when overheard, giving TWOSOME
+  ----------------------------------------------------------------------
+
+  [HIGH] THORN  24D. Spike needs time on musical instrument
+  Answer: THORN
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Spike"
+  Wordplay type: charade
+  Components:
+    abbreviation       time                      -> T
+    synonym            musical instrument        -> HORN
+  Assembly: charade — T(abbr. "time") + HORN(synonym of "musical instrument")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      spike: syn=THORN*,PIN,BARB,LACE,NAIL,LANCE,PITON,PRONG
+      needs: syn=LACKS,WANTS,DO,UP,AIM,EYE,JOB,TAX,THE,BEAR,BEST,BORN,CARE,DAWN,DUTY; ind=anagram?; sounds=kneads,knead,kneed
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T*; ind=anagram; sounds=thyme
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      musical: syn=CATS,HAIR,SHOW,ANNIE,CHESS,EVITA,LYRIC,POPPY,SWEET,TONAL
+      instrument: syn=HORN*,TOO,UKE,DRUM,FORT,HARP,LUTE,LYRE,MEAN,OBOE,PAWN,REED,TOOL,TUBA,VIOL
+      musical instrument: syn=HORN*,LYRE,OBOE,TUBA,CELLO,ORGAN
+    Definitions:
+      "Spike" -> THORN (definition match)
+  AI Reasoning:
+    T (time abbreviated) + HORN (musical instrument) = THORN (spike)
+  ----------------------------------------------------------------------
+
+  [FAILED] PROSPER  25A. Succeed with role in The Tempest? Not entirely
+  Answer: PROSPER
+  Tier: --- | Confidence: 0/100
+  Definition: "Succeed"
+  Wordplay type: deletion
+  Components:
+    deletion           role in The Tempest       -> PROSPER
+  DB Lookups:
+    DB lookups:
+      succeed: syn=PROSPER*,AT,IT,GOD,HIT,OWN,EDGE,INTO,LAST,PASS,TOWN,WORK,AHEAD,ENSUE,GREAT; ind=anagram?
+      with: syn=PER*,W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW; abbr=AND,ON,W
+      role: syn=DO,ACT,APE,CUT,DID,END,HAM,JOB,USE,ACME,ACTS,APED,APES,APEX,BELT; sounds=roll
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      tempest: syn=SEA,STORM,FURORE,UPROAR,A STORM,AIRFLOW; ind=anagram?
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      entirely: syn=OK,ALL,OUT,ABLY,BEST,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD,OVER,WELL; ind=deletion
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+      not entirely: ind=parts
+      not entirely: syn=SHAVEN
+    Definitions:
+      "Succeed" -> PROSPER (definition match)
+  AI Reasoning:
+    PROSPERO (role in The Tempest) with last letter deleted (not entirely) gives PROSPER
+  ----------------------------------------------------------------------
+
+  [LOW] PHOTO  26D. Italian banker fences recently stolen picture
+  Answer: PHOTO
+  Tier: Sonnet | Confidence: 20/100
+  Definition: "picture"
+  Wordplay type: container
+  Components:
+    synonym            Italian banker            -> PO
+    synonym            recently stolen           -> HOT
+  Assembly: container — HOT(synonym of "recently stolen") inside PO(synonym of "Italian banker")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      italian: syn=IT,SUB,HERO,SUBS,PIERO; abbr=I,IT
+      banker: syn=CAN,HOY,KEG,TUB,TUG,TUN,VAT,BUTT,CASK,DRUM,KEEL,PIPE,TAXI,TEES,TUB,
+      fences: syn=DAY,LIVE,RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,WAR
+      recently: syn=NEW,NOW,JUST,LATE,ONLY,LATER,NEWLY
+      stolen: syn=HOT*,TAKEN
+      picture: syn=PHOTO*,CAP,FEZ,HAT,LID,RED,SEE,SET,TAM,BOOK,CAPS,COPY,COWL,DEAL,DRAW
+    Definitions:
+      "picture" -> PHOTO (definition match)
+  AI Reasoning:
+    PO (Italian river/banker) contains HOT (recently stolen goods) to give P-HOT-O = PHOTO
+  ----------------------------------------------------------------------
+
+  [HIGH] old master  27A. Performing Dream lots will see great artist
+  Answer: old master
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "great artist"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Dream                     -> DREAM
+    anagram_fodder     lots                      -> LOTS
+  Assembly: anagram — anagram of DREAM(Dream)+LOTS(lots) = old master
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      performing: syn=ON,ROLE,DOING,GOING,ACTING,LAYING,TAKING,TOYING,BETTING,HACKING,ONSTAGE,PLAYING,PUTTING,STAKING,DALLYING; abbr=ON; ind=anagram
+      dream: syn=AIM,END,HON,HOT,PIP,RED,SEE,AIMS,DEAR,ELSE,GOAL,HOPE,IDEA,LOVE,LULU
+      lots: syn=SAY,BAGS,LOAD,MANY,TASK,ACRES,NOEND,REAMS,SITES,CROWDS,DOZENS,MASSES,OODLES,PLENTY,STACKS
+      will: syn=THE,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE,ACCORD,CHOICE,CHOOSE,OPTION
+      see: syn=V,DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD; abbr=C,ELY,LO,V; sounds=sea
+      great: syn=MASTER*,A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET; abbr=G,GR; sounds=grate
+      artist: syn=MASTER*,RA,ACE,DAB,ONO,PRE,ACES,DALI,EMIN,ETTY,GEEK,GOYA,GURU,HALS,HAND; abbr=RA
+    Definitions:
+      "artist" -> old master (definition match)
+  AI Reasoning:
+    Anagram of 'Dream lots' (indicated by 'Performing') gives OLD MASTER
+  ----------------------------------------------------------------------
+
+  [HIGH] KRONE  28A. Norwegian bread from Bergen or Kristiansand brought back
+  Answer: KRONE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Norwegian bread"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "Bergen or Kristiansand" [reversal: "brought"]; definition: "Norwegian bread"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BARBELL  3D. Delivery problem regularly blocks obtaining gym equipment
+  Answer: BARBELL
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "gym equipment"
+  Wordplay type: charade
+  Components:
+    synonym            Delivery problem          -> BAR
+    hidden             regularly blocks obtaining -> BELL
+  Assembly: charade — BAR(synonym of "Delivery problem") + BELL(hidden in "regularly blocks obtaining")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      delivery: syn=FOOD,MAIL,BIRTH,LABOR,BEAMER,RESCUE,YORKER,AIRDROP,DICTION,DROPOFF,FREEDOM,QUIETUS,RELEASE,TRAVAIL,YORKER?; ind=anagram?
+      problem: syn=ILL,NUT,RUB,SUM,ACHE,AS A,CASE,FACT,KNOT,MESS,PEST,SNAG,WHAT,BRAIN,HITCH; ind=anagram
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      blocks: syn=BAR*,CANS,DAMS,DIES,ENDS,FAGS,GETS,GOES,GUNS,POPS,SETS,TUGS,BEATS,BESTS,BLOCS; ind=container; sounds=bloc
+      obtaining: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING
+      gym: syn=PE,HEALTH; abbr=PE,PT
+      equipment: syn=KIT,RIG,DUDS,GEAR,RAGS,TOGS,TOOL,WEAR,CRACK,DRESS,GEAR,,GOODS,HABIT,PLANT,SONAR
+      gym equipment: syn=WORK,DRILL,PERHAPS,RATRACE,ROUTINE
+    Definitions:
+      "gym equipment" -> BARBELL (definition match)
+  AI Reasoning:
+    BAR (delivery barrier) + BELL (hidden in 'regularly blocks obtaining') = BARBELL
+  ----------------------------------------------------------------------
+
+  [HIGH] water vole  30A. Little beast, love rat we condemned
+  Answer: water vole
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Little beast,"
+  Wordplay: anagram
+  Explanation: anagram of LOVERATWE ("love rat we") [anagram: "condemned"] = WATERVOLE; definition: "Little beast,"
+  ----------------------------------------------------------------------
+
+  [HIGH] LIGHTEST  4D. Most delicate fellows essentially get this flustered
+  Answer: LIGHTEST
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Most delicate"
+  Wordplay type: anagram
+  Components:
+    core_letters       fellows                   -> L
+    literal            get                       -> GET
+    literal            this                      -> THIS
+  Assembly: anagram — anagram of L(core of "fellows")+GET(get)+THIS(this) = LIGHTEST
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      delicate: syn=LIGHT*,ACE,BIG,LOW,OLD,TOP,WET,AIRY,COZY,DEFT,DULL,FINE,GONE,GOOD,HAIR
+      fellows: syn=MEN,CATS,GUYS,JOES,LADS,MAIN,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,BLOKES,FELLAS,GENTS,; abbr=MEN,F,MAN
+      essentially: syn=SE,DIETER,ATHEART,BANKERS,AT HEART,INITSELF; ind=deletion,parts
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G*,GE
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T*,TH
+      flustered: syn=COY,SHY,MEEK,FAZED,JUMPY,STIFF,TIMID,UPSET,ADDLED,CLUMSY,DEMURE,FLAPPY,GAUCHE,MODEST,RUSTIC; ind=anagram
+      most delicate: syn=FRAILEST
+  AI Reasoning:
+    L (middle letter of FELLOWS) + GET + THIS anagrammed by 'flustered' gives LIGHTEST
+  ----------------------------------------------------------------------
+
+  [FAILED] IDEALS  5D. Confession of drug pusher, originally sacrificing morals
+  Answer: IDEALS
+  Tier: --- | Confidence: 0/100
+  Definition: "morals"
+  Wordplay type: hidden
+  Components:
+    hidden             Confession of drug pusher, originally sacrificing -> IDEALS
+  DB Lookups:
+    DB lookups:
+      confession: syn=SHRIFT
+      drug: syn=CAP,POT,ACID,CURE,DOPE,DOSE,DROP,HEAL,HEMP,MEND,METH,PILL,SHOT,BHANG,BOLUS; abbr=E*,POT
+      originally: syn=FIRST; ind=acrostic,anagram?,parts
+      morals: syn=IDEALS*,CODES,IF,BEST,GOOD,HOLY,JUST,NORM,PURE,TRUE,BASIS,CANON,CLEAN,GIVEN,GODLY
+    Definitions:
+      "morals" -> IDEALS (definition match)
+  AI Reasoning:
+    IDEALS is hidden consecutively across the words from 'Confession' through 'sacrificing'
+  ----------------------------------------------------------------------
+
+  [MEDIUM] WELL  6A. Quite possibly fortunate
+  Answer: WELL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Quite possibly fortunate"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      quite: syn=WELL*,OF,OK,OR,ALL,BIT,LOT,NOT,OUT,POT,TON,WAD,ABLY,BEST,DEAD; abbr=SH; ind=deletion
+      possibly: syn=TAXI; ind=anagram
+      fortunate: ind=deletion?
+    Definitions:
+      "Quite possibly" -> WELL (definition match)
+  AI Reasoning:
+    Double definition: 'Quite possibly' = WELL (adverb meaning very/quite) and 'fortunate' = WELL (as in well-off/doing well)
+  ----------------------------------------------------------------------
+
+  [HIGH] Lenin  8D. Revolutionary from Left periodically being elected
+  Answer: Lenin
+  Tier: DB Fallback | Confidence: 92/100
+  Definition: "Revolutionary"
+  Wordplay type: deletion
+  Components:
+    deletion           left                      -> LE [LET, "periodically"=deletion]
+    synonym            elected                   -> IN
+    alternate_letters  being                     -> EN
+  Assembly: deletion — delete E from LE(LET minus T, "left") + EN(alternate letters of "being") + IN(synonym of "elected") [periodically]
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG; ind=anagram,reversal
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      left: syn=L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L*,LE*,PORT,SINISTER; ind=acrostic,deletion,reversal
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      elected: syn=IN*,LENIN*,ELFIN; abbr=IN*
+    Definitions:
+      "Revolutionary" -> Lenin (definition match)
+      "elected" -> Lenin (definition match)
+  AI Reasoning:
+    LENIN is hidden in the consecutive letters of 'Left periodically being elected'
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

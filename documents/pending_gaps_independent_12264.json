@@ -1,0 +1,356 @@
+{
+  "source": "independent",
+  "puzzle": "12264",
+  "stats": {
+    "total": 30,
+    "assembled": 25,
+    "high": 14,
+    "medium": 7,
+    "low": 4,
+    "failed": 5,
+    "avg_score": 66.0
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "vehicles",
+      "letters": "CARS",
+      "answer": "SCARS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Marks vehicles on style, at first",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dish",
+      "letters": "RICE",
+      "answer": "LISTPRICE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Suggested cost of lean rump, finally, with side dish",
+      "score": 52
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "rule",
+      "letters": "SPORT",
+      "answer": "BLOODSPORT",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Bishop can start to disregard rule in place for fox hunting?",
+      "score": 44
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "What keeps still",
+      "letters": "EYE",
+      "answer": "EYETOOTH",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "What keeps still, extremely withdrawn? A canine offered in swap deal?",
+      "score": 39
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "extremely withdrawn",
+      "letters": "TOOTH",
+      "answer": "EYETOOTH",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "What keeps still, extremely withdrawn? A canine offered in swap deal?",
+      "score": 39
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Sex appeals",
+      "letters": "ITAS",
+      "answer": "ASTI",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Sex appeals after knocking back wine",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Europe",
+      "letters": "E",
+      "answer": "PEMBROKE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Welsh town boosted politician in Europe with no money",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "aircraft",
+      "letters": "BUS",
+      "answer": "BUGS",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Annoys German boarding aircraft",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "those",
+      "letters": "THE",
+      "answer": "THEISM",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Belief system is welcomed by those people",
+      "score": 29
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Noticed",
+      "letters": "SPIED",
+      "answer": "SPICED",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Noticed hosts beginning to cook with seasoning",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bottles",
+      "letters": "BEER",
+      "answer": "BERIBERI",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Joke beer bottles getting one complaint",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Clog",
+      "answer": "BALL",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Clog dance",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Marks",
+      "answer": "SCARS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Marks vehicles on style, at first",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "city",
+      "answer": "LOSANGELES",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Alleges son destroyed city",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Nebraskan city",
+      "answer": "OMAHA",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Rejected a ham omelette, initially, in Nebraskan city",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "impress greatly",
+      "answer": "BOWLOVER",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Make six deliveries, and impress greatly",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Suggested cost",
+      "answer": "LISTPRICE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Suggested cost of lean rump, finally, with side dish",
+      "score": 52
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "place for fox hunting",
+      "answer": "BLOODSPORT",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Bishop can start to disregard rule in place for fox hunting?",
+      "score": 44
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "wine",
+      "answer": "ASTI",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Sex appeals after knocking back wine",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "I've made a mistake over love note at end of e-mail, perhaps",
+      "answer": "OOPS",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "I've made a mistake over love note at end of e-mail, perhaps",
+      "score": 30
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "coastal resort",
+      "answer": "WESTONSUPERMARE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Bridge player, working at large shop, mostly, wanting kip in coastal resort",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fairly harmful to genes",
+      "answer": "SEMILETHAL",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Content to pass Emile thalidomide â it's fairly harmful to genes",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Manipulates",
+      "answer": "KNEADS",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Manipulates desires in audition",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Annoys",
+      "answer": "BUGS",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Annoys German boarding aircraft",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "water sports venue",
+      "answer": "THESOLENT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Fresh article covering popular water sports venue",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Belief system",
+      "answer": "THEISM",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Belief system is welcomed by those people",
+      "score": 29
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Conquered",
+      "answer": "DEFEATED",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Conquered one achievement, inspiring another",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Kick out",
+      "answer": "EVICT",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Kick out six in English court",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "seasoning",
+      "answer": "SPICED",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Noticed hosts beginning to cook with seasoning",
+      "score": 44
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Afghan",
+      "answer": "PASHTO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Maybe Afghan father shot crook",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Emperor",
+      "answer": "CHARLESTHEGREAT",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Emperor let her gate-crash parties",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Deprive of claim",
+      "answer": "DISENTITLE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Deprive of claim in Settle, strangely, after I'd turned up",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "complaint",
+      "answer": "BERIBERI",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Joke beer bottles getting one complaint",
+      "score": 60
+    }
+  ]
+}

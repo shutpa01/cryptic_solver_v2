@@ -1,0 +1,433 @@
+{
+  "source": "independent",
+  "puzzle": "12322",
+  "stats": {
+    "total": 39,
+    "assembled": 38,
+    "high": 33,
+    "medium": 5,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 90.02631578947368
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "post",
+      "letters": "SEND",
+      "answer": "ASCEND",
+      "clue_number": "31",
+      "direction": "across",
+      "clue": "A post about Celsius scale",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "referee's assistant",
+      "letters": "VAR",
+      "answer": "AVARICE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Expert claims referee's assistant essentially committed sin",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "quarter",
+      "letters": "E",
+      "answer": "BLOCKADE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Erect barriers around security device in poor quarter",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "mother",
+      "letters": "MAM",
+      "answer": "MAXIMS",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Proverbs 11 divides mother and son",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Model",
+      "letters": "T",
+      "answer": "TERROR",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Model put on slip in panic",
+      "score": 95
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "highly amusing",
+      "letters": "LOL",
+      "answer": "GLOBAL",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "German graduate entertained by highly amusing international",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "gets",
+      "letters": "PROCURE",
+      "answer": "PROCURER",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "One who gets runs after treatment by professional",
+      "score": 47
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "protégé",
+      "letters": "ARD",
+      "answer": "WIZARD",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Necromancer is reportedly captivated by protégé",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gambling Mecca",
+      "answer": "RENO",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Gambling Mecca in Grenoble",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "show of respect",
+      "answer": "CURTSY",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Partial apology struck revolutionary as show of respect",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Invalid",
+      "answer": "NUGATORY",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Invalid turned firearm on a Conservative",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Having acquired knowledge about",
+      "answer": "INON",
+      "clue_number": "27",
+      "direction": "down",
+      "clue": "Having acquired knowledge about home working",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "man of nobility",
+      "answer": "EARL",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Almost stripped man of nobility",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "scale",
+      "answer": "ASCEND",
+      "clue_number": "31",
+      "direction": "across",
+      "clue": "A post about Celsius scale",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Invalid",
+      "answer": "NUGATORY",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Invalid turned firearm on a Conservative",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Thailand's religious society",
+      "answer": "JESUITS",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Italicus is in Paris defending Thailand's religious society",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "committed sin",
+      "answer": "AVARICE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Expert claims referee's assistant essentially committed sin",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ignorant",
+      "answer": "RUDE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Ignorant schoolmarm is penniless",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "barrier",
+      "answer": "MEMBRANE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Mr. Bean crashed into middle of cement barrier",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Brow",
+      "answer": "FOREHEAD",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Brow of elevated promontory topped by bare tree",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Erect barriers",
+      "answer": "BLOCKADE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Erect barriers around security device in poor quarter",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "they throw objects",
+      "answer": "POTTERS",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Stirring up protest, they throw objects!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gambling Mecca",
+      "answer": "RENO",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Gambling Mecca in Grenoble",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Angel fish",
+      "answer": "CHERUB",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Angel fish circling bottom of wide river",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Proverbs",
+      "answer": "MAXIMS",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Proverbs 11 divides mother and son",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "respire",
+      "answer": "INHALE",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Inquisitive navigators originally discovered cetaceans respire",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mix up",
+      "answer": "SCRAMBLE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Mix up stuff bishop left in storage on vacation",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Having acquired knowledge about",
+      "answer": "INON",
+      "clue_number": "27",
+      "direction": "down",
+      "clue": "Having acquired knowledge about home working",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Successor",
+      "answer": "AIRBORNE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Successor pronounced most of island free of earth?",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Illegally record",
+      "answer": "PIRATE",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Illegally record detective meeting informant beside base",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Find execrable",
+      "answer": "LOATHE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Find execrable, old articles supporting Liberal",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "man of nobility",
+      "answer": "EARL",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Almost stripped man of nobility",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Blemish",
+      "answer": "POCKMARK",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Blemish Spooner's artificial gardens",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "panic",
+      "answer": "TERROR",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Model put on slip in panic",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "show of respect",
+      "answer": "CURTSY",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Partial apology struck revolutionary as show of respect",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "international",
+      "answer": "GLOBAL",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "German graduate entertained by highly amusing international",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Snack",
+      "answer": "NIBBLE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Snack sprightly bachelor brought in for maiden",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One who gets",
+      "answer": "PROCURER",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "One who gets runs after treatment by professional",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "missile carriers",
+      "answer": "QUIVERS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Queen is pressing clergyman about missile carriers",
+      "score": 62
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Necromancer",
+      "answer": "WIZARD",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Necromancer is reportedly captivated by protégé",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "first-timer",
+      "answer": "DEBUTANT",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Day worker on westbound underground is first-timer",
+      "score": 72
+    }
+  ]
+}

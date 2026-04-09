@@ -1,0 +1,585 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31186
+Generated: 2026-03-25 17:07:47
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        26/32 (81%)
+    Signature:      4
+    Sig+Enriched:   9
+    Sonnet:         12
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   17  19A, 27A, 10A, 14D, 23D, 25A, 26D, 12A, 15D, 17D, 21D, 22A, 28A, 5A, 5D, 6D, 8D
+  Medium (40-79): 5  24D, 29A, 3D, 30A, 4D
+  Low (<40):    4  1D, 13A, 18D, 7D
+  Failed:       6  1A, 11A, 16A, 2D, 20A, 9A
+  Average:      74/100
+
+COST: $1.2505 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (38 entries)
+------------------------------------------------------------
+  DOT: "Small amount" -> DOT  (missing from definition_answers_augmented)
+  ELOPE: "Run away" -> ELOPE  (missing from definition_answers_augmented)
+  OUTSIDERS: "Aliens" -> OUTSIDERS  (missing from definition_answers_augmented)
+  AMOUR: "love" -> AMOUR  (missing from definition_answers_augmented)
+  TEES: "river" -> TEES  (missing from definition_answers_augmented)
+  DRAB: "Dull" -> DRAB  (missing from definition_answers_augmented)
+  SECTORAL: "district" -> SECTORAL  (missing from definition_answers_augmented)
+  kick boxers: "Martial artists" -> kick boxers  (missing from definition_answers_augmented)
+  AUTHORISE: "Accredit" -> AUTHORISE  (missing from definition_answers_augmented)
+  EVALUATED: "Appraised" -> EVALUATED  (missing from definition_answers_augmented)
+  over-exact: "Fastidious" -> over-exact  (missing from definition_answers_augmented)
+  Odysseus: "Adventurer" -> Odysseus  (missing from definition_answers_augmented)
+  LAXEST: "most careless" -> LAXEST  (missing from definition_answers_augmented)
+  IDAHO: "somewhere in America" -> IDAHO  (missing from definition_answers_augmented)
+  ALTERNATE: "rotating" -> ALTERNATE  (missing from definition_answers_augmented)
+  turns to: "Becomes overly enthused about acquiring vases" -> turns to  (missing from definition_answers_augmented)
+  DEBATES: "Discusses" -> DEBATES  (missing from definition_answers_augmented)
+  DETAILING: "Giving particulars" -> DETAILING  (missing from definition_answers_augmented)
+  BOASTER: "Show-off" -> BOASTER  (missing from definition_answers_augmented)
+  BLACK: "Chess player's need" -> BLACK  (missing from definition_answers_augmented)
+  AUDIOTAPE: "Recording" -> AUDIOTAPE  (missing from definition_answers_augmented)
+  TAUPE: "tone" -> TAUPE  (missing from definition_answers_augmented)
+  REHASH: "Once more talk" -> REHASH  (missing from definition_answers_augmented)
+  AMOUR: Romeo's -> R  (missing from abbreviations)
+  SECTORAL: Group -> SECT  (missing from synonyms_pairs)
+  SECTORAL: speaking -> ORAL  (missing from synonyms_pairs)
+  AUTHORISE: article -> THISE  (missing from synonyms_pairs)
+  over-exact: close to twelve -> OVER  (missing from synonyms_pairs)
+  over-exact: times cutting ham -> EXACT  (missing from synonyms_pairs)
+  Odysseus: ship -> US  (missing from abbreviations)
+  LAXEST: bladed tools -> AXES  (missing from synonyms_pairs)
+  HOPE: jump -> HOP  (missing from abbreviations)
+  DEBATES: group -> ATES  (missing from synonyms_pairs)
+  DETAILING: about -> DE  (missing from abbreviations)
+  BLACK: support -> LACK  (missing from synonyms_pairs)
+  AUDIOTAPE: of books in car -> AUDIO  (missing from synonyms_pairs)
+  AUDIOTAPE: - copy -> TAPE  (missing from synonyms_pairs)
+  TAUPE: Greek -> TAU  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  Odysseus = 18 (28/100): AI=container, assembled=charade
+  AVARICIOUS = 22 (82/100): AI=charade, assembled=container
+  IDAHO = 24 (54/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  SECTORAL = 1 (5/100): no pieces verified in DB
+  TAUPE = 7 (25/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  1. Banks of South America that man had asked for silence = SHUSHED
+  11. Scratching head, feel that hurt = OUCH
+  16. Regularly used cat door flap = ADO
+  2. A French lover formerly quoted as lacking enthusiasm = UNEXCITED
+  20. Deeper ground with gas and oil source = GRAPESEED
+  9. Elizabeth's lead welcomed by actor pal cast for epic film = Cleopatra
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/32  10A
+  Type mismatch:         3  22A, 18D, 24D
+  Unverified explain.:   2  1D, 7D
+  DB gap:                23  12A, 13A, 19A, 25A, 27A, 28A, 29A, 30A, 1D, 3D, 4D, 5D, 6D, 7D, 8D, 14D, 15D, 17D, 18D, 21D, 23D, 24D, 26D
+  Failed:                6  9A, 11A, 16A, 20A, 1D, 2D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   19A  DOT           Small amount of pet odour going round (3)
+                      hidden reversed in "pet odour" [reversal: "going"]; definition: "Small amount"  [HIGH]
+   27A  ELOPE         Run away from cruel operative (5)
+                      hidden in "cruel operative" [hidden: "from"]; definition: "Run away"  [HIGH]
+   10A  DOUGH         Note picked up is money (5)
+                      ---  [HIGH]
+   14D  OUTSIDERS     Aliens do sure sit funnily (9)
+                      anagram of DOSURESIT ("do sure sit") [anagram: "funnily"] = OUTSIDERS; definition: "Aliens"  [HIGH]
+   23D  AMOUR         Mail in which Romeo's rejected love (5)
+                      ARMOUR (synonym of "Mail") + R (abbreviation of "Romeo's") [deletion: "rejected"]; definition: "love"  [HIGH]
+   25A  TEES          Kid heard river (4)
+                      TEES (sounds like "Kid") [homophone: "heard"]; definition: "river"  [HIGH]
+   26D  DRAB          Dull poet turned up (4)
+                      reverse of BARD (synonym of "poet") [reversal: "turned"]; definition: "Dull"  [HIGH]
+    1A  SHUSHED       Banks of South America that man had asked for silence (7)
+                      ---  [ERR]
+    1D  SECTORAL      Group speaking about district (8)
+                      SECT(synonym of "Group") + ORAL(synonym of "speaking")  [LOW]
+   11A  OUCH          Scratching head, feel that hurt (4)
+                      ---  [ERR]
+   12A  kick boxers   Martial artists abandon underwear (4,6)
+                      KICK (synonym of "abandon") + BOXERS (synonym of "underwear"); definition: "Martial artists"  [HIGH]
+   13A  AUTHORISE     Accredit gold is found in gold article (9)
+                      AU(abbr. "gold") + OR(synonym of "gold") inside THISE(synonym of "article")  [LOW]
+   15D  EVALUATED     Appraised a valet due to be relocated (9)
+                      anagram of A+VALET+DUE = EVALUATED  [HIGH]
+   16A  ADO           Regularly used cat door flap (3)
+                      ---  [ERR]
+   17D  over-exact    Fastidious close to twelve times cutting ham (4-5)
+                      OVER (synonym of "close to twelve") + EXACT (synonym of "times cutting ham"); definition: "Fastidious"  [HIGH]
+   18D  Odysseus      Adventurer you'd see briefly at sea in possession of ship (8)
+                      ODYSSE("you'd see") + US(abbr. "ship")  [LOW]
+    2D  UNEXCITED     A French lover formerly quoted as lacking enthusiasm (9)
+                      ---  [ERR]
+   20A  GRAPESEED     Deeper ground with gas and oil source (9)
+                      ---  [ERR]
+   21D  LAXEST        Lieutenant carrying bladed tools is most careless (6)
+                      LT (synonym of "Lieutenant") + AXES (synonym of "bladed tools") [container: "carrying"]; definition: "most careless"  [HIGH]
+   22A  AVARICIOUS    A savage eating skinned hare is greedy (10)
+                      A + AR(deletion from "skinned hare") inside VICIOUS(synonym of "savage")  [HIGH]
+   24D  IDAHO         I had a house somewhere in America (5)
+                      I + D(core of "had") + A + HO(first letter of "house")  [MED]
+   28A  ALTERNATE     Advanced behind, to catch seabird rotating (9)
+                      A(abbr. "Advanced") + TERN(synonym of "seabird") inside LATE(synonym of "behind")  [HIGH]
+   29A  turns to      Becomes overly enthused about acquiring vases (5,2)
+                      cryptic definition  [MED]
+    3D  HOPE          Long jump second in decathlon (4)
+                      HOP(synonym of "jump") + E("second in decathlon")  [MED]
+   30A  DEBATES       Discusses group in pit retiring (7)
+                      DEB(BED reversed, "pit") + ATES(synonym of "group")  [MED]
+    4D  DETAILING     Giving particulars about diamonds selling, but not originally (9)
+                      DE(synonym of "about") + TAILING(deletion from "selling, but not originally")  [MED]
+    5A  BOASTER       Show-off son wearing straw hat (7)
+                      S (synonym of "son") + BOATER (synonym of "straw hat") [container: "wearing"]; definition: "Show-off"  [HIGH]
+    5D  BLACK         Chess player's need to support bishop (5)
+                      B (synonym of "bishop") + LACK (synonym of "support"); definition: "Chess player's need"  [HIGH]
+    6D  AUDIOTAPE     Recording of books in car – copy (9)
+                      AUDIO (synonym of "of books in car") + TAPE (synonym of "- copy"); definition: "Recording"  [HIGH]
+    7D  TAUPE         Letter from Greek ends in plaintive tone (5)
+                      TAU(synonym of "Greek") + PE(first letter of "plaintive")  [LOW]
+    8D  REHASH        Once more talk about that woman climbing tree (6)
+                      HER (synonym of "woman") + ASH (synonym of "tree") [reversal: "about"]; definition: "Once more talk"  [HIGH]
+    9A  Cleopatra     Elizabeth's lead welcomed by actor pal cast for epic film (9)
+                      ---  [ERR]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DOT  19A. Small amount of pet odour going round
+  Answer: DOT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Small amount"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "pet odour" [reversal: "going"]; definition: "Small amount"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] ELOPE  27A. Run away from cruel operative
+  Answer: ELOPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Run away"
+  Wordplay: hidden
+  Explanation: hidden in "cruel operative" [hidden: "from"]; definition: "Run away"
+  ----------------------------------------------------------------------
+
+  [HIGH] DOUGH  10A. Note picked up is money
+  Answer: DOUGH
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "Note" and "picked up is money" both mean DOUGH
+  ----------------------------------------------------------------------
+
+  [HIGH] OUTSIDERS  14D. Aliens do sure sit funnily
+  Answer: OUTSIDERS
+  Tier: Signature | Confidence: 100/100
+  Definition: "Aliens"
+  Wordplay: anagram
+  Explanation: anagram of DOSURESIT ("do sure sit") [anagram: "funnily"] = OUTSIDERS; definition: "Aliens"
+  ----------------------------------------------------------------------
+
+  [HIGH] AMOUR  23D. Mail in which Romeo's rejected love
+  Answer: AMOUR
+  Tier: Signature | Confidence: 100/100
+  Definition: "love"
+  Wordplay: charade + deletion
+  Explanation: ARMOUR (synonym of "Mail") + R (abbreviation of "Romeo's") [deletion: "rejected"]; definition: "love"
+  ----------------------------------------------------------------------
+
+  [HIGH] TEES  25A. Kid heard river
+  Answer: TEES
+  Tier: Signature | Confidence: 100/100
+  Definition: "river"
+  Wordplay: homophone
+  Explanation: TEES (sounds like "Kid") [homophone: "heard"]; definition: "river"
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAB  26D. Dull poet turned up
+  Answer: DRAB
+  Tier: Signature | Confidence: 100/100
+  Definition: "Dull"
+  Wordplay: charade + reversal
+  Explanation: reverse of BARD (synonym of "poet") [reversal: "turned"]; definition: "Dull"
+  ----------------------------------------------------------------------
+
+  [ERROR] 1. Banks of South America that man had asked for silence = SHUSHED
+  ----------------------------------------------------------------------
+
+  [LOW] SECTORAL  1D. Group speaking about district
+  Answer: SECTORAL
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "district"
+  Wordplay type: charade
+  Components:
+    synonym            Group                     -> SECT
+    synonym            speaking                  -> ORAL
+  Assembly: charade — SECT(synonym of "Group") + ORAL(synonym of "speaking")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      group: syn=ARC,LOT,PEG,REM,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT; abbr=CLAN,GP,SET
+      speaking: syn=IDIOM,ORALLY,DIALECT,PERHAPS,DIALECTS,PARLANCE; ind=homophone
+      about: syn=OR*,TO*,C,AS,BY,CA,OF,ON,RE,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      district: syn=SECTOR*,AREA,NABE,WARD,PLACE,SHIRE,BARRIO,PARISH,QUARTER,SECTION,LOCALITY,PRECINCT; abbr=D
+  AI Reasoning:
+    SECT (group/sect) + ORAL (speaking) = SECTORAL, with 'about' as linking word and 'district' as definition
+  ----------------------------------------------------------------------
+
+  [ERROR] 11. Scratching head, feel that hurt = OUCH
+  ----------------------------------------------------------------------
+
+  [HIGH] kick boxers  12A. Martial artists abandon underwear
+  Answer: kick boxers
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Martial artists"
+  Wordplay: charade
+  Explanation: KICK (synonym of "abandon") + BOXERS (synonym of "underwear"); definition: "Martial artists"
+  ----------------------------------------------------------------------
+
+  [LOW] AUTHORISE  13A. Accredit gold is found in gold article
+  Answer: AUTHORISE
+  Tier: Sonnet | Confidence: -5/100
+  Definition: "Accredit"
+  Wordplay type: container
+  Components:
+    abbreviation       gold                      -> AU
+    synonym            gold                      -> OR
+    synonym            article                   -> THISE
+  Assembly: container — AU(abbr. "gold") + OR(synonym of "gold") inside THISE(synonym of "article")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: THISE | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      accredit: syn=RISE*,OK,PUT,SIGN,CLEAR,CREDIT,ENABLE,IMPUTE,INVEST,RATIFY,APPROVE,ASCRIBE,CERTIFY,EMPOWER,LICENSE
+      gold: syn=AU*,OR*,GOL,LONG,NOTE,UPON,AMBER,AURIC,GREEN,LEGAL,METAL,MONEY,CHANGE,NUGGET,THEBEST; abbr=AU*,OR*,or*
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      found: syn=ATE,DUG,GOT,RAN,SAW,BASE,BEAT,CAME,CAST,GREW,ICED,KNEW,SLEW,TOOK,WENT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      article: syn=A,AN,THE,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE; abbr=A*,AN,THE
+      found in: ind=container,insertion
+  AI Reasoning:
+    AU (gold) is inserted into a word formed from OR (gold) and THE+ISE (article) to create AUTHORISE
+  ----------------------------------------------------------------------
+
+  [HIGH] EVALUATED  15D. Appraised a valet due to be relocated
+  Answer: EVALUATED
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Appraised"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     a                         -> A
+    anagram_fodder     valet                     -> VALET
+    anagram_fodder     due                       -> DUE
+  Assembly: anagram — anagram of A+VALET+DUE = EVALUATED
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      appraised: syn=VALUED*,RATED,REVIEWED
+      valet: syn=MAN,PAGE,BUTLER,TOILET,SERVANT,ATTENDANT,GENTLEMAN
+      due: syn=DEAD,FAIR,FULL,JUST,OWED,ROSY,OWING,RIGHT,SANDY,STRAW,SUNNY,TAWNY,BRIGHT,CHASTE,FLAXEN; sounds=dew,do
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      relocated: syn=MOVED,RELAID
+      due to: syn=AS,OF,ON,FOR,NOW,WITH,HENCE,SINCE,SANITY,SEEING
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,WERE,APPLY,EXIST,ABOUND,BEGGED
+  AI Reasoning:
+    EVALUATED is an anagram of 'a valet due' (indicated by 'to be relocated'), with 'Appraised' as the definition
+  ----------------------------------------------------------------------
+
+  [ERROR] 16. Regularly used cat door flap = ADO
+  ----------------------------------------------------------------------
+
+  [HIGH] over-exact  17D. Fastidious close to twelve times cutting ham
+  Answer: over-exact
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Fastidious"
+  Wordplay: charade
+  Explanation: OVER (synonym of "close to twelve") + EXACT (synonym of "times cutting ham"); definition: "Fastidious"
+  ----------------------------------------------------------------------
+
+  [LOW] Odysseus  18D. Adventurer you'd see briefly at sea in possession of ship
+  Answer: Odysseus
+  Tier: Sonnet | Confidence: 28/100
+  Definition: "Adventurer"
+  Wordplay type: container
+  Components:
+    homophone          you'd see                 -> ODYSSE
+    abbreviation       ship                      -> US
+  Assembly: charade — ODYSSE("you'd see") + US(abbr. "ship")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      adventurer: syn=FOX,TOM,BILK,FAKE,SHAM,SNOB,CHEAT,COMER,FAKER,FAKIR,KNAVE,NABOB,PHONY,QUACK,ROGUE
+      see: syn=V,DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD; abbr=C,ELY,LO,V; sounds=sea
+      briefly: syn=CURTLY,IN SUM,CRISPLY,INSHORT,PITHILY,SHORTLY,TERSELY,IN SHORT; ind=deletion,parts
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      sea: syn=AIR,BIN,BOX,GOB,MED,SAY,TAR,BINS,BLOW,BLUE,CASE,DEEP,GALE,JACK,LAKE; abbr=C,MED; ind=anagram; sounds=see
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      possession: syn=ARM,KIT,RIG,CARE,DUDS,GAIN,GEAR,GRIP,HAND,HOLD,RAGS,RING,SWAY,TOGS,WEAR
+      ship: syn=SS*,S,AIR,ARK,MAN,TUB,ARGO,BOAT,KEEL,NESS,SAME,SEND,TOSS,CRAFT,LINER; abbr=S*,SS*
+      at sea: ind=anagram
+      at sea: syn=AT,SEA,BLUE,CYAN,DEEP,LOST,MAIN,NAVY,ATSEA,BRINE
+  AI Reasoning:
+    ODYSSE (homophone of 'you'd see' = odyssey, shortened) contains US (ship abbreviation), with 'at sea' indicating anagram
+  ----------------------------------------------------------------------
+
+  [ERROR] 2. A French lover formerly quoted as lacking enthusiasm = UNEXCITED
+  ----------------------------------------------------------------------
+
+  [ERROR] 20. Deeper ground with gas and oil source = GRAPESEED
+  ----------------------------------------------------------------------
+
+  [HIGH] LAXEST  21D. Lieutenant carrying bladed tools is most careless
+  Answer: LAXEST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "most careless"
+  Wordplay: charade + container
+  Explanation: LT (synonym of "Lieutenant") + AXES (synonym of "bladed tools") [container: "carrying"]; definition: "most careless"
+  ----------------------------------------------------------------------
+
+  [HIGH] AVARICIOUS  22A. A savage eating skinned hare is greedy
+  Answer: AVARICIOUS
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "greedy"
+  Wordplay type: charade
+  Components:
+    literal            A                         -> A
+    synonym            savage                    -> VICIOUS
+    deletion           skinned hare              -> AR
+  Assembly: container — A + AR(deletion from "skinned hare") inside VICIOUS(synonym of "savage")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      savage: syn=NO,BIG,CUT,HIGH,INTO,NAZI,RUDE,WILD,BIRTH,BRUTE,FREAK,HEAVY,HOUND,JUMBO,KNAVE; ind=anagram?
+      eating: syn=GOING,ICING,WRONG,COMING,DINING,EDIBLE,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING; ind=container
+      skinned: syn=ACED,BALD,BARE,OPEN,NAKED,A BILL,PEELED,SHAVEN,UNCLAD,DENUDED,EXPOSED,FURLESS,SHAFTED,DISROBED,DIVESTED; ind=deletion,parts
+      hare: syn=IT,FLY,MOVE,RACE,ARROW,DRIVE,MOTOR,SHOOT,ANIMAL,CAREER,COURSE,SPRINT,TRAVEL,FAST MOVER; sounds=hair
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      greedy: syn=AVARICIOUS*,HOT,MAD,WUD,AGOG,AVID,GAGA,KEEN,LIKE,LOCO,NUTS,THIS,WILD,ANTSY,BATTY
+  AI Reasoning:
+    A + (VICIOUS containing AR to make VARICIOUS) = AVARICIOUS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] IDAHO  24D. I had a house somewhere in America
+  Answer: IDAHO
+  Tier: Sonnet | Confidence: 54/100
+  Definition: "somewhere in America"
+  Wordplay type: acrostic
+  Components:
+    literal            I                         -> I
+    core_letters       had                       -> D
+    literal            a                         -> A
+    first_letter       house                     -> HO
+  Assembly: charade — I + D(core of "had") + A + HO(first letter of "house")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/4 (62%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      had: syn=ATE,DUG,GOT,MET,SAW,BODE,BORE,BORN,FELT,HELD,KNEW,MADE,SEEN,TOOK,WENT; abbr=ATE,HA
+      house: syn=HO*,BAR,BOX,CAT,DEN,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN,POD; abbr=HO*; ind=parts
+      somewhere: syn=AN,OR,BUT,FAIR,JUST,MOST,MUCH,NEAR,NEXT,NIGH,ABOUT,HOMES,OF AN
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      america: syn=A,US,USA; abbr=A*,AM,US,USA
+      somewhere in america: syn=HERE,STATE
+  AI Reasoning:
+    Taking I from 'I', D from 'had', A from 'a', and HO from 'house' spells IDAHO
+  ----------------------------------------------------------------------
+
+  [HIGH] ALTERNATE  28A. Advanced behind, to catch seabird rotating
+  Answer: ALTERNATE
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "rotating"
+  Wordplay type: container
+  Components:
+    abbreviation       Advanced                  -> A
+    synonym            behind                    -> LATE
+    synonym            seabird                   -> TERN
+  Assembly: container — A(abbr. "Advanced") + TERN(synonym of "seabird") inside LATE(synonym of "behind")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      advanced: syn=A,GO,UP,CAME,COME,EDGE,FARE,FAST,GREW,HIGH,LATE,LEND,LENT,LOAN,MADE; abbr=A*
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      catch: syn=22,DO,A A,AIM,BAG,BIT,CON,COP,DIE,DIG,EYE,FIX,GEM,GET,LET
+      seabird: syn=TERN*,AUK,ERNE,CAHOW,EGRET,NODDY,FULMAR,GANNET,PETREL,PUFFIN,PERHAPS,E.G. GULL,GUILLEMOT
+      rotating: ind=reversal?
+      to catch: ind=container
+      to catch: syn=TAKE,HELIX,SNAIL,DAWDLER,SNAFFLE,ESCARGOT,GASTROPOD
+  AI Reasoning:
+    A (Advanced level) + LATE (behind) forms ALATE, which catches/contains TERN (seabird) to give ALTERNATE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] turns to  29A. Becomes overly enthused about acquiring vases
+  Answer: turns to
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Becomes overly enthused about acquiring vases"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      becomes: syn=TURNS*,TURN*,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES; ind=anagram
+      overly: syn=TOO,WITH
+      enthused: syn=HOT,MAD,WUD,AVID,GAGA,KEEN,LOCO,NUTS,WILD,ANTSY,BATTY,EAGER,GREAT,NUTTY,CRAZED
+      about: syn=TO*,TURN*,TURNS*,C,AS,BY,CA,OF,ON,OR,RE,UP,ARC,BOW,BUT; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      acquiring: syn=GET,GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING; ind=container
+      vases: syn=URNS*,URN*
+  AI Reasoning:
+    The entire clue cryptically defines 'turns to' as becoming devoted to/enthusiastic about collecting vases
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HOPE  3D. Long jump second in decathlon
+  Answer: HOPE
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "Long"
+  Wordplay type: charade
+  Components:
+    synonym            jump                      -> HOP
+    second_letter      second in decathlon       -> E
+  Assembly: charade — HOP(synonym of "jump") + E("second in decathlon")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      long: syn=HOPE*,AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC; abbr=PINE
+      jump: syn=IT,FLY,RAY,WAY,BEAM,DROP,EDGE,GLOW,HALO,LEAP,MOVE,PULL,RACE,SEAT,SKIP
+      second: syn=S,ME,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B,MO,S; ind=parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+    Definitions:
+      "Long" -> HOPE (definition match)
+  AI Reasoning:
+    Long (definition) = jump (HOP) + second letter of decathlon (E) = HOPE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DEBATES  30A. Discusses group in pit retiring
+  Answer: DEBATES
+  Tier: Sonnet | Confidence: 48/100
+  Definition: "Discusses"
+  Wordplay type: charade
+  Components:
+    reversal           pit                       -> DEB
+    synonym            group                     -> ATES
+  Assembly: charade — DEB(BED reversed, "pit") + ATES(synonym of "group")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      group: syn=ARC,LOT,PEG,REM,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT; abbr=CLAN,GP,SET
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      pit: syn=BED,DEN,GAP,STY,BEAT,BIND,DENT,DINT,DUMP,GULF,HOLE,MIRE,RENT,RIFT,SUMP; ind=parts
+      retiring: syn=COY,SHY,MEEK,FAZED,JUMPY,LOWLY,QUIET,STIFF,TIMID,UPSET,CLUMSY,DEMURE,GAUCHE,MODEST,RUSTIC; ind=reversal
+  AI Reasoning:
+    BED (pit) reversed gives DEB, plus ATES (group/suffix) makes DEBATES
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DETAILING  4D. Giving particulars about diamonds selling, but not originally
+  Answer: DETAILING
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Giving particulars"
+  Wordplay type: charade
+  Components:
+    synonym            about                     -> DE
+    deletion           selling, but not originally -> TAILING
+  Assembly: charade — DE(synonym of "about") + TAILING(deletion from "selling, but not originally")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      giving: syn=FREE,WAXY,BENDY,GOING,WAXEN,ACTING,AIMING,AIRING,CARING,CEDING,FEMALE,HAVING,LIMBER,MAKING,MOTHER; ind=anagram
+      particulars: syn=DETAIL*,PART,DETAILS,OLD,DATA,FACT,FULL,ITEM,NICE,PRIM,DATUM,EXACT,FUSSY,PICKY,POINT; abbr=PRIM; ind=anagram
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      diamonds: syn=D,ICE,NICE,SUIT,NICER,ROCKS,RHOMBI,STONES,SUITOR,A GIRLS,ICE FLOE,RETICENCE,ROCK,JEWEL,RHOMB; abbr=D*
+      selling: syn=DAY,VENDING,FLOGGING,PEDDLING,BETRAYING,MARKETING,RETAILING
+      but: syn=OF,BAR,FOR,THO,YET,FAIR,FROM,JUST,MOST,MUCH,NEAR,NIGH,ONLY,SAVE,THAN; sounds=butt
+      not: syn=AILING*,SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE; ind=anagram?,deletion; sounds=knot
+      originally: syn=FIRST,FIRSTLY,MERMAID,AT FIRST,INITIALLY,PRIMARILY; ind=acrostic,anagram?,parts
+      not originally: ind=parts
+  AI Reasoning:
+    DE (about) + TAILING (RETAILING without initial RE) = DETAILING
+  ----------------------------------------------------------------------
+
+  [HIGH] BOASTER  5A. Show-off son wearing straw hat
+  Answer: BOASTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Show-off"
+  Wordplay: charade + container
+  Explanation: S (synonym of "son") + BOATER (synonym of "straw hat") [container: "wearing"]; definition: "Show-off"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLACK  5D. Chess player's need to support bishop
+  Answer: BLACK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Chess player's need"
+  Wordplay: charade
+  Explanation: B (synonym of "bishop") + LACK (synonym of "support"); definition: "Chess player's need"
+  ----------------------------------------------------------------------
+
+  [HIGH] AUDIOTAPE  6D. Recording of books in car – copy
+  Answer: AUDIOTAPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Recording"
+  Wordplay: charade
+  Explanation: AUDIO (synonym of "of books in car") + TAPE (synonym of "- copy"); definition: "Recording"
+  ----------------------------------------------------------------------
+
+  [LOW] TAUPE  7D. Letter from Greek ends in plaintive tone
+  Answer: TAUPE
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "tone"
+  Wordplay type: charade
+  Components:
+    synonym            Greek                     -> TAU
+    first_letter       plaintive                 -> PE
+  Assembly: charade — TAU(synonym of "Greek") + PE(first letter of "plaintive")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      letter: syn=TAU*,MU,ETA,GEE,INK,PEN,PSI,RHO,TEA,BETA,CARD,CUSS,IOTA,MAIL,MEMO; abbr=A*,B,N
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      greek: syn=GK,GR,FETA,ATTIC,DORIC,IONIC,PLATO,STOIC; abbr=CHI,ETA,G,GR,MU,NU,PHI,PI; ind=anagram?
+      ends: syn=AIMS,CANS,CAPS,CUES,DAMS,DIES,DIPS,EBBS,ERRS,GETS,GOES,HEMS,KINS,LAYS,RIMS; ind=deletion,parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      tone: syn=HUE,VIP,ATOB,BORN,CLAY,ICON,MIND,AFTER,COLOR,PITCH,SEPIA,SOUND,STYLE,TINGE
+  AI Reasoning:
+    TAU (Greek letter) + PE (first and last letters of 'plaintive') = TAUPE
+  ----------------------------------------------------------------------
+
+  [HIGH] REHASH  8D. Once more talk about that woman climbing tree
+  Answer: REHASH
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Once more talk"
+  Wordplay: charade + reversal
+  Explanation: HER (synonym of "woman") + ASH (synonym of "tree") [reversal: "about"]; definition: "Once more talk"
+  ----------------------------------------------------------------------
+
+  [ERROR] 9. Elizabeth's lead welcomed by actor pal cast for epic film = Cleopatra
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

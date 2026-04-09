@@ -1,0 +1,89 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29975
+Generated: 2026-04-08 13:54:54
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        1/1 (100%)
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   1  2D
+  Medium (40-79): 0  
+  Low (<40):    0  
+  Failed:       0  
+  Average:      100/100
+
+COST: $0.0891 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS: none detected
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/1  2D
+  No issues detected.
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    2D  OUTDOOR       Old Tudor building inspires love in the open air (7)
+                      anagram of O(abbr. "Old")+TUDOR+O(abbr. "Old") = OUTDOOR  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] OUTDOOR  2D. Old Tudor building inspires love in the open air
+  Answer: OUTDOOR
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "in the open air"
+  Wordplay type: anagram
+  Components:
+    abbreviation       Old                       -> O
+    anagram_fodder     Tudor                     -> TUDOR
+    indicator          building                  -> 
+    indicator          inspires                  -> 
+    abbreviation       love                      -> O
+  Assembly: anagram — anagram of O(abbr. "Old")+TUDOR+O(abbr. "Old") = OUTDOOR
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      tudor: syn=MARY,HOUSE,STUDY,OF THE; fodder=TUDOR(5/7 anagram match)
+      building: syn=UP,HUT,WAX,BARN,BOOM,DIGS,FLAT,GAIN,HYPE,MAKE,MASS,REAR,RISE,SHED,WING; ind=anagram
+      inspires: syn=MOVES,AWAKENS,INT,KEY,BORN,FURY,IMBUE,RAISE,ATTRACT,BREATHE,COMFORT,ENTHUSE,HEARTEN; ind=container?
+      love: syn=DO*,O,BE,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PAT,PET,PIP,PUT; abbr=NIL,O*
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      open: syn=OUT*,OUTDOOR*,UP,FOR,GET,KEY,LIE,OPE,AIRS,AIRY,AJAR,AWED,BALD,BARE,FAIR
+      air: syn=ACT,DRY,FAN,GAS,IRE,JET,LAY,MAD,PAD,PET,SEA,WAY,AURA,BILE,BODY; sounds=heir,err
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+      open air: syn=OUTDOOR*,OPEN,WILDS,NATURE,WILDS,,WITHOUT
+      in the open: syn=OUT*,AIRS,OPEN,AIRED
+  AI Reasoning:
+    Anagram of Old (O) + Tudor (TUDOR) + love (O) = anagram of OTUDORO = OUTDOOR
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

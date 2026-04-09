@@ -1,0 +1,877 @@
+Explanation Mining Report
+========================
+
+Explanations mined: 221429
+Total unique mappings: 30148
+Already in DB: 13139
+New (count >= 2): 1573
+New (count == 1): 15436
+
+New synonyms (count >= 2): 1288
+New abbreviations (count >= 2): 285
+
+============================================================
+NEW SYNONYMS (count >= 2, sorted by frequency)
+============================================================
+
+  one -> I  (×90, ['CAPS(lower)'])
+    ex: RE (about) I(one) C (Conservative) ‘holding’ A (from the clue) and LIST (record)
+  old -> O  (×31, ['CAPS(lower)'])
+    ex: O(old) and SENSIBLE(wise) containing T(Tesla)
+  right -> R  (×28, ['CAPS(lower)'])
+    ex: An old word for the head is followed by (next to) R(right) to get a Latin term for father.
+  look -> LO  (×27, ['WORD (gloss)'])
+    ex: An anagram (doctor) of HAS + MB (another doctor) + a reversal (up, in a down clue) of LO (look) + [s
+  time -> T  (×27, ['CAPS(lower)'])
+    ex: TOUGH(hard), T(time) containing H(henry, the unit)
+  good -> G  (×26, ['CAPS(lower)'])
+    ex: G(good) HOST (landlord)
+  new -> N  (×26, ['CAPS(lower)'])
+    ex: anagram of IN, N(new), CHAOTIC, ERA
+  left -> L  (×25, ['CAPS(lower)'])
+    ex: SQUIRE(country gent), L(left), NUT(oddball) and KIN(relatives) surrounding the central letter in maR
+  small -> S  (×23, ['CAPS(lower)'])
+    ex: S(small), MATTERING(being significant)
+  indefinite article -> AN  (×21, ['WORD (gloss)'])
+    ex: SHAM (pretend) + AN (indefinite article)
+  area -> A  (×21, ['CAPS(lower)'])
+    ex: a GUM tree surrounding A(area)
+  former partner -> EX  (×20, ['WORD (gloss)'])
+    ex: EX (former partner) + I E (that is) in SR (sister)
+  love -> O  (×20, ['CAPS(lower)'])
+    ex: O(love) inside some large amounts and followed by the final letter of (ending in) [happiness]S
+  on the subject of -> RE  (×19, ['WORD (gloss)'])
+    ex: RE (on the subject of) GENTS (convenience)
+  large -> L  (×19, ['CAPS(lower)'])
+    ex: CAPE(head) CAN (may) AVER (maintain) A L(large)
+  sex -> IT  (×18, ['WORD (gloss)'])
+    ex: MAR (ruin) + IT (sex) + middle of whAt’s + L
+  company, firm -> CO  (×18, ['WORD (gloss)'])
+    ex: CO (company, firm) + A in RL (right and left hands)
+  energy -> E  (×18, ['CAPS(lower)'])
+    ex: Start with a synonym for scheme, then the second and fourth letters of debts, the two letter ‘with r
+  son -> S  (×17, ['CAPS(lower)'])
+    ex: SKETCH(drawing) minus S(son)
+  railway lines -> RY  (×16, ['WORD (gloss)'])
+    ex: LOO (john) round CUT (nick) + RY (railway lines) – a room for conversation, particularly in a monast
+  circa, about -> CA  (×15, ['WORD (gloss)'])
+    ex: CA (circa, about) + REGISTER less GIST (main point)
+  river -> R  (×14, ['CAPS(lower)'])
+    ex: needed the wordplay to piece this together, E(European), then R(river) inside TURIN(Piedmont city) m
+  current -> I  (×14, ['CAPS(lower)'])
+    ex: TA-RA(I’m off) containing I(current)
+  record -> LP  (×13, ['WORD (gloss)'])
+    ex: A + LP (record) + first letters of Hollywood Attraction. The brightest star in a constellation is la
+  university -> U  (×13, ['CAPS(lower)'])
+    ex: U(university), then RAP(hit) after N and W (opponents at bridge)
+  steam ship -> SS  (×12, ['WORD (gloss)'])
+    ex: definition: an abscess would contain pus ABS (AB is a sailor, with an S to make it plural); C (Circa
+  in the morning -> AM  (×12, ['WORD (gloss)'])
+    ex: DR (doctor – medic) + AM (in the morning) + A
+  river -> PO  (×12, ['WORD (gloss)'])
+    ex: O PO (river) in reverse of TURD – not sure about the grammar of this: “lining” suggests the inclusio
+  name -> N  (×12, ['CAPS(lower)'])
+    ex: GIVEN(considering) with N(name) replacing G(good). Referring to the actor David who I’m sure made lo
+  black -> B  (×12, ['CAPS(lower)'])
+    ex: B(black), the RIO grande (water that runs) and CHE(red). The exclamation point is there to lead us t
+  alien -> ET  (×11, ['WORD (gloss)'])
+    ex: ET (alien) in STATUTES (regulations)
+  moment, second -> MO  (×11, ['WORD (gloss)'])
+    ex: MO (moment, second) + T[ories] in NANA
+  playing -> ON  (×11, ['WORD (gloss)'])
+    ex: ON (playing) PLUS (advantage) in [joh]N [mcenro]E [gla]D – the single S is a US spelling, hence “for
+  cold -> C  (×11, ['CAPS(lower)'])
+    ex: Infected or suppurating, contains C(cold).
+  caught -> C  (×11, ['CAPS(lower)'])
+    ex: C(caught) LAVER (Rod the tennis player) into which is inserted (pocketing) I (one).
+  second -> S  (×11, ['CAPS(lower)'])
+    ex: ANSWER(solution) and P(page) with T(time) replacing the S(second)
+  with -> W  (×11, ['CAPS(lower)'])
+    ex: anagram of HIGH,LOW and PART minus W(with)
+  fine -> F  (×11, ['CAPS(lower)'])
+    ex: F(fine), and H(hotel) surrounding the first part of ADDIS ABABA(capital of Ethiopia)
+  outsize -> OS  (×10, ['WORD (gloss)'])
+    ex: SUVs are OS (outsize) CARS
+  to live -> BE  (×10, ['WORD (gloss)'])
+    ex: BE (to live) + SET (group)
+  pub -> PH  (×10, ['WORD (gloss)'])
+    ex: E (English) + PH (pub) + a reversal (upset) of REME (Royal Electrical and Mechanical Engineers – sol
+  power -> P  (×10, ['CAPS(lower)'])
+    ex: P(power) inside DELETE(strike)
+  female -> F  (×10, ['CAPS(lower)'])
+    ex: anagram of F(female), MENTORED. Referring to the last class of a school semester
+  hotel -> H  (×10, ['CAPS(lower)'])
+    ex: H(hotel), IS, TORIC(ring-shaped)
+  abbreviation for extended-play record -> EP  (×10, ['WORD (gloss)'])
+    ex: UKE (short for ukulele, like a guitar but smaller = small instrument) containing P (p, in musical no
+  manuscript -> MS  (×9, ['WORD (gloss)'])
+    ex: A + R (Republican) + MS (manuscript)
+  company, business -> CO  (×9, ['WORD (gloss)'])
+    ex: Reverse of CO (company, business) + CULT
+  about, on -> RE  (×9, ['WORD (gloss)'])
+    ex: GAME* + RE (about, on)
+  account, bill -> AC  (×9, ['WORD (gloss)'])
+    ex: AC (account, bill) + THING less T
+  run -> R  (×9, ['CAPS(lower)'])
+    ex: I, then R(run) inside NET(trap)
+  hospital -> H  (×9, ['CAPS(lower)'])
+    ex: anagram of ARAB containing H(hospital), then IN
+  uniform -> U  (×9, ['CAPS(lower)'])
+    ex: COL(mountain pass) and PORTER(hotel employee) containing U(uniform)
+  king -> R  (×9, ['CAPS(lower)'])
+    ex: R(king) replacing the first letter in VISIBILITY(prominence)
+  slang for a party -> DO  (×9, ['WORD (gloss)'])
+    ex: DO (slang for a party) + UR (abbreviation for “you are” = “you’re” in text messages).
+  editor, journalist -> ED  (×8, ['WORD (gloss)'])
+    ex: I “saved by” RA (artist) + REF (referee, judge) + ED (editor, journalist)
+  answer -> ANS  (×8, ['WORD (gloss)'])
+    ex: RACK=to “torture”; around ANS (answer)
+  one -> AN  (×8, ['WORD (gloss)'])
+    ex: Reverse of AN (one) in PA + MA
+  overdose -> OD  (×8, ['WORD (gloss)'])
+    ex: TRIP (experience drug) + OD (overdose)
+  thank you, cheers -> TA  (×8, ['WORD (gloss)'])
+    ex: BAT (cricketer) + TA (thank you, cheers) + LIONS (pride)
+  that man -> HE  (×8, ['WORD (gloss)'])
+    ex: HE (that man) + ROES (sounds like – we hear – ‘rose’, revolted)
+  eleven -> XI  (×8, ['WORD (gloss)'])
+    ex: XI (eleven) is contained in anXIety: and II (11) is ‘one reproduced’
+  opus, work -> OP  (×8, ['WORD (gloss)'])
+    ex: MILKS=”Exploits” as a verb + OP (opus, work) + impres-S
+  note -> RE  (×8, ['WORD (gloss)'])
+    ex: RE (note) + G (German) + RA (artist) + DE (French for ‘from’, so extraction)
+  page -> P  (×8, ['CAPS(lower)'])
+    ex: P(page) + RISES (gets out of bed) – the ‘perhaps’ indicates that ‘jimmy’ is the (chiefly) US spellin
+  allons -> G  (×8, ['CAPS(lower)'])
+    ex: Anagram (unsteadily) of ROSE around (swallowing) a G(allons).  I didn’t know Shrek was a man-eater!
+  heraldic term for gold -> OR  (×8, ['WORD (gloss)'])
+    ex: SUIT (hearts for example) OR (heraldic term for gold)
+  daughter -> D  (×8, ['CAPS(lower)'])
+    ex: D(daughter) and RIFT (split)
+  husband -> H  (×8, ['CAPS(lower)'])
+    ex: AS(like), H(husband) after the middle letter in franCesca
+  runs -> R  (×8, ['CAPS(lower)'])
+    ex: R(runs) then ET and EST(and, and is, in French), S(second)
+  abbreviation for street -> ST  (×8, ['WORD (gloss)'])
+    ex: BIRO (brand name for a ballpoint pen = writer) around ST (abbreviation for street). French term for 
+  abbreviation for doctor -> DR  (×8, ['WORD (gloss)'])
+    ex: We need to split “Medici” into MEDIC + I = DR (abbreviation for doctor) + ONE . A male bee: one “ser
+  public house -> PH  (×7, ['WORD (gloss)'])
+    ex: A reversal (returned) of MENU (fare) + PH (public house) + A TIC (a spasm)
+  agents -> CIA  (×7, ['WORD (gloss)'])
+    ex: CAD (rogue) in CIA (agents)
+  knockout -> KO  (×7, ['WORD (gloss)'])
+    ex: I’M ON (I’m prepared) in KO (knockout)
+  motorway -> MI  (×7, ['WORD (gloss)'])
+    ex: MI (motorway) + DINETTE (eating area) – Collins: ‘a Parisian seamstress or a salesgirl in a clothes 
+  chemical symbol for gold -> AU  (×7, ['WORD (gloss)'])
+    ex: GATE=number of spectators at a sports event=”Total number who’ve paid [in]”; plus AU (chemical symbo
+  former lover -> EX  (×7, ['WORD (gloss)'])
+    ex: EX (former lover) + AMPLE + S[pecial]
+  dog -> PUG  (×7, ['WORD (gloss)'])
+    ex: PUG (dog) in I’M NED {Flanders, Homer Simpson’s neighbour thanks to Gladys for pointing out my typo 
+  drugs -> ES  (×7, ['WORD (gloss)'])
+    ex: FIT (GO – I couldn’t see this immediately, then thought about doing a jigsaw puzzle: ‘this piece mus
+  slang for diamonds -> ICE  (×7, ['WORD (gloss)'])
+    ex: ICE (slang for diamonds) + D (abbreviation of the word)
+  lead -> PB  (×7, ['WORD (gloss)'])
+    ex: COUNTRY (state) + PB (lead) round U (posh)
+  religious education -> RE  (×7, ['WORD (gloss)'])
+    ex: The devotional book is an RE (religious education) WORK
+  training -> PE  (×7, ['WORD (gloss)'])
+    ex: PE (training)  + N + (AFTER HE)*
+  wife -> W  (×7, ['CAPS(lower)'])
+    ex: W(wife) AT (from the clue) CH (church).
+  very -> V  (×7, ['CAPS(lower)'])
+    ex: V(very) and an anagram of LINGUAL ART for an all-in-one
+  line -> L  (×7, ['CAPS(lower)'])
+    ex: RE(engineers), then AID(help) reversed, L(line)
+  round -> O  (×7, ['CAPS(lower)'])
+    ex: SUM(amount), then an anagram of PUT, O(round) and US(America)
+  article -> A  (×7, ['CAPS(lower)'])
+    ex: A(article) in front of UK’S(this country’s)
+  succeeded -> S  (×7, ['CAPS(lower)'])
+    ex: S(succeeded) underneath MOOD(mind-set) reversed, then an anagram of YEAR
+  unknown -> Y  (×7, ['CAPS(lower)'])
+    ex: POLICE(the force) minus the last letter in lukE then Y(unknown)
+  abbreviation for company -> CO  (×7, ['WORD (gloss)'])
+    ex: CO (abbreviation for company), before (leading) A + CAN (vessel = container), containing (with . . .
+  to free -> RID  (×6, ['WORD (gloss)'])
+    ex: O in DART (run) + RID (to free), reversed
+  current -> AC  (×6, ['WORD (gloss)'])
+    ex: AC (current) + CLAIMS (demands)
+  moment -> MO  (×6, ['WORD (gloss)'])
+    ex: MO (moment) + TO[u]RIST minus u (‘heart’ of b u s)
+  concerned with -> ON  (×6, ['WORD (gloss)'])
+    ex: TALES* + ON (concerned with) DON (river)
+  thanks, cheers -> TA  (×6, ['WORD (gloss)'])
+    ex: W in TA (thanks, cheers) + PATER
+  pictures -> ART  (×6, ['WORD (gloss)'])
+    ex: An anagram (out) of PUTS + ART (pictures)
+  always -> ER  (×6, ['WORD (gloss)'])
+    ex: An anagram (excited) of ROBOT + E’ER (always)
+  good -> PI  (×6, ['WORD (gloss)'])
+    ex: AS (equally)+PI (good)+C[ustard] or C[ream]
+  cricket club -> CC  (×6, ['WORD (gloss)'])
+    ex: A (from surface) + CC (cricket club), plus AL-[L]=almost ALL="almost entirely" around RU (rugby unio
+  circa, around -> CA  (×6, ['WORD (gloss)'])
+    ex: TIT (bird) + I + CA (circa, around) twice
+  no longer -> EX  (×6, ['WORD (gloss)'])
+    ex: EX (no longer) IST (first – in the lead)
+  alternating current -> AC  (×6, ['WORD (gloss)'])
+    ex: AC (alternating current) + TUP=a “male” sheep
+  teetotal, dry -> TT  (×6, ['WORD (gloss)'])
+    ex: BETTER less TT (teetotal, dry)
+  lines -> LL  (×6, ['WORD (gloss)'])
+    ex: ME-[LL]-OW, minus the LL (lines) in the middle ‘mellow’=slightly drunk=”Tipsy”
+  once -> EX  (×6, ['WORD (gloss)'])
+    ex: EX (once) + UBER (taxi) + ANT (worker)
+  note, as in do-re-mi -> RE  (×6, ['WORD (gloss)'])
+    ex: OK (endorsement) in ST (Saint, e.g. Mark) + RE (note, as in do-re-mi)
+  care of -> CO  (×6, ['WORD (gloss)'])
+    ex: CO (care of) + A CH (church) – reference to the Greyhound Lines
+  astrological sign -> ARIES  (×6, ['WORD (gloss)'])
+    ex: A + PI (pious, good) + ARIES (astrological sign); the workers are bees
+  jerk -> TIC  (×6, ['WORD (gloss)'])
+    ex: ROMAN (one who lives in Rome, a capital city) + TIC (jerk). I hadn’t previously been aware that Loth
+  ailwa -> R  (×6, ['CAPS(lower)'])
+    ex: Use a synonym for the word fortune and add the abbreviation for R(ailwa)y
+  the heraldic term for gold -> OR  (×6, ['WORD (gloss)'])
+    ex: AU (the chemical symbol for gold) RA (artist) ‘inspiring’ OR (the heraldic term for gold)
+  book -> B  (×6, ['CAPS(lower)'])
+    ex: the writer is Thomas HARDY, inside DONE(completed) and B(book)
+  died -> D  (×6, ['CAPS(lower)'])
+    ex: HERO(champion), D(died)
+  about -> C  (×6, ['CAPS(lower)'])
+    ex: anagram of PINE,TREE surrounding C(about)
+  answer -> A  (×6, ['CAPS(lower)'])
+    ex: WARY(curious) with the A(answer) moved
+  abbreviation for church -> CH  (×6, ['WORD (gloss)'])
+    ex: LIQUI [d] S (tea and coffee inter alia ), without the D (abbreviation for daughter), inside CH (abbr
+  a form of the indefinite article -> AN  (×6, ['WORD (gloss)'])
+    ex: AN (a form of the indefinite article) + C (abbreviation for Latin circa = about = approximately), su
+  cricket side -> LEG  (×5, ['WORD (gloss)'])
+    ex: DOG (setter, maybe) + LEG (cricket side)
+  service -> RAF  (×5, ['WORD (gloss)'])
+    ex: RAF (service) in CT (court)
+  chess man -> KING  (×5, ['WORD (gloss)'])
+    ex: HI (hello, good day) + KING (chess man)
+  cars -> MINIS  (×5, ['WORD (gloss)'])
+    ex: MINIS (cars) in REC (park) + [garag]E
+  like that -> SO  (×5, ['WORD (gloss)'])
+    ex: ESP (the sixth sense) + RES[t] (the others, mostly) + SO (like that)
+  thank you -> TA  (×5, ['WORD (gloss)'])
+    ex: TA (thank you) + KING (chess man)
+  spin -> PR  (×5, ['WORD (gloss)'])
+    ex: PR (spin)  + OVER (deliveries, in cricket) + first letters of Bowler Is Adjusting Length. Fortunatel
+  neat -> OX  (×5, ['WORD (gloss)'])
+    ex: OX (neat) + IDEA less E + O (zero) in TIN
+  over the top -> OTT  (×5, ['WORD (gloss)'])
+    ex: anagram/"loosened" of (tiles)*, plus a reversal/"flipped" of OTT (over the top)
+  other ranks, men -> OR  (×5, ['WORD (gloss)'])
+    ex: DO (cheat) U (you) in OR (other ranks, men)
+  nurse -> EN  (×5, ['WORD (gloss)'])
+    ex: P (quiet) + H[ard] + NOM (French name, handle) + EN (nurse) in PH (Public House)
+  stove -> AGA  (×5, ['WORD (gloss)'])
+    ex: charade of AGA (stove) + PAN (pot) + THUS (like that) – for those big showy flowers, also known as t
+  little hesitation -> ER  (×5, ['WORD (gloss)'])
+    ex: ROB GRAVES (to act as bodysnatcher) round ER (little hesitation) T (time)
+  railway, line -> RY  (×5, ['WORD (gloss)'])
+    ex: First letters of Of Sweat Are Running in RY (railway, line)
+  newspaper -> FT  (×5, ['WORD (gloss)'])
+    ex: Alternate letters of gRoUp Is in FT (newspaper)
+  good person -> ST  (×5, ['WORD (gloss)'])
+    ex: ST (good person) + ( Sir John) RUTTER , who is perhaps most widely known for his Christmas carols bu
+  final -> END  (×5, ['WORD (gloss)'])
+    ex: An anagram (ground – I always love to see this indicator and it makes for a great surface here) of S
+  belonging to -> IN  (×5, ['WORD (gloss)'])
+    ex: IN (belonging to) SECTOR round P[olice]
+  excited -> UP  (×5, ['WORD (gloss)'])
+    ex: COUPLE less UP (excited) + [bein]G in RIDE; the poet Samuel Taylor Coleridge was one of the founders
+  other ranks -> OR  (×5, ['WORD (gloss)'])
+    ex: Church/men = CH/OR (other ranks), plus [use]D. A chord is a line between two points on a circle
+  pages -> PP  (×5, ['WORD (gloss)'])
+    ex: PP (pages) round RIM (ring)
+  police -> MET  (×5, ['WORD (gloss)'])
+    ex: MET (police) + A (article)
+  south-east -> SE  (×5, ['WORD (gloss)'])
+    ex: SE (south-east) round TON (weight) – beryl is a mineral sometimes used as a gemstone (and my middle 
+  lieutenant -> LT  (×5, ['WORD (gloss)'])
+    ex: A STEROID (way of improving performance) + BE (live) + LT (lieutenant)
+  chemical symbol for silver -> AG  (×5, ['WORD (gloss)'])
+    ex: DAME=”woman”, with AG (chemical symbol for silver) inside
+  essentially -> SE  (×5, ['WORD (gloss)'])
+    ex: PER SE (essentially) + MOBILE (phone)
+  note -> TI  (×5, ['WORD (gloss)'])
+    ex: SEC (secretary) round P[romissory] TI (note)
+  not out -> IN  (×5, ['WORD (gloss)'])
+    ex: IN (not out) + STALL (hedge)
+  on -> OVER  (×5, ['WORD (gloss)'])
+    ex: PULL (get sex partner) + OVER (on)
+  railway line -> RY  (×5, ['WORD (gloss)'])
+    ex: A[ngeli]C in RY (railway line)
+  representative -> MP  (×5, ['WORD (gloss)'])
+    ex: MP (representative) in RULE
+  detective -> DI  (×5, ['WORD (gloss)'])
+    ex: MAY (PM) in (protected by) DI (detective) SS (special police)
+  for -> TO  (×5, ['WORD (gloss)'])
+    ex: S[quare] + TO (for) + K in CADE, the famous rebel , who I don’t think we’ve seen for a while
+  identity papers -> ID  (×5, ['WORD (gloss)'])
+    ex: GUANO (bird droppings, hence “crap”) in ID (identity papers) + ON
+  alternatively -> OR  (×5, ['WORD (gloss)'])
+    ex: OR (alternatively) in AGA (oven)
+  favouring -> PRO  (×5, ['WORD (gloss)'])
+    ex: PRO (favouring) CURES (kippers, as a verb) + S
+  commanding officer -> CO  (×5, ['WORD (gloss)'])
+    ex: + OR (other ranks = men) + OC (officer commanding) + CO (commanding officer)
+  loves -> OO  (×5, ['WORD (gloss)'])
+    ex: the given name of an Australian film director + OO (loves) + KA (middle of knocKAbout).
+  old woman -> MA  (×5, ['WORD (gloss)'])
+    ex: MA (old woman) as a childish contraction for mamma i.e. mother who is an old woman followed by TIN (
+  supported by -> ON  (×5, ['WORD (gloss)'])
+    ex: SIDE (view) as view or opinion coming from the other end (reflective) as a reversal in the across cl
+  chemical symbol for copper -> CU  (×5, ['WORD (gloss)'])
+    ex: CU (chemical symbol for copper) inserted into (embraced by) MERRY (tipsy)
+  regarding -> RE  (×5, ['WORD (gloss)'])
+    ex: RE (regarding) as a commercial jargon used to indicate ‘referring to’, ‘regarding’, ‘on’ or ‘about’ 
+  indeed -> AY  (×5, ['WORD (gloss)'])
+    ex: MOW (cut vegetation) and AY (indeed) go round TOR (hill)
+  rook -> R  (×5, ['CAPS(lower)'])
+    ex: BRAG(crow) minus R(rook). Think shooting game
+  irrational -> PI  (×5, ['WORD (gloss)'])
+    ex: PEST (pain) after PI (irrational) H (hour) reversed (boomeranging)
+Liked this definition!
+  conservative -> C  (×5, ['CAPS(lower)'])
+    ex: LEFT(Labour’s position) next to C(conservative)
+  eastern -> E  (×5, ['CAPS(lower)'])
+    ex: central letters of polICing, after E(eastern) inside GAL(girl)
+  duck -> O  (×5, ['CAPS(lower)'])
+    ex: PART(region) containing R(rook) and O(duck)
+  over -> O  (×5, ['CAPS(lower)'])
+    ex: P(power), REST(nap), O(over)
+  maiden -> M  (×5, ['CAPS(lower)'])
+    ex: FISHY(dubious) minus the external letters, M(maiden), then LEA(meadow) reversed
+  day -> FRI  (×5, ['WORD (gloss)'])
+    ex: FRI (day) + END (purpose).
+  temperature -> T  (×5, ['CAPS(lower)'])
+    ex: T(temperature) then ON ICE(chilled) minus the last letter
+  duke -> D  (×5, ['CAPS(lower)'])
+    ex: I’M(setter is) under D(duke)
+  see -> V  (×5, ['CAPS(lower)'])
+    ex: V(see), A, B(book) inside MOLE(spy)
+  judge -> J  (×5, ['CAPS(lower)'])
+    ex: last letter of ugriT, then J(judge) inside ROANS(horses)
+  by -> X  (×5, ['CAPS(lower)'])
+    ex: in a map, the bottom right would be the SE corner, then X(by) and the last letter in monkeY
+  male -> M  (×5, ['CAPS(lower)'])
+    ex: A(alpha) M(male) MAN (staff). Capital of Jordan.
+  abbreviation for school -> SCH  (×5, ['WORD (gloss)'])
+    ex: RODE (went on horseback), contained in (during) SCH (abbreviation for school) + R (abbreviation for 
+  nothing -> FA  (×4, ['WORD (gloss)'])
+    ex: FA (nothing) in A[quife]R + CRY
+  information, dope -> GEN  (×4, ['WORD (gloss)'])
+    ex: GEN (information, dope) + U + IN ELY (Cambs city)
+  prison -> PEN  (×4, ['WORD (gloss)'])
+    ex: PEN (prison) + PUSHER
+  degree -> BA  (×4, ['WORD (gloss)'])
+    ex: BA (degree) + SIC (“as recorded” in quoted material)
+  deliveries, in cricket -> OVER  (×4, ['WORD (gloss)'])
+    ex: PR (spin)  + OVER (deliveries, in cricket) + first letters of Bowler Is Adjusting Length. Fortunatel
+  is able -> CAN  (×4, ['WORD (gloss)'])
+    ex: MO (doctor) + a reversal (to retire) of CAN (is able) + O (love)
+  rogue -> CUR  (×4, ['WORD (gloss)'])
+    ex: CUR (rogue) + I + O (love, in tennis)
+  roll -> ROTA  (×4, ['WORD (gloss)'])
+    ex: R (right) + an anagram (sort of) of AID + a reversal (up, in a down clue) of ROTA (roll)
+  recreation ground, park -> REC  (×4, ['WORD (gloss)'])
+    ex: A LIST (to tip) in REC (recreation ground, park)
+  pudding, sweet -> PUD  (×4, ['WORD (gloss)'])
+    ex: REAM in reverse of PUD (pudding, sweet)
+  if not -> OR  (×4, ['WORD (gloss)'])
+    ex: MO (second) + OR (if not) in TOIL (hard work)
+  not allowed -> OUT  (×4, ['WORD (gloss)'])
+    ex: DROP (a tiny drink) + OUT (not allowed)
+  film -> VID  (×4, ['WORD (gloss)'])
+    ex: PRO (for) + VID (film) + an anagram (falsified) of almost all of THE DAT[a] – great to see If as the
+  in the style of -> LA  (×4, ['WORD (gloss)'])
+    ex: A LA (in the style of) + BREAST*
+  unit of electric current -> AMP  (×4, ['WORD (gloss)'])
+    ex: AMP (unit of electric current) in SHIRE – Samphire is an edible plant found in coastal areas. The na
+  fellow -> HE  (×4, ['WORD (gloss)'])
+    ex: HE (fellow) round a reversal (back) of TO + L (student)
+  official -> REF  (×4, ['WORD (gloss)'])
+    ex: REF (official) + LAG (delay) round D (democrat)
+  memory -> ROM  (×4, ['WORD (gloss)'])
+    ex: A (article) in ROM (memory) – or O in RAM – thanks, AlanC and Angus
+  front -> BOW  (×4, ['WORD (gloss)'])
+    ex: BOW (front) + LED – bowled is a way of being out in cricket
+  certainly not -> NO  (×4, ['WORD (gloss)'])
+    ex: A R (a river) + NO (certainly not)
+  fashionable, cool -> IN  (×4, ['WORD (gloss)'])
+    ex: IN (fashionable, cool) + FANCY
+  one -> ME  (×4, ['WORD (gloss)'])
+    ex: ME (one) in DREAD (fear)
+  to court -> WOO  (×4, ['WORD (gloss)'])
+    ex: WOO (to court) + D[ate) – club as in golf
+  ecclesiastical see -> ELY  (×4, ['WORD (gloss)'])
+    ex: [a]C[t]O[r] + HE’S + IV + ELY (ecclesiastical see)
+
+============================================================
+NEW ABBREVIATIONS (count >= 2, sorted by frequency)
+============================================================
+
+  time -> T  (×294, ['CAPS(lower)'])
+    ex: T(ime) + the usual abbreviation for editor + the alternate letters (regular basis) of I dO cUrSe in 
+  right -> R  (×247, ['CAPS(lower)'])
+    ex: ROS(ME<)ARY. 9. ERMINE . “ER, MINE?”.  Traditional clothing for a judge. 10. DILL . (en)D + ILL. 11.
+  old -> O  (×235, ['CAPS(lower)'])
+    ex: IS + HI + GUR(u) + O(ld)
+  english -> E  (×193, ['CAPS(lower)'])
+    ex: a wee bit of lego here – place E(nglish) + an informal abbreviation for a prisoner + D(eparts) all i
+  left -> L  (×192, ['CAPS(lower)'])
+    ex: =”bird”. L(eft) with STARING=”looking hard” outside it
+  small -> S  (×186, ['CAPS(lower)'])
+    ex: double definition. Ignore my gibberish. S(mall) obviously + the freshwater fish (plural) also known 
+  new -> N  (×182, ['CAPS(lower)'])
+    ex: Your intended, as in the man you intend to marry, is placed around (to secure) an N(ew).
+  good -> G  (×161, ['CAPS(lower)'])
+    ex: GRASS with G(ood) replaced by C(ricket)
+  european -> E  (×140, ['CAPS(lower)'])
+    ex: another word for a summary/outline + E(uropean).
+  son -> S  (×138, ['CAPS(lower)'])
+    ex: S(on) + IS from the clue + a truncated synonym for curt (no Energy).
+  daughter -> D  (×118, ['CAPS(lower)'])
+    ex: An anagram (foundering) of BELFAST BARGE plus D(aughter).
+  line -> L  (×100, ['CAPS(lower)'])
+    ex: L(ine) in DRAWING
+  large -> L  (×97, ['CAPS(lower)'])
+    ex: The animal that lows followed by L(arge).
+  female -> F  (×94, ['CAPS(lower)'])
+    ex: M(ale) + O(=duck) + OR + F(emale) + OWL.  Apparently a type of grouse. 2. SCREAM . S(econd) + CREAM.
+  area -> A  (×89, ['CAPS(lower)'])
+    ex: An anagram (about) of KIND EMaILED with its A(rea) removed.
+  second -> S  (×88, ['CAPS(lower)'])
+    ex: =”Shady lady”. S(econd) plus TRUMPET=”instrument”
+  river -> R  (×88, ['CAPS(lower)'])
+    ex: OP(t) + SO<< + SUM. 2. TASTE .  TATE is the home of the Turner Prize.  Presumably S is ‘close to ban
+  cold -> C  (×87, ['CAPS(lower)'])
+    ex: C(old) + a verbal synonym for drink.
+  energy -> E  (×79, ['CAPS(lower)'])
+    ex: an informal term for friend + E(nergy).
+  university -> U  (×79, ['CAPS(lower)'])
+    ex: A charade of U(niversity), the two letters for your representative in parliament, the I from the clu
+  male -> M  (×76, ['CAPS(lower)'])
+    ex: M(ale) + O(=duck) + OR + F(emale) + OWL.  Apparently a type of grouse. 2. SCREAM . S(econd) + CREAM.
+  husband -> H  (×73, ['CAPS(lower)'])
+    ex: Take a word for one, in a pack of cards perhaps, and insert (nursing) an H(usband).
+  republican -> R  (×70, ['CAPS(lower)'])
+    ex: a synonym of bias/slant with R(epublican) inserted (surrounding).
+  answer -> A  (×69, ['CAPS(lower)'])
+    ex: a wee bit of lego involved – R(ight) + an insertion (found in)  of A(nswer) & S(on) between the the 
+  wife -> W  (×69, ['CAPS(lower)'])
+    ex: insert W(ife) + the two letter abbreviation for outsized into a volume/book. War and Peace is a weig
+  name -> N  (×64, ['CAPS(lower)'])
+    ex: A charade of a word meaning easy, the TO from the clue, an N(ame) and an S (leader of Several).
+  british -> B  (×59, ['CAPS(lower)'])
+    ex: Start with a word referring to “those people” and add an O(ld) and a B(ritish).  Split the result (3
+  hotel -> H  (×57, ['CAPS(lower)'])
+    ex: HIT & EC(london postcode) & H(otel)
+  conservative -> C  (×57, ['CAPS(lower)'])
+    ex: the usual preposition for about/in the matter of + C(onservative) + a synonym for policy/stance.
+  north -> N  (×54, ['CAPS(lower)'])
+    ex: Not sure what ‘from the ranks’ means, unless insurrection specifically means a military uprising of 
+  hospital -> H  (×54, ['CAPS(lower)'])
+    ex: HEW (cut) in TWO, with one of the W(eek)s replaced by H(ospital)
+  power -> P  (×53, ['CAPS(lower)'])
+    ex: The first word of the answer is a slang term for a complaint and the second is made up of the letter
+  fine -> F  (×52, ['CAPS(lower)'])
+    ex: Start with the word friend and remove from it F(ine) and the abbreviation for Rhode Island.
+  lake -> L  (×51, ['CAPS(lower)'])
+    ex: You need a vessel or ship around (to cross) an L(ake)
+  east -> E  (×51, ['CAPS(lower)'])
+    ex: A word meaning still is reversed (heading west) and followed by (then) an E(ast).
+  american -> A  (×50, ['CAPS(lower)'])
+    ex: a bit of lego here – a synonym for affected/theatrically mannered + A(merican) + a reversal of GI + 
+  hard -> H  (×46, ['CAPS(lower)'])
+    ex: Removes H(ard) bit from OX (h) IDE
+  eastern -> E  (×46, ['CAPS(lower)'])
+    ex: Exhausted or used-up contains E(astern) and R(iver).
+  day -> D  (×46, ['CAPS(lower)'])
+    ex: The French word for good plus D(ay).
+  very -> V  (×43, ['CAPS(lower)'])
+    ex: V(ery) + A SEC + TOM + (surger)Y.  About as delicate as it gets I imagine. 6. MUG UP . MUG(w)U(m)P. 
+  with -> W  (×40, ['CAPS(lower)'])
+    ex: PAPA + W(ith)
+  grand -> G  (×40, ['CAPS(lower)'])
+    ex: IS (one’s) placed around (maintaining) a G(rand) and a bathroom or toilet.
+  over -> O  (×40, ['CAPS(lower)'])
+    ex: the cricket abbreviation for O(ver) followed by a synonym for talks foolishly with the IVR code for 
+  women -> W  (×40, ['CAPS(lower)'])
+    ex: ‘A’ from the clue and a train line surround W(omen).
+  caught -> C  (×39, ['CAPS(lower)'])
+    ex: AWORDTOI*. 2. YEAH . HA(E)Y<. 3. DOUBLE WHAMMY . DOU(r) + BLEW + HAMMY. 4. REDNECK . RED + NECK. 5. 
+  southern -> S  (×37, ['CAPS(lower)'])
+    ex: S(outhern) & CAB
+  democrat -> D  (×37, ['CAPS(lower)'])
+    ex: take a synonym of fight and replace the R(epublican) with a D(emocrat).
+  northern -> N  (×36, ['CAPS(lower)'])
+    ex: Boasting as a rooster might contains N(orthern).
+  temperature -> T  (×35, ['CAPS(lower)'])
+    ex: a synonym for stable/balanced + T(emperature).
+  pressure -> P  (×35, ['CAPS(lower)'])
+    ex: A word for magic chants loses its P(ressure).
+  united -> U  (×34, ['CAPS(lower)'])
+    ex: A supporter placed around (defending) a U(nited).  Mr Tumnus in The Chronicles of Narnia is one of t
+  south -> S  (×34, ['CAPS(lower)'])
+    ex: insert the single letter in cricket for Over into a reversal (going north/down clue) of a synonym fo
+  liberal -> L  (×33, ['CAPS(lower)'])
+    ex: L(iberal) and not here or away.
+  hot -> H  (×32, ['CAPS(lower)'])
+    ex: The spots that plague teenagers contain an eccentric Spanish artist plus H(ot). All of this is rever
+  book -> B  (×32, ['CAPS(lower)'])
+    ex: The reversal of a formal address for a male teacher contains B(ook).
+  independent -> I  (×31, ['CAPS(lower)'])
+    ex: I(ndependent) and a Member of Parliament precede idiot equines.
+  clubs -> C  (×31, ['CAPS(lower)'])
+    ex: A word for when followed by a C(lubs) and a word meaning to finish or the finish.
+  parking -> P  (×28, ['CAPS(lower)'])
+    ex: P(arking) + an anagram (all over the place) – DO DRIVE.
+  bishop -> B  (×27, ['CAPS(lower)'])
+    ex: B(ishop) followed by a word meaning endures or contin ies.
+  run -> R  (×27, ['CAPS(lower)'])
+    ex: Stores as a verb contains E(nergy) and R(un).
+  year -> Y  (×27, ['CAPS(lower)'])
+    ex: An anagram (possibly) of CAPITAL contains Y(ear).
+  international -> I  (×27, ['CAPS(lower)'])
+    ex: Ignores or dismisses and then right wing politicians drop I(nternational).
+  adult -> A  (×26, ['CAPS(lower)'])
+    ex: A(dult) + a synonym for bottom/base.
+  resistance -> R  (×23, ['CAPS(lower)'])
+    ex: E(nglish) + another word for a shop/retail outlet all preceded by (after) R(esistance).
+  runs -> R  (×23, ['CAPS(lower)'])
+    ex: R(uns) followed by a French city gives a Scottish football club.
+  black -> B  (×23, ['CAPS(lower)'])
+    ex: A six letter word for fuss or ‘to do’ and then B(lack).
+  succeeded -> S  (×22, ['CAPS(lower)'])
+    ex: Reading back to front we have an exclamation of ‘What!’, then S(ucceeded) and A(ce).
+  royal -> R  (×20, ['CAPS(lower)'])
+    ex: An anagram (upset) of DO I SEEM contains R(oyal) N(avy).
+  piano -> P  (×19, ['CAPS(lower)'])
+    ex: =”Strategy”. GAMELAN=”instrument” around P(iano)=”quiet”
+  page -> P  (×18, ['CAPS(lower)'])
+    ex: The three letters for a well-known dictionary, then Roman numeral one and P(age), followed by the tw
+  uniform -> U  (×18, ['CAPS(lower)'])
+    ex: Drill or physical exercise then R(ight) and U(niform).
+  married -> M  (×18, ['CAPS(lower)'])
+    ex: I (one) and M(arried) followed by a word for a couple or two.
+  america -> A  (×17, ['CAPS(lower)'])
+    ex: insert (held by) A(merica) + a truncated (almost) synonym for certainly into what elders are a type 
+  ace -> A  (×16, ['CAPS(lower)'])
+    ex: A label, possibly on a computer app, is followed by L(eft) and A(ce).
+  millions -> M  (×16, ['CAPS(lower)'])
+    ex: An anagram (criminal) of IN CASINO contains M(illions).
+  following -> F  (×15, ['CAPS(lower)'])
+    ex: A word describing something needing to be settled or owing and an F(ollowing) all reversed (retreats
+  fellow -> F  (×15, ['CAPS(lower)'])
+    ex: A word meaning kind, as in sort, followed by F(ellow) and then an expert.
+  noon -> N  (×14, ['CAPS(lower)'])
+    ex: N(oon) in ACES & TRY
+  ordinary -> O  (×14, ['CAPS(lower)'])
+    ex: the usual two letter informal noun for a former lover + a shortened (almost) synonym for swearing/ut
+  golf -> G  (×14, ['CAPS(lower)'])
+    ex: Meander or twist, then a bachelor graduate and G(olf).
+  ecstasy -> E  (×13, ['CAPS(lower)'])
+    ex: RAN (smuggled) + E(cstasy) twice
+  king -> K  (×13, ['CAPS(lower)'])
+    ex: OP(t) + SO<< + SUM. 2. TASTE .  TATE is the home of the Turner Prize.  Presumably S is ‘close to ban
+  west -> W  (×13, ['CAPS(lower)'])
+    ex: TO from the clue followed by W(est) and a P(age), the AT from the clue and finally an H(otel).
+  mass -> M  (×12, ['CAPS(lower)'])
+    ex: M(ass) inserted into (held by) a word for your father.
+  maiden -> M  (×12, ['CAPS(lower)'])
+    ex: Roman numeral one then an anagram (horrible) of FELLA contains M(aiden).
+  western -> W  (×12, ['CAPS(lower)'])
+    ex: “Brief” is a slang term for this chap.  Start with a film, of moisture perhaps, and insert (shown in
+  union -> U  (×11, ['CAPS(lower)'])
+    ex: KEIR (Hardie and Starmer – strictly, the name of two Labour leaders, Hardie and Starmer , the former
+  singular -> S  (×11, ['CAPS(lower)'])
+    ex: S(ingular) + another word for advantage.
+  diamonds -> D  (×11, ['CAPS(lower)'])
+    ex: A Scottish tribe surrounds a synonym for noisy and an avian ‘intruder’; finally D(iamonds).
+  seconds -> S  (×11, ['CAPS(lower)'])
+    ex: An anagram (tidied up) of EATING is followed by S(econds)
+  universal -> U  (×11, ['CAPS(lower)'])
+    ex: The letter that looks like a cross and a U(niversal) are placed around (is screening) the AN from th
+  died -> D  (×11, ['CAPS(lower)'])
+    ex: Start with a B (onset of Blight) and after it you need a tree, a D(ied) and then another tree (wood)
+  sun -> S  (×11, ['CAPS(lower)'])
+    ex: The usual two letters for former, usually former spouse, are followed by a three letter suggestion o
+  note -> N  (×10, ['CAPS(lower)'])
+    ex: a bit of lego here – a synonym for affected/theatrically mannered + A(merican) + a reversal of GI + 
+  motorway -> M  (×10, ['CAPS(lower)'])
+    ex: M(otorway) + a synonym for stopped/finished.
+  yankee -> Y  (×10, ['CAPS(lower)'])
+    ex: anagram (improper) of TO SURLY + Y(ankee) outside two-letter abbreviation for the 15 a-side form of 
+  minute -> M  (×10, ['CAPS(lower)'])
+    ex: Start with an anagram (dodgy) of DEALER and insert (purchases) an M(inute).
+  steam -> S  (×10, ['CAPS(lower)'])
+    ex: — the A from the clue and the usual two letter abbreviation for S(team) S(hip) are contained in the 
+  duke -> D  (×10, ['CAPS(lower)'])
+    ex: — the abbreviation for D(uke) and the IS from the clue are followed by half of a six letter word mea
+  yard -> Y  (×9, ['CAPS(lower)'])
+    ex: A motor vehicle reversed, then Y(ard).
+  ship -> S  (×9, ['CAPS(lower)'])
+    ex: — the A from the clue and the usual two letter abbreviation for S(team) S(hip) are contained in the 
+  jack -> J  (×8, ['CAPS(lower)'])
+    ex: OP(t) + SO<< + SUM. 2. TASTE .  TATE is the home of the Turner Prize.  Presumably S is ‘close to ban
+  electronic -> E  (×8, ['CAPS(lower)'])
+    ex: E(lectronic) in TEN
+  rex -> R  (×8, ['CAPS(lower)'])
+    ex: Another word for a spat around (about) the A from the clue and an R(ex).
+  miles -> M  (×8, ['CAPS(lower)'])
+    ex: A word meaning a long way followed by M(iles) gives what a sheep station is an example of.
+  force -> F  (×8, ['CAPS(lower)'])
+    ex: A synonym for crazed, the reversal of a word for an enemy and then F(orce).
+  bachelor -> B  (×8, ['CAPS(lower)'])
+    ex: — B(achelor) and a word denoting working or functioning around a short area of land on which sports 
+  society -> S  (×8, ['CAPS(lower)'])
+    ex: Start with the South American politician whose wife is known as Evita and an A (from the clue) and i
+  england -> E  (×8, ['CAPS(lower)'])
+    ex: Take a four-letter word meaning posted. Add the French word meaning IN and finish off with the initi
+  india -> I  (×7, ['CAPS(lower)'])
+    ex: An anagram (converts) of CLAPTON contains I(ndia).
+  number -> N  (×7, ['CAPS(lower)'])
+    ex: The ‘enemy’ that is measured on a clock and N(umber) are inside a word meaning here or in attendance
+  engineers -> E  (×7, ['CAPS(lower)'])
+    ex: — the abbreviation for the R(oyal) E(ngineers) followed by another way of saying ‘try hard’
+  victory -> V  (×7, ['CAPS(lower)'])
+    ex: Finish a partnership perhaps.  An abbreviation of a detective, don’t forget it’s plural, followed by
+  boy -> B  (×7, ['CAPS(lower)'])
+    ex: — A little word meaning corrosion or deterioration contains (overwhelms) the abbreviation for O(ld) 
+  charge -> C  (×7, ['CAPS(lower)'])
+    ex: — A little word meaning corrosion or deterioration contains (overwhelms) the abbreviation for O(ld) 
+  italy -> I  (×7, ['CAPS(lower)'])
+    ex: Anagram (amazing) of THAILAND WIN followed by an I(taly).  Never heard of this film so a bit of inve
+  dday -> D  (×6, ['CAPS(lower)'])
+    ex: ALAN (Turing) round D D(day) + I (indepenence) – reference to Aladdin rubbing the magic lamp
+  length -> L  (×6, ['CAPS(lower)'])
+    ex: An anagram (fancy) of HAIRSTY(l)E with its L(ength) removed.
+  tons -> T  (×6, ['CAPS(lower)'])
+    ex: Cut out as a failing engine might , and T(ons).
+  million -> M  (×6, ['CAPS(lower)'])
+    ex: insert (receiving) the abbreviation for ESTimated + a single letter for a M(illion) into a UK airlin
+  chapter -> C  (×6, ['CAPS(lower)'])
+    ex: Bob in the old currency contains long or yearn and C(hapter).
+  medium -> M  (×6, ['CAPS(lower)'])
+    ex: A word from Italian for a usually musical ace contains L(ake) and finally M(edium).
+  advanced -> A  (×6, ['CAPS(lower)'])
+    ex: O(ld) followed by a reversal (set back) of a famous Scottish engineer and finally A(dvanced) will gi
+  monsieur -> M  (×5, ['CAPS(lower)'])
+    ex: EAT M(onsieur) in TRENT
+  departs -> D  (×5, ['CAPS(lower)'])
+    ex: a wee bit of lego here – place E(nglish) + an informal abbreviation for a prisoner + D(eparts) all i
+  charlie -> C  (×5, ['CAPS(lower)'])
+    ex: C(harlie) and then an anagram (changed) of ISNT HERS.
+  whiskey -> W  (×5, ['CAPS(lower)'])
+    ex: A diminutive of Terry has inserted (drinks) the letter for zero and a W(hiskey).
+  oscar -> O  (×5, ['CAPS(lower)'])
+    ex: A long period followed by T(ime) and O(scar).
+  oxygen -> O  (×5, ['CAPS(lower)'])
+    ex: An anagram (flawed) of RESEARCH contains O(xygen).
+  yen -> Y  (×5, ['CAPS(lower)'])
+    ex: An anagram (needing to change) of PLANET plus Y(en).
+  navy -> N  (×5, ['CAPS(lower)'])
+    ex: An anagram (upset) of DO I SEEM contains R(oyal) N(avy).
+  victor -> V  (×5, ['CAPS(lower)'])
+    ex: A fiddler emperor contains V(ictor) and then the two letters for American.
+  feminine -> F  (×5, ['CAPS(lower)'])
+    ex: Keep a record as a ship’s captain might, F(eminine) and fury or anger.
+  minutes -> M  (×5, ['CAPS(lower)'])
+    ex: M(inutes) followed by a Hebridean island famous for its malt whisky.
+  volume -> V  (×5, ['CAPS(lower)'])
+    ex: O(ld) and then an untrue tale contains V(olume).
+  regina -> R  (×5, ['CAPS(lower)'])
+    ex: A breed of cat around the A from the clue and R(egina).  The Iberian version of these cats are still
+  college -> C  (×5, ['CAPS(lower)'])
+    ex: The architectural name for domes is found by taking the abbreviation for the county of Shropshire, a
+  century -> C  (×5, ['CAPS(lower)'])
+    ex: — start with a reversal (uprising, in a down clue) of a short period of time and C(entury); then add
+  church -> C  (×5, ['CAPS(lower)'])
+    ex: Take a four-letter word meaning posted. Add the French word meaning IN and finish off with the initi
+  red -> R  (×5, ['CAPS(lower)'])
+    ex: — place the initial letter (head) of R(ed) and a preposition meaning about or concerning (not the on
+  the -> T  (×4, ['CAPS(lower)'])
+    ex: T(he) REASON
+  penny -> P  (×4, ['CAPS(lower)'])
+    ex: An anagram (giddily) of I FLIRTED plus P(enny).
+  born -> B  (×4, ['CAPS(lower)'])
+    ex: Another word for a brood, of kittens perhaps, followed by B(orn) and the usual two letters for at ho
+  constant -> C  (×4, ['CAPS(lower)'])
+    ex: A four letter entry contains  C(onstant) and T(emperature.
+  folio -> F  (×4, ['CAPS(lower)'])
+    ex: French word for water follows a fern leaf that has its F(olio) missing.
+  wide -> W  (×4, ['CAPS(lower)'])
+    ex: Another word for a consumer, of food perhaps, placed after S(econd) and W(ide) to get something you 
+  question -> Q  (×4, ['CAPS(lower)'])
+    ex: Q(uestion) followed by an anagram (abroad) of A RULER.
+  office -> O  (×4, ['CAPS(lower)'])
+    ex: An anagram (organised) of AID plus H(ome) O(ffice).
+  community -> C  (×4, ['CAPS(lower)'])
+    ex: The Spanish definite article, then E(uropean) C(ommunity) and a board from which one might dine.
+  verse -> V  (×4, ['CAPS(lower)'])
+    ex: One of the significant branches of Islam contains V(erse).
+  hour -> H  (×4, ['CAPS(lower)'])
+    ex: String together the final letter of power, H(our), the two letter popular and a party drug.
+  november -> N  (×4, ['CAPS(lower)'])
+    ex: A garden tool used for weeding includes N(ovember).
+  hearts -> H  (×4, ['CAPS(lower)'])
+    ex: — the answer starts with AT from the clue; it being a down clue, we can think of the remainder of th
+  high -> H  (×4, ['CAPS(lower)'])
+    ex: — an adjective denoting first in rank absorbing the abbreviation for H(igh) E(xplosvie)
+  tenor -> T  (×4, ['CAPS(lower)'])
+    ex: — An anagram (fantastic) of TENOR and the one letter abbreviation for T(enor) (another briefly) are 
+  mike -> M  (×4, ['CAPS(lower)'])
+    ex: Start with the leading lady of a large realm. Then replace its M(ike) with the letter used for kiss.
+  this -> TH  (×4, ['CAPS(lower)'])
+    ex: — This ‘bit’ is money – a word meaning some loose change contains the usual one letter abbreviation 
+  government -> G  (×4, ['CAPS(lower)'])
+    ex: — G(overnment) followed by a verb meaning made a sound expressing hesitation or uncertainty
+  circa -> C  (×3, ['CAPS(lower)'])
+    ex: =”Blade”. C(irca)=”about” plus LAY MORE=”become increasingly promiscuous”
+  dirt -> D  (×3, ['CAPS(lower)'])
+    ex: D(irt)Y + NASTY. Legendary American soap opera of the 1980s, featuring Joan Collins and lots of shou
+  litres -> L  (×3, ['CAPS(lower)'])
+    ex: Start with a type of beer and before it (to start with) put the Roman numeral for six and an L(itres
+  shilling -> S  (×3, ['CAPS(lower)'])
+    ex: Better, or ameliorate contains Roman numeral one and S(hilling).
+  weight -> W  (×3, ['CAPS(lower)'])
+    ex: The reversal of O(ld) and a target or objective and finally, W(eight).
+  spades -> S  (×3, ['CAPS(lower)'])
+    ex: Take the S(pades) out of (getting rid of) a word meaning crazy.
+  latin -> L  (×3, ['CAPS(lower)'])
+    ex: The collective term for a group of religious cardinals has its L(atin) removed.
+  copyright -> C  (×3, ['CAPS(lower)'])
+    ex: Repeat one of the notes from the sol fah scale, then C(opyright).
+  depth -> D  (×3, ['CAPS(lower)'])
+    ex: D(epth) followed by an anagram (nasty) of VIDEO.
+  saint -> S  (×3, ['CAPS(lower)'])
+    ex: — the one letter abbreviation for O[ld], one of the many two letter abbreviations for church and the
+  sons -> S  (×3, ['CAPS(lower)'])
+    ex: You need a word for what corks are an example of and remove (leaving) the two S(ons).
+  romeo -> R  (×3, ['CAPS(lower)'])
+    ex: W(oment) R(omeo) and then made a deep impression, probably in a work of art or craft.
+  ranks -> R  (×3, ['CAPS(lower)'])
+    ex: — the answer starts with AT from the clue; it being a down clue, we can think of the remainder of th
+  mile -> M  (×3, ['CAPS(lower)'])
+    ex: — begin by piecing together the Lloyd’s Shipping Registry notation for excellent and the ‘fast time’
+  religious -> R  (×3, ['CAPS(lower)'])
+    ex: — The two letters meaning R(eligious) E(ducation) are followed by seven more which, if split 2,5, ca
+  education -> E  (×3, ['CAPS(lower)'])
+    ex: — The two letters meaning R(eligious) E(ducation) are followed by seven more which, if split 2,5, ca
+  public -> P  (×3, ['CAPS(lower)'])
+    ex: — The two letters for P(ublic) R(elations) are followed by a speech or an address which contains (ab
+  master -> M  (×3, ['CAPS(lower)'])
+    ex: A M(aster) of A(rts) is reversed (returned) and followed by a verb meaning give (someone) the author
+  explosive -> E  (×3, ['CAPS(lower)'])
+    ex: — the innermost, central, essential or unchanging part surrounds the designation for a H(igh) E(xplo
+  national -> N  (×3, ['CAPS(lower)'])
+    ex: The two letter abbreviation for “that is” contains (occupied by) the abbreviation for the N(ational)
+  honour -> H  (×3, ['CAPS(lower)'])
+    ex: — Back to childhood now – you need one of the two little men who lived at the bottom of a suburban g
+  litre -> L  (×3, ['CAPS(lower)'])
+    ex: — The surname of a late nineteenth/early twentieth century British poet and novelist contains (would
+  criminal -> C  (×3, ['CAPS(lower)'])
+    ex: Our two lettered abbreviation for a bill or ac(count) is followed by some detectives from the C(rimi
+  own -> O  (×3, ['CAPS(lower)'])
+    ex: — A verb to tie, often meaning to restrain an animal with a length of rope, contains (letting in) th
+  goal -> G  (×3, ['CAPS(lower)'])
+    ex: — A verb to tie, often meaning to restrain an animal with a length of rope, contains (letting in) th
+  nations -> N  (×3, ['CAPS(lower)'])
+    ex: — The abbreviation for the U(nited) N(ations) is followed by an Australian informal or old British s
+  post -> P  (×3, ['CAPS(lower)'])
+    ex: A partial anagram (asunder) of TORN inside the initial letters of P(ost) O(ffice)
+  cape -> C  (×3, ['CAPS(lower)'])
+    ex: – an anagram (abroad) of A DES RES follows (below, in a down clue) C(ape). I’d have said that ‘touch
+  horse -> H  (×3, ['CAPS(lower)'])
+    ex: a three-letter bird preceded by H(orse) – both H and horse can refer to heroin
+  oring -> O  (×3, ['CAPS(lower)'])
+    ex: RAGMAN(totter) surrounding O(ring), after D(daughter)
+  tincan -> TIN  (×3, ['CAPS(lower)'])
+    ex: NOT ILL(healthy) containing TIN(can) and the external letters of Gate-crasH
+  testament -> T  (×3, ['CAPS(lower)'])
+    ex: A first letter-fest: A Second O(ld) T(estament) set of books and C(harlie) via Cocaine.
+  veteran -> VET  (×2, ['CAPS(lower)'])
+    ex: VET(eran) (old soldier) round HE-MEN (macho types)
+  labour -> LAB  (×2, ['CAPS(lower)'])
+    ex: M (spy boss) in LAB(our) (party)
+  theatre -> T  (×2, ['CAPS(lower)'])
+    ex: *(ie star t) [anag: performing ] where T is [ lead in ] T(heatre)
+  state -> S  (×2, ['CAPS(lower)'])
+    ex: [tr]ENCHANT (incisive) minus tr (Turkey) + S(tate)
+  square -> S  (×2, ['CAPS(lower)'])
+    ex: I’m slightly confused by this one: I think the elements are LOG (piece of wood), I, S[quare], C (not
+  goo -> G  (×2, ['CAPS(lower)'])
+    ex: *(all demo gd) [anag: to get remixed ] where GD is G(oo)D with two rings going
+  eager -> E  (×2, ['CAPS(lower)'])
+    ex: E(ager) + VERSO (next page after turning)
+  eat -> E  (×2, ['CAPS(lower)'])
+    ex: =”Renown”. PIG=”big eater” around REST=”what’s left” plus E(at)
+  abdominal -> AB  (×2, ['CAPS(lower)'])
+    ex: AB(dominal) + ALONE – coincidentally this seafood also appeared in this week’s Quiptic
+  cricket -> C  (×2, ['CAPS(lower)'])
+    ex: GRASS with G(ood) replaced by C(ricket)
+
+============================================================
+CONFIRMED EXISTING (top 50 by frequency)
+============================================================
+
+  about -> RE  (×187)
+  working -> ON  (×139)
+  work -> OP  (×116)
+  home -> IN  (×105)
+  on -> RE  (×98)
+  at home -> IN  (×98)
+  party -> DO  (×97)
+  popular -> IN  (×92)
+  artist -> RA  (×81)
+  street -> ST  (×76)
+  company -> CO  (×75)
+  say -> EG  (×73)
+  like -> AS  (×69)
+  that is -> IE  (×69)
+  old -> EX  (×65)
+  with -> AND  (×61)
+  church -> CH  (×61)
+  when -> AS  (×59)
+  for -> PRO  (×55)
+  gold -> OR  (×52)
+  court -> CT  (×50)
+  church -> CE  (×50)
+  worker -> ANT  (×49)
+  trendy -> IN  (×47)
+  tense -> T  (×47)
+  provided -> IF  (×45)
+  beer -> ALE  (×45)
+  sailor -> AB  (×45)
+  house -> HO  (×45)
+  allowed -> LET  (×44)
+  vehicle -> CAR  (×44)
+  definite article -> THE  (×43)
+  in charge -> IC  (×43)
+  article -> AN  (×42)
+  doctor -> DR  (×42)
+  live -> BE  (×42)
+  gold -> AU  (×41)
+  politician -> MP  (×41)
+  family -> KIN  (×41)
+  journalist -> ED  (×41)
+  very -> SO  (×40)
+  island -> I  (×40)
+  second -> MO  (×39)
+  fashionable -> IN  (×39)
+  always -> EVER  (×38)
+  firm -> CO  (×38)
+  everyone -> ALL  (×38)
+  mother -> MA  (×37)
+  about -> ON  (×37)
+  exercise -> PE  (×36)

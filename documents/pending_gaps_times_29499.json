@@ -1,0 +1,341 @@
+{
+  "source": "times",
+  "puzzle": "29499",
+  "stats": {
+    "total": 28,
+    "assembled": 23,
+    "high": 9,
+    "medium": 12,
+    "low": 2,
+    "failed": 0,
+    "avg_score": 64.34782608695652
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "divine",
+      "letters": "BEDE",
+      "answer": "ADAMBEDE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Colour endless in a divine English novel",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Fools",
+      "letters": "ASSASS",
+      "answer": "ASSASSINATED",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Fools in America delinquent once hit",
+      "score": -15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "timid sort",
+      "letters": "MOUSE",
+      "answer": "MOUSSE",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Dessert timid sort swallows slowly at first",
+      "score": 67
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Blakey for one",
+      "letters": "ART",
+      "answer": "ARTISTRY",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Blakey for one is to strive for creative skill",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "is",
+      "letters": "IS",
+      "answer": "ARTISTRY",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Blakey for one is to strive for creative skill",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "debauchee,",
+      "letters": "RAKE",
+      "answer": "KARAOKE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Nothing stops Kelvin, a debauchee, in pub activity",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "argument",
+      "letters": "ROWING",
+      "answer": "BROWNING",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Bishop in argument about new Victorian poet",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "old hand",
+      "letters": "STAGER",
+      "answer": "STAGGER",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Shock where old hand guzzles gallon",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "soldiers",
+      "letters": "SP",
+      "answer": "DIASPORA",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Help mounted soldiers cutting spring migration",
+      "score": 42
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "spring",
+      "letters": "ORA",
+      "answer": "DIASPORA",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Help mounted soldiers cutting spring migration",
+      "score": 42
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "competed",
+      "letters": "VIED",
+      "answer": "OVIEDO",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Spaniards here competed in scoreless draw",
+      "score": 50
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "taking place",
+      "letters": "ON",
+      "answer": "RIGADOON",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Dance party taking place next to European capital",
+      "score": 45
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "this",
+      "letters": "ETHIC",
+      "answer": "ETHICAL",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Just for Latinists, this with others has to go round",
+      "score": 52
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "NHS department's",
+      "letters": "ENT",
+      "answer": "FLUENT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Complaint NHS department’s well able to explain?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "501s",
+      "letters": "LEVIS",
+      "answer": "TELEVISE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Maybe 501s with shirt put outside to air",
+      "score": 10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "shirt",
+      "letters": "TEE",
+      "answer": "TELEVISE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Maybe 501s with shirt put outside to air",
+      "score": 10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Place",
+      "answer": "ELDORADO",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Place abnormally loaded with hidden gold",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Duke",
+      "answer": "FIST",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Duke in good health carrying spades",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "English novel",
+      "answer": "ADAMBEDE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Colour endless in a divine English novel",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chilled environment",
+      "answer": "REFRIGERATOR",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Chilled environment in wild for rare tiger",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hit",
+      "answer": "ASSASSINATED",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Fools in America delinquent once hit",
+      "score": -15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "creative skill",
+      "answer": "ARTISTRY",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Blakey for one is to strive for creative skill",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "pub activity",
+      "answer": "KARAOKE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Nothing stops Kelvin, a debauchee, in pub activity",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "City",
+      "answer": "KILKENNY",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Almost do away with range of knowledge on New York City",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "struck with shame",
+      "answer": "ABASHED",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Adult struck — struck with shame",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Victorian poet",
+      "answer": "BROWNING",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Bishop in argument about new Victorian poet",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "knight",
+      "answer": "LANCELOT",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Jousting weapon returned to lake for knight",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Irrigation",
+      "answer": "LAVAGE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Irrigation of Algarve at regular intervals over time",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "land around Lomé",
+      "answer": "TOGO",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "American not eating in land around Lomé",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "well able to explain?",
+      "answer": "FLUENT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Complaint NHS department’s well able to explain?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to air",
+      "answer": "TELEVISE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Maybe 501s with shirt put outside to air",
+      "score": 10
+    }
+  ]
+}

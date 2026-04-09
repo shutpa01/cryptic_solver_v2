@@ -1,0 +1,716 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31195
+Generated: 2026-03-24 09:10:30
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        29/32 (90%)
+    Signature:      9
+    Sig+Enriched:   4
+    Sonnet:         14
+    DB Fallback:    2
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   14  1D, 10A, 11A, 14D, 15A, 21A, 24A, 29A, 9D, 1A, 12A, 18D, 23D, 7D
+  Medium (40-79): 13  13A, 16D, 17A, 19A, 2D, 22A, 26D, 27A, 28A, 30A, 4D, 5D, 8D
+  Low (<40):    2  20D, 21D
+  Failed:       3  25D, 3D, 6A
+  Average:      72/100
+
+COST: $1.2478 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (33 entries)
+------------------------------------------------------------
+  GRIM: "Forbidding" -> GRIM  (missing from definition_answers_augmented)
+  ISSUE: "Problem" -> ISSUE  (missing from definition_answers_augmented)
+  CUSTOMERS: "clients" -> CUSTOMERS  (missing from definition_answers_augmented)
+  SPACECRAFT: "rocket?" -> SPACECRAFT  (missing from definition_answers_augmented)
+  PRAISED: "commended" -> PRAISED  (missing from definition_answers_augmented)
+  STRANGE: "Unusual" -> STRANGE  (missing from definition_answers_augmented)
+  PRIMROSE: "flower" -> PRIMROSE  (missing from definition_answers_augmented)
+  TEST: "exam" -> TEST  (missing from definition_answers_augmented)
+  CONSIDER: "Think" -> CONSIDER  (missing from definition_answers_augmented)
+  PRESERVE: "Keep quiet" -> PRESERVE  (missing from definition_answers_augmented)
+  SMALLEST: "Most wee" -> SMALLEST  (missing from definition_answers_augmented)
+  SADDLES: "hampers" -> SADDLES  (missing from definition_answers_augmented)
+  LANDSCAPE: "Constable maybe produced this" -> LANDSCAPE  (missing from definition_answers_augmented)
+  SMITTEN: "Besotted with" -> SMITTEN  (missing from definition_answers_augmented)
+  CAMEL: "Mammal moved nearer lake" -> CAMEL  (missing from definition_answers_augmented)
+  MASKS: "veils" -> MASKS  (missing from definition_answers_augmented)
+  RAISE: "Breed" -> RAISE  (missing from definition_answers_augmented)
+  BENT: "Kinky inclination" -> BENT  (missing from definition_answers_augmented)
+  ASSISTANT: "Someone who helps" -> ASSISTANT  (missing from definition_answers_augmented)
+  NEEDS: "requirements" -> NEEDS  (missing from definition_answers_augmented)
+  in any event: "Where riders might compete, no matter what" -> in any event  (missing from definition_answers_augmented)
+  MASTERS: "Gains a thorough knowledge of" -> MASTERS  (missing from definition_answers_augmented)
+  REAP: "cut" -> REAP  (missing from definition_answers_augmented)
+  EMEER: "Muslim leader" -> EMEER  (missing from definition_answers_augmented)
+  pass muster: "Do assemble below gap in the mountains" -> pass muster  (missing from definition_answers_augmented)
+  PRIMROSE: Victorian -> PRIM  (missing from synonyms_pairs)
+  PRESERVE: about -> PRE  (missing from abbreviations)
+  COTTAGE: church -> COT  (missing from abbreviations)
+  COTTAGE: too much -> TE  (missing from abbreviations)
+  SMITTEN: German -> MIT  (missing from abbreviations)
+  MASKS: begs -> ASKS  (missing from synonyms_pairs)
+  SECURED: Start keeping -> SECURE  (missing from synonyms_pairs)
+  MASTERS: 1,000 -> M  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  SCRAM = 13 (65/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  goodness me (82/100): S <- "seems" (first_letter)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  SECURED = 4 (40/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  OBSERVANT = 2 (40/100): def="?" (none identified)
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  25. Breed fish, we're told = RAISE
+  3. Regularly infer editor's requirements = NEEDS
+  6. State again wanting carbon cut = REAP
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  2/32  28A, 20D
+  Type mismatch:         1  13A
+  Fabricated mapping:    1  1A
+  Unverified explain.:   1  4D
+  Weak definition:       1  2D
+  DB gap:                26  1A, 6A, 10A, 11A, 12A, 15A, 17A, 19A, 22A, 24A, 27A, 29A, 30A, 3D, 4D, 5D, 7D, 8D, 9D, 14D, 16D, 18D, 21D, 23D, 25D, 26D
+  Failed:                3  6A, 3D, 25D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  GRIM          Forbidding finally crossing border (4)
+                      G (last letter of "crossing") + RIM (synonym of "border") [last letter: "finally"]; definition: "Forbidding"  [HIGH]
+   10A  ISSUE         Problem in the US simply rejected (5)
+                      hidden reversed in "the US simply" [hidden: "in"]; definition: "Problem"  [HIGH]
+   11A  CUSTOMERS     Doctor cures most clients (9)
+                      anagram of CURESMOST ("cures most") [anagram: "Doctor"] = CUSTOMERS; definition: "clients"  [HIGH]
+   14D  SPACECRAFT    RAF accepts new rocket? (10)
+                      anagram of RAFACCEPTS ("RAF accepts") [anagram: "new"] = SPACECRAFT; definition: "rocket?"  [HIGH]
+   15A  PRAISED       Padre is bizarrely commended (7)
+                      anagram of PADREIS ("Padre is") [anagram: "bizarrely"] = PRAISED; definition: "commended"  [HIGH]
+   21A  STRANGE       Unusual row after second tango (7)
+                      S (synonym of "second") + T (synonym of "tango") + RANGE (synonym of "row"); definition: "Unusual"  [HIGH]
+   24A  PRIMROSE      Victorian grew flower (8)
+                      PRIM (synonym of "Victorian") + ROSE (synonym of "grew"); definition: "flower"  [HIGH]
+   29A  TEST          First-rate student welcomes exam (4)
+                      hidden in "First-rate student welcomes"; definition: "exam"  [HIGH]
+    9D  CONSIDER      Think about prisoners on island, ruddy upset (8)
+                      CONS (synonym of "prisoners") + I (synonym of "island,") + RED (synonym of "ruddy") [reversal: "about"]; definition: "Think"  [HIGH]
+    1A  goodness me   My godson seems almost wild (8,2)
+                      anagram of GODSONEEM(deletion from "godson seems")+S = goodness me  [HIGH]
+   12A  PRESERVE      Keep quiet about what Novak Djokovic might do (8)
+                      PRE (synonym of "about") + SERVE (synonym of "what Novak Djokovic might do"); definition: "Keep quiet"  [HIGH]
+   13A  SCRAM         Initially some cows and sheep get lost (5)
+                      S(first letter of "some") + C(first letter of "cows") + R(first letter of "rams") + A(first letter of "and") + M(first letter of "mares")  [MED]
+   16D  SMALLEST      Most wee from cat smells around Charlie's shed (8)
+                      anagram of ATSMELLS(deletion from "cat smells") = SMALLEST  [MED]
+   17A  SADDLES       Small oars scratching top of picnic hampers (7)
+                      S(abbr. "Small") + ADDLES("oars top of picnic")  [MED]
+   18D  LANDSCAPE     Constable maybe produced this bag and small cloak (9)
+                      LAND (synonym of "bag") + S (synonym of "small") + CAPE (synonym of "cloak"); definition: "Constable maybe produced this"  [HIGH]
+   19A  COTTAGE       Too much silver found in church residence (7)
+                      COT(synonym of "church") + AG(abbr. "silver") inside TE(synonym of "too much")  [MED]
+    2D  OBSERVANT     Quick to notice biblical book lacks first page? (9)
+                      delete OK from BOOK, anagram of SERVANT(synonym of "page")+BO = OBSERVANT  [MED]
+   20D  EXPLAIN       European cross with dodgy plan I describe (7)
+                      E(abbr. "European") + X(synonym of "cross") + PLAIN("plan I")  [LOW]
+   21D  SMITTEN       Besotted with German after last of tweets on X (7)
+                      S(last letter of "tweets") + MIT(synonym of "German") + TEN(synonym of "X")  [LOW]
+   22A  CAMEL         Mammal moved nearer lake (5)
+                      cryptic definition  [MED]
+   23D  MASKS         Maiden begs for veils (5)
+                      M (synonym of "Maiden") + ASKS (synonym of "begs"); definition: "veils"  [HIGH]
+   25D  RAISE         Breed fish, we're told (5)
+                      ---  [FAIL]
+   26D  BENT          Kinky inclination (4)
+                      double definition  [MED]
+   27A  ASSISTANT     Someone who helps animal is hesitant? Not half! (9)
+                      ASS(synonym of "animal") + IS + TANT(deletion from "hesitant")  [MED]
+   28A  INANE         Silly bats ignoring spades (5)
+                      delete S from INSANE(synonym of "bats")  [MED]
+    3D  NEEDS         Regularly infer editor's requirements (5)
+                      ---  [FAIL]
+   30A  in any event  Where riders might compete, no matter what (2,3,5)
+                      double definition  [MED]
+    4D  SECURED       Start keeping worthless dog tied up (7)
+                      SECURE(synonym of "Start keeping") + D(first letter of "worthless dog")  [MED]
+    5D  MASTERS       Gains a thorough knowledge of 1,000 plants (7)
+                      M(abbr. "1,000") + ASTERS(synonym of "plants")  [MED]
+    6A  REAP          State again wanting carbon cut (4)
+                      ---  [FAIL]
+    7D  EMEER         Muslim leader always embraces this writer (5)
+                      EER (synonym of "always") + ME (synonym of "writer") [container: "embraces"]; definition: "Muslim leader"  [HIGH]
+    8D  pass muster   Do assemble below gap in the mountains (4,6)
+                      cryptic definition  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] GRIM  1D. Forbidding finally crossing border
+  Answer: GRIM
+  Tier: Signature | Confidence: 100/100
+  Definition: "Forbidding"
+  Wordplay: charade + parts
+  Explanation: G (last letter of "crossing") + RIM (synonym of "border") [last letter: "finally"]; definition: "Forbidding"
+  ----------------------------------------------------------------------
+
+  [HIGH] ISSUE  10A. Problem in the US simply rejected
+  Answer: ISSUE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Problem"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "the US simply" [hidden: "in"]; definition: "Problem"
+  ----------------------------------------------------------------------
+
+  [HIGH] CUSTOMERS  11A. Doctor cures most clients
+  Answer: CUSTOMERS
+  Tier: Signature | Confidence: 100/100
+  Definition: "clients"
+  Wordplay: anagram
+  Explanation: anagram of CURESMOST ("cures most") [anagram: "Doctor"] = CUSTOMERS; definition: "clients"
+  ----------------------------------------------------------------------
+
+  [HIGH] SPACECRAFT  14D. RAF accepts new rocket?
+  Answer: SPACECRAFT
+  Tier: Signature | Confidence: 100/100
+  Definition: "rocket?"
+  Wordplay: anagram
+  Explanation: anagram of RAFACCEPTS ("RAF accepts") [anagram: "new"] = SPACECRAFT; definition: "rocket?"
+  ----------------------------------------------------------------------
+
+  [HIGH] PRAISED  15A. Padre is bizarrely commended
+  Answer: PRAISED
+  Tier: Signature | Confidence: 100/100
+  Definition: "commended"
+  Wordplay: anagram
+  Explanation: anagram of PADREIS ("Padre is") [anagram: "bizarrely"] = PRAISED; definition: "commended"
+  ----------------------------------------------------------------------
+
+  [HIGH] STRANGE  21A. Unusual row after second tango
+  Answer: STRANGE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Unusual"
+  Wordplay: charade
+  Explanation: S (synonym of "second") + T (synonym of "tango") + RANGE (synonym of "row"); definition: "Unusual"
+  ----------------------------------------------------------------------
+
+  [HIGH] PRIMROSE  24A. Victorian grew flower
+  Answer: PRIMROSE
+  Tier: Signature | Confidence: 100/100
+  Definition: "flower"
+  Wordplay: charade
+  Explanation: PRIM (synonym of "Victorian") + ROSE (synonym of "grew"); definition: "flower"
+  ----------------------------------------------------------------------
+
+  [HIGH] TEST  29A. First-rate student welcomes exam
+  Answer: TEST
+  Tier: Signature | Confidence: 80/100
+  Definition: "exam"
+  Wordplay: hidden
+  Explanation: hidden in "First-rate student welcomes"; definition: "exam"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] CONSIDER  9D. Think about prisoners on island, ruddy upset
+  Answer: CONSIDER
+  Tier: Signature | Confidence: 100/100
+  Definition: "Think"
+  Wordplay: charade + reversal
+  Explanation: CONS (synonym of "prisoners") + I (synonym of "island,") + RED (synonym of "ruddy") [reversal: "about"]; definition: "Think"
+  ----------------------------------------------------------------------
+
+  [HIGH] goodness me  1A. My godson seems almost wild
+  Answer: goodness me
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "My"
+  Wordplay type: anagram
+  Components:
+    deletion           godson seems              -> GODSONEEM
+  Assembly: anagram — anagram of GODSONEEM(deletion from "godson seems")+S = goodness me
+  Gap fill: [('seems', 'S', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      my: syn=GOODNESS*,GOODNESSME*,AH,DO,NO,AHA,BEE,COR,EAR,FIE,GEE,GEN,HUB,LOR,SAW
+      seems: syn=ACTS,AIRS,FEELS,LOOKS,MAKES,POSTS,VENTS,BLARES,BLAZES,ECHOES,RAISES,SOUNDS,VOICES,APPEARS,BLAZONS; abbr=S*; sounds=seam
+      almost: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E*,P,R; ind=parts
+      wild: syn=BAD,FAR,HOT,MAD,ODD,OFF,THE,WAY,WUD,AIRS,AMOK,AVID,BLAH,GAGA,GRAY; ind=anagram
+    Definitions:
+      "My" -> goodness me (definition match)
+  AI Reasoning:
+    Delete one S from 'godson seems' (indicated by 'almost'), then anagram the remaining letters (indicated by 'wild') to get 'goodness me'
+  ----------------------------------------------------------------------
+
+  [HIGH] PRESERVE  12A. Keep quiet about what Novak Djokovic might do
+  Answer: PRESERVE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Keep quiet"
+  Wordplay: charade
+  Explanation: PRE (synonym of "about") + SERVE (synonym of "what Novak Djokovic might do"); definition: "Keep quiet"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SCRAM  13A. Initially some cows and sheep get lost
+  Answer: SCRAM
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "get lost"
+  Wordplay type: acrostic
+  Components:
+    first_letter       some                      -> S
+    first_letter       cows                      -> C
+    first_letter       rams                      -> R
+    first_letter       and                       -> A
+    first_letter       mares                     -> M
+  Assembly: charade — S(first letter of "some") + C(first letter of "cows") + R(first letter of "rams") + A(first letter of "and") + M(first letter of "mares")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=missing: ['rams', 'mares']
+  DB Lookups:
+    DB lookups:
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A*,PART,S*; ind=hidden; sounds=sum
+      cows: syn=ARM,BULLY,LOWER
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      sheep: syn=RAM*,EWE,DOVE,LAMB,RAMS,ANGEL
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      lost: syn=A1,BIG,FAB,WIN,A-OK,BOSS,BRAG,COLD,COOL,DEEP,DONE,DOPE,DOWN,GONE,HYPE; ind=anagram,deletion
+      get lost: syn=SCRAM*,LEAVE
+    Definitions:
+      "get lost" -> SCRAM (definition match)
+  AI Reasoning:
+    Initially (acrostic indicator) some cows and sheep (expanded to farm animals: some, cows, rams, and, mares) gives first letters S-C-R-A-M
+  ----------------------------------------------------------------------
+
+  [HIGH] SMALLEST  16D. Most wee from cat smells around Charlie's shed
+  Answer: SMALLEST
+  Tier: Sonnet | Confidence: 77/100
+  Definition: "Most wee"
+  Wordplay type: anagram
+  Components:
+    deletion           cat smells                -> ATSMELLS
+  Assembly: anagram — anagram of ATSMELLS(deletion from "cat smells") = SMALLEST
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      wee: syn=BABY,SIZE,URINE,ATOMIC,LITTLE,MINUTE,TIDDLY; abbr=S*; sounds=we
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      cat: syn=MALE*,BOD,BOY,BUD,CUB,EGG,GUY,JOE,KID,LAD,MAN,MOG,PET,TOM,BABY
+      smells: syn=ACES,BITS,DABS,NIPS,RAYS,ATOMS,DRAMS,HINTS,LICKS,MITES,MOTES,NIFFS,NOSES,PONGS,SNAPS; abbr=BO; fodder=SMELLS(6/8 anagram match)
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      charlie's: syn=C,NIT,CLOT,DOPE,FOOL,LOON,CHUMP,IDIOT,TWERP,WALLY,DUFFER,DUMDUM,LUMMOX,NITWIT,ASSIGNS; abbr=C
+      shed: syn=HUT,BABY,CAST,DEEP,DUMP,HOME,JUNK,LEAN,LOSE,MOLT,PART,SLIP,TOSS,CABIN,CHUCK; ind=deletion
+  AI Reasoning:
+    Take CATSMELLS, remove Charlie (C) to get ATSMELLS, then anagram (indicated by 'shed') to get SMALLEST
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SADDLES  17A. Small oars scratching top of picnic hampers
+  Answer: SADDLES
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "hampers"
+  Wordplay type: charade
+  Components:
+    abbreviation       Small                     -> S
+    anagram_fodder     oars top of picnic        -> ADDLES
+  Assembly: charade — S(abbr. "Small") + ADDLES("oars top of picnic")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=missing: ['oars top of picnic']
+  DB Lookups:
+    DB lookups:
+      small: syn=S,ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY; abbr=S*
+      oars: syn=ROWS,BLADES,SCULLS,PADDLES,ROW,BLADE,ROWER,SCULL,PADDLE; sounds=or,ore
+      scratching: syn=KEY,EDGY,KEEN,EDGED,HARSH,HONED,NOISY,RASPY,SHARP,SPIKY,ATONAL,GROUND,JAGGED,JANGLY,POINTY; ind=acrostic?
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T,UP; ind=acrostic,deletion,parts
+      picnic: syn=AND,FRY,OUT,TEA,THE,BAKE,BITE,CAKE,CHOW,FEED,FOOD,GULP,LUAU,MEAL,MENU
+      hampers: syn=SADDLE*,HOLDS,BASKETS,IMPEDES,DAM,JAM,CLOG,CLOT,HOLD,CHECK,CHOKE,CRAMP,PINCH,BASKET,BURDEN
+  AI Reasoning:
+    Small (S) + anagram of 'oars' + P (top of picnic) gives S + ADDLES = SADDLES
+  ----------------------------------------------------------------------
+
+  [HIGH] LANDSCAPE  18D. Constable maybe produced this bag and small cloak
+  Answer: LANDSCAPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Constable maybe produced this"
+  Wordplay: charade
+  Explanation: LAND (synonym of "bag") + S (synonym of "small") + CAPE (synonym of "cloak"); definition: "Constable maybe produced this"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] COTTAGE  19A. Too much silver found in church residence
+  Answer: COTTAGE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "residence"
+  Wordplay type: container
+  Components:
+    synonym            church                    -> COT
+    synonym            too much                  -> TE
+    abbreviation       silver                    -> AG
+  Assembly: container — COT(synonym of "church") + AG(abbr. "silver") inside TE(synonym of "too much")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      too: syn=SO,FAB,FAR,HOT,HOW,LOT,NOT,TOP,WAY,YET,A-OK,AKIN,ALSO,BONE,BOSS; sounds=to,two
+      much: syn=A,AN,DO,OR,SO,TO,ACE,ACT,AND,AYE,BIG,BUT,DAB,DIG,FAR
+      silver: syn=AG*,METAL,PLACE,ARGENT,PIRATE; abbr=AG*; ind=container?
+      found: syn=ATE,DUG,GOT,RAN,SAW,BASE,BEAT,CAME,CAST,GREW,ICED,KNEW,SLEW,TOOK,WENT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      church: syn=C,CE,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH; abbr=C*,CE,CH
+      residence: syn=COTTAGE*,PAD,FLAT,HOME,ABODE,HOUSE,PLACE,ATHOME,HOSTEL,AT HOME,AT-HOME,MANSION,TENANCY; sounds=residents
+      too much: syn=OTT*,BIT,HIGH,MASS,OVER,EXTRA,FEAST,FLOOD,STEEP,UNDUE
+      found in: ind=container,insertion
+    Definitions:
+      "residence" -> COTTAGE (definition match)
+  AI Reasoning:
+    Container clue where COTTE (from COT + TE for 'too much') contains AG (silver) to make COTTAGE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OBSERVANT  2D. Quick to notice biblical book lacks first page?
+  Answer: OBSERVANT
+  Tier: DB Fallback | Confidence: 40/100
+  Wordplay type: anagram
+  Components:
+    synonym            page                      -> SERVANT
+    literal            book                      -> BOOK
+  Assembly: deletion+anagram — delete OK from BOOK, anagram of SERVANT(synonym of "page")+BO = OBSERVANT
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=anagram | type_evidence=assembled, AI agrees | yields_check=FAIL: deletion gives=BO answer=OBSERVANT | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      quick: syn=A1,BIG,FAB,HOT,POP,A-OK,ARCH,BOLD,BOSS,BRAG,COLD,COOL,DONE,DOPE,DOWN
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      notice: syn=AD,AT,GO,MY,ACT,ADS,BAG,BUY,COP,EAR,EYE,FIT,FLY,GET,NOT; abbr=AD
+      book: syn=B,DO,IT,ACT,BAG,CUT,DIG,GET,HIT,HOW,MAG,PUT,SEE,SHE,WIN; abbr=B*,NT*,TOME
+      lacks: syn=FIRST,NEEDS,WANTS,MISSES,LAZY HAS,THE,NEED,WANT,THEIR,APATHY,ABSENCE,INIQUITY,SCARCITY,SPARSITY; sounds=lax
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      page: syn=SERVANT*,P,GO,ASK,BID,BUZZ,CALL,CITE,HAIL,LEAF,RING,KNELL,ORDER,RECTO,VALET; abbr=P,PP
+      biblical book: syn=BOOK,GNOMES,PROVERBS
+  ----------------------------------------------------------------------
+
+  [LOW] EXPLAIN  20D. European cross with dodgy plan I describe
+  Answer: EXPLAIN
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "describe"
+  Wordplay type: charade
+  Components:
+    abbreviation       European                  -> E
+    synonym            cross                     -> X
+    anagram_fodder     plan I                    -> PLAIN
+  Assembly: charade — E(abbr. "European") + X(synonym of "cross") + PLAIN("plan I")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | nonsense_words=not real words: X | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      european: syn=E,P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?; abbr=E*
+      cross: syn=X,GO,TV,BED,BOX,CUT,MAD,TWO,WAY,ANKH,BOTH,CARD,COME,CRUX,EASY; abbr=ROOD,X*
+      with: syn=IN*,W,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      dodgy: syn=IFFY,CAGEY,FISHY,HINKY,LOATH,NASTY,QUEER,SHADY,SHAKY,TOUGH,UNAPT,AUGEAN,FLIMSY,RUGGED,SNIFFY; ind=anagram
+      plan: syn=OK,AIM,END,FIX,LAY,MAP,OPT,SET,AIMS,BREW,DEAL,GAME,GOAL,HOPE,IDEA; abbr=MAP; ind=anagram?
+      describe: syn=EXPLAIN*,SET,DRAW,GIVE,LIMN,LINE,TELL,CHART,IMAGE,LABEL,PAINT,WRITE,A LINE,DEFINE,DEPICT
+    Definitions:
+      "describe" -> EXPLAIN (definition match)
+  AI Reasoning:
+    Charade of E (European) + X (cross) + PLAIN (anagram of 'plan I' indicated by 'dodgy')
+  ----------------------------------------------------------------------
+
+  [LOW] SMITTEN  21D. Besotted with German after last of tweets on X
+  Answer: SMITTEN
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Besotted with"
+  Wordplay type: charade
+  Components:
+    last_letter        tweets                    -> S
+    synonym            German                    -> MIT
+    synonym            X                         -> TEN
+  Assembly: charade — S(last letter of "tweets") + MIT(synonym of "German") + TEN(synonym of "X")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      besotted: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram?
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      german: syn=GER,OTTO,HEGEL,DIETER,TONGUE; abbr=G
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      tweets: syn=POSTS,PEEP,PIPE,POST,CHIRP,SMALL,CHIRRUP,MESSAGE
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+  AI Reasoning:
+    S (last of tweets) + MIT (German for 'with') + TEN (X as Roman numeral) = SMITTEN
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CAMEL  22A. Mammal moved nearer lake
+  Answer: CAMEL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Mammal moved nearer lake"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      mammal: syn=BAT,COATI,HIPPO,ORIBI,OTTER,TAPIR
+      moved: syn=CAME*,ATE,DID,DUG,GOT,RAN,SAW,BEAT,BRED,GREW,ICED,KNEW,MADE,SLEW,TOOK; ind=anagram
+      nearer: syn=LOSER
+      lake: syn=L,SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL,BASIN,HURON,LOUGH,OXBOW,STANK; abbr=L*,LA
+    Definitions:
+      "Mammal" -> CAMEL (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines a camel as a mammal that moves toward water sources in desert environments
+  ----------------------------------------------------------------------
+
+  [HIGH] MASKS  23D. Maiden begs for veils
+  Answer: MASKS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "veils"
+  Wordplay: charade
+  Explanation: M (synonym of "Maiden") + ASKS (synonym of "begs"); definition: "veils"
+  ----------------------------------------------------------------------
+
+  [FAILED] RAISE  25D. Breed fish, we're told
+  Answer: RAISE
+  Tier: --- | Confidence: 0/100
+  Definition: "Breed"
+  Wordplay type: homophone
+  Components:
+    sound_of           fish                      -> RAISE
+  DB Lookups:
+    DB lookups:
+      breed: syn=RAISE*,RISE*,DO,IT,A A,ACT,BAR,FAG,RUN,TUG,USE,BOOK,BORN,DRAW,GRUB
+      fish: syn=AHI,BOD,BOX,BOY,CAT,COD,DAB,EEL,EGG,FIX,GAR,GUY,IDE,JAM,JOE; abbr=GAR,IDE,LING,RAY
+      told: syn=PUT,SAID,SPOKE; ind=homophone; sounds=tolled
+    Definitions:
+      "Breed" -> RAISE (definition match)
+  AI Reasoning:
+    Fish (RAYS) sounds like RAISE when spoken, indicated by 'we're told'
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BENT  26D. Kinky inclination
+  Answer: BENT
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Kinky inclination"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      kinky: syn=FAR,ODD,OFF,THE,WAY,RARE,WALL,WILD; ind=anagram?
+      inclination: syn=BENT*,JIG,BIAS,BONE,CANT,LIST,MIND,PLAY,PLOY,RAMP,RUSE,TURN,WALK,WILE; ind=container?
+    Definitions:
+      "inclination" -> BENT (definition match)
+  AI Reasoning:
+    Both 'kinky' (twisted/crooked) and 'inclination' (tendency/slope) are separate definitions of BENT
+  ----------------------------------------------------------------------
+
+  [HIGH] ASSISTANT  27A. Someone who helps animal is hesitant? Not half!
+  Answer: ASSISTANT
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Someone who helps"
+  Wordplay type: charade
+  Components:
+    synonym            animal                    -> ASS
+    literal            is                        -> IS
+    deletion           hesitant                  -> TANT
+  Assembly: charade — ASS(synonym of "animal") + IS + TANT(deletion from "hesitant")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      someone: syn=ALL,VIP,DINE,FARE,FEED,FRET,CELEB,ERODE,GAMER,ANYONE,DEVOUR,INGEST,ANYBODY,CONSUME,CORRODE
+      who: syn=FAT,TOP,BEST,PICK,PINK,TOPS,CREAM,ELECT,ELITE,PICKS,PINKS,PRIDE,PRIME,A-LIST,CAVIAR
+      helps: syn=ASSIST*,ASSISTANT*,AIDS,RAIDS,AVAILS,BOOSTS,ASSISTS,INSTEAD,ME,AID,HIM,MAN,SOS,ABET,BACK; abbr=AID
+      animal: syn=ASS*,BOD,CAT,EGG,GNU,GUY,HOG,MAN,PIG,TEG,YAK,ANOA,BABY,BIRD,BOAR
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      hesitant: syn=GUN,TIMID,AFRAID,AGAINST,DITHERY,DUBIOUS,WAVERING,DITHERING,FALTERING,UNCERTAIN; ind=anagram?
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      half: syn=AT,MAD,NUT,ANON,DAFT,DEMI,DODO,DOLT,DOPE,DORK,DUEL,DULL,DUMB,EVER,FOOL; ind=deletion
+      not half: ind=deletion
+      not half: syn=RATHER,AWFULLY,MUCH SO,LESS THAN
+      someone who helps: syn=AIDER
+  AI Reasoning:
+    ASS (animal) + IS (is) + TANT (hesitant=DISTANT with first half deleted per 'Not half') = ASSISTANT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] INANE  28A. Silly bats ignoring spades
+  Answer: INANE
+  Tier: DB Fallback | Confidence: 62/100
+  Definition: "Silly"
+  Wordplay type: deletion
+  Components:
+    synonym            bats                      -> INSANE
+    abbreviation       (single letter)           -> S
+  Assembly: deletion — delete S from INSANE(synonym of "bats")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      silly: syn=INANE*,MAD,ODD,DAFT,GAGA,GOON,HALF,LIKE,WEAK,ZANY,ADDLE,APISH,BALMY,BARMY,BATTY; ind=anagram
+      bats: syn=APE,FEY,MAD,ODD,OFF,WUD,AMOK,BODY,DAFT,EDGY,HITS,LOCO,NUTS,RODS,SAPS; abbr=TAB; ind=anagram
+      ignoring: syn=END,SIN,WRONG; ind=deletion
+      spades: syn=S,DIGS,SUIT,CARDS,CARD,TOOL; abbr=S
+    Definitions:
+      "Silly" -> INANE (definition match)
+  AI Reasoning:
+    INSANE (bats) minus S (spades) gives INANE
+  ----------------------------------------------------------------------
+
+  [FAILED] NEEDS  3D. Regularly infer editor's requirements
+  Answer: NEEDS
+  Tier: --- | Confidence: 0/100
+  Definition: "requirements"
+  Wordplay type: hidden
+  Components:
+    hidden             infer editor's            -> NEEDS
+  DB Lookups:
+    DB lookups:
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+      infer: syn=DRAW,MAKE,POINT
+      editor's: syn=ED*,OF A; abbr=ed*,ED*
+      requirements: syn=NEEDS*,NEED*,MUST,SPEC
+    Definitions:
+      "requirements" -> NEEDS (definition match)
+  AI Reasoning:
+    Taking letters at regular intervals from 'infer editor's' spells NEEDS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] in any event  30A. Where riders might compete, no matter what
+  Answer: in any event
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Where riders might compete, no matter what"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | type_evidence=assembled, AI agrees | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER,LOCALITY,LOCATION,NINETEEN; sounds=ware,wear
+      riders: syn=BIKERS,FOLLOW,HORSEMAN,THEY SIT,CLAUSE,JOCKEY,KNIGHT,CYCLIST,HAGGARD,PROVISO,ARMSTRONG,PASSENGER,TRAVELLER,CAVALRYMAN,CHARIOTEER
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY,STRENGTH,PUISSANCE; ind=anagram?; sounds=mite
+      compete: syn=FACE,RACE,FIGHT,CONTEST,REPLACE,WHOLE OR,CHALLENGE,ADVANCE AS
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      matter: syn=PUS,CASE,HARD,KNOT,MAIL,MEAN,POST,TRUE,COUNT,ISSUE,MOTIF,SENSE,STAGE,STUFF,THEME; ind=anagram
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      no matter what: syn=ANYROAD,OBDURATELY,REGARDLESS
+    Definitions:
+      "no matter what" -> in any event (definition match)
+  AI Reasoning:
+    Both 'Where riders might compete' (in events) and 'no matter what' define the phrase IN ANY EVENT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SECURED  4D. Start keeping worthless dog tied up
+  Answer: SECURED
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "tied up"
+  Wordplay type: charade
+  Components:
+    synonym            Start keeping             -> SECURE
+    first_letter       worthless dog             -> D
+  Assembly: charade — SECURE(synonym of "Start keeping") + D(first letter of "worthless dog")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      start: syn=GO,BAG,DAY,GET,JUT,RUN,SET,BOLT,DAWN,FALL,FORM,JUMP,LEAD,MOVE,NEED; abbr=GO; ind=acrostic,parts
+      keeping: syn=ARM,HOW,WAY,CARE,CAST,FORM,GAIN,GRIP,HAND,HOLD,NICK,RITE,SWAY,TACK,TRIM; ind=container
+      worthless: syn=NO,LOW,WIN,BASE,GOOD,NAFF,ALBUM,CHEAP,CUPPY,ABJECT,BUDGET,CHEAPO,CUPPED,DENTED,DISHED
+      dog: syn=CUR*,CAD,GOB,GUN,LAB,POM,PUG,PUP,RAT,SOD,SON,TAG,TAR,ALSO,BOOR
+      tied: syn=SECURED*,DREW,EVEN,FAST,FIRM,SNUG,TAUT,BOUND,DRAWN,STUCK,TENSE,TIGHT,BOLTED,CAUGHT,JAMMED; sounds=tide
+      up: syn=SECURED*,OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN; ind=reversal
+      tied up: syn=SECURED*,UP,BUSY,TIED,BOUND,INUSE,ROPED,ACTIVE,HECTIC,MOORED
+    Definitions:
+      "up" -> SECURED (definition match)
+      "tied up" -> SECURED (definition match)
+  AI Reasoning:
+    SECURE (start keeping) + D (first letter of dog, worthless indicating minimal contribution) = SECURED
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MASTERS  5D. Gains a thorough knowledge of 1,000 plants
+  Answer: MASTERS
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Gains a thorough knowledge of"
+  Wordplay type: charade
+  Components:
+    abbreviation       1,000                     -> M
+    synonym            plants                    -> ASTERS
+  Assembly: charade — M(abbr. "1,000") + ASTERS(synonym of "plants")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      gains: syn=GETS,WINS,DRAWS,FORMS,LANDS,MAKES,REAPS,ATTAINS,CARRIES,GARNERS,OBTAINS,SECURES,DO,A A,BIG
+      thorough: syn=IN,ALL,OUT,BARE,BODY,DAMN,DEAD,DONE,FAIR,FLAT,FULL,PURE,RANK,TOOM,VERY
+      knowledge: syn=MY,EYE,KEN,AXIS,GAPE,GAZE,KNOW,LORE,NOTE,LOCUS,NAVEL,NEXUS,SKILL,STARE,ASPECT
+      plants: syn=ASTERS*,ASTER*,SOWS,CACTI,FLORA,FUNGI,MILLS,SHOPS,WORKS,AGAVES,BOXERS,CHIVES,EMBEDS,PEOPLE,SHRUBS; abbr=P; ind=anagram
+    Cross-references:
+      Clue 1 answer = GRIM
+  AI Reasoning:
+    M (Roman numeral for 1,000) + ASTERS (plants) = MASTERS
+  ----------------------------------------------------------------------
+
+  [FAILED] REAP  6A. State again wanting carbon cut
+  Answer: REAP
+  Tier: --- | Confidence: 0/100
+  Definition: "cut"
+  Wordplay type: deletion
+  Components:
+    deletion           State again               -> REAP
+  DB Lookups:
+    DB lookups:
+      state: syn=IS,NY,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS; abbr=AVER; ind=anagram,homophone
+      again: syn=RE*,BE,GO,AGE,ANY,AYE,BIS,DAY,ERA,GET,HAP,OFT,RUN,TOO,WAX; abbr=RE*
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      carbon: syn=COPY; abbr=C
+      cut: syn=REAP*,DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW; ind=deletion,hidden,parts
+    Definitions:
+      "cut" -> REAP (definition match)
+  AI Reasoning:
+    RECAP (state again) minus C (carbon) gives REAP
+  ----------------------------------------------------------------------
+
+  [HIGH] EMEER  7D. Muslim leader always embraces this writer
+  Answer: EMEER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Muslim leader"
+  Wordplay: charade + container
+  Explanation: EER (synonym of "always") + ME (synonym of "writer") [container: "embraces"]; definition: "Muslim leader"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] pass muster  8D. Do assemble below gap in the mountains
+  Answer: pass muster
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Do assemble below gap in the mountains"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      do: syn=MUST*,PASS*,BE,GO,IS,MY,PI,411,A A,ACT,ADO,AND,ARE,BED,BET; abbr=C,PARTY; sounds=dew,due
+      assemble: syn=MUSTER*,DO,A A,BAR,MET,USE,BOOK,CALL,FIRE,LOVE,LUMP,MAKE,MEET,MOST,MUCH; ind=anagram?
+      below: syn=PAST*,BAD,ILL,LOW,OFF,BUSH,DOWN,FOUL,HELL,LAME,NEXT,OVER,POOR,PUNK,SOUR; ind=reversal
+      gap: syn=PASS*,DEN,PIT,RIP,STY,BIND,DENT,DINT,DUMP,GASH,GULF,HOLE,MIRE,RENT,RIFT
+      in: syn=PER*,PATER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      mountains: syn=ALPS,ANDES,HEAPS,LOADS,RANGE,RANGES,SIERRA,HUNDRED,PYRENEES,A,MT,ALP,BAR,BED,BEN; abbr=ALP
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+      in the mountains: syn=ALPINE
+    Definitions:
+      "Do" -> pass muster (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines PASS MUSTER - you must pass muster (be acceptable) to traverse below/through a gap in mountains
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

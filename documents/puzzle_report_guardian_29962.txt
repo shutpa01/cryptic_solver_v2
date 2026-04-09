@@ -1,0 +1,322 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29962
+Generated: 2026-03-24 09:33:13
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        32/32 (100%)
+    Signature:      2
+    Sig+Enriched:   1
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   30  2D, 9A, 1A, 1D, 10A, 11A, 12A, 13D, 15A, 16A, 16D, 17D, 18D, 19A, 19D, 20D, 21D, 23A, 24A, 25D, 26A, 27A, 28A, 3D, 4D, 5D, 6D, 7D, 8D, 22A
+  Medium (40-79): 1  14A
+  Low (<40):    1  6A
+  Failed:       0  
+  Average:      87/100
+
+COST: $0.0481 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (7 entries)
+------------------------------------------------------------
+  IKEBANA: "Japanese art" -> IKEBANA  (missing from definition_answers_augmented)
+  PEEVE: "Bother" -> PEEVE  (missing from definition_answers_augmented)
+  ABANDONSHIP: "what they didn't do" -> ABANDONSHIP  (missing from definition_answers_augmented)
+  OBAMA: "Yes we can, he said" -> OBAMA  (missing from definition_answers_augmented)
+  ABANDONSHIP: Titanic -> ONSHIP  (missing from synonyms_pairs)
+  ABANDONSHIP: orchestra -> ABAND  (missing from synonyms_pairs)
+  OBAMA: two degrees -> BAMA  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  27/32  10A, 11A, 12A, 14A, 15A, 23A, 24A, 26A, 27A, 28A, 1D, 1D, 3D, 4D, 5D, 7D, 8D, 13D, 16D, 16D, 17D, 18D, 19D, 19D, 20D, 21D, 25D
+  DB gap:                4  6A, 9A, 22A, 2D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    2D  IKEBANA       Japanese art has elements of childlike banality (7)
+                      hidden in "elements of childlike banality" [hidden: "has"]; definition: "Japanese art"  [HIGH]
+    9A  PEEVE         Bother first lady after exercise (5)
+                      PE (synonym of "exercise") + EVE (synonym of "first lady"); definition: "Bother"  [HIGH]
+    1A  PAINTINGS     Efforts made to have tin glaze initially added to artworks (9)
+                      ---  [HIGH]
+    1D  POPTART       Leading role Spooner might have toasted? (3,4)
+                      ---  [HIGH]
+   10A  SHOPFRONT     Betray apparent leader seen on the street (4,5)
+                      ---  [HIGH]
+   11A  AGA           Pangram will regularly display this range (3)
+                      ---  [HIGH]
+   12A  AGENTORANGE   A man like Trump that devastates the environment (5,6)
+                      ---  [HIGH]
+   13D  RESTINPEACE   Tease prince worried when rip expanded (4,2,5)
+                      ---  [HIGH]
+   14A  TRANSIT       Managed to rest after tension in crossing (7)
+                      ---  [MED]
+   15A  DESISTS       Stops son joining uncaring god worshippers (7)
+                      ---  [HIGH]
+   16A  COPPERS       Small change as regularly spotted on the beat (7)
+                      ---  [HIGH]
+   16D  CHANNEL       Direct passage is sound (7)
+                      ---  [HIGH]
+   17D  PLAYOUT       Gradually develop page design (4,3)
+                      ---  [HIGH]
+   18D  SANDBAG       Knock out part of flood defence (7)
+                      ---  [HIGH]
+   19A  MAITRED       Servant retains half of treats for one overseeing service (6,1)
+                      ---  [HIGH]
+   19D  MOHICAN       Here in Rome, complain about hairstyle (7)
+                      ---  [HIGH]
+   20D  RASPING       Harsh sounding political line carried by newspaper (7)
+                      ---  [HIGH]
+   21D  DOINGUP       Kill little dog upset when redecorating (5,2)
+                      ---  [HIGH]
+   23A  SKI           Runner should keep improving from the start (3)
+                      ---  [HIGH]
+   24A  NEOPHOBIC     No hope revolutionary writer is preferring old stuff? (9)
+                      ---  [HIGH]
+   25D  HOP           Spring finishes off with Tokyo trip (3)
+                      ---  [HIGH]
+   26A  ACING         Threatening to exclude men passing challenge with ease (5)
+                      ---  [HIGH]
+   27A  LETUP         Moderation of rent increase (3-2)
+                      ---  [HIGH]
+   28A  GENDERGAP     Liberal agreed GNP reveals societal disparity (6,3)
+                      ---  [HIGH]
+    3D  THENAGSHEAD   He had agents swarming around pub? (3,4,4)
+                      ---  [HIGH]
+    4D  NASCENT       Scotch producer reports there’s no bouquet developing? (7)
+                      ---  [HIGH]
+    5D  SPORTED       Arranged to have piano inside played (7)
+                      ---  [HIGH]
+    6D  OFF           Travelling while ill (3)
+                      ---  [HIGH]
+    7D  ABOUNDS       Jump in as there’s plenty that does this (7)
+                      ---  [HIGH]
+    8D  ACTRESS       She performs in a style not approved by the Guardian? (7)
+                      ---  [HIGH]
+   22A  ABANDONSHIP   Titanic orchestra perhaps, and what they didn’t do (7,4)
+                      ABAND (synonym of "orchestra") + ONSHIP (synonym of "Titanic"); definition: "what they didn't do"  [HIGH]
+    6A  OBAMA         Love to get two degrees? Yes we can, he said (5)
+                      O(synonym of "Love") + BAMA(synonym of "two degrees")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] IKEBANA  2D. Japanese art has elements of childlike banality
+  Answer: IKEBANA
+  Tier: Signature | Confidence: 100/100
+  Definition: "Japanese art"
+  Wordplay: hidden
+  Explanation: hidden in "elements of childlike banality" [hidden: "has"]; definition: "Japanese art"
+  ----------------------------------------------------------------------
+
+  [HIGH] PEEVE  9A. Bother first lady after exercise
+  Answer: PEEVE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Bother"
+  Wordplay: charade
+  Explanation: PE (synonym of "exercise") + EVE (synonym of "first lady"); definition: "Bother"
+  ----------------------------------------------------------------------
+
+  [HIGH] PAINTINGS  1A. Efforts made to have tin glaze initially added to artworks
+  Answer: PAINTINGS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] POPTART  1D. Leading role Spooner might have toasted?
+  Answer: POPTART
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOPFRONT  10A. Betray apparent leader seen on the street
+  Answer: SHOPFRONT
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AGA  11A. Pangram will regularly display this range
+  Answer: AGA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AGENTORANGE  12A. A man like Trump that devastates the environment
+  Answer: AGENTORANGE
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RESTINPEACE  13D. Tease prince worried when rip expanded
+  Answer: RESTINPEACE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TRANSIT  14A. Managed to rest after tension in crossing
+  Answer: TRANSIT
+  Tier: --- | Confidence: 75/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DESISTS  15A. Stops son joining uncaring god worshippers
+  Answer: DESISTS
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] COPPERS  16A. Small change as regularly spotted on the beat
+  Answer: COPPERS
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CHANNEL  16D. Direct passage is sound
+  Answer: CHANNEL
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PLAYOUT  17D. Gradually develop page design
+  Answer: PLAYOUT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SANDBAG  18D. Knock out part of flood defence
+  Answer: SANDBAG
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MAITRED  19A. Servant retains half of treats for one overseeing service
+  Answer: MAITRED
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MOHICAN  19D. Here in Rome, complain about hairstyle
+  Answer: MOHICAN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RASPING  20D. Harsh sounding political line carried by newspaper
+  Answer: RASPING
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DOINGUP  21D. Kill little dog upset when redecorating
+  Answer: DOINGUP
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SKI  23A. Runner should keep improving from the start
+  Answer: SKI
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NEOPHOBIC  24A. No hope revolutionary writer is preferring old stuff?
+  Answer: NEOPHOBIC
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] HOP  25D. Spring finishes off with Tokyo trip
+  Answer: HOP
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ACING  26A. Threatening to exclude men passing challenge with ease
+  Answer: ACING
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LETUP  27A. Moderation of rent increase
+  Answer: LETUP
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] GENDERGAP  28A. Liberal agreed GNP reveals societal disparity
+  Answer: GENDERGAP
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] THENAGSHEAD  3D. He had agents swarming around pub?
+  Answer: THENAGSHEAD
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NASCENT  4D. Scotch producer reports there’s no bouquet developing?
+  Answer: NASCENT
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SPORTED  5D. Arranged to have piano inside played
+  Answer: SPORTED
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OFF  6D. Travelling while ill
+  Answer: OFF
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ABOUNDS  7D. Jump in as there’s plenty that does this
+  Answer: ABOUNDS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ACTRESS  8D. She performs in a style not approved by the Guardian?
+  Answer: ACTRESS
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ABANDONSHIP  22A. Titanic orchestra perhaps, and what they didn’t do
+  Answer: ABANDONSHIP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "what they didn't do"
+  Wordplay: charade
+  Explanation: ABAND (synonym of "orchestra") + ONSHIP (synonym of "Titanic"); definition: "what they didn't do"
+  ----------------------------------------------------------------------
+
+  [LOW] OBAMA  6A. Love to get two degrees? Yes we can, he said
+  Answer: OBAMA
+  Tier: Sonnet | Confidence: -68/100
+  Definition: "Yes we can, he said"
+  Wordplay type: charade
+  Components:
+    synonym            Love                      -> O
+    synonym            two degrees               -> BAMA
+  Assembly: charade — O(synonym of "Love") + BAMA(synonym of "two degrees")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: O, BAMA | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      love: syn=O,BE,DO,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PAT,PET,PIP,PUT; abbr=NIL,O*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      degrees: syn=BA*,MA*,LOCI,PARTS,RANKS,ROLES,RUNGS,TASKS,WORKS,CUT,PEG,INCH,MANY,RANK,RUNG; abbr=BA*,D,MA*
+      yes: syn=AY,OK,AYE,YEA,COOL,SURE,VOTE,YEAH,OF AN; abbr=Y
+      we: syn=FE; abbr=WE; sounds=wee
+      can: syn=A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY,JUG; abbr=C,TIN; ind=anagram?
+      he: syn=NAG,TOM,BIRO,DOER,TEAC,COMER,DOERS,LAUGH,STEED
+      said: syn=PUT,ORAL,TOLD,SPOKE; ind=homophone
+      to get: ind=anagram
+      to get: syn=OFF,BABY,DEEP,LEGS,LOSE,QUIT,RUIN,AVOID,CLEAR,PODIA
+  AI Reasoning:
+    Love (tennis term) = O, plus two degrees (BA + MA) = BAMA, giving OBAMA
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

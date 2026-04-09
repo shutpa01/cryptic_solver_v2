@@ -1,0 +1,697 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #29492
+Generated: 2026-03-18 06:20:31
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        29/30 (96%)
+    Signature:      11
+    Sig+Enriched:   3
+    Sonnet:         15
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  10A, 14A, 16D, 18A, 21D, 25A, 26A, 28A, 3D, 7D, 8D, 1A, 1D, 19D, 20A, 22D, 23A, 24D, 5D, 9D
+  Medium (40-79): 9  11A, 12A, 13A, 15A, 17D, 2D, 27A, 29A, 4A
+  Low (<40):    0  
+  Failed:       1  6D
+  Average:      75/100
+
+COST: $0.9807 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (30 entries)
+------------------------------------------------------------
+  Celebrate: "paint the town red" -> Celebrate  (missing from definition_answers_augmented)
+  Cumin: "Type of spice" -> Cumin  (missing from definition_answers_augmented)
+  Represent: "Mean" -> Represent  (missing from definition_answers_augmented)
+  Taverner: "composer" -> Taverner  (missing from definition_answers_augmented)
+  Prelate: "church dignitary" -> Prelate  (missing from definition_answers_augmented)
+  Clement: "Merciful," -> Clement  (missing from definition_answers_augmented)
+  Evita: "Show" -> Evita  (missing from definition_answers_augmented)
+  Preamble: "introduction" -> Preamble  (missing from definition_answers_augmented)
+  Substance: "matter" -> Substance  (missing from definition_answers_augmented)
+  Craving: "desire" -> Craving  (missing from definition_answers_augmented)
+  Rather: "Somewhat" -> Rather  (missing from definition_answers_augmented)
+  Repast: "meal" -> Repast  (missing from definition_answers_augmented)
+  Service: "Tree maintenance check" -> Service  (missing from definition_answers_augmented)
+  Road rage: "A violent storm on the way?" -> Road rage  (missing from definition_answers_augmented)
+  Realm: "domain" -> Realm  (missing from definition_answers_augmented)
+  Exonerate: "that's clear" -> Exonerate  (missing from definition_answers_augmented)
+  Chelsea tractor: "4x4?" -> Chelsea tractor  (missing from definition_answers_augmented)
+  Utter: "Prize" -> Utter  (missing from definition_answers_augmented)
+  Catherine-wheel: "firework" -> Catherine-wheel  (missing from definition_answers_augmented)
+  Celebrate: Famous person, -> CELEB  (missing from synonyms_pairs)
+  Toast: little one -> TO  (missing from abbreviations)
+  Scratch: school -> CH  (missing from abbreviations)
+  Flattery: young children -> FRY  (missing from abbreviations)
+  Flattery: something hot and milky -> LATTE  (missing from synonyms_pairs)
+  Pilgrim: sullen -> GRIM  (missing from synonyms_pairs)
+  Asleep: lapse -> LAPSE  (missing from synonyms_pairs)
+  Realm: Existing -> REAL  (missing from synonyms_pairs)
+  Steely: supporter -> STEEL  (missing from synonyms_pairs)
+  Scout car: search -> SCOUT  (missing from synonyms_pairs)
+  Scout car: wild cat -> CAR  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  Flattery = 17 (44/100): no pieces verified in DB
+  Pilgrim = 2 (52/100): no pieces verified in DB
+  Scout car = 4 (44/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  6. Prize, say = Utter
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  3/30  20A, 23A, 19D
+  Unverified explain.:   3  4A, 2D, 17D
+  DB gap:                26  4A, 10A, 11A, 12A, 13A, 14A, 15A, 18A, 25A, 26A, 27A, 28A, 29A, 1D, 2D, 3D, 5D, 6D, 7D, 8D, 9D, 16D, 17D, 21D, 22D, 24D
+  Failed:                1  6D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   10A  Celebrate     Famous person, judge, to paint the town red (9)
+                      CELEB (synonym of "Famous person,") + RATE (synonym of "judge,"); definition: "paint the town red"  [HIGH]
+   14A  Cumin         Type of spice and some capsicum inside (5)
+                      hidden in "capsicum inside" [hidden: "some"]; definition: "Type of spice"  [HIGH]
+   16D  Represent     Mean about gift (9)
+                      RE (synonym of "about") + PRESENT (synonym of "gift"); definition: "Mean"  [HIGH]
+   18A  Taverner      Jack embraces French writer and composer (8)
+                      TAR (synonym of "Jack") + VERNE (synonym of "French writer") [container: "embraces"]; definition: "composer"  [HIGH]
+   21D  Prelate       Quietly tell church dignitary (7)
+                      P (abbreviation of "Quietly") + RELATE (synonym of "tell"); definition: "church dignitary"  [HIGH]
+   25A  Clement       Merciful, the French guys in court (7)
+                      LE (abbreviation of "French") + MEN (synonym of "guys") + CT (synonym of "court"); definition: "Merciful,"  [HIGH]
+   26A  Evita         Show Greek character carrying six (5)
+                      ETA (synonym of "Greek character") + VI (synonym of "six") [container: "carrying"]; definition: "Show"  [HIGH]
+   28A  Preamble      Page about leisurely walk in introduction (8)
+                      P (synonym of "Page") + RE (synonym of "about") + AMBLE (synonym of "leisurely walk"); definition: "introduction"  [HIGH]
+    3D  Substance     Reserve position in matter (9)
+                      SUB (synonym of "Reserve") + STANCE (synonym of "position"); definition: "matter"  [HIGH]
+    7D  Craving       Constant irrational desire (7)
+                      C (synonym of "Constant") + RAVING (synonym of "irrational"); definition: "desire"  [HIGH]
+    8D  Rather        Somewhat in clover at hers (6)
+                      hidden in "clover at hers" [hidden: "in"]; definition: "Somewhat"  [HIGH]
+    1A  Repast        The old man, among others, gets a meal (6)
+                      PA (synonym of "old man,") + REST (synonym of "others,") [container: "gets"]; definition: "meal"  [HIGH]
+    1D  Rucksack      Question scoundrel raised about kilo in bag (8)
+                      RUC(reversal of "scoundrel raised") + K(abbr. "kilo") + SACK(reversal of "scoundrel raised")  [HIGH]
+   11A  Toast         Warm when feeding little one (5)
+                      TO(synonym of "little one") + AS(synonym of "when") + T(first letter of "feeding")  [MED]
+   12A  Scratch       Capsized sailor, caught in school, improvised (7)
+                      S(first letter of "school") + C(abbr. "caught") + RAT(reversal of "sailor") + CH(abbr. "school")  [MED]
+   13A  Service       Tree maintenance check (7)
+                      cryptic definition  [MED]
+   15A  Road rage     A violent storm on the way? (4,4)
+                      cryptic definition  [MED]
+   17D  Flattery      Praise young children drinking something hot and milky (8)
+                      LATTE(synonym of "something hot and milky") inside FRY(synonym of "young children")  [MED]
+   19D  Asinine       Stupid, like number tackling current (7)
+                      AS(synonym of "like") + I(abbr. "current") + NINE(number)  [HIGH]
+    2D  Pilgrim       One in centre of Naples, sullen traveller (7)
+                      PIL(One in centre of Naples) + GRIM(synonym of "sullen")  [MED]
+   20A  Pupil         Young dog accompanying the Italian student (5)
+                      PUP(synonym of "Young dog") + IL(the Italian)  [HIGH]
+   22D  Asleep        Silly lapse catching English out (6)
+                      anagram of LAPSE(synonym of "lapse")+E(abbr. "English") = Asleep  [HIGH]
+   23A  Skid row      Queue behind small child where vagrants congregate? (4,3)
+                      S(abbr. "small") + KID(synonym of "child") + ROW(synonym of "Queue")  [HIGH]
+   24D  Realm         Existing head of monarchy's royal domain (5)
+                      REAL (synonym of "Existing") + M (first letter of "monarchy's royal") [first letter: "head"]; definition: "domain"  [HIGH]
+   27A  Exonerate     Single rodent seen in river that's clear (9)
+                      ONE(synonym of "single")+RAT(synonym of "rodent") inside EXE(synonym of "river")  [MED]
+   29A  Steely        Determined, crafty little supporter within (6)
+                      STEEL(synonym of "supporter") + Y(last letter of "crafty")  [MED]
+    4A  Scout car     Reconnaissance vehicle in search involving wild cat (5,3)
+                      SCOUT(synonym of "search") + CAR(synonym of "wild cat")  [MED]
+    5D  Chelsea tractor  Dodgy character stole a 4x4? (7,7)
+                      anagram of CHARACTERSTOLE ("character stole") [anagram: "Dodgy"] = CHELSEATRACTOR; definition: "4x4?"  [HIGH]
+    6D  Utter         Prize, say (5)
+                      ---  [FAIL]
+    9D  Catherine-wheel  Lie when teacher unexpectedly discovers firework (9-5)
+                      anagram of LIEWHENTEACHER(lie when teacher) = Catherine-wheel  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] Celebrate  10A. Famous person, judge, to paint the town red
+  Answer: Celebrate
+  Tier: Signature | Confidence: 82/100
+  Definition: "paint the town red"
+  Wordplay: charade
+  Explanation: CELEB (synonym of "Famous person,") + RATE (synonym of "judge,"); definition: "paint the town red"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'famous_person,'=celeb_v=+5 | syn_f_'judge,'=rate_verified=+5 | all_2_pieces_verified=+12
+  Human explanation: — a shortened term for a famous person followed by a verb meaning to judge or assess
+  ----------------------------------------------------------------------
+
+  [HIGH] Cumin  14A. Type of spice and some capsicum inside
+  Answer: Cumin
+  Tier: Signature | Confidence: 82/100
+  Definition: "Type of spice"
+  Wordplay: hidden
+  Explanation: hidden in "capsicum inside" [hidden: "some"]; definition: "Type of spice"
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'capsicum_inside'_mechan=+3 | indicator_'some'_verified=+4 | all_2_pieces_verified=+15
+  Human explanation: — hidden (some) in the final two words of the clue
+  ----------------------------------------------------------------------
+
+  [HIGH] Represent  16D. Mean about gift
+  Answer: Represent
+  Tier: Signature | Confidence: 82/100
+  Definition: "Mean"
+  Wordplay: charade
+  Explanation: RE (synonym of "about") + PRESENT (synonym of "gift"); definition: "Mean"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'about'=re_verified=+5 | syn_f_'gift'=present_verified=+5 | all_2_pieces_verified=+12
+  Human explanation: — the preposition from 28a makes another appearance followed by a gift
+  ----------------------------------------------------------------------
+
+  [HIGH] Taverner  18A. Jack embraces French writer and composer
+  Answer: Taverner
+  Tier: Signature | Confidence: 82/100
+  Definition: "composer"
+  Wordplay: charade + container
+  Explanation: TAR (synonym of "Jack") + VERNE (synonym of "French writer") [container: "embraces"]; definition: "composer"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'jack'=tar_verified=+5 | syn_f_'french_writer'=verne_ve=+5 | indicator_'embraces'_verified=+4 | all_3_pieces_verified=+8
+  Human explanation: — the same usual sailor that we encountered in 12a embraces a late 19th century French sci-fi novelist who wrote a story about underwater exploration
+  ----------------------------------------------------------------------
+
+  [HIGH] Prelate  21D. Quietly tell church dignitary
+  Answer: Prelate
+  Tier: Signature | Confidence: 82/100
+  Definition: "church dignitary"
+  Wordplay: charade
+  Explanation: P (abbreviation of "Quietly") + RELATE (synonym of "tell"); definition: "church dignitary"
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'quietly'=p_verified=+5 | syn_f_'tell'=relate_verified=+5 | all_2_pieces_verified=+12
+  Human explanation: — link together the abbreviated music direction for quietly and a verb meaning to tell or narrate (a story, anecdote, etc)
+  ----------------------------------------------------------------------
+
+  [HIGH] Clement  25A. Merciful, the French guys in court
+  Answer: Clement
+  Tier: Signature | Confidence: 82/100
+  Definition: "Merciful,"
+  Wordplay: charade
+  Explanation: LE (abbreviation of "French") + MEN (synonym of "guys") + CT (synonym of "court"); definition: "Merciful,"
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'french'=le_verified=+5 | syn_f_'guys'=men_verified=+5 | syn_f_'court'=ct_verified=+5 | all_3_pieces_verified=+7
+  Human explanation: — a French definite article and a synonym for guys or chaps in the street sign abbreviation for court
+  ----------------------------------------------------------------------
+
+  [HIGH] Evita  26A. Show Greek character carrying six
+  Answer: Evita
+  Tier: Signature | Confidence: 82/100
+  Definition: "Show"
+  Wordplay: charade + container
+  Explanation: ETA (synonym of "Greek character") + VI (synonym of "six") [container: "carrying"]; definition: "Show"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'greek_character'=eta_ve=+5 | syn_f_'six'=vi_verified=+5 | indicator_'carrying'_verified=+4 | all_3_pieces_verified=+8
+  Human explanation: — the seventh letter of the Greek alphabet encompasses the sixth integer in the Roman numbering system
+  ----------------------------------------------------------------------
+
+  [HIGH] Preamble  28A. Page about leisurely walk in introduction
+  Answer: Preamble
+  Tier: Signature | Confidence: 82/100
+  Definition: "introduction"
+  Wordplay: charade
+  Explanation: P (synonym of "Page") + RE (synonym of "about") + AMBLE (synonym of "leisurely walk"); definition: "introduction"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'page'=p_verified=+5 | syn_f_'about'=re_verified=+5 | syn_f_'leisurely_walk'=amble_v=+5 | all_3_pieces_verified=+7
+  Human explanation: — string together the abbreviation for page, a preposition denoting about or in the matter of and a leisurely walk
+  ----------------------------------------------------------------------
+
+  [HIGH] Substance  3D. Reserve position in matter
+  Answer: Substance
+  Tier: Signature | Confidence: 82/100
+  Definition: "matter"
+  Wordplay: charade
+  Explanation: SUB (synonym of "Reserve") + STANCE (synonym of "position"); definition: "matter"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'reserve'=sub_verified=+5 | syn_f_'position'=stance_verifi=+5 | all_2_pieces_verified=+12
+  Human explanation: — an informal term for a reserve player (who, in North America, might be called a benchwarmer) and a position or standpoint on an issue
+  ----------------------------------------------------------------------
+
+  [HIGH] Craving  7D. Constant irrational desire
+  Answer: Craving
+  Tier: Signature | Confidence: 82/100
+  Definition: "desire"
+  Wordplay: charade
+  Explanation: C (synonym of "Constant") + RAVING (synonym of "irrational"); definition: "desire"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'constant'=c_verified=+5 | syn_f_'irrational'=raving_veri=+5 | all_2_pieces_verified=+12
+  Human explanation: — a mathematical symbol for a constant precedes talking wildly as if mad or delirious
+  ----------------------------------------------------------------------
+
+  [HIGH] Rather  8D. Somewhat in clover at hers
+  Answer: Rather
+  Tier: Signature | Confidence: 82/100
+  Definition: "Somewhat"
+  Wordplay: hidden
+  Explanation: hidden in "clover at hers" [hidden: "in"]; definition: "Somewhat"
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'clover_at_hers'_mechani=+3 | indicator_'in'_verified=+4 | all_2_pieces_verified=+15
+  Human explanation: — hidden (in) in the final three words of the clue
+  ----------------------------------------------------------------------
+
+  [HIGH] Repast  1A. The old man, among others, gets a meal
+  Answer: Repast
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "meal"
+  Wordplay: charade + container
+  Explanation: PA (synonym of "old man,") + REST (synonym of "others,") [container: "gets"]; definition: "meal"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'old_man,'=pa_verified=+5 | syn_f_'others,'=rest_verified=+5 | indicator_'gets'_verified=+3 | all_3_pieces_verified=+9
+  Human explanation: — another informal term for one’s father in the midst of others or remainder
+  ----------------------------------------------------------------------
+
+  [HIGH] Rucksack  1D. Question scoundrel raised about kilo in bag
+  Answer: Rucksack
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "bag"
+  Wordplay type: charade
+  Components:
+    reversal           scoundrel raised          -> RUC
+    abbreviation       kilo                      -> K
+    reversal           scoundrel raised          -> SACK
+  Assembly: charade — RUC(reversal of "scoundrel raised") + K(abbr. "kilo") + SACK(reversal of "scoundrel raised")
+  Note: dropped piece 0
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      question: syn=Q,QU,ASK,EYE,FOR,GUN,HER,HIS,AS A,ASKS,BLOW,CALL,FACT,FEEL,FUSS; abbr=Q,QU
+      scoundrel: syn=NO,CUR,DOG,RAT,NAZI,SCAB,FREAK,HEAVY,HOUND,JUMBO,KNAVE,ROGUE,SCAMP,SWINE,WHALE; ind=container?
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      kilo: abbr=K*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      bag: syn=SAC*,SACK*,RUCKSACK*,COP,FIT,GET,HIT,JUT,NAB,NET,OWN,WIN,BEAR,BOOK,CALL
+    Definitions:
+      "bag" -> Rucksack (definition match)
+  Human explanation: — start by joining a word meaning question or inquire and a doggish scoundrel; then reverse the result (raised in a down clue); finally, append the single-letter Latin abbreviation denoting about or a
+  AI Reasoning:
+    ASK + CUR reversed gives RUC, then K from kilo, then remaining SACK to form RUC-K-SACK
+  ----------------------------------------------------------------------
+
+  [HIGH] Toast  11A. Warm when feeding little one
+  Answer: Toast
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Warm"
+  Wordplay type: charade
+  Components:
+    synonym            little one                -> TO
+    synonym            when                      -> AS
+    first_letter       feeding                   -> T
+  Assembly: charade — TO(synonym of "little one") + AS(synonym of "when") + T(first letter of "feeding")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      warm: syn=TOAST*,HOT,LOW,RED,SAD,BLUE,DARK,DOWN,GLUM,GOOD,HEAT,KIND,SNUG,SURE,THAW
+      when: syn=AS*,IS,ONCE,SOON,AS IS,AS IT,WHILE; abbr=AS*; ind=homophone
+      feeding: syn=FORCE,GOING; ind=container
+      little: syn=ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO,WEE; abbr=WEE
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I,O*; sounds=won
+    Definitions:
+      "Warm" -> Toast (definition match)
+  Human explanation: — a short conjunction meaning when, while or during taken in by a small child
+  AI Reasoning:
+    Charade of TO (little one) + AS (when) + T (first letter of feeding) = TOAST
+  ----------------------------------------------------------------------
+
+  [HIGH] Scratch  12A. Capsized sailor, caught in school, improvised
+  Answer: Scratch
+  Tier: Sonnet | Confidence: 76/100
+  Definition: "improvised"
+  Wordplay type: charade
+  Components:
+    first_letter       school                    -> S
+    abbreviation       caught                    -> C
+    reversal           sailor                    -> RAT
+    abbreviation       school                    -> CH
+  Assembly: charade — S(first letter of "school") + C(abbr. "caught") + RAT(reversal of "sailor") + CH(abbr. "school")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (62%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      capsized: ind=reversal
+      sailor: syn=AB,DOG,SEA,TAR,JACK,SALT,JASON,STARS,BOATER,COMMON,HEARTY,LASCAR,RATING,SEAMAN,SINBAD; abbr=AB,JACK,OS,RN,SALT,TAR
+      caught: syn=C,A1,ATE,BIG,DID,DUG,FAB,GOT,HAD,HIT,POP,PUT,RAN,SAW,WON; abbr=C*; ind=container
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      school: syn=SCH*,GAM,POD,COED,ETON,GRIP,HIGH,LYCE,PACK,PREP,SECT,TASK,TECH,COACH,GRIPS; abbr=S*,SCH
+      improvised: syn=SCRATCH*,AD,NEW,OFF,THE,JURY,ADLIB,EXTRA,OTHER,PINCH,SPARE,AD HOC,AD LIB,AD-LIB,MOMENT; ind=anagram?
+      caught in: ind=insertion
+    Definitions:
+      "improvised" -> Scratch (definition match)
+  Human explanation: — a reversal (capsized) of one of our usual sailors and the cricket abbreviation for caught, both placed inside the abbreviation for school
+  AI Reasoning:
+    Charade of S (first letter of school) + C (caught) + RAT (sailor=TAR reversed/capsized) + CH (from school abbreviation SCH)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Service  13A. Tree maintenance check
+  Answer: Service
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Tree maintenance check"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tree: syn=ASH,ELM,FIG,FIR,USE,ACER,BOON,COLA,LIFE,LIME,LINE,PALM,PINE,TEAK,TURN
+      maintenance: syn=AND,CARE,KEEP,UPKEEP
+      check: syn=A,CH,GO,NO,ADD,BED,BIT,DAM,END,FIN,FIT,LET,MOT,ONE,RUB; abbr=CH; ind=container?; sounds=czech
+  Human explanation: — double definition, both nouns
+  AI Reasoning:
+    Cryptic definition playing on 'service tree' (a type of tree) and 'service' as a maintenance check
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Road rage  15A. A violent storm on the way?
+  Answer: Road rage
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "A violent storm on the way?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      violent: syn=AND,BUM,HOT,DEEP,FULL,HARD,KEEN,MISS,PUNK,WILD,ACUTE,CHEAP,DREAD,HEAVY,JUNKY; ind=anagram?
+      storm: syn=RAGE*,DO,TO,ADO,AIR,AMY,AND,FLY,SET,SIC,WAR,GALE,INTO,RACK,RAID; ind=anagram
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      way: syn=DRAG*,ROAD*,BE,DO,GO,NO,RD,ST,AIR,ARC,BET,FIT,GET,HAP,HOW; abbr=RD,ST; ind=anagram; sounds=weigh,whey
+      violent storm: syn=STORM,FURORE,UPROAR,TEMPEST,TYPHOON
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER,ALWAYS,EVERMORE,GRAFFITI
+      the way: abbr=ST
+      the way: syn=ST,AIR,FORM,PATH,STYLE,MANNER,METHOD,FASHION,CURTNESS,FOOTPATH
+      on the way: syn=TRANSIT,EN ROUTE
+  Human explanation: — an all-in-one clue in which the entire clue is a cryptic definition of a nasty episode behind the wheel; the entire clue is also wordplay in which stormy or furious activity follows a way where vehi
+  AI Reasoning:
+    The entire clue cryptically defines road rage as 'a violent storm on the way' - violent behavior that occurs on the road
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Flattery  17D. Praise young children drinking something hot and milky
+  Answer: Flattery
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "Praise"
+  Wordplay type: container
+  Components:
+    synonym            young children            -> FRY
+    synonym            something hot and milky   -> LATTE
+  Assembly: container — LATTE(synonym of "something hot and milky") inside FRY(synonym of "young children")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      praise: syn=FLATTERY*,CITE,FETE,HAIL,LAUD,LIFT,PUFF,RISE,TOUT,BLESS,CHEER,EXALT,EXTOL,HONOR,KUDOS; sounds=prays,preys
+      young: syn=BIG,GET,KIN,NEW,RED,BABY,GONE,REDS,SEED,BROOD,CHILD,CRAZY,FRUIT,GREEN,HATCH; abbr=Y*
+      children: syn=CH,BUDS,CUBS,IMPS,KIDS,SEED,SONS,TOTS,CHAPS,GENTS,ISSUE,BAIRNS,CHICKS,COURSE,KIDDOS; abbr=CH
+      drinking: syn=SALOON,BIBBING,BOOZING,GULPING,LAPPING,SIPPING,SOAKING,SUPPING,GUZZLING,HOISTING,IMBIBING,QUAFFING,SLURPING,SPONGING,SWIGGING
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      hot: syn=H,A1,BE,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY; abbr=H,IN
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      something hot: syn=KILN,OVEN,HOPOAST
+    Definitions:
+      "Praise" -> Flattery (definition match)
+  Human explanation: — young children or young fish who have ingested a drink served by a barista
+  AI Reasoning:
+    FRY (young children/young ones) contains LATTE (hot milky drink) via 'drinking' to give FLATTERY
+  ----------------------------------------------------------------------
+
+  [HIGH] Asinine  19D. Stupid, like number tackling current
+  Answer: Asinine
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Stupid"
+  Wordplay type: charade
+  Components:
+    synonym            like                      -> AS
+    abbreviation       current                   -> I
+    literal            number                    -> NINE
+  Assembly: charade — AS(synonym of "like") + I(abbr. "current") + NINE(number)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stupid: syn=ASININE*,DIM,DRY,MAD,OLD,WET,AGED,ARID,COZY,DAFT,DOPY,DRAB,DULL,DUMB,FLAT; abbr=DAFT; ind=anagram
+      like: syn=AS*,ASININE*,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY; abbr=AS*
+      number: syn=NINE*,N,O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,ONE,TEN,VIP,ACTS; abbr=N*,NO,TEN
+      tackling: ind=container?
+      current: syn=I,AC,UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLUX,GLUT; abbr=I*; sounds=currant
+    Definitions:
+      "Stupid" -> Asinine (definition match)
+  Human explanation: — the conjunction from 11a returns, this time meaning like or in the same way that; it combines with the largest single-digit number to grab hold of the physics symbol for electric current
+  AI Reasoning:
+    AS (like) + I (electrical current) + NINE (number) in sequence, with 'tackling' as charade indicator
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Pilgrim  2D. One in centre of Naples, sullen traveller
+  Answer: Pilgrim
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "traveller"
+  Wordplay type: charade
+  Components:
+    literal            One in centre of Naples   -> PIL
+    synonym            sullen                    -> GRIM
+  Assembly: charade — PIL(One in centre of Naples) + GRIM(synonym of "sullen")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O; sounds=won
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      centre: syn=HQ,EYE,HUB,AXIS,BASE,CORE,SEAT,BOSOM,FOCUS,HEART,LOCUS,MECCA,MIDST,NAVEL,NEXUS; ind=deletion,parts
+      naples: syn=CITY,PORT
+      sullen: syn=DARK,BLACK,MOODY,BROODY,MOROSE
+      traveller: syn=PILGRIM*,JET,REP,FARE,TRIP,GYPSY,NOMAD,RIDER,ROVER,TRAMP,GITANO,ROADIE,ROMANY,MIGRANT,TOURIST; abbr=REP
+    Definitions:
+      "traveller" -> Pilgrim (definition match)
+  Human explanation: — place a Roman one between the two central letters of Naples and add a word meaning sullen or gloomy
+  AI Reasoning:
+    Container operation (I in PL from Naples centre) gives PIL, charade with GRIM from sullen
+  ----------------------------------------------------------------------
+
+  [HIGH] Pupil  20A. Young dog accompanying the Italian student
+  Answer: Pupil
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "student"
+  Wordplay type: charade
+  Components:
+    synonym            Young dog                 -> PUP
+    literal            the Italian               -> IL
+  Assembly: charade — PUP(synonym of "Young dog") + IL(the Italian)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      young: syn=BIG,GET,KIN,NEW,RED,BABY,GONE,REDS,SEED,BROOD,CHILD,CRAZY,FRUIT,GREEN,HATCH; abbr=Y
+      dog: syn=PUP*,CAD,CUR,GOB,GUN,LAB,POM,PUG,RAT,SOD,SON,TAG,TAR,ALSO,BOOR
+      accompanying: syn=WITH
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP*,YE
+      italian: syn=IT,SUB,HERO,SUBS,PIERO; abbr=I*,IT
+      student: syn=PUPIL*,DAY,SWOT,CADET,IDEAL,TUTEE; abbr=L*
+      young dog: syn=PUP*
+      the italian: abbr=IL*,LA
+    Definitions:
+      "student" -> Pupil (definition match)
+  Human explanation: — a straight forward charade of a young dog and an Italian definite article
+  AI Reasoning:
+    PUP (young dog) + IL (the Italian) = PUPIL (student)
+  ----------------------------------------------------------------------
+
+  [HIGH] Asleep  22D. Silly lapse catching English out
+  Answer: Asleep
+  Tier: Sonnet | Confidence: 84/100
+  Definition: "out"
+  Wordplay type: anagram
+  Components:
+    synonym            lapse                     -> LAPSE
+    abbreviation       English                   -> E
+  Assembly: anagram — anagram of LAPSE(synonym of "lapse")+E(abbr. "English") = Asleep
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      silly: syn=MAD,ODD,DAFT,GAGA,GOON,HALF,LIKE,WEAK,ZANY,ADDLE,APISH,BALMY,BARMY,BATTY,CRAZY; ind=anagram
+      lapse: syn=GO,BIT,CAN,DAY,DIE,END,EON,ERA,GAP,LET,MAR,RAP,SIN,BEAT,BOOB; fodder=LAPSE(5/6 anagram match)
+      catching: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E*
+      out: syn=ASLEEP*,OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY; ind=anagram,deletion
+    Definitions:
+      "out" -> Asleep (definition match)
+  Human explanation: — an anagram (silly) of LAPSE enveloping E(nglish)
+  AI Reasoning:
+    Anagram of LAPSE + E (English), indicated by 'silly', with 'catching' showing E is included
+  ----------------------------------------------------------------------
+
+  [HIGH] Skid row  23A. Queue behind small child where vagrants congregate?
+  Answer: Skid row
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "where vagrants congregate"
+  Wordplay type: charade
+  Components:
+    abbreviation       small                     -> S
+    synonym            child                     -> KID
+    synonym            Queue                     -> ROW
+  Assembly: charade — S(abbr. "small") + KID(synonym of "child") + ROW(synonym of "Queue")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      queue: syn=ROW*,CUE,QUE,FILE,HAIR,LINE,TAIL,ALIGN,CHAIN,FLEET,NEXUS,PLAIT,POSSE,RANGE,SUITE; sounds=cue
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      small: syn=S,ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY; abbr=S*
+      child: syn=KID*,BIG,BOY,BUD,CAT,CUB,GET,GUY,IMP,JOE,LAD,MAN,SON,TAD,TOT; abbr=TOT
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER; sounds=ware,wear
+      vagrants: syn=BUMS,HOBOES,NOMADS,ROVERS,TRAMPS,AMBLERS,ROAMERS,HOBO,MOVE,NOMAD,TRAMP,BEGGAR,ERRANT,MOBILE,ROVING; ind=anagram?,container?
+      congregate: syn=MET,MEET,RALLY,GATHER,MEETING
+      small child: syn=TOT
+    Definitions:
+      "where vagrants congregate" -> Skid row (definition match)
+  Human explanation: — another word for queue follows the clothing symbol for small and an informal term for a child
+  AI Reasoning:
+    S (small) + KID (child) + ROW (queue) in sequence, with 'behind' indicating the order
+  ----------------------------------------------------------------------
+
+  [HIGH] Realm  24D. Existing head of monarchy's royal domain
+  Answer: Realm
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "domain"
+  Wordplay: acrostic + charade
+  Explanation: REAL (synonym of "Existing") + M (first letter of "monarchy's royal") [first letter: "head"]; definition: "domain"
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'existing'=real_verified=+5 | pos_f_'monarchy's_royal'_mecha=+3 | indicator_'head'_verified=+4 | all_3_pieces_verified=+10
+  Human explanation: — not fake or fictional followed by the initial letter of Monarchy
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Exonerate  27A. Single rodent seen in river that's clear
+  Answer: Exonerate
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "that's clear"
+  Wordplay type: container
+  Components:
+    synonym            river                     -> EXE
+    synonym            single                    -> ONE
+    synonym            rodent                    -> RAT
+  Assembly: container — ONE(synonym of "single")+RAT(synonym of "rodent") inside EXE(synonym of "river")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      single: syn=EX*,ONE*,ID,OUT,OWN,RUN,SET,TAG,TAX,CULL,DUTY,FIRE,FIRM,FREE,ITEM; abbr=I,LONE
+      rodent: syn=RAT*,MARA,VOLE,COYPU,AGOUTI,ANIMAL,GOPHER,JERBOA,MARMOT,HAMSTER,LEMMING,MUSKRAT,PERHAPS,CAPYBARA,CHIPMUNK
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      river: syn=R,PO,CAM,DEE,DON,FAL,TAY,URE,AIRE,AMUR,ARNO,AVON,BATH,DEEP,EBRO; abbr=CAM,DEE,EXE,MA,R*
+      that's: syn=SO,SURE,TRULY,EASILY,INDEED,REALLY,SURELY,ALRIGHT,CLEARLY,PLAINLY,FORSOOTH,ALL RIGHT,ASSUREDLY,CERTAINLY,DOUBTLESS; abbr=TH,YON
+      clear: syn=ONE*,EXONERATE*,GO,OK,US,AGE,END,FIX,FLY,GET,HIM,LAM,NET,OPT,PAY; abbr=NET,RID
+      seen in: ind=container
+      that's clear: syn=ISINGLASS
+    Definitions:
+      "clear" -> Exonerate (definition match)
+  Human explanation: — a synonym for single and a reputedly dirty rodent find themselves in a river in Devonshire
+  AI Reasoning:
+    River Exe (EXE) contains 'single rodent' (ONE + RAT) to form EXONERATE
+  ----------------------------------------------------------------------
+
+  [HIGH] Steely  29A. Determined, crafty little supporter within
+  Answer: Steely
+  Tier: Sonnet | Confidence: 74/100
+  Definition: "Determined"
+  Wordplay type: charade
+  Components:
+    synonym            supporter                 -> STEEL
+    last_letter        crafty                    -> Y
+  Assembly: charade — STEEL(synonym of "supporter") + Y(last letter of "crafty")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      determined: syn=STEELY*,OR,ATE,BIT,DIE,DUG,GOT,OUT,RAN,SAW,SET,BEAT,CAME,DIED,FELL
+      crafty: syn=SLY*,FLY,ARTFUL,SHREWD; ind=anagram
+      little: syn=ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO,WEE; abbr=WEE
+      supporter: syn=TEE*,BRA,FAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FILL,FOLK,LINE,MAIN; abbr=BRA
+      within: syn=IN,ACE,BIT,CRY,CUT,DAB,NIP,PEG,RAY,WHY,WIT,BUZZ,CASE,GURU,HAIR; abbr=IN; ind=container,hidden,insertion,parts
+    Definitions:
+      "Determined" -> Steely (definition match)
+  Human explanation: — a word meaning crafty or cunning has a golfer’s supporter inside
+  AI Reasoning:
+    STEEL (supporter) + Y (little/last part of crafty SLY) = STEELY
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Scout car  4A. Reconnaissance vehicle in search involving wild cat
+  Answer: Scout car
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "Reconnaissance vehicle"
+  Wordplay type: charade
+  Components:
+    synonym            search                    -> SCOUT
+    synonym            wild cat                  -> CAR
+  Assembly: charade — SCOUT(synonym of "search") + CAR(synonym of "wild cat")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      reconnaissance: syn=CASING,PATROL,SURVEY
+      vehicle: syn=CAR*,BUS,CAB,VAN,CART,FORT,MEAN,PAWN,SLED,TAXI,TOOL,TRAM,TRAP,WALL,WARD; abbr=BUS,CAR*,VAN
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      search: syn=SCOUR*,COMB,FISH,QUEST,SWEEP,TRAWL,FERRET,FORAGE,EXAMINE,EXPLORE,MANHUNT,RUMMAGE,PROSPECT,SCAVENGE
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      wild: syn=BAD,FAR,HOT,MAD,ODD,OFF,THE,WAY,WUD,AIRS,AMOK,AVID,BLAH,GAGA,GRAY; ind=anagram
+      cat: syn=SCOUT*,BOD,BOY,BUD,CUB,EGG,GUY,JOE,KID,LAD,MAN,MOG,PET,TOM,BABY
+      wild cat: syn=OZ,CAT,OUNCE,SCRAP,ANIMAL,FELINE,OCELOT,WEIGHT,MEASURE,PANTHER
+    Definitions:
+      "Reconnaissance vehicle" -> Scout car (definition match)
+  Human explanation: — to search thoroughly round an anagram (wild) of CAT
+  AI Reasoning:
+    'search' gives SCOUT, 'wild cat' (wildcat vehicle) gives CAR, joined together by 'involving'
+  ----------------------------------------------------------------------
+
+  [HIGH] Chelsea tractor  5D. Dodgy character stole a 4x4?
+  Answer: Chelsea tractor
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "4x4?"
+  Wordplay: anagram
+  Explanation: anagram of CHARACTERSTOLE ("character stole") [anagram: "Dodgy"] = CHELSEATRACTOR; definition: "4x4?"
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'character_stole'_mechan=+3 | indicator_'dodgy'_verified=+5 | all_2_pieces_verified=+14
+  Human explanation: — an anagram (dodgy) of the second and third words in the clue produces a derisive term for an off-road vehicle that doesn’t go off-road; thank you to Richard for bringing to my attention that I had n
+  ----------------------------------------------------------------------
+
+  [FAILED] Utter  6D. Prize, say
+  Answer: Utter
+  Tier: --- | Confidence: 0/100
+  Definition: "Prize"
+  Wordplay type: homophone
+  Components:
+    sound_of           prize                     -> UTTER
+  DB Lookups:
+    DB lookups:
+      prize: syn=A1,OK,BIG,CUP,FAB,GEM,HOT,LEG,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD
+      say: syn=UTTER*,EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE; abbr=EG; ind=anagram,homophone
+    Definitions:
+      "say" -> Utter (definition match)
+  Human explanation: — double definition, an adjective and a verb
+  AI Reasoning:
+    Homophone where 'prize' when spoken sounds like 'utter' (complete/absolute)
+  ----------------------------------------------------------------------
+
+  [HIGH] Catherine-wheel  9D. Lie when teacher unexpectedly discovers firework
+  Answer: Catherine-wheel
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "firework"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     lie when teacher          -> LIEWHENTEACHER
+  Assembly: anagram — anagram of LIEWHENTEACHER(lie when teacher) = Catherine-wheel
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      lie: syn=AM,BE,DO,GO,IS,ARE,BED,FIB,HAP,NAP,NOD,RUN,SET,SIT,WAY; sounds=lye
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      teacher: syn=DON,ONE,SIR,GURU,HEAD,PROF,ASTER,CHIPS,RABBI,SWAMI,TUTOR,MASTER,SENSEI,TO MOVE,EDUCATOR
+      unexpectedly: syn=ABACK,SUDDENLY,UNAWARES,AMAZINGLY,STRANGELY,UNUSUALLY,SHOCKINGLY,STUNNINGLY,UNCOMMONLY,ALL AT ONCE,ALLOFASUDDEN,ASTOUNDINGLY,OUTOFTHEBLUE,SURPRISINGLY,ASTONISHINGLY; ind=anagram
+      discovers: syn=BAGS,BUGS,COPS,DIGS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,BAILS,BOOKS,COMES; ind=parts
+      firework: syn=CATHERINE*,CRACKER,ROMANCANDLE
+  AI Reasoning:
+    Anagram of 'lie when teacher' (indicated by 'unexpectedly') produces CATHERINE-WHEEL, which is a type of firework
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

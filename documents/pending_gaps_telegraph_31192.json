@@ -1,0 +1,422 @@
+{
+  "source": "telegraph",
+  "puzzle": "31192",
+  "stats": {
+    "total": 28,
+    "assembled": 26,
+    "high": 14,
+    "medium": 7,
+    "low": 5,
+    "failed": 2,
+    "avg_score": 63.11538461538461
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "loaves",
+      "letters": "HEADS",
+      "answer": "SPEARHEADS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Pioneers small fruit loaves",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Dictator's award,",
+      "letters": "MEDDLE",
+      "answer": "MEDDLESOME",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Dictator's award, several liable to interfere",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "show of approval",
+      "letters": "TICK",
+      "answer": "stick together",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep United defensive blunder within tie after second show of approval",
+      "score": -2
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "defensive blunder",
+      "letters": "OG",
+      "answer": "stick together",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep United defensive blunder within tie after second show of approval",
+      "score": -2
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "tie",
+      "letters": "TETHER",
+      "answer": "stick together",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep United defensive blunder within tie after second show of approval",
+      "score": -2
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "the setter's",
+      "letters": "IM",
+      "answer": "IMMATERIAL",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Petty criminal liar undermining the setter's partner",
+      "score": 15
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "from",
+      "letters": "FR",
+      "answer": "FRAGMENT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Break from following fashion having acquired 1,000 books",
+      "score": -70
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "fashion",
+      "letters": "G",
+      "answer": "FRAGMENT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Break from following fashion having acquired 1,000 books",
+      "score": -70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "books",
+      "letters": "MENT",
+      "answer": "FRAGMENT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Break from following fashion having acquired 1,000 books",
+      "score": -70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "jokes",
+      "letters": "GESTS",
+      "answer": "DIGESTS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Takes in jokes for the audience one had written up earlier",
+      "score": 43
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "failing",
+      "letters": "IN",
+      "answer": "in reserve",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Failing son, wrong to introduce book, Spare",
+      "score": 32
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "smallest room",
+      "letters": "LOO",
+      "answer": "IGLOO",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "King regularly ignored smallest room in house",
+      "score": 43
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "baldness",
+      "letters": "BYES",
+      "answer": "BYSTANDERS",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Those looking on baldness try avoiding student dances",
+      "score": 53
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "show the way home,",
+      "letters": "LEADING",
+      "answer": "leading lights",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Influential people show the way home, essential character in tight matches",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Mean",
+      "letters": "ACE",
+      "answer": "ACES",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Mean waitress finally serves?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "were in a hurry",
+      "letters": "RUSHED",
+      "answer": "CRUSHED",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "100 were in a hurry to find ground",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "mother's",
+      "letters": "MA",
+      "answer": "DOGMA",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Icon returned mother's unquestioning faith",
+      "score": 76
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "free from guilt",
+      "answer": "ABSOLVE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Sailor on crack free from guilt",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "- Plant",
+      "answer": "elephant grass",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "The Panel excited by singer – Plant",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "irritable",
+      "answer": "NARKY",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Crikey! Krankies not all revolting and irritable",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pioneers",
+      "answer": "SPEARHEADS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Pioneers small fruit loaves",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "liable to interfere",
+      "answer": "MEDDLESOME",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Dictator's award, several liable to interfere",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Musician's flat?",
+      "answer": "out of tune",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Musician's flat?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Habitual attendance",
+      "answer": "FREQUENTATION",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Habitual attendance of inn after quote for cooking",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Keep United",
+      "answer": "stick together",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Keep United defensive blunder within tie after second show of approval",
+      "score": -2
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Petty",
+      "answer": "IMMATERIAL",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Petty criminal liar undermining the setter's partner",
+      "score": 15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sexism",
+      "answer": "MISOGYNY",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Noisy gym cultivated sexism",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Roll",
+      "answer": "BUNDLE",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Roll, cake and doughnut not included in unemployment payment",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Break",
+      "answer": "FRAGMENT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Break from following fashion having acquired 1,000 books",
+      "score": -70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Perhaps Victorian",
+      "answer": "AUSSIE",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Perhaps Victorian gold that is lying around case for Sotheby's?",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Put one's faith in",
+      "answer": "swear by",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Put one's faith in sports after cycling purchase picked up",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Takes in",
+      "answer": "DIGESTS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Takes in jokes for the audience one had written up earlier",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "that was clumsy!",
+      "answer": "OOPS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Twists, clipping head – that was clumsy!",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Spare",
+      "answer": "in reserve",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Failing son, wrong to introduce book, Spare",
+      "score": 32
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in house",
+      "answer": "IGLOO",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "King regularly ignored smallest room in house",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Those looking on",
+      "answer": "BYSTANDERS",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Those looking on baldness try avoiding student dances",
+      "score": 53
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Influential people",
+      "answer": "leading lights",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Influential people show the way home, essential character in tight matches",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "serves?",
+      "answer": "ACES",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Mean waitress finally serves?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "unquestioning faith",
+      "answer": "DOGMA",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Icon returned mother's unquestioning faith",
+      "score": 76
+    }
+  ]
+}

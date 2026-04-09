@@ -1,0 +1,498 @@
+{
+  "source": "independent",
+  "puzzle": "12324",
+  "stats": {
+    "total": 38,
+    "assembled": 37,
+    "high": 32,
+    "medium": 5,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 90.72972972972973
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "in",
+      "letters": "IN",
+      "answer": "WINTRIER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Women in German city more frosty?",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "German city",
+      "letters": "TRIER",
+      "answer": "WINTRIER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Women in German city more frosty?",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Memo",
+      "letters": "REMINDER",
+      "answer": "REMAINDER",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Memo to take a rest",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "nurses",
+      "letters": "DIE",
+      "answer": "GRADIENT",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Allow nurses to depart — it could be a slippery slope?",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Broadcaster",
+      "letters": "SKY",
+      "answer": "SKIDDY",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Broadcaster assuming setter had died is treacherous",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Emphasises",
+      "letters": "STRESSES",
+      "answer": "STRESSTEST",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Emphasises time to take temperature for cardiological examination",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Drinks",
+      "letters": "TOTS",
+      "answer": "TOTES",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Drinks around Spain? Absolutely",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Don",
+      "letters": "PUT",
+      "answer": "PUTON",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Don and Vladimir, say, having nothing for India",
+      "score": 75
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "India",
+      "letters": "N",
+      "answer": "PUTON",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Don and Vladimir, say, having nothing for India",
+      "score": 75
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "would",
+      "letters": "D",
+      "answer": "HEDGEROW",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Man would develop ultimate in quince jams, a key part of sustainable farming",
+      "score": 95
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bores",
+      "letters": "SAND",
+      "answer": "SANDTRAP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Something to avoid when driving in backward regions with bores",
+      "score": 42
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "regions",
+      "letters": "PART",
+      "answer": "SANDTRAP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Something to avoid when driving in backward regions with bores",
+      "score": 42
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "place of worship briefly",
+      "letters": "CATHEDRA",
+      "answer": "OCTAHEDRA",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Figures in old place of worship briefly lowering top of altar",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to reflect",
+      "answer": "ECHO",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Beseech other guards to reflect",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "covers",
+      "answer": "DEPRESS",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Humble hairdresser pedantically lifting covers",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "You're welcome",
+      "answer": "NOSWEAT",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "You're welcome to a news broadcast",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "respect",
+      "answer": "ADMIRE",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "I dream about respect",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "more frosty?",
+      "answer": "WINTRIER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Women in German city more frosty?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rest",
+      "answer": "REMAINDER",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Memo to take a rest",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Challenge",
+      "answer": "IMPUGN",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Challenge naughty child with fake gun",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "marked with spots",
+      "answer": "DAPPLE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Bit of dried fruit is marked with spots",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Murphy's successful shot at snooker",
+      "answer": "POTATO",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Murphy's successful shot at snooker, essentially",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "trying to help",
+      "answer": "AGONYUNCLE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Upset clean young man trying to help",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Beseech",
+      "answer": "ECHO",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Beseech other guards to reflect",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "it could be a slippery slope",
+      "answer": "GRADIENT",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Allow nurses to depart — it could be a slippery slope?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Short leg",
+      "answer": "DRUMSTICK",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Short leg struck mid-off!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "treacherous",
+      "answer": "SKIDDY",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Broadcaster assuming setter had died is treacherous",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "You're welcome",
+      "answer": "NOSWEAT",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "You're welcome to a news broadcast",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a Czech",
+      "answer": "BOHEMIAN",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Nasty smell next to trap overwhelming a Czech",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sacking",
+      "answer": "AXING",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Sacking Postecoglou shortly to protect team",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "praise the Lord",
+      "answer": "HOSANNA",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Hotel beginning to offer small Pavlova, praise the Lord",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "unmarried woman",
+      "answer": "MISS",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Yearn for unmarried woman",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cardiological examination",
+      "answer": "STRESSTEST",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Emphasises time to take temperature for cardiological examination",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Absolutely",
+      "answer": "TOTES",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Drinks around Spain? Absolutely",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Persian leaders",
+      "answer": "SHAHS",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Persian leaders from the north and from the south",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "respect",
+      "answer": "ADMIRE",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "I dream about respect",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Help",
+      "answer": "ASSIST",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Help someone intolerant of idiots?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Don and Vladimir, say",
+      "answer": "PUTON",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Don and Vladimir, say, having nothing for India",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Gourmet",
+      "answer": "EPICURE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Gourmet's impressive main course in North Yorkshire",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a key part of sustainable farming",
+      "answer": "HEDGEROW",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Man would develop ultimate in quince jams, a key part of sustainable farming",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bean",
+      "answer": "HARICOT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Bean Charlie's dropped in carriage",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Humble",
+      "answer": "DEPRESS",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Humble hairdresser pedantically lifting covers",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Zealotry",
+      "answer": "EXTREMISM",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Zealotry of old, mostly negligent, male accepting Trump's overture",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "more frosty",
+      "answer": "WINTRIER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Women in German city more frosty?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Serving",
+      "answer": "BARISTA",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Serving ace to exclude the possibility of one returning at speed, primarily",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Something to avoid when driving",
+      "answer": "SANDTRAP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Something to avoid when driving in backward regions with bores",
+      "score": 42
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "volcano",
+      "answer": "KRAKATOA",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Reportedly fracture part of foot next to American volcano",
+      "score": 0
+    }
+  ]
+}

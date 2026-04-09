@@ -1,0 +1,341 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12312
+Generated: 2026-03-25 08:51:23
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        32/33 (96%)
+    Signature:      1
+    Sig+Enriched:   4
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   29  10?, 13?, 21?, 29?, 1?, 10?, 11?, 12?, 13?, 15?, 16?, 17?, 19?, 2?, 20?, 21?, 22?, 24?, 25?, 27?, 28?, 3?, 30?, 5?, 6?, 7?, 8?, 9?, 23?
+  Medium (40-79): 2  14?, 4?
+  Low (<40):    1  26?
+  Failed:       1  18?
+  Average:      93/100
+
+COST: $0.1271 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (9 entries)
+------------------------------------------------------------
+  RETIRES: "Goes to bed" -> RETIRES  (missing from definition_answers_augmented)
+  HEARTS: "football team" -> HEARTS  (missing from definition_answers_augmented)
+  SAFE: "reliable" -> SAFE  (missing from definition_answers_augmented)
+  MEALTICKET: "financial security" -> MEALTICKET  (missing from definition_answers_augmented)
+  AGENESIS: "failure to develop" -> AGENESIS  (missing from definition_answers_augmented)
+  HEARTS: cards -> HEART  (missing from synonyms_pairs)
+  MEALTICKET: Case of archetypal -> MEAL  (missing from synonyms_pairs)
+  MEALTICKET: sucker stopping to pay for -> TICKET  (missing from synonyms_pairs)
+  AGENESIS: one's -> IS  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  AGENESIS = 26 (33/100): AI=anagram, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  18. Go round the bend endlessly in French department = ORNE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  25/33  10, 10, 20, 30, 1, 11, 2, 12, 22, 3, 4, 14, 24, 5, 15, 25, 6, 16, 7, 17, 27, 8, 28, 9, 19
+  Type mismatch:         1  26
+  DB gap:                5  13, 21, 23, 26, 29
+  Failed:                1  18
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   10?  GOVERN        Lead piping over new houses (6)
+                      hidden in "Lead piping over new" [hidden: "houses"]  [HIGH]
+   13?  RETIRES       Goes to bed in garret I reserved (7)
+                      hidden in "garret I reserved" [hidden: "in"]; definition: "Goes to bed"  [HIGH]
+   21?  HEARTS        Some cards for football team (6)
+                      HEART (synonym of "cards") + S (abbreviation of "Some"); definition: "football team"  [HIGH]
+   29?  SAFE          South American iron is reliable (4)
+                      S (synonym of "South") + A (synonym of "American") + FE (synonym of "iron"); definition: "reliable"  [HIGH]
+    1?  FILTEROUT     Separate clue for trifle? (9)
+                      ---  [HIGH]
+   10?  GOVERN        Lead piping over new houses (6)
+                      ---  [HIGH]
+   11?  TAKESIDES     Attempts to shoot fish for select party (9)
+                      ---  [HIGH]
+   12?  APROPOS       By the way a very big rugby player is boring (7)
+                      ---  [HIGH]
+   13?  RETIRES       Goes to bed in garret I reserved (7)
+                      ---  [HIGH]
+   14?  THERMOSES     Scratching head remaining prophet provides bottles of drink? (9)
+                      ---  [MED]
+   15?  FIVESTAR      Top quality match enveloped by lots of passion (8)
+                      ---  [HIGH]
+   16?  LOT           From time to time look to fate (3)
+                      ---  [HIGH]
+   17?  ESCALATE      Unusual case passed on to up the intensity (8)
+                      ---  [HIGH]
+   19?  TABERNACLE    Desk left out with salt during religious teaching in church (10)
+                      ---  [HIGH]
+    2?  AIRDRIE       Exposed appliance for removing water from locks in Scottish town (7)
+                      ---  [HIGH]
+   20?  OREGON        Running about on leave in part of the Western US (6)
+                      ---  [HIGH]
+   21?  HEARTS        Some cards for football team (6)
+                      ---  [HIGH]
+   22?  RUSSOPHILE    Polish ruse to muddle Trump perhaps (10)
+                      ---  [HIGH]
+   24?  PSALMODIST    Somehow stop dismal singer (10)
+                      ---  [HIGH]
+   25?  HOLOGRAM      Regularly shoot and record stuff as 3-D image (8)
+                      ---  [HIGH]
+   27?  ENTIRE        Whole of Ireland absorbing part of the Bible (6)
+                      ---  [HIGH]
+   28?  ROSARY        Prayers in bed? (6)
+                      ---  [HIGH]
+    3?  VATICAN       One entering vacant dilapidated palace (7)
+                      ---  [HIGH]
+   30?  PUS           Discharge Manx cat? (3)
+                      ---  [HIGH]
+    4?  ENERGISER     Current supplier from Spain quit over stealing stereo essentially (9)
+                      ---  [MED]
+    5?  SIMPLE        Humble Earl limps around (6)
+                      ---  [HIGH]
+    6?  NANDOOS       Chicken specialist collects old flightless birds (7)
+                      ---  [HIGH]
+    7?  ANASTASIA     Russian card game that doesn't use clubs is back — back in Russia (9)
+                      ---  [HIGH]
+    8?  LOLLOPING     Hanging around work walking with a bounce (9)
+                      ---  [HIGH]
+    9?  EPIGRAM       Something pointed close to some farm animals (7)
+                      ---  [HIGH]
+   18?  ORNE          Go round the bend endlessly in French department (4)
+                      ---  [ERR]
+   23?  MEALTICKET    Case of archetypal sucker stopping to pay for financial security (10)
+                      MEAL (synonym of "Case of archetypal") + TICKET (synonym of "sucker stopping to pay for"); definition: "financial security"  [HIGH]
+   26?  AGENESIS      Most of country upset over one's failure to develop (8)
+                      reverse SENEGA(deletion from "Most of country") + IS(synonym of "one's")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] GOVERN  10?. Lead piping over new houses
+  Answer: GOVERN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "Lead piping over new" [hidden: "houses"]
+  ----------------------------------------------------------------------
+
+  [HIGH] RETIRES  13?. Goes to bed in garret I reserved
+  Answer: RETIRES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Goes to bed"
+  Wordplay: hidden
+  Explanation: hidden in "garret I reserved" [hidden: "in"]; definition: "Goes to bed"
+  ----------------------------------------------------------------------
+
+  [HIGH] HEARTS  21?. Some cards for football team
+  Answer: HEARTS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "football team"
+  Wordplay: charade
+  Explanation: HEART (synonym of "cards") + S (abbreviation of "Some"); definition: "football team"
+  ----------------------------------------------------------------------
+
+  [HIGH] SAFE  29?. South American iron is reliable
+  Answer: SAFE
+  Tier: Signature | Confidence: 100/100
+  Definition: "reliable"
+  Wordplay: charade
+  Explanation: S (synonym of "South") + A (synonym of "American") + FE (synonym of "iron"); definition: "reliable"
+  ----------------------------------------------------------------------
+
+  [HIGH] FILTEROUT  1?. Separate clue for trifle?
+  Answer: FILTEROUT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] GOVERN  10?. Lead piping over new houses
+  Answer: GOVERN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TAKESIDES  11?. Attempts to shoot fish for select party
+  Answer: TAKESIDES
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] APROPOS  12?. By the way a very big rugby player is boring
+  Answer: APROPOS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RETIRES  13?. Goes to bed in garret I reserved
+  Answer: RETIRES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] THERMOSES  14?. Scratching head remaining prophet provides bottles of drink?
+  Answer: THERMOSES
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] FIVESTAR  15?. Top quality match enveloped by lots of passion
+  Answer: FIVESTAR
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LOT  16?. From time to time look to fate
+  Answer: LOT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ESCALATE  17?. Unusual case passed on to up the intensity
+  Answer: ESCALATE
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TABERNACLE  19?. Desk left out with salt during religious teaching in church
+  Answer: TABERNACLE
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AIRDRIE  2?. Exposed appliance for removing water from locks in Scottish town
+  Answer: AIRDRIE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OREGON  20?. Running about on leave in part of the Western US
+  Answer: OREGON
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] HEARTS  21?. Some cards for football team
+  Answer: HEARTS
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RUSSOPHILE  22?. Polish ruse to muddle Trump perhaps
+  Answer: RUSSOPHILE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PSALMODIST  24?. Somehow stop dismal singer
+  Answer: PSALMODIST
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] HOLOGRAM  25?. Regularly shoot and record stuff as 3-D image
+  Answer: HOLOGRAM
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ENTIRE  27?. Whole of Ireland absorbing part of the Bible
+  Answer: ENTIRE
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ROSARY  28?. Prayers in bed?
+  Answer: ROSARY
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] VATICAN  3?. One entering vacant dilapidated palace
+  Answer: VATICAN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PUS  30?. Discharge Manx cat?
+  Answer: PUS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ENERGISER  4?. Current supplier from Spain quit over stealing stereo essentially
+  Answer: ENERGISER
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SIMPLE  5?. Humble Earl limps around
+  Answer: SIMPLE
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NANDOOS  6?. Chicken specialist collects old flightless birds
+  Answer: NANDOOS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ANASTASIA  7?. Russian card game that doesn't use clubs is back — back in Russia
+  Answer: ANASTASIA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LOLLOPING  8?. Hanging around work walking with a bounce
+  Answer: LOLLOPING
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EPIGRAM  9?. Something pointed close to some farm animals
+  Answer: EPIGRAM
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [ERROR] 18. Go round the bend endlessly in French department = ORNE
+  ----------------------------------------------------------------------
+
+  [HIGH] MEALTICKET  23?. Case of archetypal sucker stopping to pay for financial security
+  Answer: MEALTICKET
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "financial security"
+  Wordplay: charade
+  Explanation: MEAL (synonym of "Case of archetypal") + TICKET (synonym of "sucker stopping to pay for"); definition: "financial security"
+  ----------------------------------------------------------------------
+
+  [LOW] AGENESIS  26?. Most of country upset over one's failure to develop
+  Answer: AGENESIS
+  Tier: Sonnet | Confidence: 33/100
+  Definition: "failure to develop"
+  Wordplay type: anagram
+  Components:
+    deletion           Most of country           -> SENEGA
+    synonym            one's                     -> IS
+  Assembly: reversal — reverse SENEGA(deletion from "Most of country") + IS(synonym of "one's")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_mismatch=AI=anagram, assembled=reversal | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      country: syn=UK,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL; abbr=MALI
+      upset: syn=ADO,BOX,BUG,COY,KEY,MAD,SAD,SHY,ACED,AILS,EDGE,EDGY,FAZE,HAND,MEEK; ind=anagram,reversal
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O,ON,UP; ind=anagram,reversal
+      one's: syn=AGE*,AM,MY,BABY,COUP,BOAST,GLORY,HONOR,JEWEL,PRIDE,REBEL,CREDIT,TROPHY,REALIST,SUCCESS; abbr=I*,A*,ACE,O; sounds=won
+      failure: syn=11,DUD,ALSO,FLIP,FLOP,MISS,WANT,LAPSE,LEMON,LOSER,SCREW,DEFEAT,FIASCO,ALSORAN,BALLSUP; ind=anagram?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      develop: syn=AGE*,AGES*,AGED,FORM,GROW,AGING,BRING,FORGE,HATCH,RIPEN,AERATE,AGEING,EVOLVE,EXPAND,FOLLOW; ind=anagram
+      most of: ind=parts
+      of country: syn=PASTORAL
+      to develop: syn=THAT,THIS,EARTH,SHOOT,VENUS,WORLD,GROWTH,PLANET,SATURN,SPROUT
+  AI Reasoning:
+    SENEGA (most of SENEGAL) + IS (one's) anagrammed by 'upset' gives AGENESIS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

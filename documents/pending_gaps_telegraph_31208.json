@@ -1,0 +1,291 @@
+{
+  "source": "telegraph",
+  "puzzle": "31208",
+  "stats": {
+    "total": 30,
+    "assembled": 28,
+    "high": 24,
+    "medium": 3,
+    "low": 1,
+    "failed": 2,
+    "avg_score": 87.35714285714286
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "authority",
+      "letters": "BLANCHE",
+      "answer": "carte blanche",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Runs into Australian actor time after time escaping authority",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Noisily",
+      "letters": "NECTR",
+      "answer": "NECTAR",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Noisily swallowed a delicious drink",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "fag",
+      "letters": "CIG",
+      "answer": "MAGICIAN",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Chap holding a fag back to front and beginning to imitate Tommy Cooper?",
+      "score": 42
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "unchallenged",
+      "letters": "EASY",
+      "answer": "easy chair",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Comfy spot for the unchallenged prof?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "prof?",
+      "letters": "CHAIR",
+      "answer": "easy chair",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Comfy spot for the unchallenged prof?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "force",
+      "letters": "ICE",
+      "answer": "black ice",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Dark force in America a danger to those on the street?",
+      "score": 37
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "without stopping",
+      "answer": "INCESSANT",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Convinces Santa to go round without stopping",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bird",
+      "answer": "CHICKEN",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Yellow bird",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "coat",
+      "answer": "FLEECE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Rip off coat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "brandy",
+      "answer": "Calvados",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Sold Cava, rum, brandy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Uncomfortable,",
+      "answer": "ill at ease",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Uncomfortable, unwell, advanced torment",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Career",
+      "answer": "GALLOP",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Career girl cut",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "army",
+      "answer": "HOST",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Raise heartless army",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "smell",
+      "answer": "ODOUR",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Old, grim smell",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "floor",
+      "answer": "ASTONISH",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Awkwardly sits on a hard floor",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Heraldic beast",
+      "answer": "WYVERN",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Heraldic beast with very weird name",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "escaping authority",
+      "answer": "carte blanche",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Runs into Australian actor time after time escaping authority",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "delicious drink",
+      "answer": "NECTAR",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Noisily swallowed a delicious drink",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tommy Cooper",
+      "answer": "MAGICIAN",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Chap holding a fag back to front and beginning to imitate Tommy Cooper?",
+      "score": 42
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "where everyone wants digs",
+      "answer": "gold rush",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Lord moves into grand American hotel where everyone wants digs",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Classic game",
+      "answer": "LEAPFROG",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Classic game, playing par golf going round Carnoustie finally",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "place for a meeting",
+      "answer": "FORUM",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Foreign Office – strange place for a meeting",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bit of a pain",
+      "answer": "STITCH",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Singular little guy, bit of a pain",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "ask for another card",
+      "answer": "TWIST",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Fool to hold spades – ask for another card!",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Comfy spot",
+      "answer": "easy chair",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Comfy spot for the unchallenged prof?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Countrywide newspaper subject",
+      "answer": "NATIONAL",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Countrywide newspaper subject",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a danger to those on the street",
+      "answer": "black ice",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Dark force in America a danger to those on the street?",
+      "score": 37
+    }
+  ]
+}

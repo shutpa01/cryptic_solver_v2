@@ -1,0 +1,285 @@
+{
+  "source": "telegraph",
+  "puzzle": "31198",
+  "stats": {
+    "total": 28,
+    "assembled": 20,
+    "high": 12,
+    "medium": 6,
+    "low": 2,
+    "failed": 0,
+    "avg_score": 73.6
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Dark",
+      "letters": "SOMBRE",
+      "answer": "SOMBRERO",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Dark gold round hat",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "widespread",
+      "letters": "MASS",
+      "answer": "MASSEUSE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Spain blocks widespread employment producing rubber",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "metal",
+      "letters": "CHROME",
+      "answer": "CHRONOMETER",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Watch perhaps number cutting metal, they're periodically visible",
+      "score": 37
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "England",
+      "letters": "EN",
+      "answer": "en route",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Broadcast about England cricketer on the way",
+      "score": 30
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "cricketer",
+      "letters": "OUT",
+      "answer": "en route",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Broadcast about England cricketer on the way",
+      "score": 30
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "PM",
+      "letters": "RISHI",
+      "answer": "MAHARISHI",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Retired actor meets a PM and Hindu teacher",
+      "score": 52
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Allowing",
+      "letters": "THOUGH",
+      "answer": "THOUGHTS",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Allowing vacuous teenagers to give opinions",
+      "score": 58
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Democrat",
+      "letters": "DEN",
+      "answer": "DENTAL",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Type of surgeon, name former Democrat holds back",
+      "score": 43
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Defamatory speech",
+      "letters": "SLANDER",
+      "answer": "ISLANDER",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Defamatory speech by one resident of Anglesey?",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "completed",
+      "letters": "DID",
+      "answer": "DRUID",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Old priest completed enthralling game",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "drunk",
+      "answer": "WASTED",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Not all cadets awkwardly turned up drunk",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Exemplary",
+      "answer": "MODEL",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Exemplary type",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "White wine",
+      "answer": "Riesling",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "White wine Sir Nigel ordered",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to a certain extent",
+      "answer": "after a fashion",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Following American trend, to a certain extent",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "airline",
+      "answer": "Emirates",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Times are flexible for airline",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hat",
+      "answer": "SOMBRERO",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Dark gold round hat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Watch perhaps",
+      "answer": "CHRONOMETER",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Watch perhaps number cutting metal, they're periodically visible",
+      "score": 37
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "demanding attention",
+      "answer": "INSISTENT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Aim to involve nun, not half demanding attention",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Person with a stable job?",
+      "answer": "GROOM",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Person with a stable job?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hindu teacher",
+      "answer": "MAHARISHI",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Retired actor meets a PM and Hindu teacher",
+      "score": 52
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where in New York one can see Cats?",
+      "answer": "QUEENS",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Where in New York one can see Cats?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Type of surgeon",
+      "answer": "DENTAL",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Type of surgeon, name former Democrat holds back",
+      "score": 43
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "resident of Anglesey?",
+      "answer": "ISLANDER",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Defamatory speech by one resident of Anglesey?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rather cold",
+      "answer": "STANDOFFISH",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Stall displaying seafood that's rather cold",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Old priest",
+      "answer": "DRUID",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Old priest completed enthralling game",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wife maybe",
+      "answer": "SPOUSE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Wife maybe put pickle over pizza originally",
+      "score": 75
+    }
+  ]
+}

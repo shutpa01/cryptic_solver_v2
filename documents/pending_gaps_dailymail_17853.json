@@ -1,0 +1,282 @@
+{
+  "source": "dailymail",
+  "puzzle": "17853",
+  "stats": {
+    "total": 32,
+    "assembled": 31,
+    "high": 25,
+    "medium": 6,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 85.09677419354838
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "a refined set",
+      "letters": "AU",
+      "answer": "TABLEAU",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Chart linked to a refined set of figures",
+      "score": 47
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "person",
+      "letters": "PER",
+      "answer": "SCARPER",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Run away having unsightly mark on person",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "getting financial",
+      "letters": "R",
+      "answer": "GRANTS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Grey workers getting financial awards",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Scoundrel",
+      "letters": "ROT",
+      "answer": "ROTTERDAM",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Scoundrel on top of obstruction in Dutch port",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "on top of",
+      "letters": "TER",
+      "answer": "ROTTERDAM",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Scoundrel on top of obstruction in Dutch port",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "obstruction",
+      "letters": "DAM",
+      "answer": "ROTTERDAM",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Scoundrel on top of obstruction in Dutch port",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "at hand",
+      "letters": "SIGHT",
+      "answer": "INSIGHT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Understanding near at hand",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Figure",
+      "answer": "DIGIT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Figure captivated by shindig, I think",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Poor",
+      "answer": "DISMAL",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Poor section of ground is maligned",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Periodical",
+      "answer": "MAG",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Periodical storm again? Not entirely",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "incision",
+      "answer": "CUT",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Reduce incision",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "samples",
+      "answer": "TASTERS",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Star set to change samples",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Close",
+      "answer": "HUMID",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Close friend losing top papers",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Supply",
+      "answer": "FURNISH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Supply container grabbed by swimmer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "In a chaotic state, like a disused train carriage?",
+      "answer": "OFFTHERAILS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "In a chaotic state, like a disused train carriage?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "financial projection",
+      "answer": "OPERATINGBUDGET",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Painter got excited about shift in financial projection",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Language",
+      "answer": "SPANISH",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Language is hard after period of time",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "figures",
+      "answer": "TABLEAU",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Chart linked to a refined set of figures",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "awards",
+      "answer": "GRANTS",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Grey workers getting financial awards",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bob facing burden requires rest?",
+      "answer": "SLUMBER",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Bob facing burden requires rest?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Part of a circle",
+      "answer": "ARC",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Part of a circle in rescue vessel, reportedly",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Masterpiece",
+      "answer": "TOURDEFORCE",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Masterpiece belonging to us kept by suspect defector",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dutch port",
+      "answer": "ROTTERDAM",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Scoundrel on top of obstruction in Dutch port",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Understanding",
+      "answer": "INSIGHT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Understanding near at hand",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "An instance of characters being out of order?",
+      "answer": "SPELLINGMISTAKE",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "An instance of characters being out of order?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bit of food",
+      "answer": "MORSEL",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Noted inspector left bit of food",
+      "score": 75
+    }
+  ]
+}

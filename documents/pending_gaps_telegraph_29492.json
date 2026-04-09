@@ -1,0 +1,326 @@
+{
+  "source": "telegraph",
+  "puzzle": "29492",
+  "stats": {
+    "total": 30,
+    "assembled": 29,
+    "high": 23,
+    "medium": 6,
+    "low": 0,
+    "failed": 1,
+    "avg_score": 75.27586206896552
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Famous person,",
+      "letters": "CELEB",
+      "answer": "Celebrate",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Famous person, judge, to paint the town red",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "little one",
+      "letters": "TO",
+      "answer": "Toast",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Warm when feeding little one",
+      "score": 72
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "school",
+      "letters": "CH",
+      "answer": "Scratch",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Capsized sailor, caught in school, improvised",
+      "score": 76
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "young children",
+      "letters": "FRY",
+      "answer": "Flattery",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Praise young children drinking something hot and milky",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "something hot and milky",
+      "letters": "LATTE",
+      "answer": "Flattery",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Praise young children drinking something hot and milky",
+      "score": 44
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "sullen",
+      "letters": "GRIM",
+      "answer": "Pilgrim",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "One in centre of Naples, sullen traveller",
+      "score": 52
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "lapse",
+      "letters": "LAPSE",
+      "answer": "Asleep",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Silly lapse catching English out",
+      "score": 84
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Existing",
+      "letters": "REAL",
+      "answer": "Realm",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Existing head of monarchy's royal domain",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "supporter",
+      "letters": "STEEL",
+      "answer": "Steely",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Determined, crafty little supporter within",
+      "score": 74
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "search",
+      "letters": "SCOUT",
+      "answer": "Scout car",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Reconnaissance vehicle in search involving wild cat",
+      "score": 44
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "wild cat",
+      "letters": "CAR",
+      "answer": "Scout car",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Reconnaissance vehicle in search involving wild cat",
+      "score": 44
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "paint the town red",
+      "answer": "Celebrate",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Famous person, judge, to paint the town red",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Type of spice",
+      "answer": "Cumin",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Type of spice and some capsicum inside",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mean",
+      "answer": "Represent",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Mean about gift",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "composer",
+      "answer": "Taverner",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Jack embraces French writer and composer",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "church dignitary",
+      "answer": "Prelate",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Quietly tell church dignitary",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Merciful,",
+      "answer": "Clement",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Merciful, the French guys in court",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show",
+      "answer": "Evita",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Show Greek character carrying six",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "introduction",
+      "answer": "Preamble",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Page about leisurely walk in introduction",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "matter",
+      "answer": "Substance",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Reserve position in matter",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "desire",
+      "answer": "Craving",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Constant irrational desire",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Somewhat",
+      "answer": "Rather",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Somewhat in clover at hers",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "meal",
+      "answer": "Repast",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "The old man, among others, gets a meal",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tree maintenance check",
+      "answer": "Service",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Tree maintenance check",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A violent storm on the way?",
+      "answer": "Road rage",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "A violent storm on the way?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "domain",
+      "answer": "Realm",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Existing head of monarchy's royal domain",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "that's clear",
+      "answer": "Exonerate",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Single rodent seen in river that's clear",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "4x4?",
+      "answer": "Chelsea tractor",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Dodgy character stole a 4x4?",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Prize",
+      "answer": "Utter",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Prize, say",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "firework",
+      "answer": "Catherine-wheel",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Lie when teacher unexpectedly discovers firework",
+      "score": 85
+    }
+  ]
+}

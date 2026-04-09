@@ -1,0 +1,229 @@
+{
+  "source": "dailymail",
+  "puzzle": "17851",
+  "stats": {
+    "total": 26,
+    "assembled": 24,
+    "high": 17,
+    "medium": 7,
+    "low": 0,
+    "failed": 2,
+    "avg_score": 84.25
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Chooses",
+      "letters": "PLUMP",
+      "answer": "PLUMPS",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Chooses fat cakes, ultimately",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Fiercely",
+      "letters": "AT",
+      "answer": "ATTACK",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Fiercely oppose charge",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "oppose",
+      "letters": "TACK",
+      "answer": "ATTACK",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Fiercely oppose charge",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "beard",
+      "letters": "BEARD",
+      "answer": "ADVERB",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Victor is wearing cultivated beard surprisingly, perhaps",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Italian banker",
+      "answer": "ARNO",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Italian banker featuring in unfamiliar novel",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Smear",
+      "answer": "BLUR",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Smear limited publicity for a book",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "less attractive",
+      "answer": "UGLIER",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Gruel I suspect is less attractive",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "astronaut, maybe",
+      "answer": "SPACETRAVELLER",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Step blocking tall server for astronaut, maybe",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A state of full growth?",
+      "answer": "MATURITY",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "A state of full growth?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "charge",
+      "answer": "ATTACK",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Fiercely oppose charge",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "perhaps",
+      "answer": "ADVERB",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Victor is wearing cultivated beard surprisingly, perhaps",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Identification",
+      "answer": "DOGTAG",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Identification for one lately serving in the U.S.?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "body of water",
+      "answer": "REDSEA",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Engineer dares to skirt eastern body of water",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Contrasting",
+      "answer": "OPPOSITE",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Contrasting work I stop somehow close to here",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "neat and respectable",
+      "answer": "CLEANCUT",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Conservative, thin, seen by court regularly looking neat and respectable",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chance to complete last round?",
+      "answer": "DRINKINGUPTIME",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Chance to complete last round?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Run of bad luck",
+      "answer": "HOODOO",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Run of bad luck in house party among two circles",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "turned to another circuit",
+      "answer": "SWITCHED",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Given a shift, turned to another circuit?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Grade in competitive game, right?",
+      "answer": "TIER",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Grade in competitive game, right?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to do a proper share of work",
+      "answer": "PULLONESWEIGHT",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Get up hills now in a storm, retaining energy to do a proper share of work?",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a hostile feeling",
+      "answer": "ENMITY",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Amenity at work to dispel a hostile feeling",
+      "score": 85
+    }
+  ]
+}

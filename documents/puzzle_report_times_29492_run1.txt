@@ -1,0 +1,1078 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29492
+Generated: 2026-03-17 10:00:52
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      31
+  Assembled:        21/31 (67%)
+    Signature:      5
+    Sig+Enriched:   4
+    Sonnet:         11
+    DB Fallback:    1
+  Failed:           10
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   10  11A, 23D, 3D, 30A, 9A, 12D, 14A, 24A, 28A, 8D
+  Medium (40-79): 7  13A, 16A, 20A, 21D, 4D, 5D, 6D
+  Low (<40):    4  17D, 22A, 25D, 6A
+  Failed:       10  1A, 10A, 15D, 18A, 19D, 2D, 26A, 27D, 29A, 7D
+  Average:      64/100
+
+COST: $0.2867 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (40 entries)
+------------------------------------------------------------
+  BRUSCHETTA: "bread" -> BRUSCHETTA  (missing from definition_answers_augmented)
+  KYOTO: "city" -> KYOTO  (missing from definition_answers_augmented)
+  ARTISTE: "performer" -> ARTISTE  (missing from definition_answers_augmented)
+  PICKEREL: "Fish" -> PICKEREL  (missing from definition_answers_augmented)
+  SHOT: "Slug" -> SHOT  (missing from definition_answers_augmented)
+  CARAPACE: "shell" -> CARAPACE  (missing from definition_answers_augmented)
+  TAKEITEASY: "lounge" -> TAKEITEASY  (missing from definition_answers_augmented)
+  TOWNGAS: "Obsolete fuel" -> TOWNGAS  (missing from definition_answers_augmented)
+  YOYO: "plaything" -> YOYO  (missing from definition_answers_augmented)
+  FEVERFEW: "medicinal herb" -> FEVERFEW  (missing from definition_answers_augmented)
+  FLYWEIGHT: "boxing match" -> FLYWEIGHT  (missing from definition_answers_augmented)
+  GREATDANE: "Hound" -> GREATDANE  (missing from definition_answers_augmented)
+  STOCKY: "Well-built" -> STOCKY  (missing from definition_answers_augmented)
+  CHASSIS: "frame" -> CHASSIS  (missing from definition_answers_augmented)
+  ABHORRENT: "Heinous" -> ABHORRENT  (missing from definition_answers_augmented)
+  SHACKLE: "Iron" -> SHACKLE  (missing from definition_answers_augmented)
+  SKUA: "Seabirds" -> SKUA  (missing from definition_answers_augmented)
+  EPSOMSALTS: "Something added to bath" -> EPSOMSALTS  (missing from definition_answers_augmented)
+  COASTGUARD: "Rescuers" -> COASTGUARD  (missing from definition_answers_augmented)
+  APP: "Program" -> APP  (missing from definition_answers_augmented)
+  KHAN: "ruler" -> KHAN  (missing from definition_answers_augmented)
+  CORSET: "Garment" -> CORSET  (missing from definition_answers_augmented)
+  AITCH: "Character I will follow?" -> AITCH  (missing from definition_answers_augmented)
+  ESK: "Runner" -> ESK  (missing from definition_answers_augmented)
+  IMITATION: "Copying" -> IMITATION  (missing from definition_answers_augmented)
+  PIEEYED: "Stewed" -> PIEEYED  (missing from definition_answers_augmented)
+  GUSTY: "such conditions" -> GUSTY  (missing from definition_answers_augmented)
+  CARAPACE: snail -> PACE  (missing from synonyms_pairs)
+  FLYWEIGHT: tiny -> FLY  (missing from abbreviations)
+  FLYWEIGHT: cut -> GHT  (missing from abbreviations)
+  STOCKY: enclosure -> STY  (missing from abbreviations)
+  STOCKY: go-ahead -> OK  (missing from abbreviations)
+  CHASSIS: condition -> ASSIS  (missing from synonyms_pairs)
+  SHACKLE: house -> SHACK  (missing from synonyms_pairs)
+  SKUA: another species -> AUKS  (missing from synonyms_pairs)
+  MEDOC: picked up -> DOC  (missing from abbreviations)
+  KHAN: meets -> A  (missing from abbreviations)
+  KHAN: Eastern -> N  (missing from abbreviations)
+  CORSET: assistant -> SET  (missing from abbreviations)
+  GUSTY: Supporting line's -> GUY  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  GREATDANE = 17 (32/100): AI=anagram, assembled=charade
+  GANGSTER = 20 (62/100): AI=container, assembled=charade
+  MEDOC = 25 (22/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  GREATDANE (32/100): E <- "eager" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (1)
+------------------------------------------------------------
+  IMPUGN = 6 (35/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  SKUA = 22 (32/100): no pieces verified in DB
+  MEDOC = 25 (22/100): no pieces verified in DB
+  IMPUGN = 6 (35/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (10)
+------------------------------------------------------------
+  1. Fish grabbing snail in the middle, cracking shell = CARAPACE
+  10. New Ikea seat becoming centrepiece of trendy lounge = TAKEITEASY
+  15. One’s extremely lucky with tiny cut during boxing match? = FLYWEIGHT
+  18. Well-built enclosure receiving go-ahead to accommodate 100 = STOCKY
+  19. Church in its current condition retains steeple’s initial fr = CHASSIS
+  2. Heinous violent assault — officer’s jacket torn apart = ABHORRENT
+  26. Rescuers firm as wind from the east loses strength, finally = COASTGUARD
+  27. Program’s content lacking boundaries = APP
+  29. Garment’s stiff — pressure’s released by assistant at the ba = CORSET
+  7. Stewed dish I’d mentioned = PIEEYED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/31  16A
+  Type mismatch:         3  20A, 17D, 25D
+  Fabricated mapping:    1  17D
+  Circular assembly:     1  6D
+  Unverified explain.:   3  22A, 6D, 25D
+  DB gap:                28  1A, 9A, 10A, 11A, 13A, 14A, 18A, 22A, 24A, 26A, 28A, 29A, 30A, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 12D, 15D, 17D, 19D, 21D, 23D, 25D, 27D
+  Failed:                10  1A, 10A, 18A, 26A, 29A, 2D, 7D, 15D, 19D, 27D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11A  BRUSCHETTA    Cold butter has torn bread (10)
+                      C(abbr. "Cold") + BUTTERHAS(butter has)  [HIGH]
+   23D  KYOTO         Tokyo — busy city (5)
+                      anagram of TOKYO(Tokyo) = KYOTO  [HIGH]
+    3D  ARTISTE       Bogart is terribly engaging performer (7)
+                      hidden in 'bogART IS TErribly engaging'  [HIGH]
+   30A  PICKEREL      Fish before on best lake (8)
+                      ERE(synonym of "before") + PICK(synonym of "best") + L(abbr. "lake")  [HIGH]
+    9A  SHOT          Slug ruined photograph (4)
+                      double definition  [HIGH]
+    1A  CARAPACE      Fish grabbing snail in the middle, cracking shell (8)
+                      ---  [FAIL]
+   10A  TAKEITEASY    New Ikea seat becoming centrepiece of trendy lounge (4,2,4)
+                      ---  [FAIL]
+   12D  TOWNGAS       Obsolete fuel might ultimately have decline reversed (4,3)
+                      T(last letter of "might") + OWN(synonym of "have") + reverse SAG(synonym of "decline")  [HIGH]
+   13A  YOYO          Scratching head, son repeatedly twisted plaything (2-2)
+                      cryptic definition  [MED]
+   14A  FEVERFEW      Female always starts to feel energised with medicinal herb (8)
+                      F(abbr. "Female") + EVER(synonym of "always") + F(abbr. "Female") + E(first letter of "energised") + W(abbr. "with")  [HIGH]
+   15D  FLYWEIGHT     One’s extremely lucky with tiny cut during boxing match? (9)
+                      ---  [FAIL]
+   16A  INDIGO        Colour’s popular, regularly adding “wow” (6)
+                      IN(abbr. "popular") + DIGO(alternate letters of "adding "wow"")  [MED]
+   17D  GREATDANE     Hound’s eager and playful, nipping cat’s tail (5,4)
+                      GREAT(synonym of "eager") + D(last letter of "cat") + AN(synonym of "and") + E  [LOW]
+   18A  STOCKY        Well-built enclosure receiving go-ahead to accommodate 100 (6)
+                      ---  [FAIL]
+   19D  CHASSIS       Church in its current condition retains steeple’s initial frame (7)
+                      ---  [FAIL]
+    2D  ABHORRENT     Heinous violent assault — officer’s jacket torn apart (9)
+                      ---  [FAIL]
+   20A  GANGSTER      Worry about turning against Glasgow’s foremost criminal (8)
+                      G(first letter of "Glasgow's") + ANGSTER(turning against)  [MED]
+   21D  SHACKLE       Iron shed left attached to rear of house (7)
+                      SHACK(synonym of "house") + L(abbr. "left") + E(last letter of "rear of house")  [MED]
+   22A  SKUA          Seabirds rejected one from another species? (4)
+                      reverse AUKS(synonym of "another species")  [LOW]
+   24A  EPSOMSALTS    Something added to bath soap smelt funny — sulphur? (5,5)
+                      SOAPSMELT(soap smelt) + S(abbr. "- sulphur?")  [HIGH]
+   25D  MEDOC         Originally misunderstanding etiquette, picked up wine (5)
+                      ME(first letter of "misunderstanding etiquette") + DOC(synonym of "picked up")  [LOW]
+   26A  COASTGUARD    Rescuers firm as wind from the east loses strength, finally (10)
+                      ---  [FAIL]
+   27D  APP           Program’s content lacking boundaries (3)
+                      ---  [FAIL]
+   28A  KHAN          King Henry meets an Eastern ruler (4)
+                      K(abbr. "King") + H(abbr. "Henry") + A(synonym of "meets") + N(abbr. "Eastern")  [HIGH]
+   29A  CORSET        Garment’s stiff — pressure’s released by assistant at the back (6)
+                      ---  [FAIL]
+    4D  AITCH         Character I will follow? (5)
+                      cryptic definition  [MED]
+    5D  ESK           Runner departs from place of work (3)
+                      delete D from DESK  [MED]
+    6A  IMPUGN        Revolutionary group involved in covering up minor attack (6)
+                      hidden reversed in 'coveriNG UP MInor'  [LOW]
+    6D  IMITATION     Copying Ipswich’s first change, one’s substituted for United (9)
+                      I(first letter of "Ipswich's") + MITATION(change)  [MED]
+    7D  PIEEYED       Stewed dish I’d mentioned (3-4)
+                      ---  [FAIL]
+    8D  GUSTY         Supporting line’s wrapped around stone in such conditions (5)
+                      GUY(synonym of "Supporting line's") + ST(synonym of "stone")  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] BRUSCHETTA  11A. Cold butter has torn bread
+  Answer: BRUSCHETTA
+  Tier: Signature | Confidence: 82/100
+  Definition: "bread"
+  Wordplay type: charade
+  Components:
+    abbreviation       Cold                      -> C
+    anagram_fodder     butter has                -> BUTTERHAS
+  Assembly: charade — C(abbr. "Cold") + BUTTERHAS(butter has)
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'cold'=c_verified=+5 | ana_f_'butter_has'_mechanicall=+3 | indicator_'torn'_verified=+3 | all_3_pieces_verified=+11
+  ----------------------------------------------------------------------
+
+  [HIGH] KYOTO  23D. Tokyo — busy city
+  Answer: KYOTO
+  Tier: Signature | Confidence: 82/100
+  Definition: "city"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Tokyo                     -> TOKYO
+  Assembly: anagram — anagram of TOKYO(Tokyo) = KYOTO
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'tokyo'_mechanically_ver=+3 | indicator_'-_busy'_verified=+3 | all_2_pieces_verified=+16
+  ----------------------------------------------------------------------
+
+  [HIGH] ARTISTE  3D. Bogart is terribly engaging performer
+  Answer: ARTISTE
+  Tier: Signature | Confidence: 82/100
+  Definition: "performer"
+  Wordplay type: hidden
+  Components:
+    hidden             Bogart is terribly engaging -> BOGARTISTERRIBLYENGAGING
+  Assembly: hidden — hidden in 'bogART IS TErribly engaging'
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'bogart_is_terribly_enga=+3 | all_1_pieces_verified=+19
+  ----------------------------------------------------------------------
+
+  [HIGH] PICKEREL  30A. Fish before on best lake
+  Answer: PICKEREL
+  Tier: Signature | Confidence: 82/100
+  Definition: "Fish"
+  Wordplay type: charade
+  Components:
+    synonym            before                    -> ERE
+    synonym            best                      -> PICK
+    abbreviation       lake                      -> L
+  Assembly: charade — ERE(synonym of "before") + PICK(synonym of "best") + L(abbr. "lake")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'before'=ere_verified=+5 | syn_f_'best'=pick_verified=+5 | abr_f_'lake'=l_verified=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOT  9A. Slug ruined photograph
+  Answer: SHOT
+  Tier: Signature | Confidence: 82/100
+  Definition: "Slug"
+  Wordplay type: double_definition
+  Components:
+    synonym            photograph                -> SHOT
+  Assembly: double_definition — double definition
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'photograph'=shot_verifi=+5 | all_1_pieces_verified=+17
+  ----------------------------------------------------------------------
+
+  [FAILED] CARAPACE  1A. Fish grabbing snail in the middle, cracking shell
+  Answer: CARAPACE
+  Tier: --- | Confidence: 0/100
+  Definition: "shell"
+  Wordplay type: charade
+  Components:
+    synonym            Fish                      -> CARP
+    core_letters       snail                     -> A
+    synonym            snail                     -> PACE
+  DB Lookups:
+    DB lookups:
+      fish: syn=AHI,BOD,BOX,BOY,CAT,COD,DAB,EEL,EGG,FIX,GAR,GUY,IDE,JAM,JOE; abbr=GAR,IDE,LING,RAY
+      grabbing: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      snail: syn=LAG,LUG,THE,TOW,TUG,DRAG,HALE,INCH,LIMP,MOPE,NOSE,OOZE,PLOD,POKE,CRAWL
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      middle: syn=LOW,MID,MOB,RAG,TAG,CORE,DEEP,HERD,HERE,MEAN,POOR,ROUT,SCUM,DEPTH,HEART; abbr=M; ind=parts
+      cracking: syn=A1,OK,BIG,FAB,HOT,HOW,LOT,TOO,TOP,WAY,A-OK,BLUE,BONE,BOSS,BRAG; ind=anagram?
+      shell: syn=CARAPACE*,BIN,BOX,POD,AMMO,BARK,CASE,COPE,FACE,HIDE,HOOD,HULL,HUSK,MAIL,MASK; ind=deletion,parts
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+    Definitions:
+      "shell" -> CARAPACE (definition match)
+  AI Reasoning:
+    Definition: "shell" (a carapace is a shell).
+    Wordplay: container. "Fish" = CARP (synonym). "Snail in the middle" = ACA (middle letters of snAil). "grabbing" is the container indicator. CARP contains ACA: C-ACA-RP, but that gives CACARP.
+    
+    Let me reconsider: "Fish" = CARP, but we need 8 letters total. "Snail" = ? Let me think of this differently.
+    
+    Actually: "Fish" = CARP, "snail" = PACE (slow pace). "grabbing" means CARP contains something. But "in the middle" suggests we take middle letters.
+    
+    Rethinking: CARAPACE. If "cracking" is an anagram indicator, then we have anagram fodder. But let me try container first.
+    
+    "Fish" = CARP, "snail" could be PACE. CARP + PACE = CARPACE, not quite right.
+    
+    Wait: "Fish grabbing snail in the middle" - if "fish" = CAR (no, that's not fish).
+    
+    Let me try: CARP + A + PACE = CARAPACE. So "fish" = CARP, "snail" = PACE, and "in the middle" gives us A (middle of something). CARP + A + PACE = CARAPACE.
+  ----------------------------------------------------------------------
+
+  [FAILED] TAKEITEASY  10A. New Ikea seat becoming centrepiece of trendy lounge
+  Answer: TAKEITEASY
+  Tier: --- | Confidence: 0/100
+  Definition: "lounge"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Ikea seat                 -> IKEAITEASY
+  DB Lookups:
+    DB lookups:
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      ikea: syn=RETAILER
+      seat: syn=A,AT,GO,MY,ACT,BUM,BUY,CAN,CAR,COP,EYE,FIT,GET,HUB,PEW; ind=parts
+      becoming: syn=APT,FIT,BEST,GOOD,KILL,MEET,GOING,HAPPY,ICING,RIGHT,APTEST,BETTER,COMING,EATING,FITTED; ind=anagram
+      centrepiece: syn=PERHAPS,AN EPERGNE
+      trendy: syn=IT*,A,IN,DEF,HEP,HIP,MOD,NOW,CHIC,COOL,GOAL,WITH,FRESH,FUNKY,INDIE; abbr=IN; ind=container?
+      lounge: syn=BUM,LAG,LIE,TEN,BASK,DOZE,EASE,FOOL,HANG,IDLE,KILL,LAZE,LAZY,LOAF,LOLL; ind=container?
+  AI Reasoning:
+    Definition: "lounge" (to take it easy means to lounge/relax).
+    
+    Wordplay: This appears to be a complex anagram. The indicators "new," "becoming" signal anagram mechanism, while "seat" indicates taking parts and "trendy" suggests container work.
+    
+    However, looking at the letter count and answer, this seems to be an anagram of "NEW IKEA SEAT" (10 letters total):
+    - NEW (3) + IKEA (4) + SEAT (4) = 11 letters, but we need 10
+    
+    Let me reconsider: "IKEA SEAT" (8 letters) rearranged gives TAKEITEASY (10 letters). This doesn't work mathematically.
+    
+    Actually, this appears to be: anagram of "IKEA" + "SEAT" + additional letters to make TAKEITEASY. But the letter count doesn't align properly.
+    
+    Given the complexity and the indicator words provided, this likely involves "IKEA SEAT" as anagram fodder, but the exact mechanism isn't clear from the available letters. The answer TAKEITEASY fits the definition of "lounge" (relax/take it easy).
+  ----------------------------------------------------------------------
+
+  [HIGH] TOWNGAS  12D. Obsolete fuel might ultimately have decline reversed
+  Answer: TOWNGAS
+  Tier: DB Fallback | Confidence: 80/100
+  Definition: "Obsolete fuel"
+  Wordplay type: reversal
+  Components:
+    synonym            decline                   -> SAG
+    synonym            have                      -> OWN
+    last_letter        might                     -> T
+  Assembly: reversal — T(last letter of "might") + OWN(synonym of "have") + reverse SAG(synonym of "decline")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      obsolete: syn=OUT,DEAD,TIME,DATED,ARCHAIC,EXTINCT,OLD HAT
+      fuel: syn=GAS*,ME,OIL,COAL,COKE,DERV,FEED,PEAT,WOOD,JUICE,POWER,DIESEL,ENERGY,INCITE,PETROL
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY; ind=anagram?; sounds=mite
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      have: syn=GAS*,OWN*,A,AIM,ARC,BAG,BOW,BUY,CON,EAT,EYE,HUB,LET,PAY,RED; sounds=halve
+      decline: syn=DIE,EBB,LET,SAG,BABY,BALL,BUMP,DENT,DOWN,DROP,EASE,FADE,FALL,LINE,LOSS
+      reversed: syn=ABOUT,LEAFED,FLIPPED,RIFFLED,SKIMMED,THUMBED; ind=reversal
+  AI Reasoning:
+    Definition: "Obsolete fuel" (town gas was a fuel used before natural gas).
+    
+    Wordplay: charade with reversal.
+    - "decline" = WONT (synonym)
+    - "reversed" indicates WONT becomes TNOW
+    - "have" = OWN (from known lookups)
+    - "fuel" = GAS (from known lookups)
+    - TNOW + OWN + GAS = TNOWOWNGAS...
+    
+    Wait, let me reconsider:
+    - TOWN (anagram of WONT with "might" as anagram indicator)
+    - GAS (fuel, from known lookups)
+    - TOWNGAS
+    
+    Actually: "decline" = WONT, "might" (anagram indicator) gives TOWN. Then "have" = OWN and "fuel" = GAS, but this gives TOWNOWNGAS.
+    
+    Let me try: TOWN (anagram of WONT) + GAS (fuel) = TOWNGAS. The "have" and other indicators may be misdirection or part of surface reading.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] YOYO  13A. Scratching head, son repeatedly twisted plaything
+  Answer: YOYO
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "plaything"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      scratching: syn=KEY,EDGY,KEEN; ind=acrostic?
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H,NESS; ind=acrostic,deletion,parts
+      son: syn=BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY,BOOR; abbr=S; sounds=sun
+      repeatedly: syn=AND,AYE,LOT,NOW,OFT,ANEW,EVER,MUCH,OVER,TIME; abbr=I
+      twisted: syn=BENT,SPUN,WAVY; ind=anagram,reversal
+      plaything: syn=TOY
+  AI Reasoning:
+    Definition: "plaything" (a yoyo is a plaything).
+    Wordplay: acrostic. "Scratching head" indicates taking first letters. "son repeatedly" = SON SON. Taking the head (first letter) of each word: S + O + N + S + O + N = SOSNSN. This doesn't work.
+    
+    Let me reconsider. "Scratching head" could mean deletion of the first letter. "son repeatedly" = SON SON. "twisted" as anagram indicator: remove first letters from SON SON = ON ON, then anagram "twisted" gives... this doesn't work either.
+    
+    Actually: "son repeatedly" = YO YO (informal for "son" repeated). No wordplay needed - this appears to be a cryptic definition where "scratching head, son repeatedly twisted" cryptically describes a YOYO (which goes up and down, like scratching your head in confusion, and "yo" is slang for addressing someone).
+  ----------------------------------------------------------------------
+
+  [HIGH] FEVERFEW  14A. Female always starts to feel energised with medicinal herb
+  Answer: FEVERFEW
+  Tier: Sig+Enriched | Confidence: 87/100
+  Definition: "medicinal herb"
+  Wordplay type: charade
+  Components:
+    abbreviation       Female                    -> F
+    synonym            always                    -> EVER
+    first_letter       feel                      -> F
+    first_letter       energised                 -> E
+    abbreviation       with                      -> W
+  Assembly: charade — F(abbr. "Female") + EVER(synonym of "always") + F(abbr. "Female") + E(first letter of "energised") + W(abbr. "with")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'female'=f_verified=+5 | syn_f_'always'=ever_verified=+5 | pos_f_'feel'_mechanically_veri=+3 | pos_f_'energised'_mechanically=+3 | abr_f_'with'=w_verified=+5 | indicator_'starts'_verified=+4 | all_6_pieces_verified=+2
+  ----------------------------------------------------------------------
+
+  [FAILED] FLYWEIGHT  15D. One’s extremely lucky with tiny cut during boxing match?
+  Answer: FLYWEIGHT
+  Tier: --- | Confidence: 0/100
+  Definition: "boxing match"
+  Wordplay type: container
+  Components:
+    synonym            tiny                      -> FLY
+    abbreviation       with                      -> W
+    first_letter       extremely lucky           -> LY
+    synonym            One's                     -> I
+    synonym            cut                       -> GHT
+  DB Lookups:
+    DB lookups:
+      extremely: syn=SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      lucky: syn=BLEST,HAPPY,JAMMY,FAVOURED,FORTUNATE
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W*
+      tiny: syn=BABY,MINI,SIZE,SMALL,ATOMIC,LITTLE,MINUTE,BACTERIA,DWARFISH,YOUNGSTER
+      cut: syn=DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW,NIP; ind=deletion,hidden,parts
+      during: syn=BY,IN,AMID,OVER,PENDING,THROUGH; abbr=IN; ind=container,insertion
+      boxing: syn=SCRAP; ind=container
+      match: syn=FIT,FOE,MET,PUT,RIG,TIE,WAR,BEND,BOUT,COPY,EDIT,FACE,FINE,GAME,GEAR
+  AI Reasoning:
+    Definition: "boxing match" (flyweight is a boxing weight class).
+    
+    Wordplay: container. "One's" = I'S. "extremely lucky" = L + Y (first and last letters of "lucky"). "tiny" = FLY (synonym). "with" = W (confirmed lookup).
+    
+    "during" is the container indicator. The letters I'S go inside FLYWEIGHT structure, but let me work this out properly:
+    
+    FLY + W + E + I + GHT where "cut" as deletion removes something, and "during" puts I'S inside.
+    
+    Actually: FLY (tiny) + W (with) + EIGHT, where "one's" (I'S) goes "during" (inside) EIGHT to make EIGHT → EIGHT with I'S inside → no, that doesn't work.
+    
+    Let me reconsider: FLY (tiny) + W (with) + E (extremely lucky gives first letter) + I (one) + GHT...
+    
+    Actually: FLYWEIGHT = FLY (tiny) + WEIGHT, where WEIGHT contains "one" (I) during it, and we get the E from "extremely lucky" (first letter) and other letters from the construction.
+    
+    The answer is FLYWEIGHT: FLY (tiny) + WEIGHT (with W confirmed, and the structure accommodates the other elements through the container mechanism).
+  ----------------------------------------------------------------------
+
+  [HIGH] INDIGO  16A. Colour’s popular, regularly adding “wow”
+  Answer: INDIGO
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "Colour"
+  Wordplay type: charade
+  Components:
+    abbreviation       popular                   -> IN
+    alternate_letters  adding "wow"              -> DIGO
+  Assembly: charade — IN(abbr. "popular") + DIGO(alternate letters of "adding "wow"")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      popular: syn=IN*,INDIGO*,BIG,HIT,HOT,LOW,POP,DEAR,FOND,OPEN,RATE,RIFE,AGAIN,AIRED,CHEAP; abbr=IN*,in*
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM; ind=parts
+      adding: syn=UP,SUM,ANNEX,BOOST,RAISE,SWELL,TOTAL,ADJOIN,APPEND,EXPAND,EXTEND
+  AI Reasoning:
+    Definition: "Colour" (indigo is a colour).
+    Wordplay: charade. "popular" = IN (abbreviation). "regularly adding 'wow'" = taking regular letters (every other letter) from "adding wow" = A-D-I-G (1st, 3rd, 5th, 7th letters). IN + ADIG = INADIG...
+    
+    Wait, let me reconsider. "regularly" indicates taking alternate letters. From "adding wow" taking regular positions: A-D-I-G. But that gives INADIG, not INDIGO.
+    
+    Actually: "popular" = IN. "regularly adding 'wow'" = regular letters from "addingwow" = A-D-I-G-O (1st, 3rd, 5th, 7th, 9th letters). IN + ADIGO = INADIGO... Still not right.
+    
+    Let me try: IN + regular letters from "adding wow" where we take D-I-G-O from positions 2,4,6,8 of "addingwow". IN + DIGO = INDIGO.
+  ----------------------------------------------------------------------
+
+  [LOW] GREATDANE  17D. Hound’s eager and playful, nipping cat’s tail
+  Answer: GREATDANE
+  Tier: Sonnet | Confidence: 32/100
+  Definition: "Hound"
+  Wordplay type: anagram
+  Components:
+    synonym            eager                     -> GREAT
+    synonym            and                       -> AN
+    last_letter        cat                       -> D
+  Assembly: charade — GREAT(synonym of "eager") + D(last letter of "cat") + AN(synonym of "and") + E
+  Gap fill: [('eager', 'E', 'first_letter')]
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      eager: syn=GREAT*,HOT,MAD,WUD,AGOG,AVID,GAGA,GLAD,KEEN,LIKE,LOCO,NUTS,WILD,ABOUT,ANTSY
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      playful: syn=ANTIC,FUNNY,JOLLY,LUDIC,TEASING,GAMESOME,HUMOROUS,PRANKISH,SKITTISH,SPORTIVE,KITTENISH,SPRIGHTLY; ind=anagram?
+      nipping: syn=COLD,MOVE,BLOOD,ARCTIC
+      tail: syn=BUM,CAN,CUE,DOG,END,BACK,BOAT,BUNS,BUTT,DUFF,FILE,HAMS,REAR,ROOT,RUMP; ind=parts; sounds=tale
+  AI Reasoning:
+    Definition: "Hound" (a Great Dane is a hound).
+    Wordplay: anagram. "playful" is the anagram indicator. "nipping cat's tail" means taking the tail (last letter) of "cat" = T.
+    Fodder: GREAT (eager) + AN (and) + D (nipping cat's tail) = GREATAND → rearranged → GREATDANE.
+  ----------------------------------------------------------------------
+
+  [FAILED] STOCKY  18A. Well-built enclosure receiving go-ahead to accommodate 100
+  Answer: STOCKY
+  Tier: --- | Confidence: 0/100
+  Definition: "Well-built"
+  Wordplay type: container
+  Components:
+    synonym            enclosure                 -> STY
+    synonym            go-ahead                  -> OK
+    abbreviation       100                       -> C
+  DB Lookups:
+    DB lookups:
+      well-built: syn=STURDY
+      well: syn=AH,HA,IN,LO,MY,NO,OH,OK,SO,AHA,ALL,FIE,FIT,GAD,GEE
+      built: syn=UP,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,KNEW,MADE,SHUT; ind=anagram
+      enclosure: syn=PEN,YARD,ACRES,ARENA,BOWER,CLOSE,COURT,POUND,WHOLE,AVIARY,INSERT
+      receiving: syn=TAKE,ADMIT,ENTER,TAKING; ind=container
+      go-ahead: syn=HE,LIVE,SAY-SO
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      ahead: syn=TO*,OF,ON,UP,ERE,FORE,AFORE,ALONG,BASIC,EARLY,FORTH,PRIOR,A LONG,ARRIVE,BEFORE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      accommodate: syn=AIM,BAG,FIT,KEY,PUT,RIG,BEND,CARE,CASE,EDIT,FINE,FIVE,GEAR,HOLD,HOME; ind=anagram?,container?
+      100: abbr=C*
+      to accommodate: ind=container
+    Definitions:
+      "Well-built" -> STOCKY (definition match)
+  AI Reasoning:
+    Definition: "Well-built" (stocky means well-built).
+    Wordplay: container. "enclosure" = STOCKY... wait, that's the answer.
+    
+    Let me reconsider: "enclosure" = STOCK (as in livestock enclosure). "go-ahead" = OK. "100" = C (Roman numeral).
+    
+    "receiving" and "to accommodate" are container indicators. STOCK receives/accommodates OK + C inside it: STOCK + Y... no, that doesn't work.
+    
+    Actually: "enclosure" = STY (pig enclosure). "go-ahead" = OK. "100" = C. STY accommodates/receives OKC? No.
+    
+    Rethinking: "enclosure" = STOCKY is the definition, not wordplay. Let me try: "go-ahead" = OK, "100" = C. These go inside "enclosure" = STY? STY containing OKC doesn't work.
+    
+    Wait: "enclosure" could be STOCK (pen/enclosure), and it receives OK inside, plus C: ST + OK + C + Y? Where does Y come from?
+    
+    Actually: STOCK (enclosure) + Y (from somewhere) = STOCKY. The Y must come from the wordplay. "go-ahead" = OK goes inside STOCK, but we need the C and Y positioned correctly: S + T + OK + C + Y = STOCKY.
+    
+    Let me try: STOCK (enclosure) accommodates/receives C (100), giving STOCKC, then somehow OK fits to make STOCKY. This isn't working cleanly.
+    
+    Final attempt: STY (enclosure) receives/accommodates TOCK (from "stock" minus S?) + C... No.
+    
+    The answer is STOCKY = STOCK (enclosure) + Y, where the container wordplay puts OK and C inside or around to form the final word, but I cannot make the mechanics work precisely.
+  ----------------------------------------------------------------------
+
+  [FAILED] CHASSIS  19D. Church in its current condition retains steeple’s initial frame
+  Answer: CHASSIS
+  Tier: --- | Confidence: 0/100
+  Definition: "frame"
+  Wordplay type: container
+  Components:
+    abbreviation       Church                    -> CH
+    abbreviation       current                   -> I
+    first_letter       steeple's initial         -> S
+    synonym            condition                 -> ASSIS
+  DB Lookups:
+    DB lookups:
+      church: syn=CH*,CE,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH,CLOTH; abbr=C*,CE,CH*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      its: syn=BEE,LIT,WET,BABY,COUP,GARB,HIGH,KINK,LOOK,MIEN,SITE,SPOT,WHIM,BLIND,BOAST; ind=anagram?
+      current: syn=UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLUX,GLUT,GUSH,HAVE; abbr=I*; sounds=currant
+      condition: syn=IF,BUG,FIT,FIX,HOW,ILL,JAM,PUT,RIG,WAY,ACNE,BEND,CAST,CURB,EDIT; abbr=IF
+      retains: syn=RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS,COVERS,FENCES
+      initial: syn=SIGN,FIRST,LETTER,CONFIRM,ENDORSE,OPENING; ind=acrostic,parts
+      frame: syn=CHASSIS*,DO,OK,A A,END,FEE,FIX,HEM,HOW,LAY,OPT,RIM,SET,USE,VIP; ind=anagram?,parts
+    Definitions:
+      "frame" -> CHASSIS (definition match)
+  AI Reasoning:
+    Definition: "frame" (a chassis is a frame).
+    
+    Wordplay: container. "in" is the container indicator.
+    - "Church" = CH (abbreviation)
+    - "current" = I (abbreviation for electric current)
+    - "steeple's initial" = S (first letter of "steeple")
+    - "condition" = BASIS (synonym)
+    
+    CH + I inside BASIS = CH + I in BASIS = CHASSIS.
+    
+    Wait, let me recalculate: BASIS with CHI inserted... that doesn't work cleanly.
+    
+    Let me try: "its current condition" = ASSIS (anagram of "its" + "current"=I + "condition"=S)? No, "its" is marked as anagram indicator.
+    
+    Actually: "condition" could be ASIS (as is). With "its" as anagram indicator: anagram of "current" (I) + ASIS = anagram of IASIS? No.
+    
+    Let me reconsider: CH (church) goes inside ASSIS?
+    
+    Actually: "its current condition" as the container = ASSIS, and CH goes in = CHASSIS. But this seems forced.
+    
+    Simpler: "condition" = ASSIS, "church" = CH, "current" = I. CH + I inside ASSIS doesn't work cleanly.
+    
+    Let me try: ASSIS with CH inside = CHASSIS. Yes: A-S-S-I-S becomes A-S-(CH)-S-I-S = ASCCHSIS? No.
+    
+    Actually: ASSIS = A-S-S-I-S, insert CH after first S: A-S-CH-S-I-S = ASCHSIS? Still no.
+    
+    Wait: "condition" = STATE? No, need more letters.
+    
+    Let me try: "its current condition" = entire phrase meaning ASSIS, with CH inserted = CHASSIS.
+    A-S-[CH]-S-I-S = ASCHSIS ≠ CHASSIS.
+    
+    Rethinking: ASSIS with CH replacing middle letters? A-S-[CH]-I-S = ASCHIS ≠ CHASSIS.
+    
+    Actually: "condition" = ASIS (as is), "current" = I, so ASISI, with CH inside = A-S-[CH]-I-S-I? Still not working.
+    
+    Let me try: ASSIS (condition) contains CHI (church + current) = A-S-[CHI]-S = ASCHIS? No.
+    
+    Wait: Could "its current condition" = ASSIS, and we insert CH to get: A-[CH]-
+  ----------------------------------------------------------------------
+
+  [FAILED] ABHORRENT  2D. Heinous violent assault — officer’s jacket torn apart
+  Answer: ABHORRENT
+  Tier: --- | Confidence: 0/100
+  Definition: "Heinous"
+  Wordplay type: anagram
+  Components:
+    first_letter       officer's                 -> OR
+    anagram_fodder     assault                   -> ASSAULT
+  DB Lookups:
+    DB lookups:
+      heinous: syn=AWFU,EVIL,WICKED,SHOCKING,ATROCIOUS
+      violent: syn=AND,BUM,HOT,DEEP,FULL,HARD,KEEN,MISS,PUNK,WILD,ACUTE,CHEAP,DREAD,HEAVY,JUNKY; ind=anagram?
+      assault: syn=AIR,FLY,MUG,SET,WAR,INTO,MAIN,RAID,RICH,RUSH,BESET,FORCE,ONSET,STORM,ASSAIL
+      jacket: syn=BIN,BOX,POD,BARK,CASE,COPE,HAIR,HIDE,HOOD,HULL,HUSK,MAIL,MASK,OF A,PALL; ind=parts
+      torn: syn=RENT*,SPLIT,NOT SURE,LACERATED; ind=anagram
+      apart: syn=ACT,AIM,BUY,DIP,EBB,FIT,FIX,GEL,GET,LAY,PUT,SIT,AFAR,AWAY,BEAR
+      torn apart: syn=RIVEN
+  AI Reasoning:
+    Definition: "Heinous" (abhorrent means heinous).
+    
+    Wordplay: anagram. "violent" and "torn" are anagram indicators. "jacket" indicates taking outer letters (parts).
+    
+    "officer's jacket" = outer letters of OFFICER = O + R = OR
+    "assault" = ASSAULT (literal letters)
+    Anagram fodder: OR + ASSAULT = ORASSAULT
+    Rearranged: ABHORRENT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GANGSTER  20A. Worry about turning against Glasgow’s foremost criminal
+  Answer: GANGSTER
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "criminal"
+  Wordplay type: container
+  Components:
+    anagram_fodder     turning against           -> ANGSTER
+    first_letter       Glasgow's                 -> G
+  Assembly: charade — G(first letter of "Glasgow's") + ANGSTER(turning against)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      worry: syn=ANGST*,AIL,BOX,DOG,EAT,NAG,AILS,CARE,FAZE,FEAR,FIRM,FRET,FUSS,HAND,LONG; abbr=EAT,FRET; ind=anagram?
+      about: syn=AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING,COILED,COMING,CURLED,CURVED,EATING,FOXING,HAZING,IRKING,JIVING,JOKING; ind=anagram,reversal
+      against: syn=ON,TO,CON,MET,ABUT,AGIN,ANTI,FIND,HARD,JOIN,MEET,MIND,NEXT,UPON,WARE; abbr=TO,V
+      foremost: syn=BIG,KEY,POP,TOP,ARCH,GONE,HEAD,HIGH,LEAD,MAIN,MUCH,RICH,CHIEF,FADDY,FIRST; ind=acrostic
+      criminal: syn=GANGSTER*,CON,BENT,EVIL,FISH,HOOD,PERP,THUG,BADDY,CROOK,FELON,FENCE,THIEF,UNDER,BADLOT; abbr=C,CON; ind=anagram
+    Definitions:
+      "criminal" -> GANGSTER (definition match)
+  AI Reasoning:
+    Definition: "criminal" (a gangster is a criminal).
+    Wordplay: container + acrostic. "turning against" = TSNIAGA (AGAINST reversed). "Glasgow's foremost" = G (first letter of Glasgow). "worry about" indicates G goes inside the reversed AGAINST. G inside TSNIAGA = TGANGSTA...
+    
+    Wait, let me recalculate: AGAINST reversed = TSNIAGA. G (Glasgow's foremost) goes inside: T + G + SNIAGA = TGSNIAGA (8 letters, but wrong).
+    
+    Rethinking: "worry" = ANGST (synonym). "turning" indicates reversal of "against" = TSNIAGA. But this gives ANGSTTSNIAGA...
+    
+    Actually: "worry" = ANGST. "about" indicates ANGST contains something. "turning against" = TSNIAGA reversed back = AGAINST. But ANGST can't contain AGAINST.
+    
+    Let me try: "against" = ANTI. "turning" reverses it = ITNA. "worry about" = ANGST contains ITNA = A(ITNA)GST = AITNAGST... No.
+    
+    Correct approach: "turning against" = REV(AGAINST) = TSNIAGA. "Glasgow's foremost" = G. "worry about" means worry (ANGST) goes around: but we need 8 letters total.
+    
+    Actually: GANGSTER = GANG + STER. "worry" = GANG (as in a gang worries/troubles). "turning against" for STER...
+    
+    Final approach: "against" = ANTI, "turning" = reverse = ITNA. "worry about" = fret around = ... Actually, GANGSTER = G (Glasgow's foremost) + ANGSTER (anagram of "turning against" minus one letter)...
+    
+    Correct: "worry" = anagram indicator. "about turning against" = anagram of ABOUT + AGAINST minus some letters, with G added. ABOUTAGAINST - letters + G = GANGSTER. The anagram fodder is "turning against" = TURNINGAGAINST, and "worry about" indicates anagram, giving GANGSTER with G from "Glasgow's foremost."
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SHACKLE  21D. Iron shed left attached to rear of house
+  Answer: SHACKLE
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "Iron"
+  Wordplay type: charade
+  Components:
+    synonym            house                     -> SHACK
+    abbreviation       left                      -> L
+    last_letter        rear of house             -> E
+  Assembly: charade — SHACK(synonym of "house") + L(abbr. "left") + E(last letter of "rear of house")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      iron: syn=HALE*,FE,BIG,FIT,CLUB,FIRM,FLUSH,HEADY,METAL,PEPPY,PLUSH,PRESS,SOLID,STOUT,VITAL; abbr=FE
+      shed: syn=SHACK*,HUT,BABY,CAST,DEEP,DUMP,HOME,JUNK,LEAN,LOSE,MOLT,PART,SLIP,TOSS,CABIN; ind=deletion
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L*,LE*,PORT,SINISTER; ind=acrostic,deletion,reversal
+      attached: syn=FIX,SET,FAST,FIRM,FOND,NAME,NEAR,NIGH,SNUG,TAUT,TIED,AFFIX,BOUND,CLOSE,FLUSH
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      rear: syn=AT,DO,A A,AFT,BAR,BUM,CAN,USE,BACK,BOOK,BUNS,BUTT,DUFF,FARM,FIRE; ind=parts
+      house: syn=HO,BAR,BOX,CAT,DEN,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN,POD; abbr=HO; ind=parts
+      attached to: abbr=ON
+  AI Reasoning:
+    Looking at this step by step:
+    
+    Definition: "Iron" (to shackle is to iron/chain someone).
+    
+    Wordplay: deletion. "shed left" indicates removing L (left) from something.
+    - "house" = SHACK (synonym)
+    - "attached to rear of house" = + LE (rear letters of "house")
+    - SHACK + LE = SHACKLE
+    
+    Wait, let me reconsider with the known lookup:
+    - "Iron" could be HALE (known lookup), but that's 4 letters and doesn't fit the pattern.
+    
+    Actually, rethinking the structure:
+    - "shed left" = remove L from SHACKLE's components
+    - "house" = SHACK
+    - "rear of house" = E (last letter of "house")
+    - SHACK + L + E = SHACKLE, then "shed left" removes nothing since we need the L
+    
+    Let me try again:
+    - SHACK (house) + LE (rear letters, but this seems forced)
+    
+    The cleanest reading: SHACK (house) + LE (rear of "house" = E, but we need LE somehow). The wordplay seems to be SHACK + L + E where L comes from somewhere in the construction, giving SHACKLE.
+  ----------------------------------------------------------------------
+
+  [LOW] SKUA  22A. Seabirds rejected one from another species?
+  Answer: SKUA
+  Tier: Sonnet | Confidence: 32/100
+  Definition: "Seabirds"
+  Wordplay type: reversal
+  Components:
+    synonym            another species           -> AUKS
+  Assembly: reversal — reverse AUKS(synonym of "another species")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=reversal | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed significant uncertainty (5 hedges)
+  DB Lookups:
+    DB lookups:
+      seabirds: syn=AUKS,AUK,ERNE,TERN
+      rejected: syn=OUT,IDLE,LEFT,VOID; ind=deletion,reversal
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE; abbr=A*; ind=anagram
+      species: syn=KIN,SET,AXIS,BORN,CLUB,FOLK,ILKS,KIND,RACE,SORT,TIER,TYPE,NOTE
+  AI Reasoning:
+    Definition: "Seabirds" (skua is a type of seabird).
+    
+    Wordplay: reversal. "rejected" is the reversal indicator. "one from another species" = A (one) + UKS (from "another species" - but this doesn't work cleanly).
+    
+    Let me reconsider: "another species" could be AUKS (seabirds). "rejected" indicates reversal. AUKS reversed = SKUA. The "one from" part might be indicating to take one letter from somewhere, but the simpler reading is: AUKS (another [species of seabirds]) rejected (reversed) = SKUA.
+  ----------------------------------------------------------------------
+
+  [HIGH] EPSOMSALTS  24A. Something added to bath soap smelt funny — sulphur?
+  Answer: EPSOMSALTS
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Something added to bath"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     soap smelt                -> SOAPSMELT
+    abbreviation       - sulphur?                -> S
+  Assembly: charade — SOAPSMELT(soap smelt) + S(abbr. "- sulphur?")
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'soap_smelt'_mechanicall=+3 | abr_f_'-_sulphur?'=s_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [LOW] MEDOC  25D. Originally misunderstanding etiquette, picked up wine
+  Answer: MEDOC
+  Tier: Sonnet | Confidence: 22/100
+  Definition: "wine"
+  Wordplay type: acrostic
+  Components:
+    first_letter       misunderstanding etiquette -> ME
+    synonym            picked up                 -> DOC
+  Assembly: charade — ME(first letter of "misunderstanding etiquette") + DOC(synonym of "picked up")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      originally: syn=FIRST; ind=acrostic,anagram?,parts
+      misunderstanding: syn=SET,FIRE,A ROW,FIGHT
+      etiquette: syn=HOW,WAY,BORN,CAST,CODE,FORM,NICK,RITE,TACK,TRIM,BLANK,BUILD,DUMMY,FORM?,FRAME
+      picked: syn=IN,BIG,HOT,POP,DEAR,FOND,TOOT,CHOSE,EATEN,ELECT,FADDY,GORED,LARGE,LOVED,STUCK
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      wine: syn=MEDOC*,ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      picked up: ind=homophone,reversal
+      picked up: syn=ATE,DAY,DUG,GOT,RAN,SAW,BEAT,CAME,GREW,ICED
+    Definitions:
+      "wine" -> MEDOC (definition match)
+  AI Reasoning:
+    Definition: "wine" (Médoc is a wine region/type of wine).
+    
+    Wordplay: acrostic. "Originally" is the acrostic indicator, signaling to take the first letters of the following words:
+    - **M**isunderstanding
+    - **E**tiquette
+    - **D**iscarded (implied from "picked up" in reverse context)
+    - **O**...
+    - **C**...
+    
+    Wait, let me reconsider. Looking at the available words: "misunderstanding etiquette picked". Taking first letters: M-E-P doesn't work.
+    
+    Actually, this appears to be a homophone. "picked up" is the homophone indicator. The sound-alike word that sounds like MEDOC when "picked up" (heard) would need to be identified from the remaining wordplay, but the mechanics aren't clear from the given words.
+    
+    Given the confirmed lookup shows MEDOC as a wine synonym, this clue likely uses "picked up" as a homophone indicator, though the exact sound-alike source isn't apparent from the remaining wordplay elements.
+  ----------------------------------------------------------------------
+
+  [FAILED] COASTGUARD  26A. Rescuers firm as wind from the east loses strength, finally
+  Answer: COASTGUARD
+  Tier: --- | Confidence: 0/100
+  Definition: "Rescuers"
+  Wordplay type: anagram
+  Components:
+    abbreviation       firm                      -> CO
+    literal            as                        -> AS
+    abbreviation       the                       -> T
+    abbreviation       east                      -> E
+    last_letter        strength                  -> H
+  DB Lookups:
+    DB lookups:
+      rescuers: syn=NOAH,SAVER,SAVIOUR,LIFELINE
+      firm: syn=CO*,OR,AGE,DIE,ONE,OUT,SET,CARE,EASY,FAST,FEAR,FLAT,GOOD,HARD,IRON; abbr=CO*
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      wind: syn=GO,ARC,BAG,BOW,BUG,CAN,COP,DIE,DIG,END,FLY,GAS,HOT,IRK,MAR; ind=anagram
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      east: syn=POINT,BEARING,OPPONENT,DIRECTION,STEVENAGE; abbr=E; ind=reversal
+      loses: syn=DIES,DIPS,EBBS,ENDS,ERRS,GOES,SINS,DIVES,DROPS,DUMPS,EASES,EXITS,FALLS,JUNKS,NIXES; ind=deletion
+      strength: syn=ASSET,BRAWN,FORCE,FORTE,MIGHT,POWER,SINEW,THEWS,ENERGY,SINEWS,OF GRIT,POTENCY,STAMINA,FORTITUDE,LEVERAGE:
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      from the: syn=EDITOR,JOURNO,AMENDER,RUBBISH,JOURNALIS,JOURNALIST,SALESFORCE
+      the east: syn=ORIENT
+  AI Reasoning:
+    Definition: "Rescuers" (coastguard are rescuers).
+    
+    Wordplay: anagram. "wind from" is the anagram indicator.
+    
+    Fodder: "firm as" + "the east" - "strength, finally"
+    - "firm" = CO (confirmed lookup)
+    - "as" = AS (literal)
+    - "the" = T (confirmed lookup)
+    - "east" = E (compass direction)
+    - "loses strength, finally" = remove final letter of "strength" (H)
+    
+    So: CO + AS + T + E = COASTE
+    Wait, that's only 6 letters for a 10-letter answer.
+    
+    Rethinking: The anagram fodder should be longer. Looking at "firm as" + something that gives us 10 letters total.
+    
+    Actually: "firm as" + "the east" = CO + AS + T + E = COASTE, but we need the anagram to use more letters.
+    
+    Let me reconsider: "firm as" + "the east" before deletion = CO + AS + T + EAST = COAST + E, but "loses strength, finally" removes the final H from somewhere...
+    
+    Rethinking completely: The anagram fodder is "firm as the east" = CO + AS + T + EAST = COASTEAST, but that's too many letters.
+    
+    Actually: "firm as the east" = COAST + E, then we need more letters.
+    
+    Let me try: anagram of (CO + AS + T + GUARD) where GUARD comes from... ah, "the east" might be THE + E, and we're missing something.
+    
+    Final attempt: anagram of COAST + GUARD where COAST comes from "firm as" + "the" = CO + AS + T, and GUARD is hidden or comes from "east" somehow.
+    
+    Actually: CO (firm) + AS + T (the) + anagram of remaining letters to make COASTGUARD. The anagram fodder must be COASTGUARD with letters rearranged, so: anagram of "firm as the east" minus final letter = anagram of COASTGUAR...
+    
+    I think the anagram is of "COASTGUARD" letters distributed across "firm as the east" with a deletion, producing COASTGUARD.
+  ----------------------------------------------------------------------
+
+  [FAILED] APP  27D. Program’s content lacking boundaries
+  Answer: APP
+  Tier: --- | Confidence: 0/100
+  Definition: "Program"
+  Wordplay type: deletion
+  Components:
+    core_letters       Program's content         -> PROGRA
+    literal            boundaries                -> PR
+  DB Lookups:
+    DB lookups:
+      content: ind=hidden
+      lacking: syn=ILL,LOW,SHY,WIN; ind=deletion
+      boundaries: ind=deletion?,parts
+  AI Reasoning:
+    Definition: "Program" (an app is a program).
+    Wordplay: hidden word with deletion. "content" indicates a hidden word mechanism, while "lacking boundaries" indicates deletion of outer letters.
+    
+    Looking at "Program's" - taking the content (middle letters) and lacking boundaries (removing outer letters): P-r-o-g-r-a-m-'-s → remove P and S (boundaries) → r-o-g-r-a-m → but this doesn't work.
+    
+    Actually, simpler interpretation: "Program's content" = the middle letters of "Program" = r-o-g-r-a. "lacking boundaries" = remove first and last letters = o-g-r. Still doesn't work.
+    
+    Let me reconsider: The hidden word is in "Program's content" and we need to find APP. Looking at "ProgrAm's content" - no, that's not it either.
+    
+    Wait - "content" as hidden indicator means the answer is hidden within the clue itself. Looking for APP hidden in the clue: "ProgrAm's content lacking boundaries" - no clear APP.
+    
+    Actually, "Program's" contains "Program" and the content lacking boundaries would be: remove P and M from "Program" = "rogra" - still not APP.
+    
+    Let me try: APP is hidden in "ProgrAm's content" - taking the letters A-P-P from within those words, but I don't see it clearly. The mechanics here are unclear from the given words.
+  ----------------------------------------------------------------------
+
+  [HIGH] KHAN  28A. King Henry meets an Eastern ruler
+  Answer: KHAN
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "ruler"
+  Wordplay type: charade
+  Components:
+    abbreviation       King                      -> K
+    abbreviation       Henry                     -> H
+    synonym            meets                     -> A
+    abbreviation       Eastern                   -> N
+  Assembly: charade — K(abbr. "King") + H(abbr. "Henry") + A(synonym of "meets") + N(abbr. "Eastern")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'king'=k_verified=+5 | abr_f_'henry'=h_verified=+5 | syn_f_'meets'=a_verified=+5 | abr_f_'eastern'=n_verified=+5 | all_4_pieces_verified=+2
+  ----------------------------------------------------------------------
+
+  [FAILED] CORSET  29A. Garment’s stiff — pressure’s released by assistant at the back
+  Answer: CORSET
+  Tier: --- | Confidence: 0/100
+  Definition: "Garment"
+  Wordplay type: charade
+  Components:
+    synonym            stiff                     -> CORPS
+    abbreviation       pressure                  -> P
+    synonym            assistant                 -> SET
+  DB Lookups:
+    DB lookups:
+      stiff: syn=BAD,BIT,BOD,BOY,CAT,COY,CUT,EGG,GUY,ITS,JOE,LAD,LIT,MAN,PIE
+      released: syn=AXED,FREE,QUIT,FIRED,FREED,LOOSE,OUTED,UNDID,CANNED,CHASED,EXILED,ISSUED,OUSTED,ROUTED,SACKED
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      assistant: syn=PA,AID,MAN,AIDE,AIDS,GIRL,HELP,LIKE,MATE,AIDES,AIDS:,DEPUTY,HELPER,LACKEY,SECOND; abbr=PA
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      at the: syn=SET*,GO,ACE,AGE,AID,APT,BAG,BIT,BOA,BUG
+      the back: syn=FILM
+  AI Reasoning:
+    Definition: "Garment" (a corset is a garment).
+    
+    Wordplay: deletion + reversal. "stiff" = CORPS (synonym for dead body/stiff). "pressure's released" = remove P (standard abbreviation for pressure). CORPS - P = CORS. "assistant at the back" = "at the" reversed = SET reversed = TES. Wait, that doesn't work.
+    
+    Let me reconsider using the known lookups: "at the" = SET (confirmed synonym).
+    
+    Wordplay: deletion + charade. "stiff" = CORPS. "pressure's released" = remove P. CORPS - P = CORS. "assistant at the back" with "back" as reversal indicator: "assistant" = SET (from "at the" lookup), reversed = TES. CORS + TES = CORSTES ≠ CORSET.
+    
+    Rethinking: "stiff" = CORPS, remove P = CORS. "assistant at the back" = SET (from lookup) placed at the back = CORS + SET = CORSSET ≠ CORSET.
+    
+    Actually: CORS + ET (reversal of TE from "the" part of "at the") = CORSET. But this seems forced.
+    
+    Let me try: "stiff" = CORPS, remove P = CORS. "assistant" = SET, "at the back" means SET goes at the back: CORS + SET = CORSSET. This doesn't work.
+    
+    Final attempt: CORPS - P = CORS. SET (assistant/at the) = CORS + ET (partial reversal) = CORSET.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] AITCH  4D. Character I will follow?
+  Answer: AITCH
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Character I will follow?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      character: syn=AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      will: syn=THE,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE
+      follow: syn=DO,GO,UP,BED,CUT,DOG,EYE,RUN,TAG,WAY,BOTH,CODA,EASY,HANG,HEAD
+    Definitions:
+      "Character" -> AITCH (definition match)
+  AI Reasoning:
+    Definition: "Character" (AITCH is the name of the letter H, a character).
+    Wordplay: acrostic. "I will follow?" indicates taking the first letters of the words that follow "I" in the clue. But there are no words after "I" in this clue.
+    
+    Actually, rethinking: This appears to be a cryptic definition. "Character I will follow?" - AITCH is the character (letter) that follows I in the alphabet (H comes after I). The question mark suggests this cryptic interpretation.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ESK  5D. Runner departs from place of work
+  Answer: ESK
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Runner"
+  Wordplay type: deletion
+  Assembly: deletion — delete D from DESK
+  Note: dropped piece 1
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      runner: syn=GO,SKI; abbr=SKI
+      departs: syn=GO,IT,BED,CAN,CUT,DIE,END,GET,LEG,QUI,WAY; abbr=D,GO
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      place: syn=AM,BE,DO,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END,FEE,FIX; abbr=LAY,PL
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+  AI Reasoning:
+    Definition: "Runner" (a river - the Esk is a river name).
+    Wordplay: deletion. "place of work" = DESK. "departs from" indicates deletion of D (standard abbreviation for departs). DESK - D = ESK.
+  ----------------------------------------------------------------------
+
+  [LOW] IMPUGN  6A. Revolutionary group involved in covering up minor attack
+  Answer: IMPUGN
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "attack"
+  Wordplay type: hidden
+  Components:
+    hidden             covering up minor         -> IMPUGN
+  Assembly: hidden_reversed — hidden reversed in 'coveriNG UP MInor'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | type_evidence=assembled, AI agrees, indicator in DB | yields_check=hidden (self-evident) | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG,CASTRO,MAOIST,SOCIAL; ind=anagram,reversal
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+      involved: syn=GOT,WON,BORE,DEEP,DREW,GAVE,MADE,QUIT,RAPT,TOOK,ALERT,ALIVE,ASKED,CAGED,FANCY; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      covering: syn=BIN,BOX,POD,RUG,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE; ind=container,deletion,parts
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      minor: syn=IMP*,BOY,BUD,CUB,FEW,KID,LAD,TAD,TOT,TWO,WEE,BABE,BABY,CHAP,GIRL; sounds=miner
+      attack: syn=AT,BAT,BOP,BOX,DAB,FIT,FLY,HIT,JOB,MUG,RAP,SET,SIC,WAR,BANG
+      involved in: ind=insertion
+    Definitions:
+      "attack" -> IMPUGN (definition match)
+  AI Reasoning:
+    Definition: "attack" (to impugn is to attack someone's character).
+    
+    Wordplay: container. "Revolutionary group" = GNU (anagram of GUN, with "revolutionary" as anagram indicator). "minor" = IMP (confirmed lookup). "involved in" is the container indicator. IMP contains GNU: I-GNU-P = IMPUGN.
+    
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually: "covering up" with "up" as reversal indicator. "Revolutionary group" = GNU (GUN reversed, with "revolutionary" as reversal indicator). "minor" = IMP. "covering" as container indicator: IMP covers GNU = I-GNU-P, but that's IGNUP.
+    
+    Let me try: "involved in covering up" - "up" reverses "covering". So GNU goes inside IMP reversed? IMP reversed = PMI. GNU in PMI doesn't work.
+    
+    Rethinking: "minor" = IMP, "group" = UG (university group?), "revolutionary" reverses UG to GU. "involved in" puts GU inside IMP: I-GU-MP? No.
+    
+    Actually: "group" = MP (Member of Parliament), "revolutionary" reverses to PM. "minor" = I (Roman numeral 1). "covering" puts around: I covers MPUG? This is getting complex.
+    
+    Let me try: IMP (minor) + UGN (GNU rearranged by "involved") = IMPUGN. "Involved" as anagram indicator for GNU gives UGN, then IMP + UGN = IMPUGN.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] IMITATION  6D. Copying Ipswich’s first change, one’s substituted for United
+  Answer: IMITATION
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Copying"
+  Wordplay type: charade
+  Components:
+    first_letter       Ipswich's                 -> I
+    anagram_fodder     change                    -> MITATION
+  Assembly: charade — I(first letter of "Ipswich's") + MITATION(change)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      copying: syn=APING,MIMETIC,EMULATING
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      change: syn=DO,HAY,CASH,CENT,COIN,COPE,DIME,EDIT,FARE,FLUX,GOLD,JACK,KALE,LONG,LOOT; abbr=C; ind=anagram
+      substituted: syn=REDID,RECAST,REMADE,TRADED,CHANGED,REVISED,SHIFTED,SNAPPED,COMMUTED,REPLACED,REVAMPED,REWORKED,EXCHANGED,MADE OVER,REMODELED
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      united: syn=ONE,ALLY,CLUB,FUSE,JOIN,NEAR,NIGH,TEAM,CAUSE,CLOSE,FLUSH,FUSED,JOINT,MARRY,UNIFY; abbr=U
+  AI Reasoning:
+    Definition: "Copying" (imitation means copying).
+    
+    Wordplay: charade + substitution.
+    - "Ipswich's first" = I (first letter of Ipswich, using acrostic indicator "first")
+    - "change" signals anagram of the remaining letters
+    - "one's substituted for United" means replace U with I in the anagram fodder
+    
+    Taking the remaining letters after I: we need 8 more letters for IMITATION.
+    The fodder appears to be implied from the context. Looking at IMITATION = I + MITATION.
+    
+    Actually, rethinking: "change" (anagram) + "one's substituted for United" suggests we anagram something where U becomes I.
+    
+    The answer IMITATION breaks down as: I (Ipswich's first) + MITATION (anagram of something where U was replaced by I).
+    
+    The hidden fodder must be "MUTATION" with U→I substitution, then anagrammed: MUTATION → MITATION (anagram) → MITATION. So: I + MITATION = IMITATION.
+  ----------------------------------------------------------------------
+
+  [FAILED] PIEEYED  7D. Stewed dish I’d mentioned
+  Answer: PIEEYED
+  Tier: --- | Confidence: 0/100
+  Definition: "Stewed"
+  Wordplay type: homophone
+  Components:
+    sound_of           dish I'd                  -> PIEEYED
+  DB Lookups:
+    DB lookups:
+      stewed: syn=PIE*,ITS,LIT,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram
+      dish: syn=PIE*,A,MY,FEW,POI,TEN,BOWL,BUZZ,CHOW,DIET,EATS,FARE,FEED,FLAN,FOOD; ind=anagram
+      mentioned: syn=CITED,NAMED,NOTED,QUOTED,ADDUCED,DROPPED,NOTICED; ind=homophone
+  AI Reasoning:
+    Definition: "Stewed" (pie-eyed means drunk/stewed).
+    Wordplay: homophone. "mentioned" is the homophone indicator. "dish I'd" sounds like "PIEEYED" when spoken aloud.
+  ----------------------------------------------------------------------
+
+  [HIGH] GUSTY  8D. Supporting line’s wrapped around stone in such conditions
+  Answer: GUSTY
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "such conditions"
+  Wordplay type: charade
+  Components:
+    synonym            Supporting line's         -> GUY
+    synonym            stone                     -> ST
+  Assembly: charade — GUY(synonym of "Supporting line's") + ST(synonym of "stone")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'supporting_line's'=guy_=+5 | syn_f_'stone'=st_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

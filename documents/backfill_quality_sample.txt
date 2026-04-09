@@ -1,0 +1,1808 @@
+================================================================================
+RANDOM SAMPLE: 100 HIGH RESULTS (excluding DD and Hidden)
+================================================================================
+
+--- HIGH #1 ---
+Source: guardian #28874
+Clue: Want to carry gun but denied
+Answer: NEGATED
+Definition: denied
+Type: container
+Explanation: GAT (synonym="Gatling “gun”") in NEED (synonym="”Want” around GAT=Gatling “gun”") = NEGATED; definition: "denied"
+Score: 80
+
+--- HIGH #2 ---
+Source: guardian #3909
+Clue: Unstraps a little sarong shifting in warm spots
+Answer: SUNTRAPS
+Definition: warm spots
+Type: anagram
+Explanation: anagram of UNSTRAPS = SUNTRAPS; definition: "warm spots"
+Score: 80
+
+--- HIGH #3 ---
+Source: independent #12146
+Clue: US state released no inmates
+Answer: MINNESOTA
+Definition: US state
+Type: anagram
+Explanation: anagram of NO + INMATES = MINNESOTA; definition: "US state"
+Score: 80
+
+--- HIGH #4 ---
+Source: guardian #27886
+Clue: Follow progress of time by lines
+Answer: TRACKAGE
+Definition: lines
+Type: charade
+Explanation: TRACK (synonym="TRACK") + AGE (synonym="AGE") = TRACKAGE; definition: "lines"
+Score: 80
+
+--- HIGH #5 ---
+Source: times #26718
+Clue: See vessel that's green
+Answer: LOVAT
+Definition: green
+Type: charade
+Explanation: LO (abbreviation="See") + VAT (synonym="vessel") = LOVAT; definition: "green"
+Score: 80
+
+--- HIGH #6 ---
+Source: times #26905
+Clue: Pigment made from genuine fish
+Answer: REALGAR
+Definition: Pigment
+Type: charade
+Explanation: REAL (synonym="genuine") + GAR (abbreviation="fish") = REALGAR; definition: "Pigment"
+Score: 80
+
+--- HIGH #7 ---
+Source: telegraph #28768
+Clue: Sense rage damaged enthusiasm
+Answer: Eagerness
+Definition: enthusiasm
+Type: anagram
+Explanation: anagram of SENSE + RAGE = EAGERNESS; definition: "enthusiasm"
+Score: 80
+
+--- HIGH #8 ---
+Source: guardian #28082
+Clue: A city fashionable in the past
+Answer: CHICAGO
+Definition: A city
+Type: charade
+Explanation: CHIC (synonym="fashionable") + AGO (synonym="past") = CHICAGO; definition: "A city"
+Score: 80
+
+--- HIGH #9 ---
+Source: guardian #27985
+Clue: Stomach's odd, almost entirely
+Answer: RUMINAL
+Definition: Stomach's
+Type: charade
+Explanation: RUM (synonym="RUM") + IN (synonym="IN") + AL (synonym="AL") = RUMINAL; definition: "Stomach's"
+Score: 80
+
+--- HIGH #10 ---
+Source: times #28232
+Clue: Self-indulgent type has done this wrong
+Answer: HEDONIST
+Definition: Self-indulgent type
+Type: anagram
+Explanation: anagram of DONE + THIS = HEDONIST; definition: "Self-indulgent type"
+Score: 80
+
+--- HIGH #11 ---
+Source: guardian #28647
+Clue: Be a high street stationer — it's a stable job
+Answer: LIVERYMAN
+Definition: it's a stable job
+Type: charade
+Explanation: LIVE (synonym="be") + RYMAN (synonym="UK stattioners") = LIVERYMAN; definition: "it's a stable job"
+Score: 80
+
+--- HIGH #12 ---
+Source: guardian #27900
+Clue: Fraction on calculator opposite number
+Answer: COUNTERPART
+Definition: opposite number
+Type: charade
+Explanation: COUNTER (synonym="calculator") + PART (synonym="fraction") = COUNTERPART; definition: "opposite number"
+Score: 80
+
+--- HIGH #13 ---
+Source: times #28837
+Clue: Portal with bar up, zero getting in
+Answer: DOOR
+Definition: Portal
+Type: container
+Explanation: O (synonym="zero") in DOR (synonym="ROD reversed") = DOOR; definition: "Portal"
+Score: 80
+
+--- HIGH #14 ---
+Source: guardian #28944
+Clue: Place at examination brings praise
+Answer: PLAUDIT
+Definition: praise
+Type: charade
+Explanation: PL (abbreviation="Place") + AUDIT (synonym="examination") = PLAUDIT; definition: "praise"
+Score: 80
+
+--- HIGH #15 ---
+Source: independent #11447
+Clue: Impressed by Turkey in draw
+Answer: STRUCK
+Definition: Impressed
+Type: container
+Explanation: TR (synonym="=Turkey, in IVR") in SUCK (synonym="=draw, pull") = STRUCK; definition: "Impressed"
+Score: 80
+
+--- HIGH #16 ---
+Source: times #29432
+Clue: Reported means of controlling verification for replacement Superbowl ticket?
+Answer: RAINCHECK
+Definition: replacement Superbowl ticket?
+Type: charade
+Explanation: RAIN (synonym="RAIN") + CHECK (synonym="verification") = RAINCHECK; definition: "replacement Superbowl ticket?"
+Score: 80
+
+--- HIGH #17 ---
+Source: guardian #1331
+Clue: Brown pea is pulped
+Answer: SEPIA
+Definition: Brown
+Type: anagram
+Explanation: anagram of PEA + IS = SEPIA; definition: "Brown"
+Score: 80
+
+--- HIGH #18 ---
+Source: telegraph #30963
+Clue: Pale, richly crafted cheese
+Answer: Caerphilly
+Definition: cheese
+Type: anagram
+Explanation: anagram of PALE, + RICHLY = CAERPHILLY; definition: "cheese"
+Score: 80
+
+--- HIGH #19 ---
+Source: telegraph #3174
+Clue: Punt taken on fish shop
+Answer: BETRAY
+Definition: shop
+Type: charade
+Explanation: BET (synonym="Punt") + RAY (abbreviation="fish") = BETRAY; definition: "shop"
+Score: 80
+
+--- HIGH #20 ---
+Source: telegraph #28806
+Clue: His old gran? She lost these investments
+Answer: Shareholdings
+Definition: investments
+Type: anagram
+Explanation: anagram of HIS + OLD + GRAN? + SHE = SHAREHOLDINGS; definition: "investments"
+Score: 80
+
+--- HIGH #21 ---
+Source: times #26992
+Clue: Fool suffered, getting criticised strongly
+Answer: ASSAILED
+Definition: criticised strongly
+Type: charade
+Explanation: ASS (abbreviation="Fool") + AILED (synonym="suffered,") = ASSAILED; definition: "criticised strongly"
+Score: 80
+
+--- HIGH #22 ---
+Source: independent #11846
+Clue: Opening piece very plain and clean eschewing piano
+Answer: OVERTURE
+Definition: Opening
+Type: charade
+Explanation: OVERT (synonym="very plain") + URE (synonym="clean") = OVERTURE; definition: "Opening"
+Score: 80
+
+--- HIGH #23 ---
+Source: times #28585
+Clue: Elder possibly demands support, accommodating religious leader
+Answer: TREE
+Definition: Elder
+Type: container
+Explanation: R (synonym="R[eligious]") in TEE (synonym="golf ball support") = TREE; definition: "Elder"
+Score: 80
+
+--- HIGH #24 ---
+Source: times #5177
+Clue: Recall put into motion in Burgundy store?
+Answer: CELLAR
+Definition: store?
+Type: anagram
+Explanation: anagram of RECALL = CELLAR; definition: "store?"
+Score: 80
+
+--- HIGH #25 ---
+Source: independent #11585
+Clue: 3 with sexy approach
+Answer: CHIPSHOT
+Definition: approach
+Type: charade
+Explanation: CHIP (synonym="CHIP") + SHOT (synonym="in golf, an approach shot to the green") = CHIPSHOT; definition: "approach"
+Score: 80
+
+--- HIGH #26 ---
+Source: telegraph #28941
+Clue: Remain involved in Hitchcock film
+Answer: Marnie
+Definition: Hitchcock film
+Type: anagram
+Explanation: anagram of REMAIN = MARNIE; definition: "Hitchcock film"
+Score: 80
+
+--- HIGH #27 ---
+Source: times #27897
+Clue: Smack on behind produces lingering sensation
+Answer: AFTERTASTE
+Definition: lingering sensation
+Type: charade
+Explanation: AFTER (synonym="behind") + TASTE (synonym="smack") = AFTERTASTE; definition: "lingering sensation"
+Score: 80
+
+--- HIGH #28 ---
+Source: times #28351
+Clue: Deliveries sweethearts initially rejected
+Answer: OVERS
+Definition: Deliveries
+Type: deletion
+Explanation: OVERS (deletion) = OVERS; definition: "Deliveries"
+Score: 80
+
+--- HIGH #29 ---
+Source: guardian #28471
+Clue: Group of soldiers ordered to capture kit
+Answer: BRIGADE
+Definition: Group of soldiers
+Type: container
+Explanation: RIG (synonym="”kit”") in BADE (synonym="”ordered” around RIG=”kit”") = BRIGADE; definition: "Group of soldiers"
+Score: 100
+
+--- HIGH #30 ---
+Source: guardian #29304
+Clue: Sparkling hospital department, highly thought of
+Answer: AERATED
+Definition: Sparkling
+Type: charade
+Explanation: AE (synonym="Accident and Emergency, ‘hospital department’") + RATED (synonym="‘highly thought of’") = AERATED; definition: "Sparkling"
+Score: 80
+
+--- HIGH #31 ---
+Source: independent #12257
+Clue: Talks of speed chess finishing early
+Answer: SPEECHES
+Definition: Talks
+Type: charade
+Explanation: SPEE (synonym="SPEE") + CHES (synonym="CHES") = SPEECHES; definition: "Talks"
+Score: 80
+
+--- HIGH #32 ---
+Source: telegraph #28794
+Clue: Excited, as to come out
+Answer: Comatose
+Definition: out
+Type: anagram
+Explanation: anagram of AS + TO + COME = COMATOSE; definition: "out"
+Score: 80
+
+--- HIGH #33 ---
+Source: guardian #29784
+Clue: Chest hidden in London tree – somewhere in that city
+Answer: PARKLANE
+Definition: somewhere in that city
+Type: container
+Explanation: ARK (synonym=""chest"") in PLANE (synonym=""tree"") = PARKLANE; definition: "somewhere in that city"
+Score: 100
+
+--- HIGH #34 ---
+Source: guardian #29104
+Clue: Is able to divide into sections as French or Italian ballad
+Answer: CANZONE
+Definition: French or Italian ballad
+Type: charade
+Explanation: CAN (synonym="is able to") + ZONE (synonym="divide into sections") = CANZONE; definition: "French or Italian ballad"
+Score: 80
+
+--- HIGH #35 ---
+Source: telegraph #28397
+Clue: One needs to cast aside sycophants
+Answer: Toadies
+Definition: sycophants
+Type: anagram
+Explanation: anagram of TO + ASIDE = TOADIES; definition: "sycophants"
+Score: 80
+
+--- HIGH #36 ---
+Source: guardian #26175
+Clue: Cloth (small) removed from doorstep
+Answer: CANVAS
+Definition: Cloth
+Type: deletion
+Explanation: CANVAS (deletion) +  (deletion) = CANVAS; definition: "Cloth"
+Score: 80
+
+--- HIGH #37 ---
+Source: times #29439
+Clue: Police almost get man behind bars
+Answer: COPLAND
+Definition: man behind bars
+Type: charade
+Explanation: COP (synonym="Police") + LAND (synonym="get") = COPLAND; definition: "man behind bars"
+Score: 80
+
+--- HIGH #38 ---
+Source: guardian #27507
+Clue: Cover featuring stunner, smeared
+Answer: LIBELLED
+Definition: “smeared”
+Type: container
+Explanation: BELLE (synonym="“stunner” Definition: “smeared”") in LID (synonym="“Cover” around BELLE = “stunner” Definition: “smeared”") = LIBELLED; definition: "“smeared”"
+Score: 90
+
+--- HIGH #39 ---
+Source: guardian #26291
+Clue: To be given a bye is best of all
+Answer: UNMATCHED
+Definition: best of all
+Type: charade
+Explanation: UN (synonym="UN") + MATCHED (synonym="MATCHED") = UNMATCHED; definition: "best of all"
+Score: 80
+
+--- HIGH #40 ---
+Source: telegraph #29194
+Clue: Fake article for priest
+Answer: Shaman
+Definition: priest
+Type: charade
+Explanation: SHAM (synonym="Fake") + AN (abbreviation="article") = SHAMAN; definition: "priest"
+Score: 80
+
+--- HIGH #41 ---
+Source: guardian #28490
+Clue: Evergreen in Eliot's verse 'withered with no trace of sun'
+Answer: OLIVETREE
+Definition: Evergreen
+Type: anagram
+Explanation: anagram of ELIOT VERE = OLIVETREE; definition: "Evergreen"
+Score: 80
+
+--- HIGH #42 ---
+Source: times #29428
+Clue: Temporary work secured by youngster
+Answer: POP-UP
+Definition: Temporary
+Type: container
+Explanation: OP (synonym="work") in PUP (synonym="youngster") = POP-UP; definition: "Temporary"
+Score: 80
+
+--- HIGH #43 ---
+Source: telegraph-toughie #2806
+Clue: Solitary religious person in that female university in US
+Answer: Hermit
+Definition: Solitary religious person
+Type: charade
+Explanation: HER (synonym="female") + MIT (synonym="university") = HERMIT; definition: "Solitary religious person"
+Score: 80
+
+--- HIGH #44 ---
+Source: telegraph #28399
+Clue: Old burial site featuring in pub argument?
+Answer: Barrow
+Definition: Old burial site
+Type: charade
+Explanation: BAR (abbreviation="pub") + ROW (abbreviation="argument?") = BARROW; definition: "Old burial site"
+Score: 80
+
+--- HIGH #45 ---
+Source: guardian #27990
+Clue: Measure and cook herb
+Answer: DOSAGE
+Definition: Measure
+Type: charade
+Explanation: DO (synonym="and") + SAGE (synonym="herb") = DOSAGE; definition: "Measure"
+Score: 80
+
+--- HIGH #46 ---
+Source: guardian #27594
+Clue: Man trained with choir for musical
+Answer: HARMONIC
+Definition: musical
+Type: anagram
+Explanation: anagram of MAN + CHOIR = HARMONIC; definition: "musical"
+Score: 80
+
+--- HIGH #47 ---
+Source: guardian #27402
+Clue: Filter paper? Pascal discarded two drinks endlessly
+Answer: PERCOLATE
+Definition: Filter
+Type: charade
+Explanation: PER (synonym="PER") + COLA (synonym="COLA") + TE (synonym="TE") = PERCOLATE; definition: "Filter"
+Score: 80
+
+--- HIGH #48 ---
+Source: telegraph #27903
+Clue: After folding, knot sheet maybe in addition
+Answer: By the same token
+Definition: in addition
+Type: anagram
+Explanation: anagram of KNOT + SHEET + MAYBE = BY THE SAME TOKEN; definition: "in addition"
+Score: 80
+
+--- HIGH #49 ---
+Source: telegraph #29933
+Clue: Poison that could make ten Arabs unwell
+Answer: Ratsbane
+Definition: Poison
+Type: anagram
+Explanation: anagram of TEN + ARABS = RATSBANE; definition: "Poison"
+Score: 80
+
+--- HIGH #50 ---
+Source: times #5023
+Clue: Bergamot is a neat ingredient for herbal tea
+Answer: TISANE
+Definition: tea
+Type: anagram
+Explanation: anagram of IS + NEAT = TISANE; definition: "tea"
+Score: 80
+
+--- HIGH #51 ---
+Source: guardian #24347
+Clue: Secluded tree is cold like this
+Answer: CLOISTERED
+Definition: Secluded
+Type: anagram
+Explanation: anagram of TREE + IS + COLD = CLOISTERED; definition: "Secluded"
+Score: 80
+
+--- HIGH #52 ---
+Source: guardian #28796
+Clue: Input fell dreadfully; it's quite common
+Answer: PLENTIFUL
+Definition: quite common
+Type: anagram
+Explanation: anagram of INPUT + FELL = PLENTIFUL; definition: "quite common"
+Score: 80
+
+--- HIGH #53 ---
+Source: guardian #26098
+Clue: Solving uses minor part of the brain
+Answer: SENSORIUM
+Definition: part of the brain
+Type: anagram
+Explanation: anagram of USES + MINOR = SENSORIUM; definition: "part of the brain"
+Score: 80
+
+--- HIGH #54 ---
+Source: telegraph-toughie #2800
+Clue: Arranged trip with side for game
+Answer: Spirited
+Definition: game
+Type: anagram
+Explanation: anagram of TRIP + SIDE = SPIRITED; definition: "game"
+Score: 80
+
+--- HIGH #55 ---
+Source: times #28580
+Clue: Person of wide learning taking old college subject in US
+Answer: POLYMATH
+Definition: Person of wide learning
+Type: charade
+Explanation: POLY (synonym="old college – polytechnic") + MATH (synonym="subject in US") = POLYMATH; definition: "Person of wide learning"
+Score: 80
+
+--- HIGH #56 ---
+Source: telegraph #28484
+Clue: Fail in devious ploy with bugle
+Answer: Go belly up
+Definition: Fail
+Type: anagram
+Explanation: anagram of PLOY + BUGLE = GO BELLY UP; definition: "Fail"
+Score: 80
+
+--- HIGH #57 ---
+Source: guardian #26254
+Clue: Roman emperor's endless automatic action in waters off Italy
+Answer: ADRIATIC
+Definition: waters off Italy
+Type: charade
+Explanation: ADRIA (synonym="ADRIA") + TIC (synonym="TIC") = ADRIATIC; definition: "waters off Italy"
+Score: 80
+
+--- HIGH #58 ---
+Source: independent #11871
+Clue: Cancel out Tyneside scandal?
+Answer: NEGATE
+Definition: Cancel
+Type: charade
+Explanation: NE (synonym="Tyneside") + GATE (synonym="scandal?") = NEGATE; definition: "Cancel"
+Score: 80
+
+--- HIGH #59 ---
+Source: times #27652
+Clue: Sentimental character from Olympus retiring
+Answer: MUSHY
+Definition: Sentimental
+Type: charade
+Explanation: MU (synonym="Greek character") + SHY (synonym="retiring") = MUSHY; definition: "Sentimental"
+Score: 80
+
+--- HIGH #60 ---
+Source: independent #12089
+Clue: Shifting over stare at morning glow
+Answer: GLEAM
+Definition: glow
+Type: charade
+Explanation: GLE (synonym="stare at") + AM (synonym="ante meridiem; morning") = GLEAM; definition: "glow"
+Score: 80
+
+--- HIGH #61 ---
+Source: independent #11689
+Clue: Indecent milieu and activities of former pupils?
+Answer: OBSCENE
+Definition: Indecent
+Type: charade
+Explanation: OB (synonym="old boy – ‘former pupil’") + SCENE (synonym="old boy – ‘former pupil’") = OBSCENE; definition: "Indecent"
+Score: 80
+
+--- HIGH #62 ---
+Source: telegraph #29556
+Clue: African very African!
+Answer: Somalian
+Definition: African
+Type: charade
+Explanation: SO (abbreviation="very") + MALIAN (synonym="African!") = SOMALIAN; definition: "African"
+Score: 80
+
+--- HIGH #63 ---
+Source: guardian #24464
+Clue: Head ball on to rightwinger
+Answer: PROMONTORY
+Definition: Head
+Type: charade
+Explanation: PROM (synonym="ball") + ON (literal="on") + TORY (synonym="rightwinger") = PROMONTORY; definition: "Head"
+Score: 80
+
+--- HIGH #64 ---
+Source: independent #11391
+Clue: Rash manoeuvres involving US soldier
+Answer: HUSSAR
+Definition: soldier
+Type: anagram
+Explanation: anagram of RASH + US = HUSSAR; definition: "soldier"
+Score: 80
+
+--- HIGH #65 ---
+Source: guardian #29277
+Clue: Breaking up thoroughfare to make water course
+Answer: SWEET
+Definition: course
+Type: container
+Explanation: WEE (synonym="”to make water”") in ST (synonym="”thoroughfare”") = SWEET; definition: "course"
+Score: 100
+
+--- HIGH #66 ---
+Source: telegraph #28298
+Clue: One covers smell of rot on dead bats
+Answer: Deodorant
+Definition: One covers smell
+Type: anagram
+Explanation: anagram of ROT + ON + DEAD = DEODORANT; definition: "One covers smell"
+Score: 80
+
+--- HIGH #67 ---
+Source: guardian #25660
+Clue: To hell with personal motivation! Take a drink
+Answer: SCREWDRIVER
+Definition: drink
+Type: charade
+Explanation: SCREW (synonym="to hell with") + DRIVER (synonym="personal motivation") = SCREWDRIVER; definition: "drink"
+Score: 80
+
+--- HIGH #68 ---
+Source: independent #11290
+Clue: Grassland in southeast provides cover
+Answer: SHEATHE
+Definition: cover
+Type: container
+Explanation: HEATH (synonym="HEATH") in SE (synonym="SE") = SHEATHE; definition: "cover"
+Score: 100
+
+--- HIGH #69 ---
+Source: guardian #28987
+Clue: Novel family appearing in Act 1
+Answer: DOONE
+Definition: Novel family
+Type: charade
+Explanation: DO (synonym="”Act”") + ONE (synonym="”1″") = DOONE; definition: "Novel family"
+Score: 80
+
+--- HIGH #70 ---
+Source: guardian #25928
+Clue: Stew gives soldier illness
+Answer: RAGOUT
+Definition: Stew
+Type: charade
+Explanation: RA (abbreviation="soldier") + GOUT (synonym="illness") = RAGOUT; definition: "Stew"
+Score: 80
+
+--- HIGH #71 ---
+Source: guardian #29158
+Clue: Went out of section of dartboard after treble in the middle
+Answer: EBBED
+Definition: Went out
+Type: charade
+Explanation: EB (synonym="EB") + BED (synonym="”section of dartboard”; after the middle letters of [tr]-EB-[le] a dartboard is divided into sections called beds") = EBBED; definition: "Went out"
+Score: 80
+
+--- HIGH #72 ---
+Source: guardian #27754
+Clue: Carelessly lost knee bones
+Answer: SKELETON
+Definition: bones
+Type: anagram
+Explanation: anagram of LOST + KNEE = SKELETON; definition: "bones"
+Score: 80
+
+--- HIGH #73 ---
+Source: guardian #28451
+Clue: Bloomers in game against Premier League side
+Answer: LARKSPURS
+Definition: Bloomers
+Type: charade
+Explanation: LARK (synonym="a game/something done for fun") + SPURS (synonym="short for Tottenham Hotspurs, a team/side in the English football Premier League") = LARKSPURS; definition: "Bloomers"
+Score: 80
+
+--- HIGH #74 ---
+Source: independent #11502
+Clue: Man acted badly claiming it provides acceptance
+Answer: ADMITTANCE
+Definition: acceptance
+Type: anagram
+Explanation: anagram of MAN + ACTED + IT = ADMITTANCE; definition: "acceptance"
+Score: 80
+
+--- HIGH #75 ---
+Source: telegraph #30716
+Clue: The Observer covering Labour leads to complaint
+Answer: EYESTRAIN
+Definition: complaint
+Type: charade
+Explanation: EYE (synonym="Observer") + STRAIN (synonym="Labour") = EYESTRAIN; definition: "complaint"
+Score: 80
+
+--- HIGH #76 ---
+Source: times #28281
+Clue: Work set in conflict
+Answer: OPPOSED
+Definition: in conflict
+Type: charade
+Explanation: OP (synonym="work") + POSED (synonym="set") = OPPOSED; definition: "in conflict"
+Score: 80
+
+--- HIGH #77 ---
+Source: guardian #27502
+Clue: Dead, by collapsing here in hospital?
+Answer: DAYBED
+Definition: here in hospital?
+Type: anagram
+Explanation: anagram of DEAD, + BY = DAYBED; definition: "here in hospital?"
+Score: 80
+
+--- HIGH #78 ---
+Source: guardian #27152
+Clue: What wine smuggler did to get rifle
+Answer: RANSACK
+Definition: rifle
+Type: charade
+Explanation: RAN (synonym="RAN") + SACK (synonym="wine") = RANSACK; definition: "rifle"
+Score: 80
+
+--- HIGH #79 ---
+Source: telegraph #28324
+Clue: Drink from America co-eds brewed
+Answer: Ice-cream soda
+Definition: Drink
+Type: anagram
+Explanation: anagram of AMERICA + CO-EDS = ICE-CREAM SODA; definition: "Drink"
+Score: 80
+
+--- HIGH #80 ---
+Source: telegraph #3206
+Clue: Frontier as worryingly endangered area
+Answer: RAINFOREST
+Definition: endangered area
+Type: anagram
+Explanation: anagram of FRONTIER + AS = RAINFOREST; definition: "endangered area"
+Score: 80
+
+--- HIGH #81 ---
+Source: telegraph #28691
+Clue: Destruction of conifers, legal
+Answer: Forensic
+Definition: legal
+Type: anagram
+Explanation: anagram of CONIFERS, = FORENSIC; definition: "legal"
+Score: 80
+
+--- HIGH #82 ---
+Source: telegraph-toughie #2833
+Clue: Cold land: go south of it
+Answer: Wintry
+Definition: Cold
+Type: charade
+Explanation: WIN (synonym="land:") + TRY (synonym="go") = WINTRY; definition: "Cold"
+Score: 80
+
+--- HIGH #83 ---
+Source: guardian #24332
+Clue: Recital review may appear in the paper
+Answer: ARTICLE
+Definition: paper
+Type: anagram
+Explanation: anagram of RECITAL = ARTICLE; definition: "paper"
+Score: 80
+
+--- HIGH #84 ---
+Source: times #26697
+Clue: War heroes dancing in carnival
+Answer: RAREE-SHOW
+Definition: carnival
+Type: anagram
+Explanation: anagram of WAR + HEROES = RAREE-SHOW; definition: "carnival"
+Score: 80
+
+--- HIGH #85 ---
+Source: independent #12115
+Clue: Butter club sandwiches in decorative craft?
+Answer: MACRAME
+Definition: craft?
+Type: container
+Explanation: RAM (synonym="‘butter’ – an animal that butts") in MACE (synonym="club") = MACRAME; definition: "craft?"
+Score: 100
+
+--- HIGH #86 ---
+Source: guardian #28892
+Clue: Newcomers in clothing of Stockport FC
+Answer: STRANGERS
+Definition: Newcomers
+Type: charade
+Explanation: ST (synonym="‘clothing of S tockpor T ‘") + RANGERS (synonym="Scottish ‘FC’") = STRANGERS; definition: "Newcomers"
+Score: 80
+
+--- HIGH #87 ---
+Source: guardian #25385
+Clue: Rule about part of tube that goes underground
+Answer: SUBWAY
+Definition: underground
+Type: container
+Explanation: UB (synonym="UB") in SWAY (synonym="SWAY") = SUBWAY; definition: "underground"
+Score: 100
+
+--- HIGH #88 ---
+Source: guardian #25705
+Clue: Direct attention to umpire's hesitation
+Answer: REFER
+Definition: Direct
+Type: charade
+Explanation: REF (synonym="umpire's") + ER (abbreviation="hesitation") = REFER; definition: "Direct"
+Score: 80
+
+--- HIGH #89 ---
+Source: telegraph #3024
+Clue: Way revealed, very reliable
+Answer: Stout
+Definition: very reliable
+Type: charade
+Explanation: ST (abbreviation="Way") + OUT (synonym="revealed,") = STOUT; definition: "very reliable"
+Score: 80
+
+--- HIGH #90 ---
+Source: guardian #25241
+Clue: Shop replacing gasometer?
+Answer: MEGASTORE
+Definition: Shop
+Type: anagram
+Explanation: anagram of GASOMETER? = MEGASTORE; definition: "Shop"
+Score: 80
+
+--- HIGH #91 ---
+Source: guardian #26350
+Clue: Manage a delivery trip in a car
+Answer: RUNAROUND
+Definition: car
+Type: charade
+Explanation: RUN (synonym="Manage") + AROUND (synonym="in") = RUNAROUND; definition: "car"
+Score: 80
+
+--- HIGH #92 ---
+Source: telegraph #28862
+Clue: Erotic miss involved in muscle-building exercises
+Answer: Isometrics
+Definition: muscle-building exercises
+Type: anagram
+Explanation: anagram of EROTIC + MISS = ISOMETRICS; definition: "muscle-building exercises"
+Score: 80
+
+--- HIGH #93 ---
+Source: guardian #28684
+Clue: Official to an extent securing home cover again
+Answer: REFINISH
+Definition: cover again
+Type: charade
+Explanation: REF (synonym="referee, official") + IN (synonym="home") + ISH (synonym="suffix meaning “to an extent”, sometimes used humorously on its own") = REFINISH; definition: "cover again"
+Score: 80
+
+--- HIGH #94 ---
+Source: guardian #27239
+Clue: Place where spinners will take a turn
+Answer: SPOT
+Definition: Place
+Type: reversal
+Explanation: reverse of TOPS = SPOT; definition: "Place"
+Score: 80
+
+--- HIGH #95 ---
+Source: guardian #28467
+Clue: In a blog entry, one gets put forward
+Answer: POSIT
+Definition: put forward
+Type: container
+Explanation: I (synonym="one") in POST (synonym=""blog entry"") = POSIT; definition: "put forward"
+Score: 80
+
+--- HIGH #96 ---
+Source: guardian #28600
+Clue: Key leader removed fencing — bitter shock?
+Answer: STARTLE
+Definition: shock?
+Type: container
+Explanation: TART (synonym="‘bitter’") in SLE (synonym="‘key’") = STARTLE; definition: "shock?"
+Score: 90
+
+--- HIGH #97 ---
+Source: guardian #28825
+Clue: Significant worker's sacked with obligation for tax
+Answer: IMPORTDUTY
+Definition: tax
+Type: charade
+Explanation: IMPORT (synonym="IMPORT") + DUTY (synonym="‘obligation’") = IMPORTDUTY; definition: "tax"
+Score: 80
+
+--- HIGH #98 ---
+Source: times #28667
+Clue: Not predictable ie can turn haphazardly
+Answer: UNCERTAIN
+Definition: Not predictable
+Type: anagram
+Explanation: anagram of IE + CAN + TURN = UNCERTAIN; definition: "Not predictable"
+Score: 80
+
+--- HIGH #99 ---
+Source: independent #11374
+Clue: In short Frenchman’s out-of-head drunk clown!
+Answer: PIERROT
+Definition: clown!
+Type: charade
+Explanation: PIERR (synonym="e") + OT (synonym="s") = PIERROT; definition: "clown!"
+Score: 80
+
+--- HIGH #100 ---
+Source: guardian #28897
+Clue: Diviner decree replacing one abbey's number two released
+Answer: PREDICTOR
+Definition: Diviner
+Type: charade
+Explanation: PR (synonym="PR") + EDICT (synonym="decree") + OR (synonym="an abbot") = PREDICTOR; definition: "Diviner"
+Score: 80
+
+
+================================================================================
+RANDOM SAMPLE: 100 MEDIUM RESULTS (excluding DD and Hidden)
+================================================================================
+
+--- MEDIUM #1 ---
+Source: telegraph #29503
+Clue: After long time volunteers will face politicians – they should secure delivery
+Answer: Postage stamps
+Definition: they should secure delivery
+Type: charade
+Explanation: POST (synonym="After") + AGES (synonym="long") + TA (abbreviation="volunteers") + MPS (synonym="politicians") = POSTAGE STAMPS; definition: "they should secure delivery"
+Score: 55
+
+--- MEDIUM #2 ---
+Source: guardian #28723
+Clue: Definitive crooks a diver must avoid
+Answer: THEBENDS
+Definition: a diver must avoid
+Type: charade
+Explanation: THE (synonym="THE") + BENDS (synonym="BENDS") = THEBENDS; definition: "a diver must avoid"
+Score: 65
+
+--- MEDIUM #3 ---
+Source: times #27125
+Clue: Understood old men fall apart
+Answer: GO TO PIECES
+Definition: fall apart
+Type: charade
+Explanation: GOT (synonym="Understood") + O (abbreviation="old") + PIECES (synonym="men") = GO TO PIECES; definition: "fall apart"
+Score: 55
+
+--- MEDIUM #4 ---
+Source: times #27897
+Clue: Gentle exercise taken with a climber
+Answer: SWEET PEA
+Definition: climber
+Type: charade
+Explanation: SWEET (synonym="Gentle") + PE (abbreviation="exercise") + A (abbreviation="a") = SWEET PEA; definition: "climber"
+Score: 55
+
+--- MEDIUM #5 ---
+Source: telegraph-toughie #3272
+Clue: Songs by Mendelssohn one conducts in the auditorium
+Answer: LIEDER
+Definition: Songs by Mendelssohn
+Type: homophone
+Explanation: Some German songs are a homophone of someone who conducts
+Score: 55
+
+--- MEDIUM #6 ---
+Source: guardian #24417
+Clue: Pass away, falling asleep
+Answer: ELAPSE
+Definition: Pass away,
+Type: anagram
+Explanation: anagram of ASLEEP = ELAPSE; definition: "Pass away,"
+Score: 65
+
+--- MEDIUM #7 ---
+Source: telegraph #28602
+Clue: Tree in a small enclosure
+Answer: Aspen
+Definition: Tree
+Type: charade
+Explanation: A (abbreviation="a") + S (abbreviation="small") + PEN (synonym="enclosure") = ASPEN; definition: "Tree"
+Score: 55
+
+--- MEDIUM #8 ---
+Source: guardian #28445
+Clue: Architect's trade vehicle, brown and horrible
+Answer: VANBRUGH
+Definition: Architect's
+Type: charade
+Explanation: VAN (synonym="trade vehicle") + BR (synonym="BR") + UGH (synonym="“horrible!”") = VANBRUGH; definition: "Architect's"
+Score: 65
+
+--- MEDIUM #9 ---
+Source: telegraph #29034
+Clue: Peculiar France first off overthrew monarchy
+Answer: Foreign
+Definition: Peculiar
+Type: charade
+Explanation: F (abbreviation="France") + O (first_letter="overthrew") + REIGN (synonym="monarchy") = FOREIGN; definition: "Peculiar"
+Score: 55
+
+--- MEDIUM #10 ---
+Source: guardian #26887
+Clue: Lord Lawson is extremely gung-ho Eurosceptic, primarily
+Answer: LIEGE
+Definition: Lord
+Type: charade
+Explanation: L (first_letter="Lawson") + I (first_letter="is") + E (first_letter="extremely") + G (first_letter="gung-ho") + E (first_letter="Eurosceptic,") = LIEGE; definition: "Lord"
+Score: 55
+
+--- MEDIUM #11 ---
+Source: times #29029
+Clue: A contemptible person on a hill, one causing trouble
+Answer: AGITATOR
+Definition: one causing trouble
+Type: charade
+Explanation: A (abbreviation="A") + GIT (synonym="contemptible") + A (abbreviation="a") + TOR (synonym="hill,") = AGITATOR; definition: "one causing trouble"
+Score: 55
+
+--- MEDIUM #12 ---
+Source: telegraph-toughie #2988
+Clue: Awkward son taught
+Answer: Strained
+Definition: Awkward
+Type: charade
+Explanation: S (abbreviation="son") + TRAINED (synonym="taught") = STRAINED; definition: "Awkward"
+Score: 55
+
+--- MEDIUM #13 ---
+Source: independent #12083
+Clue: Person taking pawn with a rook is not certain
+Answer: UNCLEAR
+Definition: not certain
+Type: charade
+Explanation: UNCLE (synonym="pawn") + A (abbreviation="a") + R (abbreviation="rook") = UNCLEAR; definition: "not certain"
+Score: 55
+
+--- MEDIUM #14 ---
+Source: guardian #26999
+Clue: Take exception to Egyptian leader retiring
+Answer: DEMURE
+Definition: retiring
+Type: charade
+Explanation: DEMUR (synonym="exception") + E (first_letter="Egyptian") = DEMURE; definition: "retiring"
+Score: 55
+
+--- MEDIUM #15 ---
+Source: guardian #21838
+Clue: Co-operate in production of drama and dance
+Answer: PLAYBALL
+Definition: Co-operate
+Type: charade
+Explanation: PLAY (synonym="drama") + BALL (abbreviation="dance") = PLAYBALL; definition: "Co-operate"
+Score: 65
+
+--- MEDIUM #16 ---
+Source: telegraph #28621
+Clue: Excuse concerning the French, like English
+Answer: Release
+Definition: Excuse
+Type: charade
+Explanation: RE (abbreviation="concerning") + LE (abbreviation="French,") + AS (abbreviation="like") + E (abbreviation="English") = RELEASE; definition: "Excuse"
+Score: 55
+
+--- MEDIUM #17 ---
+Source: guardian #4049
+Clue: Starts to figure out problem? Dandy!
+Answer: FOP
+Definition: Dandy!
+Type: charade
+Explanation: F (first_letter="figure") + O (first_letter="out") + P (first_letter="problem?") = FOP; definition: "Dandy!"
+Score: 55
+
+--- MEDIUM #18 ---
+Source: telegraph #29103
+Clue: Better money for army chiefs, perhaps
+Answer: Top brass
+Definition: army chiefs, perhaps
+Type: charade
+Explanation: TOP (synonym="Better") + BRASS (synonym="money") = TOP BRASS; definition: "army chiefs, perhaps"
+Score: 55
+
+--- MEDIUM #19 ---
+Source: guardian #28289
+Clue: Scheme Aussie natives announced
+Answer: RUSE
+Definition: Scheme
+Type: homophone
+Explanation: Homophone of [kanga]ROOS
+Score: 55
+
+--- MEDIUM #20 ---
+Source: telegraph #28238
+Clue: Prank opposing foremost sign of corruption
+Answer: Antic
+Definition: Prank
+Type: charade
+Explanation: ANTI (synonym="opposing") + C (first_letter="corruption") = ANTIC; definition: "Prank"
+Score: 55
+
+--- MEDIUM #21 ---
+Source: telegraph #29090
+Clue: Stone ring next to New York Times
+Answer: Onyx
+Definition: Stone
+Type: charade
+Explanation: O (abbreviation="ring") + N (first_letter="next") + Y (abbreviation="York") + X (abbreviation="Times") = ONYX; definition: "Stone"
+Score: 55
+
+--- MEDIUM #22 ---
+Source: guardian #29067
+Clue: Sound of car by roundabout?
+Answer: AUDIO
+Definition: Sound
+Type: charade
+Explanation: AUDI (synonym="AUDI") + O (synonym="another round shape") = AUDIO; definition: "Sound"
+Score: 55
+
+--- MEDIUM #23 ---
+Source: guardian #22554
+Clue: A bogus journalist found guilty
+Answer: ASHAMED
+Definition: guilty
+Type: charade
+Explanation: A (abbreviation="A") + SHAM (synonym="bogus") + ED (abbreviation="journalist") = ASHAMED; definition: "guilty"
+Score: 55
+
+--- MEDIUM #24 ---
+Source: guardian #29420
+Clue: Monarch unattended by day is wise man
+Answer: KINGSOLOMON
+Definition: King Solomon
+Type: charade
+Explanation: KING (synonym="Monarch") + SOLO (synonym="unattended") + MON (synonym="Monday, "day"") = KINGSOLOMON; definition: "King Solomon"
+Score: 65
+
+--- MEDIUM #25 ---
+Source: telegraph #29833
+Clue: Bulb lit, current not off
+Answer: Onion
+Definition: Bulb
+Type: charade
+Explanation: ON (synonym="lit,") + I (abbreviation="current") + ON (synonym="off") = ONION; definition: "Bulb"
+Score: 55
+
+--- MEDIUM #26 ---
+Source: telegraph #28649
+Clue: One under no compulsion to release spy
+Answer: Free agent
+Definition: One under no compulsion
+Type: charade
+Explanation: FREE (synonym="release") + AGENT (synonym="spy") = FREE AGENT; definition: "One under no compulsion"
+Score: 55
+
+--- MEDIUM #27 ---
+Source: guardian #28646
+Clue: Confiscate drugs (cocaine) with passion
+Answer: ESCHEAT
+Definition: Confiscate
+Type: charade
+Explanation: ES (synonym="drugs") + C (first_letter="(cocaine)") + HEAT (synonym="passion") = ESCHEAT; definition: "Confiscate"
+Score: 55
+
+--- MEDIUM #28 ---
+Source: times #4810
+Clue: Witness a time trial getting on top of soldier
+Answer: ATTESTANT
+Definition: Witness
+Type: charade
+Explanation: A (abbreviation="a") + T (abbreviation="time") + TEST (abbreviation="trial") + ANT (abbreviation="soldier") = ATTESTANT; definition: "Witness"
+Score: 55
+
+--- MEDIUM #29 ---
+Source: guardian #28392
+Clue: Malevolent woman, mean having severed head, eats Australian native
+Answer: WITCHETTYGRUB
+Definition: “Australian native”
+Type: charade
+Explanation: WITCH (synonym="“Malevolent woman”") + ETTY (synonym="“mean having severed head”") + GRUB (synonym="“eats” (as a noun") = WITCHETTYGRUB; definition: "“Australian native”"
+Score: 65
+
+--- MEDIUM #30 ---
+Source: telegraph-toughie #2789
+Clue: All good, by the sound of it
+Answer: Wholly
+Definition: All
+Type: homophone
+Explanation: A homophone (by the sound of it) of a synonym of good or sacred
+Score: 55
+
+--- MEDIUM #31 ---
+Source: telegraph #28668
+Clue: Ring round being pompous
+Answer: Orotund
+Definition: pompous
+Type: charade
+Explanation: O (abbreviation="Ring") + ROTUND (synonym="round") = OROTUND; definition: "pompous"
+Score: 55
+
+--- MEDIUM #32 ---
+Source: guardian #27688
+Clue: Refers to tourist attractions, repeatedly mentioning these locations
+Answer: SITES
+Definition: locations
+Type: homophone
+Explanation: A double [repeatedly] homophone: sounds like ‘cites’ [refers to] and ‘sights’ [tourist attractions – which, on an archaeological tour, would also be sites]
+Score: 55
+
+--- MEDIUM #33 ---
+Source: guardian #29725
+Clue: 22 on black horse
+Answer: COB
+Definition: horse
+Type: charade
+Explanation: CO (synonym="business") + B (synonym="B") = COB; definition: "horse"
+Score: 55
+
+--- MEDIUM #34 ---
+Source: guardian #27736
+Clue: Marine creatures in line by rocks
+Answer: SEAMICE
+Definition: Marine creatures
+Type: charade
+Explanation: SEAM (synonym="line") + ICE (synonym="diamonds, rocks") = SEAMICE; definition: "Marine creatures"
+Score: 65
+
+--- MEDIUM #35 ---
+Source: guardian #22092
+Clue: Shrill in complaining of southern weapon
+Answer: STRIDENT
+Definition: Shrill
+Type: charade
+Explanation: S (abbreviation="southern") + TRIDENT (synonym="weapon") = STRIDENT; definition: "Shrill"
+Score: 55
+
+--- MEDIUM #36 ---
+Source: guardian #26159
+Clue: What upset John — possibly  …
+Answer: THAW
+Definition: John — possibly …
+Type: anagram
+Explanation: anagram of WHAT = THAW; definition: "John — possibly …"
+Score: 65
+
+--- MEDIUM #37 ---
+Source: telegraph #29037
+Clue: Nuts and drinks for all in group before dance
+Answer: Round the twist
+Definition: Nuts
+Type: charade
+Explanation: ROUND (synonym="drinks") + THETWIST (synonym="dance") = ROUND THE TWIST; definition: "Nuts"
+Score: 55
+
+--- MEDIUM #38 ---
+Source: telegraph #29892
+Clue: In lab, cope with modifying clinical trial 'drug'?
+Answer: Placebo
+Definition: clinical trial 'drug'?
+Type: anagram
+Explanation: anagram of LAB, + COPE = PLACEBO; definition: "clinical trial 'drug'?"
+Score: 65
+
+--- MEDIUM #39 ---
+Source: guardian #28990
+Clue: Take wicket, then settle down in ground in final season
+Answer: WINTER
+Definition: final season
+Type: charade
+Explanation: W (synonym="abbrev. for “wicket”, in cricket scores") + INTER (synonym="to settle down/bury in the ground") = WINTER; definition: "final season"
+Score: 55
+
+--- MEDIUM #40 ---
+Source: guardian #29116
+Clue: Deserve Ashes trophy, did you say?
+Answer: EARN
+Definition: Deserve
+Type: homophone
+Explanation: Sounds like (‘did you say?’) URN (‘Ashes trophy’).
+Score: 55
+
+--- MEDIUM #41 ---
+Source: telegraph #30378
+Clue: Sudden excitement over old Queen album that's sold millions
+Answer: Thriller
+Definition: album that's sold millions
+Type: charade
+Explanation: THRILL (synonym="excitement") + ER (abbreviation="Queen") = THRILLER; definition: "album that's sold millions"
+Score: 65
+
+--- MEDIUM #42 ---
+Source: guardian #29578
+Clue: Bishop quietly taking on brief quarrel
+Answer: PONTIFF
+Definition: Bishop
+Type: charade
+Explanation: P (abbreviation="quietly") + ON (literal="on") + TIFF (synonym="quarrel") = PONTIFF; definition: "Bishop"
+Score: 55
+
+--- MEDIUM #43 ---
+Source: independent #11338
+Clue: Ann is inheriting forged Reynolds picture
+Answer: SINGININTHERAIN
+Definition: picture
+Type: anagram
+Explanation: anagram of ANN + IS + INHERITING = SINGININTHERAIN; definition: "picture"
+Score: 65
+
+--- MEDIUM #44 ---
+Source: guardian #28485
+Clue: Inventor of the wheel earliest of all, for example, rolling round immense stone
+Answer: FERRIS
+Definition: Inventor of the wheel
+Type: acrostic
+Explanation: first letters of "for example, rolling round immense stone" = FERRIS; definition: "Inventor of the wheel"
+Score: 55
+
+--- MEDIUM #45 ---
+Source: guardian #25096
+Clue: Sappers in control of cavalry?
+Answer: REIN
+Definition: is “control of cavalry”
+Type: charade
+Explanation: RE (synonym="Royal Engineers = sappers") + IN (synonym="IN") = REIN; definition: "is “control of cavalry”"
+Score: 65
+
+--- MEDIUM #46 ---
+Source: guardian #28408
+Clue: Remove one's used sweaty tank tops
+Answer: OUST
+Definition: Remove
+Type: acrostic
+Explanation: first letters of "one's used sweaty tank" = OUST; definition: "Remove"
+Score: 55
+
+--- MEDIUM #47 ---
+Source: independent #12129
+Clue: Lead (among others) losing lead (among others)
+Answer: ETAL
+Definition: others)
+Type: deletion
+Explanation: ETAL (deletion) = ETAL; definition: "others)"
+Score: 65
+
+--- MEDIUM #48 ---
+Source: guardian #27096
+Clue: The other 17, perhaps, stand up to striker at St Andrews
+Answer: CLUBFACE
+Definition: by example
+Type: charade
+Explanation: CLUB (synonym="CLUB") + FACE (synonym="FACE") = CLUBFACE; definition: "by example"
+Score: 65
+
+--- MEDIUM #49 ---
+Source: times #28957
+Clue: Criminal not masked? I've no idea
+Answer: DONT ASK ME
+Definition: I've no idea
+Type: anagram
+Explanation: anagram of NOT + MASKED? = DONT ASK ME; definition: "I've no idea"
+Score: 65
+
+--- MEDIUM #50 ---
+Source: guardian #23791
+Clue: Hot news of state trial
+Answer: LATEST
+Definition: Hot
+Type: charade
+Explanation: LATE (synonym="news") + S (first_letter="state") + T (first_letter="trial") = LATEST; definition: "Hot"
+Score: 55
+
+--- MEDIUM #51 ---
+Source: guardian #24167
+Clue: Negotiate track up mountain, perhaps
+Answer: PUNCTUATIONMARK
+Definition: perhaps
+Type: anagram
+Explanation: anagram of TRACK + UP + MOUNTAIN, = PUNCTUATIONMARK; definition: "perhaps"
+Score: 65
+
+--- MEDIUM #52 ---
+Source: guardian #27133
+Clue: Like some drinks, talking with old therapist
+Answer: PHYSIO
+Definition: therapist
+Type: homophone
+Explanation: PHYSI – sounds like [talking] ‘fizzy’ [like some drinks] + O [old]
+Score: 55
+
+--- MEDIUM #53 ---
+Source: guardian #29330
+Clue: Black article scraped off back of sofa bed
+Answer: BOTTOM
+Definition: bed
+Type: charade
+Explanation: B (synonym="Black") + OTTOM (synonym="OTTOM") = BOTTOM; definition: "bed"
+Score: 55
+
+--- MEDIUM #54 ---
+Source: guardian #28783
+Clue: Note the fellow stripped for play
+Answer: OTHELLO
+Definition: play
+Type: deletion
+Explanation: OT (deletion) +  (deletion) + H (deletion) +  (deletion) + ELLO (deletion) +  (deletion) = OTHELLO; definition: "play"
+Score: 55
+
+--- MEDIUM #55 ---
+Source: telegraph #28759
+Clue: First sign of contentment, marital partner getting plump
+Answer: Chubby
+Definition: plump
+Type: charade
+Explanation: C (first_letter="contentment,") + HUBBY (synonym="partner") = CHUBBY; definition: "plump"
+Score: 55
+
+--- MEDIUM #56 ---
+Source: guardian #28486
+Clue: Child's hero follows papa as a minister
+Answer: PREACHER
+Definition: minister
+Type: charade
+Explanation: P (synonym="papa – phonetic alphabet") + REACHER (synonym="child’s hero, in the books by Lee Child") = PREACHER; definition: "minister"
+Score: 55
+
+--- MEDIUM #57 ---
+Source: guardian #29871
+Clue: Tin Church, Laragh’s source for scrap
+Answer: CANCEL
+Definition: scrap
+Type: charade
+Explanation: CAN (synonym="Tin") + CE (abbreviation="Church,") + L (first_letter="Laragh's") = CANCEL; definition: "scrap"
+Score: 55
+
+--- MEDIUM #58 ---
+Source: times #28473
+Clue: Our violent riots — threatening this?
+Answer: REVOLUTION
+Definition: this?
+Type: anagram
+Explanation: anagram of OUR + VIOLENT = REVOLUTION; definition: "this?"
+Score: 65
+
+--- MEDIUM #59 ---
+Source: times #28220
+Clue: Run and hide in tell-tale city
+Answer: CANTERBURY
+Definition: refers to Chaucer of course
+Type: charade
+Explanation: CANTER (synonym="run") + BURY (synonym="hide") = CANTERBURY; definition: "refers to Chaucer of course"
+Score: 65
+
+--- MEDIUM #60 ---
+Source: guardian #27397
+Clue: Pray with private for new recruit
+Answer: BEGINNER
+Definition: new recruit
+Type: charade
+Explanation: BEG (synonym="Pray") + INNER (synonym="private") = BEGINNER; definition: "new recruit"
+Score: 65
+
+--- MEDIUM #61 ---
+Source: guardian #26703
+Clue: Trail grew doubtful, however magnified
+Answer: WRITLARGE
+Definition: magnified
+Type: anagram
+Explanation: anagram of TRAIL + GREW = WRITLARGE; definition: "magnified"
+Score: 65
+
+--- MEDIUM #62 ---
+Source: times #5043
+Clue: Finish second best
+Answer: STOP
+Definition: Finish
+Type: charade
+Explanation: S (abbreviation="second") + TOP (synonym="best") = STOP; definition: "Finish"
+Score: 55
+
+--- MEDIUM #63 ---
+Source: telegraph #28431
+Clue: Report of location attracting wise people and tourists?
+Answer: Sightseers
+Definition: tourists?
+Type: charade
+Explanation: SIGHT (synonym="location") + SEERS (synonym="wise") = SIGHTSEERS; definition: "tourists?"
+Score: 65
+
+--- MEDIUM #64 ---
+Source: times #29198
+Clue: Small lady's grip drops hot buffet
+Answer: SANDBAG
+Definition: buffet
+Type: charade
+Explanation: S (synonym="small") + ANDBAG (synonym="lady’s grip") = SANDBAG; definition: "buffet"
+Score: 55
+
+--- MEDIUM #65 ---
+Source: guardian #28429
+Clue: Result of using tight controls on Middle Eastern leaders
+Answer: OUTCOME
+Definition: Result
+Type: charade
+Explanation: O (first_letter="of") + U (first_letter="using") + T (first_letter="tight") + C (first_letter="controls") + O (first_letter="on") + M (abbreviation="Middle") + E (abbreviation="Eastern") = OUTCOME; definition: "Result"
+Score: 55
+
+--- MEDIUM #66 ---
+Source: independent #11813
+Clue: Was fitting American with desire for wealth
+Answer: AGREED
+Definition: Was fitting
+Type: charade
+Explanation: A (synonym="American") + GREED (synonym="desire for wealth") = AGREED; definition: "Was fitting"
+Score: 55
+
+--- MEDIUM #67 ---
+Source: telegraph #31162
+Clue: Engineers drool over electronic suspension
+Answer: RESPITE
+Definition: suspension
+Type: charade
+Explanation: RE (abbreviation="Engineers") + SPIT (synonym="drool") + E (abbreviation="electronic") = RESPITE; definition: "suspension"
+Score: 55
+
+--- MEDIUM #68 ---
+Source: telegraph #28662
+Clue: Go away from Sweden and study intensively
+Answer: Scram
+Definition: Go away
+Type: charade
+Explanation: S (first_letter="Sweden") + CRAM (synonym="study") = SCRAM; definition: "Go away"
+Score: 55
+
+--- MEDIUM #69 ---
+Source: times #28591
+Clue: Fantastic comedy film subject inspiring poor over time
+Answer: BRILLIANT
+Definition: Fantastic
+Type: charade
+Explanation: BR (synonym="ILL") + ILL (synonym="ILL") + IAN (synonym="ILL") + T (synonym="T") = BRILLIANT; definition: "Fantastic"
+Score: 55
+
+--- MEDIUM #70 ---
+Source: guardian #28164
+Clue: Cut made by saw initially on wood
+Answer: STEAK
+Definition: Cut
+Type: charade
+Explanation: S (first_letter="saw") + TEAK (synonym="wood") = STEAK; definition: "Cut"
+Score: 55
+
+--- MEDIUM #71 ---
+Source: guardian #29004
+Clue: Part of play understood when listening
+Answer: SCENE
+Definition: Part of play
+Type: homophone
+Explanation: Sounds like (when listening) SEEN (understood) – there’s no issue with using ‘homophone’ here but, for the record, I’ve promised to refer to it as ‘aural wordplay’ (see the last few comments on Saturday’s Tramp blog
+Score: 55
+
+--- MEDIUM #72 ---
+Source: independent #11368
+Clue: Little animal in reality starts here?
+Answer: LAIR
+Definition: here?
+Type: charade
+Explanation: L (first_letter="Little") + A (first_letter="animal") + I (first_letter="in") + R (abbreviation="reality") = LAIR; definition: "here?"
+Score: 55
+
+--- MEDIUM #73 ---
+Source: guardian #25482
+Clue: Halfwit upset Argentine legend's life of luxury
+Answer: DOLCEVITA
+Definition: life of luxury
+Type: reversal
+Explanation: CLOD (reversal="halfwit") + EVITA (synonym="Argentine legend") = DOLCEVITA; definition: "life of luxury"
+Score: 65
+
+--- MEDIUM #74 ---
+Source: guardian #3677
+Clue: State one name connected with Roman goddess
+Answer: INDIANA
+Definition: State
+Type: charade
+Explanation: I (abbreviation="one") + N (abbreviation="name") + DIANA (synonym="goddess") = INDIANA; definition: "State"
+Score: 55
+
+--- MEDIUM #75 ---
+Source: guardian #26500
+Clue: Cricketer that's second out — Wayne, the night watchman?
+Answer: BATMAN
+Definition: Wayne, the night watchman?
+Type: deletion
+Explanation: BATMAN (deletion) = BATMAN; definition: "Wayne, the night watchman?"
+Score: 65
+
+--- MEDIUM #76 ---
+Source: telegraph #29202
+Clue: Danger of Queen covering one's King
+Answer: Risk
+Definition: Danger
+Type: charade
+Explanation: R (abbreviation="Queen") + IS (abbreviation="one's") + K (abbreviation="King") = RISK; definition: "Danger"
+Score: 55
+
+--- MEDIUM #77 ---
+Source: guardian #25060
+Clue: Hint — take out annuities
+Answer: INSINUATE
+Definition: Hint —
+Type: anagram
+Explanation: anagram of ANNUITIES = INSINUATE; definition: "Hint —"
+Score: 65
+
+--- MEDIUM #78 ---
+Source: telegraph #29622
+Clue: Unemployed Ian didn't like exertion initially
+Answer: Idle
+Definition: Unemployed
+Type: acrostic
+Explanation: first letters of "Ian didn't like exertion" = IDLE; definition: "Unemployed"
+Score: 55
+
+--- MEDIUM #79 ---
+Source: times #28192
+Clue: A kind of whiskey picked up is wrong
+Answer: AWRY
+Definition: wrong
+Type: homophone
+Explanation: A, then sounds like RYE(whiskey)
+Score: 55
+
+--- MEDIUM #80 ---
+Source: times #28303
+Clue: Top-class cook making trouble
+Answer: ADO
+Definition: trouble
+Type: charade
+Explanation: A (synonym="A") + DO (synonym="DO") = ADO; definition: "trouble"
+Score: 55
+
+--- MEDIUM #81 ---
+Source: telegraph #3360
+Clue: Sad bigmouth, not miserable sceptic
+Answer: DOUBTINGTHOMAS
+Definition: sceptic
+Type: anagram
+Explanation: anagram of SAD + BIGMOUTH, + NOT = DOUBTINGTHOMAS; definition: "sceptic"
+Score: 65
+
+--- MEDIUM #82 ---
+Source: guardian #26983
+Clue: Stroke, making murmuring sound
+Answer: COUP
+Definition: Stroke,
+Type: homophone
+Explanation: Sounds like coo [makes murmuring sound]
+Score: 55
+
+--- MEDIUM #83 ---
+Source: telegraph #28119
+Clue: Excellent child with love for form of martial art
+Answer: Aikido
+Definition: form of martial art
+Type: charade
+Explanation: AI (abbreviation="Excellent") + KID (synonym="child") + O (abbreviation="love") = AIKIDO; definition: "form of martial art"
+Score: 55
+
+--- MEDIUM #84 ---
+Source: independent #11503
+Clue: Funny couple of Americans visiting Germany
+Answer: AMUSING
+Definition: Funny
+Type: charade
+Explanation: AM (synonym="American") + US (synonym="of the United States; also American – hence Americans") + IN (synonym="IN") + G (synonym="Germany") = AMUSING; definition: "Funny"
+Score: 55
+
+--- MEDIUM #85 ---
+Source: times #29368
+Clue: Vessel floating right back
+Answer: RAFT
+Definition: Vessel floating
+Type: charade
+Explanation: R (abbreviation="right") + AFT (synonym="back") = RAFT; definition: "Vessel floating"
+Score: 55
+
+--- MEDIUM #86 ---
+Source: guardian #28969
+Clue: Born romantic: a hundred music scores all begun by one composer
+Answer: BRAHMS
+Definition: composer
+Type: acrostic
+Explanation: first letters of "Born romantic: a hundred music scores" = BRAHMS; definition: "composer"
+Score: 55
+
+--- MEDIUM #87 ---
+Source: guardian #26084
+Clue: Conclusions of inquiry the press judge ridiculous, as opposed to 4
+Answer: YESES
+Definition: as opposed to 4
+Type: acrostic
+Explanation: last letters of "inquiry the press judge ridiculous," = YESES; definition: "as opposed to 4"
+Score: 55
+
+--- MEDIUM #88 ---
+Source: telegraph #28310
+Clue: Excuse of a party, formerly independent
+Answer: Alibi
+Definition: Excuse
+Type: charade
+Explanation: A (abbreviation="a") + LIB (synonym="party,") + I (abbreviation="independent") = ALIBI; definition: "Excuse"
+Score: 55
+
+--- MEDIUM #89 ---
+Source: telegraph #28862
+Clue: Start to select apparatus for dramatic performance
+Answer: Skit
+Definition: dramatic performance
+Type: charade
+Explanation: S (first_letter="select") + KIT (synonym="apparatus") = SKIT; definition: "dramatic performance"
+Score: 55
+
+--- MEDIUM #90 ---
+Source: independent #11823
+Clue: Army branch beer say is US property
+Answer: REALESTATE
+Definition: property
+Type: charade
+Explanation: RE (abbreviation="Army") + ALE (abbreviation="beer") + STATE (synonym="say") = REALESTATE; definition: "property"
+Score: 65
+
+--- MEDIUM #91 ---
+Source: telegraph #28852
+Clue: People rejected unfashionable actors on first part of show
+Answer: Outcasts
+Definition: People rejected
+Type: charade
+Explanation: OUT (synonym="unfashionable") + CAST (synonym="actors") + S (abbreviation="show") = OUTCASTS; definition: "People rejected"
+Score: 55
+
+--- MEDIUM #92 ---
+Source: guardian #28284
+Clue: Antecedents, one more than Goldilocks had spoken of?
+Answer: FORBEARS
+Definition: Antecedents,
+Type: homophone
+Explanation: Sounds like (spoken of) ‘four bears’ – one more than Goldilocks had: I was sure there was a spelling mistake here (I should have known better) and was surprised to see that both Collins and Chambers give this as a variant spelling of ‘forebears’ – I would pronounce the two (or three, actually) differently, too
+Score: 55
+
+--- MEDIUM #93 ---
+Source: independent #11620
+Clue: English papers close to exclusive run down source
+Answer: EIDER
+Definition: down source
+Type: charade
+Explanation: E (abbreviation="English") + ID (abbreviation="papers") + E (first_letter="exclusive") + R (abbreviation="run") = EIDER; definition: "down source"
+Score: 55
+
+--- MEDIUM #94 ---
+Source: independent #1755
+Clue: Yes it's a sin
+Answer: AGREED
+Definition: Yes
+Type: charade
+Explanation: A (abbreviation="a") + GREED (synonym="sin") = AGREED; definition: "Yes"
+Score: 55
+
+--- MEDIUM #95 ---
+Source: times #28717
+Clue: Twisted-sounding cereal plant
+Answer: RYE
+Definition: cereal plant
+Type: homophone
+Explanation: sounds like ‘wry’
+Score: 55
+
+--- MEDIUM #96 ---
+Source: times #5108
+Clue: Civilized leader had bloody class
+Answer: CATEGORY
+Definition: class
+Type: charade
+Explanation: C (first_letter="Civilized") + ATE (abbreviation="had") + GORY (synonym="bloody") = CATEGORY; definition: "class"
+Score: 55
+
+--- MEDIUM #97 ---
+Source: telegraph-toughie #2842
+Clue: Experimental patch used to cover eye in speech
+Answer: Pilot
+Definition: Experimental
+Type: homophone
+Explanation: A patch of land to ‘cover’ a homophone (in speech) of eye
+Score: 55
+
+--- MEDIUM #98 ---
+Source: times #28339
+Clue: Study party rules to begin with, being a high-flyer
+Answer: CONDOR
+Definition: high-flyer
+Type: charade
+Explanation: CON (abbreviation="Study") + DO (abbreviation="party") + R (abbreviation="rules") = CONDOR; definition: "high-flyer"
+Score: 55
+
+--- MEDIUM #99 ---
+Source: times #28311
+Clue: Odd numbers? Essentially the first of all
+Answer: ONE
+Definition: all
+Type: charade
+Explanation: O (first_letter="Odd") + N (abbreviation="numbers?") + E (first_letter="Essentially") = ONE; definition: "all"
+Score: 55
+
+--- MEDIUM #100 ---
+Source: guardian #29279
+Clue: A clock that sounds the hour; a wild idea
+Answer: CHIMERA
+Definition: wild idea
+Type: charade
+Explanation: CHIMER (synonym="A clock that sounds the hour") + A (synonym="from the surface") = CHIMERA; definition: "wild idea"
+Score: 55

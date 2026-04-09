@@ -1,0 +1,580 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31207
+Generated: 2026-04-07 05:20:15
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        29/32 (90%)
+    Signature:      2
+    Sig+Enriched:   14
+    Sonnet:         5
+    DB Fallback:    2
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   26  11D, 10A, 20D, 12A, 13A, 16A, 17D, 21A, 21D, 22D, 25A, 27A, 30A, 7D, 8D, 9A, 18D, 26D, 1A, 1D, 14A, 15D, 19A, 2D, 29A, 3D
+  Medium (40-79): 2  23D, 24A
+  Low (<40):    1  4D
+  Failed:       3  28A, 5A, 6D
+  Average:      92/100
+
+COST: $1.0765 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (28 entries)
+------------------------------------------------------------
+  IDLE: "not working" -> IDLE  (missing from definition_answers_augmented)
+  MISSES: "Avoids" -> MISSES  (missing from definition_answers_augmented)
+  STIR: "Prison" -> STIR  (missing from definition_answers_augmented)
+  NURSEMAID: "nanny" -> NURSEMAID  (missing from definition_answers_augmented)
+  CHOSE: "selected" -> CHOSE  (missing from definition_answers_augmented)
+  EXPRESS: "train" -> EXPRESS  (missing from definition_answers_augmented)
+  GESTURES: "signals" -> GESTURES  (missing from definition_answers_augmented)
+  REARED: "Raised" -> REARED  (missing from definition_answers_augmented)
+  DISCOVER: "Find" -> DISCOVER  (missing from definition_answers_augmented)
+  EMPHASIS: "weight" -> EMPHASIS  (missing from definition_answers_augmented)
+  ACCURATE: "Exact" -> ACCURATE  (missing from definition_answers_augmented)
+  DRILL: "boring" -> DRILL  (missing from definition_answers_augmented)
+  on and off: "periodically" -> on and off  (missing from definition_answers_augmented)
+  OCEANS: "waters" -> OCEANS  (missing from definition_answers_augmented)
+  IMPATIENT: "is aching" -> IMPATIENT  (missing from definition_answers_augmented)
+  TAUNT: "Guy's" -> TAUNT  (missing from definition_answers_augmented)
+  ARTICLES: "newspaper pieces" -> ARTICLES  (missing from definition_answers_augmented)
+  DRAKE: "duck!" -> DRAKE  (missing from definition_answers_augmented)
+  SPADES: "suit" -> SPADES  (missing from definition_answers_augmented)
+  PRINCIPAL: "Most important" -> PRINCIPAL  (missing from definition_answers_augmented)
+  ACCURATE: member of the clergy -> CURATE  (missing from synonyms_pairs)
+  on and off: this, -> OFF  (missing from abbreviations)
+  OCEANS: vessels -> CANS  (missing from synonyms_pairs)
+  IMPATIENT: person requiring medical care -> PATIENT  (missing from synonyms_pairs)
+  CEASED: recording -> CD  (missing from abbreviations)
+  DRAKE: garden tool - -> RAKE  (missing from synonyms_pairs)
+  FRIGATE: large -> FAT  (missing from abbreviations)
+  FRIGATE: masts, sails, etc -> RIG  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  CEASED = 23 (52/100): AI=anagram, assembled=container
+  FRIGATE = 4 (30/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  28. Anthea potentially has three of these newspaper pieces = ARTICLES
+  5. Sunglasses husband exchanged for shop's last suit = SPADES
+  6. Most important rule we're told = PRINCIPAL
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  10/32  14A, 19A, 25A, 29A, 30A, 2D, 8D, 21D, 21D, 22D
+  Type mismatch:         2  4D, 23D
+  DB gap:                21  5A, 9A, 10A, 12A, 13A, 16A, 24A, 27A, 28A, 1D, 3D, 4D, 6D, 7D, 11D, 15D, 17D, 18D, 20D, 23D, 26D
+  Failed:                3  5A, 28A, 6D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11D  IDLE          Somewhat timid leader's not working (4)
+                      hidden in "timID LEader's" [hidden: "Somewhat"]; definition: "not working"  [HIGH]
+   10A  MISSES        Avoids girls (6)
+                      MISSES (synonym of "girls"); definition: "Avoids"  [HIGH]
+   20D  STIR          Prison commotion (4)
+                      STIR (synonym of "commotion"); definition: "Prison"  [HIGH]
+   12A  NURSEMAID     Sister angry about current nanny (9)
+                      NURSE (synonym of "Sister") + MAD (synonym of "angry") + I (abbreviation of "current"); definition: "nanny"  [HIGH]
+   13A  CHOSE         Conservative underwear is selected (5)
+                      C (synonym of "Conservative") + HOSE (synonym of "underwear"); definition: "selected"  [HIGH]
+   16A  EXPRESS       Old, smooth type of train (7)
+                      EX (synonym of "Old,") + PRESS (synonym of "smooth"); definition: "train"  [HIGH]
+   17D  GESTURES      Doctor greets us making signals (8)
+                      anagram of GREETSUS ("greets us") [anagram: "Doctor"] = GESTURES; definition: "signals"  [HIGH]
+   21A  COLT          Inexperienced youth left in bed (4)
+                      ---  [HIGH]
+   21D  CAMERAS       Brownies perhaps arrived – treats regularly disposed of (7)
+                      ---  [HIGH]
+   22D  TABLET        Battle wound? This might take away the pain (6)
+                      ---  [HIGH]
+   25A  IMMEDIATE     Swift intervention misinterpreted initially by referee (9)
+                      ---  [HIGH]
+   27A  REARED        Raised concerning answer with socialist (6)
+                      RE (synonym of "concerning") + A (synonym of "answer") + RED (synonym of "socialist"); definition: "Raised"  [HIGH]
+   30A  ISOLATED      Unique to ladies, strangely (8)
+                      ---  [HIGH]
+    7D  DISCOVER      Find out record with six balls? (8)
+                      DISC (synonym of "record") + OVER (synonym of "six balls?"); definition: "Find"  [HIGH]
+    8D  SUSPENSE      Feeling surrounding American pressure? Apprehension (8)
+                      ---  [HIGH]
+    9A  EMPHASIS      Same hips, different weight (8)
+                      anagram of SAMEHIPS ("Same hips,") [anagram: "different"] = EMPHASIS; definition: "weight"  [HIGH]
+   18D  ACCURATE      Exact chapter covered by a member of the clergy (8)
+                      A (abbreviation of "a") + C (synonym of "chapter") + CURATE (synonym of "member of the clergy"); definition: "Exact"  [HIGH]
+   26D  DRILL         Day on river, under the weather – this could be boring (5)
+                      D (synonym of "Day") + R (synonym of "river,") + ILL (synonym of "under the weather"); definition: "boring"  [HIGH]
+    1A  on and off    Donna could be this, periodically (2,3,3)
+                      anagram of DONNA ("Donna") + OFF (synonym of "this,") = ONANDOFF; definition: "periodically"  [HIGH]
+    1D  OCEANS        Old vessels crossing eastern waters (6)
+                      O (synonym of "Old") + CANS (synonym of "vessels") + E (synonym of "eastern"); definition: "waters"  [HIGH]
+   14A  PINE          Long leg he ignored at first (4)
+                      PIN(synonym of "leg") + E(deletion from "he")  [HIGH]
+   15D  IMPATIENT     One masculine person requiring medical care is aching (9)
+                      I (synonym of "One") + M (abbreviation of "masculine") + PATIENT (synonym of "person requiring medical care"); definition: "is aching"  [HIGH]
+   19A  ESCAPES       Gets free pies with 50 per cent off wraps (7)
+                      ES(deletion from "pies") + C(first letter of "cent") + APE(synonym of "off") + S(last letter of "wraps")  [HIGH]
+    2D  ASPIRE        Hope adult is on top of steeple (6)
+                      A(abbr. "adult") + SPIRE("top of steeple")  [HIGH]
+   23D  CEASED        Stopped recording, possibly, keeping calm (6)
+                      EASE(synonym of "calm") inside CD(abbr. "recording")  [MED]
+   24A  TAUNT         Guy's tango with female relative (5)
+                      T(abbr. "tango") + AUNT(synonym of "female relative")  [MED]
+   28A  ARTICLES      Anthea potentially has three of these newspaper pieces (8)
+                      ---  [FAIL]
+   29A  SCENTS        Essentially remonstrate about hospital department's smells (6)
+                      S(last letter of "department's") + C(abbr. "about") + ENTS(synonym of "hospital")  [HIGH]
+    3D  DRAKE         Finally lobbed garden tool – duck! (5)
+                      D (last letter of "lobbed") + RAKE (synonym of "garden tool -") [last letter: "Finally"]; definition: "duck!"  [HIGH]
+    4D  FRIGATE       Formation of masts, sails, etc, in large European ship (7)
+                      RIG(synonym of "masts, sails, etc") inside FAT(synonym of "large") + E(abbr. "European")  [LOW]
+    5A  SPADES        Sunglasses husband exchanged for shop's last suit (6)
+                      ---  [FAIL]
+    6D  PRINCIPAL     Most important rule we're told (9)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] IDLE  11D. Somewhat timid leader's not working
+  Answer: IDLE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "not working"
+  Wordplay: hidden
+  Explanation: hidden in "timID LEader's" [hidden: "Somewhat"]; definition: "not working"
+  ----------------------------------------------------------------------
+
+  [HIGH] MISSES  10A. Avoids girls
+  Answer: MISSES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Avoids"
+  Wordplay: charade
+  Explanation: MISSES (synonym of "girls"); definition: "Avoids"
+  ----------------------------------------------------------------------
+
+  [HIGH] STIR  20D. Prison commotion
+  Answer: STIR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Prison"
+  Wordplay: charade
+  Explanation: STIR (synonym of "commotion"); definition: "Prison"
+  ----------------------------------------------------------------------
+
+  [HIGH] NURSEMAID  12A. Sister angry about current nanny
+  Answer: NURSEMAID
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "nanny"
+  Wordplay: charade
+  Explanation: NURSE (synonym of "Sister") + MAD (synonym of "angry") + I (abbreviation of "current"); definition: "nanny"
+  ----------------------------------------------------------------------
+
+  [HIGH] CHOSE  13A. Conservative underwear is selected
+  Answer: CHOSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "selected"
+  Wordplay: charade
+  Explanation: C (synonym of "Conservative") + HOSE (synonym of "underwear"); definition: "selected"
+  ----------------------------------------------------------------------
+
+  [HIGH] EXPRESS  16A. Old, smooth type of train
+  Answer: EXPRESS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "train"
+  Wordplay: charade
+  Explanation: EX (synonym of "Old,") + PRESS (synonym of "smooth"); definition: "train"
+  ----------------------------------------------------------------------
+
+  [HIGH] GESTURES  17D. Doctor greets us making signals
+  Answer: GESTURES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "signals"
+  Wordplay: anagram
+  Explanation: anagram of GREETSUS ("greets us") [anagram: "Doctor"] = GESTURES; definition: "signals"
+  ----------------------------------------------------------------------
+
+  [HIGH] COLT  21A. Inexperienced youth left in bed
+  Answer: COLT
+  Tier: --- | Confidence: 100/100
+  Human explanation: COT (abbreviation="bed") + L (synonym="youth") = COLT
+  ----------------------------------------------------------------------
+
+  [HIGH] CAMERAS  21D. Brownies perhaps arrived – treats regularly disposed of
+  Answer: CAMERAS
+  Tier: --- | Confidence: 100/100
+  Human explanation: CAME (synonym="arrived") + RAS (even letters of "treats") = CAMERAS; definition: "Brownies"
+  ----------------------------------------------------------------------
+
+  [HIGH] TABLET  22D. Battle wound? This might take away the pain
+  Answer: TABLET
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of BATTLE = TABLET
+  ----------------------------------------------------------------------
+
+  [HIGH] IMMEDIATE  25A. Swift intervention misinterpreted initially by referee
+  Answer: IMMEDIATE
+  Tier: --- | Confidence: 100/100
+  Human explanation: I (first_letter="intervention") + M (first_letter="misinterpreted") + MEDIATE (synonym="referee") = IMMEDIATE; definition: "Swift"
+  ----------------------------------------------------------------------
+
+  [HIGH] REARED  27A. Raised concerning answer with socialist
+  Answer: REARED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Raised"
+  Wordplay: charade
+  Explanation: RE (synonym of "concerning") + A (synonym of "answer") + RED (synonym of "socialist"); definition: "Raised"
+  ----------------------------------------------------------------------
+
+  [HIGH] ISOLATED  30A. Unique to ladies, strangely
+  Answer: ISOLATED
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of TO + LADIES, = ISOLATED
+  ----------------------------------------------------------------------
+
+  [HIGH] DISCOVER  7D. Find out record with six balls?
+  Answer: DISCOVER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Find"
+  Wordplay: charade
+  Explanation: DISC (synonym of "record") + OVER (synonym of "six balls?"); definition: "Find"
+  ----------------------------------------------------------------------
+
+  [HIGH] SUSPENSE  8D. Feeling surrounding American pressure? Apprehension
+  Answer: SUSPENSE
+  Tier: --- | Confidence: 100/100
+  Human explanation: SENSE (synonym="Feeling") + US (abbreviation="American") + P (abbreviation="pressure?") = SUSPENSE; definition: "Apprehension"
+  ----------------------------------------------------------------------
+
+  [HIGH] EMPHASIS  9A. Same hips, different weight
+  Answer: EMPHASIS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "weight"
+  Wordplay: anagram
+  Explanation: anagram of SAMEHIPS ("Same hips,") [anagram: "different"] = EMPHASIS; definition: "weight"
+  ----------------------------------------------------------------------
+
+  [HIGH] ACCURATE  18D. Exact chapter covered by a member of the clergy
+  Answer: ACCURATE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Exact"
+  Wordplay: charade
+  Explanation: A (abbreviation of "a") + C (synonym of "chapter") + CURATE (synonym of "member of the clergy"); definition: "Exact"
+  ----------------------------------------------------------------------
+
+  [HIGH] DRILL  26D. Day on river, under the weather – this could be boring
+  Answer: DRILL
+  Tier: Signature | Confidence: 100/100
+  Definition: "boring"
+  Wordplay: charade
+  Explanation: D (synonym of "Day") + R (synonym of "river,") + ILL (synonym of "under the weather"); definition: "boring"
+  ----------------------------------------------------------------------
+
+  [HIGH] on and off  1A. Donna could be this, periodically
+  Answer: on and off
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "periodically"
+  Wordplay: anagram + charade
+  Explanation: anagram of DONNA ("Donna") + OFF (synonym of "this,") = ONANDOFF; definition: "periodically"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] OCEANS  1D. Old vessels crossing eastern waters
+  Answer: OCEANS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "waters"
+  Wordplay: charade
+  Explanation: O (synonym of "Old") + CANS (synonym of "vessels") + E (synonym of "eastern"); definition: "waters"
+  ----------------------------------------------------------------------
+
+  [HIGH] PINE  14A. Long leg he ignored at first
+  Answer: PINE
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "Long"
+  Wordplay type: charade
+  Components:
+    synonym            leg                       -> PIN
+    deletion           he                        -> E
+    indicator          ignored                   -> 
+    indicator          at first                  -> 
+  Assembly: charade — PIN(synonym of "leg") + E(deletion from "he")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      long: syn=PINE*,AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EONS; abbr=PINE*
+      leg: syn=PIN*,GO,ON,CAN,DIE,END,FLY,GET,LAP,LUG,MAR,PAD,PRY,RUN,TOW; abbr=ON
+      he: syn=NAG,TOM,BIRO,DOER,TEAC
+      ignored: syn=CUT,END,IDLE,VOID; ind=deletion?
+      at: syn=IN*,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+    Definitions:
+      "Long" -> PINE (definition match)
+  AI Reasoning:
+    leg gives PIN, he with first letter deleted gives E, charade PIN+E=PINE
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPATIENT  15D. One masculine person requiring medical care is aching
+  Answer: IMPATIENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "is aching"
+  Wordplay: charade
+  Explanation: I (synonym of "One") + M (abbreviation of "masculine") + PATIENT (synonym of "person requiring medical care"); definition: "is aching"
+  ----------------------------------------------------------------------
+
+  [HIGH] ESCAPES  19A. Gets free pies with 50 per cent off wraps
+  Answer: ESCAPES
+  Tier: DB Fallback | Confidence: 88/100
+  Definition: "Gets free"
+  Wordplay type: charade
+  Components:
+    first_letter       cent                      -> C
+    deletion           pies                      -> ES
+    last_letter        wraps                     -> S
+    synonym            off                       -> APE
+  Assembly: charade — ES(deletion from "pies") + C(first letter of "cent") + APE(synonym of "off") + S(last letter of "wraps")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      gets: syn=ESCAPE*,BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS; abbr=G,GE
+      free: syn=OFF,RID,ROW,RUN,BALD,BARE,BODY,BOHO,BOLD,DEAD,FAIR,FRAY,HECK,HELL,IDLE; abbr=RID; ind=anagram
+      pies: syn=FOOD,LIT,WET,DISH,HIGH,MEAL,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,BLOTTO; sounds=pi
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      50: abbr=L
+      per: syn=BY,IN,ALL,VIA,EACH,WITH,APIECE,THROUGH; sounds=purr
+      cent: syn=COIN,MONEY,CHANGE,FISCAL,POCKET; abbr=C*; sounds=scent,sent
+      off: syn=APE*,ON,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      wraps: syn=CAPE*,POD,COPE,HOOD,HULL,HUSK,LAPS,MASK,PALL,PENS,ROBE,VEIL,ARMOR,CAGES,CLOAK; ind=container?; sounds=rap
+      gets free: syn=ESCAPES*,DUCKS,FLEES,LEAKS,AVOIDS
+    Definitions:
+      "Gets free" -> ESCAPES (definition match)
+  AI Reasoning:
+    ES wraps anagram of PIES+C (=CAPS) to form ESCAPES
+  ----------------------------------------------------------------------
+
+  [HIGH] ASPIRE  2D. Hope adult is on top of steeple
+  Answer: ASPIRE
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Hope"
+  Wordplay type: charade
+  Components:
+    abbreviation       adult                     -> A
+    indicator          is on                     -> 
+    literal            top of steeple            -> SPIRE
+  Assembly: charade — A(abbr. "adult") + SPIRE("top of steeple")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hope: syn=ASPIRE*,GO,AIM,BIN,BOX,END,TRY,BINS,CASE,COLD,GOAL,IDEA,LONG,LOOK,MARK
+      adult: syn=A,BLUE,FULL,RIPE,ALGAE,GROWN,IMAGO,MATURE,RISQUE; abbr=A*
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      on: syn=AS*,RE*,OF,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE*,S*
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T,UP; ind=acrostic,deletion,parts
+      steeple: syn=TOWER
+    Definitions:
+      "Hope" -> ASPIRE (definition match)
+  AI Reasoning:
+    Adult (A) combined with top of steeple (SPIRE - literally the spire is the top part of a steeple) makes ASPIRE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CEASED  23D. Stopped recording, possibly, keeping calm
+  Answer: CEASED
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "Stopped"
+  Wordplay type: anagram
+  Components:
+    abbreviation       recording                 -> CD
+    indicator          possibly                  -> 
+    synonym            calm                      -> EASE
+  Assembly: container — EASE(synonym of "calm") inside CD(abbr. "recording")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stopped: syn=CEASED*,ATE,BIT,DUG,GOT,RAN,SAW,BEAT,CAME,DIED,FELL,GREW,ICED,KNEW,LEFT
+      recording: syn=DEMO,TAPE,TRACK,VIDEO,FILING,NOTING,TAPING
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY; ind=anagram
+      keeping: syn=ARM,HOW,WAY,CARE,CAST,FORM,GAIN,GRIP,HAND,HOLD,NICK,RITE,SWAY,TACK,TRIM; ind=container
+      calm: syn=EASE*,CAL,ANTI,COOL,EASY,EVEN,FLAT,LOWN,LULL,ALLAY,EQUAL,LEVEL,ORDER,PEACE,QUELL
+    Definitions:
+      "Stopped" -> CEASED (definition match)
+  AI Reasoning:
+    CD (recording) + EASE (calm) = CDEASE, which anagrams (possibly) to CEASED
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TAUNT  24A. Guy's tango with female relative
+  Answer: TAUNT
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "Guy's"
+  Wordplay type: charade
+  Components:
+    abbreviation       tango                     -> T
+    indicator          with                      -> 
+    synonym            female relative           -> AUNT
+  Assembly: charade — T(abbr. "tango") + AUNT(synonym of "female relative")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      guy's: syn=BOD,BOY,BUD,CAT,CUB,EGG,JOE,KID,LAD,MAN,RIB,SON,BABY,BEAU,BIRD
+      tango: syn=T,BOP,JIG,POP,JIVE,SHAG,STEP,TAKE,TRIP,DANCE,DRINK,MAMBO,POLKA,STEPS,STRUT; abbr=T*
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      female: syn=AUNT*,F,DI,DOE,ESS,EWE,GAL,HEN,SEX,SHE,UNA,ALMA,DAME,DOPE,EMMA; abbr=F,FE,SHE
+      relative: syn=AUNT*,A,MA,BRO,DAD,KIN,MUM,NAN,SIB,SIS,SON,GRAN,NEAR,WIFE,AUNTY
+  AI Reasoning:
+    Charade of T (tango abbreviation) plus AUNT (female relative) to spell TAUNT, meaning to guy/mock
+  ----------------------------------------------------------------------
+
+  [FAILED] ARTICLES  28A. Anthea potentially has three of these newspaper pieces
+  Answer: ARTICLES
+  Tier: --- | Confidence: 0/100
+  Definition: "newspaper pieces"
+  Wordplay type: hidden
+  Components:
+    hidden             Anthea potentially has three of these newspaper pieces -> ARTICLES
+  DB Lookups:
+    DB lookups:
+      potentially: ind=anagram
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      three: syn=HELL,NEAR,SUIT,TRIO,BABEL,PRIME,THERE,AUTUMN,BEDLAM,CIRCUS,FIGURE,LIVING,NUMBER,NATURAL,TRINITY; abbr=III
+      these: syn=ANTS,NEAR,ODES,TWOS,FELLS,ROOTS,TOGAS,CLOSER,GNOMES,HITHER,NIGHER,ARREARS,DIETERS,DRAWERS,INCOMES
+      newspaper: syn=FT,MAG,RAG,RED,SUN,BOOK,ZINE,DAILY,ORGAN,PAPER,TIMES,ANNUAL,HERALD,REVIEW,SERIAL
+      pieces: syn=ARTICLES*,ARTICLE*,MEN,BITS,PART,PARTS,SUITE,OPUSES,KNIGHTS,SAMPLES,ELEMENTS,EXAMPLES,SEGMENTS,SNIPPETS,22; ind=anagram,hidden; sounds=peace
+    Definitions:
+      "pieces" -> ARTICLES (definition match)
+  AI Reasoning:
+    Letters of ARTICLES are scattered throughout the clue and must be collected as 'pieces'
+  ----------------------------------------------------------------------
+
+  [HIGH] SCENTS  29A. Essentially remonstrate about hospital department's smells
+  Answer: SCENTS
+  Tier: DB Fallback | Confidence: 95/100
+  Definition: "smells"
+  Wordplay type: charade
+  Components:
+    synonym            hospital                  -> ENTS
+    last_letter        department's              -> S
+    abbreviation       about                     -> C
+  Assembly: charade — S(last letter of "department's") + C(abbr. "about") + ENTS(synonym of "hospital")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      essentially: syn=SE,DIETER; ind=deletion,parts
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      hospital: syn=ENTS*,H,SAN,HOME,MASH?,NICHE,CENTER,CLINIC; abbr=H
+      department's: syn=ARM,LAY,AREA,DESK,FIEF,GAME,LINE,OF A,UNIT,WALK,AREAS,ARENA,FIELD,FRONT,REALM; abbr=D
+      smells: syn=SCENTS*,SCENT*,ACES,BITS,DABS,NIPS,RAYS,ATOMS,DRAMS,HINTS,LICKS,MITES,MOTES,NIFFS,NOSES; abbr=BO
+      hospital department's: syn=ENT*
+    Definitions:
+      "smells" -> SCENTS (definition match)
+  AI Reasoning:
+    Core letters from REMONSTRATE plus ENT are anagrammed to form SCENTS
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAKE  3D. Finally lobbed garden tool – duck!
+  Answer: DRAKE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "duck!"
+  Wordplay: charade + parts
+  Explanation: D (last letter of "lobbed") + RAKE (synonym of "garden tool -") [last letter: "Finally"]; definition: "duck!"
+  ----------------------------------------------------------------------
+
+  [LOW] FRIGATE  4D. Formation of masts, sails, etc, in large European ship
+  Answer: FRIGATE
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "ship"
+  Wordplay type: anagram
+  Components:
+    indicator          Formation                 -> 
+    synonym            large                     -> FAT
+    synonym            masts, sails, etc         -> RIG
+    abbreviation       European                  -> E
+  Assembly: container — RIG(synonym of "masts, sails, etc") inside FAT(synonym of "large") + E(abbr. "European")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      formation: ind=anagram?
+      masts: syn=NUTS; sounds=massed
+      sails: syn=GOES,ROAD,SAGS,BOATS,BOWLS,FALLS,FLOWS,LURKS,MOLTS,ROLLS,SHEDS,SKIMS,SLIPS,TRIPS,WINDS; sounds=sale
+      etc: syn=DECOR,GRILL,LINEN,ANDSOON,STRINGS
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L,OS
+      european: syn=E,P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?; abbr=E*
+      ship: syn=FRIGATE*,S,SS,AIR,ARK,MAN,TUB,ARGO,BOAT,KEEL,NESS,SAME,SEND,TOSS,CRAFT; abbr=S,SS
+    Definitions:
+      "ship" -> FRIGATE (definition match)
+  AI Reasoning:
+    Anagram of FAT (large) + RIG (ship's rigging/masts and sails) + E (European) = FRIGATE
+  ----------------------------------------------------------------------
+
+  [FAILED] SPADES  5A. Sunglasses husband exchanged for shop's last suit
+  Answer: SPADES
+  Tier: --- | Confidence: 0/100
+  Definition: "suit"
+  Wordplay type: substitution
+  Components:
+    synonym            Sunglasses                -> SHADES
+    abbreviation       husband                   -> H
+    indicator          exchanged                 -> 
+    indicator          for                       -> 
+    last_letter        shop's                    -> P
+    indicator          last                      -> 
+  DB Lookups:
+    DB lookups:
+      sunglasses: syn=LENS,GLASS,SPECS,DAZZLE,SHADES
+      husband: syn=H,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,OLD,BABY,BEAU,BIRD,BODY,BUCK; abbr=H
+      exchanged: syn=DAY,REDID,RECAST,REMADE,TRADED; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      shop's: syn=BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,STORE,BETRAY,BODEGA,OUTLET,TELLON
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      suit: syn=SPADES*,DO,GO,BED,FIT,PUT,RIG,WAY,BEND,BILL,CASE,CLUB,EASY,EDIT,FILL; abbr=FIT
+    Definitions:
+      "suit" -> SPADES (definition match)
+  AI Reasoning:
+    Take SHADES (sunglasses), exchange H (husband) for P (shop's last letter) to get SPADES
+  ----------------------------------------------------------------------
+
+  [FAILED] PRINCIPAL  6D. Most important rule we're told
+  Answer: PRINCIPAL
+  Tier: --- | Confidence: 0/100
+  Definition: "Most important"
+  Wordplay type: homophone
+  Components:
+    sound_of           rule we're                -> PRINCIPAL
+    indicator          told                      -> 
+  DB Lookups:
+    DB lookups:
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      important: syn=KE,BIG,KEY,HIGH,KEYS,MAIN,SMUG,THAN,VAIN,BASIC,GREAT,HEAVY,LARGE,LOFTY,MAJOR
+      rule: syn=BAN,BAR,KIN,LAW,REG,BOSS,CLAN,CURB,HOLD,KEEP,NORM,PULL,RACE,ROLE,SWAY; abbr=LAW,R*
+      told: syn=PUT,SAID,SPOKE,PASSED,STATED,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,ORDERED,PHRASED,RECITED,RELATED,INFORMED; ind=homophone; sounds=tolled
+      most important: syn=PRINCIPAL*,KEY,TOP,ARCH,AXES,AXIS,BEST,BODY,LAST,MAIN
+    Definitions:
+      "Most important" -> PRINCIPAL (definition match)
+  AI Reasoning:
+    The phrase 'rule we're' when spoken aloud sounds like PRINCIPAL, with 'told' as the homophone indicator
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

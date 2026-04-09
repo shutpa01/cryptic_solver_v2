@@ -1,0 +1,1577 @@
+{"word": "suggest", "letters": "TABLE", "count": 2, "type": "residual", "source": "answer=TABLEAU, confirmed=[gold->AU]"}
+{"word": "study", "letters": "NED", "count": 2, "type": "residual", "source": "answer=NEED, confirmed=[European->E]"}
+{"word": "better person", "letters": "PUNTER", "count": 2, "type": "definition", "source": "def->answer"}
+{"word": "cambridgeshire", "letters": "ELY", "count": 2, "type": "residual", "source": "answer=EAGERLY, confirmed=[a->A, German->GER]"}
+{"word": "more", "letters": "ER", "count": 2, "type": "residual", "source": "answer=NUMBER, confirmed=[shock?->NUMB]"}
+{"word": "reason", "letters": "S", "count": 2, "type": "residual", "source": "answer=USES, confirmed=[no->USE]"}
+{"word": "cuts", "letters": "EXCISES", "count": 2, "type": "definition", "source": "def->answer"}
+{"word": "chasing", "letters": "S", "count": 2, "type": "residual", "source": "answer=ABSTAINS, confirmed=[Mark's->STAIN, sailor->AB]"}
+{"word": "bugs", "letters": "BADGERS", "count": 2, "type": "definition", "source": "def->answer"}
+{"word": "burrowing beasts", "letters": "BADGERS", "count": 2, "type": "definition", "source": "def->answer"}
+{"word": "edward", "letters": "DE", "count": 2, "type": "residual", "source": "answer=DESERVE, confirmed=[tennis->SERVE]"}
+{"word": "perhaps", "letters": "ELEMENT", "count": 2, "type": "definition", "source": "def->answer"}
+{"word": "tasty", "letters": "HO", "count": 1, "type": "residual", "source": "answer=CHOICEST, confirmed=[desserts->ICES, cold->C, at->CHOICE, the->T]"}
+{"word": "chasing", "letters": "IN", "count": 1, "type": "residual", "source": "answer=SIGNORINA, confirmed=[Men->OR, area->A, token->SIGN]"}
+{"word": "he directed", "letters": "ROPE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "thriller he directed", "letters": "ROPE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "economical", "letters": "EL", "count": 1, "type": "residual", "source": "answer=DIESEL, confirmed=[Gives->DIES, out->DIE, on->S]"}
+{"word": "observe", "letters": "NB", "count": 1, "type": "residual", "source": "answer=NEARBY, confirmed=[Yankee->Y, attention->EAR]"}
+{"word": "arrested", "letters": "I", "count": 1, "type": "residual", "source": "answer=BANDITRY, confirmed=[Musicians->BAND, attempt->TRY, have->A, one->AN]"}
+{"word": "public", "letters": "HALL", "count": 1, "type": "residual", "source": "answer=HALLOWED, confirmed=[due->OWED, be->OWE]"}
+{"word": "compulsion", "letters": "TIED", "count": 1, "type": "residual", "source": "answer=TIEDYE, confirmed=[you->YE]"}
+{"word": "behold", "letters": "ECCE", "count": 1, "type": "residual", "source": "answer=RECCE, confirmed=[run,->R]"}
+{"word": "attached", "letters": "F", "count": 1, "type": "residual", "source": "answer=BENEFIT, confirmed=[live->BE, computer->IT, image->E, name->N]"}
+{"word": "monastery", "letters": "WAGONS", "count": 1, "type": "residual", "source": "answer=WAGONSLIT, confirmed=[in->LIT]"}
+{"word": "scorching", "letters": "C", "count": 1, "type": "residual", "source": "answer=CHARD, confirmed=[in->HARD, one's->HARD]"}
+{"word": "mummy", "letters": "MA", "count": 1, "type": "residual", "source": "answer=MAGENTA, confirmed=[Fellow->GENT, a->A]"}
+{"word": "compasses", "letters": "TAR", "count": 1, "type": "residual", "source": "answer=TSAR, confirmed=[Sons->S]"}
+{"word": "rich", "letters": "G", "count": 1, "type": "residual", "source": "answer=GLITTERATI, confirmed=[Refuse->LITTER, get->IT, in->LIT, by->AT, current->I, flap->A]"}
+{"word": "informant", "letters": "TAR", "count": 1, "type": "residual", "source": "answer=TSAR, confirmed=[son->S]"}
+{"word": "property", "letters": "LE", "count": 1, "type": "residual", "source": "answer=SCARLET, confirmed=[Mark->SCAR, in->T]"}
+{"word": "musical", "letters": "RO", "count": 1, "type": "residual", "source": "answer=RONDO, confirmed=[Capital's->N, run->DO]"}
+{"word": "licence", "letters": "SANCTION", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "cycle", "letters": "R", "count": 1, "type": "residual", "source": "answer=KRONE, confirmed=[single->ONE, kilometre,->K, right?->ON]"}
+{"word": "found", "letters": "ER", "count": 1, "type": "residual", "source": "answer=ERA, confirmed=[can->A]"}
+{"word": "decode", "letters": "SOLVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "rapid", "letters": "FL", "count": 1, "type": "residual", "source": "answer=FLYPAST, confirmed=[year's->Y, pilot->FLY, start->PAST, in->T]"}
+{"word": "philistine's", "letters": "IM", "count": 1, "type": "residual", "source": "answer=IMPACT, confirmed=[agreement->PACT]"}
+{"word": "one stocks wicked", "letters": "CHANDLERY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "style of bing", "letters": "CHANDLERY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "items", "letters": "Y", "count": 1, "type": "residual", "source": "answer=CHANDLERY, confirmed=[Bing?->CHANDLER]"}
+{"word": "years", "letters": "EAR", "count": 1, "type": "residual", "source": "answer=SWEAR, confirmed=[second->S, wife->W]"}
+{"word": "maid", "letters": "SUSAN", "count": 1, "type": "residual", "source": "answer=LAZYSUSAN, confirmed=[Indolent->LAZY]"}
+{"word": "lens", "letters": "OPTIC", "count": 1, "type": "residual", "source": "answer=OPERATIC, confirmed=[period->ERA, in->PER]"}
+{"word": "cream", "letters": "CRAM", "count": 1, "type": "residual", "source": "answer=CERAMIC, confirmed=[base->E, ice->IC]"}
+{"word": "saxophonist's", "letters": "ST", "count": 1, "type": "residual", "source": "answer=SPINET, confirmed=[long->PINE]"}
+{"word": "water", "letters": "SPRING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hides rodents", "letters": "SQUIRRELS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in trees", "letters": "SQUIRRELS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "repeatedly", "letters": "D", "count": 1, "type": "residual", "source": "answer=DODO, confirmed=[follow->DO, old->O]"}
+{"word": "a", "letters": "ANSWERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "malignant", "letters": "LEG", "count": 1, "type": "residual", "source": "answer=BLACKLEG, confirmed=[side->BLACK]"}
+{"word": "pay", "letters": "AW", "count": 1, "type": "residual", "source": "answer=GEEGAW, confirmed=[say,->EG, get->GE]"}
+{"word": "whistle-blower", "letters": "GRASS", "count": 1, "type": "residual", "source": "answer=BLUEGRASS, confirmed=[crude->BLUE]"}
+{"word": "masses", "letters": "RUCKS", "count": 1, "type": "residual", "source": "answer=CRUCKS, confirmed=[Chapter->C]"}
+{"word": "local", "letters": "I", "count": 1, "type": "residual", "source": "answer=TIBERIUS, confirmed=[you->U, on->S, river->TIBER]"}
+{"word": "late", "letters": "MAKE", "count": 1, "type": "residual", "source": "answer=MAKEDO, confirmed=[be->DO, social->DO, event->DO]"}
+{"word": "unfashionable", "letters": "ASSE", "count": 1, "type": "residual", "source": "answer=IMPASSE, confirmed=[One's->IMP]"}
+{"word": "worthless", "letters": "BUM", "count": 1, "type": "residual", "source": "answer=BEGUM, confirmed=[say,->EG]"}
+{"word": "science", "letters": "PHYSIC", "count": 1, "type": "residual", "source": "answer=PHYSICAL, confirmed=[a->A, student->L]"}
+{"word": "calf", "letters": "CL", "count": 1, "type": "residual", "source": "answer=CRAWL, confirmed=[cruel->RAW]"}
+{"word": "two", "letters": "S", "count": 1, "type": "residual", "source": "answer=ELANDS, confirmed=[secure->LAND, points->E]"}
+{"word": "receptacle", "letters": "JAR", "count": 1, "type": "residual", "source": "answer=AJAR, confirmed=[a->A]"}
+{"word": "squat", "letters": "STOUT", "count": 1, "type": "residual", "source": "answer=STRUNGOUT, confirmed=[step->RUNG]"}
+{"word": "ink", "letters": "PEN", "count": 1, "type": "residual", "source": "answer=PEAGREEN, confirmed=[match->AGREE]"}
+{"word": "single's", "letters": "ESS", "count": 1, "type": "residual", "source": "answer=ASSESS, confirmed=[Blockheads->ASS, top->A]"}
+{"word": "maybe", "letters": "SAUCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bouncer possibly", "letters": "BALL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "fellow's", "letters": "TENDS", "count": 1, "type": "residual", "source": "answer=ATTENDS, confirmed=[a->A, point->ATTEND, the->T]"}
+{"word": "brute", "letters": "CRED", "count": 1, "type": "residual", "source": "answer=CREWED, confirmed=[We->WE]"}
+{"word": "given", "letters": "OK", "count": 1, "type": "residual", "source": "answer=MISTOOK, confirmed=[film->MIST, first->IST, Oscar->O]"}
+{"word": "clear level", "letters": "TURNOUT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "electoral engagement", "letters": "TURNOUT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of electoral engagement", "letters": "TURNOUT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "expose", "letters": "E", "count": 1, "type": "residual", "source": "answer=REPRESS, confirmed=[royal->R, journalists->PRESS]"}
+{"word": "sunbed", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNBIASED, confirmed=[one->BIASED, a->A]"}
+{"word": "pain", "letters": "KET", "count": 1, "type": "residual", "source": "answer=PARAKEET, confirmed=[soldier->PARA, drug->E]"}
+{"word": "either", "letters": "TON", "count": 1, "type": "residual", "source": "answer=NOTON, confirmed=[way->NO]"}
+{"word": "learnt", "letters": "SEEN", "count": 1, "type": "residual", "source": "answer=SPLEEN, confirmed=[place->PL]"}
+{"word": "message", "letters": "IN", "count": 1, "type": "residual", "source": "answer=EXTINCT, confirmed=[from->EX, in->T, court->CT]"}
+{"word": "university", "letters": "MIT", "count": 1, "type": "residual", "source": "answer=MITTEN, confirmed=[figure->TEN]"}
+{"word": "religious", "letters": "IN", "count": 1, "type": "residual", "source": "answer=INSECT, confirmed=[faction->SECT]"}
+{"word": "security", "letters": "SS", "count": 1, "type": "residual", "source": "answer=TRAITRESS, confirmed=[characteristic->TRAIT, concerning->RE, heads->A, Service->A]"}
+{"word": "disapproval", "letters": "FE", "count": 1, "type": "residual", "source": "answer=FREETOWN, confirmed=[Look->TOWN, about->RE, withdrawn->T, support->TOWN]"}
+{"word": "service", "letters": "CHURCH", "count": 1, "type": "residual", "source": "answer=CHURCHILL, confirmed=[sick->ILL]"}
+{"word": "would", "letters": "WOOD", "count": 1, "type": "residual", "source": "answer=WOODGROUSE, confirmed=[bellyache->GROUSE, be->USE]"}
+{"word": "protective", "letters": "MOU", "count": 1, "type": "residual", "source": "answer=AMOUR, confirmed=[first->A, Romeo->R]"}
+{"word": "interest", "letters": "SCENE", "count": 1, "type": "residual", "source": "answer=OBSCENE, confirmed=[ex-pupil's->OB]"}
+{"word": "penultimate", "letters": "Y", "count": 1, "type": "residual", "source": "answer=CRAFTY, confirmed=[boat?->CRAFT]"}
+{"word": "submit", "letters": "PA", "count": 1, "type": "residual", "source": "answer=ORDERPAPER, confirmed=[request->ORDER, for->PER, daily->PAPER]"}
+{"word": "incarcerated", "letters": "SIR", "count": 1, "type": "residual", "source": "answer=STAIR, confirmed=[adult->A, in->T, prison->A]"}
+{"word": "agency", "letters": "CIA", "count": 1, "type": "residual", "source": "answer=SOCIAL, confirmed=[Intelligence->SO, extremely->SO, large->L]"}
+{"word": "appreciate", "letters": "SEA", "count": 1, "type": "residual", "source": "answer=BALTICSEA, confirmed=[Curry->BALTI, clubs->C]"}
+{"word": "two", "letters": "SOME", "count": 1, "type": "residual", "source": "answer=FEARSOME, confirmed=[Loud->F, organ:->EAR, notes->EAR]"}
+{"word": "addiction", "letters": "HABI", "count": 1, "type": "residual", "source": "answer=ABUDHABI, confirmed=[a->A, friend->BUD]"}
+{"word": "like", "letters": "CALE", "count": 1, "type": "residual", "source": "answer=CABRIOLET, confirmed=[Oomph->BRIO, in->T, rented->LET]"}
+{"word": "eliot", "letters": "TS", "count": 1, "type": "residual", "source": "answer=ABETS, confirmed=[Abraham->ABE]"}
+{"word": "stopped", "letters": "E", "count": 1, "type": "residual", "source": "answer=OWNER, confirmed=[Single->OWN, run->R, wicket->W]"}
+{"word": "chasing", "letters": "ES", "count": 1, "type": "residual", "source": "answer=SOURPUSSES, confirmed=[Cats->PUSS, off->SOUR]"}
+{"word": "loving", "letters": "KIND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "persuasion", "letters": "KIND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "me too", "letters": "SNAP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "gum", "letters": "STICK", "count": 1, "type": "residual", "source": "answer=BREADSTICK, confirmed=[Lolly->BREAD]"}
+{"word": "panto", "letters": "LA", "count": 1, "type": "residual", "source": "answer=PALADIN, confirmed=[pressure->P, take->A, a->IN, day->D]"}
+{"word": "sun", "letters": "BROWN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "twice", "letters": "I", "count": 1, "type": "residual", "source": "answer=ANTI, confirmed=[insect->ANT, insect->ANT]"}
+{"word": "paid", "letters": "DE", "count": 1, "type": "residual", "source": "answer=ODE, confirmed=[over->O]"}
+{"word": "nonsense", "letters": "NE", "count": 1, "type": "residual", "source": "answer=TWEENIE, confirmed=[little->WEE, in->T, game->I]"}
+{"word": "old", "letters": "UR", "count": 1, "type": "residual", "source": "answer=PURCELL, confirmed=[piano->P, room->CELL]"}
+{"word": "and round", "letters": "ROLLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "luxury car goes", "letters": "ROLLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "round and round", "letters": "ROLLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "steers clear", "letters": "SIDESTEPS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "crab does", "letters": "SIDESTEPS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "what crab does", "letters": "SIDESTEPS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "shopping", "letters": "MAL", "count": 1, "type": "residual", "source": "answer=SMALLER, confirmed=[Sign->L, hesitation->ER, second->S]"}
+{"word": "of games", "letters": "RUBBERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "series of games", "letters": "RUBBERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "gent", "letters": "HAPS", "count": 1, "type": "residual", "source": "answer=HAPPENS, confirmed=[writer's->PEN]"}
+{"word": "kids", "letters": "CONS", "count": 1, "type": "residual", "source": "answer=CONSTRUE, confirmed=[right?->TRUE]"}
+{"word": "essential", "letters": "IN", "count": 1, "type": "residual", "source": "answer=RESIN, confirmed=[Note->RE, second->S, king's->R]"}
+{"word": "glut", "letters": "SATE", "count": 1, "type": "residual", "source": "answer=ASSEVERATE, confirmed=[a->A, cut->SEVER]"}
+{"word": "fish", "letters": "ISH", "count": 1, "type": "residual", "source": "answer=TARNISH, confirmed=[lake->TARN]"}
+{"word": "gallery", "letters": "TE", "count": 1, "type": "residual", "source": "answer=TITILLATE, confirmed=[appeal->IT, badly->ILL, by->AT]"}
+{"word": "colour", "letters": "DER", "count": 1, "type": "residual", "source": "answer=DECOR, confirmed=[company->CO]"}
+{"word": "past", "letters": "BE", "count": 1, "type": "residual", "source": "answer=BROMANCE, confirmed=[Italian->ROMAN, close->C]"}
+{"word": "former pm", "letters": "TRUSS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in bind", "letters": "TRUSS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bind", "letters": "RUSS", "count": 1, "type": "residual", "source": "answer=TRUSS, confirmed=[in->T]"}
+{"word": "having", "letters": "EDS", "count": 1, "type": "residual", "source": "answer=ARMEDFORCES, confirmed=[weapons,->ARM, uses->FORCE, coercion->FORCE]"}
+{"word": "spotlight", "letters": "SS", "count": 1, "type": "residual", "source": "answer=SPOKESPERSON, confirmed=[thrusts->POKE, a->PER, child->SON]"}
+{"word": "perspective", "letters": "O", "count": 1, "type": "residual", "source": "answer=TORUS, confirmed=[team->T, game,->RU, second->S]"}
+{"word": "childish", "letters": "CH", "count": 1, "type": "residual", "source": "answer=BUTCH, confirmed=[yet->BUT]"}
+{"word": "recreation", "letters": "REC", "count": 1, "type": "residual", "source": "answer=RECCE, confirmed=[church->CE]"}
+{"word": "certain", "letters": "S", "count": 1, "type": "residual", "source": "answer=PLUSFOURS, confirmed=[benefit->PLUS, figures->FOUR]"}
+{"word": "photographers", "letters": "PAPS", "count": 1, "type": "residual", "source": "answer=PAPERS, confirmed=[Queen->ER]"}
+{"word": "foghorn", "letters": "F", "count": 1, "type": "residual", "source": "answer=BEEF, confirmed=[Buzzer->BEE]"}
+{"word": "barbers", "letters": "B", "count": 1, "type": "residual", "source": "answer=BLOWAWAY, confirmed=[Head->WAY, have->A, little->LOW, off->AWAY]"}
+{"word": "digs", "letters": "HOM", "count": 1, "type": "residual", "source": "answer=FATHOM, confirmed=[Chubby?->FAT]"}
+{"word": "safari", "letters": "FS", "count": 1, "type": "residual", "source": "answer=AFFAIRS, confirmed=[Fine->FAIR, a->A, part->AFFAIR, wild->AIRS]"}
+{"word": "prime minister", "letters": "MAY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "oblivion", "letters": "O", "count": 1, "type": "residual", "source": "answer=OPORTO, confirmed=[nothing->O, left,->PORT, for->TO]"}
+{"word": "rowing", "letters": "LENDER", "count": 1, "type": "residual", "source": "answer=ALEXANDER, confirmed=[unknown->X, American->A, club->A]"}
+{"word": "publican's", "letters": "HOST", "count": 1, "type": "residual", "source": "answer=GHOST, confirmed=[German->G]"}
+{"word": "having", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNDEAD, confirmed=[right->DEAD, notice->AD]"}
+{"word": "delivered", "letters": "ARE", "count": 1, "type": "residual", "source": "answer=RAPTURE, confirmed=[Part->PT, you->U, are->R]"}
+{"word": "long", "letters": "PANTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "glowing", "letters": "SUD", "count": 1, "type": "residual", "source": "answer=STUDPOKER, confirmed=[Rod,->POKER, times,->T, supports->OK, boss->STUD, in->T]"}
+{"word": "catalogued", "letters": "ON", "count": 1, "type": "residual", "source": "answer=UNIONLIST, confirmed=[College,->UNI, choice,->LIST]"}
+{"word": "putting", "letters": "GREE", "count": 1, "type": "residual", "source": "answer=AGREE, confirmed=[area->A]"}
+{"word": "definitive", "letters": "THE", "count": 1, "type": "residual", "source": "answer=THEREINTO, confirmed=[check->REIN, for->TO]"}
+{"word": "agrees", "letters": "SURGE", "count": 1, "type": "residual", "source": "answer=SURGEONGENERAL, confirmed=[Doctor->GENERAL, with->ON, nurse:->GENERAL, long->EON]"}
+{"word": "ancient", "letters": "L", "count": 1, "type": "residual", "source": "answer=LARGO, confirmed=[ship->ARGO, lake->LA]"}
+{"word": "loom", "letters": "TOWER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "flying", "letters": "FLEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "flying squadron may", "letters": "FLEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "this larger group", "letters": "FLEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "fruitcake", "letters": "NUT", "count": 1, "type": "residual", "source": "answer=NUTMEG, confirmed=[Margaret->MEG]"}
+{"word": "curb", "letters": "S", "count": 1, "type": "residual", "source": "answer=ENDWAYS, confirmed=[Aims->END, habit,->WAY]"}
+{"word": "occasionally", "letters": "BE", "count": 1, "type": "residual", "source": "answer=BEGIN, confirmed=[beer->GIN, drink->GIN]"}
+{"word": "lincoln", "letters": "ABE", "count": 1, "type": "residual", "source": "answer=ABED, confirmed=[daughter's->D]"}
+{"word": "tripe", "letters": "TE", "count": 1, "type": "residual", "source": "answer=THEME, confirmed=[border->HEM]"}
+{"word": "avoided", "letters": "DUC", "count": 1, "type": "residual", "source": "answer=DUCT, confirmed=[the->T]"}
+{"word": "safe", "letters": "SE", "count": 1, "type": "residual", "source": "answer=CONSECRATE, confirmed=[criminal->CON, case->CRATE]"}
+{"word": "two", "letters": "D", "count": 1, "type": "residual", "source": "answer=ODD, confirmed=[daughters->D, nothing->O]"}
+{"word": "overdue", "letters": "LITE", "count": 1, "type": "residual", "source": "answer=LIQUIDATE, confirmed=[one->A, pound->QUID]"}
+{"word": "overwhelmed", "letters": "AER", "count": 1, "type": "residual", "source": "answer=APERY, confirmed=[Prince->P, by->PER, year->Y]"}
+{"word": "rut", "letters": "SG", "count": 1, "type": "residual", "source": "answer=STAGDO, confirmed=[in->T, a->A, prepare->DO]"}
+{"word": "two", "letters": "B", "count": 1, "type": "residual", "source": "answer=OBSERVE, confirmed=[tennis->SERVE, one->O, line->ER]"}
+{"word": "cuddle", "letters": "SPOON", "count": 1, "type": "residual", "source": "answer=SPOTON, confirmed=[time->T]"}
+{"word": "booking", "letters": "ORDE", "count": 1, "type": "residual", "source": "answer=HORDE, confirmed=[Hotel->H]"}
+{"word": "cap", "letters": "INTERNATIONAL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "punching", "letters": "LT", "count": 1, "type": "residual", "source": "answer=AILMENT, confirmed=[soldiers->MEN, first-class->AI]"}
+{"word": "must", "letters": "PEE", "count": 1, "type": "residual", "source": "answer=PEERAGE, confirmed=[go->RAGE, trend->RAGE]"}
+{"word": "band", "letters": "AC", "count": 1, "type": "residual", "source": "answer=ACQUIT, confirmed=[leave->QUIT]"}
+{"word": "roses", "letters": "OSE", "count": 1, "type": "residual", "source": "answer=JOSE, confirmed=[Jack->J]"}
+{"word": "reward", "letters": "PA", "count": 1, "type": "residual", "source": "answer=PAPERBACK, confirmed=[for->PER, each->PER, returned->BACK]"}
+{"word": "charles", "letters": "KG", "count": 1, "type": "residual", "source": "answer=RANKING, confirmed=[administered->RAN, by->IN]"}
+{"word": "joint", "letters": "OILED", "count": 1, "type": "residual", "source": "answer=TOILED, confirmed=[finally->T, up->TO]"}
+{"word": "fleece", "letters": "CN", "count": 1, "type": "residual", "source": "answer=CORN, confirmed=[around->OR, right->R]"}
+{"word": "certainly", "letters": "WOLSEY", "count": 1, "type": "residual", "source": "answer=CARDINALWOLSEY, confirmed=[red,->CARDINAL, blue->A]"}
+{"word": "stout", "letters": "ST", "count": 1, "type": "residual", "source": "answer=STORM, confirmed=[round->O, room->RM]"}
+{"word": "manor", "letters": "EST", "count": 1, "type": "residual", "source": "answer=ESTIMATE, confirmed=[one's->I, houses->MATE]"}
+{"word": "cockiness", "letters": "FRONT", "count": 1, "type": "residual", "source": "answer=AFFRONT, confirmed=[first-class->A, foxtrot->F]"}
+{"word": "teaching", "letters": "ISM", "count": 1, "type": "residual", "source": "answer=SCHISM, confirmed=[School->SCH]"}
+{"word": "passed", "letters": "SS", "count": 1, "type": "residual", "source": "answer=POSSESS, confirmed=[gang->POSSE]"}
+{"word": "hug", "letters": "TRA", "count": 1, "type": "residual", "source": "answer=TRASHY, confirmed=[attempt->SHY, tree->ASH]"}
+{"word": "fighting", "letters": "ENGAGING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hospital", "letters": "ENT", "count": 1, "type": "residual", "source": "answer=ENDEARMENT, confirmed=[costly->DEAR, in->DEAR, front->END, staff->MEN, in->DEAR, department->ARM]"}
+{"word": "trying", "letters": "COSTER", "count": 1, "type": "residual", "source": "answer=ROLLERCOASTER, confirmed=[Wave->ROLLER, one->A]"}
+{"word": "go topless", "letters": "KEEPYOURSHIRTON", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "youths", "letters": "S", "count": 1, "type": "residual", "source": "answer=POSSESS, confirmed=[gangs->POSSE, succeeded?->S]"}
+{"word": "school", "letters": "ETEN", "count": 1, "type": "residual", "source": "answer=EATEN, confirmed=[Report->A]"}
+{"word": "dolly's", "letters": "SHEEPS", "count": 1, "type": "residual", "source": "answer=SHEEPSKIN, confirmed=[relations->KIN]"}
+{"word": "demanding", "letters": "EST", "count": 1, "type": "residual", "source": "answer=EVEREST, confirmed=[most->EVER]"}
+{"word": "comfy", "letters": "HEST", "count": 1, "type": "residual", "source": "answer=HONEST, confirmed=[little->ON, house,->HO, home->NEST]"}
+{"word": "relation", "letters": "TR", "count": 1, "type": "residual", "source": "answer=FARTHER, confirmed=[distant->FAR, male->HE, right->FAR]"}
+{"word": "scotland", "letters": "SD", "count": 1, "type": "residual", "source": "answer=SUSPEND, confirmed=[American->US, writer->PEN, borders->END]"}
+{"word": "charts", "letters": "C", "count": 1, "type": "residual", "source": "answer=AIRCON, confirmed=[song->AIR, playing->ON, number->AIR, one->A]"}
+{"word": "promotion", "letters": "P", "count": 1, "type": "residual", "source": "answer=PLAUDITS, confirmed=[leads->L, reviews->AUDITS]"}
+{"word": "technique", "letters": "UNDER", "count": 1, "type": "residual", "source": "answer=UNDERHAND, confirmed=[service->HAND]"}
+{"word": "child", "letters": "TOUT", "count": 1, "type": "residual", "source": "answer=SLUGITOUT, confirmed=[drink->SLUG, I->I]"}
+{"word": "twice", "letters": "RES", "count": 1, "type": "residual", "source": "answer=REREDOS, confirmed=[Functions->DO, on->RE]"}
+{"word": "insult", "letters": "NU", "count": 1, "type": "residual", "source": "answer=NUT, confirmed=[the->T]"}
+{"word": "two", "letters": "R", "count": 1, "type": "residual", "source": "answer=IRK, confirmed=[island->I, kings->K]"}
+{"word": "school", "letters": "TON", "count": 1, "type": "residual", "source": "answer=TONBRIDGE, confirmed=[game->BRIDGE]"}
+{"word": "teaching", "letters": "E", "count": 1, "type": "residual", "source": "answer=REVERE, confirmed=[always->EVER, religious->R]"}
+{"word": "lime", "letters": "LINDEN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "inject", "letters": "RD", "count": 1, "type": "residual", "source": "answer=RED, confirmed=[drug->E]"}
+{"word": "rounded", "letters": "AM", "count": 1, "type": "residual", "source": "answer=MAMBA, confirmed=[mass->M, degrees->BA]"}
+{"word": "animal", "letters": "SY", "count": 1, "type": "residual", "source": "answer=HONESTY, confirmed=[in->T, perfect->HONE, enclosure->STY]"}
+{"word": "decision", "letters": "LIL", "count": 1, "type": "residual", "source": "answer=LILAC, confirmed=[about->C, one->A]"}
+{"word": "wife's", "letters": "E", "count": 1, "type": "residual", "source": "answer=EMANATE, confirmed=[chap->MAN, had->ATE]"}
+{"word": "date", "letters": "SEA", "count": 1, "type": "residual", "source": "answer=BEAMSEA, confirmed=[Smile,->BEAM]"}
+{"word": "tasteless", "letters": "NAFF", "count": 1, "type": "residual", "source": "answer=NAFFALL, confirmed=[absolutely->ALL]"}
+{"word": "brandish", "letters": "SHAKE", "count": 1, "type": "residual", "source": "answer=SHAKESPEAREAN, confirmed=[weapon->SPEAR, energy->E, one->AN]"}
+{"word": "shoots", "letters": "POTS", "count": 1, "type": "residual", "source": "answer=POTSHERD, confirmed=[flock->HERD]"}
+{"word": "they help", "letters": "SPECS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "detailed descriptions", "letters": "SPECS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "see detailed descriptions", "letters": "SPECS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "maybe train", "letters": "SLEEPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "undercover agent", "letters": "SLEEPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "rang", "letters": "OLD", "count": 1, "type": "residual", "source": "answer=TOLD, confirmed=[the->T]"}
+{"word": "woodworm", "letters": "SECT", "count": 1, "type": "residual", "source": "answer=INSPECT, confirmed=[piano->P, with->IN]"}
+{"word": "notice", "letters": "SY", "count": 1, "type": "residual", "source": "answer=SINFULLY, confirmed=[popular->IN, comprehensive->FULL]"}
+{"word": "direction", "letters": "YAW", "count": 1, "type": "residual", "source": "answer=YAWN, confirmed=[new->N]"}
+{"word": "dog", "letters": "BOXERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "inspiring", "letters": "I", "count": 1, "type": "residual", "source": "answer=LIMP, confirmed=[left->L, politician,->MP, one->IMP]"}
+{"word": "tomahawk", "letters": "CHOPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "chinook", "letters": "CHOP", "count": 1, "type": "residual", "source": "answer=CHOPPER, confirmed=[for->PER]"}
+{"word": "socialist", "letters": "CHE", "count": 1, "type": "residual", "source": "answer=COMANCHE, confirmed=[Conservative->C, country->OMAN, and->AN]"}
+{"word": "hike", "letters": "INCREASE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ridge", "letters": "CREASE", "count": 1, "type": "residual", "source": "answer=INCREASE, confirmed=[with->IN, it->IN]"}
+{"word": "tablet", "letters": "PLAQUE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "certain", "letters": "ERASURES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "fill", "letters": "S", "count": 1, "type": "residual", "source": "answer=SIPHONS, confirmed=[Hotel->H, about->ON, drinks->SIP]"}
+{"word": "social", "letters": "N", "count": 1, "type": "residual", "source": "answer=CONSONANT, confirmed=[Frauds->CON, worker->ANT, checks->A, on->SO, X,->CONSONANT]"}
+{"word": "sooty", "letters": "Y", "count": 1, "type": "residual", "source": "answer=LOTTERY, confirmed=[left->L, river->OTTER, creature->OTTER]"}
+{"word": "sign", "letters": "GORE", "count": 1, "type": "residual", "source": "answer=IGNORE, confirmed=[me,->I, letters->N]"}
+{"word": "attached", "letters": "S", "count": 1, "type": "residual", "source": "answer=MINDSEYE, confirmed=[detective->EYE, objects->MIND]"}
+{"word": "parker", "letters": "ER", "count": 1, "type": "residual", "source": "answer=DOTER, confirmed=[Dorothy->DOT, land->DO]"}
+{"word": "procedure", "letters": "ROUTINE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "toxic", "letters": "FEN", "count": 1, "type": "residual", "source": "answer=FENNEC, confirmed=[News->NE, charge,->C]"}
+{"word": "x's", "letters": "TENS", "count": 1, "type": "residual", "source": "answer=TEENS, confirmed=[English->E]"}
+{"word": "rowers", "letters": "DE", "count": 1, "type": "residual", "source": "answer=DELIGHT, confirmed=[day->LIGHT, number->LIGHT, lake->L]"}
+{"word": "crazy description", "letters": "DOTTY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of pointillism", "letters": "DOTTY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "had", "letters": "H", "count": 1, "type": "residual", "source": "answer=CRUSHED, confirmed=[Vintage->CRU, spades->S, man->ED]"}
+{"word": "patrolling", "letters": "ANT", "count": 1, "type": "residual", "source": "answer=ADHERENT, confirmed=[departs->D, now,->HERE, soldier->RE]"}
+{"word": "secretary", "letters": "LAMMY", "count": 1, "type": "residual", "source": "answer=CLAMMY, confirmed=[cold,->C]"}
+{"word": "sister", "letters": "N", "count": 1, "type": "residual", "source": "answer=INUSE, confirmed=[One->I, run->USE, get->USE]"}
+{"word": "crushing", "letters": "G", "count": 1, "type": "residual", "source": "answer=GLOSSOVER, confirmed=[defeat->LOSS, ended->OVER]"}
+{"word": "fewer", "letters": "LESS", "count": 1, "type": "residual", "source": "answer=SPOTLESS, confirmed=[Observe->SPOT]"}
+{"word": "control", "letters": "DIAL", "count": 1, "type": "residual", "source": "answer=DIURNAL, confirmed=[vessel->URN]"}
+{"word": "sixty minutes", "letters": "DEGREE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "party", "letters": "TORY", "count": 1, "type": "residual", "source": "answer=TOYSTORY, confirmed=[plays,->TOYS, a->STORY]"}
+{"word": "christmas", "letters": "DEC", "count": 1, "type": "residual", "source": "answer=DECLAW, confirmed=[Rule->LAW]"}
+{"word": "eric possibly", "letters": "IDLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "very busy", "letters": "IDLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eric possibly not", "letters": "IDLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "not very busy", "letters": "IDLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "one who spends", "letters": "SCRAMBLER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "an encryption device", "letters": "SCRAMBLER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hill", "letters": "WN", "count": 1, "type": "residual", "source": "answer=GROUNDDOWN, confirmed=[Earth->GROUND, and->DO]"}
+{"word": "inhibiting", "letters": "ANTI", "count": 1, "type": "residual", "source": "answer=ANTIPROTON, confirmed=[professional->PRO, heavyweight?->TON]"}
+{"word": "tooth", "letters": "BITER", "count": 1, "type": "residual", "source": "answer=ORBITER, confirmed=[Gold->OR]"}
+{"word": "show", "letters": "TY", "count": 1, "type": "residual", "source": "answer=PIETY, confirmed=[Dish->PIE]"}
+{"word": "high protein food", "letters": "TEMPEH", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "steering", "letters": "ER", "count": 1, "type": "residual", "source": "answer=PUNTER, confirmed=[boat->PUNT]"}
+{"word": "sumptuous", "letters": "LUS", "count": 1, "type": "residual", "source": "answer=PLUS, confirmed=[Almost->P]"}
+{"word": "well", "letters": "RP", "count": 1, "type": "residual", "source": "answer=DRIP, confirmed=[died:->D, sleep->I]"}
+{"word": "goatee", "letters": "BI", "count": 1, "type": "residual", "source": "answer=BEARINMIND, confirmed=[at->EAR, home,->MIND, cut->N]"}
+{"word": "nut", "letters": "EN", "count": 1, "type": "residual", "source": "answer=HENNA, confirmed=[a->A, new->N, hotel->H]"}
+{"word": "card", "letters": "CHARACTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "montmartre", "letters": "R", "count": 1, "type": "residual", "source": "answer=PASTRAMI, confirmed=[done->PAST, by->PAST, friend->AMI, in->T]"}
+{"word": "two", "letters": "AN", "count": 1, "type": "residual", "source": "answer=ASSAILANT, confirmed=[in->T, trouble->ASSAIL, creatures->ASS]"}
+{"word": "crystal", "letters": "CLEAR", "count": 1, "type": "residual", "source": "answer=NUCLEAR, confirmed=[new->N, uranium->U]"}
+{"word": "day", "letters": "HUG", "count": 1, "type": "residual", "source": "answer=THUG, confirmed=[finally->T]"}
+{"word": "abandons", "letters": "JUNKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ships", "letters": "JUNKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "statue's", "letters": "SE", "count": 1, "type": "residual", "source": "answer=ENDORSE, confirmed=[Finish->END, gold->OR, edges->END]"}
+{"word": "tailing", "letters": "MJ", "count": 1, "type": "residual", "source": "answer=MAJORCA, confirmed=[killer->ORCA, pack->A]"}
+{"word": "pines", "letters": "PS", "count": 1, "type": "residual", "source": "answer=RUMPSTEAK, confirmed=[strange->RUM, wood->TEAK]"}
+{"word": "20", "letters": "RILL", "count": 1, "type": "residual", "source": "answer=GORILLA, confirmed=[Turn->GO, American->A]"}
+{"word": "completed", "letters": "SA", "count": 1, "type": "residual", "source": "answer=SOFA, confirmed=[to->OF]"}
+{"word": "doubter", "letters": "SEPTIC", "count": 1, "type": "residual", "source": "answer=ASEPTIC, confirmed=[A->A, one->A]"}
+{"word": "pointer", "letters": "BOWWOW", "count": 1, "type": "residual", "source": "answer=BOWWINDOW, confirmed=[during->IN, day->D, charges->DO]"}
+{"word": "direction", "letters": "LE", "count": 1, "type": "residual", "source": "answer=LEGIBLE, confirmed=[stage->LEG, one->I, boy->B]"}
+{"word": "present", "letters": "SERVE", "count": 1, "type": "residual", "source": "answer=CONSERVE, confirmed=[prisoner->CON]"}
+{"word": "pat", "letters": "BAD", "count": 1, "type": "residual", "source": "answer=BADEGG, confirmed=[say,->EG, grand->G]"}
+{"word": "nail", "letters": "CLAW", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "single", "letters": "ON", "count": 1, "type": "residual", "source": "answer=ONPAPER, confirmed=[exam,->PAPER]"}
+{"word": "vindicate", "letters": "RIGHT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "completely", "letters": "RIGHT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "cleric", "letters": "BISH", "count": 1, "type": "residual", "source": "answer=RUBBISH, confirmed=[Polish->RUB]"}
+{"word": "track", "letters": "ZR", "count": 1, "type": "residual", "source": "answer=ZEALOTRY, confirmed=[unknown->Y, European->E, many->ALOT]"}
+{"word": "countryside", "letters": "NATURE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pursuing", "letters": "IS", "count": 1, "type": "residual", "source": "answer=IBIS, confirmed=[One->I, black->B]"}
+{"word": "couple", "letters": "II", "count": 1, "type": "residual", "source": "answer=IRIDESCENT, confirmed=[King->R, family->DESCENT]"}
+{"word": "underworld", "letters": "HELL", "count": 1, "type": "residual", "source": "answer=HELLBENT, confirmed=[criminal->BENT]"}
+{"word": "recitalist", "letters": "R", "count": 1, "type": "residual", "source": "answer=RONDO, confirmed=[performing->ON, party->DO]"}
+{"word": "tide", "letters": "CEDI", "count": 1, "type": "residual", "source": "answer=CREDIT, confirmed=[the->T, King->R]"}
+{"word": "continental", "letters": "E", "count": 1, "type": "residual", "source": "answer=GERMANE, confirmed=[European->GERMAN]"}
+{"word": "suitable batting", "letters": "INORDER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eat", "letters": "VED", "count": 1, "type": "residual", "source": "answer=STARVED, confirmed=[capital,->STAR, keen->STAR]"}
+{"word": "australia", "letters": "AUS", "count": 1, "type": "residual", "source": "answer=ABACUS, confirmed=[About->C, a->A, billion->B]"}
+{"word": "lover's", "letters": "L", "count": 1, "type": "residual", "source": "answer=LUKE, confirmed=[country->UK, base->E]"}
+{"word": "sheep", "letters": "PU", "count": 1, "type": "residual", "source": "answer=PUTT, confirmed=[top->T, tor->T]"}
+{"word": "office", "letters": "ERS", "count": 1, "type": "residual", "source": "answer=TEMPTERS, confirmed=[worker->TEMP, in->T]"}
+{"word": "door", "letters": "ODD", "count": 1, "type": "residual", "source": "answer=ODDS, confirmed=[side->S]"}
+{"word": "repeated", "letters": "F", "count": 1, "type": "residual", "source": "answer=CHEESEDOFF, confirmed=[fine->F, after->DO, Lancashire->CHEESE, cheat->DO]"}
+{"word": "tried", "letters": "EDIT", "count": 1, "type": "residual", "source": "answer=EDITOR, confirmed=[out->OR, old->O]"}
+{"word": "sell", "letters": "GO", "count": 1, "type": "residual", "source": "answer=MANGO, confirmed=[Staff->MAN]"}
+{"word": "trim", "letters": "SPRUCES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "novelist", "letters": "ERN", "count": 1, "type": "residual", "source": "answer=STERN, confirmed=[on->S, the->T]"}
+{"word": "compresses", "letters": "ESSES", "count": 1, "type": "residual", "source": "answer=DRESSES, confirmed=[doctor->DR]"}
+{"word": "twice", "letters": "D", "count": 1, "type": "residual", "source": "answer=DODO, confirmed=[carry->DO, old->O]"}
+{"word": "computer", "letters": "D", "count": 1, "type": "residual", "source": "answer=APPLIED, confirmed=[program->APP, a->A, story->LIE]"}
+{"word": "picked", "letters": "A", "count": 1, "type": "residual", "source": "answer=OPERA, confirmed=[Nothing->O, a->PER, for->PER]"}
+{"word": "support part", "letters": "DEFENCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "football team", "letters": "DEFENCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "journo", "letters": "ID", "count": 1, "type": "residual", "source": "answer=AIMED, confirmed=[article->A, writer's->ME]"}
+{"word": "bird", "letters": "INE", "count": 1, "type": "residual", "source": "answer=RHINE, confirmed=[in->RH]"}
+{"word": "afghan", "letters": "OUND", "count": 1, "type": "residual", "source": "answer=PROFOUND, confirmed=[academic->PROF, with->OF, in->PRO]"}
+{"word": "afterthought", "letters": "P", "count": 1, "type": "residual", "source": "answer=PSI, confirmed=[on->S, India->I]"}
+{"word": "get", "letters": "DI", "count": 1, "type": "residual", "source": "answer=INDIA, confirmed=[elected->IN, funds->A]"}
+{"word": "calls", "letters": "E", "count": 1, "type": "residual", "source": "answer=EXPRESS, confirmed=[vote->X, petition->PRESS]"}
+{"word": "one's", "letters": "Y", "count": 1, "type": "residual", "source": "answer=UTTERLY, confirmed=[Say->UTTER, left->L, deposit,->L, in->T]"}
+{"word": "assistant", "letters": "M", "count": 1, "type": "residual", "source": "answer=PROMPT, confirmed=[part->PT, for->PRO, theatre->T]"}
+{"word": "protection", "letters": "DEFENCES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "isn't", "letters": "CN", "count": 1, "type": "residual", "source": "answer=PECANNUT, confirmed=[Northern->N, university->U, in->T, exercise->PE, able->A, provide->P]"}
+{"word": "enid", "letters": "ED", "count": 1, "type": "residual", "source": "answer=INFLATED, confirmed=[Fashionable->IN, apartment->FLAT]"}
+{"word": "trial", "letters": "LAR", "count": 1, "type": "residual", "source": "answer=TITULAR, confirmed=[trade->T, union->U, in->IT]"}
+{"word": "week", "letters": "EE", "count": 1, "type": "residual", "source": "answer=ELAPSE, confirmed=[circuits->LAPS]"}
+{"word": "line up", "letters": "PROGRAMME", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "chuffed", "letters": "PLEASED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "stage", "letters": "EVIL", "count": 1, "type": "residual", "source": "answer=DEVIL, confirmed=[daughter->D]"}
+{"word": "kit", "letters": "K", "count": 1, "type": "residual", "source": "answer=CHICKEN, confirmed=[stylish->CHIC, nurse->EN]"}
+{"word": "save", "letters": "FALL", "count": 1, "type": "residual", "source": "answer=FALLAPART, confirmed=[trip->APART]"}
+{"word": "fools", "letters": "GULLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "seaside scavengers", "letters": "GULLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "lady's", "letters": "BOWER", "count": 1, "type": "residual", "source": "answer=BLOWER, confirmed=[left->L]"}
+{"word": "barbecue", "letters": "RILL", "count": 1, "type": "residual", "source": "answer=BRILL, confirmed=[black?->B]"}
+{"word": "protective", "letters": "QE", "count": 1, "type": "residual", "source": "answer=BARQUE, confirmed=[layer,->BAR, you->U]"}
+{"word": "payment", "letters": "DUCT", "count": 1, "type": "residual", "source": "answer=PRODUCT, confirmed=[for->PRO, almost->P, zero->O]"}
+{"word": "furniture", "letters": "DRESSERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "villa", "letters": "IS", "count": 1, "type": "residual", "source": "answer=ILLINOIS, confirmed=[flooring->LINO, inside->IN, is->IL]"}
+{"word": "roll", "letters": "BRO", "count": 1, "type": "residual", "source": "answer=BRIO, confirmed=[Italian->I]"}
+{"word": "overwhelmed", "letters": "LENNY", "count": 1, "type": "residual", "source": "answer=BLENNY, confirmed=[British->B]"}
+{"word": "concerto's", "letters": "C", "count": 1, "type": "residual", "source": "answer=RECTANGLE, confirmed=[Ravel->TANGLE, again->RE]"}
+{"word": "welfare", "letters": "S", "count": 1, "type": "residual", "source": "answer=SWAY, confirmed=[state->WAY, checks->WAY]"}
+{"word": "rider", "letters": "PS", "count": 1, "type": "residual", "source": "answer=FORCEPS, confirmed=[duress->FORCE]"}
+{"word": "tabs", "letters": "T", "count": 1, "type": "residual", "source": "answer=FORTNIGHT, confirmed=[Keep->FORT, close->NIGH]"}
+{"word": "maker's", "letters": "MINT", "count": 1, "type": "residual", "source": "answer=BADMINTON, confirmed=[Poor->BAD, working->ON, for->TO, money->D]"}
+{"word": "vulgarian", "letters": "BOOR", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "deplore", "letters": "BOO", "count": 1, "type": "residual", "source": "answer=BOOR, confirmed=[Republican->R]"}
+{"word": "iron-clad", "letters": "FE", "count": 1, "type": "residual", "source": "answer=FREE, confirmed=[soldiers->RE]"}
+{"word": "item", "letters": "SE", "count": 1, "type": "residual", "source": "answer=DEMITASSE, confirmed=[Relinquish->DEMIT, for->AS]"}
+{"word": "shortage", "letters": "DEEN", "count": 1, "type": "residual", "source": "answer=DEEPEN, confirmed=[physical->P, education->E]"}
+{"word": "animals", "letters": "GAME", "count": 1, "type": "residual", "source": "answer=ENDGAME, confirmed=[death->END]"}
+{"word": "jailhouse", "letters": "ALCATRAZ", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "1d", "letters": "OED", "count": 1, "type": "residual", "source": "answer=LAMPOONED, confirmed=[light->LAMP, over->ON]"}
+{"word": "teacher", "letters": "RABBIS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "he calls people", "letters": "SPEAKER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of audio equipment", "letters": "SPEAKER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "prodded", "letters": "GAP", "count": 1, "type": "residual", "source": "answer=GAWP, confirmed=[wife->W]"}
+{"word": "aircraft", "letters": "PANE", "count": 1, "type": "residual", "source": "answer=PANEL, confirmed=[line->L]"}
+{"word": "american", "letters": "IG", "count": 1, "type": "residual", "source": "answer=IGLOO, confirmed=[ladies?->LOO]"}
+{"word": "dark", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNIT, confirmed=[in->IT, the->T]"}
+{"word": "cathedral", "letters": "MIRE", "count": 1, "type": "residual", "source": "answer=MITRE, confirmed=[this?->T]"}
+{"word": "consort", "letters": "MIX", "count": 1, "type": "residual", "source": "answer=MINX, confirmed=[name->N]"}
+{"word": "corner", "letters": "EAR", "count": 1, "type": "residual", "source": "answer=DOGEAR, confirmed=[party->DOG, outfit->GEAR]"}
+{"word": "poised", "letters": "BALANCED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for fish", "letters": "PERCH", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "repairman", "letters": "MENDER", "count": 1, "type": "residual", "source": "answer=MEANDER, confirmed=[a->A]"}
+{"word": "restrained manner", "letters": "RESERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bishop's", "letters": "SEE", "count": 1, "type": "residual", "source": "answer=SEEMS, confirmed=[manuscript->MS]"}
+{"word": "occasionally", "letters": "ELS", "count": 1, "type": "residual", "source": "answer=GELS, confirmed=[Greek->G]"}
+{"word": "drug-injected", "letters": "ES", "count": 1, "type": "residual", "source": "answer=STOCKCUBES, confirmed=[pedigree->STOCK, offspring->CUB]"}
+{"word": "clergy", "letters": "CLE", "count": 1, "type": "residual", "source": "answer=HECKLE, confirmed=[letters->HE, king->K]"}
+{"word": "opponents", "letters": "WN", "count": 1, "type": "residual", "source": "answer=GOWN, confirmed=[try->GO]"}
+{"word": "lady's", "letters": "ND", "count": 1, "type": "residual", "source": "answer=SANDBAG, confirmed=[Small->S, grip->BAG, drops->A, hot->AND]"}
+{"word": "forbidden", "letters": "NO", "count": 1, "type": "residual", "source": "answer=NOUS, confirmed=[Americans->US]"}
+{"word": "letting", "letters": "AM", "count": 1, "type": "residual", "source": "answer=AMIGO, confirmed=[me->I, start,->GO]"}
+{"word": "took", "letters": "BORROWED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "laid", "letters": "DEN", "count": 1, "type": "residual", "source": "answer=SODDEN, confirmed=[Turf->SOD, over->O, earth->SOD]"}
+{"word": "pub", "letters": "THE", "count": 1, "type": "residual", "source": "answer=PICKUPTHETAB, confirmed=[to->UP, give->TAB, Greek->ETA, character->THETA, a->TAB, lift->PICK, close->C, to->UP]"}
+{"word": "argument", "letters": "W", "count": 1, "type": "residual", "source": "answer=WORTH, confirmed=[Tense->T, about->OR, hotel->H]"}
+{"word": "date", "letters": "AGE", "count": 1, "type": "residual", "source": "answer=TILLAGE, confirmed=[up->TILL]"}
+{"word": "bigger", "letters": "S", "count": 1, "type": "residual", "source": "answer=SCANS, confirmed=[small->S, vessel->CAN, one->AN]"}
+{"word": "folk", "letters": "FS", "count": 1, "type": "residual", "source": "answer=BILLOFRIGHTS, confirmed=[British,->B, bad->ILL, old->O, not->RIGHT, good->RIGHT]"}
+{"word": "epic", "letters": "SAGAS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "10am", "letters": "MANET", "count": 1, "type": "residual", "source": "answer=MAGNET, confirmed=[German->G]"}
+{"word": "night", "letters": "N", "count": 1, "type": "residual", "source": "answer=UNDO, confirmed=[posh->U, party->DO, after->DO]"}
+{"word": "tune", "letters": "NG", "count": 1, "type": "residual", "source": "answer=PONG, confirmed=[piano->P, intro->O]"}
+{"word": "organisation", "letters": "ASTE", "count": 1, "type": "residual", "source": "answer=ASTUTE, confirmed=[you,->U, finally->T]"}
+{"word": "door", "letters": "DO", "count": 1, "type": "residual", "source": "answer=TORNADO, confirmed=[ripped->TORN, a->A]"}
+{"word": "gift", "letters": "FIG", "count": 1, "type": "residual", "source": "answer=FIGHT, confirmed=[Husband->H, in->T]"}
+{"word": "adorable", "letters": "FETCHING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "territorials", "letters": "I", "count": 1, "type": "residual", "source": "answer=QATARI, confirmed=[country->QATAR]"}
+{"word": "hamlet", "letters": "SETTLEMENT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "denounce", "letters": "DECRY", "count": 1, "type": "residual", "source": "answer=DECRYPT, confirmed=[exercise->PT]"}
+{"word": "medal", "letters": "OBE", "count": 1, "type": "residual", "source": "answer=WARDROBE, confirmed=[Combat->WAR, medic's->DR]"}
+{"word": "found", "letters": "MN", "count": 1, "type": "residual", "source": "answer=MANDRAKE, confirmed=[an->A, explorer->DRAKE, an->A, island->MAN]"}
+{"word": "advocates", "letters": "BRIEFS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eyes", "letters": "ORGANS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "swimwear", "letters": "TRUNKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "nonsense", "letters": "PRATTLES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bedding", "letters": "C", "count": 1, "type": "residual", "source": "answer=MACHO, confirmed=[Mum->MA, others->O, husband->H]"}
+{"word": "incautious tourist", "letters": "RHINO", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "charge incautious tourist", "letters": "RHINO", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "stall", "letters": "PEN", "count": 1, "type": "residual", "source": "answer=PENPAL, confirmed=[China's->PAL]"}
+{"word": "nothing", "letters": "VOID", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "biccies", "letters": "ICE", "count": 1, "type": "residual", "source": "answer=ICECREAM, confirmed=[pick->CREAM]"}
+{"word": "pledge", "letters": "SWEAR", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "tainted", "letters": "ANTI", "count": 1, "type": "residual", "source": "answer=ANTIDOTE, confirmed=[Love->DOTE, through->DO]"}
+{"word": "marseille", "letters": "BAS", "count": 1, "type": "residual", "source": "answer=BANANAS, confirmed=[fool->NANA]"}
+{"word": "german", "letters": "J", "count": 1, "type": "residual", "source": "answer=JACOBIN, confirmed=[horse->COB, by->IN, fine->A, home->IN]"}
+{"word": "e", "letters": "ELECTRONIC", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "each", "letters": "AN", "count": 1, "type": "residual", "source": "answer=ANOTHER, confirmed=[except->OTHER, this->TH, woman->HER]"}
+{"word": "had", "letters": "DOWN", "count": 1, "type": "residual", "source": "answer=DIEDOWN, confirmed=[take->DIE, ecstasy->E]"}
+{"word": "intervention", "letters": "INEX", "count": 1, "type": "residual", "source": "answer=INEXACT, confirmed=[legislation->ACT]"}
+{"word": "captivates", "letters": "PN", "count": 1, "type": "residual", "source": "answer=PAGAN, confirmed=[Note->A, head->A, Greek->G, god->G]"}
+{"word": "flooding", "letters": "DANG", "count": 1, "type": "residual", "source": "answer=DANGER, confirmed=[European->E, river->R]"}
+{"word": "bank", "letters": "SAVER", "count": 1, "type": "residual", "source": "answer=FACESAVER, confirmed=[Oppose->FACE, customer's->FACE]"}
+{"word": "crackpot", "letters": "DAMAGE", "count": 1, "type": "residual", "source": "answer=DAMAGES, confirmed=[second->S, time->AGES]"}
+{"word": "headgear", "letters": "TOPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for executioner", "letters": "TOPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "executioner", "letters": "TOP", "count": 1, "type": "residual", "source": "answer=TOPPER, confirmed=[for->PER]"}
+{"word": "takes part", "letters": "SCRAPS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "legal", "letters": "SUIT", "count": 1, "type": "residual", "source": "answer=SUBMIT, confirmed=[doctor->BM]"}
+{"word": "cup's", "letters": "TEEM", "count": 1, "type": "residual", "source": "answer=TEEMS, confirmed=[sides,->S]"}
+{"word": "putty", "letters": "CEMENT", "count": 1, "type": "residual", "source": "answer=CASEMENT, confirmed=[for->AS, instance,->CASE]"}
+{"word": "betrayer", "letters": "SCAB", "count": 1, "type": "residual", "source": "answer=SCABBARD, confirmed=[Shakespeare?->BARD]"}
+{"word": "stroke", "letters": "UT", "count": 1, "type": "residual", "source": "answer=CUTE, confirmed=[cricket->C, England's->E]"}
+{"word": "scandinavian", "letters": "ORSE", "count": 1, "type": "residual", "source": "answer=NORMALISE, confirmed=[African->N, republic->MALI]"}
+{"word": "ended", "letters": "ED", "count": 1, "type": "residual", "source": "answer=ERECTED, confirmed=[before->ERE, court->CT]"}
+{"word": "main", "letters": "SENT", "count": 1, "type": "residual", "source": "answer=SENTIMENTALIST, confirmed=[New->N, Age->TIME, books->LIST, inventory->LIST, holds->A]"}
+{"word": "fellow", "letters": "LUSTER", "count": 1, "type": "residual", "source": "answer=CLUSTER, confirmed=[clubs->C]"}
+{"word": "chased", "letters": "MBA", "count": 1, "type": "residual", "source": "answer=MAMBA, confirmed=[Masters->M, another->A]"}
+{"word": "madeira", "letters": "CAKE", "count": 1, "type": "residual", "source": "answer=CAKEHOLE, confirmed=[burrow->HOLE]"}
+{"word": "overlooks", "letters": "DISCOUNTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "deductions", "letters": "DISCOUNTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "quiet", "letters": "U", "count": 1, "type": "residual", "source": "answer=THUS, confirmed=[tense->T, second->S, hotel->H]"}
+{"word": "given", "letters": "PROVIDING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "battery", "letters": "PA", "count": 1, "type": "residual", "source": "answer=AGRIPPA, confirmed=[packs->A, hold->GRIP, power,->GRIP]"}
+{"word": "mud", "letters": "S", "count": 1, "type": "residual", "source": "answer=SWALLOWS, confirmed=[son->S, rolls->WALLOW]"}
+{"word": "items", "letters": "S", "count": 1, "type": "residual", "source": "answer=BRACELETS, confirmed=[Permit->LET, couple's->BRACE]"}
+{"word": "turkey", "letters": "RS", "count": 1, "type": "residual", "source": "answer=TURBANS, confirmed=[University->U, in->T, prohibits->BAN]"}
+{"word": "diameter", "letters": "D", "count": 1, "type": "residual", "source": "answer=STATED, confirmed=[Small->S, gallery->TATE]"}
+{"word": "ella fitzgerald", "letters": "SCATTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "keep", "letters": "ERE", "count": 1, "type": "residual", "source": "answer=STREETTHEATRE, confirmed=[in->T, small->S, perhaps;->TREE, pressure->HEAT, on->RE, dry->TT]"}
+{"word": "place", "letters": "EIR", "count": 1, "type": "residual", "source": "answer=THEIR, confirmed=[that->TH]"}
+{"word": "heavy", "letters": "E", "count": 1, "type": "residual", "source": "answer=ROUTEONE, confirmed=[defeat->ROUT, exposed->ROUT, United's->ONE, direct->OUT]"}
+{"word": "rank", "letters": "M", "count": 1, "type": "residual", "source": "answer=OFFTHEMARK, confirmed=[those->THE, people->THEM, on->OFF, boat,->ARK]"}
+{"word": "dress", "letters": "AGO", "count": 1, "type": "residual", "source": "answer=ARGOT, confirmed=[Republican->R, in->T, Roman->R]"}
+{"word": "grab", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNBENDING, confirmed=[stopping->ENDING, book->B]"}
+{"word": "means", "letters": "AB", "count": 1, "type": "residual", "source": "answer=ABUSE, confirmed=[a->USE, transport->BUS, (electronic)->E]"}
+{"word": "jokes", "letters": "SN", "count": 1, "type": "residual", "source": "answer=SUNUP, confirmed=[about->UP, university->U]"}
+{"word": "versace", "letters": "VES", "count": 1, "type": "residual", "source": "answer=GIVES, confirmed=[soldiers,->GI]"}
+{"word": "longing", "letters": "NEY", "count": 1, "type": "residual", "source": "answer=ALDERNEY, confirmed=[tree->ALDER]"}
+{"word": "guaranteed", "letters": "SURE", "count": 1, "type": "residual", "source": "answer=EXPOSURE, confirmed=[Retired->EX, petty->P, officer->O]"}
+{"word": "data", "letters": "D", "count": 1, "type": "residual", "source": "answer=CLOSED, confirmed=[means->CLOSE, waste->LOSE]"}
+{"word": "band", "letters": "R", "count": 1, "type": "residual", "source": "answer=RALLY, confirmed=[together?->ALLY]"}
+{"word": "channel", "letters": "C", "count": 1, "type": "residual", "source": "answer=CITE, confirmed=[in->IT, Islands->I, ecstasy->E]"}
+{"word": "pretentious", "letters": "CH", "count": 1, "type": "residual", "source": "answer=CHIANTI, confirmed=[Not->ANTI, opposed->ANTI, Italian->I]"}
+{"word": "story teller", "letters": "RACONTEUR", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "technology", "letters": "T", "count": 1, "type": "residual", "source": "answer=ANT, confirmed=[accepts->A, new->N, first->A]"}
+{"word": "stake", "letters": "PUNT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "keen", "letters": "VA", "count": 1, "type": "residual", "source": "answer=DIVA, confirmed=[female->DI]"}
+{"word": "second-class", "letters": "B", "count": 1, "type": "residual", "source": "answer=JAMB, confirmed=[stuff->JAM]"}
+{"word": "in the know", "letters": "AWARE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "old", "letters": "YE", "count": 1, "type": "residual", "source": "answer=YALE, confirmed=[Article->A, learner->L]"}
+{"word": "now", "letters": "ARIL", "count": 1, "type": "residual", "source": "answer=AVRIL, confirmed=[very->V, ill->V]"}
+{"word": "viewers", "letters": "WITNESSES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "philistine", "letters": "EM", "count": 1, "type": "residual", "source": "answer=IDEM, confirmed=[papers->ID]"}
+{"word": "bloomer", "letters": "DAISY", "count": 1, "type": "residual", "source": "answer=LACKADAISY, confirmed=[Miss->LACK, a->A]"}
+{"word": "airplane", "letters": "T", "count": 1, "type": "residual", "source": "answer=GNAT, confirmed=[First->A, get->G, new->N]"}
+{"word": "subordinate's", "letters": "MINION", "count": 1, "type": "residual", "source": "answer=DOMINION, confirmed=[Party->DO]"}
+{"word": "youthful", "letters": "L", "count": 1, "type": "residual", "source": "answer=YODEL, confirmed=[poem->ODE, clothing->Y]"}
+{"word": "home", "letters": "BACK", "count": 1, "type": "residual", "source": "answer=HUMPBACK, confirmed=[carry->HUMP]"}
+{"word": "highlander", "letters": "SCOT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "we", "letters": "RO", "count": 1, "type": "residual", "source": "answer=ROMANNOSE, confirmed=[Old->MAN, Italian->ROMAN, recognises->NOSE]"}
+{"word": "spanish", "letters": "P", "count": 1, "type": "residual", "source": "answer=EGYPT, confirmed=[poem->EGY, the->T, part->PT]"}
+{"word": "brooded", "letters": "TAS", "count": 1, "type": "residual", "source": "answer=TASK, confirmed=[King->K]"}
+{"word": "writing", "letters": "GED", "count": 1, "type": "residual", "source": "answer=ENGAGED, confirmed=[another->A, way->A, of->AGED, Old->AGED, English?->ENG]"}
+{"word": "schoolmarm", "letters": "PRUDE", "count": 1, "type": "residual", "source": "answer=PROTRUDE, confirmed=[rubbish->ROT]"}
+{"word": "scupper", "letters": "BO", "count": 1, "type": "residual", "source": "answer=KIBOSH, confirmed=[King->K, and->SH, I?->I]"}
+{"word": "love", "letters": "LE", "count": 1, "type": "residual", "source": "answer=WHEEDLE, confirmed=[wife->W, with->W, attention->HEED]"}
+{"word": "circumvents", "letters": "MA", "count": 1, "type": "residual", "source": "answer=MAMBA, confirmed=[Mother->MA, black->B]"}
+{"word": "chap", "letters": "HIM", "count": 1, "type": "residual", "source": "answer=WHIM, confirmed=[women->W]"}
+{"word": "bare", "letters": "NUDES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "period", "letters": "SPAN", "count": 1, "type": "residual", "source": "answer=SPORRAN, confirmed=[Soldiers->OR, right->R, wear->OR]"}
+{"word": "seen", "letters": "YR", "count": 1, "type": "residual", "source": "answer=YARN, confirmed=[new->N, light->N, way->A]"}
+{"word": "tall", "letters": "LUS", "count": 1, "type": "residual", "source": "answer=LOTUS, confirmed=[Insect->O, top->T]"}
+{"word": "well", "letters": "R", "count": 1, "type": "residual", "source": "answer=ACER, confirmed=[one->ACE]"}
+{"word": "tablet", "letters": "E", "count": 1, "type": "residual", "source": "answer=OUTDONE, confirmed=[Exposed->OUT, academic->DON, given->ONE, and->DO]"}
+{"word": "possibly meaty", "letters": "PATES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "and nuts", "letters": "PATES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "possibly meaty spreads", "letters": "PATES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "spreads and nuts", "letters": "PATES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "seen", "letters": "DAS", "count": 1, "type": "residual", "source": "answer=TUNDRAS, confirmed=[Cask->TUN, river->R, in->T, the->T, German->UND]"}
+{"word": "going", "letters": "LAPPING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "around drinking", "letters": "LAPPING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pie", "letters": "PINION", "count": 1, "type": "residual", "source": "answer=OPINION, confirmed=[onion->O]"}
+{"word": "bluish-purple", "letters": "Y", "count": 1, "type": "residual", "source": "answer=BRANDYSNAP, confirmed=[label,->BRAND, the->SNAP, way->A]"}
+{"word": "book", "letters": "MARK", "count": 1, "type": "residual", "source": "answer=MARKTWAIN, confirmed=[two->TWAIN]"}
+{"word": "nothing", "letters": "AL", "count": 1, "type": "residual", "source": "answer=ALLRIGHT, confirmed=[left?->L, That's->RIGHT]"}
+{"word": "quiet", "letters": "H", "count": 1, "type": "residual", "source": "answer=STEAKHOUSE, confirmed=[wood->TEAK, on->S, river->OUSE]"}
+{"word": "this is", "letters": "CLIPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "docking vessel", "letters": "CLIPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "this is used", "letters": "CLIPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for docking vessel", "letters": "CLIPPER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "docking", "letters": "CLIP", "count": 1, "type": "residual", "source": "answer=CLIPPER, confirmed=[for->PER]"}
+{"word": "tie", "letters": "W", "count": 1, "type": "residual", "source": "answer=SWEATER, confirmed=[son->EATER, put->EAT, on->S]"}
+{"word": "errand boys", "letters": "PAGES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "most", "letters": "EXTREME", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "day", "letters": "EVE", "count": 1, "type": "residual", "source": "answer=EVEREST, confirmed=[chill->REST]"}
+{"word": "slightly", "letters": "QUITE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hasn't", "letters": "SEVE", "count": 1, "type": "residual", "source": "answer=SEVER, confirmed=[River->R]"}
+{"word": "hacienda", "letters": "VILLA", "count": 1, "type": "residual", "source": "answer=VANILLA, confirmed=[Article->AN]"}
+{"word": "winger", "letters": "HARRIER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "information", "letters": "BE", "count": 1, "type": "residual", "source": "answer=DELIBERATE, confirmed=[in->T, after->ERA, shop->DELI, is->RATE]"}
+{"word": "i'm", "letters": "HOT", "count": 1, "type": "residual", "source": "answer=HOSTAGE, confirmed=[on->S, old->AGE, coach->STAGE]"}
+{"word": "reluctantly", "letters": "BUDGE", "count": 1, "type": "residual", "source": "answer=BUDGIE, confirmed=[island->I]"}
+{"word": "device", "letters": "TER", "count": 1, "type": "residual", "source": "answer=PLOTTER, confirmed=[chart->PLOT]"}
+{"word": "study", "letters": "TAKE", "count": 1, "type": "residual", "source": "answer=TAKENOTICE, confirmed=[sign->NOTICE]"}
+{"word": "item", "letters": "I", "count": 1, "type": "residual", "source": "answer=DHOTI, confirmed=[Detective->D, sexy->HOT]"}
+{"word": "prejudice", "letters": "SE", "count": 1, "type": "residual", "source": "answer=EXCUSE, confirmed=[former->EX, copper's->CU]"}
+{"word": "reduce intake", "letters": "DIET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in parliament", "letters": "DIET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "intake in parliament", "letters": "DIET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "order", "letters": "TIDY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "mark spotted", "letters": "COMMA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "the garden", "letters": "COMMA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "mark spotted creature", "letters": "COMMA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in the garden", "letters": "COMMA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "adviser", "letters": "ORACLE", "count": 1, "type": "residual", "source": "answer=CORACLE, confirmed=[Conservative->C]"}
+{"word": "james", "letters": "GYM", "count": 1, "type": "residual", "source": "answer=GYMSLIP, confirmed=[error->SLIP]"}
+{"word": "ain't", "letters": "A", "count": 1, "type": "residual", "source": "answer=TRAINER, confirmed=[Republican->R, with->IN, queen->ER, in->T]"}
+{"word": "fifth", "letters": "BOON", "count": 1, "type": "residual", "source": "answer=BORON, confirmed=[king->R]"}
+{"word": "shelling", "letters": "RON", "count": 1, "type": "residual", "source": "answer=CHEVRON, confirmed=[revolutionary->CHE, very->V]"}
+{"word": "in ruins", "letters": "DESTROYED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ancient", "letters": "DEED", "count": 1, "type": "residual", "source": "answer=DESTROYED, confirmed=[small->S, city->TROY]"}
+{"word": "selection", "letters": "CHOICES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "trial", "letters": "DS", "count": 1, "type": "residual", "source": "answer=TENDEREST, confirmed=[to->ERE, one->TEN, up->ERE, in->T]"}
+{"word": "rabbit", "letters": "NER", "count": 1, "type": "residual", "source": "answer=ANTEATER, confirmed=[finally->T, caught->ATE, by->AT, a->A]"}
+{"word": "hand", "letters": "PAIR", "count": 1, "type": "residual", "source": "answer=REPAIR, confirmed=[on->RE]"}
+{"word": "accessing", "letters": "SUB", "count": 1, "type": "residual", "source": "answer=SUBWAY, confirmed=[Head->WAY, a->A]"}
+{"word": "a", "letters": "AMERICAN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "side", "letters": "R", "count": 1, "type": "residual", "source": "answer=TORRENT, confirmed=[in->T, Split->RENT, on->RE, other->O, hill->TOR]"}
+{"word": "jesus", "letters": "MESSIN", "count": 1, "type": "residual", "source": "answer=MESSINA, confirmed=[drinks->A]"}
+{"word": "fellow", "letters": "NOD", "count": 1, "type": "residual", "source": "answer=NODICE, confirmed=[rocks->ICE]"}
+{"word": "stag", "letters": "SG", "count": 1, "type": "residual", "source": "answer=SHINDIG, confirmed=[Language->HINDI]"}
+{"word": "found", "letters": "MAE", "count": 1, "type": "residual", "source": "answer=MAEWEST, confirmed=[we->WE, in->T, teams->S]"}
+{"word": "novel", "letters": "NEWS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "legal", "letters": "RIDER", "count": 1, "type": "residual", "source": "answer=RIDERHAGGARD, confirmed=[drawn->HAGGARD]"}
+{"word": "ensnared", "letters": "NETS", "count": 1, "type": "residual", "source": "answer=NEWTS, confirmed=[with->W]"}
+{"word": "place", "letters": "SE", "count": 1, "type": "residual", "source": "answer=BASE, confirmed=[Bachelor->BA]"}
+{"word": "plonk", "letters": "SIT", "count": 1, "type": "residual", "source": "answer=PROSIT, confirmed=[for->PRO]"}
+{"word": "spot", "letters": "ARS", "count": 1, "type": "residual", "source": "answer=MARXIST, confirmed=[in->T, team->XI, month->M]"}
+{"word": "gains control", "letters": "MASTERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "golf tournament", "letters": "MASTERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "gains control over", "letters": "MASTERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "over golf tournament", "letters": "MASTERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "underrated", "letters": "JU", "count": 1, "type": "residual", "source": "answer=JUDO, confirmed=[role->DO]"}
+{"word": "occasionally", "letters": "UT", "count": 1, "type": "residual", "source": "answer=STAMPDUTY, confirmed=[Character->STAMP, doubts->D, unknown->Y]"}
+{"word": "firing", "letters": "E", "count": 1, "type": "residual", "source": "answer=OCHE, confirmed=[One->O, children->CH]"}
+{"word": "together", "letters": "A", "count": 1, "type": "residual", "source": "answer=RIGMAROLES, confirmed=[Doctor->RIG, Master->M, characters->ROLES]"}
+{"word": "picked", "letters": "Z", "count": 1, "type": "residual", "source": "answer=KIBITZ, confirmed=[fragments->BIT, one->I, kilo->K]"}
+{"word": "stanmore", "letters": "YM", "count": 1, "type": "residual", "source": "answer=YAMS, confirmed=[on->S, route->A]"}
+{"word": "assault", "letters": "CK", "count": 1, "type": "residual", "source": "answer=TACK, confirmed=[A->A, time->T]"}
+{"word": "14lb", "letters": "STONE", "count": 1, "type": "residual", "source": "answer=HAILSTONE, confirmed=[Praise->HAIL]"}
+{"word": "periods", "letters": "S", "count": 1, "type": "residual", "source": "answer=COLDSNAPS, confirmed=[Viruses->COLDS, rest->NAP]"}
+{"word": "monetary", "letters": "GRAN", "count": 1, "type": "residual", "source": "answer=GRADIENT, confirmed=[Pass->DIE, in->T]"}
+{"word": "static", "letters": "SIL", "count": 1, "type": "residual", "source": "answer=STENCIL, confirmed=[Enclosed->ENC, in->T]"}
+{"word": "partook", "letters": "ATE", "count": 1, "type": "residual", "source": "answer=TEMPERATE, confirmed=[toughen->TEMPER]"}
+{"word": "brummie", "letters": "L", "count": 1, "type": "residual", "source": "answer=FILL, confirmed=[Fellow->F, is->IL]"}
+{"word": "tubby", "letters": "SHOP", "count": 1, "type": "residual", "source": "answer=TUCKSHOP, confirmed=[friar's->TUCK]"}
+{"word": "partner", "letters": "E", "count": 1, "type": "residual", "source": "answer=EXPEL, confirmed=[former->EX, sport->P, student->L]"}
+{"word": "got", "letters": "ROS", "count": 1, "type": "residual", "source": "answer=ROSARY, confirmed=[shortly->A, a->A, line->RY]"}
+{"word": "mythical", "letters": "KING", "count": 1, "type": "residual", "source": "answer=ROCKING, confirmed=[bird->ROC, Charles?->C]"}
+{"word": "stirs up", "letters": "OCCASIONS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "social functions", "letters": "OCCASIONS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ireland", "letters": "S", "count": 1, "type": "residual", "source": "answer=SLOUGHS, confirmed=[Lakes->LOUGH, small->S]"}
+{"word": "feeble-sounding", "letters": "EEK", "count": 1, "type": "residual", "source": "answer=RAGWEEK, confirmed=[Tabloid->RAG, with->W]"}
+{"word": "semi-solid", "letters": "BE", "count": 1, "type": "residual", "source": "answer=JELLYBEAN, confirmed=[dessert->JELLY, and->AN, vegetable->BEAN]"}
+{"word": "wales", "letters": "W", "count": 1, "type": "residual", "source": "answer=EBBWVALE, confirmed=[Decline->EBB, farewell->VALE]"}
+{"word": "james maybe", "letters": "BOND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "an attachment", "letters": "BOND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "james maybe making", "letters": "BOND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "making an attachment", "letters": "BOND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "vegetable from", "letters": "LEEK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "tablets", "letters": "S", "count": 1, "type": "residual", "source": "answer=ESSAYS, confirmed=[ecstasy->E, speaks->SAYS]"}
+{"word": "of racecourse", "letters": "GOING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "leaving to see", "letters": "GOING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "condition of racecourse", "letters": "GOING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "embodying", "letters": "MI", "count": 1, "type": "residual", "source": "answer=BAMBI, confirmed=[bachelor,->BA, one->A, American->A, book->B]"}
+{"word": "book", "letters": "ORDER", "count": 1, "type": "residual", "source": "answer=RECORDERSHIP, confirmed=[Again->RE, sea->C, transport,->SHIP, about->RE]"}
+{"word": "adams", "letters": "TURNS", "count": 1, "type": "residual", "source": "answer=TURNUPTRUMPS, confirmed=[with->UP, President->TRUMP, at->RUMP]"}
+{"word": "reporting", "letters": "UNDER", "count": 1, "type": "residual", "source": "answer=DUNDERHEAD, confirmed=[Department's->D, leader->HEAD, top->HEAD, teacher,->HEAD, an->A]"}
+{"word": "have", "letters": "GO", "count": 1, "type": "residual", "source": "answer=GOSSIP, confirmed=[second->S, drink->SIP]"}
+{"word": "fighter's", "letters": "S", "count": 1, "type": "residual", "source": "answer=ACHES, confirmed=[A->A, revolutionary->CHE]"}
+{"word": "policy", "letters": "PIG", "count": 1, "type": "residual", "source": "answer=CLAYPIGEON, confirmed=[Change->C, age->EON, before->ON, end->LAY]"}
+{"word": "us", "letters": "S", "count": 1, "type": "residual", "source": "answer=BARBERSHOP, confirmed=[composer's->BARBER, dance->HOP]"}
+{"word": "enemy", "letters": "FUR", "count": 1, "type": "residual", "source": "answer=FOUR, confirmed=[old->O]"}
+{"word": "lion", "letters": "CA", "count": 1, "type": "residual", "source": "answer=INCA, confirmed=[by->IN]"}
+{"word": "item", "letters": "RY", "count": 1, "type": "residual", "source": "answer=TRAVESTY, confirmed=[an->A, underwear->VEST, in->T]"}
+{"word": "dirt", "letters": "GRIM", "count": 1, "type": "residual", "source": "answer=GRIMACE, confirmed=[a->ACE, Conservative->C]"}
+{"word": "doubled", "letters": "E", "count": 1, "type": "residual", "source": "answer=EGO, confirmed=[Energy->GO]"}
+{"word": "propped", "letters": "POTS", "count": 1, "type": "residual", "source": "answer=POTSDAM, confirmed=[plug->DAM]"}
+{"word": "devout", "letters": "T", "count": 1, "type": "residual", "source": "answer=JIHADIST, confirmed=[Judge->J, I->I, deceived->HAD, lives->IS]"}
+{"word": "inducing", "letters": "IA", "count": 1, "type": "residual", "source": "answer=CAMBODIA, confirmed=[Eccentric->CAM, chap->BOD]"}
+{"word": "halved", "letters": "DELA", "count": 1, "type": "residual", "source": "answer=DELTA, confirmed=[Time->T, in->T]"}
+{"word": "unit", "letters": "NU", "count": 1, "type": "residual", "source": "answer=INSITU, confirmed=[Base->I, is->SIT]"}
+{"word": "borders", "letters": "T", "count": 1, "type": "residual", "source": "answer=STROBE, confirmed=[short->S, dress->ROBE]"}
+{"word": "slick", "letters": "SAT", "count": 1, "type": "residual", "source": "answer=SATIN, confirmed=[demonstrated->IN]"}
+{"word": "ambushed", "letters": "ONS", "count": 1, "type": "residual", "source": "answer=COINS, confirmed=[One->I, by->IN, criminal's->C]"}
+{"word": "collector", "letters": "SAVER", "count": 1, "type": "residual", "source": "answer=SALVER, confirmed=[large->L]"}
+{"word": "winchester", "letters": "GU", "count": 1, "type": "residual", "source": "answer=GNU, confirmed=[north->N]"}
+{"word": "former", "letters": "RE", "count": 1, "type": "residual", "source": "answer=HERE, confirmed=[ambassador->HE, monarch->ER]"}
+{"word": "100", "letters": "T", "count": 1, "type": "residual", "source": "answer=BATON, confirmed=[Airline->BA, with->ON]"}
+{"word": "eastern", "letters": "ORIG", "count": 1, "type": "residual", "source": "answer=ORIGAMI, confirmed=[a->A, motorway->MI]"}
+{"word": "disliked", "letters": "MINDED", "count": 1, "type": "residual", "source": "answer=SINGLEMINDED, confirmed=[individual,->SINGLE]"}
+{"word": "big", "letters": "HAS", "count": 1, "type": "residual", "source": "answer=HALS, confirmed=[large->L]"}
+{"word": "wife", "letters": "ILY", "count": 1, "type": "residual", "source": "answer=OILY, confirmed=[ring->O]"}
+{"word": "wye", "letters": "Y", "count": 1, "type": "residual", "source": "answer=TESTY, confirmed=[River->TEST]"}
+{"word": "school", "letters": "RE", "count": 1, "type": "residual", "source": "answer=REFORM, confirmed=[class->FORM]"}
+{"word": "open", "letters": "CANOVA", "count": 1, "type": "residual", "source": "answer=CASANOVA, confirmed=[appeal->SA, on->AS]"}
+{"word": "couple", "letters": "GET", "count": 1, "type": "residual", "source": "answer=GETTOGETHER, confirmed=[Become->TOGETHER, for->TO]"}
+{"word": "victoria", "letters": "STATION", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "possibly standing", "letters": "STATION", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "car", "letters": "RE", "count": 1, "type": "residual", "source": "answer=RECOVER, confirmed=[round->OVER, church->C, in->COVER]"}
+{"word": "rose", "letters": "RIC", "count": 1, "type": "residual", "source": "answer=ERICA, confirmed=[first->A, English->E, another->A]"}
+{"word": "acting", "letters": "CARETAKER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "thief", "letters": "TAKER", "count": 1, "type": "residual", "source": "answer=CARETAKER, confirmed=[caution->CARE]"}
+{"word": "goddess", "letters": "IRE", "count": 1, "type": "residual", "source": "answer=IRATE, confirmed=[light->AT]"}
+{"word": "staffer", "letters": "SUB", "count": 1, "type": "residual", "source": "answer=SUBTEXT, confirmed=[message->TEXT, from->EX, Times->T]"}
+{"word": "woman", "letters": "H", "count": 1, "type": "residual", "source": "answer=REACH, confirmed=[about->RE, account->AC]"}
+{"word": "reservoir", "letters": "DM", "count": 1, "type": "residual", "source": "answer=DREAM, confirmed=[engineers->RE, can->A]"}
+{"word": "shoe", "letters": "LACE", "count": 1, "type": "residual", "source": "answer=LACERATED, confirmed=[considered->RATED]"}
+{"word": "poem", "letters": "ATE", "count": 1, "type": "residual", "source": "answer=ORATE, confirmed=[about->OR, grass->RAT]"}
+{"word": "pair", "letters": "N", "count": 1, "type": "residual", "source": "answer=ENSIGN, confirmed=[Leo->SIGN, England's->E]"}
+{"word": "celery", "letters": "STICK", "count": 1, "type": "residual", "source": "answer=DIPSTICK, confirmed=[hummus->DIP]"}
+{"word": "tool", "letters": "FACTO", "count": 1, "type": "residual", "source": "answer=FACTOTUM, confirmed=[stomach->TUM]"}
+{"word": "friend", "letters": "LP", "count": 1, "type": "residual", "source": "answer=LAP, confirmed=[Have->A]"}
+{"word": "dance", "letters": "CHAS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "progress", "letters": "OG", "count": 1, "type": "residual", "source": "answer=DIALOGUE, confirmed=[Phone->DIAL, European->E, Union->U]"}
+{"word": "fairly", "letters": "EVENLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "having", "letters": "LESS", "count": 1, "type": "residual", "source": "answer=LISTLESS, confirmed=[record?->LIST]"}
+{"word": "item", "letters": "HONG", "count": 1, "type": "residual", "source": "answer=THONG, confirmed=[in->T]"}
+{"word": "laid", "letters": "ABED", "count": 1, "type": "residual", "source": "answer=ABIDED, confirmed=[current->I, day->D]"}
+{"word": "affliction", "letters": "SORE", "count": 1, "type": "residual", "source": "answer=SOMBRE, confirmed=[doctor->MB]"}
+{"word": "beastly", "letters": "VILE", "count": 1, "type": "residual", "source": "answer=VIABLE, confirmed=[A->A, bishop->B, by->VIA]"}
+{"word": "gloucestershire", "letters": "GLOS", "count": 1, "type": "residual", "source": "answer=GLORIOUS, confirmed=[City->RIO, United->U]"}
+{"word": "their", "letters": "EUR", "count": 1, "type": "residual", "source": "answer=EULER, confirmed=[French->LE]"}
+{"word": "partners", "letters": "REN", "count": 1, "type": "residual", "source": "answer=SIREN, confirmed=[game->I, suppress->S, fury->IRE]"}
+{"word": "discovered the truth", "letters": "RUMBLED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "award", "letters": "CBE", "count": 1, "type": "residual", "source": "answer=CUBE, confirmed=[uniform->U]"}
+{"word": "possession", "letters": "FEN", "count": 1, "type": "residual", "source": "answer=OFFENCE, confirmed=[church->CE, to->OF, take->OFF]"}
+{"word": "stained", "letters": "KY", "count": 1, "type": "residual", "source": "answer=PINKY, confirmed=[by->IN, pen->INK, page->P]"}
+{"word": "small", "letters": "DO", "count": 1, "type": "residual", "source": "answer=READOPT, confirmed=[on->RE, parking->P, in->T, a->A, spot->AD]"}
+{"word": "theory", "letters": "Y", "count": 1, "type": "residual", "source": "answer=TYRANNY, confirmed=[in->T, oversaw->RAN, New->N, York's->Y]"}
+{"word": "chain", "letters": "CH", "count": 1, "type": "residual", "source": "answer=BUTCH, confirmed=[bar->BUT]"}
+{"word": "boy", "letters": "PER", "count": 1, "type": "residual", "source": "answer=TAPER, confirmed=[tall->TA]"}
+{"word": "trotters", "letters": "FEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "the trotters", "letters": "FEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "plates of meat", "letters": "FEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for the trotters", "letters": "FEET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bind", "letters": "BN", "count": 1, "type": "residual", "source": "answer=ABDOMEN, confirmed=[head->DOME, a->A]"}
+{"word": "proposal", "letters": "BID", "count": 1, "type": "residual", "source": "answer=ABIDE, confirmed=[sweetheart->E, ace->A]"}
+{"word": "joints", "letters": "TONS", "count": 1, "type": "residual", "source": "answer=TENDONS, confirmed=[Parts->END, daughter's->D]"}
+{"word": "spots", "letters": "RA", "count": 1, "type": "residual", "source": "answer=DRALON, confirmed=[dirt->D, over->ON, length->L]"}
+{"word": "tragedian", "letters": "SOPHOCLES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ian", "letters": "I", "count": 1, "type": "residual", "source": "answer=PIANO, confirmed=[Penny->P, and->AN, Oscar->O]"}
+{"word": "yet unapproachable", "letters": "STUFFY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "sting", "letters": "SMARTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "lebanese", "letters": "L", "count": 1, "type": "residual", "source": "answer=NATAL, confirmed=[North->N, American->A, cheers->TA]"}
+{"word": "american", "letters": "GI", "count": 1, "type": "residual", "source": "answer=VIGIL, confirmed=[One->I, very->V, large->L]"}
+{"word": "year", "letters": "P", "count": 1, "type": "residual", "source": "answer=EXPAT, confirmed=[once->EX, a->A, tense->T]"}
+{"word": "riddled", "letters": "TN", "count": 1, "type": "residual", "source": "answer=FIRSTBORN, confirmed=[trees->FIRS, men->OR, note->B]"}
+{"word": "unmarried", "letters": "KEY", "count": 1, "type": "residual", "source": "answer=ONKEY, confirmed=[with->ON]"}
+{"word": "argument", "letters": "STILET", "count": 1, "type": "residual", "source": "answer=STILETTO, confirmed=[up->TO]"}
+{"word": "lack", "letters": "NO", "count": 1, "type": "residual", "source": "answer=NOVICE, confirmed=[depravity?->VICE]"}
+{"word": "agent", "letters": "PY", "count": 1, "type": "residual", "source": "answer=SLOPPY, confirmed=[on->S, large->L, operation->OP]"}
+{"word": "tennessee", "letters": "TN", "count": 1, "type": "residual", "source": "answer=TAVERN, confirmed=[state->AVER]"}
+{"word": "chicken", "letters": "COCK", "count": 1, "type": "residual", "source": "answer=COCKATOO, confirmed=[also->TOO, a->A]"}
+{"word": "greetings", "letters": "GS", "count": 1, "type": "residual", "source": "answer=KINGS, confirmed=[Family's->KIN]"}
+{"word": "do hit", "letters": "SERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "at wimbledon", "letters": "SERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ball at wimbledon", "letters": "SERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "brilliant", "letters": "ECA", "count": 1, "type": "residual", "source": "answer=BECAME, confirmed=[book?->B, writer's->ME]"}
+{"word": "nice", "letters": "ES", "count": 1, "type": "residual", "source": "answer=SPONGES, confirmed=[smell->PONG, ship->S]"}
+{"word": "a", "letters": "AREA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hold tool", "letters": "SCISSORS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for cutting", "letters": "SCISSORS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "soap's", "letters": "S", "count": 1, "type": "residual", "source": "answer=UPSETS, confirmed=[Leading->UP, TV->SET]"}
+{"word": "verica's", "letters": "A", "count": 1, "type": "residual", "source": "answer=ALLOA, confirmed=[Everything->ALL, nothing->O]"}
+{"word": "partridge", "letters": "NALA", "count": 1, "type": "residual", "source": "answer=NYALA, confirmed=[unknown->Y]"}
+{"word": "tenancy", "letters": "LET", "count": 1, "type": "residual", "source": "answer=LETUP, confirmed=[Cheerful->UP, to->UP]"}
+{"word": "press", "letters": "IRONS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "child", "letters": "AS", "count": 1, "type": "residual", "source": "answer=ITALICS, confirmed=[in->IT, game->LI, about->C, boxer's->ALI]"}
+{"word": "stadium", "letters": "EWER", "count": 1, "type": "residual", "source": "answer=EWERS, confirmed=[on->S]"}
+{"word": "country", "letters": "LG", "count": 1, "type": "residual", "source": "answer=LOGBOOK, confirmed=[Look->BOOK, love->O]"}
+{"word": "film", "letters": "RIE", "count": 1, "type": "residual", "source": "answer=RIPOSTE, confirmed=[after->POST, timeless->T, south->S]"}
+{"word": "water", "letters": "WEL", "count": 1, "type": "residual", "source": "answer=TOWEL, confirmed=[closed->TO]"}
+{"word": "herring", "letters": "ISH", "count": 1, "type": "residual", "source": "answer=DISH, confirmed=[Germany,->D]"}
+{"word": "defeat", "letters": "LOU", "count": 1, "type": "residual", "source": "answer=LOUT, confirmed=[in->T]"}
+{"word": "guitar", "letters": "FRET", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "get", "letters": "TOP", "count": 1, "type": "residual", "source": "answer=HARDTOP, confirmed=[Difficult->HARD, best->HARD]"}
+{"word": "holiday", "letters": "TEE", "count": 1, "type": "residual", "source": "answer=TOFFEE, confirmed=[on->OFF, place->FEE, for->TO, about->OF]"}
+{"word": "respect", "letters": "OBEY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "adversary", "letters": "Y", "count": 1, "type": "residual", "source": "answer=OBEY, confirmed=[award->OBE]"}
+{"word": "paris", "letters": "D", "count": 1, "type": "residual", "source": "answer=ADROIT, confirmed=[as->RO, one->A, drives->DR, in->IT]"}
+{"word": "notice", "letters": "AS", "count": 1, "type": "residual", "source": "answer=AUTOPSY, confirmed=[A->TOP, university->U, about->TO, year->Y, for->TO]"}
+{"word": "underclothing", "letters": "ANT", "count": 1, "type": "residual", "source": "answer=GALLANT, confirmed=[effrontery->GALL]"}
+{"word": "typical", "letters": "SO", "count": 1, "type": "residual", "source": "answer=SODA, confirmed=[daughter->D, have->A, a->A]"}
+{"word": "paranoid", "letters": "SECTS", "count": 1, "type": "residual", "source": "answer=INSECTS, confirmed=[With->IN]"}
+{"word": "non-u", "letters": "THS", "count": 1, "type": "residual", "source": "answer=THIS, confirmed=[one->I]"}
+{"word": "yearly", "letters": "UAL", "count": 1, "type": "residual", "source": "answer=ACTUAL, confirmed=[numbers->ACT, court->ACT]"}
+{"word": "shiny", "letters": "MATTER", "count": 1, "type": "residual", "source": "answer=GREYMATTER, confirmed=[drab->GREY]"}
+{"word": "hat", "letters": "RAP", "count": 1, "type": "residual", "source": "answer=CLAPTRAP, confirmed=[Hands->CLAP, in->T, suitable->APT]"}
+{"word": "enrol", "letters": "ER", "count": 1, "type": "residual", "source": "answer=CAREER, confirmed=[nurse->CARE]"}
+{"word": "public", "letters": "BOGU", "count": 1, "type": "residual", "source": "answer=BOGUS, confirmed=[rise->S]"}
+{"word": "more comfortable", "letters": "SETTLING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "getting more comfortable", "letters": "SETTLING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "recover from", "letters": "RALLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of shots", "letters": "RALLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "recover from series", "letters": "RALLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "series of shots", "letters": "RALLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pair", "letters": "GG", "count": 1, "type": "residual", "source": "answer=AGOG, confirmed=[A->A, one->A, hide->A, nothing->O]"}
+{"word": "join", "letters": "C", "count": 1, "type": "residual", "source": "answer=CONSTRAIN, confirmed=[Right->ON, air->STRAIN]"}
+{"word": "put", "letters": "PD", "count": 1, "type": "residual", "source": "answer=PAGED, confirmed=[one->AGE, be->AGE]"}
+{"word": "kitchen", "letters": "C", "count": 1, "type": "residual", "source": "answer=CROCKERY, confirmed=[garden->ROCKERY]"}
+{"word": "hopper", "letters": "ROO", "count": 1, "type": "residual", "source": "answer=ROOM, confirmed=[motorway->M]"}
+{"word": "in slough", "letters": "SHED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "very", "letters": "PU", "count": 1, "type": "residual", "source": "answer=PUFF, confirmed=[loudly,->FF]"}
+{"word": "gas", "letters": "GOSSIP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "child", "letters": "OT", "count": 1, "type": "residual", "source": "answer=MOTORBOAT, confirmed=[Second->MO, river->R, snake->BOA, in->T]"}
+{"word": "very", "letters": "Y", "count": 1, "type": "residual", "source": "answer=DIGNITY, confirmed=[Get->DIG, Charlie->NIT]"}
+{"word": "guards", "letters": "TAD", "count": 1, "type": "residual", "source": "answer=TREAD, confirmed=[on->RE]"}
+{"word": "ealing", "letters": "EGG", "count": 1, "type": "residual", "source": "answer=EASTEREGG, confirmed=[Daisy->ASTER, outside->E, for->AS, one->A]"}
+{"word": "pack", "letters": "CUBS", "count": 1, "type": "residual", "source": "answer=CUBES, confirmed=[base->E]"}
+{"word": "guardian", "letters": "US", "count": 1, "type": "residual", "source": "answer=MAGUS, confirmed=[Periodical->MAG]"}
+{"word": "barley", "letters": "S", "count": 1, "type": "residual", "source": "answer=SAWN, confirmed=[beard->AWN]"}
+{"word": "rendered", "letters": "PLASTERED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "rendered insensible", "letters": "PLASTERED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "from drink", "letters": "PLASTERED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "order dish", "letters": "RESERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "up again", "letters": "RESERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "listed", "letters": "TILTED", "count": 1, "type": "residual", "source": "answer=STILTED, confirmed=[ship's->S]"}
+{"word": "lampblack", "letters": "OS", "count": 1, "type": "residual", "source": "answer=TATTOOS, confirmed=[Rubbish->TAT, for->TO]"}
+{"word": "taxes", "letters": "EXCISES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "assets", "letters": "ESTATE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "spring", "letters": "LEN", "count": 1, "type": "residual", "source": "answer=FLUENT, confirmed=[female->F, you->U, term->T]"}
+{"word": "conceivably", "letters": "CAD", "count": 1, "type": "residual", "source": "answer=CARD, confirmed=[King,->R]"}
+{"word": "picked", "letters": "TY", "count": 1, "type": "residual", "source": "answer=TYNESIDE, confirmed=[Point->NE, team->SIDE]"}
+{"word": "life", "letters": "BIO", "count": 1, "type": "residual", "source": "answer=ABINITIO, confirmed=[A->IN, story->A, in->IT, sex->IT, appeal->IT]"}
+{"word": "rome", "letters": "IES", "count": 1, "type": "residual", "source": "answer=DIES, confirmed=[days->D]"}
+{"word": "savour", "letters": "SE", "count": 1, "type": "residual", "source": "answer=ASTERISK, confirmed=[First->A, time->T, chance->RISK]"}
+{"word": "everton", "letters": "SIDE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "put", "letters": "COCO", "count": 1, "type": "residual", "source": "answer=SCOTCHBROTH, confirmed=[the->TH, on->S, in->T, British->BR, hotel's->H]"}
+{"word": "deed", "letters": "ABACS", "count": 1, "type": "residual", "source": "answer=ABACUSES, confirmed=[mistreats->USE]"}
+{"word": "vice", "letters": "IC", "count": 1, "type": "residual", "source": "answer=IRONIC, confirmed=[press->IRON]"}
+{"word": "feeling", "letters": "AUDE", "count": 1, "type": "residual", "source": "answer=LATITUDE, confirmed=[Student->L, time->T, get->IT]"}
+{"word": "brussels", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNTRUE, confirmed=[right->TRUE, nut?->TRUE]"}
+{"word": "he", "letters": "HS", "count": 1, "type": "residual", "source": "answer=PUNISHES, confirmed=[wordplay,->PUN, setter's->I, starting->S, point?->E]"}
+{"word": "uncertainty", "letters": "FI", "count": 1, "type": "residual", "source": "answer=FIASCO, confirmed=[a->A, small->S, business->CO]"}
+{"word": "all", "letters": "ER", "count": 1, "type": "residual", "source": "answer=SEAFARER, confirmed=[a->A, long->AFAR, way->FARE, away->AFAR, south->S]"}
+{"word": "chief", "letters": "ED", "count": 1, "type": "residual", "source": "answer=ASHAMED, confirmed=[a->A, fake,->SHAM]"}
+{"word": "gravely", "letters": "WS", "count": 1, "type": "residual", "source": "answer=WORSHIP, confirmed=[Nearly->OR, most->OR, in->HIP]"}
+{"word": "suppresses", "letters": "CRUSHES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "infatuations", "letters": "CRUSHES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "paper", "letters": "W", "count": 1, "type": "residual", "source": "answer=WRAPPER, confirmed=[with->PER, run!->RAP]"}
+{"word": "trousers", "letters": "RD", "count": 1, "type": "residual", "source": "answer=RACED, confirmed=[a->ACE, Conservative->C]"}
+{"word": "dredge", "letters": "DS", "count": 1, "type": "residual", "source": "answer=SCREWDRIVERS, confirmed=[second->S, gang->CREW, waterways->RIVER]"}
+{"word": "16", "letters": "NID", "count": 1, "type": "residual", "source": "answer=ENID, confirmed=[English,->E]"}
+{"word": "ancient", "letters": "ON", "count": 1, "type": "residual", "source": "answer=PARTHENON, confirmed=[Separate->PART, layer->HEN]"}
+{"word": "suspense", "letters": "HANG", "count": 1, "type": "residual", "source": "answer=OVERHANG, confirmed=[too->OVER, much->OVER, in->RH]"}
+{"word": "confess", "letters": "AM", "count": 1, "type": "residual", "source": "answer=AMBUSHED, confirmed=[exhausted->BUSHED]"}
+{"word": "serious", "letters": "ROUSE", "count": 1, "type": "residual", "source": "answer=ARTHOUSE, confirmed=[Seat->A, that->TH, you->THOU, in->T]"}
+{"word": "hamburger", "letters": "GERMAN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "infects", "letters": "GERM", "count": 1, "type": "residual", "source": "answer=GERMAN, confirmed=[one->AN, a->A, number->N]"}
+{"word": "moon", "letters": "UN", "count": 1, "type": "residual", "source": "answer=UNRELATED, confirmed=[Run->R, over->ELATED, the->T]"}
+{"word": "banker", "letters": "EXE", "count": 1, "type": "residual", "source": "answer=EXECUTE, confirmed=[Sweet!->CUTE]"}
+{"word": "beg", "letters": "PRY", "count": 1, "type": "residual", "source": "answer=PORTRAY, confirmed=[men->OR, talk->A, in->T]"}
+{"word": "eat", "letters": "FAL", "count": 1, "type": "residual", "source": "answer=OFFAL, confirmed=[to->OF]"}
+{"word": "space", "letters": "DEM", "count": 1, "type": "residual", "source": "answer=TANDEM, confirmed=[in->T, time->T, and->AN]"}
+{"word": "lady", "letters": "L", "count": 1, "type": "residual", "source": "answer=AMYL, confirmed=[morning,->AM, young->Y]"}
+{"word": "need", "letters": "EE", "count": 1, "type": "residual", "source": "answer=LESSEE, confirmed=[Not->LESS, much->LESS, essentially,->SE, get->SEE]"}
+{"word": "young", "letters": "E", "count": 1, "type": "residual", "source": "answer=MADE, confirmed=[In->MAD, lady->MA]"}
+{"word": "turn back", "letters": "RETREAT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "write", "letters": "TYPE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "martin", "letters": "AMIS", "count": 1, "type": "residual", "source": "answer=AMISS, confirmed=[Short's->S]"}
+{"word": "booking", "letters": "RESERVATION", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "face", "letters": "PRONE", "count": 1, "type": "residual", "source": "answer=PADRONE, confirmed=[plug->AD]"}
+{"word": "family", "letters": "HE", "count": 1, "type": "residual", "source": "answer=CARTHAGE, confirmed=[transport->CART, silver->AG, the->TH, old->AGE]"}
+{"word": "reliable", "letters": "SOLI", "count": 1, "type": "residual", "source": "answer=SOLITARY, confirmed=[sailor->TAR, yen->Y]"}
+{"word": "asian", "letters": "THAIS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "judy's", "letters": "PUNC", "count": 1, "type": "residual", "source": "answer=PUNCHLINE, confirmed=[husband->H, calling->LINE]"}
+{"word": "blown as", "letters": "WASTED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "the wind", "letters": "WASTED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "blown as three", "letters": "WASTED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "to the wind", "letters": "WASTED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "three", "letters": "D", "count": 1, "type": "residual", "source": "answer=WASTED, confirmed=[sheets->WASTE, the->T]"}
+{"word": "channel changer", "letters": "REMOTE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "to locate", "letters": "REMOTE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "channel changer hard", "letters": "REMOTE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hard to locate", "letters": "REMOTE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "solicitor", "letters": "S", "count": 1, "type": "residual", "source": "answer=SHINDIG, confirmed=[General->G, tongue->HINDI]"}
+{"word": "central", "letters": "IMPORTANT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "noble", "letters": "LOR", "count": 1, "type": "residual", "source": "answer=CHANCELLOR, confirmed=[Fortune->CHANCE, left->L]"}
+{"word": "asian", "letters": "IN", "count": 1, "type": "residual", "source": "answer=IRAN, confirmed=[Soldiers->RA]"}
+{"word": "fed", "letters": "NOEND", "count": 1, "type": "residual", "source": "answer=NOENDOF, confirmed=[on->OF]"}
+{"word": "further", "letters": "BLUE", "count": 1, "type": "residual", "source": "answer=BLUER, confirmed=[right,->R]"}
+{"word": "consumption", "letters": "OFF", "count": 1, "type": "residual", "source": "answer=INOFF, confirmed=[now,->IN]"}
+{"word": "how", "letters": "E", "count": 1, "type": "residual", "source": "answer=INANE, confirmed=[and->AN, home->IN]"}
+{"word": "result", "letters": "VARE", "count": 1, "type": "residual", "source": "answer=CAVIARE, confirmed=[one's->I, a->A, in->VIA, charge->C]"}
+{"word": "estimate", "letters": "ORSO", "count": 1, "type": "residual", "source": "answer=TORSO, confirmed=[temperature,->T]"}
+{"word": "my", "letters": "M", "count": 1, "type": "residual", "source": "answer=MOTHERCOUNTRY, confirmed=[Second->OTHER, nobleman->COUNTRY, rule->R, in->T]"}
+{"word": "quantity", "letters": "QUIT", "count": 1, "type": "residual", "source": "answer=QUILT, confirmed=[large->L]"}
+{"word": "circular series", "letters": "ROUND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of holes", "letters": "ROUND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "uniform", "letters": "DE", "count": 1, "type": "residual", "source": "answer=PARADE, confirmed=[Soldier->PARA, expected->PAR]"}
+{"word": "dim", "letters": "S", "count": 1, "type": "residual", "source": "answer=DINGBATS, confirmed=[head->DINGBAT, north->N]"}
+{"word": "in game", "letters": "BRIDGE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "place for captain", "letters": "BRIDGE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "captain in game", "letters": "BRIDGE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "encourage", "letters": "A", "count": 1, "type": "residual", "source": "answer=PRESSAGENT, confirmed=[man->GENT, a->PRESS]"}
+{"word": "struggle", "letters": "ESME", "count": 1, "type": "residual", "source": "answer=OPENSESAME, confirmed=[Tournament->OPEN, seems->S, without->OPEN, a->A]"}
+{"word": "stir", "letters": "SLAMMER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "twitter", "letters": "TR", "count": 1, "type": "residual", "source": "answer=TROUNCE, confirmed=[scrap->OUNCE]"}
+{"word": "setter", "letters": "ON", "count": 1, "type": "residual", "source": "answer=LEADON, confirmed=[have->LEAD]"}
+{"word": "tide's", "letters": "IT", "count": 1, "type": "residual", "source": "answer=DISTEND, confirmed=[negotiate->END, delta->D, south->S, high->DIS]"}
+{"word": "bought", "letters": "TOG", "count": 1, "type": "residual", "source": "answer=TOGA, confirmed=[American->A]"}
+{"word": "clasp", "letters": "PRESS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "toll", "letters": "PEAL", "count": 1, "type": "residual", "source": "answer=REPEAL, confirmed=[again?->RE]"}
+{"word": "brown", "letters": "SQUAD", "count": 1, "type": "residual", "source": "answer=SQUANDER, confirmed=[queen->ER, light->N, queen->ER]"}
+{"word": "iraqis", "letters": "ARABS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "dressing", "letters": "GR", "count": 1, "type": "residual", "source": "answer=GRETAGARBO, confirmed=[Greek->ETA, clothes->GARB, Greek->ETA, character,->ETA, old,->O]"}
+{"word": "tree", "letters": "A", "count": 1, "type": "residual", "source": "answer=BABY, confirmed=[bee->B, in->BY]"}
+{"word": "bag", "letters": "CREAM", "count": 1, "type": "residual", "source": "answer=SALADCREAM, confirmed=[boy,->LAD, great->S, quantity->A]"}
+{"word": "safe", "letters": "EXIT", "count": 1, "type": "residual", "source": "answer=EXIST, confirmed=[flight->S]"}
+{"word": "becks", "letters": "BOS", "count": 1, "type": "residual", "source": "answer=BOOKS, confirmed=[out->OK]"}
+{"word": "husband", "letters": "WIT", "count": 1, "type": "residual", "source": "answer=OUTWIT, confirmed=[revealed->OUT]"}
+{"word": "sculled", "letters": "CLE", "count": 1, "type": "residual", "source": "answer=ARTICLE, confirmed=[craft->ART, I->I, a->A]"}
+{"word": "grudge", "letters": "RENTS", "count": 1, "type": "residual", "source": "answer=REPRESENTS, confirmed=[salesman's->REP, bearing->SE]"}
+{"word": "food", "letters": "HAMBURGERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "view", "letters": "ES", "count": 1, "type": "residual", "source": "answer=SEASIDE, confirmed=[a->A, small->S, fish->IDE]"}
+{"word": "one who", "letters": "GRASS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "one who betrays", "letters": "GRASS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "betrays german writer", "letters": "GRASS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "blusher", "letters": "BRIDE", "count": 1, "type": "residual", "source": "answer=BRIDLE, confirmed=[line->L]"}
+{"word": "damsel", "letters": "AL", "count": 1, "type": "residual", "source": "answer=GOAL, confirmed=[cut->GO, old->O]"}
+{"word": "closure", "letters": "E", "count": 1, "type": "residual", "source": "answer=LATHE, confirmed=[left->L, by->AT, hospital->H, route->A]"}
+{"word": "large", "letters": "NIS", "count": 1, "type": "residual", "source": "answer=TUNIS, confirmed=[vessel->U, in->T]"}
+{"word": "it's", "letters": "E", "count": 1, "type": "residual", "source": "answer=TITHE, confirmed=[in->IT, the->TH]"}
+{"word": "gets", "letters": "SEEPED", "count": 1, "type": "residual", "source": "answer=STEEPLED, confirmed=[lake->L, in->T]"}
+{"word": "irishwoman", "letters": "IR", "count": 1, "type": "residual", "source": "answer=MEMOIR, confirmed=[Note->MEMO]"}
+{"word": "lived", "letters": "SD", "count": 1, "type": "residual", "source": "answer=STOOD, confirmed=[with->TOO]"}
+{"word": "vera", "letters": "AVER", "count": 1, "type": "residual", "source": "answer=AVERAGE, confirmed=[Mature->AGE, years->AGE]"}
+{"word": "equity", "letters": "EL", "count": 1, "type": "residual", "source": "answer=EXPEL, confirmed=[former->EX, private->P]"}
+{"word": "promotional", "letters": "FLYER", "count": 1, "type": "residual", "source": "answer=FLYCATCHER, confirmed=[disadvantage->CATCH, in->T]"}
+{"word": "players", "letters": "BACKS", "count": 1, "type": "residual", "source": "answer=HARDBACKS, confirmed=[tough->HARD, rugby->R]"}
+{"word": "worker", "letters": "INT", "count": 1, "type": "residual", "source": "answer=ANCIENT, confirmed=[one->AN, hundred->C, from->A, Spain->E]"}
+{"word": "follow", "letters": "DAM", "count": 1, "type": "residual", "source": "answer=ADAM, confirmed=[a->A]"}
+{"word": "main", "letters": "A", "count": 1, "type": "residual", "source": "answer=ATLARGE, confirmed=[in->LARGE, the->T]"}
+{"word": "reclusive", "letters": "LONERS", "count": 1, "type": "residual", "source": "answer=LONDONERS, confirmed=[lecturer->DON]"}
+{"word": "certain", "letters": "SHORE", "count": 1, "type": "residual", "source": "answer=ASHORE, confirmed=[A->A]"}
+{"word": "three", "letters": "AS", "count": 1, "type": "residual", "source": "answer=PASCAL, confirmed=[pressure->P, states->CAL]"}
+{"word": "beneath", "letters": "PLANE", "count": 1, "type": "residual", "source": "answer=PLANET, confirmed=[temperature->T]"}
+{"word": "personal", "letters": "INNER", "count": 1, "type": "residual", "source": "answer=WINNER, confirmed=[Women's->W]"}
+{"word": "gong", "letters": "MEDDLE", "count": 1, "type": "residual", "source": "answer=MEDDLESOME, confirmed=[a->SOME]"}
+{"word": "complaint", "letters": "BEF", "count": 1, "type": "residual", "source": "answer=BENEFACTOR, confirmed=[brings->ACT, about->OR, new->NE, player->ACTOR]"}
+{"word": "monroe feature", "letters": "MOLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "spy in marilyn", "letters": "MOLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "marilyn monroe feature", "letters": "MOLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "government", "letters": "DOM", "count": 1, "type": "residual", "source": "answer=DOME, confirmed=[English->E]"}
+{"word": "drinking", "letters": "TESTY", "count": 1, "type": "residual", "source": "answer=TESTIFY, confirmed=[whenever->IF]"}
+{"word": "occasionally", "letters": "NR", "count": 1, "type": "residual", "source": "answer=PANDORA, confirmed=[letters->A, Post->P, Office->DO, top->A]"}
+{"word": "reckless behaviour", "letters": "ABANDON", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ouse", "letters": "ME", "count": 1, "type": "residual", "source": "answer=PALINDROME, confirmed=[Drive->DR, by->IN, own->O, mate->PAL]"}
+{"word": "commoner", "letters": "MP", "count": 1, "type": "residual", "source": "answer=RUMP, confirmed=[game->RU]"}
+{"word": "highway", "letters": "MIS", "count": 1, "type": "residual", "source": "answer=MISUNDERSTOOD, confirmed=[splits->SUNDER, unduly->TOO, before->TO, delta->D]"}
+{"word": "church", "letters": "APE", "count": 1, "type": "residual", "source": "answer=APEX, confirmed=[cross->X]"}
+{"word": "figure", "letters": "LY", "count": 1, "type": "residual", "source": "answer=STRANGELY, confirmed=[new->STRANGE, set->GEL]"}
+{"word": "court", "letters": "C", "count": 1, "type": "residual", "source": "answer=CHEST, confirmed=[takes->T, on->S, the->T, man's->HE]"}
+{"word": "pastries", "letters": "PIES", "count": 1, "type": "residual", "source": "answer=HIPPIES, confirmed=[Joint->HIP]"}
+{"word": "in laboratory", "letters": "RETORTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "counters and equipment", "letters": "RETORTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "equipment in laboratory", "letters": "RETORTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "line", "letters": "MEE", "count": 1, "type": "residual", "source": "answer=METE, confirmed=[Joined->T]"}
+{"word": "handgun", "letters": "CL", "count": 1, "type": "residual", "source": "answer=COL, confirmed=[over,->O]"}
+{"word": "child", "letters": "NOS", "count": 1, "type": "residual", "source": "answer=NOSHOWS, confirmed=[Method->HOW, small->S]"}
+{"word": "shawl", "letters": "AFGHAN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "consecutive", "letters": "ELEM", "count": 1, "type": "residual", "source": "answer=ELEMI, confirmed=[India->I]"}
+{"word": "twice", "letters": "RITE", "count": 1, "type": "residual", "source": "answer=INEBRIATE, confirmed=[from->A, Britain->B, fuddled->ATE, with->IN, Ecstasy->E]"}
+{"word": "invigorating", "letters": "O", "count": 1, "type": "residual", "source": "answer=OZONE, confirmed=[land->ZONE, with->ON, certain->ONE]"}
+{"word": "temple", "letters": "T", "count": 1, "type": "residual", "source": "answer=WASTREL, confirmed=[succeeded->WAS, on->RE, lake->L]"}
+{"word": "pale-skinned", "letters": "PASTY", "count": 1, "type": "residual", "source": "answer=PASTRY, confirmed=[king,->R]"}
+{"word": "wrapped", "letters": "WOUND", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "as bishop", "letters": "ACROSSTHEBOARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "as bishop may", "letters": "ACROSSTHEBOARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "catch", "letters": "TE", "count": 1, "type": "residual", "source": "answer=VIETNAMESE, confirmed=[Struggle->VIE, film->ET, titles,->NAMES]"}
+{"word": "liner", "letters": "M", "count": 1, "type": "residual", "source": "answer=MAINCOURSE, confirmed=[from->A, route->COURSE, by->IN, ocean->MAIN]"}
+{"word": "barbie", "letters": "KEN", "count": 1, "type": "residual", "source": "answer=CHICKEN, confirmed=[Elegant->CHIC, friend->C, in->CHIC]"}
+{"word": "phones groups", "letters": "CELLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "political activists", "letters": "CELLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of political activists", "letters": "CELLS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "electrify", "letters": "ENTRANCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "gate", "letters": "ENTRANCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "telegraph", "letters": "USB", "count": 1, "type": "residual", "source": "answer=HUSBAND, confirmed=[hard->H, with->AND, Group->BAND]"}
+{"word": "plumber's", "letters": "SWAP", "count": 1, "type": "residual", "source": "answer=SWAMP, confirmed=[trade,->M]"}
+{"word": "cure", "letters": "THERAPY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "stormzy's", "letters": "EY", "count": 1, "type": "residual", "source": "answer=THERAPY, confirmed=[music->RAP, The->TH]"}
+{"word": "dyke-builder", "letters": "OFFA", "count": 1, "type": "residual", "source": "answer=OFFAL, confirmed=[left->L]"}
+{"word": "nag", "letters": "ORSE", "count": 1, "type": "residual", "source": "answer=ENDORSE, confirmed=[last->END]"}
+{"word": "ref's", "letters": "UMP", "count": 1, "type": "residual", "source": "answer=FRUMP, confirmed=[French->FR]"}
+{"word": "unhappiness", "letters": "MER", "count": 1, "type": "residual", "source": "answer=MISER, confirmed=[for->IS]"}
+{"word": "butter", "letters": "HORN", "count": 1, "type": "residual", "source": "answer=CREAMHORN, confirmed=[best->CREAM]"}
+{"word": "meal", "letters": "EL", "count": 1, "type": "residual", "source": "answer=ELATE, confirmed=[consumed->ATE]"}
+{"word": "wooden", "letters": "FER", "count": 1, "type": "residual", "source": "answer=AFTERDECK, confirmed=[Cut->T, top->T, from->A, beam->T, pack->DECK, in->T]"}
+{"word": "wrapped", "letters": "WOUNDS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "economics", "letters": "E", "count": 1, "type": "residual", "source": "answer=GENESIS, confirmed=[Information->GEN, exists->IS, on->S]"}
+{"word": "participants", "letters": "S", "count": 1, "type": "residual", "source": "answer=NEWSREEL, confirmed=[modern->NEW, dance?->REEL]"}
+{"word": "binding", "letters": "WILE", "count": 1, "type": "residual", "source": "answer=MEANWHILE, confirmed=[Shabby->MEAN, husband->H, the->MEAN]"}
+{"word": "scare", "letters": "TYP", "count": 1, "type": "residual", "source": "answer=TYPHOON, confirmed=[house->HO, regarding->ON]"}
+{"word": "favourable", "letters": "IM", "count": 1, "type": "residual", "source": "answer=IMPRESS, confirmed=[urge->PRESS, a->PRESS]"}
+{"word": "overweight", "letters": "AT", "count": 1, "type": "residual", "source": "answer=ATTEST, confirmed=[top->TEST]"}
+{"word": "import", "letters": "RUSE", "count": 1, "type": "residual", "source": "answer=CHARTREUSE, confirmed=[Plan->CHART, scheme->CHART, European->E]"}
+{"word": "young", "letters": "PRESS", "count": 1, "type": "residual", "source": "answer=PREPOSSESS, confirmed=[gang->POSSE]"}
+{"word": "icy", "letters": "S", "count": 1, "type": "residual", "source": "answer=DIGS, confirmed=[love->DIG]"}
+{"word": "chicken", "letters": "YELLOWS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ice", "letters": "AXE", "count": 1, "type": "residual", "source": "answer=AXEL, confirmed=[line->L]"}
+{"word": "separated", "letters": "LR", "count": 1, "type": "residual", "source": "answer=RULER, confirmed=[Rugby->RU, English->E]"}
+{"word": "seating", "letters": "SOFAS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "author", "letters": "ME", "count": 1, "type": "residual", "source": "answer=TAME, confirmed=[thanks->TA]"}
+{"word": "herb", "letters": "CRESS", "count": 1, "type": "residual", "source": "answer=CARESS, confirmed=[a->A]"}
+{"word": "passionate", "letters": "HO", "count": 1, "type": "residual", "source": "answer=HORATIO, confirmed=[correspondence->RATIO]"}
+{"word": "several", "letters": "REC", "count": 1, "type": "residual", "source": "answer=RECOVER, confirmed=[with->OVER, balls->OVER]"}
+{"word": "business", "letters": "RADE", "count": 1, "type": "residual", "source": "answer=EXTRADITE, confirmed=[from->EX, the->T, other->EXTRA, in?->IT]"}
+{"word": "thin branches", "letters": "TWIGS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "25", "letters": "AIL", "count": 1, "type": "residual", "source": "answer=TAILGATE, confirmed=[the->T, 2->GATE, scandal?->GATE]"}
+{"word": "parish", "letters": "RI", "count": 1, "type": "residual", "source": "answer=RICHELIEU, confirmed=[is->LIE, priest->ELI, red->CHE, uniform->U]"}
+{"word": "in the air", "letters": "UNCERTAIN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "salt", "letters": "ALUM", "count": 1, "type": "residual", "source": "answer=ALBUM, confirmed=[black->B]"}
+{"word": "ruined", "letters": "SHOT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "unite", "letters": "GEL", "count": 1, "type": "residual", "source": "answer=ANGEL, confirmed=[article->AN]"}
+{"word": "two", "letters": "TIME", "count": 1, "type": "residual", "source": "answer=RAGTIME, confirmed=[publications->RAG]"}
+{"word": "anger", "letters": "FIRE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "poet's", "letters": "P", "count": 1, "type": "residual", "source": "answer=PREFERENCE, confirmed=[Thesaurus,->REFERENCE, be,->PREFER]"}
+{"word": "muffles", "letters": "VICE", "count": 1, "type": "residual", "source": "answer=VOICE, confirmed=[Old->O]"}
+{"word": "electricity", "letters": "MAINS", "count": 1, "type": "residual", "source": "answer=REMAINS, confirmed=[touching->RE]"}
+{"word": "the match", "letters": "TIE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "husband", "letters": "E", "count": 1, "type": "residual", "source": "answer=TIE, confirmed=[one->I, the->T]"}
+{"word": "meaning", "letters": "GIST", "count": 1, "type": "residual", "source": "answer=STRATEGIST, confirmed=[way->ST, assess->RATE]"}
+{"word": "infection", "letters": "BUG", "count": 1, "type": "residual", "source": "answer=BUGBEAR, confirmed=[Stomach->BEAR]"}
+{"word": "example", "letters": "TAG", "count": 1, "type": "residual", "source": "answer=STAG, confirmed=[Singular->S]"}
+{"word": "large", "letters": "IBERIA", "count": 1, "type": "residual", "source": "answer=IBERIAN, confirmed=[African->N]"}
+{"word": "reach", "letters": "B", "count": 1, "type": "residual", "source": "answer=BROADS, confirmed=[Ways->ROADS]"}
+{"word": "surprising financial", "letters": "WINDFALL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "surprising financial gain", "letters": "WINDFALL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "apple", "letters": "FALL", "count": 1, "type": "residual", "source": "answer=WINDFALL, confirmed=[gain->WIND]"}
+{"word": "stitch", "letters": "ACK", "count": 1, "type": "residual", "source": "answer=TACKLE, confirmed=[the->T, French->LE]"}
+{"word": "maintain", "letters": "AIDING", "count": 1, "type": "residual", "source": "answer=ABIDING, confirmed=[British->B]"}
+{"word": "fed", "letters": "ATE", "count": 1, "type": "residual", "source": "answer=SATIATE, confirmed=[Settled->SAT, one's->I]"}
+{"word": "bench", "letters": "SETTLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "from bench", "letters": "SETTLE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "school", "letters": "INSTITUTE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "keep", "letters": "HAVE", "count": 1, "type": "residual", "source": "answer=HEAVE, confirmed=[sweetheart->E]"}
+{"word": "draw the line", "letters": "RULER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "guided", "letters": "L", "count": 1, "type": "residual", "source": "answer=LEND, confirmed=[New->END]"}
+{"word": "angus", "letters": "NU", "count": 1, "type": "residual", "source": "answer=NUNEATON, confirmed=[Off->ON, cattle->NEAT]"}
+{"word": "caused", "letters": "UL", "count": 1, "type": "residual", "source": "answer=TUMULT, confirmed=[corporation->TUM, in->T, the->T, month->M]"}
+{"word": "badger", "letters": "TEASE", "count": 1, "type": "residual", "source": "answer=ATEASE, confirmed=[Adult->A]"}
+{"word": "arguably", "letters": "TIS", "count": 1, "type": "residual", "source": "answer=TISSOT, confirmed=[lush->SOT]"}
+{"word": "soho", "letters": "O", "count": 1, "type": "residual", "source": "answer=CAPO, confirmed=[about->CA, quietly->P, close->C]"}
+{"word": "cole's", "letters": "UTER", "count": 1, "type": "residual", "source": "answer=UTHER, confirmed=[head->H, that->TH, woman->HER]"}
+{"word": "prat", "letters": "TIT", "count": 1, "type": "residual", "source": "answer=TIDIEST, confirmed=[passes->DIES, on->S, bungs->DIES]"}
+{"word": "photograph", "letters": "SHORT", "count": 1, "type": "residual", "source": "answer=SHORTAGE, confirmed=[mature->AGE, nurses->A]"}
+{"word": "reporters", "letters": "PRESS", "count": 1, "type": "residual", "source": "answer=EXPRESS, confirmed=[English->E, cross->X]"}
+{"word": "parcel", "letters": "IL", "count": 1, "type": "residual", "source": "answer=MAIL, confirmed=[from->A, Mike,->M, first-class->AI]"}
+{"word": "ass", "letters": "IR", "count": 1, "type": "residual", "source": "answer=IRONAGE, confirmed=[One->AGE, runs->AGE, with->ON, a->A, long->AGE]"}
+{"word": "secret agent", "letters": "OPERATIVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "put", "letters": "TE", "count": 1, "type": "residual", "source": "answer=ANTELOPE, confirmed=[one->AN, bet->ANTE, run->LOPE]"}
+{"word": "poet", "letters": "VERSE", "count": 1, "type": "residual", "source": "answer=INVERSE, confirmed=[a->IN]"}
+{"word": "purpose", "letters": "MIA", "count": 1, "type": "residual", "source": "answer=HERMIA, confirmed=[Woman's->HER]"}
+{"word": "you might", "letters": "SOCKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "these belts", "letters": "SOCKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "you might wear", "letters": "SOCKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "wear these belts", "letters": "SOCKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "curse", "letters": "CUSS", "count": 1, "type": "residual", "source": "answer=CUSTOMS, confirmed=[cat's->TOM]"}
+{"word": "social", "letters": "ON", "count": 1, "type": "residual", "source": "answer=CONSONANT, confirmed=[worker->ANT, prisoners->CONS, on->SO]"}
+{"word": "uninteresting", "letters": "DUL", "count": 1, "type": "residual", "source": "answer=PENDULUM, confirmed=[Writer,->PEN, hesitation;->UM]"}
+{"word": "fooling", "letters": "LARK", "count": 1, "type": "residual", "source": "answer=LARKIN, confirmed=[around->IN]"}
+{"word": "get", "letters": "ORDER", "count": 1, "type": "residual", "source": "answer=ORDERAROUND, confirmed=[to->AROUND, drinks->ROUND, in?->AROUND]"}
+{"word": "reconstituted", "letters": "E", "count": 1, "type": "residual", "source": "answer=ROMANCE, confirmed=[can,->C, capital->ROMAN]"}
+{"word": "presenting", "letters": "PROG", "count": 1, "type": "residual", "source": "answer=SPROG, confirmed=[second->S, short->S]"}
+{"word": "public", "letters": "OVER", "count": 1, "type": "residual", "source": "answer=OVEREAT, confirmed=[welcomes->EAT, each->EA, cut?->T]"}
+{"word": "honey", "letters": "ANGEL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "guerrilla", "letters": "FIDEL", "count": 1, "type": "residual", "source": "answer=INFIDEL, confirmed=[Popular->IN, a->IN]"}
+{"word": "favour", "letters": "BEF", "count": 1, "type": "residual", "source": "answer=BENEFIT, confirmed=[nurse->EN, in->IT]"}
+{"word": "more impetuous", "letters": "RASHER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "a pig", "letters": "RASHER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of a pig", "letters": "RASHER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pig", "letters": "RER", "count": 1, "type": "residual", "source": "answer=RASHER, confirmed=[and->SH, a->A, a->A]"}
+{"word": "built-up", "letters": "CITY", "count": 1, "type": "residual", "source": "answer=CAPACITY, confirmed=[Limit->CAP, a->A, area's->A]"}
+{"word": "farm", "letters": "I", "count": 1, "type": "residual", "source": "answer=EBULLIENT, confirmed=[English->E, animal->BULL, impressive->E, books->NT]"}
+{"word": "put", "letters": "RON", "count": 1, "type": "residual", "source": "answer=MACRON, confirmed=[Coat->MAC, friend->C]"}
+{"word": "arresting", "letters": "CAT", "count": 1, "type": "residual", "source": "answer=CHEAT, confirmed=[Tom->HE, that->EAT, man,->HEAT]"}
+{"word": "profession", "letters": "ACTIN", "count": 1, "type": "residual", "source": "answer=ACTING, confirmed=[players->G]"}
+{"word": "devil", "letters": "SAI", "count": 1, "type": "residual", "source": "answer=SAMARITAN, confirmed=[ruin->MAR, one->AN, the->T]"}
+{"word": "confines", "letters": "PENS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "swans", "letters": "PENS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "crossword", "letters": "OED", "count": 1, "type": "residual", "source": "answer=OEDIPAL, confirmed=[setter's->I, mate:->PAL]"}
+{"word": "having", "letters": "I", "count": 1, "type": "residual", "source": "answer=HECTIC, confirmed=[The->T, fellow->HE, twitching,->TIC, caught->C, cold,->C]"}
+{"word": "appearance", "letters": "IS", "count": 1, "type": "residual", "source": "answer=ISIS, confirmed=[repeat->IS]"}
+{"word": "proceedings", "letters": "RIAL", "count": 1, "type": "residual", "source": "answer=TRIBUNAL, confirmed=[Cake->BUN, in->T]"}
+{"word": "see", "letters": "AM", "count": 1, "type": "residual", "source": "answer=AMIGO, confirmed=[Do->GO, me->I, work->GO]"}
+{"word": "paintings", "letters": "URAL", "count": 1, "type": "residual", "source": "answer=RURAL, confirmed=[king->R]"}
+{"word": "greed", "letters": "S", "count": 1, "type": "residual", "source": "answer=TUCKSIN, confirmed=[Friar->TUCK, with->IN]"}
+{"word": "power", "letters": "RACE", "count": 1, "type": "residual", "source": "answer=MILLRACE, confirmed=[plant?->MILL]"}
+{"word": "name", "letters": "WORD", "count": 1, "type": "residual", "source": "answer=CROSSWORD, confirmed=[short->CROSS]"}
+{"word": "setter", "letters": "AZED", "count": 1, "type": "residual", "source": "answer=FAZED, confirmed=[female->F]"}
+{"word": "men", "letters": "ME", "count": 1, "type": "residual", "source": "answer=BEYONDME, confirmed=[as->BEYOND, name->N]"}
+{"word": "maths", "letters": "SOME", "count": 1, "type": "residual", "source": "answer=SOMETIMES, confirmed=[x->TIMES]"}
+{"word": "throttled", "letters": "AHENT", "count": 1, "type": "residual", "source": "answer=ADHERENT, confirmed=[died->D, soldier?->RE]"}
+{"word": "stole", "letters": "RAP", "count": 1, "type": "residual", "source": "answer=RAPSCALLION, confirmed=[onion->SCALLION]"}
+{"word": "inception", "letters": "LANGER", "count": 1, "type": "residual", "source": "answer=CLANGER, confirmed=[Charles'->C, reign's->CLAN]"}
+{"word": "film", "letters": "CN", "count": 1, "type": "residual", "source": "answer=SCAN, confirmed=[small->S, quantity->A]"}
+{"word": "imprison", "letters": "CAGE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "historic", "letters": "HE", "count": 1, "type": "residual", "source": "answer=ALLTHEBEST, confirmed=[Everyone->ALL, in->T, transmit->BEST]"}
+{"word": "does", "letters": "G", "count": 1, "type": "residual", "source": "answer=DOGROSE, confirmed=[Revolted->ROSE, after->DO, scoundrel->DOG]"}
+{"word": "allowing", "letters": "DOOR", "count": 1, "type": "residual", "source": "answer=DOCTOR, confirmed=[Court->CT]"}
+{"word": "hero", "letters": "AUTHORS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "jag", "letters": "CAR", "count": 1, "type": "residual", "source": "answer=SCAR, confirmed=[second->S]"}
+{"word": "bang", "letters": "GEL", "count": 1, "type": "residual", "source": "answer=ANGEL, confirmed=[cover,->AN]"}
+{"word": "cambridge", "letters": "E", "count": 1, "type": "residual", "source": "answer=ANTE, confirmed=[worker,->ANT, in->T]"}
+{"word": "fences", "letters": "ATE", "count": 1, "type": "residual", "source": "answer=ACUTE, confirmed=[copper->CU]"}
+{"word": "talk", "letters": "T", "count": 1, "type": "residual", "source": "answer=TWOSOME, confirmed=[to->SOME, with->W, others->O, a->SOME, little->TWO]"}
+{"word": "bores", "letters": "LOP", "count": 1, "type": "residual", "source": "answer=LOOP, confirmed=[old->O]"}
+{"word": "record", "letters": "GOL", "count": 1, "type": "residual", "source": "answer=GOGOL, confirmed=[Attempt->GO]"}
+{"word": "top-level", "letters": "FI", "count": 1, "type": "residual", "source": "answer=FIJI, confirmed=[judge,->J, one->I]"}
+{"word": "june", "letters": "E", "count": 1, "type": "residual", "source": "answer=ECSTASISE, confirmed=[European->E, Community->C, stagnation->STASIS, in->T]"}
+{"word": "greatest", "letters": "ALI", "count": 1, "type": "residual", "source": "answer=LOOKALIKE, confirmed=[King->K, John->LOO, top->OK, King->K, earth->E]"}
+{"word": "get", "letters": "AP", "count": 1, "type": "residual", "source": "answer=LEAPT, confirmed=[The->T, French->LE, likely->APT]"}
+{"word": "lord", "letters": "PA", "count": 1, "type": "residual", "source": "answer=PAGODA, confirmed=[Father->GOD, a->A]"}
+{"word": "either", "letters": "TIGHT", "count": 1, "type": "residual", "source": "answer=SITTINGTIGHT, confirmed=[Session->SITTING]"}
+{"word": "ethics", "letters": "E", "count": 1, "type": "residual", "source": "answer=EXHUME, confirmed=[by->X, philosopher->HUME]"}
+{"word": "frontier", "letters": "MARCH", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "particularly", "letters": "PY", "count": 1, "type": "residual", "source": "answer=PYROMANIA, confirmed=[State->ROMANIA, supports->A]"}
+{"word": "puts", "letters": "B", "count": 1, "type": "residual", "source": "answer=BROGUE, confirmed=[Scamp->ROGUE, British->BR]"}
+{"word": "picking", "letters": "R", "count": 1, "type": "residual", "source": "answer=RUSE, confirmed=[Is->USE]"}
+{"word": "follows", "letters": "S", "count": 1, "type": "residual", "source": "answer=SPIT, confirmed=[Good->PI, time->T, single->I]"}
+{"word": "hands", "letters": "ARMS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "air", "letters": "E", "count": 1, "type": "residual", "source": "answer=SKYE, confirmed=[broadcaster->SKY, on->S]"}
+{"word": "rector", "letters": "RS", "count": 1, "type": "residual", "source": "answer=IRONS, confirmed=[working->ON, island's->I]"}
+{"word": "recovered", "letters": "BETTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in park", "letters": "RESERVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "music", "letters": "S", "count": 1, "type": "residual", "source": "answer=MARKMYWORDS, confirmed=[Gospel->MARK, goodness,->MYWORD]"}
+{"word": "still", "letters": "PIECE", "count": 1, "type": "residual", "source": "answer=MASTERPIECE, confirmed=[Maiden->M, Flower->ASTER, great->MASTER]"}
+{"word": "teenager", "letters": "STOCK", "count": 1, "type": "residual", "source": "answer=WOODSTOCK, confirmed=[Club->WOOD]"}
+{"word": "alcohol", "letters": "SILL", "count": 1, "type": "residual", "source": "answer=STILL, confirmed=[in->T, this->T]"}
+{"word": "spirit", "letters": "DH", "count": 1, "type": "residual", "source": "answer=BALDERDASH, confirmed=[Book->B, on->AS, tree->ALDER]"}
+{"word": "players", "letters": "TEA", "count": 1, "type": "residual", "source": "answer=CREAMTEA, confirmed=[Elite->CREAM]"}
+{"word": "raking", "letters": "RE", "count": 1, "type": "residual", "source": "answer=RECUMBENT, confirmed=[about->BENT, copper->CU, (crooked)->BENT, in->T, millions->M]"}
+{"word": "loren's", "letters": "LONG", "count": 1, "type": "residual", "source": "answer=ERELONG, confirmed=[to->ERE]"}
+{"word": "deceives", "letters": "CONS", "count": 1, "type": "residual", "source": "answer=CONSTABLE, confirmed=[board->TABLE]"}
+{"word": "vicious", "letters": "SIDES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "success", "letters": "HI", "count": 1, "type": "residual", "source": "answer=HIATUS, confirmed=[American->US, great->S, takes->T, a->A]"}
+{"word": "acknowledgement", "letters": "THANKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "australian", "letters": "WOMBATS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "benevolence", "letters": "GOODNESS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "snide remarks", "letters": "DIGS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "let go", "letters": "SACK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of bag", "letters": "SACK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "takeaway", "letters": "ME", "count": 1, "type": "residual", "source": "answer=CHOWMEIN, confirmed=[popular->IN, dish->CHOW]"}
+{"word": "bumptious", "letters": "COCKY", "count": 1, "type": "residual", "source": "answer=COCKTAILPARTY, confirmed=[Queue->TAIL, leave->PART, in->T]"}
+{"word": "calls", "letters": "CHEWS", "count": 1, "type": "residual", "source": "answer=CASHEWS, confirmed=[That->AS, female->SHE, rook->A, for->AS, some->A]"}
+{"word": "composer", "letters": "CAGES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "non-drinkers", "letters": "HA", "count": 1, "type": "residual", "source": "answer=ATHENA, confirmed=[thus->EN, by->AT]"}
+{"word": "barnaby", "letters": "RUDGE", "count": 1, "type": "residual", "source": "answer=TRUDGE, confirmed=[in->T, tango->T, in->T]"}
+{"word": "steamed", "letters": "HOT", "count": 1, "type": "residual", "source": "answer=HOTDATE, confirmed=[fruit->DATE]"}
+{"word": "who", "letters": "ICAL", "count": 1, "type": "residual", "source": "answer=CRITICAL, confirmed=[reviews->CRIT, appeal->IT]"}
+{"word": "institutions", "letters": "S", "count": 1, "type": "residual", "source": "answer=INUNISON, confirmed=[Popular->IN, educational->UNI, working->ON]"}
+{"word": "full stop", "letters": "POINT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "reason", "letters": "POT", "count": 1, "type": "residual", "source": "answer=POINT, confirmed=[full->IN]"}
+{"word": "repton", "letters": "RB", "count": 1, "type": "residual", "source": "answer=ACERB, confirmed=[Great->ACE, Head->A]"}
+{"word": "very", "letters": "STRA", "count": 1, "type": "residual", "source": "answer=EYESTRAIN, confirmed=[with->IN, vision->EYE, England's->E, first->EYE, coach->TRAIN, well->IN]"}
+{"word": "quarter", "letters": "NE", "count": 1, "type": "residual", "source": "answer=ANATOMISE, confirmed=[a->A, cat->ATOM, in->T, an->A, island->IS]"}
+{"word": "as a rule", "letters": "USUALLY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "18", "letters": "ROUND", "count": 1, "type": "residual", "source": "answer=GROUND, confirmed=[golf->G]"}
+{"word": "sausage", "letters": "SS", "count": 1, "type": "residual", "source": "answer=CARESS, confirmed=[get->CARE, a->A]"}
+{"word": "connected", "letters": "RE", "count": 1, "type": "residual", "source": "answer=REMEDY, confirmed=[year->Y, sea->MED]"}
+{"word": "labour's", "letters": "CR", "count": 1, "type": "residual", "source": "answer=CONSIDER, confirmed=[with->ON, Conservative->CON, party->SIDE]"}
+{"word": "people", "letters": "CI", "count": 1, "type": "residual", "source": "answer=SOCIAL, confirmed=[talk->A, therefore->SO, spies->CIA, left->L]"}
+{"word": "at close quarters", "letters": "NEARBY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "list", "letters": "RIAL", "count": 1, "type": "residual", "source": "answer=TRIAL, confirmed=[in->T]"}
+{"word": "repeatedly", "letters": "BEEF", "count": 1, "type": "residual", "source": "answer=ROASTBEEF, confirmed=[criticise->ROAST, Sunday->S]"}
+{"word": "came", "letters": "DS", "count": 1, "type": "residual", "source": "answer=NOWADAYS, confirmed=[on->NOW, up,->NOW, Yankee->Y, in->NOW, blue->A, advanced->A, first->A]"}
+{"word": "fish", "letters": "WEIRDOS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "same", "letters": "DOS", "count": 1, "type": "residual", "source": "answer=WEIRDOS, confirmed=[Dams->WEIR, the->WEIRD, odd->WEIRDO]"}
+{"word": "desire", "letters": "BEG", "count": 1, "type": "residual", "source": "answer=BEGINNER, confirmed=[secret->INNER, lead->BEGIN]"}
+{"word": "either", "letters": "MA", "count": 1, "type": "residual", "source": "answer=MAEWEST, confirmed=[female->EWE, way->ST]"}
+{"word": "crossword", "letters": "E", "count": 1, "type": "residual", "source": "answer=THEME, confirmed=[The->TH, setter's->ME]"}
+{"word": "santander", "letters": "PT", "count": 1, "type": "residual", "source": "answer=RAPPORT, confirmed=[Talk->RAP, say->OR, get->RAP]"}
+{"word": "juvenile's", "letters": "IURE", "count": 1, "type": "residual", "source": "answer=INURE, confirmed=[cut->N]"}
+{"word": "press", "letters": "TOR", "count": 1, "type": "residual", "source": "answer=TORSO, confirmed=[on->SO]"}
+{"word": "purposes", "letters": "ACE", "count": 1, "type": "residual", "source": "answer=ACRE, confirmed=[religious->R]"}
+{"word": "given", "letters": "N", "count": 1, "type": "residual", "source": "answer=RATTAN, confirmed=[Cheers->TA, snitch->RAT, finally->T]"}
+{"word": "run up to christmas", "letters": "ADVENT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "syndicate", "letters": "ENA", "count": 1, "type": "residual", "source": "answer=ENAMEL, confirmed=[Member->M, Spanish->EL]"}
+{"word": "outrageous", "letters": "MONSTROUS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "off", "letters": "MORTAL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "accessories", "letters": "DIC", "count": 1, "type": "residual", "source": "answer=DISC, confirmed=[small->S]"}
+{"word": "where one", "letters": "DIGS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "where one might", "letters": "DIGS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "africa", "letters": "EY", "count": 1, "type": "residual", "source": "answer=ESSAY, confirmed=[South->S, it's->SA]"}
+{"word": "filters", "letters": "SAFE", "count": 1, "type": "residual", "source": "answer=ANSAFONE, confirmed=[immediately->ON, most->AN]"}
+{"word": "lad", "letters": "BY", "count": 1, "type": "residual", "source": "answer=BALONEY, confirmed=[single->ALONE]"}
+{"word": "business", "letters": "ON", "count": 1, "type": "residual", "source": "answer=MINION, confirmed=[car->MINI]"}
+{"word": "zip", "letters": "LIN", "count": 1, "type": "residual", "source": "answer=LINEAR, confirmed=[organ,->EAR]"}
+{"word": "jay", "letters": "C", "count": 1, "type": "residual", "source": "answer=CAW, confirmed=[from->A, about->CA, whiskey->W]"}
+{"word": "tomato", "letters": "A", "count": 1, "type": "residual", "source": "answer=HOTPOTATO, confirmed=[about->TO, a->POT, stew->HOTPOT, and->HOT, the->T]"}
+{"word": "tickle", "letters": "AM", "count": 1, "type": "residual", "source": "answer=HIPPOPOTAMUS, confirmed=[in->HIP, river->PO, vessel->POT, brief->US]"}
+{"word": "bank job", "letters": "TELLING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "being a snitch", "letters": "TELLING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for bank job", "letters": "TELLING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pull", "letters": "PUFF", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "plug", "letters": "PUFF", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "i make", "letters": "PACIFIER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "york dummy", "letters": "PACIFIER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "i make 2", "letters": "PACIFIER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "new york dummy", "letters": "PACIFIER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "dealing", "letters": "TOUCHING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "with tender", "letters": "TOUCHING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "delft", "letters": "DT", "count": 1, "type": "residual", "source": "answer=DEPICT, confirmed=[impressive->EPIC]"}
+{"word": "cub", "letters": "U", "count": 1, "type": "residual", "source": "answer=USABLE, confirmed=[fur->SABLE]"}
+{"word": "gala", "letters": "ALGA", "count": 1, "type": "residual", "source": "answer=MYALGIA, confirmed=[Well,->MY, I->I]"}
+{"word": "twitches", "letters": "TICS", "count": 1, "type": "residual", "source": "answer=TACTICS, confirmed=[do->ACT]"}
+{"word": "just", "letters": "IR", "count": 1, "type": "residual", "source": "answer=PAIR, confirmed=[one->A, par?->P]"}
+{"word": "chain", "letters": "RO", "count": 1, "type": "residual", "source": "answer=SPARROW, confirmed=[box->SPAR, with->W]"}
+{"word": "eliot", "letters": "T", "count": 1, "type": "residual", "source": "answer=TABLETS, confirmed=[put->TABLE, on->S, board->TABLE]"}
+{"word": "charlie", "letters": "JERK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "preserved meat", "letters": "JERK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "exposed", "letters": "ER", "count": 1, "type": "residual", "source": "answer=SPONGER, confirmed=[Sulphur->S, smell->PONG]"}
+{"word": "band", "letters": "BANGLES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "favourite", "letters": "TECH", "count": 1, "type": "residual", "source": "answer=TEACH, confirmed=[a->A, head->EACH]"}
+{"word": "snug", "letters": "DEN", "count": 1, "type": "residual", "source": "answer=DENOUNCE, confirmed=[cat->OUNCE]"}
+{"word": "bread", "letters": "HUNK", "count": 1, "type": "residual", "source": "answer=HUNKYDORY, confirmed=[unknown->Y, fish->DORY]"}
+{"word": "former", "letters": "BACK", "count": 1, "type": "residual", "source": "answer=BLACKTIE, confirmed=[Liberal->L, Truss->TIE]"}
+{"word": "starmer", "letters": "KEIR", "count": 1, "type": "residual", "source": "answer=KEIRIN, confirmed=[popular->IN]"}
+{"word": "pages", "letters": "DOWN", "count": 1, "type": "residual", "source": "answer=CLOSEDOWN, confirmed=[in->CLOSE]"}
+{"word": "two", "letters": "LA", "count": 1, "type": "residual", "source": "answer=IDOLATRY, confirmed=[I->I, hear->TRY, notes->DO, in->T]"}
+{"word": "strong", "letters": "F", "count": 1, "type": "residual", "source": "answer=FLAME, confirmed=[weak->LAME]"}
+{"word": "thoughtless", "letters": "RASH", "count": 1, "type": "residual", "source": "answer=THRASH, confirmed=[The->TH]"}
+{"word": "would", "letters": "D", "count": 1, "type": "residual", "source": "answer=SHEDLOAD, confirmed=[lady->SHE, charge->LOAD, a->A]"}
+{"word": "small", "letters": "SIDES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "fish surfaces", "letters": "SIDES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "parties", "letters": "NE", "count": 1, "type": "residual", "source": "answer=ALIENATE, confirmed=[from->A, a->A, fib->LIE, in->T]"}
+{"word": "diamond", "letters": "TICE", "count": 1, "type": "residual", "source": "answer=NOTICE, confirmed=[what->NO]"}
+{"word": "french", "letters": "M", "count": 1, "type": "residual", "source": "answer=TUM, confirmed=[the->T, you->U]"}
+{"word": "bill", "letters": "COO", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "stealth", "letters": "S", "count": 1, "type": "residual", "source": "answer=OVERTIRES, confirmed=[Public->OVERT, fury->IRE, over->O]"}
+{"word": "effervescence", "letters": "BE", "count": 1, "type": "residual", "source": "answer=BONEHEAD, confirmed=[born->HEAD, with->ON, a->HEAD, certain->ONE]"}
+{"word": "possesses", "letters": "H", "count": 1, "type": "residual", "source": "answer=HASLET, confirmed=[permit->LET, for->AS]"}
+{"word": "paris", "letters": "ES", "count": 1, "type": "residual", "source": "answer=ESTHER, confirmed=[In->T, that->TH, lady->HER]"}
+{"word": "dye", "letters": "DS", "count": 1, "type": "residual", "source": "answer=DISTRESS, confirmed=[one's->I, hair,->TRESS]"}
+{"word": "transmits", "letters": "SENDS", "count": 1, "type": "residual", "source": "answer=STIPENDS, confirmed=[advice->TIP]"}
+{"word": "quiche", "letters": "TART", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "possibly bitter", "letters": "TART", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "dangerous", "letters": "D", "count": 1, "type": "residual", "source": "answer=CARDGAME, confirmed=[Vehicle->CAR, willing->GAME, front->GAME]"}
+{"word": "i'm", "letters": "MIS", "count": 1, "type": "residual", "source": "answer=MISAPPREHENDING, confirmed=[reaching->APPREHENDING, conclusion,->ENDING]"}
+{"word": "london", "letters": "FT", "count": 1, "type": "residual", "source": "answer=OFTTIMES, confirmed=[ring->O, newspapers->TIMES]"}
+{"word": "put", "letters": "POLO", "count": 1, "type": "residual", "source": "answer=PICCOLO, confirmed=[charge->C, clubs->C, game,->I]"}
+{"word": "spring", "letters": "MON", "count": 1, "type": "residual", "source": "answer=MONARCH, confirmed=[about->ARCH]"}
+{"word": "merger", "letters": "ARD", "count": 1, "type": "residual", "source": "answer=RICHARD, confirmed=[prosperous->RICH, firm->HARD]"}
+{"word": "money", "letters": "S", "count": 1, "type": "residual", "source": "answer=MILKSOP, confirmed=[takes->MILK, old->O, prince->P]"}
+{"word": "hint", "letters": "ICU", "count": 1, "type": "residual", "source": "answer=MANICURE, confirmed=[Chap,->MAN, one->AN, about->RE, right->R]"}
+{"word": "pastry", "letters": "RT", "count": 1, "type": "residual", "source": "answer=ATHEART, confirmed=[Man->HE, by->AT, a->A, dish,->HEART]"}
+{"word": "very", "letters": "NTE", "count": 1, "type": "residual", "source": "answer=ONTHEGO, confirmed=[One->O, got->GO, about->ON, hospital->H]"}
+{"word": "cheers", "letters": "AT", "count": 1, "type": "residual", "source": "answer=AGAINST, confirmed=[wins->GAINS, by->IN]"}
+{"word": "register's", "letters": "PRO", "count": 1, "type": "residual", "source": "answer=PROSTATE, confirmed=[is->STATE]"}
+{"word": "god", "letters": "LUD", "count": 1, "type": "residual", "source": "answer=LAUD, confirmed=[some->A]"}
+{"word": "dedication", "letters": "FOR", "count": 1, "type": "residual", "source": "answer=FORM, confirmed=[spymaster->M]"}
+{"word": "confiscate", "letters": "INHUME", "count": 1, "type": "residual", "source": "answer=INHUMANE, confirmed=[and->AN, drone->HUMANE]"}
+{"word": "wash", "letters": "RINSES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "allen", "letters": "NA", "count": 1, "type": "residual", "source": "answer=PLACENTA, confirmed=[Put->PLACE, books->PLACE, top->T]"}
+{"word": "decoration", "letters": "OBE", "count": 1, "type": "residual", "source": "answer=NOBLE, confirmed=[New->N, fifty->L]"}
+{"word": "oppose", "letters": "BEARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "school", "letters": "DO", "count": 1, "type": "residual", "source": "answer=DOPE, confirmed=[exercise->PE]"}
+{"word": "seaside", "letters": "BARRY", "count": 1, "type": "residual", "source": "answer=BARRYMANILOW, confirmed=[Fellow->MAN, I->I, bass->LOW]"}
+{"word": "i'm", "letters": "TRIN", "count": 1, "type": "residual", "source": "answer=TRAIN, confirmed=[ground->A]"}
+{"word": "son's", "letters": "WAY", "count": 1, "type": "residual", "source": "answer=AWAY, confirmed=[A->A]"}
+{"word": "facial", "letters": "NOSE", "count": 1, "type": "residual", "source": "answer=NORSE, confirmed=[right->R]"}
+{"word": "beverage", "letters": "DEF", "count": 1, "type": "residual", "source": "answer=DEAF, confirmed=[clubs->A]"}
+{"word": "yellow", "letters": "YW", "count": 1, "type": "residual", "source": "answer=ANYHOW, confirmed=[one->AN, house->HO]"}
+{"word": "drivers", "letters": "RAC", "count": 1, "type": "residual", "source": "answer=CHARABANC, confirmed=[bar->BAN, drink->CHA]"}
+{"word": "nymph", "letters": "N", "count": 1, "type": "residual", "source": "answer=ASWOON, confirmed=[Like->AS, court->WOO, first->A]"}
+{"word": "orcadian", "letters": "HOY", "count": 1, "type": "residual", "source": "answer=HOPEFULLY, confirmed=[Games->PE, packed->FULL, in->FULL, island->L]"}
+{"word": "clear", "letters": "TAPER", "count": 1, "type": "residual", "source": "answer=TAPWATER, confirmed=[temple,->WAT]"}
+{"word": "flog", "letters": "RESH", "count": 1, "type": "residual", "source": "answer=THRESHOLD, confirmed=[the->TH, elderly?->OLD, That's->HOLD, the->TH]"}
+{"word": "facing", "letters": "S", "count": 1, "type": "residual", "source": "answer=EXCUSER, confirmed=[former->EX, coppers->CU, Queen->ER]"}
+{"word": "crew", "letters": "REE", "count": 1, "type": "residual", "source": "answer=REELING, confirmed=[fish->LING]"}
+{"word": "percussion", "letters": "DRUMS", "count": 1, "type": "residual", "source": "answer=DOLDRUMS, confirmed=[vintage->OLD]"}
+{"word": "scariest", "letters": "SAIS", "count": 1, "type": "residual", "source": "answer=SAFARIS, confirmed=[distant->FAR]"}
+{"word": "ayr", "letters": "SCO", "count": 1, "type": "residual", "source": "answer=ASCOT, confirmed=[one->A, in->T]"}
+{"word": "third", "letters": "ENG", "count": 1, "type": "residual", "source": "answer=ENGAGE, confirmed=[One->AGE, fruit's->GAGE]"}
+{"word": "sand", "letters": "DANK", "count": 1, "type": "residual", "source": "answer=GDANSK, confirmed=[Shifting->S, Greek->G]"}
+{"word": "recruitment", "letters": "R", "count": 1, "type": "residual", "source": "answer=PATRON, confirmed=[Dropping->PAT, head->A, working->ON]"}
+{"word": "mike", "letters": "ETA", "count": 1, "type": "residual", "source": "answer=ETAL, confirmed=[lead->L]"}
+{"word": "monk", "letters": "HABIT", "count": 1, "type": "residual", "source": "answer=INHABIT, confirmed=[a->IN]"}
+{"word": "given", "letters": "IE", "count": 1, "type": "residual", "source": "answer=PRESSIE, confirmed=[journalists->PRESS]"}
+{"word": "may", "letters": "SIN", "count": 1, "type": "residual", "source": "answer=DEADLYSIN, confirmed=[extremely->DEADLY, secure->DEAD]"}
+{"word": "no tears", "letters": "RENTFREE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "form of tenancy", "letters": "RENTFREE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "producing no tears", "letters": "RENTFREE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pretty", "letters": "JUST", "count": 1, "type": "residual", "source": "answer=ADJUST, confirmed=[from->A, a->A, daughter->D]"}
+{"word": "defector", "letters": "RAT", "count": 1, "type": "residual", "source": "answer=DRAT, confirmed=[Democrat->D]"}
+{"word": "past", "letters": "YESTERDAYS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "steppes", "letters": "PLAINS", "count": 1, "type": "residual", "source": "answer=PLANTAINS, confirmed=[worker,->ANT, in->T]"}
+{"word": "record", "letters": "GLO", "count": 1, "type": "residual", "source": "answer=GIGOLO, confirmed=[Soldier->GI, old->O]"}
+{"word": "old-fashioned", "letters": "DATES", "count": 1, "type": "residual", "source": "answer=DATESTAMP, confirmed=[thanks->TA, politician->MP]"}
+{"word": "marks", "letters": "LINES", "count": 1, "type": "residual", "source": "answer=SKYLINES, confirmed=[Broadcaster->SKY]"}
+{"word": "conflict", "letters": "TUE", "count": 1, "type": "residual", "source": "answer=TRUCE, confirmed=[Right->R, about->C]"}
+{"word": "place", "letters": "P", "count": 1, "type": "residual", "source": "answer=TIPPET, confirmed=[in->T, cat,->PET, one->I]"}
+{"word": "explain", "letters": "E", "count": 1, "type": "residual", "source": "answer=MAXIMISE, confirmed=[proverb->MAXIM, first->A, lives->IS]"}
+{"word": "flex", "letters": "CORD", "count": 1, "type": "residual", "source": "answer=CORDON, confirmed=[performing->ON, as->ON]"}
+{"word": "old", "letters": "AGES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "weekend", "letters": "SS", "count": 1, "type": "residual", "source": "answer=STONES, confirmed=[the->T, tense->T, individual->ONE]"}
+{"word": "23", "letters": "AA", "count": 1, "type": "residual", "source": "answer=AORTA, confirmed=[vital->OR, in->T]"}
+{"word": "ride", "letters": "LE", "count": 1, "type": "residual", "source": "answer=ISLE, confirmed=[for->IS]"}
+{"word": "will", "letters": "SO", "count": 1, "type": "residual", "source": "answer=PICASSO, confirmed=[photo->PIC, like->AS, that->AS, do->PI]"}
+{"word": "pill", "letters": "STA", "count": 1, "type": "residual", "source": "answer=STAB, confirmed=[second->B]"}
+{"word": "hurtful piece", "letters": "CUTTING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "a newspaper", "letters": "CUTTING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hurtful piece from", "letters": "CUTTING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "from a newspaper", "letters": "CUTTING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "marian", "letters": "WA", "count": 1, "type": "residual", "source": "answer=TWAIN, confirmed=[tango->T, with->IN]"}
+{"word": "what we might", "letters": "LEADERSHIP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "alcohol", "letters": "SCOTCH", "count": 1, "type": "residual", "source": "answer=SCOTCHEGGS, confirmed=[urges->EGGS]"}
+{"word": "put", "letters": "PR", "count": 1, "type": "residual", "source": "answer=PARAGRAPH, confirmed=[from->A, Standard->PARA, article->A, chart->GRAPH]"}
+{"word": "carried", "letters": "BRING", "count": 1, "type": "residual", "source": "answer=BRAWLING, confirmed=[tool->AWL, transport->A]"}
+{"word": "baker", "letters": "ACRE", "count": 1, "type": "residual", "source": "answer=MASSACRE, confirmed=[service->MASS]"}
+{"word": "market", "letters": "T", "count": 1, "type": "residual", "source": "answer=DOTTIER, confirmed=[Make->DO, row->TIER, outside->E]"}
+{"word": "dog", "letters": "DG", "count": 1, "type": "residual", "source": "answer=DINING, confirmed=[at->IN, home,->IN, with->IN, around->IN]"}
+{"word": "got", "letters": "TG", "count": 1, "type": "residual", "source": "answer=TREEFROG, confirmed=[over->O, bank->REEF, river->R]"}
+{"word": "contempt", "letters": "DIS", "count": 1, "type": "residual", "source": "answer=DISUSED, confirmed=[treated->USED, university->U]"}
+{"word": "reaching", "letters": "GH", "count": 1, "type": "residual", "source": "answer=HIGH, confirmed=[greeting->HI]"}
+{"word": "universities", "letters": "UNIS", "count": 1, "type": "residual", "source": "answer=INUNISON, confirmed=[Trendy->IN, working->ON]"}
+{"word": "ascot", "letters": "NECKWEAR", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "social", "letters": "OIL", "count": 1, "type": "residual", "source": "answer=CASTOROIL, confirmed=[Shy->CAST, men->OR]"}
+{"word": "pharmacy", "letters": "P", "count": 1, "type": "residual", "source": "answer=PUSS, confirmed=[son->S, American->US]"}
+{"word": "swallow unwanted", "letters": "SLUG", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "to lettuce", "letters": "SLUG", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "accompaniment to lettuce", "letters": "SLUG", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "sarcastic", "letters": "ARP", "count": 1, "type": "residual", "source": "answer=CARDSHARP, confirmed=[eccentric->CARD, and->SH]"}
+{"word": "job", "letters": "PIN", "count": 1, "type": "residual", "source": "answer=CAMPAIGN, confirmed=[Cold->C, morning:->AM, Government's->G, first->A]"}
+{"word": "reserves", "letters": "IERS", "count": 1, "type": "residual", "source": "answer=TIERS, confirmed=[in->T, bonds->TIE]"}
+{"word": "just", "letters": "I", "count": 1, "type": "residual", "source": "answer=PORTRAIT, confirmed=[Painter->RA, wine->PORT, the->T]"}
+{"word": "beholder", "letters": "S", "count": 1, "type": "residual", "source": "answer=LOOKS, confirmed=[eye->LOOK]"}
+{"word": "three", "letters": "NE", "count": 1, "type": "residual", "source": "answer=NEWEST, confirmed=[points->WEST]"}
+{"word": "item", "letters": "SHAM", "count": 1, "type": "residual", "source": "answer=SHAMROCK, confirmed=[paste->ROCK, jewellery->ROCK]"}
+{"word": "writer's", "letters": "LT", "count": 1, "type": "residual", "source": "answer=LEARNT, confirmed=[books->EARN]"}
+{"word": "data", "letters": "BT", "count": 1, "type": "residual", "source": "answer=DOUBT, confirmed=[forms->DO, university->U]"}
+{"word": "indicating", "letters": "IRA", "count": 1, "type": "residual", "source": "answer=MADEIRA, confirmed=[Cracked->MADE, sign->AD]"}
+{"word": "loch", "letters": "OC", "count": 1, "type": "residual", "source": "answer=POTOMAC, confirmed=[vessel->POT, by->TO, with->TO, relative->MA]"}
+{"word": "settler", "letters": "ETTLE", "count": 1, "type": "residual", "source": "answer=TEAKETTLE, confirmed=[wood->TEAK]"}
+{"word": "given", "letters": "Y", "count": 1, "type": "residual", "source": "answer=FAIRY, confirmed=[Blond->FAIR, last->FAIR]"}
+{"word": "figure", "letters": "SIZE", "count": 1, "type": "residual", "source": "answer=CAPSIZE, confirmed=[Crown?->CAP]"}
+{"word": "vomit", "letters": "VA", "count": 1, "type": "residual", "source": "answer=INVALID, confirmed=[through->IN, wearing->IN, a->IN, cap->LID]"}
+{"word": "endoscopist", "letters": "DEX", "count": 1, "type": "residual", "source": "answer=DETOX, confirmed=[for->TO, by->TO]"}
+{"word": "self-catering", "letters": "CT", "count": 1, "type": "residual", "source": "answer=SCAT, confirmed=[from->A, on->S]"}
+{"word": "ball", "letters": "EST", "count": 1, "type": "residual", "source": "answer=TEST, confirmed=[in->T]"}
+{"word": "shorebird", "letters": "SILT", "count": 1, "type": "residual", "source": "answer=STILT, confirmed=[the->T]"}
+{"word": "lag", "letters": "PRISONER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "something launched", "letters": "LINER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "the bin", "letters": "LINER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "something launched that", "letters": "LINER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in the bin", "letters": "LINER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "of cattle", "letters": "ROUNDUP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "how to raise", "letters": "ROUNDUP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "herding of cattle", "letters": "ROUNDUP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "perform", "letters": "GIVE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "putting", "letters": "MOOR", "count": 1, "type": "residual", "source": "answer=MONITOR, confirmed=[idiot->NIT]"}
+{"word": "premier", "letters": "BEST", "count": 1, "type": "residual", "source": "answer=BEHEST, confirmed=[explosive->HE]"}
+{"word": "sitting", "letters": "CT", "count": 1, "type": "residual", "source": "answer=EXTRACT, confirmed=[more->EXTRA, over->EXTRA, court->ACT]"}
+{"word": "find gold", "letters": "PANNED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "hammered and tried", "letters": "PANNED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "to find gold", "letters": "PANNED", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "opposing", "letters": "C", "count": 1, "type": "residual", "source": "answer=CONSIDERED, confirmed=[team->SIDE, with->ON, angry->RED]"}
+{"word": "associated", "letters": "S", "count": 1, "type": "residual", "source": "answer=PEPSIN, confirmed=[Energy's->PEP, with->IN]"}
+{"word": "hired", "letters": "LET", "count": 1, "type": "residual", "source": "answer=CORSLET, confirmed=[My->COR, son->S, out->OR]"}
+{"word": "third", "letters": "LS", "count": 1, "type": "residual", "source": "answer=ALAS, confirmed=[One->A, American->A]"}
+{"word": "court", "letters": "EDI", "count": 1, "type": "residual", "source": "answer=SEDIMENT, confirmed=[in->T, side->S, team->MEN, members->M]"}
+{"word": "cross", "letters": "DOOR", "count": 1, "type": "residual", "source": "answer=DOOSRA, confirmed=[from->A, saint->S, a->A]"}
+{"word": "kipper", "letters": "KS", "count": 1, "type": "residual", "source": "answer=KINSHIP, confirmed=[Trendy->HIP, mum->SH, by->IN]"}
+{"word": "e.g", "letters": "EG", "count": 1, "type": "residual", "source": "answer=REGATTA, confirmed=[party->AT, regularly->R, cheers->TA, runs->R, in->T]"}
+{"word": "portugal", "letters": "PR", "count": 1, "type": "residual", "source": "answer=PROVERB, confirmed=[old->OVER, pirate->ROVER, (British)->B]"}
+{"word": "there", "letters": "HER", "count": 1, "type": "residual", "source": "answer=HERON, confirmed=[leg->ON]"}
+{"word": "for injury", "letters": "SCAB", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "cover for injury", "letters": "SCAB", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "family", "letters": "GP", "count": 1, "type": "residual", "source": "answer=DIGUP, confirmed=[detective->DI, uniform->U, doctor->D]"}
+{"word": "day's", "letters": "TUE", "count": 1, "type": "residual", "source": "answer=TULLE, confirmed=[Lines->LL]"}
+{"word": "pig's", "letters": "OR", "count": 1, "type": "residual", "source": "answer=OAR, confirmed=[head->A]"}
+{"word": "position", "letters": "ONO", "count": 1, "type": "residual", "source": "answer=TORONTO, confirmed=[Hill->TOR, in->T]"}
+{"word": "old currency", "letters": "MARKS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "welsh", "letters": "ASH", "count": 1, "type": "residual", "source": "answer=ASHRAMS, confirmed=[sheep->RAMS]"}
+{"word": "models", "letters": "SITTERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "tennessee's", "letters": "TE", "count": 1, "type": "residual", "source": "answer=YOSEMITE, confirmed=[Old->O, house->SEMI, on->S, south->S, Yankee->Y]"}
+{"word": "olympic", "letters": "RY", "count": 1, "type": "residual", "source": "answer=ARCHERY, confirmed=[Playful->ARCH, line->ARC, about->ARCH, drug->E]"}
+{"word": "attractive", "letters": "STER", "count": 1, "type": "residual", "source": "answer=DISASTER, confirmed=[from->A, cut->DIS, flower->ASTER]"}
+{"word": "wives", "letters": "IVE", "count": 1, "type": "residual", "source": "answer=PRIMITIVE, confirmed=[demure->PRIM, Italian->IT]"}
+{"word": "prolongs", "letters": "STRETCHES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "periods inside", "letters": "STRETCHES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "needy", "letters": "SUED", "count": 1, "type": "residual", "source": "answer=SUITED, confirmed=[now->IT, clubs?->SUIT]"}
+{"word": "writer", "letters": "CORRESPONDENT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "applause", "letters": "OVATIONS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "shooting", "letters": "E", "count": 1, "type": "residual", "source": "answer=ASHORE, confirmed=[High->OR, grade->A, heroin->H, son->S]"}
+{"word": "trump", "letters": "CARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eats fast", "letters": "SCOFFS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "snide comments", "letters": "SCOFFS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "makes snide comments", "letters": "SCOFFS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "dinner", "letters": "POT", "count": 1, "type": "residual", "source": "answer=PASSPORT, confirmed=[request->R, after->PASS, for->AS]"}
+{"word": "occasional table", "letters": "PERIODIC", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "course", "letters": "EN", "count": 1, "type": "residual", "source": "answer=GREENLIGHT, confirmed=[to->LIGHT, land->LIGHT, on->RE, golf->G]"}
+{"word": "enclosure", "letters": "ENC", "count": 1, "type": "residual", "source": "answer=ENCOMPASS, confirmed=[order->OM, permit->PASS]"}
+{"word": "vessels", "letters": "SP", "count": 1, "type": "residual", "source": "answer=STOP, confirmed=[up->TO]"}
+{"word": "thief", "letters": "NICKER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eat", "letters": "HAVE", "count": 1, "type": "residual", "source": "answer=AFTERSHAVE, confirmed=[pudding,->AFTERS, and->SH]"}
+{"word": "don't", "letters": "BON", "count": 1, "type": "residual", "source": "answer=BATON, confirmed=[eyes->AT, in->T]"}
+{"word": "three", "letters": "TER", "count": 1, "type": "residual", "source": "answer=LOBSTER, confirmed=[Throws->LOBS]"}
+{"word": "fun", "letters": "ENT", "count": 1, "type": "residual", "source": "answer=STUDENT, confirmed=[boss->STUD]"}
+{"word": "shiver", "letters": "EY", "count": 1, "type": "residual", "source": "answer=EASY, confirmed=[on->AS, top->A]"}
+{"word": "australian", "letters": "A", "count": 1, "type": "residual", "source": "answer=AUGUSTA, confirmed=[Venerable->AUGUST]"}
+{"word": "healthy walk", "letters": "CONSTITUTIONAL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "asian", "letters": "M", "count": 1, "type": "residual", "source": "answer=AMMAN, confirmed=[A->A, male->MAN, crew->MAN, an->A]"}
+{"word": "improvements", "letters": "DY", "count": 1, "type": "residual", "source": "answer=DISHY, confirmed=[second->S, husband->H, home->I]"}
+{"word": "hired", "letters": "I", "count": 1, "type": "residual", "source": "answer=MINICAB, confirmed=[Married->M, sailor->AB, home->IN, charge->C]"}
+{"word": "pageantry", "letters": "POMP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "write about", "letters": "COVER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "cricket fielder", "letters": "COVER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "opposes", "letters": "CONTESTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "opposes games", "letters": "CONTESTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "being played", "letters": "CONTESTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "gold", "letters": "RON", "count": 1, "type": "residual", "source": "answer=ELECTRON, confirmed=[Return->ELECT, note->C]"}
+{"word": "idea", "letters": "WHIM", "count": 1, "type": "residual", "source": "answer=WHIMPER, confirmed=[for->PER, a->PER]"}
+{"word": "diminutive", "letters": "WEE", "count": 1, "type": "residual", "source": "answer=INTERVIEWEE, confirmed=[Bury->INTER, rival->VIE, with->IN]"}
+{"word": "mild", "letters": "PIK", "count": 1, "type": "residual", "source": "answer=PAPRIKA, confirmed=[Soft->P, food->R, drink->A, a->A]"}
+{"word": "enormous", "letters": "XL", "count": 1, "type": "residual", "source": "answer=EXTOL, confirmed=[Earl->E, with->TO, clothing->T]"}
+{"word": "conceal", "letters": "TRY", "count": 1, "type": "residual", "source": "answer=TRAGEDY, confirmed=[old->AGED]"}
+{"word": "codswallop", "letters": "BS", "count": 1, "type": "residual", "source": "answer=CRUMBS, confirmed=[Conservative?->C, Suspect->RUM]"}
+{"word": "presses", "letters": "PS", "count": 1, "type": "residual", "source": "answer=PAPERS, confirmed=[copy->APE, runs->R, in->PER]"}
+{"word": "satisfies", "letters": "STEEM", "count": 1, "type": "residual", "source": "answer=ESTEEM, confirmed=[sweetheart->E]"}
+{"word": "display", "letters": "AD", "count": 1, "type": "residual", "source": "answer=BALLAD, confirmed=[dance->BALL]"}
+{"word": "minister", "letters": "M", "count": 1, "type": "residual", "source": "answer=CUMIN, confirmed=[Conservative->C, by->IN, Posh->U]"}
+{"word": "trousers", "letters": "TER", "count": 1, "type": "residual", "source": "answer=HIPSTER, confirmed=[in->HIP, short->S]"}
+{"word": "acrimony", "letters": "RANCOUR", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "often", "letters": "NOON", "count": 1, "type": "residual", "source": "answer=AFTERNOON, confirmed=[land's->AFTER]"}
+{"word": "put", "letters": "ES", "count": 1, "type": "residual", "source": "answer=SMALLEST, confirmed=[lights->SMALL, in->T, case->LEST]"}
+{"word": "bolstering", "letters": "OC", "count": 1, "type": "residual", "source": "answer=OCCUR, confirmed=[wretch->CUR]"}
+{"word": "away", "letters": "HOARDS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "lamentable", "letters": "IL", "count": 1, "type": "residual", "source": "answer=EXILE, confirmed=[from->EX, English->E, team->XI]"}
+{"word": "ali", "letters": "FIGHTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "sprays", "letters": "ROSES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "skill", "letters": "TR", "count": 1, "type": "residual", "source": "answer=TRANSPORTS, confirmed=[from->A, new->N, games->SPORTS, underpinning->A]"}
+{"word": "added", "letters": "PE", "count": 1, "type": "residual", "source": "answer=APSE, confirmed=[A->A, short->S, note->A]"}
+{"word": "sharing", "letters": "BLE", "count": 1, "type": "residual", "source": "answer=PARABLE, confirmed=[Soldier->PARA, expert->ABLE, a->A]"}
+{"word": "operator", "letters": "UI", "count": 1, "type": "residual", "source": "answer=TUTSI, confirmed=[tour->T, this->T, on->S]"}
+{"word": "band", "letters": "REM", "count": 1, "type": "residual", "source": "answer=REMODEL, confirmed=[verse->ODE, after->MODE, left->L]"}
+{"word": "mollusc", "letters": "LE", "count": 1, "type": "residual", "source": "answer=SCUTTLE, confirmed=[Put->CUT, small->S, in->T]"}
+{"word": "shop", "letters": "RAT", "count": 1, "type": "residual", "source": "answer=RATRACE, confirmed=[people->RACE]"}
+{"word": "mark", "letters": "SPOTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "selby's", "letters": "S", "count": 1, "type": "residual", "source": "answer=SPOTS, confirmed=[on->S, snooker->POT, balls->O]"}
+{"word": "driver", "letters": "CAR", "count": 1, "type": "residual", "source": "answer=CARBOY, confirmed=[male->BOY]"}
+{"word": "husband", "letters": "RM", "count": 1, "type": "residual", "source": "answer=ARM, confirmed=[a->A]"}
+{"word": "bomb", "letters": "EGG", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "factoid", "letters": "TAT", "count": 1, "type": "residual", "source": "answer=STATE, confirmed=[on->S, European->E]"}
+{"word": "sale", "letters": "OUT", "count": 1, "type": "residual", "source": "answer=OUTDOES, confirmed=[animals->DOE, on->S]"}
+{"word": "dharma", "letters": "LANDER", "count": 1, "type": "residual", "source": "answer=ICELANDER, confirmed=[drink->ICE, style->ELAN]"}
+{"word": "bar", "letters": "MEASURES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "mid-morning", "letters": "TEN", "count": 1, "type": "residual", "source": "answer=EATEN, confirmed=[each->EA]"}
+{"word": "joke", "letters": "NIL", "count": 1, "type": "residual", "source": "answer=NAILUP, confirmed=[the->UP, way->A, about->UP, trouble->AIL]"}
+{"word": "tablets", "letters": "EE", "count": 1, "type": "residual", "source": "answer=YANKEE, confirmed=[wrench->YANK]"}
+{"word": "woke", "letters": "CAMETO", "count": 1, "type": "residual", "source": "answer=CAMETOLIGHT, confirmed=[frivolous->LIGHT]"}
+{"word": "get", "letters": "EIN", "count": 1, "type": "residual", "source": "answer=LENIN, confirmed=[number->N, 50->L]"}
+{"word": "brussels", "letters": "UE", "count": 1, "type": "residual", "source": "answer=EUGENE, confirmed=[Dope->GEN, eastern->E]"}
+{"word": "costas", "letters": "RIC", "count": 1, "type": "residual", "source": "answer=RICOTTA, confirmed=[extravagant->OTT, in->T, one->A, the->T]"}
+{"word": "actors", "letters": "TROUPES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "obvious", "letters": "I", "count": 1, "type": "residual", "source": "answer=TAI, confirmed=[the->T, answer->A]"}
+{"word": "kid's", "letters": "WG", "count": 1, "type": "residual", "source": "answer=TWIG, confirmed=[in->T, game->I]"}
+{"word": "organisation's", "letters": "FA", "count": 1, "type": "residual", "source": "answer=FASCIA, confirmed=[spies->CIA, States->S]"}
+{"word": "vardy's", "letters": "IVE", "count": 1, "type": "residual", "source": "answer=OBJECTIVE, confirmed=[Protest->OBJECT, about->C]"}
+{"word": "technical", "letters": "PER", "count": 1, "type": "residual", "source": "answer=TOPDRAWER, confirmed=[work->DRAW, by->TO, artist->DRAWER]"}
+{"word": "smell", "letters": "FF", "count": 1, "type": "residual", "source": "answer=PARAFFIN, confirmed=[soldier->PARA, with->IN]"}
+{"word": "diet", "letters": "LESS", "count": 1, "type": "residual", "source": "answer=DEATHLESS, confirmed=[Henry->H, daughter->D, that's->EAT]"}
+{"word": "job", "letters": "ING", "count": 1, "type": "residual", "source": "answer=OPENING, confirmed=[available->OPEN]"}
+{"word": "attacking footballer", "letters": "STRIKER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "supervised", "letters": "LED", "count": 1, "type": "residual", "source": "answer=ADDLED, confirmed=[tot->ADD]"}
+{"word": "norse", "letters": "N", "count": 1, "type": "residual", "source": "answer=THORN, confirmed=[God->THOR]"}
+{"word": "snaring", "letters": "OW", "count": 1, "type": "residual", "source": "answer=CROW, confirmed=[Animal->C, river->R]"}
+{"word": "minister", "letters": "R", "count": 1, "type": "residual", "source": "answer=FIVER, confirmed=[gets->FIVE]"}
+{"word": "felt", "letters": "EL", "count": 1, "type": "residual", "source": "answer=CHAPEL, confirmed=[bloke->CHAP]"}
+{"word": "there", "letters": "UNT", "count": 1, "type": "residual", "source": "answer=UNSEAT, confirmed=[article->A, from->A, Spain->E, on->S, car->SEAT]"}
+{"word": "15", "letters": "AVID", "count": 1, "type": "residual", "source": "answer=AVOID, confirmed=[round->O, love->O]"}
+{"word": "aunt", "letters": "RELATIONS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "someone", "letters": "E", "count": 1, "type": "residual", "source": "answer=DOWSE, confirmed=[party->DO, with->W, on->S]"}
+{"word": "picked", "letters": "P", "count": 1, "type": "residual", "source": "answer=LAPP, confirmed=[Drink->LAP]"}
+{"word": "banker's", "letters": "DRAFT", "count": 1, "type": "residual", "source": "answer=OVERDRAFT, confirmed=[Beyond->OVER, covering->OVER]"}
+{"word": "brazilian", "letters": "A", "count": 1, "type": "residual", "source": "answer=LOTHARIO, confirmed=[reluctant,->LOTH, a->LOT, port->RIO]"}
+{"word": "fish", "letters": "LEE", "count": 1, "type": "residual", "source": "answer=LEECH, confirmed=[Cold->C, hot->H]"}
+{"word": "nature", "letters": "BELIE", "count": 1, "type": "residual", "source": "answer=BELIZE, confirmed=[Zulu->Z]"}
+{"word": "requiem", "letters": "VER", "count": 1, "type": "residual", "source": "answer=AVERT, confirmed=[in->T, a->A]"}
+{"word": "chemical", "letters": "CUP", "count": 1, "type": "residual", "source": "answer=BUTTERCUP, confirmed=[British->B, speak->UTTER, about->BUT]"}
+{"word": "illness", "letters": "LAM", "count": 1, "type": "residual", "source": "answer=SPIRITLAMP, confirmed=[mood->SPIRIT, papa->P]"}
+{"word": "tim", "letters": "E", "count": 1, "type": "residual", "source": "answer=EON, confirmed=[as->ON]"}
+{"word": "lie", "letters": "LI", "count": 1, "type": "residual", "source": "answer=ADLIB, confirmed=[Bad->B, broadcast->AD]"}
+{"word": "leaflet", "letters": "FLYER", "count": 1, "type": "residual", "source": "answer=FLYCATCHER, confirmed=[problem->CATCH]"}
+{"word": "adding", "letters": "S", "count": 1, "type": "residual", "source": "answer=BROWSE, confirmed=[energy->E, to->ROW, book->B, arguments->ROWS]"}
+{"word": "orbiting", "letters": "ON", "count": 1, "type": "residual", "source": "answer=NUMBERONE, confirmed=[Nothing->NUMBER, earth->E]"}
+{"word": "favour", "letters": "NAE", "count": 1, "type": "residual", "source": "answer=ANTAE, confirmed=[in->T, gossip->A]"}
+{"word": "guy", "letters": "HIM", "count": 1, "type": "residual", "source": "answer=CHIMINGIN, confirmed=[Caught->C, with->IN, trap->GIN]"}
+{"word": "beg", "letters": "IN", "count": 1, "type": "residual", "source": "answer=INWITH, confirmed=[to->WITH]"}
+{"word": "picking", "letters": "ANE", "count": 1, "type": "residual", "source": "answer=ACNE, confirmed=[cab->C]"}
+{"word": "connections", "letters": "E", "count": 1, "type": "residual", "source": "answer=PERSECUTE, confirmed=[essentially->SE, severed->CUT, with->PER, English->ERSE]"}
+{"word": "minister", "letters": "MY", "count": 1, "type": "residual", "source": "answer=MALADY, confirmed=[a->A, adolescent->LAD]"}
+{"word": "graduate", "letters": "BED", "count": 1, "type": "residual", "source": "answer=BLATHERED, confirmed=[state->LATHER]"}
+{"word": "grizzled", "letters": "GRADE", "count": 1, "type": "residual", "source": "answer=DOWNGRADE, confirmed=[fine->DOWN, hair,->DO]"}
+{"word": "necking", "letters": "K", "count": 1, "type": "residual", "source": "answer=KALE, confirmed=[beer->ALE]"}
+{"word": "enough", "letters": "BASTA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "shouldn't", "letters": "T", "count": 1, "type": "residual", "source": "answer=BASTA, confirmed=[Billions->B, when->AS, have->A]"}
+{"word": "two", "letters": "L", "count": 1, "type": "residual", "source": "answer=LACTEAL, confirmed=[Drink->TEA, account->AC, litres->L]"}
+{"word": "child's", "letters": "SONS", "count": 1, "type": "residual", "source": "answer=SPONSOR, confirmed=[quietly->P, soldiers->OR]"}
+{"word": "left", "letters": "UNDONE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "defeated", "letters": "UNDONE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "for entertainment", "letters": "TREAT", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "cloak", "letters": "LA", "count": 1, "type": "residual", "source": "answer=LAUNDER, confirmed=[below->UNDER]"}
+{"word": "avoid", "letters": "AVERT", "count": 1, "type": "residual", "source": "answer=ADVERT, confirmed=[Daughter->D]"}
+{"word": "chromosome", "letters": "Y", "count": 1, "type": "residual", "source": "answer=LADY, confirmed=[Male->LAD]"}
+{"word": "month", "letters": "INS", "count": 1, "type": "residual", "source": "answer=AGAINST, confirmed=[cooker->AGA, this->T]"}
+{"word": "more", "letters": "GAIN", "count": 1, "type": "residual", "source": "answer=BARGAIN, confirmed=[pub->BAR]"}
+{"word": "campaign", "letters": "W", "count": 1, "type": "residual", "source": "answer=BRAWL, confirmed=[British->BR, student->L, welcomes->A]"}
+{"word": "acquire", "letters": "F", "count": 1, "type": "residual", "source": "answer=FAIRYLIGHT, confirmed=[Steps->LIGHT, to->LIGHT, fresh->AIRY, tree->LI]"}
+{"word": "machine", "letters": "PUMP", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "treat", "letters": "ENTERTAIN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in harbour", "letters": "ENTERTAIN", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "bar", "letters": "BOL", "count": 1, "type": "residual", "source": "answer=NEWBOLT, confirmed=[in->T, unfamiliar->NEW]"}
+{"word": "partners", "letters": "TL", "count": 1, "type": "residual", "source": "answer=EXTOL, confirmed=[from->EX, number->O, former->EX]"}
+{"word": "outdated", "letters": "EG", "count": 1, "type": "residual", "source": "answer=EGAD, confirmed=[publicity?->AD]"}
+{"word": "also", "letters": "HIT", "count": 1, "type": "residual", "source": "answer=HITHERTO, confirmed=[Success->HER, for->TO, woman->HER]"}
+{"word": "must", "letters": "ON", "count": 1, "type": "residual", "source": "answer=OWEN, confirmed=[we->WE]"}
+{"word": "florentine", "letters": "ORRIS", "count": 1, "type": "residual", "source": "answer=MORRIS, confirmed=[married->M]"}
+{"word": "under one", "letters": "COASTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "go under one", "letters": "COASTER", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "barking like", "letters": "DOTTY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "a dalmation", "letters": "DOTTY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "both", "letters": "PE", "count": 1, "type": "residual", "source": "answer=APPETITE, confirmed=[A->A, quiet->IT, dog->PET, ends->IT]"}
+{"word": "trust's", "letters": "T", "count": 1, "type": "residual", "source": "answer=INTEND, confirmed=[I->I, object->END, National->N]"}
+{"word": "group", "letters": "G", "count": 1, "type": "residual", "source": "answer=USING, confirmed=[American->US, weight->IN]"}
+{"word": "horse", "letters": "PINT", "count": 1, "type": "residual", "source": "answer=PRINT, confirmed=[king->R]"}
+{"word": "arundel", "letters": "INAL", "count": 1, "type": "residual", "source": "answer=FINAL, confirmed=[force->F]"}
+{"word": "orange", "letters": "POT", "count": 1, "type": "residual", "source": "answer=APPOINT, confirmed=[a->IN, soft->P, drink->A, a->IN, hint->POINT]"}
+{"word": "identifying", "letters": "TAG", "count": 1, "type": "residual", "source": "answer=ATAGLANCE, confirmed=[A->A, way->LANCE, weapon->LANCE]"}
+{"word": "collection", "letters": "O", "count": 1, "type": "residual", "source": "answer=OPART, confirmed=[books->PART, standard,->PART]"}
+{"word": "family", "letters": "IK", "count": 1, "type": "residual", "source": "answer=REFUSENIK, confirmed=[about->RE, join->FUSE, north->N]"}
+{"word": "means", "letters": "NET", "count": 1, "type": "residual", "source": "answer=NETZERO, confirmed=[number->ZERO, set->RO, nothing!->ZERO]"}
+{"word": "apart", "letters": "DS", "count": 1, "type": "residual", "source": "answer=SPEEDS, confirmed=[go->PEE, ship->S]"}
+{"word": "eccentric items", "letters": "CRACKERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "contain jokes", "letters": "CRACKERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "eccentric items which", "letters": "CRACKERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "often contain jokes", "letters": "CRACKERS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "unpopular film one", "letters": "TURKEY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "time of year", "letters": "TURKEY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "lovable", "letters": "LEONE", "count": 1, "type": "residual", "source": "answer=LEAVEALONE, confirmed=[a->A, meat->VEAL, extremely->V, individual->ALONE]"}
+{"word": "showing dances", "letters": "REELS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "pieces of film", "letters": "REELS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "film showing dances", "letters": "REELS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "displaying wit", "letters": "CARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "conveyer of seasonal", "letters": "CARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "greetings displaying wit", "letters": "CARD", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "stag", "letters": "U", "count": 1, "type": "residual", "source": "answer=HARDUP, confirmed=[short->HARD, party->P]"}
+{"word": "equipment", "letters": "PAN", "count": 1, "type": "residual", "source": "answer=PETERPAN, confirmed=[safe->PETER]"}
+{"word": "confine", "letters": "PEN", "count": 1, "type": "residual", "source": "answer=PENTANGLE, confirmed=[confusion->TANGLE, in->T]"}
+{"word": "having", "letters": "RESET", "count": 1, "type": "residual", "source": "answer=RESENT, confirmed=[name->N]"}
+{"word": "reveal", "letters": "T", "count": 1, "type": "residual", "source": "answer=TANDOORI, confirmed=[One->AN, opening->DOOR, function,->DO, first->A, I->I]"}
+{"word": "old norse", "letters": "TONGUE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "former", "letters": "IY", "count": 1, "type": "residual", "source": "answer=MAJORITY, confirmed=[PM,->MAJOR, one->A, Tory->T, the->T]"}
+{"word": "jump", "letters": "PANT", "count": 1, "type": "residual", "source": "answer=HOTPANTS, confirmed=[on->S, insects->ANTS, tons->HOT]"}
+{"word": "lear", "letters": "HN", "count": 1, "type": "residual", "source": "answer=THROWN, confirmed=[for->ROW, in->T, the->TH]"}
+{"word": "sculpture", "letters": "RA", "count": 1, "type": "residual", "source": "answer=EXTRA, confirmed=[by->X, European->E, from->EX, the->T]"}
+{"word": "low-fat", "letters": "LIGHT", "count": 1, "type": "residual", "source": "answer=LIMELIGHT, confirmed=[Fruit,->LIME]"}
+{"word": "luxury", "letters": "TREAT", "count": 1, "type": "residual", "source": "answer=RETREAT, confirmed=[On->RE]"}
+{"word": "hunt", "letters": "B", "count": 1, "type": "residual", "source": "answer=CATACOMB, confirmed=[Pet->CAT, on->COM, a->A, in->T]"}
+{"word": "vicar", "letters": "VER", "count": 1, "type": "residual", "source": "answer=AVERAGE, confirmed=[A->A, time->AGE]"}
+{"word": "humanity", "letters": "MANE", "count": 1, "type": "residual", "source": "answer=MAINE, confirmed=[I->I, close->MAIN]"}
+{"word": "half-cut", "letters": "T", "count": 1, "type": "residual", "source": "answer=GIFT, confirmed=[Good->G, (providing->IF]"}
+{"word": "exhaustion", "letters": "N", "count": 1, "type": "residual", "source": "answer=UPSILON, confirmed=[tower->SILO, to->UP]"}
+{"word": "inherited", "letters": "GEE", "count": 1, "type": "residual", "source": "answer=GENE, confirmed=[element->N]"}
+{"word": "martians", "letters": "S", "count": 1, "type": "residual", "source": "answer=SINUS, confirmed=[at->IN, American->US]"}
+{"word": "drinking", "letters": "H", "count": 1, "type": "residual", "source": "answer=SWISH, confirmed=[son->S, when->IS, whiskey->W]"}
+{"word": "self-contained", "letters": "SC", "count": 1, "type": "residual", "source": "answer=SCRIPT, confirmed=[epitaph->RIP, time->T]"}
+{"word": "guy", "letters": "CHAPS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "am", "letters": "MA", "count": 1, "type": "residual", "source": "answer=MALAYSIA, confirmed=[places->LAYS, American->A, I->I]"}
+{"word": "pedant", "letters": "TAPE", "count": 1, "type": "residual", "source": "answer=REDTAPE, confirmed=[gets->RED, on->RE, about->RE]"}
+{"word": "signs of love", "letters": "HEARTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "scottish football club", "letters": "HEARTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "acting", "letters": "OWN", "count": 1, "type": "residual", "source": "answer=CASTDOWN, confirmed=[After->CAST, company->CAST, departs->D]"}
+{"word": "daydream", "letters": "MOON", "count": 1, "type": "residual", "source": "answer=MOVEINON, confirmed=[Tube->VEIN]"}
+{"word": "sultan's", "letters": "OTT", "count": 1, "type": "residual", "source": "answer=OTTOMAN, confirmed=[state->OMAN]"}
+{"word": "roman", "letters": "VI", "count": 1, "type": "residual", "source": "answer=VISCID, confirmed=[Detectives->CID, on->S, force->S]"}
+{"word": "business", "letters": "OP", "count": 1, "type": "residual", "source": "answer=SHOP, confirmed=[High->H, street->S]"}
+{"word": "crawled", "letters": "SWAM", "count": 1, "type": "residual", "source": "answer=SWAMI, confirmed=[India->I]"}
+{"word": "strong", "letters": "A", "count": 1, "type": "residual", "source": "answer=LIKEASHOT, confirmed=[Fancy->LIKE, something->LIKE, drink->SHOT]"}
+{"word": "logically", "letters": "OGRE", "count": 1, "type": "residual", "source": "answer=OGRESS, confirmed=[ship->SS]"}
+{"word": "very", "letters": "PAY", "count": 1, "type": "residual", "source": "answer=PANICKY, confirmed=[cut,->NICK]"}
+{"word": "though", "letters": "TIC", "count": 1, "type": "residual", "source": "answer=ACETIC, confirmed=[One->ACE, correct,->E]"}
+{"word": "punctuating", "letters": "VERSE", "count": 1, "type": "residual", "source": "answer=ADVERSE, confirmed=[day->D, a->A]"}
+{"word": "tough", "letters": "FOR", "count": 1, "type": "residual", "source": "answer=REINFORCEMENT, confirmed=[restriction->REIN, on->RE, setter?->CEMENT]"}
+{"word": "put", "letters": "DETER", "count": 1, "type": "residual", "source": "answer=DETERGENT, confirmed=[man->GENT]"}
+{"word": "sure", "letters": "UR", "count": 1, "type": "residual", "source": "answer=AMATEUR, confirmed=[Ace->A, partner->MATE, in->T]"}
+{"word": "sadism", "letters": "SM", "count": 1, "type": "residual", "source": "answer=SCUM, confirmed=[copper->CU]"}
+{"word": "lord", "letters": "SIRE", "count": 1, "type": "residual", "source": "answer=SQUIRE, confirmed=[Queen->QU]"}
+{"word": "recording", "letters": "CD", "count": 1, "type": "residual", "source": "answer=SCORED, confirmed=[Second->S, rock->ORE]"}
+{"word": "tie", "letters": "AL", "count": 1, "type": "residual", "source": "answer=ALSACE, confirmed=[son->S, a->ACE]"}
+{"word": "writing", "letters": "O", "count": 1, "type": "residual", "source": "answer=RHINO, confirmed=[I->I, note->N, in->RH]"}
+{"word": "cotton", "letters": "M", "count": 1, "type": "residual", "source": "answer=DENIM, confirmed=[writer's->I, study->DEN]"}
+{"word": "military", "letters": "CIC", "count": 1, "type": "residual", "source": "answer=CHIC, confirmed=[hospital->H]"}
+{"word": "bandaged", "letters": "IN", "count": 1, "type": "residual", "source": "answer=OINKING, confirmed=[Old->O, man's->KING]"}
+{"word": "franglais", "letters": "LE", "count": 1, "type": "residual", "source": "answer=LEFT, confirmed=[newspaper?->FT]"}
+{"word": "orchestral", "letters": "REED", "count": 1, "type": "residual", "source": "answer=RELAYED, confirmed=[Place->LAY, part->LAY]"}
+{"word": "butter", "letters": "P", "count": 1, "type": "residual", "source": "answer=PASSATA, confirmed=[Noodle->ASS, in->T, quantity->A, a->A]"}
+{"word": "expensively", "letters": "VER", "count": 1, "type": "residual", "source": "answer=ADVERB, confirmed=[notice,->AD, book->B]"}
+{"word": "multi-storey", "letters": "ALL", "count": 1, "type": "residual", "source": "answer=TOWNHALL, confirmed=[Private->OWN, hospital->H, in->T]"}
+{"word": "fumbles", "letters": "DROPS", "count": 1, "type": "residual", "source": "answer=DROPSCONE, confirmed=[ice-cream->CONE]"}
+{"word": "like", "letters": "MY", "count": 1, "type": "residual", "source": "answer=CLAMMY, confirmed=[seafood?->CLAM]"}
+{"word": "people who", "letters": "REGISTRARS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "in hospital", "letters": "REGISTRARS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "people who keep", "letters": "REGISTRARS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "doctors in hospital", "letters": "REGISTRARS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "brush", "letters": "TAIL", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "welcome", "letters": "ACCEPTANCE", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "ball", "letters": "EXTRA", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "repressed", "letters": "ESE", "count": 1, "type": "residual", "source": "answer=ERSE, confirmed=[regularly->R]"}
+{"word": "only", "letters": "ON", "count": 1, "type": "residual", "source": "answer=STEPSON, confirmed=[dance->STEPS, moves->STEPS]"}
+{"word": "home", "letters": "RUN", "count": 1, "type": "residual", "source": "answer=RUNAWAY, confirmed=[Track->WAY, land->A, a->A]"}
+{"word": "aside", "letters": "EA", "count": 1, "type": "residual", "source": "answer=EATABLE, confirmed=[put->TABLE]"}
+{"word": "animals", "letters": "THE", "count": 1, "type": "residual", "source": "answer=OFFTHEMARK, confirmed=[rotten->OFF, boat->ARK, covers->MAR, miles->M]"}
+{"word": "twirl", "letters": "S", "count": 1, "type": "residual", "source": "answer=STAB, confirmed=[a->TAB]"}
+{"word": "croatian", "letters": "CN", "count": 1, "type": "residual", "source": "answer=CLOVEN, confirmed=[dear->LOVE]"}
+{"word": "mean", "letters": "LY", "count": 1, "type": "residual", "source": "answer=NAMELY, confirmed=[put->NAME, one->ME]"}
+{"word": "astounding", "letters": "BREATHTAKING", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "french", "letters": "OI", "count": 1, "type": "residual", "source": "answer=ROBIN, confirmed=[king->R, black->B, knight's->N]"}
+{"word": "emu", "letters": "GU", "count": 1, "type": "residual", "source": "answer=PENGUIN, confirmed=[enclosure->PEN, with->IN, home->IN]"}
+{"word": "fair", "letters": "OK", "count": 1, "type": "residual", "source": "answer=JOKER, confirmed=[Judge->J, queen->ER]"}
+{"word": "market", "letters": "M", "count": 1, "type": "residual", "source": "answer=TEMPER, confirmed=[the->T, English->E, for->PER, each->PER]"}
+{"word": "like", "letters": "CROSS", "count": 1, "type": "residual", "source": "answer=ACROSS, confirmed=[A->A]"}
+{"word": "hotel", "letters": "HOUSES", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "next", "letters": "H", "count": 1, "type": "residual", "source": "answer=HOUSES, confirmed=[river->OUSE, small->S, lodges->HOUSES]"}
+{"word": "cyclist", "letters": "BIKER", "count": 1, "type": "residual", "source": "answer=BICKER, confirmed=[about->C, caught->C]"}
+{"word": "ingenue's", "letters": "DEB", "count": 1, "type": "residual", "source": "answer=DEBATE, confirmed=[Scoffed->ATE]"}
+{"word": "two", "letters": "SUP", "count": 1, "type": "residual", "source": "answer=SUPPORT, confirmed=[drinks->PORT]"}
+{"word": "ho-hum", "letters": "ISH", "count": 1, "type": "residual", "source": "answer=GARISH, confirmed=[fish->GAR]"}
+{"word": "cuisine", "letters": "COOKERY", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "repudiates", "letters": "OR", "count": 1, "type": "residual", "source": "answer=BACKDOOR, confirmed=[support->BACK, party->DO]"}
+{"word": "donald", "letters": "DUCK", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "engendered", "letters": "HERE", "count": 1, "type": "residual", "source": "answer=THERMOMETER, confirmed=[term->TER, mother->MOM, temperature->T]"}
+{"word": "hangman", "letters": "KETCH", "count": 1, "type": "residual", "source": "answer=KETCHUP, confirmed=[promoted?->UP, The->UP]"}
+{"word": "relative", "letters": "I", "count": 1, "type": "residual", "source": "answer=SUSHI, confirmed=[American->US, husband->H, short->S]"}
+{"word": "get", "letters": "A", "count": 1, "type": "residual", "source": "answer=AINTREE, confirmed=[Perhaps->TREE, pine->TREE, a->IN, popular->IN]"}
+{"word": "heavy", "letters": "HY", "count": 1, "type": "residual", "source": "answer=HYDROGEN, confirmed=[Medic->DR, zero->O, information->GEN]"}
+{"word": "people", "letters": "NUDES", "count": 1, "type": "residual", "source": "answer=NUDGES, confirmed=[clothing->G, clothing,->G]"}
+{"word": "fish", "letters": "UNA", "count": 1, "type": "residual", "source": "answer=TRIBUNAL, confirmed=[bone->RIB, left->L, in->T]"}
+{"word": "have", "letters": "TUE", "count": 1, "type": "residual", "source": "answer=DENTURE, confirmed=[study->DEN, right->R]"}
+{"word": "predicts", "letters": "FORECASTS", "count": 1, "type": "definition", "source": "def->answer"}
+{"word": "judo", "letters": "N", "count": 1, "type": "residual", "source": "answer=DAWN, confirmed=[master->A, drinks->D, whiskey->W]"}
+{"word": "competed", "letters": "PLAYED", "count": 1, "type": "residual", "source": "answer=SPLAYED, confirmed=[Son->S]"}
+{"word": "convenience", "letters": "GENTS", "count": 1, "type": "residual", "source": "answer=AGENTS, confirmed=[Advanced->A]"}
+{"word": "toiletry", "letters": "TIE", "count": 1, "type": "residual", "source": "answer=TIER, confirmed=[regularly->R]"}

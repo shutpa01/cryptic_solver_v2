@@ -1,0 +1,304 @@
+{
+  "source": "telegraph",
+  "puzzle": "31190",
+  "stats": {
+    "total": 27,
+    "assembled": 26,
+    "high": 19,
+    "medium": 6,
+    "low": 1,
+    "failed": 1,
+    "avg_score": 75.11538461538461
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "involving",
+      "letters": "SUM",
+      "answer": "SUMMIT",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Top meeting involving key players",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "key players",
+      "letters": "MIT",
+      "answer": "SUMMIT",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Top meeting involving key players",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "brought in,",
+      "letters": "ICE",
+      "answer": "ice cream",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Maybe 99 or 100 brought in, that is best",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "One born in the Fifties",
+      "letters": "BOOMER",
+      "answer": "BLOOMER",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "One born in the Fifties eating large white loaf",
+      "score": 82
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "beat it",
+      "letters": "SCRAM",
+      "answer": "SCRAMBLE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "One way to make egg: beat it regularly Bill before beginning to eat",
+      "score": 54
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "dad",
+      "letters": "A",
+      "answer": "NAPOLEON",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Noel, ordinary dad, knight, retired general",
+      "score": 66
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "dad",
+      "letters": "P",
+      "answer": "NAPOLEON",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Noel, ordinary dad, knight, retired general",
+      "score": 66
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "group",
+      "letters": "SQUAD",
+      "answer": "hit squad",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Popular recording group The Killers",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "This compiler",
+      "letters": "I",
+      "answer": "IDIOM",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "This compiler would put on Isle of Man dialect",
+      "score": 64
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tear down",
+      "answer": "DEMOLISH",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Tear down his model furiously",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sample",
+      "answer": "TASTE",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Sample refinement",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "line",
+      "answer": "ANCESTRY",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Advances, trying to hold line",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "here",
+      "answer": "Algeria",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Cryptic Elgar, 1A \"Eating out tagine here?\"",
+      "score": 67
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Top meeting",
+      "answer": "SUMMIT",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Top meeting involving key players",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Relic from bygone age",
+      "answer": "DINOSAUR",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Relic from bygone age Rodin's sculpted, lined with gold",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maybe 99 or 100",
+      "answer": "ice cream",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Maybe 99 or 100 brought in, that is best",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "ridiculous hairstyle",
+      "answer": "red mullet",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Might Rod come up with this ginger, ridiculous hairstyle?",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One from Lisbon",
+      "answer": "Iberian",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "One from Lisbon turned up on board debonair e-bike",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "white loaf",
+      "answer": "BLOOMER",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "One born in the Fifties eating large white loaf",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One way to make egg",
+      "answer": "SCRAMBLE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "One way to make egg: beat it regularly Bill before beginning to eat",
+      "score": 54
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Putrefying",
+      "answer": "SEPTIC",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Putrefying triceps wound after dislocating radius",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Killers",
+      "answer": "hit squad",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Popular recording group The Killers",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sharp stick",
+      "answer": "SKEWER",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Sharp stick Kelvin poked into drain",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fearsome warrior",
+      "answer": "Attila",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Fearsome warrior finishes off Attic lad",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "virility",
+      "answer": "MACHISMO",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Piercing stomach is mostly a show of virility",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a special time for mum",
+      "answer": "Mothering Sunday",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "My daughter's in on arranging a special time for mum",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Musical group that contains 32 men?",
+      "answer": "chess set",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Musical group that contains 32 men?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Portuguese product",
+      "answer": "Madeira",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Produced content of viral Portuguese product",
+      "score": 71
+    }
+  ]
+}

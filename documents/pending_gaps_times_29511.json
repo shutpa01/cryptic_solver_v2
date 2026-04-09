@@ -1,0 +1,461 @@
+{
+  "source": "times",
+  "puzzle": "29511",
+  "stats": {
+    "total": 43,
+    "assembled": 41,
+    "high": 36,
+    "medium": 5,
+    "low": 0,
+    "failed": 2,
+    "avg_score": 93.78048780487805
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "- don't cancel it",
+      "letters": "STET",
+      "answer": "SESTET",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Group in home counties — don’t cancel it",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ruler",
+      "letters": "ASKING",
+      "answer": "MASKING",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Disguising male in the role of ruler",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "of",
+      "letters": "S",
+      "answer": "SPOTTERS",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Son of Harry maybe watches",
+      "score": 95
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "remains",
+      "letters": "RESTS",
+      "answer": "ORESTES",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Greek avenger, old, remains full of energy",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Parisian",
+      "letters": "EST",
+      "answer": "ESTRANGED",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Is Parisian classified as “disaffected”?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ship",
+      "letters": "DHOW",
+      "answer": "ANDHOW",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "A new ship? Very much so!",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show",
+      "answer": "EVITA",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Show some incredible vitality",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "according to a plan",
+      "answer": "SYSTEMATICALLY",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "A mystical style configured according to a plan",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Disguising",
+      "answer": "MASKING",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Disguising male in the role of ruler",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "watches",
+      "answer": "SPOTTERS",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Son of Harry maybe watches",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Were indecisive",
+      "answer": "PROCRASTINATED",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Were indecisive priest and actor miscast?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "party fun?",
+      "answer": "REVELRY",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Your bar set up for party fun?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Insect",
+      "answer": "ORTHOPTERAN",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Insect moving round on the parrot",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A new ship?",
+      "answer": "ANDHOW",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "A new ship? Very much so!",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Awkward",
+      "answer": "STICKY",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Awkward staff close to mutiny",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Group",
+      "answer": "SESTET",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Group in home counties — don’t cancel it",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "indeed",
+      "answer": "FORSOOTH",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Thus duck may be seen in Scottish river, indeed!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "French mathematician",
+      "answer": "FORMAT",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "French mathematician having love for English design",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "great players",
+      "answer": "MAESTRI",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Team is run to develop great players",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "blossoming",
+      "answer": "ABLOOM",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "A period of prosperity in which pound is seen to be blossoming",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "being made clean",
+      "answer": "DETERGED",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Act to save time, work unit being made clean",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Attractive woman",
+      "answer": "ENCHANTRESS",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Attractive woman guys without maiden sing about on ship",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "according to a plan",
+      "answer": "SYSTEMATICALLY",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "A mystical style configured according to a plan",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Disguising",
+      "answer": "MASKING",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Disguising male in the role of ruler",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "watches",
+      "answer": "SPOTTERS",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Son of Harry maybe watches",
+      "score": 95
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Were indecisive",
+      "answer": "PROCRASTINATED",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Were indecisive priest and actor miscast?",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Greek avenger",
+      "answer": "ORESTES",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Greek avenger, old, remains full of energy",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "party fun",
+      "answer": "REVELRY",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Your bar set up for party fun?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Impression",
+      "answer": "ETCHING",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Impression created by winsome female’s leaving",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "long wooden pin or nail to fasten the planks of a ship to its timbers",
+      "answer": "TREENAIL",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Pin never to be inserted the wrong way round in end-piece",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Founder of religious sect",
+      "answer": "EDDY",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Founder of religious sect recalled you once entertaining theologian",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "\"disaffected\"?",
+      "answer": "ESTRANGED",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Is Parisian classified as “disaffected”?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Name of murder victim",
+      "answer": "ABE",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Name of murder victim shortened, one way or another!",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show",
+      "answer": "EVITA",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Show some incredible vitality",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pupil is needed for this",
+      "answer": "EYESIGHT",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Pupil is needed for this crew? Certainly will be in it",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Insect",
+      "answer": "ORTHOPTERAN",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Insect moving round on the parrot",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "nasty person",
+      "answer": "TOAD",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Spot revolutionary protecting a nasty person",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A new ship?",
+      "answer": "ANDHOW",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "A new ship? Very much so!",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A sort of single person",
+      "answer": "NUN",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "A sort of single person? Not a single person, we hear",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "fix locks",
+      "answer": "HAIRGEL",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Setter intended to fix locks?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "periods",
+      "answer": "WEEKDAYS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "“Sunless” periods, as you might surmise?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "stand with three legs",
+      "answer": "RIVET",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Bolt stand with three legs after first bit has fallen off",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "another precious stone",
+      "answer": "ALMANDINE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "A row about fellow taking diamonds or another precious stone",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One of the oppressive types",
+      "answer": "TYRANT",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "One of the oppressive types — those people heartlessly rage",
+      "score": 0
+    }
+  ]
+}

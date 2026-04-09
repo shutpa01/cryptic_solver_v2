@@ -1,0 +1,512 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31209
+Generated: 2026-04-09 02:27:29
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        28/30 (93%)
+    Signature:      1
+    Sig+Enriched:   14
+    Sonnet:         7
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   25  21D, 1A, 15D, 17A, 18D, 20D, 22A, 23D, 26A, 27A, 28A, 3D, 4D, 5D, 6D, 9A, 10A, 11A, 12A, 13A, 17D, 19A, 2D, 25D, 7D
+  Medium (40-79): 2  16D, 24A
+  Low (<40):    1  1D
+  Failed:       2  14A, 8D
+  Average:      92/100
+
+COST: $0.9920 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (23 entries)
+------------------------------------------------------------
+  ENTHRAL: "thrill" -> ENTHRAL  (missing from definition_answers_augmented)
+  SURVEILLANCE: "Watching" -> SURVEILLANCE  (missing from definition_answers_augmented)
+  EXONERATE: "Acquit" -> EXONERATE  (missing from definition_answers_augmented)
+  COLOSSUS: "giant" -> COLOSSUS  (missing from definition_answers_augmented)
+  ASHEN: "Possibly bleached," -> ASHEN  (missing from definition_answers_augmented)
+  GRENADIER: "Soldier" -> GRENADIER  (missing from definition_answers_augmented)
+  INSTRUMENTAL: "musical piece" -> INSTRUMENTAL  (missing from definition_answers_augmented)
+  ELEVENSES: "Snack" -> ELEVENSES  (missing from definition_answers_augmented)
+  AIRSPACE: "where one sees jumbo?" -> AIRSPACE  (missing from definition_answers_augmented)
+  NIECE: "Relation" -> NIECE  (missing from definition_answers_augmented)
+  SPLATTER: "Spread" -> SPLATTER  (missing from definition_answers_augmented)
+  SCREENED: "narrative" -> SCREENED  (missing from definition_answers_augmented)
+  CHASTE: "like a celibate person" -> CHASTE  (missing from definition_answers_augmented)
+  COARSE: "Vulgar" -> COARSE  (missing from definition_answers_augmented)
+  RISKIER: "Trickier" -> RISKIER  (missing from definition_answers_augmented)
+  COLOSSUS: deficit -> LOSS  (missing from synonyms_pairs)
+  SNIPPET: Fixes -> SNIP  (missing from synonyms_pairs)
+  SNIPPET: provoking -> PET  (missing from abbreviations)
+  SPLATTER: betting -> SP  (missing from abbreviations)
+  SUNLIGHT: Occasionally -> SUN  (missing from abbreviations)
+  COARSE: people who row -> OARS  (missing from synonyms_pairs)
+  RISKIER: downhill racer? -> SKIER  (missing from synonyms_pairs)
+  TENANT: Temporary housing -> TENT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  SNIPPET = 1 (20/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  14. Broadcast speech containing empty narrative = SCREENED
+  8. Rose could be cultivated = REARED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  11/30  9A, 11A, 13A, 22A, 26A, 4D, 6D, 7D, 18D, 20D, 25D
+  Unverified explain.:   1  1D
+  DB gap:                16  10A, 12A, 14A, 19A, 24A, 27A, 28A, 1D, 2D, 3D, 5D, 15D, 16D, 17D, 21D, 23D
+  Failed:                2  14A, 8D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   21D  ENTHRAL       Gripped by umpteenth rally producing thrill (7)
+                      hidden in "gripped by umpteENTH RALly"; definition: "thrill"  [HIGH]
+    1A  SURVEILLANCE  Watching A levels incur reforms (12)
+                      anagram of ALEVELSINCUR ("A levels incur") [anagram: "reforms"] = SURVEILLANCE; definition: "Watching"  [HIGH]
+   15D  EXONERATE     Acquit former partner with ace judge (9)
+                      EX (synonym of "former partner") + ONE (synonym of "ace") + RATE (synonym of "judge"); definition: "Acquit"  [HIGH]
+   17A  COLOSSUS      Company deficit with American giant (8)
+                      CO (synonym of "Company") + LOSS (synonym of "deficit") + US (synonym of "American"); definition: "giant"  [HIGH]
+   18D  LOOFAS        They scrub toilet rapidly, endlessly! (6)
+                      ---  [HIGH]
+   20D  REALIST       One's objective about America's first agenda (7)
+                      ---  [HIGH]
+   22A  ADORABLE      Winning ace possible around rally's opening (8)
+                      ---  [HIGH]
+   23D  ASHEN         Possibly bleached, like chicken (5)
+                      AS (synonym of "like") + HEN (synonym of "chicken"); definition: "Possibly bleached,"  [HIGH]
+   26A  TEACH         Start to train every individual? (5)
+                      T (first letter of "train") + EACH (synonym of "every individual?") [first letter: "Start"]  [HIGH]
+   27A  GRENADIER     Soldier in red gear, changing (9)
+                      anagram of INREDGEAR ("in red gear,") [anagram: "changing"] = GRENADIER; definition: "Soldier"  [HIGH]
+   28A  INSTRUMENTAL  Altering manner, lutist gives musical piece (12)
+                      anagram of MANNERLUTIST ("manner, lutist") [anagram: "gives"] = INSTRUMENTAL; definition: "musical piece"  [HIGH]
+    3D  ELEVENSES     Snack otherwise includes regular seconds (9)
+                      ELSE (synonym of "otherwise") + EVEN (synonym of "regular") + S (abbreviation of "seconds"); definition: "Snack"  [HIGH]
+    4D  LETS          The French taking time for checks (4)
+                      ---  [HIGH]
+    5D  AIRSPACE      Reveals speed where one sees jumbo? (8)
+                      AIRS (synonym of "Reveals") + PACE (synonym of "speed"); definition: "where one sees jumbo?"  [HIGH]
+    6D  CONGA         Catch one's neighbour, gyrating about initially! (5)
+                      ---  [HIGH]
+    9A  INSPECTOR     One script rewritten for Lewis, maybe (9)
+                      ---  [HIGH]
+   10A  NIECE         Relation is fine about sweetheart (5)
+                      NICE (synonym of "fine") + E (abbreviation of "sweetheart"); definition: "Relation"  [HIGH]
+    1D  SNIPPET       Fixes up sweetheart provoking scrap (7)
+                      SNIP(synonym of "Fixes") + PET(synonym of "provoking")  [LOW]
+   11A  PRIMER        Introduction is formal facing Queen (6)
+                      PRIM(synonym of "formal") + ER(abbr. "Queen")  [HIGH]
+   12A  SPLATTER      Spread betting odds before final (8)
+                      SP (abbreviation of "betting") + LATTER (synonym of "odds before final"); definition: "Spread"  [HIGH]
+   13A  THRUST        Expect to acquire hard butt (6)
+                      H(abbr. "hard") inside TRUST(synonym of "Expect")  [HIGH]
+   14A  SCREENED      Broadcast speech containing empty narrative (8)
+                      ---  [FAIL]
+   16D  SUNLIGHT      Occasionally burn in weak rays? (8)
+                      SUN(synonym of "Occasionally") + LIGHT(synonym of "burn")  [MED]
+   17D  CHASTE        Pursued, reportedly, like a celibate person (6)
+                      CHASTE (sounds like "Pursued,"); definition: "like a celibate person"  [HIGH]
+   19A  COARSE        Vulgar people who row in church (6)
+                      OARS (synonym of "people who row") + CE (synonym of "church"); definition: "Vulgar"  [HIGH]
+    2D  RISKIER       Trickier run with one downhill racer? (7)
+                      R (synonym of "run") + I (synonym of "one") + SKIER (synonym of "downhill racer?"); definition: "Trickier"  [HIGH]
+   24A  TENANT        Temporary housing housing a new occupant (6)
+                      A+N(abbr. "new") inside TENT(synonym of "Temporary housing")  [MED]
+   25D  MENU          Soldiers given uniform list (4)
+                      MEN(synonym of "Soldiers") + U(abbr. "uniform")  [HIGH]
+    7D  SEXTON        It precedes Mass for church worker (6)
+                      SEX(synonym of "it") + TON(synonym of "Mass")  [HIGH]
+    8D  REARED        Rose could be cultivated (6)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ENTHRAL  21D. Gripped by umpteenth rally producing thrill
+  Answer: ENTHRAL
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "thrill"
+  Wordplay: hidden
+  Explanation: hidden in "gripped by umpteENTH RALly"; definition: "thrill"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SURVEILLANCE  1A. Watching A levels incur reforms
+  Answer: SURVEILLANCE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Watching"
+  Wordplay: anagram
+  Explanation: anagram of ALEVELSINCUR ("A levels incur") [anagram: "reforms"] = SURVEILLANCE; definition: "Watching"
+  ----------------------------------------------------------------------
+
+  [HIGH] EXONERATE  15D. Acquit former partner with ace judge
+  Answer: EXONERATE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Acquit"
+  Wordplay: charade
+  Explanation: EX (synonym of "former partner") + ONE (synonym of "ace") + RATE (synonym of "judge"); definition: "Acquit"
+  ----------------------------------------------------------------------
+
+  [HIGH] COLOSSUS  17A. Company deficit with American giant
+  Answer: COLOSSUS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "giant"
+  Wordplay: charade
+  Explanation: CO (synonym of "Company") + LOSS (synonym of "deficit") + US (synonym of "American"); definition: "giant"
+  ----------------------------------------------------------------------
+
+  [HIGH] LOOFAS  18D. They scrub toilet rapidly, endlessly!
+  Answer: LOOFAS
+  Tier: --- | Confidence: 100/100
+  Human explanation: LOO (synonym="toilet") + FAS (FAST="rapidly,", remove last letter) = LOOFAS; definition: "They scrub"
+  ----------------------------------------------------------------------
+
+  [HIGH] REALIST  20D. One's objective about America's first agenda
+  Answer: REALIST
+  Tier: --- | Confidence: 100/100
+  Human explanation: RE (abbreviation="about") + A (abbreviation="America's") + LIST (synonym="agenda") = REALIST; definition: "One's"
+  ----------------------------------------------------------------------
+
+  [HIGH] ADORABLE  22A. Winning ace possible around rally's opening
+  Answer: ADORABLE
+  Tier: --- | Confidence: 100/100
+  Human explanation: A (abbreviation="ace") + DOABLE (synonym="possible") + R (first_letter="rally's") = ADORABLE; definition: "Winning"
+  ----------------------------------------------------------------------
+
+  [HIGH] ASHEN  23D. Possibly bleached, like chicken
+  Answer: ASHEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Possibly bleached,"
+  Wordplay: charade
+  Explanation: AS (synonym of "like") + HEN (synonym of "chicken"); definition: "Possibly bleached,"
+  ----------------------------------------------------------------------
+
+  [HIGH] TEACH  26A. Start to train every individual?
+  Answer: TEACH
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: acrostic + charade
+  Explanation: T (first letter of "train") + EACH (synonym of "every individual?") [first letter: "Start"]
+  ----------------------------------------------------------------------
+
+  [HIGH] GRENADIER  27A. Soldier in red gear, changing
+  Answer: GRENADIER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Soldier"
+  Wordplay: anagram
+  Explanation: anagram of INREDGEAR ("in red gear,") [anagram: "changing"] = GRENADIER; definition: "Soldier"
+  ----------------------------------------------------------------------
+
+  [HIGH] INSTRUMENTAL  28A. Altering manner, lutist gives musical piece
+  Answer: INSTRUMENTAL
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "musical piece"
+  Wordplay: anagram
+  Explanation: anagram of MANNERLUTIST ("manner, lutist") [anagram: "gives"] = INSTRUMENTAL; definition: "musical piece"
+  ----------------------------------------------------------------------
+
+  [HIGH] ELEVENSES  3D. Snack otherwise includes regular seconds
+  Answer: ELEVENSES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Snack"
+  Wordplay: charade
+  Explanation: ELSE (synonym of "otherwise") + EVEN (synonym of "regular") + S (abbreviation of "seconds"); definition: "Snack"
+  ----------------------------------------------------------------------
+
+  [HIGH] LETS  4D. The French taking time for checks
+  Answer: LETS
+  Tier: --- | Confidence: 100/100
+  Human explanation: LES (abbreviation="The French") + T (abbreviation="time") = LETS
+  ----------------------------------------------------------------------
+
+  [HIGH] AIRSPACE  5D. Reveals speed where one sees jumbo?
+  Answer: AIRSPACE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "where one sees jumbo?"
+  Wordplay: charade
+  Explanation: AIRS (synonym of "Reveals") + PACE (synonym of "speed"); definition: "where one sees jumbo?"
+  ----------------------------------------------------------------------
+
+  [HIGH] CONGA  6D. Catch one's neighbour, gyrating about initially!
+  Answer: CONGA
+  Tier: --- | Confidence: 100/100
+  Human explanation: CON (synonym="Catch") + A (abbreviation="one's") + G (first_letter="gyrating") = CONGA
+  ----------------------------------------------------------------------
+
+  [HIGH] INSPECTOR  9A. One script rewritten for Lewis, maybe
+  Answer: INSPECTOR
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of ONE + SCRIPT = INSPECTOR; definition: "maybe"
+  ----------------------------------------------------------------------
+
+  [HIGH] NIECE  10A. Relation is fine about sweetheart
+  Answer: NIECE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Relation"
+  Wordplay: charade
+  Explanation: NICE (synonym of "fine") + E (abbreviation of "sweetheart"); definition: "Relation"
+  ----------------------------------------------------------------------
+
+  [LOW] SNIPPET  1D. Fixes up sweetheart provoking scrap
+  Answer: SNIPPET
+  Tier: Sonnet | Confidence: 20/100
+  Definition: "scrap"
+  Wordplay type: charade
+  Components:
+    synonym            Fixes                     -> SNIP
+    indicator          up                        -> 
+    indicator          sweetheart                -> 
+    synonym            provoking                 -> PET
+  Assembly: charade — SNIP(synonym of "Fixes") + PET(synonym of "provoking")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      fixes: syn=22,BETS,FISH,FITS,GOES,LAST,LAYS,PUTS,SAYS,SETS,CALLS,EDITS,FINES,MAKES,NAILS
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      sweetheart: syn=JO,HON,HOT,PIP,BEAU,DEAR,ELSE,LOVE,LULU,ANGEL,BEAUT,DAISY,DANDY,DILLY,DOOZY; abbr=E*; ind=container?
+      scrap: syn=SNIPPET*,SET*,DO,ME,BIN,BIT,END,JOT,RAG,ATOM,BABY,DEEP,DUST,FALL,FEUD; ind=anagram?
+    Definitions:
+      "scrap" -> SNIPPET (definition match)
+  AI Reasoning:
+    SNIP (fixes) + PET (provoking, as in pet peeve) = SNIPPET
+  ----------------------------------------------------------------------
+
+  [HIGH] PRIMER  11A. Introduction is formal facing Queen
+  Answer: PRIMER
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Introduction"
+  Wordplay type: charade
+  Components:
+    synonym            formal                    -> PRIM
+    indicator          facing                    -> 
+    abbreviation       Queen                     -> ER
+  Assembly: charade — PRIM(synonym of "formal") + ER(abbr. "Queen")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      introduction: syn=PRIMER*,JOB,USE,DUTY,HAND,PART,POST,ROLE,TASK,WORK,NICHE,PLACE,START,AFFAIR,CHARGE; ind=acrostic,parts
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      formal: syn=PRIM*,BALL,HIGH,PROM,ATTIC,DANCE,PAPER,STIFF,DRESSY,SOCIAL
+      facing: syn=POD,TOP,BARK,CASE,FACE,HIDE,HULL,HUSK,MAIL,MASK,SHOW,SKIN,ARMOR,COVER,CRUST
+      queen: syn=ER*,R,QU,CAT,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=E*,ER*,HER,HM,Q,QU,R*
+    Definitions:
+      "Introduction" -> PRIMER (definition match)
+  AI Reasoning:
+    PRIM (formal) + ER (Queen) = PRIMER, with 'facing' indicating adjacency
+  ----------------------------------------------------------------------
+
+  [HIGH] SPLATTER  12A. Spread betting odds before final
+  Answer: SPLATTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Spread"
+  Wordplay: charade
+  Explanation: SP (abbreviation of "betting") + LATTER (synonym of "odds before final"); definition: "Spread"
+  ----------------------------------------------------------------------
+
+  [HIGH] THRUST  13A. Expect to acquire hard butt
+  Answer: THRUST
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "butt"
+  Wordplay type: container
+  Components:
+    synonym            Expect                    -> TRUST
+    indicator          acquire                   -> 
+    abbreviation       hard                      -> H
+  Assembly: container — H(abbr. "hard") inside TRUST(synonym of "Expect")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      expect: syn=TRUST*,BET,HOPE,WAIT,AWAIT,WATCH
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      acquire: syn=DO,A A,BAG,GET,PAY,USE,WIN,BALL,BOOK,COME,DEAL,DRAW,EARN,EVEN,FORM
+      hard: syn=H,BY,IN,NO,OF,AGE,BAD,ICY,ILL,ONE,PAT,SET,BEST,BLAH,CASE; abbr=H*
+      butt: syn=THRUST*,AT,BUM,CAN,GAG,HOY,KEG,NUT,RIB,TUB,TUG,TUN,VAT,YUK,BACK; ind=parts; sounds=but
+    Definitions:
+      "butt" -> THRUST (definition match)
+  AI Reasoning:
+    TRUST (expect) contains H (hard) via 'acquire' to form THRUST
+  ----------------------------------------------------------------------
+
+  [FAILED] SCREENED  14A. Broadcast speech containing empty narrative
+  Answer: SCREENED
+  Tier: --- | Confidence: 0/100
+  Definition: "narrative"
+  Wordplay type: anagram
+  Components:
+    indicator          broadcast                 -> 
+    literal            speech                    -> SPEECH
+    indicator          containing                -> 
+    indicator          empty                     -> 
+    deletion           narrative                 -> NE
+  DB Lookups:
+    DB lookups:
+      broadcast: syn=AD,TV,AIR,FLY,WAX,BEAM,BILL,BOOM,FORK,GAIN,GAVE,GIVE,IRAN,OPEN,PLUG; abbr=AIR,B; ind=anagram,homophone
+      speech: syn=RANT,TALK,TERM,WORD,DRONE,IDIOM,LINGO,PITCH,SPIEL,TERMS,WORDS,EULOGY,HOMILY,IDIOMS,MOTHER; ind=homophone
+      containing: syn=NOISE,GIVING,RULING,TAMING,TOTING,BEARING,BRACING,CALMING,CARTING,CURBING,EARNING,HAULING,HOLDING,KEEPING,LUGGING; ind=container
+      empty: syn=NO,WIN,BARE,BEAR,DAMN,FLAT,FREE,IDLE,PURE,RANK,TOOM,VAIN,VOID,BLANK,CLEAN; ind=container?,deletion,parts
+      narrative: syn=A,NO,FIB,LIE,BLOG,CASE,GIVE,PLOT,PULP,SAGA,TALE,TEXT,TOME,YARN,ALBUM
+  AI Reasoning:
+    Anagram of SPEECH plus NE (narrative with middle letters deleted)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SUNLIGHT  16D. Occasionally burn in weak rays?
+  Answer: SUNLIGHT
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "rays"
+  Wordplay type: charade
+  Components:
+    synonym            Occasionally              -> SUN
+    synonym            burn                      -> LIGHT
+  Assembly: charade — SUN(synonym of "Occasionally") + LIGHT(synonym of "burn")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      occasionally: syn=ON,AYE,NOW,OFT,EVER,FROM,MUCH,OFTEN,WHILE,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER
+      burn: syn=LIGHT*,A,CON,BEAT,CHAR,DRAW,ETCH,FIRE,GAFF,HAVE,ITCH,KILL,LEAD,NONE,PULL
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      weak: syn=SLIGHT*,LOW,MAD,ODD,WET,COZY,DULL,LAME,MILD,POOR,RAIL,SNAP,SNUG,SOFT,THIN; abbr=POOR; sounds=week
+      rays: syn=LIGHT*,SUNLIGHT*,ACES,BITS,DABS,FISH,NIPS,ATOMS,BEAMS,DRAMS,HINTS,LICKS,MITES,MOTES,SNAPS; abbr=RA; sounds=raise,raze
+  AI Reasoning:
+    SUN (occasionally sunny) + LIGHT (burn) = SUNLIGHT (rays)
+  ----------------------------------------------------------------------
+
+  [HIGH] CHASTE  17D. Pursued, reportedly, like a celibate person
+  Answer: CHASTE
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "like a celibate person"
+  Wordplay: homophone
+  Explanation: CHASTE (sounds like "Pursued,"); definition: "like a celibate person"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] COARSE  19A. Vulgar people who row in church
+  Answer: COARSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Vulgar"
+  Wordplay: charade
+  Explanation: OARS (synonym of "people who row") + CE (synonym of "church"); definition: "Vulgar"
+  ----------------------------------------------------------------------
+
+  [HIGH] RISKIER  2D. Trickier run with one downhill racer?
+  Answer: RISKIER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Trickier"
+  Wordplay: charade
+  Explanation: R (synonym of "run") + I (synonym of "one") + SKIER (synonym of "downhill racer?"); definition: "Trickier"
+  ----------------------------------------------------------------------
+
+  [HIGH] TENANT  24A. Temporary housing housing a new occupant
+  Answer: TENANT
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "occupant"
+  Wordplay type: container
+  Components:
+    synonym            Temporary housing         -> TENT
+    indicator          housing                   -> 
+    literal            a                         -> A
+    abbreviation       new                       -> N
+  Assembly: container — A+N(abbr. "new") inside TENT(synonym of "Temporary housing")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      temporary: syn=TERM,BRIEF,CRISP,FLASH,PITHY,SHORT,ACTING; abbr=T*
+      housing: syn=BIN,BOX,POD,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE,SKIN; ind=container,parts
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      occupant: syn=TENANT*,OF A,HOLDER
+    Definitions:
+      "occupant" -> TENANT (definition match)
+  AI Reasoning:
+    TENT (temporary housing) contains AN (a + new) to form TENANT
+  ----------------------------------------------------------------------
+
+  [HIGH] MENU  25D. Soldiers given uniform list
+  Answer: MENU
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "list"
+  Wordplay type: charade
+  Components:
+    synonym            Soldiers                  -> MEN
+    indicator          given                     -> 
+    abbreviation       uniform                   -> U
+  Assembly: charade — MEN(synonym of "Soldiers") + U(abbr. "uniform")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soldiers: syn=MEN*,OR,RE,GIS,UNIT,AT,GI,ANT,MAN,MIA,TIN,ARMS,GRUB,PARA,PEON; abbr=GIS,MEN*,OR,RA,RE,ANT,GI,RM
+      given: syn=IF,APT,ONE,SET,BORN,BUNG,FIRM,FLAT,FREE,HARD,LEFT,NORM,SOME,SURE,USED
+      uniform: syn=U,KIT,EVEN; abbr=U*
+      list: syn=MENU*,ASK,FAT,FEE,PUT,RUN,TIP,BEND,BEST,BOOK,CANT,CARD,COCK,COST,FEES
+    Definitions:
+      "list" -> MENU (definition match)
+  AI Reasoning:
+    MEN (soldiers) + U (uniform) concatenated via 'given' indicator to form MENU
+  ----------------------------------------------------------------------
+
+  [HIGH] SEXTON  7D. It precedes Mass for church worker
+  Answer: SEXTON
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "church worker"
+  Wordplay type: charade
+  Components:
+    synonym            it                        -> SEX
+    indicator          precedes                  -> 
+    synonym            Mass                      -> TON
+    indicator          for                       -> 
+  Assembly: charade — SEX(synonym of "it") + TON(synonym of "Mass")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      it: syn=SEX*,GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD; abbr=SA
+      precedes: syn=FADE,HEAD,LEAD,HERALD
+      mass: syn=TON*,A,M,LOT,MOB,POT,SEA,WAD,ARMY,BIKE,BODY,BULK,CLAN,CORE,CRAM; abbr=M; ind=container?
+      for: syn=TO*,AS,IS,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      church: syn=C,CE,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH; abbr=C,CE,CH
+      worker: syn=ANT,HAG,HEX,MAN,RED,BAWD,DRAB,FOOT,GIRL,GRUB,HAND,MAGE,PEON,SEER,TART; abbr=ANT,BEE,HAND
+      church worker: syn=SEXTON*,CHURCH
+    Definitions:
+      "church worker" -> SEXTON (definition match)
+  AI Reasoning:
+    SEX (it) precedes TON (Mass) to form SEXTON (church worker)
+  ----------------------------------------------------------------------
+
+  [FAILED] REARED  8D. Rose could be cultivated
+  Answer: REARED
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      rose: syn=GREW,ORES,WINE,DRINK,SHRUB,DAMASK,FLOWER,GOT UP,SOARED; sounds=rows
+      could: syn=MAY,MIGHT; abbr=IS; ind=anagram
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      cultivated: syn=REARED*,CUT,FAUX,GREW,HOED,TAME,BREAD,FAMED,PARED,BOBBED,DOCKED,ERSATZ,FABLED,NIPPED,POLLED; ind=anagram
+      could be: ind=anagram
+      could be: syn=SUPS,MAYBE,MAYHAP,SAFELY,SHEILA,SPHERE
+    Definitions:
+      "cultivated" -> REARED (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

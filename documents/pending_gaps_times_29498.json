@@ -1,0 +1,76 @@
+{
+  "source": "times",
+  "puzzle": "29498",
+  "stats": {
+    "total": 30,
+    "assembled": 30,
+    "high": 29,
+    "medium": 1,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 93.06666666666666
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "second",
+      "letters": "RE",
+      "answer": "REPRESENTATION",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "The giving of second award for sketch, perhaps",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Appropriate",
+      "answer": "ASSUME",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Appropriate how birds returned",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Give birth",
+      "answer": "WHELP",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Give birth with assistance",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fair",
+      "answer": "OBJECTIVE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Fair goal",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sketch, perhaps",
+      "answer": "REPRESENTATION",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "The giving of second award for sketch, perhaps",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "great vegetable",
+      "answer": "EGGPLANT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Intend to stuff, say, great vegetable",
+      "score": 72
+    }
+  ]
+}

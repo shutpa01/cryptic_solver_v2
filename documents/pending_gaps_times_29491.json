@@ -1,0 +1,296 @@
+{
+  "source": "times",
+  "puzzle": "29491",
+  "stats": {
+    "total": 28,
+    "assembled": 22,
+    "high": 18,
+    "medium": 4,
+    "low": 0,
+    "failed": 6,
+    "avg_score": 77.5909090909091
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "area",
+      "letters": "A",
+      "answer": "HACIENDA",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Chained off area in Mexican plantation",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "English",
+      "letters": "E",
+      "answer": "REEVE",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Always around, guarding English official from past",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Republican",
+      "letters": "R",
+      "answer": "RAILING",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Protesting Republican in a bad way",
+      "score": 82
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "European",
+      "letters": "E",
+      "answer": "CONCATENATION",
+      "clue_number": "10",
+      "direction": "down",
+      "clue": "Joining European race with Italian chap in the lead",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "song",
+      "letters": "BALL",
+      "answer": "BALLANDCHAIN",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Romantic song sequence enthralling new spouse?",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "society",
+      "letters": "S",
+      "answer": "ESTONIA",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "State school accepting society backing ChatGPT among others",
+      "score": 72
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "ChatGPT among others",
+      "letters": "AI",
+      "answer": "ESTONIA",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "State school accepting society backing ChatGPT among others",
+      "score": 72
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "european",
+      "letters": "E",
+      "answer": "PROSPECTUS",
+      "clue_number": "3",
+      "direction": "across",
+      "clue": "Brochure mistakenly supports involving European Commission",
+      "score": 85
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "reluctant",
+      "letters": "SHY",
+      "answer": "SHERRY",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Perhaps Pedro Ximénez reluctant to welcome European bishop",
+      "score": 77
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "European",
+      "letters": "E",
+      "answer": "SHERRY",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Perhaps Pedro Ximénez reluctant to welcome European bishop",
+      "score": 77
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "if French",
+      "letters": "SI",
+      "answer": "SIROCCO",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "A blow if French business has to absorb most of shock",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "main points",
+      "answer": "OUTLINE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Divulged policy’s main points",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mexican plantation",
+      "answer": "HACIENDA",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Chained off area in Mexican plantation",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hebrew",
+      "answer": "ISRAELITE",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "New realities for Hebrew",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "official from past",
+      "answer": "REEVE",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Always around, guarding English official from past",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Protesting",
+      "answer": "RAILING",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Protesting Republican in a bad way",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Formation",
+      "answer": "ESTABLISHMENT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Formation of the ruling class",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cute little creature",
+      "answer": "BUSHBABY",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "President’s youngest child, cute little creature",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "PM",
+      "answer": "BLAIR",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "When caught, clamour for PM",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "spouse",
+      "answer": "BALLANDCHAIN",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Romantic song sequence enthralling new spouse?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cheap accommodation",
+      "answer": "STEERAGE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Usher periodically wangles cheap accommodation",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a revealing exchange",
+      "answer": "HEARTTOHEART",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Might it indicate a revealing exchange?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "assembly",
+      "answer": "AGORA",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Nothing dividing city assembly",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Prominent figures",
+      "answer": "LUMINARIES",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Prominent figures rattled Mailer in US",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Assistant",
+      "answer": "MATE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Assistant’s final check",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "family",
+      "answer": "TRIBAL",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Bishop intervening in case concerning family",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A blow",
+      "answer": "SIROCCO",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "A blow if French business has to absorb most of shock",
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,342 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12309
+Generated: 2026-03-22 05:30:37
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        28/30 (93%)
+    Signature:      1
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   25  9?, 1?, 10?, 11?, 12?, 13?, 14?, 16?, 17?, 18?, 19?, 2?, 20?, 21?, 22?, 23?, 24?, 27?, 28?, 29?, 3?, 4?, 5?, 6?, 26?
+  Medium (40-79): 3  7?, 8?, 15?
+  Low (<40):    0  
+  Failed:       2  25?, 30?
+  Average:      91/100
+
+COST: $0.4823 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (4 entries)
+------------------------------------------------------------
+  CHASM: "opening" -> CHASM  (missing from definition_answers_augmented)
+  SLAPBANG: "dead" -> SLAPBANG  (missing from definition_answers_augmented)
+  ICKY: "Yucky" -> ICKY  (missing from definition_answers_augmented)
+  SLAPBANG: shot -> BANG  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  25. £100000 prize fund put up for hairstyle = TOPKNOT
+  30. Yucky cookie surface licked off = ICKY
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  26/30  10, 20, 1, 11, 21, 2, 12, 22, 3, 13, 23, 4, 14, 24, 5, 6, 16, 26, 7, 17, 27, 8, 18, 28, 19, 29
+  DB gap:                3  9, 15, 30
+  Failed:                2  25, 30
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    9?  CHASM         A little belch as mouth opening (5)
+                      hidden in "little belch as mouth"; definition: "opening"  [HIGH]
+    1?  BULLSHITTER   17 Across in Don Quixote say? (11)
+                      ---  [HIGH]
+   10?  STRAPLINE     Alter and snip off subheading (9)
+                      ---  [HIGH]
+   11?  JOCKYWILSON   In conversation manipulate PM 7 Across? (11)
+                      ---  [HIGH]
+   12?  TOD           Old fox from period looking back? (3)
+                      ---  [HIGH]
+   13?  SUE           Charge Native Americans in hearing? (3)
+                      ---  [HIGH]
+   14?  LUKELITTLER   First missing luck diminished for 7 Across? (11)
+                      ---  [HIGH]
+   16?  MINIBREAKS    Simian berk monkeying around for brief periods abroad say (10)
+                      ---  [HIGH]
+   17?  STUB          4 Down short of the stuff of 7 Across in butt (4)
+                      ---  [HIGH]
+   18?  ARTIST        Hunt perhaps passing through Stuttgart is thrilling (6)
+                      ---  [HIGH]
+   19?  DARTER        Diver referring to classic flips (6)
+                      ---  [HIGH]
+    2?  ASH           'emp remains (3)
+                      ---  [HIGH]
+   20?  PHEW          Last on coach to occupy seat I made it by a whisker! (4)
+                      ---  [HIGH]
+   21?  BRICABRAC     Stuff article between baked item and loaf both cut (9)
+                      ---  [HIGH]
+   22?  STENCIL       Design short shelf filled with endless fish (7)
+                      ---  [HIGH]
+   23?  ARMWRESTLE    Coming to the table a show of strength as marines in war with steel at sea (10)
+                      ---  [HIGH]
+   24?  BARTENDER     Local employee bound to stop trade (9)
+                      ---  [HIGH]
+   27?  ARCHER        Author 7 across? (6)
+                      ---  [HIGH]
+   28?  MAYFLY        Ephemeral thing could work? (6)
+                      ---  [HIGH]
+   29?  JEST          Flier into which slipped small joke (4)
+                      ---  [HIGH]
+    3?  IMP           Monkey shaving head of chicken or mouse (3)
+                      ---  [HIGH]
+    4?  ERICBRISTOW   Scribe has wit or funny 7 Across? (11)
+                      ---  [HIGH]
+    5?  ARAUCARIA     Evergreen gilt-edged artist initial on cruciverbal melody (9)
+                      ---  [HIGH]
+    6?  THROB         Pound notes and the euros for gambler all in the middle (5)
+                      ---  [HIGH]
+    7?  REGALIA       A drink knocked back one guzzled in the Crown and Sceptre say? (7)
+                      ---  [MED]
+    8?  MATADOR       Deliverer of final thrust in business portal for the auditor? (7)
+                      ---  [MED]
+   15?  SLAPBANG      Allies after uprising shot dead (8)
+                      SLAP(PALS reversed, "Allies") + BANG(synonym of "shot")  [MED]
+   25?  TOPKNOT       £100000 prize fund put up for hairstyle (7)
+                      ---  [FAIL]
+   26?  DAINTILY      In a particular way battered tin wrapped in paper (8)
+                      anagram of DAILY(synonym of "paper")+TIN(tin) = DAINTILY  [HIGH]
+   30?  ICKY          Yucky cookie surface licked off (4)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] CHASM  9?. A little belch as mouth opening
+  Answer: CHASM
+  Tier: Signature | Confidence: 80/100
+  Definition: "opening"
+  Wordplay: hidden
+  Explanation: hidden in "little belch as mouth"; definition: "opening"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] BULLSHITTER  1?. 17 Across in Don Quixote say?
+  Answer: BULLSHITTER
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STRAPLINE  10?. Alter and snip off subheading
+  Answer: STRAPLINE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] JOCKYWILSON  11?. In conversation manipulate PM 7 Across?
+  Answer: JOCKYWILSON
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TOD  12?. Old fox from period looking back?
+  Answer: TOD
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SUE  13?. Charge Native Americans in hearing?
+  Answer: SUE
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LUKELITTLER  14?. First missing luck diminished for 7 Across?
+  Answer: LUKELITTLER
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MINIBREAKS  16?. Simian berk monkeying around for brief periods abroad say
+  Answer: MINIBREAKS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STUB  17?. 4 Down short of the stuff of 7 Across in butt
+  Answer: STUB
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ARTIST  18?. Hunt perhaps passing through Stuttgart is thrilling
+  Answer: ARTIST
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DARTER  19?. Diver referring to classic flips
+  Answer: DARTER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ASH  2?. 'emp remains
+  Answer: ASH
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PHEW  20?. Last on coach to occupy seat I made it by a whisker!
+  Answer: PHEW
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BRICABRAC  21?. Stuff article between baked item and loaf both cut
+  Answer: BRICABRAC
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] STENCIL  22?. Design short shelf filled with endless fish
+  Answer: STENCIL
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ARMWRESTLE  23?. Coming to the table a show of strength as marines in war with steel at sea
+  Answer: ARMWRESTLE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BARTENDER  24?. Local employee bound to stop trade
+  Answer: BARTENDER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ARCHER  27?. Author 7 across?
+  Answer: ARCHER
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MAYFLY  28?. Ephemeral thing could work?
+  Answer: MAYFLY
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] JEST  29?. Flier into which slipped small joke
+  Answer: JEST
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] IMP  3?. Monkey shaving head of chicken or mouse
+  Answer: IMP
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ERICBRISTOW  4?. Scribe has wit or funny 7 Across?
+  Answer: ERICBRISTOW
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ARAUCARIA  5?. Evergreen gilt-edged artist initial on cruciverbal melody
+  Answer: ARAUCARIA
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] THROB  6?. Pound notes and the euros for gambler all in the middle
+  Answer: THROB
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] REGALIA  7?. A drink knocked back one guzzled in the Crown and Sceptre say?
+  Answer: REGALIA
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MATADOR  8?. Deliverer of final thrust in business portal for the auditor?
+  Answer: MATADOR
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SLAPBANG  15?. Allies after uprising shot dead
+  Answer: SLAPBANG
+  Tier: Sonnet | Confidence: 48/100
+  Definition: "dead"
+  Wordplay type: charade
+  Components:
+    reversal           Allies                    -> SLAP
+    synonym            shot                      -> BANG
+  Assembly: charade — SLAP(PALS reversed, "Allies") + BANG(synonym of "shot")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      allies: syn=CLUB,MAIN,UNITE,BACKER,COHERE,LEAGUE,UNITES,ABETTOR,CONJOIN,FRIENDS,FEDERATE
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      uprising: syn=SOAR,CLIMB,MUTINY,RISING,OUTBREAK; ind=reversal
+      shot: syn=GO,IN,ALE,BID,DID,FLY,GIN,GUN,HIE,JAB,MUG,MUM,NIP,PEG,PIC; abbr=GO; ind=anagram
+      dead: syn=BANG*,SLAP*,OK,ALL,BAG,BAT,BOP,COP,DIG,DIS,DRY,DUE,FIX,GET,HIT; abbr=D
+  AI Reasoning:
+    PALS (allies) reversed by uprising gives SLAP, plus BANG (shot) makes SLAPBANG meaning exactly/dead on
+  ----------------------------------------------------------------------
+
+  [FAILED] TOPKNOT  25?. £100000 prize fund put up for hairstyle
+  Answer: TOPKNOT
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      prize: syn=TOP*,A1,OK,BIG,CUP,FAB,GEM,HOT,LEG,TOO,A-OK,BLUE,BOSS,BRAG,COLD
+      fund: syn=NO*,A,GIVE,MINE,OF A,POOL,CLAIM,ENDOW,FORCE,KITTY,STAKE,STATE,A GOOD,BUDGET,ENOUGH
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      up: syn=TO*,OF,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      for: syn=TO*,AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      hairstyle: syn=BOB,CUT,AFRO,HAIR,PERM,PLAIT,MULLET,BEEHIVE,CORNROW,MOHICAN,PERHAPS,SHINGLE,TONSURE; ind=reversal?
+      put up: syn=DO,UP,A A,BAR,BET,DID,DUG,GOT,HIT,MET
+    Definitions:
+      "hairstyle" -> TOPKNOT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] DAINTILY  26?. In a particular way battered tin wrapped in paper
+  Answer: DAINTILY
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "In a particular way"
+  Wordplay type: anagram
+  Components:
+    synonym            paper                     -> DAILY
+    literal            tin                       -> TIN
+  Assembly: anagram — anagram of DAILY(synonym of "paper")+TIN(tin) = DAINTILY
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      particular: syn=DAINTY*,OLD,DATA,FACT,FULL,ITEM,NICE,PART,PRIM,DATUM,EXACT,FUSSY,PICKY,POINT,PRIVY; abbr=PRIM; ind=anagram
+      way: syn=BE,DO,GO,NO,RD,ST,AIR,ARC,BET,FIT,GET,HAP,HOW,LAG,LAY; abbr=RD,ST; ind=anagram; sounds=weigh,whey
+      battered: syn=DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,SHOT,SPED,TORE,DROVE,FIRED,FLUNG,HARED,HIDED; ind=anagram
+      tin: syn=A,SN,CAN,TON,BRASS,MONEY,MOOLA,MOOLAH,AEROSOL,TEACADDY; abbr=SN
+      wrapped: ind=container,hidden; sounds=rapped,rapt
+      paper: syn=DAILY*,FT,FIB,HOW,LIE,MAG,RAG,SAY,WAY,BOOK,CARD,CAST,EXAM,FORM,NICK
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      a particular: syn=PEST,INSECT,LOCUST,SERIES,SEQUENCE,STRIPPER
+  AI Reasoning:
+    TIN wrapped in DAILY (paper) gives anagram fodder DAITINLY, which battered (anagrammed) becomes DAINTILY
+  ----------------------------------------------------------------------
+
+  [FAILED] ICKY  30?. Yucky cookie surface licked off
+  Answer: ICKY
+  Tier: --- | Confidence: 0/100
+  Definition: "Yucky"
+  Wordplay type: deletion
+  Components:
+    deletion           cookie                    -> ICKY
+  DB Lookups:
+    DB lookups:
+      yucky: syn=ICKY*,BAD,NOT,SOUR
+      cookie: syn=BOD,BOG,BOY,BUG,CAT,DAM,EGG,FAN,GUY,JOE,LAD,LOO,MAN,NOB,SON
+      surface: syn=PEN,TOP,TWO,CARD,DELE,FACE,KILL,MASK,NEED,RASP,SHOW,SIDE,SKIN; ind=deletion,parts
+      licked: syn=ATE,DID,DUG,GOT,RAN,SAW,ACED,BEAT,BLEW,CAME,CAST,FLEW,GREW,HIED,ICED
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+  AI Reasoning:
+    COOKIE with surface letters (C and E) deleted leaves the inner letters which form ICKY
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

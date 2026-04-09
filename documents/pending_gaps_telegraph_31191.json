@@ -1,0 +1,401 @@
+{
+  "source": "telegraph",
+  "puzzle": "31191",
+  "stats": {
+    "total": 32,
+    "assembled": 27,
+    "high": 14,
+    "medium": 9,
+    "low": 4,
+    "failed": 5,
+    "avg_score": 67.74074074074075
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "supermarket",
+      "letters": "ALDI",
+      "answer": "GARIBALDI",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Boast about inspiring current supermarket biscuit",
+      "score": 52
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "track's condition",
+      "letters": "GOING",
+      "answer": "going-over",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Close inspection of track's condition at an end",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "credit",
+      "letters": "D",
+      "answer": "IDLER",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Barely credit flipping nursing student's a lazybones",
+      "score": -22
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "nursing student's",
+      "letters": "L",
+      "answer": "IDLER",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Barely credit flipping nursing student's a lazybones",
+      "score": -22
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "George endlessly",
+      "letters": "GREGOR",
+      "answer": "Gregorian",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Calendar George endlessly changes, organised around one",
+      "score": 50
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "very old",
+      "letters": "VO",
+      "answer": "VOCALIST",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Singer about to plug very old record",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "plane",
+      "letters": "CONCORD",
+      "answer": "CONCORDAT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Agreement to use empty airport as plane's new base",
+      "score": 58
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "exceptionally good",
+      "letters": "SUPER",
+      "answer": "SUPERSEDE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Replace exceptionally good, highly ranked player, it's said",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "highly ranked player",
+      "letters": "SEED",
+      "answer": "SUPERSEDE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Replace exceptionally good, highly ranked player, it's said",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "African",
+      "letters": "AN",
+      "answer": "RANCH",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Runs hotel hosting African party, spread for Americans",
+      "score": 27
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "party",
+      "letters": "C",
+      "answer": "RANCH",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Runs hotel hosting African party, spread for Americans",
+      "score": 27
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "accepted standard",
+      "letters": "RULE",
+      "answer": "RULER",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Sovereign, king that's below accepted standard",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "previously",
+      "letters": "OO",
+      "answer": "hoo-has",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Expression of surprise when husband previously fusses",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "fusses",
+      "letters": "HAS",
+      "answer": "hoo-has",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Expression of surprise when husband previously fusses",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Italian banker",
+      "letters": "PO",
+      "answer": "PHOTO",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Italian banker fences recently stolen picture",
+      "score": 20
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Delivery problem",
+      "letters": "BAR",
+      "answer": "BARBELL",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Delivery problem regularly blocks obtaining gym equipment",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Minute",
+      "answer": "NOTE",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Minute mark",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "put out",
+      "answer": "ELIMINATE",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Bird tucks into cream put out",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bill",
+      "answer": "POSTER",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Bill regrets opportunities, to an extent, after retiring",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Close inspection",
+      "answer": "going-over",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Close inspection of track's condition at an end",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "EU citizen",
+      "answer": "Latvian",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "EU citizen almost delayed through congestion ultimately",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Brings up",
+      "answer": "REARS",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Brings up sum remaining unpaid a Republican ignored",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Replace",
+      "answer": "SUPERSEDE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Replace exceptionally good, highly ranked player, it's said",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Damp",
+      "answer": "DISPIRIT",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Damp climbing tour across Italy daughter is leading",
+      "score": 68
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "spread for Americans",
+      "answer": "RANCH",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Runs hotel hosting African party, spread for Americans",
+      "score": 27
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sovereign,",
+      "answer": "RULER",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Sovereign, king that's below accepted standard",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Expression of surprise",
+      "answer": "hoo-has",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Expression of surprise when husband previously fusses",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stimulating drink, order for one's chauffeur perhaps?",
+      "answer": "pick-me-up",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Stimulating drink, order for one's chauffeur perhaps?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One criticising feature of front door",
+      "answer": "KNOCKER",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "One criticising feature of front door?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "couple",
+      "answer": "TWOSOME",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Overheard extremely remarkable couple",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Succeed",
+      "answer": "PROSPER",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Succeed with role in The Tempest? Not entirely",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "great artist",
+      "answer": "old master",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Performing Dream lots will see great artist",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Norwegian bread",
+      "answer": "KRONE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Norwegian bread from Bergen or Kristiansand brought back",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Little beast,",
+      "answer": "water vole",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Little beast, love rat we condemned",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Most delicate",
+      "answer": "LIGHTEST",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Most delicate fellows essentially get this flustered",
+      "score": 82
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "morals",
+      "answer": "IDEALS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Confession of drug pusher, originally sacrificing morals",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Quite possibly fortunate",
+      "answer": "WELL",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Quite possibly fortunate",
+      "score": 45
+    }
+  ]
+}

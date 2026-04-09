@@ -1,0 +1,571 @@
+================================================================================
+PUZZLE QUALITY REPORT: dailymail #17850
+Generated: 2026-04-06 06:10:09
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        29/30 (96%)
+    Signature:      2
+    Sig+Enriched:   6
+    Sonnet:         9
+    DB Fallback:    1
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  26D, 13D, 14A, 16A, 17A, 19A, 20D, 21A, 25A, 28A, 29A, 3D, 6D, 8A, 10D, 5D, 1D, 15D, 24A, 4D
+  Medium (40-79): 7  11A, 18D, 2D, 22D, 27A, 7D, 9A
+  Low (<40):    2  12A, 23D
+  Failed:       1  1A
+  Average:      83/100
+
+COST: $0.9178 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (23 entries)
+------------------------------------------------------------
+  WINE: "Port," -> WINE  (missing from definition_answers_augmented)
+  TOWERBLOCK: "tall building" -> TOWERBLOCK  (missing from definition_answers_augmented)
+  MOORHEN: "bird" -> MOORHEN  (missing from definition_answers_augmented)
+  HORSETRADING: "hard bargaining" -> HORSETRADING  (missing from definition_answers_augmented)
+  HIGH: "Elevated" -> HIGH  (missing from definition_answers_augmented)
+  BACKBENCHERS: "MPs, say" -> BACKBENCHERS  (missing from definition_answers_augmented)
+  BOGBEAN: "marsh plant" -> BOGBEAN  (missing from definition_answers_augmented)
+  OPERATIONS: "Things carried out in theatre?" -> OPERATIONS  (missing from definition_answers_augmented)
+  BIER: "final stand" -> BIER  (missing from definition_answers_augmented)
+  RAG: "Piece of old cloth" -> RAG  (missing from definition_answers_augmented)
+  COMPATIBLE: "in keeping" -> COMPATIBLE  (missing from definition_answers_augmented)
+  TEACHIN: "informal discussion" -> TEACHIN  (missing from definition_answers_augmented)
+  SKIRUN: "Track" -> SKIRUN  (missing from definition_answers_augmented)
+  ROCKIER: "less stable" -> ROCKIER  (missing from definition_answers_augmented)
+  NADINE: "Woman" -> NADINE  (missing from definition_answers_augmented)
+  BLOODBROTHER: "very close friend" -> BLOODBROTHER  (missing from definition_answers_augmented)
+  DOGFISH: "small shark" -> DOGFISH  (missing from definition_answers_augmented)
+  BACKBENCHERS: bars -> BENCH  (missing from synonyms_pairs)
+  PASTIMES: schedules -> TIMES  (missing from synonyms_pairs)
+  COMPATIBLE: topic -> TOPIC  (missing from synonyms_pairs)
+  SKIRUN: drink -> SKI  (missing from abbreviations)
+  SKIRUN: sign of summer -> RUN  (missing from abbreviations)
+  ROCKIER: cliff face -> ROCK  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  TEACHIN = 22 (65/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  BIER = 12 (25/100): no pieces verified in DB
+  SKIRUN = 23 (5/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  BIER = 12 (25/100): def="final stand" (not in DB, odd position)
+  ROCKIER = 27 (40/100): def="less stable" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  1. Check bars possibly in which are mostly corrupt MPs, say = BACKBENCHERS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  12/30  8A, 14A, 16A, 17A, 19A, 21A, 24A, 25A, 29A, 3D, 6D, 20D
+  Type mismatch:         1  22D
+  Unverified explain.:   2  12A, 23D
+  Weak definition:       2  12A, 27A
+  DB gap:                17  9A, 11A, 12A, 27A, 28A, 1D, 2D, 4D, 5D, 7D, 10D, 13D, 15D, 18D, 22D, 23D, 26D
+  Failed:                1  1D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   26D  WINE          Port, perhaps, now in electric fences (4)
+                      hidden in "noW IN Electric fences"; definition: "Port,"  [HIGH]
+   13D  TOWERBLOCK    Bow to clerk bewildered by tall building (10)
+                      anagram of BOWTOCLERK ("Bow to clerk") [anagram: "bewildered"] = TOWERBLOCK; definition: "tall building"  [HIGH]
+   14A  BINLINER      Get rid of large vessel, thing in which to keep rubbish (3,5)
+                      ---  [HIGH]
+   16A  GOGGLE        Guy's first to hesitate with head concealed and stare (6)
+                      ---  [HIGH]
+   17A  TAP           Lightly touch device in a sink (3)
+                      ---  [HIGH]
+   19A  ONFILE        Varied info with French article is recorded for reference (2,4)
+                      ---  [HIGH]
+   20D  FELICIA       Lady following priest with agents (7)
+                      ---  [HIGH]
+   21A  GAMESTER      A term's e.g. formulated for one wagering money (8)
+                      ---  [HIGH]
+   25A  SKATEBOARD    Thing to ride wrongly takes B-road (10)
+                      ---  [HIGH]
+   28A  MOORHEN       Home Ron devised for bird (7)
+                      anagram of HOMERON ("Home Ron") [anagram: "devised"] = MOORHEN; definition: "bird"  [HIGH]
+   29A  SAVEONESSKIN  Avoid harm and rescue individual by ship with family (4,4,4)
+                      ---  [HIGH]
+    3D  BASSINET      Singer in film has small bed for a baby (8)
+                      ---  [HIGH]
+    6D  RAILING       Following initially ignored barrier (7)
+                      ---  [HIGH]
+    8A  LEGUMES       See glum eccentric getting plants grown as a crop (7)
+                      ---  [HIGH]
+   10D  HORSETRADING  Volatile sort heard in good or hard bargaining (5,7)
+                      anagram of SORTHEARDIN ("sort heard in") + G (abbreviation of "good") [anagram: "Volatile"] = HORSETRADING; definition: "hard bargaining"  [HIGH]
+    5D  HIGH          Elevated greeting by the sound of it (4)
+                      HIGH (sounds like "greeting") [homophone: "sound"]; definition: "Elevated"  [HIGH]
+    1A  BACKBENCHERS  Check bars possibly in which are mostly corrupt MPs, say (12)
+                      ---  [FAIL]
+    1D  BOGBEAN       Bad smell began to spread around marsh plant (7)
+                      anagram of BEGAN ("began") [anagram: "Bad"] + BO (abbreviation of "smell") = BOGBEAN; definition: "marsh plant"  [HIGH]
+   11A  OPERATIONS    Things carried out in theatre? (10)
+                      cryptic definition  [MED]
+   12A  BIER          Porter, for instance, mentioned final stand? (4)
+                      BEER sounds like BIER  [LOW]
+   15D  RAG           Piece of old cloth hidden by ladder again (3)
+                      hidden in "laddeR AGain" [hidden: "hidden"]; definition: "Piece of old cloth"  [HIGH]
+   18D  PASTIMES      Father and son given schedules for hobbies (8)
+                      PA(abbr. "Father") + S(abbr. "son") + TIMES(synonym of "schedules")  [MED]
+    2D  COMPATIBLE    Sort of male topic captivating bachelor? That's in keeping (10)
+                      anagram of MALE+TOPIC+B(abbr. "bachelor") = COMPATIBLE  [MED]
+   22D  TEACHIN       Figure entertaining a Greek character in informal discussion (5,2)
+                      A+CHI(synonym of "Greek character") inside TEN(synonym of "Figure")  [MED]
+   23D  SKIRUN        Track drink amid sign of summer? (3,3)
+                      SKI(synonym of "drink") + RUN(synonym of "sign of summer")  [LOW]
+   24A  HOLD          Retain strong bag everyone discarded (4)
+                      delete ALL from HOLDALL  [HIGH]
+   27A  ROCKIER       Like a larger cliff face that is less stable? (7)
+                      ROCK(synonym of "cliff face") + IE(abbr. "that is") + R(last letter of "larger")  [MED]
+    4D  NADINE        Woman making a noise in Tyneside (6)
+                      A (abbreviation of "a") + DIN (synonym of "noise") + NE (synonym of "Tyneside"); definition: "Woman"  [HIGH]
+    7D  BLOODBROTHER  Initiate Rex to probe trouble for very close friend (5,7)
+                      BLOOD(synonym of "trouble") + R(abbr. "rex") inside BOTHER(synonym of "to")  [MED]
+    9A  DOGFISH       Shadow seen by swimmer is small shark (7)
+                      DOG(synonym of "Shadow") + FISH(synonym of "swimmer")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] WINE  26D. Port, perhaps, now in electric fences
+  Answer: WINE
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Port,"
+  Wordplay: hidden
+  Explanation: hidden in "noW IN Electric fences"; definition: "Port,"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] TOWERBLOCK  13D. Bow to clerk bewildered by tall building
+  Answer: TOWERBLOCK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "tall building"
+  Wordplay: anagram
+  Explanation: anagram of BOWTOCLERK ("Bow to clerk") [anagram: "bewildered"] = TOWERBLOCK; definition: "tall building"
+  ----------------------------------------------------------------------
+
+  [HIGH] BINLINER  14A. Get rid of large vessel, thing in which to keep rubbish
+  Answer: BINLINER
+  Tier: --- | Confidence: 100/100
+  Human explanation: BIN (synonym="Get rid of") + R (first_letter="rid") + LINE (synonym="Get") = BINLINER; definition: "which to keep rubbish"
+  ----------------------------------------------------------------------
+
+  [HIGH] GOGGLE  16A. Guy's first to hesitate with head concealed and stare
+  Answer: GOGGLE
+  Tier: --- | Confidence: 100/100
+  Human explanation: G (first_letter="Guy's") + OGGLE (deletion="hesitate") = GOGGLE; definition: "stare"
+  ----------------------------------------------------------------------
+
+  [HIGH] TAP  17A. Lightly touch device in a sink
+  Answer: TAP
+  Tier: --- | Confidence: 100/100
+  Human explanation: reverse of PAT = TAP
+  ----------------------------------------------------------------------
+
+  [HIGH] ONFILE  19A. Varied info with French article is recorded for reference
+  Answer: ONFILE
+  Tier: --- | Confidence: 100/100
+  Human explanation: ON (deletion="reference") + F (first_letter="for") + I (first_letter="is") + LE (abbreviation="French article") = ONFILE; definition: "Varied info"
+  ----------------------------------------------------------------------
+
+  [HIGH] FELICIA  20D. Lady following priest with agents
+  Answer: FELICIA
+  Tier: --- | Confidence: 100/100
+  Human explanation: F (abbreviation="following") + ELI (abbreviation="priest") + CIA (synonym="agents") = FELICIA; definition: "Lady"
+  ----------------------------------------------------------------------
+
+  [HIGH] GAMESTER  21A. A term's e.g. formulated for one wagering money
+  Answer: GAMESTER
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of A + TERM'S + E.G. = GAMESTER
+  ----------------------------------------------------------------------
+
+  [HIGH] SKATEBOARD  25A. Thing to ride wrongly takes B-road
+  Answer: SKATEBOARD
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of TAKES + B-ROAD = SKATEBOARD
+  ----------------------------------------------------------------------
+
+  [HIGH] MOORHEN  28A. Home Ron devised for bird
+  Answer: MOORHEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "bird"
+  Wordplay: anagram
+  Explanation: anagram of HOMERON ("Home Ron") [anagram: "devised"] = MOORHEN; definition: "bird"
+  ----------------------------------------------------------------------
+
+  [HIGH] SAVEONESSKIN  29A. Avoid harm and rescue individual by ship with family
+  Answer: SAVEONESSKIN
+  Tier: --- | Confidence: 100/100
+  Human explanation: SAVE (synonym="rescue") + ONE (synonym="individual") + SS (abbreviation="ship") + KIN (abbreviation="family") = SAVEONESSKIN; definition: "Avoid harm"
+  ----------------------------------------------------------------------
+
+  [HIGH] BASSINET  3D. Singer in film has small bed for a baby
+  Answer: BASSINET
+  Tier: --- | Confidence: 100/100
+  Human explanation: B (synonym="film") + AS (deletion="has") + S (abbreviation="small") + IN (deletion="bed") + ET (deletion="baby") = BASSINET; definition: "Singer"
+  ----------------------------------------------------------------------
+
+  [HIGH] RAILING  6D. Following initially ignored barrier
+  Answer: RAILING
+  Tier: --- | Confidence: 100/100
+  Human explanation: TRAILING (synonym="Following") with deletion = RAILING; definition: "barrier"
+  ----------------------------------------------------------------------
+
+  [HIGH] LEGUMES  8A. See glum eccentric getting plants grown as a crop
+  Answer: LEGUMES
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of SEE + GLUM = LEGUMES
+  ----------------------------------------------------------------------
+
+  [HIGH] HORSETRADING  10D. Volatile sort heard in good or hard bargaining
+  Answer: HORSETRADING
+  Tier: Signature | Confidence: 100/100
+  Definition: "hard bargaining"
+  Wordplay: anagram + charade
+  Explanation: anagram of SORTHEARDIN ("sort heard in") + G (abbreviation of "good") [anagram: "Volatile"] = HORSETRADING; definition: "hard bargaining"
+  ----------------------------------------------------------------------
+
+  [HIGH] HIGH  5D. Elevated greeting by the sound of it
+  Answer: HIGH
+  Tier: Signature | Confidence: 100/100
+  Definition: "Elevated"
+  Wordplay: homophone
+  Explanation: HIGH (sounds like "greeting") [homophone: "sound"]; definition: "Elevated"
+  ----------------------------------------------------------------------
+
+  [FAILED] BACKBENCHERS  1A. Check bars possibly in which are mostly corrupt MPs, say
+  Answer: BACKBENCHERS
+  Tier: --- | Confidence: 0/100
+  Definition: "MPs, say"
+  Wordplay type: anagram
+  Components:
+    literal            Check                     -> CHECK
+    synonym            bars                      -> BENCH
+    indicator          possibly                  -> 
+    literal            in                        -> IN
+    literal            which                     -> WHICH
+    abbreviation       are                       -> R
+    indicator          mostly                    -> 
+    indicator          corrupt                   -> 
+  DB Lookups:
+    DB lookups:
+      check: syn=CH*,A,GO,NO,ADD,BED,BIT,DAM,END,FIN,FIT,LET,MOT,ONE,RUB; abbr=CH*; ind=container?; sounds=czech
+      bars: syn=BENCH*,CARD,INNS,STOPS,TRIAL,INSIDE,LEVERS,BODEGAS,GRATING,STRIPES,TAVERNS,EXCLUDES,ALEHOUSES,PROHIBITS,STANCHIONS; abbr=BAN,ROD
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY,CREDIBLY,ORIENTAL; ind=anagram
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      which: syn=QUI,THAT,WHAT,POETRY,ALL OVER,EVERYPLACE,EVERYWHERE,THROUGHOUT,FAR AND WIDE,HIGH AND LOW; sounds=witch
+      are: syn=DO,DIG,HAP,LIE,RUN,SIT,USE,BEAR,BLOW,CHUM,COME,COOK,GASP,LIKE,LIVE; abbr=R*
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY,ABSOLUTELY,ALTOGETHER; ind=deletion,parts
+      corrupt: syn=DO,BED,BUY,EAT,EYE,PAY,ROT,BENT,BEST,DOWN,FALL,HAVE,NONE,SICK,ABASE; ind=anagram
+      mps: syn=BACKBENCHERS*,REDCAPS
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      in which: syn=HERE,BLEACHERS,GENEALOGIST
+  AI Reasoning:
+    Anagram of CHECK+BENCH+IN+WHICH+R with one letter removed (indicated by 'mostly') and then scrambled (indicated by 'corrupt') to give BACKBENCHERS
+  ----------------------------------------------------------------------
+
+  [HIGH] BOGBEAN  1D. Bad smell began to spread around marsh plant
+  Answer: BOGBEAN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "marsh plant"
+  Wordplay: anagram + charade
+  Explanation: anagram of BEGAN ("began") [anagram: "Bad"] + BO (abbreviation of "smell") = BOGBEAN; definition: "marsh plant"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OPERATIONS  11A. Things carried out in theatre?
+  Answer: OPERATIONS
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Things carried out in theatre?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      things: syn=KIT,RIG,CASE,DUDS,ENDS,GEAR,RAGS,TOGS,WEAR,DRESS,GEAR,,GOALS,GOODS,HABIT,IDEAS; ind=anagram
+      carried: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BORN,BRED,DREW,FELT,GAVE,KNEW,MADE
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      in: syn=PER*,T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      theatre: syn=REP,HERE,TEAR,WARM,ARENA,DRAMA,FIELD,HOUSE,LYRIC,ODEON,ON OR,PLACE,STAGE,THERE,ALMEIDA; abbr=T*
+      carried out: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,ACED,BORE,BRED
+  AI Reasoning:
+    Cryptic definition: operations are things carried out in an operating theatre
+  ----------------------------------------------------------------------
+
+  [LOW] BIER  12A. Porter, for instance, mentioned final stand?
+  Answer: BIER
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "final stand"
+  Wordplay type: homophone
+  Components:
+    synonym            Porter, for instance      -> BEER
+    indicator          mentioned                 -> 
+  Assembly: homophone — BEER sounds like BIER
+  Checks: definition=not in DB, odd position | wordplay_type=homophone | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (homophone: BEER sounds like BIER) | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      porter: ind=container?
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      instance: syn=NOT,BASE,CASE,NAME,NOTE,OF A; sounds=instants
+      mentioned: ind=homophone
+      final: syn=AGE,END,LAG,ONE,RUN,SET,BOUT,EXAM,FIRM,FLAT,GAME,HARD,HEAT,LAST,MEET; ind=parts,selection
+      stand: syn=A,AM,BE,DO,GO,IS,OR,AIM,ARE,BAG,FLY,HAP,JUT,LAY,LIE
+      for instance: abbr=EG
+      for instance: syn=AS,EG,UP,BOB,SAY,YOU,INTO,LIKE,PERM,TOOL
+  AI Reasoning:
+    BEER (porter is a type of beer) sounds like BIER when mentioned (homophone)
+  ----------------------------------------------------------------------
+
+  [HIGH] RAG  15D. Piece of old cloth hidden by ladder again
+  Answer: RAG
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Piece of old cloth"
+  Wordplay: hidden
+  Explanation: hidden in "laddeR AGain" [hidden: "hidden"]; definition: "Piece of old cloth"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PASTIMES  18D. Father and son given schedules for hobbies
+  Answer: PASTIMES
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "hobbies"
+  Wordplay type: charade
+  Components:
+    abbreviation       Father                    -> PA
+    abbreviation       son                       -> S
+    synonym            schedules                 -> TIMES
+  Assembly: charade — PA(abbr. "Father") + S(abbr. "son") + TIMES(synonym of "schedules")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      father: syn=PA*,FR,DAD,GET,GOD,GUV,NUN,OLD,PAL,POP,ABBA,ABBÉ,ALLY,CHUM,CLAN; abbr=F,FR,PA*,SIRE
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      son: syn=S,BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY; abbr=S*; sounds=sun
+      given: syn=IF,APT,ONE,SET,BORN,BUNG,FIRM,FLAT,FREE,HARD,LEFT,NORM,SOME,SURE,USED
+      schedules: syn=WAIT,LISTS,PUT,SET,BILL,BOOK,CARD,LIST,PLAN,ROTA,ENTER,INDEX,TABLE,A ROLL,AGENDA
+      for: syn=AS*,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      father and: syn=ARIA,BOND,DEAL,GIRL,PACT,PARE,PART,PEEL,TRIM,VAMP
+    Definitions:
+      "hobbies" -> PASTIMES (definition match)
+  AI Reasoning:
+    Father (PA) + son (S) + schedules (TIMES) = PASTIMES, with 'for' as a link word
+  ----------------------------------------------------------------------
+
+  [MEDIUM] COMPATIBLE  2D. Sort of male topic captivating bachelor? That's in keeping
+  Answer: COMPATIBLE
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "in keeping"
+  Wordplay type: anagram
+  Components:
+    indicator          Sort of                   -> 
+    literal            male                      -> MALE
+    synonym            topic                     -> TOPIC
+    abbreviation       bachelor                  -> B
+  Assembly: anagram — anagram of MALE+TOPIC+B(abbr. "bachelor") = COMPATIBLE
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      sort: syn=BE,ARE,BOD,BOY,CAT,EGG,GUY,ICE,ILK,JOE,LAD,MAN,PEG,SON,TEN; ind=anagram
+      male: syn=M,HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM; abbr=A*,HE,M*,PA*; sounds=mail
+      topic: syn=AS A,BEST,FACT,WHAT,ISSUE,POINT,THEME,MATTER,SUBJECT,AN ISSUE,QUESTION,TO CHOOSE
+      captivating: syn=ALLURING,ENGAGING,APPEALING,ATTRACTIVE,ENCHANTING; ind=container?
+      bachelor: syn=B,MEMBER,SINGLE,GRADUATE,SINGLE MAN; abbr=B*,BA
+      that's: syn=SO,SURE,TRULY,EASILY,INDEED,REALLY,SURELY,ALRIGHT,CLEARLY,PLAINLY,FORSOOTH,ALL RIGHT,ASSUREDLY,CERTAINLY,DOUBTLESS; abbr=TH,YON
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      keeping: syn=ARM,HOW,WAY,CARE,CAST,FORM,GAIN,GRIP,HAND,HOLD,NICK,RITE,SWAY,TACK,TRIM; ind=container
+      sort of: ind=anagram
+      sort of: syn=OF,OR,BIT,NOT,KIND,LESS,LIKE,MORE,MUCH,A BIT
+      of male: syn=ALTOS
+      in keeping: syn=ACCEPTABLE
+  AI Reasoning:
+    Anagram of MALE + TOPIC + B gives COMPATIBLE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TEACHIN  22D. Figure entertaining a Greek character in informal discussion
+  Answer: TEACHIN
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "informal discussion"
+  Wordplay type: charade
+  Components:
+    synonym            Figure                    -> TEN
+    indicator          entertaining              -> 
+    literal            a                         -> A
+    synonym            Greek character           -> CHI
+  Assembly: container — A+CHI(synonym of "Greek character") inside TEN(synonym of "Figure")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      figure: syn=TEN*,DO,MY,OK,A A,BAG,BED,BOD,END,FEE,FIX,HOW,ITS,NOT,OPT
+      entertaining: syn=FUN,AMUSING,AT HOME,HOSTING; ind=container
+      greek: syn=GK,GR,TAU,FETA,ATTIC,DORIC,IONIC,PLATO,STOIC,BIONIC,CRETAN,IONIAN,HELLENE,STAVROS; abbr=CHI*,ETA,G,GR,MU,NU,PHI,PI; ind=anagram?
+      character: syn=CHI*,AIR,BOD,BOG,BOY,BUG,CAT,CEE,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      informal: syn=KIND,CLASS,SLANGY,STREET,CHILLED,OFFHAND,RELAXED; ind=anagram?
+      discussion: syn=AND,CELL,CLUB,GIVE,TALK,BOARD,FORUM,GUILD,LOCAL,PANEL,PIECE,SWEAR,TALKS,WORDS,BRANCH
+      greek character: syn=CHI*,MU,PI,BIT,DAY,END,ETA,PHI,PSI,TAU
+  AI Reasoning:
+    TEN (figure) interleaves with ACHI (a + Greek character CHI) via 'entertaining' to spell TEACHIN
+  ----------------------------------------------------------------------
+
+  [LOW] SKIRUN  23D. Track drink amid sign of summer?
+  Answer: SKIRUN
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Track"
+  Wordplay type: charade
+  Components:
+    synonym            drink                     -> SKI
+    indicator          amid                      -> 
+    synonym            sign of summer            -> RUN
+  Assembly: charade — SKI(synonym of "drink") + RUN(synonym of "sign of summer")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      track: syn=CUT,DOG,GUN,ROW,WAY,DRAG,KITE,LINE,PASS,PATH,PIKE,ROAD,STEP,TOWN,CHASE
+      drink: syn=KIR*,IT,ALE,BIB,CHA,GIN,HIT,ICE,LAP,MUM,NIP,PEG,POP,RUM,RYE; abbr=ALE,BEER,D,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      amid: syn=BY,MID,OVER,AMONG,MIDST,DURING; ind=container,hidden,insertion
+      sign: syn=AD,OK,FEE,FLY,INK,LEO,PAY,PEN,SOS,VOW,BECK,BILL,CLUE,FLAG,HIRE
+      summer: syn=ACME,APEX,BEAM,PEAK,ADDER,BLOOM,FLUSH,GLORY,KIOSK,PRIME,ALCOVE,AUTUMN,CASINO,CLIMAX,EFFETE
+      sign of: ind=parts
+  AI Reasoning:
+    SKI (drink/imbibe) + RUN (sign/period of summer weather) = SKIRUN (track)
+  ----------------------------------------------------------------------
+
+  [HIGH] HOLD  24A. Retain strong bag everyone discarded
+  Answer: HOLD
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Retain"
+  Wordplay type: deletion
+  Assembly: deletion — delete ALL from HOLDALL
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      retain: syn=HOLD*,DO,BAG,EYE,JOB,OWN,PAY,ANON,BEST,HANG,HAVE,KEEP,LINE,NONE,ONTO
+      strong: syn=FI,BIG,POP,RUM,ABLE,ARCH,FAST,FIRM,FOUL,FULL,GONE,HARD,HIGH,IRON,MUCH
+      bag: syn=COP,FIT,GET,HIT,JUT,NAB,NET,OWN,SAC,WIN,BEAR,BOOK,CALL,COME,DEAD
+      everyone: syn=ALL,AWL,ONE,EACH; abbr=ALL
+      discarded: syn=IDLE,LEFT,VOID; ind=anagram?,deletion?
+  AI Reasoning:
+    HOLDALL (strong bag) with ALL (everyone) removed gives HOLD
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ROCKIER  27A. Like a larger cliff face that is less stable?
+  Answer: ROCKIER
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "less stable"
+  Wordplay type: charade
+  Components:
+    synonym            cliff face                -> ROCK
+    abbreviation       that is                   -> IE
+    last_letter        larger                    -> R
+  Assembly: charade — ROCK(synonym of "cliff face") + IE(abbr. "that is") + R(last letter of "larger")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      larger: syn=MORE,BIGGER,GREATER
+      cliff: syn=TOR,FACE,SCAR,BLUFF,ESCARP
+      face: syn=BOD,BOY,CAT,EGG,FEE,FRO,GUY,JOE,LAD,MAN,MAP,MET,MOW,MUG,PAN
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      less: syn=OK,ART,LOW,TWO,FINE,LIKE,MIND,MOST,MUCH,NEAR,NIGH,PUNY,SOME,TEND,WANT; ind=deletion
+      stable: syn=AN,ON,AGE,ONE,SET,EVEN,FAST,FIRM,FLAT,HARD,HOME,MEWS,SANE,SOME,STUD
+      like a: syn=COW,BULLY,TROLL,COERCE,HARASS,HECTOR,MENACE,TYRANT,OPPRESS,TAUREAN
+      that is: abbr=IE*
+      that is: syn=IE*,EST,IDEST,TOWIT,NAMELY,TO WIT
+  AI Reasoning:
+    ROCK (cliff face) + IE (that is) + R (last letter of larger) = ROCKIER
+  ----------------------------------------------------------------------
+
+  [HIGH] NADINE  4D. Woman making a noise in Tyneside
+  Answer: NADINE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Woman"
+  Wordplay: charade
+  Explanation: A (abbreviation of "a") + DIN (synonym of "noise") + NE (synonym of "Tyneside"); definition: "Woman"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLOODBROTHER  7D. Initiate Rex to probe trouble for very close friend
+  Answer: BLOODBROTHER
+  Tier: DB Fallback | Confidence: 75/100
+  Definition: "very close friend"
+  Wordplay type: container
+  Components:
+    abbreviation       rex                       -> R
+    synonym            trouble                   -> BLOOD
+    synonym            to                        -> BOTHER
+  Assembly: container — BLOOD(synonym of "trouble") + R(abbr. "rex") inside BOTHER(synonym of "to")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      initiate: syn=MOOT,SEAT,TYRO,BEGIN,FOUND,LODGE,PERCH,PLANT,ROOST,START,BROACH,INDUCT,INJECT,INSERT,INVEST; ind=acrostic,parts
+      rex: syn=R,BOY,MONARCH; abbr=R*; ind=container?
+      to: syn=BOTHER*,BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR; ind=reversal; sounds=too,two
+      probe: syn=OTHER*,EXAM,INTO,LOOK,QUIZ,SCAN,TEST,VIEW,AUDIT,CHECK,DRIVE,FINAL,STUDY,TRIAL,EXAMEN; ind=container?
+      trouble: syn=BLOOD*,OTHER*,BOTHER*,ADO,AIL,BID,BOX,BUG,DOG,ILL,NUT,WOO,AS A,CASE,FACT; abbr=AIL; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V; sounds=vary
+      close: syn=BY,GO,IN,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      friend: syn=BLOOD*,BROTHER*,BUD,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FILL,FOLK,LINE,MAIN; abbr=ALLY,PAL
+      very close: syn=ADJACENT
+      close friend: syn=ALTER EGO,SOUL MATE
+  AI Reasoning:
+    Complex wordplay involving acrostic, reversal, and anagram operations to produce BLOODBROTHER, though the exact mechanism is unclear from the available components
+  ----------------------------------------------------------------------
+
+  [HIGH] DOGFISH  9A. Shadow seen by swimmer is small shark
+  Answer: DOGFISH
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "small shark"
+  Wordplay type: charade
+  Components:
+    synonym            Shadow                    -> DOG
+    synonym            swimmer                   -> FISH
+  Assembly: charade — DOG(synonym of "Shadow") + FISH(synonym of "swimmer")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shadow: syn=DOG*,ACE,BIT,DAB,NIP,RAY,TAD,ACES,DRAM,HIDE,HINT,LICK,MITE,MUCH,PALL
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      swimmer: syn=FISH*,COD,EEL,GAR,BASS,CARP,HAKE,HANG,ORCA,REEL,RIDE,SAIL,SOLE,SPIN,TUNA
+      is: syn=DO*,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      small: syn=S,ARM,FEW,GUN,LET,OFF,PEN,POD,RAP,TWO,WEE,BABY,CHAT,FINE,HALF; abbr=S*
+      shark: syn=FISH*,DOGFISH*,ACE,GUN,ACES,HAND,PAST,TOPE,ADEPT,CHEAT,EVERY,ADEPTS,ARTIST,AT THE,EXPERT
+    Definitions:
+      "shark" -> DOGFISH (definition match)
+  AI Reasoning:
+    Shadow (DOG) + swimmer (FISH) in sequence gives DOGFISH, which is a small shark
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

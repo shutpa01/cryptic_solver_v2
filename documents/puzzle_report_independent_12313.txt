@@ -1,0 +1,356 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12313
+Generated: 2026-03-26 15:34:41
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      31
+  Assembled:        28/31 (90%)
+    Signature:      4
+    Sig+Enriched:   2
+    Sonnet:         2
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   25  9?, 19?, 13?, 21?, 29?, 4?, 1?, 10?, 11?, 12?, 14?, 15?, 18?, 19?, 2?, 22?, 23?, 25?, 27?, 28?, 3?, 5?, 6?, 9?, 26?
+  Medium (40-79): 2  24?, 20?
+  Low (<40):    1  16?
+  Failed:       3  17?, 7?, 8?
+  Average:      92/100
+
+COST: $0.1687 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (9 entries)
+------------------------------------------------------------
+  CERES: "Asteroid" -> CERES  (missing from definition_answers_augmented)
+  CREAMSODA: "Drink" -> CREAMSODA  (missing from definition_answers_augmented)
+  CEDE: "yield" -> CEDE  (missing from definition_answers_augmented)
+  TACO: "Mexican food" -> TACO  (missing from definition_answers_augmented)
+  INDUECOURSE: "eventually" -> INDUECOURSE  (missing from definition_answers_augmented)
+  ENCIPHER: "in disguise" -> ENCIPHER  (missing from definition_answers_augmented)
+  SPEWED: "Poured out" -> SPEWED  (missing from definition_answers_augmented)
+  TACO: company's -> CO  (missing from abbreviations)
+  SPEWED: barrel -> SPEED  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  BIARRITZ = 20 (45/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  ENCIPHER = 16 (35/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  17. Interfering sod led mobile to block online content = MEDDLESOME
+  7. Trouper playing loud man at National Theatre leads in Zenda  = RUPERTOFHENTZAU
+  8. Week wrestling with short set of exercises = WORKSHEET
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  19/31  10, 1, 11, 2, 12, 22, 3, 23, 14, 24, 5, 15, 25, 6, 27, 18, 28, 19, 19
+  Type mismatch:         1  20
+  Unverified explain.:   1  16
+  DB gap:                7  4, 9, 13, 16, 21, 26, 29
+  Failed:                3  7, 8, 17
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    9?  CERES         Asteroid captured by space researchers (5)
+                      hidden in "captured by space researchers"; definition: "Asteroid"  [HIGH]
+   19?  ROCOCO        Directed Up or another Pixar movie in elaborate style (6)
+                      ---  [HIGH]
+   13?  CREAMSODA     Drink loads in closing bars (9)
+                      REAMS (synonym of "loads") + CODA (synonym of "closing bars"); definition: "Drink"  [HIGH]
+   21?  CEDE          Reported grain yield (4)
+                      CEDE (sounds like "grain") [homophone: "Reported"]; definition: "yield"  [HIGH]
+   29?  TACO          I appreciate that company's Mexican food (4)
+                      TA (synonym of "I appreciate that") + CO (synonym of "company's"); definition: "Mexican food"  [HIGH]
+    4?  INDUECOURSE   Unicode sure to break eventually (11)
+                      anagram of UNICODESURE ("Unicode sure") [anagram: "break"] = INDUECOURSE; definition: "eventually"  [HIGH]
+    1?  OLEANDERS     Shrubs from Avon's source spreading over banks (9)
+                      ---  [HIGH]
+   10?  BULLETTRAIN   Quick transport announcement about shortened tram (11)
+                      ---  [HIGH]
+   11?  TAR           Pitch of backing singer (3)
+                      ---  [HIGH]
+   12?  ISSUE         Header omitted from paper edition (5)
+                      ---  [HIGH]
+   14?  BONEMARROW    Blood cells' origin is one male interred in burial mound (10)
+                      ---  [HIGH]
+   15?  RESENT        Feel bitter about pressure to avoid attending (6)
+                      ---  [HIGH]
+   18?  ISLE          Told I'm going to offshore location (4)
+                      ---  [HIGH]
+   19?  ROCOCO        Directed Up or another Pixar movie in elaborate style (6)
+                      ---  [HIGH]
+    2?  OVINE         Sheepish climber gets oxygen first (5)
+                      ---  [HIGH]
+   22?  INHOTWATER    Facing repercussions won't air the broadcast (10)
+                      ---  [HIGH]
+   23?  EQUESTRIAN    Rider's request to cycle in surrounding area (10)
+                      ---  [HIGH]
+   24?  PARALYSE      Soldier at base tackling onset of shellshock gets to demobilise? (8)
+                      ---  [MED]
+   25?  NICKNAME      Arrest man reflecting on drug's designation (8)
+                      ---  [HIGH]
+   27?  RETOOL        Replace gear thief lifted (6)
+                      ---  [HIGH]
+   28?  BAIT          What tempts bishop with boundless faith? (4)
+                      ---  [HIGH]
+    3?  EWE           One fleeced by second person over the phone (3)
+                      ---  [HIGH]
+    5?  AITCH         The Scarlet Letter (5)
+                      ---  [HIGH]
+    6?  EPITOMISE     To sum up most of epic is boring to me (9)
+                      ---  [HIGH]
+    9?  CERES         Asteroid captured by space researchers (5)
+                      ---  [HIGH]
+   16?  ENCIPHER      His Excellency probes Byzantine prince in disguise (8)
+                      HE(abbr. "His Excellency") inside ENCIPR("prince")  [LOW]
+   17?  MEDDLESOME    Interfering sod led mobile to block online content (10)
+                      ---  [ERR]
+   20?  BIARRITZ      French resort business to stock bara brith without crusts (8)
+                      AR(deletion from "bara")+RIT(deletion from "brith") inside BIZ(abbr. "business")  [MED]
+   26?  SPEWED        Poured out barrel containing whiskey (6)
+                      SPEED (synonym of "barrel") + W (synonym of "whiskey") [container: "containing"]; definition: "Poured out"  [HIGH]
+    7?  RUPERTOFHENTZAU  Trouper playing loud man at National Theatre leads in Zenda as unconquered villain (15)
+                      ---  [ERR]
+    8?  WORKSHEET     Week wrestling with short set of exercises (9)
+                      ---  [ERR]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] CERES  9?. Asteroid captured by space researchers
+  Answer: CERES
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Asteroid"
+  Wordplay: hidden
+  Explanation: hidden in "captured by space researchers"; definition: "Asteroid"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] ROCOCO  19?. Directed Up or another Pixar movie in elaborate style
+  Answer: ROCOCO
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "Directed Up or another Pixar movie in elaborate" and "style" both mean ROCOCO
+  ----------------------------------------------------------------------
+
+  [HIGH] CREAMSODA  13?. Drink loads in closing bars
+  Answer: CREAMSODA
+  Tier: Signature | Confidence: 100/100
+  Definition: "Drink"
+  Wordplay: charade
+  Explanation: REAMS (synonym of "loads") + CODA (synonym of "closing bars"); definition: "Drink"
+  ----------------------------------------------------------------------
+
+  [HIGH] CEDE  21?. Reported grain yield
+  Answer: CEDE
+  Tier: Signature | Confidence: 100/100
+  Definition: "yield"
+  Wordplay: homophone
+  Explanation: CEDE (sounds like "grain") [homophone: "Reported"]; definition: "yield"
+  ----------------------------------------------------------------------
+
+  [HIGH] TACO  29?. I appreciate that company's Mexican food
+  Answer: TACO
+  Tier: Signature | Confidence: 100/100
+  Definition: "Mexican food"
+  Wordplay: charade
+  Explanation: TA (synonym of "I appreciate that") + CO (synonym of "company's"); definition: "Mexican food"
+  ----------------------------------------------------------------------
+
+  [HIGH] INDUECOURSE  4?. Unicode sure to break eventually
+  Answer: INDUECOURSE
+  Tier: Signature | Confidence: 100/100
+  Definition: "eventually"
+  Wordplay: anagram
+  Explanation: anagram of UNICODESURE ("Unicode sure") [anagram: "break"] = INDUECOURSE; definition: "eventually"
+  ----------------------------------------------------------------------
+
+  [HIGH] OLEANDERS  1?. Shrubs from Avon's source spreading over banks
+  Answer: OLEANDERS
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BULLETTRAIN  10?. Quick transport announcement about shortened tram
+  Answer: BULLETTRAIN
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TAR  11?. Pitch of backing singer
+  Answer: TAR
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ISSUE  12?. Header omitted from paper edition
+  Answer: ISSUE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BONEMARROW  14?. Blood cells' origin is one male interred in burial mound
+  Answer: BONEMARROW
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RESENT  15?. Feel bitter about pressure to avoid attending
+  Answer: RESENT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ISLE  18?. Told I'm going to offshore location
+  Answer: ISLE
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ROCOCO  19?. Directed Up or another Pixar movie in elaborate style
+  Answer: ROCOCO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OVINE  2?. Sheepish climber gets oxygen first
+  Answer: OVINE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] INHOTWATER  22?. Facing repercussions won't air the broadcast
+  Answer: INHOTWATER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EQUESTRIAN  23?. Rider's request to cycle in surrounding area
+  Answer: EQUESTRIAN
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PARALYSE  24?. Soldier at base tackling onset of shellshock gets to demobilise?
+  Answer: PARALYSE
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NICKNAME  25?. Arrest man reflecting on drug's designation
+  Answer: NICKNAME
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] RETOOL  27?. Replace gear thief lifted
+  Answer: RETOOL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BAIT  28?. What tempts bishop with boundless faith?
+  Answer: BAIT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EWE  3?. One fleeced by second person over the phone
+  Answer: EWE
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] AITCH  5?. The Scarlet Letter
+  Answer: AITCH
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EPITOMISE  6?. To sum up most of epic is boring to me
+  Answer: EPITOMISE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CERES  9?. Asteroid captured by space researchers
+  Answer: CERES
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [LOW] ENCIPHER  16?. His Excellency probes Byzantine prince in disguise
+  Answer: ENCIPHER
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "in disguise"
+  Wordplay type: container
+  Components:
+    abbreviation       His Excellency            -> HE
+    anagram_fodder     prince                    -> ENCIPR
+  Assembly: container — HE(abbr. "His Excellency") inside ENCIPR("prince")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      his: syn=BEE,EYE,FOX,GET,HAS,VEX,BABY,BEAT,BIDE,COUP,DAMN,FAZE,FOUL,HYPE,KINK
+      excellency: syn=VALUE
+      probes: syn=TEST,TRIAL,EXAM,INTO,LOOK,QUIZ,SCAN,VIEW,AUDIT,CHECK,DRIVE,FINAL,OTHER,STUDY,EXAMEN; ind=container?
+      byzantine: syn=DAEDAL,KNOTTY,BAROQUE,TANGLED,DETAILED,INVOLUTE; ind=anagram?
+      prince: syn=PR,HAL,RAS,CZAR,LION,LORD,MAIN,RAJA,AMEER,BARON,HARRY,MOGUL,NAWAB,RAJAH,ROYAL; abbr=HAL,P*; sounds=prints; fodder=PRINCE(6/8 anagram match)
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      disguise: syn=ACT,AIR,PUT,TOP,FACE,MASK,SHOW,COVER,FRONT,GUISE,FACADE,FACING,CONCEAL,OUTSIDE,SURFACE; ind=anagram
+      his excellency: syn=HE*
+      in disguise: ind=anagram
+      in disguise: syn=UNKNOWN,NAMELESS,SECRETLY
+  AI Reasoning:
+    HE (His Excellency) probes/goes inside an anagram (Byzantine) of prince to form ENCIPHER
+  ----------------------------------------------------------------------
+
+  [ERROR] 17. Interfering sod led mobile to block online content = MEDDLESOME
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BIARRITZ  20?. French resort business to stock bara brith without crusts
+  Answer: BIARRITZ
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "French resort"
+  Wordplay type: anagram
+  Components:
+    abbreviation       business                  -> BIZ
+    deletion           bara                      -> AR
+    deletion           brith                     -> RIT
+  Assembly: container — AR(deletion from "bara")+RIT(deletion from "brith") inside BIZ(abbr. "business")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      french: syn=FR,MER,MOT,DOOR,ETRE,GATE,OURS,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN; abbr=DE,FR,LA,LE,UN
+      resort: syn=BIARRITZ*,GO,KEY,SPA,HAUNT,RELAX,SOCHI,REFUGE,REPAIR,COUNTRY,ORLANDO,TORQUAY,WAIKIKI,ACAPULCO,BRIGHTON; abbr=SPA; ind=anagram
+      business: syn=BIZ*,CO,ADO,AIM,CUT,END,JOB,TWO,USE,AREA,AS A,BELT,CARE,DESK,DUTY; abbr=CO
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      stock: syn=ARM,EYE,HUB,JOB,KIN,LOT,NUN,PAL,SON,ABBÉ,ALLY,BASE,CHUM,CLAN,CORE
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      crusts: syn=POD,RUM,BARK,CASE,FACE,GALL,GROG,HIDE,HULL,HUSK,LUSH,MAIL,SASS,SKIN,ARMOR; ind=deletion,parts
+      french resort: syn=BIARRITZ*,CANNES,RESORT
+      to stock: syn=LYING IN
+    Definitions:
+      "French resort" -> BIARRITZ (definition match)
+  AI Reasoning:
+    BIZ (business) + AR (bara minus crusts) + RIT (brith minus crusts) anagrammed by 'to stock' gives BIARRITZ
+  ----------------------------------------------------------------------
+
+  [HIGH] SPEWED  26?. Poured out barrel containing whiskey
+  Answer: SPEWED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Poured out"
+  Wordplay: charade + container
+  Explanation: SPEED (synonym of "barrel") + W (synonym of "whiskey") [container: "containing"]; definition: "Poured out"
+  ----------------------------------------------------------------------
+
+  [ERROR] 7. Trouper playing loud man at National Theatre leads in Zenda as unconquered villain = RUPERTOFHENTZAU
+  ----------------------------------------------------------------------
+
+  [ERROR] 8. Week wrestling with short set of exercises = WORKSHEET
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

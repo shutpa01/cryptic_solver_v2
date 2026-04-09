@@ -1,0 +1,78 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29910
+Generated: 2026-03-09 23:14:38
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      1
+  Assembled:        1/1 (100%)
+    Sonnet:         1
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   0  
+  Medium (40-79): 1  22D
+  Low (<40):    0  
+  Failed:       0  
+  Average:      65/100
+
+COST: $0.0062 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS: none detected
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/1  22D
+  No issues detected.
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   22D  OATH          Unwilling to forgo large bond (4)
+                      delete L from LOATH  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [MEDIUM] 22. Unwilling to forgo large bond
+  Answer: OATH
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "bond"
+  Wordplay type: deletion
+  Assembly: deletion — delete L from LOATH
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      unwilling: syn=LOTH
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      forgo: syn=EYE,ANON,KEEP,STEP
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST; abbr=BIG,L,OS
+      bond: syn=OATH*,HIT,SPY,TIE,BAIL,BAND,BIND,CORD,DEAL,GLUE,KNIT,KNOT,LINK,PACT,SIZE
+    Definitions:
+      "bond" -> OATH (definition match)
+  Human explanation: “loath”(unwilling/opposed) minus ( forgo ) “l”(abbrev. for “large”). Defn: …/a solemn promise.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

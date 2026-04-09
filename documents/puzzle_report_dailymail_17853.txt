@@ -1,0 +1,590 @@
+================================================================================
+PUZZLE QUALITY REPORT: dailymail #17853
+Generated: 2026-04-09 04:09:26
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        31/32 (96%)
+    Signature:      1
+    Sig+Enriched:   11
+    Sonnet:         9
+    DB Fallback:    1
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   23  18A, 18D, 22A, 25D, 11A, 10A, 14A, 15A, 16D, 17A, 20A, 25A, 28A, 3D, 8D, 9A, 2D, 1D, 13A, 23D, 26A, 4D, 5D
+  Medium (40-79): 8  1A, 19D, 21D, 24A, 27A, 29A, 6D, 7D
+  Low (<40):    0  
+  Failed:       1  12A
+  Average:      85/100
+
+COST: $1.2692 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (26 entries)
+------------------------------------------------------------
+  DIGIT: "Figure" -> DIGIT  (missing from definition_answers_augmented)
+  DISMAL: "Poor" -> DISMAL  (missing from definition_answers_augmented)
+  MAG: "Periodical" -> MAG  (missing from definition_answers_augmented)
+  CUT: "incision" -> CUT  (missing from definition_answers_augmented)
+  TASTERS: "samples" -> TASTERS  (missing from definition_answers_augmented)
+  HUMID: "Close" -> HUMID  (missing from definition_answers_augmented)
+  FURNISH: "Supply" -> FURNISH  (missing from definition_answers_augmented)
+  OFFTHERAILS: "In a chaotic state, like a disused train carriage?" -> OFFTHERAILS  (missing from definition_answers_augmented)
+  OPERATINGBUDGET: "financial projection" -> OPERATINGBUDGET  (missing from definition_answers_augmented)
+  SPANISH: "Language" -> SPANISH  (missing from definition_answers_augmented)
+  TABLEAU: "figures" -> TABLEAU  (missing from definition_answers_augmented)
+  GRANTS: "awards" -> GRANTS  (missing from definition_answers_augmented)
+  SLUMBER: "Bob facing burden requires rest?" -> SLUMBER  (missing from definition_answers_augmented)
+  ARC: "Part of a circle" -> ARC  (missing from definition_answers_augmented)
+  TOURDEFORCE: "Masterpiece" -> TOURDEFORCE  (missing from definition_answers_augmented)
+  ROTTERDAM: "Dutch port" -> ROTTERDAM  (missing from definition_answers_augmented)
+  INSIGHT: "Understanding" -> INSIGHT  (missing from definition_answers_augmented)
+  SPELLINGMISTAKE: "An instance of characters being out of order?" -> SPELLINGMISTAKE  (missing from definition_answers_augmented)
+  MORSEL: "bit of food" -> MORSEL  (missing from definition_answers_augmented)
+  TABLEAU: a refined set -> AU  (missing from abbreviations)
+  SCARPER: person -> PER  (missing from abbreviations)
+  GRANTS: getting financial -> R  (missing from abbreviations)
+  ROTTERDAM: Scoundrel -> ROT  (missing from abbreviations)
+  ROTTERDAM: on top of -> TER  (missing from abbreviations)
+  ROTTERDAM: obstruction -> DAM  (missing from abbreviations)
+  INSIGHT: at hand -> SIGHT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  AUGMENT = 27 (73/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  TOURDEFORCE = 29 (45/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  12. Language is hard after period of time = SPANISH
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  11/32  9A, 13A, 14A, 17A, 20A, 25A, 25A, 28A, 3D, 8D, 16D
+  Type mismatch:         1  27A
+  Unverified explain.:   1  29A
+  DB gap:                18  10A, 11A, 12A, 15A, 22A, 24A, 26A, 29A, 1D, 2D, 4D, 5D, 6D, 7D, 18D, 19D, 21D, 23D
+  Failed:                1  12A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   18A  DIGIT         Figure captivated by shindig, I think (5)
+                      hidden in "captivated by shinDIG, I Think"; definition: "Figure"  [HIGH]
+   18D  DISMAL        Poor section of ground is maligned (6)
+                      hidden in "grounD IS MALigned" [hidden: "section"]; definition: "Poor"  [HIGH]
+   22A  MAG           Periodical storm again? Not entirely (3)
+                      hidden in "storM AGain? not entirely"; definition: "Periodical"  [HIGH]
+   25D  SCARF         Oscar funnily concealing neckwear (5)
+                      hidden in "oSCAR Funnily concealing neckwear"  [HIGH]
+   11A  CUT           Reduce incision (3)
+                      CUT (synonym of "Reduce"); definition: "incision"  [HIGH]
+   10A  TASTERS       Star set to change samples (7)
+                      anagram of STARSET ("Star set") [anagram: "change"] = TASTERS; definition: "samples"  [HIGH]
+   14A  LEI           Garland? Alter it at intervals (3)
+                      ---  [HIGH]
+   15A  HUMID         Close friend losing top papers (5)
+                      CHUM (synonym of "friend") + ID (abbreviation of "papers") [deletion: "losing"]; definition: "Close"  [HIGH]
+   16D  MODERATED     Middle-of-the-road Democrat presided over body (9)
+                      ---  [HIGH]
+   17A  TONUP         Greek character in first place is capable of very high speed? (3,2)
+                      ---  [HIGH]
+   20A  DIMES         Recall house with diamonds and coins from the U.S. (5)
+                      ---  [HIGH]
+   25A  SWANSEA       Start to see pale marine creature shortly in Welsh city (7)
+                      ---  [HIGH]
+   28A  ASPHALT       A special stop for surfacing material (7)
+                      ---  [HIGH]
+    3D  HUNCH         Suspicion from husband over meal without starter (5)
+                      ---  [HIGH]
+    8D  USESUP        Gets through American drink acquiring energy (4,2)
+                      ---  [HIGH]
+    9A  OVERRUN       Excessive cost finished series (7)
+                      ---  [HIGH]
+    2D  FURNISH       Supply container grabbed by swimmer (7)
+                      URN (synonym of "container") + FISH (synonym of "swimmer"); definition: "Supply"  [HIGH]
+    1A  OFFTHERAILS   In a chaotic state, like a disused train carriage? (3,3,5)
+                      cryptic definition  [MED]
+    1D  OPERATINGBUDGET  Painter got excited about shift in financial projection (9,6)
+                      anagram of PAINTER+BUDGE(synonym of "shift")+GOT = OPERATINGBUDGET  [HIGH]
+   12A  SPANISH       Language is hard after period of time (7)
+                      ---  [FAIL]
+   13A  ENGULFS       Rubbish flung in sides of enormous swamps (7)
+                      anagram of FLUNG+ES(deletion from "enormous") = ENGULFS  [HIGH]
+   19D  TABLEAU       Chart linked to a refined set of figures (7)
+                      TABLE(synonym of "Chart") + AU(synonym of "a refined set")  [MED]
+   21D  SCARPER       Run away having unsightly mark on person (7)
+                      SCAR(synonym of "mark") + PER(synonym of "person")  [MED]
+   23D  GRANTS        Grey workers getting financial awards (6)
+                      G (abbreviation of "Grey") + R (synonym of "getting financial") + ANTS (synonym of "workers"); definition: "awards"  [HIGH]
+   24A  SLUMBER       Bob facing burden requires rest? (7)
+                      cryptic definition  [MED]
+   26A  ARC           Part of a circle in rescue vessel, reportedly (3)
+                      ARC (sounds like "rescue vessel,"); definition: "Part of a circle"  [HIGH]
+   27A  AUGMENT       Increase in good chaps occupying a university department lately (7)
+                      A + U(abbr. "university") + G(abbr. "good") + MENT(core of "department lately")  [MED]
+   29A  TOURDEFORCE   Masterpiece belonging to us kept by suspect defector (4,2,5)
+                      TOURDE(hidden in "to us kept by") + FORCE("defector")  [MED]
+    4D  ROTTERDAM     Scoundrel on top of obstruction in Dutch port (9)
+                      ROT (synonym of "Scoundrel") + TER (abbreviation of "on top of") + DAM (synonym of "obstruction"); definition: "Dutch port"  [HIGH]
+    5D  INSIGHT       Understanding near at hand (7)
+                      IN (synonym of "near") + SIGHT (synonym of "at hand"); definition: "Understanding"  [HIGH]
+    6D  SPELLINGMISTAKE  An instance of characters being out of order? (8,7)
+                      cryptic definition  [MED]
+    7D  MORSEL        Noted inspector left bit of food (6)
+                      MORSE(synonym of "inspector") + L(abbr. "left")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DIGIT  18A. Figure captivated by shindig, I think
+  Answer: DIGIT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Figure"
+  Wordplay: hidden
+  Explanation: hidden in "captivated by shinDIG, I Think"; definition: "Figure"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] DISMAL  18D. Poor section of ground is maligned
+  Answer: DISMAL
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Poor"
+  Wordplay: hidden
+  Explanation: hidden in "grounD IS MALigned" [hidden: "section"]; definition: "Poor"
+  ----------------------------------------------------------------------
+
+  [HIGH] MAG  22A. Periodical storm again? Not entirely
+  Answer: MAG
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Periodical"
+  Wordplay: hidden
+  Explanation: hidden in "storM AGain? not entirely"; definition: "Periodical"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SCARF  25D. Oscar funnily concealing neckwear
+  Answer: SCARF
+  Tier: Sig+Enriched | Confidence: 80/100
+  Wordplay: hidden
+  Explanation: hidden in "oSCAR Funnily concealing neckwear"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] CUT  11A. Reduce incision
+  Answer: CUT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "incision"
+  Wordplay: charade
+  Explanation: CUT (synonym of "Reduce"); definition: "incision"
+  ----------------------------------------------------------------------
+
+  [HIGH] TASTERS  10A. Star set to change samples
+  Answer: TASTERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "samples"
+  Wordplay: anagram
+  Explanation: anagram of STARSET ("Star set") [anagram: "change"] = TASTERS; definition: "samples"
+  ----------------------------------------------------------------------
+
+  [HIGH] LEI  14A. Garland? Alter it at intervals
+  Answer: LEI
+  Tier: --- | Confidence: 100/100
+  Human explanation: LE (even letters of "Alter") + I (first_letter="it") = LEI; definition: "Garland?"
+  ----------------------------------------------------------------------
+
+  [HIGH] HUMID  15A. Close friend losing top papers
+  Answer: HUMID
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Close"
+  Wordplay: charade + deletion
+  Explanation: CHUM (synonym of "friend") + ID (abbreviation of "papers") [deletion: "losing"]; definition: "Close"
+  ----------------------------------------------------------------------
+
+  [HIGH] MODERATED  16D. Middle-of-the-road Democrat presided over body
+  Answer: MODERATED
+  Tier: --- | Confidence: 100/100
+  Human explanation: MODERATE (synonym="Middle-of-the-road") + D (abbreviation="Democrat") = MODERATED; definition: "presided over body"
+  ----------------------------------------------------------------------
+
+  [HIGH] TONUP  17A. Greek character in first place is capable of very high speed?
+  Answer: TONUP
+  Tier: --- | Confidence: 100/100
+  Human explanation: TOP (synonym="first") + NU (abbreviation="Greek") = TONUP; definition: "high speed?"
+  ----------------------------------------------------------------------
+
+  [HIGH] DIMES  20A. Recall house with diamonds and coins from the U.S.
+  Answer: DIMES
+  Tier: --- | Confidence: 100/100
+  Human explanation: D (abbreviation="diamonds") + IMES (SEMI="house", reversed) = DIMES; definition: "coins from the U.S."
+  ----------------------------------------------------------------------
+
+  [HIGH] SWANSEA  25A. Start to see pale marine creature shortly in Welsh city
+  Answer: SWANSEA
+  Tier: --- | Confidence: 100/100
+  Human explanation: S (first_letter="Start") + SEA (synonym="marine") + WAN (synonym="pale") = SWANSEA; definition: "Welsh city"
+  ----------------------------------------------------------------------
+
+  [HIGH] ASPHALT  28A. A special stop for surfacing material
+  Answer: ASPHALT
+  Tier: --- | Confidence: 100/100
+  Human explanation: A (from clue) + SP (abbreviation="special") + HALT (synonym="stop") = ASPHALT; definition: "surfacing material"
+  ----------------------------------------------------------------------
+
+  [HIGH] HUNCH  3D. Suspicion from husband over meal without starter
+  Answer: HUNCH
+  Tier: --- | Confidence: 100/100
+  Human explanation: H (abbreviation="husband") + UNCH (LUNCH="meal", remove first letter) = HUNCH; definition: "Suspicion"
+  ----------------------------------------------------------------------
+
+  [HIGH] USESUP  8D. Gets through American drink acquiring energy
+  Answer: USESUP
+  Tier: --- | Confidence: 100/100
+  Human explanation: US (abbreviation="American") + SUP (abbreviation="drink") + E (abbreviation="energy") = USESUP; definition: "Gets through"
+  ----------------------------------------------------------------------
+
+  [HIGH] OVERRUN  9A. Excessive cost finished series
+  Answer: OVERRUN
+  Tier: --- | Confidence: 100/100
+  Human explanation: OVER (synonym="finished") + RUN (synonym="series") = OVERRUN; definition: "Excessive cost"
+  ----------------------------------------------------------------------
+
+  [HIGH] FURNISH  2D. Supply container grabbed by swimmer
+  Answer: FURNISH
+  Tier: Signature | Confidence: 100/100
+  Definition: "Supply"
+  Wordplay: charade
+  Explanation: URN (synonym of "container") + FISH (synonym of "swimmer"); definition: "Supply"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OFFTHERAILS  1A. In a chaotic state, like a disused train carriage?
+  Answer: OFFTHERAILS
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "In a chaotic state, like a disused train carriage?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      chaotic: syn=UPSIDE,CONFUSED,DISORDERLY; ind=anagram?
+      state: syn=IS,NY,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS; abbr=AVER; ind=anagram,homophone
+      like: syn=OF*,AS,BE,IF,IS,ME,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      disused: syn=IDLE,VOID,EMPTY,WASTE,JUNKED,REFUSE,SHABBY,VACANT,IGNORED,VACATED,CAST-OFF,CASTAWAY,DERELICT,DESERTED,DESOLATE
+      train: syn=RAIL*,AIM,BUM,CUE,SET,AIMS,BACK,BUNS,BUTT,CHOO,DUFF,FILE,HAMS,HEAD,HOME; ind=anagram
+      carriage: syn=CAB,GIG,RIG,BODY,FOUR,GAIT,MIEN,TRAP,BUGGY,COACH,COUPÉ,STAGE,TONGA,CALASH,CHAISE
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      like a: syn=COW,BULLY,TROLL,COERCE,HARASS,HECTOR,MENACE,TYRANT,OPPRESS,TAUREAN
+      train carriage: syn=BUFFET CAR
+  AI Reasoning:
+    The entire clue is a cryptic definition describing 'off the rails' both metaphorically (chaotic state) and literally (derailed train carriage)
+  ----------------------------------------------------------------------
+
+  [HIGH] OPERATINGBUDGET  1D. Painter got excited about shift in financial projection
+  Answer: OPERATINGBUDGET
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "financial projection"
+  Wordplay type: anagram
+  Components:
+    literal            painter                   -> PAINTER
+    synonym            shift                     -> BUDGE
+    literal            got                       -> GOT
+  Assembly: anagram — anagram of PAINTER+BUDGE(synonym of "shift")+GOT = OPERATINGBUDGET
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      painter: syn=RA*,DALI,GOYA,HALS,ROPE,DURER,ERNST,MANET,MAYBE,MONET,ARTIST,CUBIST,INGRES,RENOIR,ROTHKO; abbr=RA*
+      got: syn=ATE,DID,DUG,FED,HAD,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,DREW; abbr=GO
+      excited: syn=UP,HOT,MAD,WUD,AGOG,AVID,GAGA,KEEN,LIKE,LOCO,NUTS,WILD,ANTSY,ASTIR,AWOKE; abbr=UP; ind=anagram
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      shift: syn=GET*,BUDGE*,DO,COPE,FARE,MAKE,MEAN,MOVE,SACK,SNAP,STEP,STIR,SWAP,VARY,ALONG; ind=anagram
+      in: syn=PER*,T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      financial: syn=CENT,FISCAL,POCKET,BUSINESS,MONETARY,PECUNIARY
+      projection: syn=JUT,BUMP,HILL,HUMP,LUMP,RISE,BULGE,BUNCH,CORNU,EAVES,LEDGE,MOUND,PRONG,SWELL,TENON
+  AI Reasoning:
+    Anagram of RA (painter) + GOT + ABOUT + SHIFT + IN indicated by 'excited' gives OPERATINGBUDGET
+  ----------------------------------------------------------------------
+
+  [FAILED] SPANISH  12A. Language is hard after period of time
+  Answer: SPANISH
+  Tier: --- | Confidence: 0/100
+  Definition: "Language"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     is                        -> IS
+    anagram_fodder     hard                      -> HARD
+    anagram_fodder     period                    -> P
+    indicator          time                      -> 
+  DB Lookups:
+    DB lookups:
+      language: syn=SPANISH*,IDO,CANT,ERSE,INCA,JIVE,SHOP,TALK,THAI,TUPI,URDU,ARGOT,AZTEC,BANTU,CARIB
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      hard: syn=H,BY,IN,NO,OF,AGE,BAD,ICY,ILL,ONE,PAT,SET,BEST,BLAH,CASE; abbr=H*
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      period: syn=AGE,DAY,ERA,AGES,HOUR,SAME,STOP,TERM,TIME,YEAR,AFTER,AGAIN,EPOCH,PHASE,SPELL; abbr=ERA
+      time: syn=T,AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      period of time: syn=TIME,YEAR,SPELL,PERIOD
+    Definitions:
+      "Language" -> SPANISH (definition match)
+  AI Reasoning:
+    Anagram of IS + HARD + P (from 'period') indicated by 'time' gives SPANISH
+  ----------------------------------------------------------------------
+
+  [HIGH] ENGULFS  13A. Rubbish flung in sides of enormous swamps
+  Answer: ENGULFS
+  Tier: Sonnet | Confidence: 96/100
+  Definition: "swamps"
+  Wordplay type: anagram
+  Components:
+    indicator          rubbish                   -> 
+    literal            flung                     -> FLUNG
+    indicator          in                        -> 
+    indicator          sides                     -> 
+    deletion           enormous                  -> ES
+  Assembly: anagram — anagram of FLUNG+ES(deletion from "enormous") = ENGULFS
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rubbish: syn=ME,BIN,PAN,PAP,ROT,TAT,BUNK,CRUD,DIRT,DUFF,GROT,JUNK,MUCK,SLOP,TOSH; abbr=ROT; ind=anagram
+      flung: syn=DID,RAN,BEAT,BLEW,CAST,FLEW,HIED,SHOT,SPED,TORE,DROVE,FIRED,HARED,HIDED,LACED; fodder=FLUNG(5/7 anagram match)
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      sides: syn=SEE,HAND,SETS,BLOCS,EDGES,SECTS,SMALL,TEAMS,WINGS,ANGLES,BLOCKS,BODIES,LIMITS,RAITAS,PARTIES; abbr=S*; ind=deletion,parts; sounds=sighed
+      enormous: syn=HUGE,MEGA,SIZE,VAST,GIANT,GROSS,LARGE,OBESE,MAMMOTH,MONSTER,TITANIC; abbr=OS
+      swamps: syn=ENGULFS*,GULF*,22,BOGS,FISH,BOX,DEN,FEN,GAP,PIT,STY,AWAY,BIND,DENT,DINT
+    Definitions:
+      "swamps" -> ENGULFS (definition match)
+  AI Reasoning:
+    FLUNG inserted between sides (E,S) of ENORMOUS gives EFLUNGS, which anagrammed by 'rubbish' yields ENGULFS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TABLEAU  19D. Chart linked to a refined set of figures
+  Answer: TABLEAU
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "figures"
+  Wordplay type: charade
+  Components:
+    synonym            Chart                     -> TABLE
+    indicator          linked                    -> 
+    indicator          to                        -> 
+    synonym            a refined set             -> AU
+  Assembly: charade — TABLE(synonym of "Chart") + AU(synonym of "a refined set")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      chart: syn=TABLE*,OK,END,FIX,LAY,MAP,OPT,SET,DEAL,PLAN,PLOT,CLEAR,CLOSE,DRAFT,FRAME
+      linked: syn=NEAR,NIGH,CLOSE,FLUSH,JOINED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,JOINING,NEAREST,RIMMING,TANGENT,VERGING
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      refined: syn=CUT,AIRY,BARE,FAUX,FINE,HIGH,LATE,NEAT,NICE,POSH,PURE,ATTIC,BROAD,CLOSE,FAMED; ind=anagram
+      set: syn=TABLE*,GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY; abbr=SE; ind=anagram
+      figures: syn=BETS,DATA,FACE,FITS,GOES,LAYS,LIST,MAIN,MATH,PUTS,SAYS,SETS,UNIT,CALLS,CONES; ind=anagram?
+  AI Reasoning:
+    Chart (TABLE) linked to refined gold's chemical symbol (AU) gives TABLEAU, a scene with figures
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SCARPER  21D. Run away having unsightly mark on person
+  Answer: SCARPER
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Run away"
+  Wordplay type: charade
+  Components:
+    synonym            mark                      -> SCAR
+    synonym            person                    -> PER
+  Assembly: charade — SCAR(synonym of "mark") + PER(synonym of "person")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      run: syn=SCARPER*,R,BE,DO,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB; abbr=R*; ind=anagram?
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      unsightly: syn=HORRID
+      mark: syn=SCAR*,ADD,AIM,BAR,DOT,END,GAG,MAR,PUT,RAP,RIB,SET,SIN,YUK,AIMS; abbr=M
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      person: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY,BUCK; ind=anagram
+      run away: syn=IT,FLY,GET,LAM,LEG,NEW,RUN,ARID,EVEN,FLEE
+    Definitions:
+      "Run away" -> SCARPER (definition match)
+  AI Reasoning:
+    SCAR (mark) + PER (person, as in 'per person') = SCARPER
+  ----------------------------------------------------------------------
+
+  [HIGH] GRANTS  23D. Grey workers getting financial awards
+  Answer: GRANTS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "awards"
+  Wordplay: charade
+  Explanation: G (abbreviation of "Grey") + R (synonym of "getting financial") + ANTS (synonym of "workers"); definition: "awards"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SLUMBER  24A. Bob facing burden requires rest?
+  Answer: SLUMBER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Bob facing burden requires rest?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bob: syn=BOX,CUT,HIT,TAG,ZAP,BACK,BONK,BORE,BOTH,HAIR,HERD,HOLE,NAIL,SLOG,WALL; ind=anagram?,parts
+      facing: syn=POD,TOP,BARK,CASE,FACE,HIDE,HULL,HUSK,MAIL,MASK,SHOW,SKIN,ARMOR,COVER,CRUST
+      burden: syn=DO,BIT,BOX,JOB,LET,RUB,TAX,BALK,CLOG,CURB,DRAG,DUTY,LEVY,LOAD,NEED
+      requires: syn=NEEDS,AIM,BEAR,BORN,CARE,FIVE,NEED,SEAT,TAKE,WALK,WANT,ABACK,APART,CLAIM,COURT
+      rest: syn=SLUMBER*,BED,BUM,HAY,KIP,LAG,LIE,NAP,TEN,Z'S,BASE,BASK,BATH,DOSS,DOZE; sounds=wrest
+    Definitions:
+      "rest" -> SLUMBER (definition match)
+  AI Reasoning:
+    The entire clue describes someone facing a burden who would require rest/slumber
+  ----------------------------------------------------------------------
+
+  [HIGH] ARC  26A. Part of a circle in rescue vessel, reportedly
+  Answer: ARC
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Part of a circle"
+  Wordplay: homophone
+  Explanation: ARC (sounds like "rescue vessel,"); definition: "Part of a circle"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] AUGMENT  27A. Increase in good chaps occupying a university department lately
+  Answer: AUGMENT
+  Tier: Sonnet | Confidence: 73/100
+  Definition: "Increase"
+  Wordplay type: container
+  Components:
+    literal            a                         -> A
+    core_letters       department lately         -> MENT
+    abbreviation       university                -> U
+    abbreviation       good                      -> G
+    indicator          chaps occupying           -> 
+  Assembly: charade — A + U(abbr. "university") + G(abbr. "good") + MENT(core of "department lately")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      increase: syn=AUGMENT*,UP,ADD,BAR,WAX,ADDS,BOOM,FIRE,FORK,GAIN,GIVE,GROW,PLUS,RISE,ADDED
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      good: syn=G,OK,ON,PI,SO,ACE,ALL,APT,BIG,FIT,LOW,OUT,PET,SAD,USE; abbr=G*,PI
+      chaps: syn=MEN*,HIS,BUDS,CATS,CUBS,GEAR,GENT,GUYS,JOES,KIDS,LADS,BUCKS,DUDES,GENTS,JACKS; abbr=gent
+      occupying: syn=BUSYING; ind=container,insertion
+      university: syn=U,MIT,UNI,YALE,OXFORD,COLLEGE,CORNELL,HARVARD,READING,UTENSIL; abbr=U*,UNI
+      department: syn=ARM,LAY,AREA,DESK,FIEF,GAME,LINE,OF A,UNIT,WALK,AREAS,ARENA,FIELD,FRONT,REALM; abbr=D
+      lately: syn=NEW,NOW,JUST,LATE,ONLY,LATER,NEWLY,RECENT,FRESHLY
+      in good: syn=FREAK,MAYBE,MISFIT
+      good chaps: syn=BRICK
+    Definitions:
+      "Increase" -> AUGMENT (definition match)
+  AI Reasoning:
+    Container: A[UG]MENT where UG (university+good) is inserted into A+MENT (a+end of department)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TOURDEFORCE  29A. Masterpiece belonging to us kept by suspect defector
+  Answer: TOURDEFORCE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Masterpiece"
+  Wordplay type: charade
+  Components:
+    indicator          belonging                 -> 
+    hidden             to us kept by             -> TOURDE
+    indicator          suspect                   -> 
+    anagram_fodder     defector                  -> FORCE
+  Assembly: charade — TOURDE(hidden in "to us kept by") + FORCE("defector")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      masterpiece: syn=OPUS,ACRYLIC,WORK OF ART
+      belonging: ind=hidden?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      us: syn=GIS,HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM,AMERICA,APPRISE,FILL IN,MANKIND,ORLANDO,SENIORS; abbr=US
+      kept: syn=MET,RAN,HELD,HEXED,RULED,SAVED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED,FORGOT,GUIDED; ind=container?
+      by: syn=TO*,X,AT,IN,SO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      suspect: syn=RUM,FEEL,FISH,IFFY,PERP,THUG,CROOK,DODGY,DOUBT,FUNNY,GUESS,OPINE,SHADY,ASSUME,DUBIOU; ind=anagram
+      defector: syn=TRAITOR,APOSTATE,TURNCOAT; fodder=DEFECTOR(8/11 anagram match)
+      belonging to: abbr=IN
+      belonging to: syn=IN,PA,LOOK,PART,PAST,OLDEN,PLUME,SILLY,FORMER,VOTARY
+  AI Reasoning:
+    TOURDE hidden in 'to us kept by' + FORCE from anagram of 'defector'
+  ----------------------------------------------------------------------
+
+  [HIGH] ROTTERDAM  4D. Scoundrel on top of obstruction in Dutch port
+  Answer: ROTTERDAM
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Dutch port"
+  Wordplay: charade
+  Explanation: ROT (synonym of "Scoundrel") + TER (abbreviation of "on top of") + DAM (synonym of "obstruction"); definition: "Dutch port"
+  ----------------------------------------------------------------------
+
+  [HIGH] INSIGHT  5D. Understanding near at hand
+  Answer: INSIGHT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Understanding"
+  Wordplay: charade
+  Explanation: IN (synonym of "near") + SIGHT (synonym of "at hand"); definition: "Understanding"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SPELLINGMISTAKE  6D. An instance of characters being out of order?
+  Answer: SPELLINGMISTAKE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "An instance of characters being out of order?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      instance: syn=NOT,BASE,CASE,NAME,NOTE,OF A,NAMES,ADDUCE,ADVERT,NOTICE,QUOTES,SAMPLE,EXAMPLE,FIGHTER,MENTION; sounds=instants
+      characters: syn=EFS,OVA,KANJI,NAMES,RUNES,TYPES,AITCHES,CLEANER,COOKIES,ITALICS,PERSONAE,LETTERING,CLEANER OR,SIGNS FROM,AIR; ind=acrostic,anagram,hidden
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      order: syn=LIKE*,DO,MY,OM,SO,AIM,ASK,BID,FEW,FIX,GEL,HOW,ILK,LAY,LOW; ind=anagram
+      out of: abbr=EX
+      out of: syn=EX,BIRD,FROM,DIVER,FLIER,LUPIN,PLANT,SHELL,FLOWER,PUFFIN
+      out of order: syn=BAD,NOT,MINX,RACY
+  AI Reasoning:
+    The entire clue cryptically defines SPELLINGMISTAKE - when characters (letters) are out of order, that's literally what a spelling mistake is
+  ----------------------------------------------------------------------
+
+  [HIGH] MORSEL  7D. Noted inspector left bit of food
+  Answer: MORSEL
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "bit of food"
+  Wordplay type: charade
+  Components:
+    indicator          Noted                     -> 
+    synonym            inspector                 -> MORSE
+    abbreviation       left                      -> L
+  Assembly: charade — MORSE(synonym of "inspector") + L(abbr. "left")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      noted: syn=DUG,GOT,HAD,RAN,EYED,FELT,MADE,SEEN,STAR,TOOK,WELL,WENT,CITED,FAMED,HEARD
+      inspector: syn=MORSE*,DI,COP,MAN,BULL,DICK,FUZZ,GOLD,HEAT,BOBBY,MAYBE,REBUS,COPPER,LAWMAN,POLICE; abbr=DI; ind=anagram?
+      left: syn=L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      bit: syn=MORSEL*,ACE,ACT,DAB,DAY,EAT,EON,ERA,LET,NIP,RAY,RUB,TAD,TWO,ACES; ind=hidden
+      food: syn=IF,EGG,BEEF,CHOP,CHOW,DIET,DISH,EATS,EDAM,EGGS,FAIR,FARE,FEED,FETA,FISH
+      bit of: ind=parts
+      bit of: syn=PART,SUNDER
+      bit of food: syn=POD,DISH,FOOD,SEED
+  AI Reasoning:
+    Noted indicates famous inspector (MORSE) + left (L) = MORSEL
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

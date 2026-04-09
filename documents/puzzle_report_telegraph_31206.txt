@@ -1,0 +1,678 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31206
+Generated: 2026-04-06 06:45:52
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        28/32 (87%)
+    Sig+Enriched:   9
+    Sonnet:         11
+    DB Fallback:    0
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   21  6D, 1D, 10A, 13A, 17D, 18A, 22D, 23A, 27A, 29A, 3D, 4D, 5D, 7D, 8D, 11A, 12A, 14D, 16D, 25D, 28A
+  Medium (40-79): 5  1A, 15A, 19D, 2D, 26A
+  Low (<40):    2  24A, 4A
+  Failed:       4  20A, 21D, 23D, 9A
+  Average:      84/100
+
+COST: $1.5928 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (26 entries)
+------------------------------------------------------------
+  RISOTTO: "dish" -> RISOTTO  (missing from definition_answers_augmented)
+  SITAR: "instrument" -> SITAR  (missing from definition_answers_augmented)
+  OUTAGE: "power cut" -> OUTAGE  (missing from definition_answers_augmented)
+  cash in: "profit" -> cash in  (missing from definition_answers_augmented)
+  EWERS: "vessels" -> EWERS  (missing from definition_answers_augmented)
+  IRISES: "flowers" -> IRISES  (missing from definition_answers_augmented)
+  Paganini: "composer" -> Paganini  (missing from definition_answers_augmented)
+  DOPEY: "Stupid pot belly's back" -> DOPEY  (missing from definition_answers_augmented)
+  RESPITE: "Break" -> RESPITE  (missing from definition_answers_augmented)
+  EXAMINERS: "They test" -> EXAMINERS  (missing from definition_answers_augmented)
+  Persia: "Old country" -> Persia  (missing from definition_answers_augmented)
+  EARLOBE: "you might get this pierced" -> EARLOBE  (missing from definition_answers_augmented)
+  A priori: "reason" -> A priori  (missing from definition_answers_augmented)
+  REVOLTING: "Horrible" -> REVOLTING  (missing from definition_answers_augmented)
+  SITAR: India's -> I  (missing from abbreviations)
+  RESPITE: telepathy? -> ESP  (missing from abbreviations)
+  UNCOUPLE: academic publisher's -> OUP  (missing from abbreviations)
+  EXAMINERS: pit workers -> MINERS  (missing from synonyms_pairs)
+  ABRIDGE: river crossing -> BRIDGE  (missing from synonyms_pairs)
+  PAVES: avenue -> AVE  (missing from abbreviations)
+  A priori: senior religious figure -> PRIOR  (missing from synonyms_pairs)
+  TONED: for losing face -> NOTED  (missing from synonyms_pairs)
+  SPOKESMAN: prods -> POKE  (missing from synonyms_pairs)
+  IMPORTANT: writer's -> I  (missing from abbreviations)
+  IMPORTANT: the -> M  (missing from abbreviations)
+  REVOLTING: idiot -> LOVER  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  NETTLED = 12 (80/100): AI=substitution, assembled=deletion
+  A priori = 24 (25/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  SPOKESMAN (85/100): S <- "second" (first_letter)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  TONED = 26 (50/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  A priori = 24 (25/100): def="reason" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  20. Old country record about odd bits of rustic area = Persia
+  21. Nearly sober, lacking any boundaries, you might get this pie = EARLOBE
+  23. Refers to views on the radio = CITES
+  9. Horrible idiot boyfriend returned grand = REVOLTING
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  8/32  18A, 27A, 3D, 7D, 8D, 14D, 17D, 25D
+  Type mismatch:         2  12A, 24A
+  Fabricated mapping:    1  28A
+  Unverified explain.:   1  26A
+  Weak definition:       1  24A
+  DB gap:                19  1A, 4A, 9A, 10A, 11A, 13A, 15A, 20A, 24A, 26A, 28A, 29A, 2D, 5D, 6D, 16D, 19D, 21D, 22D
+  Failed:                4  9A, 20A, 21D, 23D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    6D  RISOTTO       Part of dinner is Ottoman dish (7)
+                      hidden in "dinneR IS OTTOman" [hidden: "Part"]; definition: "dish"  [HIGH]
+    1D  DARKROOMS     New doors mark development sites (9)
+                      ---  [HIGH]
+   10A  SITAR         Celebrity holding India's instrument (5)
+                      STAR (synonym of "Celebrity") + I (synonym of "India's") [container: "holding"]; definition: "instrument"  [HIGH]
+   13A  OUTAGE        Heartless fury in power cut (6)
+                      OUTRAGE (synonym of "fury") [gutting: "Heartless"]; definition: "power cut"  [HIGH]
+   17D  wind farm     Clean energy source success Democrat very much misunderstood at first (4,4)
+                      ---  [HIGH]
+   18A  SCENARIO      I censor a different summary of play (8)
+                      ---  [HIGH]
+   22D  cash in       Conservative remains popular, making profit (4,2)
+                      C (synonym of "Conservative") + ASH (synonym of "remains") + IN (synonym of "popular,"); definition: "profit"  [HIGH]
+   23A  COWERED       Lived among fish, crouched in fear (7)
+                      ---  [HIGH]
+   27A  Aphrodite     Zeus's daughter paid her to, strangely (9)
+                      ---  [HIGH]
+   29A  EWERS         Sheep extremely restless in vessels (5)
+                      EWE (synonym of "Sheep") + RS (middle of "restless") [outer letters: "extremely"]; definition: "vessels"  [HIGH]
+    3D  YELLING       Unknown relation scratching head, shouting (7)
+                      ---  [HIGH]
+    4D  IRISES        One grows flowers (6)
+                      I (synonym of "One") + RISES (synonym of "grows"); definition: "flowers"  [HIGH]
+    5D  Paganini      Badly paining a composer (8)
+                      anagram of PAININGA ("paining a") [anagram: "Badly"] = PAGANINI; definition: "composer"  [HIGH]
+    7D  ANTELOPES     Perhaps gazelles asleep, not jumping around (9)
+                      ---  [HIGH]
+    8D  TIRED         Weary and tense, anger beginning to dissipate (5)
+                      ---  [HIGH]
+    1A  DOPEY         Stupid pot belly's back (5)
+                      cryptic definition  [MED]
+   11A  RESPITE       Break in ceremony limiting telepathy? (7)
+                      RITE (synonym of "ceremony") + ESP (abbreviation of "telepathy?") [container: "limiting"]; definition: "Break"  [HIGH]
+   12A  NETTLED       Annoyed, Newton calmed down without having succeeded (7)
+                      N(first letter of "Newton") + delete S from SETTLED  [HIGH]
+   14D  tae kwon do   Wrestling take-down grips old martial art (3,4,2)
+                      anagram of TAKEDOWN("take-down")+O(abbr. "old") = tae kwon do  [HIGH]
+   15A  UNCOUPLE      Relative bored by academic publisher's release (8)
+                      OUP(abbr. "academic publisher's") inside UNCLE(synonym of "Relative")  [MED]
+   16D  EXAMINERS     They test former American pit workers (9)
+                      EX (synonym of "former") + A (synonym of "American") + MINERS (synonym of "pit workers"); definition: "They test"  [HIGH]
+   19D  ABRIDGE       Cut down river crossing, having advanced earlier (7)
+                      A(abbr. "advanced") + BRIDGE(synonym of "river crossing")  [MED]
+    2D  PAVES         Quiet avenue son covers in flags? (5)
+                      P(abbr. "Quiet") + AVE(abbr. "avenue") + S(abbr. "son")  [MED]
+   20A  Persia        Old country record about odd bits of rustic area (6)
+                      ---  [FAIL]
+   21D  EARLOBE       Nearly sober, lacking any boundaries, you might get this pierced (7)
+                      ---  [FAIL]
+   23D  CITES         Refers to views on the radio (5)
+                      ---  [FAIL]
+   24A  A priori      Using reason, artificial intelligence takes in senior religious figure (1,6)
+                      A(first letter of "artificial") + PRIOR(synonym of "senior religious figure") + I(first letter of "intelligence")  [LOW]
+   25D  OLIVE         Yellowish-green river leaves boy wanting more (5)
+                      delete R from OLIVER  [HIGH]
+   26A  TONED         Firm made up for losing face (5)
+                      anagram of NOTED(synonym of "for losing face") = TONED  [MED]
+   28A  SPOKESMAN     Prods mum to fill in second name for representative (9)
+                      S(first letter of "second") + POKE(synonym of "prods") + S(first letter of "second") + MA(abbr. "mum") + N(abbr. "name")  [HIGH]
+    4A  IMPORTANT     Vital the writer's left with a set of books (9)
+                      I(abbr. "writer's") + M(synonym of "the") + PORT(synonym of "left") + A + NT(abbr. "books")  [LOW]
+    9A  REVOLTING     Horrible idiot boyfriend returned grand (9)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] RISOTTO  6D. Part of dinner is Ottoman dish
+  Answer: RISOTTO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "dish"
+  Wordplay: hidden
+  Explanation: hidden in "dinneR IS OTTOman" [hidden: "Part"]; definition: "dish"
+  ----------------------------------------------------------------------
+
+  [HIGH] DARKROOMS  1D. New doors mark development sites
+  Answer: DARKROOMS
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of DOORS + MARK = DARKROOMS
+  ----------------------------------------------------------------------
+
+  [HIGH] SITAR  10A. Celebrity holding India's instrument
+  Answer: SITAR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "instrument"
+  Wordplay: charade + container
+  Explanation: STAR (synonym of "Celebrity") + I (synonym of "India's") [container: "holding"]; definition: "instrument"
+  ----------------------------------------------------------------------
+
+  [HIGH] OUTAGE  13A. Heartless fury in power cut
+  Answer: OUTAGE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "power cut"
+  Wordplay: charade + deletion
+  Explanation: OUTRAGE (synonym of "fury") [gutting: "Heartless"]; definition: "power cut"
+  ----------------------------------------------------------------------
+
+  [HIGH] wind farm  17D. Clean energy source success Democrat very much misunderstood at first
+  Answer: wind farm
+  Tier: --- | Confidence: 100/100
+  Human explanation: WIN (synonym="success") + D (abbreviation="Democrat") + FAR (synonym="very much") + M (first_letter="misunderstood") = WIND FARM; definition: "Clean"
+  ----------------------------------------------------------------------
+
+  [HIGH] SCENARIO  18A. I censor a different summary of play
+  Answer: SCENARIO
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of I + CENSOR + A = SCENARIO
+  ----------------------------------------------------------------------
+
+  [HIGH] cash in  22D. Conservative remains popular, making profit
+  Answer: cash in
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "profit"
+  Wordplay: charade
+  Explanation: C (synonym of "Conservative") + ASH (synonym of "remains") + IN (synonym of "popular,"); definition: "profit"
+  ----------------------------------------------------------------------
+
+  [HIGH] COWERED  23A. Lived among fish, crouched in fear
+  Answer: COWERED
+  Tier: --- | Confidence: 100/100
+  Human explanation: COD (synonym="fish,") + WERE (synonym="Lived") = COWERED
+  ----------------------------------------------------------------------
+
+  [HIGH] Aphrodite  27A. Zeus's daughter paid her to, strangely
+  Answer: Aphrodite
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of PAID + HER + TO, = APHRODITE
+  ----------------------------------------------------------------------
+
+  [HIGH] EWERS  29A. Sheep extremely restless in vessels
+  Answer: EWERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "vessels"
+  Wordplay: charade + parts
+  Explanation: EWE (synonym of "Sheep") + RS (middle of "restless") [outer letters: "extremely"]; definition: "vessels"
+  ----------------------------------------------------------------------
+
+  [HIGH] YELLING  3D. Unknown relation scratching head, shouting
+  Answer: YELLING
+  Tier: --- | Confidence: 100/100
+  Human explanation: Y (abbreviation="Unknown") + ELLING (deletion="relation") = YELLING; definition: "shouting"
+  ----------------------------------------------------------------------
+
+  [HIGH] IRISES  4D. One grows flowers
+  Answer: IRISES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "flowers"
+  Wordplay: charade
+  Explanation: I (synonym of "One") + RISES (synonym of "grows"); definition: "flowers"
+  ----------------------------------------------------------------------
+
+  [HIGH] Paganini  5D. Badly paining a composer
+  Answer: Paganini
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "composer"
+  Wordplay: anagram
+  Explanation: anagram of PAININGA ("paining a") [anagram: "Badly"] = PAGANINI; definition: "composer"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANTELOPES  7D. Perhaps gazelles asleep, not jumping around
+  Answer: ANTELOPES
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of ASLEEP, + NOT = ANTELOPES
+  ----------------------------------------------------------------------
+
+  [HIGH] TIRED  8D. Weary and tense, anger beginning to dissipate
+  Answer: TIRED
+  Tier: --- | Confidence: 100/100
+  Human explanation: TI (deletion="and") + RE (deletion="tense,") + D (first_letter="dissipate") = TIRED; definition: "Weary"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DOPEY  1A. Stupid pot belly's back
+  Answer: DOPEY
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Stupid pot belly's back"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stupid: syn=DOPY*,DIM,DRY,MAD,OLD,WET,AGED,ARID,COZY,DAFT,DRAB,DULL,DUMB,FLAT,GAGA; abbr=DAFT; ind=anagram
+      pot: syn=A,IN,CAN,LOT,PAN,TON,TUM,WAD,DEAL,GOBS,HEAP,MASS,MESS,MUCH,NOTE
+      belly's: syn=BAG,HUM,TUM,BRIM,BUZZ,FAST,WORM,BULGE,BURST,CRAWL,HEART,SLIDE,SNAKE,SPACE,STAND; ind=parts
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+  AI Reasoning:
+    The entire clue cryptically defines DOPEY (the dwarf character who is stupid) through the whimsical description 'pot belly's back'
+  ----------------------------------------------------------------------
+
+  [HIGH] RESPITE  11A. Break in ceremony limiting telepathy?
+  Answer: RESPITE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Break"
+  Wordplay: charade + container
+  Explanation: RITE (synonym of "ceremony") + ESP (abbreviation of "telepathy?") [container: "limiting"]; definition: "Break"
+  ----------------------------------------------------------------------
+
+  [HIGH] NETTLED  12A. Annoyed, Newton calmed down without having succeeded
+  Answer: NETTLED
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Annoyed"
+  Wordplay type: substitution
+  Components:
+    first_letter       Newton                    -> N
+  Assembly: deletion — N(first letter of "Newton") + delete S from SETTLED
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_mismatch=AI=substitution, assembled=deletion | type_evidence=assembled, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      annoyed: syn=NETTLE*,NETTLED*,NETTED*,ATE,BUG,DUG,FED,GET,GOT,IRK,MAD,RAN,SAW,VEX,BEAT; ind=anagram?
+      newton: syn=WEIGHT
+      calmed: syn=DEFUSED,SEDATED
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      without: syn=DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT,RUN; abbr=EX,NO; ind=deletion
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      succeeded: syn=S,OWN,RAN,WAS,ACED,EYED,WENT,AHEAD,NOTED,BEYOND,CRACKS,DOGGED,ENSUED,HEEDED,MINDED; abbr=S
+    Definitions:
+      "Annoyed" -> NETTLED (definition match)
+  AI Reasoning:
+    SETTLED (calmed down) with S (succeeded) replaced by N (Newton) gives NETTLED
+  ----------------------------------------------------------------------
+
+  [HIGH] tae kwon do  14D. Wrestling take-down grips old martial art
+  Answer: tae kwon do
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "martial art"
+  Wordplay type: anagram
+  Components:
+    indicator          Wrestling                 -> 
+    literal            take-down                 -> TAKEDOWN
+    abbreviation       old                       -> O
+  Assembly: anagram — anagram of TAKEDOWN("take-down")+O(abbr. "old") = tae kwon do
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wrestling: syn=HOLD,SUMO,SPORT; ind=anagram
+      take-down: fodder=TAKEDOWN(8/9 anagram match)
+      take: syn=DO*,A,GO,OR,ACT,BAG,BUY,CON,COP,CUT,DAY,DIE,END,EYE,FAG; abbr=T*
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      grips: syn=HOLDS,VICES,GRASPS,SCHOOL,ATTACHE,DITCHES,ATTRACTS,AIM,ARM,BAG,ARMS,BITE,CARE,FIVE,HANG; ind=container?
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      martial: syn=GI,NAVAL,KARATE,REGULAR,SERVICE,WARLIKE,ENLISTED,MILITANT,MILITARY,COMBATIVE,MERCENARY,SOLDIERLY; sounds=marshal
+      art: syn=BOAT,LESS,MOJO,WORK,CRAFT,FRAUD,GUILE,INTRO,MAGIC,SKILL,TASTE,TRADE,BOTTOM,CRAFT,,DECEIT; ind=anagram?
+      martial art: syn=SPORT,AIKIDO,KARATE,KUNG FU,MARTIAL,JU-JITSU
+    Definitions:
+      "martial art" -> tae kwon do (definition match)
+  AI Reasoning:
+    Anagram of TAKEDOWN + O (old) = TAE KWON DO
+  ----------------------------------------------------------------------
+
+  [MEDIUM] UNCOUPLE  15A. Relative bored by academic publisher's release
+  Answer: UNCOUPLE
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "release"
+  Wordplay type: container
+  Components:
+    synonym            Relative                  -> UNCLE
+    indicator          bored by                  -> 
+    abbreviation       academic publisher's      -> OUP
+  Assembly: container — OUP(abbr. "academic publisher's") inside UNCLE(synonym of "Relative")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      relative: syn=UNCLE*,A,MA,BRO,DAD,KIN,MUM,NAN,SIB,SIS,SON,AUNT,GRAN,NEAR,WIFE
+      bored: syn=HIT,TRI,SANK,DIVED,TIRED,BANGED,BASHED,BEDDED,BULLED,BUMPED,DIPPED,FED UP,JAMMED,PUSHED,RAMMED; ind=container; sounds=board
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      academic: syn=DON,NOT,PROF,SWOT,VICE,ATTIC,DOYEN,READER,SCHOLAR,ARMCHAIR,NOTIONAL,PEDANTIC,STUDIOUS; abbr=DD
+      publisher's: syn=PENGUIN,BAEDEKER
+      release: syn=UNCOUPLE*,AD,ADS,CAN,FLY,HIM,BABY,BAIL,BILL,DOOR,EMIT,FILM,FREE,GIVE,PART
+    Definitions:
+      "release" -> UNCOUPLE (definition match)
+  AI Reasoning:
+    UNCLE (relative) contains OUP (Oxford University Press) to form UNCOUPLE
+  ----------------------------------------------------------------------
+
+  [HIGH] EXAMINERS  16D. They test former American pit workers
+  Answer: EXAMINERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "They test"
+  Wordplay: charade
+  Explanation: EX (synonym of "former") + A (synonym of "American") + MINERS (synonym of "pit workers"); definition: "They test"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ABRIDGE  19D. Cut down river crossing, having advanced earlier
+  Answer: ABRIDGE
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Cut down"
+  Wordplay type: charade
+  Components:
+    abbreviation       advanced                  -> A
+    synonym            river crossing            -> BRIDGE
+  Assembly: charade — A(abbr. "advanced") + BRIDGE(synonym of "river crossing")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cut: syn=ABRIDGE*,DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW; ind=deletion,hidden,parts
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      river: syn=R,PO,CAM,DEE,DON,FAL,TAY,URE,AIRE,AMUR,ARNO,AVON,BATH,DEEP,EBRO; abbr=CAM,DEE,EXE,MA,R*
+      crossing: syn=FORD,SAIL,SPAN,CORNER,CRUISE,VOYAGE,PASSAGE; ind=container
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      advanced: syn=A,GO,UP,CAME,COME,EDGE,FARE,FAST,GREW,HIGH,LATE,LEND,LENT,LOAN,MADE; abbr=A*
+      earlier: syn=ON,AGO,PRE,AFORE,AHEAD,ALONG,FORTH,OLDER,PRIOR,AHEAD?,BEFORE,FORMER,ONWARD,ALREADY,FORWARD
+      cut down: syn=CUT,GET,BACK,BOTH,DIRE,DOCK,DOWN,DROP,FELL,HEWN
+    Definitions:
+      "Cut" -> ABRIDGE (definition match)
+      "Cut down" -> ABRIDGE (definition match)
+  AI Reasoning:
+    A (advanced) + BRIDGE (river crossing) to form ABRIDGE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PAVES  2D. Quiet avenue son covers in flags?
+  Answer: PAVES
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "flags"
+  Wordplay type: charade
+  Components:
+    abbreviation       Quiet                     -> P
+    abbreviation       avenue                    -> AVE
+    abbreviation       son                       -> S
+    indicator          covers                    -> 
+    indicator          in                        -> 
+  Assembly: charade — P(abbr. "Quiet") + AVE(abbr. "avenue") + S(abbr. "son")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      quiet: syn=P,IT,SH,DRY,KEY,LOW,ANTI,CALM,COOL,HUSH,LOWN,LULL,SOFT,EQUAL,FRAIL; abbr=P*,SH
+      avenue: syn=ROW,WAY,DRAG,LANE,MEWS,PASS,PIKE,ROAD,SHOT,WALK,A ROW,ALLEY,BYWAY,DRIVE,PLACE
+      son: syn=S,BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY; abbr=S*; sounds=sun
+      covers: syn=AN,BINS,DOGS,EYES,FILL,GOES,PART,PODS,RUNS,TAGS,TOPS,BOXES,CASES,COVER,CURBS; ind=container,parts
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      flags: syn=PAVE*,AILS,GOES,LAGS,LIES,SAGS,BAILS,BOOKS,FADES,FAILS,GROWS,HEADS,JIBES,LEADS,MOVES
+    Definitions:
+      "flags" -> PAVES (definition match)
+  AI Reasoning:
+    Charade of P (quiet) + AVE (avenue) + S (son) = PAVES, meaning flags/paving stones
+  ----------------------------------------------------------------------
+
+  [FAILED] Persia  20A. Old country record about odd bits of rustic area
+  Answer: Persia
+  Tier: --- | Confidence: 0/100
+  Definition: "Old country"
+  Wordplay type: container
+  Components:
+    abbreviation       record                    -> R
+    indicator          about                     -> 
+    indicator          odd                       -> 
+    alternate_letters  rustic                    -> RSI
+    alternate_letters  area                      -> AE
+  DB Lookups:
+    DB lookups:
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O
+      country: syn=UK,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL; abbr=MALI
+      record: syn=A,EP,LP,NO,LOG,PUT,SET,BLOG,CARD,CASE,CASH,DISC,GIVE,LIST,MARK; abbr=DISC,EP,LP,R*,ep
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      odd: syn=SH,APE,FAR,FEW,FEY,MAD,OFF,RUM,THE,WAY,WUD,AMOK,BATS,DAFT,EDGY; abbr=RUM; ind=anagram,parts
+      bits: syn=ACES,DABS,NIPS,ODDS,RAYS,ATOMS,DRAMS,HINTS,LICKS,MITES,MOTES,PARTS,SNAPS,SNIPS,SPOTS; ind=anagram,hidden
+      rustic: syn=COY,HOB,SHY,HAVE,MEEK,FAZED,JUMPY,ROUGH,RURAL,STIFF,TIMID,UPSET,ARABLE,CLUMSY,DEMURE
+      area: syn=A,ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,RANGE,REALM; abbr=A*; ind=anagram
+      old country: syn=EIRE,BURMA,STATE,MALAYA,THRACE
+      rustic area: syn=LAND,RURAL
+    Definitions:
+      "Old country" -> Persia (definition match)
+  AI Reasoning:
+    Container where odd-positioned letters from 'rustic area' (RSIAE) contain/arrange around R from 'record' to form PERSIA
+  ----------------------------------------------------------------------
+
+  [FAILED] EARLOBE  21D. Nearly sober, lacking any boundaries, you might get this pierced
+  Answer: EARLOBE
+  Tier: --- | Confidence: 0/100
+  Definition: "you might get this pierced"
+  Wordplay type: deletion
+  Components:
+    synonym            workable                  -> WORKABLE
+    indicator          nearly                    -> 
+    indicator          lacking                   -> 
+    indicator          boundaries                -> 
+  DB Lookups:
+    DB lookups:
+      nearly: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; ind=deletion,parts
+      sober: syn=NO,DRY,KEY,LOW,BEST,FIRM,GOOD,HARD,JUST,THUS,WELL,STAID,TOUGH,BETTER,SEDATE
+      lacking: syn=ILL,LOW,SHY,WIN,BUSH,CURT,FAST,LAME,PUNK,SIZE,SOUR,WACK,BLUFF,BLUNT,BRIEF; ind=deletion
+      any: syn=SO,NOW,EACH,SOME,THEN,AGAIN,EVERY,OFTEN,ALWAYS,ANYHOW,ANYWAY,EITHER,ANYWAYS
+      boundaries: syn=CAPS,CUES,ENDS,HEMS,KINS,LAYS,RIMS,WAYS,AREAS,BLOOD,BRIMS,CLANS,CORDS,DUCTS,FIEFS; ind=deletion?,parts
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY; ind=anagram?; sounds=mite
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      pierced: syn=GORED,STUCK,STUNG,JABBED,LANCED,PECKED,PICKED,PINKED,SPIKED,IMPALED,NIBBLED,SPEARED,SPITTED,STABBED
+  AI Reasoning:
+    WORKABLE (sober/practical) with deletions indicated by 'nearly' and 'lacking boundaries' produces EARLOBE
+  ----------------------------------------------------------------------
+
+  [FAILED] CITES  23D. Refers to views on the radio
+  Answer: CITES
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      refers: syn=A,SEE,ARMS,BORN,APPLY,POINT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      views: syn=EYES,OPEN,SEES,TEST,IDEAS,LOOKS,TRIAL,MY,OF,ON,CON,EYE,RED,SEE,SET
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      radio: syn=SET,TUNER,WAVES; ind=homophone
+      refers to: syn=HAM,ONE,NERO,ACTOR,ATTIC,AWARD,WORMS
+      on the: ind=anagram
+      on the: syn=GOOD,WALL,FEVER
+  ----------------------------------------------------------------------
+
+  [LOW] A priori  24A. Using reason, artificial intelligence takes in senior religious figure
+  Answer: A priori
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "reason"
+  Wordplay type: container
+  Components:
+    first_letter       artificial                -> A
+    first_letter       intelligence              -> I
+    indicator          takes in                  -> 
+    synonym            senior religious figure   -> PRIOR
+  Assembly: charade — A(first letter of "artificial") + PRIOR(synonym of "senior religious figure") + I(first letter of "intelligence")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      using: syn=WITH,RENAL,ABUSING,BASHING,MILKING,PIMPING,SERVING,WORKING; abbr=BY; ind=anagram
+      reason: syn=BE,WHY,WIT,CASE,DRAW,FORT,HEAD,MAKE,MIND,NOUS,PLEA,TOOL,WALL,WARD,WORK; abbr=RE
+      artificial: syn=MAN,PUT,TWO,FAKE,FAUX,LEFT,MADE,MOCK,SHAM,BOGUS,FALSE,FAMED,MEALY,MIMIC,PHONY
+      intelligence: syn=MY,SO,FEW,WIT,DATA,DOPE,ITEM,KNOW,MANY,MIND,NEWS,NOUS,PATE,WORD,ATONE
+      takes: syn=OR*,DAY,HAS,BAGS,CANS,DAMS,DIES,EATS,ENDS,GETS,GOES,SEES,SITS,USES,BEATS; abbr=T; ind=container
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      senior: syn=SR,DAY,DRY,OLD,AGED,ARID,DEAN,DRAB,DULL,FLAT,HOAR,LATE,LONG,OLD,,ONCE
+      religious: syn=R,HOT,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HOLY,LINE,MATE,MONK; abbr=R*
+      figure: syn=DO,MY,OK,A A,BAG,BED,BOD,END,FEE,FIX,HOW,ITS,NOT,OPT,PUT
+      artificial intelligence: abbr=AI
+      artificial intelligence: syn=AI
+      takes in: syn=HAS,DIET,EATS,FARE,FOOD,GRUB,TUCK,DINES,TAKES,SCOFFS
+      religious figure: syn=ST
+  AI Reasoning:
+    A and I (first letters of artificial intelligence) contain PRIOR (senior religious figure) to make A-PRIOR-I
+  ----------------------------------------------------------------------
+
+  [HIGH] OLIVE  25D. Yellowish-green river leaves boy wanting more
+  Answer: OLIVE
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Yellowish-green"
+  Wordplay type: deletion
+  Assembly: deletion — delete R from OLIVER
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      yellowish-green: syn=OLIVE*
+      yellowish: syn=BUFF,OCHRE
+      green: syn=OLIVE*,ECO,ELF,FAY,NEW,RAW,CASH,GOLD,JACK,LAWN,LIME,LONG,LUSH,NAIF,NOTE
+      river: syn=R,PO,CAM,DEE,DON,FAL,TAY,URE,AIRE,AMUR,ARNO,AVON,BATH,DEEP,EBRO; abbr=CAM,DEE,EXE,MA,R
+      leaves: syn=COS,HAS,TEA,BAGS,GOES,LETS,OMIT,BEARS,CEDES,CRESS,DROPS,DUMPS,EXITS,FEEDS,FLEES; abbr=GO; ind=deletion
+      boy: syn=B,AL,BOD,CAT,EGG,GUY,IMP,JOE,KID,LAD,LEN,MAN,REX,SON,SUB; abbr=B,LAD,SON; sounds=buoy
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+    Definitions:
+      "Yellowish-green" -> OLIVE (definition match)
+  AI Reasoning:
+    OLIVER (boy wanting more, like Oliver Twist) loses R (river abbreviation) to give OLIVE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TONED  26A. Firm made up for losing face
+  Answer: TONED
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Firm"
+  Wordplay type: anagram
+  Components:
+    indicator          made up                   -> 
+    synonym            for losing face           -> NOTED
+  Assembly: anagram — anagram of NOTED(synonym of "for losing face") = TONED
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      firm: syn=ONE*,TONED*,CO,OR,AGE,DIE,OUT,SET,UPS,CARE,EASY,FAST,FEAR,FLAT,GOOD; abbr=CO
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      up: syn=TO*,OF,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      for: syn=TO*,AS,IS,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      losing: ind=deletion
+      face: syn=BOD,BOY,CAT,EGG,FEE,FRO,GUY,JOE,LAD,MAN,MAP,MET,MOW,MUG,PAN
+      made up: ind=anagram
+      made up: syn=DID,DUG,GOT,HIT,OUT,PUT,SAW,WON,BORE,BRED
+    Definitions:
+      "Firm" -> TONED (definition match)
+  AI Reasoning:
+    NOTED (noted for losing face/embarrassment) anagrammed gives TONED
+  ----------------------------------------------------------------------
+
+  [HIGH] SPOKESMAN  28A. Prods mum to fill in second name for representative
+  Answer: SPOKESMAN
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "representative"
+  Wordplay type: charade
+  Components:
+    first_letter       second                    -> S
+    synonym            prods                     -> POKE
+    abbreviation       mum                       -> MA
+    indicator          to fill in                -> 
+    abbreviation       name                      -> N
+  Assembly: charade — S(first letter of "second") + POKE(synonym of "prods") + S(first letter of "second") + MA(abbr. "mum") + N(abbr. "name")
+  Gap fill: [('second', 'S', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      prods: syn=POKE*,DIG,JAB,PUSH,NUDGE,EGG ON,ABOUT OR,MOTIVATE
+      mum: syn=MA*,SH,ALE,GIN,NIP,PEG,POP,RUM,TOT,ALE,,BEER,BELT,BREW,GROG,HOME; abbr=MA*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      fill: syn=DO,GO,AID,DAM,EYE,FIT,HIP,JAM,MET,SUB,ABET,ALLY,ANON,BRIM,BUNG
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      second: syn=SPAN*,S,ME,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE; abbr=B,MO,S*; ind=parts
+      name: syn=POKE*,N,A A,AIM,CUT,DIG,DIS,DUB,FEE,FIX,GUY,NOT,OPT,PUT,REP; abbr=N*
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      representative: syn=SPOKESMAN*,MP,REP,CASE,AGENT,CLERK,ENVOY,PROXY,A GENT,AGENTS,CHARGE,DEACON,DEPUTY,FACTOR,LEGATE; ind=container?
+      fill in: syn=US,HIM,TAKE,TELL,BRIEF,COVER,STAND,TREAT,ADVISE,CONFER
+    Definitions:
+      "representative" -> SPOKESMAN (definition match)
+  AI Reasoning:
+    S (from 'second') + POKE (from 'prods') = SPOKE, then MA (from 'mum') + N (from 'name') = MAN, giving SPOKE+MAN=SPOKESMAN
+  ----------------------------------------------------------------------
+
+  [LOW] IMPORTANT  4A. Vital the writer's left with a set of books
+  Answer: IMPORTANT
+  Tier: Sonnet | Confidence: 7/100
+  Definition: "Vital"
+  Wordplay type: charade
+  Components:
+    abbreviation       writer's                  -> I
+    synonym            the                       -> M
+    synonym            left                      -> PORT
+    indicator          with                      -> 
+    literal            a                         -> A
+    indicator          set                       -> 
+    abbreviation       books                     -> NT
+  Assembly: charade — I(abbr. "writer's") + M(synonym of "the") + PORT(synonym of "left") + A + NT(abbr. "books")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/5 (80%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: M | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      vital: syn=OR*,IMPORTANT*,ALL,BIG,FIT,KEY,RED,HALE,IRON,MAKE,FLUSH,HEADY,PEPPY,PLUSH,SOLID
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      writer's: syn=CHEKHOV,ME,BIC,MAN,MOO,NIB,PEN,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET; abbr=I*,PEN
+      left: syn=PORT*,L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER; abbr=GONE,L,LE,PORT*,SINISTER; ind=acrostic,deletion,reversal
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      set: syn=OR*,GO,OK,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      books: syn=NT*,OT,HOW,LIT,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS; abbr=NT*,OT,B,TOME
+      the writer's: syn=ME
+      with a: syn=SEA GOD
+    Definitions:
+      "Vital" -> IMPORTANT (definition match)
+  AI Reasoning:
+    Charade: I (writer's) + M + PORT (left/nautical) + A + NT (books) = IMPORTANT
+  ----------------------------------------------------------------------
+
+  [FAILED] REVOLTING  9A. Horrible idiot boyfriend returned grand
+  Answer: REVOLTING
+  Tier: --- | Confidence: 0/100
+  Definition: "Horrible"
+  Wordplay type: anagram
+  Components:
+    indicator          horrible                  -> 
+    synonym            idiot                     -> LOVER
+    synonym            boyfriend                 -> TWIT
+    indicator          returned                  -> 
+    abbreviation       grand                     -> G
+  DB Lookups:
+    DB lookups:
+      horrible: syn=BUM,HAIR,KEEN,PUNK,VILE,ACUTE,AWFUL,CHEAP,DREAD,JUNKY,LOUSY,LURID,NASTY,SCARY,SUCKY; ind=anagram
+      idiot: syn=ASS,FOO,MUG,NIT,OAF,TIT,BERK,BOZO,DOLT,DOPE,FOOL,GOOF,GOON,HALF,KNOW
+      boyfriend: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,OLD,BABY,BEAU,BIRD,BODY,BUCK,CHAP; abbr=BF
+      returned: syn=BACK,BORE,BORN,GAVE,PAID,CHANGE,ECHOED,NOTICED,REPLIED,TO ROLL,YIELDED,ANSWERED,REJOINED,REPLACED,RESTORED; ind=reversal
+      grand: syn=G,A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH,BLUE,BOSS; abbr=G*,K
+  AI Reasoning:
+    Anagram of LOVER (idiot) + TWIT (boyfriend) + G (grand) with reversal element gives REVOLTING
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

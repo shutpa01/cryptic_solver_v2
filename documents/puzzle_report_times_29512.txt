@@ -1,0 +1,637 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29512
+Generated: 2026-04-09 02:42:28
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      37
+  Assembled:        36/37 (97%)
+    Signature:      1
+    Sig+Enriched:   8
+    Sonnet:         3
+    DB Fallback:    0
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   32  23D, 1D, 11A, 12D, 14D, 17A, 19D, 27A, 8A, 6D, 1A, 1D, 10A, 11A, 12D, 13A, 14D, 16A, 17A, 19D, 2D, 20A, 21D, 22A, 23D, 24A, 25D, 26A, 27A, 5D, 7D, 8A
+  Medium (40-79): 2  4D, 15D
+  Low (<40):    2  3D, 9A
+  Failed:       1  18A
+  Average:      90/100
+
+COST: $0.6066 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (42 entries)
+------------------------------------------------------------
+  LIBRA: "Scales" -> LIBRA  (missing from definition_answers_augmented)
+  COOPERATIVE: "Helpful" -> COOPERATIVE  (missing from definition_answers_augmented)
+  EVISCERATED: "gutted" -> EVISCERATED  (missing from definition_answers_augmented)
+  ONENIGHTSTAND: "Brief Encounter" -> ONENIGHTSTAND  (missing from definition_answers_augmented)
+  LONG: "Extensive" -> LONG  (missing from definition_answers_augmented)
+  BARCELONA: "City" -> BARCELONA  (missing from definition_answers_augmented)
+  CHAMPATTHEBIT: "Manifest impatience" -> CHAMPATTHEBIT  (missing from definition_answers_augmented)
+  COOPERATIVE: "Helpful" -> COOPERATIVE  (missing from definition_answers_augmented)
+  MEATLOAF: "entertaining American lounge singer" -> MEATLOAF  (missing from definition_answers_augmented)
+  SHEWED: "proved old-fashioned" -> SHEWED  (missing from definition_answers_augmented)
+  EVISCERATED: "gutted" -> EVISCERATED  (missing from definition_answers_augmented)
+  PALIMPSEST: "document" -> PALIMPSEST  (missing from definition_answers_augmented)
+  IMPRECATE: "had to swear" -> IMPRECATE  (missing from definition_answers_augmented)
+  OMIT: "be sick" -> OMIT  (missing from definition_answers_augmented)
+  LISP: "blocks" -> LISP  (missing from definition_answers_augmented)
+  VARNISH: "Disappear" -> VARNISH  (missing from definition_answers_augmented)
+  ANGST: "Dread" -> ANGST  (missing from definition_answers_augmented)
+  METEOR: ""star"" -> METEOR  (missing from definition_answers_augmented)
+  RADII: "Minute hands, in relation to face" -> RADII  (missing from definition_answers_augmented)
+  RAILLERY: "teasing" -> RAILLERY  (missing from definition_answers_augmented)
+  LIBRA: "Scales" -> LIBRA  (missing from definition_answers_augmented)
+  FARANDWIDE: "covering great area" -> FARANDWIDE  (missing from definition_answers_augmented)
+  ADO: "Bother!" -> ADO  (missing from definition_answers_augmented)
+  BATH: "tub" -> BATH  (missing from definition_answers_augmented)
+  ONENIGHTSTAND: "Brief Encounter" -> ONENIGHTSTAND  (missing from definition_answers_augmented)
+  TRUFFLE: "delicacy" -> TRUFFLE  (missing from definition_answers_augmented)
+  HUMPS: "Carries items on back of camel" -> HUMPS  (missing from definition_answers_augmented)
+  TUN: "One full of alcohol perhaps" -> TUN  (missing from definition_answers_augmented)
+  LONG: "Extensive" -> LONG  (missing from definition_answers_augmented)
+  RIVERDANCE: "Show" -> RIVERDANCE  (missing from definition_answers_augmented)
+  PEASOUPER: "in this?" -> PEASOUPER  (missing from definition_answers_augmented)
+  AQUAMARINE: "shade" -> AQUAMARINE  (missing from definition_answers_augmented)
+  PALIMPSEST: feeblest -> PALEST  (missing from synonyms_pairs)
+  METEOR: Allot -> METE  (missing from synonyms_pairs)
+  RAILLERY: not so good -> ILLER  (missing from synonyms_pairs)
+  ADO: the same as before? -> DO  (missing from abbreviations)
+  BATH: Stick -> BAT  (missing from abbreviations)
+  TARDINESS: round -> SS  (missing from abbreviations)
+  RIVERDANCE: green -> RIVER  (missing from synonyms_pairs)
+  PEASOUPER: publisher -> OUP  (missing from abbreviations)
+  AQUAMARINE: on -> QU  (missing from abbreviations)
+  AQUAMARINE: member of corps -> MARINE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  PEASOUPER = 3 (22/100): def="in this?" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  18. Show of green largely amid crop = RIVERDANCE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  0/37  
+  Weak definition:       1  3D
+  DB gap:                27  8A, 9A, 10A, 11A, 13A, 16A, 17A, 18A, 20A, 22A, 24A, 26A, 27A, 1D, 2D, 3D, 4D, 5D, 6D, 7D, 12D, 14D, 15D, 19D, 21D, 23D, 25D
+  Failed:                1  18A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   23D  LIBRA         Scales not fully calibrated (5)
+                      hidden in "caLIBRAted" [hidden: "not"]; definition: "Scales"  [HIGH]
+    1D  COOPERATIVE   Helpful craftsman, local, scratching head (11)
+                      COOPER (synonym of "craftsman,") + NATIVE (synonym of "local,") [deletion: "scratching head"]; definition: "Helpful"  [HIGH]
+   11A  SHEWED        That woman, married, proved old-fashioned (6)
+                      ---  [HIGH]
+   12D  EVISCERATED   Saver confused with deceit is gutted (11)
+                      anagram of SAVER ("Saver") + DECEIT ("deceit") = EVISCERATED; definition: "gutted"  [HIGH]
+   14D  IMPRECATE     Naughty lad on cocaine initially had to swear (9)
+                      ---  [HIGH]
+   17A  LISP          This blocks sibilant in front of mouth? (4)
+                      ---  [HIGH]
+   19D  VARNISH       Disappear, having run in for coat (7)
+                      ---  [HIGH]
+   27A  ONENIGHTSTAND  Donning hat, set out for Brief Encounter (3-5,5)
+                      anagram of DONNINGHATSET ("Donning hat, set") [anagram: "out"] = ONENIGHTSTAND; definition: "Brief Encounter"  [HIGH]
+    8A  LONG          Extensive note put in record (4)
+                      N (synonym of "note") + LOG (synonym of "record") [container: "put in"]; definition: "Extensive"  [HIGH]
+    6D  BARCELONA     City pub Charlie alone wrecked (9)
+                      anagram of ALONE ("alone") + BAR (synonym of "pub") + C (synonym of "Charlie") = BARCELONA; definition: "City"  [HIGH]
+    1A  CHAMPATTHEBIT  Manifest impatience that I bet wrongly on winner (5,2,3,3)
+                      ---  [HIGH]
+    1D  COOPERATIVE   Helpful craftsman, local, scratching head (11)
+                      ---  [HIGH]
+   10A  MEATLOAF      Came across entertaining American lounge singer (4,4)
+                      ---  [HIGH]
+   11A  SHEWED        That woman, married, proved old-fashioned (6)
+                      ---  [HIGH]
+   12D  EVISCERATED   Saver confused with deceit is gutted (11)
+                      ---  [HIGH]
+   13A  PALIMPSEST    Rewritten document is about politician with feeblest case (10)
+                      ---  [HIGH]
+   14D  IMPRECATE     Naughty lad on cocaine initially had to swear (9)
+                      ---  [HIGH]
+   16A  OMIT          Leave to be sick, but not very (4)
+                      ---  [HIGH]
+   17A  LISP          This blocks sibilant in front of mouth? (4)
+                      ---  [HIGH]
+   19D  VARNISH       Disappear, having run in for coat (7)
+                      ---  [HIGH]
+    2D  ANGST         Dread carnage, on and off street (5)
+                      ---  [HIGH]
+   20A  METEOR        Allot gold “star” (6)
+                      METE (synonym of "Allot") + OR (synonym of "gold"); definition: ""star""  [HIGH]
+   21D  RADII         Minute hands, in relation to face? (5)
+                      ---  [HIGH]
+   22A  RAILLERY      Not so good to contribute to a little light teasing (8)
+                      ---  [HIGH]
+   23D  LIBRA         Scales not fully calibrated (5)
+                      ---  [HIGH]
+   24A  FARANDWIDE    Return of service plus extra run covering great area (3,3,4)
+                      ---  [HIGH]
+   25D  ADO           Answer the same as before? Bother! (3)
+                      A (synonym of "Answer") + DO (synonym of "the same as before?"); definition: "Bother!"  [HIGH]
+   26A  BATH          Stick by hot tub (4)
+                      BAT (synonym of "Stick") + H (synonym of "hot"); definition: "tub"  [HIGH]
+   27A  ONENIGHTSTAND  Donning hat, set out for Brief Encounter (3-5,5)
+                      ---  [HIGH]
+    4D  TRUFFLE       More than one fine lady at first clothed in real delicacy (7)
+                      ---  [MED]
+    5D  HUMPS         Carries items on back of camel (5)
+                      ---  [HIGH]
+    7D  TUN           One full of alcohol perhaps is expelled from Arab city (3)
+                      ---  [HIGH]
+    8A  LONG          Extensive note put in record (4)
+                      ---  [HIGH]
+   15D  TARDINESS     Being late, celebrity cycling round has something to eat (9)
+                      delete S from SS(synonym of "round"), anagram of STAR(synonym of "celebrity")+S+DINE(synonym of "eat") = TARDINESS  [MED]
+   18A  RIVERDANCE    Show of green largely amid crop (10)
+                      ---  [FAIL]
+    3D  PEASOUPER     Look with difficulty round a small publisher, in this? (9)
+                      A+S(abbr. "small")+OUP(abbr. "publisher") inside PEER(synonym of "Look with difficulty")  [LOW]
+    9A  AQUAMARINE    A member of corps on dock finally dropped in the shade (10)
+                      A + QU(synonym of "on") + A + MARINE(synonym of "member of corps")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] LIBRA  23D. Scales not fully calibrated
+  Answer: LIBRA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Scales"
+  Wordplay: hidden
+  Explanation: hidden in "caLIBRAted" [hidden: "not"]; definition: "Scales"
+  ----------------------------------------------------------------------
+
+  [HIGH] COOPERATIVE  1D. Helpful craftsman, local, scratching head
+  Answer: COOPERATIVE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Helpful"
+  Wordplay: charade + deletion
+  Explanation: COOPER (synonym of "craftsman,") + NATIVE (synonym of "local,") [deletion: "scratching head"]; definition: "Helpful"
+  ----------------------------------------------------------------------
+
+  [HIGH] SHEWED  11A. That woman, married, proved old-fashioned
+  Answer: SHEWED
+  Tier: --- | Confidence: 100/100
+  Human explanation: SHE (synonym="That woman,") + WED (synonym="married,") = SHEWED; definition: "proved old-fashioned"
+  ----------------------------------------------------------------------
+
+  [HIGH] EVISCERATED  12D. Saver confused with deceit is gutted
+  Answer: EVISCERATED
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "gutted"
+  Wordplay: anagram
+  Explanation: anagram of SAVER ("Saver") + DECEIT ("deceit") = EVISCERATED; definition: "gutted"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPRECATE  14D. Naughty lad on cocaine initially had to swear
+  Answer: IMPRECATE
+  Tier: --- | Confidence: 100/100
+  Human explanation: IMP (synonym="lad") + RE (abbreviation="on") + C (first_letter="cocaine") + ATE (abbreviation="had") = IMPRECATE; definition: "swear"
+  ----------------------------------------------------------------------
+
+  [HIGH] LISP  17A. This blocks sibilant in front of mouth?
+  Answer: LISP
+  Tier: --- | Confidence: 100/100
+  Human explanation: LIP (abbreviation="mouth?") + S (first_letter="sibilant") = LISP
+  ----------------------------------------------------------------------
+
+  [HIGH] VARNISH  19D. Disappear, having run in for coat
+  Answer: VARNISH
+  Tier: --- | Confidence: 100/100
+  Human explanation: VANISH (synonym="Disappear,") + R (abbreviation="run") = VARNISH; definition: "coat"
+  ----------------------------------------------------------------------
+
+  [HIGH] ONENIGHTSTAND  27A. Donning hat, set out for Brief Encounter
+  Answer: ONENIGHTSTAND
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Brief Encounter"
+  Wordplay: anagram
+  Explanation: anagram of DONNINGHATSET ("Donning hat, set") [anagram: "out"] = ONENIGHTSTAND; definition: "Brief Encounter"
+  ----------------------------------------------------------------------
+
+  [HIGH] LONG  8A. Extensive note put in record
+  Answer: LONG
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Extensive"
+  Wordplay: charade + container
+  Explanation: N (synonym of "note") + LOG (synonym of "record") [container: "put in"]; definition: "Extensive"
+  ----------------------------------------------------------------------
+
+  [HIGH] BARCELONA  6D. City pub Charlie alone wrecked
+  Answer: BARCELONA
+  Tier: Signature | Confidence: 80/100
+  Definition: "City"
+  Wordplay: anagram + charade
+  Explanation: anagram of ALONE ("alone") + BAR (synonym of "pub") + C (synonym of "Charlie") = BARCELONA; definition: "City"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] CHAMPATTHEBIT  1A. Manifest impatience that I bet wrongly on winner
+  Answer: CHAMPATTHEBIT
+  Tier: --- | Confidence: 100/100
+  Definition: "Manifest impatience"
+  Wordplay type: charade
+  Components:
+    synonym            winner                    -> CHAMP
+    anagram_fodder     THAT I BET                -> ATTHEBIT
+  AI Reasoning:
+    CHAMP (winner) + anagram of THAT I BET = CHAMPATTHEBIT (champ at the bit, manifest impatience)
+  ----------------------------------------------------------------------
+
+  [HIGH] COOPERATIVE  1D. Helpful craftsman, local, scratching head
+  Answer: COOPERATIVE
+  Tier: --- | Confidence: 100/100
+  Definition: "Helpful"
+  Wordplay type: charade
+  Components:
+    synonym            craftsman                 -> COOPER
+    deletion           local                     -> ATIVE [NATIVE - N]
+  AI Reasoning:
+    COOPER (barrel-maker) + NATIVE with first letter N deleted = COOPERATIVE
+  ----------------------------------------------------------------------
+
+  [HIGH] MEATLOAF  10A. Came across entertaining American lounge singer
+  Answer: MEATLOAF
+  Tier: --- | Confidence: 100/100
+  Definition: "entertaining American lounge singer"
+  Wordplay type: container
+  Components:
+    synonym            came across               -> MET
+    abbreviation       American                  -> A
+    synonym            lounge                    -> LOAF
+  AI Reasoning:
+    MET (came across) contains A (American) with LOAF (lounge) appended, forming MEATLOAF, the famous singer.
+  ----------------------------------------------------------------------
+
+  [HIGH] SHEWED  11A. That woman, married, proved old-fashioned
+  Answer: SHEWED
+  Tier: --- | Confidence: 100/100
+  Definition: "proved old-fashioned"
+  Wordplay type: charade
+  Components:
+    synonym            woman                     -> SHE
+    synonym            married                   -> WED
+  AI Reasoning:
+    SHE (that woman) + WED (married) = SHEWED (proved old-fashioned, archaic past tense of 'show')
+  ----------------------------------------------------------------------
+
+  [HIGH] EVISCERATED  12D. Saver confused with deceit is gutted
+  Answer: EVISCERATED
+  Tier: --- | Confidence: 100/100
+  Definition: "gutted"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Saver                     -> SAVER
+    anagram_fodder     deceit                    -> DECEIT
+  AI Reasoning:
+    SAVER + DECEIT anagrammed together = EVISCERATED (meaning gutted)
+  ----------------------------------------------------------------------
+
+  [HIGH] PALIMPSEST  13A. Rewritten document is about politician with feeblest case
+  Answer: PALIMPSEST
+  Tier: --- | Confidence: 80/100
+  Definition: "document"
+  Wordplay type: container
+  Components:
+    synonym            feeblest                  -> PALEST
+    abbreviation       politician                -> MP
+    literal            is                        -> IS
+  AI Reasoning:
+    PALEST (feeblest) contains IS + MP (politician) inside it: P-[IS-MP]-EST = PALIMPSEST (rewritten document)
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPRECATE  14D. Naughty lad on cocaine initially had to swear
+  Answer: IMPRECATE
+  Tier: --- | Confidence: 100/100
+  Definition: "had to swear"
+  Wordplay type: charade
+  Components:
+    synonym            lad                       -> IMP
+    literal            on                        -> RE
+    first_letter       Cocaine                   -> C
+    synonym            had                       -> ATE
+  AI Reasoning:
+    Charade combining IMP (naughty lad) + RE (on) + C (first letter of Cocaine) + ATE (had) = IMPRECATE (to swear/curse)
+  ----------------------------------------------------------------------
+
+  [HIGH] OMIT  16A. Leave to be sick, but not very
+  Answer: OMIT
+  Tier: --- | Confidence: 100/100
+  Definition: "be sick"
+  Wordplay type: deletion
+  Components:
+    deletion           sick                      -> OMIT [VOMIT - V]
+  AI Reasoning:
+    VOMIT (be sick) with V (very) removed = OMIT (leave)
+  ----------------------------------------------------------------------
+
+  [HIGH] LISP  17A. This blocks sibilant in front of mouth?
+  Answer: LISP
+  Tier: --- | Confidence: 100/100
+  Definition: "blocks"
+  Wordplay type: container
+  Components:
+    literal            mouth                     -> LIP
+    literal            sibilant                  -> S
+  AI Reasoning:
+    S (sibilant) is contained inside LIP (front of mouth), creating LISP which blocks/impedes speech
+  ----------------------------------------------------------------------
+
+  [HIGH] VARNISH  19D. Disappear, having run in for coat
+  Answer: VARNISH
+  Tier: --- | Confidence: 100/100
+  Definition: "Disappear"
+  Wordplay type: container
+  Components:
+    synonym            Disappear                 -> VANISH
+    abbreviation       run                       -> R
+  AI Reasoning:
+    VANISH (disappear) contains R (run abbreviation) to make VARNISH (coat)
+  ----------------------------------------------------------------------
+
+  [HIGH] ANGST  2D. Dread carnage, on and off street
+  Answer: ANGST
+  Tier: --- | Confidence: 100/100
+  Definition: "Dread"
+  Wordplay type: charade
+  Components:
+    alternate_letters  carnage                   -> ANG
+    abbreviation       street                    -> ST
+  AI Reasoning:
+    Alternate letters from 'carnage' (c-A-r-N-a-G-e) give ANG; ST is abbreviation for street; concatenated they spell ANGST meaning dread.
+  ----------------------------------------------------------------------
+
+  [HIGH] METEOR  20A. Allot gold “star”
+  Answer: METEOR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: ""star""
+  Wordplay: charade
+  Explanation: METE (synonym of "Allot") + OR (synonym of "gold"); definition: ""star""
+  ----------------------------------------------------------------------
+
+  [HIGH] RADII  21D. Minute hands, in relation to face?
+  Answer: RADII
+  Tier: --- | Confidence: 90/100
+  Definition: "Minute hands, in relation to face"
+  Wordplay type: cryptic_definition
+  AI Reasoning:
+    The minute hand of a clock is literally a radius (or radii in plural) extending from the center to the edge of the clock face. This is a cryptic definition where the answer is defined by its literal geometric relationship to the clock face.
+  ----------------------------------------------------------------------
+
+  [HIGH] RAILLERY  22A. Not so good to contribute to a little light teasing
+  Answer: RAILLERY
+  Tier: --- | Confidence: 80/100
+  Definition: "teasing"
+  Wordplay type: container
+  Components:
+    synonym            light                     -> RAY
+    synonym            not so good               -> ILLER
+  AI Reasoning:
+    ILLER (not so good) is inserted inside RAY (a little light) to form RAILLERY (teasing)
+  ----------------------------------------------------------------------
+
+  [HIGH] LIBRA  23D. Scales not fully calibrated
+  Answer: LIBRA
+  Tier: --- | Confidence: 100/100
+  Definition: "Scales"
+  Wordplay type: hidden
+  Components:
+    hidden             calibrated                -> LIBRA
+  AI Reasoning:
+    LIBRA (the scales) is hidden within the word 'caLIBRAted'
+  ----------------------------------------------------------------------
+
+  [HIGH] FARANDWIDE  24A. Return of service plus extra run covering great area
+  Answer: FARANDWIDE
+  Tier: --- | Confidence: 80/100
+  Definition: "covering great area"
+  Wordplay type: charade
+  Components:
+    reversal           service                   -> FAR [RAF - ?]
+    literal            plus                      -> AND
+    synonym            extra run                 -> WIDE
+  AI Reasoning:
+    RAF (Royal Air Force) reversed gives FAR, plus AND, plus WIDE (cricket term for a wide ball/run) = FAR AND WIDE
+  ----------------------------------------------------------------------
+
+  [HIGH] ADO  25D. Answer the same as before? Bother!
+  Answer: ADO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Bother!"
+  Wordplay: charade
+  Explanation: A (synonym of "Answer") + DO (synonym of "the same as before?"); definition: "Bother!"
+  ----------------------------------------------------------------------
+
+  [HIGH] BATH  26A. Stick by hot tub
+  Answer: BATH
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "tub"
+  Wordplay: charade
+  Explanation: BAT (synonym of "Stick") + H (synonym of "hot"); definition: "tub"
+  ----------------------------------------------------------------------
+
+  [HIGH] ONENIGHTSTAND  27A. Donning hat, set out for Brief Encounter
+  Answer: ONENIGHTSTAND
+  Tier: --- | Confidence: 100/100
+  Definition: "Brief Encounter"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Donning                   -> DONNING
+    anagram_fodder     hat                       -> HAT
+    anagram_fodder     set                       -> SET
+  AI Reasoning:
+    DONNING + HAT + SET (13 letters) anagrams to ONENIGHTSTAND (13 letters), a brief romantic encounter
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TRUFFLE  4D. More than one fine lady at first clothed in real delicacy
+  Answer: TRUFFLE
+  Tier: --- | Confidence: 70/100
+  Definition: "delicacy"
+  Wordplay type: charade
+  Components:
+    literal            real                      -> TRUE
+    abbreviation       fine                      -> F
+    abbreviation       fine                      -> F
+    first_letter       lady                      -> L
+    last_letter        clothed                   -> E
+  AI Reasoning:
+    TRUE (real) + F (fine) + F (fine) + L (lady's first letter) + E (clothed's last letter) = TRUFFLE
+  ----------------------------------------------------------------------
+
+  [HIGH] HUMPS  5D. Carries items on back of camel
+  Answer: HUMPS
+  Tier: --- | Confidence: 90/100
+  Definition: "Carries items on back of camel"
+  Wordplay type: double_definition
+  AI Reasoning:
+    HUMPS has two meanings: (1) the physical protrusions on a camel's back that carry items, and (2) the verb meaning to carry or transport something
+  ----------------------------------------------------------------------
+
+  [HIGH] TUN  7D. One full of alcohol perhaps is expelled from Arab city
+  Answer: TUN
+  Tier: --- | Confidence: 100/100
+  Definition: "One full of alcohol perhaps"
+  Wordplay type: deletion
+  Components:
+    deletion           TUNIS                     -> TUN [TUNIS - IS]
+  AI Reasoning:
+    TUNIS (Arab city) with IS removed leaves TUN (a large cask, full of alcohol)
+  ----------------------------------------------------------------------
+
+  [HIGH] LONG  8A. Extensive note put in record
+  Answer: LONG
+  Tier: --- | Confidence: 100/100
+  Definition: "Extensive"
+  Wordplay type: container
+  Components:
+    synonym            record                    -> LOG
+    abbreviation       note                      -> N
+  AI Reasoning:
+    N (abbreviation for note) is placed inside LOG (synonym for record) to form LONG (extensive)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TARDINESS  15D. Being late, celebrity cycling round has something to eat
+  Answer: TARDINESS
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "Being late"
+  Wordplay type: anagram
+  Components:
+    synonym            celebrity                 -> STAR
+    indicator          cycling                   -> 
+    synonym            round                     -> SS
+    literal            something                 -> 
+    synonym            eat                       -> DINE
+  Assembly: deletion+anagram — delete S from SS(synonym of "round"), anagram of STAR(synonym of "celebrity")+S+DINE(synonym of "eat") = TARDINESS
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=S answer=TARDINESS | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      being: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,MOD,NEW,SON,BABY,BEAU,BIRD,BODY
+      late: syn=EX,DRY,LOW,NEW,NOW,OLD,AGED,ARID,BODY,DEAD,DEEP,DRAB,DULL,FLAT,GONE; abbr=EX
+      celebrity: syn=FEE,VIP,ANTE,CAST,COST,FAME,FORM,GARB,ICON,LIST,LOOK,MAIN,MATH,MIEN,NAME; abbr=STAR
+      cycling: syn=RIDE,SPORT,RIDING; ind=anagram?
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O; ind=anagram,container,reversal
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      something: syn=OF,OR,SO,BAG,BIT,BOD,EGG,FAR,GUY,JUT,MAN,NOT,PIP,RUN,BABY; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      eat: syn=DINE*,AT,BIT,BUG,CAN,GET,IRK,PUT,VEX,WAX,BOMB,BURY,DRUB,DUST,FARE
+      being late: syn=TARDINESS*,THIS,DELAY
+      to eat: syn=FISH,GAME,FLOOD,ENGULF,SARDINE,SWIMMER,AVALANCHE
+      something to eat: syn=BUN,ONE,PIE,POD
+    Definitions:
+      "Being late" -> TARDINESS (definition match)
+  AI Reasoning:
+    Anagram of STAR + SS + DINE (celebrity + round + eat) with 'cycling' as anagram indicator
+  ----------------------------------------------------------------------
+
+  [FAILED] RIVERDANCE  18A. Show of green largely amid crop
+  Answer: RIVERDANCE
+  Tier: --- | Confidence: 0/100
+  Definition: "Show"
+  Wordplay type: charade
+  Components:
+    synonym            green                     -> RIVER
+    indicator          largely                   -> 
+    indicator          amid                      -> 
+    synonym            crop                      -> ADVANCE
+  DB Lookups:
+    DB lookups:
+      show: syn=AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME,EXPO; abbr=S
+      green: syn=ECO,ELF,FAY,NEW,RAW,CASH,GOLD,JACK,LAWN,LIME,LONG,LUSH,NAIF,NOTE,PELF
+      largely: syn=BY,AND,FOR,LOT,EVEN,FLAT,MORE,MOST,MUCH,WIDE,CLEAN,FULLY,LARGE,PLUMB,ALL OF; ind=parts
+      amid: syn=BY,MID,OVER,AMONG,MIDST,DURING,AMONGST,PENDING,THROUGH,SURROUNDED; ind=container,hidden,insertion
+      crop: syn=BAR,CUT,LOT,RYE,BACK,BEET,BODY,BOTH,CARD,CORN,CRAW,FLAX,GROW,HAIR,OATS
+  AI Reasoning:
+    RIVER (from green area, largely) + DANCE (hidden in ADVANCE/crop, amid indicating hidden word)
+  ----------------------------------------------------------------------
+
+  [LOW] PEASOUPER  3D. Look with difficulty round a small publisher, in this?
+  Answer: PEASOUPER
+  Tier: Sonnet | Confidence: 22/100
+  Definition: "in this?"
+  Wordplay type: container
+  Components:
+    synonym            Look with difficulty      -> PEER
+    indicator          round                     -> 
+    literal            a                         -> A
+    abbreviation       small                     -> S
+    abbreviation       publisher                 -> OUP
+  Assembly: container — A+S(abbr. "small")+OUP(abbr. "publisher") inside PEER(synonym of "Look with difficulty")
+  Checks: definition=not in DB, odd position | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      look: syn=PEER*,DO,GO,LO,MY,A A,ACT,AIR,EYE,FEE,ITS,SEE,SPY,USE,VIP; abbr=LO
+      with: syn=UP*,PER*,W,BY,IN,OF,ON,TO,AND,BIG,DEF,HEP,HIP,MOD,NOW; abbr=AND,ON,W
+      difficulty: syn=BIT,FLY,ILL,LET,RUB,BALK,CLOG,CURB,DRAG,FUNK,FUSS,HOLE,KICK,KNOT,LOAD; abbr=RUB
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O*; ind=anagram,container,reversal
+      small: syn=S,ARM,FEW,GUN,LET,OFF,PEN,POD,RAP,TWO,WEE,BABY,CHAT,FINE,HALF; abbr=S*
+      publisher: syn=PENGUIN,BAEDEKER,LONGMANS'
+      in: syn=PER*,T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      a small: syn=DATA,DOPE,FACT,INCH,INFO,UNIT,CHAIN,CREEP,ELSIE,FACTS
+      in this: syn=DOG,PROM,SHOW,CORGI,BARKER,CANINE,CRUMBS,PROMPT,TELLER,UNISON
+  AI Reasoning:
+    PEER (outer word) contains A+S+OUP (inner elements) to form PEASOUPER
+  ----------------------------------------------------------------------
+
+  [LOW] AQUAMARINE  9A. A member of corps on dock finally dropped in the shade
+  Answer: AQUAMARINE
+  Tier: Sonnet | Confidence: 23/100
+  Definition: "shade"
+  Wordplay type: charade
+  Components:
+    literal            A                         -> A
+    synonym            on                        -> QU
+    last_letter        dock finally              -> A
+    indicator          dropped                   -> 
+    indicator          in                        -> 
+    synonym            member of corps           -> MARINE
+  Assembly: charade — A + QU(synonym of "on") + A + MARINE(synonym of "member of corps")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/4 (25%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      member: syn=MP,ARM,CUT,END,JOB,LEG,BELT,IMPS,LAND,LIMB,MOST,NECK,PART,ROLE,TAKE; abbr=LEG,M*,MP
+      corps: syn=BODY,UNIT,SQUAD,SOLDIERS,ARMY UNIT,COMMUNITY; sounds=core
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      dock: syn=CUT,BACK,BOTH,HOME,LAND,PIER,QUAI,QUAY,WEED,BASIN,FLOAT,JETTY,LEVEE,SEVER,WHARF; ind=deletion,parts
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      dropped: syn=BIT,HAD,LOW,BORN,DIED,DOWN,FELL,HELD,LEFT,QUIT,SHED,SUNK,TIDE,WENT,BROKE; ind=deletion
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      shade: syn=ACE,BIT,DAB,FLY,HUE,NIP,RAY,RED,TAD,ACES,BLUE,CYAN,DARK,DRAM,HINT; ind=container?
+      dropped in: syn=CAME BY
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+  AI Reasoning:
+    A + QUA (from 'on' transformed) + A (final letter of dock) + MARINE gives AQUAMARINE through deletion/insertion operations
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

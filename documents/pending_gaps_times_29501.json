@@ -1,0 +1,67 @@
+{
+  "source": "times",
+  "puzzle": "29501",
+  "stats": {
+    "total": 31,
+    "assembled": 30,
+    "high": 26,
+    "medium": 3,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 81.66666666666667
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "precisely",
+      "letters": "TRBOAT",
+      "answer": "MOTORBOAT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Precisely circling globe after second launch, say",
+      "score": -100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "globe",
+      "letters": "O",
+      "answer": "MOTORBOAT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Precisely circling globe after second launch, say",
+      "score": -100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Skirt",
+      "answer": "KILT",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Skirt that likely covers bottom up",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Lower class",
+      "answer": "SUBGENRE",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Lower class eagle golf coach picked up",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "launch, say",
+      "answer": "MOTORBOAT",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Precisely circling globe after second launch, say",
+      "score": -100
+    }
+  ]
+}

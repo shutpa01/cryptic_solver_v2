@@ -1,0 +1,197 @@
+{
+  "source": "telegraph",
+  "puzzle": "3359",
+  "stats": {
+    "total": 29,
+    "assembled": 28,
+    "high": 23,
+    "medium": 3,
+    "low": 2,
+    "failed": 1,
+    "avg_score": 81.96428571428571
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "23 Downs",
+      "answer": "DOODLEBUGS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Error in more than one drawing 23 Downs",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stop",
+      "answer": "WHEN",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Stop pouring wine honey, enough now – for starters?",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Percussion instrument",
+      "answer": "WOODBLOCK",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Percussion instrument used to stop, when sounded?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pah!",
+      "answer": "BIGDEAL",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Billion dollar contract? Pah!",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "English university",
+      "answer": "READING",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Poor grade's bagged in English university",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Spiked wheel",
+      "letters": "ROWEL",
+      "answer": "TROWEL",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Spiked wheel below widget ultimately for hand-held tool",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "composition",
+      "letters": "ODE",
+      "answer": "WODEHOUSE",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Question about composition and application for writer",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Quickly",
+      "letters": "PAT",
+      "answer": "PATIO",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Quickly and easily produced, I love terrace",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "openers",
+      "letters": "DOORS",
+      "answer": "INDOORS",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Batting, openers not out?",
+      "score": 92
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Error",
+      "letters": "BUGS",
+      "answer": "DOODLEBUGS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Error in more than one drawing 23 Downs",
+      "score": 25
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "conversed",
+      "letters": "DONCASTER",
+      "answer": "DONCASTERROVERS",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Team conversed with tsar or revolutionary",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Note",
+      "letters": "EM",
+      "answer": "EMPLOYED",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Note on piano in melody wrongly used",
+      "score": 60
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "story",
+      "letters": "GARDE",
+      "answer": "ENGARDE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "French author increasingly defending story",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "King, say",
+      "letters": "CARD",
+      "answer": "CARDIGAN",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "King, say, one on horse up top",
+      "score": 87
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Billion",
+      "letters": "BIG",
+      "answer": "BIGDEAL",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Billion dollar contract? Pah!",
+      "score": 45
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "i",
+      "letters": "I",
+      "answer": "HIGHOCTANE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Dynamic change, hot I gathered",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Uncle Sam",
+      "letters": "US",
+      "answer": "COLOSSUS",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Big gun in business, defeat Uncle Sam",
+      "score": 95
+    }
+  ]
+}

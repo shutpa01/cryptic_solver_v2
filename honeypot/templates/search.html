@@ -27,7 +27,7 @@
 <div class="card">
     <ul class="clue-list">
         {% for c in results %}
-        {% set slug = make_slug(c.clue_text, c.answer) %}
+        {% set slug = make_slug(c.clue_text, c.answer, clue_id=c.id) %}
         <li>
             {% if slug %}
             <a href="/clue/{{ slug }}">{{ c.clue_text }}</a>

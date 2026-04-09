@@ -1,0 +1,1061 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31184
+Generated: 2026-03-11 09:33:11
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        24/28 (85%)
+    Sonnet:         21
+    DB Fallback:    3
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   13  1A, 1D, 11A, 12A, 16D, 17D, 20D, 21A, 24A, 25A, 26A, 4D, 6A
+  Medium (40-79): 10  10A, 13A, 14A, 15D, 2D, 22D, 5D, 7D, 8D, 9D
+  Low (<40):    1  23A
+  Failed:       4  18A, 19D, 27A, 3D
+  Average:      76/100
+
+COST: $0.2731 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (26 entries)
+------------------------------------------------------------
+  ARCHBISHOP: "Church bigwig" -> ARCHBISHOP  (missing from definition_answers_augmented)
+  REDACTION: "editor's work" -> REDACTION  (missing from definition_answers_augmented)
+  CABINET: "group of ministers" -> CABINET  (missing from definition_answers_augmented)
+  RHIZOME: "underground section" -> RHIZOME  (missing from definition_answers_augmented)
+  Prince Albert: "bloke close to Victoria" -> Prince Albert  (missing from definition_answers_augmented)
+  ENLIGHTEN: "Illuminate" -> ENLIGHTEN  (missing from definition_answers_augmented)
+  OSTRACOD: "Shellfish" -> OSTRACOD  (missing from definition_answers_augmented)
+  shopping list: "items to be purchased" -> shopping list  (missing from definition_answers_augmented)
+  Alaska: "It's pretty cold here" -> Alaska  (missing from definition_answers_augmented)
+  CHUBBY: "roly-poly" -> CHUBBY  (missing from definition_answers_augmented)
+  GREMLIN: "mischievous individual" -> GREMLIN  (missing from definition_answers_augmented)
+  CABRIOLET: "Item produced by automaker" -> CABRIOLET  (missing from definition_answers_augmented)
+  CANNONBALL: "dive" -> CANNONBALL  (missing from definition_answers_augmented)
+  banana republic: "country" -> banana republic  (missing from definition_answers_augmented)
+  SEROTONIN: "Vital neurotransmitter" -> SEROTONIN  (missing from definition_answers_augmented)
+  ORDER: "System command" -> ORDER  (missing from definition_answers_augmented)
+  PRISONER: "one controlled by locks" -> PRISONER  (missing from definition_answers_augmented)
+  CONCERTO: "work for players" -> CONCERTO  (missing from definition_answers_augmented)
+  Achilles tendon: "Area vulnerable to Paris strike?" -> Achilles tendon  (missing from definition_answers_augmented)
+  SPURN: holder of The Ashes -> PURN  (missing from synonyms_pairs)
+  CHUBBY: one's other half -> HUBBY  (missing from synonyms_pairs)
+  UNCOOL: colour sergeant -> NCO  (missing from abbreviations)
+  TULSA: in -> L  (missing from abbreviations)
+  TULSA: OK -> A  (missing from abbreviations)
+  DIET: Long -> DIE  (missing from synonyms_pairs)
+  CONCERTO: shoo-in -> CERT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  GREMLIN = 23 (34/100): AI=substitution, assembled=deletion
+  CONCERTO = 8 (52/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (1)
+------------------------------------------------------------
+  PRISONER = 7 (65/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  SPURN = 10 (54/100): no pieces verified in DB
+  Prince Albert = 14 (55/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  PRISONER = 7 (65/100): def="one controlled by locks" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  18. Chopin and Liszt casually discussed items to be purchased? = shopping list
+  19. It's pretty cold here – unfortunately, koala cleared out = Alaska
+  27. Shot dispensed from large barrel in dive? = CANNONBALL
+  3. Lots of hands get chopped off in this country! = banana republic
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/28  6A, 21A, 25A, 17D
+  Type mismatch:         2  23A, 8D
+  Circular assembly:     1  7D
+  Unverified explain.:   2  10A, 14A
+  Weak definition:       1  7D
+  DB gap:                23  10A, 11A, 12A, 13A, 14A, 18A, 23A, 24A, 26A, 27A, 1D, 2D, 3D, 4D, 5D, 7D, 8D, 9D, 15D, 16D, 19D, 20D, 22D
+  Failed:                4  18A, 27A, 3D, 19D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  ARCHBISHOP    Church bigwig, a Roman Catholic hard man (10)
+                      A(a) + R(first letter of "Roman") + C(first letter of "Catholic") + H(abbr. "hard") + BISHOP(synonym of "man")  [HIGH]
+    1D  Alsace        French region: unlimited salsa, great service (6)
+                      ALS(core of "salsa") + ACE(synonym of "great")  [HIGH]
+   10A  SPURN         Reject odds on holder of The Ashes (5)
+                      S(synonym of "on") + PURN(synonym of "holder of The Ashes")  [MED]
+   11A  REDACTION     Response involving day editor's work (9)
+                      D(abbr. "day") inside REACTION(synonym of "Response")  [HIGH]
+   12A  CABINET       Shed alien group of ministers (7)
+                      CABIN(synonym of "Shed") + ET(abbr. "alien")  [HIGH]
+   13A  RHIZOME       Heinz regularly seen in Italian city underground section (7)
+                      HIZ(alternate letters of "Heinz") inside ROME(synonym of "Italian city")  [MED]
+   14A  Prince Albert  After work pint with cerebral bloke close to Victoria (6,6)
+                      anagram of PINTCEREBRAL(pint with cerebral)  [MED]
+   15D  ENLIGHTEN     Illuminate new line in 18, draining last energy (9)
+                      cryptic definition  [MED]
+   16D  OSTRACOD      Shellfish roast arranged on top of white fish (8)
+                      anagram of COD(synonym of "fish")+ROAST(roast)  [HIGH]
+   17D  HORRIBLE      Doctor finally lances her boil, flipping awful (8)
+                      anagram of BOIL(boil)+HER(her)+R(last letter of "doctor")  [HIGH]
+   18A  shopping list  Chopin and Liszt casually discussed items to be purchased? (8,4)
+                      ---  [FAIL]
+   19D  Alaska        It's pretty cold here – unfortunately, koala cleared out (6)
+                      ---  [FAIL]
+    2D  CHUBBY        Charlie (one's other half) is a bit roly-poly (6)
+                      C(abbr. "Charlie") + HUBBY(synonym of "one's other half")  [MED]
+   20D  UNCOOL        Old-fashioned uniform for one colour sergeant? Nothing left (6)
+                      U(abbr. "uniform") + NCO(abbr. "colour sergeant") + O(synonym of "nothing") + L(abbr. "left")  [HIGH]
+   21A  RAREBIT       Snack, one eaten by uncommon baronet (7)
+                      RARE(synonym of "uncommon") + B(first letter of "by") + I(abbr. "one") + T(last letter of "baronet")  [HIGH]
+   22D  TULSA         First to teach student in America, OK city (5)
+                      T(first letter of "teach") + U(abbr. "student") + L(abbr. "in") + S(abbr. "America") + A(abbr. "OK")  [MED]
+   23A  GREMLIN       Russian government gets new leader, mischievous individual (7)
+                      G(abbr. "government") + delete K from KREMLIN(synonym of "Russian")  [LOW]
+   24A  CABRIOLET     Item produced by automaker (new CEO, T Blair) (9)
+                      anagram of CEOTBLAIR(CEO T Blair)  [HIGH]
+   25A  DISCO         Club legend is counting cups (5)
+                      double definition  [HIGH]
+   26A  DIET          Long, tense parliament (4)
+                      DIE(synonym of "Long") + T(abbr. "tense")  [HIGH]
+   27A  CANNONBALL    Shot dispensed from large barrel in dive? (10)
+                      ---  [FAIL]
+    3D  banana republic  Lots of hands get chopped off in this country! (6,8)
+                      ---  [FAIL]
+    4D  SEROTONIN     Vital neurotransmitter derived from ironstone (9)
+                      anagram of IRONSTONE(ironstone)  [HIGH]
+    5D  ORDER         System command (5)
+                      double definition  [MED]
+    6A  EPIC          Impressive digital snap? (4)
+                      cryptic definition  [HIGH]
+    7D  PRISONER      Dnepr is one river (including one controlled by locks) (8)
+                      hidden in 'dnePR IS ONE River'  [MED]
+    8D  CONCERTO      Tory shoo-in beginning to orchestrate work for players (8)
+                      CON(synonym of "Tory") + CERT(synonym of "shoo-in") + O(first letter of "beginning to orchestrate")  [MED]
+    9D  Achilles tendon  Area vulnerable to Paris strike? (8,6)
+                      cryptic definition  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ARCHBISHOP  1A. Church bigwig, a Roman Catholic hard man
+  Answer: ARCHBISHOP
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Church bigwig"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    first_letter       Roman                     -> R
+    first_letter       Catholic                  -> C
+    abbreviation       hard                      -> H
+    synonym            man                       -> BISHOP
+  Assembly: charade — A(a) + R(first letter of "Roman") + C(first letter of "Catholic") + H(abbr. "hard") + BISHOP(synonym of "man")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      church: syn=CH*,CE,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH,CLOTH; abbr=C*,CE,CH*
+      bigwig: syn=BIG,GUN,VIP,MAIN,OF A,SHOT,HEAVY,MAJOR,SWELL,TITAN,GENERAL,HOTSHOT,MANDARIN
+      roman: syn=TYPE,NATIVE; abbr=R*
+      catholic: syn=ROMAN,SACRED,GENERAL,LIBERAL,PURPOSE,ECLECTIC,CHRISTIAN,OF CHURCH,UNIVERSAL; abbr=C*
+      hard: syn=BY,IN,NO,OF,AGE,BAD,ICY,ILL,ONE,PAT,SET,BEST,BLAH,CASE,COLD; abbr=H*
+      man: syn=BISHOP*,ED,HE,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,JOE,KID,LAD; abbr=AL,DAN,ED,HE,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      roman catholic: syn=GRAND,PALATIAL,SPLENDID,SUMPTUOUS
+  AI Reasoning:
+    Definition: "Church bigwig" (an archbishop is a church bigwig).
+    Wordplay: charade. "a" = A, "Roman" = R, "Catholic" = C, "hard" = H, "man" = BISHOP.
+    A + R + C + H + BISHOP = ARCHBISHOP.
+  ----------------------------------------------------------------------
+
+  [HIGH] Alsace  1D. French region: unlimited salsa, great service
+  Answer: Alsace
+  Tier: Sonnet | Confidence: 96/100
+  Definition: "French region"
+  Wordplay type: charade
+  Components:
+    core_letters       salsa                     -> ALS
+    synonym            great                     -> ACE
+  Assembly: charade — ALS(core of "salsa") + ACE(synonym of "great")
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      french: syn=FR,DOOR,GATE,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET; abbr=DE,FR,LA,LE,UN
+      region: syn=CUT,END,JOB,AREA,ASIA,BELT,LAND,MOST,NECK,PART,ROLE,TAKE,TASK,WORK,ZONE
+      unlimited: syn=ALL,AROUND; ind=deletion,parts
+      salsa: syn=DANCE
+      great: syn=ACE*,A1,DO,OK,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET,HOT; abbr=G,GR; sounds=grate
+      service: syn=ACE*,A,GI,NO,RN,AID,ARM,JOB,USE,BOON,CARE,DESK,DUTY,FIEF,GIVE
+    Definitions:
+      "French region" -> Alsace (definition match)
+  AI Reasoning:
+    Definition: "French region" (Alsace is a French region).
+    Wordplay: charade with deletion. "unlimited" is a deletion indicator. "salsa" with unlimited removed = remove outer letters = ALS (middle letters of sALSa). "great" = ACE (known lookup). ALS + ACE = ALSACE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SPURN  10A. Reject odds on holder of The Ashes
+  Answer: SPURN
+  Tier: Sonnet | Confidence: 54/100
+  Definition: "Reject"
+  Wordplay type: charade
+  Components:
+    synonym            on                        -> S
+    synonym            holder of The Ashes       -> PURN
+  Assembly: charade — S(synonym of "on") + PURN(synonym of "holder of The Ashes")
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      reject: syn=SPURN*,ME,BABY,DEEP,DENY,LOSE,MISS,PASS,SHED,TURN,VETO,LEAST,REPEL,THROW; ind=deletion
+      odds: syn=,RUM,BITS,EVENS,PRICE,SH,APE,FAR,FEW,FEY,MAD,OFF,THE,WAY,WUD; abbr=RUM; ind=anagram,parts
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      holder: syn=DISH,KEEL,OWNER
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      ashes: syn=TREES
+      of the: syn=MITRE
+    Definitions:
+      "Reject" -> SPURN (definition match)
+  AI Reasoning:
+    Definition: "Reject" (to spurn is to reject).
+    Wordplay: deletion. "holder of The Ashes" = URN (the Ashes trophy is held in an urn). "odds on" with "odds" as deletion indicator means remove the odd-positioned letters from "on". But "on" only has 2 letters, so removing odds gives "n". Wait - the known lookup shows "on" = S. So we have URN, and need to get SPURN.
+    
+    Actually, rethinking: "odds" as deletion indicator means remove odd letters. From "holder of The Ashes" = URN, but we need more letters. Let me reconsider: "on" = S (from known lookup), so we have S + URN = SURN, but that's not SPURN.
+    
+    Wait - "odds on" could mean S (on) + P + URN where P comes from removing odds from something. Actually, let me try: if we start with SPURN and work backwards - we need SP + URN. "on" = S, so we need P from somewhere, then URN from "holder of The Ashes".
+    
+    Rethinking completely: "odds on holder of The Ashes" - if we take odd letters from "on holder" = "o hole" = OH, then add URN = OHURN. That doesn't work.
+    
+    Let me try: SPURN backwards - we have S (on) + P + URN. The P must come from taking odds from some word, and URN from "holder of The Ashes". But I can't see where P comes from in this parsing.
+    
+    Actually: "odds on" could mean the odd letters OF "on" are deleted, leaving even letters. But "on" = o(1)n(2), so removing odds leaves "n". Then "holder of The Ashes" = URN. But nURN ≠ SPURN.
+    
+    I think there may be an error in my parsing. Given the constraints, the most likely is: S (from "on") + P (from somewhere) + URN (holder of The Ashes) = SPURN, but I cannot definitively identify where P originates in this wordplay.
+  ----------------------------------------------------------------------
+
+  [HIGH] REDACTION  11A. Response involving day editor's work
+  Answer: REDACTION
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "editor's work"
+  Wordplay type: container
+  Components:
+    synonym            Response                  -> REACTION
+    abbreviation       day                       -> D
+  Assembly: container — D(abbr. "day") inside REACTION(synonym of "Response")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      response: syn=REACTION*,TIC,TAKE,REPLY,ANSWER,RETORT,RETURN,ANSWERS,COMEBACK,CREATION,REACTING,REJOINDER
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      day: syn=AGE,BIT,BUY,EON,ERA,SAT,SUN,WED,AGES,BEAT,BUYS,COED,DATE,DAWN,DEAL; abbr=D*
+      editor's: syn=ED*,OF A,JOURNO,AMENDER,MY BOSS,RUBBISH,FROM THE,JOURNALIS; abbr=ed*,ED*
+      work: syn=ACT*,ACTION*,DO,GO,OP,A A,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW; abbr=GO,OP,POST; ind=anagram
+  AI Reasoning:
+    Definition: "editor's work" (redaction is what an editor does when censoring/editing text).
+    
+    Wordplay: container. "involving" is the container indicator.
+    - "Response" = REACTION (synonym from known lookups)
+    - "day" = D (abbreviation from known lookups)
+    - D goes inside REACTION: RE + D + ACTION = REDACTION
+  ----------------------------------------------------------------------
+
+  [HIGH] CABINET  12A. Shed alien group of ministers
+  Answer: CABINET
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "group of ministers"
+  Wordplay type: charade
+  Components:
+    synonym            Shed                      -> CABIN
+    abbreviation       alien                     -> ET
+  Assembly: charade — CABIN(synonym of "Shed") + ET(abbr. "alien")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shed: syn=CABIN*,HUT,BABY,CAST,DEEP,DUMP,HOME,JUNK,LEAN,LOSE,MOLT,PART,SLIP,TOSS,CHUCK; ind=deletion
+      alien: syn=BORN,CEDE,DEED,MAKE,YODA,CONVEY,RENDER,RESIGN,DELIVER,FOREIGN,KLINGON,MARTIAN,STRANGE,TURN IN,UNUSUAL; abbr=ET*; ind=anagram?
+      group: syn=ARC,LOT,PEG,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN,CLOT,CROP; abbr=CLAN,GP,SET
+      ministers: syn=CABINET*,CLOTH,CANONS,CLERGY,PARSONS,PASTORS,NUN,PAL,REP,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN
+    Definitions:
+      "ministers" -> CABINET (definition match)
+  AI Reasoning:
+    Definition: "group of ministers" (a cabinet is a group of ministers).
+    Wordplay: deletion. "shed" is the deletion indicator. "alien" = ET (abbreviation for extraterrestrial). The base word must be CABINET + ET = CABINETET, then "shed alien" removes ET to give CABINET.
+    
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually, looking at this again: if "alien" is flagged as an anagram indicator, then we need anagram fodder. But the only remaining word after the definition is... there isn't clear anagram fodder.
+    
+    Let me try: "Shed" could be CABIN (a type of shed), and with "alien" as anagram indicator, we'd need to anagram something to get from CABIN to CABINET. But that doesn't work cleanly.
+    
+    Rethinking: "Shed" = CABIN (synonym for a type of shed/hut). "alien" contributes ET. CABIN + ET = CABINET. The anagram indicator "alien" actually just means ET (alien = extraterrestrial), not an anagram operation.
+    
+    Definition: "group of ministers"
+    Wordplay: charade. "Shed" = CABIN, "alien" = ET. CABIN + ET = CABINET.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RHIZOME  13A. Heinz regularly seen in Italian city underground section
+  Answer: RHIZOME
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "underground section"
+  Wordplay type: container
+  Components:
+    alternate_letters  Heinz                     -> HIZ
+    synonym            Italian city              -> ROME
+  Assembly: container — HIZ(alternate letters of "Heinz") inside ROME(synonym of "Italian city")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      in: syn=RH*,BY,IT,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      italian: syn=IT,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS,TORPEDO; abbr=I*,IT
+      city: syn=ROME*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+      underground: syn=TOP,DOOR,TUBE,METRO,PRIVY,SNEAK,COVERT,RECORD,SECRET,SNEAKY,SUBWAY,FURTIVE,PRIVATE,RAILWAY,STEALTH
+      section: syn=CUT,END,JOB,AREA,BEAT,BELT,LAND,MOST,NECK,PART,ROLE,TAKE,TASK,UNIT,WING; ind=hidden?
+      italian city: syn=CITY,PISA,PORT,TURIN,NAPOLI,VERONA,BOLOGNA,PALERMO,PERUGIA,SALERNO
+  AI Reasoning:
+    Definition: "underground section" (a rhizome is an underground plant section).
+    
+    Wordplay: container. "regularly" is the indicator for taking alternate letters. "Heinz regularly" = H-I-Z (taking every other letter from HEINZ). "Italian city" = ROME (with I = Italian abbreviation). "in" is the container indicator. HIZ goes inside ROME: R + HIZ + OME = RHIZOME.
+    
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually: "Heinz regularly" = HIZ (alternate letters). "Italian city" = ROME. But we need RHIZOME.
+    
+    Rethinking: R + HIZ + OME. So we need R-ROME with HIZ inserted. But Italian = I, so "Italian city" could be I + ROME = but that's not right either.
+    
+    Let me try: ROME (city) with HIZ (Heinz regularly) inserted, plus the I (Italian): R + HIZ + O + I + ME = RHIZOIME. No.
+    
+    Actually: R(HIZ)OME where R and OME come from ROME split, and HIZ inserted = RHIZOME. So ROME is split as R...OME with HIZ going in the middle.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Prince Albert  14A. After work pint with cerebral bloke close to Victoria
+  Answer: Prince Albert
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "bloke close to Victoria"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     pint with cerebral        -> PINTCEREBRAL
+  Assembly: anagram — anagram of PINTCEREBRAL(pint with cerebral)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      after: syn=BE*,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+      pint: syn=PIN,AJAR,BEER,MILD,DRINK; abbr=PT
+      with: syn=IN*,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      cerebral: syn=BLUE,LONG,BRAINY,INTELLECTUA,INTELLECTUAL
+      bloke: syn=BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,BABY,BEAU,BIRD,BODY; abbr=MAN
+      close: syn=IN*,BY,GO,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C*; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      victoria: syn=CAB,GIG,RIG,FOUR,PLUM,TRAP,BUGGY,COACH,COUPÉ,QUEEN,STAGE,STATE,TONGA,CALASH,CHAISE
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO,BESIDE,AGAINST,PENDING,OVERLOOKING
+  AI Reasoning:
+    Looking at this clue step by step:
+    
+    Definition: "bloke close to Victoria" (Prince Albert was Queen Victoria's husband, literally close to her).
+    
+    Wordplay: anagram. "After work" are both anagram indicators (as noted in the indicator words list).
+    
+    Fodder: "pint with cerebral" = PINT + CEREBRAL → rearranged → PRINCEALBERT (which becomes PRINCE ALBERT as two words).
+    
+    The anagram of PINTCEREBRAL gives all the letters needed for PRINCE ALBERT.
+  ----------------------------------------------------------------------
+
+  [HIGH] ENLIGHTEN  15D. Illuminate new line in 18, draining last energy
+  Answer: ENLIGHTEN
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Illuminate"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      illuminate: syn=LIGHT*,GET,BORN,CLEAR,POINT,ACROSS,EXPLAIN,ANNOTATE,ANNOTATED
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      line: syn=ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG,NUN; abbr=L*,RY
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      draining: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH,SOGGY
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      energy: syn=GO,CHI,PEP,SAP,VIM,ZIP,BRIO,DASH,FUEL,LIFE,SNAP,ZING,DRIVE,FORCE,GUSTO; abbr=E*,GO,SAP; ind=anagram?
+    Cross-references:
+      Clue 18 answer = shopping list
+  AI Reasoning:
+    Definition: "Illuminate" (enlighten means to illuminate).
+    
+    Wordplay: charade/container.
+    - "18" in word form = EIGHTEEN
+    - "draining last energy" = remove the last letter (N) from EIGHTEEN, giving EIGHTEE
+    - "new line in" = L (line abbreviation) inserted into an anagram of something
+    - But this doesn't work cleanly...
+    
+    Let me reconsider:
+    - "Illuminate" = ENLIGHTEN (the answer itself, so this might be a cryptic definition)
+    - Actually, working backwards: EN + LIGHT + EN
+    - "18" = EIGHTEEN, "draining last energy" removes N = EIGHTEE
+    - "new" anagram indicator for EIGHTEE = rearranged could give... no, this doesn't work.
+    
+    Rethinking with the known lookups:
+    - LIGHT (illuminate synonym) + EN (from eighteen after draining) + EN
+    - Or: anagram of "eighteen" after removing last letter (N) = anagram of EIGHTEE, but that's 7 letters for a 9-letter answer.
+    
+    Actually: EN + LIGHT + EN = ENLIGHTEN
+    Where EN comes from the start/end of "eighteen" after some manipulation with "new line in" creating the structure.
+  ----------------------------------------------------------------------
+
+  [HIGH] OSTRACOD  16D. Shellfish roast arranged on top of white fish
+  Answer: OSTRACOD
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Shellfish"
+  Wordplay type: anagram
+  Components:
+    synonym            fish                      -> COD
+    literal            roast                     -> ROAST
+  Assembly: anagram — anagram of COD(synonym of "fish")+ROAST(roast)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shellfish: syn=CLAM,ORMER,PRAWN,COCKLE,LIMPET,MUSSEL,OYSTER,WINKLE,ABALONE,MUSSELS,OYSTERS,SCALLOP,SEAFOOD,ESCALLOP,SCALLOPS
+      roast: syn=FRY,KID,PAN,TEA,BAKE,BITE,BURN,CHOW,COOK,FEED,GULP,LUAU,MENU,MESS,OF A
+      arranged: syn=FIX,SET,MADE,PLAN,ARRAY,CHART,FRAME,ORDER,RANGE,CODIFY,DECIDE,DESIGN,SETTLE,STYLED,ALIGNED; ind=anagram
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S*
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T*,UP; ind=acrostic,deletion,parts
+      white: syn=GYP,TAP,WAN,HOCK,HURT,OOZE,PALE,PITY,PUMP,PURE,ROOK,SAFE,SEEP,SKIN,WEEP
+      fish: syn=COD*,AHI,BOD,BOX,BOY,CAT,DAB,EEL,EGG,FIX,GAR,GUY,IDE,JAM,JOE; abbr=GAR,IDE,LING,RAY
+      on top: syn=AS WELL
+  AI Reasoning:
+    Definition: "Shellfish" (an ostracod is a type of small crustacean/shellfish).
+    
+    Wordplay: charade. "roast arranged" = anagram of ROAST = OSTRAC (using "arranged" as anagram indicator). "on top of" = S (from known lookup: on → S). "white fish" = COD (from known lookup: fish → COD, with "white" as additional description).
+    
+    OSTRAC + S + COD = OSTRACOD.
+  ----------------------------------------------------------------------
+
+  [HIGH] HORRIBLE  17D. Doctor finally lances her boil, flipping awful
+  Answer: HORRIBLE
+  Tier: DB Fallback | Confidence: 100/100
+  Definition: "awful"
+  Wordplay type: anagram
+  Components:
+    literal            boil                      -> BOIL
+    literal            her                       -> HER
+    last_letter        doctor                    -> R
+  Assembly: anagram — anagram of BOIL(boil)+HER(her)+R(last letter of "doctor")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D,DR,GP,MB,MO; ind=anagram
+      finally: syn=OR*,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      lances: syn=WEAPONS,WAY,KNIFE,SPEAR,SPIKE,SHAVES,STROLL,WEAPON,IMPALER,WEAPON,,PUNCTURE,TO SPIKE
+      her: syn=NO,BEE,EYE,FOX,GET,VEX,BABY,BEAT,BIDE,COUP,DAMN,FAZE,FOUL,KINK,MAZE
+      boil: syn=AT,OIL,SEE,BOTH,SORE,SEETHE; ind=anagram?
+      flipping: syn=BATS,BLASTED,SPRITZER; ind=reversal
+      awful: syn=HORRIBLE*,SO,EYE,FAR,GUT,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DIRE,EVER; ind=anagram
+    Definitions:
+      "awful" -> HORRIBLE (definition match)
+  AI Reasoning:
+    Definition: "awful" (horrible means awful).
+    Wordplay: anagram. "doctor" is the anagram indicator.
+    Fodder: "finally lances her boil" = S (final letter of "lances") + HER + BOIL = SHERBOIL.
+    SHERBOIL rearranged = HORRIBLE.
+    
+    Note: "flipping" and the second "awful" are red herrings - "doctor" signals the anagram of the letter fodder.
+  ----------------------------------------------------------------------
+
+  [FAILED] shopping list  18A. Chopin and Liszt casually discussed items to be purchased?
+  Answer: shopping list
+  Tier: --- | Confidence: 0/100
+  Definition: "items to be purchased"
+  Wordplay type: homophone
+  Components:
+    sound_of           Chopin and Liszt          -> SHOPPINGLIST
+  DB Lookups:
+    DB lookups:
+      chopin: syn=CHOP,MAESTRO,COMPOSER
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      liszt: syn=DRUNK,COMPOSER,MUSICIAN,VIRTUOSO,COMPOSER'S,HE COMPOSED
+      casually: syn=AIRILY,ENFAMILLE,NONCHALANTLY
+      discussed: syn=ARGUED,MOOTED,BANDIED,DEBATED,AGITATED,DISPUTED,CANVASSED,TALKED OVER; ind=homophone
+      items: syn=DATA,GEAR,JOBS,PART,FACTS,POSTS,TRAIT,UNITS,ASSETS,BRIEFS,POINTS,THINGS,CHARGES,COUPLES,DETAILS
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=HOPPING*,DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE; sounds=bee
+      purchased: syn=DAY,GOT,BOUGHT
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,APPLY,EXIST,ABOUND,BEGGED,PRAYED
+  AI Reasoning:
+    Definition: "items to be purchased" (a shopping list contains items to be purchased).
+    
+    Wordplay: homophone. "discussed" is the homophone indicator.
+    "Chopin and Liszt" sounds like "shopping list" when spoken aloud.
+    
+    Note: The indicator words and known lookup provided don't apply here - this is a straightforward homophone where the entire phrase "Chopin and Liszt" sounds like "shopping list."
+  ----------------------------------------------------------------------
+
+  [FAILED] Alaska  19D. It's pretty cold here – unfortunately, koala cleared out
+  Answer: Alaska
+  Tier: --- | Confidence: 0/100
+  Definition: "It's pretty cold here"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     koala                     -> KOALA
+    anagram_fodder     cleared out               -> A
+  DB Lookups:
+    DB lookups:
+      it's: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      pretty: syn=BE,DO,OF,OR,APT,BIT,FIT,FOP,FOX,JAY,LIE,NOT,PET,SET,BABE
+      cold: syn=A1,BAT,BIG,BOP,CUT,DIS,FAB,HIT,ICY,LOW,PAN,RAM,RAP,TAP,ZAP; abbr=C
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      unfortunately: syn=ALAS*,AY,ILL,WOE,ALACK,BADLY,SADLY,WIRRA,VILELY; ind=anagram
+      koala: syn=OF A
+      cleared: syn=BALD,BARE,FAIR,FREE,LAST,OPEN,SURE,BROAD,CLEAR,FRANK,FREED,LEAPT,LUCID,NAKED,PLAIN
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      cleared out: ind=parts
+      cleared out: syn=ATE,DUG,GOT,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW
+  AI Reasoning:
+    Definition: "It's pretty cold here" (Alaska is a cold place).
+    Wordplay: anagram. "unfortunately" is the anagram indicator. "koala cleared out" means KOALA with the middle letters removed, leaving KA + LA = KALA. But that doesn't work for ALASKA.
+    
+    Let me reconsider: "cleared out" could mean anagram fodder. So "unfortunately" indicates anagram of "koala cleared" = KOALACLEARED minus some letters? No, that's too long.
+    
+    Actually: "koala cleared out" = KOALA with interior letters removed = K + A (first and last) = KA. Then anagram of KA... no, that's only 2 letters.
+    
+    Rethinking: The anagram fodder is "koala" and we need to "clear out" some letters. KOALA rearranged = ALASKA if we add an S. But where does S come from?
+    
+    Wait: "koala cleared out" could mean the entire phrase provides anagram fodder. KOALA + some letters from "cleared"? KOALA + S from cleared = KOALAS, anagrammed = ALASKA (with one A left over - doesn't work).
+    
+    Let me try: anagram of KOALA + S (from somewhere) = ALASKA. The S could come from "It's" (possessive S). So anagram of KOALA + S = ALASKA.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CHUBBY  2D. Charlie (one's other half) is a bit roly-poly
+  Answer: CHUBBY
+  Tier: Sonnet | Confidence: 69/100
+  Definition: "roly-poly"
+  Wordplay type: charade
+  Components:
+    abbreviation       Charlie                   -> C
+    synonym            one's other half          -> HUBBY
+  Assembly: charade — C(abbr. "Charlie") + HUBBY(synonym of "one's other half")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      charlie: syn=NIT,CLOT,DOPE,FOOL,LOON,CHUMP,IDIOT,TWERP,WALLY,DUFFER,DUMDUM,LUMMOX,NITWIT; abbr=C*
+      one's: syn=AM,MY,BABY,COUP,BOAST,GLORY,HONOR,JEWEL,PRIDE,REBEL,CREDIT,TROPHY,UN,ACE,AGE; abbr=I,A,ACE,O; sounds=won
+      other: syn=GO,ACT,AIR,BAR,BUT,DRY,EYE,GET,NEW,OLD,RUN,SEE,SPY,WAX,AGED; abbr=O; ind=parts
+      half: syn=AT,MAD,NUT,ANON,DAFT,DEMI,DODO,DOLT,DOPE,DORK,DUEL,DULL,DUMB,EVER,FOOL; ind=deletion
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      bit: syn=ACE,ACT,DAB,DAY,EAT,EON,ERA,LET,NIP,RAY,RUB,TAD,TWO,ACES,ATOM; ind=hidden
+      roly-poly: syn=FULL,GROSS,LARDY,OBESE,PLUMP,PODGY,PUDGY,TUBBY,PORTLY
+      roly: syn=ROUND
+      other half: syn=MAN,OLD,HALF,MATE,SAVE,STAY,BETTER,MANAGE,OTHERS,SPOUSE
+      a bit: syn=ACE,ALL,BAR,BIT,BOX,CAT,CUT,DAB,FEW,GAP
+  AI Reasoning:
+    Definition: "roly-poly" (chubby means roly-poly).
+    
+    Wordplay: charade. "Charlie" = C (NATO alphabet, confirmed lookup). "one's other half" = HUBBY (one's other half meaning spouse/husband). C + HUBBY = CHUBBY.
+    
+    The indicator words "other," "half," and "bit" don't apply here - this is a straightforward charade of C + HUBBY.
+  ----------------------------------------------------------------------
+
+  [HIGH] UNCOOL  20D. Old-fashioned uniform for one colour sergeant? Nothing left
+  Answer: UNCOOL
+  Tier: Sonnet | Confidence: 88/100
+  Definition: "Old-fashioned"
+  Wordplay type: charade
+  Components:
+    abbreviation       uniform                   -> U
+    abbreviation       colour sergeant           -> NCO
+    synonym            nothing                   -> O
+    abbreviation       left                      -> L
+  Assembly: charade — U(abbr. "uniform") + NCO(abbr. "colour sergeant") + O(synonym of "nothing") + L(abbr. "left")
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old-fashioned: syn=DIE,OLD,TIME,DATED,PASSE,RETRO,WORLD,FEUDAL,QUAINT,SCHOOL,SQUARE
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      fashioned: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,FINE,KNEW,MADE,SHUT; ind=anagram
+      uniform: syn=EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT,LIVERY,OUTFIT,STABLE,STEADY; abbr=U*
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one: syn=UN*,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I,O*; sounds=won
+      colour: syn=HUE,PEA,RED,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI,LEMON; fodder=COLOUR(5/6 anagram match)
+      sergeant: syn=NCO*,COP,MAN,BULL,DICK,FUZZ,HEAT,BOBBY,COPPER,DOCTOR,LAWMAN,POLICE,SHAMUS,SLEUTH
+      nothing: syn=O,NO,OF,OH,ON,NIL,NIX,PUT,TWO,ZIP,DODO,DOLT,DOPE,DORK,GOOF; abbr=NIL,O*
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      for one: abbr=EG
+      for one: syn=EG,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+      colour sergeant: syn=NCO*
+    Definitions:
+      "Old-fashioned" -> UNCOOL (definition match)
+  AI Reasoning:
+    Definition: "Old-fashioned" (uncool means not fashionable/old-fashioned).
+    
+    Wordplay: deletion. "for" is the deletion indicator.
+    - "uniform one colour sergeant nothing left" = U + O + NCO + O + L
+    - "for" indicates deletion of something
+    - "left" (L) is deleted from the sequence
+    - U + O + NCO + O + L - L = U + O + NCO + O = UNCOO...
+    
+    Wait, let me reconsider. Looking at the answer UNCOOL:
+    - "uniform" = U
+    - "one" = O
+    - "colour sergeant" = NCO
+    - "nothing" = O
+    - "left" = L
+    
+    But we need to delete something. "for" indicates deletion, and "left" appears twice in the indicators - once as deletion indicator. So we delete L from the end, leaving UNCOO... This doesn't work.
+    
+    Actually: U + N + C + O + O + L = UNCOOL. The "colour sergeant" = NCO gives us N, C, O separately. So:
+    - "uniform" = U
+    - "colour sergeant" = NCO (giving N, C, O)
+    - "nothing" = O
+    - "left" = L
+    - No deletion needed
+    
+    U + N + C + O + O + L = UNCOOL.
+  ----------------------------------------------------------------------
+
+  [HIGH] RAREBIT  21A. Snack, one eaten by uncommon baronet
+  Answer: RAREBIT
+  Tier: DB Fallback | Confidence: 100/100
+  Definition: "Snack"
+  Wordplay type: charade
+  Components:
+    abbreviation       one                       -> I
+    synonym            uncommon                  -> RARE
+    first_letter       by                        -> B
+    last_letter        baronet                   -> T
+  Assembly: charade — RARE(synonym of "uncommon") + B(first letter of "by") + I(abbr. "one") + T(last letter of "baronet")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      snack: syn=RAREBIT*,FRY,TEA,BAKE,BITE,CHOW,FEED,GULP,LUAU,MENU,MESS,NOSH,BOARD,BUTTY,FEAST
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      eaten: syn=FED,GOT,DINED,FARED,IRKED,RILED,VEXED,BUGGED,CHAFED,ERODED,GALLED,GNAWED,GRATED,GRIPED,ITCHED; ind=container
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      uncommon: syn=RARE*,ODD,THE,WAY,WILD,CRAZY,FREAK,FRESH,FUNKY,FUNNY,KINKY,KOOKY,NOVEL,OUTRÉ,PRIVY; ind=anagram?
+      baronet: syn=BT,NOBLE,TITLE,COUNTRY; fodder=BARONET(5/7 anagram match)
+    Definitions:
+      "Snack" -> RAREBIT (definition match)
+  AI Reasoning:
+    Definition: "Snack" (rarebit is a type of snack).
+    Wordplay: container. "eaten by" is the container indicator. "one" = I (Roman numeral). "uncommon baronet" = anagram of BARONET (with "uncommon" as anagram indicator) = RAREBIT. Wait, that gives the full answer.
+    
+    Let me reconsider: "one eaten by uncommon baronet" means I (one) is contained inside an anagram of BARONET. But BARONET anagrammed doesn't naturally contain I to make RAREBIT.
+    
+    Actually: BARONET is 7 letters, same as RAREBIT. "uncommon" indicates BARONET is anagrammed to RAREBIT, and "one eaten by" is describing the result (the I in RAREBIT represents "one eaten by" the dish). So it's just an anagram: BARONET → RAREBIT.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TULSA  22D. First to teach student in America, OK city
+  Answer: TULSA
+  Tier: Sonnet | Confidence: 56/100
+  Definition: "city"
+  Wordplay type: charade
+  Components:
+    first_letter       teach                     -> T
+    abbreviation       student                   -> U
+    abbreviation       in                        -> L
+    abbreviation       America                   -> S
+    abbreviation       OK                        -> A
+  Assembly: charade — T(first letter of "teach") + U(abbr. "student") + L(abbr. "in") + S(abbr. "America") + A(abbr. "OK")
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/5 (20%) | unverified_claims=4 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      teach: syn=RABBI,TRAIN,TUTOR
+      student: syn=DAY,SWOT,CADET,IDEAL,PUPIL,TUTEE; abbr=L*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      america: syn=US,USA; abbr=A*,AM,US,USA
+      ok: syn=AY,EV,SO,YO,ALL,AYE,END,FAB,FIX,HOT,OPT,OUT,SET,TOP,YEA
+      city: syn=TULSA*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+      to teach: syn=SIFTS
+    Definitions:
+      "city" -> TULSA (definition match)
+  AI Reasoning:
+    Definition: "city" (Tulsa is a city in Oklahoma).
+    
+    Wordplay: charade. "First to teach" = T (first letter of "teach"). "student" = L (confirmed lookup). "in America" = L in A (container: "in" is the indicator, L goes inside A) = AL. "OK" = OK (literal letters for Oklahoma state abbreviation).
+    
+    T + AL + (wait, this gives TALOK, not TULSA)
+    
+    Let me reconsider: "First to teach" = T. "student in America" = L in A = AL. But we need TULSA.
+    
+    Actually: T + U + L + S + A. Let me try: "First to teach" = T. "student" = U (university abbreviation)? No, lookup confirms L.
+    
+    Rethinking: T (first of "teach") + ULS + A. Where does ULS come from?
+    
+    Wait - "OK" could be OKLA abbreviated further, or just the state postal code. Let me try: T + U (from somewhere) + L (student) + S (from somewhere) + A (America).
+    
+    Actually, let me parse differently: "First to teach student in America, OK" - this might be T + ULSA where ULSA comes from the rest. But the lookup confirms student = L and America = A.
+    
+    I think this is: T (first of "teach") + U + L (student) + S + A (America), where the middle letters come from "OK" expanded or parsed differently than I initially thought.
+  ----------------------------------------------------------------------
+
+  [LOW] GREMLIN  23A. Russian government gets new leader, mischievous individual
+  Answer: GREMLIN
+  Tier: Sonnet | Confidence: 34/100
+  Definition: "mischievous individual"
+  Wordplay type: substitution
+  Components:
+    synonym            Russian                   -> KREMLIN
+    abbreviation       government                -> G
+  Assembly: deletion — G(abbr. "government") + delete K from KREMLIN(synonym of "Russian")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_mismatch=AI=substitution, assembled=deletion | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      russian: syn=KARA,SLAV,TSAR,ALSO BY,COSSACK,YELTSIN
+      government: syn=ARM,RAJ,AS A,CARE,GRIP,HOLD,RULE,SWAY,WILL,CIVIC,CIVIL,GRASP,HANDS,POWER,REIGN; abbr=G*
+      gets: syn=BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS,OFFS; abbr=G*,GE
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+      mischievous: syn=BAD,ILL,NOT,ARCH,ELFIN,ELFISH,ELVISH,IMPISH,WICKED,ADVERSE,BALEFUL,BANEFUL,HARMFUL,HURTFUL,NOCUOUS; ind=anagram?
+      individual: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY,BUCK; ind=anagram?
+  AI Reasoning:
+    Definition: "mischievous individual" (a gremlin is a mischievous individual).
+    
+    Wordplay: charade. "Russian" = KREMLIN (synonym). "gets new leader" = replace the first letter (leader) with N (new). KREMLIN with K replaced by N = NREMLIN. Wait, that doesn't work.
+    
+    Let me reconsider: "government" = G (confirmed lookup), "gets" = G (confirmed lookup), "new" = N, "leader" indicates first letter. So we have G + G + N + something from "Russian"...
+    
+    Actually, rethinking: "Russian" = KREMLIN, "gets new leader" means the Russian (KREMLIN) gets a new first letter. The new leader is from "government" = G. So KREMLIN with K replaced by G = GREMLIN.
+  ----------------------------------------------------------------------
+
+  [HIGH] CABRIOLET  24A. Item produced by automaker (new CEO, T Blair)
+  Answer: CABRIOLET
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Item produced by automaker"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     CEO T Blair               -> CEOTBLAIR
+  Assembly: anagram — anagram of CEOTBLAIR(CEO T Blair)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      item: syn=MY,SO,411,DUO,FEW,GEN,INFO,MANY,NEWS,PAIR,PART,UNIT,WORD,POINT,STORY
+      produced: syn=DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,BORE,BORN,BRED,DREW,FELT,GAVE; ind=anagram
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      new: syn=UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST,CEDE; abbr=N,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      blair: syn=IN,STATESMAN
+  AI Reasoning:
+    Definition: "Item produced by automaker" (a cabriolet is a type of car).
+    Wordplay: anagram. "produced" and "new" are anagram indicators.
+    Fodder: CEO T BLAIR → rearranged → CABRIOLET.
+  ----------------------------------------------------------------------
+
+  [HIGH] DISCO  25A. Club legend is counting cups
+  Answer: DISCO
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Club"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      club: syn=DISCO*,A,ACE,BAT,DEN,INN,KEY,ALLY,AXIS,BACH,BEAT,CAMP,CARD,CAST,CELL
+      legend: syn=KEY,EDGE,HERO,MYTH,STAR,GREAT,MOTTO,STORY
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      cups: syn=BRA,CAN,MUG
+    Definitions:
+      "Club" -> DISCO (definition match)
+  AI Reasoning:
+    Definition: "Club" (DISCO is a type of club/nightclub).
+    Wordplay: This appears to be a double definition. "Club" = DISCO (nightclub), and "legend is counting cups" also defines DISCO through wordplay that's unclear from the surface reading.
+    
+    Actually, looking more carefully: This is likely just a double definition where both "Club" and the phrase "legend is counting cups" somehow define DISCO, but the second definition is cryptic/indirect. The known lookup confirms DISCO = club, so this is the straightforward interpretation.
+  ----------------------------------------------------------------------
+
+  [HIGH] DIET  26A. Long, tense parliament
+  Answer: DIET
+  Tier: Sonnet | Confidence: 84/100
+  Definition: "parliament"
+  Wordplay type: charade
+  Components:
+    synonym            Long                      -> DIE
+    abbreviation       tense                     -> T
+  Assembly: charade — DIE(synonym of "Long") + T(abbr. "tense")
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      long: syn=AGE,AYE,EON,FAR,OLD,ACHE,AFAR,AGED,AGES,BLUE,CASH,COIN,E'ER,EPIC,EVER; abbr=PINE
+      tense: syn=T,APE,FEY,MAD,ODD,OFF,WUD,AMOK,BATS,DAFT,EDGE,EDGY,FAST,FIRM,LOCO; abbr=T*,t*; sounds=tents
+      parliament: syn=DIET*
+    Definitions:
+      "parliament" -> DIET (definition match)
+  AI Reasoning:
+    Definition: "parliament" (a diet is a type of parliament/legislative assembly).
+    Wordplay: charade. "Long" = DIE (synonym for long/yearn). "tense" = T (abbreviation). DIE + T = DIET.
+  ----------------------------------------------------------------------
+
+  [FAILED] CANNONBALL  27A. Shot dispensed from large barrel in dive?
+  Answer: CANNONBALL
+  Tier: --- | Confidence: 0/100
+  Definition: "dive"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     large barrel in           -> LCANIN
+  DB Lookups:
+    DB lookups:
+      shot: syn=CANNONBALL*,GO,IN,ALE,BID,DID,FLY,GIN,GUN,HIE,JAB,MUG,MUM,NIP,PEG; abbr=GO; ind=anagram
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L*,OS
+      barrel: syn=CAN*,IT,FLY,HOY,KEG,LOT,POT,RUN,TON,TUB,TUG,TUN,VAT,WAD,BUTT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      dive: syn=DIE,DOWN,DROP,FALL,SOUND,A GOGO,AT THE,PLUNGE,PLUMMET,ALEHOUSE,BORDELLO,TAILSPIN,BELLYFLOP,JACKKNIFE,SLEAZY BAR
+    Definitions:
+      "Shot" -> CANNONBALL (definition match)
+  AI Reasoning:
+    Definition: "dive" (a cannonball is a type of dive into water).
+    
+    Wordplay: anagram. "Shot" and "from" are anagram indicators.
+    Fodder: "large barrel" = L + CAN + NON + BALL
+    Wait, that doesn't work. Let me reconsider.
+    
+    Actually, looking at the known lookups: "large" = L, "barrel" = CAN.
+    The anagram fodder appears to be: L + CAN + NON + BALL = LCANNONBALL (too many letters).
+    
+    Let me try: The phrase "large barrel in dive" could be rearranged.
+    But "dive" is the definition.
+    
+    Rethinking: "Shot dispensed from large barrel" - if "shot" and "from" are anagram indicators, then "large barrel" = L + CAN = LCAN. But that's only 4 letters for a 10-letter answer.
+    
+    Actually, the entire phrase "large barrel in dive" might be anagram fodder (minus the definition). But "dive" is the definition, so the fodder would be "large barrel in" = L + CAN + IN = LCANIN (6 letters, still not enough).
+    
+    Wait - perhaps "shot dispensed from" indicates an anagram of everything except "shot": "large barrel in dive" = L + CANNONBALL...
+    
+    Let me reconsider: anagram of "large barrel in" = L + CAN + IN = rearranged, but we need 10 letters total. The answer suggests we need CANNONBALL, which contains CAN (barrel) + BALL (shot) + additional letters.
+    
+    Actually: anagram of "large barrel in" where we get CANNONBALL by rearranging L + CAN + (something that gives us the remaining letters NONBALL).
+    
+    I think I'm overcomplicating this. Let me try: anagram of the letters in "large barrel in" to make CANNONBALL, using L + CAN + remaining letters to spell out the full answer through rearrangement.
+  ----------------------------------------------------------------------
+
+  [FAILED] banana republic  3D. Lots of hands get chopped off in this country!
+  Answer: banana republic
+  Tier: --- | Confidence: 0/100
+  Definition: "country"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Lots of hands             -> BANANA
+    anagram_fodder     get                       -> PUBLIC
+  DB Lookups:
+    DB lookups:
+      lots: syn=SAY,BAGS,LOAD,MANY,TASK,ACRES,NOEND,REAMS,SITES,CROWDS,DOZENS,MASSES,OODLES,PLENTY,STACKS
+      hands: syn=ME,ARM,HAS,MAN,BAGS,BODY,CARE,CREW,GAIN,GIRL,GOES,GRIP,HOLD,LETS,SWAY
+      get: syn=PUBLIC*,DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG; abbr=G,GE
+      chopped: ind=anagram
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      this: syn=PUBLIC*,END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE; abbr=T,TH
+      country: syn=DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE,EARL,EIRE; abbr=MALI
+      lots of: syn=MANY
+      in this: syn=DOG,PROM,SHOW,CORGI,BARKER,CANINE,CRUMBS,PROMPT,TELLER,UNISON
+      this country: syn=LAND,PERU,STATE,NATION,COUNTRY,NAMIBIA,TUNISIA
+  AI Reasoning:
+    Definition: "country" (a banana republic is a type of country).
+    
+    Wordplay: anagram. "chopped off" serves as the anagram indicator.
+    
+    Fodder: "Lots of hands get" = BANANA + PUBLIC (where "get" = PUBLIC from the known lookup).
+    
+    BANANA + PUBLIC → rearranged → BANANA REPUBLIC.
+    
+    The anagram uses all letters from BANANA (6) + PUBLIC (6) = 12 letters, but the answer has 14 letters including the space. Let me reconsider...
+    
+    Actually: "Lots of hands" = BANANA (bananas grow in bunches/lots, and "hands" refers to bunches of bananas). "get" = PUBLIC (from known lookup).
+    
+    BANANAPUBLIC (12 letters) → anagrammed → BANANA REPUBLIC (14 letters with space).
+  ----------------------------------------------------------------------
+
+  [HIGH] SEROTONIN  4D. Vital neurotransmitter derived from ironstone
+  Answer: SEROTONIN
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Vital neurotransmitter"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     ironstone                 -> IRONSTONE
+  Assembly: anagram — anagram of IRONSTONE(ironstone)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      vital: syn=OR,ALL,BIG,FIT,KEY,RED,HALE,IRON,MAKE,FLUSH,HEADY,PEPPY,PLUSH,SOLID,STOUT
+      derived: syn=ACQUIRED,INFERRED,OBTAINED,PRODUCED
+      from: syn=SIN*,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      ironstone: fodder=IRONSTONE(9/9 anagram match)
+      derived from: ind=anagram?
+  AI Reasoning:
+    Definition: "Vital neurotransmitter" (serotonin is a vital neurotransmitter).
+    Wordplay: anagram. "derived from" is the anagram indicator.
+    Fodder: IRONSTONE → rearranged → SEROTONIN.
+  ----------------------------------------------------------------------
+
+  [HIGH] ORDER  5D. System command
+  Answer: ORDER
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "System command"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      system: syn=ORDER*,HOW,WAY,BORN,CAST,FORM,GAME,NICK,PLAN,RITE,ROAD,SHOT,TACK,TRIM,AFTER
+      command: syn=ORDER*,DO,MY,SO,A A,ARM,ASK,BAG,EYE,FEW,FOR,KEY,OWN,ARMS,ASKS
+    Definitions:
+      "command" -> ORDER (definition match)
+  AI Reasoning:
+    This is a double definition clue.
+    
+    Definition 1: "System" = ORDER (synonym - a system of organization)
+    Definition 2: "command" = ORDER (synonym - a directive or instruction)
+    
+    Both halves of the clue define ORDER with no wordplay involved.
+  ----------------------------------------------------------------------
+
+  [HIGH] EPIC  6A. Impressive digital snap?
+  Answer: EPIC
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Impressive"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      impressive: syn=EPIC*,EYE
+      digital: abbr=D
+      snap: syn=AD,DO,GO,ACE,BIT,DAB,NIP,OFF,POP,RAY,TAD,THE,WET,ACES,BANG
+    Definitions:
+      "Impressive" -> EPIC (definition match)
+  AI Reasoning:
+    Looking at this clue, I need to consider the known lookup that "impressive" = EPIC.
+    
+    Definition: "Impressive"
+    Wordplay: This appears to be a cryptic definition where "digital snap" cryptically refers to EPIC. "Digital" could refer to fingers/digits, and "snap" could mean a quick breaking motion - but this doesn't clearly lead to EPIC through standard wordplay mechanisms.
+    
+    Given the known lookup confirms "impressive" = EPIC, this is likely a double definition where both "impressive" and "digital snap" define EPIC in different ways, though the "digital snap" connection is cryptic/metaphorical rather than following standard wordplay rules.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PRISONER  7D. Dnepr is one river (including one controlled by locks)
+  Answer: PRISONER
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "one controlled by locks"
+  Wordplay type: hidden
+  Components:
+    hidden             Dnepr is one river        -> PRISONER
+  Assembly: hidden — hidden in 'dnePR IS ONE River'
+  Checks: definition=not in DB, odd position | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O*; sounds=won
+      river: syn=CAM,DEE,FAL,TAY,URE,AIRE,AMUR,ARNO,AVON,BATH,DEEP,EBRO,ELBE,FLUX,GLUT; abbr=CAM,DEE,EXE,MA,R*
+      including: syn=INC,PEN,CAGE,PLUS,CARRY,HEDGE,HOUSE,BESIDE,BEYOND,CAGING,CLOSET,CORRAL,ENCAGE,ENCASE,ENTAIL; ind=container
+      controlled: syn=MET,RAN,CALM,HELD,KEPT,HEXED,KEPT?,RULED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED
+      by: syn=SO*,PER*,IN,TO,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      locks: syn=HAIR,LEAD,BOLTS,DREADS,SECURES,RINGLETS,STRESSES,THING,TRESS,SECURE,CONFINE,RINGLET,IMPRISON,RAT-TAIL,TRESPASS; sounds=loch
+      controlled by: syn=UNDER
+  AI Reasoning:
+    Definition: "one controlled by locks" (a prisoner is controlled by locks).
+    
+    Wordplay: container. "Dnepr is one river" = DNEPR + I + S + O + N + R. Wait, that's too many letters.
+    
+    Let me reconsider: "Dnepr" (literal letters) + "is" (literal) + "one" (I) + "river" (R) gives DNEPRISR, but that doesn't work.
+    
+    Actually: "Dnepr is" = DNEPRIS, "one" = I, "river" = R. The container indicator "including" suggests I goes inside DNEPRIS, but that still doesn't work.
+    
+    Rethinking: PRISON (anagram of "Dnepr is" + "one"=I) + "river"=R = PRISONR? No.
+    
+    Let me try: PRISON (from rearranging DNEPRIS minus some letters?) + E + R?
+    
+    Actually: PRISON + E + R = PRISONER. So "Dnepr is one" anagrams to PRISON, then + "river"=R = PRISONER.
+    
+    Wait - checking the anagram: DNEPR + IS + ONE = DNEPRISONE. Rearranged = PRISONER? Let me check: D-N-E-P-R-I-S-O-N-E = 10 letters, PRISONER = 8 letters. That doesn't work.
+    
+    Let me reconsider the container: PRISON contains I, giving PRIISON? No.
+    
+    Actually: "Dnepr is" = anagram fodder, "one" = I goes inside via "including", "river" = R added. But I need to identify what anagrams to make this work.
+    
+    PRISON + E + R = PRISONER. So PRISON comes from anagramming some subset, E and R are added. But the mechanics aren't clear from this parsing.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CONCERTO  8D. Tory shoo-in beginning to orchestrate work for players
+  Answer: CONCERTO
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "work for players"
+  Wordplay type: container
+  Components:
+    synonym            Tory                      -> CON
+    synonym            shoo-in                   -> CERT
+    first_letter       beginning to orchestrate  -> O
+  Assembly: charade — CON(synonym of "Tory") + CERT(synonym of "shoo-in") + O(first letter of "beginning to orchestrate")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tory: syn=CON*,BLUE,RIGHT; abbr=C*,CON*,T*
+      shoo-in: syn=LEAD,THING
+      shoo: syn=GET,OFF,SPLIT,GO AWAY,'GO AWAY; sounds=shoe
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      beginning: syn=DAY,DAWN,GERM,ROOT,AHEAD,ALPHA,BASAL,BASIC,GETGO,ONSET,SAUCE,START,ADVENT,ORIGIN,OUTSET; ind=acrostic,deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      orchestrate: syn=ALIGN,SCORE,ALIGNS,ALIGNED
+      work: syn=CONCERTO*,DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW; abbr=GO,OP,POST; ind=anagram
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO*; ind=deletion; sounds=four,fore
+      players: syn=ALSO,CAST,TEAM,OCTET,SQUAD,ACTORS,ELEVEN,FIFERS,CASTLED,OBOISTS,CELLISTS,FORWARDS,LEFT,MUSO,OBOE; abbr=CAST,P
+      work for: syn=PERFORM
+  AI Reasoning:
+    Definition: "work for players" (a concerto is a musical work for players).
+    
+    Wordplay: container. "in" is the container indicator.
+    - "Tory" = CON (synonym from known lookups)
+    - "shoo-in" contains "beginning to orchestrate" = O (first letter of "orchestrate")
+    - "shoo-in" = CERT (synonym for sure thing/shoo-in)
+    
+    CON + CERT with O inserted = CON + C(O)ERT + O = CONCERTO.
+    
+    Wait, let me reconsider: CON (Tory) contains CERT + O = CON(CERTO) = CONCERTO.
+  ----------------------------------------------------------------------
+
+  [HIGH] Achilles tendon  9D. Area vulnerable to Paris strike?
+  Answer: Achilles tendon
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Area vulnerable to Paris strike?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      area: syn=ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,REALM,REMIT,RIDGE; abbr=A*; ind=anagram
+      vulnerable: syn=BALD,BARE,FREE,OPEN,CLEAR,FRANK,NAKED,PLAIN,CANDID,DIRECT,HONEST,LIABLE,OPENER,PEELED,PUBLIC
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      paris: syn=CITY,TROJAN,CAPITAL,TROJAN HERO
+      strike: syn=AIR,BAT,BIG,BOB,BOX,FLY,HIT,JOB,OUT,PAY,RAM,SET,SIC,SIT,TAG
+  AI Reasoning:
+    Looking at this clue step by step:
+    
+    Definition: "Area vulnerable to Paris strike?" - This is a cryptic definition referring to the Achilles tendon, which was the vulnerable spot where Paris struck Achilles with an arrow in Greek mythology.
+    
+    Wordplay: This appears to be purely a cryptic definition rather than having separate wordplay mechanics. The indicator words "area" (anagram) and "to" (reversal) seem to be red herrings or part of the surface reading rather than actual wordplay indicators, since the clue works as a complete cryptic definition referencing the mythological story.
+    
+    The entire clue cryptically defines ACHILLES TENDON through the mythological reference to Achilles' vulnerable spot that Paris targeted.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

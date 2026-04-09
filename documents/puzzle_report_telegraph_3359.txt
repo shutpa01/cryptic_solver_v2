@@ -1,0 +1,792 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #3359
+Generated: 2026-03-09 23:22:13
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      29
+  Assembled:        28/29 (96%)
+    Sonnet:         26
+    DB Fallback:    2
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  10A, 11A, 12A, 13A, 14A, 16D, 17D, 2D, 20D, 21A, 22D, 23D, 24A, 27A, 3D, 4D, 5D, 6D, 7D, 9D
+  Medium (40-79): 6  1D, 17A, 18D, 19A, 28A, 8A
+  Low (<40):    2  15D, 25D
+  Failed:       1  26A
+  Average:      82/100
+
+COST: $0.2186 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (17 entries)
+------------------------------------------------------------
+  DOODLEBUGS: "23 Downs" -> DOODLEBUGS  (missing from definition_answers_augmented)
+  WHEN: "Stop" -> WHEN  (missing from definition_answers_augmented)
+  WOODBLOCK: "Percussion instrument" -> WOODBLOCK  (missing from definition_answers_augmented)
+  BIGDEAL: "Pah!" -> BIGDEAL  (missing from definition_answers_augmented)
+  READING: "English university" -> READING  (missing from definition_answers_augmented)
+  TROWEL: Spiked wheel -> ROWEL  (missing from synonyms_pairs)
+  WODEHOUSE: composition -> ODE  (missing from synonyms_pairs)
+  PATIO: Quickly -> PAT  (missing from synonyms_pairs)
+  INDOORS: openers -> DOORS  (missing from synonyms_pairs)
+  DOODLEBUGS: Error -> BUGS  (missing from synonyms_pairs)
+  DONCASTERROVERS: conversed -> DONCASTER  (missing from synonyms_pairs)
+  EMPLOYED: Note -> EM  (missing from synonyms_pairs)
+  ENGARDE: story -> GARDE  (missing from synonyms_pairs)
+  CARDIGAN: King, say -> CARD  (missing from synonyms_pairs)
+  BIGDEAL: Billion -> BIG  (missing from synonyms_pairs)
+  HIGHOCTANE: i -> I  (missing from abbreviations)
+  COLOSSUS: Uncle Sam -> US  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (4)
+------------------------------------------------------------
+  DOODLEBUGS = 15 (25/100): AI=charade, assembled=deletion
+  EMPLOYED = 18 (60/100): AI=charade, assembled=reversal
+  LAPEL = 21 (90/100): AI=container, assembled=charade
+  WHEN = 25 (25/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (1)
+------------------------------------------------------------
+  WHEN = 25 (25/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (7)
+------------------------------------------------------------
+  TROWEL = 1 (70/100): no pieces verified in DB
+  DOODLEBUGS = 15 (25/100): no pieces verified in DB
+  DONCASTERROVERS = 17 (70/100): no pieces verified in DB
+  EMPLOYED = 18 (60/100): no pieces verified in DB
+  ENGARDE = 19 (70/100): no pieces verified in DB
+  WHEN = 25 (25/100): single piece equals full answer; no pieces verified in DB
+  BIGDEAL = 28 (45/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  BIGDEAL = 28 (45/100): def="Pah!" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  26. Percussion instrument used to stop, when sounded? = WOODBLOCK
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  12/29  10A, 13A, 24A, 27A, 4D, 5D, 6D, 9D, 16D, 20D, 22D, 23D
+  Type mismatch:         4  21A, 15D, 18D, 25D
+  Circular assembly:     1  25D
+  Unverified explain.:   7  19A, 28A, 1D, 15D, 17D, 18D, 25D
+  Weak definition:       1  28A
+  DB gap:                15  8A, 11A, 12A, 14A, 19A, 26A, 28A, 1D, 2D, 3D, 7D, 15D, 17D, 18D, 25D
+  Failed:                1  26A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  TROWEL        Spiked wheel below widget ultimately for hand-held tool (6)
+                      T(widget ultimately) + ROWEL(Spiked wheel)  [MED]
+   10A  OREGANO       Herb is on time after returning, else sooner (7)
+                      OR(else) + EGANO(sooner)  [HIGH]
+   11A  WODEHOUSE     Question about composition and application for writer (9)
+                      ODE(composition) inside WHO(Question) + USE(application)  [HIGH]
+   12A  PATIO         Quickly and easily produced, I love terrace (5)
+                      PAT(Quickly) + I(I) + O(love)  [HIGH]
+   13A  LOGIC         Reason I put on record, coercion primarily (5)
+                      LOG(put on record) + I(I) + C(coercion primarily)  [HIGH]
+   14A  INDOORS       Batting, openers not out? (7)
+                      IN(Batting) + DOORS(openers)  [HIGH]
+   15D  DOODLEBUGS    Error in more than one drawing 23 Downs (10)
+                      delete S from DOODLES(more than one drawing) + BUGS(Error)  [LOW]
+   16D  OTHERWISE     Their woes compounded if not (9)
+                      anagram of THEIRWOES(Their woes)  [HIGH]
+   17A  DONCASTERROVERS  Team conversed with tsar or revolutionary (9,6)
+                      DONCASTER(conversed) + ROVERS(tsar or)  [MED]
+   17D  DAMPENER      Spoiler of fun, wet blanket, say? (8)
+                      cryptic definition  [HIGH]
+   18D  EMPLOYED      Note on piano in melody wrongly used (8)
+                      reverse ME + PLOYED(melody)  [MED]
+   19A  ENGARDE       French author increasingly defending story (7)
+                      EN(French) + GARDE(story)  [MED]
+    2D  CARDIGAN      King, say, one on horse up top (8)
+                      CARD(King, say) + I(one) + GAN(horse)  [HIGH]
+   20D  LIBIDO        Offer to put in fuel when up for drive (6)
+                      BID(Offer) inside LIO(fuel)  [HIGH]
+   21A  LAPEL         Copy between two lines, and fold (5)
+                      L(lines) + APE(Copy) + L(lines)  [HIGH]
+   22D  LIKELY        Fated flower cut by edges on knife (6)
+                      KE(knife) inside LILY(flower)  [HIGH]
+   23D  BOMB          Incendiary device in packet? (4)
+                      cryptic definition  [HIGH]
+   24A  ELBOW         Joint below or bowel given treatment (5)
+                      anagram of BOWEL(bowel)  [HIGH]
+   25D  WHEN          Stop pouring wine honey, enough now – for starters? (4)
+                      WHEN(wine honey enough now)  [LOW]
+   26A  WOODBLOCK     Percussion instrument used to stop, when sounded? (9)
+                      ---  [FAIL]
+   27A  ENDLESS       Infinit? (7)
+                      cryptic definition  [HIGH]
+   28A  BIGDEAL       Billion dollar contract? Pah! (3,4)
+                      BIG(Billion) + DEAL(dollar contract)  [MED]
+    3D  HIGHOCTANE    Dynamic change, hot I gathered (4-6)
+                      anagram of HOT(hot)+I(i)+CHANGE(change)  [HIGH]
+    4D  HOTELIERS     The role is complicated for those with paying guests (9)
+                      anagram of THEROLEIS(The role is)  [HIGH]
+    5D  PEEP          Little sound that may similarly rise and fall? (4)
+                      cryptic definition  [HIGH]
+    6D  TATTOO        Rubbish as well, Scottish entertainer? (6)
+                      TAT(Rubbish) + TOO(as well)  [HIGH]
+    7D  COLOSSUS      Big gun in business, defeat Uncle Sam (8)
+                      CO(business) + LOSS(defeat) + US(Uncle Sam)  [HIGH]
+    8A  READING       Poor grade's bagged in English university (7)
+                      delete S from GRADES(grade's), anagram of GRADE+IN(in)  [MED]
+    9D  GRUB          Little wriggler eats (4)
+                      double definition  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Spiked wheel below widget ultimately for hand-held tool
+  Answer: TROWEL
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "hand-held tool"
+  Wordplay type: charade
+  Components:
+    last_letter        widget ultimately         -> T
+    synonym            Spiked wheel              -> ROWEL
+  Assembly: charade — T(widget ultimately) + ROWEL(Spiked wheel)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      spiked: syn=GORED,STUCK,JABBED,LANCED,PECKED,PICKED,PINKED
+      wheel: syn=ARC,BIG,EYE,GUN,ARCH,ARCS,BAND,DISC,FALL,HOOP,LOOP,RING,ROLL,SHOT,SPIN; ind=reversal; sounds=we'll
+      below: syn=BAD,ILL,LOW,OFF,BUSH,DOWN,FOUL,HELL,LAME,NEXT,OVER,PAST,POOR,PUNK,SOUR; ind=reversal
+      widget: syn=DEVICE
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES; ind=deletion,parts
+      for: syn=ROW*,AS,IS,BAR,BUT,HOW,NOW,PER,PRO,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      hand: syn=ME,ACE,AID,DAB,JOB,MAN,OLD,SET,USE,WAY,ACES,AIDS,ANON,BLOC,BODY
+      held: syn=HAD,MET,PUT,RAN,BORN,FELT,KEPT,MADE,BATED,DUPED,KEPT?,RATED,RULED,TAMED,BOUGHT; ind=container,hidden
+      tool: syn=TROWEL*,GUN,HOE,MUG,PUT,SAP,SAY,ADZE,ALSO,DUPE,FORT,GULL,PAWN,THIS,WALL
+      hand-held tool: syn=TROWEL*,TOOL,DIGGER
+    Definitions:
+      "tool" -> TROWEL (definition match)
+      "hand-held tool" -> TROWEL (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Herb is on time after returning, else sooner
+  Answer: OREGANO
+  Tier: Sonnet | Confidence: 88/100
+  Definition: "Herb"
+  Wordplay type: charade
+  Components:
+    synonym            else                      -> OR
+    reversal           sooner                    -> EGANO
+  Assembly: charade — OR(else) + EGANO(sooner)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      herb: syn=OREGANO*,DILL,WORT,BASIL,CHIVE,PLANT,THYME,BASIL?,FENNEL,LOVAGE,ALECOST,CHERVIL,LEWISIA,PARSLEY,SPURREY
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      on: syn=RE*,AS,OF,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE*,S
+      time: syn=AGE,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      returning: syn=HOME,STOP,COMING,GIVING,PAYING,BEARING,UNDOING; ind=reversal
+      else: syn=PIP,LULU,MORE,THAN,ADDED,BEAUT,DAISY,DANDY,DILLY,DOOZY,DREAM,FRESH,HONEY,NIFTY,OTHER; ind=anagram?
+      sooner: syn=RATHER; fodder=SOONER(5/7 anagram match)
+      on time: syn=SHARP,PROMPT
+    Definitions:
+      "Herb" -> OREGANO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Question about composition and application for writer
+  Answer: WODEHOUSE
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "writer"
+  Wordplay type: container
+  Components:
+    synonym            Question                  -> WHO
+    synonym            composition               -> ODE
+    synonym            application               -> USE
+  Assembly: container — ODE(composition) inside WHO(Question) + USE(application)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      question: syn=QU,ASK,EYE,FOR,GUN,HER,HIS,AS A,ASKS,BLOW,CALL,FACT,FEEL,FUSS,KICK; abbr=Q,QU
+      about: syn=ODE*,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,SAY; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      composition: syn=HOW,WAY,CAST,FORM,NICK,RITE,TACK,TRIM,WORK,BLANK,BUILD,DUMMY,ESSAY,FORM?,FRAME; ind=anagram
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      application: syn=USE*,APP,PLAY,TOOL,MOUSE,USAGE,DEVICE,GADGET,LOTION,MACHINE,PROGRAM,EXERCISE,HARDWARE,PETITION,PROGRESS
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      writer: syn=MAN,MOO,NIB,PEN,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET,AESOP,DEFOE,ELIOT; abbr=PEN
+    Definitions:
+      "writer" -> WODEHOUSE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Quickly and easily produced, I love terrace
+  Answer: PATIO
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "terrace"
+  Wordplay type: charade
+  Components:
+    synonym            Quickly                   -> PAT
+    literal            I                         -> I
+    synonym            love                      -> O
+  Assembly: charade — PAT(Quickly) + I(I) + O(love)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      quickly: syn=HOT,CHOP,FAST,KEEN,SOON,ALERT,APACE,BRISK,DIZZY,FLEET,HASTY,NIPPY,QUICK,RAPID,READY
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      easily: syn=BY,IN,OK,SO,ALL,OUT,ABLY,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD; ind=anagram
+      produced: syn=DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,BORE,BORN,BRED,DREW,FELT,GAVE; ind=anagram
+      love: syn=PAT*,BE,DO,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PET,PIP,PUT,SEE; abbr=NIL,O*
+      terrace: syn=PATIO*,ROW,BANK,DECK,SHELF; abbr=T*; ind=anagram?
+    Definitions:
+      "terrace" -> PATIO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. Reason I put on record, coercion primarily
+  Answer: LOGIC
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "Reason"
+  Wordplay type: charade
+  Components:
+    synonym            put on record             -> LOG
+    literal            I                         -> I
+    first_letter       coercion primarily        -> C
+  Assembly: charade — LOG(put on record) + I(I) + C(coercion primarily)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      reason: syn=LOGIC*,BE,WHY,WIT,CASE,DRAW,FORT,HEAD,MAKE,MIND,NOUS,PLEA,TOOL,WALL,WARD; abbr=RE
+      put: syn=LOG*,DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX; abbr=SET
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      record: syn=LOG*,A,EP,NO,PUT,SET,BLOG,CARD,CASE,CASH,DISC,GIVE,LIST,MARK,MONO; abbr=DISC,EP,LP,R,ep
+      coercion: syn=ARM,FORCE
+      primarily: syn=BY,AND,LAIC,LAIR,LARGE; ind=acrostic,parts
+      put on: syn=ACT,DON,COPY,FAKE,MOVE,PASS,SHAM,SWAY,WEAR,FEIGN
+      on record: syn=FROM,ELDER,REEVE
+    Definitions:
+      "Reason" -> LOGIC (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Batting, openers not out?
+  Answer: INDOORS
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "not out"
+  Wordplay type: charade
+  Components:
+    synonym            Batting                   -> IN
+    synonym            openers                   -> DOORS
+  Assembly: charade — IN(Batting) + DOORS(openers)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      batting: syn=IN*,DOING,HIDING,LACING,BASHING,BASTING,BEATING,BELTING,FIBBING,LASHING,LICKING,MAULING,PELTING,SLATING,TANNING; abbr=IN*; ind=container?
+      openers: syn=WINDOWS,KEY,BALD,BARE,FREE,CLEAR,FRANK,INTRO,NAKED,PLAIN,VALVE,BATTER,CANDID,DIRECT,EXPERT; ind=acrostic,deletion,parts
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      out: syn=OR*,OK,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      not out: abbr=NO
+    Definitions:
+      "not out" -> INDOORS (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 15. Error in more than one drawing 23 Downs
+  Answer: DOODLEBUGS
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "23 Downs"
+  Wordplay type: charade
+  Components:
+    synonym            more than one drawing     -> DOODLES
+    synonym            Error                     -> BUGS
+  Assembly: deletion — delete S from DOODLES(more than one drawing) + BUGS(Error)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_mismatch=AI=charade, assembled=deletion | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      error: syn=OLD,BISH,BOOB,SLIP,TRIP,TYPO,AMISS,BOTCH,CRIME,FAULT,LAPSE,WRONG,HOWLER,MISHAP,SLIPUP; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      than: syn=BAR,BUT,EAT,AIRY,CHAW,CHEW,ELSE,FRET,GNAW,SAVE,SMUG,SUCK,VAIN,CHAMP,COCKY
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I,O*; sounds=won
+      drawing: syn=ART,GOING,ICING,LEVEL,COMING,EATING,FOXING,HALING,IRKING,MAKING,MAZING,MOVING,OFFING,PASTEL,POSING
+      downs: syn=DRINKS,A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP; ind=anagram
+      more than: syn=CASE,OVER,CRUSH,TRAMPLE,OVERPAID
+      more than one: syn=MANY,PLURAL
+    Cross-references:
+      Clue 23 answer = BOMB
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Their woes compounded if not
+  Answer: OTHERWISE
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "if not"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Their woes                -> THEIRWOES
+  Assembly: anagram — anagram of THEIRWOES(Their woes)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      their: syn=BEE,EYE,FOX,GET,VEX,BABY,BEAT,BIDE,COUP,KINK,LACK,MAZE,NEED,POSE,STAY; sounds=there,they're
+      woes: syn=TROUBLES,AY,ILL,ALAS,PAIN,AGONY,ALACK,BADLY,GRIEF,SADLY,WIRRA,VILELY,AGONIES,ANGUISH,AWFULLY; sounds=whoa
+      compounded: syn=AERATED
+      if: syn=CHOW,EATS,FARE,FOOD,GRUB,LIKE,MEAT,NORM,WANT,WISH,BASIS,BREAD,CANON,CHUCK,GIVEN
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      if not: abbr=OR
+      if not: syn=EXCEPT,UNLESS
+    Definitions:
+      "if not" -> OTHERWISE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Team conversed with tsar or revolutionary
+  Answer: DONCASTERROVERS
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Team"
+  Wordplay type: charade
+  Components:
+    synonym            conversed                 -> DONCASTER
+    anagram_fodder     tsar or                   -> ROVERS
+  Assembly: charade — DONCASTER(conversed) + ROVERS(tsar or)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      team: syn=XI,MIX,RUN,TEA,TIE,WED,ALLY,ARMY,AXIS,BAND,BOND,CHUM,CLUB,CREW,GANG; abbr=IX,SIDE,T*,XI; sounds=teem
+      conversed: syn=A BLUE; ind=homophone
+      with: syn=ON*,OVER*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON*,W
+      tsar: syn=SAY,IVAN,KING,RULER,LEADER,TYRANT,EMPEROR,MONARCH,RUSSIAN,EXLEADER,AUTHORITY,LEADING 11,POWERFUL MAN,REVOLUTIONARY,POWERFUL RULER
+      or: syn=GO,OUT,RES,SAY,SET,YET,BEAR,BIDE,FAIR,FIRM,HACK,HIGH,LIKE,MEET,MOST; sounds=oar,ore
+      revolutionary: syn=CASTRO*,CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG,MAOIST,SOCIAL,ATTACHE,EXTREME; ind=anagram,reversal
+    Definitions:
+      "Team" -> DONCASTERROVERS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Spoiler of fun, wet blanket, say?
+  Answer: DAMPENER
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Spoiler of fun"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      spoiler: syn=SON,AIRFOIL
+      fun: syn=AND,KID,GAME,PLAY,CRAIC,LARKS,SPORT,GAIETY,LEVITY,AMUSING,CLOWNING,PLEASURE
+      wet: syn=DAMP*,DAMPEN*,BOX,ITS,LIT,PIE,COZY,DRIP,DULL,FEEL,HIGH,MILD,RAIN,SNAP,SNUG; sounds=whet
+      blanket: syn=POD,COAT,COPE,HOOD,HULL,HUSK,MASK,PALL,ROBE,VEIL,ARMOR,CATCH,CLOAK,COVER,SHELL; ind=container?
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      wet blanket: syn=DAMPER,WET,DRIP,DROP,WIMP,ARROW,PARTY,MEANIE,MISERY,KILLJOY
+    Definitions:
+      "Spoiler of fun" -> DAMPENER (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 18. Note on piano in melody wrongly used
+  Answer: EMPLOYED
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "used"
+  Wordplay type: charade
+  Components:
+    synonym            Note                      -> EM
+    anagram_fodder     melody                    -> PLOYED
+  Assembly: reversal — reverse ME + PLOYED(melody)
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      note: syn=MI,MY,TE,UT,AIR,CRY,DOH,EAR,EYE,FAH,FIN,LOG,LOW,NOT,ONE; abbr=A,B,C,D*,DO,E*,F,FA,G,LA,MI,N,NB,RE,SI,SO,SOL,TE,TI
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      piano: syn=LEG,GRAND,JOANNA,QUIETLY; abbr=P*,PT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      melody: syn=AIR,LAY,AIRS,ARIA,SONG,MUSIC,THEME,STRAIN,AIRLESS,DESCANT,NEPTUNE; fodder=MELODY(6/8 anagram match)
+      wrongly: syn=AMISS,INAPTLY,FAULTILY; ind=anagram
+      used: syn=EMPLOY*,EMPLOYED*,DRY,OLD,ARID,BONY,BURN,DEAD,MILK,PIMP,POOR,SERE,TOOK,WONT,WORK; ind=anagram
+    Definitions:
+      "used" -> EMPLOYED (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. French author increasingly defending story
+  Answer: ENGARDE
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "defending"
+  Wordplay type: charade
+  Components:
+    synonym            French                    -> EN
+    synonym            story                     -> GARDE
+  Assembly: charade — EN(French) + GARDE(story)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      french: syn=FR,DOOR,GATE,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN; abbr=DE*,FR,LA,LE,UN
+      author: syn=MAN,PEN,POE,DAHL,GOD?,HERO,ICON,IDOL,KING,LORD,MANN,SAND,SHAW,SIGN,ALLAH
+      defending: syn=FENCING,FENDING,KEEPING,WARDING; ind=container?
+      story: syn=A,MY,NO,SO,FEW,FIB,GEN,LIE,BLOG,CASE,DEAL,GIVE,INFO,ITEM,JOKE; abbr=LIE,SAGA,TALE
+  ----------------------------------------------------------------------
+
+  [HIGH] 2. King, say, one on horse up top
+  Answer: CARDIGAN
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "top"
+  Wordplay type: charade
+  Components:
+    synonym            King, say                 -> CARD
+    synonym            one                       -> I
+    reversal           horse                     -> GAN
+  Assembly: charade — CARD(King, say) + I(one) + GAN(horse)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/3 (17%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I*,O; sounds=won
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      horse: syn=BAY,COB,NAG,ARAB,COLT,FOAL,GREY,HACK,MARE,ROAN,TREE,PINTO,PUNCH,SHIRE,STEED; abbr=GG,H,NAG; sounds=hoarse
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      top: syn=CARDI*,CARDIGAN*,A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE; abbr=CAP,T,UP; ind=acrostic,deletion,parts
+    Definitions:
+      "top" -> CARDIGAN (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Offer to put in fuel when up for drive
+  Answer: LIBIDO
+  Tier: Sonnet | Confidence: 96/100
+  Definition: "drive"
+  Wordplay type: container
+  Components:
+    reversal           fuel                      -> LIO
+    synonym            Offer                     -> BID
+  Assembly: container — BID(Offer) inside LIO(fuel)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      offer: syn=BID*,PAY,WAY,BALL,DEAL,GIFT,GIVE,LEND,PASS,POSE,VOTE,CARRY,GIVES,MOUNT,PLACE
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      put: syn=DO*,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      fuel: syn=ME,GAS,OIL,COAL,COKE,DERV,FEED,PEAT,WOOD,JUICE,POWER,DIESEL,ENERGY,INCITE,PETROL
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST; abbr=AS; ind=homophone
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      drive: syn=DO*,LIBIDO*,GO,IT,A A,ACT,ARM,BED,FAG,FIX,FLY,GAS,HIE,JET,KEY; abbr=DR
+      put in: syn=ADD,LAID,INSET,PLANT,PLACED
+    Definitions:
+      "drive" -> LIBIDO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. Copy between two lines, and fold
+  Answer: LAPEL
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "fold"
+  Wordplay type: container
+  Components:
+    abbreviation       lines                     -> L
+    synonym            Copy                      -> APE
+    abbreviation       lines                     -> L
+  Assembly: charade — L(lines) + APE(Copy) + L(lines)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      copy: syn=APE*,APED,APES,CRIB,ECHO,MIME,SPIT,STAT,APING,CLONE,DITTO,IMAGE,MATCH,MIMIC,PARRO; abbr=APE*
+      between: syn=CUE,DIP,EBB,END,GUY,IMP,KIN,MAN,WAY,AREA,BIRD,BODY,CLAN,CORD,DROP; ind=container,insertion
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      lines: syn=RY,ODE,CAPS,CUES,ENDS,KINS,LAYS,ROWS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS; abbr=L*,RY; ind=insertion
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      fold: syn=AN,DIE,LOT,MOB,SET,BIKE,BODY,CLAN,CRAM,FAIL,LIVE,LOSE,MASS,MISS,PACK
+    Definitions:
+      "fold" -> LAPEL (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Fated flower cut by edges on knife
+  Answer: LIKELY
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "Fated"
+  Wordplay type: container
+  Components:
+    synonym            flower                    -> LILY
+    first_letter       knife                     -> KE
+  Assembly: container — KE(knife) inside LILY(flower)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      flower: syn=LILY*,AT,PO,UP,DEE,FAL,FAT,RED,TOP,WHO,ARUM,BEST,IRIS,LIST,NILE; abbr=RIVER; sounds=flour
+      cut: syn=DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW,NIP; ind=deletion,hidden,parts
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      edges: syn=SIDES,CREEPS,SKIRTS,CAP,END,GET,HEM,LIP,PIP,RIM,TOP,VAN,WAX,BEAT,BEST; ind=parts
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      knife: syn=CUT,BLADE,BOWIE,LANCE,PANGA,PLACE,DAGGER,WEAPON; ind=container?
+    Definitions:
+      "Fated" -> LIKELY (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Incendiary device in packet?
+  Answer: BOMB
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Incendiary device"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      incendiary: syn=BOMB*,NERO
+      device: syn=END,JIG,BENT,BIAS,BONE,CARD,EVIL,IPAD,PAWN,PLAN,PLAY,PLOY,RUSE,TOOL,TURN
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      packet: syn=BOMB*,MAN,PAY,WAD,MINT,NOTE,PILE,TIME
+    Definitions:
+      "Incendiary device" -> BOMB (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Joint below or bowel given treatment
+  Answer: ELBOW
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Joint"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     bowel                     -> BOWEL
+  Assembly: anagram — anagram of BOWEL(bowel)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      joint: syn=ELBOW*,CAN,HIP,JAIL,KNEE,ANKLE,GIGOT,HINGE,MITRE,PLACE,ROAST,TENON,VENUE,WRIST; abbr=HIP,J
+      below: syn=BAD,ILL,LOW,OFF,BUSH,DOWN,FOUL,HELL,LAME,NEXT,OVER,PAST,POOR,PUNK,SOUR; ind=reversal; fodder=BELOW(5/5 anagram match)
+      or: syn=GO,OUT,RES,SAY,SET,YET,BEAR,BIDE,FAIR,FIRM,HACK,HIGH,LIKE,MEET,MOST; sounds=oar,ore
+      bowel: fodder=BOWEL(5/5 anagram match)
+      given: syn=IF,APT,ONE,SET,BORN,FIRM,FLAT,HARD,NORM,SOME,SURE,USED,WONT,BASIS,CANON
+      treatment: syn=CARE,RUIN,SNUB,ABUSE,BULLY,ENEMA,REHAB,USAGE; ind=anagram
+    Definitions:
+      "Joint" -> ELBOW (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 25. Stop pouring wine honey, enough now – for starters?
+  Answer: WHEN
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Stop"
+  Wordplay type: acrostic
+  Components:
+    first_letter       wine honey enough now     -> WHEN
+  Assembly: charade — WHEN(wine honey enough now)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      stop: syn=GO,BAR,BIT,CAN,CUT,DAM,DIE,END,GET,JAM,LAY,LEG,LET,MIX,NEW; ind=deletion
+      wine: syn=ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT,BREW; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      honey: syn=HON,HOT,MEL,PIP,DEAR,ELSE,GIRL,LOVE,LULU
+      enough: syn=OF,OK,OR,ALL,BIT,FAT,NOT,OUT,ABLY,DEAD,EASY,ECHT,EVEN,FAST,FILL
+      now: syn=AS,IN,IS,IT,ON,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      starters: ind=acrostic,parts
+    Definitions:
+      "Stop pouring" -> WHEN (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 26. Percussion instrument used to stop, when sounded?
+  Answer: WOODBLOCK
+  Tier: --- | Confidence: 0/100
+  Definition: "Percussion instrument"
+  Wordplay type: homophone
+  Components:
+    sound_of           used to stop              -> WOULDBLOCK
+  DB Lookups:
+    DB lookups:
+      percussion: syn=IMPACT,AT HOME,STRIKING
+      instrument: syn=TOO,UKE,DRUM,FORT,HARP,HORN,LUTE,LYRE,MEAN,OBOE,PAWN,REED,TOOL,TUBA,VIOL
+      used: syn=DRY,OLD,ARID,BONY,BURN,DEAD,MILK,PIMP,POOR,SERE,TOOK,WONT,WORK,WORN,ABUSE; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      stop: syn=BLOCK*,GO,BAR,BIT,CAN,CUT,DAM,DIE,END,GET,JAM,LAY,LEG,LET,MIX; ind=deletion
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      sounded: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,KNEW,MADE,RANG,SHUT; ind=homophone
+      percussion instrument: syn=WASHBOARD
+      used to: syn=IN THE
+    Definitions:
+      "Percussion instrument" -> WOODBLOCK (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Infinit?
+  Answer: ENDLESS
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Infinit?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    Definitions:
+      "Infinit" -> ENDLESS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 28. Billion dollar contract? Pah!
+  Answer: BIGDEAL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Pah!"
+  Wordplay type: charade
+  Components:
+    synonym            Billion                   -> BIG
+    synonym            dollar contract           -> DEAL
+  Assembly: charade — BIG(Billion) + DEAL(dollar contract)
+  Checks: definition=not in DB, odd position | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      billion: abbr=B*
+      dollar: syn=FIN,ONE,TEN,TWO,BILL,BUCK,CASH,FIVE,NOTE,PELF,CHECK,CHIPS,DOUGH,DRAFT,FIFTY
+      contract: syn=DEAL*,OK,AIM,DIE,END,FIX,GET,JOB,OPT,SET,TIE,BAND,BIND,BOND,CARE
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Dynamic change, hot I gathered
+  Answer: HIGHOCTANE
+  Tier: DB Fallback | Confidence: 100/100
+  Definition: "Dynamic"
+  Wordplay type: anagram
+  Components:
+    literal            hot                       -> HOT
+    abbreviation       i                         -> I
+    literal            change                    -> CHANGE
+  Assembly: anagram — anagram of HOT(hot)+I(i)+CHANGE(change)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dynamic: syn=HIGH*,BIG,FIT,RED,FULL,HALE,IRON,ALIVE,FLUSH,HEADY,PEPPY,PLUSH,SOLID,STOUT,VITAL; ind=anagram?
+      change: syn=DO,HAY,CASH,CENT,COIN,COPE,DIME,EDIT,FARE,FLUX,GOLD,JACK,KALE,LONG,LOOT; abbr=C*; ind=anagram
+      hot: syn=A1,BE,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY,LIT; abbr=H*,IN
+      gathered: syn=MET,MASSED,REAPED,AMASSED,DEDUCED,GLEANED,PLEATED,INFERRED,MUSTERED,ASSEMBLED,PICKED UP,UNDERSTOOD; ind=anagram
+    Definitions:
+      "Dynamic" -> HIGHOCTANE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. The role is complicated for those with paying guests
+  Answer: HOTELIERS
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "those with paying guests"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     The role is               -> THEROLEIS
+  Assembly: anagram — anagram of THEROLEIS(The role is)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      role: syn=DO,ACT,APE,CUT,DID,END,HAM,JOB,USE,ACME,ACTS,APED,APES,APEX,BELT; sounds=roll
+      is: syn=LIE*,DO,GE,IL,FOR,HAP,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      complicated: syn=FANCY,KNOTTY,TRICKY,COMPLEX,CONFUSED,DETAILED,INVOLVED,THOROUGH,ELABORATE,INTRICATE; ind=anagram
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      paying: syn=FEEING,GIVING,HIRING,BEARING,MEETING,PLACING,APPLYING,ASSUMING,ENGAGING,REPLYING,SETTLING,YIELDING,ANSWERING,EMPLOYING,LAYING ON
+      guests: syn=END,WINDOW,INVITEES,VISITORS,LODGER,ACCOUNT,INVITEE,VISITOR,CONSUMER,CUSTOMER; sounds=guessed
+      paying guests: syn=BOARDER
+  ----------------------------------------------------------------------
+
+  [HIGH] 5. Little sound that may similarly rise and fall?
+  Answer: PEEP
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Little sound"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      little: syn=ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO,WEE; abbr=WEE
+      sound: syn=DO,A A,ACT,AIR,BAY,CRY,FIT,USE,WAY,ABLE,ACTS,AIRS,BAWL,BEEP,BEST; ind=homophone
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      may: syn=CAN,GAY,LADY,TIME
+      similarly: syn=SO,ALSO
+      rise: syn=DO,UP,AIR,DID,GET,JUT,WAX,BOOM,BRED,BUMP,CLAP,DOES,DONE,EDIT,FIRE; ind=reversal?
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      fall: syn=GO,IT,AGE,ARC,BOW,CAN,DIE,DIP,EBB,END,ERR,JAR,LET,ROT,ROW; ind=anagram?
+    Definitions:
+      "Little sound" -> PEEP (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 6. Rubbish as well, Scottish entertainer?
+  Answer: TATTOO
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Scottish entertainer"
+  Wordplay type: charade
+  Components:
+    synonym            Rubbish                   -> TAT
+    synonym            as well                   -> TOO
+  Assembly: charade — TAT(Rubbish) + TOO(as well)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      rubbish: syn=TAT*,ME,PAN,PAP,ROT,CRUD,DIRT,DUFF,GROT,JUNK,MUCK,SLOP,TOSH,AWFUL,BILGE; abbr=ROT; ind=anagram
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      well: syn=AH,HA,IN,LO,MY,NO,OH,OK,SO,AHA,ALL,FIE,FIT,GAD,GEE
+      scottish: abbr=S
+      entertainer: syn=HOST,STAND,BUSKER
+      as well: syn=TOO*,OK,ALL,BIT,OUT,RUN,THE,ABLY,ALSO,ANTI
+    Definitions:
+      "Scottish entertainer" -> TATTOO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. Big gun in business, defeat Uncle Sam
+  Answer: COLOSSUS
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "Big gun"
+  Wordplay type: charade
+  Components:
+    abbreviation       business                  -> CO
+    synonym            defeat                    -> LOSS
+    abbreviation       Uncle Sam                 -> US
+  Assembly: charade — CO(business) + LOSS(defeat) + US(Uncle Sam)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      big: syn=A1,IN,BAT,BOP,FAB,FIT,GET,GUN,HOT,KEY,POP,RAM,RAP,WIN,ZAP
+      gun: syn=ARM,BIG,CAD,CUR,DOG,GAT,ICE,NET,NOB,POP,RAT,REV,ROD,RUN,SIX
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      business: syn=CO*,ADO,AIM,CUT,END,JOB,TWO,USE,AREA,AS A,BELT,CARE,DESK,DUTY,FACT; abbr=CO*
+      defeat: syn=LOSS*,A,GET,WIN,BEAT,BEST,EDGE,FELL,LICK,ROUT,SEAT,STOP,TAKE,TANK,TRIM; abbr=DE
+      uncle: syn=DIRTY,BROTHER,RELATIVE
+      big gun: syn=MAIN,HEAVY,MAJOR,CANNON,MEMBER,GENERAL
+      uncle sam: syn=AMERICA,COUNTRY
+    Definitions:
+      "Big" -> COLOSSUS (definition match)
+      "Big gun" -> COLOSSUS (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 8. Poor grade's bagged in English university
+  Answer: READING
+  Tier: DB Fallback | Confidence: 65/100
+  Definition: "English university"
+  Wordplay type: anagram
+  Components:
+    literal            grade's                   -> GRADES
+    literal            in                        -> IN
+  Assembly: deletion+anagram — delete S from GRADES(grade's), anagram of GRADE+IN(in)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      poor: syn=TO,BAD,BUM,DRY,ILL,LOW,NOT,OFF,SUB,ARID,BODY,BONY,BUSH,DEAD,FROM; abbr=WEAK; ind=anagram
+      grade's: syn=AM,BE,DO,IS,ARE,BAR,CUT,HAP,LIE,SET,SIT,AXIS,BEAR,CANT,CLUB; abbr=A*; fodder=GRADES(5/7 anagram match)
+      bagged: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,GAVE,KNEW,LEFT,MADE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      english: syn=ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT,DANDY; abbr=E*
+      university: syn=READING*,UNI,YALE,OXFORD,COLLEGE,CORNELL,HARVARD,UTENSIL; abbr=U,UNI
+    Definitions:
+      "university" -> READING (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. Little wriggler eats
+  Answer: GRUB
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "eats"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      little: syn=ON,ACE,AYE,BIT,DAB,LOW,NIP,NOT,NOW,OFT,RAY,SHY,TAD,TWO,WEE; abbr=WEE
+      eats: syn=GRUB*,IF,HAS,CHOW,DIET,DISH,FARE,FEED,FOOD,GETS,IRKS,MEAL,MEAT,SLOP,TUCK; ind=container
+    Definitions:
+      "eats" -> GRUB (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

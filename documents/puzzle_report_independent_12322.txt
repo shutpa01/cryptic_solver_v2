@@ -1,0 +1,759 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12322
+Generated: 2026-04-06 18:15:54
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      39
+  Assembled:        38/39 (97%)
+    Signature:      1
+    Sig+Enriched:   6
+    Sonnet:         6
+    DB Fallback:    2
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   31  21A, 8D, 6D, 1D, 20A, 27D, 5D, 31A, 1D, 11D, 14D, 15A, 19D, 2D, 20A, 21A, 23D, 24D, 25A, 26A, 27D, 28A, 29A, 3D, 5D, 6D, 7D, 8D, 9A, 17D, 4A
+  Medium (40-79): 7  18D, 10A, 12A, 13A, 16A, 22D, 30A
+  Low (<40):    0  
+  Failed:       1  1A
+  Average:      90/100
+
+COST: $0.6915 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (41 entries)
+------------------------------------------------------------
+  RENO: "Gambling Mecca" -> RENO  (missing from definition_answers_augmented)
+  CURTSY: "show of respect" -> CURTSY  (missing from definition_answers_augmented)
+  NUGATORY: "Invalid" -> NUGATORY  (missing from definition_answers_augmented)
+  INON: "Having acquired knowledge about" -> INON  (missing from definition_answers_augmented)
+  EARL: "man of nobility" -> EARL  (missing from definition_answers_augmented)
+  ASCEND: "scale" -> ASCEND  (missing from definition_answers_augmented)
+  NUGATORY: "Invalid" -> NUGATORY  (missing from definition_answers_augmented)
+  JESUITS: "Thailand's religious society" -> JESUITS  (missing from definition_answers_augmented)
+  AVARICE: "committed sin" -> AVARICE  (missing from definition_answers_augmented)
+  RUDE: "Ignorant" -> RUDE  (missing from definition_answers_augmented)
+  MEMBRANE: "barrier" -> MEMBRANE  (missing from definition_answers_augmented)
+  FOREHEAD: "Brow" -> FOREHEAD  (missing from definition_answers_augmented)
+  BLOCKADE: "Erect barriers" -> BLOCKADE  (missing from definition_answers_augmented)
+  POTTERS: "they throw objects" -> POTTERS  (missing from definition_answers_augmented)
+  RENO: "Gambling Mecca" -> RENO  (missing from definition_answers_augmented)
+  CHERUB: "Angel fish" -> CHERUB  (missing from definition_answers_augmented)
+  MAXIMS: "Proverbs" -> MAXIMS  (missing from definition_answers_augmented)
+  INHALE: "respire" -> INHALE  (missing from definition_answers_augmented)
+  SCRAMBLE: "Mix up" -> SCRAMBLE  (missing from definition_answers_augmented)
+  INON: "Having acquired knowledge about" -> INON  (missing from definition_answers_augmented)
+  AIRBORNE: "Successor" -> AIRBORNE  (missing from definition_answers_augmented)
+  PIRATE: "Illegally record" -> PIRATE  (missing from definition_answers_augmented)
+  LOATHE: "Find execrable" -> LOATHE  (missing from definition_answers_augmented)
+  EARL: "man of nobility" -> EARL  (missing from definition_answers_augmented)
+  POCKMARK: "Blemish" -> POCKMARK  (missing from definition_answers_augmented)
+  TERROR: "panic" -> TERROR  (missing from definition_answers_augmented)
+  CURTSY: "show of respect" -> CURTSY  (missing from definition_answers_augmented)
+  GLOBAL: "international" -> GLOBAL  (missing from definition_answers_augmented)
+  NIBBLE: "Snack" -> NIBBLE  (missing from definition_answers_augmented)
+  PROCURER: "One who gets" -> PROCURER  (missing from definition_answers_augmented)
+  QUIVERS: "missile carriers" -> QUIVERS  (missing from definition_answers_augmented)
+  WIZARD: "Necromancer" -> WIZARD  (missing from definition_answers_augmented)
+  DEBUTANT: "first-timer" -> DEBUTANT  (missing from definition_answers_augmented)
+  ASCEND: post -> SEND  (missing from synonyms_pairs)
+  AVARICE: referee's assistant -> VAR  (missing from abbreviations)
+  BLOCKADE: quarter -> E  (missing from abbreviations)
+  MAXIMS: mother -> MAM  (missing from abbreviations)
+  TERROR: Model -> T  (missing from abbreviations)
+  GLOBAL: highly amusing -> LOL  (missing from abbreviations)
+  PROCURER: gets -> PROCURE  (missing from synonyms_pairs)
+  WIZARD: protégé -> ARD  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  EMBOSS = 13 (77/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  QUIVERS (62/100): S <- brute force (no clue basis)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  TAKEHEED = 12 (60/100): def="?" (none identified)
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  1. Snack sprightly bachelor brought in for maiden = NIBBLE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  2/39  4A, 17D
+  Type mismatch:         1  13A
+  Fabricated mapping:    1  16A
+  Weak definition:       1  12A
+  DB gap:                27  1A, 9A, 10A, 15A, 16A, 20A, 21A, 25A, 26A, 28A, 29A, 30A, 31A, 2D, 3D, 5D, 6D, 7D, 8D, 11D, 14D, 18D, 19D, 22D, 23D, 24D, 27D
+  Failed:                1  1A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   21A  RENO          Gambling Mecca in Grenoble (4)
+                      hidden in "gRENOble" [hidden: "in"]; definition: "Gambling Mecca"  [HIGH]
+    8D  CURTSY        Partial apology struck revolutionary as show of respect (6)
+                      hidden reversed in "apologY STRUCk" [reversal: "revolutionary"]; definition: "show of respect"  [HIGH]
+    6D  POCKMARK      Blemish Spooner's artificial gardens (8)
+                      ---  [HIGH]
+    1D  NUGATORY      Invalid turned firearm on a Conservative (8)
+                      GUN (synonym of "firearm") + A (abbreviation of "a") + TORY (synonym of "Conservative") [reversal: "turned"]; definition: "Invalid"  [HIGH]
+   20A  POTTERS       Stirring up protest, they throw objects! (7)
+                      ---  [HIGH]
+   27D  INON          Having acquired knowledge about home working (2,2)
+                      IN (synonym of "home") + ON (synonym of "working"); definition: "Having acquired knowledge about"  [HIGH]
+    5D  EARL          Almost stripped man of nobility (4)
+                      NEARLY (synonym of "Almost") [stripping: "stripped"]; definition: "man of nobility"  [HIGH]
+   31A  ASCEND        A post about Celsius scale (6)
+                      A (abbreviation of "A") + SEND (synonym of "post") + C (abbreviation of "Celsius"); definition: "scale"  [HIGH]
+    1D  NUGATORY      Invalid turned firearm on a Conservative (8)
+                      ---  [HIGH]
+   11D  JESUITS       Italicus is in Paris defending Thailand's religious society (7)
+                      ---  [HIGH]
+   14D  AVARICE       Expert claims referee's assistant essentially committed sin (7)
+                      ---  [HIGH]
+   15A  RUDE          Ignorant schoolmarm is penniless (4)
+                      ---  [HIGH]
+   18D  MEMBRANE      Mr. Bean crashed into middle of cement barrier (8)
+                      ---  [MED]
+   19D  FOREHEAD      Brow of elevated promontory topped by bare tree (8)
+                      ---  [HIGH]
+    2D  BLOCKADE      Erect barriers around security device in poor quarter (8)
+                      LOCK (synonym of "security device") + BAD (synonym of "poor") + E (abbreviation of "quarter"); definition: "Erect barriers"  [HIGH]
+   20A  POTTERS       Stirring up protest, they throw objects! (7)
+                      ---  [HIGH]
+   21A  RENO          Gambling Mecca in Grenoble (4)
+                      ---  [HIGH]
+   23D  CHERUB        Angel fish circling bottom of wide river (6)
+                      ---  [HIGH]
+   24D  MAXIMS        Proverbs 11 divides mother and son (6)
+                      ---  [HIGH]
+   25A  INHALE        Inquisitive navigators originally discovered cetaceans respire (6)
+                      ---  [HIGH]
+   26A  SCRAMBLE      Mix up stuff bishop left in storage on vacation (8)
+                      ---  [HIGH]
+   27D  INON          Having acquired knowledge about home working (2,2)
+                      ---  [HIGH]
+   28A  AIRBORNE      Successor pronounced most of island free of earth? (8)
+                      ---  [HIGH]
+   29A  PIRATE        Illegally record detective meeting informant beside base (6)
+                      ---  [HIGH]
+    3D  LOATHE        Find execrable, old articles supporting Liberal (6)
+                      ---  [HIGH]
+    5D  EARL          Almost stripped man of nobility (4)
+                      ---  [HIGH]
+    6D  POCKMARK      Blemish Spooner's artificial gardens (8)
+                      ---  [HIGH]
+    7D  TERROR        Model put on slip in panic (6)
+                      ---  [HIGH]
+    8D  CURTSY        Partial apology struck revolutionary as show of respect (6)
+                      ---  [HIGH]
+    9A  GLOBAL        German graduate entertained by highly amusing international (6)
+                      ---  [HIGH]
+    1A  NIBBLE        Snack sprightly bachelor brought in for maiden (6)
+                      ---  [FAIL]
+   10A  PROCURER      One who gets runs after treatment by professional (8)
+                      PROCURE(synonym of "gets") + R(first letter of "runs")  [MED]
+   12A  TAKEHEED      Uneven track wends around East Herefordshire's borders? Pay attention! (4,4)
+                      TAKE(synonym of "pay") + HEED(synonym of "attention")  [MED]
+   13A  EMBOSS        Decorate rear of cab in some backward society (6)
+                      B(last letter of "rear of cab") inside EMOS(SOME reversed, "some") + S(abbr. "society")  [MED]
+   16A  QUIVERS       Queen is pressing clergyman about missile carriers (7)
+                      QU(abbr. "Queen") + I("is") + VER(REV reversed, "clergyman") + S  [MED]
+   17D  GOALPOST      Upright piano kept inside also got damaged (8)
+                      delete KE from KEPT, anagram of ALSO+PT+GO(abbr. "got") = GOALPOST  [HIGH]
+   22D  WIZARD        Necromancer is reportedly captivated by protégé (6)
+                      WIZ(sounds like "is") + ARD(synonym of "protégé")  [MED]
+   30A  DEBUTANT      Day worker on westbound underground is first-timer (8)
+                      D(abbr. "Day") + EBUT(TUBE reversed, "underground") + ANT(synonym of "worker")  [MED]
+    4A  DESPOTIC      Posted wrong information initially about authoritarian (8)
+                      DESPOT("Posted") + I(first letter of "information") + C(abbr. "about")  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] RENO  21A. Gambling Mecca in Grenoble
+  Answer: RENO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Gambling Mecca"
+  Wordplay: hidden
+  Explanation: hidden in "gRENOble" [hidden: "in"]; definition: "Gambling Mecca"
+  ----------------------------------------------------------------------
+
+  [HIGH] CURTSY  8D. Partial apology struck revolutionary as show of respect
+  Answer: CURTSY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "show of respect"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "apologY STRUCk" [reversal: "revolutionary"]; definition: "show of respect"
+  ----------------------------------------------------------------------
+
+  [HIGH] POCKMARK  6D. Blemish Spooner's artificial gardens
+  Answer: POCKMARK
+  Tier: --- | Confidence: 100/100
+  Human explanation: Spoonerism: "artificial" = MOCK + "gardens" = PARK -> swap initials -> POCK MARK
+  ----------------------------------------------------------------------
+
+  [HIGH] NUGATORY  1D. Invalid turned firearm on a Conservative
+  Answer: NUGATORY
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Invalid"
+  Wordplay: charade + reversal
+  Explanation: GUN (synonym of "firearm") + A (abbreviation of "a") + TORY (synonym of "Conservative") [reversal: "turned"]; definition: "Invalid"
+  ----------------------------------------------------------------------
+
+  [HIGH] POTTERS  20A. Stirring up protest, they throw objects!
+  Answer: POTTERS
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of PROTEST, = POTTERS
+  ----------------------------------------------------------------------
+
+  [HIGH] INON  27D. Having acquired knowledge about home working
+  Answer: INON
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Having acquired knowledge about"
+  Wordplay: charade
+  Explanation: IN (synonym of "home") + ON (synonym of "working"); definition: "Having acquired knowledge about"
+  ----------------------------------------------------------------------
+
+  [HIGH] EARL  5D. Almost stripped man of nobility
+  Answer: EARL
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "man of nobility"
+  Wordplay: charade + deletion
+  Explanation: NEARLY (synonym of "Almost") [stripping: "stripped"]; definition: "man of nobility"
+  ----------------------------------------------------------------------
+
+  [HIGH] ASCEND  31A. A post about Celsius scale
+  Answer: ASCEND
+  Tier: Signature | Confidence: 100/100
+  Definition: "scale"
+  Wordplay: charade
+  Explanation: A (abbreviation of "A") + SEND (synonym of "post") + C (abbreviation of "Celsius"); definition: "scale"
+  ----------------------------------------------------------------------
+
+  [HIGH] NUGATORY  1D. Invalid turned firearm on a Conservative
+  Answer: NUGATORY
+  Tier: --- | Confidence: 100/100
+  Definition: "Invalid"
+  Wordplay type: charade
+  Components:
+    literal            firearm                   -> NUG
+    literal            a                         -> A
+    synonym            Conservative              -> TORY
+  AI Reasoning:
+    GUN reversed (turned) = NUG; concatenate with A and TORY (Conservative) to spell NUGATORY (invalid)
+  ----------------------------------------------------------------------
+
+  [HIGH] JESUITS  11D. Italicus is in Paris defending Thailand's religious society
+  Answer: JESUITS
+  Tier: --- | Confidence: 85/100
+  Definition: "Thailand's religious society"
+  Wordplay type: container
+  Components:
+    sound_of           Italicus is in Paris defending -> JESUIS
+    first_letter       Thailand                  -> T
+  AI Reasoning:
+    Je suis (I am in French) contains T from Thailand, giving JESUITS (a religious society)
+  ----------------------------------------------------------------------
+
+  [HIGH] AVARICE  14D. Expert claims referee's assistant essentially committed sin
+  Answer: AVARICE
+  Tier: --- | Confidence: 90/100
+  Definition: "committed sin"
+  Wordplay type: container
+  Components:
+    synonym            Expert                    -> ACE
+    abbreviation       referee's assistant       -> VAR
+    core_letters       committed                 -> I
+  AI Reasoning:
+    ACE (expert) contains VAR (video assistant referee) + I (core of 'committed'), giving AVARICE (a sin)
+  ----------------------------------------------------------------------
+
+  [HIGH] RUDE  15A. Ignorant schoolmarm is penniless
+  Answer: RUDE
+  Tier: --- | Confidence: 100/100
+  Definition: "Ignorant"
+  Wordplay type: deletion
+  Components:
+    deletion           schoolmarm                -> RUDE [PRUDE - P]
+  AI Reasoning:
+    PRUDE (schoolmarm/prudish woman) loses P (penniless) to leave RUDE (ignorant)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MEMBRANE  18D. Mr. Bean crashed into middle of cement barrier
+  Answer: MEMBRANE
+  Tier: --- | Confidence: 70/100
+  Definition: "barrier"
+  Wordplay type: container
+  Components:
+    anagram_fodder     Mr. Bean                  -> MRBBEAN
+    first_letter       cement                    -> ME
+    last_letter        cement                    -> NT
+  AI Reasoning:
+    Anagram of MR BEAN (MRBBEAN → MEMBRA) contained within the middle letters of CEMENT (ME...NT), giving MEMBRANE
+  ----------------------------------------------------------------------
+
+  [HIGH] FOREHEAD  19D. Brow of elevated promontory topped by bare tree
+  Answer: FOREHEAD
+  Tier: --- | Confidence: 100/100
+  Definition: "Brow"
+  Wordplay type: charade
+  Components:
+    reversal           elevated                  -> ROF
+    synonym            promontory                -> HEAD
+    literal            bare tree                 -> E
+  AI Reasoning:
+    FOR (OF reversed, indicated by 'elevated') + HEAD (promontory) + E (bare tree, the letter E from TREE with T and second E removed)
+  ----------------------------------------------------------------------
+
+  [HIGH] BLOCKADE  2D. Erect barriers around security device in poor quarter
+  Answer: BLOCKADE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Erect barriers"
+  Wordplay: charade
+  Explanation: LOCK (synonym of "security device") + BAD (synonym of "poor") + E (abbreviation of "quarter"); definition: "Erect barriers"
+  ----------------------------------------------------------------------
+
+  [HIGH] POTTERS  20A. Stirring up protest, they throw objects!
+  Answer: POTTERS
+  Tier: --- | Confidence: 100/100
+  Definition: "they throw objects"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Stirring up protest       -> POTTERS
+  AI Reasoning:
+    PROTEST is anagrammed (stirring up) to POTTERS; definition is 'they throw objects' (potters throw clay)
+  ----------------------------------------------------------------------
+
+  [HIGH] RENO  21A. Gambling Mecca in Grenoble
+  Answer: RENO
+  Tier: --- | Confidence: 100/100
+  Definition: "Gambling Mecca"
+  Wordplay type: hidden
+  Components:
+    hidden             Grenoble                  -> RENO
+  AI Reasoning:
+    RENO is hidden within the word 'Grenoble' (G-RENO-ble), and Reno is a famous gambling destination.
+  ----------------------------------------------------------------------
+
+  [HIGH] CHERUB  23D. Angel fish circling bottom of wide river
+  Answer: CHERUB
+  Tier: --- | Confidence: 100/100
+  Definition: "Angel fish"
+  Wordplay type: container
+  Components:
+    synonym            fish                      -> CHUB
+    core_letters       wide river                -> ER
+  AI Reasoning:
+    CHUB (a type of fish) contains ER (from wid[E] [RIve]r), giving CHERUB (an angel)
+  ----------------------------------------------------------------------
+
+  [HIGH] MAXIMS  24D. Proverbs 11 divides mother and son
+  Answer: MAXIMS
+  Tier: --- | Confidence: 80/100
+  Definition: "Proverbs"
+  Wordplay type: container
+  Components:
+    synonym            mother                    -> MAM
+    first_letter       son                       -> S
+    literal            11                        -> XI
+  AI Reasoning:
+    XI (Roman numeral for 11) contains MAM (mother) + S (son initial) = MAXIMS (proverbs)
+  ----------------------------------------------------------------------
+
+  [HIGH] INHALE  25A. Inquisitive navigators originally discovered cetaceans respire
+  Answer: INHALE
+  Tier: --- | Confidence: 100/100
+  Definition: "respire"
+  Wordplay type: charade
+  Components:
+    first_letter       Inquisitive               -> I
+    first_letter       navigators                -> N
+    deletion           cetaceans                 -> HALE [WHALE - W]
+  AI Reasoning:
+    First letters of 'Inquisitive' and 'navigators' (I, N) plus 'whale' with W removed (HALE) = INHALE
+  ----------------------------------------------------------------------
+
+  [HIGH] SCRAMBLE  26A. Mix up stuff bishop left in storage on vacation
+  Answer: SCRAMBLE
+  Tier: --- | Confidence: 100/100
+  Definition: "Mix up"
+  Wordplay type: container
+  Components:
+    first_letter       storage                   -> S
+    literal            stuff                     -> CRAM
+    abbreviation       bishop                    -> B
+    abbreviation       left                      -> L
+    last_letter        storage                   -> E
+  AI Reasoning:
+    Container wordplay: S (first of storage) + CRAM (stuff) + B (bishop) + L (left) + E (last of storage) = SCRAMBLE
+  ----------------------------------------------------------------------
+
+  [HIGH] INON  27D. Having acquired knowledge about home working
+  Answer: INON
+  Tier: --- | Confidence: 100/100
+  Definition: "Having acquired knowledge about"
+  Wordplay type: charade
+  Components:
+    synonym            home                      -> IN
+    synonym            working                   -> ON
+  AI Reasoning:
+    IN (home/inside) + ON (working/functioning) = INON
+  ----------------------------------------------------------------------
+
+  [HIGH] AIRBORNE  28A. Successor pronounced most of island free of earth?
+  Answer: AIRBORNE
+  Tier: --- | Confidence: 85/100
+  Definition: "Successor"
+  Wordplay type: charade
+  Components:
+    sound_of           Successor                 -> AIR
+    deletion           island                    -> BORNE [BORNEO - O]
+  AI Reasoning:
+    AIR (sounds like 'heir', successor) + BORNE (Borneo with O removed, leaving most of the island) = AIRBORNE
+  ----------------------------------------------------------------------
+
+  [HIGH] PIRATE  29A. Illegally record detective meeting informant beside base
+  Answer: PIRATE
+  Tier: --- | Confidence: 100/100
+  Definition: "Illegally record"
+  Wordplay type: charade
+  Components:
+    abbreviation       detective                 -> PI
+    synonym            informant                 -> RAT
+    first_letter       beside                    -> E
+  AI Reasoning:
+    PI (private investigator) + RAT (informant) + E (first letter of 'beside') = PIRATE
+  ----------------------------------------------------------------------
+
+  [HIGH] LOATHE  3D. Find execrable, old articles supporting Liberal
+  Answer: LOATHE
+  Tier: --- | Confidence: 100/100
+  Definition: "Find execrable"
+  Wordplay type: charade
+  Components:
+    first_letter       Liberal                   -> L
+    deletion           old                       -> O [OLD - LD]
+    literal            a                         -> A
+    synonym            articles                  -> THE
+  AI Reasoning:
+    L (from Liberal) + O (from old with ld deleted) + A (literal) + THE (linguistic articles) = LOATHE
+  ----------------------------------------------------------------------
+
+  [HIGH] EARL  5D. Almost stripped man of nobility
+  Answer: EARL
+  Tier: --- | Confidence: 100/100
+  Definition: "man of nobility"
+  Wordplay type: deletion
+  Components:
+    deletion           Nearly                    -> EARL [NEARLY - Y]
+  AI Reasoning:
+    NEARLY with final Y deleted (stripped) gives EARL, a man of nobility
+  ----------------------------------------------------------------------
+
+  [HIGH] POCKMARK  6D. Blemish Spooner's artificial gardens
+  Answer: POCKMARK
+  Tier: --- | Confidence: 100/100
+  Definition: "Blemish"
+  Wordplay type: spoonerism
+  Components:
+    literal            mock                      -> POCK
+    literal            park                      -> MARK
+  AI Reasoning:
+    Spoonerism swaps initial sounds of 'mock park' to create 'pock mark', a blemish on skin
+  ----------------------------------------------------------------------
+
+  [HIGH] TERROR  7D. Model put on slip in panic
+  Answer: TERROR
+  Tier: --- | Confidence: 95/100
+  Definition: "panic"
+  Wordplay type: charade
+  Components:
+    abbreviation       Model                     -> T
+    synonym            slip                      -> ERROR
+  AI Reasoning:
+    T (Model T Ford) + ERROR (a slip/mistake) = TERROR
+  ----------------------------------------------------------------------
+
+  [HIGH] CURTSY  8D. Partial apology struck revolutionary as show of respect
+  Answer: CURTSY
+  Tier: --- | Confidence: 100/100
+  Definition: "show of respect"
+  Wordplay type: hidden
+  Components:
+    hidden             apology struck            -> CURTSY
+  AI Reasoning:
+    CURTSY is hidden in the sequence of letters within 'apolog y struc k' (reading across: apolo-g-y-s-t-r-u-c-k contains CURTSY)
+  ----------------------------------------------------------------------
+
+  [HIGH] GLOBAL  9A. German graduate entertained by highly amusing international
+  Answer: GLOBAL
+  Tier: --- | Confidence: 90/100
+  Definition: "international"
+  Wordplay type: charade
+  Components:
+    first_letter       German                    -> G
+    abbreviation       graduate                  -> BA
+    abbreviation       highly amusing            -> LOL
+  AI Reasoning:
+    G (first letter of German) + BA (Bachelor of Arts, a graduate qualification) + LOL (internet abbreviation for 'lots of laughs', meaning highly amusing) = GLOBAL
+  ----------------------------------------------------------------------
+
+  [FAILED] NIBBLE  1A. Snack sprightly bachelor brought in for maiden
+  Answer: NIBBLE
+  Tier: --- | Confidence: 0/100
+  Definition: "Snack"
+  Wordplay type: substitution
+  Components:
+    synonym            sprightly                 -> NIMBLE
+    abbreviation       bachelor                  -> B
+    indicator          brought in                -> 
+    indicator          for                       -> 
+    abbreviation       maiden                    -> M
+  DB Lookups:
+    DB lookups:
+      snack: syn=FRY,TEA,BAKE,BITE,CHOW,FEED,GULP,LUAU,MENU,MESS,NOSH,BOARD,BUTTY,FEAST,LUNCH
+      sprightly: syn=ACTIVE,FRISKY,JAUNTY,LIVELY
+      bachelor: syn=B,MEMBER,SINGLE; abbr=B*,BA
+      brought: syn=ATE,DID,DUG,GOT,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,COST,DREW; ind=reversal
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      maiden: syn=M,GIRL,LASS,MISS,YOUN,FIRST,VIRGO,DAMSEL,SINGLE,THANES,VIRGIN; abbr=M; ind=parts
+      brought in: ind=insertion
+      brought in: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW
+    Definitions:
+      "Snack" -> NIBBLE (definition match)
+  AI Reasoning:
+    NIMBLE (sprightly) with M (maiden) substituted by B (bachelor) gives NIBBLE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PROCURER  10A. One who gets runs after treatment by professional
+  Answer: PROCURER
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "One who gets"
+  Wordplay type: charade
+  Components:
+    synonym            gets                      -> PROCURE
+    first_letter       runs                      -> R
+    indicator          after treatment           -> 
+  Assembly: charade — PROCURE(synonym of "gets") + R(first letter of "runs")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I,O*; sounds=won
+      who: syn=FAT,TOP,BEST,PICK,PINK,TOPS,CREAM,ELECT,ELITE,PICKS,PINKS,PRIDE,PRIME,A-LIST,CAVIAR
+      gets: syn=PROCURE*,BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS; abbr=G,GE
+      runs: syn=R,IS,DOS,BAGS,BUGS,BYES,CARE,COPS,DIGS,DOGS,EYES,FAST,FOCI,GETS,GOES; abbr=R*; ind=anagram,anagram?
+      after: syn=PROCURE*,BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET; ind=anagram
+      treatment: syn=CARE,RUIN,SNUB,ABUSE,BULLY,ENEMA,REHAB,USAGE,DAMAGE,MISUSE,REBUFF,DEALING,ILL-USE,REPULSE,SHAMPOO; ind=anagram
+      by: syn=PER*,X,AT,IN,SO,TO,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      professional: syn=PRO*,ACE,DAB,FAN,BUFF,COOL,GEEK,GURU,HAND,NICE,PROS,WHIZ,ADEPT,CIVIL,FIEND
+      one who: syn=FREE,GRATIS
+  AI Reasoning:
+    PROCURE (from 'gets') + R (first letter of 'runs') = PROCURER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TAKEHEED  12A. Uneven track wends around East Herefordshire's borders? Pay attention!
+  Answer: TAKEHEED
+  Tier: DB Fallback | Confidence: 60/100
+  Wordplay type: charade
+  Components:
+    synonym            attention                 -> HEED
+    synonym            pay                       -> TAKE
+  Assembly: charade — TAKE(synonym of "pay") + HEED(synonym of "attention")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      uneven: syn=ODD,OFF,BUMPY,CRAZY,CURVY,HARSH,JERKY,LUMPY,NUBBY,ROUGH,RUTTY,WINDY,ASLANT,BROKEN,BURRED
+      track: syn=CUT,DOG,GUN,ROW,WAY,DRAG,KITE,LINE,PASS,PATH,PIKE,ROAD,STEP,TOWN,CHASE
+      wends: syn=FAST
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      east: syn=E,POINT,BEARING,OPPONENT; abbr=E*; ind=reversal
+      herefordshire's: syn=COUNTY
+      borders: syn=BEDS,ENDS,HEMS,LIPS,RIMS,BRIMS,EDGES,BOUNDS,FRAMES,SKIRTS,VERGES,ADJOINS,EDGINGS,FRINGES,MARGINS; sounds=boarder
+      pay: syn=TAKE*,GO,ARY,BID,BUY,FEE,GET,JOB,LAY,OUT,WAY,ANTE,BEAR,BORN,DROP
+      attention: syn=HEED*,MY,AID,EAR,EYE,BODY,CARE,HAND,HELP,LIFT,MIND,NOTE,BOOST,FAVOR,OTHER; abbr=EAR
+      pay attention: syn=HEED*,HARK,HEAR,MIND,NOTE,PSST,WATCH,ATTEND,FOLLOW,LISTEN
+  ----------------------------------------------------------------------
+
+  [HIGH] EMBOSS  13A. Decorate rear of cab in some backward society
+  Answer: EMBOSS
+  Tier: Sonnet | Confidence: 77/100
+  Definition: "Decorate"
+  Wordplay type: charade
+  Components:
+    reversal           some                      -> EMOS
+    indicator          backward                  -> 
+    last_letter        rear of cab               -> B
+    indicator          in                        -> 
+    abbreviation       society                   -> S
+  Assembly: container — B(last letter of "rear of cab") inside EMOS(SOME reversed, "some") + S(abbr. "society")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      decorate: syn=DO,ADORN,ARRAY,ADORNS,ARRAYS,FINISH,NUMBER,PRETTY
+      rear: syn=AT,DO,A A,AFT,BAR,BUM,CAN,END,USE,BACK,BOOK,BUNS,BUTT,DUFF,FARM; ind=parts
+      cab: syn=GIG,RIG,FOUR,ROAD,TAXI,TRAP,BUGGY,COACH,COUPÉ,STAGE,TONGA,CALASH,CHAISE,FIACRE,HANSOM; abbr=C
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A,PART,S*; ind=hidden; sounds=sum
+      backward: syn=COY,SHY,BACK,LEFT,MEEK,SYNE,ABOUT,AGONE,FAZED,JUMPY,STIFF,TIMID,UPSET,CLUMSY,DEMURE; ind=reversal
+      society: syn=S,FAT,TOP,WHO,BEST,CLUB,FOUR,LIFE,PICK,PINK,THIS,BOARD,CREAM,ELECT,ELITE; abbr=S*
+    Definitions:
+      "Decorate" -> EMBOSS (definition match)
+  AI Reasoning:
+    B (rear of cab) inserted into EMOS (some backward) gives EMBOS, then add S (society) = EMBOSS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] QUIVERS  16A. Queen is pressing clergyman about missile carriers
+  Answer: QUIVERS
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "missile carriers"
+  Wordplay type: charade
+  Components:
+    abbreviation       Queen                     -> QU
+    literal            is                        -> I
+    indicator          pressing                  -> 
+    reversal           clergyman                 -> VER
+    indicator          about                     -> 
+  Assembly: charade — QU(abbr. "Queen") + I("is") + VER(REV reversed, "clergyman") + S
+  Brute gap: +S
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      queen: syn=ER*,QU*,R,CAT,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=ER*,HER,HM,Q*,QU*,R*
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      pressing: syn=ARM,DIRE,ACUTE,ACUTER,CRYING,URGENT,ACUTELY,ACUTEST,BURNING,CARPING,CLAMANT,EXIGENT,INSTANT,MILLING,PIVOTAL; ind=container?
+      clergyman: syn=NUN,PAL,REV,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,MATE,PEER,POPE,ABBOT
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      missile: syn=DART,SCUD,BULLET,EXOCET,ISLAND,ROCKET,TRACER,POLARIS,TORPEDO,TRIDENT
+      carriers: syn=BAG,PAIL,HOUND,LORRY,BEARER,BUMBAG,AIRLINE,MINIBUS,TOTEBAG
+  AI Reasoning:
+    QU (Queen abbrev) + I (is) + VER (REV/clergyman reversed by about) with pressing as container creating QUIVERS
+  ----------------------------------------------------------------------
+
+  [HIGH] GOALPOST  17D. Upright piano kept inside also got damaged
+  Answer: GOALPOST
+  Tier: DB Fallback | Confidence: 80/100
+  Definition: "Upright"
+  Wordplay type: anagram
+  Components:
+    literal            also                      -> ALSO
+    literal            kept                      -> KEPT
+    abbreviation       got                       -> GO
+  Assembly: deletion+anagram — delete KE from KEPT, anagram of ALSO+PT+GO(abbr. "got") = GOALPOST
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=PT answer=GOALPOST | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      upright: syn=POST*,GOALPOST*,BEST,GOOD,HOLY,JAMB,JUST,PURE,TRUE,ALONE,CLEAN,ERECT,GODLY,MORAL,NOBLE; ind=reversal
+      piano: syn=P,LEG,GRAND,JOANNA,QUIETLY; abbr=P*,PT
+      kept: syn=MET,RAN,HELD,HEXED,RULED,SAVED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED,FORGOT,GUIDED; ind=container?
+      inside: syn=IN,GUT,MID,TOP,HEART,INNER,PRIVY,RELIC,SPACE,COURSE,HUSHED,INMOST,INWARD,MIDDLE,SECRET; abbr=IN; ind=container,hidden,insertion,parts
+      also: syn=SO,AND,DOG,DUD,TOO,YET,BOMB,BUST,DOGS,DUDS,FLOP,HASH,INTO,MESS,MISS; abbr=AND
+      got: syn=ATE,DID,DUG,FED,HAD,HIT,PUT,RAN,SAW,WON,BEAT,BORE,BRED,CAME,DREW; abbr=GO*
+      damaged: syn=BAD,EVEN,HURT,AMISS,BROKEN,ERRANT,FAULTY,HARMED,MARRED,RUINED,DEFACED,INJURED,SPOILED,WANTING,CRIPPLED; ind=anagram
+    Definitions:
+      "Upright" -> GOALPOST (definition match)
+  AI Reasoning:
+    Anagram 'also got' (damaged) to form container, insert piano (P) inside to spell GOALPOST
+  ----------------------------------------------------------------------
+
+  [MEDIUM] WIZARD  22D. Necromancer is reportedly captivated by protégé
+  Answer: WIZARD
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Necromancer"
+  Wordplay type: charade
+  Components:
+    sound_of           is                        -> WIZ
+    indicator          reportedly                -> 
+    indicator          captivated                -> 
+    synonym            protégé                   -> ARD
+  Assembly: charade — WIZ(sounds like "is") + ARD(synonym of "protégé")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      necromancer: syn=DOCTOR,WONDER,WORKER
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      reportedly: syn=MAYBE,LIKELY,MAYHAP,SURELY; ind=homophone
+      captivated: ind=container?
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      protégé: syn=WARD*
+  AI Reasoning:
+    WIZ (homophone of whizzing sound 'is') + ARD (from WARD/protégé when captivating) = WIZARD
+  ----------------------------------------------------------------------
+
+  [HIGH] DEBUTANT  30A. Day worker on westbound underground is first-timer
+  Answer: DEBUTANT
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "first-timer"
+  Wordplay type: charade
+  Components:
+    abbreviation       Day                       -> D
+    indicator          westbound                 -> 
+    reversal           underground               -> EBUT
+    synonym            worker                    -> ANT
+  Assembly: charade — D(abbr. "Day") + EBUT(TUBE reversed, "underground") + ANT(synonym of "worker")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      day: syn=D,AGE,BIT,BUY,EON,ERA,FRI,SAT,SUN,WED,AGES,BEAT,BUYS,COED,DATE; abbr=D*
+      worker: syn=ANT*,HAG,HEX,MAN,RED,BAWD,DRAB,FOOT,GIRL,GRUB,HAND,MAGE,PEON,SEER,TART; abbr=ANT*,BEE,HAND
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      westbound: ind=reversal
+      underground: syn=TOP,DOOR,TUBE,METRO,PRIVY,SNEAK,COVERT,NETHER,RECORD,SECRET,SNEAKY,SUBWAY,FURTIVE,PRIVATE,RAILWAY
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      timer: syn=BANK,KILL,OF A,WATCH,WATER,SECOND,A ROUND,AGAINST,PERHAPS
+  AI Reasoning:
+    D (day) + EBUT (underground=TUBE reversed by westbound) + ANT (worker) = DEBUTANT
+  ----------------------------------------------------------------------
+
+  [HIGH] DESPOTIC  4A. Posted wrong information initially about authoritarian
+  Answer: DESPOTIC
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "authoritarian"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     Posted                    -> DESPOT
+    indicator          wrong                     -> 
+    first_letter       information               -> I
+    indicator          initially                 -> 
+    abbreviation       about                     -> C
+  Assembly: charade — DESPOT("Posted") + I(first letter of "information") + C(abbr. "about")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      posted: syn=OPEN,RIFE,AIRED,PUBLIC,SHARED,CURRENT,GENERAL,POPULAR,REPUTED,RUMORED,COMMUNAL,DECLARED,DIVULGED,HERALDED,REPORTED; fodder=POSTED(6/8 anagram match)
+      wrong: syn=IT,NO,ATE,BAD,BUG,EAT,GET,GOT,ILL,IRE,IRK,MAD,NOT,OFF,SIN; abbr=TORT,X; ind=anagram
+      information: syn=MY,SO,FEW,GEN,JOB,USE,DATA,DOPE,DUTY,HAND,INFO,ITEM,KNOW,MANY,NEWS; abbr=GEN
+      initially: syn=FEAR,LOTS,FIRST,AT FIRST; ind=acrostic,deletion,parts
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      authoritarian: syn=DESPOTIC*,HARD,BOSSY,HARSH,HEAVY,RIGID,STERN,TOUGH,FLINTY,RAMROD,SEVERE,STRICT,AUSTERE,POWERED,MARTINET
+    Definitions:
+      "authoritarian" -> DESPOTIC (definition match)
+  AI Reasoning:
+    Anagram of 'Posted' (DESPOT) + first letter of 'information' (I) + 'about' as abbreviation for circa (C)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

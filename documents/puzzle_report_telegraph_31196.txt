@@ -1,0 +1,520 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31196
+Generated: 2026-03-25 06:00:11
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        25/32 (78%)
+    Signature:      4
+    Sig+Enriched:   11
+    Sonnet:         9
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   22  15A, 21D, 5D, 7D, 8D, 9A, 1A, 1D, 10A, 11D, 14D, 17A, 18D, 2D, 22A, 24A, 26D, 27A, 28A, 3D, 30A, 6A
+  Medium (40-79): 3  19A, 21A, 25D
+  Low (<40):    0  
+  Failed:       7  12A, 13A, 16D, 20D, 23D, 29A, 4D
+  Average:      93/100
+
+COST: $0.4698 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (22 entries)
+------------------------------------------------------------
+  ATTEMPT: "Try" -> ATTEMPT  (missing from definition_answers_augmented)
+  RELAYED: "passed on" -> RELAYED  (missing from definition_answers_augmented)
+  Assam: "Tea" -> Assam  (missing from definition_answers_augmented)
+  Plaid Cymru: "party" -> Plaid Cymru  (missing from definition_answers_augmented)
+  FLING: "Cast," -> FLING  (missing from definition_answers_augmented)
+  Shrewsbury: "town" -> Shrewsbury  (missing from definition_answers_augmented)
+  Baltic Sea: "cold water!" -> Baltic Sea  (missing from definition_answers_augmented)
+  IGNOBLE: "Worthless" -> IGNOBLE  (missing from definition_answers_augmented)
+  fancy dress: "party clothes" -> fancy dress  (missing from definition_answers_augmented)
+  Debussy: "French barman" -> Debussy  (missing from definition_answers_augmented)
+  SUPPORTER: "one that cheers?" -> SUPPORTER  (missing from definition_answers_augmented)
+  CHEAPER: "It's less costly" -> CHEAPER  (missing from definition_answers_augmented)
+  CALYPSO: "song from the Caribbean" -> CALYPSO  (missing from definition_answers_augmented)
+  PANTO: "Kids show" -> PANTO  (missing from definition_answers_augmented)
+  Adam: "Partner of First Lady," -> Adam  (missing from definition_answers_augmented)
+  SEISMOGRAM: "Shock recording" -> SEISMOGRAM  (missing from definition_answers_augmented)
+  DAMP: "rather wet" -> DAMP  (missing from definition_answers_augmented)
+  Shrewsbury: Mouse-like creatures -> SHREWS  (missing from synonyms_pairs)
+  Baltic Sea: Drink lots of -> SEA  (missing from abbreviations)
+  IGNOBLE: gram -> G  (missing from abbreviations)
+  SUPPORTER: dark brown ale, -> PORTER  (missing from synonyms_pairs)
+  CAREFUL: match official -> CARE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  CHEAPER = 21 (60/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (7)
+------------------------------------------------------------
+  12. Avoid duty? For what reason? According to Spooner – lazy = WORKSHY
+  13. A wanderer, actor Matt heads west = NOMAD
+  16. Warmer section of Cadillac's exhaust = MUFFLER
+  20. Leave documentary permit in the UK = LICENCE
+  23. Generous specimen, not small = AMPLE
+  29. Staunch second XI leaving America = STEM
+  4. Took care of small issue = baby-sat
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  5/32  22A, 27A, 28A, 2D, 3D
+  Type mismatch:         1  21A
+  DB gap:                18  6A, 9A, 10A, 15A, 17A, 19A, 21A, 24A, 30A, 1D, 5D, 7D, 8D, 11D, 14D, 18D, 25D, 26D
+  Failed:                7  12A, 13A, 29A, 4D, 16D, 20D, 23D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   15A  ATTEMPT       Try a bit of latte MP tasted (7)
+                      hidden in "latte MP tasted" [hidden: "bit"]; definition: "Try"  [HIGH]
+   21D  CALLOUS       Insensitive area of hard skin by mouth (7)
+                      ---  [HIGH]
+    5D  RELAYED       Note amateur editor passed on (7)
+                      RE (synonym of "Note") + LAY (synonym of "amateur") + ED (synonym of "editor"); definition: "passed on"  [HIGH]
+    7D  Assam         Tea service adult knocked over (5)
+                      MASS (synonym of "service") + A (synonym of "adult") [reversal: "knocked"]; definition: "Tea"  [HIGH]
+    8D  Plaid Cymru   Penny arranged lurid YMCA party (5,5)
+                      anagram of LURIDYMCA ("lurid YMCA") [anagram: "arranged"] + P (abbreviation of "Penny") = PLAIDCYMRU; definition: "party"  [HIGH]
+    9A  FLING         Cast, beginning to fly fish (5)
+                      F (first letter of "fly") + LING (synonym of "fish") [first letter: "beginning"]; definition: "Cast,"  [HIGH]
+    1A  Shrewsbury    Mouse-like creatures cover the town (10)
+                      SHREWS (synonym of "Mouse-like creatures") + BURY (synonym of "cover"); definition: "town"  [HIGH]
+    1D  SOFT          Drunkard guzzling fine mild (4)
+                      F(abbr. "fine") inside SOT(synonym of "Drunkard")  [HIGH]
+   10A  Baltic Sea    Curry dish, Charlie? Drink lots of cold water! (6,3)
+                      BALTI (synonym of "Curry dish,") + C (synonym of "Charlie?") + SEA (synonym of "Drink lots of"); definition: "cold water!"  [HIGH]
+   11D  IGNOBLE       Worthless one gram old gold coin (7)
+                      I (synonym of "one") + G (abbreviation of "gram") + NOBLE (synonym of "old gold coin"); definition: "Worthless"  [HIGH]
+   12A  WORKSHY       Avoid duty? For what reason? According to Spooner – lazy (7)
+                      ---  [ERR]
+   13A  NOMAD         A wanderer, actor Matt heads west (5)
+                      ---  [ERR]
+   14D  fancy dress   Syd and Frances going out in party clothes (5,5)
+                      anagram of SYDFRANCES ("Syd and Frances") [anagram: "going"] = FANCYDRESS; definition: "party clothes"  [HIGH]
+   16D  MUFFLER       Warmer section of Cadillac's exhaust (7)
+                      ---  [ERR]
+   17A  Debussy       Yes, Bud's terrible – French barman (7)
+                      anagram of YESBUDS ("Yes, Bud's") [anagram: "terrible -"] = DEBUSSY; definition: "French barman"  [HIGH]
+   18D  SUPPORTER     Drink dark brown ale, one that cheers? (9)
+                      SUP (synonym of "Drink") + PORTER (synonym of "dark brown ale,"); definition: "one that cheers?"  [HIGH]
+   19A  CAREFUL       Prudent match official wearing protective covering for the head (7)
+                      CARE(synonym of "match official") + FUL(DISRESPECTFUL minus DISRESPECT, "for")  [MED]
+    2D  RAINWATER     Cloudy liquid? (9)
+                      RAINWATER (synonym of "Cloudy liquid?")  [HIGH]
+   20D  LICENCE       Leave documentary permit in the UK (7)
+                      ---  [ERR]
+   21A  CHEAPER       Applaud when saving a penny? It's less costly (7)
+                      A+P(abbr. "penny") inside CHEER(synonym of "Applaud")  [MED]
+   22A  DRAWL         Speak slowly, attract large following (5)
+                      DRAW(synonym of "attract") + L(abbr. "large")  [HIGH]
+   23D  AMPLE         Generous specimen, not small (5)
+                      ---  [ERR]
+   24A  CALYPSO       Clubs play remixed singular old song from the Caribbean (7)
+                      anagram of PLAY ("play") + C (abbreviation of "Clubs") + S (abbreviation of "singular") + O (abbreviation of "old") [anagram: "remixed"] = CALYPSO; definition: "song from the Caribbean"  [HIGH]
+   25D  PANTO         Kids show dad new toy endlessly (5)
+                      PA(synonym of "dad") + N(abbr. "new") + TO(deletion from "toy")  [MED]
+   26D  Adam          Partner of First Lady, American, flipping crazy (4)
+                      A (synonym of "American,") + MAD (synonym of "crazy") [reversal: "flipping"]; definition: "Partner of First Lady,"  [HIGH]
+   27A  Esperanto     Doctor operates, implanting new tongue (9)
+                      anagram of OPERATES+N(abbr. "new") = Esperanto  [HIGH]
+   28A  NOTED         Distinguished public school retired Head of Drama (5)
+                      NOTE(ETON reversed, "public school") + D(first letter of "Head of Drama")  [HIGH]
+   29A  STEM          Staunch second XI leaving America (4)
+                      ---  [ERR]
+    3D  WAGER         Bet wife a grand on last pair in poker (5)
+                      W(abbr. "wife") + A + G(abbr. "grand") + ER(last letter of "last pair in poker")  [HIGH]
+   30A  SEISMOGRAM    Shock recording: drunken Miss Margo taking ecstasy (10)
+                      anagram of MISSMARGO+E(abbr. "ecstasy") = SEISMOGRAM  [HIGH]
+    4D  baby-sat      Took care of small issue (4-3)
+                      ---  [ERR]
+    6A  DAMP          Vacuous Drogheda politician, rather wet (4)
+                      DA (middle of "Drogheda") + MP (synonym of "politician,") [outer letters: "Vacuous"]; definition: "rather wet"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ATTEMPT  15A. Try a bit of latte MP tasted
+  Answer: ATTEMPT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Try"
+  Wordplay: hidden
+  Explanation: hidden in "latte MP tasted" [hidden: "bit"]; definition: "Try"
+  ----------------------------------------------------------------------
+
+  [HIGH] CALLOUS  21D. Insensitive area of hard skin by mouth
+  Answer: CALLOUS
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "Insensitive" and "area of hard skin by mouth" both mean CALLOUS
+  ----------------------------------------------------------------------
+
+  [HIGH] RELAYED  5D. Note amateur editor passed on
+  Answer: RELAYED
+  Tier: Signature | Confidence: 100/100
+  Definition: "passed on"
+  Wordplay: charade
+  Explanation: RE (synonym of "Note") + LAY (synonym of "amateur") + ED (synonym of "editor"); definition: "passed on"
+  ----------------------------------------------------------------------
+
+  [HIGH] Assam  7D. Tea service adult knocked over
+  Answer: Assam
+  Tier: Signature | Confidence: 100/100
+  Definition: "Tea"
+  Wordplay: charade + reversal
+  Explanation: MASS (synonym of "service") + A (synonym of "adult") [reversal: "knocked"]; definition: "Tea"
+  ----------------------------------------------------------------------
+
+  [HIGH] Plaid Cymru  8D. Penny arranged lurid YMCA party
+  Answer: Plaid Cymru
+  Tier: Signature | Confidence: 100/100
+  Definition: "party"
+  Wordplay: anagram + charade
+  Explanation: anagram of LURIDYMCA ("lurid YMCA") [anagram: "arranged"] + P (abbreviation of "Penny") = PLAIDCYMRU; definition: "party"
+  ----------------------------------------------------------------------
+
+  [HIGH] FLING  9A. Cast, beginning to fly fish
+  Answer: FLING
+  Tier: Signature | Confidence: 100/100
+  Definition: "Cast,"
+  Wordplay: acrostic + charade
+  Explanation: F (first letter of "fly") + LING (synonym of "fish") [first letter: "beginning"]; definition: "Cast,"
+  ----------------------------------------------------------------------
+
+  [HIGH] Shrewsbury  1A. Mouse-like creatures cover the town
+  Answer: Shrewsbury
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "town"
+  Wordplay: charade
+  Explanation: SHREWS (synonym of "Mouse-like creatures") + BURY (synonym of "cover"); definition: "town"
+  ----------------------------------------------------------------------
+
+  [HIGH] SOFT  1D. Drunkard guzzling fine mild
+  Answer: SOFT
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "mild"
+  Wordplay type: container
+  Components:
+    synonym            Drunkard                  -> SOT
+    abbreviation       fine                      -> F
+  Assembly: container — F(abbr. "fine") inside SOT(synonym of "Drunkard")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      drunkard: syn=SOT*,LUSH,SOAK,WINO
+      fine: syn=SO*,A,F,A1,OK,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD,RIG; abbr=F*,OK
+      mild: syn=SOFT*,WET,ANTI,COZY,DULL,EGAD,PINT,SNAP,SNUG,WEAK
+  AI Reasoning:
+    SOT (drunkard) contains F (fine), with 'guzzling' as the container indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] Baltic Sea  10A. Curry dish, Charlie? Drink lots of cold water!
+  Answer: Baltic Sea
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "cold water!"
+  Wordplay: charade
+  Explanation: BALTI (synonym of "Curry dish,") + C (synonym of "Charlie?") + SEA (synonym of "Drink lots of"); definition: "cold water!"
+  ----------------------------------------------------------------------
+
+  [HIGH] IGNOBLE  11D. Worthless one gram old gold coin
+  Answer: IGNOBLE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Worthless"
+  Wordplay: charade
+  Explanation: I (synonym of "one") + G (abbreviation of "gram") + NOBLE (synonym of "old gold coin"); definition: "Worthless"
+  ----------------------------------------------------------------------
+
+  [ERROR] 12. Avoid duty? For what reason? According to Spooner – lazy = WORKSHY
+  ----------------------------------------------------------------------
+
+  [ERROR] 13. A wanderer, actor Matt heads west = NOMAD
+  ----------------------------------------------------------------------
+
+  [HIGH] fancy dress  14D. Syd and Frances going out in party clothes
+  Answer: fancy dress
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "party clothes"
+  Wordplay: anagram
+  Explanation: anagram of SYDFRANCES ("Syd and Frances") [anagram: "going"] = FANCYDRESS; definition: "party clothes"
+  ----------------------------------------------------------------------
+
+  [ERROR] 16. Warmer section of Cadillac's exhaust = MUFFLER
+  ----------------------------------------------------------------------
+
+  [HIGH] Debussy  17A. Yes, Bud's terrible – French barman
+  Answer: Debussy
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "French barman"
+  Wordplay: anagram
+  Explanation: anagram of YESBUDS ("Yes, Bud's") [anagram: "terrible -"] = DEBUSSY; definition: "French barman"
+  ----------------------------------------------------------------------
+
+  [HIGH] SUPPORTER  18D. Drink dark brown ale, one that cheers?
+  Answer: SUPPORTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "one that cheers?"
+  Wordplay: charade
+  Explanation: SUP (synonym of "Drink") + PORTER (synonym of "dark brown ale,"); definition: "one that cheers?"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CAREFUL  19A. Prudent match official wearing protective covering for the head
+  Answer: CAREFUL
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Prudent"
+  Wordplay type: charade
+  Components:
+    synonym            match official            -> CARE
+    deletion           for                       -> FUL [DISRESPECTFUL, "covering"=deletion]
+  Assembly: charade — CARE(synonym of "match official") + FUL(DISRESPECTFUL minus DISRESPECT, "for")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      prudent: syn=CANNY,POLITIC
+      match: syn=FIT,FOE,MET,PUT,RIG,TIE,WAR,BEND,BOUT,COPY,EDIT,FACE,FINE,GAME,GEAR
+      official: syn=REF*,AGA,FROM,HEAD,CHAIR,ELDER,REEVE,CONSUL,FLUNKY,FORMAL,MINION,NOTARY,PUBLIC,BAILIFF,CORONER; abbr=REF*
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      covering: syn=BIN,BOX,POD,RUG,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE; ind=container,deletion,parts
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H,NESS; ind=acrostic,deletion,parts
+      match official: syn=REF*,ONE,JUDGE,UMPIRE,DECIDER,REFEREE
+      protective covering: syn=HELMET,SALLET
+      the head: syn=ROW,WOW,CHAR,DAZE,MAID,ROCK,STUN,TIFF,AMAZE,FIGHT
+    Definitions:
+      "Prudent" -> CAREFUL (definition match)
+  AI Reasoning:
+    CARE (match official/one who cares) + FUL (full protective covering) = CAREFUL
+  ----------------------------------------------------------------------
+
+  [HIGH] RAINWATER  2D. Cloudy liquid?
+  Answer: RAINWATER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: RAINWATER (synonym of "Cloudy liquid?")
+  ----------------------------------------------------------------------
+
+  [ERROR] 20. Leave documentary permit in the UK = LICENCE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CHEAPER  21A. Applaud when saving a penny? It's less costly
+  Answer: CHEAPER
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "It's less costly"
+  Wordplay type: charade
+  Components:
+    synonym            Applaud                   -> CHEER
+    literal            a                         -> A
+    abbreviation       penny                     -> P
+  Assembly: container — A+P(abbr. "penny") inside CHEER(synonym of "Applaud")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      applaud: syn=CHEER*,CITE,CLAP,FETE,HAIL,LAUD,RISE,TOUT,EXTOL,HONOR,THANK,CREDIT,PRAISE,SALUTE,ACCLAIM; ind=reversal?
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS; ind=homophone
+      saving: syn=OF,BAR,BUT,CUT,FOR,YET,FROM,ONLY,SAVE,THAN,THAT,WHAT,ASIDE,GOING,OTHER
+      penny: syn=P,CHURL,HUNKS,MISER,PIKER,STINGY,SCROOGE; abbr=D,P*
+      it's: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      less: syn=OK,ART,LOW,TWO,FINE,LIKE,MIND,MOST,MUCH,NEAR,NIGH,PUNY,SOME,TEND,WANT; ind=deletion
+      costly: syn=DEAR,HIGH,PRICEY,SPENDY,LOVABLE,PREMIUM,WINNING,WINSOME
+  AI Reasoning:
+    Charade of CHEER (applaud) + A (a) + P (penny) = CHEAPER
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAWL  22A. Speak slowly, attract large following
+  Answer: DRAWL
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Speak slowly"
+  Wordplay type: charade
+  Components:
+    synonym            attract                   -> DRAW
+    abbreviation       large                     -> L
+  Assembly: charade — DRAW(synonym of "attract") + L(abbr. "large")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      speak: syn=IS,PUT,SAY,CHAT,INTO,PASS,SAY,,TALK,TELL,WORD,BRING,COUCH,ORATE,SENSE,STATE; ind=homophone
+      slowly: syn=LAG,LENTO
+      attract: syn=DRAW*,BIAS,BUSY,FAST,GRIP,LURE,MOVE,PULL,STIR,SWAY,CHARM,COLOR,REACH,TOUCH
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L*,OS
+      following: syn=F,BUM,CUE,BACK,BUNS,BUTT,DUFF,FANS,FILE,HAMS,NEXT,REAR,RUMP,TAIL,TUSH; abbr=F; ind=anagram?
+    Definitions:
+      "Speak slowly" -> DRAWL (definition match)
+  AI Reasoning:
+    DRAW (attract) + L (large) following each other makes DRAWL
+  ----------------------------------------------------------------------
+
+  [ERROR] 23. Generous specimen, not small = AMPLE
+  ----------------------------------------------------------------------
+
+  [HIGH] CALYPSO  24A. Clubs play remixed singular old song from the Caribbean
+  Answer: CALYPSO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "song from the Caribbean"
+  Wordplay: anagram + charade
+  Explanation: anagram of PLAY ("play") + C (abbreviation of "Clubs") + S (abbreviation of "singular") + O (abbreviation of "old") [anagram: "remixed"] = CALYPSO; definition: "song from the Caribbean"
+  ----------------------------------------------------------------------
+
+  [HIGH] PANTO  25D. Kids show dad new toy endlessly
+  Answer: PANTO
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Kids show"
+  Wordplay type: charade
+  Components:
+    synonym            dad                       -> PA
+    abbreviation       new                       -> N
+    deletion           toy                       -> TO
+  Assembly: charade — PA(synonym of "dad") + N(abbr. "new") + TO(deletion from "toy")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      kids: syn=BUDS,CUBS,CHAPS,FOOLS,GENTS,ISSUE,JESTS,BOY,BUD,CAT,CUB,FUN,GUY,IMP,JOE; abbr=RAG
+      show: syn=PANTO*,AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME; abbr=S
+      dad: syn=PA*,OLD,POP,PANS,PAPA,SIRE,DADDY,IMAGE,PATER; abbr=PA*
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      toy: syn=JACK,KITE,LEGO,PLAY,SIZE,NODDY,SPORT,YO YO; ind=anagram?
+      endlessly: syn=OFT,ANEW,EVER,OVER,AGAIN,NEWLY,OFTEN; abbr=E; ind=deletion,parts
+  AI Reasoning:
+    PA (dad) + N (new abbreviated) + TO (toy with last letter deleted) = PANTO
+  ----------------------------------------------------------------------
+
+  [HIGH] Adam  26D. Partner of First Lady, American, flipping crazy
+  Answer: Adam
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Partner of First Lady,"
+  Wordplay: charade + reversal
+  Explanation: A (synonym of "American,") + MAD (synonym of "crazy") [reversal: "flipping"]; definition: "Partner of First Lady,"
+  ----------------------------------------------------------------------
+
+  [HIGH] Esperanto  27A. Doctor operates, implanting new tongue
+  Answer: Esperanto
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "tongue"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     operates                  -> OPERATES
+    abbreviation       new                       -> N
+  Assembly: anagram — anagram of OPERATES+N(abbr. "new") = Esperanto
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D,DR,GP,MB,MO; ind=anagram
+      operates: syn=RUNS,USES,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,WORKS,CHECKS; fodder=OPERATES(8/9 anagram match)
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      tongue: syn=RANT*,ESPERANTO*,DRY,JAW,MUM,RAG,WRY,ACID,CURT,FLAY,JAWS,KEEN,MUTE,RAGS,RATE
+    Definitions:
+      "tongue" -> Esperanto (definition match)
+  AI Reasoning:
+    Anagram of OPERATES + N (new abbreviated) gives ESPERANTO, defined by tongue (language)
+  ----------------------------------------------------------------------
+
+  [HIGH] NOTED  28A. Distinguished public school retired Head of Drama
+  Answer: NOTED
+  Tier: Sonnet | Confidence: 83/100
+  Definition: "Distinguished"
+  Wordplay type: charade
+  Components:
+    reversal           public school             -> NOTE
+    first_letter       Head of Drama             -> D
+  Assembly: charade — NOTE(ETON reversed, "public school") + D(first letter of "Head of Drama")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      distinguished: syn=NOTED*,WAS,SEEN,STAR,GRAND,NOBLE,RATED,STOOD,TYPED; ind=anagram?
+      public: syn=P,BE,DO,ACT,BAR,BET,DIG,FIT,FOR,GET,HAP,HIT,INN,KIN,LAG; abbr=OUT,P
+      school: syn=GAM,POD,SCH,COED,ETON,GRIP,HIGH,LYCE,PACK,PREP,SECT,TASK,TECH,COACH,GRIPS; abbr=S,SCH
+      retired: syn=BED,DRY,HIT,ABED,AXED,COOL,LEFT,SANK,BORED,DIVED,FIRED,FRAIL,OUTED,QUIET; abbr=EX; ind=reversal
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H,NESS; ind=acrostic,deletion,parts
+      drama: syn=NOH,PLAY,SHOW,OPERA,STAGE
+      public school: syn=ETON,TILL,CATCH
+    Definitions:
+      "Distinguished" -> NOTED (definition match)
+  AI Reasoning:
+    ETON (public school) reversed by 'retired' gives NOTE, plus D (Head of Drama) = NOTED
+  ----------------------------------------------------------------------
+
+  [ERROR] 29. Staunch second XI leaving America = STEM
+  ----------------------------------------------------------------------
+
+  [HIGH] WAGER  3D. Bet wife a grand on last pair in poker
+  Answer: WAGER
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "Bet"
+  Wordplay type: charade
+  Components:
+    abbreviation       wife                      -> W
+    literal            a                         -> A
+    abbreviation       grand                     -> G
+    last_letter        last pair in poker        -> ER
+  Assembly: charade — W(abbr. "wife") + A + G(abbr. "grand") + ER(last letter of "last pair in poker")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bet: syn=WAGER*,DO,GO,BED,LAY,PUT,WAY,ANTE,EASY,HANG,HEAD,LAID,PICK,PLAY,PUNT
+      wife: syn=W,MRS,OLD,LADY,MRS.,STAY,DUTCH,MADAM,WIFEY,WOMAN; abbr=W*
+      grand: syn=G,A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH,BLUE,BOSS; abbr=G*,K
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      pair: syn=PR,DUO,TWO,DUET,DYAD,ITEM,MATE,ALIGN,BRACE,MATCH,TWAIN; abbr=PR; sounds=pare,pear
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      poker: syn=ROD,GAME
+    Definitions:
+      "Bet" -> WAGER (definition match)
+  AI Reasoning:
+    Charade of W (wife) + A (a) + G (grand) + ER (last pair of letters in poker)
+  ----------------------------------------------------------------------
+
+  [HIGH] SEISMOGRAM  30A. Shock recording: drunken Miss Margo taking ecstasy
+  Answer: SEISMOGRAM
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Shock recording"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Miss Margo                -> MISSMARGO
+    abbreviation       ecstasy                   -> E
+  Assembly: anagram — anagram of MISSMARGO+E(abbr. "ecstasy") = SEISMOGRAM
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shock: syn=HIM,JAR,MAN,AFRO,HAIR,JOLT,MANE,ROCK,STUN,TURN,ALARM,AMAZE,APPAL,FLOOR,SCARE
+      recording: syn=DEMO,TAPE,VIDEO,FILING,NOTING,TAPING,OR TAPE,ENTERING,TYING UP,VIDEOING,VOICEMAIL
+      drunken: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram
+      miss: syn=AN,BAN,BAR,CUT,DIE,DUD,GAL,ODD,ALSO,BOMB,BOTH,BUST,DENY,FAIL,FLOP; abbr=MS
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      ecstasy: syn=E,JOY,DRUG,HIGH,BLISS,TRANCE,FEELING,RAPTURE,EUPHORIA,PARADISE,PLEASURE,AFTERGLOW; abbr=E*; ind=anagram?,container?
+  AI Reasoning:
+    Anagram of MISSMARGO + E (ecstasy) indicated by 'drunken', with 'taking' as link word
+  ----------------------------------------------------------------------
+
+  [ERROR] 4. Took care of small issue = baby-sat
+  ----------------------------------------------------------------------
+
+  [HIGH] DAMP  6A. Vacuous Drogheda politician, rather wet
+  Answer: DAMP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "rather wet"
+  Wordplay: charade + parts
+  Explanation: DA (middle of "Drogheda") + MP (synonym of "politician,") [outer letters: "Vacuous"]; definition: "rather wet"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

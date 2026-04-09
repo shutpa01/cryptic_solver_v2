@@ -1,0 +1,240 @@
+{
+  "source": "telegraph",
+  "puzzle": "31196",
+  "stats": {
+    "total": 32,
+    "assembled": 25,
+    "high": 23,
+    "medium": 2,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 93.12
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Mouse-like creatures",
+      "letters": "SHREWS",
+      "answer": "Shrewsbury",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Mouse-like creatures cover the town",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Drink lots of",
+      "letters": "SEA",
+      "answer": "Baltic Sea",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Curry dish, Charlie? Drink lots of cold water!",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "gram",
+      "letters": "G",
+      "answer": "IGNOBLE",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Worthless one gram old gold coin",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dark brown ale,",
+      "letters": "PORTER",
+      "answer": "SUPPORTER",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Drink dark brown ale, one that cheers?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "match official",
+      "letters": "CARE",
+      "answer": "CAREFUL",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Prudent match official wearing protective covering for the head",
+      "score": 62
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Try",
+      "answer": "ATTEMPT",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Try a bit of latte MP tasted",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "passed on",
+      "answer": "RELAYED",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Note amateur editor passed on",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tea",
+      "answer": "Assam",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Tea service adult knocked over",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "party",
+      "answer": "Plaid Cymru",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Penny arranged lurid YMCA party",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Cast,",
+      "answer": "FLING",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Cast, beginning to fly fish",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "town",
+      "answer": "Shrewsbury",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Mouse-like creatures cover the town",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cold water!",
+      "answer": "Baltic Sea",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Curry dish, Charlie? Drink lots of cold water!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Worthless",
+      "answer": "IGNOBLE",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Worthless one gram old gold coin",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "party clothes",
+      "answer": "fancy dress",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Syd and Frances going out in party clothes",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "French barman",
+      "answer": "Debussy",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Yes, Bud's terrible – French barman",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one that cheers?",
+      "answer": "SUPPORTER",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Drink dark brown ale, one that cheers?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "It's less costly",
+      "answer": "CHEAPER",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Applaud when saving a penny? It's less costly",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "song from the Caribbean",
+      "answer": "CALYPSO",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Clubs play remixed singular old song from the Caribbean",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Kids show",
+      "answer": "PANTO",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Kids show dad new toy endlessly",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Partner of First Lady,",
+      "answer": "Adam",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Partner of First Lady, American, flipping crazy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Shock recording",
+      "answer": "SEISMOGRAM",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Shock recording: drunken Miss Margo taking ecstasy",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "rather wet",
+      "answer": "DAMP",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Vacuous Drogheda politician, rather wet",
+      "score": 100
+    }
+  ]
+}

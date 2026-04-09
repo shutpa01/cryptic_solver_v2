@@ -1,0 +1,251 @@
+{
+  "source": "dailymail",
+  "puzzle": "17850",
+  "stats": {
+    "total": 30,
+    "assembled": 29,
+    "high": 22,
+    "medium": 5,
+    "low": 2,
+    "failed": 1,
+    "avg_score": 83.44827586206897
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bars",
+      "letters": "BENCH",
+      "answer": "BACKBENCHERS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Check bars possibly in which are mostly corrupt MPs, say",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "schedules",
+      "letters": "TIMES",
+      "answer": "PASTIMES",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Father and son given schedules for hobbies",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "topic",
+      "letters": "TOPIC",
+      "answer": "COMPATIBLE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Sort of male topic captivating bachelor? That's in keeping",
+      "score": 60
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "drink",
+      "letters": "SKI",
+      "answer": "SKIRUN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Track drink amid sign of summer?",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "sign of summer",
+      "letters": "RUN",
+      "answer": "SKIRUN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Track drink amid sign of summer?",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cliff face",
+      "letters": "ROCK",
+      "answer": "ROCKIER",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Like a larger cliff face that is less stable?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Port,",
+      "answer": "WINE",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Port, perhaps, now in electric fences",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tall building",
+      "answer": "TOWERBLOCK",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Bow to clerk bewildered by tall building",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "bird",
+      "answer": "MOORHEN",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Home Ron devised for bird",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "hard bargaining",
+      "answer": "HORSETRADING",
+      "clue_number": "10",
+      "direction": "down",
+      "clue": "Volatile sort heard in good or hard bargaining",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Elevated",
+      "answer": "HIGH",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Elevated greeting by the sound of it",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "MPs, say",
+      "answer": "BACKBENCHERS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Check bars possibly in which are mostly corrupt MPs, say",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "marsh plant",
+      "answer": "BOGBEAN",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Bad smell began to spread around marsh plant",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Things carried out in theatre?",
+      "answer": "OPERATIONS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Things carried out in theatre?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "final stand",
+      "answer": "BIER",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Porter, for instance, mentioned final stand?",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Piece of old cloth",
+      "answer": "RAG",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Piece of old cloth hidden by ladder again",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in keeping",
+      "answer": "COMPATIBLE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Sort of male topic captivating bachelor? That's in keeping",
+      "score": 60
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "informal discussion",
+      "answer": "TEACHIN",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Figure entertaining a Greek character in informal discussion",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Track",
+      "answer": "SKIRUN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Track drink amid sign of summer?",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "less stable",
+      "answer": "ROCKIER",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Like a larger cliff face that is less stable?",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Woman",
+      "answer": "NADINE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Woman making a noise in Tyneside",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "very close friend",
+      "answer": "BLOODBROTHER",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Initiate Rex to probe trouble for very close friend",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "small shark",
+      "answer": "DOGFISH",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Shadow seen by swimmer is small shark",
+      "score": 75
+    }
+  ]
+}

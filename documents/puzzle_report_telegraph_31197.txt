@@ -1,0 +1,601 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31197
+Generated: 2026-03-26 14:58:14
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        30/32 (93%)
+    Signature:      9
+    Sig+Enriched:   9
+    Sonnet:         12
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  17A, 21A, 29A, 4D, 1A, 1D, 14D, 16D, 18D, 23D, 24A, 3D, 5D, 13A, 19A, 20D, 25D, 30A, 6A, 7D
+  Medium (40-79): 7  10A, 11A, 12A, 22A, 26D, 27A, 9D
+  Low (<40):    3  2D, 28A, 8D
+  Failed:       2  15A, 21D
+  Average:      77/100
+
+COST: $0.5307 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (37 entries)
+------------------------------------------------------------
+  TOPLESS: "revealing bust" -> TOPLESS  (missing from definition_answers_augmented)
+  RODE: "Travelled" -> RODE  (missing from definition_answers_augmented)
+  ITALICS: "Characters" -> ITALICS  (missing from definition_answers_augmented)
+  DATA: "information" -> DATA  (missing from definition_answers_augmented)
+  THEREAFTER: "Subsequently" -> THEREAFTER  (missing from definition_answers_augmented)
+  ESOTERIC: "mysterious" -> ESOTERIC  (missing from definition_answers_augmented)
+  OPERATION: "Use" -> OPERATION  (missing from definition_answers_augmented)
+  RAPID: "Speedy" -> RAPID  (missing from definition_answers_augmented)
+  CORPORAL: "Concrete" -> CORPORAL  (missing from definition_answers_augmented)
+  ALONG: "together" -> ALONG  (missing from definition_answers_augmented)
+  INSTEAD: "As an alternative," -> INSTEAD  (missing from definition_answers_augmented)
+  TOMBOLA: "a draw" -> TOMBOLA  (missing from definition_answers_augmented)
+  SNORKEL: "Tube for going under Channel?" -> SNORKEL  (missing from definition_answers_augmented)
+  DISGUISE: "provide cover" -> DISGUISE  (missing from definition_answers_augmented)
+  REGIONS: "neighbourhoods" -> REGIONS  (missing from definition_answers_augmented)
+  SECRETE: "Leak" -> SECRETE  (missing from definition_answers_augmented)
+  AGREE: "Yield" -> AGREE  (missing from definition_answers_augmented)
+  ONSET: "Start" -> ONSET  (missing from definition_answers_augmented)
+  OGLE: "Openly gaze, leering eagerly" -> OGLE  (missing from definition_answers_augmented)
+  ISSUING: "Proceeding" -> ISSUING  (missing from definition_answers_augmented)
+  RESISTANCE: "revulsion" -> RESISTANCE  (missing from definition_answers_augmented)
+  WOKEN: "Stimulated" -> WOKEN  (missing from definition_answers_augmented)
+  BALDERDASH: "gibberish" -> BALDERDASH  (missing from definition_answers_augmented)
+  FOOTSTEP: "pace" -> FOOTSTEP  (missing from definition_answers_augmented)
+  CORPORAL: enclosure -> CORRAL  (missing from synonyms_pairs)
+  DISGUISE: Detective's -> DIS  (missing from abbreviations)
+  REMAINING: English -> RE  (missing from abbreviations)
+  REMAINING: crew -> MAIN  (missing from synonyms_pairs)
+  REMAINING: Channel -> ING  (missing from abbreviations)
+  SECRETE: story -> SECRET  (missing from synonyms_pairs)
+  ONSET: acting -> ON  (missing from abbreviations)
+  ONSET: film? -> SET  (missing from abbreviations)
+  TOPSIDE: current -> TIDES  (missing from synonyms_pairs)
+  ISSUING: taking to court -> SUING  (missing from synonyms_pairs)
+  BALDERDASH: more outright -> BALDER  (missing from synonyms_pairs)
+  BALDERDASH: hint -> DASH  (missing from synonyms_pairs)
+  FOOTSTEP: upping -> STEP  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  REMAINING = 2 (-15/100): AI=container, assembled=charade
+  OGLE = 26 (60/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  REMAINING = 2 (-15/100): no pieces verified in DB
+  BALDERDASH = 8 (5/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  15. Woman eyeing the family jewels? = HEIRESS
+  21. They're oddly short skirt ends = TERMINI
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  3/32  6A, 13A, 17A
+  Type mismatch:         2  2D, 26D
+  Unverified explain.:   2  2D, 8D
+  DB gap:                26  10A, 11A, 12A, 19A, 22A, 24A, 27A, 28A, 29A, 30A, 1D, 2D, 3D, 4D, 5D, 7D, 8D, 9D, 14D, 16D, 18D, 20D, 21D, 23D, 25D, 26D
+  Failed:                2  15A, 21D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   17A  DITTOED       Some credit to editor is echoed (7)
+                      hidden in "credit to editor is echoed" [hidden: "Some"]  [HIGH]
+   21A  TOPLESS       Vessel potter partially spins revealing bust (7)
+                      hidden reversed in "Vessel potter" [reversal: "spins"]; definition: "revealing bust"  [HIGH]
+   29A  RODE          Travelled highway, we hear (4)
+                      RODE (sounds like "highway,") [homophone: "we hear"]; definition: "Travelled"  [HIGH]
+    4D  ITALICS       Characters inclining towards the right? (7)
+                      ITALICS (synonym of "inclining towards the right?"); definition: "Characters"  [HIGH]
+    1A  DERMATITIS    It smarted, I fancy, producing rash (10)
+                      anagram of ITSMARTEDI ("It smarted, I") [anagram: "fancy,"] = DERMATITIS  [HIGH]
+    1D  DATA          A little upset providing information (4)
+                      A (abbreviation of "A") + TAD (synonym of "little") [reversal: "upset"]; definition: "information"  [HIGH]
+   14D  THEREAFTER    Subsequently farther with tee shot (10)
+                      anagram of FARTHERTEE ("farther with tee") [anagram: "shot"] = THEREAFTER; definition: "Subsequently"  [HIGH]
+   16D  ESOTERIC      Coteries mysteriously being mysterious (8)
+                      anagram of COTERIES ("Coteries") [anagram: "mysteriously"] = ESOTERIC; definition: "mysterious"  [HIGH]
+   18D  OPERATION     Use empty platitude in speech (9)
+                      PE (letters from "platitude") + ORATION (synonym of "speech") [container: "in"]; definition: "Use"  [HIGH]
+   23D  RAPID         Speedy attack capturing pawn (5)
+                      RAID (synonym of "attack") + P (abbreviation of "pawn") [container: "capturing"]; definition: "Speedy"  [HIGH]
+   24A  CORPORAL      Concrete enclosure housing chamberpot (8)
+                      CORRAL (synonym of "enclosure") + PO (abbreviation of "chamberpot") [container: "housing"]; definition: "Concrete"  [HIGH]
+    3D  ALONG         Nearly solo, grand getting together (5)
+                      ALONE (synonym of "solo,") + G (synonym of "grand") [curtailing: "Nearly"]; definition: "together"  [HIGH]
+    5D  INSTEAD       As an alternative, detains criminal (7)
+                      anagram of DETAINS ("detains") [anagram: "criminal"] = INSTEAD; definition: "As an alternative,"  [HIGH]
+   10A  TOMBOLA       Vault over line facing a draw (7)
+                      TOMB(synonym of "Vault") + O(abbr. "over") + L(abbr. "line") + A  [MED]
+   11A  SNORKEL       Tube for going under Channel? (7)
+                      cryptic definition  [MED]
+   12A  DISGUISE      Detective's men heard to provide cover (8)
+                      DIS(abbr. "Detective's") + GUISE(sounds like "men")  [MED]
+   13A  TINGE         Metal, for instance, turning colour (5)
+                      TIN(synonym of "Metal") + GE(EG reversed, "for instance")  [HIGH]
+   15A  HEIRESS       Woman eyeing the family jewels? (7)
+                      ---  [ERR]
+   19A  REGIONS       Ignores dilapidated neighbourhoods (7)
+                      anagram of IGNORES ("Ignores") [anagram: "dilapidated"] = REGIONS; definition: "neighbourhoods"  [HIGH]
+    2D  REMAINING     Left crew circling English Channel? (9)
+                      RE(abbr. "English") + MAIN(synonym of "crew") + ING(synonym of "Channel")  [LOW]
+   20D  SECRETE       Leak inside story on sweetheart (7)
+                      SECRET (synonym of "story") + E (abbreviation of "sweetheart") [stripping: "inside"]; definition: "Leak"  [HIGH]
+   21D  TERMINI       They're oddly short skirt ends (7)
+                      ---  [ERR]
+   22A  AGREE         Yield time embracing return of Queen (5)
+                      RE(ER reversed, "Queen") inside AGE(synonym of "time")  [MED]
+   25D  ONSET         Start acting in film? (5)
+                      ON (synonym of "acting") + SET (synonym of "film?"); definition: "Start"  [HIGH]
+   26D  OGLE          Openly gaze, leering eagerly, initially (4)
+                      O(first letter of "Openly") + G(first letter of "gaze") + L(first letter of "leering") + E(first letter of "eagerly")  [MED]
+   27A  TOPSIDE       Work's involved in current cut (7)
+                      anagram of OP(synonym of "Work")+TIDES(synonym of "current") = TOPSIDE  [MED]
+   28A  ISSUING       Proceeding one's taking to court (7)
+                      I(synonym of "one") + S("'s") + SUING(synonym of "taking to court")  [LOW]
+   30A  RESISTANCE    Terrible sins create revulsion (10)
+                      anagram of SINSCREATE ("sins create") [anagram: "Terrible"] = RESISTANCE; definition: "revulsion"  [HIGH]
+    6A  SWAB          Saw discontented sailor use mop? (4)
+                      anagram of SAW+B(AB minus A, "sailor") = SWAB  [HIGH]
+    7D  WOKEN         Stimulated with old knowledge (5)
+                      W (synonym of "with") + O (synonym of "old") + KEN (synonym of "knowledge"); definition: "Stimulated"  [HIGH]
+    8D  BALDERDASH    Hint follows more outright gibberish (10)
+                      BALDER(synonym of "more outright") + DASH(synonym of "hint")  [LOW]
+    9D  FOOTSTEP      Sweetheart's overly feminine upping pace (8)
+                      F(first letter of "feminine") + OOT(TOO reversed, "overly") + STEP(synonym of "upping")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DITTOED  17A. Some credit to editor is echoed
+  Answer: DITTOED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "credit to editor is echoed" [hidden: "Some"]
+  ----------------------------------------------------------------------
+
+  [HIGH] TOPLESS  21A. Vessel potter partially spins revealing bust
+  Answer: TOPLESS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "revealing bust"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "Vessel potter" [reversal: "spins"]; definition: "revealing bust"
+  ----------------------------------------------------------------------
+
+  [HIGH] RODE  29A. Travelled highway, we hear
+  Answer: RODE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Travelled"
+  Wordplay: homophone
+  Explanation: RODE (sounds like "highway,") [homophone: "we hear"]; definition: "Travelled"
+  ----------------------------------------------------------------------
+
+  [HIGH] ITALICS  4D. Characters inclining towards the right?
+  Answer: ITALICS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Characters"
+  Wordplay: charade
+  Explanation: ITALICS (synonym of "inclining towards the right?"); definition: "Characters"
+  ----------------------------------------------------------------------
+
+  [HIGH] DERMATITIS  1A. It smarted, I fancy, producing rash
+  Answer: DERMATITIS
+  Tier: Signature | Confidence: 100/100
+  Wordplay: anagram
+  Explanation: anagram of ITSMARTEDI ("It smarted, I") [anagram: "fancy,"] = DERMATITIS
+  ----------------------------------------------------------------------
+
+  [HIGH] DATA  1D. A little upset providing information
+  Answer: DATA
+  Tier: Signature | Confidence: 100/100
+  Definition: "information"
+  Wordplay: charade + reversal
+  Explanation: A (abbreviation of "A") + TAD (synonym of "little") [reversal: "upset"]; definition: "information"
+  ----------------------------------------------------------------------
+
+  [HIGH] THEREAFTER  14D. Subsequently farther with tee shot
+  Answer: THEREAFTER
+  Tier: Signature | Confidence: 100/100
+  Definition: "Subsequently"
+  Wordplay: anagram
+  Explanation: anagram of FARTHERTEE ("farther with tee") [anagram: "shot"] = THEREAFTER; definition: "Subsequently"
+  ----------------------------------------------------------------------
+
+  [HIGH] ESOTERIC  16D. Coteries mysteriously being mysterious
+  Answer: ESOTERIC
+  Tier: Signature | Confidence: 100/100
+  Definition: "mysterious"
+  Wordplay: anagram
+  Explanation: anagram of COTERIES ("Coteries") [anagram: "mysteriously"] = ESOTERIC; definition: "mysterious"
+  ----------------------------------------------------------------------
+
+  [HIGH] OPERATION  18D. Use empty platitude in speech
+  Answer: OPERATION
+  Tier: Signature | Confidence: 80/100
+  Definition: "Use"
+  Wordplay: charade + container
+  Explanation: PE (letters from "platitude") + ORATION (synonym of "speech") [container: "in"]; definition: "Use"
+  Checks: missing_indicator_for_pos_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] RAPID  23D. Speedy attack capturing pawn
+  Answer: RAPID
+  Tier: Signature | Confidence: 100/100
+  Definition: "Speedy"
+  Wordplay: charade + container
+  Explanation: RAID (synonym of "attack") + P (abbreviation of "pawn") [container: "capturing"]; definition: "Speedy"
+  ----------------------------------------------------------------------
+
+  [HIGH] CORPORAL  24A. Concrete enclosure housing chamberpot
+  Answer: CORPORAL
+  Tier: Signature | Confidence: 100/100
+  Definition: "Concrete"
+  Wordplay: charade + container
+  Explanation: CORRAL (synonym of "enclosure") + PO (abbreviation of "chamberpot") [container: "housing"]; definition: "Concrete"
+  ----------------------------------------------------------------------
+
+  [HIGH] ALONG  3D. Nearly solo, grand getting together
+  Answer: ALONG
+  Tier: Signature | Confidence: 100/100
+  Definition: "together"
+  Wordplay: charade + deletion
+  Explanation: ALONE (synonym of "solo,") + G (synonym of "grand") [curtailing: "Nearly"]; definition: "together"
+  ----------------------------------------------------------------------
+
+  [HIGH] INSTEAD  5D. As an alternative, detains criminal
+  Answer: INSTEAD
+  Tier: Signature | Confidence: 100/100
+  Definition: "As an alternative,"
+  Wordplay: anagram
+  Explanation: anagram of DETAINS ("detains") [anagram: "criminal"] = INSTEAD; definition: "As an alternative,"
+  ----------------------------------------------------------------------
+
+  [HIGH] TOMBOLA  10A. Vault over line facing a draw
+  Answer: TOMBOLA
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "a draw"
+  Wordplay type: charade
+  Components:
+    synonym            Vault                     -> TOMB
+    abbreviation       over                      -> O
+    abbreviation       line                      -> L
+    first_letter       a                         -> A
+  Assembly: charade — TOMB(synonym of "Vault") + O(abbr. "over") + L(abbr. "line") + A
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      vault: syn=TOMB*,BOX,SEA,BODY,HOPE,JUMP,ROOF,CRYPT,CELLAR,SPRING,CEILING,OSSUARY
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      line: syn=L,ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG; abbr=L*,RY
+      facing: syn=POD,TOP,BARK,CASE,FACE,HIDE,HULL,HUSK,MAIL,MASK,SHOW,SKIN,ARMOR,COVER,CRUST
+      draw: syn=TOMBOLA*,DO,A A,ASS,BAG,GET,GUT,LEG,LUG,SET,TAP,TIE,TOW,TUG,USE
+    Definitions:
+      "draw" -> TOMBOLA (definition match)
+  AI Reasoning:
+    TOMB (vault) + O (over) + L (line) + A (facing/first letter of 'a') = TOMBOLA, which is a type of draw/lottery
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SNORKEL  11A. Tube for going under Channel?
+  Answer: SNORKEL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Tube for going under Channel?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tube: syn=TV,BOX,DUCT,HOME,HOSE,LINE,OF A,PIPE,VEIN,VIAL,STRAW,TELLY,LEADER,ONLINE,SIPHON
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      going: syn=ON,RAY,WAY,BEAM,EXIT,FAST,GLOW,HALO,JUMP,LEAP,LIVE,STEP,ALIVE,BLAZE,BOUND; ind=anagram,reversal
+      under: syn=BAD,BOW,ILL,LIT,LOW,WET,DOWN,FALL,HIGH,LESS,PUNK,QUIT,SICK,AFOOT,BELOW
+      channel: syn=BATH,DUCT,FLUE,FLUX,GLUT,GUSH,HOME,KILL,LANE,LINE,MIND,SIDE,THIS,TIDE,TUBE; abbr=LANE
+      going under: syn=FAILING,SINKING
+    Definitions:
+      "Tube" -> SNORKEL (definition match)
+  AI Reasoning:
+    The entire clue cryptically describes a snorkel - a tube used for breathing while going under water in any channel or body of water
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DISGUISE  12A. Detective's men heard to provide cover
+  Answer: DISGUISE
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "provide cover"
+  Wordplay type: charade
+  Components:
+    abbreviation       Detective's               -> DIS
+    sound_of           men                       -> GUISE
+  Assembly: charade — DIS(abbr. "Detective's") + GUISE(sounds like "men")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      detective's: syn=DI*,COP,DET,EYE,MAN,TEC,BULL,BUSY,DICK,FUZZ,HEAT,BOBBY,REBUS,COPPER,HOLMES; abbr=D*,DI*,PI
+      men: syn=OR,CATS,CREW,GUYS,JOES,LADS,BUCKS,CHAPS,DUDES,GENTS,JACKS,MALES,TROOP,BLOKES,FELLAS; abbr=OR
+      heard: syn=DUG,GOT,HAD,FELT,MADE,SEEN,AURAL,CLEAR,KNOWN,NOTED,SPIED,TRIED,AUDIAL,AUDILE,BEHELD; ind=homophone; sounds=herd
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      provide: syn=WAY,FEED,GIVE,HAND,KEEP,CATER,ENDOW,ENDUE,EQUIP,GIVES,OFFER,PLACE,A GOOD,AFFORD,ANSWER; abbr=P; ind=anagram
+      cover: syn=DISGUISE*,DIE*,AN,GO,BED,BIN,BOX,CAN,CAP,CUT,END,EYE,FAG,FLY,FOX; ind=parts
+      provide cover: syn=LAMINATE
+    Definitions:
+      "cover" -> DISGUISE (definition match)
+  AI Reasoning:
+    Detective's (DI'S → DIS) + men heard (guys → GUISE homophone) = DISGUISE
+  ----------------------------------------------------------------------
+
+  [HIGH] TINGE  13A. Metal, for instance, turning colour
+  Answer: TINGE
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "colour"
+  Wordplay type: charade
+  Components:
+    synonym            Metal                     -> TIN
+    reversal           for instance              -> GE
+  Assembly: charade — TIN(synonym of "Metal") + GE(EG reversed, "for instance")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      metal: syn=TIN*,SAY,GOLD,IRON,LEAD,TIN?,ZINC,STEEL; sounds=medal,mettle,meddle
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      instance: syn=NOT,BASE,CASE,NAME,NOTE,OF A,NAMES; sounds=instants
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING; ind=anagram,reversal
+      colour: syn=TINGE*,HUE,PEA,RED,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI
+      for instance: abbr=EG
+      for instance: syn=AS,EG,UP,BOB,SAY,YOU,INTO,LIKE,PERM,TOOL
+    Definitions:
+      "colour" -> TINGE (definition match)
+  AI Reasoning:
+    TIN (metal) + GE (reversed 'for instance'/'e.g.') = TINGE
+  ----------------------------------------------------------------------
+
+  [ERROR] 15. Woman eyeing the family jewels? = HEIRESS
+  ----------------------------------------------------------------------
+
+  [HIGH] REGIONS  19A. Ignores dilapidated neighbourhoods
+  Answer: REGIONS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "neighbourhoods"
+  Wordplay: anagram
+  Explanation: anagram of IGNORES ("Ignores") [anagram: "dilapidated"] = REGIONS; definition: "neighbourhoods"
+  ----------------------------------------------------------------------
+
+  [LOW] REMAINING  2D. Left crew circling English Channel?
+  Answer: REMAINING
+  Tier: Sonnet | Confidence: -15/100
+  Definition: "Left"
+  Wordplay type: container
+  Components:
+    abbreviation       English                   -> RE
+    synonym            crew                      -> MAIN
+    synonym            Channel                   -> ING
+  Assembly: charade — RE(abbr. "English") + MAIN(synonym of "crew") + ING(synonym of "Channel")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=3 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      left: syn=REMAINING*,L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      crew: syn=CUT,LOT,MAN,MEN,BAND,GANG,OF A,TASK,TEAM,EIGHT,HANDS,PARTY,POSSE,STAFF,BOASTED
+      circling: syn=ABOUT,CRAZY,CURVY,WINDY,COILED,CURLED,CURVED,JAGGED,SPIRAL,UNEVEN,ZIGZAG,BENDING,COILING,CROOKED,CURLING; ind=anagram?,container
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E*
+      channel: syn=BATH,DUCT,FLUE,FLUX,GLUT,GUSH,HOME,KILL,LANE,LINE,MIND,SIDE,THIS,TIDE,TUBE; abbr=LANE
+    Definitions:
+      "Left" -> REMAINING (definition match)
+  AI Reasoning:
+    RE and ING (from 'English Channel') contain MAIN (crew) to form REMAINING
+  ----------------------------------------------------------------------
+
+  [HIGH] SECRETE  20D. Leak inside story on sweetheart
+  Answer: SECRETE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Leak"
+  Wordplay: charade + deletion
+  Explanation: SECRET (synonym of "story") + E (abbreviation of "sweetheart") [stripping: "inside"]; definition: "Leak"
+  ----------------------------------------------------------------------
+
+  [ERROR] 21. They're oddly short skirt ends = TERMINI
+  ----------------------------------------------------------------------
+
+  [HIGH] AGREE  22A. Yield time embracing return of Queen
+  Answer: AGREE
+  Tier: Sonnet | Confidence: 76/100
+  Definition: "Yield"
+  Wordplay type: container
+  Components:
+    synonym            time                      -> AGE
+    reversal           Queen                     -> RE
+  Assembly: container — RE(ER reversed, "Queen") inside AGE(synonym of "time")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      yield: syn=DO,GO,A A,ACT,BED,FAG,GET,NEW,PAY,RUN,SAY,TUG,USE,WAY,BACK; ind=anagram?
+      time: syn=AGE*,T,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE,DATE,ERA,T; ind=anagram; sounds=thyme
+      embracing: syn=NEAR,NIGH,CLOSE,FLUSH; ind=container,hidden
+      return: syn=NET,PAY,WAY,BEAR,BORN,COME,GAIN,GIVE,TIME,GIVES,LUCRE,PLACE,REPLY,YIELD; ind=reversal
+      queen: syn=R,ER,QU,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE; abbr=ER,HER,HM,Q,QU,R*
+  AI Reasoning:
+    AGE (time) contains RE (return of ER/Queen) to form AGREE
+  ----------------------------------------------------------------------
+
+  [HIGH] ONSET  25D. Start acting in film?
+  Answer: ONSET
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Start"
+  Wordplay: charade
+  Explanation: ON (synonym of "acting") + SET (synonym of "film?"); definition: "Start"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OGLE  26D. Openly gaze, leering eagerly, initially
+  Answer: OGLE
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Openly gaze, leering eagerly"
+  Wordplay type: acrostic
+  Components:
+    first_letter       Openly                    -> O
+    first_letter       gaze                      -> G
+    first_letter       leering                   -> L
+    first_letter       eagerly                   -> E
+  Assembly: charade — O(first letter of "Openly") + G(first letter of "gaze") + L(first letter of "leering") + E(first letter of "eagerly")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      gaze: syn=MY,EYE,AXIS,GAPE,LOOK
+      eagerly: syn=AVID
+      initially: syn=FEAR,LOTS; ind=acrostic,deletion,parts
+  AI Reasoning:
+    Take the initial letters of 'Openly gaze, leering eagerly' as indicated by 'initially' to spell OGLE, while the phrase also cryptically defines the act of ogling.
+  ----------------------------------------------------------------------
+
+  [HIGH] TOPSIDE  27A. Work's involved in current cut
+  Answer: TOPSIDE
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "cut"
+  Wordplay type: anagram
+  Components:
+    synonym            Work                      -> OP
+    synonym            current                   -> TIDES
+  Assembly: anagram — anagram of OP(synonym of "Work")+TIDES(synonym of "current") = TOPSIDE
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      work's: syn=OP*,DO,GO,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP*,POST; ind=anagram
+      involved: syn=GOT,WON,BORE,DEEP,DREW,GAVE,MADE,QUIT,RAPT,TOOK,ALERT,ALIVE,ASKED,CAGED,FANCY; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      current: syn=TIDE*,I,AC,UP,AGE,HOT,MOD,NEW,RED,RUN,SEA,BATH,BOTH,EDDY,FLOW; abbr=I*; sounds=currant
+      cut: syn=TOPSIDE*,DO,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW; ind=deletion,hidden,parts
+      involved in: ind=insertion
+      in current: syn=BAND,WELL,GROUP,HAVEN,OASIS,REFUGE,SPRING,BRITPOP,RETREAT
+    Definitions:
+      "cut" -> TOPSIDE (definition match)
+  AI Reasoning:
+    OP (work/opus) + TIDES (current) anagrammed via 'involved' gives TOPSIDE
+  ----------------------------------------------------------------------
+
+  [LOW] ISSUING  28A. Proceeding one's taking to court
+  Answer: ISSUING
+  Tier: Sonnet | Confidence: -70/100
+  Definition: "Proceeding"
+  Wordplay type: charade
+  Components:
+    synonym            one                       -> I
+    literal            's                        -> S
+    synonym            taking to court           -> SUING
+  Assembly: charade — I(synonym of "one") + S("'s") + SUING(synonym of "taking to court")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: I, SUING | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      proceeding: syn=FAST,AFOOT,CLAIM,ACTION,COURSE,ACTIONS,PROCESS
+      one's: syn=AM,MY,BABY,COUP,BOAST,GLORY,HONOR,JEWEL,PRIDE,REBEL,CREDIT,TROPHY,REALIST,SUCCESS,TRIUMPH; abbr=I*,A,ACE,O; sounds=won
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      court: syn=CT,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT,ct
+      to court: syn=WOO
+  AI Reasoning:
+    PROCEEDING is the definition; wordplay chains I (one) + S (possessive marker) + SUING (taking to court) = ISSUING
+  ----------------------------------------------------------------------
+
+  [HIGH] RESISTANCE  30A. Terrible sins create revulsion
+  Answer: RESISTANCE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "revulsion"
+  Wordplay: anagram
+  Explanation: anagram of SINSCREATE ("sins create") [anagram: "Terrible"] = RESISTANCE; definition: "revulsion"
+  ----------------------------------------------------------------------
+
+  [HIGH] SWAB  6A. Saw discontented sailor use mop?
+  Answer: SWAB
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "mop"
+  Wordplay type: anagram
+  Components:
+    literal            Saw                       -> SAW
+    deletion           sailor                    -> B [AB, "discontented"=deletion]
+  Assembly: anagram — anagram of SAW+B(AB minus A, "sailor") = SWAB
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      saw: syn=DO,MY,411,ATE,DID,DUG,FEW,GEN,GOT,HAD,HIT,MET,PUT,RAN,WON
+      discontented: ind=deletion,parts
+      sailor: syn=AB*,DOG,SEA,TAR,JACK,SALT; abbr=AB*,JACK,OS,RN,SALT,TAR
+      use: syn=A,AM,BE,DO,IS,NO,ACT,ARE,DIG,FAG,GET,HIT,JOB,PUT,RUN; abbr=DO; ind=anagram; sounds=ewes,yews
+      mop: syn=SWAB*,HAIR
+    Definitions:
+      "mop" -> SWAB (definition match)
+  AI Reasoning:
+    SAW + B (from sailor AB with middle removed) anagrammed by 'use' gives SWAB
+  ----------------------------------------------------------------------
+
+  [HIGH] WOKEN  7D. Stimulated with old knowledge
+  Answer: WOKEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Stimulated"
+  Wordplay: charade
+  Explanation: W (synonym of "with") + O (synonym of "old") + KEN (synonym of "knowledge"); definition: "Stimulated"
+  ----------------------------------------------------------------------
+
+  [LOW] BALDERDASH  8D. Hint follows more outright gibberish
+  Answer: BALDERDASH
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "gibberish"
+  Wordplay type: charade
+  Components:
+    synonym            more outright             -> BALDER
+    synonym            hint                      -> DASH
+  Assembly: charade — BALDER(synonym of "more outright") + DASH(synonym of "hint")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      hint: syn=BALDERDASH*,ACE,BIT,CUE,DAB,NIP,RAY,TAD,TIP,ACES,CLUE,DRAM,IOTA,LEAD,LICK
+      follows: syn=DOGS,EYES,GOES,RUNS,TAGS,HEEDS,MINDS,NOTES,OBEYS,TAILS,CHASES,COVERS,ENSUES,HOUNDS,STALKS
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      outright: syn=ALL,OUT,BARE,BODY,DAMN,DEAD,FAIR,FLAT,PURE,RANK,TOOM,VERY,VOID,BLANK,CLEAN
+      gibberish: syn=BUNK,TALK,DRIVEL,RUBBISH,NONSENSE,WORDSALAD
+    Definitions:
+      "Hint" -> BALDERDASH (definition match)
+  AI Reasoning:
+    BALDER (more bald/outright) + DASH (hint/small amount) concatenated to form BALDERDASH
+  ----------------------------------------------------------------------
+
+  [MEDIUM] FOOTSTEP  9D. Sweetheart's overly feminine upping pace
+  Answer: FOOTSTEP
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "pace"
+  Wordplay type: charade
+  Components:
+    first_letter       feminine                  -> F
+    reversal           overly                    -> OOT
+    synonym            upping                    -> STEP
+  Assembly: charade — F(first letter of "feminine") + OOT(TOO reversed, "overly") + STEP(synonym of "upping")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      sweetheart's: syn=JO,HON,HOT,PIP,BEAU,DEAR,ELSE,LOVE,LULU,ANGEL,BEAUT,DAISY,DANDY,DILLY,DOOZY; abbr=E*; ind=container?
+      overly: syn=TOO,WITH
+      feminine: syn=F,WAXY,BENDY,WAXEN,CARING,FEMALE,GIVING,LIMBER,MOTHER,PLIANT,SUPPLE,BENDING,DUCTILE,ELASTIC,FLEXILE; abbr=F*
+      upping: syn=BUILDING
+      pace: syn=STEP*,COME,FAST,TOWN,TROT,GREAT,SPEED,TEMPO,TREAD,STRIDE,WITHOUT
+  AI Reasoning:
+    F (first letter of feminine) + OOT (overly reversed) + STEP (synonym for upping) = FOOTSTEP
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,461 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29958
+Generated: 2026-03-20 07:24:21
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        26/28 (92%)
+    Sig+Enriched:   8
+    Sonnet:         5
+    DB Fallback:    0
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   19  12A, 13D, 17D, 19D, 2D, 23D, 3D, 5D, 6D, 8D, 9A, 11A, 15A, 16D, 20D, 22A, 26A, 4A, 7D
+  Medium (40-79): 4  18A, 18D, 1D, 25A
+  Low (<40):    3  10A, 21A, 24A
+  Failed:       2  1A, 14A
+  Average:      81/100
+
+COST: $1.1816 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (16 entries)
+------------------------------------------------------------
+  OXFORD: "Where you might shop for" -> OXFORD  (missing from definition_answers_augmented)
+  ONEWITH: "on average" -> ONEWITH  (missing from definition_answers_augmented)
+  UNMAKE: "Ruin" -> UNMAKE  (missing from definition_answers_augmented)
+  TARGET: "objective" -> TARGET  (missing from definition_answers_augmented)
+  MOOCHING: "in the middle of a lounge" -> MOOCHING  (missing from definition_answers_augmented)
+  ROBERT: "checker" -> ROBERT  (missing from definition_answers_augmented)
+  THEPINK: "Film figure's" -> THEPINK  (missing from definition_answers_augmented)
+  DIESEL: chosen -> I  (missing from abbreviations)
+  DIESEL: replacement of corps -> ES  (missing from abbreviations)
+  TARGET: Cover one's tracks -> TAR  (missing from abbreviations)
+  MOOCHING: cracking feature -> CHING  (missing from synonyms_pairs)
+  THROUGHTHENIGHT: Considered -> THROUGH  (missing from synonyms_pairs)
+  THROUGHTHENIGHT: Scotswoman -> THE  (missing from abbreviations)
+  THROUGHTHENIGHT: correct -> NIGHT  (missing from synonyms_pairs)
+  THEPINK: piano recording's retained: -> THE  (missing from abbreviations)
+  THEPINK: 16 loses nothing -> PINK  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  ROBERT = 25 (50/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  THROUGHTHENIGHT = 24 (5/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  ONEWITH = 1 (57/100): def="on average" (not in DB, odd position)
+  MOOCHING = 21 (37/100): def="in the middle of a lounge" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  1. Where you might shop for Dexter’s new diverting books = OXFORD
+  14. Ruin preparation of minute steak: two internationals sacked = UNMAKE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  19/28  4A, 9A, 11A, 12A, 22A, 26A, 2D, 3D, 5D, 6D, 8D, 13D, 16D, 17D, 18D, 18D, 19D, 20D, 23D
+  Type mismatch:         1  25A
+  Unverified explain.:   1  24A
+  Weak definition:       2  21A, 1D
+  DB gap:                8  10A, 14A, 15A, 21A, 24A, 25A, 1D, 7D
+  Failed:                2  14A, 1D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   12A  CHILLOUT      Keeping in touch, poorly Enigmatist’s going to take a break (5,3)
+                      ---  [HIGH]
+   13D  LOGICBOMB     Ultimately harmful combo, big effects if activated (5,4)
+                      ---  [HIGH]
+   17D  TRIGGER       Fire obsessive bouncer for pinching clubber’s bottom (7)
+                      ---  [HIGH]
+   18A  PITPROPS      Very good supports covering us when blasting? (8)
+                      ---  [MED]
+   18D  PIGSTY        School’s out when psychologist waves pen (6)
+                      ---  [MED]
+   19D  TRAPEZE       This bar’s swinging ex-Palace favourite who likes scoring after gin (7)
+                      ---  [HIGH]
+    2D  FLATS         When the tide goes out one might view such accommodation! (5)
+                      ---  [HIGH]
+   23D  ORION         There but for all to see, our most prominent, looking skyward? (5)
+                      ---  [HIGH]
+    3D  RONALDO       Striking Brazilian moorlands discovered on tour (7)
+                      ---  [HIGH]
+    5D  TABLEAU       Pause when performing play of disreputable author (7)
+                      ---  [HIGH]
+    6D  EASTTIMOR     At times rocky, otherwise mountainous country (4,5)
+                      ---  [HIGH]
+    8D  ATBEST        Still preferring bishop to rook, extremely optimistically (2,4)
+                      ---  [HIGH]
+    9A  REMAINSTOBESEEN  Personage perhaps lying in state is unknown for now (7,2,2,4)
+                      ---  [HIGH]
+    1A  OXFORD        Where you might shop for Dexter’s new diverting books (6,6)
+                      ---  [FAIL]
+    1D  ONEWITH       Taking a Number 13, how busy, on average? (3,4,7)
+                      ONE(synonym of "a Number") + WITH(busy)  [MED]
+   10A  DIESEL        Day chosen for replacement of corps in retiring company, generating some power (6-8)
+                      D(abbr. "Day") + I(synonym of "chosen") + ES(abbr. "replacement of corps") + EL(last letter of "retiring company")  [LOW]
+   11A  ELECTRIC      See 10 (8)
+                      ELECTRIC (synonym of "See 10")  [HIGH]
+   14A  UNMAKE        Ruin preparation of minute steak: two internationals sacked (6)
+                      ---  [FAIL]
+   15A  TARGET        Cover one’s tracks maybe to achieve objective (6)
+                      TAR (synonym of "Cover one's tracks") + GET (synonym of "achieve"); definition: "objective"  [HIGH]
+   16D  ANOTHER       See 1 (7)
+                      ANOTHER (synonym of "See 1")  [HIGH]
+   20D  PANTHER       See 7 (7)
+                      PANTHER (synonym of "See 7")  [HIGH]
+   21A  MOOCHING      A cracking feature set into low floor in the middle of a lounge? (8,6)
+                      MOO(synonym of "low") + CHING(synonym of "cracking feature")  [LOW]
+   22A  AROUND        See 21 (6)
+                      AROUND (synonym of "See 21")  [HIGH]
+   24A  THROUGHTHENIGHT  Considered Scotswoman correct to hide face away from sundown to sunrise (7,3,5)
+                      THROUGH(synonym of "Considered") + THE(synonym of "Scotswoman") + NIGHT(synonym of "correct")  [LOW]
+   25A  ROBERT        Top director, top tester and theatre’s top checker (6,6)
+                      RO(alternate letters of "director") + BE(first letter of "top tester") + RT(alternate letters of "theatre")  [MED]
+   26A  REINER        See 25 (6)
+                      REINER (synonym of "See 25")  [HIGH]
+    4A  STREET        See 1 (6)
+                      STREET (synonym of "See 1")  [HIGH]
+    7D  THEPINK       Film figure’s piano recording’s retained: 16 loses nothing (3,4,7)
+                      THE (synonym of "piano recording's retained:") + PINK (synonym of "16 loses nothing"); definition: "Film figure's"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] CHILLOUT  12A. Keeping in touch, poorly Enigmatist’s going to take a break
+  Answer: CHILLOUT
+  Tier: --- | Confidence: 90/100
+  Human explanation: I’LL=I will=”Enigmatist’s going to”; inside (kept in) an anagram/”poorly” of (touch)*
+  ----------------------------------------------------------------------
+
+  [HIGH] LOGICBOMB  13D. Ultimately harmful combo, big effects if activated
+  Answer: LOGICBOMB
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram/”activated” of ( L combo big)*, with L as the ultimate letter of [harmfu]- L &lit definition: pre-set computer instructions to do harmful things if certain conditions are met
+  ----------------------------------------------------------------------
+
+  [HIGH] TRIGGER  17D. Fire obsessive bouncer for pinching clubber’s bottom
+  Answer: TRIGGER
+  Tier: --- | Confidence: 80/100
+  Human explanation: TIGGER=character from Winnie-the-Pooh [wiki] =”obsessive bouncer”; around/pinching the bottom letter of [clubbe]-R
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PITPROPS  18A. Very good supports covering us when blasting?
+  Answer: PITPROPS
+  Tier: --- | Confidence: 70/100
+  Human explanation: for definition, “blasting” is part of the process of coal mining, and PITPROPS are timber supports in a coal mine PI (Pious, “Very good”) + PROPS=”supports” edit: anagram/”blasting” of ( su pports)* m
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PIGSTY  18D. School’s out when psychologist waves pen
+  Answer: PIGSTY
+  Tier: --- | Confidence: 70/100
+  Human explanation: anagram/”waves” of (p s y cholo gist)*, with letters from school taken out
+  ----------------------------------------------------------------------
+
+  [HIGH] TRAPEZE  19D. This bar’s swinging ex-Palace favourite who likes scoring after gin
+  Answer: TRAPEZE
+  Tier: --- | Confidence: 100/100
+  Human explanation: EZE = Eberiche Eze [wiki] who used to play for football club Crystal Palace = “ex-Palace favourite”; after TRAP=”gin”
+  ----------------------------------------------------------------------
+
+  [HIGH] FLATS  2D. When the tide goes out one might view such accommodation!
+  Answer: FLATS
+  Tier: --- | Confidence: 90/100
+  Human explanation: reference to ‘tidal flats’ that are covered at high tide, and uncovered/visible when the tide goes out
+  ----------------------------------------------------------------------
+
+  [HIGH] ORION  23D. There but for all to see, our most prominent, looking skyward?
+  Answer: ORION
+  Tier: --- | Confidence: 100/100
+  Human explanation: O- U -R (from surface) minus U (Universal, “for all to see”, with “but” indicating exclusion); plus reversal (looking skyward) of NOI=No. 1=number one=”most prominent’ &lit definition: a prominently v
+  ----------------------------------------------------------------------
+
+  [HIGH] RONALDO  3D. Striking Brazilian moorlands discovered on tour
+  Answer: RONALDO
+  Tier: --- | Confidence: 100/100
+  Human explanation: definition: the name of a Brazilian footballer [wiki] who played as a striker anagram/”on tour” of [m]-OORLAND-[s] with the outer/ cover letters removed i.e. dis- cover ed
+  ----------------------------------------------------------------------
+
+  [HIGH] TABLEAU  5D. Pause when performing play of disreputable author
+  Answer: TABLEAU
+  Tier: --- | Confidence: 100/100
+  Human explanation: definition: in theatre, an interlude where the actors freeze in place hidden inside [disrepu]-TABLE AU-[thor]
+  ----------------------------------------------------------------------
+
+  [HIGH] EASTTIMOR  6D. At times rocky, otherwise mountainous country
+  Answer: EASTTIMOR
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram/”rocky” of (At times)*, plus OR=”otherwise”
+  ----------------------------------------------------------------------
+
+  [HIGH] ATBEST  8D. Still preferring bishop to rook, extremely optimistically
+  Answer: ATBEST
+  Tier: --- | Confidence: 100/100
+  Human explanation: AT R – EST=not moving=”Still”; replacing R (rook in chess) with B (bishop in chess)
+  ----------------------------------------------------------------------
+
+  [HIGH] REMAINSTOBESEEN  9A. Personage perhaps lying in state is unknown for now
+  Answer: REMAINSTOBESEEN
+  Tier: --- | Confidence: 80/100
+  Human explanation: Someone’s body “lying in state” would be their REMAINS [being publicly displayed] TO BE SEEN
+  ----------------------------------------------------------------------
+
+  [FAILED] OXFORD  1A. Where you might shop for Dexter’s new diverting books
+  Answer: OXFORD
+  Tier: --- | Confidence: 0/100
+  Definition: "Where you might shop for"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     for Dex                   -> FORDEX
+  DB Lookups:
+    DB lookups:
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE; sounds=ware,wear
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER; abbr=U,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE; ind=anagram?; sounds=mite
+      shop: syn=BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,STORE,BETRAY,BODEGA,OUTLET,TELLON
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      diverting: syn=END
+      books: syn=NT,OT,HOW,LIT,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS; abbr=NT,OT,B,TOME
+  AI Reasoning:
+    Anagram of 'for Dex' (from 'for Dexter's') indicated by 'diverting' gives OXFORD
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ONEWITH  1D. Taking a Number 13, how busy, on average?
+  Answer: ONEWITH
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "on average"
+  Wordplay type: charade
+  Components:
+    synonym            a Number                  -> ONE
+    anagram_fodder     busy                      -> WITH
+  Assembly: charade — ONE(synonym of "a Number") + WITH(busy)
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      number: syn=ONE*,N,O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,TEN,VIP,ACTS,ANTE; abbr=N*,NO,TEN
+      how: syn=AS,SO,FOR,NOW,TOO,WAY,BONE,BOOK,BORN,CAST,DAMN,DANG,EVER,FORM,FULL
+      busy: syn=ON*,TROD,ABUZZ,ALIVE,ASTIR,INUSE,ABSORB,ACTIVE,HECTIC,ATTRACT,CROWDED,ENGAGED,HOPPING,INVOLVE,ONTHEGO; ind=anagram?
+      on: syn=WITH*,AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER; abbr=RE,S
+      average: syn=SO,CUT,PAR,RUN,THE,MEAN,NORM,ANGER,MEAN?,TO BE,COMMON,COURSE,DEMEAN,FACTOR,GARDEN
+      a number: syn=ONE*,GO,NO,FIT,GET,TOE,COPE,CREW,CUBE,DEAL
+      on average: syn=OFTEN,ASARULE,ASUSUAL,USUALLY
+    Cross-references:
+      Clue 13 answer = LOGICBOMB
+  AI Reasoning:
+    Definition 'on average' means in alignment with; 'a Number' gives ONE, and 'busy' rearranged with other elements gives WITH
+  ----------------------------------------------------------------------
+
+  [LOW] DIESEL  10A. Day chosen for replacement of corps in retiring company, generating some power
+  Answer: DIESEL
+  Tier: Sonnet | Confidence: -22/100
+  Definition: "generating some power"
+  Wordplay type: charade
+  Components:
+    abbreviation       Day                       -> D
+    synonym            chosen                    -> I
+    abbreviation       replacement of corps      -> ES
+    last_letter        retiring company          -> EL
+  Assembly: charade — D(abbr. "Day") + I(synonym of "chosen") + ES(abbr. "replacement of corps") + EL(last letter of "retiring company")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/4 (25%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: I | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      day: syn=D,AGE,BIT,BUY,EON,ERA,FRI,SAT,SUN,WED,AGES,BEAT,BUYS,COED,DATE; abbr=D*
+      chosen: syn=IN,BIG,HOT,POP,DEAR,FOND,ELECT,ELITE,FADDY,LARGE,LOVED,SWEET,VOGUE,CHOICE,MODISH
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      replacement: syn=FILL,COVER,HOARD,SPARE,STAND,BACKUP,RELIEF; ind=anagram
+      corps: syn=BODY,UNIT,SQUAD; sounds=core
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      retiring: syn=COY,SHY,MEEK,FAZED,JUMPY,LOWLY,QUIET,STIFF,TIMID,UPSET,CLUMSY,DEMURE,GAUCHE,MODEST,RUSTIC; ind=reversal
+      company: syn=BE,CO,ARE,FAN,RUN,SEE,TEN,TWO,ARMY,BAND,CARE,CAST,CHUM,CREW,DATE; abbr=CO
+      generating: syn=RISE,DOING,MAKING
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A,PART,S*; ind=hidden; sounds=sum
+      power: syn=P,ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL; abbr=P
+    Definitions:
+      "generating some power" -> DIESEL (definition match)
+  AI Reasoning:
+    Day(D) + chosen(I) + Emergency Services replacing corps(ES) + end of colonel(EL) = DIESEL
+  ----------------------------------------------------------------------
+
+  [HIGH] ELECTRIC  11A. See 10
+  Answer: ELECTRIC
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: ELECTRIC (synonym of "See 10")
+  ----------------------------------------------------------------------
+
+  [FAILED] UNMAKE  14A. Ruin preparation of minute steak: two internationals sacked
+  Answer: UNMAKE
+  Tier: --- | Confidence: 0/100
+  Definition: "Ruin"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     minute steak              -> UNMAKE
+  DB Lookups:
+    DB lookups:
+      ruin: syn=11,DO,END,MAR,DASH,DISH,DOOM,LOSS,PULL,SINK,UNDO,WEAR,COVER,DOFOR,DRECK; ind=anagram
+      preparation: syn=DRUG,LOTION,WONDER; ind=anagram?
+      minute: syn=M,BIT,DAY,EON,ERA,TWO,WEE,BABY,BEAT,FINE,FULL,HOME,JIFF,LESS,NICE; abbr=M*,MIN
+      steak: syn=CUT,DISH; sounds=stake
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      internationals: syn=I,CAP,INT,BORN,TEST,GLOBAL; abbr=I,INT
+      sacked: syn=AXED,FIRED,OUTED,CANNED,CHASED,EXILED,LOOTED,OUSTED,RAIDED,RIFLED,ROUTED; ind=anagram,deletion
+    Definitions:
+      "Ruin" -> UNMAKE (definition match)
+  AI Reasoning:
+    Anagram of selected letters from 'minute steak' after modification indicated by 'two internationals sacked'
+  ----------------------------------------------------------------------
+
+  [HIGH] TARGET  15A. Cover one’s tracks maybe to achieve objective
+  Answer: TARGET
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "objective"
+  Wordplay: charade
+  Explanation: TAR (synonym of "Cover one's tracks") + GET (synonym of "achieve"); definition: "objective"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANOTHER  16D. See 1
+  Answer: ANOTHER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: ANOTHER (synonym of "See 1")
+  ----------------------------------------------------------------------
+
+  [HIGH] PANTHER  20D. See 7
+  Answer: PANTHER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: PANTHER (synonym of "See 7")
+  ----------------------------------------------------------------------
+
+  [LOW] MOOCHING  21A. A cracking feature set into low floor in the middle of a lounge?
+  Answer: MOOCHING
+  Tier: Sonnet | Confidence: 37/100
+  Definition: "in the middle of a lounge"
+  Wordplay type: charade
+  Components:
+    synonym            low                       -> MOO
+    synonym            cracking feature          -> CHING
+  Assembly: charade — MOO(synonym of "low") + CHING(synonym of "cracking feature")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cracking: syn=A1,OK,BIG,FAB,HOT,HOW,LOT,TOO,TOP,WAY,A-OK,BLUE,BONE,BOSS,BRAG; ind=anagram?
+      feature: syn=CHIN*,SEE,BALL,BORN,BOTH,GAME,GROK,NOSE,NOTE,PART,PLAY,SHOW,TWIG,FACET,FIELD; ind=hidden
+      set: syn=GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY,LIE; abbr=SE; ind=anagram
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      low: syn=MOO*,BAD,BAY,BUM,CAW,COO,CRY,FEW,MEW,NOT,SAD,SHY,YAP,YIP,BARK; abbr=MOO*; sounds=lo
+      floor: syn=AT,ACT,BED,BUY,FIT,GET,AWAY,BALL,BASE,BEAR,CALL,COLD,CULL,DEAD,DECK; abbr=KO; ind=parts
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      middle: syn=LOW,MID,MOB,RAG,TAG,CORE,DEEP,HERD,HERE,MEAN,POOR,ROUT,SCUM,DEPTH,HEART; abbr=M*; ind=parts
+      lounge: syn=BUM,LAG,LIE,TEN,BASK,DOZE,EASE,FOOL,HANG,IDLE,KILL,LAZE,LAZY,LOAF,LOLL; ind=container?
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+    Definitions:
+      "lounge" -> MOOCHING (definition match)
+  AI Reasoning:
+    MOO (low sound) + CHING (cracking sound) = MOOCHING, which means lounging around idly
+  ----------------------------------------------------------------------
+
+  [HIGH] AROUND  22A. See 21
+  Answer: AROUND
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: AROUND (synonym of "See 21")
+  ----------------------------------------------------------------------
+
+  [LOW] THROUGHTHENIGHT  24A. Considered Scotswoman correct to hide face away from sundown to sunrise
+  Answer: THROUGHTHENIGHT
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "from sundown to sunrise"
+  Wordplay type: charade
+  Components:
+    synonym            Considered                -> THROUGH
+    synonym            Scotswoman                -> THE
+    synonym            correct                   -> NIGHT
+  Assembly: charade — THROUGH(synonym of "Considered") + THE(synonym of "Scotswoman") + NIGHT(synonym of "correct")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=3 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      considered: syn=THOUGHT*,HIP,PUT,FELT,HELD,KIND,MADE,WISE,HEADY,MUSED,RATED,SAVVY,SHARP,SMART,BROODY
+      correct: syn=ON,SO,FIT,PUT,RED,RIG,BEND,CUTE,EDIT,FAIR,FINE,GEAR,GOOD,JAKE,JUST; ind=anagram?
+      to: syn=NIGH*,THROUGH*,BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,POOR; ind=reversal; sounds=too,two
+      hide: syn=A,FUR,LIE,POD,SIT,BARK,BEAT,CASE,HULL,HUSK,LAIR,MAIL,MASK,PELT,SKIN; ind=parts
+      face: syn=BOD,BOY,CAT,EGG,FEE,GUY,JOE,LAD,MAN,MAP,MET,MOW,MUG,PAN,RUM
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      sundown: syn=NIGHT*,EVENING
+      sunrise: syn=DAY,DAWN,LIGHT,AURORA,MORNING,INCREASE,ILLUMINATION,BRIGHTANDEARLY
+      away from: syn=LEG,COLD,DEAD,FOOT,ROAD,STEP,WALK,LEAVE,RANGE,TRAMP
+  AI Reasoning:
+    THROUGH (considered/thought through) + THE (Scotswoman) + NIGHT (correct with face away operation) = THROUGHTHENIGHT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ROBERT  25A. Top director, top tester and theatre’s top checker
+  Answer: ROBERT
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "checker"
+  Wordplay type: acrostic
+  Components:
+    alternate_letters  director                  -> RO
+    first_letter       top tester                -> BE
+    alternate_letters  theatre                   -> RT
+  Assembly: charade — RO(alternate letters of "director") + BE(first letter of "top tester") + RT(alternate letters of "theatre")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T*,UP; ind=acrostic,deletion,parts
+      director: syn=DIR,BOSS,EXEC,FINN,ARROW,LOACH,ARCHON; abbr=DIR
+      tester: syn=CANOPY
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+  AI Reasoning:
+    Each phrase contributes 2 letters: 'director' gives R,O from positions 3,7; 'top tester' (beta tester) gives B,E; 'theatre' gives R,T from positions 6,1
+  ----------------------------------------------------------------------
+
+  [HIGH] REINER  26A. See 25
+  Answer: REINER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: REINER (synonym of "See 25")
+  ----------------------------------------------------------------------
+
+  [HIGH] STREET  4A. See 1
+  Answer: STREET
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: STREET (synonym of "See 1")
+  ----------------------------------------------------------------------
+
+  [HIGH] THEPINK  7D. Film figure’s piano recording’s retained: 16 loses nothing
+  Answer: THEPINK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Film figure's"
+  Wordplay: charade
+  Explanation: THE (synonym of "piano recording's retained:") + PINK (synonym of "16 loses nothing"); definition: "Film figure's"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

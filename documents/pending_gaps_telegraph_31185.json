@@ -1,0 +1,189 @@
+{
+  "source": "telegraph",
+  "puzzle": "31185",
+  "stats": {
+    "total": 32,
+    "assembled": 25,
+    "high": 16,
+    "medium": 8,
+    "low": 1,
+    "failed": 7,
+    "avg_score": 71.4
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ease",
+      "letters": "OSE",
+      "answer": "OPPOSES",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Attacks friends with ease, oddly",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "with",
+      "letters": "RE",
+      "answer": "LUSTRES",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Desire concerned with small soft glows",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "complete",
+      "letters": "RIPE",
+      "answer": "TRIPE",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Argument's ending with complete nonsense",
+      "score": 69
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "US president",
+      "letters": "ABE",
+      "answer": "ABED",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Sleeping US president before Democrat",
+      "score": 59
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Attacks",
+      "answer": "OPPOSES",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Attacks friends with ease, oddly",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One plays pibroch",
+      "answer": "PIPER",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "One plays pibroch's opening in support",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "glows",
+      "answer": "LUSTRES",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Desire concerned with small soft glows",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Punishes",
+      "answer": "SANCTIONS",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Punishes Spassky's initial moves capturing knight",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "cross",
+      "answer": "SALTIRE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Possibly cure anger getting cross",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Reduces",
+      "answer": "LESSENS",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Reduces lectures for the audience",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Landlords perhaps providing B&Bs?",
+      "answer": "LETTERS",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Landlords perhaps providing B&Bs?",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sage",
+      "answer": "SWAMI",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Sage with almost mystical insight, initially",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Consumed",
+      "answer": "EATEN",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Consumed tuck, maybe in school, reportedly",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Particularly",
+      "answer": "PERSONALLY",
+      "clue_number": "30",
+      "direction": "across",
+      "clue": "Particularly friendly covering Queen's playing",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "turned",
+      "answer": "CURDLED",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Dog guided around field finally turned",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sleeping",
+      "answer": "ABED",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Sleeping US president before Democrat",
+      "score": 59
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Balloon",
+      "answer": "BLIMP",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Balloon beginning to be deflated",
+      "score": 0
+    }
+  ]
+}

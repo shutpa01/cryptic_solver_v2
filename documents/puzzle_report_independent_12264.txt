@@ -1,0 +1,1016 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12264
+Generated: 2026-03-16 16:57:24
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        25/30 (83%)
+    Signature:      5
+    Sig+Enriched:   3
+    Sonnet:         12
+    DB Fallback:    5
+  Failed:           5
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   12  1D, 11A, 15A, 22A, 26A, 18D, 20A, 23D, 24A, 4D, 7D, 8D
+  Medium (40-79): 9  10A, 12A, 13A, 14D, 25D, 3D, 5A, 6D, 9D
+  Low (<40):    4  16D, 19A, 2D, 28A
+  Failed:       5  1A, 17A, 21D, 27A, 29A
+  Average:      66/100
+
+COST: $0.2378 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (33 entries)
+------------------------------------------------------------
+  BALL: "Clog" -> BALL  (missing from definition_answers_augmented)
+  SCARS: "Marks" -> SCARS  (missing from definition_answers_augmented)
+  LOSANGELES: "city" -> LOSANGELES  (missing from definition_answers_augmented)
+  OMAHA: "Nebraskan city" -> OMAHA  (missing from definition_answers_augmented)
+  BOWLOVER: "impress greatly" -> BOWLOVER  (missing from definition_answers_augmented)
+  LISTPRICE: "Suggested cost" -> LISTPRICE  (missing from definition_answers_augmented)
+  BLOODSPORT: "place for fox hunting" -> BLOODSPORT  (missing from definition_answers_augmented)
+  ASTI: "wine" -> ASTI  (missing from definition_answers_augmented)
+  OOPS: "I've made a mistake over love note at end of e-mail, perhaps" -> OOPS  (missing from definition_answers_augmented)
+  WESTONSUPERMARE: "coastal resort" -> WESTONSUPERMARE  (missing from definition_answers_augmented)
+  SEMILETHAL: "fairly harmful to genes" -> SEMILETHAL  (missing from definition_answers_augmented)
+  KNEADS: "Manipulates" -> KNEADS  (missing from definition_answers_augmented)
+  BUGS: "Annoys" -> BUGS  (missing from definition_answers_augmented)
+  THESOLENT: "water sports venue" -> THESOLENT  (missing from definition_answers_augmented)
+  THEISM: "Belief system" -> THEISM  (missing from definition_answers_augmented)
+  DEFEATED: "Conquered" -> DEFEATED  (missing from definition_answers_augmented)
+  EVICT: "Kick out" -> EVICT  (missing from definition_answers_augmented)
+  SPICED: "seasoning" -> SPICED  (missing from definition_answers_augmented)
+  PASHTO: "Afghan" -> PASHTO  (missing from definition_answers_augmented)
+  CHARLESTHEGREAT: "Emperor" -> CHARLESTHEGREAT  (missing from definition_answers_augmented)
+  DISENTITLE: "Deprive of claim" -> DISENTITLE  (missing from definition_answers_augmented)
+  BERIBERI: "complaint" -> BERIBERI  (missing from definition_answers_augmented)
+  SCARS: vehicles -> CARS  (missing from synonyms_pairs)
+  LISTPRICE: dish -> RICE  (missing from synonyms_pairs)
+  BLOODSPORT: rule -> SPORT  (missing from synonyms_pairs)
+  EYETOOTH: What keeps still -> EYE  (missing from abbreviations)
+  EYETOOTH: extremely withdrawn -> TOOTH  (missing from synonyms_pairs)
+  ASTI: Sex appeals -> ITAS  (missing from synonyms_pairs)
+  PEMBROKE: Europe -> E  (missing from abbreviations)
+  BUGS: aircraft -> BUS  (missing from abbreviations)
+  THEISM: those -> THE  (missing from abbreviations)
+  SPICED: Noticed -> SPIED  (missing from synonyms_pairs)
+  BERIBERI: bottles -> BEER  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (4)
+------------------------------------------------------------
+  TRIATHLON = 13 (67/100): AI=anagram, assembled=container
+  WESTONSUPERMARE = 2 (25/100): AI=anagram, assembled=charade
+  THEISM = 28 (29/100): AI=container, assembled=charade
+  SPICED = 5 (44/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  EYETOOTH = 16 (39/100): no pieces verified in DB
+  WESTONSUPERMARE = 2 (25/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  BLOODSPORT = 14 (44/100): def="place for fox hunting" (not in DB, odd position)
+  PASHTO = 6 (75/100): def="Afghan" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  1. Make six deliveries, and impress greatly = BOWLOVER
+  17. Sex appeals after knocking back wine = ASTI
+  21. Manipulates desires in audition = KNEADS
+  27. Fresh article covering popular water sports venue = THESOLENT
+  29. Conquered one achievement, inspiring another = DEFEATED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  5/30  12A, 22A, 3D, 23D, 25D
+  Type mismatch:         4  5A, 13A, 28A, 2D
+  Unverified explain.:   2  2D, 16D
+  Weak definition:       2  6D, 14D
+  DB gap:                23  1A, 5A, 10A, 11A, 15A, 17A, 19A, 20A, 24A, 26A, 27A, 28A, 29A, 2D, 4D, 6D, 7D, 8D, 9D, 14D, 16D, 18D, 21D
+  Failed:                5  1A, 17A, 27A, 29A, 21D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  BALL          Clog dance (4)
+                      double definition  [HIGH]
+   11A  SCARS         Marks vehicles on style, at first (5)
+                      CARS(synonym of "vehicles") + S(first letter of "style,")  [HIGH]
+   15A  LOSANGELES    Alleges son destroyed city (3,7)
+                      anagram of ALLEGESSON(Alleges son)  [HIGH]
+   22A  STRENUOUS     Active nurses out dancing (9)
+                      anagram of NURSESOUT(nurses out)  [HIGH]
+   26A  OMAHA         Rejected a ham omelette, initially, in Nebraskan city (5)
+                      hidden reversed in 'A HAM Omelette, initially,'  [HIGH]
+    1A  BOWLOVER      Make six deliveries, and impress greatly (4,4)
+                      ---  [FAIL]
+   10A  LISTPRICE     Suggested cost of lean rump, finally, with side dish (4,5)
+                      LIST(synonym of "lean") + P(last letter of "rump, finally") + RICE(synonym of "dish")  [MED]
+   12A  COIN          Relative wasting American's money (4)
+                      delete US from COUSIN(synonym of "relative")  [MED]
+   13A  TRIATHLON     Experiment with running over most of the competition (9)
+                      TH(deletion from "most of the") inside TRIAL(synonym of "Experiment") + ON(synonym of "with")  [MED]
+   14D  BLOODSPORT    Bishop can start to disregard rule in place for fox hunting? (5,5)
+                      BLOOD(synonym of "Bishop") + SPORT(synonym of "rule")  [MED]
+   16D  EYETOOTH      What keeps still, extremely withdrawn? A canine offered in swap deal? (8)
+                      EYE(synonym of "What keeps still") + TOOTH(synonym of "extremely withdrawn")  [LOW]
+   17A  ASTI          Sex appeals after knocking back wine (4)
+                      ---  [FAIL]
+   18D  PEMBROKE      Welsh town boosted politician in Europe with no money (8)
+                      reverse MP(abbr. "politician"), then E(abbr. "Europe") inside PM + BROKE(synonym of "with no money")  [HIGH]
+   19A  OOPS          I've made a mistake over love note at end of e-mail, perhaps (4)
+                      cryptic definition  [LOW]
+    2D  WESTONSUPERMARE  Bridge player, working at large shop, mostly, wanting kip in coastal resort (6-5-4)
+                      WEST(Bridge player) + ON(at) + SUPER(large shop, mostly) + MARE(wanting kip)  [LOW]
+   20A  SEMILETHAL    Content to pass Emile thalidomide â it's fairly harmful to genes (10)
+                      hidden in 'pasS EMILE THALidomide a it's'  [HIGH]
+   21D  KNEADS        Manipulates desires in audition (6)
+                      ---  [FAIL]
+   23D  SIEGE         Is back for one last bit of private investment (5)
+                      SI(reversal of "Is") + EG(abbr. "for one") + E(last letter of "private")  [HIGH]
+   24A  BUGS          Annoys German boarding aircraft (4)
+                      G(abbr. "German") + BUS(synonym of "aircraft")  [HIGH]
+   25D  STUD          Boss in workplace having ten leaving (4)
+                      delete Y from STUDY  [MED]
+   27A  THESOLENT     Fresh article covering popular water sports venue (3,6)
+                      ---  [FAIL]
+   28A  THEISM        Belief system is welcomed by those people (6)
+                      THE(synonym of "those") + ISM(synonym of "belief")  [LOW]
+   29A  DEFEATED      Conquered one achievement, inspiring another (8)
+                      ---  [FAIL]
+    3D  OPPONENT      Pop-up books about United's rival (8)
+                      anagram of POP(Pop)+ONE(United's)+NT(books)  [MED]
+    4D  EVICT         Kick out six in English court (5)
+                      VI(synonym of "six") + E(abbr. "English") + CT(synonym of "court")  [HIGH]
+    5A  SPICED        Noticed hosts beginning to cook with seasoning (6)
+                      C(first letter of "cook") inside SPIED(synonym of "Noticed")  [MED]
+    6D  PASHTO        Maybe Afghan father shot crook (6)
+                      anagram of PA(abbr. "father")+SHOT(shot)  [MED]
+    7D  CHARLESTHEGREAT  Emperor let her gate-crash parties (7,3,5)
+                      anagram of HER(her)+LET(let)+GATECRASH(gate-crash)  [HIGH]
+    8D  DISENTITLE    Deprive of claim in Settle, strangely, after I'd turned up (10)
+                      anagram of SETTLE(settle)+ID(i'd)+IN(in)  [HIGH]
+    9D  BERIBERI      Joke beer bottles getting one complaint (8)
+                      RIB(synonym of "joke") inside BEER(synonym of "bottles") + I(abbr. "one")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] BALL  1D. Clog dance
+  Answer: BALL
+  Tier: Signature | Confidence: 82/100
+  Definition: "Clog"
+  Wordplay type: double_definition
+  Components:
+    synonym            dance                     -> BALL
+  Assembly: double_definition — double definition
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'dance'=ball_verified=+5 | all_1_pieces_verified=+17
+  ----------------------------------------------------------------------
+
+  [HIGH] SCARS  11A. Marks vehicles on style, at first
+  Answer: SCARS
+  Tier: Signature | Confidence: 82/100
+  Definition: "Marks"
+  Wordplay type: charade
+  Components:
+    synonym            vehicles                  -> CARS
+    first_letter       style,                    -> S
+  Assembly: charade — CARS(synonym of "vehicles") + S(first letter of "style,")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'vehicles'=cars_verified=+5 | pos_f_'style,'_mechanically_ve=+3 | indicator_'at'_verified=+4 | all_3_pieces_verified=+10
+  ----------------------------------------------------------------------
+
+  [HIGH] LOSANGELES  15A. Alleges son destroyed city
+  Answer: LOSANGELES
+  Tier: Signature | Confidence: 82/100
+  Definition: "city"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Alleges son               -> ALLEGESSON
+  Assembly: anagram — anagram of ALLEGESSON(Alleges son)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'alleges_son'_mechanical=+3 | indicator_'destroyed'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] STRENUOUS  22A. Active nurses out dancing
+  Answer: STRENUOUS
+  Tier: Signature | Confidence: 82/100
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     nurses out                -> NURSESOUT
+  Assembly: anagram — anagram of NURSESOUT(nurses out)
+  Checks: signature_matched_+_assembly_v=+60 | ana_f_'nurses_out'_mechanicall=+3 | indicator_'dancing'_verified=+5 | all_2_pieces_verified=+14
+  ----------------------------------------------------------------------
+
+  [HIGH] OMAHA  26A. Rejected a ham omelette, initially, in Nebraskan city
+  Answer: OMAHA
+  Tier: Signature | Confidence: 82/100
+  Definition: "Nebraskan city"
+  Wordplay type: hidden
+  Components:
+    hidden             a ham omelette, initially, -> AHAMOMELETTEINITIALLY
+  Assembly: hidden_reversed — hidden reversed in 'A HAM Omelette, initially,'
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'a_ham_omelette,_initial=+3 | indicator_'rejected'_verified=+4 | indicator_'in'_verified=+4 | all_3_pieces_verified=+11
+  ----------------------------------------------------------------------
+
+  [FAILED] BOWLOVER  1A. Make six deliveries, and impress greatly
+  Answer: BOWLOVER
+  Tier: --- | Confidence: 0/100
+  Definition: "impress greatly"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     six deliveries            -> BOWLOVER
+  DB Lookups:
+    DB lookups:
+      make: syn=A,DO,A A,ACT,ARM,BAG,BAR,BED,BIG,DIG,FAG,GET,HIT,LAY,LOG; abbr=DO; ind=anagram?
+      six: syn=VI,ARM,GAT,GUN,ROD,EVEN,HEAT,AK-47,PIECE,RIFLE,MUSKET,PISTOL,ROSCOE,CARBINE,FIREARM; abbr=VI
+      deliveries: syn=OVER*,OVERS,BIRTHS,BUMPERS,YORKERS,BOUNCERS
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      impress: syn=ARM,BASE,GRAB,MAKE,MOVE,RICH,SIGN,TELL,DRIVE,FORCE,PRINT,REACH,AFFECT,IMPACT,INSTIL
+      greatly: syn=IN,SO,FAR,HOW,LOT,NOT,TOO,EVEN,EVER,FLAT,FULL,HIGH,MORE,MOST,MUCH
+      six deliveries: syn=OVER*
+  AI Reasoning:
+    Definition: "impress greatly" (to bowl over means to impress greatly).
+    Wordplay: anagram. "make" is the anagram indicator.
+    Fodder: "six deliveries" = OVER (confirmed lookup - in cricket, six deliveries make an over) + BOWL (synonym for deliveries/balls in cricket).
+    BOWLOVER rearranged = BOWLOVER (the anagram fodder is already in the correct order).
+    
+    Wait, let me reconsider: The fodder should be BOWL + OVER, and "make" indicates anagram.
+    BOWLOVER anagrammed = BOWLOVER (no rearrangement needed as the letters are already in order).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LISTPRICE  10A. Suggested cost of lean rump, finally, with side dish
+  Answer: LISTPRICE
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "Suggested cost"
+  Wordplay type: charade
+  Components:
+    synonym            lean                      -> LIST
+    last_letter        rump, finally             -> P
+    synonym            dish                      -> RICE
+  Assembly: charade — LIST(synonym of "lean") + P(last letter of "rump, finally") + RICE(synonym of "dish")
+  Note: dropped piece 2
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      suggested: syn=GOTAT,MOOTED,OPINED,RAISED,ADVISED,IMPLIED,IMPLICIT,PROPOSED,INDICATED
+      cost: syn=LIST*,PRICE*,GO,BED,FEE,RUN,VIP,WAY,ANTE,BOOK,CAST,EASY,FACE,FORM,GARB
+      lean: syn=LIST*,LIE*,CUT,RUN,BANK,CANT,PAST,PROP,RAKE,REST,SHED,TEND,ANGLE,GRADE,LISTS; sounds=lien
+      rump: syn=AT,BUM,CAN,BACK,BOAT,BUNS,BUTT,DUFF,HAMS,REAR,ROOT,SEAT,TAIL,TUSH,WARP; ind=parts
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      side: syn=ARC,BAD,OFF,ONE,SET,WAY,ANON,AXIS,BANK,BLOC,BODY,EDGE,EVIL,FACE,HAND; abbr=S*; sounds=sighed
+      dish: syn=A,MY,FEW,PIE,POI,TEN,BOWL,BUZZ,CHOW,DIET,EATS,FARE,FEED,FLAN,FOOD; ind=anagram
+      side dish: syn=SALAD,COLESLAW
+  AI Reasoning:
+    Definition: "Suggested cost" (a list price is a suggested cost).
+    
+    Wordplay: charade.
+    - "lean" = LIST (confirmed synonym)
+    - "rump, finally" = P (final letter of "rump")
+    - "side" = S (confirmed abbreviation)
+    - "with" signals addition
+    - "dish" is an anagram indicator for the remaining letters
+    
+    Wait, let me reconsider. The indicators show "dish" as anagram, but we need LISTPRICE.
+    
+    Actually, simpler charade:
+    - "lean" = LIST (confirmed synonym)
+    - "cost" = PRICE (confirmed synonym)
+    - LIST + PRICE = LISTPRICE
+    
+    The other words ("rump, finally, with side dish") may be misdirection or the surface reading.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] COIN  12A. Relative wasting American's money
+  Answer: COIN
+  Tier: DB Fallback | Confidence: 65/100
+  Definition: "money"
+  Wordplay type: deletion
+  Components:
+    synonym            relative                  -> COUSIN
+    abbreviation       american's                -> US
+  Assembly: deletion — delete US from COUSIN(synonym of "relative")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      relative: syn=A,MA,BRO,DAD,KIN,NAN,SIB,SIS,SON,AUNT,GRAN,NEAR,WIFE
+      wasting: ind=anagram?,deletion?
+      american's: syn=US,GUMS,INCA,ROTH,YANK; abbr=A,US
+      money: syn=COIN*,DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST; abbr=BREAD,CASH,DOSH
+    Definitions:
+      "money" -> COIN (definition match)
+  AI Reasoning:
+    Definition: "money" (COIN is money).
+    Wordplay: deletion. "wasting" is the deletion indicator. "Relative" = COUSIN, "American's" = US. Remove US from COUSIN: COUSIN - US = COIN.
+    
+    Wait, that doesn't work letter-wise. Let me reconsider.
+    
+    Actually: "Relative" = COIN (as in "coin a phrase" - but that's not a relative).
+    
+    Let me try again: "American" = A (abbreviation). "Relative wasting American's" = relative minus A. But what relative minus A gives COIN?
+    
+    Rethinking: "Relative" = COUSIN, "wasting American" = remove A. COUSIN - A = COUSIN (that doesn't work).
+    
+    Actually: "American" = US. "Relative" = COUSIN. COUSIN "wasting" (removing) US = COIN.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TRIATHLON  13A. Experiment with running over most of the competition
+  Answer: TRIATHLON
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "competition"
+  Wordplay type: anagram
+  Components:
+    synonym            Experiment                -> TRIAL
+    synonym            with                      -> ON
+    deletion           most of the               -> TH
+  Assembly: container — TH(deletion from "most of the") inside TRIAL(synonym of "Experiment") + ON(synonym of "with")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      experiment: syn=EXAM,QUIZ,TEST,ESSAY,TEST,,TESTS,TRIAL
+      with: syn=ON*,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON*,W
+      running: syn=ON*,ARM,CARE,FAST,GRIP,HAND,HOLD,LIVE,MOVE,SWAY,A ROW,ALIVE,GOING,GRASP,HANDS; abbr=ON*; ind=anagram
+      over: syn=ON*,BY,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON*,UP; ind=anagram,reversal
+      most: syn=AN,DO,OR,SO,TO,ACT,BUT,CUT,DIG,FAR,GET,HIT,HOW,JOB,LOT; ind=deletion,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      competition: syn=CUP,FOE,WAR,ALSO,FACE,GAME,MEET,RACE,EQUAL,EVENT,FINAL,MATCH,RIVAL,AT ALL,FELLOW; abbr=C
+      most of: ind=parts
+      of the: syn=MITRE,CHEETAH
+    Definitions:
+      "competition" -> TRIATHLON (definition match)
+  AI Reasoning:
+    Definition: "competition" (a triathlon is a competition).
+    Wordplay: anagram. "running" and "over" are anagram indicators.
+    Fodder: "Experiment with" + "most of the" = TRIAL + ON + T = TRIALON + T = TRIALONT
+    Wait, let me reconsider the fodder more carefully.
+    
+    "Experiment" = TRIAL
+    "with" = ON (from known lookups)
+    "most of the" = TH (from known lookups - "most of" indicates taking most letters of "the")
+    
+    TRIAL + ON + TH = TRIALONTH
+    
+    Anagram of TRIALONTH = TRIATHLON
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BLOODSPORT  14D. Bishop can start to disregard rule in place for fox hunting?
+  Answer: BLOODSPORT
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "place for fox hunting"
+  Wordplay type: charade
+  Components:
+    synonym            Bishop                    -> BLOOD
+    synonym            rule                      -> SPORT
+  Assembly: charade — BLOOD(synonym of "Bishop") + SPORT(synonym of "rule")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      bishop: syn=BLOOD*,SPORT*,RR,MAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,LORD; abbr=B*,DD,RR
+      can: syn=LOO*,A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY; abbr=C,TIN; ind=anagram?
+      start: syn=GO,BAG,DAY,GET,JUT,RUN,SET,BOLT,DAWN,FALL,FORM,JUMP,LEAD,MOVE,NEED; abbr=GO; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      disregard: syn=MY,END,ITS,SIN,PASS,ASIDE,REMIT,WRONG,APATHY,BREACH,BYPASS,EXCUSE,FACTOR,FORGET,IGNORE
+      rule: syn=BLOOD*,BAN,BAR,KIN,LAW,REG,BOSS,CLAN,CURB,HOLD,KEEP,NORM,PULL,RACE,ROLE; abbr=LAW,R*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      place: syn=AM,BE,DO,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END,FEE,FIX; abbr=LAY,PL
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      fox: syn=GET,HER,HIS,ICE,NET,RAP,TEN,TOD,BAIL,GIRL,GLOM,GROK,ITCH,MAZE,NARK
+      hunting: syn=CHASE,SEARCHING,THE CHASE
+  AI Reasoning:
+    Definition: "place for fox hunting" (a bloodsport is what fox hunting is).
+    
+    Wordplay: charade. "Bishop" = BLOOD (synonym from known lookups). "can" is an anagram indicator, but there's no clear anagram fodder following it that would work.
+    
+    Let me reconsider: "Bishop" = BLOOD, and looking at the second part, "rule" = SPORT (from known lookups). So BLOOD + SPORT = BLOODSPORT.
+    
+    The wordplay is: BLOOD (bishop) + SPORT (rule) = BLOODSPORT.
+  ----------------------------------------------------------------------
+
+  [LOW] EYETOOTH  16D. What keeps still, extremely withdrawn? A canine offered in swap deal?
+  Answer: EYETOOTH
+  Tier: Sonnet | Confidence: 39/100
+  Definition: "canine"
+  Wordplay type: charade
+  Components:
+    synonym            What keeps still          -> EYE
+    synonym            extremely withdrawn       -> TOOTH
+  Assembly: charade — EYE(synonym of "What keeps still") + TOOTH(synonym of "extremely withdrawn")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      what: syn=TOO*,YET*,AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT; abbr=EH
+      keeps: syn=OWNS,RUNS,SAYS,CURBS,FENDS,FILES,FILLS,HOLDS,MEETS,PACKS,RULES,STOWS,TAMES,TENDS,WARDS; ind=container
+      still: syn=YET*,NOT,CALM,DEAD,DRAW,DUMB,EVEN,FIRE,FLAT,HALT,HOLD,HUSH,JUST,LOWN,LULL; abbr=YET*
+      extremely: syn=TOO*,SO,FAR,HOW,LOT,NOT,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      withdrawn: syn=COY,SHY,MEEK,OF A,FAZED,JUMPY,STIFF,TIMID,UPSET,ADRIFT,CLUMSY,DEMURE,GAUCHE,MODEST,REMOTE; ind=reversal
+      canine: syn=TOOTH*,EYETOOTH*,DOG,FANG,SHAR,TOSA,CORGI,DETER,AFGHAN,HOUNDS,JACKAL,SETTER,AT HOME,WHIPPET,SMART OR; ind=anagram
+      offered: syn=GOT,WON,AWAY,DREW,GAVE,MADE,QUIT,ALOOF,BAGGED,BRACED,CARTED,EARNED,GAINED,HAULED,LANDED
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      swap: syn=DO,AND,DAY,COPE,DEAL,FARE,MOVE,SNAP,STIR,VARY,BUDGE,SHIFT,TRADE,CHANGE,GET BY; ind=anagram?
+      deal: syn=A,OK,BID,BUY,COP,DAY,END,FIX,GET,LOT,OPT,POT,SET,TIE,TON; ind=anagram?
+  AI Reasoning:
+    Looking at this step by step:
+    
+    Definition: "canine" (an eyetooth is a canine tooth)
+    
+    Wordplay: Let me work through the container structure indicated by "keeps":
+    - "What" = YET (from known lookups)
+    - "still" = YET (from known lookups)
+    - "extremely withdrawn" = EYE + TOOTH where:
+      - "extremely" indicates taking outer letters
+      - "withdrawn" signals reversal
+      - Taking extreme letters of some word and reversing gives us the container
+    
+    Actually, let me reconsider the structure:
+    - "What keeps still" = YET keeps YET = Y(YET)ET? No, that doesn't work.
+    
+    Let me try: "extremely withdrawn" = taking extreme letters of "withdrawn" reversed = WN reversed = NW? No.
+    
+    Rethinking: "What keeps still, extremely withdrawn" - this suggests YET contains something. "extremely withdrawn" could mean outer letters of "withdrawn" = W...N, but reversed = N...W.
+    
+    Actually, the answer EYETOOTH suggests: EYE + TOOTH. "What keeps still" = EYE (what keeps still/motionless), and TOOTH is the "canine" part. The wordplay creates EYETOOTH through charade: EYE + TOOTH.
+  ----------------------------------------------------------------------
+
+  [FAILED] ASTI  17A. Sex appeals after knocking back wine
+  Answer: ASTI
+  Tier: --- | Confidence: 0/100
+  Definition: "wine"
+  Wordplay type: reversal
+  Components:
+    synonym            Sex appeals               -> ITAS
+  DB Lookups:
+    DB lookups:
+      sex: syn=ACT,SAFE; ind=container?
+      appeals: syn=BEG,CRY,PLEA,PRAY,SUIT,IT,SA,ASK,BAIT,CALL,DRAW,LURE,POLE,SPUR,TASK; abbr=SA
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      knocking: syn=TASK; ind=reversal?
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      wine: syn=ASTI*,ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,BEER,BELT,BREW; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      sex appeals: syn=IT,SA,KEY,EMIT,FIRE,MOVE,SHOW,STIR,TURN
+    Definitions:
+      "wine" -> ASTI (definition match)
+  AI Reasoning:
+    Definition: "wine" (ASTI is a type of wine).
+    
+    Looking at the known lookup, "wine" directly maps to ASTI as a synonym. Since this is a 4-letter answer and we have a direct synonym match, this appears to be a straightforward synonym clue rather than complex wordplay.
+    
+    The answer ASTI is simply a synonym for "wine" - specifically, Asti is an Italian sparkling wine.
+  ----------------------------------------------------------------------
+
+  [HIGH] PEMBROKE  18D. Welsh town boosted politician in Europe with no money
+  Answer: PEMBROKE
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Welsh town"
+  Wordplay type: container
+  Components:
+    abbreviation       Europe                    -> E
+    synonym            with no money             -> BROKE
+    abbreviation       politician                -> MP
+  Assembly: reversal_container — reverse MP(abbr. "politician"), then E(abbr. "Europe") inside PM + BROKE(synonym of "with no money")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      welsh: syn=CHEAT,CAMBRIAN
+      town: syn=DO,AIM,BET,BUS,CAR,DIE,END,FIT,GET,HUT,LAG,LAY,LIE,PUT,RUN
+      boosted: syn=AERATED,ANNEALED
+      politician: syn=MP,EURO,GOVE,HUNT,TORY,GREEN,LIBDEM,MACRON,MEMBER,NEOCON,PERSON,LIBERAL,RADICAL,SENATOR,STARMER; abbr=MP,TORY; ind=container?
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      europe: syn=GROUP
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      no: syn=AH,HA,LO,MY,OH,AHA,FEE,FIE,GAD,GEE,HER,HEY,NAY,TAB,UGH; ind=deletion; sounds=know
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      welsh town: syn=PEMBROKE*,TOWN,BELOW,NEATH,UNDER,BRECON,COLLEGE,NEWPORT,BARMOUTH
+      with no: syn=ABNORMAL,ATYPICAL
+      with no money: syn=BROKE*,SKINT
+    Definitions:
+      "Welsh town" -> PEMBROKE (definition match)
+  AI Reasoning:
+    Definition: "Welsh town" (Pembroke is a Welsh town).
+    
+    Wordplay: container. "politician" and "in" are container indicators. "Europe" = E (abbreviation). "with no money" = BROKE (confirmed lookup). "boosted" suggests reversal, so BROKE reversed = EKORB. But that doesn't work.
+    
+    Let me reconsider: "boosted" might mean enhanced/added to. If we have E (Europe) containing something, and we need PEMBROKE...
+    
+    Actually: "boosted politician in Europe with no money" - if "in" is the container indicator, then "politician" goes inside "Europe with no money". "Europe with no money" = E + BROKE = EBROKE. But we need the politician (MP) to go inside this somehow.
+    
+    Wait: P (politician abbreviation) + EMBROKE where EM could be... No.
+    
+    Let me try: "Europe" = E, "with no money" = BROKE, so E + BROKE = EBROKE. If "politician" = MP goes inside, we get E + M + BROKE with P inserted = PEMBROKE. Actually: PEM + BROKE where P and M are from politician inserted into E + BROKE structure.
+    
+    The mechanics: E (Europe) + BROKE (with no money), with politician (P, M from MP or similar) inserted to give PEMBROKE.
+  ----------------------------------------------------------------------
+
+  [LOW] OOPS  19A. I've made a mistake over love note at end of e-mail, perhaps
+  Answer: OOPS
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "I've made a mistake over love note at end of e-mail, perhaps"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      mistake: syn=BOO,ERR,MAR,RAP,SIN,BEAT,BISH,BOOB,FLAW,FLUB,GAFF,GOOF,MARK,MISS,ONUS; abbr=BISH; ind=anagram?
+      over: syn=BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE,DOWN; abbr=O*,ON,UP; ind=anagram,reversal
+      love: syn=BE,DO,ACT,ARE,DIG,GET,HIT,HON,ITS,NIL,PAT,PET,PIP,PUT,SEE; abbr=NIL,O*
+      note: syn=MI,MY,TE,UT,AIR,CRY,DOH,EAR,EYE,FAH,FIN,LOG,LOW,NOT,ONE; abbr=A,B,C,D,DO,E,F,FA,G,LA,MI,N,NB,RE,SI,SO,SOL,TE,TI
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      e-mail: syn=CARD
+      mail: syn=POD,AS A,BARK,CARD,CASE,FACT,HIDE,HULL,HUSK,POST,SEND,SKIN,WHAT; sounds=male
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      made a: syn=JET,PET,SEA,ROLE,WIND
+      a mistake: syn=SAY,GOOF,TYPO,WOLF
+      end of: ind=parts
+  AI Reasoning:
+    Definition: "I've made a mistake" (OOPS expresses having made a mistake).
+    
+    Wordplay: charade. "love" = O (tennis scoring), "note" = P (musical note), "end of e-mail" = L (last letter of "e-mail"). But that gives OPL, not OOPS.
+    
+    Let me reconsider: "note" could be different musical notes. If "note" = P and we need OOPS, then we have O + O + P + S.
+    
+    Actually: "love" = O, another "love" implied = O, "note" = P (musical note), "end of e-mail" = L... but that's still OOPL.
+    
+    Wait - "end of e-mail, perhaps" might mean the S from "perhaps" since it's at the end position. So: O (love) + O (second love implied) + P (note) + S (from "perhaps" as end indicator) = OOPS.
+    
+    Actually, simpler: This appears to be a cryptic definition where the entire clue "I've made a mistake over love note at end of e-mail, perhaps" cryptically describes OOPS as an exclamation of error.
+  ----------------------------------------------------------------------
+
+  [LOW] WESTONSUPERMARE  2D. Bridge player, working at large shop, mostly, wanting kip in coastal resort
+  Answer: WESTONSUPERMARE
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "coastal resort"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Bridge player             -> WEST
+    anagram_fodder     at                        -> ON
+    anagram_fodder     large shop, mostly        -> SUPER
+    anagram_fodder     wanting kip               -> MARE
+  Assembly: charade — WEST(Bridge player) + ON(at) + SUPER(large shop, mostly) + MARE(wanting kip)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/4 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      bridge: syn=ARCH,CARD,GAME,JOIN,SPAN,CROSS,A GAME,BY GAME,IN GAME,PERHAPS,PONTOON,SPANIEL,SPANNER,VIADUCT,CONTRACT
+      player: syn=ALSO,LEFT,MUSO,OBOE,WING,ACTOR,GAMER,NORTH,PARTY,PIPER,THESP,ACTORS,MUMMER,OBOIST,SHARER
+      working: syn=ON*,LIVE,RISE,ALIVE,DOING,DRONE,GOING,PALMY,USING,USUAL,ACTIVE,LABOUR,LIVING,MAKING,USABLE; abbr=A*,ON*; ind=anagram
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L,OS
+      shop: syn=STORE*,BOX,TEN,DELI,HOME,TALK,WORK,ARGOT,PLANT,SNEAK,BETRAY,BODEGA,OUTLET,TELLON,FACTORY
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY,ABSOLUTELY,ALTOGETHER; ind=deletion,parts
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      kip: syn=BED,HAY,Z'S,DOSS,FOUR,LAIR,RACK,REST,SLEEP,WATER,DOZING,REPOSE,NAPPING,RESTING,SLUMBER
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      coastal: syn=SEASIDE
+      resort: syn=GO,KEY,SPA,HAUNT,RELAX,SOCHI,REFUGE,REPAIR,COUNTRY,ORLANDO,TORQUAY,WAIKIKI,ACAPULCO,BIARRITZ,BRIGHTON; abbr=SPA; ind=anagram
+      bridge player: syn=WEST*,EAST,HEAD,POLE,NORTH,POINT,PLAYER,BEARING,CREAMTEA,OCCIDENT
+      at large: syn=FREE,GENERALLY,ON THE RUN,ROAMING FREE
+      coastal resort: syn=RESORT,BRIGHTON
+  AI Reasoning:
+    Definition: "coastal resort" (Weston-super-Mare is a coastal resort).
+    
+    Wordplay: anagram. "working" is the anagram indicator.
+    
+    Fodder:
+    - "Bridge player" = WEST (confirmed lookup)
+    - "large shop, mostly" = STORE with last letter deleted = STOR (using "mostly" as deletion indicator)
+    - "wanting kip" = ON (kip = sleep, so wanting kip = ON, meaning awake/alert)
+    - The remaining letters needed: SUPERMARE
+    
+    Wait, let me reconsider the anagram fodder more carefully:
+    
+    "Bridge player, working at large shop, mostly, wanting kip"
+    - WEST (bridge player) + ONSUPER + MARE from the anagram of the middle portion.
+    
+    Actually, this appears to be an anagram of: WEST + ON + SUPER + MARE = WESTONSUPERMARE
+    
+    The anagram fodder spans multiple elements, with "working" indicating the entire phrase should be rearranged to form WESTONSUPERMARE.
+  ----------------------------------------------------------------------
+
+  [HIGH] SEMILETHAL  20A. Content to pass Emile thalidomide â it's fairly harmful to genes
+  Answer: SEMILETHAL
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "fairly harmful to genes"
+  Wordplay type: hidden
+  Components:
+    hidden             pass Emile thalidomide a it's -> PASSEMILETHALIDOMIDEAITS
+  Assembly: hidden — hidden in 'pasS EMILE THALidomide a it's'
+  Checks: signature_matched_+_assembly_v=+60 | hid_f_'pass_emile_thalidomide_=+3 | indicator_'content'_verified=+4 | all_2_pieces_verified=+15
+  ----------------------------------------------------------------------
+
+  [FAILED] KNEADS  21D. Manipulates desires in audition
+  Answer: KNEADS
+  Tier: --- | Confidence: 0/100
+  Definition: "Manipulates"
+  Wordplay type: homophone
+  Components:
+    synonym            desires                   -> NEEDS
+  DB Lookups:
+    DB lookups:
+      manipulates: syn=A GRIP,BALL,BOTH,GAME,MILK,PLAY,SEAT,TAKE,WORK,FIELD,TREAT,CHARGE,MANAGE,NOTICE,SECOND; ind=anagram?
+      desires: syn=USES,YENS,BENTS,CRIES,LIKES,LONGS,LOVES,PLEAS,TEETH,URGES,WANTS,BIASES,COVETS,FAVORS,ITCHES; abbr=LONG
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      audition: syn=EXAM,QUIZ,TEST,FINAL,PROBE,RETEST,REVIEW; ind=homophone
+      in audition: ind=homophone
+  AI Reasoning:
+    Definition: "Manipulates" (to knead is to manipulate).
+    Wordplay: homophone. "audition" is the homophone indicator. "desires" = NEEDS (synonym). NEEDS sounds like KNEADS when spoken aloud.
+  ----------------------------------------------------------------------
+
+  [HIGH] SIEGE  23D. Is back for one last bit of private investment
+  Answer: SIEGE
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "investment"
+  Wordplay type: charade
+  Components:
+    reversal           Is                        -> SI
+    abbreviation       for one                   -> EG
+    last_letter        private                   -> E
+  Assembly: charade — SI(reversal of "Is") + EG(abbr. "for one") + E(last letter of "private")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      is: syn=GE*,DO,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      bit: syn=ACE,ACT,DAB,DAY,EAT,EON,ERA,LET,NIP,RAY,RUB,TAD,TWO,ACES,ATOM; ind=hidden
+      private: syn=OWN,TOP,DOOR,ALONE,INNER,PRIVY,SNEAK,STAND,TOMMY; abbr=GI,P
+      investment: syn=SIEGE*
+      for one: abbr=EG*
+      for one: syn=EG*,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+      bit of: ind=parts
+      bit of: syn=PART
+    Definitions:
+      "investment" -> SIEGE (definition match)
+  AI Reasoning:
+    Definition: "investment" (a siege is an investment/surrounding of a place).
+    
+    Wordplay: charade with reversal. "Is back" = SI (IS reversed, with "back" as reversal indicator). "for one" = EG (confirmed lookup: "for one" = EG as abbreviation meaning "for example"). "last bit of private" = E (last letter of "private", with "last bit of" as parts indicator).
+    
+    SI + EG + E = SIEGE.
+  ----------------------------------------------------------------------
+
+  [HIGH] BUGS  24A. Annoys German boarding aircraft
+  Answer: BUGS
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Annoys"
+  Wordplay type: charade
+  Components:
+    abbreviation       German                    -> G
+    synonym            aircraft                  -> BUS
+  Assembly: charade — G(abbr. "German") + BUS(synonym of "aircraft")
+  Checks: signature_matched_+_assembly_v=+60 | abr_f_'german'=g_verified=+5 | syn_f_'aircraft'=bus_verified=+5 | all_2_pieces_verified=+12
+  ----------------------------------------------------------------------
+
+  [MEDIUM] STUD  25D. Boss in workplace having ten leaving
+  Answer: STUD
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Boss"
+  Wordplay type: deletion
+  Assembly: deletion — delete Y from STUDY
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | pieces_validated=no pieces to validate | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      boss: syn=STUD*,A1,OK,BIG,FAB,GUV,HOT,THE,TOO,TOP,A-OK,BLUE,BRAG,COLD,COOL
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      workplace: syn=LAB
+      having: syn=GAIN
+      ten: syn=BUM,CAP,FEZ,FIN,FOX,HAT,LID,ONE,RUN,SAG,TAM,TWO,BABE,BASE,BIKE; abbr=X
+      leaving: syn=LAST; ind=deletion?
+    Definitions:
+      "Boss" -> STUD (definition match)
+  AI Reasoning:
+    Definition: "Boss" (STUD is a synonym for boss).
+    Wordplay: deletion. "workplace" = STUDY (synonym). "ten leaving" = remove TEN. But STUDY - TEN doesn't work cleanly.
+    
+    Let me reconsider: "workplace" = STUDIO? STUDIO - TEN doesn't work either.
+    
+    Actually, looking at the known lookup: "boss" = STUD is confirmed as a synonym. This appears to be a double definition where both "Boss" and the rest of the clue define STUD in different ways - STUD can mean both a boss/leader and relates to workplace contexts (stud farm, etc.).
+    
+    The wordplay mechanism isn't producing STUD cleanly, so this is likely a double definition: "Boss" and "workplace having ten leaving" both define STUD.
+  ----------------------------------------------------------------------
+
+  [FAILED] THESOLENT  27A. Fresh article covering popular water sports venue
+  Answer: THESOLENT
+  Tier: --- | Confidence: 0/100
+  Definition: "water sports venue"
+  Wordplay type: charade
+  Components:
+    synonym            article                   -> THE
+    anagram_fodder     popular covering          -> HOTLENS
+  DB Lookups:
+    DB lookups:
+      fresh: syn=IN,DEF,HEP,HIP,MOD,NEW,RAW,AIRY,ARCH,BOLD,CHIC,COOL,ELSE,KILL,MINT; ind=anagram
+      article: syn=THE*,AN,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE,A LEADER; abbr=A,AN,THE*
+      covering: syn=BIN,BOX,POD,RUG,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE; ind=container,deletion,parts
+      popular: syn=IN,BIG,HIT,HOT,LOW,POP,DEAR,FOND,OPEN,RATE,RIFE,AGAIN,AIRED,CHEAP,CUPPY; abbr=IN,in
+      water: syn=ALE,BOG,CAN,COT,CUT,GOO,GUM,HAY,KIP,LOO,PAD,PEE,SEA,SOP,WET
+      sports: syn=PE,MAIN,BUTTS,GAMES,JESTS,JOKES,MARKS,MOCKS,SWEAR,TARGETS,RECREATE,AROUND OR,ATHLETICS,DERISIONS,MOCKERIES; abbr=RU,WEAR
+      venue: syn=ITS,EXIT,SITE,ARENA,FORUM,JOINT,LOCUS,PLACE,POINT,WHERE,EGRESS,LOCALE,MEDIUM,OUTLET,SOAPBOX
+      water sports: syn=FISHING
+      sports venue: syn=HERE,IMOLA,CIRCUIT,STADIUM,RACETRACK,VELODROME
+  AI Reasoning:
+    Looking at this step by step:
+    
+    Definition: "water sports venue" (The Solent is a strait and water sports venue).
+    
+    Wordplay: anagram. "fresh" is the anagram indicator.
+    
+    The answer is THESOLENT (9 letters), and we have:
+    - "article" = THE (confirmed lookup)
+    - This leaves SOLENT to be formed from the remaining words
+    
+    "popular" = HOT (synonym)
+    Anagram fodder: HOT + LENS (from "covering" - but wait, "covering" is listed as an indicator word)
+    
+    Let me reconsider: If "covering" is an indicator, then we need other words for the anagram.
+    
+    Actually, looking more carefully: "popular" could be IN (trendy/popular), and we need to find SOLENT from the remaining material.
+    
+    Rethinking: "popular" = HOT, and we need SOLENT from other words. But the clue seems to only give us limited material.
+    
+    Wait - "covering" might contribute letters despite being an indicator. If "covering" = LENS (synonym for covering/lens covers), then:
+    THE + anagram of (HOT + LENS) = THE + SOLENT = THESOLENT.
+  ----------------------------------------------------------------------
+
+  [LOW] THEISM  28A. Belief system is welcomed by those people
+  Answer: THEISM
+  Tier: Sonnet | Confidence: 29/100
+  Definition: "Belief system"
+  Wordplay type: container
+  Components:
+    synonym            those                     -> THE
+    synonym            belief                    -> ISM
+  Assembly: charade — THE(synonym of "those") + ISM(synonym of "belief")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (5 hedges)
+  DB Lookups:
+    DB lookups:
+      belief: syn=ISM*,THEISM*,IF,MY,EYE,IDEA,MIND,NORM,VIEW,BASIS,CANON,CREDO,CREED,DEISM,DOGMA
+      system: syn=HOW,WAY,BORN,CAST,FORM,GAME,NICK,PLAN,RITE,ROAD,SHOT,TACK,TRIM,AFTER,BLANK
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      welcomed: ind=container
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      people: syn=THIS*,ELF,FAY,HAG,IMP,KIN,MEN,MOB,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN; abbr=MEN
+      belief system: syn=CREDO,FAITH,ISLAM,BELIEF,SHINTO,TAOISM
+      those people: syn=THEM,UFOS
+    Definitions:
+      "Belief" -> THEISM (definition match)
+  AI Reasoning:
+    Definition: "Belief system" (theism is a belief system).
+    Wordplay: container. "welcomed by" is the container indicator. "belief" = ISM (synonym from known lookups). "those people" = THEM (synonym). ISM goes inside THEM: TH(ISM)EM = THEISM.
+    
+    Wait, that gives THISMEM, not THEISM. Let me reconsider.
+    
+    Actually: "those people" = THEM, and ISM goes inside to give TH(ISM)EM = THISMEM. That doesn't work.
+    
+    Rethinking: "those people" could be THESE. ISM inside THESE would be THE(ISM)SE = THEISME, still not right.
+    
+    Let me try: "those people" = THEM, but the container works differently. Actually, looking at the answer THEISM: THE + ISM. So "those" = THE, and "belief" = ISM. The container indicator "welcomed by" suggests ISM is welcomed by THE, but that would be THE(ISM) = THEISM, which works!
+    
+    So: "those" = THE, "belief" = ISM, with ISM welcomed by/contained in THE gives THEISM.
+  ----------------------------------------------------------------------
+
+  [FAILED] DEFEATED  29A. Conquered one achievement, inspiring another
+  Answer: DEFEATED
+  Tier: --- | Confidence: 0/100
+  Definition: "Conquered"
+  Wordplay type: anagram
+  Components:
+    synonym            one                       -> A
+    synonym            achievement               -> DEFEAT
+  DB Lookups:
+    DB lookups:
+      conquered: syn=ATE*,DEFEATED*,DUG,GOT,RAN,SAW,ACED,BEAT,CAME,GREW,ICED,KNEW,SLEW,TOOK,WENT
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O; sounds=won
+      achievement: syn=FEAT*,DEFEAT*,DEED*,MY,HER,HIS,ITS,BABY,COUP,PASS,BOAST,GLORY,HONOR,JEWEL,ONE'S
+      inspiring: syn=HAIR,MIND,HEART,KICKY,CHARGED,ROUSING,GALVANIC,STIRRING
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A*; ind=anagram
+    Definitions:
+      "Conquered" -> DEFEATED (definition match)
+  AI Reasoning:
+    Definition: "Conquered" (defeated means conquered).
+    Wordplay: anagram. "another" is the anagram indicator.
+    Fodder: "one achievement" = A (one) + FEAT (achievement) = AFEAT
+    AFEAT rearranged = DEFEAT... but that's only 6 letters, not 8.
+    
+    Let me reconsider the fodder: "one achievement" could be A + DEED = ADEED, but that doesn't anagram to DEFEATED either.
+    
+    Wait - looking at the known lookups more carefully: "achievement" = DEFEAT. So the fodder is A (one) + DEFEAT (achievement) = ADEFEATE? No, that's 8 letters but wrong.
+    
+    Actually: A (one) + DEFEAT (achievement) gives us the letters A-D-E-F-E-A-T, which rearranged by "another" gives DEFEATED.
+  ----------------------------------------------------------------------
+
+  [HIGH] OPPONENT  3D. Pop-up books about United's rival
+  Answer: OPPONENT
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "rival"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Pop                       -> POP
+    anagram_fodder     United's                  -> ONE
+    anagram_fodder     books                     -> NT
+  Assembly: anagram — anagram of POP(Pop)+ONE(United's)+NT(books)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      pop: syn=DO,IN,ALE,BIG,DAM,FAG,GIN,GUN,HOT,MUM,NIP,OLD,PEG,RUM,TOT; abbr=PO*; ind=anagram?
+      up: syn=OPEN*,OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN; ind=reversal
+      books: syn=NT*,OT,HOW,LIT,BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS; abbr=NT*,OT,B,TOME
+      about: syn=ON*,AS,BY,CA,OF,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON*,OVER,RE; ind=anagram,container,reversal
+      united's: syn=ONE*,ALLY,CLUB,FUSE,JOIN,NEAR,NIGH,TEAM,CAUSE,CLOSE,FLUSH,FUSED,JOINT,MARRY,UNIFY; abbr=U
+      rival: syn=OPPONENT*,FOE,VIE,ALSO,FACE,LIKE,PEER,RACE,ENEMY,EQUAL,FIGHT,MATCH,FELLOW,AND THE,COEQUAL
+    Definitions:
+      "rival" -> OPPONENT (definition match)
+  AI Reasoning:
+    Definition: "rival" (opponent is a synonym for rival).
+    
+    Wordplay: container. "about" is the container indicator. "books" = NT (New Testament abbreviation), "United's" = ONE (confirmed synonym).
+    
+    "Pop" = POP, "up" reverses it to POP → POP (wait, POP reversed is still POP).
+    
+    Actually: POP + ONE contains NT: POP + O(NT)E = POPONTE? No.
+    
+    Let me reconsider: "Pop" could be anagram indicator. The anagram fodder would be... let me try: POP + ONE + NT rearranged = OPPONENT. Yes, that works.
+    
+    Wordplay: anagram. "Pop" is the anagram indicator. Fodder: POP + ONE + NT → rearranged → OPPONENT.
+  ----------------------------------------------------------------------
+
+  [HIGH] EVICT  4D. Kick out six in English court
+  Answer: EVICT
+  Tier: Sig+Enriched | Confidence: 82/100
+  Definition: "Kick out"
+  Wordplay type: charade
+  Components:
+    synonym            six                       -> VI
+    abbreviation       English                   -> E
+    synonym            court                     -> CT
+  Assembly: charade — VI(synonym of "six") + E(abbr. "English") + CT(synonym of "court")
+  Checks: signature_matched_+_assembly_v=+60 | syn_f_'six'=vi_verified=+5 | abr_f_'english'=e_verified=+5 | syn_f_'court'=ct_verified=+5 | all_3_pieces_verified=+7
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SPICED  5A. Noticed hosts beginning to cook with seasoning
+  Answer: SPICED
+  Tier: Sonnet | Confidence: 44/100
+  Definition: "seasoning"
+  Wordplay type: charade
+  Components:
+    synonym            Noticed                   -> SPIED
+    first_letter       cook                      -> C
+  Assembly: container — C(first letter of "cook") inside SPIED(synonym of "Noticed")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      noticed: syn=SAW,EYED,SEEN,CITED,NAMED,NOTED,ESPIED,QUOTED
+      hosts: syn=CROWDS,ARMY,BIKE,CORE,CRAM,HEFT,HERD,MASS,ROUT,BRUNT,CHIEF,CROWD,CRUSH,DROVE,EMCEE
+      beginning: syn=DAY,DAWN,GERM,ROOT,AHEAD,ALPHA,BASAL,BASIC,GETGO,ONSET,SAUCE,START,ADVENT,ORIGIN,OUTSET; ind=acrostic,deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      cook: syn=BE,DO,IS,ARE,FRY,HAP,LIE,RIG,SIT,BAKE,BEAR,CHEF,COME,LIVE,PASS; abbr=DO; ind=anagram
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      seasoning: syn=FINE,SALT,HERBS,SALT?
+  AI Reasoning:
+    Definition: "seasoning" (spiced means seasoned).
+    Wordplay: charade. "Noticed" = SPIED (synonym). "beginning to cook" = C (first letter of "cook", with "beginning" as acrostic indicator). SPIED + C = SPICED.
+  ----------------------------------------------------------------------
+
+  [HIGH] PASHTO  6D. Maybe Afghan father shot crook
+  Answer: PASHTO
+  Tier: DB Fallback | Confidence: 75/100
+  Definition: "Afghan"
+  Wordplay type: anagram
+  Components:
+    abbreviation       father                    -> PA
+    literal            shot                      -> SHOT
+  Assembly: anagram — anagram of PA(abbr. "father")+SHOT(shot)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER,BREWER,FLOWER,LIKELY,MAYHAP,MISFIT,PERHAP,RESEAT,SINGER; ind=anagram
+      afghan: syn=CANINE
+      father: syn=PA*,FR,DAD,GET,GOD,GUV,NUN,OLD,PAL,POP,ABBA,ABBÉ,ALLY,CHUM,CLAN; abbr=F,FR,PA*,SIRE
+      shot: syn=GO,IN,ALE,BID,DID,FLY,GIN,GUN,HIE,JAB,MUG,MUM,NIP,PEG,PIC; abbr=GO; ind=anagram
+      crook: syn=ARC,CON,ANON,ARCH,ARCS,BEND,FALL,FISH,HAVE,NEAR,PERP,THUG,TURN,WIND,ABOUT; ind=anagram
+  AI Reasoning:
+    Definition: "Afghan" (Pashto is a language of Afghanistan).
+    Wordplay: anagram. "shot" is the anagram indicator.
+    Fodder: "father crook" = PA (father) + CROOK → PACROOK rearranged → PASHTO.
+  ----------------------------------------------------------------------
+
+  [HIGH] CHARLESTHEGREAT  7D. Emperor let her gate-crash parties
+  Answer: CHARLESTHEGREAT
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Emperor"
+  Wordplay type: anagram
+  Components:
+    literal            her                       -> HER
+    literal            let                       -> LET
+    literal            gate-crash                -> GATECRASH
+  Assembly: anagram — anagram of HER(her)+LET(let)+GATECRASH(gate-crash)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      emperor: syn=KING,MING,NERO,OTTO,SAY?,TSAR,RULER,TITUS,CAESAR,KAISER,LEADER,MIKADO,TRAJAN,HADRIAN,PENGUIN
+      let: syn=CHEAT*,PA,BAR,BIT,DIE,EBB,END,ROU,RUB,BALK,CLOG,CURB,DRAG,EASE,FAIL; ind=anagram
+      her: syn=NO,BEE,EYE,FOX,GET,VEX,BABY,BEAT,BIDE,COUP,DAMN,FAZE,FOUL,KINK,MAZE
+      gate: syn=WAY,DOOR,FIVE,WALK,ATONE,ENTRY,HATCH,OF AN,AIRWAY,AT ONE,FRENCH,PORTAL,WICKET,BARRIER,LATTICE; sounds=gait
+      crash: syn=DO,BED,BIG,CUT,DIE,HIT,LEG,LIE,NEW,POP,BANG,BASH,BLOW,BOOM,CELL; ind=anagram?
+      parties: syn=DO,DOS,SETS,TASK,TOGS,BANDS,BLOCS,CAMPS,CREWS,DRAGS,FIRMS,GALAS,GANGS,GARBS,SECTS
+  AI Reasoning:
+    Definition: "Emperor" (Charlemagne/Charles the Great was an emperor).
+    Wordplay: anagram. "let" and "crash" are anagram indicators.
+    Fodder: "her gate" + "parties" = HERGATE + PARTIES → rearranged → CHARLESTHEGREAT.
+  ----------------------------------------------------------------------
+
+  [HIGH] DISENTITLE  8D. Deprive of claim in Settle, strangely, after I'd turned up
+  Answer: DISENTITLE
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Deprive of claim"
+  Wordplay type: anagram
+  Components:
+    literal            settle                    -> SETTLE
+    literal            i'd                       -> ID
+    literal            in                        -> IN
+  Assembly: anagram — anagram of SETTLE(settle)+ID(i'd)+IN(in)
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deprive: syn=STRIP,STARVE
+      claim: syn=DO,GO,A A,BET,DUN,LAY,PUT,AVER,AVOW,BEAR,BORN,CALL,CASE,DIBS,FELL
+      in: syn=IT*,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      settle: syn=OK,END,FIT,FIX,LAY,LIE,OPT,PAY,PUT,RIG,SET,ANTE,BEND,DEAL,EDIT
+      strangely: syn=ODDLY,UNUSUALLY; ind=anagram
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      turned: syn=ATE,BAD,DUG,GOT,OFF,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,RANK,SLEW,SOUR; ind=anagram,reversal
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      turned up: ind=reversal
+      turned up: syn=ATE,DUG,GOT,OWN,RAN,SAW,BEAT,CAME,GREW,ICED
+  AI Reasoning:
+    Definition: "Deprive of claim" (to disentitle means to deprive of a claim or right).
+    
+    Wordplay: anagram. "strangely" is the anagram indicator.
+    
+    Fodder: "Settle" + "I'd" = SETTLE + ID → rearranged → DISENTITLE.
+    
+    The phrase "after I'd turned up" is part of the surface reading but doesn't contribute to the wordplay - the anagram is simply SETTLE + ID.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BERIBERI  9D. Joke beer bottles getting one complaint
+  Answer: BERIBERI
+  Tier: DB Fallback | Confidence: 60/100
+  Definition: "complaint"
+  Wordplay type: container
+  Components:
+    synonym            bottles                   -> BEER
+    abbreviation       one                       -> I
+    synonym            joke                      -> RIB
+  Assembly: container — RIB(synonym of "joke") inside BEER(synonym of "bottles") + I(abbr. "one")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      joke: syn=RIB*,GAG,KID,LEG,ONE,PUN,YUK,BOFF,BUTT,HOAX,JAPE,JEST,JOSH,MARK,MOCK
+      beer: syn=IT,ALE,GIN,IPA,MUM,NIP,PEG,POP,RUM,TOT,ALE,,BELT,BREW,GROG,HOME; abbr=ALE; sounds=bier
+      bottles: syn=BEER*,ALES,AQUA,HOME,CARAFES,EMPTIES,DEAD MEN,ALE,CAN,GIN,MUM,NIP,PEG,POP,RUM; abbr=B*,VIAL; ind=hidden?
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      one: syn=RIB*,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      complaint: syn=BERI*,FLU,RAP,ACNE,AGUE,BEEF,FUNK,FUSS,KICK,STYE,TALE,TRUE,BLEAT,CLAIM,COUNT
+  AI Reasoning:
+    Definition: "complaint" (beriberi is a disease/complaint).
+    Wordplay: hidden. "bottles" is the hidden indicator.
+    Hidden word: "joke **BEER** **I** **BERI**" contains BERIBERI hidden across "beer" + "I" (one) + "beri" (from the known lookup where complaint = BERI, giving us the second part).
+    
+    Wait, let me reconsider the hidden mechanism more carefully:
+    The hidden word is in "joke beer bottles getting one complaint" - looking for BERIBERI hidden in the consecutive letters. But this doesn't work cleanly.
+    
+    Actually, this appears to be charade:
+    - "joke" = RIB (known lookup)
+    - "beer" = BEER (literal)
+    - "one" = I (known lookup)
+    - The structure is: BEER + I + BERI = BERIBERI, where the second BERI comes from "complaint" = BERI (known lookup).
+    
+    So: RIB isn't used, and it's BEER + I + BERI = BERIBERI.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

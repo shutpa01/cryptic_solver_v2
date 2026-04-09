@@ -1,0 +1,344 @@
+MEDIUM SAMPLE: 50 from 19,048 total
+================================================================================
+
+--- #1 [51] charade ---
+Clue: Retain attractive pupils for PE group
+Answer: KEEPFITCLASS  Def: and literal interpretation
+  [Y] KEEP       <- "‘retain’" (synonym)
+  [?] FIT        <- "‘attractive’" (synonym)
+  [Y] CLASS      <- "‘pupils’" (synonym)
+  GAP: "‘attractive’" -> FIT: not in DB
+
+--- #2 [60] charade ---
+Clue: Lovely island castle
+Answer: GLAMIS  Def: castle
+  [?] GLAM       <- "lovely" (synonym)
+  [Y] IS         <- "island" (synonym)
+  GAP: "lovely" -> GLAM: not in DB
+
+--- #3 [45] charade ---
+Clue: For starters, Ratty and Mole regularly seeing Mr Toad drive aggressive
+Answer: RAMROD  Def: None
+  [Y] RAM        <- "drive" (synonym)
+  [?] ROD        <- "‘regularly seeing m R t O a D ‘" (synonym)
+  GAP: "‘regularly seeing m R t O a D ‘" -> ROD: not in DB
+
+--- #4 [45] charade ---
+Clue: How to secure a little garlic?
+Answer: CLOVEHITCH  Def: None
+  [Y] CLOVE      <- "a little garlic" (synonym)
+  [?] HITCH      <- "secure" (synonym)
+  GAP: "secure" -> HITCH: not in DB
+
+--- #5 [65] charade ---
+Clue: Babyish solver no good
+Answer: YOUNG  Def: None
+  [Y] YOU        <- "solver" (synonym)
+  [Y] NG         <- "no good" (synonym)
+
+--- #6 [45] charade ---
+Clue: The writer’s advisor accepting second idea, initially as a reminder of
+Answer: MEMENTOMORI  Def: None
+  [Y] MEMENTO    <- "reminder" (synonym)
+  [?] MORI       <- "remember that you must die; anythin" (synonym)
+  GAP: "remember that you must die; anything [eg a skull] to remind
+
+--- #7 [60] charade ---
+Clue: Cancel opening at 45 degrees?
+Answer: NEGATE  Def: Cancel
+  [?] NE         <- "North East, at 45 degrees" (synonym)
+  [Y] GATE       <- "opening" (synonym)
+  GAP: "North East, at 45 degrees" -> NE: not in DB
+
+--- #8 [65] charade ---
+Clue: Quick way to get property on board
+Answer: FLEETSTREET  Def: None
+  [Y] FLEET      <- "quick" (synonym)
+  [Y] STREET     <- "way" (synonym)
+
+--- #9 [60] charade ---
+Clue: Old actress with Clouseau actor meeting poet
+Answer: LOMBARD  Def: Old actress
+  [?] LOM        <- "Herbert, ‘Clouseau actor’, played C" (synonym)
+  [Y] BARD       <- "‘poet’" (synonym)
+  GAP: "Herbert, ‘Clouseau actor’, played Chief Inspector Charles D
+
+--- #10 [60] charade ---
+Clue: Any number have a liking for sex
+Answer: DIGIT  Def: Any number
+  [?] DIG        <- "‘have a liking for’" (synonym)
+  [Y] IT         <- "‘sex’" (synonym)
+  GAP: "‘have a liking for’" -> DIG: not in DB
+
+--- #11 [65] container ---
+Clue: Wise to buttonhole crew for long-gone train times
+Answer: STEAMAGE  Def: None
+  [Y] SAGE       <- "Wise" (synonym)
+  [Y] TEAM       <- "”crew”" (synonym)
+
+--- #12 [60] charade ---
+Clue: Music publisher fixed price in Dubai, say
+Answer: EMIRATE  Def: “Dubai
+  [?] EMI        <- "“Music publisher”" (synonym)
+  [Y] RATE       <- "Music" (synonym)
+  GAP: "“Music publisher”" -> EMI: not in DB
+
+--- #13 [66] charade ---
+Clue: Dubious goings-on in second instrumental run-through
+Answer: SHARP PRACTICE  Def: Dubious goings-on
+  [Y] S          <- "second" (synonym)
+  [Y] HARP       <- "HARP" (literal)
+  [?] PRACTICE   <- "instrumental run-through" (synonym)
+  GAP: "instrumental run-through" -> PRACTICE: not in DB
+
+--- #14 [55] anagram ---
+Clue: Aristocrat to protest over troublesome noises
+Answer: MARCHIONESS  Def: Aristocrat
+  [Y] MARCH      <- "MARCH" (literal)
+  [Y] NOISES     <- "noises" (literal)
+
+--- #15 [45] charade ---
+Clue: Gathering information for coach that should be here anytime now
+Answer: DUEDILIGENCE  Def: None
+  [?] DUE        <- ""should be here anytime now"" (synonym)
+  [Y] DILIGENCE  <- ""coach"" (synonym)
+  GAP: ""should be here anytime now"" -> DUE: not in DB
+
+--- #16 [65] charade ---
+Clue: The City Beautiful's light surrounded by gold ring
+Answer: ORLANDO  Def: The City Beautiful's
+  [Y] OR         <- "gold" (synonym)
+  [Y] LAND       <- "light" (synonym)
+  [Y] O          <- "ring" (synonym)
+
+--- #17 [45] container ---
+Clue: Flits with dashing young men around small Roman square
+Answer: GALLIVANTS  Def: None
+  [Y] GALLANTS   <- "dashing young men" (synonym)
+  [?] IV         <- "Roman numeral for 4, which is a sma" (synonym)
+  GAP: "Roman numeral for 4, which is a small square" -> IV: not in
+
+--- #18 [65] charade ---
+Clue: Cricketer's family? They embodied youth, beauty and elegance
+Answer: THEGRACES  Def: None
+  [Y] THE        <- "They" (deletion)
+  [Y] GRACES     <- "GRACES" (literal)
+
+--- #19 [65] charade ---
+Clue: Typical report on patient's con­dition in absence of coppers?
+Answer: NOCHANGE  Def: None
+  [Y] NO         <- "report" (synonym)
+  [Y] CHANGE     <- "coppers?" (synonym)
+
+--- #20 [45] charade ---
+Clue: Clamour multiple times to get kids' meal
+Answer: DINDINS  Def: kids' meal
+  [Y] DIN        <- "Clamour" (synonym)
+  [?] DINS       <- "two or more clamours" (synonym)
+  GAP: "two or more clamours" -> DINS: not in DB
+
+--- #21 [65] container ---
+Clue: Advocate stops son becoming medical practitioner
+Answer: SURGEON  Def: None
+  [Y] SON        <- "son" (literal)
+  [Y] URGE       <- "Advocate" (synonym)
+
+--- #22 [40] anagram ---
+Clue: Awfully shy friend stopping Bob vacillating
+Answer: SHILLYSHALLYING  Def: vacillating
+  [Y] SHY        <- "shy" (literal)
+  [Y] ALLY       <- "friend" (synonym)
+  [Y] SHILLING   <- "bob" (synonym)
+
+--- #23 [40] reversal ---
+Clue: Revolutionary Soviet leader beheaded in square
+Answer: NINE  Def: square
+  [?] ENIN       <- "ENIN" (reversal)
+  GAP: reversal: ENIN -> ENIN
+
+--- #24 [65] charade ---
+Clue: Mother dawdles and wastes the doctor's time
+Answer: MALINGERS  Def: None
+  [Y] MA         <- "Mother" (synonym)
+  [Y] LINGERS    <- "LINGERS" (literal)
+
+--- #25 [65] charade ---
+Clue: Not interfering with workers on holiday
+Answer: HANDSOFF  Def: “Not interfering”
+  [Y] HANDS      <- "“workers”" (synonym)
+  [Y] OFF        <- "Not" (synonym)
+
+--- #26 [60] charade ---
+Clue: Lounge about one luxury resort
+Answer: BIARRITZ  Def: resort
+  [Y] BIAR       <- "BIAR" (literal)
+  [?] RITZ       <- "‘luxury’" (synonym)
+  GAP: "‘luxury’" -> RITZ: not in DB
+
+--- #27 [53] charade ---
+Clue: Jazzy piece follows considerably old medley
+Answer: FARRAGO  Def: medley
+  [?] FAR        <- "considerably" (synonym)
+  [?] RAG        <- "jazzy piece" (synonym)
+  [Y] O          <- "follows" (deletion)
+  GAP: "considerably" -> FAR: not in DB
+  GAP: "jazzy piece" -> RAG: not in DB
+
+--- #28 [66] charade ---
+Clue: Exhausted oneself, but a few deliveries brought success
+Answer: OVERDIDIT  Def: Exhausted oneself,
+  [Y] OVER       <- "deliveries" (synonym)
+  [Y] DID        <- "Exhausted" (synonym)
+  [?] IT         <- "“brought success”" (synonym)
+  GAP: "“brought success”" -> IT: not in DB
+
+--- #29 [60] container ---
+Clue: Compared with acquaintance in song (foreign)
+Answer: LIKENED  Def: Compared
+  [Y] LIED       <- "song" (synonym)
+  [?] KEN        <- "acquaintance" (synonym)
+  GAP: "acquaintance" -> KEN: not in DB
+
+--- #30 [60] charade ---
+Clue: Notice Nick appearing in ...
+Answer: CAVEAT  Def: Notice
+  [?] CAVE       <- "“Nick’, singer etc" (synonym)
+  [Y] AT         <- "Notice" (synonym)
+  GAP: "“Nick’, singer etc" -> CAVE: not in DB
+
+--- #31 [45] charade ---
+Clue: Wear short muffler, one that goes with a zip
+Answer: SPORTS CAR  Def: None
+  [Y] SPORT      <- "wear" (synonym)
+  [?] SCAR       <- "F" (synonym)
+  GAP: "F" -> SCAR: not in DB
+
+--- #32 [45] charade ---
+Clue: Miss preceded this well-bowled over by upcoming English player
+Answer: MAIDENNAME  Def: Miss preceded this
+  [Y] MAIDEN     <- "Miss" (synonym)
+  [?] NAME       <- "E=(English" (synonym)
+  GAP: "E=(English" -> NAME: not in DB
+
+--- #33 [65] container ---
+Clue: Shabby kidnapping of that man by Mafia boss
+Answer: CHEAPO  Def: None
+  [Y] CAPO       <- "Mafia boss" (synonym)
+  [Y] HE         <- "that man" (synonym)
+
+--- #34 [60] charade ---
+Clue: One doing good service to solvers at sultanate
+Answer: YEOMAN  Def: sultanate
+  [?] YE         <- "solvers" (synonym)
+  [Y] OMAN       <- "sultanate" (synonym)
+  GAP: "solvers" -> YE: not in DB
+
+--- #35 [66] charade ---
+Clue: Chum framing another for plot
+Answer: MACHINATE  Def: plot
+  [Y] MA         <- "CHINA" (synonym)
+  [Y] CHINA      <- "CHINA" (literal)
+  [?] TE         <- "CHINA" (synonym)
+  GAP: "CHINA" -> TE: not in DB
+
+--- #36 [55] anagram ---
+Clue: Order, say, two lots of aluminium with cheap bit thrown in
+Answer: ALPHABETICAL  Def: Order, say,
+  [Y] AL         <- "aluminium" (deletion)
+  [Y] AL         <- "aluminium" (deletion)
+  [Y] CHEAP      <- "cheap" (literal)
+  [Y] BIT        <- "bit" (literal)
+
+--- #37 [55] anagram ---
+Clue: Salvation Army lacking a facility finally opened it up
+Answer: REDEMPTION  Def: Salvation
+  [Y] RM         <- "Army" (deletion)
+  [Y] OPENED     <- "opened" (literal)
+  [Y] IT         <- "it" (literal)
+
+--- #38 [60] container ---
+Clue: Brief tremor keeping sextet alert?
+Answer: QUI VIVE  Def: alert?
+  [Y] QUIVE      <- "QUIVE" (literal)
+  [?] VI         <- "sextet" (synonym)
+  GAP: "sextet" -> VI: not in DB
+
+--- #39 [45] charade ---
+Clue: Army building a component of music stands
+Answer: BARRACKS  Def: None
+  [Y] BAR        <- "a" (synonym)
+  [?] RACKS      <- "stands" (synonym)
+  GAP: "stands" -> RACKS: not in DB
+
+--- #40 [60] charade ---
+Clue: An advantage with rising ground in battle?
+Answer: EDGEHILL  Def: battle?
+  [Y] EDGE       <- "advantage" (synonym)
+  [?] HILL       <- "with rising ground" (synonym)
+  GAP: "with rising ground" -> HILL: not in DB
+
+--- #41 [65] charade ---
+Clue: Pen — only touched one end?
+Answer: FELTTIP  Def: Pen —
+  [Y] FELT       <- "touched" (synonym)
+  [Y] TIP        <- "end?" (synonym)
+
+--- #42 [60] reversal ---
+Clue: Returned, say, to die, say, in Hell
+Answer: GEHENNA  Def: Hell
+  [?] EG         <- "EG" (reversal)
+  [Y] HENNA      <- "HENNA" (literal)
+  GAP: reversal: EG -> EG
+
+--- #43 [45] charade ---
+Clue: Wander about to escape tiny tormentor
+Answer: GADFLY  Def: None
+  [?] GAD        <- "wander about" (synonym)
+  [Y] FLY        <- "escape" (synonym)
+  GAP: "wander about" -> GAD: not in DB
+
+--- #44 [65] container ---
+Clue: Just a little boy swallowing a fly
+Answer: SMIDGEON  Def: None
+  [Y] SON        <- "boy" (synonym)
+  [Y] MIDGE      <- "fly" (synonym)
+
+--- #45 [45] charade ---
+Clue: Crush soft stuff left behind by old flames
+Answer: PASH  Def: None
+  [Y] P          <- "soft" (synonym)
+  [?] ASH        <- "stuff left behind by old flames" (synonym)
+  GAP: "stuff left behind by old flames" -> ASH: not in DB
+
+--- #46 [60] container ---
+Clue: Appearance of coppers round residence
+Answer: PRESENCE  Def: Appearance
+  [Y] PENCE      <- "coppers" (synonym)
+  [?] RES        <- "residence" (synonym)
+  GAP: "residence" -> RES: not in DB
+
+--- #47 [45] charade ---
+Clue: Next heretical saint, Lucifer’s follower
+Answer: SATANIST  Def: None
+  [?] SAT        <- "‘next’" (synonym)
+  [Y] ANIST      <- "ANIST" (literal)
+  GAP: "‘next’" -> SAT: not in DB
+
+--- #48 [45] charade ---
+Clue: Likely person's taken unawares and worried
+Answer: CANDIDATE  Def: Likely person's
+  [?] CANDID     <- "taken unawares" (synonym)
+  [Y] ATE        <- "worried" (synonym)
+  GAP: "taken unawares" -> CANDID: not in DB
+
+--- #49 [55] anagram ---
+Clue: Animal research facility upset about mating period
+Answer: BRUTAL  Def: Animal
+  [Y] RUT        <- "‘mating period’" (synonym)
+  [Y] BAL        <- "BAL" (literal)
+
+--- #50 [55] anagram ---
+Clue: Plays around with free 20 hand
+Answer: PHILANDERS  Def: Plays around
+  [Y] PLIERS     <- "PLIERS" (literal)
+  [Y] HAND       <- "hand" (literal)

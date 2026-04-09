@@ -1,0 +1,463 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #103
+Generated: 2026-03-22 05:19:20
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      20
+  Assembled:        16/20 (80%)
+    Signature:      6
+    Sig+Enriched:   3
+    Sonnet:         7
+    DB Fallback:    0
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   10  14D, 16D, 4D, 5D, 6A, 7A, 10D, 12D, 16A, 8D
+  Medium (40-79): 6  1A, 1D, 11A, 13A, 15A, 3D
+  Low (<40):    0  
+  Failed:       4  10A, 17A, 2D, 9A
+  Average:      84/100
+
+COST: $0.3060 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (17 entries)
+------------------------------------------------------------
+  SIR: "Gentleman" -> SIR  (missing from definition_answers_augmented)
+  ENEMY: "adversary" -> ENEMY  (missing from definition_answers_augmented)
+  GREENTEA: "infusion" -> GREENTEA  (missing from definition_answers_augmented)
+  READERS: "bookworms" -> READERS  (missing from definition_answers_augmented)
+  EWE: "Sheep" -> EWE  (missing from definition_answers_augmented)
+  BEGUILES: "fascination" -> BEGUILES  (missing from definition_answers_augmented)
+  BRAGG: "Songwriter" -> BRAGG  (missing from definition_answers_augmented)
+  THYME: "aromatic herb" -> THYME  (missing from definition_answers_augmented)
+  TRADEIN: "kind of car" -> TRADEIN  (missing from definition_answers_augmented)
+  TAPIR: "rat-like snouty beast" -> TAPIR  (missing from definition_answers_augmented)
+  PILAU: "choice of rice" -> PILAU  (missing from definition_answers_augmented)
+  AIL: "Feel sick" -> AIL  (missing from definition_answers_augmented)
+  SWELTER: "get too hot" -> SWELTER  (missing from definition_answers_augmented)
+  CURRENTS: "Courses" -> CURRENTS  (missing from definition_answers_augmented)
+  GREATER: "Bigger" -> GREATER  (missing from definition_answers_augmented)
+  EYECHART: "optician's thing" -> EYECHART  (missing from definition_answers_augmented)
+  EIGHT: "Rowing crew" -> EIGHT  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES — AI and assembler disagree (5)
+------------------------------------------------------------
+  BRAGG = 1 (60/100): AI=acrostic, assembled=charade
+  TAPIR = 11 (60/100): AI=acrostic, assembled=charade
+  ABASH = 13 (75/100): AI=acrostic, assembled=charade
+  AIL = 15 (60/100): AI=acrostic, assembled=charade
+  IFS = 3 (75/100): AI=acrostic, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (1)
+------------------------------------------------------------
+  PILAU = 12 (80/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  10. Announced occasion for aromatic herb = THYME
+  17. Courses of dried grapes discussed = CURRENTS
+  2. Bigger device for cheese called for = GREATER
+  9. Rowing crew noisily had some grub = EIGHT
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/20  14D
+  Type mismatch:         5  11A, 13A, 15A, 1D, 3D
+  Circular assembly:     1  12D
+  DB gap:                14  6A, 7A, 9A, 11A, 15A, 16A, 17A, 1D, 2D, 4D, 5D, 8D, 10D, 12D
+  Failed:                4  9A, 17A, 2D, 10D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   14D  ANTIS         They’re against vigilantism to some extent (5)
+                      hidden in "They're against vigilantism" [hidden: "some"]  [HIGH]
+   16D  SIR           Gentleman desired bottles (3)
+                      hidden in "desired bottles"; definition: "Gentleman"  [HIGH]
+    4D  ENEMY         Yemen, unlikely adversary (5)
+                      anagram of YEMEN ("Yemen,") [anagram: "unlikely"] = ENEMY; definition: "adversary"  [HIGH]
+    5D  GREENTEA      Teenager brewed infusion (5,3)
+                      anagram of TEENAGER ("Teenager") [anagram: "brewed"] = GREENTEA; definition: "infusion"  [HIGH]
+    6A  READERS       Somewhat dread erstwhile bookworms (7)
+                      hidden in "dread erstwhile" [hidden: "Somewhat"]; definition: "bookworms"  [HIGH]
+    7A  EWE           Sheep that’s been swallowed by the werewolf (3)
+                      hidden in "swallowed by the werewolf"; definition: "Sheep"  [HIGH]
+    1A  BEGUILES      We’re told more than one large landmass causes fascination (8)
+                      BE(sounds like "We're") + GUILES(sounds like "more than one large landmass")  [MED]
+    1D  BRAGG         Songwriter Billy’s riffs always guarantee great intros (5)
+                      B(first letter of "Billy's") + R(first letter of "riffs") + A(first letter of "always") + G(first letter of "guarantee") + G(first letter of "guarantee")  [MED]
+   10A  THYME         Announced occasion for aromatic herb (5)
+                      ---  [FAIL]
+   10D  TRADEIN       Trained to reassemble kind of car (5-2)
+                      anagram of TRAINED ("Trained") [anagram: "reassemble"] = TRADEIN; definition: "kind of car"  [HIGH]
+   11A  TAPIR         Tips of the antlers pierced injured rat-like snouty beast (5)
+                      T(first letter of "the") + A(first letter of "antlers") + P(first letter of "pierced") + I(first letter of "injured") + R(first letter of "rat")  [MED]
+   12D  PILAU         Taking sample of soup, I laud choice of rice (5)
+                      hidden in 'souP, I LAUd'  [HIGH]
+   13A  ABASH         A bad actor’s surely hoping to take leads? Shame! (5)
+                      A(first letter of "A") + B(first letter of "bad") + A(first letter of "A") + S(first letter of "surely") + H(first letter of "hoping")  [MED]
+   15A  AIL           Feel sick and ill, lurgy’s early stages (3)
+                      A(first letter of "and") + I(first letter of "ill") + L(first letter of "lurgy's")  [MED]
+   16A  SWELTER       Messily wrestle and get too hot (7)
+                      anagram of WRESTLE ("wrestle") [anagram: "Messily"] = SWELTER; definition: "get too hot"  [HIGH]
+   17A  CURRENTS      Courses of dried grapes discussed (8)
+                      ---  [FAIL]
+    2D  GREATER       Bigger device for cheese called for (7)
+                      ---  [FAIL]
+    3D  IFS           Initially, I’ll fix some uncertainties (3)
+                      I(first letter of "I'll") + F(first letter of "fix") + S(first letter of "some")  [MED]
+    8D  EYECHART      They care about optician’s thing (3,5)
+                      anagram of THEYCARE ("They care") [anagram: "about"] = EYECHART; definition: "optician's thing"  [HIGH]
+    9A  EIGHT         Rowing crew noisily had some grub (5)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ANTIS  14D. They’re against vigilantism to some extent
+  Answer: ANTIS
+  Tier: Signature | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "They're against vigilantism" [hidden: "some"]
+  ----------------------------------------------------------------------
+
+  [HIGH] SIR  16D. Gentleman desired bottles
+  Answer: SIR
+  Tier: Signature | Confidence: 80/100
+  Definition: "Gentleman"
+  Wordplay: hidden
+  Explanation: hidden in "desired bottles"; definition: "Gentleman"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] ENEMY  4D. Yemen, unlikely adversary
+  Answer: ENEMY
+  Tier: Signature | Confidence: 100/100
+  Definition: "adversary"
+  Wordplay: anagram
+  Explanation: anagram of YEMEN ("Yemen,") [anagram: "unlikely"] = ENEMY; definition: "adversary"
+  ----------------------------------------------------------------------
+
+  [HIGH] GREENTEA  5D. Teenager brewed infusion
+  Answer: GREENTEA
+  Tier: Signature | Confidence: 100/100
+  Definition: "infusion"
+  Wordplay: anagram
+  Explanation: anagram of TEENAGER ("Teenager") [anagram: "brewed"] = GREENTEA; definition: "infusion"
+  ----------------------------------------------------------------------
+
+  [HIGH] READERS  6A. Somewhat dread erstwhile bookworms
+  Answer: READERS
+  Tier: Signature | Confidence: 100/100
+  Definition: "bookworms"
+  Wordplay: hidden
+  Explanation: hidden in "dread erstwhile" [hidden: "Somewhat"]; definition: "bookworms"
+  ----------------------------------------------------------------------
+
+  [HIGH] EWE  7A. Sheep that’s been swallowed by the werewolf
+  Answer: EWE
+  Tier: Signature | Confidence: 80/100
+  Definition: "Sheep"
+  Wordplay: hidden
+  Explanation: hidden in "swallowed by the werewolf"; definition: "Sheep"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BEGUILES  1A. We’re told more than one large landmass causes fascination
+  Answer: BEGUILES
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "fascination"
+  Wordplay type: charade
+  Components:
+    sound_of           We're                     -> BE
+    sound_of           more than one large landmass -> GUILES
+  Assembly: charade — BE(sounds like "We're") + GUILES(sounds like "more than one large landmass")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      told: syn=PUT,SAID,SPOKE,PASSED,STATED,TALKED,WORDED,ASSUMED,CLOTHED,COUCHED,ORDERED,PHRASED,RECITED,RELATED,INFORMED; ind=homophone; sounds=tolled
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      than: syn=BAR,BUT,EAT,AIRY,CHAW,CHEW,ELSE,FRET,GNAW,SAVE,SMUG,SUCK,VAIN,CHAMP,COCKY
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O; sounds=won
+      large: syn=L,IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L*,OS
+      landmass: syn=ASIA,MAIN,EURASIA
+      causes: syn=BE*,DOES,RISE,MAKES,WORKS,BEGETS,BREEDS,BRINGS,BRUISE,SPAWNS,YIELDS,CREATES,EFFECTS,GROUNDS,INDUCES
+      fascination: syn=HEX,BAIT,CALL,DRAW,LURE,POLE,SPUR,CHARM,FORCE,MAGIC,MECCA,OOMPH,ALLURE,APPEAL,BANGLE
+      more than: syn=CASE,OVER,CRUSH,TRAMPLE,OVERPAID
+      more than one: syn=MANY,PLURAL
+  AI Reasoning:
+    BE (homophone of 'We're') + GUILES (homophone of 'more than one large landmass' = ISLES) with 'told' as homophone indicator
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BRAGG  1D. Songwriter Billy’s riffs always guarantee great intros
+  Answer: BRAGG
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Songwriter"
+  Wordplay type: acrostic
+  Components:
+    first_letter       Billy's                   -> B
+    first_letter       riffs                     -> R
+    first_letter       always                    -> A
+    first_letter       guarantee                 -> G
+    first_letter       great                     -> G
+  Assembly: charade — B(first letter of "Billy's") + R(first letter of "riffs") + A(first letter of "always") + G(first letter of "guarantee") + G(first letter of "guarantee")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      riffs: syn=TAKE
+      always: syn=AY,ER,ANY,AYE,EER,NOW,OFT,ANEW,ANON,E'ER,EVER,LONG,MUCH,OVER,RATE; abbr=ER,EVER
+      guarantee: syn=TIE,BAND,BIND,BOND,CORD,DEAL,GLUE,KNOT,LINK,SIZE,BOND,,CHAIN,IRONS
+      great: syn=BRAG*,A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET; abbr=G*,GR; sounds=grate
+      intros: syn=ART,START; abbr=O; ind=acrostic
+  AI Reasoning:
+    Taking the first letters ('intros') of 'Billy's riffs always guarantee great' spells BRAGG, a songwriter
+  ----------------------------------------------------------------------
+
+  [FAILED] THYME  10A. Announced occasion for aromatic herb
+  Answer: THYME
+  Tier: --- | Confidence: 0/100
+  Definition: "aromatic herb"
+  Wordplay type: homophone
+  Components:
+    sound_of           occasion                  -> THYME
+  DB Lookups:
+    DB lookups:
+      announced: syn=OPEN,POST,RIFE,AIRED,BLARE,BLAZE,FLASH,SOUND; ind=homophone
+      occasion: syn=BE,DO,ACT,FAG,RUN,TUG,USE,CALL,DARK,DRAW,FORT,GRUB,HUMP,MAKE,MILK
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      aromatic: syn=PET,DEAR,FOND,GOOD,NICE,JOLLY,LOVED,SWEET,TASTY
+      herb: syn=THYME*,DILL,WORT,BASIL,CHIVE,PLANT
+      aromatic herb: syn=HERB
+    Definitions:
+      "herb" -> THYME (definition match)
+  AI Reasoning:
+    Homophone clue where 'occasion' = TIME, and 'announced' indicates TIME sounds like THYME
+  ----------------------------------------------------------------------
+
+  [HIGH] TRADEIN  10D. Trained to reassemble kind of car
+  Answer: TRADEIN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "kind of car"
+  Wordplay: anagram
+  Explanation: anagram of TRAINED ("Trained") [anagram: "reassemble"] = TRADEIN; definition: "kind of car"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TAPIR  11A. Tips of the antlers pierced injured rat-like snouty beast
+  Answer: TAPIR
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "rat-like snouty beast"
+  Wordplay type: acrostic
+  Components:
+    first_letter       the                       -> T
+    first_letter       antlers                   -> A
+    first_letter       pierced                   -> P
+    first_letter       injured                   -> I
+    first_letter       rat                       -> R
+  Assembly: charade — T(first letter of "the") + A(first letter of "antlers") + P(first letter of "pierced") + I(first letter of "injured") + R(first letter of "rat")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tips: syn=ENDS,CLUES,DOFFS,HINTS,LEADS,LEANS,LISTS,UP,END,NAP,NEB,NIB,APEX,BANK,BEAK; ind=acrostic,deletion,parts
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      pierced: syn=GORED,STUCK,STUNG
+      injured: syn=BAD,HURT,AMISS,STUNG; ind=anagram
+      rat: syn=CAD,CUR,DOG,GUN,SOD,SON,SPY,BOOR,CRUD,DEEP,FINK,HAUL,HEEL,JERK,LOUT; abbr=RA
+      like: syn=AS,BE,IF,IS,ME,OF,OR,ARE,BIT,DIG,HOT,ILK,MAD,SAY,SEE; abbr=AS
+      beast: syn=NO,BOD,CAD,CUR,DOG,DZO,EGG,GNU,GUN,GUY,JOB,MAN,RAT,SOD,SON
+      of the: syn=MITRE
+  AI Reasoning:
+    'Tips of' indicates taking first letters of 'the antlers pierced injured rat' to spell TAPIR
+  ----------------------------------------------------------------------
+
+  [HIGH] PILAU  12D. Taking sample of soup, I laud choice of rice
+  Answer: PILAU
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "choice of rice"
+  Wordplay type: hidden
+  Components:
+    hidden             soup, I laud              -> PILAU
+  Assembly: hidden — hidden in 'souP, I LAUd'
+  Checks: definition=position OK (start/end of clue) | wordplay_type=hidden | type_evidence=assembled, AI agrees, reasoning supports | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | hidden_verified=answer confirmed in clue text
+  DB Lookups:
+    DB lookups:
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      sample: syn=TRY,CASE,FEEL,TAKE,TEST,CROSS,DIPIN,MODEL,PIECE,SLICE,SOUND,TASTE,TESTS,TRIAL
+      soup: syn=POT,SAY,FOOD,OF A,BROTH,GUMBO; ind=anagram
+      laud: syn=CITE,FETE,HAIL,RISE,TOUT,CHEER,EXTOL,HONOR,THANK
+      choice: syn=A1,AT,IN,OK,BET,BIG,FAB,FAT,HOT,POP,SAY,TOO,TOP,WAY,WHO
+      rice: syn=SUSHI
+      sample of: ind=parts
+    Definitions:
+      "rice" -> PILAU (definition match)
+  AI Reasoning:
+    PILAU is hidden in the consecutive letters of 'soup, I laud' with 'Taking sample of' as the hidden word indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] ABASH  13A. A bad actor’s surely hoping to take leads? Shame!
+  Answer: ABASH
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Shame!"
+  Wordplay type: acrostic
+  Components:
+    first_letter       A                         -> A
+    first_letter       bad                       -> B
+    first_letter       actor's                   -> A
+    first_letter       surely                    -> S
+    first_letter       hoping                    -> H
+  Assembly: charade — A(first letter of "A") + B(first letter of "bad") + A(first letter of "A") + S(first letter of "surely") + H(first letter of "hoping")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=5/5 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bad: syn=BUM,DIS,ILL,LOW,OFF,RUN,SAD,SIN,BLAH,BLUE,BUSH,DARK,DIRE,DOWN,EVIL; abbr=B*,OFF; ind=anagram
+      surely: syn=BY,SO,SURE,MAYBE,TRULY
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      take: syn=A,DO,GO,OR,ACT,BAG,BUY,CON,COP,CUT,DAY,DIE,END,EYE,FAG; abbr=T
+      leads: syn=GOES,LAGS,LIES,SAGS,STAR,TIPS,BAILS,BOOKS,CLUES,FADES,FAILS,FLAGS,GROWS,HEADS,JIBES; abbr=L,PB; ind=acrostic,parts; sounds=led
+      shame: syn=ABASH*,ARM,HER,HIS,PITY,TAKE,ABASE,CRIME,ODIUM
+      to take: syn=A,GET,SEE,DISH,GRIP,POET,SEAT,SOME,STAR,VIPS
+    Definitions:
+      "Shame" -> ABASH (definition match)
+  AI Reasoning:
+    Take the first letters (leads) of 'A bad actor's surely hoping' to spell ABASH
+  ----------------------------------------------------------------------
+
+  [MEDIUM] AIL  15A. Feel sick and ill, lurgy’s early stages
+  Answer: AIL
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Feel sick"
+  Wordplay type: acrostic
+  Components:
+    first_letter       and                       -> A
+    first_letter       ill                       -> I
+    first_letter       lurgy's                   -> L
+  Assembly: charade — A(first letter of "and") + I(first letter of "ill") + L(first letter of "lurgy's")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      feel: syn=DO,GO,LU,ACT,BAG,EYE,FAD,HUG,NOT,PAT,PAW,PET,RED,SEE,TON; abbr=BE
+      sick: syn=BAD,ILL,NOT,OFF,RUN; ind=anagram?
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO; abbr=AN
+      ill: syn=AY,ART,BAD,NOT,OFF,RUN,WOE; abbr=CROOK,V; ind=anagram
+      stages: syn=AIM,CAB,CUT,FIX,GEL,GIG,LAP,LAY,LEG,PEG,PUT,RIG,SIT,WAY
+  AI Reasoning:
+    Definition is 'Feel sick'; wordplay takes first letters of 'and ill lurgy's' indicated by 'early stages'
+  ----------------------------------------------------------------------
+
+  [HIGH] SWELTER  16A. Messily wrestle and get too hot
+  Answer: SWELTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "get too hot"
+  Wordplay: anagram
+  Explanation: anagram of WRESTLE ("wrestle") [anagram: "Messily"] = SWELTER; definition: "get too hot"
+  ----------------------------------------------------------------------
+
+  [FAILED] CURRENTS  17A. Courses of dried grapes discussed
+  Answer: CURRENTS
+  Tier: --- | Confidence: 0/100
+  Definition: "Courses"
+  Wordplay type: homophone
+  Components:
+    sound_of           dried grapes              -> CURRENTS
+  DB Lookups:
+    DB lookups:
+      courses: syn=CURRENTS*,CURRENT*,CAPS,CUES,DOGS,ENDS,EYES,GOES,HIES,KINS,LAMS,LAYS,MEAL,MOVE,NIPS; abbr=ASCOT; sounds=coarse
+      dried: syn=ARID,PARCHED
+      grapes: syn=FRUIT,PINOT
+      discussed: syn=ARGUED,MOOTED,BANDIED,DEBATED,AGITATED,DISPUTED; ind=homophone
+    Definitions:
+      "Courses" -> CURRENTS (definition match)
+  AI Reasoning:
+    CURRANTS (dried grapes) sounds like CURRENTS when discussed (homophone indicator)
+  ----------------------------------------------------------------------
+
+  [FAILED] GREATER  2D. Bigger device for cheese called for
+  Answer: GREATER
+  Tier: --- | Confidence: 0/100
+  Definition: "Bigger"
+  Wordplay type: homophone
+  Components:
+    sound_of           device for cheese         -> GREATER
+  DB Lookups:
+    DB lookups:
+      bigger: syn=GREATER*,GROWN,LARGER,VASTER,THICKER
+      device: syn=END,JIG,BENT,BIAS,BONE,CARD,EVIL,IPAD,PAWN,PLAN,PLAY,PLOY,RUSE,TOOL,TURN
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      cheese: syn=BRIE,CURD,EDAM,FETA,FOOD,JUNK,MUCK,SLOP,COMTE,DRECK,GOUDA,SLUSH,TRASH,TRIPE,PANEER
+      called: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,HELD,KNEW,MADE,RANG; abbr=RANG; ind=homophone
+      called for: ind=homophone
+      called for: syn=ASKED,CHARGED,EXALTED
+    Definitions:
+      "Bigger" -> GREATER (definition match)
+  AI Reasoning:
+    Device for cheese is GRATER, which sounds like GREATER when called for (homophone indicator)
+  ----------------------------------------------------------------------
+
+  [HIGH] IFS  3D. Initially, I’ll fix some uncertainties
+  Answer: IFS
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "uncertainties"
+  Wordplay type: acrostic
+  Components:
+    first_letter       I'll                      -> I
+    first_letter       fix                       -> F
+    first_letter       some                      -> S
+  Assembly: charade — I(first letter of "I'll") + F(first letter of "fix") + S(first letter of "some")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      initially: ind=acrostic,deletion,parts
+      fix: syn=22,OK,BED,BOX,END,FIT,JAM,LAY,OPT,PIN,PUT,RIG,SET,TIE; abbr=RIG; ind=anagram?
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET; abbr=A,PART,S*; ind=hidden; sounds=sum
+      uncertainties: syn=IFS*
+    Definitions:
+      "uncertainties" -> IFS (definition match)
+  AI Reasoning:
+    Taking the initial letters of 'I'll fix some' gives I-F-S, meaning uncertainties
+  ----------------------------------------------------------------------
+
+  [HIGH] EYECHART  8D. They care about optician’s thing
+  Answer: EYECHART
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "optician's thing"
+  Wordplay: anagram
+  Explanation: anagram of THEYCARE ("They care") [anagram: "about"] = EYECHART; definition: "optician's thing"
+  ----------------------------------------------------------------------
+
+  [FAILED] EIGHT  9A. Rowing crew noisily had some grub
+  Answer: EIGHT
+  Tier: --- | Confidence: 0/100
+  Definition: "Rowing crew"
+  Wordplay type: homophone
+  Components:
+    sound_of           had some grub             -> EIGHT
+  DB Lookups:
+    DB lookups:
+      crew: syn=EIGHT*,CUT,MAN,MEN,BAND,GANG,OF A,TASK,TEAM,HANDS,PARTY,POSSE,STAFF
+      had: syn=ATE,DUG,GOT,MET,SAW,BODE,BORE,BORN,FELT,HELD,KNEW,MADE,SEEN,TOOK,WENT; abbr=ATE,HA
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A,PART,S; ind=hidden; sounds=sum
+      grub: syn=DO,IF,ACT,DAM,FAG,POP,RUN,TUG,USE,CHOW,DIET,DISH,EATS,FARE,FEED
+      rowing crew: syn=EIGHT*,FOUR
+    Definitions:
+      "Rowing crew" -> EIGHT (definition match)
+  AI Reasoning:
+    'Had some grub' means 'ate', which sounds like 'EIGHT' when spoken (homophone indicator 'noisily')
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

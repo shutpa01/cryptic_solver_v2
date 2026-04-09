@@ -1,0 +1,184 @@
+{
+  "source": "guardian",
+  "puzzle": "29958",
+  "stats": {
+    "total": 28,
+    "assembled": 26,
+    "high": 19,
+    "medium": 4,
+    "low": 3,
+    "failed": 2,
+    "avg_score": 81.03846153846153
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "chosen",
+      "letters": "I",
+      "answer": "DIESEL",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Day chosen for replacement of corps in retiring company, generating some power",
+      "score": -22
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "replacement of corps",
+      "letters": "ES",
+      "answer": "DIESEL",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Day chosen for replacement of corps in retiring company, generating some power",
+      "score": -22
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Cover one's tracks",
+      "letters": "TAR",
+      "answer": "TARGET",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Cover one’s tracks maybe to achieve objective",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "cracking feature",
+      "letters": "CHING",
+      "answer": "MOOCHING",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "A cracking feature set into low floor in the middle of a lounge?",
+      "score": 37
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Considered",
+      "letters": "THROUGH",
+      "answer": "THROUGHTHENIGHT",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Considered Scotswoman correct to hide face away from sundown to sunrise",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Scotswoman",
+      "letters": "THE",
+      "answer": "THROUGHTHENIGHT",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Considered Scotswoman correct to hide face away from sundown to sunrise",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "correct",
+      "letters": "NIGHT",
+      "answer": "THROUGHTHENIGHT",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Considered Scotswoman correct to hide face away from sundown to sunrise",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "piano recording's retained:",
+      "letters": "THE",
+      "answer": "THEPINK",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Film figure’s piano recording’s retained: 16 loses nothing",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "16 loses nothing",
+      "letters": "PINK",
+      "answer": "THEPINK",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Film figure’s piano recording’s retained: 16 loses nothing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where you might shop for",
+      "answer": "OXFORD",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Where you might shop for Dexter’s new diverting books",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "on average",
+      "answer": "ONEWITH",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Taking a Number 13, how busy, on average?",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ruin",
+      "answer": "UNMAKE",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Ruin preparation of minute steak: two internationals sacked",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "objective",
+      "answer": "TARGET",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Cover one’s tracks maybe to achieve objective",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in the middle of a lounge",
+      "answer": "MOOCHING",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "A cracking feature set into low floor in the middle of a lounge?",
+      "score": 37
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "checker",
+      "answer": "ROBERT",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Top director, top tester and theatre’s top checker",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Film figure's",
+      "answer": "THEPINK",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Film figure’s piano recording’s retained: 16 loses nothing",
+      "score": 100
+    }
+  ]
+}

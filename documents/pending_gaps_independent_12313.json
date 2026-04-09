@@ -1,0 +1,107 @@
+{
+  "source": "independent",
+  "puzzle": "12313",
+  "stats": {
+    "total": 31,
+    "assembled": 28,
+    "high": 25,
+    "medium": 2,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 91.96428571428571
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "company's",
+      "letters": "CO",
+      "answer": "TACO",
+      "clue_number": "29",
+      "direction": null,
+      "clue": "I appreciate that company's Mexican food",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "barrel",
+      "letters": "SPEED",
+      "answer": "SPEWED",
+      "clue_number": "26",
+      "direction": null,
+      "clue": "Poured out barrel containing whiskey",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Asteroid",
+      "answer": "CERES",
+      "clue_number": "9",
+      "direction": null,
+      "clue": "Asteroid captured by space researchers",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Drink",
+      "answer": "CREAMSODA",
+      "clue_number": "13",
+      "direction": null,
+      "clue": "Drink loads in closing bars",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "yield",
+      "answer": "CEDE",
+      "clue_number": "21",
+      "direction": null,
+      "clue": "Reported grain yield",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mexican food",
+      "answer": "TACO",
+      "clue_number": "29",
+      "direction": null,
+      "clue": "I appreciate that company's Mexican food",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "eventually",
+      "answer": "INDUECOURSE",
+      "clue_number": "4",
+      "direction": null,
+      "clue": "Unicode sure to break eventually",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in disguise",
+      "answer": "ENCIPHER",
+      "clue_number": "16",
+      "direction": null,
+      "clue": "His Excellency probes Byzantine prince in disguise",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Poured out",
+      "answer": "SPEWED",
+      "clue_number": "26",
+      "direction": null,
+      "clue": "Poured out barrel containing whiskey",
+      "score": 100
+    }
+  ]
+}

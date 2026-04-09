@@ -1,0 +1,445 @@
+{
+  "source": "times",
+  "puzzle": "29512",
+  "stats": {
+    "total": 37,
+    "assembled": 36,
+    "high": 32,
+    "medium": 2,
+    "low": 2,
+    "failed": 1,
+    "avg_score": 90.27777777777777
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "feeblest",
+      "letters": "PALEST",
+      "answer": "PALIMPSEST",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Rewritten document is about politician with feeblest case",
+      "score": 80
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Allot",
+      "letters": "METE",
+      "answer": "METEOR",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Allot gold “star”",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "not so good",
+      "letters": "ILLER",
+      "answer": "RAILLERY",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Not so good to contribute to a little light teasing",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "the same as before?",
+      "letters": "DO",
+      "answer": "ADO",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Answer the same as before? Bother!",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Stick",
+      "letters": "BAT",
+      "answer": "BATH",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Stick by hot tub",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "round",
+      "letters": "SS",
+      "answer": "TARDINESS",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Being late, celebrity cycling round has something to eat",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "green",
+      "letters": "RIVER",
+      "answer": "RIVERDANCE",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Show of green largely amid crop",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "publisher",
+      "letters": "OUP",
+      "answer": "PEASOUPER",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Look with difficulty round a small publisher, in this?",
+      "score": 22
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "on",
+      "letters": "QU",
+      "answer": "AQUAMARINE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "A member of corps on dock finally dropped in the shade",
+      "score": 23
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "member of corps",
+      "letters": "MARINE",
+      "answer": "AQUAMARINE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "A member of corps on dock finally dropped in the shade",
+      "score": 23
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Scales",
+      "answer": "LIBRA",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Scales not fully calibrated",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Helpful",
+      "answer": "COOPERATIVE",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Helpful craftsman, local, scratching head",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "gutted",
+      "answer": "EVISCERATED",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Saver confused with deceit is gutted",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Brief Encounter",
+      "answer": "ONENIGHTSTAND",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Donning hat, set out for Brief Encounter",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Extensive",
+      "answer": "LONG",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Extensive note put in record",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "City",
+      "answer": "BARCELONA",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "City pub Charlie alone wrecked",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Manifest impatience",
+      "answer": "CHAMPATTHEBIT",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Manifest impatience that I bet wrongly on winner",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Helpful",
+      "answer": "COOPERATIVE",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Helpful craftsman, local, scratching head",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "entertaining American lounge singer",
+      "answer": "MEATLOAF",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Came across entertaining American lounge singer",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "proved old-fashioned",
+      "answer": "SHEWED",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "That woman, married, proved old-fashioned",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "gutted",
+      "answer": "EVISCERATED",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Saver confused with deceit is gutted",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "document",
+      "answer": "PALIMPSEST",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Rewritten document is about politician with feeblest case",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "had to swear",
+      "answer": "IMPRECATE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Naughty lad on cocaine initially had to swear",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "be sick",
+      "answer": "OMIT",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Leave to be sick, but not very",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "blocks",
+      "answer": "LISP",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "This blocks sibilant in front of mouth?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Disappear",
+      "answer": "VARNISH",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Disappear, having run in for coat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dread",
+      "answer": "ANGST",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Dread carnage, on and off street",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "\"star\"",
+      "answer": "METEOR",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Allot gold “star”",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Minute hands, in relation to face",
+      "answer": "RADII",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Minute hands, in relation to face?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "teasing",
+      "answer": "RAILLERY",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Not so good to contribute to a little light teasing",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Scales",
+      "answer": "LIBRA",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Scales not fully calibrated",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "covering great area",
+      "answer": "FARANDWIDE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Return of service plus extra run covering great area",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bother!",
+      "answer": "ADO",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Answer the same as before? Bother!",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tub",
+      "answer": "BATH",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Stick by hot tub",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Brief Encounter",
+      "answer": "ONENIGHTSTAND",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Donning hat, set out for Brief Encounter",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "delicacy",
+      "answer": "TRUFFLE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "More than one fine lady at first clothed in real delicacy",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Carries items on back of camel",
+      "answer": "HUMPS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Carries items on back of camel",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One full of alcohol perhaps",
+      "answer": "TUN",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "One full of alcohol perhaps is expelled from Arab city",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Extensive",
+      "answer": "LONG",
+      "clue_number": "8",
+      "direction": "across",
+      "clue": "Extensive note put in record",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Show",
+      "answer": "RIVERDANCE",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Show of green largely amid crop",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "in this?",
+      "answer": "PEASOUPER",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Look with difficulty round a small publisher, in this?",
+      "score": 22
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "shade",
+      "answer": "AQUAMARINE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "A member of corps on dock finally dropped in the shade",
+      "score": 23
+    }
+  ]
+}

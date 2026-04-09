@@ -1,0 +1,192 @@
+{
+  "source": "telegraph",
+  "puzzle": "31171",
+  "stats": {
+    "total": 32,
+    "assembled": 32,
+    "high": 28,
+    "medium": 4,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 83.9375
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "almost attempted embracing new",
+      "letters": "TRINE",
+      "answer": "DOCTRINE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Medic almost attempted embracing new philosophy",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "bit of land by the sea",
+      "letters": "SAND",
+      "answer": "SANDPIT",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Where children might be digging and sitting in bit of land by the sea",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "sitting",
+      "letters": "PIT",
+      "answer": "SANDPIT",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Where children might be digging and sitting in bit of land by the sea",
+      "score": 55
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "procedure",
+      "letters": "PRODUCE",
+      "answer": "REPRODUCE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Copy new procedure",
+      "score": 70
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "story",
+      "letters": "LIME",
+      "answer": "LIMEADE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "One might swallow this story female servant told",
+      "score": 73
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "sea",
+      "letters": "MAIN",
+      "answer": "MAINTAIN",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Keep sea anemones primarily in metal container",
+      "score": 85
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Stupefied",
+      "letters": "NUMB",
+      "answer": "NUMBERS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Stupefied bear is oddly leaving tracks",
+      "score": 73
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Giving up",
+      "answer": "FORFEITING",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Giving up foreign food initially, it's dodgy",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where children might be digging",
+      "answer": "SANDPIT",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Where children might be digging and sitting in bit of land by the sea",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "One might swallow this",
+      "answer": "LIMEADE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "One might swallow this story female servant told",
+      "score": 73
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dog lead",
+      "answer": "POINTER",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Dog lead",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hardy character",
+      "answer": "Tess",
+      "clue_number": "26",
+      "direction": "down",
+      "clue": "Hardy character demonstrates stamina, to an extent",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "unsophisticated",
+      "answer": "INELEGANT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "One crude gentleman ignoring maiden is unsophisticated",
+      "score": 73
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Proving",
+      "answer": "TESTING",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Proving difficult",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tracks",
+      "answer": "NUMBERS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Stupefied bear is oddly leaving tracks",
+      "score": 73
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Maybe defective car",
+      "answer": "LEMON",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Maybe defective car? Mike is stuck in centre of Spanish city",
+      "score": 77
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Leg it!",
+      "answer": "step on it",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "What one might do seeing scary spider? Leg it!",
+      "score": 65
+    }
+  ]
+}

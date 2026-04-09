@@ -1,0 +1,635 @@
+================================================================================
+PUZZLE QUALITY REPORT: dailymail #17852
+Generated: 2026-04-08 14:40:08
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        30/33 (90%)
+    Signature:      2
+    Sig+Enriched:   10
+    Sonnet:         9
+    DB Fallback:    1
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   26  1D, 12A, 14D, 27D, 11D, 13A, 17D, 18D, 20D, 22D, 25A, 3D, 4D, 5A, 7D, 9A, 26D, 6D, 1A, 15D, 16D, 19A, 2D, 23A, 29A, 31A
+  Medium (40-79): 4  10A, 15A, 28A, 30A
+  Low (<40):    0  
+  Failed:       3  21D, 24D, 8D
+  Average:      90/100
+
+COST: $1.0452 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (19 entries)
+------------------------------------------------------------
+  GATHER: "Assemble" -> GATHER  (missing from definition_answers_augmented)
+  EDDY: "Whirlpool" -> EDDY  (missing from definition_answers_augmented)
+  ADEN: "port" -> ADEN  (missing from definition_answers_augmented)
+  JUST: "Only" -> JUST  (missing from definition_answers_augmented)
+  SWAP: "trade" -> SWAP  (missing from definition_answers_augmented)
+  VIBE: "Feeling" -> VIBE  (missing from definition_answers_augmented)
+  DECEPTIVE: "Underhand" -> DECEPTIVE  (missing from definition_answers_augmented)
+  TAKEBACK: "Withdraw" -> TAKEBACK  (missing from definition_answers_augmented)
+  WAIVE: "Renounce" -> WAIVE  (missing from definition_answers_augmented)
+  AGONY: "torment" -> AGONY  (missing from definition_answers_augmented)
+  TOUCHE: "Recognition of a hit?" -> TOUCHE  (missing from definition_answers_augmented)
+  BLANKETFINISH: "Narrow end to a course?" -> BLANKETFINISH  (missing from definition_answers_augmented)
+  IRKED: "making one annoyed" -> IRKED  (missing from definition_answers_augmented)
+  CONDONE: "Overlook" -> CONDONE  (missing from definition_answers_augmented)
+  FLAME: "light" -> FLAME  (missing from definition_answers_augmented)
+  MEANDERS: "listlessly" -> MEANDERS  (missing from definition_answers_augmented)
+  CHEETAHS: "Fast creatures" -> CHEETAHS  (missing from definition_answers_augmented)
+  AGONY: produces -> A  (missing from abbreviations)
+  MEANDERS: Swedish male, -> ANDERS  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  FEUDAL = 28 (73/100): AI=container, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  21. Overlook U.S. complex on Tyneside = CONDONE
+  24. Lover in brilliant light = FLAME
+  8. Fast creatures in shimmering heat among a lot of game = CHEETAHS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  13/33  5A, 13A, 19A, 23A, 29A, 30A, 4D, 14D, 16D, 17D, 18D, 20D, 22D
+  Type mismatch:         1  28A
+  DB gap:                17  1A, 9A, 10A, 12A, 25A, 31A, 2D, 3D, 6D, 7D, 8D, 11D, 15D, 21D, 24D, 26D, 27D
+  Failed:                3  8D, 21D, 24D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1D  GATHER        Assemble in meeting at Hereford (6)
+                      hidden in "meetinG AT HEReford" [hidden: "in"]; definition: "Assemble"  [HIGH]
+   12A  EDDY          Whirlpool seen in flooded dyke (4)
+                      hidden in "seen in floodED DYke"; definition: "Whirlpool"  [HIGH]
+   14D  DARA          Irish chap monopolised a radio? Not altogether (4)
+                      ---  [HIGH]
+   27D  ADEN          Some road engineers in Middle East port (4)
+                      hidden in "roAD ENgineers in middle east" [hidden: "Some"]; definition: "port"  [HIGH]
+   11D  JUST          Only fair (4)
+                      JUST (synonym of "fair"); definition: "Only"  [HIGH]
+   13A  BEAUTYSPOT    Types about to run around scenic site (6,4)
+                      ---  [HIGH]
+   17D  IFFY          Doubtful moment leaving front (4)
+                      ---  [HIGH]
+   18D  FAITHFUL      Loyal female on road starts to take home friend under lights (8)
+                      ---  [HIGH]
+   20D  ASKS          Requests jobs with time gone (4)
+                      ---  [HIGH]
+   22D  UPPERS        More elevated parts in meal, first to last (6)
+                      ---  [HIGH]
+   25A  SWAP          Hands from the East in trade (4)
+                      reverse of PAWS (synonym of "Hands") [reversal: "from"]; definition: "trade"  [HIGH]
+    3D  VIBE          Feeling from bachelor amid struggle (4)
+                      B (synonym of "bachelor") + VIE (synonym of "struggle"); definition: "Feeling"  [HIGH]
+    4D  UNCHECK       Remove ticks from a French sort of pattern (7)
+                      ---  [HIGH]
+    5A  BARDIC        Book with card I suspect relating to poets? (6)
+                      ---  [HIGH]
+    7D  DECEPTIVE     Underhand edict veep devised (9)
+                      anagram of EDICTVEEP ("edict veep") [anagram: "devised"] = DECEPTIVE; definition: "Underhand"  [HIGH]
+    9A  TAKEBACK      Withdraw opinion and support (4,4)
+                      TAKE (synonym of "opinion") + BACK (synonym of "support"); definition: "Withdraw"  [HIGH]
+   26D  WAIVE         Renounce gesture by the sound of it (5)
+                      WAIVE (sounds like "gesture"); definition: "Renounce"  [HIGH]
+    6D  AGONY         Exit in a U.S. city produces torment (5)
+                      A (synonym of "produces") + GO (synonym of "Exit") + NY (synonym of "U.S. city"); definition: "torment"  [HIGH]
+    1A  GRIEVOUS      Deplorable Igor hikes regularly with you in France (8)
+                      GRIE(alternate letters of "Igor hikes") + VOUS(synonym of "you in France")  [HIGH]
+   10A  TOUCHE        Recognition of a hit? (6)
+                      cryptic definition  [MED]
+   15A  BLANKETFINISH  Narrow end to a course? (7,6)
+                      cryptic definition  [MED]
+   15D  BYPRODUCT     Extremely busy person paid by channel gets unplanned result? (2,7)
+                      BY(first letter of "busy") + PRO(synonym of "person paid") + DUCT(synonym of "channel")  [HIGH]
+   16D  EON           Renown at intervals for a very long period (3)
+                      anagram of OEN(deletion from "for") = EON  [HIGH]
+   19A  APPEARANCEFEE  Charge received by performers? (10,3)
+                      APPEARANCEFEE (synonym of "Charge received by performers?")  [HIGH]
+    2D  IRKED         Awkward ride around back of park making one annoyed (5)
+                      anagram of RIDE+K(last letter of "back of park") = IRKED  [HIGH]
+   21D  CONDONE       Overlook U.S. complex on Tyneside (7)
+                      ---  [FAIL]
+   23A  TWOOFAKIND    Very similar pair also, we hear, round a family in France and Germany (3,2,1,4)
+                      TWOOF(sounds like "pair also") + A + KIND(synonym of "family")  [HIGH]
+   24D  FLAME         Lover in brilliant light (5)
+                      ---  [FAIL]
+   28A  FEUDAL        Outstanding fellow in retreat with a line describing an old, exploitative system? (6)
+                      F(abbr. "fellow") + EUD(DUE reversed, "retreat") + A + L(abbr. "line")  [MED]
+   29A  WOODBINE      Deal, say, with receptacle close to one honeysuckle (8)
+                      WOOD(synonym of "Deal") + BIN(synonym of "receptacle") + E(last letter of "close to one")  [HIGH]
+   30A  LITTER        Number of young animals in debris (6)
+                      cryptic definition  [MED]
+   31A  MEANDERS      Writer, Swedish male, goes around listlessly (8)
+                      ME (synonym of "Writer,") + ANDERS (synonym of "Swedish male,"); definition: "listlessly"  [HIGH]
+    8D  CHEETAHS      Fast creatures in shimmering heat among a lot of game (8)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] GATHER  1D. Assemble in meeting at Hereford
+  Answer: GATHER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Assemble"
+  Wordplay: hidden
+  Explanation: hidden in "meetinG AT HEReford" [hidden: "in"]; definition: "Assemble"
+  ----------------------------------------------------------------------
+
+  [HIGH] EDDY  12A. Whirlpool seen in flooded dyke
+  Answer: EDDY
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Whirlpool"
+  Wordplay: hidden
+  Explanation: hidden in "seen in floodED DYke"; definition: "Whirlpool"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] DARA  14D. Irish chap monopolised a radio? Not altogether
+  Answer: DARA
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden in "monopoliseD A RAdio?"
+  ----------------------------------------------------------------------
+
+  [HIGH] ADEN  27D. Some road engineers in Middle East port
+  Answer: ADEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "port"
+  Wordplay: hidden
+  Explanation: hidden in "roAD ENgineers in middle east" [hidden: "Some"]; definition: "port"
+  ----------------------------------------------------------------------
+
+  [HIGH] JUST  11D. Only fair
+  Answer: JUST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Only"
+  Wordplay: charade
+  Explanation: JUST (synonym of "fair"); definition: "Only"
+  ----------------------------------------------------------------------
+
+  [HIGH] BEAUTYSPOT  13A. Types about to run around scenic site
+  Answer: BEAUTYSPOT
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of TYPES + ABOUT = BEAUTYSPOT; definition: "site"
+  ----------------------------------------------------------------------
+
+  [HIGH] IFFY  17D. Doubtful moment leaving front
+  Answer: IFFY
+  Tier: --- | Confidence: 100/100
+  Human explanation: JIFFY (synonym="moment") with deletion = IFFY; definition: "Doubtful"
+  ----------------------------------------------------------------------
+
+  [HIGH] FAITHFUL  18D. Loyal female on road starts to take home friend under lights
+  Answer: FAITHFUL
+  Tier: --- | Confidence: 100/100
+  Human explanation: F (abbreviation="female") + AI (abbreviation="road") + T (abbreviation="take") + H (first_letter="home") + F (first_letter="friend") + U (first_letter="under") + L (first_letter="lights") = FAITHFUL; 
+  ----------------------------------------------------------------------
+
+  [HIGH] ASKS  20D. Requests jobs with time gone
+  Answer: ASKS
+  Tier: --- | Confidence: 100/100
+  Human explanation: TASKS (synonym="jobs") with deletion = ASKS; definition: "Requests"
+  ----------------------------------------------------------------------
+
+  [HIGH] UPPERS  22D. More elevated parts in meal, first to last
+  Answer: UPPERS
+  Tier: --- | Confidence: 100/100
+  Human explanation: SUPPERS (synonym="meal,") with deletion = UPPERS
+  ----------------------------------------------------------------------
+
+  [HIGH] SWAP  25A. Hands from the East in trade
+  Answer: SWAP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "trade"
+  Wordplay: charade + reversal
+  Explanation: reverse of PAWS (synonym of "Hands") [reversal: "from"]; definition: "trade"
+  ----------------------------------------------------------------------
+
+  [HIGH] VIBE  3D. Feeling from bachelor amid struggle
+  Answer: VIBE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Feeling"
+  Wordplay: charade
+  Explanation: B (synonym of "bachelor") + VIE (synonym of "struggle"); definition: "Feeling"
+  ----------------------------------------------------------------------
+
+  [HIGH] UNCHECK  4D. Remove ticks from a French sort of pattern
+  Answer: UNCHECK
+  Tier: --- | Confidence: 100/100
+  Human explanation: UN (abbreviation="French") + CHECK (synonym="a") = UNCHECK; definition: "pattern"
+  ----------------------------------------------------------------------
+
+  [HIGH] BARDIC  5A. Book with card I suspect relating to poets?
+  Answer: BARDIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: BARD (synonym="poets?") + I (from clue) + C (first_letter="card") = BARDIC; definition: "Book"
+  ----------------------------------------------------------------------
+
+  [HIGH] DECEPTIVE  7D. Underhand edict veep devised
+  Answer: DECEPTIVE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Underhand"
+  Wordplay: anagram
+  Explanation: anagram of EDICTVEEP ("edict veep") [anagram: "devised"] = DECEPTIVE; definition: "Underhand"
+  ----------------------------------------------------------------------
+
+  [HIGH] TAKEBACK  9A. Withdraw opinion and support
+  Answer: TAKEBACK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Withdraw"
+  Wordplay: charade
+  Explanation: TAKE (synonym of "opinion") + BACK (synonym of "support"); definition: "Withdraw"
+  ----------------------------------------------------------------------
+
+  [HIGH] WAIVE  26D. Renounce gesture by the sound of it
+  Answer: WAIVE
+  Tier: Signature | Confidence: 80/100
+  Definition: "Renounce"
+  Wordplay: homophone
+  Explanation: WAIVE (sounds like "gesture"); definition: "Renounce"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] AGONY  6D. Exit in a U.S. city produces torment
+  Answer: AGONY
+  Tier: Signature | Confidence: 100/100
+  Definition: "torment"
+  Wordplay: charade
+  Explanation: A (synonym of "produces") + GO (synonym of "Exit") + NY (synonym of "U.S. city"); definition: "torment"
+  ----------------------------------------------------------------------
+
+  [HIGH] GRIEVOUS  1A. Deplorable Igor hikes regularly with you in France
+  Answer: GRIEVOUS
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "Deplorable"
+  Wordplay type: charade
+  Components:
+    indicator          regularly                 -> 
+    alternate_letters  Igor hikes                -> GRIE
+    synonym            you in France             -> VOUS
+  Assembly: charade — GRIE(alternate letters of "Igor hikes") + VOUS(synonym of "you in France")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deplorable: syn=WOEFUL,PITIFUL,CRIMINAL; ind=anagram?
+      hikes: syn=AERATES,UP,ARC,BAR,WAY,AXIS,BLOC,LINE,PATH,PICK,RISE,SIDE,SPIN,TREK,WALK
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,COMMONLY; ind=parts
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U*,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      france: syn=ICI,MER,OISES,COUNTRY,REPUBLIC; abbr=f
+      in france: abbr=EN
+      you in france: syn=VOUS*
+    Definitions:
+      "Deplorable" -> GRIEVOUS (definition match)
+  AI Reasoning:
+    Take alternate letters from 'Igor hikes' (GRIE) and add French word for 'you' (VOUS)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TOUCHE  10A. Recognition of a hit?
+  Answer: TOUCHE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Recognition of a hit?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hit: syn=DO,A A,ASK,BAG,BAT,BIB,BOB,BOP,BOX,DAB,DID,DUG,GET,GOT,LAM; abbr=LAM; ind=anagram
+  AI Reasoning:
+    The entire clue cryptically defines TOUCHE as the acknowledgment given when someone scores a hit in fencing or makes a good point
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BLANKETFINISH  15A. Narrow end to a course?
+  Answer: BLANKETFINISH
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Narrow end to a course?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      narrow: syn=LANK*,FINE,HOME,LESS,MEAN,SLIM,THIN,CLOSE,LANKY,LEAST,RANGY,REEDY,SMALL,SPARE,TAPER
+      end: syn=FINIS*,FINISH*,GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY; ind=deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      course: syn=A,GO,IT,ARC,CUT,DOG,ESS,FLY,GUN,HIE,JET,NIP,POT,RAM,RIP; abbr=ASCOT; sounds=coarse
+      to a: syn=IN SPADES,COUNTY DOWN
+  AI Reasoning:
+    The entire clue cryptically defines BLANKETFINISH - a racing term for when competitors finish so close together the gap is 'narrow' at the 'end' of a 'course'
+  ----------------------------------------------------------------------
+
+  [HIGH] BYPRODUCT  15D. Extremely busy person paid by channel gets unplanned result?
+  Answer: BYPRODUCT
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "unplanned result"
+  Wordplay type: charade
+  Components:
+    indicator          Extremely                 -> 
+    first_letter       busy                      -> BY
+    synonym            person paid               -> PRO
+    synonym            channel                   -> DUCT
+  Assembly: charade — BY(first letter of "busy") + PRO(synonym of "person paid") + DUCT(synonym of "channel")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      extremely: syn=SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EDGY,EVER,FULL,MORE; abbr=V; ind=parts
+      busy: syn=ON,TROD,ABUZZ,ALIVE,ASTIR,INUSE,ABSORB,ACTIVE,HECTIC,ATTRACT,CROWDED,ENGAGED,HOPPING,INVOLVE,ONTHEGO; ind=anagram?
+      person: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY,BUCK; ind=anagram
+      paid: syn=BORE,BORN,GAVE,SETTLED,YIELDED,DEFRAYED,REJOINED,REPLACED,RESTORED,RETORTED,RETURNED,REVERTED,REWARDED,RIPOSTED,SALARIED
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      channel: syn=DUCT*,BATH,FLUE,FLUX,GLUT,GUSH,HOME,KILL,LANE,LINE,MIND,SIDE,THIS,TIDE,TUBE; abbr=LANE
+      gets: syn=PRODUCT*,BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS; abbr=G,GE
+      unplanned: syn=AD,OFF,THE,ADLIB,AD HOC,AD LIB,AD-LIB,CHANCE,MOMENT
+      result: syn=PRODUCT*,BE,DO,ACT,END,GET,HAP,WIN,COME,COOK,FATE,MAKE,PASS,RISE,SEED
+      busy person: syn=DOER
+      person paid: syn=PRO*
+    Definitions:
+      "unplanned result" -> BYPRODUCT (definition match)
+  AI Reasoning:
+    Charade: extreme letters of 'busy' (BY) + 'person paid' (PRO) + 'channel' (DUCT)
+  ----------------------------------------------------------------------
+
+  [HIGH] EON  16D. Renown at intervals for a very long period
+  Answer: EON
+  Tier: DB Fallback | Confidence: 87/100
+  Definition: "a very long period"
+  Wordplay type: anagram
+  Components:
+    deletion           for                       -> OEN
+  Assembly: anagram — anagram of OEN(deletion from "for") = EON
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      at: syn=IN,BED,EAR,EAT,EYE,FAT; ind=acrostic,anagram?,parts
+      intervals: syn=EON*,BIT,DAY,DEN,ERA,GAP,PIT,RIP,STY; ind=parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY; abbr=SO,V; sounds=vary
+      long: syn=EON*,AGE,AYE,FAR,OLD; abbr=PINE
+      period: syn=AGE,DAY,ERA; abbr=ERA
+      a very: syn=ARM,GET,GUN
+      long period: syn=EON*,AGE,ERA
+    Definitions:
+      "period" -> EON (definition match)
+      "long period" -> EON (definition match)
+  AI Reasoning:
+    Take alternate letters from RENOWN starting with the second letter: E-O-N
+  ----------------------------------------------------------------------
+
+  [HIGH] APPEARANCEFEE  19A. Charge received by performers?
+  Answer: APPEARANCEFEE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: charade
+  Explanation: APPEARANCEFEE (synonym of "Charge received by performers?")
+  ----------------------------------------------------------------------
+
+  [HIGH] IRKED  2D. Awkward ride around back of park making one annoyed
+  Answer: IRKED
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "making one annoyed"
+  Wordplay type: anagram
+  Components:
+    indicator          awkward                   -> 
+    anagram_fodder     ride                      -> RIDE
+    indicator          around                    -> 
+    last_letter        back of park              -> K
+  Assembly: anagram — anagram of RIDE+K(last letter of "back of park") = IRKED
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      awkward: syn=LEFT,FAZED,HEAVY,INEPT,JUMPY,STIFF,UPSET; ind=anagram
+      ride: syn=KID,TEN,FIRE,HANG,REEL,ROAD,SAIL,SPIN,TRIP,TURN,WAFT,CYCLE,DRIFT,FLOAT,GLIDE; fodder=RIDE(4/5 anagram match)
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      park: syn=REC,OVER,YARD,ACRES,WHOLE
+      making: syn=ARM,RISE,DOING,GOING,ICING,STUFF
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O; sounds=won
+      annoyed: syn=IRK*,IRKED*,ATE,BUG,DUG,FED,GET,GOT,MAD,RAN,SAW,VEX,BEAT,CAME,GALL; ind=anagram?
+      back of: ind=parts
+    Definitions:
+      "annoyed" -> IRKED (definition match)
+      "one annoyed" -> IRKED (definition match)
+  AI Reasoning:
+    Anagram of RIDE + K (last letter of park) gives RIDEK → IRKED
+  ----------------------------------------------------------------------
+
+  [FAILED] CONDONE  21D. Overlook U.S. complex on Tyneside
+  Answer: CONDONE
+  Tier: --- | Confidence: 0/100
+  Definition: "Overlook"
+  Wordplay type: anagram
+  Components:
+    abbreviation       U.S.                      -> US
+    indicator          complex                   -> 
+    literal            on                        -> ON
+    hidden             Tyneside                  -> CODE
+  DB Lookups:
+    DB lookups:
+      overlook: syn=CONDONE*,MY,ITS,HACK,KEEP,MISS,OMIT,PASS,PLAY,VIEW,AERIE,FIELD,REMIT,BYPASS,EXCUSE
+      complex: syn=HANG,FANCY,SYSTEM,ELECTRA,NETWORK,OEDIPAL; ind=anagram
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      tyneside: syn=NE*
+    Definitions:
+      "Overlook" -> CONDONE (definition match)
+  AI Reasoning:
+    Anagram of US + ON + CODE (hidden in Tyneside) gives CONDONE
+  ----------------------------------------------------------------------
+
+  [HIGH] TWOOFAKIND  23A. Very similar pair also, we hear, round a family in France and Germany
+  Answer: TWOOFAKIND
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "Very similar"
+  Wordplay type: charade
+  Components:
+    sound_of           pair also                 -> TWOOF
+    indicator          we hear                   -> 
+    indicator          round                     -> 
+    literal            a                         -> A
+    synonym            family                    -> KIND
+  Assembly: charade — TWOOF(sounds like "pair also") + A + KIND(synonym of "family")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      very: syn=V,SO,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO,V; sounds=vary
+      similar: syn=AKIN*,ME,TOO,LIKE,SAME,SUCH,ALIKE,DITTO,LINER,ALLIED,COGENT,JOINED,APROPOS,COGNATE,CONNATE
+      pair: syn=TWO*,PR,ASS,DUO,DUET,DYAD,ITEM,MATE,ALIGN,BRACE,MATCH,TWAIN,ALIGNS,COUPLE,ALIGNED; abbr=PR; sounds=pare,pear
+      also: syn=SO,AND,DOG,DUD,TOO,YET,BOMB,BUST,DOGS,DUDS,FLOP,HASH,INTO,MESS,MISS; abbr=AND
+      we: syn=FE,COX,YOUANDI,WISEACRES; abbr=WE; sounds=wee
+      hear: syn=HEA,RED,SEE,TRY,FIND,HARK,HEED,MIND,SIZE,AGREE,CATCH,JUDGE,LEARN,MAJOR,ATTEND; ind=homophone; sounds=here
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O*; ind=anagram,container,reversal
+      family: syn=KIN*,KIND*,DOC,EMT,NUN,PAL,SET,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,DOCS,EMTS; abbr=KIN*
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      france: syn=ICI,MER,OISES,COUNTRY,REPUBLIC; abbr=f*
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      germany: syn=COUNTRY; abbr=D*,G,GER
+      we hear: ind=homophone
+      in france: abbr=EN
+    Definitions:
+      "Very similar" -> TWOOFAKIND (definition match)
+  AI Reasoning:
+    Homophone of 'pair also' sounds like 'pair of' = 'two of' giving TWOOF, then container 'round' contains 'a family' = A KIND, forming TWOOFAKIND
+  ----------------------------------------------------------------------
+
+  [FAILED] FLAME  24D. Lover in brilliant light
+  Answer: FLAME
+  Tier: --- | Confidence: 0/100
+  Definition: "light"
+  Wordplay type: hidden
+  Components:
+    indicator          in                        -> 
+    hidden             Lover in brilliant        -> FLAME
+  DB Lookups:
+    DB lookups:
+      lover: syn=FLAME*,BOD,BOG,BUG,DAM,EGG,FAN,GIT,LOO,NOB,NUT,SUM,BATH,BEAU,BENT
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      brilliant: syn=ACE,BIG,GEM,ICE,LIT,BALD,BOLD,FAIR,FAST,FREE,GAUD,GONE,KEEN,LAST,OPEN
+      light: syn=AT,TO,ALE,ARC,DAY,FEE,LED,LIT,LUX,OIL,RAY,SUN,VIP,WAY,AIRY; abbr=LAND
+    Definitions:
+      "Lover" -> FLAME (definition match)
+      "light" -> FLAME (definition match)
+  AI Reasoning:
+    FLAME hidden within the span 'Lover in brilliant' with 'in' as hidden word indicator
+  ----------------------------------------------------------------------
+
+  [HIGH] FEUDAL  28A. Outstanding fellow in retreat with a line describing an old, exploitative system?
+  Answer: FEUDAL
+  Tier: Sonnet | Confidence: 73/100
+  Definition: "an old, exploitative system"
+  Wordplay type: container
+  Components:
+    indicator          Outstanding               -> 
+    abbreviation       fellow                    -> F
+    indicator          in                        -> 
+    reversal           retreat                   -> EUD
+    literal            a                         -> A
+    abbreviation       line                      -> L
+  Assembly: charade — F(abbr. "fellow") + EUD(DUE reversed, "retreat") + A + L(abbr. "line")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      outstanding: syn=OS,DUE,TOP,FINE,ONER,OWED,RARE,STAR,BIJOU,ELITE,FANCY,GRAND,GREAT,NOBLE,OWING; ind=container?
+      fellow: syn=F,HE,BOD,BOY,BUD,CAT,CUB,DON,EGG,FOE,GUY,JOE,KEN,KID,LAD; abbr=F*,MAN
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      retreat: syn=IT,DEN,DIE,EBB,FLY,KEY,LEG,NEW,RUN,AWAY,BACK,EVEN,FALL,GIVE,LAIR; ind=reversal
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      line: syn=L,ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG; abbr=L*,RY
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O
+      system: syn=FEUDAL*,HOW,RAN,WAY,BORN,CAST,FORM,GAME,NICK,PLAN,RITE,ROAD,SHOT,TACK,TRIM
+      a line: syn=ARM,ASS,BED,EAR,EAT,FIT,GET,GUT,LAY,LEG
+      an old: syn=CHEAP
+    Definitions:
+      "system" -> FEUDAL (definition match)
+  AI Reasoning:
+    Outstanding (container) arranges fellow (F) in retreat reversed (DUE→EUD) with a (A) line (L) to form FEUDAL
+  ----------------------------------------------------------------------
+
+  [HIGH] WOODBINE  29A. Deal, say, with receptacle close to one honeysuckle
+  Answer: WOODBINE
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "honeysuckle"
+  Wordplay type: charade
+  Components:
+    synonym            Deal                      -> WOOD
+    synonym            receptacle                -> BIN
+    last_letter        close to one              -> E
+  Assembly: charade — WOOD(synonym of "Deal") + BIN(synonym of "receptacle") + E(last letter of "close to one")
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deal: syn=WOOD*,A,OK,BID,BUY,COP,DAY,END,FIX,GET,LOT,OPT,POT,SET,TIE; ind=anagram?
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      with: syn=IN*,W,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W*
+      receptacle: syn=BIN*,DISH,KEEL,BOTTOM,HOLDER,VESSEL,HOLDALL
+      close: syn=IN*,BY,GO,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O*; sounds=won
+      honeysuckle: syn=PLANT,SHRUB
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO,BESIDE,AGAINST,PENDING
+    Definitions:
+      "honeysuckle" -> WOODBINE (definition match)
+  AI Reasoning:
+    WOOD (deal as wooden plank) + BINE (from W+BIN+E with W absorbed) = WOODBINE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LITTER  30A. Number of young animals in debris
+  Answer: LITTER
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Number of young animals in debris"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=confirmed in DB | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      number: syn=N,O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,ONE,TEN,VIP,ACTS,ANTE; abbr=N,NO,TEN
+      young: syn=LITTER*,BIG,GET,KIN,NEW,PUP,RED,SON,BABY,GONE,REDS,SEED,BROOD,CHILD,CRAZY; abbr=Y
+      animals: syn=CATS,DEER,EWES,GNUS,PETS,BEAST,BRUTE,FAUNA,GOATS,OKAPI,SHEEP,BEASTS,BRUTES,CAMELS,ELANDS
+      in: syn=IT*,T,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      debris: syn=LITTER*,DIRT,DUST,JUNK,POOP,SCAT,SOIL,CHAFF,DRECK,DROSS,FECES,FIELD,OFFAL,PLAIN,SCRAP; ind=anagram?
+      of young: syn=YOUTHS
+      young animals: syn=PET,KITTEN,RUNNER
+  AI Reasoning:
+    The whole clue cryptically defines LITTER by alluding to both its meanings: a group of young animals and debris/rubbish
+  ----------------------------------------------------------------------
+
+  [HIGH] MEANDERS  31A. Writer, Swedish male, goes around listlessly
+  Answer: MEANDERS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "listlessly"
+  Wordplay: charade
+  Explanation: ME (synonym of "Writer,") + ANDERS (synonym of "Swedish male,"); definition: "listlessly"
+  ----------------------------------------------------------------------
+
+  [FAILED] CHEETAHS  8D. Fast creatures in shimmering heat among a lot of game
+  Answer: CHEETAHS
+  Tier: --- | Confidence: 0/100
+  Definition: "Fast creatures"
+  Wordplay type: hidden
+  Components:
+    indicator          among                     -> 
+    hidden             shimmering heat among a lot of -> CHEETAHS
+  DB Lookups:
+    DB lookups:
+      fast: syn=DO,GO,OK,ALL,CON,DID,EAT,GET,HOT,LOW,OUT,RAN,RUN,SET,SHY
+      creatures: syn=EMUS,BIRDS,NEWTS,BEASTS,BRUTES,ELANDS,LLAMAS,ANIMALS,COOKIES,MARMOTS,MEDUSAS,MANATEES,UNICORNS,ASS,BOD
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      shimmering: syn=AGLEAM,BRIGHT,AGLITTER; ind=anagram?
+      heat: syn=22,AIR,ARM,BOD,BOY,CAT,COP,EGG,GAT,GUN,GUY,HOT,JOE,LAD,MAN
+      among: syn=IN,MID,AMID,MIDST,AMIDST,THROUGH; abbr=IN; ind=container,hidden,insertion
+      lot: syn=A,SO,FAR,LEA,OFT,POT,SET,TON,TOO,WAD,WAY,BAND,BANK,BODY,BONE
+      game: syn=GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,TIE,USE,AREA,BOUT; abbr=GO,RU; ind=anagram
+      a lot: abbr=MANY
+      a lot: syn=ANY,CAN,DIE,END,HOW,LOT,OFT,PAD,POT,SET
+      a lot of: syn=BAGS,LOTS,MANY,HEAPS
+    Definitions:
+      "Fast creatures" -> CHEETAHS (definition match)
+  AI Reasoning:
+    CHEETAHS is hidden within the consecutive letters of 'shimmering heat among a lot of' with 'among' as the hidden word indicator
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

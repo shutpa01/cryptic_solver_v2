@@ -1,0 +1,42 @@
+======================================================================
+SIGNATURE MINING REPORT
+Generated: 2026-03-17 12:13:10
+======================================================================
+
+STATS
+----------------------------------------
+  Clues scanned:     5000
+  Matched:           732 (14.6%)
+  High confidence:   732
+  Raw discoveries:   1748
+  Unique discoveries:1542
+  New (not in DB):   6
+  Already in DB:     1536
+  Elapsed:           1220.5s
+
+  SYNONYM: 0 new, 515 existing
+  ABBREVIATION: 0 new, 104 existing
+  INDICATOR: 6 new, 234 existing
+  DEFINITION: 0 new, 683 existing
+
+HIGH-FREQUENCY NEW DISCOVERIES (seen in 3+ clues)
+------------------------------------------------------------
+  (none)
+
+ALL NEW SYNONYM (0 entries)
+------------------------------------------------------------
+
+ALL NEW ABBREVIATION (0 entries)
+------------------------------------------------------------
+
+ALL NEW INDICATOR (6 entries)
+------------------------------------------------------------
+  [2] to keep -> container
+  [1] hidden in -> container
+  [1] clothed in -> container
+  [1] bringing in -> container
+  [1] seconds -> alternating
+  [1] used in -> container
+
+ALL NEW DEFINITION (0 entries)
+------------------------------------------------------------

@@ -1,0 +1,253 @@
+{
+  "source": "telegraph",
+  "puzzle": "31209",
+  "stats": {
+    "total": 30,
+    "assembled": 28,
+    "high": 26,
+    "medium": 1,
+    "low": 1,
+    "failed": 2,
+    "avg_score": 91.85714285714286
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "deficit",
+      "letters": "LOSS",
+      "answer": "COLOSSUS",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Company deficit with American giant",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Fixes",
+      "letters": "SNIP",
+      "answer": "SNIPPET",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Fixes up sweetheart provoking scrap",
+      "score": 20
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "provoking",
+      "letters": "PET",
+      "answer": "SNIPPET",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Fixes up sweetheart provoking scrap",
+      "score": 20
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "betting",
+      "letters": "SP",
+      "answer": "SPLATTER",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Spread betting odds before final",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Occasionally",
+      "letters": "SUN",
+      "answer": "SUNLIGHT",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Occasionally burn in weak rays?",
+      "score": 62
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "people who row",
+      "letters": "OARS",
+      "answer": "COARSE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Vulgar people who row in church",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "downhill racer?",
+      "letters": "SKIER",
+      "answer": "RISKIER",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Trickier run with one downhill racer?",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Temporary housing",
+      "letters": "TENT",
+      "answer": "TENANT",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Temporary housing housing a new occupant",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "thrill",
+      "answer": "ENTHRAL",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Gripped by umpteenth rally producing thrill",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Watching",
+      "answer": "SURVEILLANCE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Watching A levels incur reforms",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Acquit",
+      "answer": "EXONERATE",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Acquit former partner with ace judge",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "giant",
+      "answer": "COLOSSUS",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Company deficit with American giant",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Possibly bleached,",
+      "answer": "ASHEN",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Possibly bleached, like chicken",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Soldier",
+      "answer": "GRENADIER",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Soldier in red gear, changing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "musical piece",
+      "answer": "INSTRUMENTAL",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Altering manner, lutist gives musical piece",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Snack",
+      "answer": "ELEVENSES",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Snack otherwise includes regular seconds",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "where one sees jumbo?",
+      "answer": "AIRSPACE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Reveals speed where one sees jumbo?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Relation",
+      "answer": "NIECE",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Relation is fine about sweetheart",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Spread",
+      "answer": "SPLATTER",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Spread betting odds before final",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "narrative",
+      "answer": "SCREENED",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Broadcast speech containing empty narrative",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "like a celibate person",
+      "answer": "CHASTE",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Pursued, reportedly, like a celibate person",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Vulgar",
+      "answer": "COARSE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Vulgar people who row in church",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Trickier",
+      "answer": "RISKIER",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Trickier run with one downhill racer?",
+      "score": 100
+    }
+  ]
+}

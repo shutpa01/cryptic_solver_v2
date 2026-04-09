@@ -1,0 +1,399 @@
+{
+  "source": "guardian",
+  "puzzle": "29961",
+  "stats": {
+    "total": 30,
+    "assembled": 29,
+    "high": 17,
+    "medium": 4,
+    "low": 8,
+    "failed": 1,
+    "avg_score": 62.86206896551724
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "relief",
+      "letters": "FEW",
+      "answer": "ALLBUTAFEW",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Overwhelming majority expressed relief after everyone played tuba",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "people",
+      "letters": "PERSONS",
+      "answer": "ASPERSIONS",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Like people around one, they can be cast",
+      "score": -5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "prize",
+      "letters": "CU",
+      "answer": "ACUPUNCTURE",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Point in time when Juliet left after a prize for needlework",
+      "score": 15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Point in time",
+      "letters": "PUNCTURE",
+      "answer": "ACUPUNCTURE",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Point in time when Juliet left after a prize for needlework",
+      "score": 15
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "case for sheriffs",
+      "letters": "SANDS",
+      "answer": "AMPERSANDS",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "They’re held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid before noon, each case for sheriffs",
+      "score": 45
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Sandwich-like",
+      "letters": "EARL",
+      "answer": "EARLY",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Sandwich-like ahead of time?",
+      "score": 20
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "?",
+      "letters": "Y",
+      "answer": "EARLY",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Sandwich-like ahead of time?",
+      "score": 20
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Same",
+      "letters": "YES",
+      "answer": "YESMAAM",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Same problem in root whatever you say",
+      "score": 25
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "report",
+      "letters": "THROUGH",
+      "answer": "THROUGHOUT",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Dismissed report from start to finish",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Their responsibility",
+      "letters": "ONTHEM",
+      "answer": "ONTHEMENU",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Their responsibility to send one back to France is being served",
+      "score": -98
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "to",
+      "letters": "E",
+      "answer": "ONTHEMENU",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Their responsibility to send one back to France is being served",
+      "score": -98
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "ignoring",
+      "letters": "NOT",
+      "answer": "NOTARIES",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Legal workers ignoring those born in March or April",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "those born in March or April",
+      "letters": "ARIES",
+      "answer": "NOTARIES",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Legal workers ignoring those born in March or April",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "after hours",
+      "letters": "LATE",
+      "answer": "ESCALATE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Raise special case after hours",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "wine",
+      "answer": "MUSCADET",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Total reversal on trainee making wine",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Desire",
+      "answer": "ITCH",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Desire to get some kitchenware",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Press",
+      "answer": "IRON",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Press club",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Serious crime – using criminal's money?",
+      "answer": "CAPITAL",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Serious crime – using criminal’s money?",
+      "score": 30
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Overwhelming majority",
+      "answer": "ALLBUTAFEW",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Overwhelming majority expressed relief after everyone played tuba",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mouthy",
+      "answer": "ORAL",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Your fault every now and then, to get mouthy?",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "they can be cast",
+      "answer": "ASPERSIONS",
+      "clue_number": "13",
+      "direction": "down",
+      "clue": "Like people around one, they can be cast",
+      "score": -5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "a difficult situation",
+      "answer": "HORNETSNEST",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Straight coverage of outrageous rents in a difficult situation",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Point...for needlework",
+      "answer": "ACUPUNCTURE",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Point in time when Juliet left after a prize for needlework",
+      "score": 15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "causing pain",
+      "answer": "ANGINA",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Articles about booze causing pain",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "spots",
+      "answer": "PIMPLY",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "After start of play, suggest getting spots",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Value",
+      "answer": "ESTEEM",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Value committee finally meets up",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "They're held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid",
+      "answer": "AMPERSANDS",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "They’re held by Bonnie & Clyde and Butch Cassidy & the Sundance Kid before noon, each case for sheriffs",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Like Bishop Auckland's pants?",
+      "answer": "UNDERWEAR",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Like Bishop Auckland’s pants?",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Surmise",
+      "answer": "OPINE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Surmise long after love",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Put off deciding what to do with a chair",
+      "answer": "SITONIT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Put off deciding what to do with a chair",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "whatever you say",
+      "answer": "YESMAAM",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Same problem in root whatever you say",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "from start to finish",
+      "answer": "THROUGHOUT",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Dismissed report from start to finish",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "is being served",
+      "answer": "ONTHEMENU",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Their responsibility to send one back to France is being served",
+      "score": -98
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "achievement!",
+      "answer": "FEAT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Overweight and eating lettuce? At last, an achievement!",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Legal workers",
+      "answer": "NOTARIES",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Legal workers ignoring those born in March or April",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Raise",
+      "answer": "ESCALATE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Raise special case after hours",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "silent performer",
+      "answer": "MIMER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Note musical entertainment role to begin with silent performer",
+      "score": 75
+    }
+  ]
+}

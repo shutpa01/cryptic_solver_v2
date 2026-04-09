@@ -1,0 +1,886 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31178
+Generated: 2026-03-05 10:54:20
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        28/32 (87%)
+    Sonnet:         28
+    DB Fallback:    0
+    Cached (no API): 21
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   21  1A, 10A, 11A, 12A, 13A, 14D, 16D, 17D, 18A, 19D, 20A, 21D, 23A, 23D, 24A, 27A, 28A, 3D, 4A, 7D, 9A
+  Medium (40-79): 6  15A, 22D, 25D, 26A, 29A, 6D
+  Low (<40):    1  4D
+  Failed:       4  1D, 2D, 5D, 8D
+  Average:      84/100
+
+COST: $0.0701 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (6 entries)
+------------------------------------------------------------
+  Baltimore: "US city" -> Baltimore  (missing from definition_answers_augmented)
+  EDUCATED: "dainty" -> EDUCATED  (missing from definition_answers_augmented)
+  AGGRO: "trouble" -> AGGRO  (missing from definition_answers_augmented)
+  LATITUDE: "Room" -> LATITUDE  (missing from definition_answers_augmented)
+  ENTER: "Go into" -> ENTER  (missing from definition_answers_augmented)
+  LESSON: busy -> ON  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  PSALM = 25 (45/100): AI=alternate_letters, assembled=charade
+  DRASTIC = 6 (52/100): AI=container, assembled=anagram
+
+ANAGRAM FALLBACKS — likely wrong mechanism (1)
+------------------------------------------------------------
+  DRASTIC = 6 (52/100): AI suggested container, fell back to anagram
+
+FABRICATED MAPPINGS — assembler invented these (2 clues)
+------------------------------------------------------------
+  AMBIT (90/100): M <- brute force (no clue basis)
+  VELODROME (80/100): E <- "energy" (first_letter)
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (4)
+------------------------------------------------------------
+  EDUCATED = 15 (65/100): answer used in own explanation
+  PSALM = 25 (45/100): answer used in own explanation
+  Remus = 29 (65/100): answer used in own explanation
+  VIOLET = 4 (30/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  LESSON = 22 (70/100): no pieces verified in DB
+  PSALM = 25 (45/100): single piece equals full answer
+  VIOLET = 4 (30/100): single piece equals full answer; no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  EDUCATED = 15 (65/100): def="dainty" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  1. US city extra supportive of a spin-off of Indian cuisine = Baltimore
+  2. Deleted content of appalling Grok – endless trouble = AGGRO
+  5. Room height, length raised = LATITUDE
+  8. Go into two hospital departments = ENTER
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  19/32  9A, 11A, 12A, 13A, 18A, 20A, 24A, 26A, 27A, 28A, 3D, 7D, 14D, 16D, 17D, 19D, 21D, 23D, 23D
+  Type mismatch:         2  6D, 25D
+  Anagram fallback:      1  6D
+  Fabricated mapping:    2  10A, 4D
+  Circular assembly:     4  15A, 29A, 4D, 25D
+  Unverified explain.:   3  4D, 22D, 25D
+  Weak definition:       1  15A
+  DB gap:                6  15A, 1D, 2D, 5D, 8D, 22D
+  Failed:                4  1D, 2D, 5D, 8D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  BLANK         Ignore first of letters penned by lender (5)
+                      L(letters) inside BANK(lender)  [HIGH]
+    1D  Baltimore     US city extra supportive of a spin-off of Indian cuisine (9)
+                      ---  [FAIL]
+   10A  AMBIT         Circuit breaker initially installed in atomic science college (5)
+                      A(atomic) + M + B(breaker initially) + IT(in)  [HIGH]
+   11A  iron ore      Press yellow base metal made from this? (4,3)
+                      IRON(Press) + OR(yellow) + E(base)  [HIGH]
+   12A  TATTIER       Cheaper looking Scottish spud set before king (7)
+                      delete ER from TATER(spud) + TIER(set)  [HIGH]
+   13A  OUTLET        Opening discount store (6)
+                      double definition  [HIGH]
+   14D  TOOLMAKER     Extremely liberal mother, one rejected by Starmer and Starmer's father? (9)
+                      TOO(Extremely) + L(liberal) + MAKER(father)  [HIGH]
+   15A  EDUCATED      As he left the Sorbonne, le duc ate dainty sandwiches (8)
+                      hidden in 'le duc ate dainty'  [MED]
+   16D  DANGEROUS     Unsafe, rickety garden house with peeling walls (9)
+                      DANGER(walls) + strip outer letters from HOUSE(house)  [HIGH]
+   17D  ASPHODEL      Lops head off flowering plant (8)
+                      anagram of HEAD(head)+LOPS(lops)  [HIGH]
+   18A  EXORCIST      Character in shocking film dealing with erotic s*x (8)
+                      anagram of EROTICSX(erotic s*x)  [HIGH]
+   19D  CHOLERA       Truncated holiday time? On top of this, caught ailment (7)
+                      C(caught) + HOL(holiday) + ERA(time)  [HIGH]
+    2D  AGGRO         Deleted content of appalling Grok – endless trouble (5)
+                      ---  [FAIL]
+   20A  CAVERN        Clergyman put back in prison in the US – a deep, dark hole (6)
+                      reverse REV(Clergyman), then VER inside CAN(prison)  [HIGH]
+   21D  AMATEUR       "America, China United" – Russia's premier layman (7)
+                      A(america) + MATE(china) + U(united) + R(russia's)  [HIGH]
+   22D  LESSON        Period at school not as busy? (6)
+                      LESS(not as) + ON(busy)  [MED]
+   23A  MAMMOTH       Huge US subject visited by male doctor (7)
+                      M(male)+MO(doctor) inside MATH(subject)  [HIGH]
+   23D  MEANT         Signified average temperature (5)
+                      MEAN(average) + T(temperature)  [HIGH]
+   24A  EXAMPLE       Former partner, full-figured specimen (7)
+                      EX(Former partner) + AMPLE(full-figured)  [HIGH]
+   25D  PSALM         Pascal Lamy regularly censored sacred hymn (5)
+                      PSALM(Pascal Lamy)  [MED]
+   26A  ANKLE         Joint continued to irritate when uncovered (5)
+                      delete R from RANKLE  [MED]
+   27A  DESPERADO     Adores Depp, mostly playing an outlaw (9)
+                      delete P from ADORESDEPP(Adores Depp), anagram of ADORESDEP  [HIGH]
+   28A  TARPAULIN     Seaman quietly 'eavin' heavy-duty cover (9)
+                      TAR(Seaman) + P(quietly) + AULIN('eavin')  [HIGH]
+   29A  Remus         Legendary Roman figure displayed in Louvre museum (5)
+                      hidden in 'Louvre museum'  [MED]
+    3D  KARAOKE       Russian spymaster forgets line, fine start to evening singsong! (7)
+                      KARA(Russian) + OK(fine) + E(start to evening)  [HIGH]
+    4A  VELODROME     Full of energy – vroom! – led Wacky Races here (9)
+                      anagram of VROOMLED(vroom led)+E  [HIGH]
+    4D  VIOLET        Taking name of aggressive woman (6)
+                      VIOLET(Taking)  [LOW]
+    5D  LATITUDE      Room height, length raised (8)
+                      ---  [FAIL]
+    6D  DRASTIC       Detectives arresting emperor? Flipping severe! (7)
+                      delete S from DIS(Detectives), anagram of DI+TSAR(emperor)+C(flipping)  [MED]
+    7D  OUBLIETTE     Dungeon in Paris where Ms Davis necks large one (9)
+                      OU(in Paris where) + L(large)+I(one) inside BETTE(Ms Davis)  [HIGH]
+    8D  ENTER         Go into two hospital departments (5)
+                      ---  [FAIL]
+    9A  lager lout    Beery yobbo Elgar sozzled, left unconscious (5,4)
+                      anagram of ELGAR(Elgar)+L(left)+OUT(unconscious)  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] 1. Ignore first of letters penned by lender
+  Answer: BLANK
+  Tier: Cached | Confidence: 92/100
+  Definition: "Ignore"
+  Wordplay type: container
+  Components:
+    synonym            lender                    -> BANK
+    first_letter       letters                   -> L
+  Assembly: container — L(letters) inside BANK(lender)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ignore: syn=BLANK*,MY,CUT,END,ITS,FAIL,PASS,SKIP,SNUB,TAKE,ANGER,ASIDE,FLOUT,REMIT; ind=deletion
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      letters: syn=POST,MU,ETA,GEE,INK,PEN,PSI,RHO,TAU,TEA,BETA,CARD,CUSS,IOTA,MAIL; abbr=A*,B*,N*; ind=anagram
+      penned: syn=TIED,BOUND,CAGED,WRITE,WROTE; ind=container
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      first of: ind=parts
+    Definitions:
+      "Ignore" -> BLANK (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 1. US city extra supportive of a spin-off of Indian cuisine
+  Answer: Baltimore
+  Tier: --- | Confidence: 0/100
+  Definition: "US city"
+  Wordplay type: charade
+  Components:
+    synonym            extra                     -> MORE
+    synonym            supportive                -> LOW
+    abbreviation       indian                    -> I
+  DB Lookups:
+    DB lookups:
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM,AMERICA,APPRISE,FILL IN,MANKIND,ORLANDO,SENIORS,ACQUAINT; abbr=US
+      city: syn=BALTIMORE*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+      extra: syn=MORE*,NO,SO,ADD,BYE,FAR,HOW,LOT,NEW,NOT,ODD,RUN,TOO,WAY,BALL
+      supportive: syn=LOW,SAD,BLUE,DARK,DOWN,GLUM,GOOD,SURE,WARM,BLEAK,DREAR,NAIVE,SORRY,ABJECT,DISMAL
+      spin-off: syn=BY,PRODUCT,AFTERGLOW
+      spin: syn=ARC,PUT,WAY,AXIS,BLOC,EDDY,HANG,HIKE,LINE,PATH,REEL,RIDE,SAIL,SIDE,TREK; ind=anagram?,reversal
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      indian: syn=PUB,CREE,CREEP,OCEAN,OSAGE,TAMIL,PUNJABI,AMERICAN,COMANCHE,FOREIGNER; abbr=I*
+      cuisine: syn=FOOD,COOKING,KITCHEN
+      us city: syn=LA,NY,US,ONE,CITY,GIRL,HOME,NAME,PORT,SHOW
+    Definitions:
+      "US city" -> Baltimore (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 10. Circuit breaker initially installed in atomic science college
+  Answer: AMBIT
+  Tier: Cached | Confidence: 90/100
+  Definition: "Circuit"
+  Wordplay type: charade
+  Components:
+    abbreviation       atomic                    -> A
+    first_letter       breaker initially         -> B
+    synonym            in                        -> IT
+  Assembly: charade — A(atomic) + M + B(breaker initially) + IT(in)
+  Brute gap: +M
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      circuit: syn=AMBIT*,ARC,WAY,AXIS,BLOC,HIKE,LINE,LOOP,PATH,SIDE,SPIN,TOUR,TREK,WALK,WING
+      breaker: syn=WAVE
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      installed: syn=FIXED; ind=container?
+      in: syn=IT*,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      atomic: syn=WEE,BABY,TINY,BITSY,BITTY,TEENY,WEENY; abbr=A*
+      science: syn=SCI,KNOW,LORE
+      college: syn=UNI,CLUB,ETON,HALL,POLY,TECH,YALE,BOARD,GUILD,JUNTO,MAYBE,ORDER,ORIEL; abbr=C
+    Definitions:
+      "Circuit" -> AMBIT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 11. Press yellow base metal made from this?
+  Answer: iron ore
+  Tier: Cached | Confidence: 100/100
+  Definition: "metal made from this"
+  Wordplay type: charade
+  Components:
+    synonym            Press                     -> IRON
+    synonym            yellow                    -> OR
+    abbreviation       base                      -> E
+  Assembly: charade — IRON(Press) + OR(yellow) + E(base)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      press: syn=IRON*,A,DO,A A,ARM,COP,DIG,HUG,JAM,LIE,NAB,NET,RAP,USE,ARMS
+      yellow: syn=OR*,LILY,LEMON,STRAW,COLOUR,CRAVEN,CHICKEN,GAMBOGE,SAFFRON
+      base: syn=A,AT,HQ,MY,BED,EYE,HUB,LOW,MAR,NET,NUB,SUM,TEN,ABUT,AXIS; abbr=E*; sounds=bass
+      metal: syn=IRON*,SAY,TIN,GOLD,LEAD,TIN?,ZINC,STEEL,COBALT,COPPER,INDIUM,NICKEL,OSMIUM,SILVER,SODIUM; sounds=medal,mettle,meddle
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      from: syn=BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR,PUNK; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      made from: ind=anagram?
+      from this: syn=MILK,UDDER,REPTILE
+  ----------------------------------------------------------------------
+
+  [HIGH] 12. Cheaper looking Scottish spud set before king
+  Answer: TATTIER
+  Tier: Cached | Confidence: 80/100
+  Definition: "Cheaper"
+  Wordplay type: deletion
+  Components:
+    synonym            spud                      -> TATER
+    synonym            set                       -> TIER
+  Assembly: deletion — delete ER from TATER(spud) + TIER(set)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cheaper: syn=TATTIER*
+      looking: syn=GOING,ACTING,AIMING,AIRING,GIVING,MAKING,FEELING,MEANING,RAISING,SEEKING,SEEMING,STATING,VENTING,VOICING; ind=anagram,reversal
+      scottish: syn=PERHAPS; abbr=S
+      spud: syn=TATER*,OF AN,MURPHY,POTATO
+      set: syn=TIER*,GO,OK,OR,RO,TV,AGE,AIM,BED,DIE,END,FIT,FIX,GEL,LAY; abbr=SE; ind=anagram
+      before: syn=OF,ON,TO,UP,ARC,BOW,ERE,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE
+      king: syn=MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR,ALLAH,DEITY; abbr=K,R*,REX
+    Definitions:
+      "Cheaper" -> TATTIER (definition match)
+      "Cheaper looking" -> TATTIER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 13. Opening discount store
+  Answer: OUTLET
+  Tier: Cached | Confidence: 90/100
+  Definition: "store"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      opening: syn=DEN,GAP,PIT,RIP,STY,ADIT,BIND,DARK,DENT,DINT,DOOR,DUMP,GASH,GATE,GULF; abbr=DOOR; ind=acrostic,deletion,parts
+      discount: syn=MY,BAD,HER,HIS,ITS,LOW,PUT,BILL,PASS,PLAY,CHEAP,CUPPY,LAUGH,MOUTH,PRICE
+      store: syn=OUTLET*,UP,AIM,ARM,BOX,EYE,FIX,GEL,LAY,LOT,OFF,POT,PUT,SIT,TEN
+    Definitions:
+      "store" -> OUTLET (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 14. Extremely liberal mother, one rejected by Starmer and Starmer's father?
+  Answer: TOOLMAKER
+  Tier: Cached | Confidence: 100/100
+  Definition: "Starmer's father"
+  Wordplay type: charade
+  Components:
+    synonym            Extremely                 -> TOO
+    abbreviation       liberal                   -> L
+    synonym            father                    -> MAKER
+  Assembly: charade — TOO(Extremely) + L(liberal) + MAKER(father)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      extremely: syn=TOO*,SO,FAR,HOW,LOT,NOT,WAY,BONE,DAMN,DANG,DEAD,EVER,FULL,MORE,MOST; abbr=V; ind=parts
+      liberal: syn=BALD,BARE,FREE,LEFT,OPEN,AMPLE,BROAD,CLEAR,FRANK,NAKED,PLAIN,AMPLER,CANDID,DIRECT,ENOUGH; abbr=L*; ind=anagram
+      mother: syn=MA*,BE,DAM,MOM,MUM,NUN,RAW,SOD,BARE,BEAR,BORN,CARE,DEAN,DROP,GOWN; abbr=M*,MA*
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A*,ACE,I,O*; sounds=won
+      rejected: syn=OUT,IDLE,LEFT,VOID,EMPTY,WASTE,JUNKED,REFUSE,SHABBY,VACANT,BLOCKED,CASTOFF,DISUSED,IGNORED,REFUSED; ind=deletion,reversal
+      by: syn=TO*,IN,SO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      father: syn=MAKER*,FR,PA,DAD,GET,GOD,GUV,NUN,OLD,PAL,POP,ABBA,ABBÉ,ALLY,CHUM; abbr=F,FR,PA,SIRE
+    Definitions:
+      "Starmer's father" -> TOOLMAKER (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 15. As he left the Sorbonne, le duc ate dainty sandwiches
+  Answer: EDUCATED
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "dainty"
+  Wordplay type: hidden
+  Components:
+    hidden             le duc ate                -> EDUCATED
+  Assembly: hidden — hidden in 'le duc ate dainty'
+  Checks: definition=not in DB, odd position | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      he: syn=NAG,TOM,BIRO,DOER,TEAC,COMER,DOERS,LAUGH,STEED,COMERS,EQUINE,HUMMER,HUMMERS,HUSTLER,LUCIFER
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      duc: syn=SE
+      ate: syn=DUG,FED,GOT,PEN,RAN,SAW,BEAT,CAME,DINE,FARE,FEED,FRET,GREW,ICED,KNEW; sounds=eight
+      dainty: syn=BIT,OLD,TOP,AIRY,FINE,NICE,RARE,THAN,TWEE,BIJOU,ELFIN,ELITE,FANCY,GRAND,GREAT
+      sandwiches: syn=FOOD,SQUASHES; ind=container
+  ----------------------------------------------------------------------
+
+  [HIGH] 16. Unsafe, rickety garden house with peeling walls
+  Answer: DANGEROUS
+  Tier: Cached | Confidence: 80/100
+  Definition: "Unsafe"
+  Wordplay type: deletion
+  Components:
+    literal            house                     -> HOUSE
+    synonym            walls                     -> DANGER
+  Assembly: outer_deletion — DANGER(walls) + strip outer letters from HOUSE(house)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      unsafe: syn=DANGEROUS*,SERIOUS,INSECURE
+      rickety: syn=DECREPIT; ind=anagram
+      garden: syn=HOE,RUN,THE,BURG,CITY,DIGS,EDEN,FLAT,HALL,OF A,PARK,PLOT,TOWN,WING,YARD
+      house: syn=HO,BAR,BOX,CAT,DEN,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN,POD; abbr=HO; ind=parts
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      peeling: syn=BARKING,FLAYING,HULLING,HUSKING,SHELLING,SHUCKING,SKINNING
+      walls: syn=DANGER*,ARMAMENTS,BAG,BAR,BAT,BIT,BOB,BOP,BOX,LET,LOG,ODD,PEN,RAM,RAP; ind=container?,parts
+    Definitions:
+      "Unsafe" -> DANGEROUS (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 17. Lops head off flowering plant
+  Answer: ASPHODEL
+  Tier: Cached | Confidence: 100/100
+  Definition: "flowering plant"
+  Wordplay type: anagram
+  Components:
+    literal            head                      -> HEAD
+    literal            lops                      -> LOPS
+  Assembly: anagram — anagram of HEAD(head)+LOPS(lops)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      lops: syn=CUT
+      head: syn=A,BE,DO,GO,A A,AIM,BAT,BED,BET,BOD,BOG,BOP,BOY,BUG,CAN; abbr=H*,NESS; ind=acrostic,deletion,parts
+      off: syn=ON,APE,BAD,FEY,FRO,GET,ICE,ILL,MAD,NOT,ODD,OUT,PUT,RUM,WUD; ind=anagram,deletion
+      flowering: syn=SUMMER,BLOOMING
+      plant: syn=ASPHODEL*,PUT,SOW,SPY,ACER,ALGA,ALOE,ARUM,BATS,DOCK,FERN,FLAG,FLAX,GUAR,HERB; abbr=P*; ind=anagram
+      head off: ind=parts
+      head off: syn=BAR,FOIL,HELP,SOME,STOP,AVERT,LEAVE,AVERTS,THWART,AVERTED
+      flowering plant: syn=PLANT,CENTAURY
+    Definitions:
+      "plant" -> ASPHODEL (definition match)
+      "flowering plant" -> ASPHODEL (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 18. Character in shocking film dealing with erotic s*x
+  Answer: EXORCIST
+  Tier: Cached | Confidence: 100/100
+  Definition: "Character in shocking film"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     erotic s*x                -> EROTICSX
+  Assembly: anagram — anagram of EROTICSX(erotic s*x)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      character: syn=AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY,JOE; ind=acrostic
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      shocking: syn=BUM,EYE,GOD,HAIR,KEEN,PUNK,ACUTE,AWFUL,CHEAP,DREAD,JUNKY,LOUSY,LURID,OUTRE,SCARY
+      film: syn=ET,PIC,COAT,GIGI,MIST,REEL,SCUM,SHOW,SKIN,WELL,ALFIE,ANNIE,BAMBI,DUMBO,FARGO; abbr=ET,PIC
+      dealing: syn=DAY,TRADING,EXCHANGE,TREATING; ind=anagram?
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      erotic: syn=HOT,SEXY,SPICY,CARNAL,STEAMY,AMATORY,AMOROUS,ROMANTIC; fodder=EROTIC(6/8 anagram match)
+      dealing with: abbr=RE
+      dealing with: syn=AT,RE,ABOUT,DOSING,DEALING,TREATING
+  ----------------------------------------------------------------------
+
+  [HIGH] 19. Truncated holiday time? On top of this, caught ailment
+  Answer: CHOLERA
+  Tier: Cached | Confidence: 95/100
+  Definition: "ailment"
+  Wordplay type: charade
+  Components:
+    synonym            holiday                   -> HOL
+    synonym            time                      -> ERA
+    abbreviation       caught                    -> C
+  Assembly: charade — C(caught) + HOL(holiday) + ERA(time)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      truncated: syn=CUT,PARED,BOBBED,DOCKED,ELIDED,NIPPED,POLLED,PRUNED,SHAVED,CLIPPED,CROPPED,SHEARED,SNIPPED,TRIMMED; ind=parts
+      holiday: syn=REST,STAY,TRIP,BREAK,LEAVE,LEGAL,BILLIE,CRUISE,EASTER,FIESTA,RECESS; abbr=TRIP
+      time: syn=ERA*,AGE,DAY,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE,HOAR; abbr=AGE,DATE,ERA*,T; ind=anagram; sounds=thyme
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,TRUE,UPON; abbr=RE,S
+      top: syn=A,A1,OK,CAP,EST,FAB,FAT,HOT,LID,MAX,NTH,SUM,THE,TOO,WAG; abbr=CAP,T,UP; ind=acrostic,deletion,parts
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      caught: syn=A1,ATE,BIG,DID,DUG,FAB,GOT,HAD,HIT,POP,PUT,RAN,SAW,WON,A-OK; abbr=C*; ind=container
+      ailment: syn=BUG,ILL,POX,TRUE,FEVER,MALADY,ANTHRAX,DISEASE,ILLNESS,TROUBLE
+      on top: syn=AS WELL
+    Definitions:
+      "ailment" -> CHOLERA (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 2. Deleted content of appalling Grok – endless trouble
+  Answer: AGGRO
+  Tier: --- | Confidence: 0/100
+  Definition: "trouble"
+  Wordplay type: deletion
+  Components:
+    literal            appalling                 -> APPALLING
+    literal            Grok                      -> GROK
+  DB Lookups:
+    DB lookups:
+      deleted: ind=deletion
+      content: syn=AS A,FACT,WHAT,AGREE,BLISS,DRIFT,HAPPY,SATED,TENOR; ind=hidden
+      appalling: syn=FOUL,JOLT,UGLY,AWFUL,FLOOR,LURID,NASTY,SHOCK; ind=anagram?
+      grok: syn=COP,DIG,EYE,FOX,GET,ICE,NAB,NET,RAP,SEE,SPY,BAIL,BUST,DUPE,FOOL
+      endless: syn=NIGHT; ind=deletion
+      trouble: syn=AGGRO*,ADO,AIL,BID,BOX,BUG,DOG,ILL,NUT,WOO,AS A,CASE,FACT,FEAR,FRET; abbr=AIL; ind=anagram
+    Definitions:
+      "trouble" -> AGGRO (definition match)
+      "endless trouble" -> AGGRO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 20. Clergyman put back in prison in the US – a deep, dark hole
+  Answer: CAVERN
+  Tier: Cached | Confidence: 100/100
+  Definition: "a deep, dark hole"
+  Wordplay type: container
+  Components:
+    synonym            prison                    -> CAN
+    synonym            Clergyman                 -> REV
+  Assembly: reversal_container — reverse REV(Clergyman), then VER inside CAN(prison)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      clergyman: syn=NUN,PAL,REV,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,MATE,PEER,POPE,ABBOT
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      prison: syn=CAN*,JUG,BIRD,CAGE,CAIN,GAOL,JAIL,NICK,ODQU,STIR,CLINK,GULAG,LIMBO,COOLER,DEPEND; abbr=NICK,STIR
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM; abbr=US
+      deep: syn=FAR,FAT,LOW,RAT,SEA,AWAY,BASS,BLUE,COLD,DARK,DUMP,FINK,GULF,HARD,HAVE
+      dark: syn=GO,BAD,BID,DIM,LOW,NIP,SAD,SIP,SUP,TRY,BLUE,DEEP,DOWN,DRAG,DUSK
+      hole: syn=22,BOB,BOX,DEN,FIX,GAP,INN,JAM,PIT,RIP,STY,TAG,ZAP,BACH,BIND; sounds=whole
+      put back: syn=CUT,FIX,PUT,HOLD,SHOP,FIXED,REFIT,RENEW,MENDED,REPAIR
+      in prison: syn=PENT,CAGED
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+      a deep: syn=RUTH,GUILT,SHAME,REGRET
+  ----------------------------------------------------------------------
+
+  [HIGH] 21. "America, China United" – Russia's premier layman
+  Answer: AMATEUR
+  Tier: Cached | Confidence: 100/100
+  Definition: "layman"
+  Wordplay type: charade
+  Components:
+    first_letter       america                   -> A
+    first_letter       russia's                  -> R
+    first_letter       united                    -> U
+    synonym            china                     -> MATE
+  Assembly: charade — A(america) + MATE(china) + U(united) + R(russia's)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      america: syn=US,USA,COUNTRY,THE USA; abbr=A*,AM*,US,USA; fodder=AMERICA(5/7 anagram match)
+      china: syn=MA*,MATE*,PAL,ALLY,CHUM,OPPO,PAUL,AMIGO,DELFT,SPODE,CATHAY,FRIEND,TEACUP,AT HOME,CERAMIC; abbr=CH
+      united: syn=ONE,ALLY,CLUB,FUSE,JOIN,NEAR,NIGH,TEAM,CAUSE,CLOSE,FLUSH,FUSED,JOINT,MARRY,UNIFY; abbr=U*
+      russia's: syn=COUNTRY
+      premier: syn=BIG,KEY,POP,TOP,ARCH,GONE,HEAD,HIGH,LEAD,MAIN,MUCH,RICH,CHIEF,FADDY,FIRST
+      layman: syn=GENERAL
+    Definitions:
+      "layman" -> AMATEUR (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 22. Period at school not as busy?
+  Answer: LESSON
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Period at school"
+  Wordplay type: charade
+  Components:
+    synonym            not as                    -> LESS
+    synonym            busy                      -> ON
+  Assembly: charade — LESS(not as) + ON(busy)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/2 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      period: syn=LESSON*,AGE,DAY,ERA,AGES,HOUR,SAME,STOP,TERM,TIME,YEAR,AFTER,AGAIN,EPOCH,PHASE; abbr=ERA
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      school: syn=LESSON*,GAM,POD,SCH,COED,ETON,GRIP,HIGH,LYCE,PACK,PREP,SECT,TASK,TECH,COACH; abbr=S*,SCH
+      not: syn=SO*,LESS*,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE; ind=anagram?,deletion; sounds=knot
+      as: syn=ON*,SO*,LI,OF,RO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+      busy: syn=TROD,ABUZZ,ALIVE,ASTIR,INUSE,ABSORB,ACTIVE,HECTIC; ind=anagram?
+      period at school: syn=TERM
+    Definitions:
+      "Period" -> LESSON (definition match)
+      "Period at school" -> LESSON (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Huge US subject visited by male doctor
+  Answer: MAMMOTH
+  Tier: Cached | Confidence: 95/100
+  Definition: "Huge"
+  Wordplay type: container
+  Components:
+    synonym            subject                   -> MATH
+    abbreviation       male                      -> M
+    abbreviation       doctor                    -> MO
+  Assembly: container — M(male)+MO(doctor) inside MATH(subject)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      huge: syn=MAMMOTH*,OS,MEGA,SIZE,VAST,GIANT,GRAND,GREAT,JUMBO,OBESE,SUPER,TITAN,VASTY,BUMPER,COSMIC
+      us: syn=HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM,AMERICA,APPRISE,FILL IN,MANKIND,ORLANDO,SENIORS; abbr=US
+      subject: syn=NET,NUB,SUM,WAR,WHY,AS A,BODY,BULK,CORE,CRUX,FACT,FILM,GIST,IDEA,MAIN
+      visited: syn=DUG,GOT,HAD,HIT,FELT,MADE,SANK,SEEN,WENT,BORED,DIVED,HEARD,KNOWN,NOTED,SPIED; ind=container?
+      by: syn=IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER,SOON,SURE; abbr=X; sounds=buy,bye
+      male: syn=HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM,BABY; abbr=A*,HE,M*,PA; sounds=mail
+      doctor: syn=MO*,DR,GP,MB,MD,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D,DR,GP,MB,MO*; ind=anagram
+    Definitions:
+      "Huge" -> MAMMOTH (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 23. Signified average temperature
+  Answer: MEANT
+  Tier: Cached | Confidence: 100/100
+  Definition: "Signified"
+  Wordplay type: charade
+  Components:
+    synonym            average                   -> MEAN
+    abbreviation       temperature               -> T
+  Assembly: charade — MEAN(average) + T(temperature)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      signified: syn=MEANT*
+      average: syn=MEAN*,SO,CUT,PAR,RUN,THE,NORM,ANGER,MEAN?,TO BE
+      temperature: syn=RED,PART,FEVER; abbr=T*
+    Definitions:
+      "Signified" -> MEANT (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 24. Former partner, full-figured specimen
+  Answer: EXAMPLE
+  Tier: Cached | Confidence: 100/100
+  Definition: "specimen"
+  Wordplay type: charade
+  Components:
+    abbreviation       Former partner            -> EX
+    synonym            full-figured              -> AMPLE
+  Assembly: charade — EX(Former partner) + AMPLE(full-figured)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      former: syn=EX*,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX*,OLD
+      partner: syn=FEE,JOB,MAN,NUN,PAL,PAY,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HALF,HIRE
+      full-figured: syn=AMPLE*
+      full: syn=IN,OK,SO,ALL,BIG,DUE,FAR,FAT,HOW,LOT,NOT,OUT,RED,SUM,TOO; ind=container?
+      figured: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,HELD,KNEW,MADE,SHUT
+      specimen: syn=EXAMPLE*,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,SON,BABY,BEAU,BIRD,BODY,BUCK
+      former partner: abbr=EX*
+    Definitions:
+      "specimen" -> EXAMPLE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 25. Pascal Lamy regularly censored sacred hymn
+  Answer: PSALM
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "sacred hymn"
+  Wordplay type: alternate_letters
+  Components:
+    alternate_letters  Pascal Lamy               -> PSALM
+  Assembly: charade — PSALM(Pascal Lamy)
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=alternate_letters, assembled=charade | yields_check=pass | pieces_validated=0/1 (50%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer
+  DB Lookups:
+    DB lookups:
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+      sacred: syn=FAB,A-OK,BOSS,BRAG,COOL,DOPE,DOWN,GONE,HOLY,HYPE,KEEN,NEAT,PHAT,BOFFO,BONNY; abbr=SA*
+      hymn: syn=ARIA,PART,SONG,CROON,FIGHT; sounds=him
+    Definitions:
+      "hymn" -> PSALM (definition match)
+      "sacred hymn" -> PSALM (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 26. Joint continued to irritate when uncovered
+  Answer: ANKLE
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Joint"
+  Wordplay type: deletion
+  Assembly: deletion — delete R from RANKLE
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      joint: syn=ANKLE*,CAN,HIP,JAIL,KNEE,ELBOW,GIGOT,HINGE,MITRE,PLACE,ROAST,TENON,VENUE,WRIST; abbr=HIP,J
+      continued: syn=RAN,CONT,LIVED
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      irritate: syn=AIL,BUG,EAT,GET,IRK,JAR,KEY,TRY,VEX,EVEN,FRET,FUSS,GALL,ITCH,LIFE
+      when: syn=AS,IS,ONCE,SOON,AS IS,AS IT,WHILE; abbr=AS; ind=homophone
+      uncovered: syn=RAW,BALD,BARE,FREE,NUDE,OPEN,BARED,CLEAR,FRANK,NAKED,PLAIN; ind=hidden,parts
+    Definitions:
+      "Joint" -> ANKLE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 27. Adores Depp, mostly playing an outlaw
+  Answer: DESPERADO
+  Tier: Cached | Confidence: 80/100
+  Definition: "outlaw"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Adores Depp               -> ADORESDEPP
+  Assembly: deletion+anagram — delete P from ADORESDEPP(Adores Depp), anagram of ADORESDEP
+  Checks: definition=confirmed in DB | wordplay_type=anagram | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      adores: syn=IS,DIG,LIKE,LOVE,DEIFY,ENJOY,FANCY,LOVES,RELISH,REVERE,ADULATE,CHERISH,GLORIFY,IDOLIZE,WORSHIP
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY; ind=deletion,parts
+      playing: syn=GOLF,ROLE,DOING,GOING,A GRIP,ACTING,LAYING,TAKING,TOYING,VERSUS,BETTING,HACKING,PUTTING,STAKING,DALLYING; abbr=ON,P*; ind=anagram
+      an: syn=AR,ERR,BOMB,BOOB,ERRS,FAIL,FAIR,FLOP,FLUB,FOLD,MISS,MOST,MUCH,NEAR,NIGH; abbr=A*
+      outlaw: syn=DESPERADO*,BAN,BAR,FISH,HOOD,PERP,THUG,TUCK,CROOK,BANDIT,SINNER,ACCUSED,BRIGAND,CONVICT,CULPRIT
+    Definitions:
+      "outlaw" -> DESPERADO (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 28. Seaman quietly 'eavin' heavy-duty cover
+  Answer: TARPAULIN
+  Tier: Cached | Confidence: 95/100
+  Definition: "heavy-duty cover"
+  Wordplay type: charade
+  Components:
+    synonym            Seaman                    -> TAR
+    abbreviation       quietly                   -> P
+    literal            'eavin'                   -> AULIN
+  Assembly: charade — TAR(Seaman) + P(quietly) + AULIN('eavin')
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      seaman: syn=TAR*,DOG,SEA,JACK,SALT,COMMON,RATING,SAILOR,MARINER,MATELOT
+      quietly: syn=LAYER,PIANO,QUIET,STILL,MEEKLY,MURMUR,LEADERS,SECRETLY,SEDATELY; abbr=P*
+      heavy-duty: syn=BUM,DEEP,HARD,KEEN,PUNK,ACUTE,CHEAP,DREAD,HEAVY,JUNKY,LOUSY,LURID,SCARY,SUCKY,CHEESY
+      heavy: syn=NO,BAD,BIG,DRY,GUN,JOB,NOB,OLD,AGED,ARID,BEAR,BIGS,BLAH,DEEP,DRAB
+      duty: syn=DO,JOB,TAX,USE,HAND,LEVY,NEED,ONUS,PART,POST,ROLE,TASK,WORK,CHORE,NICHE
+      cover: syn=TARPAULIN*,AN,GO,BED,BIN,BOX,CAN,CAP,CUT,DIE,END,EYE,FAG,FLY,FOX; ind=parts
+    Definitions:
+      "cover" -> TARPAULIN (definition match)
+      "heavy-duty cover" -> TARPAULIN (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 29. Legendary Roman figure displayed in Louvre museum
+  Answer: Remus
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Legendary Roman figure"
+  Wordplay type: hidden
+  Components:
+    hidden             in Louvre museum          -> REMUS
+  Assembly: hidden — hidden in 'Louvre museum'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation
+  DB Lookups:
+    DB lookups:
+      legendary: syn=EPIC,FAUX,FAMED
+      roman: syn=TYPE; abbr=R*
+      figure: syn=DO,MY,OK,A A,BAG,BED,END,FEE,FIX,HOW,ITS,NOT,OPT,PUT,SET
+      displayed: syn=BALD,BARE,HUNG,OPEN,NAKED,SHOWN; ind=anagram?
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      museum: syn=V&A?
+    Definitions:
+      "Legendary Roman figure" -> Remus (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 3. Russian spymaster forgets line, fine start to evening singsong!
+  Answer: KARAOKE
+  Tier: Cached | Confidence: 95/100
+  Definition: "singsong"
+  Wordplay type: charade
+  Components:
+    synonym            Russian                   -> KARA
+    synonym            fine                      -> OK
+    first_letter       start to evening          -> E
+  Assembly: charade — KARA(Russian) + OK(fine) + E(start to evening)
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      russian: syn=KARA*,SLAV,TSAR,ALSO BY,COSSACK,YELTSIN
+      spymaster: abbr=M
+      forgets: syn=FAIL,MISS,OMIT,PASS,OMITS,REMIT,SHIRK,BYPASS,EXCUSE,FLOWER,IGNORE,PARDON,SLIGHT,BLOW UP,CONDONE
+      line: syn=ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN,LOT,LUG,NUN; abbr=L,RY
+      fine: syn=OK*,A,A1,SO,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD,RIG,THE; abbr=F,OK*
+      start: syn=GO,BAG,DAY,GET,JUT,RUN,SET,BOLT,DAWN,FALL,FORM,JUMP,LEAD,MOVE,NEED; abbr=GO; ind=acrostic,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      evening: syn=IN,AGE,EVE,AGES,CHIC,DUSK,FALL,TIME,DRESS,LEVEL,NATTY,NIGHT,PLANE,SHARP,SMART
+    Definitions:
+      "singsong" -> KARAOKE (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 4. Full of energy – vroom! – led Wacky Races here
+  Answer: VELODROME
+  Tier: Cached | Confidence: 80/100
+  Definition: "Races here"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     vroom led                 -> VROOMLED
+  Assembly: anagram — anagram of VROOMLED(vroom led)+E
+  Gap fill: [('energy', 'E', 'first_letter')]
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=missing: ['vroom led'] | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      full: syn=IN,OK,SO,ALL,BIG,DUE,FAR,FAT,HOW,LOT,NOT,OUT,RED,SUM,TOO; ind=container?
+      energy: syn=GO,CHI,PEP,SAP,VIM,ZIP,BRIO,DASH,FUEL,LIFE,SNAP,ZING,DRIVE,FORCE,GUSTO; abbr=E*,GO,SAP; ind=anagram?
+      vroom: syn=DRIVE,SOUND
+      led: syn=BORN,SHOWN,WAS FIRST; sounds=lead
+      wacky: syn=FAR,MAD,ODD,OFF,THE,WAY,DAFT,GAGA,HALF,LIKE,RARE,WALL,WEAK,WILD,ZANY; ind=anagram?
+      races: syn=TT,CAPS,CUES,ENDS,HIES,KINS,LAMS,LAYS,MOVE,NIPS,RAMS,RIPS,RUNS,WAYS,AREAS; abbr=TT,SPRINT
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+    Definitions:
+      "Races here" -> VELODROME (definition match)
+  ----------------------------------------------------------------------
+
+  [LOW] 4. Taking name of aggressive woman
+  Answer: VIOLET
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "woman"
+  Wordplay type: charade
+  Components:
+    synonym            Taking                    -> VIOLET
+  Assembly: charade — VIOLET(Taking)
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=charade | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | single_piece_answer=single piece equals full answer | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      name: syn=A A,AIM,CUT,DIG,DIS,DUB,FEE,FIX,GUY,NOT,OPT,PUT,REP,SET,TAG; abbr=N
+      aggressive: syn=GO,IN,FULL,YOUR,FIERCE
+      woman: syn=DI,ADA,ANN,ENA,EVA,EVE,HER,IDA,MRS,SHE,SUE,VAL,ANNA,ANNE,AUNT; abbr=HER,SHE,SUE,W
+    Definitions:
+      "woman" -> VIOLET (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 5. Room height, length raised
+  Answer: LATITUDE
+  Tier: --- | Confidence: 0/100
+  Definition: "Room"
+  Wordplay type: reversal
+  Components:
+    abbreviation       height                    -> H
+    abbreviation       length                    -> L
+  DB Lookups:
+    DB lookups:
+      room: syn=LATITUDE*,RM,PAD,WAY,BACK,BATH,CELL,DADO,DARK,HALL,HOME,OF A,SHOT,SNUG,TAKE
+      height: syn=ALP,TOP,ACME,APEX,DEEP,HEAD,LINE,RISE,WORLD,APEXES,APOGEE,BEYOND,CLIMAX,MIDDLE,SUMMIT; abbr=H
+      length: syn=ELL,WAY,DIRT,DUST,FIEF,GAME,JUNK,LEAD,POOP,SCAT,SOIL,TERM,WALK,DRECK,FECES; abbr=L*
+      raised: syn=UP,CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,EDIT,FELT,GREW; abbr=UP; ind=reversal
+    Definitions:
+      "Room" -> LATITUDE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] 6. Detectives arresting emperor? Flipping severe!
+  Answer: DRASTIC
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "severe"
+  Wordplay type: container
+  Components:
+    synonym            Detectives                -> DIS
+    synonym            emperor                   -> TSAR
+    reversal           flipping                  -> C
+  Assembly: deletion+anagram — delete S from DIS(Detectives), anagram of DI+TSAR(emperor)+C(flipping)
+  WARNING: Anagram fallback — AI suggested container
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_mismatch=AI=container, assembled=anagram | anagram_fallback=AI suggested container, fell back to anagram | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      detectives: syn=CID,DIS,SLEUTHS,COP,DET,EYE,MAN,TEC,BULL,BUSY,DICK,FUZZ,HEAT,BOBBY,REBUS; abbr=CID,D*,DI,PI
+      arresting: syn=EYE,NAB,BOLD,BUST,GRIP,HALT,KEEN,STAY,STOP,CATCH,CHECK,LUCID,NOISY,PINCH,QUICK
+      emperor: syn=KING,MING,NERO,OTTO,SAY?,TSAR,RULER,TITUS,CAESAR,KAISER,LEADER,MIKADO,TRAJAN,HADRIAN,PENGUIN
+      flipping: syn=BATS,BLASTED; ind=reversal
+      severe: syn=NO,BAD,RAW,BLAH,DOUR,FOUL,GRAY,GRIM,HARD,HAZY,POKY,WILD,ACUTE,BLANK,BLEAK
+    Definitions:
+      "severe" -> DRASTIC (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 7. Dungeon in Paris where Ms Davis necks large one
+  Answer: OUBLIETTE
+  Tier: Cached | Confidence: 92/100
+  Definition: "Dungeon"
+  Wordplay type: container
+  Components:
+    synonym            Ms Davis                  -> BETTE
+    abbreviation       large                     -> L
+    abbreviation       one                       -> I
+    hidden             in Paris where            -> OU
+  Assembly: container — OU(in Paris where) + L(large)+I(one) inside BETTE(Ms Davis)
+  Checks: definition=confirmed in DB | wordplay_type=container | yields_check=pass | pieces_validated=2/4 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dungeon: syn=OUBLIETTE*,PEN,CELL,PRISON
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      paris: syn=CITY,TROJAN,CAPITAL
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER,LOCALITY,LOCATION,NINETEEN; sounds=ware,wear
+      necks: syn=ISTHMI,CANOODLES,CUT,END,JOB,BELT,BILL,FEEL,HAIR,KISS,LAND,PART,ROLE,TAKE,TASK
+      large: syn=IN,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY,ELECT; abbr=BIG,L*,OS
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O*; sounds=won
+    Definitions:
+      "Dungeon" -> OUBLIETTE (definition match)
+  ----------------------------------------------------------------------
+
+  [FAILED] 8. Go into two hospital departments
+  Answer: ENTER
+  Tier: --- | Confidence: 0/100
+  Definition: "Go into"
+  Wordplay type: charade
+  Components:
+    synonym            two                       -> II
+    synonym            hospital departments      -> ENT
+  DB Lookups:
+    DB lookups:
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      into: syn=JAW,RAG,SAY,SIC,TOO,YET,ALSO,BASH,FIND,FLAY,MEET,MORE,OF A,PASS,RAID; ind=anagram?,container?
+      two: syn=II,XL,BIT,DAB,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK,BUNK; abbr=II; sounds=to,too
+      hospital: syn=SAN,HOME,MASH?,NICHE; abbr=H
+      departments: syn=CAPS,CUES,ENDS,KINS,LAYS,WAYS,AREAS,BLOOD,CLANS,CORDS,DUCTS,FIEFS,FILES,FOLKS,GAMES; abbr=D
+      go into: syn=ENTER*,RECOR
+      hospital departments: syn=ENT*
+    Definitions:
+      "Go into" -> ENTER (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] 9. Beery yobbo Elgar sozzled, left unconscious
+  Answer: lager lout
+  Tier: Cached | Confidence: 100/100
+  Definition: "Beery yobbo"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Elgar                     -> ELGAR
+    abbreviation       left                      -> L
+    synonym            unconscious               -> OUT
+  Assembly: anagram — anagram of ELGAR(Elgar)+L(left)+OUT(unconscious)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      yobbo: syn=LOUT*,TOUGH
+      elgar: syn=MAESTRO,COMPOSER
+      sozzled: syn=ITS,LIT,PIE,WET,HIGH,BLIND,BOOZY,DRUNK,FRIED,OILED,STIFF,TIGHT,TIPSY,UNDER,BLOTTO; ind=anagram?
+      left: syn=LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT,QUIT; abbr=GONE,L*,LE,PORT,SINISTER; ind=acrostic,deletion,reversal
+      unconscious: syn=OUT*,COLD,BLOOD,ASLEEP,UNAWARE,CLUELESS,COMATOSE,IGNORANT,INNOCENT,NESCIENT,OBLIVIOUS,SENSELESS,UNKNOWING,UNMINDFUL,UNWITTING
+    Definitions:
+      "Beery yobbo" -> lager lout (definition match)
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

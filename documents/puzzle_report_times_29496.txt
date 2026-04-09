@@ -1,0 +1,683 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29496
+Generated: 2026-03-22 06:30:31
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        27/30 (90%)
+    Signature:      6
+    Sig+Enriched:   7
+    Sonnet:         13
+    DB Fallback:    1
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   14  1A, 2D, 20D, 22D, 23D, 24A, 10A, 14A, 15A, 17D, 18A, 25A, 26D, 8D
+  Medium (40-79): 7  11A, 13D, 27A, 28A, 4D, 5D, 6D
+  Low (<40):    6  1D, 12D, 16D, 21A, 4A, 9A
+  Failed:       3  19A, 3D, 7D
+  Average:      65/100
+
+COST: $1.6168 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (42 entries)
+------------------------------------------------------------
+  WAGES: "Pay" -> WAGES  (missing from definition_answers_augmented)
+  GAS: "Chat" -> GAS  (missing from definition_answers_augmented)
+  ELEMI: "Resin" -> ELEMI  (missing from definition_answers_augmented)
+  SCAM: "Fleece" -> SCAM  (missing from definition_answers_augmented)
+  WHITSTABLE: "town" -> WHITSTABLE  (missing from definition_answers_augmented)
+  OXLIP: "one in bed?" -> OXLIP  (missing from definition_answers_augmented)
+  SALMANRUSHDIE: "With regular instances of unrest, he and Islam tangled" -> SALMANRUSHDIE  (missing from definition_answers_augmented)
+  LUMINESCENT: "glowing" -> LUMINESCENT  (missing from definition_answers_augmented)
+  ARTHURASHE: "Court icon" -> ARTHURASHE  (missing from definition_answers_augmented)
+  ALMS: "Charitable donations" -> ALMS  (missing from definition_answers_augmented)
+  DISPARAGER: "Someone criticising" -> DISPARAGER  (missing from definition_answers_augmented)
+  DINOSAUR: "person with outdated views" -> DINOSAUR  (missing from definition_answers_augmented)
+  LENTISSIMO: "very slowly" -> LENTISSIMO  (missing from definition_answers_augmented)
+  PITH: "the important part" -> PITH  (missing from definition_answers_augmented)
+  SOONERORLATER: "Eventually" -> SOONERORLATER  (missing from definition_answers_augmented)
+  EMIGRANTS: "Those leaving the country" -> EMIGRANTS  (missing from definition_answers_augmented)
+  NET: "Clear of all charges," -> NET  (missing from definition_answers_augmented)
+  MATERNITY: "for pregnant women" -> MATERNITY  (missing from definition_answers_augmented)
+  TITLE: "Perhaps" -> TITLE  (missing from definition_answers_augmented)
+  SEESAW: "Alternate" -> SEESAW  (missing from definition_answers_augmented)
+  LAUNCHPAD: "starting point" -> LAUNCHPAD  (missing from definition_answers_augmented)
+  INSHEATHE: "Services computers etc controlled by viruses?" -> INSHEATHE  (missing from definition_answers_augmented)
+  CHOWDERS: "soups" -> CHOWDERS  (missing from definition_answers_augmented)
+  DUPE: "hoax" -> DUPE  (missing from definition_answers_augmented)
+  INSHEATHE: "Enclose" -> INSHEATHE  (missing from definition_answers_augmented)
+  CLARET: Part of Ireland -> CLARE  (missing from synonyms_pairs)
+  SCAM: coats -> MACS  (missing from synonyms_pairs)
+  OXLIP: mouth -> LIP  (missing from abbreviations)
+  LUMINESCENT: extraction facility -> MINE  (missing from synonyms_pairs)
+  LUMINESCENT: detect -> SCENT  (missing from synonyms_pairs)
+  ALMS: Welsh politician -> MS  (missing from abbreviations)
+  POMPOSITY: the writer's -> MOSITY  (missing from synonyms_pairs)
+  SOONERORLATER: King Queen turned on very old emperor -> SOONER  (missing from synonyms_pairs)
+  SOONERORLATER: others -> OR  (missing from abbreviations)
+  EMIGRANTS: record label -> EMI  (missing from abbreviations)
+  EMIGRANTS: awards -> GRANTS  (missing from synonyms_pairs)
+  MATERNITY: briefly -> R  (missing from abbreviations)
+  LAUNCHPAD: First-class -> A  (missing from abbreviations)
+  LAUNCHPAD: accommodation -> PAD  (missing from abbreviations)
+  DUPE: Party -> DU  (missing from abbreviations)
+  DUPE: drug -> PE  (missing from abbreviations)
+  INSHEATHE: magazine -> HEAT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  LAUNCHPAD = 4 (10/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  POMPOSITY (-7/100): P <- "puncturing" (first_letter)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  SOONERORLATER = 21 (-25/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  19. Periodically print the important part = PITH
+  3. Alternate pronunciation of maritime proverb = SEESAW
+  7. Pilots managed to arrest flyer over disruptive presence = POLTERGEIST
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  2/30  24A, 5D
+  Type mismatch:         1  4D
+  Fabricated mapping:    1  16D
+  Unverified explain.:   1  21A
+  DB gap:                25  9A, 10A, 11A, 14A, 15A, 18A, 19A, 21A, 25A, 27A, 28A, 1D, 2D, 3D, 4D, 6D, 8D, 12D, 13D, 16D, 17D, 20D, 22D, 23D, 26D
+  Failed:                3  19A, 3D, 7D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  WAGES         Pay comedian less, essentially (5)
+                      WAG (synonym of "comedian") + ES (middle of "less,") [middle: "essentially"]; definition: "Pay"  [HIGH]
+    2D  GAS           Chat cut short (3)
+                      GASH (synonym of "cut") [curtailing: "short"]; definition: "Chat"  [HIGH]
+   20D  CLARET        Part of Ireland beginning to tax alcohol (6)
+                      CLARE (synonym of "Part of Ireland") + T (first letter of "tax alcohol") [first letter: "beginning"]  [HIGH]
+   22D  ELEMI         Resin from tree, one packed with energy (5)
+                      ELM (synonym of "tree,") + I (synonym of "one") + E (abbreviation of "energy") [container: "packed"]; definition: "Resin"  [HIGH]
+   23D  SCAM          Fleece coats sent north (4)
+                      reverse of MACS (synonym of "coats") [reversal: "sent"]; definition: "Fleece"  [HIGH]
+   24A  CHELA         Section of church elated Hindu disciple (5)
+                      hidden in "church elated Hindu disciple" [hidden: "Section"]  [HIGH]
+    1D  WHITSTABLE    With success, go over border of Lincolnshire town (10)
+                      W(synonym of "With") + HIT(synonym of "success") + STABLE(go over border of Lincolnshire)  [LOW]
+   10A  OXLIP         Nil by mouth for one in bed? (5)
+                      O (synonym of "Nil") + X (synonym of "by") + LIP (synonym of "mouth"); definition: "one in bed?"  [HIGH]
+   11A  SALMANRUSHDIE  With regular instances of unrest, he and Islam tangled (6,7)
+                      cryptic definition  [MED]
+   12D  LUMINESCENT   South of large uranium extraction facility, detect glowing (11)
+                      L(abbr. "large") + U(abbr. "uranium") + MINE(synonym of "extraction facility") + SCENT(synonym of "detect")  [LOW]
+   13D  ARTHURASHE    You are in a right mess with European Court icon (6,4)
+                      anagram of U(abbr. "You")+ARE(are)+A(a)+RHT(right)+S(first letter of "mess")+H(core of "with") = ARTHURASHE  [MED]
+   14A  ALMS          Charitable donations from key Liberal Welsh politician (4)
+                      A (synonym of "key") + L (synonym of "Liberal") + MS (abbreviation of "Welsh politician"); definition: "Charitable donations"  [HIGH]
+   15A  DISPARAGER    Someone criticising lively drag parties heartlessly (10)
+                      anagram of DRAG(drag)+PARIES(deletion from "parties") = DISPARAGER  [HIGH]
+   16D  POMPOSITY     Withdrawing work put forward, puncturing the writer’s self-importance (9)
+                      PO(OP reversed, "work") + P inside MOSITY(synonym of "the writer's")  [LOW]
+   17D  DINOSAUR      Deviant is around person with outdated views (8)
+                      anagram of ISAROUND ("is around") [anagram: "Deviant"] = DINOSAUR; definition: "person with outdated views"  [HIGH]
+   18A  LENTISSIMO    Instil some reforms very slowly (10)
+                      anagram of INSTILSOME ("Instil some") [anagram: "reforms"] = LENTISSIMO; definition: "very slowly"  [HIGH]
+   19A  PITH          Periodically print the important part (4)
+                      ---  [FAIL]
+   21A  SOONERORLATER  Eventually, King, Queen and others turned on very old emperor (6,2,5)
+                      SOONER(synonym of "King Queen turned on very old emperor") + OR(synonym of "others") + LATER(synonym of "very old emperor")  [LOW]
+   25A  EMIGRANTS     Those leaving the country record label before awards (9)
+                      EMI (synonym of "record label") + GRANTS (synonym of "awards"); definition: "Those leaving the country"  [HIGH]
+   26D  NET           Clear of all charges, X is on the rise (3)
+                      reverse of TEN (synonym of "X") [reversal: "rise"]; definition: "Clear of all charges,"  [HIGH]
+   27A  MATERNITY     Couple briefly trying swimming for pregnant women (9)
+                      MATE(synonym of "Couple") + R(abbr. "briefly") + NITY(trying)  [MED]
+   28A  TITLE         Perhaps Mr Levy has left for hotel (5)
+                      cryptic definition  [MED]
+    3D  SEESAW        Alternate pronunciation of maritime proverb (6)
+                      ---  [FAIL]
+    4A  LAUNCHPAD     First-class meal and accommodation comprises good starting point (9)
+                      A(abbr. "First-class") inside LUNCH(synonym of "meal") + PAD(synonym of "accommodation")  [LOW]
+    4D  INSHEATHE     Services computers etc controlled by viruses? (9)
+                      cryptic definition  [MED]
+    5D  USERS         Doorkeepers ignoring heroin addicts (5)
+                      delete H from USHERS(synonym of "doorkeepers")  [MED]
+    6D  CHOWDERS      Those in debt supporting children, eating the last of tinned soups (8)
+                      CH(abbr. "children") + OWDERS(Those in debt)  [MED]
+    7D  POLTERGEIST   Pilots managed to arrest flyer over disruptive presence (11)
+                      ---  [FAIL]
+    8D  DUPE          Party drug hoax (4)
+                      DU (synonym of "Party") + PE (synonym of "drug"); definition: "hoax"  [HIGH]
+    9A  INSHEATHE     Enclose fashionable society magazine article missing introduction (9)
+                      INS + HEAT(synonym of "magazine") + HE(THE minus T, "article")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] WAGES  1A. Pay comedian less, essentially
+  Answer: WAGES
+  Tier: Signature | Confidence: 100/100
+  Definition: "Pay"
+  Wordplay: charade + parts
+  Explanation: WAG (synonym of "comedian") + ES (middle of "less,") [middle: "essentially"]; definition: "Pay"
+  ----------------------------------------------------------------------
+
+  [HIGH] GAS  2D. Chat cut short
+  Answer: GAS
+  Tier: Signature | Confidence: 100/100
+  Definition: "Chat"
+  Wordplay: charade + deletion
+  Explanation: GASH (synonym of "cut") [curtailing: "short"]; definition: "Chat"
+  ----------------------------------------------------------------------
+
+  [HIGH] CLARET  20D. Part of Ireland beginning to tax alcohol
+  Answer: CLARET
+  Tier: Signature | Confidence: 100/100
+  Wordplay: acrostic + charade
+  Explanation: CLARE (synonym of "Part of Ireland") + T (first letter of "tax alcohol") [first letter: "beginning"]
+  ----------------------------------------------------------------------
+
+  [HIGH] ELEMI  22D. Resin from tree, one packed with energy
+  Answer: ELEMI
+  Tier: Signature | Confidence: 100/100
+  Definition: "Resin"
+  Wordplay: charade + container
+  Explanation: ELM (synonym of "tree,") + I (synonym of "one") + E (abbreviation of "energy") [container: "packed"]; definition: "Resin"
+  ----------------------------------------------------------------------
+
+  [HIGH] SCAM  23D. Fleece coats sent north
+  Answer: SCAM
+  Tier: Signature | Confidence: 100/100
+  Definition: "Fleece"
+  Wordplay: charade + reversal
+  Explanation: reverse of MACS (synonym of "coats") [reversal: "sent"]; definition: "Fleece"
+  ----------------------------------------------------------------------
+
+  [HIGH] CHELA  24A. Section of church elated Hindu disciple
+  Answer: CHELA
+  Tier: Signature | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "church elated Hindu disciple" [hidden: "Section"]
+  ----------------------------------------------------------------------
+
+  [LOW] WHITSTABLE  1D. With success, go over border of Lincolnshire town
+  Answer: WHITSTABLE
+  Tier: Sonnet | Confidence: 12/100
+  Definition: "town"
+  Wordplay type: charade
+  Components:
+    synonym            With                      -> W
+    synonym            success                   -> HIT
+    cryptic_definition go over border of Lincolnshire -> STABLE
+  Assembly: charade — W(synonym of "With") + HIT(synonym of "success") + STABLE(go over border of Lincolnshire)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | nonsense_words=not real words: W | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W*
+      success: syn=HIT*,ITS*,MY,HER,HIS,WIN,BABY,COUP,FAME,MISS,BOAST,ECLAT,GLORY,HONOR,JEWEL
+      go: syn=IT*,STAB*,TABLE*,BE,DO,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD; ind=anagram
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O,ON,UP; ind=anagram,reversal
+      border: syn=BED,END,HEM,LIP,RIM,ABUT,BRIM,DADO,EDGE,LINE,BOUND,FRAME,HEDGE,LIMIT,SKIRT; sounds=boarder
+      lincolnshire: syn=COUNTY
+      town: syn=DO,AIM,BET,BUS,CAR,DIE,END,FIT,GET,HUT,LAG,LAY,LIE,PUT,RUN
+      go over: syn=GO,SAY,COPY,ECHO,REDO,STEP,TOWN,WORK,CLEAR,GREAT
+      lincolnshire town: syn=STAMFORD
+  AI Reasoning:
+    WHIT (W + HIT) + STABLE (cryptically defined by crossing border) = WHITSTABLE
+  ----------------------------------------------------------------------
+
+  [HIGH] OXLIP  10A. Nil by mouth for one in bed?
+  Answer: OXLIP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "one in bed?"
+  Wordplay: charade
+  Explanation: O (synonym of "Nil") + X (synonym of "by") + LIP (synonym of "mouth"); definition: "one in bed?"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SALMANRUSHDIE  11A. With regular instances of unrest, he and Islam tangled
+  Answer: SALMANRUSHDIE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "With regular instances of unrest, he and Islam tangled"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      regular: syn=MAN*,24,AT,GI,ALL,DAY,END,OUT,ARMS,BARE,BODY,DAMN,DEAD,EVEN,FAIR; ind=parts
+      instances: syn=NAMES,EXAMPLES,POSITIONS,NOT,BASE,CASE,NAME,NOTE,OF A,ADDUCE,ADVERT,NOTICE,QUOTES,SAMPLE,EXAMPLE; sounds=instants
+      unrest: syn=ONE,RIOTS,TROUBLE,TURMOIL,WILD OR,DISQUIET,DISCONTENT,DISTURBANCE; ind=anagram?
+      he: syn=NAG,TOM,BIRO,DOER,TEAC,COMER,DOERS,LAUGH,STEED,COMERS,EQUINE,HUMMER,HUMMERS,HUSTLER,LUCIFER
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      islam: syn=FAITH,BELIEF,RELIGION
+      tangled: syn=DAEDAL,KNOTTY,BAROQUE,TWISTED,DETAILED,INVOLUTE,BYZANTINE,ELABORATE,INTRICATE,COMPLICATE,CONVOLUTED,LABYRINTHIAN,LABYRINTHINE,SOPHISTICATED; ind=anagram
+  AI Reasoning:
+    The entire clue cryptically describes Salman Rushdie, who regularly faced unrest and controversy over his conflicts with Islam regarding 'The Satanic Verses'
+  ----------------------------------------------------------------------
+
+  [LOW] LUMINESCENT  12D. South of large uranium extraction facility, detect glowing
+  Answer: LUMINESCENT
+  Tier: Sonnet | Confidence: 27/100
+  Definition: "glowing"
+  Wordplay type: charade
+  Components:
+    abbreviation       large                     -> L
+    abbreviation       uranium                   -> U
+    synonym            extraction facility       -> MINE
+    synonym            detect                    -> SCENT
+  Assembly: charade — L(abbr. "large") + U(abbr. "uranium") + MINE(synonym of "extraction facility") + SCENT(synonym of "detect")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      south: syn=S,DOWN,POINT; abbr=S*; ind=reversal
+      large: syn=IN*,L,LG,BIG,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE,BULKY; abbr=BIG,L*,OS
+      uranium: syn=U,METAL,ELEMENT; abbr=U*; ind=container
+      extraction: syn=KIN,CLAN,LINE,RACE,RULE,TREE,BIRTH,BLOOD,FOLKS,REALM,REIGN,STOCK,TRIBE,EMPIRE,FAMILY
+      facility: syn=EASE,TALENT,AMENITY,COMPLEX,EASINESS,CONVENIENCE
+      detect: syn=BIG,GET,HIT,RUN,EVEN,FIND,HEAD,HEAR,LIFE,REAL,SPOT,WIND,AFTER,LEARN,MAJOR
+      glowing: syn=LUCENT*,HOT,LIT,RED,BALD,BOLD,FAIR,FREE,FULL,KEEN,LAST,LIVE,OPEN,SURE,WARM
+  AI Reasoning:
+    LUMINE (L+U+MINE) + SCENT concatenated as indicated by 'South of' to spell LUMINESCENT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ARTHURASHE  13D. You are in a right mess with European Court icon
+  Answer: ARTHURASHE
+  Tier: Sonnet | Confidence: 59/100
+  Definition: "Court icon"
+  Wordplay type: anagram
+  Components:
+    abbreviation       You                       -> U
+    literal            are                       -> ARE
+    literal            a                         -> A
+    literal            right                     -> RHT
+    first_letter       mess                      -> S
+    core_letters       with                      -> H
+    abbreviation       European                  -> E
+  Assembly: anagram — anagram of U(abbr. "You")+ARE(are)+A(a)+RHT(right)+S(first letter of "mess")+H(core of "with") = ARTHURASHE
+  Note: dropped piece 6
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: pieces=UAREARHTSHE answer=ARTHURASHE | pieces_validated=4/7 (64%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U*,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      are: syn=DO,DIG,HAP,LIE,RUN,SIT,USE,BEAR,BLOW,CHUM,COME,COOK,GASP,LIKE,LIVE; abbr=R*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      right: syn=RT*,R,OK,ON,PC,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT; abbr=DEXTER,R*,RT*; ind=anagram,deletion,parts,reversal; sounds=rite,write
+      mess: syn=A,BUM,FRY,GOO,LAG,LOT,OFF,POT,TEA,TON,WAD,ALSO,BAKE,BITE,CHOW; ind=anagram
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      european: syn=E,P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?; abbr=E*
+      court: syn=CT,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT,ct
+      icon: syn=DIS,FEE,REP,VIP,ANTE,CAST,CLAY,COST,FAME,FORM,GARB,GIRD,GOD?,HERO,IDOL
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+  AI Reasoning:
+    Anagram of selected letters from 'You are in a right mess with European' gives ARTHURASHE
+  ----------------------------------------------------------------------
+
+  [HIGH] ALMS  14A. Charitable donations from key Liberal Welsh politician
+  Answer: ALMS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Charitable donations"
+  Wordplay: charade
+  Explanation: A (synonym of "key") + L (synonym of "Liberal") + MS (abbreviation of "Welsh politician"); definition: "Charitable donations"
+  ----------------------------------------------------------------------
+
+  [HIGH] DISPARAGER  15A. Someone criticising lively drag parties heartlessly
+  Answer: DISPARAGER
+  Tier: Sonnet | Confidence: 81/100
+  Definition: "Someone criticising"
+  Wordplay type: anagram
+  Components:
+    literal            drag                      -> DRAG
+    deletion           parties                   -> PARIES
+  Assembly: anagram — anagram of DRAG(drag)+PARIES(deletion from "parties") = DISPARAGER
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      someone: syn=ALL,VIP,DINE,FARE,FEED,FRET,CELEB,ERODE,GAMER,ANYONE,DEVOUR,INGEST,ANYBODY,CONSUME,CORRODE
+      criticising: syn=BLASTING,CAPTIOUS,ATTACKING,LAMBASTING
+      lively: syn=BE,UP,PRY,KEEN,PERT,SPRY,ABUZZ,AGILE,ALIVE,ASTIR,BRISK,VITAL,ACTIVE,FEISTY,FRISKY; ind=anagram
+      drag: syn=ARM,ASS,BAR,BAT,BIT,BOP,DAB,GUN,LAG,LEG,LET,LUG,RAP,ROW,RUB; ind=anagram?
+      parties: syn=DO,DOS,SETS,TASK,TOGS,BANDS,BLOCS,CAMPS,CREWS,DRAGS,FIRMS,GALAS,GANGS,GARBS,SECTS
+      heartlessly: ind=deletion,parts
+  AI Reasoning:
+    Anagram (lively) of DRAG + PARTIES with heart removed (PARIES) = DISPARAGER
+  ----------------------------------------------------------------------
+
+  [LOW] POMPOSITY  16D. Withdrawing work put forward, puncturing the writer’s self-importance
+  Answer: POMPOSITY
+  Tier: Sonnet | Confidence: -7/100
+  Definition: "self-importance"
+  Wordplay type: container
+  Components:
+    reversal           work                      -> PO
+    synonym            the writer's              -> MOSITY
+  Assembly: container — PO(OP reversed, "work") + P inside MOSITY(synonym of "the writer's")
+  Gap fill: [('puncturing', 'P', 'first_letter')]
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: MOSITY | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      withdrawing: syn=RECEDING,INRETREAT,SHRINKING
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+      put: syn=DO,GO,IS,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      forward: syn=SIT*,ON,ACT,AIM,AIR,BIG,EYE,FIX,GEL,LAY,PUT,SAY,SEE,SET,SPY; sounds=foreword
+      puncturing: ind=insertion
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      self-importance: syn=POMPOSITY*,ARROGANCE
+      self: syn=EGO,CLAY,PRIDE,NATURE,TEMPTER,IDENTITY,CHARACTER,COMPOSURE,DISSOLUTE; abbr=S*
+      importance: syn=PITH,DRIFT,IMPORT,INTENT,MOMENT,STATUS,WEIGHT,ACCOUNT,CONCERN,CONTENT,GRAVITY,PURPORT,INTEREST,INTENTION,MAGNITUDE
+      put forward: syn=POSIT*,PUT,SAY,BUTT,NAME,PUSH,TERM,ASKED,AXIOM,FORCE
+  AI Reasoning:
+    PO (work=OP reversed by 'withdrawing') punctures MOSITY ('the writer's') to give POMPOSITY
+  ----------------------------------------------------------------------
+
+  [HIGH] DINOSAUR  17D. Deviant is around person with outdated views
+  Answer: DINOSAUR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "person with outdated views"
+  Wordplay: anagram
+  Explanation: anagram of ISAROUND ("is around") [anagram: "Deviant"] = DINOSAUR; definition: "person with outdated views"
+  ----------------------------------------------------------------------
+
+  [HIGH] LENTISSIMO  18A. Instil some reforms very slowly
+  Answer: LENTISSIMO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "very slowly"
+  Wordplay: anagram
+  Explanation: anagram of INSTILSOME ("Instil some") [anagram: "reforms"] = LENTISSIMO; definition: "very slowly"
+  ----------------------------------------------------------------------
+
+  [FAILED] PITH  19A. Periodically print the important part
+  Answer: PITH
+  Tier: --- | Confidence: 0/100
+  Definition: "the important part"
+  Wordplay type: acrostic
+  Components:
+    alternate_letters  print the                 -> PITH
+  DB Lookups:
+    DB lookups:
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH; ind=parts
+      print: syn=GET,DARK,OLEO,SHOT,SNAP,TYPE
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      important: syn=KE,BIG,KEY,HIGH,MAIN,SMUG,THAN,VAIN
+      part: syn=IT*,DO,GO,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+  AI Reasoning:
+    Taking alternate letters from 'print the' gives P-I-T-H
+  ----------------------------------------------------------------------
+
+  [LOW] SOONERORLATER  21A. Eventually, King, Queen and others turned on very old emperor
+  Answer: SOONERORLATER
+  Tier: Sonnet | Confidence: -25/100
+  Definition: "Eventually"
+  Wordplay type: charade
+  Components:
+    synonym            King Queen turned on very old emperor -> SOONER
+    synonym            others                    -> OR
+    synonym            very old emperor          -> LATER
+  Assembly: charade — SOONER(synonym of "King Queen turned on very old emperor") + OR(synonym of "others") + LATER(synonym of "very old emperor")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=3 synonym/abbr not in DB | fodder_in_clue=missing: ['king queen turned on very old emperor'] | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      eventually: syn=OR*,LATER*,YET,AGAIN,INTIME,AT LAST,FINALLY,IN TIME,SOMEDAY,AT LENGTH,IN THE END; ind=parts
+      king: syn=K,R,MAN,REX,GOD?,HERO,ICON,IDOL,LEAR,LORD,MAIN,OF A,OFFA,RAJA,TSAR; abbr=K,R*,REX
+      queen: syn=ER*,R,QU,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE,ARCHER; abbr=ER*,HER,HM,Q,QU,R*
+      and: syn=SOON*,DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT; abbr=AN
+      others: syn=LATE*,LATER*,AL,AUKS,MATE,REST,EGRET,MATES,NOT US,SPOUSE,CONSORT,PARTNER,SPOUSES,CONSORTS,PARTNERS; abbr=O*; ind=parts
+      turned: syn=ATE*,BAD,DUG,GOT,OFF,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,RANK,SLEW,SOUR; ind=anagram,reversal
+      on: syn=SO*,AS,OF,RE,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      very: syn=SO*,V,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD; abbr=SO*,V; sounds=vary
+      old: syn=LATE*,LATER*,O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID; abbr=EX,O*
+      emperor: syn=NERO*,KING,MING,OTTO,SAY?,TSAR,RULER,TITUS,CAESAR,KAISER,LEADER,MIKADO,TRAJAN,HADRIAN,PENGUIN
+      and others: abbr=AL
+      and others: syn=AL,ET AL
+      turned on: syn=EXCITED,FEVERED,POWERED,ATTACKED,'AGITATED',WHEN EXCITED
+      very old: syn=OLD,OUT,TIME,ANCIENT,ARCHAIC,OBSOLETE,STONE AGE,OLD-FASHIONED
+  AI Reasoning:
+    Charade where 'others' gives OR and the remaining complex wordplay yields SOONER + LATER
+  ----------------------------------------------------------------------
+
+  [HIGH] EMIGRANTS  25A. Those leaving the country record label before awards
+  Answer: EMIGRANTS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Those leaving the country"
+  Wordplay: charade
+  Explanation: EMI (synonym of "record label") + GRANTS (synonym of "awards"); definition: "Those leaving the country"
+  ----------------------------------------------------------------------
+
+  [HIGH] NET  26D. Clear of all charges, X is on the rise
+  Answer: NET
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Clear of all charges,"
+  Wordplay: charade + reversal
+  Explanation: reverse of TEN (synonym of "X") [reversal: "rise"]; definition: "Clear of all charges,"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MATERNITY  27A. Couple briefly trying swimming for pregnant women
+  Answer: MATERNITY
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "for pregnant women"
+  Wordplay type: charade
+  Components:
+    synonym            Couple                    -> MATE
+    abbreviation       briefly                   -> R
+    anagram_fodder     trying                    -> NITY
+  Assembly: charade — MATE(synonym of "Couple") + R(abbr. "briefly") + NITY(trying)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      couple: syn=MATE*,DUO,FEW,OWT,TIE,TWO,DUET,DYAD,FUSE,HOOK,ITEM,JOIN,LINK,NOWT,PAIR
+      briefly: syn=CURTLY,IN SUM,CRISPLY,INSHORT,PITHILY,SHORTLY,TERSELY,IN SHORT,COMPACTLY,CONCISELY,IN A WORD,SUMMARILY,TOUCHBASE; ind=deletion,parts
+      trying: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH,SOGGY
+      swimming: syn=HAZING,JIVING,JOKING,RIDING,BAITING,GLIDING,HANGING,HINGING,JOSHING,KIDDING,POISING,RAZZING,REELING,RIBBING,SAILING; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      pregnant: syn=A1,BIG,FAB,POP,A-OK,ARCH,BOSS,BRAG,COLD,COOL,DONE,DOPE,DOWN,GONE,HIGH
+      women: syn=W,SENORAS,MANTRAPS,MARYJANES; abbr=W,w
+  AI Reasoning:
+    MATE (couple) + R (briefly) + NITY (anagram of selected letters from trying, indicated by swimming) = MATERNITY
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TITLE  28A. Perhaps Mr Levy has left for hotel
+  Answer: TITLE
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Perhaps"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      mr: syn=HERR
+      levy: syn=DO,BED,JOB,LAY,PUT,TAX,DUTY,FINE,NEED,SIGN,TASK,CHORE,DUTY,,MOUTH,RAISE
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      left: syn=L,LET,LIP,ONE,RED,BACK,BODY,DIED,FAKE,GAVE,GONE,JIVE,LOST,OVER,PORT; abbr=GONE,L*,LE*,PORT,SINISTER; ind=acrostic,deletion,reversal
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      hotel: syn=H,DEN,INN,BACH,CAMP,CLUB,HOLE,LAIR,RITZ,CABIN,HOUSE,LODGE,OF AN,SPICY; abbr=H,INN
+  AI Reasoning:
+    The entire clue is a cryptic definition - when Mr Levy goes to a hotel, he would perhaps need to provide his TITLE
+  ----------------------------------------------------------------------
+
+  [FAILED] SEESAW  3D. Alternate pronunciation of maritime proverb
+  Answer: SEESAW
+  Tier: --- | Confidence: 0/100
+  Definition: "Alternate"
+  Wordplay type: homophone
+  Components:
+    sound_of           maritime proverb          -> SEESAW
+  DB Lookups:
+    DB lookups:
+      alternate: syn=NEW,JURY,EXTRA,OTHER,PINCH,SPARE,TENSE,CHANGE,ROTATE,SECOND; ind=alternating,parts
+      maritime: syn=NAVAL
+      proverb: syn=SAW*,DO,MY,411,FEW,GEN,INFO,MANY,WORD,ADAGE,MAXIM,MOTTO,UNCOS,WORDS,ADAGES
+    Definitions:
+      "Alternate" -> SEESAW (definition match)
+  AI Reasoning:
+    Homophone of 'Caesar' (maritime through naval associations) sounds like SEESAW
+  ----------------------------------------------------------------------
+
+  [LOW] LAUNCHPAD  4A. First-class meal and accommodation comprises good starting point
+  Answer: LAUNCHPAD
+  Tier: Sonnet | Confidence: 10/100
+  Definition: "starting point"
+  Wordplay type: charade
+  Components:
+    synonym            meal                      -> LUNCH
+    abbreviation       First-class               -> A
+    synonym            accommodation             -> PAD
+  Assembly: container — A(abbr. "First-class") inside LUNCH(synonym of "meal") + PAD(synonym of "accommodation")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      first-class: syn=A1,AI,OK,BIG,FAB,HOT,THE,TOO,TOP,A-OK,BLUE,BOSS,BRAG,COLD,COOL
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      class: syn=ILK,LOT,LOW,PEG,SET,TOP,AXIS,BANK,BLOC,BODY,BORN,BOSS,CLAN,CLUB,DOWN
+      meal: syn=PIE,TEA,CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,MEAT,MENU,MESS,SLOP,BOARD
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      accommodation: syn=FLAT,GAFF,GIVE,HOTEL,ROOMS,VILLA,BEDSIT,BILLET,HOTELS,NICETY,SHANTY,COMFORT,HOUSING,LODGING,MOD CON; ind=anagram?
+      comprises: syn=FILL,FORM,MAKE,CONTAIN
+      good: syn=G,OK,ON,PI,SO,ACE,ALL,APT,BIG,FIT,LOW,OUT,PET,SAD,USE; abbr=G,PI
+      starting: syn=BEGINNING,INCIPIENT; abbr=S; ind=acrostic,deletion
+      point: syn=PT,AIM,ARM,CUT,DOT,END,ITS,NET,NIB,NUB,PEG,PIP,SET,SUM,TIP; abbr=E,N*,NE,NW,PT,S,SE,SW,W
+      starting point: syn=BASIS,ACCESS,GROUND,FOOTING,SUPPORT,PLATFORM,RATIONALE
+  AI Reasoning:
+    LUNCH contains A (indicated by 'comprises') to make LAUNCH, then add PAD for accommodation
+  ----------------------------------------------------------------------
+
+  [MEDIUM] INSHEATHE  4D. Services computers etc controlled by viruses?
+  Answer: INSHEATHE
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Services computers etc controlled by viruses?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      services: syn=ACES,RITES,OFFICES,A,GI,NO,RN,ACE,AID,ARM,JOB,RAF,USE,BOON,CARE
+      computers: syn=IT,LAPTOPS,DESKTOPS,CAP,MAC,PAD,PILL,LAPTOP,CAPSULE,DESKTOP,LOZENGE,NOTEPAD,SCANNER,NOTEBOOK,MAINFRAME; abbr=PC; ind=reversal?
+      etc: syn=DECOR,GRILL,LINEN,ANDSOON,STRINGS,EDENTATA,HERITAGE,AND SO ON
+      controlled: syn=MET,RAN,CALM,HELD,KEPT,HEXED,KEPT?,RULED,TAMED,BOSSED,CONNED,CURBED,FENCED,FENDED,FILLED
+      by: syn=AT*,IN*,X,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      computers etc: abbr=IT
+      computers etc: syn=IT
+      controlled by: syn=UNDER
+  AI Reasoning:
+    The entire clue is a cryptic definition describing how viruses encase/control services and computers, metaphorically representing the meaning of INSHEATHE (to enclose in a protective covering)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] USERS  5D. Doorkeepers ignoring heroin addicts
+  Answer: USERS
+  Tier: DB Fallback | Confidence: 57/100
+  Definition: "addicts"
+  Wordplay type: deletion
+  Components:
+    synonym            doorkeepers               -> USHERS
+    abbreviation       (single letter)           -> H
+  Assembly: deletion — delete H from USHERS(synonym of "doorkeepers")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=missing: ['(single letter)']
+  DB Lookups:
+    DB lookups:
+      ignoring: syn=END,SIN,WRONG; ind=deletion
+      heroin: syn=DRUG,HORSE; sounds=heroine
+      addicts: syn=USER*,USERS*,BUG,FAN,NUT,BUFF,BUGS,FANS,DOPER,FIEND,FOOLS,FREAK,HEADS,LOVER,BOD
+    Definitions:
+      "addicts" -> USERS (definition match)
+  AI Reasoning:
+    DOORKEEPERS (USHERS) ignoring H (heroin) = USERS
+  ----------------------------------------------------------------------
+
+  [HIGH] CHOWDERS  6D. Those in debt supporting children, eating the last of tinned soups
+  Answer: CHOWDERS
+  Tier: Sonnet | Confidence: 71/100
+  Definition: "soups"
+  Wordplay type: charade
+  Components:
+    abbreviation       children                  -> CH
+    container          Those in debt             -> OWDERS
+  Assembly: charade — CH(abbr. "children") + OWDERS(Those in debt)
+  Note: dropped piece 2
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      those: abbr=THE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      debt: syn=BILL,OF A,CRIME,SCORE,ARREARS,CAPITAL
+      supporting: syn=FOR,PRO,DRINK,BEHIND,GIVING,TOTING,BACKING,BEARING,BRACING,CARTING,EARNING,FENCING,FENDING,HAULING,INSTEAD; ind=parts
+      children: syn=CH*,BUDS,CUBS,IMPS,KIDS,SEED,SONS,TOTS,CHAPS,GENTS,ISSUE,BAIRNS,CHICKS,COURSE,KIDDOS; abbr=CH*
+      eating: syn=GOING,ICING,WRONG,COMING,DINING,EDIBLE,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING; ind=container
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      soups: syn=CHOWDER*,POT,SAY,FOOD,OF A,BROTH,GUMBO,BISQUE,BORSCH,OXTAIL,POTAGE,BORSCHT,BORTSCH,POTTAGE,CONSOMME; ind=anagram
+      the last: syn=CODA,CLOSE,ENDING,FINALE,FINISH,FIXING
+  AI Reasoning:
+    CH (children) + OWERS (those in debt) containing D (last of tinned) = CHOWDERS
+  ----------------------------------------------------------------------
+
+  [FAILED] POLTERGEIST  7D. Pilots managed to arrest flyer over disruptive presence
+  Answer: POLTERGEIST
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      pilots: syn=TEST*,SEA,ADMIRALS,FLY,LEAD,PLAN,SHOW,CLEAR,COACH,GUIDE,STEER,TRIAL,AIRMAN,AIRMEN,AVIATE
+      managed: syn=MET,RAN,HELD,KEPT,COPED,COPER,HEXED,KEPT?,RULED,TAMED,A GRIP,BOSSED,CONNED,CURBED,FENCED; abbr=RAN; ind=anagram?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      arrest: syn=BIT,COP,END,LET,NAB,RUB,BALK,BOOK,BUST,CLOG,CURB,DEAD,DRAG,DRAW,FIRE
+      flyer: syn=AD,CO,FLY,BILL,DART,MYNA,PLUG,SHOW,SIGN,SPOT,TERN,WORD,BLURB,BOOST,EAGLE; ind=container?
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      disruptive: syn=ROGUE
+      presence: syn=POLTERGEIST*,MY,FEE,ITS,VIP,ANTE,BODY,CAST,COST,FORM,GARB,ICON,LOOK,MATH,MIEN; sounds=presents
+    Definitions:
+      "presence" -> POLTERGEIST (definition match)
+  ----------------------------------------------------------------------
+
+  [HIGH] DUPE  8D. Party drug hoax
+  Answer: DUPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "hoax"
+  Wordplay: charade
+  Explanation: DU (synonym of "Party") + PE (synonym of "drug"); definition: "hoax"
+  ----------------------------------------------------------------------
+
+  [LOW] INSHEATHE  9A. Enclose fashionable society magazine article missing introduction
+  Answer: INSHEATHE
+  Tier: Sonnet | Confidence: -9/100
+  Definition: "Enclose"
+  Wordplay type: charade
+  Components:
+    synonym            fashionable               -> IN
+    synonym            society                   -> S
+    synonym            magazine                  -> HEAT
+    deletion           article                   -> HE [THE, "missing"=deletion]
+  Assembly: charade — INS + HEAT(synonym of "magazine") + HE(THE minus T, "article")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: S | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      enclose: syn=BOX,CASE,WALL,HOUSE,EMBRACE,INCLUDE,SHUT IN,SURROUND,INCLUDING
+      fashionable: syn=IN*,A,BIG,DEF,HEP,HIP,HOT,MOD,POP,ARCH,CHIC,COOL,DEAR,FOND,GONE; abbr=IN*; ind=anagram
+      society: syn=S,FAT,TOP,WHO,BEST,CLUB,FOUR,LIFE,PICK,PINK,THIS,BOARD,CREAM,ELECT,ELITE; abbr=S*
+      magazine: syn=MAG,RAG,TAB,BOOK,CLIP,DUMP,TIME,ZINE,COMIC,DAILY,DEPOT,EXTRA,HELLO,ISSUE,OLDIE; abbr=MAG
+      article: syn=THE*,A,AN,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE; abbr=A*,AN,THE*
+      missing: syn=A1,BIG,FAB,ILL,OUT,A-OK,AWAY,AWOL,BOSS,BRAG,BUSH,COLD,COOL,DONE,DOPE; ind=deletion
+      introduction: syn=JOB,USE,DUTY,HAND,PART,POST,ROLE,TASK,WORK,NICHE,PLACE,START,AFFAIR,CHARGE,EMPLOY; ind=acrostic,parts
+  AI Reasoning:
+    INS (fashionable society) + HEAT (magazine) + HE (article 'THE' missing first letter) = INSHEATHE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

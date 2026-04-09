@@ -1,0 +1,382 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12314
+Generated: 2026-03-27 14:46:28
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      37
+  Assembled:        37/37 (100%)
+    Signature:      1
+    Sonnet:         1
+    DB Fallback:    1
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   33  3?, 10?, 30?, 20?, 1?, 11?, 12?, 13?, 14?, 15?, 16?, 17?, 18?, 19?, 2?, 21?, 22?, 23?, 25?, 26?, 27?, 28?, 29?, 3?, 30?, 31?, 32?, 33?, 34?, 4?, 5?, 8?, 9?
+  Medium (40-79): 3  6?, 24?, 7?
+  Low (<40):    0  
+  Failed:       0  
+  Average:      94/100
+
+COST: $0.2518 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (3 entries)
+------------------------------------------------------------
+  MANDATE: "authorisation" -> MANDATE  (missing from definition_answers_augmented)
+  PREVIEWER: "I can see what's coming" -> PREVIEWER  (missing from definition_answers_augmented)
+  EXTRICATE: "to get clear" -> EXTRICATE  (missing from definition_answers_augmented)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  PREVIEWER = 24 (61/100): def="I can see what's coming" (not in DB, odd position)
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  34/37  10, 10, 30, 30, 1, 11, 21, 31, 2, 12, 22, 32, 3, 3, 13, 23, 33, 4, 14, 34, 5, 15, 25, 6, 16, 26, 17, 27, 8, 18, 28, 9, 19, 29
+  Weak definition:       1  24
+  DB gap:                3  7, 20, 24
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    3?  NOR           Logic circuit reversing part of another one (3)
+                      ---  [HIGH]
+   10?  EMPLOYEE      My pole dancing initially excited every worker (8)
+                      ---  [HIGH]
+   30?  PARTNER       Business associate upheld hire charge (7)
+                      ---  [HIGH]
+   20?  MANDATE       Bloke getting to see authorisation (7)
+                      MAN (synonym of "Bloke") + DATE (synonym of "see"); definition: "authorisation"  [HIGH]
+    1?  SOMETIMES     Occasionally call for help to secure personal relaxation? (9)
+                      ---  [HIGH]
+   10?  EMPLOYEE      My pole dancing initially excited every worker (8)
+                      ---  [MED]
+   11?  GRAMME        End of leg struck incomplete unit (6)
+                      ---  [HIGH]
+   12?  CORPORATE     Most of military unit speak on a collective basis (9)
+                      ---  [HIGH]
+   13?  EARTH         Henry moving to rear of centre ground (5)
+                      ---  [HIGH]
+   14?  LANAI         Computer network with recent technology to provide building in Hawaii (5)
+                      ---  [HIGH]
+   15?  HOTELDIEU     The Parisian back in unusual hideout: a hospital in Nice (9)
+                      ---  [HIGH]
+   16?  SKI           Mostly avoid having to do winter sport (3)
+                      ---  [HIGH]
+   17?  BURNT         Objection about sailors? It’s consigned to the flames (5)
+                      ---  [HIGH]
+   18?  CATHERINE     Well-known saint in here working with domestic pet? (9)
+                      ---  [HIGH]
+   19?  SIDEISSUE     Pretentious attitude over publication is a minor matter (9)
+                      ---  [HIGH]
+    2?  PALIO         One circuit round and round in horse race (5)
+                      ---  [HIGH]
+   21?  TATTY         Shabby tense and irritable doffing cap (5)
+                      ---  [HIGH]
+   22?  MILLER        Runner covering extra length is a flour producer (6)
+                      ---  [HIGH]
+   23?  SNOWTYRE      Broadcast new story gripping motoring item (8)
+                      ---  [HIGH]
+   25?  LASCALA       Italian opera house showing a range not fully achieved in US city (7)
+                      ---  [HIGH]
+   26?  OLLIE         More cheerful getting stripped for skateboard manoeuvre (5)
+                      ---  [HIGH]
+   27?  NEOLOGIST     Lose ingot that’s to be melted down for coiner? (9)
+                      ---  [HIGH]
+   28?  KEEPHOUSE     Run an establishment - look upset with those in attendance (9)
+                      ---  [HIGH]
+   29?  SERAPHIC      Raised concerns about setter emulating a heavenly being (8)
+                      ---  [HIGH]
+    3?  NOR           Logic circuit reversing part of another one (3)
+                      ---  [HIGH]
+   30?  PARTNER       Business associate upheld hire charge (7)
+                      ---  [HIGH]
+   31?  MARTINI       Something crafty in small cocktail (7)
+                      ---  [HIGH]
+   32?  BEATIT        Have sex possibly and get away (6)
+                      ---  [HIGH]
+   33?  CELEB         Caught insect soaring around league star (5)
+                      ---  [HIGH]
+   34?  ELLIE         Singer Goulding perhaps I featured in fashion magazine (5)
+                      ---  [HIGH]
+    4?  DONATELLO     Artist to finish - note all works (9)
+                      ---  [HIGH]
+    5?  EASEL         Carefully move large item in studio (5)
+                      ---  [HIGH]
+    6?  ITALY         Home to 10 I reckon ignoring a lecturer (5)
+                      ---  [MED]
+    8?  SIENNA        Former Queen is done over in fine colour (6)
+                      ---  [HIGH]
+    9?  DRAWBACK      Disadvantage defender after indecisive match (8)
+                      ---  [HIGH]
+   24?  PREVIEWER     I can see what’s coming - end of sheep sheep in stream turning turtle (9)
+                      P(last letter of "sheep") + REVIEWER(REWEIVER reversed, "sheep in stream")  [MED]
+    7?  EXTRICATE     I’m leaving additional part of match around one heading for car to get clear (9)
+                      EXTR(EXTRA minus A, "additional") + delete R from RI(RIG minus G, "match") + CA(abbr. "around") + TE(deletion from "part")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] NOR  3?. Logic circuit reversing part of another one
+  Answer: NOR
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden reversed in "another one"
+  ----------------------------------------------------------------------
+
+  [HIGH] EMPLOYEE  10?. My pole dancing initially excited every worker
+  Answer: EMPLOYEE
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "My pole dancing initially excited every" and "worker" both mean EMPLOYEE
+  ----------------------------------------------------------------------
+
+  [HIGH] PARTNER  30?. Business associate upheld hire charge
+  Answer: PARTNER
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition: "Business associate" and "upheld hire charge" both mean PARTNER
+  ----------------------------------------------------------------------
+
+  [HIGH] MANDATE  20?. Bloke getting to see authorisation
+  Answer: MANDATE
+  Tier: Signature | Confidence: 100/100
+  Definition: "authorisation"
+  Wordplay: charade
+  Explanation: MAN (synonym of "Bloke") + DATE (synonym of "see"); definition: "authorisation"
+  ----------------------------------------------------------------------
+
+  [HIGH] SOMETIMES  1?. Occasionally call for help to secure personal relaxation?
+  Answer: SOMETIMES
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EMPLOYEE  10?. My pole dancing initially excited every worker
+  Answer: EMPLOYEE
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] GRAMME  11?. End of leg struck incomplete unit
+  Answer: GRAMME
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CORPORATE  12?. Most of military unit speak on a collective basis
+  Answer: CORPORATE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EARTH  13?. Henry moving to rear of centre ground
+  Answer: EARTH
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LANAI  14?. Computer network with recent technology to provide building in Hawaii
+  Answer: LANAI
+  Tier: --- | Confidence: 85/100
+  ----------------------------------------------------------------------
+
+  [HIGH] HOTELDIEU  15?. The Parisian back in unusual hideout: a hospital in Nice
+  Answer: HOTELDIEU
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SKI  16?. Mostly avoid having to do winter sport
+  Answer: SKI
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BURNT  17?. Objection about sailors? It’s consigned to the flames
+  Answer: BURNT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CATHERINE  18?. Well-known saint in here working with domestic pet?
+  Answer: CATHERINE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SIDEISSUE  19?. Pretentious attitude over publication is a minor matter
+  Answer: SIDEISSUE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PALIO  2?. One circuit round and round in horse race
+  Answer: PALIO
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] TATTY  21?. Shabby tense and irritable doffing cap
+  Answer: TATTY
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MILLER  22?. Runner covering extra length is a flour producer
+  Answer: MILLER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SNOWTYRE  23?. Broadcast new story gripping motoring item
+  Answer: SNOWTYRE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] LASCALA  25?. Italian opera house showing a range not fully achieved in US city
+  Answer: LASCALA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] OLLIE  26?. More cheerful getting stripped for skateboard manoeuvre
+  Answer: OLLIE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NEOLOGIST  27?. Lose ingot that’s to be melted down for coiner?
+  Answer: NEOLOGIST
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] KEEPHOUSE  28?. Run an establishment - look upset with those in attendance
+  Answer: KEEPHOUSE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SERAPHIC  29?. Raised concerns about setter emulating a heavenly being
+  Answer: SERAPHIC
+  Tier: --- | Confidence: 90/100
+  ----------------------------------------------------------------------
+
+  [HIGH] NOR  3?. Logic circuit reversing part of another one
+  Answer: NOR
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] PARTNER  30?. Business associate upheld hire charge
+  Answer: PARTNER
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] MARTINI  31?. Something crafty in small cocktail
+  Answer: MARTINI
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] BEATIT  32?. Have sex possibly and get away
+  Answer: BEATIT
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] CELEB  33?. Caught insect soaring around league star
+  Answer: CELEB
+  Tier: --- | Confidence: 95/100
+  ----------------------------------------------------------------------
+
+  [HIGH] ELLIE  34?. Singer Goulding perhaps I featured in fashion magazine
+  Answer: ELLIE
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DONATELLO  4?. Artist to finish - note all works
+  Answer: DONATELLO
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [HIGH] EASEL  5?. Carefully move large item in studio
+  Answer: EASEL
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ITALY  6?. Home to 10 I reckon ignoring a lecturer
+  Answer: ITALY
+  Tier: --- | Confidence: 70/100
+  ----------------------------------------------------------------------
+
+  [HIGH] SIENNA  8?. Former Queen is done over in fine colour
+  Answer: SIENNA
+  Tier: --- | Confidence: 100/100
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAWBACK  9?. Disadvantage defender after indecisive match
+  Answer: DRAWBACK
+  Tier: --- | Confidence: 80/100
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PREVIEWER  24?. I can see what’s coming - end of sheep sheep in stream turning turtle
+  Answer: PREVIEWER
+  Tier: Sonnet | Confidence: 61/100
+  Definition: "I can see what's coming"
+  Wordplay type: charade
+  Components:
+    last_letter        sheep                     -> P
+    reversal           sheep in stream           -> REVIEWER
+  Assembly: charade — P(last letter of "sheep") + REVIEWER(REWEIVER reversed, "sheep in stream")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      can: syn=EWER*,A,AX,GO,IS,VA,BOG,BUM,CUP,CUT,DIE,EAT,END,HIM,HOY; abbr=C,TIN; ind=anagram?
+      see: syn=VIEW*,PREVIEW*,V,DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL; abbr=C,ELY,LO,V*; sounds=sea
+      coming: syn=RAY,WAY,BEAM,FAST,GLOW,HALO,JUMP,LEAP,NEAR,NEXT,STEP,BLAZE,BOUND,DRIFT,FLARE; ind=anagram,reversal
+      end: syn=GO,IT,OK,AIM,CAN,CAP,CUT,DIE,FIX,HEM,JIG,JOB,LAY,LEG,LET; ind=deletion,parts
+      sheep: syn=EWE*,RAM,DOVE,LAMB,RAMS,ANGEL,ANGELS,ANIMAL,FEMALE,JACOBS,MERINO,MUTTON,ANGELIC,ANIMALS,PASTURE
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      stream: syn=JET,RAY,RUN,WAY,BATH,BEAM,BECK,BURN,FLOW,FLUX,FORM,GLOW,GLUT,GUSH,HALO; abbr=FORM
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING,COILED,COMING,CURLED,CURVED,EATING,FOXING,HAZING,IRKING,JIVING,JOKING; ind=anagram,reversal
+      turtle: syn=SWIMM,REPTILE,CREATURE,LEONARDO,TERRAPIN
+      end of: ind=parts
+  AI Reasoning:
+    P (end of sheep) + REVIEWER (EWE in RIVER reversed) = PREVIEWER
+  ----------------------------------------------------------------------
+
+  [HIGH] EXTRICATE  7?. I’m leaving additional part of match around one heading for car to get clear
+  Answer: EXTRICATE
+  Tier: DB Fallback | Confidence: 78/100
+  Definition: "to get clear"
+  Wordplay type: deletion
+  Components:
+    deletion           match                     -> RI [RIG - G(get)]
+    abbreviation       around                    -> CA
+    deletion           part                      -> TE
+    deletion           additional                -> EXTR [EXTRA - A(one)]
+  Assembly: deletion — EXTR(EXTRA minus A, "additional") + delete R from RI(RIG minus G, "match") + CA(abbr. "around") + TE(deletion from "part")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass (deletion verified) | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      leaving: syn=LAST,FINAL,GOING,CEDING,EGRESS,EXODUS,GIVING,HAVING,NOTICE,SAVING,BEARING,CLOSING,EXITING,FEEDING,HANDING; ind=deletion?
+      additional: syn=HIP,CHIC,ELSE,MINT,MORE,PLUS,ADDED,EXTRA,FRESH,OTHER,SPARE,SECOND,VIRGIN,ANOTHER,FARTHER
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      match: syn=FIT,FOE,MET,PUT,RIG,TIE,WAR,BEND,BOUT,COPY,EDIT,FACE,FINE,GAME,GEAR
+      around: syn=CA*,BY,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA*; ind=anagram,container,reversal
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O; sounds=won
+      heading: syn=BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,BATH,BENT,BUFF,DIKE,DUCK,FOOL; ind=acrostic,parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      car: syn=BAR,BUS,KIA,PUB,TOP,AUDI,AUTO,FIAT,LADA,LAND,LIMO,MERC,MINI,SEAT,TOWN; abbr=FORD,KA,RR,VW
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      get: syn=DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG,EAT; abbr=G,GE
+      clear: syn=EXTRICATE*,GO,OK,US,AGE,END,FIX,FLY,GET,HIM,LAM,LAY,NET,ONE,OPT; abbr=NET,RID
+      part of: ind=insertion
+      part of: syn=CUT,END,JOB,BELT,LAND,NECK,ROLE,TAKE,TASK,WORK
+      to get: ind=anagram
+      to get: syn=OFF,BABY,DEEP,LEGS,LOSE,QUIT,RUIN,AVOID,CLEAR,PODIA
+  AI Reasoning:
+    EXTRA (additional) + I-C-ATE (one + heading for car + part of match where match=duplicate) = EXTRICATE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

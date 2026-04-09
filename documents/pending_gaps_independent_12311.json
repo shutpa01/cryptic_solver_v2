@@ -1,0 +1,418 @@
+{
+  "source": "independent",
+  "puzzle": "12311",
+  "stats": {
+    "total": 33,
+    "assembled": 28,
+    "high": 19,
+    "medium": 5,
+    "low": 4,
+    "failed": 2,
+    "avg_score": 70.75
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dept",
+      "letters": "DEPT",
+      "answer": "DEPTH",
+      "clue_number": "1",
+      "direction": null,
+      "clue": "Pressure to replace article in the end? That's as low as it gets",
+      "score": 18
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "support group",
+      "letters": "AA",
+      "answer": "APNEA",
+      "clue_number": "10",
+      "direction": null,
+      "clue": "Trouble with inspiration for Springsteen? Quietly new drug embraced by support group",
+      "score": -28
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "the definition ought to be",
+      "letters": "IN",
+      "answer": "INHERE",
+      "clue_number": "11",
+      "direction": null,
+      "clue": "Exist as an essential part where the definition ought to be",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "where",
+      "letters": "HERE",
+      "answer": "INHERE",
+      "clue_number": "11",
+      "direction": null,
+      "clue": "Exist as an essential part where the definition ought to be",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Add",
+      "letters": "TO",
+      "answer": "TOTEM",
+      "clue_number": "17",
+      "direction": null,
+      "clue": "Add space symbol",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "space",
+      "letters": "TEM",
+      "answer": "TOTEM",
+      "clue_number": "17",
+      "direction": null,
+      "clue": "Add space symbol",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "round",
+      "letters": "I",
+      "answer": "OCULI",
+      "clue_number": "23",
+      "direction": null,
+      "clue": "Eye doctor scrubbing cover of sealant round windows",
+      "score": 3
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "eggs",
+      "letters": "OO",
+      "answer": "CUCKOO",
+      "clue_number": "7",
+      "direction": null,
+      "clue": "Bird sound from hen dropping large eggs",
+      "score": 48
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "School",
+      "letters": "G",
+      "answer": "GAMUT",
+      "clue_number": "8",
+      "direction": null,
+      "clue": "School uniform summer shirt range",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "uniform",
+      "letters": "A",
+      "answer": "GAMUT",
+      "clue_number": "8",
+      "direction": null,
+      "clue": "School uniform summer shirt range",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "summer",
+      "letters": "M",
+      "answer": "GAMUT",
+      "clue_number": "8",
+      "direction": null,
+      "clue": "School uniform summer shirt range",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "shirt",
+      "letters": "UT",
+      "answer": "GAMUT",
+      "clue_number": "8",
+      "direction": null,
+      "clue": "School uniform summer shirt range",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Yorkshireman",
+      "letters": "Y",
+      "answer": "COY",
+      "clue_number": "9",
+      "direction": null,
+      "clue": "Not saying much about old Yorkshireman in the van",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fool",
+      "answer": "DIPSTICK",
+      "clue_number": "18",
+      "direction": null,
+      "clue": "Fool declines credit",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "period",
+      "answer": "HOUR",
+      "clue_number": "20",
+      "direction": null,
+      "clue": "Excursion heading off after hot period",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "relative",
+      "answer": "FATHER",
+      "clue_number": "24",
+      "direction": null,
+      "clue": "Article boring distant relative",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Panic",
+      "answer": "ALARM",
+      "clue_number": "32",
+      "direction": null,
+      "clue": "Panic contained by Territorial Army",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "detachment",
+      "answer": "UNIT",
+      "clue_number": "33",
+      "direction": null,
+      "clue": "Briefly join detachment",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "That's as low as it gets",
+      "answer": "DEPTH",
+      "clue_number": "1",
+      "direction": null,
+      "clue": "Pressure to replace article in the end? That's as low as it gets",
+      "score": 18
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Trouble with inspiration for Springsteen?",
+      "answer": "APNEA",
+      "clue_number": "10",
+      "direction": null,
+      "clue": "Trouble with inspiration for Springsteen? Quietly new drug embraced by support group",
+      "score": -28
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Exist as an essential part",
+      "answer": "INHERE",
+      "clue_number": "11",
+      "direction": null,
+      "clue": "Exist as an essential part where the definition ought to be",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "commercial treaties",
+      "answer": "TRADEDEALS",
+      "clue_number": "12",
+      "direction": null,
+      "clue": "Craft moral principles leader ditched for commercial treaties",
+      "score": 71
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Palm and what's attached a bunch of bananas",
+      "answer": "HAND",
+      "clue_number": "13",
+      "direction": null,
+      "clue": "Palm and what's attached a bunch of bananas",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Spoke like a Persian perhaps",
+      "answer": "MIAOUED",
+      "clue_number": "14",
+      "direction": null,
+      "clue": "Spoke like a Persian perhaps but extremely misinformed about every vowel",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "burial plot",
+      "answer": "CEMETERY",
+      "clue_number": "16",
+      "direction": null,
+      "clue": "I'm kept nearby at regular intervals to follow church burial plot",
+      "score": 76
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "symbol",
+      "answer": "TOTEM",
+      "clue_number": "17",
+      "direction": null,
+      "clue": "Add space symbol",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pond-dwellers",
+      "answer": "PARAMECIA",
+      "clue_number": "19",
+      "direction": null,
+      "clue": "Pond-dwellers came and a pair reproduced",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Distracted",
+      "answer": "THREWOFF",
+      "clue_number": "2",
+      "direction": null,
+      "clue": "Distracted cast not currently performing",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Time-study",
+      "answer": "HOROLOGY",
+      "clue_number": "21",
+      "direction": null,
+      "clue": "Time-study men I now see set up record year",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "clocking mechanism",
+      "answer": "ESCAPEMENT",
+      "clue_number": "22",
+      "direction": null,
+      "clue": "Key American gym crew with time clocking mechanism",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Piano",
+      "answer": "GRAND",
+      "clue_number": "25",
+      "direction": null,
+      "clue": "Piano lacking seventh note given away",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Personal counsellor",
+      "answer": "THERAPIST",
+      "clue_number": "27",
+      "direction": null,
+      "clue": "Personal counsellor priest that mostly messed up",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "elemental building blocks",
+      "answer": "ATOMIC",
+      "clue_number": "30",
+      "direction": null,
+      "clue": "The first half of the alphabet at first is centrepiece of elemental building blocks",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Handled sports equipment",
+      "answer": "RACQUET",
+      "clue_number": "4",
+      "direction": null,
+      "clue": "Handled sports equipment - a scam they say",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "something taken by the patient",
+      "answer": "TIME",
+      "clue_number": "5",
+      "direction": null,
+      "clue": "Reportedly leaves something taken by the patient",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "England supporter",
+      "answer": "ANGLOPHILE",
+      "clue_number": "6",
+      "direction": null,
+      "clue": "England supporter hoping all playing finally contribute",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bird sound",
+      "answer": "CUCKOO",
+      "clue_number": "7",
+      "direction": null,
+      "clue": "Bird sound from hen dropping large eggs",
+      "score": 48
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "range",
+      "answer": "GAMUT",
+      "clue_number": "8",
+      "direction": null,
+      "clue": "School uniform summer shirt range",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Not saying much",
+      "answer": "COY",
+      "clue_number": "9",
+      "direction": null,
+      "clue": "Not saying much about old Yorkshireman in the van",
+      "score": 50
+    }
+  ]
+}

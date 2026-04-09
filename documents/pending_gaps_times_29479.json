@@ -1,0 +1,57 @@
+{
+  "source": "times",
+  "puzzle": "29479",
+  "stats": {
+    "total": 28,
+    "assembled": 27,
+    "high": 21,
+    "medium": 5,
+    "low": 1,
+    "failed": 1,
+    "avg_score": 82.25925925925925
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Not for release",
+      "answer": "OFFTHERECORD",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Not for release, as lesser album tracks can end up being",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Just",
+      "answer": "DISINTERESTED",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Just not giving a damn",
+      "score": 75
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "begin circling",
+      "letters": "STRUCK",
+      "answer": "STARSTRUCK",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Overawed by fame, begin circling middle of massive crowd",
+      "score": 92
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "players mustn't cross",
+      "letters": "OCHE",
+      "answer": "SYNECDOCHE",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Figure of speech synchronised, shifting constant line players mustn’t cross",
+      "score": 62
+    }
+  ]
+}

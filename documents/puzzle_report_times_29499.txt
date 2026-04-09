@@ -1,0 +1,626 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29499
+Generated: 2026-03-25 07:05:42
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        23/28 (82%)
+    Signature:      2
+    Sig+Enriched:   6
+    Sonnet:         15
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   9  18D, 7D, 11A, 14A, 15A, 16A, 20A, 4D, 6D
+  Medium (40-79): 12  1A, 13A, 15D, 17D, 19D, 2D, 21D, 22A, 24D, 27A, 5D, 8D
+  Low (<40):    2  12D, 9A
+  Failed:       5  10A, 23A, 25A, 26A, 3D
+  Average:      64/100
+
+COST: $1.1721 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (31 entries)
+------------------------------------------------------------
+  ELDORADO: "Place" -> ELDORADO  (missing from definition_answers_augmented)
+  FIST: "Duke" -> FIST  (missing from definition_answers_augmented)
+  ADAMBEDE: "English novel" -> ADAMBEDE  (missing from definition_answers_augmented)
+  REFRIGERATOR: "Chilled environment" -> REFRIGERATOR  (missing from definition_answers_augmented)
+  ASSASSINATED: "hit" -> ASSASSINATED  (missing from definition_answers_augmented)
+  ARTISTRY: "creative skill" -> ARTISTRY  (missing from definition_answers_augmented)
+  KARAOKE: "pub activity" -> KARAOKE  (missing from definition_answers_augmented)
+  KILKENNY: "City" -> KILKENNY  (missing from definition_answers_augmented)
+  ABASHED: "struck with shame" -> ABASHED  (missing from definition_answers_augmented)
+  BROWNING: "Victorian poet" -> BROWNING  (missing from definition_answers_augmented)
+  LANCELOT: "knight" -> LANCELOT  (missing from definition_answers_augmented)
+  LAVAGE: "Irrigation" -> LAVAGE  (missing from definition_answers_augmented)
+  TOGO: "land around Lomé" -> TOGO  (missing from definition_answers_augmented)
+  FLUENT: "well able to explain?" -> FLUENT  (missing from definition_answers_augmented)
+  TELEVISE: "to air" -> TELEVISE  (missing from definition_answers_augmented)
+  ADAMBEDE: divine -> BEDE  (missing from synonyms_pairs)
+  ASSASSINATED: Fools -> ASSASS  (missing from synonyms_pairs)
+  MOUSSE: timid sort -> MOUSE  (missing from synonyms_pairs)
+  ARTISTRY: Blakey for one -> ART  (missing from abbreviations)
+  ARTISTRY: is -> IS  (missing from abbreviations)
+  KARAOKE: debauchee, -> RAKE  (missing from synonyms_pairs)
+  BROWNING: argument -> ROWING  (missing from synonyms_pairs)
+  STAGGER: old hand -> STAGER  (missing from synonyms_pairs)
+  DIASPORA: soldiers -> SP  (missing from abbreviations)
+  DIASPORA: spring -> ORA  (missing from abbreviations)
+  OVIEDO: competed -> VIED  (missing from synonyms_pairs)
+  RIGADOON: taking place -> ON  (missing from abbreviations)
+  ETHICAL: this -> ETHIC  (missing from synonyms_pairs)
+  FLUENT: NHS department's -> ENT  (missing from abbreviations)
+  TELEVISE: 501s -> LEVIS  (missing from synonyms_pairs)
+  TELEVISE: shirt -> TEE  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  ETHICAL = 5 (52/100): AI=anagram, assembled=charade
+  BETRAYED = 8 (55/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  OVIEDO = 22 (50/100): no pieces verified in DB
+  TELEVISE = 9 (10/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  10. Young swimmer Henry’s widow = PARR
+  23. Show without Tarzan struggling to entertain Virginia and Geo = EXTRAVAGANZA
+  25. Son leaves belt in corner = TRAP
+  26. Excited seeing leg — not small — in flimsy robe = NEGLIGEE
+  3. Folk performer, crafty poet leading reindeer = MORRISDANCER
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  1/28  4D
+  Type mismatch:         2  5D, 8D
+  Unverified explain.:   2  9A, 22A
+  DB gap:                20  1A, 9A, 11A, 13A, 14A, 16A, 20A, 22A, 27A, 2D, 5D, 6D, 7D, 12D, 15D, 17D, 18D, 19D, 21D, 24D
+  Failed:                5  10A, 23A, 25A, 26A, 3D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   18D  ELDORADO      Place abnormally loaded with hidden gold (2,6)
+                      anagram of LOADED ("loaded") + OR (abbreviation of "gold") [anagram: "abnormally"] = ELDORADO; definition: "Place"  [HIGH]
+    7D  FIST          Duke in good health carrying spades (4)
+                      FIT (synonym of "in good health") + S (synonym of "spades") [container: "carrying"]; definition: "Duke"  [HIGH]
+    1A  ADAMBEDE      Colour endless in a divine English novel (4,4)
+                      A + DAM(deletion from "Colour") + BEDE(synonym of "divine")  [MED]
+   10A  PARR          Young swimmer Henry’s widow (4)
+                      ---  [ERR]
+   11A  REFRIGERATOR  Chilled environment in wild for rare tiger (12)
+                      anagram of FORRARETIGER ("for rare tiger") [anagram: "wild"] = REFRIGERATOR; definition: "Chilled environment"  [HIGH]
+   12D  ASSASSINATED  Fools in America delinquent once hit (12)
+                      ASSASS(synonym of "Fools") + IN + ATED("America delinquent once")  [LOW]
+   13A  MOUSSE        Dessert timid sort swallows slowly at first (6)
+                      S(first letter of "slowly at first") inside MOUSE(synonym of "timid sort")  [MED]
+   14A  ARTISTRY      Blakey for one is to strive for creative skill (8)
+                      ART (synonym of "Blakey for one") + IS (synonym of "is") + TRY (synonym of "strive"); definition: "creative skill"  [HIGH]
+   15A  KARAOKE       Nothing stops Kelvin, a debauchee, in pub activity (7)
+                      O (synonym of "Nothing") + K (abbreviation of "Kelvin,") + A (abbreviation of "a") + RAKE (synonym of "debauchee,") [container: "in"]; definition: "pub activity"  [HIGH]
+   15D  KILKENNY      Almost do away with range of knowledge on New York City (8)
+                      KIL(KILL minus L, "do away with") + KEN(synonym of "range of knowledge") + NY(abbr. "New York")  [MED]
+   16A  ABASHED       Adult struck — struck with shame (7)
+                      A (synonym of "Adult") + BASHED (synonym of "struck -"); definition: "struck with shame"  [HIGH]
+   17D  BROWNING      Bishop in argument about new Victorian poet (8)
+                      B(abbr. "Bishop") + N(abbr. "new") inside ROWING(synonym of "argument")  [MED]
+   19D  STAGGER       Shock where old hand guzzles gallon (7)
+                      G(abbr. "gallon") inside STAGER(synonym of "old hand")  [MED]
+    2D  DIASPORA      Help mounted soldiers cutting spring migration (8)
+                      DIA(AID reversed, "Help") + SP(abbr. "soldiers") + ORA(synonym of "spring")  [MED]
+   20A  LANCELOT      Jousting weapon returned to lake for knight (8)
+                      LANCE (synonym of "Jousting weapon") + L (abbreviation of "lake") + TO (synonym of "for") [reversal: "returned"]; definition: "knight"  [HIGH]
+   21D  LAVAGE        Irrigation of Algarve at regular intervals over time (6)
+                      LAV(alternate letters of "Algarve") + AGE(synonym of "over time")  [MED]
+   22A  OVIEDO        Spaniards here competed in scoreless draw (6)
+                      VIED(synonym of "competed") inside OO("scoreless draw")  [MED]
+   23A  EXTRAVAGANZA  Show without Tarzan struggling to entertain Virginia and Georgia (12)
+                      ---  [ERR]
+   24D  TOGO          American not eating in land around Lomé (4)
+                      cryptic definition  [MED]
+   25A  TRAP          Son leaves belt in corner (4)
+                      ---  [ERR]
+   26A  NEGLIGEE      Excited seeing leg — not small — in flimsy robe (8)
+                      ---  [ERR]
+   27A  RIGADOON      Dance party taking place next to European capital (8)
+                      RIGA(synonym of "European capital") + DO(synonym of "party") + ON(synonym of "taking place")  [MED]
+    3D  MORRISDANCER  Folk performer, crafty poet leading reindeer (6,6)
+                      ---  [ERR]
+    4D  ECOFREAK      Nutty green apple finally prepared for cake (8)
+                      anagram of E(last letter of "apple finally")+FORCAKE = ECOFREAK  [HIGH]
+    5D  ETHICAL       Just for Latinists, this with others has to go round (7)
+                      ETHIC(synonym of "this") + AL(synonym of "others")  [MED]
+    6D  FLUENT        Complaint NHS department’s well able to explain? (6)
+                      FLU (synonym of "Complaint") + ENT (abbreviation of "NHS department's"); definition: "well able to explain?"  [HIGH]
+    8D  BETRAYED      Plot involving alien laser beam accidentally revealed? (8)
+                      ET(abbr. "alien")+RAY(synonym of "laser beam") inside BED(synonym of "Plot")  [MED]
+    9A  TELEVISE      Maybe 501s with shirt put outside to air (8)
+                      LEVIS(synonym of "501s") inside TEE(synonym of "shirt")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ELDORADO  18D. Place abnormally loaded with hidden gold
+  Answer: ELDORADO
+  Tier: Signature | Confidence: 100/100
+  Definition: "Place"
+  Wordplay: anagram + charade
+  Explanation: anagram of LOADED ("loaded") + OR (abbreviation of "gold") [anagram: "abnormally"] = ELDORADO; definition: "Place"
+  ----------------------------------------------------------------------
+
+  [HIGH] FIST  7D. Duke in good health carrying spades
+  Answer: FIST
+  Tier: Signature | Confidence: 100/100
+  Definition: "Duke"
+  Wordplay: charade + container
+  Explanation: FIT (synonym of "in good health") + S (synonym of "spades") [container: "carrying"]; definition: "Duke"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ADAMBEDE  1A. Colour endless in a divine English novel
+  Answer: ADAMBEDE
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "English novel"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    deletion           Colour                    -> DAM
+    synonym            divine                    -> BEDE
+  Assembly: charade — A + DAM(deletion from "Colour") + BEDE(synonym of "divine")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      colour: syn=HUE,PEA,RED,CYAN,FLAG,RUBY,TINT,AMBER,AZURE,BROWN,CORAL,HENNA,IVORY,KHAKI,LEMON
+      endless: syn=NIGHT,BORING,ETERNA,ALL DAY,ETERNAL,NONSTOP,UNDYING,CONSTANT,DATELESS,IMMORTAL,INFINITE,NUMEROUS,UNENDING; ind=deletion
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      divine: syn=A1,OK,BIG,FAB,HOT,NUN,PAL,THE,TOO,TOP,A-OK,ABBÉ,ALLY,BLUE,BOSS
+      english: syn=E,ENG,LAY,ODE,PIP,EPIC,EPOS,ERSE,LAYS,LULU,ODES,POEM,RUNE,SONG,BEAUT; abbr=E*
+      novel: syn=ADAMBEDE*,FIB,HOW,LIE,NEW,BOOK,EMMA,PULP,RARE,TALE,TEXT,TOME,WILD,YARN,ALBUM; ind=anagram
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+  AI Reasoning:
+    A + DAM (DAME endless) + BEDE (divine scholar) = ADAMBEDE, the English novel
+  ----------------------------------------------------------------------
+
+  [ERROR] 10. Young swimmer Henry’s widow = PARR
+  ----------------------------------------------------------------------
+
+  [HIGH] REFRIGERATOR  11A. Chilled environment in wild for rare tiger
+  Answer: REFRIGERATOR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Chilled environment"
+  Wordplay: anagram
+  Explanation: anagram of FORRARETIGER ("for rare tiger") [anagram: "wild"] = REFRIGERATOR; definition: "Chilled environment"
+  ----------------------------------------------------------------------
+
+  [LOW] ASSASSINATED  12D. Fools in America delinquent once hit
+  Answer: ASSASSINATED
+  Tier: Sonnet | Confidence: -15/100
+  Definition: "hit"
+  Wordplay type: charade
+  Components:
+    synonym            Fools                     -> ASSASS
+    literal            in                        -> IN
+    anagram_fodder     America delinquent once   -> ATED
+  Assembly: charade — ASSASS(synonym of "Fools") + IN + ATED("America delinquent once")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: ASSASS | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fools: syn=ASS*,TOP,BERK,BUGS,FANS,KIDS,MUGS,ASSES,BERKS,HEADS,NANAS,CHUMPS,FIENDS,FREAKS,HOUNDS; abbr=ASS*,CLOT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      america: syn=A,US,USA,COUNTRY,THE USA,THESTATES,UNCLE SAM,THE STATES; abbr=A*,AM,US,USA
+      delinquent: syn=LATE,LATER,BEHIND,ERRANT,HOODLUM,OFFENDER,TEARAWAY
+      once: syn=AS*,EX,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,PAST,SLOW,SOLO; abbr=EX,RE; ind=parts
+      hit: syn=ASSASSINATE*,DO,A A,ASK,BAG,BAT,BIB,BOB,BOP,BOX,DAB,DID,DUG,GET,GOT; abbr=LAM; ind=anagram
+      in america: syn=STATESIDE
+  AI Reasoning:
+    ASS+ASS (fools) + IN (in) + ATED (anagram of letters from America delinquent once)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MOUSSE  13A. Dessert timid sort swallows slowly at first
+  Answer: MOUSSE
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "Dessert"
+  Wordplay type: container
+  Components:
+    synonym            timid sort                -> MOUSE
+    first_letter       slowly at first           -> S
+  Assembly: container — S(first letter of "slowly at first") inside MOUSE(synonym of "timid sort")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dessert: syn=MOUSSE*,FOOL,TART,BOMBE,JELLY,SWEET,TORTE,AFTERS,COURSE,GATEAU,PLEASE,SORBET,SUNDAE; sounds=desert
+      timid: syn=COY,DAY,SHY,LILY,MEEK,FAZED,JUMPY,STIFF,UPSET,AFRAID,CLUMSY,DEMURE,GAUCHE,MODEST,RUSTIC
+      sort: syn=BE,ARE,BOD,BOY,CAT,EGG,GUY,ICE,ILK,JOE,LAD,MAN,PEG,SON,TEN; ind=anagram
+      swallows: syn=BIRDS,DOWNS,GIVES,SINKS,DRINKS,OR,BAT,BOP,BUY,DAB,EAT,NOT,RAP,SIP,SUP; ind=container
+      slowly: syn=LAG,LENTO,ADAGIO
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      at first: ind=parts
+      at first: syn=EYE,LOW,SEE,SPY,BIRD,CAST,ESPY,KNOW,LOOK,PEEK
+    Definitions:
+      "Dessert" -> MOUSSE (definition match)
+  AI Reasoning:
+    MOUSE (timid sort) swallows S (first letter of slowly) to form MOUSSE
+  ----------------------------------------------------------------------
+
+  [HIGH] ARTISTRY  14A. Blakey for one is to strive for creative skill
+  Answer: ARTISTRY
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "creative skill"
+  Wordplay: charade
+  Explanation: ART (synonym of "Blakey for one") + IS (synonym of "is") + TRY (synonym of "strive"); definition: "creative skill"
+  Checks: syn_'is'=is_unconfirmed_(real_=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] KARAOKE  15A. Nothing stops Kelvin, a debauchee, in pub activity
+  Answer: KARAOKE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "pub activity"
+  Wordplay: charade + container
+  Explanation: O (synonym of "Nothing") + K (abbreviation of "Kelvin,") + A (abbreviation of "a") + RAKE (synonym of "debauchee,") [container: "in"]; definition: "pub activity"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] KILKENNY  15D. Almost do away with range of knowledge on New York City
+  Answer: KILKENNY
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "City"
+  Wordplay type: charade
+  Components:
+    deletion           do away with              -> KIL [KILL, "almost"=deletion]
+    synonym            range of knowledge        -> KEN
+    abbreviation       New York                  -> NY
+  Assembly: charade — KIL(KILL minus L, "do away with") + KEN(synonym of "range of knowledge") + NY(abbr. "New York")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      almost: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E*,P,R; ind=parts
+      do: syn=BE,GO,IS,MY,PI,411,A A,ACT,ADO,AND,ARE,BED,BET,BUY,CUT; abbr=C,PARTY; sounds=dew,due
+      away: syn=DIE,FAR,FLY,FRO,LAM,NOW,OFF,OUT,RUN,AFAR,BOLT,DEEP,DOWN,FLEE,SHOW; ind=deletion; sounds=aweigh
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      range: syn=GO,RO,BED,CUE,FAR,LEA,PEG,ROW,RUN,WAY,ALPS,COLD,DEAD,DOWN,DRAW
+      knowledge: syn=KEN*,MY,EYE,AXIS,GAPE,GAZE,KNOW,LORE,NOTE,LOCUS,NAVEL,NEXUS,SKILL,STARE,ASPECT
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      york: syn=SEE,CITY,HOUSE; abbr=Y*
+      city: syn=NY*,EC,LA,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA,NICE; abbr=EC,LA,NY*,ec; ind=anagram
+      new york: syn=NY*,CITY,STATE
+      do away with: syn=KILL,REMOVE,SCOTCH,UPROOT
+      range of knowledge: syn=KEN*
+      new york city: syn=GOTHAM
+  AI Reasoning:
+    KIL (KILL minus last letter for 'almost') + KEN (knowledge) + NY (New York) = KILKENNY
+  ----------------------------------------------------------------------
+
+  [HIGH] ABASHED  16A. Adult struck — struck with shame
+  Answer: ABASHED
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "struck with shame"
+  Wordplay: charade
+  Explanation: A (synonym of "Adult") + BASHED (synonym of "struck -"); definition: "struck with shame"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BROWNING  17D. Bishop in argument about new Victorian poet
+  Answer: BROWNING
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Victorian poet"
+  Wordplay type: container
+  Components:
+    abbreviation       Bishop                    -> B
+    synonym            argument                  -> ROWING
+    abbreviation       new                       -> N
+  Assembly: container — B(abbr. "Bishop") + N(abbr. "new") inside ROWING(synonym of "argument")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bishop: syn=B,RR,MAN,NUN,PAL,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,LINE,LORD,MATE; abbr=B*,DD,RR
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      argument: syn=ROW*,AND,SET,BEEF,CASE,CELL,CLUB,FEUD,FIRE,GIVE,RACE,SPAT,TALK,TIFF,A ROW; abbr=ROW*
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      victorian: syn=PRIM
+      poet: syn=BROWNING*,A,POE,BARD,EATS,MUSE,OVID,OWEN,AUDEN,DANTE,DONNE,ELIOT,HEINE,HOMER,KEATS
+    Definitions:
+      "poet" -> BROWNING (definition match)
+  AI Reasoning:
+    B goes inside ROWING where N replaces I to form BROWNING
+  ----------------------------------------------------------------------
+
+  [MEDIUM] STAGGER  19D. Shock where old hand guzzles gallon
+  Answer: STAGGER
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Shock"
+  Wordplay type: container
+  Components:
+    synonym            old hand                  -> STAGER
+    abbreviation       gallon                    -> G
+  Assembly: container — G(abbr. "gallon") inside STAGER(synonym of "old hand")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shock: syn=HIM,JAR,MAN,AFRO,HAIR,JOLT,MANE,ROCK,STUN,TURN,ALARM,AMAZE,APPAL,FLOOR,SCARE
+      where: syn=HOW,SITE,LOCUS,PLACE,POINT,VENUE,BELFRY,LOCALE,AIRPORT,EURASIA,WHEREIN,WHITHER; sounds=ware,wear
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O
+      hand: syn=ME,ACE,AID,DAB,JOB,MAN,OLD,SET,USE,WAY,ACES,AIDS,ANON,BLOC,BODY
+      guzzles: syn=IT,AID,BIB,HIT,GULP,SOAK,DRINK,HOIST,SLURP,SPONGE,TAKE UP
+      gallon: syn=BILE,MEASURE; abbr=G*
+      old hand: syn=OLD
+    Definitions:
+      "Shock" -> STAGGER (definition match)
+  AI Reasoning:
+    STAGER (old hand) contains G (gallon) to form STAGGER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DIASPORA  2D. Help mounted soldiers cutting spring migration
+  Answer: DIASPORA
+  Tier: Sonnet | Confidence: 42/100
+  Definition: "migration"
+  Wordplay type: charade
+  Components:
+    reversal           Help                      -> DIA
+    abbreviation       soldiers                  -> SP
+    synonym            spring                    -> ORA
+  Assembly: charade — DIA(AID reversed, "Help") + SP(abbr. "soldiers") + ORA(synonym of "spring")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/3 (17%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      help: syn=ME,AID,HIM,MAN,SOS,ABET,AIDS,BACK,BOON,CARE,EASE,FILL,GIRL,HAND,LIFT; abbr=AID
+      mounted: syn=GOT,WON,DREW,GAVE,MADE,QUIT,ABOARD,BAGGED,BRACED,CARTED,EARNED,GAINED,HAULED,LANDED,LUGGED; ind=reversal
+      soldiers: syn=OR*,RE,GIS,MEN,UNIT,CORPS,PARAS,RANKS,TROOPS,ENEMIES,MARINES,PLATOON,RANGERS,DOGFACES,FIGHTERS; abbr=GIS,MEN,OR*,RA*,RE,ANT,GI,RM
+      cutting: syn=CUT,RAW,ACID,BARB,CLIP,EDGY,KEEN,TART,ABOUT,ACERB,ACRID,AXING,EDGED,HARSH,HONED; ind=container,deletion,insertion
+      spring: syn=BE,HOP,JET,NET,NUB,PAY,SET,SPA,SUM,BASE,COIL,CORE,CRUX,DAWN,FONT; abbr=SPA
+      migration: syn=DIASPORA*,PEOPLE,MOVEMENT; abbr=M
+    Definitions:
+      "migration" -> DIASPORA (definition match)
+  AI Reasoning:
+    AID reversed gives DIA, then SP (soldiers) contains ORA (spring) to make SPORA, giving DIA+SPORA=DIASPORA
+  ----------------------------------------------------------------------
+
+  [HIGH] LANCELOT  20A. Jousting weapon returned to lake for knight
+  Answer: LANCELOT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "knight"
+  Wordplay: charade + reversal
+  Explanation: LANCE (synonym of "Jousting weapon") + L (abbreviation of "lake") + TO (synonym of "for") [reversal: "returned"]; definition: "knight"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LAVAGE  21D. Irrigation of Algarve at regular intervals over time
+  Answer: LAVAGE
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Irrigation"
+  Wordplay type: charade
+  Components:
+    alternate_letters  Algarve                   -> LAV
+    synonym            over time                 -> AGE
+  Assembly: charade — LAV(alternate letters of "Algarve") + AGE(synonym of "over time")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      algarve: fodder=ALGARVE(6/6 anagram match)
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      regular: syn=24,AT,GI,ALL,DAY,END,MAN,OUT,ARMS,BARE,BODY,DAMN,DEAD,EVEN,FAIR; ind=parts
+      intervals: syn=LEGAL,BREAKS,PAUSES,SPACES,BIT,DAY,DEN,EON,ERA,GAP,PIT,RIP,STY,BEAT,BIND; ind=parts
+      over: syn=O,BY,ON,UP,ALL,LOW,OFT,OLD,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O,ON,UP; ind=anagram,reversal
+      time: syn=AGE*,T,DAY,ERA,MAY,OFT,OLD,PAY,RUN,AGED,AGES,BIRD,DATE,GEST,HIRE; abbr=AGE*,DATE,ERA,T; ind=anagram; sounds=thyme
+      at regular intervals: syn=HELLO,ORGAN,DIGEST
+  AI Reasoning:
+    LAV (alternate letters from Algarve) + AGE (over time) = LAVAGE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OVIEDO  22A. Spaniards here competed in scoreless draw
+  Answer: OVIEDO
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Spaniards here"
+  Wordplay type: container
+  Components:
+    literal            scoreless draw            -> OO
+    synonym            competed                  -> VIED
+  Assembly: container — VIED(synonym of "competed") inside OO("scoreless draw")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      spaniards: syn=DIEGO,SENOR
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      competed: syn=FOUGHT
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      draw: syn=DO*,A A,ASS,BAG,GET,GUT,LEG,LUG,SET,TAP,TIE,TOW,TUG,USE,WIN
+    Definitions:
+      "Spaniards here" -> OVIEDO (definition match)
+  AI Reasoning:
+    VIED (competed) goes inside O_O (scoreless draw = 0-0 tie) to form O-VIED-O
+  ----------------------------------------------------------------------
+
+  [ERROR] 23. Show without Tarzan struggling to entertain Virginia and Georgia = EXTRAVAGANZA
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TOGO  24D. American not eating in land around Lomé
+  Answer: TOGO
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "land around Lomé"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      american: syn=A,US,GUMS,INCA,ROTH,YANK; abbr=A,US
+      not: syn=TOO*,SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      eating: ind=container
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      land: syn=AT,DO,A A,AGE,BAG,BUS,CAR,COP,CUT,END,GET,JOB,NAB,NET,RAP
+      around: syn=TO*,BY,CA,IN,OR,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+  AI Reasoning:
+    American not eating in restaurant means getting food 'to go', which sounds like TOGO, the West African country where Lomé is the capital
+  ----------------------------------------------------------------------
+
+  [ERROR] 25. Son leaves belt in corner = TRAP
+  ----------------------------------------------------------------------
+
+  [ERROR] 26. Excited seeing leg — not small — in flimsy robe = NEGLIGEE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RIGADOON  27A. Dance party taking place next to European capital
+  Answer: RIGADOON
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Dance"
+  Wordplay type: charade
+  Components:
+    synonym            European capital          -> RIGA
+    synonym            party                     -> DO
+    synonym            taking place              -> ON
+  Assembly: charade — RIGA(synonym of "European capital") + DO(synonym of "party") + ON(synonym of "taking place")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dance: syn=RIGADOON*,BOP,CHA,HOP,JIG,ONE,BALL,FOOT,HULA,JIVE,LIMB,PASO,PROM,REEL,SHAG; abbr=BALL; ind=anagram
+      party: syn=DO*,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN; abbr=CON,DO*,LAB,P
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      place: syn=DO*,AM,BE,GO,IS,PL,A A,AIR,ARE,BAR,BED,CUT,END,FEE,FIX; abbr=LAY,PL
+      next: syn=ON*,BY,FAIR,MOST,MUCH,NEAR,NIGH,PAST,SOON,THEN,UPON,ABOUT,AFTER,BELOW,CLOSE
+      to: syn=ADO*,BY,OF,UP,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      european: syn=E,P,SAY,DANE,FINN,POLE,SCOT,SERB,SLAV,CZECH,DUTCH,GREEK,IRISH,LIEGE,POLE?; abbr=E
+      capital: syn=RIGA*,A1,MY,OK,BIG,EYE,FAB,HOT,HUB,KEY,THE,TOO,TOP,A-OK,ARCH; abbr=BERLIN,EDINBURGH,LONDON,MADRID,PARIS,ROME; ind=acrostic,parts; sounds=capitol
+      next to: abbr=BY
+      next to: syn=AN,BY,OR,BUT,DOOR,FAIR,JUST,LESS,MORE,MOST
+      european capital: syn=CITY,OSLO,DUBLIN,ZAGREB,CAPITAL
+    Definitions:
+      "Dance" -> RIGADOON (definition match)
+  AI Reasoning:
+    RIGA (European capital) + DO (party) + ON (taking place) concatenated via 'next to' indicator
+  ----------------------------------------------------------------------
+
+  [ERROR] 3. Folk performer, crafty poet leading reindeer = MORRISDANCER
+  ----------------------------------------------------------------------
+
+  [HIGH] ECOFREAK  4D. Nutty green apple finally prepared for cake
+  Answer: ECOFREAK
+  Tier: Sonnet | Confidence: 92/100
+  Definition: "Nutty green"
+  Wordplay type: anagram
+  Components:
+    last_letter        apple finally             -> E
+    anagram_fodder     for cake                  -> FORCAKE
+  Assembly: anagram — anagram of E(last letter of "apple finally")+FORCAKE = ECOFREAK
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      nutty: syn=APE,FEY,MAD,ODD,OFF,WUD,AMOK,AVID,BATS,DAFT,EDGY,GAGA,HALF,KEEN,LIKE; ind=anagram?
+      green: syn=ECO*,ELF,FAY,NEW,RAW,CASH,GOLD,JACK,LAWN,LIME,LONG,LUSH,NAIF,NOTE,PELF
+      apple: syn=AIL,HASH,MUSS,TREE,UNDO,ALARM,EATER,FRUIT,WORRY,BOTHER,COOKER,JUMBLE,MUDDLE,RUMPLE,RUSSET
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      prepared: syn=GO,FIT,ONE,PUT,SET,EDAM,FINE,KILL,ARMED,READY,REDID,TUNED,AT THE,BEFORE,BRACED; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      cake: syn=GOB,CASE,SNAP,CHILD,CINCH,CREPE,FANCY,PATTY,ROSES,SCONE,STUFF,TORTE,BREEZE,CUTLET,ECLAIR
+    Definitions:
+      "Nutty green" -> ECOFREAK (definition match)
+  AI Reasoning:
+    E from 'apple finally' plus FORCAKE anagrammed by 'prepared' gives ECOFREAK
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ETHICAL  5D. Just for Latinists, this with others has to go round
+  Answer: ETHICAL
+  Tier: Sonnet | Confidence: 52/100
+  Definition: "Just"
+  Wordplay type: anagram
+  Components:
+    synonym            this                      -> ETHIC
+    synonym            others                    -> AL
+  Assembly: charade — ETHIC(synonym of "this") + AL(synonym of "others")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      just: syn=ETHICAL*,BUT,DUE,ITS,NEW,NOW,YET,BEST,EVEN,FAIR,FIRM,FULL,GOOD,HARD,LATE
+      for: syn=AS,IS,TO,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      this: syn=THI*,END,SET,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T*,TH*
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      others: syn=AL*,AUKS,MATE,REST,EGRET,MATES,NOT US,SPOUSE,CONSORT,PARTNER,SPOUSES,GO,ACT,AIR,BAR; abbr=O; ind=parts
+      has: syn=EATS,GOES,OWNS,SEES,BEARS,BIDES,CEDES,DROPS,FEEDS,FEELS,GIVES,HACKS,HANDS,KNOWS,MEETS; ind=hidden
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O; ind=anagram,container,reversal
+      with others: syn=AL*
+      to go: syn=ACT,AIR,PEE,PUT,ACTS,AIRS,BAKE,BALL,EXIT,QUIT
+      go round: syn=GO,BEAT,BODY,DISC,PATH,POTS,ROAD,ROLL,SPIN,TERM
+    Definitions:
+      "Just" -> ETHICAL (definition match)
+  AI Reasoning:
+    Anagram of 'this' (ETHIC) plus 'others' (AL) indicated by 'has to go round'
+  ----------------------------------------------------------------------
+
+  [HIGH] FLUENT  6D. Complaint NHS department’s well able to explain?
+  Answer: FLUENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "well able to explain?"
+  Wordplay: charade
+  Explanation: FLU (synonym of "Complaint") + ENT (abbreviation of "NHS department's"); definition: "well able to explain?"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BETRAYED  8D. Plot involving alien laser beam accidentally revealed?
+  Answer: BETRAYED
+  Tier: Sonnet | Confidence: 55/100
+  Definition: "revealed"
+  Wordplay type: anagram
+  Components:
+    synonym            Plot                      -> BED
+    abbreviation       alien                     -> ET
+    synonym            laser beam                -> RAY
+  Assembly: container — ET(abbr. "alien")+RAY(synonym of "laser beam") inside BED(synonym of "Plot")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      plot: syn=BED*,LEA,LOT,HOPE,LAWN,MOOR,PLAN,PLAT,SITE,A LOT,ACRES,CABAL,CHART,CROFT,FIELD; abbr=BED,WEB
+      involving: syn=GIVING,TOTING,BEARING,BRACING,BUSYING,CARTING,EARNING,HAULING,LUGGING,PACKING,STAGING,STAYING,BEHAVING,BEMUSING,CARRYING; ind=container,insertion
+      alien: syn=ET*,BORN,CEDE,DEED,MAKE,YODA,CONVEY,RENDER,RESIGN,DELIVER,FOREIGN,KLINGON,MARTIAN,STRANGE,TURN IN; abbr=ET*; ind=anagram?
+      laser: syn=OF A,LIGHT,CUTTER
+      beam: syn=RAY*,WAY,GLOW,HALO,JUMP,LEAP,STEP,BLAZE,BOUND,DRIFT,FLARE,FLASH,GLARE,GLEAM,GLINT
+      accidentally: syn=BY,FLUKY,CASUAL,CHANCE,BYCHANCE; ind=anagram?
+      revealed: syn=OUT,BALD,BARE,OPEN,BLOWN,NAKED,NAMED,SHOWN,PEELED,SHAVEN,UNCLAD,DENUDED,EXPOSED,FURLESS,GIVENUP
+    Definitions:
+      "revealed" -> BETRAYED (definition match)
+  AI Reasoning:
+    Anagram of BED (plot) + ET (alien) + RAY (laser beam) indicated by 'accidentally' gives BETRAYED
+  ----------------------------------------------------------------------
+
+  [LOW] TELEVISE  9A. Maybe 501s with shirt put outside to air
+  Answer: TELEVISE
+  Tier: Sonnet | Confidence: 10/100
+  Definition: "to air"
+  Wordplay type: container
+  Components:
+    synonym            501s                      -> LEVIS
+    synonym            shirt                     -> TEE
+  Assembly: container — LEVIS(synonym of "501s") inside TEE(synonym of "shirt")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER,BREWER,FLOWER,LIKELY,MAYHAP,MISFIT,PERHAP,RESEAT,SINGER; ind=anagram
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      shirt: syn=TOP,CAST-OFF
+      put: syn=IS*,DO,GO,A A,ACT,BET,CUT,DID,DIG,DIS,DUG,EAT,FIT,FIX,GET; abbr=SET
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      air: syn=TELEVISE*,ACT,DRY,FAN,GAS,IRE,JET,LAY,MAD,PAD,PET,SEA,WAY,AURA,BILE; sounds=heir,err
+    Definitions:
+      "air" -> TELEVISE (definition match)
+  AI Reasoning:
+    TEE (shirt/T-shirt) contains LEVIS (501s/Levi's jeans) to make TELEVISE
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

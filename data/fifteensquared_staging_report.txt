@@ -1,0 +1,72 @@
+============================================================
+BACKFILL FIFTEENSQUARED EXPLANATIONS
+============================================================
+  34 puzzles to process
+  [1/34] independent #11281 (30 clues)...    fifteensquared: 29 clues from Independent 11,281 by Tees (format: fts_table)
+ 29 fetched, 28 would match
+  [2/34] independent #11285 (32 clues)...    fifteensquared: 25 clues from Independent 11,285 by Alchemi (format: fts_list)
+ 25 fetched, 25 would match
+  [3/34] independent #11507 (31 clues)...    fifteensquared: 31 clues from Independent No. 11,507 by Filbert (format: paragraph)
+ 31 fetched, 29 would match
+  [4/34] independent #11724 (35 clues)... not found
+  [5/34] independent #11754 (32 clues)...    fifteensquared: 32 clues from Independent 11,754 / Umpire (format: plain_table)
+ 32 fetched, 3 would match
+  [6/34] independent #11758 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [7/34] independent #11759 (29 clues)...    fifteensquared: 29 clues from Independent 11,759 / Knut (format: plain_table)
+ 29 fetched, 0 would match
+  [8/34] independent #11768 (27 clues)...    fifteensquared: 27 clues from Independent 11,768 / Phi (format: plain_table)
+ 27 fetched, 1 would match
+  [9/34] independent #11773 (26 clues)...    fifteensquared: 26 clues from Independent 11,773 / Bluth (format: plain_table)
+ 26 fetched, 2 would match
+  [10/34] independent #11776 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [11/34] independent #11778 (28 clues)...    fifteensquared: 28 clues from Independent 11,778 / Mog (format: plain_table)
+ 28 fetched, 1 would match
+  [12/34] independent #11783 (36 clues)...    fifteensquared: 36 clues from Independent 11,783 / Knut (format: plain_table)
+ 36 fetched, 1 would match
+  [13/34] independent #11792 (33 clues)...    fifteensquared: 33 clues from Independent 11,792 / Stamp (format: plain_table)
+ 33 fetched, 24 would match
+  [14/34] independent #11794 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [15/34] independent #11797 (26 clues)...    fifteensquared: 25 clues from Independent 11,797 / Grecian (format: plain_table)
+ 25 fetched, 0 would match
+  [16/34] independent #11798 (34 clues)...    fifteensquared: 19 clues from Independent 11,798 by Phi (format: paragraph)
+ 19 fetched, 19 would match
+  [17/34] independent #11802 (30 clues)... not found
+  [18/34] independent #11807 (31 clues)...    fifteensquared: 31 clues from Independent 11,807 / Atrica (format: plain_table)
+ 31 fetched, 0 would match
+  [19/34] independent #11812 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [20/34] independent #11816 (32 clues)...    fifteensquared: 32 clues from Independent 11,816 / Phi (format: plain_table)
+ 32 fetched, 1 would match
+  [21/34] independent #11827 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [22/34] independent #11905 (30 clues)...    fifteensquared: 32 clues from Independent 11,905 by Twin (format: fts_table)
+ 32 fetched, 0 would match
+  [23/34] independent #12079 (30 clues)...    fifteensquared: 34 clues from Independent 12079 / Bluebird (format: two_col_table)
+ 34 fetched, 0 would match
+  [24/34] independent #12103 (30 clues)... not found
+  [25/34] independent #12124 (32 clues)... not found
+  [26/34] independent #12176 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [27/34] independent #12210 (31 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [28/34] independent #12244 (26 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [29/34] independent #12247 (32 clues)... not found
+  [30/34] independent #12280 (30 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [31/34] independent #12298 (28 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [32/34] independent #12311 (33 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [33/34] independent #12316 (32 clues)...    fifteensquared: parsed 0 clues (format: no_format_matched)
+ not found
+  [34/34] independent #12317 (29 clues)...    fifteensquared: 29 clues from Independent 12,317 by Penelope (format: fts_list)
+ 29 fetched, 29 would match
+
+Done:
+  Fetched: 17
+  Not found: 17
+  Total clues would be matched: 163

@@ -1,0 +1,1115 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31185
+Generated: 2026-03-15 14:16:19
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        25/32 (78%)
+    Sonnet:         25
+    DB Fallback:    0
+  Failed:           7
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   8  1A, 1D, 12A, 13A, 14D, 15A, 26D, 8D
+  Medium (40-79): 16  10A, 16D, 17A, 18D, 19A, 2D, 23D, 24A, 27A, 28A, 29A, 3D, 4D, 5D, 6A, 9A
+  Low (<40):    1  21D
+  Failed:       7  11D, 20D, 21A, 22A, 25D, 30A, 7D
+  Average:      71/100
+
+COST: $0.3049 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (17 entries)
+------------------------------------------------------------
+  OPPOSES: "Attacks" -> OPPOSES  (missing from definition_answers_augmented)
+  PIPER: "One plays pibroch" -> PIPER  (missing from definition_answers_augmented)
+  LUSTRES: "glows" -> LUSTRES  (missing from definition_answers_augmented)
+  SANCTIONS: "Punishes" -> SANCTIONS  (missing from definition_answers_augmented)
+  SALTIRE: "cross" -> SALTIRE  (missing from definition_answers_augmented)
+  LESSENS: "Reduces" -> LESSENS  (missing from definition_answers_augmented)
+  LETTERS: "Landlords perhaps providing B&Bs?" -> LETTERS  (missing from definition_answers_augmented)
+  SWAMI: "Sage" -> SWAMI  (missing from definition_answers_augmented)
+  EATEN: "Consumed" -> EATEN  (missing from definition_answers_augmented)
+  PERSONALLY: "Particularly" -> PERSONALLY  (missing from definition_answers_augmented)
+  CURDLED: "turned" -> CURDLED  (missing from definition_answers_augmented)
+  ABED: "Sleeping" -> ABED  (missing from definition_answers_augmented)
+  BLIMP: "Balloon" -> BLIMP  (missing from definition_answers_augmented)
+  OPPOSES: ease -> OSE  (missing from synonyms_pairs)
+  LUSTRES: with -> RE  (missing from synonyms_pairs)
+  TRIPE: complete -> RIPE  (missing from synonyms_pairs)
+  ABED: US president -> ABE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  LUSTRES = 19 (47/100): AI=anagram, assembled=charade
+  TOSH = 29 (70/100): AI=charade, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES — answer used in own explanation (2)
+------------------------------------------------------------
+  TERRORISM = 10 (50/100): answer used in own explanation
+  OVERSPILL = 18 (50/100): answer used in own explanation
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  DESPOIL = 17 (50/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (7)
+------------------------------------------------------------
+  11. Attacks friends with ease, oddly = OPPOSES
+  20. Possibly cure anger getting cross = SALTIRE
+  21. Reduces lectures for the audience = LESSENS
+  22. Sage with almost mystical insight, initially = SWAMI
+  25. Consumed tuck, maybe in school, reportedly = EATEN
+  30. Particularly friendly covering Queen's playing = PERSONALLY
+  7. Balloon beginning to be deflated = BLIMP
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  14/32  9A, 12A, 15A, 24A, 27A, 1D, 1D, 3D, 4D, 8D, 14D, 16D, 23D, 26D
+  Type mismatch:         2  19A, 29A
+  Circular assembly:     2  10A, 18D
+  Unverified explain.:   1  17A
+  DB gap:                13  6A, 13A, 19A, 22A, 28A, 30A, 2D, 5D, 7D, 11D, 20D, 21D, 25D
+  Failed:                7  22A, 30A, 7D, 11D, 20D, 21D, 25D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    1A  DISRESPECT    Crooked press cited for contempt (10)
+                      anagram of PRESSCITED(press cited)  [HIGH]
+    1D  DUPE          Fool expected to seize power (4)
+                      P(abbr. "power") inside DUE(synonym of "expected")  [HIGH]
+   10A  TERRORISM     Inadvertent error is made about menace (9)
+                      hidden in 'inadvertenT ERROR IS Made'  [MED]
+   11D  OPPOSES       Attacks friends with ease, oddly (7)
+                      ---  [FAIL]
+   12A  TRAVAIL       Labour regularly wanting Tory help (7)
+                      TR(alternate letters of "Tory") + AVAIL(synonym of "help")  [HIGH]
+   13A  PIPER         One plays pibroch's opening in support (5)
+                      P(first letter of "pibroch's opening") inside PIER(synonym of "support")  [HIGH]
+   14D  OPALESCENT    Shot scene with a plot rewritten (10)
+                      anagram of SCENE(scene)+A(a)+PLOT(plot)  [HIGH]
+   15A  PROPANE       Old man in flat producing gas (7)
+                      PA(synonym of "Old man") inside PRONE(synonym of "flat")  [HIGH]
+   16D  ARRAIGN       Impeach a government, it's said (7)
+                      double definition  [MED]
+   17A  DESPOIL       Loot is piled so high? (7)
+                      delete S from ISPLEDSO(is piled so), anagram of IPLEDSO  [MED]
+   18D  OVERSPILL     Discovers pillagers pinching surplus (9)
+                      hidden in 'discOVERS PILLagers'  [MED]
+   19A  LUSTRES       Desire concerned with small soft glows (7)
+                      LUST(synonym of "Desire") + RE(synonym of "with") + S(abbr. "small")  [MED]
+    2D  SANCTIONS     Punishes Spassky's initial moves capturing knight (9)
+                      S(first letter of "Spassky's") + N(abbr. "knight") inside ACTIONS(actions)  [MED]
+   20D  SALTIRE       Possibly cure anger getting cross (7)
+                      ---  [FAIL]
+   21A  LESSENS       Reduces lectures for the audience (7)
+                      ---  [FAIL]
+   21D  LETTERS       Landlords perhaps providing B&Bs? (7)
+                      cryptic definition  [LOW]
+   22A  SWAMI         Sage with almost mystical insight, initially (5)
+                      ---  [FAIL]
+   23D  ATLAS         World map eventually detailed (5)
+                      double definition  [MED]
+   24A  LATHERS       Soaps after taking hot shower, firstly (7)
+                      double definition  [MED]
+   25D  EATEN         Consumed tuck, maybe in school, reportedly (5)
+                      ---  [FAIL]
+   26D  SEXY          Hot former partner in empty sensuality (4)
+                      EX(synonym of "former partner") inside SY(core of "sensuality")  [HIGH]
+   27A  EGLANTINE     Plant, say, fronting border trapping insect (9)
+                      ANT(synonym of "insect") inside EGLINE(fronting border)  [MED]
+   28A  TRIPE         Argument's ending with complete nonsense (5)
+                      T(last letter of "Argument") + RIPE(synonym of "complete")  [MED]
+   29A  TOSH          Drunkard back with hard stuff (4)
+                      reverse SOT(synonym of "Drunkard") + H(abbr. "hard")  [MED]
+    3D  EXTRA         Raising skill, kiss sweetheart for more (5)
+                      E(core of "sweetheart") + X(synonym of "kiss") + TRA(reversal of "skill")  [MED]
+   30A  PERSONALLY    Particularly friendly covering Queen's playing (10)
+                      ---  [FAIL]
+    4D  POTTAGE       Footman carrying too much soup (7)
+                      OTT(synonym of "too much") inside PAGE(synonym of "Footman")  [MED]
+    5D  CURDLED       Dog guided around field finally turned (7)
+                      CUR(synonym of "Dog") + D(last letter of "field") + LED(synonym of "guided")  [MED]
+    6A  ABED          Sleeping US president before Democrat (4)
+                      ABE(synonym of "US president") + D(abbr. "Democrat")  [MED]
+    7D  BLIMP         Balloon beginning to be deflated (5)
+                      ---  [FAIL]
+    8D  DEMORALISE    Discourage passing, taking exam (10)
+                      ORAL(synonym of "exam") inside DEMISE(passing)  [HIGH]
+    9A  Pinot         Measure bottling old wine (5)
+                      O(abbr. "old") inside PINT(synonym of "Measure")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] DISRESPECT  1A. Crooked press cited for contempt
+  Answer: DISRESPECT
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "contempt"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     press cited               -> PRESSCITED
+  Assembly: anagram — anagram of PRESSCITED(press cited)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/1 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      crooked: syn=EAT,OFF,AWRY,BENT,FAST,FAUX,WAVY,ABOUT,BOWED,CRAZY,CURVY,DUMMY,FALSE,LYING,MIMIC; ind=anagram
+      press: syn=A,DO,A A,ARM,COP,DIG,HUG,JAM,LIE,NAB,NET,RAP,USE,ARMS,ARMY
+      cited: syn=NAMED,NOTED,QUOTED,ADDUCED,DROPPED,NOTICED,INSTANCED,MENTIONED,SPECIFIED
+      for: syn=IS*,AS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      contempt: syn=DISRESPECT*,AIR,JOB,ROAD,SCORN,DESPITE,DISDAIN,MOCKERY,OFFENCE,SHOWING,TO TRICK
+    Definitions:
+      "contempt" -> DISRESPECT (definition match)
+  AI Reasoning:
+    Definition: "contempt" (DISRESPECT is a synonym for contempt).
+    Wordplay: anagram. "crooked" is the anagram indicator. "for" is a deletion indicator, but there's nothing clear to delete here.
+    Looking at the structure: "press cited" could be anagram fodder.
+    PRESS CITED → rearranged → DISRESPECT.
+    
+    The anagram of PRESS CITED gives all 11 letters needed for DISRESPECT.
+  ----------------------------------------------------------------------
+
+  [HIGH] DUPE  1D. Fool expected to seize power
+  Answer: DUPE
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Fool"
+  Wordplay type: container
+  Components:
+    synonym            expected                  -> DUE
+    abbreviation       power                     -> P
+  Assembly: container — P(abbr. "power") inside DUE(synonym of "expected")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (4 hedges)
+  DB Lookups:
+    DB lookups:
+      fool: syn=DUPE*,DO,ASS,BOD,BOG,BUG,BUM,DAM,EGG,EYE,FAN,GIT,KID,LAG,LOO; abbr=ASS,CLOT
+      expected: syn=DUE*,24,NEAR
+      to: syn=UP*,BY,OF,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      seize: syn=DO,A A,BAG,COP,DIG,GET,NAB,NET,RAP,RED,SEE,USE,BOOK,BUST,DEAD; sounds=seas,sees
+      power: syn=ARM,SEA,AMPS,ARMS,CARE,CITY,FORT,FUEL,GRIP,HELP,HOLD,POOL,SWAY,TOOL,WALL; abbr=P*
+    Definitions:
+      "Fool" -> DUPE (definition match)
+  AI Reasoning:
+    Definition: "Fool" (DUPE is a synonym for fool).
+    Wordplay: reversal. "to" is the reversal indicator. "expected" = DUE, "power" = P. DUE + P = DUEP, reversed = PEUD. This doesn't work.
+    
+    Let me reconsider: "expected to seize power" - this could be a container where "expected" (DUE) seizes/contains "power" (P). DUE containing P = D(P)UE = DPUE. Still doesn't work.
+    
+    Actually, looking at the known lookups: "fool" = DUPE is the definition, so the wordplay must produce DUPE from the remaining words. "expected" = DUE, "power" = P. If DUE + P reversed = PEUD, that's not right.
+    
+    Wait - maybe it's DU(P)E: "expected" = DUE, and it "seizes" P to become DU(P)E = DUPE. The reversal indicator "to" might be misdirection or I'm misreading the structure.
+    
+    Actually: DUE seizes P = DU(P)E = DUPE. The "to" reversal indicator seems to be a red herring here - this is a container operation.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TERRORISM  10A. Inadvertent error is made about menace
+  Answer: TERRORISM
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "menace"
+  Wordplay type: hidden
+  Components:
+    hidden             Inadvertent error is made -> TERRORISM
+  Assembly: hidden — hidden in 'inadvertenT ERROR IS Made'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | type_evidence=assembled, AI agrees | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | ai_uncertain=AI expressed significant uncertainty (6 hedges)
+  DB Lookups:
+    DB lookups:
+      inadvertent: syn=CHANCE
+      error: syn=OLD,BISH,BOOB,BUGS,SLIP,TRIP,TYPO,AMISS,BOTCH,CRIME,FAULT,LAPSE,WRONG,HOWLER,MISHAP; ind=anagram
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      made: syn=ARM,DID,DUG,GOT,HAD,HIT,PUT,RAN,SAW,WON,ACED,BORE,BORN,BRED,DREW; ind=anagram?; sounds=maid
+      about: syn=OR*,AS,BY,CA,OF,ON,RE,TO,UP,ARC,BOW,BUT,CUT,ODE,SAY; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      menace: syn=TERRORISM*,ARM,BOX,TEN,HANG,RISK,BULLY,PERIL,TOUGH,DANGER,THREAT,DANGER!,TROUBLE,DOMINEER,JEOPARDY; ind=anagram?
+    Definitions:
+      "menace" -> TERRORISM (definition match)
+  AI Reasoning:
+    Definition: "menace" (terrorism is a menace).
+    Wordplay: anagram. "error" and "made" are anagram indicators. "about" could be an anagram indicator here too.
+    Fodder: "Inadvertent" + "is" → INADVERTENTIS → rearranged → TERRORISM.
+    
+    Wait, let me count: INADVERTENTIS has 13 letters, but TERRORISM has 9. Let me reconsider.
+    
+    Actually: "Inadvertent error is" as anagram fodder. INADVERTENTERRORIS has too many letters.
+    
+    Let me try: "error is" + "about" as anagram fodder with "made" as indicator.
+    ERRORIS + ABOUT = ERRORISABOUT (13 letters) - still too many.
+    
+    Rethinking: "is made about" could mean "is" is the anagram fodder, "made" is the indicator, and we need to work "about" in differently.
+    
+    Actually: "Inadvertent" (anagram fodder) with "error" as anagram indicator gives us letters to rearrange. But INADVERTENT (11 letters) ≠ TERRORISM (9 letters).
+    
+    Let me try: "is" + "menace" as anagram fodder, with "error", "made", or "about" as indicator.
+    IS + MENACE = ISMENACE (8 letters) - close but not 9.
+    
+    Correction: Looking more carefully - "error is made about menace" - taking "error is" as anagram fodder with "made" as indicator, and "about menace" meaning around/containing MENACE... but this doesn't work cleanly.
+    
+    Final attempt: "is" + "menace" with "error" as anagram indicator: ISMENACE → but this gives 8 letters for a 9-letter answer.
+    
+    Actually: "error" = SIN, "is made about" = anagram of IS around something... Let me try: TERRORIST without the final T? No.
+    
+    I believe this is: anagram of "ERROR" + "IS" + "M" (from menace) = ERRORISM → TERRORISM. But that's not quite right either.
+    
+    The anagram fodder must be "ERROR" + "IS" + "M" from "menace" = TERRORISM when rearranged.
+  ----------------------------------------------------------------------
+
+  [FAILED] OPPOSES  11D. Attacks friends with ease, oddly
+  Answer: OPPOSES
+  Tier: --- | Confidence: 0/100
+  Definition: "Attacks"
+  Wordplay type: anagram
+  Components:
+    synonym            friends                   -> PALS
+    synonym            ease                      -> OSE
+  DB Lookups:
+    DB lookups:
+      attacks: syn=FIT,BOUT,CASE,MAIN,RAID,RUSH,SLAM,ABUSE,BESET,BLAST,MAULS,ONSET,RAIDS,SIEGE,SPELL
+      friends: syn=GANG,KITH,MAIN,PALS,CHUMS,MATES,ALLIES,AMIGOS,CHINAS,SITCOM,BACKERS,BUDDIES,CRONIES,HERALDS,BUD; abbr=ALLY,PAL
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      ease: syn=SO,DIE,EBB,LET,ARTS,BASK,CALM,DENT,DROP,FALL,HELP,LOLL,MAKE,PALL,REST
+      oddly: syn=FUNNILY,QUEERLY,WEIRDLY; ind=anagram,parts
+  AI Reasoning:
+    Definition: "Attacks" (opposes means attacks or confronts).
+    Wordplay: anagram. "oddly" is the anagram indicator.
+    Fodder: "friends with ease" = PALS + EASE = PALSEASE → rearranged → OPPOSES.
+    
+    Wait, let me recalculate: PALS (4) + EASE (4) = 8 letters, but OPPOSES is 7 letters.
+    
+    Let me try: "friends" = PALS, "with ease" = POSE (synonym for ease/comfort). PALS + POSE = PALSPOSE (8 letters) - this doesn't work.
+    
+    Actually: "friends" = PALS, "ease" = POSE. PALSPOSE anagrammed... no, still 8 letters.
+    
+    Let me try: "friends" = OPES (plural of ope, meaning friends/companions), "ease" = POS... No.
+    
+    Rethinking: "friends with ease" as one unit = POSEPALS or similar...
+    
+    Actually: "friends" = PPOSE (no), "ease" = OSE...
+    
+    Let me try: OPPOSE + S. "friends with ease" = OPPOSSE minus one S = OPPOSE, then add S for plural "Attacks" = OPPOSES.
+    
+    Actually, simpler: "friends with ease" = OPPOSSE (anagram fodder), rearranged = OPPOSES.
+    
+    Wait: OPPOSE (7 letters) needs 7 letters of fodder. "friends" (4) + "ease" (4) = 8.
+    
+    Let me try: "friends" = PALS, "ease" = OSE... PALSOSE = 7 letters → OPPOSES.
+  ----------------------------------------------------------------------
+
+  [HIGH] TRAVAIL  12A. Labour regularly wanting Tory help
+  Answer: TRAVAIL
+  Tier: Sonnet | Confidence: 86/100
+  Definition: "Labour"
+  Wordplay type: charade
+  Components:
+    alternate_letters  Tory                      -> TR
+    synonym            help                      -> AVAIL
+  Assembly: charade — TR(alternate letters of "Tory") + AVAIL(synonym of "help")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (1 hedges)
+  DB Lookups:
+    DB lookups:
+      labour: syn=TRAVAIL*,DRAG,LEFT,TASK,TOIL,WORK,PARTY,SWEAT,BALLOT,STRAIN,STRIVE,WORKING; abbr=L*,LAB
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      wanting: syn=BAD,ILL,LOW,NOT,OFF,SHY,WIN,BUSH,CURT,FAST,FROM,HURT,LAME,LESS,POOR; ind=deletion
+      tory: syn=CON,BLUE,RIGHT; abbr=C,CON,T*
+      help: syn=AVAIL*,ME,AID,HIM,MAN,SOS,ABET,AIDS,BACK,BOON,CARE,EASE,FILL,GIRL,HAND; abbr=AID
+    Definitions:
+      "Labour" -> TRAVAIL (definition match)
+  AI Reasoning:
+    Definition: "Labour" (TRAVAIL is a synonym for labour/toil).
+    Wordplay: deletion. "regularly" indicates taking regular letters (every other letter). "wanting" is the deletion indicator.
+    
+    From "Tory help": T (Tory abbreviation) + AVAIL (help synonym) = TAVAIL.
+    Taking regular letters from TAVAIL = T_A_A_L = TAAL? No, that doesn't work.
+    
+    Let me reconsider: "regularly wanting Tory help" - if "wanting" means deletion, then we delete regular letters from "Tory help".
+    TORY HELP → taking irregular letters (since regular ones are "wanting"/deleted) → T_R_ _E__ → TR + E = TRE? No.
+    
+    Actually: TR (irregular letters from TORY) + AVAIL (help) = TRAVAIL.
+    "regularly wanting" = delete regular letters, leaving TR from TORY, then + AVAIL = TRAVAIL.
+  ----------------------------------------------------------------------
+
+  [HIGH] PIPER  13A. One plays pibroch's opening in support
+  Answer: PIPER
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "One plays pibroch"
+  Wordplay type: container
+  Components:
+    synonym            support                   -> PIER
+    first_letter       pibroch's opening         -> P
+  Assembly: container — P(first letter of "pibroch's opening") inside PIER(synonym of "support")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      one: syn=UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO,YOU,YUK,BIAS; abbr=A,ACE,I*,O; sounds=won
+      plays: syn=END,ACTS,BETS,FITS,GOES,LAYS,PUTS,ROLE,SAYS,SETS,TOYS,CALLS,EDITS,FINES,FIXES; ind=anagram
+      opening: syn=DEN,GAP,PIT,RIP,STY,ADIT,BIND,DARK,DENT,DINT,DOOR,DUMP,GASH,GATE,GULF; abbr=DOOR; ind=acrostic,deletion,parts
+      in: syn=PER*,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      support: syn=PIER*,A,GO,ME,OK,OR,SO,AID,AIM,BRA,HIM,LEG,MET,TEE,ABET; abbr=AID,BACK,BRA,TEE
+      one plays: syn=GAMER
+  AI Reasoning:
+    Definition: "One" who "plays pibroch" (a piper plays pibroch, which is a type of bagpipe music).
+    
+    Wordplay: charade. "pibroch's opening" = P (first letter of "pibroch"). "in support" = P inside PIER (where "support" = PIER from known lookups, and "in" is the container indicator). P in PIER = PIPER.
+  ----------------------------------------------------------------------
+
+  [HIGH] OPALESCENT  14D. Shot scene with a plot rewritten
+  Answer: OPALESCENT
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "Shot"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     scene                     -> SCENE
+    literal            a                         -> A
+    anagram_fodder     plot                      -> PLOT
+  Assembly: anagram — anagram of SCENE(scene)+A(a)+PLOT(plot)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      shot: syn=ALE*,OPALESCENT*,GO,IN,BID,DID,FLY,GIN,GUN,HIE,JAB,MUG,MUM,NIP,PEG; abbr=GO; ind=anagram
+      scene: syn=DO,ACT,DIG,FIT,GET,HIT,PUT,SEE,SET,WIN,BEAR,CALL,DEAL,DRAW,EARN; sounds=seen
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      plot: syn=BED,LEA,LOT,HOPE,LAWN,MOOR,PLAN,PLAT,SITE,A LOT,ACRES,CABAL,CHART,CROFT,FIELD; abbr=BED,WEB
+      rewritten: ind=anagram
+      with a: syn=SEA GOD
+    Definitions:
+      "Shot" -> OPALESCENT (definition match)
+  AI Reasoning:
+    Definition: "Shot" (opalescent means having a shot-silk appearance with changing colors).
+    Wordplay: anagram. "rewritten" is the anagram indicator.
+    Fodder: SCENE + A + PLOT → rearranged → OPALESCENT.
+  ----------------------------------------------------------------------
+
+  [HIGH] PROPANE  15A. Old man in flat producing gas
+  Answer: PROPANE
+  Tier: Sonnet | Confidence: 95/100
+  Definition: "gas"
+  Wordplay type: container
+  Components:
+    synonym            flat                      -> PRONE
+    synonym            Old man                   -> PA
+  Assembly: container — PA(synonym of "Old man") inside PRONE(synonym of "flat")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      old: syn=PA*,EX,ME,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      man: syn=ED,HE,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,JOE,KID,LAD,LUG; abbr=AL,DAN,ED,HE,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      flat: syn=PRONE*,OK,AGE,ALL,DIM,DRY,OLD,ONE,OUT,PAD,SET,ABLY,AGED,ARID,BARE; abbr=EVEN,PAD; ind=anagram?
+      producing: syn=RISE,DOING,GOING,CEDING,GIVING,HAVING,MAKING,SAVING,BEARING,CAUSING,FEEDING,HANDING,LEAVING,PASSING,VESTING; ind=anagram
+      gas: syn=PROPANE*,GAB,HOT,JAW,JOY,RAP,RUN,AIRS,BLAB,BRAG,CHAT,FUEL,HAVE,KICK,NEAR; ind=anagram?
+      old man: abbr=DAD,PA*
+      old man: syn=PA*,AGE,BOD,BOY,CAT,DAD,EGG,GUY,JOE,LAD
+    Definitions:
+      "gas" -> PROPANE (definition match)
+  AI Reasoning:
+    Definition: "gas" (propane is a gas).
+    Wordplay: container. "in" is the container indicator. "old man" = PA (confirmed lookup). "flat" = PRONE (synonym for flat/lying down). PA inside PRONE = PR(PA)ONE = PROPANE.
+    
+    Wait, that gives PRPAONE. Let me reconsider.
+    
+    Actually: "flat" = PRONE, and PA goes inside it: PRO(PA)NE = PROPANE.
+  ----------------------------------------------------------------------
+
+  [HIGH] ARRAIGN  16D. Impeach a government, it's said
+  Answer: ARRAIGN
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Impeach"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      impeach: syn=ARRAIGN*,ACCUSE,CHARGE,ACCUSED,ACCUSER
+      government: syn=ARM,RAJ,AS A,CARE,GRIP,HOLD,RULE,SWAY,WILL,CIVIC,CIVIL,GRASP,HANDS,POWER,REIGN; abbr=G*
+      it's: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED,ALLEGED,ASSUMED,AVERRED,CLOTHED,COUCHED,INTONED; ind=homophone
+      it's said: syn=ORAL
+    Definitions:
+      "Impeach" -> ARRAIGN (definition match)
+  AI Reasoning:
+    Definition: "Impeach" (ARRAIGN means to formally charge/impeach).
+    Wordplay: homophone. "it's said" is the homophone indicator. "a government" = A + G = AG, which sounds like "arraign" when spoken aloud.
+    
+    Wait, that doesn't work phonetically. Let me reconsider.
+    
+    Actually, this appears to be a double definition: "Impeach" and "arraign" are synonyms (both mean to formally charge), so the entire clue is defining ARRAIGN in two ways. The "it's said" may be part of the surface reading rather than indicating a homophone mechanism.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DESPOIL  17A. Loot is piled so high?
+  Answer: DESPOIL
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Loot"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     is piled so               -> ISPLEDSO
+  Assembly: deletion+anagram — delete S from ISPLEDSO(is piled so), anagram of IPLEDSO
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      loot: syn=DESPOIL*,WAR,HAUL,LONG,NOTE,PLAY,RAID,SACK,SWAG,LEGAL,MONEY,PRIZE,RIFLE,CHANGE,RICHES; sounds=lute
+      is: syn=IL*,DO,GE,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      piled: fodder=PILED(5/7 anagram match)
+      so: syn=BY,OK,ON,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET,ALSO; sounds=sew,sow
+      high: syn=OR,UP,BIG,CUT,DIS,ITS,LIT,OFF,PIE,POP,SKY,TOP,WET,ACME,AIRY; abbr=H,UP; ind=anagram; sounds=hi
+    Definitions:
+      "Loot" -> DESPOIL (definition match)
+  AI Reasoning:
+    Definition: "Loot" (DESPOIL means to loot or plunder).
+    Wordplay: anagram. "high" is the anagram indicator.
+    Fodder: "is piled so" → rearranged → DESPOIL.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OVERSPILL  18D. Discovers pillagers pinching surplus
+  Answer: OVERSPILL
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "surplus"
+  Wordplay type: hidden
+  Components:
+    hidden             Discovers pillagers       -> OVERSPILL
+  Assembly: hidden — hidden in 'discOVERS PILLagers'
+  Checks: definition=confirmed in DB | wordplay_type=hidden | type_evidence=assembled, AI agrees | yields_check=hidden (self-evident) | pieces_validated=1/1 (100%) | fodder_in_clue=all present | circular_assembly=answer used in own explanation | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      discovers: syn=SPILL*,BAGS,BUGS,COPS,DIGS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,BAILS,BOOKS; ind=parts
+      pillagers: syn=LOOTERS,RAIDERS,BURGLARS,ROBBER; fodder=PILLAGERS(7/9 anagram match)
+      pinching: syn=MEAN,CHEAP,CLOSE,MINGY,SPARE,THEFT,TIGHT,STINGY,CHINTZY,MISERLY,SPARING,STINTING,PENURIOUS; ind=container
+      surplus: syn=OVER*,OVERSPILL*,BATH,FLUX,GLUT,GUSH,TIDE,CANAL,EXTRA,FLOOD,FLUME,FLUSH,RIVER,SPATE,SWASH
+    Definitions:
+      "surplus" -> OVERSPILL (definition match)
+  AI Reasoning:
+    Definition: "surplus" (overspill means surplus or excess).
+    Wordplay: container. "discovers" indicates to find parts within. "pillagers" = SPILL (synonym for pillagers/raiders). "pinching" is the container indicator. OVER (surplus) goes around SPILL: O-V-E-R pinching S-P-I-L-L = OVERSPILL.
+    
+    Wait, that doesn't work. Let me reconsider:
+    
+    "pinching" indicates SPILL contains OVER: SP(OVER)ILL = SPOVERLILL ≠ OVERSPILL.
+    
+    Actually: OVER + SPILL = OVERSPILL as a simple charade, where "pinching" might be misdirection or "discovers" indicates the parts are OVER + SPILL.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LUSTRES  19A. Desire concerned with small soft glows
+  Answer: LUSTRES
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "glows"
+  Wordplay type: anagram
+  Components:
+    synonym            Desire                    -> LUST
+    synonym            with                      -> RE
+    abbreviation       small                     -> S
+  Assembly: charade — LUST(synonym of "Desire") + RE(synonym of "with") + S(abbr. "small")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      desire: syn=LUST*,DIE,FOR,YEN,ACHE,ENVY,EROS,HOPE,ITCH,LONG,LOVE,SEEK,URGE,WANT,WISH; abbr=LONG
+      concerned: syn=CARING,SCARED,UNEASY,ALARMED,ANXIOUS,RELATED; ind=anagram?
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      small: syn=ARM,FEW,GUN,OFF,PEN,RAP,TWO,WEE,BABY,CHAT,FINE,HALF,LESS,POKY,PUNY; abbr=S*
+      soft: syn=DIM,LOW,WET,COZY,DULL,DUMB,EASY,FLAT,LIMP,MILD,SLOW,SNAP,SNUG,VERY,WEAK; abbr=P
+      glows: syn=AT,OIL,RAY,WAY,BEAM,BOTH,HALO,JUMP,LEAP,STEP,BLAZE,BOUND,COLOR,DRIFT,FLARE
+      concerned with: abbr=OF,ON,RE*
+      concerned with: syn=RE*,APSE,BEST,NOOK,RULE,SIZE,BREAK,CHIEF,DRINK,IDEAL
+  AI Reasoning:
+    Definition: "glows" (lustres are glows/shines).
+    Wordplay: anagram. "concerned" is the anagram indicator.
+    Fodder: LUST (desire) + RE (concerned with) + S (small) → rearranged → LUSTRES.
+  ----------------------------------------------------------------------
+
+  [HIGH] SANCTIONS  2D. Punishes Spassky's initial moves capturing knight
+  Answer: SANCTIONS
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Punishes"
+  Wordplay type: container
+  Components:
+    first_letter       Spassky's                 -> S
+    abbreviation       knight                    -> N
+    anagram_fodder     actions                   -> ACTIONS
+  Assembly: container — S(first letter of "Spassky's") + N(abbr. "knight") inside ACTIONS(actions)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=missing: ['actions'] | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      punishes: syn=PENALISES
+      initial: syn=SIGN,FIRST,LETTER,CONFIRM,ENDORSE,OPENING,ORIGINAL,SIGN JUST; ind=acrostic,parts
+      moves: syn=BAGS,BUGS,COPS,DIGS,GETS,GOES,ICES,LAGS,LIES,NABS,NETS,OFFS,RAPS,RUNS,SAGS; abbr=GO; ind=anagram
+      capturing: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      knight: syn=DUB,MAN,SIR,OF A,HORSE,PIECE,RIDER,ERRANT,GAWAIN,JUMPER,COUNTRY,HOTSPUR,MORDRED,PALADIN,BANNERET; abbr=K,N*; sounds=night
+  AI Reasoning:
+    Definition: "Punishes" (sanctions means punishes).
+    
+    Wordplay: container. "Spassky's initial" = S (first letter of Spassky, using acrostic indicator "initial"). "moves" is an anagram indicator. The anagram fodder appears to be letters that go around the knight (N).
+    
+    Looking at SANCTIONS = S + ANCTION + S, where N is contained. So we need ANCTIONS as anagram fodder around N.
+    
+    Actually: "moves" indicates anagram of some letters, "capturing knight" means the anagram contains N. The anagram fodder would be the remaining letters: SACTIOS rearranged around N gives SANCTIONS.
+    
+    Wait, let me reconsider: S (Spassky's initial) + anagram of letters + N (knight) contained = SANCTIONS.
+    
+    The structure is: S + (anagram containing N) = SANCTIONS.
+    So the anagram fodder that contains N and produces ANCTIONS must be worked out from the remaining letters to make SANCTIONS work.
+  ----------------------------------------------------------------------
+
+  [FAILED] SALTIRE  20D. Possibly cure anger getting cross
+  Answer: SALTIRE
+  Tier: --- | Confidence: 0/100
+  Definition: "cross"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     cure                      -> CURE
+    anagram_fodder     anger                     -> ANGER
+  DB Lookups:
+    DB lookups:
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY; ind=anagram
+      cure: syn=FIX,DRUG,HEAL,MAKE,SMOKE,TREAT,KIPPER,REMEDY,WONDER,NOSTRUM,PANACEA; ind=anagram?
+      anger: syn=IRE*,AIR,BUG,KEY,SIN,FURY,MIFF,RAGE,RILE,ROAD,ROIL,FUROR,RANGE,TAPIR,WRATH; abbr=IRE*,RAGE; ind=anagram?
+      getting: syn=AGED,GOING,ICING,WRONG,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING
+      cross: syn=SALTIRE*,GO,TV,BED,BOX,CUT,MAD,TWO,WAY,ANKH,BOTH,CARD,COME,CRUX,EASY; abbr=ROOD,X
+    Definitions:
+      "cross" -> SALTIRE (definition match)
+  AI Reasoning:
+    Definition: "cross" (a saltire is a heraldic cross).
+    Wordplay: anagram. "Possibly" is the anagram indicator.
+    Fodder: "cure anger" = CURE + ANGER → rearranged → SALTIRE.
+  ----------------------------------------------------------------------
+
+  [FAILED] LESSENS  21A. Reduces lectures for the audience
+  Answer: LESSENS
+  Tier: --- | Confidence: 0/100
+  Definition: "Reduces"
+  Wordplay type: homophone
+  Components:
+    synonym            lectures                  -> LESSONS
+  DB Lookups:
+    DB lookups:
+      reduces: syn=LESSENS*,LESSEN*,CUTS,DOCKS,ATTRITS,CUT,LEG,NEW,BUST,DENT,DOCK,DROP,EASE,EVEN,SINK
+      lectures: syn=TASK,TONGUE,ROCKETS,TIRADES,INTO,RATE,TALK,ORATE,SCORE,SENSE,SPEAK,TEACH,PREACH,REBUKE,ROCKET; abbr=L*
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      audience: syn=CROWD,HOUSE,PUBLIC,HEARING; ind=homophone
+    Definitions:
+      "Reduces" -> LESSENS (definition match)
+  AI Reasoning:
+    Definition: "Reduces" (LESSENS is a synonym for reduces).
+    Wordplay: homophone. "for the audience" indicates a homophone. "lectures" = LESSONS (synonym), which sounds like LESSENS when spoken aloud.
+  ----------------------------------------------------------------------
+
+  [LOW] LETTERS  21D. Landlords perhaps providing B&Bs?
+  Answer: LETTERS
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "Landlords perhaps providing B&Bs?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      landlords: syn=LETTERS*,LETTER*,HOST,OWNER; ind=anagram?
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      providing: syn=IF,GIVEN,GOING,CEDING,GIVING,HAVING,SAVING,AS LONG,BEARING,EDIFICE,FEEDING,HANDING,LEAVING,PASSING,VESTING; abbr=IF; ind=anagram,hidden
+  AI Reasoning:
+    Looking at this clue, I need to identify the definition and wordplay mechanism.
+    
+    Definition: "B&Bs" (letters of the alphabet - B and B are letters)
+    
+    Wordplay: The indicator words show this is an anagram. "perhaps" is the anagram indicator.
+    
+    Fodder: "LETTERS" can be rearranged to spell... wait, that's the answer itself.
+    
+    Let me reconsider: "Landlords" = LETTERS (anagram fodder). "perhaps" signals anagram. LANDLORDS rearranged gives... no, that's 9 letters for a 7-letter answer.
+    
+    Actually, this appears to be a cryptic definition. "Landlords perhaps providing B&Bs" - landlords provide accommodations (B&Bs = bed and breakfasts), but cryptically, they provide "letters" (as in rental letters/documents, or the letters B&B themselves). The whole clue defines LETTERS cryptically rather than using standard wordplay.
+  ----------------------------------------------------------------------
+
+  [FAILED] SWAMI  22A. Sage with almost mystical insight, initially
+  Answer: SWAMI
+  Tier: --- | Confidence: 0/100
+  Definition: "Sage"
+  Wordplay type: charade
+  Components:
+    abbreviation       with                      -> W
+    deletion           almost mystical           -> MYSTI
+    first_letter       insight, initially        -> I
+  DB Lookups:
+    DB lookups:
+      sage: syn=GURU,WISE,GREEN,RISHI
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W*
+      almost: syn=AN,OR,TO,BUT,FAIR,JUST,LESS,MORE,MOST,MUCH,NEAR,NEXT,NIGH,SOME,ABOUT; abbr=E,P,R; ind=parts
+      insight: syn=GRASP; sounds=incite
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+  AI Reasoning:
+    Definition: "Sage" (a swami is a sage/wise person).
+    Wordplay: charade. "with" = W (confirmed abbreviation). "almost mystical" = MYSTIC with last letter deleted (indicated by "almost") = MYSTI. "insight, initially" = I (first letter of "insight").
+    W + MYSTI + I = WMYSTII...
+    
+    Wait, let me reconsider. "initially" is flagged as an acrostic indicator. So "mystical insight, initially" could mean taking the initial letters: M (mystical) + I (insight) = MI.
+    
+    W + "almost mystical" (MYSTI) + MI doesn't work either.
+    
+    Let me try: W + S (first letter of "sage"?) + A + M + I...
+    
+    Actually, rethinking the structure: "almost mystical insight, initially" - if "initially" is acrostic, then we take initials of "mystical insight" = MI. But "almost" modifies this, so "almost MI" = M.
+    
+    W + "almost mystical insight, initially" = W + M + remaining letters...
+    
+    Let me try: W + SWAM (anagram of some letters?) + I = SWAMI.
+    
+    Actually: W + S (from somewhere) + A + M + I. The S, A, M could come from rearranging letters from "mystical" with deletions/modifications.
+    
+    W + SAMI (from "mystical" rearranged/modified) = WSAMI ≠ SWAMI.
+    
+    Reconsidering: S + W + A + M + I. If "with" = W, and we need S-A-M-I from "mystical insight" with modifications indicated by "almost" and "initially".
+    
+    SWAMI = S + W + A + M + I where W = "with", and SAMI comes from processing "mystical insight" with the given indicators.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ATLAS  23D. World map eventually detailed
+  Answer: ATLAS
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "map"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      world: syn=CAP,KIN,LID,ACME,APEX,FOLK,HEAD,MARS,PEAK,RACE,CASTE,COVER,CROWN,EARTH,FOLKS; ind=anagram?; sounds=whirled
+      map: syn=FACE,PLAN; abbr=AZ
+      eventually: syn=OR,YET,AGAIN,LATER; ind=parts
+      detailed: syn=FULL,FANCY; ind=deletion,parts
+    Definitions:
+      "World map" -> ATLAS (definition match)
+  AI Reasoning:
+    Definition: "map" (an atlas is a collection of maps).
+    Wordplay: deletion. "World" is flagged as an anagram indicator, but let me check deletion first since "detailed" is a deletion indicator. "World" = WORLD, but that's 5 letters and doesn't work directly.
+    
+    Actually, looking at the indicators: "eventually" signals taking parts (like final letters), and "detailed" signals deletion.
+    
+    Let me try: "World" = WORLD, "eventually" means take the final letter = D. But that doesn't lead to ATLAS.
+    
+    Rethinking: "World" could be ATLAS itself (synonym for world/globe), and "detailed" (deletion indicator) removes something. But ATLAS is already the answer.
+    
+    Actually, simpler approach: "World" = ATLAS (direct synonym - an atlas represents the world). The indicators might be red herrings or the clue might be a straight definition where "World map" = ATLAS, with "eventually detailed" just being descriptive rather than wordplay.
+    
+    This appears to be a double definition: "World" = ATLAS and "map" = ATLAS.
+  ----------------------------------------------------------------------
+
+  [HIGH] LATHERS  24A. Soaps after taking hot shower, firstly
+  Answer: LATHERS
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Soaps"
+  Wordplay type: double_definition
+  Assembly: double_definition — double definition
+  Checks: definition=confirmed in DB | wordplay_type=double_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for double_definition | pieces_validated=n/a for double_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      soaps: syn=LATHERS*,WASHE,CORRIE,CLEANER,FLATTER
+      after: syn=THE*,LATER*,BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT; ind=anagram
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      hot: syn=A1,BE,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY,LIT; abbr=H*,IN
+      shower: syn=LOT,PELT,RAIN,REIGN,SALVO,SPRAY,DOUCHE,SOCIAL,SPRITZ,A STORM,CASCADE,REAPPLY; abbr=RAIN
+      firstly: ind=acrostic
+    Definitions:
+      "Soaps" -> LATHERS (definition match)
+  AI Reasoning:
+    Definition: "Soaps" (LATHERS is a synonym for soaps).
+    Wordplay: This appears to be a double definition where both "Soaps" and the rest of the clue define LATHERS.
+    
+    However, looking at the indicator words provided, there seems to be complex wordplay intended, but the known lookup confirms that "soaps" directly maps to LATHERS as a synonym, making this effectively a straightforward definition rather than requiring the indicated wordplay mechanisms.
+    
+    The answer LATHERS works as both a synonym for "soaps" (the cleaning agents) and relates to "shower" (creating lathers while showering).
+  ----------------------------------------------------------------------
+
+  [FAILED] EATEN  25D. Consumed tuck, maybe in school, reportedly
+  Answer: EATEN
+  Tier: --- | Confidence: 0/100
+  Definition: "Consumed"
+  Wordplay type: homophone
+  Components:
+    synonym            tuck, maybe in school     -> ETON
+  DB Lookups:
+    DB lookups:
+      consumed: syn=ATE*,EATEN*,DRY,ARID,BONY,DEAD,GONE,POOR,SERE,USED,BAKED,BLEAK,SPENT,STARK,WASTE; ind=container
+      tuck: syn=EATS,EDAM,FOLD,FOOD,PLEAT; ind=container
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER; ind=anagram
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      school: syn=GAM,POD,SCH,COED,ETON,GRIP,HIGH,LYCE,PACK,PREP,SECT,TASK,TECH,COACH,GRIPS; abbr=S,SCH
+      reportedly: syn=MAYBE; ind=homophone
+    Definitions:
+      "Consumed" -> EATEN (definition match)
+  AI Reasoning:
+    Definition: "Consumed" (eaten means consumed).
+    
+    Wordplay: homophone. "reportedly" is the homophone indicator.
+    "tuck, maybe in school" = ETON (the famous school where "tuck" might be found).
+    ETON sounds like EATEN when spoken aloud.
+  ----------------------------------------------------------------------
+
+  [HIGH] SEXY  26D. Hot former partner in empty sensuality
+  Answer: SEXY
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Hot"
+  Wordplay type: container
+  Components:
+    core_letters       sensuality                -> SY
+    synonym            former partner            -> EX
+  Assembly: container — EX(synonym of "former partner") inside SY(core of "sensuality")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      hot: syn=SEXY*,A1,BE,GO,HA,IN,OK,UP,AGE,AND,BIG,FAB,FAD,GAS,HEY; abbr=H,IN
+      former: syn=EX*,DRY,OLD,ONE,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,OLD,,ONCE,PAST,SLOW; abbr=EX*,OLD
+      partner: syn=FEE,JOB,MAN,NUN,PAL,PAY,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,FOLK,HALF,HIRE
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      empty: syn=NO,WIN,BARE,BEAR,DAMN,FLAT,FREE,IDLE,PURE,RANK,TOOM,VAIN,VOID; ind=container?,deletion,parts
+      former partner: abbr=EX*
+    Definitions:
+      "Hot" -> SEXY (definition match)
+  AI Reasoning:
+    Definition: "Hot" (sexy means hot/attractive).
+    Wordplay: container. "former partner" = EX. "empty sensuality" = S_Y (first and last letters of SENSUALITY). "in" is the container indicator. EX goes inside SY: S + EX + Y = SEXY.
+  ----------------------------------------------------------------------
+
+  [HIGH] EGLANTINE  27A. Plant, say, fronting border trapping insect
+  Answer: EGLANTINE
+  Tier: Sonnet | Confidence: 77/100
+  Definition: "Plant"
+  Wordplay type: container
+  Components:
+    anagram_fodder     fronting border           -> EGLINE
+    synonym            insect                    -> ANT
+  Assembly: container — ANT(synonym of "insect") inside EGLINE(fronting border)
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      plant: syn=EGLANTINE*,PUT,SOW,SPY,ACER,ALGA,ALOE,ARUM,BATS,DOCK,FERN,FLAG,FLAX,GUAR,HERB; abbr=P; ind=anagram
+      say: syn=EG*,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG*; ind=anagram,homophone
+      border: syn=BED,END,HEM,RIM,ABUT,BRIM,DADO,EDGE,BOUND,FRAME,HEDGE,LIMIT,SKIRT,VERGE,ADJOIN; sounds=boarder
+      trapping: syn=GOING,ICING,COMING,EATING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING,TAKING; ind=container
+      insect: syn=ANT*,O,BEE,BUG,DOR,FLY,SAY,CULT,FLEA,GNAT,MOTH,ZERO,APHID,BEAST,DWARF; abbr=ANT*
+    Definitions:
+      "Plant" -> EGLANTINE (definition match)
+  AI Reasoning:
+    Definition: "Plant" (eglantine is a type of wild rose plant).
+    
+    Wordplay: container. "trapping" is the container indicator.
+    - "fronting border" = EGLINE (front letters of words in "fronting border"? No, that doesn't work)
+    - Actually: "border" = EDGE, "fronting" = leading letters? No.
+    - Let me reconsider: "fronting border" = EGLINE (anagram of some letters?)
+    - Wait: "say" could be homophone indicator, but "plant, say" together might be anagram fodder.
+    - Actually: "fronting border" = EGLINE (letters from these words), containing "insect" = ANT.
+    - EGLINE containing ANT = EGL(ANT)INE = EGLANTINE.
+    
+    Let me reconsider the letter source for EGLINE: This appears to be an anagram. "say" is the anagram indicator for "fronting border" = EGLINE (anagram of letters from "fronting border"). Then EGLINE contains ANT = EGLANTINE.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TRIPE  28A. Argument's ending with complete nonsense
+  Answer: TRIPE
+  Tier: Sonnet | Confidence: 69/100
+  Definition: "nonsense"
+  Wordplay type: charade
+  Components:
+    last_letter        Argument                  -> T
+    synonym            complete                  -> RIPE
+  Assembly: charade — T(last letter of "Argument") + RIPE(synonym of "complete")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      argument's: syn=AND,ROW,SET,BEEF,CASE,CELL,CLUB,FEUD,FIRE,GIVE,RACE,SPAT,TALK,TIFF,A ROW; abbr=ROW
+      ending: syn=END,CODA,HALT,STAY,STOP,CEASE,CHECK,CLOSE,DYING,LAPSE; ind=parts
+      with: syn=BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      complete: syn=GO,IN,OK,UP,ACE,ALL,CAN,DIE,END,FIX,OPT,OUT,SET,BARE,BEAT
+      nonsense: syn=TRIPE*,NO,COD,ROT,TWO,BLAH,BOSH,BULL,BUNK,TALK,TOSH,BALLS,FOLLY,TRASH,TRUTH
+    Definitions:
+      "nonsense" -> TRIPE (definition match)
+  AI Reasoning:
+    Definition: "nonsense" (tripe means nonsense).
+    Wordplay: charade. "Argument's ending" = E (last letter of "argument"). "complete" = TRIP (synonym for complete journey/trip). E + TRIP doesn't work...
+    
+    Wait, rethinking: "complete" = TRIP doesn't fit. Let me try: "Argument's ending" = T (last letter of "argument"). "complete" = RIPE (fully developed/complete). T + RIPE = TRIPE.
+  ----------------------------------------------------------------------
+
+  [HIGH] TOSH  29A. Drunkard back with hard stuff
+  Answer: TOSH
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "stuff"
+  Wordplay type: charade
+  Components:
+    synonym            Drunkard                  -> SOT
+    abbreviation       hard                      -> H
+  Assembly: reversal — reverse SOT(synonym of "Drunkard") + H(abbr. "hard")
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (5 hedges)
+  DB Lookups:
+    DB lookups:
+      drunkard: syn=SOT,LUSH,SOAK,WINO
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      with: syn=TO*,BY,IN,OF,ON,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER,TOO; abbr=AND,ON,W
+      hard: syn=BY,IN,NO,OF,AGE,BAD,ICY,ILL,ONE,PAT,SET,BEST,BLAH,CASE,COLD; abbr=H*
+      stuff: syn=TOSH*,DAM,JAM,JOB,KIT,LOT,PIP,RAM,RIG,BRIM,BUNG,CAKE,CLOG,CLOT,CRAM; abbr=RAM
+    Definitions:
+      "stuff" -> TOSH (definition match)
+  AI Reasoning:
+    Definition: "stuff" (TOSH means nonsense/stuff).
+    Wordplay: reversal. "back" is the reversal indicator. "Drunkard" = SOT (synonym). "hard" = H (abbreviation). SOT + H = SOTH, then reversed = HTOS...
+    
+    Wait, let me reconsider. The known lookup shows "stuff → synonym TOSH", so this appears to be a double definition: "Drunkard back with hard" and "stuff" both define TOSH (meaning nonsense).
+    
+    Actually, rethinking the wordplay: SOT (drunkard) + H (hard) = SOTH. Reversed ("back") = HTOS. This doesn't work.
+    
+    This is likely a double definition: "Drunkard back with hard" = TOSH (slang meaning nonsense) and "stuff" = TOSH (synonym for nonsense/rubbish).
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXTRA  3D. Raising skill, kiss sweetheart for more
+  Answer: EXTRA
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "more"
+  Wordplay type: charade
+  Components:
+    core_letters       sweetheart                -> E
+    synonym            kiss                      -> X
+    reversal           skill                     -> TRA
+  Assembly: charade — E(core of "sweetheart") + X(synonym of "kiss") + TRA(reversal of "skill")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | ai_uncertain=AI expressed significant uncertainty (3 hedges)
+  DB Lookups:
+    DB lookups:
+      raising: syn=GOING; ind=reversal
+      skill: syn=ART,ARTS,BOAT,GIFT,CRAFT,FRAUD,GUILE,SAVVY,TRADE; abbr=ART
+      kiss: syn=BUSS,NECK,PECK,SNOG,GRAZE,SMACK; abbr=X*
+      sweetheart: syn=JO,HON,HOT,PIP,BEAU,DEAR,ELSE,LOVE,LULU,ANGEL,BEAUT,DAISY,DANDY,DILLY,DOOZY; ind=container?
+      for: syn=AS,IS,BAR,BUT,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE,SAVE,THAT; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      more: syn=EXTRA*,SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE
+    Definitions:
+      "more" -> EXTRA (definition match)
+  AI Reasoning:
+    Definition: "more" (EXTRA is a synonym for more).
+    
+    Wordplay: container with reversal. "Raising" is a reversal indicator. "skill" = ART (synonym), reversed = TRA. "sweetheart" is a container indicator. "kiss" = X.
+    
+    So X goes inside (is the sweetheart of) TRA, giving TXRA? That doesn't work.
+    
+    Let me reconsider: "sweetheart" as container indicator means something goes inside something else. "Raising skill" = TRA (ART reversed). X (kiss) goes inside TRA = T + X + RA = TXRA. Still not EXTRA.
+    
+    Wait - let me try: E (first letter of something?) + X inside TRA? No clear source for E.
+    
+    Actually, rethinking the structure: "Raising skill" = TRA, then we need EX + TRA = EXTRA. So "kiss sweetheart" might give EX somehow?
+    
+    Let me try: if "sweetheart" means the middle letter of "sweet" = E, then E + X (kiss) = EX. Then EX + TRA = EXTRA.
+    
+    So: E (middle/sweetheart of "sweet") + X (kiss) + TRA (skill=ART, raised/reversed) = EXTRA.
+  ----------------------------------------------------------------------
+
+  [FAILED] PERSONALLY  30A. Particularly friendly covering Queen's playing
+  Answer: PERSONALLY
+  Tier: --- | Confidence: 0/100
+  Definition: "Particularly"
+  Wordplay type: container
+  Components:
+    synonym            friendly                  -> ALLY
+    abbreviation       Queen's                   -> ER
+  DB Lookups:
+    DB lookups:
+      particularly: syn=SO*,FAR,HOW,LOT,NOT,TOO,EVER,FULL,MORE,MOST,MUCH,REAL,THAT,THUS,VERY
+      friendly: syn=ALLY*,LOW,NUN,PAL,SAD,ABBÉ,ANTI,BEST,BLUE,CHUM,CLAN,CURÉ,DARK,DEAN,DOWN
+      covering: syn=BIN,BOX,POD,RUG,BARK,CASE,COPE,HIDE,HOOD,HULL,HUSK,MAIL,MASK,PALL,ROBE; ind=container,deletion,parts
+      queen's: syn=ER*,QU,HER,ANNE,BRIT,DIDO,DIVA,GIRL,LEDA,MARY,RANI,COVER,RANEE,ARCHER,ELLERY; abbr=ER*,HER,HM,Q,QU,R*
+      playing: syn=GOLF,ROLE,DOING,GOING,A GRIP,ACTING,LAYING,TAKING,TOYING,VERSUS,BETTING,HACKING,PUTTING,STAKING,DALLYING; abbr=ON*,P*; ind=anagram
+  AI Reasoning:
+    Definition: "Particularly" (personally means particularly or individually).
+    
+    Wordplay: container. "covering" is the container indicator. "playing" is the anagram indicator.
+    
+    - "friendly" = ALLY (confirmed lookup)
+    - "Queen's" = ER (confirmed lookup - Elizabeth Regina)
+    - "playing" signals anagram of the remaining letters
+    
+    PERSON contains ALLY: PERS(ALLY)ON... wait, that doesn't work.
+    
+    Let me reconsider: PERSONALLY = PERSON + ALLY. But we need ER somewhere.
+    
+    Actually: "Queen's playing" = anagram of QUEENS = ... no, that's 6 letters.
+    
+    Rethinking: PERSONALLY contains ALLY. The container structure is: PERSON(ALLY) but that's only 9 letters.
+    
+    Wait: PERSONALLY = PERSON + AL + LY. But we need to use ER.
+    
+    Let me try: PERSONALLY contains ER. PERSONAL(ER)Y? No, that's not right.
+    
+    Actually: PERSONALLY = anagram of (PERSON + ALLY) using "playing" as anagram indicator? No, PERSONALYL ≠ PERSONALLY.
+    
+    Correct approach: PERSONALLY contains ALLY. The word PERSONALLY has ALLY inside it: PERSON-ALLY, but rearranged as PERS-ON-ALLY = PERSONALLY. The ER from "Queen's" must fit differently.
+    
+    Final interpretation: PERSONALLY contains both ER and ALLY, with "covering" as container indicator and the structure being PERS(ON)ALLY where the anagram "playing" rearranges some internal letters.
+  ----------------------------------------------------------------------
+
+  [HIGH] POTTAGE  4D. Footman carrying too much soup
+  Answer: POTTAGE
+  Tier: Sonnet | Confidence: 79/100
+  Definition: "soup"
+  Wordplay type: container
+  Components:
+    synonym            Footman                   -> PAGE
+    synonym            too much                  -> OTT
+  Assembly: container — OTT(synonym of "too much") inside PAGE(synonym of "Footman")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      footman: syn=SERVANT
+      carrying: syn=GOING,ICING,COMING,EATING,FOXING,GIVING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING; ind=container
+      too: syn=SO,FAB,FAR,HOT,HOW,LOT,NOT,TOP,WAY,YET,A-OK,AKIN,ALSO,BONE,BOSS; sounds=to,two
+      much: syn=POT*,A,AN,DO,OR,SO,TO,ACE,ACT,AND,AYE,BIG,BUT,DAB,DIG
+      soup: syn=POT*,POTTAGE*,POTAGE*,SAY,FOOD,OF A,BROTH,GUMBO,BISQUE,BORSCH,OXTAIL,BORSCHT,BORTSCH,CHOWDER; ind=anagram
+      too much: syn=OTT*,BIT,HIGH,MASS,OVER,EXTRA,FEAST,FLOOD,STEEP,UNDUE
+    Definitions:
+      "soup" -> POTTAGE (definition match)
+  AI Reasoning:
+    Definition: "soup" (pottage is a type of soup).
+    Wordplay: container. "carrying" is the container indicator. "Footman" = PAGE (synonym). "too much" = OTT (known lookup). PAGE carrying OTT = P(OTT)AGE = POTTAGE.
+  ----------------------------------------------------------------------
+
+  [HIGH] CURDLED  5D. Dog guided around field finally turned
+  Answer: CURDLED
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "turned"
+  Wordplay type: charade
+  Components:
+    synonym            Dog                       -> CUR
+    synonym            guided                    -> LED
+    last_letter        field                     -> D
+  Assembly: charade — CUR(synonym of "Dog") + D(last letter of "field") + LED(synonym of "guided")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      dog: syn=CUR*,CAD,GOB,GUN,LAB,POM,PUP,RAT,SOD,SON,TAG,TAR,ALSO,BOOR,CHOW
+      guided: syn=LED*,MET,RAN,HELD,KEPT,DELHI,HEXED,KEPT?,RULED,SHOWN,TAMED,BOSSED,CONNED,CURBED,FENCED
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      field: syn=ACT,AIR,LEA,LOT,USE,AREA,DIRT,DUST,FIEF,FLIP,GAME,HACK,JUNK,KEEP,LAWN
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      turned: syn=CURDLED*,CURLED*,ATE,BAD,DUG,GOT,OFF,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,RANK; ind=anagram,reversal
+  AI Reasoning:
+    Definition: "turned" (curdled means turned sour).
+    Wordplay: container. "around" is the container indicator. "Dog" = CUR, "guided" = LED. "field finally" = D (final letter of "field"). CUR contains LED + D: CUR(LED + D) = CUR(LEDD) = CURDLED.
+    
+    Wait, that gives CURLEDD. Let me reconsider.
+    
+    Actually: CUR contains LED, then + D at the end: CUR(LED) + D = CURLED + D = CURDLED.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ABED  6A. Sleeping US president before Democrat
+  Answer: ABED
+  Tier: Sonnet | Confidence: 59/100
+  Definition: "Sleeping"
+  Wordplay type: charade
+  Components:
+    synonym            US president              -> ABE
+    abbreviation       Democrat                  -> D
+  Assembly: charade — ABE(synonym of "US president") + D(abbr. "Democrat")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      us: syn=HIP,TELL; abbr=US
+      president: syn=IKE,BUSH,FORD,PRES,TAFT; abbr=P
+      before: syn=OF,ON,TO,UP,ARC,BOW,ERE,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE
+      democrat: syn=RED,OF A,PINK; abbr=D*
+  AI Reasoning:
+    Definition: "Sleeping" (abed means in bed/sleeping).
+    Wordplay: charade. "US president" = ABE (Abraham Lincoln). "Democrat" = D (confirmed abbreviation). ABE + D = ABED.
+  ----------------------------------------------------------------------
+
+  [FAILED] BLIMP  7D. Balloon beginning to be deflated
+  Answer: BLIMP
+  Tier: --- | Confidence: 0/100
+  Definition: "Balloon"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     beginning to be           -> BLIMP
+  DB Lookups:
+    DB lookups:
+      balloon: syn=BAG,WAX,BOOM,FIRE,FORK,GAIN,GIVE,RISE,AFIRE,BELLY,BREAK,BUILD,CLIMB,MOUNT,STAND
+      beginning: syn=DAY,DAWN,GERM,ROOT,AHEAD,ALPHA,BASAL,BASIC,GETGO,ONSET,SAUCE,START; ind=acrostic,deletion,parts
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      deflated: ind=anagram?
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,APPLY,EXIST
+  AI Reasoning:
+    Definition: "Balloon" (a blimp is a type of balloon).
+    
+    Wordplay: deletion. "beginning to be deflated" indicates removing the first letter. The word being deflated is likely a 6-letter word starting with a letter that, when removed, gives BLIMP.
+    
+    However, looking at this more carefully: "deflated" is flagged as an anagram indicator, and "to be" is also flagged as an anagram indicator. This suggests an anagram of "to be" plus something else.
+    
+    Actually, rethinking: "beginning" is flagged as deletion, so we're deleting the beginning of something. If we take a word like "ABLIMP" and delete the beginning (A), we get BLIMP. But that seems forced.
+    
+    Let me reconsider: This appears to be an anagram. "deflated" indicates anagram. The fodder would be letters that anagram to BLIMP. Looking at the clue structure, this might be anagramming some letters to get BLIMP, but the exact mechanism isn't clear from the available fodder in the clue.
+    
+    Given the complexity and multiple indicator flags, this likely involves anagramming available letters in the clue to spell BLIMP.
+  ----------------------------------------------------------------------
+
+  [HIGH] DEMORALISE  8D. Discourage passing, taking exam
+  Answer: DEMORALISE
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "Discourage"
+  Wordplay type: container
+  Components:
+    anagram_fodder     passing                   -> DEMISE
+    synonym            exam                      -> ORAL
+  Assembly: container — ORAL(synonym of "exam") inside DEMISE(passing)
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | ai_uncertain=AI expressed some uncertainty (2 hedges)
+  DB Lookups:
+    DB lookups:
+      discourage: syn=DEMORALISE*,DAMP,DAUNT,DETER,DAMPEN,NOT TO,PUTOFF,DEPRESS,OPPRESS,PUT OFF,DISPIRIT,PUT OFF,; fodder=DISCOURAGE(7/10 anagram match)
+      passing: syn=DEMISE*,END,HOW,LOT,TOO,WAY,BONE,DAMN,DANG,EVER,FAST,FULL,SORE,SUCH,THAT; ind=anagram?
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      exam: syn=ORAL*,QUIZ,SCAN,TEST,THIS,VIEW,AUDIT,CHECK,ESSAY,FINAL,PAPER,PROBE,RESIT,STUDY,TEST,
+    Definitions:
+      "Discourage" -> DEMORALISE (definition match)
+  AI Reasoning:
+    Definition: "Discourage" (DEMORALISE is a synonym for discourage).
+    
+    Wordplay: container. "taking" is the container indicator. "exam" = ORAL (from known lookups). The anagram indicator "passing" signals that we need an anagram to go around ORAL.
+    
+    Looking at the remaining letters: DEMORALISE has 10 letters, ORAL has 4, so we need 6 letters to anagram around ORAL.
+    
+    Wait, let me reconsider the structure. We have DEMORALISE (10 letters) and need to use ORAL (4 letters) inside something.
+    
+    Actually, DEMORALISE contains ORAL: DEM-ORAL-ISE. So "taking exam" means ORAL is contained within the anagram of other letters.
+    
+    The anagram fodder would be the letters that, when rearranged and containing ORAL, give DEMORALISE. But this seems complex.
+    
+    Let me try: The word that takes/contains ORAL and uses "passing" as anagram indicator...
+    
+    DEMORALISE = anagram of (some letters) containing ORAL. The anagram fodder would be DEMISE around ORAL: DEM(ORAL)ISE = DEMORALISE.
+    
+    So: anagram of DEMISE containing ORAL = DEMORALISE.
+  ----------------------------------------------------------------------
+
+  [HIGH] Pinot  9A. Measure bottling old wine
+  Answer: Pinot
+  Tier: Sonnet | Confidence: 79/100
+  Definition: "wine"
+  Wordplay type: container
+  Components:
+    synonym            Measure                   -> PINT
+    abbreviation       old                       -> O
+  Assembly: container — O(abbr. "old") inside PINT(synonym of "Measure")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      measure: syn=BAR,ELL,LOT,PAR,SET,TOO,YET,ALSO,BEAT,BULK,CURB,DOSE,FOOT,HOLD,INCH
+      bottling: syn=PLANT
+      old: syn=EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB,DULL; abbr=EX,O*
+      wine: syn=PINOT*,ALE,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+    Definitions:
+      "wine" -> Pinot (definition match)
+  AI Reasoning:
+    Definition: "wine" (Pinot is a type of wine).
+    Wordplay: container. "Measure" = PINT (unit of measure). "bottling" is the container indicator. "old" = O (abbreviation). PINT containing O = PIN(O)T = PINOT.
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

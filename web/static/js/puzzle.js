@@ -79,6 +79,8 @@ function closeToolsOverlay() {
     overlay.classList.add('hidden');
     document.getElementById('solver-results').innerHTML = '';
     _tabResultsCache = {};
+    // Clear anagram chips so fodder doesn't carry to next clue
+    if (typeof anagramClear === 'function') anagramClear();
     // Restore scroll position
     window.scrollTo(0, _toolsScrollY);
     _toolsClueId = null;

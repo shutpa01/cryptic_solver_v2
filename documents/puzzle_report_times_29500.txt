@@ -1,0 +1,709 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29500
+Generated: 2026-03-26 18:03:23
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        24/30 (80%)
+    Signature:      1
+    Sig+Enriched:   4
+    Sonnet:         19
+    DB Fallback:    0
+  Failed:           0
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   9  5D, 12A, 13A, 18D, 19A, 20D, 26A, 7D, 8A
+  Medium (40-79): 9  14D, 16D, 21D, 23A, 24A, 25A, 27A, 3D, 6D
+  Low (<40):    6  1A, 1D, 11A, 15A, 23D, 4D
+  Failed:       6  10D, 17A, 2D, 22A, 5A, 9A
+  Average:      53/100
+
+COST: $1.6643 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (30 entries)
+------------------------------------------------------------
+  NUTMEG: "tree" -> NUTMEG  (missing from definition_answers_augmented)
+  PADDOCK: "racing enclosure" -> PADDOCK  (missing from definition_answers_augmented)
+  PROVINGGROUND: "Test site" -> PROVINGGROUND  (missing from definition_answers_augmented)
+  GANGSTER: "Clyde?" -> GANGSTER  (missing from definition_answers_augmented)
+  PASSAGE: "Extract" -> PASSAGE  (missing from definition_answers_augmented)
+  COMIC: "producer" -> COMIC  (missing from definition_answers_augmented)
+  CUTIN: "Interpose" -> CUTIN  (missing from definition_answers_augmented)
+  OASIS: "Island" -> OASIS  (missing from definition_answers_augmented)
+  KNEEDEEP: "deeply involved" -> KNEEDEEP  (missing from definition_answers_augmented)
+  BAINMARIE: "sea vessel" -> BAINMARIE  (missing from definition_answers_augmented)
+  LINGOES: "tongues" -> LINGOES  (missing from definition_answers_augmented)
+  OVERSPENT: "out of capital?" -> OVERSPENT  (missing from definition_answers_augmented)
+  PADDOCK: Group -> PAD  (missing from abbreviations)
+  PROVINGGROUND: itinerant -> PROVING  (missing from synonyms_pairs)
+  PROVINGGROUND: cycle -> GROUND  (missing from synonyms_pairs)
+  INDUS: wearing -> D  (missing from abbreviations)
+  INDUS: officer -> INS  (missing from abbreviations)
+  SARCASTIC: cold -> ARC  (missing from abbreviations)
+  SARCASTIC: cold -> TIC  (missing from abbreviations)
+  FRESCO: servant -> SERF  (missing from synonyms_pairs)
+  DIGESTIF: Enjoy -> DIGEST  (missing from synonyms_pairs)
+  PASSAGE: oaf -> ASS  (missing from abbreviations)
+  SKIMPY: Asian leader -> KIM  (missing from abbreviations)
+  CUTIN: metal -> CU  (missing from abbreviations)
+  CUTIN: another -> TIN  (missing from abbreviations)
+  FINANCE: scored -> C  (missing from abbreviations)
+  FINANCE: church -> E  (missing from abbreviations)
+  OASIS: supporting -> IS  (missing from abbreviations)
+  KNEEDEEP: castle guards -> KN  (missing from abbreviations)
+  KNEEDEEP: require to be -> EEDEEP  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  FRESCO = 15 (-5/100): AI=anagram, assembled=reversal
+  METATARSI = 25 (72/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (5)
+------------------------------------------------------------
+  PADDOCK = 1 (25/100): no pieces verified in DB
+  PROVINGGROUND = 1 (5/100): no pieces verified in DB
+  CUTIN = 23 (5/100): no pieces verified in DB
+  DRAFT = 24 (70/100): no pieces verified in DB
+  KNEEDEEP = 4 (-125/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  10. Run excited VIP to secret European exhibition = RETROSPECTIVE
+  17. Heartless soldier recalled sound of his weapon? = REPORT
+  2. City roads essentially cleared prior to retreat = DRESDEN
+  22. Relative using shelter instead of Charlie for free = UNSHACKLE
+  5. Alert when bishop hides minute snack = NIBBLE
+  9. Naughty people removing clothing in private = INNER
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  4/30  12A, 19A, 26A, 20D
+  Type mismatch:         2  15A, 25A
+  Unverified explain.:   4  24A, 1D, 4D, 23D
+  DB gap:                16  5A, 8A, 11A, 13A, 15A, 27A, 1D, 3D, 4D, 6D, 7D, 14D, 16D, 18D, 21D, 23D
+  Failed:                6  5A, 9A, 17A, 22A, 2D, 10D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    5D  NUTMEG        Fanatic with stone climbing tree (6)
+                      NUT (synonym of "Fanatic") + GEM (synonym of "stone") [reversal: "climbing"]; definition: "tree"  [HIGH]
+    1A  PADDOCK       Group hiding rum around racing enclosure (7)
+                      PAD(synonym of "Group") + DOCK("rum around")  [LOW]
+    1D  PROVINGGROUND  Test site doctor about to catch itinerant on cycle (7,6)
+                      PROVING(synonym of "itinerant") + GROUND(synonym of "cycle")  [LOW]
+   10D  RETROSPECTIVE  Run excited VIP to secret European exhibition (13)
+                      ---  [ERR]
+   11A  INDUS         Runner wearing uniform arrested by officer (5)
+                      D(synonym of "wearing")+U(abbr. "uniform") inside INS(abbr. "officer")  [LOW]
+   12A  DREAMBOAT     Dish finally lined with sheets by Oscar in club (9)
+                      D(last letter of "lined") + REAM(synonym of "sheets") + BOAT("club")  [HIGH]
+   13A  GANGSTER      Note anxiety beginning to ease next to River Clyde? (8)
+                      G (abbreviation of "Note") + ANGST (synonym of "anxiety") + E (first letter of "ease next to") + R (abbreviation of "River") [first letter: "beginning"]; definition: "Clyde?"  [HIGH]
+   14D  SARCASTIC     Cutting last of rations when beset by cold (9)
+                      S(last letter of "rations") + ARC(synonym of "cold") + AS(synonym of "when") + TIC(synonym of "cold")  [MED]
+   15A  FRESCO        Picture old servant taking Conservative to port (6)
+                      reverse SERF(synonym of "servant") + C(abbr. "Conservative") + O(synonym of "old")  [LOW]
+   16D  DIGESTIF      Enjoy drug with a lot of strong drink (8)
+                      DIGEST(synonym of "Enjoy") + IF("drug with a lot of")  [MED]
+   17A  REPORT        Heartless soldier recalled sound of his weapon? (6)
+                      ---  [ERR]
+   18D  PASSAGE       Extract oaf trapped by knight’s boy (7)
+                      ASS (synonym of "oaf") + PAGE (synonym of "knight's boy") [container: "trapped"]; definition: "Extract"  [HIGH]
+   19A  SIDESTEP      Duck spied running across interior of nests (8)
+                      anagram of SPIED+EST(core of "interior of nests") = SIDESTEP  [HIGH]
+    2D  DRESDEN       City roads essentially cleared prior to retreat (7)
+                      ---  [ERR]
+   20D  TAMARIN       Monkey cheers male artist up outside of inn (7)
+                      TA(synonym of "cheers") + M(abbr. "male") + AR(RA reversed, "artist") + IN(first letter of "inn")  [HIGH]
+   21D  SKIMPY        Revealing agent providing cover for Asian leader (6)
+                      KIM(synonym of "Asian leader") inside SPY(synonym of "agent")  [MED]
+   22A  UNSHACKLE     Relative using shelter instead of Charlie for free (9)
+                      ---  [ERR]
+   23A  COMIC         Firm MGM instructs can’t initially gag producer (5)
+                      CO(synonym of "Firm") + M(first letter of "MGM") + I(first letter of "instructs") + C(first letter of "can't")  [MED]
+   23D  CUTIN         Interpose one metal after another briefly (3,2)
+                      CU(abbr. "metal") + TIN(synonym of "another")  [LOW]
+   24A  DRAFT         Outline of slug that’s escaped from trap (5)
+                      anagram of TDFRA("slug that's escaped from trap") = DRAFT  [MED]
+   25A  METATARSI     Bones gathered by Jack visiting exposed basin (9)
+                      TAR(synonym of "Jack") inside METASI("visiting exposed basin")  [MED]
+   26A  PEACHY        Every single Yankee faced with parking fine (6)
+                      P(abbr. "parking") + EACH(synonym of "Every") + Y(abbr. "Yankee")  [HIGH]
+   27A  FINANCE       Backing of piano Anne regularly scored before church (7)
+                      FINAN(alternate letters of "of piano Anne") + C(abbr. "scored") + E(abbr. "church")  [MED]
+    3D  OASIS         Island supporting nomads periodically? (5)
+                      OAS(alternate letters of "nomads") + IS(synonym of "supporting")  [MED]
+    4D  KNEEDEEP      Require castle guards to be deeply involved (4-4)
+                      KN(synonym of "castle guards") + EEDEEP(synonym of "require to be")  [LOW]
+    5A  NIBBLE        Alert when bishop hides minute snack (6)
+                      ---  [ERR]
+    6D  BAINMARIE     Retired sailor at home having name scratched in sea vessel (4-5)
+                      BA(AB reversed, "sailor") + IN(GIN minus G, "home") + MARIE("name")  [MED]
+    7D  LINGOES       Try piercing wrinkles in tongues (7)
+                      GO (synonym of "Try") + LINES (synonym of "wrinkles") [container: "in"]; definition: "tongues"  [HIGH]
+    8A  OVERSPENT     Vesper not moved out of capital? (9)
+                      anagram of VESPERNOT ("Vesper not") [anagram: "moved"] = OVERSPENT; definition: "out of capital?"  [HIGH]
+    9A  INNER         Naughty people removing clothing in private (5)
+                      ---  [ERR]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] NUTMEG  5D. Fanatic with stone climbing tree
+  Answer: NUTMEG
+  Tier: Signature | Confidence: 100/100
+  Definition: "tree"
+  Wordplay: charade + reversal
+  Explanation: NUT (synonym of "Fanatic") + GEM (synonym of "stone") [reversal: "climbing"]; definition: "tree"
+  ----------------------------------------------------------------------
+
+  [LOW] PADDOCK  1A. Group hiding rum around racing enclosure
+  Answer: PADDOCK
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "racing enclosure"
+  Wordplay type: charade
+  Components:
+    synonym            Group                     -> PAD
+    anagram_fodder     rum around                -> DOCK
+  Assembly: charade — PAD(synonym of "Group") + DOCK("rum around")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      group: syn=ARC,BEE,LOT,PEG,REM,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN; abbr=CLAN,GP,SET
+      hiding: syn=DOING,LACING,BASHING,BASTING,BATTING,BEATING,BELTING,FIBBING,LASHING,LICKING,MAULING,PELTING,SLATING,TANNING,TRADING; ind=container?,hidden
+      rum: syn=ALE,GIN,MUM,NIP,ODD,OFF,PEG,POP,TOT,ALE,,AQUA,BEER,BELT,BREW,FACE; abbr=ODD; ind=anagram
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      racing: syn=MOVE,STATE; ind=anagram?
+      enclosure: syn=PEN,STY,CAMP,YARD,ACRES,ARENA,BOWER,CLOSE,COURT,POUND,WHOLE,AVIARY,INSERT,ACREAGE,PLAYPEN
+  AI Reasoning:
+    PAD (group of sheets) + DOCK (from anagram of 'rum' + 'around' letters) = PADDOCK
+  ----------------------------------------------------------------------
+
+  [LOW] PROVINGGROUND  1D. Test site doctor about to catch itinerant on cycle
+  Answer: PROVINGGROUND
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Test site"
+  Wordplay type: charade
+  Components:
+    synonym            itinerant                 -> PROVING
+    synonym            cycle                     -> GROUND
+  Assembly: charade — PROVING(synonym of "itinerant") + GROUND(synonym of "cycle")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      test: syn=OK,ACE,BIG,FAB,HOT,MOT,SEE,TAX,TOM,TOP,TRY,A-OK,ACES,BEES,BETA; abbr=ORAL
+      site: syn=ITS,PLOT,SPOT,LOCUS,PLACE,POINT,SCENE,VENUE,WHERE,LOCALE,LOCATE,SETTING,LOCALITY,LOCATION,POSITION; sounds=cite,sight
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D*,DR,GP,MB,MO; ind=anagram
+      about: syn=ROUND*,C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      catch: syn=ROUND*,22,DO,A A,AIM,BAG,BIT,CON,COP,DIE,DIG,EYE,FIX,GEM,GET
+      itinerant: syn=MOVE,RAVE,FRIAR,TINKER,DRIFTER,NOMADIC,ROAMING,DRIFTING,RAMBLING,TRAVELLER,UNSETTLED,WANDERING,WAYFARING,TRAVELLING; ind=anagram?
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      cycle: syn=ROUND*,AGE,EYE,TEN,TWO,AEON,AGES,BAND,BLUE,HOOP,LONG,LOOP,RIDE,RING,ROTA
+      test site: syn=SAY,EARL,TEST,EARLS,LORDS,BOTHAM,BARONAGE,NOBILITY,LIFEPEERS,VISCOUNTS
+      to catch: ind=container
+      to catch: syn=TAKE,HELIX,SNAIL,DAWDLER,SNAFFLE,ESCARGOT,GASTROPOD
+  AI Reasoning:
+    PROVING (from itinerant=roving, doctored) + GROUND (from cycle=round with 'on')
+  ----------------------------------------------------------------------
+
+  [ERROR] 10. Run excited VIP to secret European exhibition = RETROSPECTIVE
+  ----------------------------------------------------------------------
+
+  [LOW] INDUS  11A. Runner wearing uniform arrested by officer
+  Answer: INDUS
+  Tier: Sonnet | Confidence: -15/100
+  Definition: "Runner"
+  Wordplay type: container
+  Components:
+    synonym            wearing                   -> D
+    abbreviation       uniform                   -> U
+    abbreviation       officer                   -> INS
+  Assembly: container — D(synonym of "wearing")+U(abbr. "uniform") inside INS(abbr. "officer")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: D | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      runner: syn=GO,SKI,BEAN,NOSE,PAGE,STEM,NIGER,RACER,RHINE,WATER; abbr=SKI
+      wearing: syn=IN*,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN*; ind=container,insertion
+      uniform: syn=U,KIT,EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT; abbr=U*
+      arrested: syn=GOT,NAB,BUST,GRIP,HALT,STAY,STOP,CATCH,CHECK,PINCH,SEIZE,STALL,STILL
+      by: syn=IN*,X,AT,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      officer: syn=CO,LT,COL,COP,SEA,BULL,FUZZ,BOBBY,MAJOR,SARGE; abbr=CO,O
+    Definitions:
+      "Runner" -> INDUS (definition match)
+  AI Reasoning:
+    DU (don + uniform) contained by INS (inspector) gives INDUS
+  ----------------------------------------------------------------------
+
+  [HIGH] DREAMBOAT  12A. Dish finally lined with sheets by Oscar in club
+  Answer: DREAMBOAT
+  Tier: Sonnet | Confidence: 87/100
+  Definition: "Dish"
+  Wordplay type: charade
+  Components:
+    last_letter        lined                     -> D
+    synonym            sheets                    -> REAM
+    container          club                      -> BOAT
+  Assembly: charade — D(last letter of "lined") + REAM(synonym of "sheets") + BOAT("club")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (83%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      dish: syn=DREAMBOAT*,A,MY,FEW,PIE,POI,TEN,BOWL,BUZZ,CHOW,DIET,EATS,FARE,FEED,FLAN; ind=anagram
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T*; ind=parts
+      lined: syn=ALIGNED,CREASED,WRINKLED
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      sheets: syn=REAM*,LINEN,LINES,QUIRE,ANNUALS,COAT,DIRT,DUST,FIEF,FILM,GAME,JUNK,LEAF,POOP,SCAT
+      by: syn=AT*,X,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      oscar: syn=O,AWARD,TROPHY; abbr=O*
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      club: syn=A,ACE,BAT,DEN,HIT,INN,KEY,ALLY,AXIS,BACH,BEAT,CAMP,CARD,CAST,CELL
+    Definitions:
+      "Dish" -> DREAMBOAT (definition match)
+  AI Reasoning:
+    D (last of 'lined') + REAM (sheets) + BOAT (Oscar/O inside club/BAT) = DREAMBOAT
+  ----------------------------------------------------------------------
+
+  [HIGH] GANGSTER  13A. Note anxiety beginning to ease next to River Clyde?
+  Answer: GANGSTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Clyde?"
+  Wordplay: acrostic + charade
+  Explanation: G (abbreviation of "Note") + ANGST (synonym of "anxiety") + E (first letter of "ease next to") + R (abbreviation of "River") [first letter: "beginning"]; definition: "Clyde?"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SARCASTIC  14D. Cutting last of rations when beset by cold
+  Answer: SARCASTIC
+  Tier: Sonnet | Confidence: 42/100
+  Definition: "Cutting"
+  Wordplay type: charade
+  Components:
+    last_letter        rations                   -> S
+    synonym            cold                      -> ARC
+    synonym            when                      -> AS
+    synonym            cold                      -> TIC
+  Assembly: charade — S(last letter of "rations") + ARC(synonym of "cold") + AS(synonym of "when") + TIC(synonym of "cold")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      cutting: syn=SARCASTIC*,CUT,RAW,ACID,BARB,CLIP,EDGY,KEEN,TART,ABOUT,ACERB,ACRID,AXING,EDGED,HARSH; ind=container,deletion,insertion
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      rations: syn=CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,MEAL,MEAT,SLOP,BOARD,BREAD,CHUCK,DIET?
+      when: syn=AS*,IS,ONCE,SOON,AS IS,AS IT,WHILE,ALBEIT,ASSAYS,ATWILL,THOUGH,WHILST,ASININE,HOWBEIT,MUCH AS; abbr=AS*; ind=homophone
+      beset: syn=SIC*,FLY,SET,WAR,INTO,RACK,RAID,RICH,RUSH,WALL,CURSE,HARRY,STORM,TRASH,ASSAIL; ind=container
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      cold: syn=ARCTIC*,C,A1,BAT,BIG,BOP,CUT,DIS,FAB,HIT,ICY,LOW,PAN,RAM,RAP; abbr=C*
+    Definitions:
+      "Cutting" -> SARCASTIC (definition match)
+  AI Reasoning:
+    S (last of rations) + ARC-AS-TIC (AS contained within ARCTIC via 'when beset by cold')
+  ----------------------------------------------------------------------
+
+  [LOW] FRESCO  15A. Picture old servant taking Conservative to port
+  Answer: FRESCO
+  Tier: Sonnet | Confidence: -5/100
+  Definition: "Picture"
+  Wordplay type: anagram
+  Components:
+    synonym            old                       -> O
+    synonym            servant                   -> SERF
+    abbreviation       Conservative              -> C
+  Assembly: reversal — reverse SERF(synonym of "servant") + C(abbr. "Conservative") + O(synonym of "old")
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=anagram, assembled=reversal | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: O | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      picture: syn=FRESCO*,CAP,FEZ,HAT,LID,RED,SEE,SET,TAM,BOOK,CAPS,COPY,COWL,DEAL,DRAW
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      servant: syn=MAN,SAY,AMAH,CATO,GIRL,HELP,PAGE,PEON,DAILY,GOFER,HELOT,VALET,BUTLER,FLUNKY,LACKEY
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      conservative: syn=C,CON,DIE,KEY,LOW,OLD,BLUE,SAFE,TORY,CREEP,RIGHT,SCHOOL; abbr=C*,CON
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      port: syn=RIO,RYE,ACRE,ADEN,BAKU,BARI,CORK,HOME,HULL,LEFT,OBAN,ORAN,RIGA,BASRA,BREST; abbr=L,RIO
+    Definitions:
+      "Picture" -> FRESCO (definition match)
+  AI Reasoning:
+    Old servant Conservative (O+SERF+C) anagrammed by 'taking to port' gives FRESCO
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DIGESTIF  16D. Enjoy drug with a lot of strong drink
+  Answer: DIGESTIF
+  Tier: Sonnet | Confidence: 58/100
+  Definition: "strong drink"
+  Wordplay type: charade
+  Components:
+    synonym            Enjoy                     -> DIGEST
+    cryptic_definition drug with a lot of        -> IF
+  Assembly: charade — DIGEST(synonym of "Enjoy") + IF("drug with a lot of")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      enjoy: syn=DIG*,BE,DO,ARE,BAG,EYE,GET,OWN,USE,BEST,HAVE,HOLD,LIKE,LINE,LOVE
+      drug: syn=CAP,POT,ACID,CURE,DOPE,DOSE,DROP,HEAL,HEMP,MEND,METH,PILL,SHOT,BHANG,BOLUS; abbr=E*,POT
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      lot: syn=A,SO,FAR,LEA,OFT,POT,SET,TON,TOO,WAD,WAY,BAND,BANK,BODY,BONE
+      strong: syn=FI,BIG,POP,RUM,ABLE,ARCH,FAST,FIRM,FOUL,FULL,GONE,HARD,HIGH,IRON,MUCH
+      drink: syn=DIGESTIF*,IT,ALE,BIB,CHA,GIN,HIT,ICE,KIR,LAP,MUM,NIP,PEG,POP,RUM; abbr=ALE,BEER,D*,GIN,LAGER,PORT,PORTER,RUM,STOUT,SUP,TEA,WINE; ind=anagram
+      with a: syn=SEA GOD
+      a lot: abbr=MANY
+      a lot: syn=ANY,CAN,DIE,END,HOW,LOT,OFT,PAD,POT,SET
+      strong drink: syn=DIGESTIF*,IS,ALE,GIN,MUM,NIP,PEG,POP,RUM,TOT
+      a lot of: syn=BAGS,LOTS,MANY,HEAPS
+    Definitions:
+      "drink" -> DIGESTIF (definition match)
+  AI Reasoning:
+    DIGEST (enjoy) + IF (conditional from 'drug with a lot of' scenario) = DIGESTIF
+  ----------------------------------------------------------------------
+
+  [ERROR] 17. Heartless soldier recalled sound of his weapon? = REPORT
+  ----------------------------------------------------------------------
+
+  [HIGH] PASSAGE  18D. Extract oaf trapped by knight’s boy
+  Answer: PASSAGE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Extract"
+  Wordplay: charade + container
+  Explanation: ASS (synonym of "oaf") + PAGE (synonym of "knight's boy") [container: "trapped"]; definition: "Extract"
+  ----------------------------------------------------------------------
+
+  [HIGH] SIDESTEP  19A. Duck spied running across interior of nests
+  Answer: SIDESTEP
+  Tier: Sonnet | Confidence: 96/100
+  Definition: "Duck"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     spied                     -> SPIED
+    core_letters       interior of nests         -> EST
+  Assembly: anagram — anagram of SPIED+EST(core of "interior of nests") = SIDESTEP
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      duck: syn=SIDESTEP*,O,BOD,BOG,BOY,BUG,CAT,DAM,DIP,EGG,END,FAN,GUY,JOE,LAD; abbr=O
+      spied: syn=DUG,GOT,HAD,SAW,FELT,MADE,SEEN,HEARD,KNOWN,NOTED,BEHELD,CAUGHT,ESPIED,IMAGED,PASSED
+      running: syn=ON,ARM,CARE,FAST,GRIP,HAND,HOLD,LIVE,MOVE,SWAY,A ROW,ALIVE,GOING,GRASP,HANDS; abbr=ON; ind=anagram
+      across: syn=BE,GO,FLY,GET,HAP,HIE,JOG,LIE,RIP,RUN,WAX,ZIP,BOLT,BOWL,COME; ind=container
+      interior: syn=MID,HOME,INNER,CENTRE,INMOST,INSIDE,INWARD,MIDDLE,WITHIN,CENTRAL,MIDMOST,PRIVATE,INTERNAL; ind=deletion,parts
+      nests: syn=KEY,TOWN,GREAT,HOMES,COUNTRY,RETREATS,HOME,LAIR,AERIE,EYRIE,RETREAT
+    Definitions:
+      "Duck" -> SIDESTEP (definition match)
+  AI Reasoning:
+    Anagram of 'spied' plus interior letters of 'nests' (EST) gives SIDESTEP
+  ----------------------------------------------------------------------
+
+  [ERROR] 2. City roads essentially cleared prior to retreat = DRESDEN
+  ----------------------------------------------------------------------
+
+  [HIGH] TAMARIN  20D. Monkey cheers male artist up outside of inn
+  Answer: TAMARIN
+  Tier: Sonnet | Confidence: 84/100
+  Definition: "Monkey"
+  Wordplay type: charade
+  Components:
+    synonym            cheers                    -> TA
+    abbreviation       male                      -> M
+    reversal           artist                    -> AR
+    first_letter       inn                       -> IN
+  Assembly: charade — TA(synonym of "cheers") + M(abbr. "male") + AR(RA reversed, "artist") + IN(first letter of "inn")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/4 (62%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      monkey: syn=TAMARIN*,BUD,BUM,CUB,IMP,KID,LAD,LAG,TAD,YEN,BABE,BABY,CHAP,DOZE,FOOL; abbr=IMP
+      cheers: syn=TA*,BYE,CHIN,CIAO,HAILS,LAUDS,TOUTS,HURRAH,PROSIT,SEEYOU,SONATA,THANKS,TOODLE,ASSURES,BAFFLED; abbr=TA*
+      male: syn=M,HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM; abbr=A*,HE,M*,PA; sounds=mail
+      artist: syn=RA,ACE,DAB,ONO,PRE,ACES,DALI,EMIN,ETTY,GEEK,GOYA,GURU,HALS,HAND,KLEE; abbr=RA
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      inn: syn=BAR,DEN,BACH,CAFF,CAFÉ,CAMP,CLUB,HERE,HOLE,LAIR,LOCA,OF A,CABIN,DINER,GRILL; sounds=in
+      outside of: syn=OF,BAR,BUT,FOR,FROM,SAVE,THAN,ASIDE,OTHER,BESIDE
+    Definitions:
+      "Monkey" -> TAMARIN (definition match)
+  AI Reasoning:
+    TA (cheers) + M (male) + AR (artist=RA reversed by 'up') + IN (outside letters of 'inn') = TAMARIN
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SKIMPY  21D. Revealing agent providing cover for Asian leader
+  Answer: SKIMPY
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Revealing"
+  Wordplay type: container
+  Components:
+    synonym            agent                     -> SPY
+    synonym            Asian leader              -> KIM
+  Assembly: container — KIM(synonym of "Asian leader") inside SPY(synonym of "agent")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      revealing: syn=SKIMPY*,SEE,BRIEF,BARING
+      agent: syn=SPY*,FED,REP,BOND,FORT,MEAN,MOLE,NARC,PAWN,TOOL,WALL,WARD,AEGIS,ARMOR,ASSET
+      providing: syn=IF,GIVEN,GOING,CEDING,GIVING,HAVING,SAVING; abbr=IF; ind=anagram,hidden
+      cover: syn=AN,GO,BED,BIN,BOX,CAN,CAP,CUT,DIE,END,EYE,FAG,FLY,FOX,HUB; ind=parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      asian: syn=AGRA,THAI,IRAQI,MALAY,OMANI,NEPALI,PATHAN
+      leader: syn=BOSS,DUCT,HEAD,JEFE,KING,LINE,PIPE,POPE,SHAH,TSAR,TUBE,BOSS?,CHAIR,CHIEF,GUIDE; ind=acrostic,deletion,parts
+    Definitions:
+      "Revealing" -> SKIMPY (definition match)
+  AI Reasoning:
+    SPY (agent) provides cover for KIM (Asian leader) by interweaving letters to form SKIMPY
+  ----------------------------------------------------------------------
+
+  [ERROR] 22. Relative using shelter instead of Charlie for free = UNSHACKLE
+  ----------------------------------------------------------------------
+
+  [HIGH] COMIC  23A. Firm MGM instructs can’t initially gag producer
+  Answer: COMIC
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "producer"
+  Wordplay type: charade
+  Components:
+    synonym            Firm                      -> CO
+    first_letter       MGM                       -> M
+    first_letter       instructs                 -> I
+    first_letter       can't                     -> C
+  Assembly: charade — CO(synonym of "Firm") + M(first letter of "MGM") + I(first letter of "instructs") + C(first letter of "can't")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      firm: syn=CO*,OR,AGE,DIE,ONE,OUT,SET,UPS,CARE,EASY,FAST,FEAR,FLAT,GOOD,HARD; abbr=CO*
+      instructs: syn=US,HIM,FILL,TELL,COACH,ORDER,TEACH,TRAIN
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      gag: syn=ONE,RIB,YUK,BOFF,BUTT,JAPE,JOKE,JOSH,LOSE,MARK,MOCK,QUIP,SHAM,ANTIC,FARCE
+      producer: syn=FARM,MAKER
+  AI Reasoning:
+    CO (firm/company) + M + I + C (taking initial letters as indicated) = COMIC
+  ----------------------------------------------------------------------
+
+  [LOW] CUTIN  23D. Interpose one metal after another briefly
+  Answer: CUTIN
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Interpose"
+  Wordplay type: charade
+  Components:
+    abbreviation       metal                     -> CU
+    synonym            another                   -> TIN
+  Assembly: charade — CU(abbr. "metal") + TIN(synonym of "another")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      interpose: syn=CUT*,EDGE,MOOT,BEGIN,BREAK,NIPIN
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A,ACE,I*,O; sounds=won
+      metal: syn=TIN*,SAY,GOLD,IRON,LEAD,TIN?,ZINC,STEEL; sounds=medal,mettle,meddle
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A; ind=anagram
+      briefly: ind=deletion,parts
+  AI Reasoning:
+    CU (copper symbol) + TIN (another metal) in charade formation
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAFT  24A. Outline of slug that’s escaped from trap
+  Answer: DRAFT
+  Tier: Sonnet | Confidence: 70/100
+  Definition: "Outline"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     slug that's escaped from trap -> TDFRA
+  Assembly: anagram — anagram of TDFRA("slug that's escaped from trap") = DRAFT
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      outline: syn=FEE,SUM,VIP,ANTE,CAST,COST,FORM,GARB,GIVE,ICON,LOOK,MATH,MIEN,NAME,PLAN
+      slug: syn=ALE,BAT,BIG,BOP,BOX,DAB,GIN,HIT,MUM,NIP,PEG,POP,RAP,RUM,TOT
+      escaped: syn=END,FLEW,FREE,FLOWN,LOOSE
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      trap: syn=BAG,CAB,COP,DIG,GET,GIG,GIN,GOB,GUN,JAR,MUG,NAB,NET,PEN,RAP; abbr=GIN
+    Definitions:
+      "Outline" -> DRAFT (definition match)
+  AI Reasoning:
+    Selected letters from the phrase anagram to spell DRAFT
+  ----------------------------------------------------------------------
+
+  [HIGH] METATARSI  25A. Bones gathered by Jack visiting exposed basin
+  Answer: METATARSI
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "Bones"
+  Wordplay type: anagram
+  Components:
+    synonym            Jack                      -> TAR
+    anagram_fodder     visiting exposed basin    -> METASI
+  Assembly: container — TAR(synonym of "Jack") inside METASI("visiting exposed basin")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bones: syn=TARSI*,METATARSI*,DIE,DOC,BONE,OSSA,BENTS,GIFTS,HEADS,RADII,SACRA,TIBIA,TURNS,ULNAE,BIASES; ind=anagram?,parts
+      gathered: syn=MET*,MASSED,REAPED,AMASSED,DEDUCED,GLEANED,PLEATED,INFERRED,MUSTERED,ASSEMBLED,PICKED UP; ind=anagram
+      by: syn=AT*,X,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      jack: syn=TAR*,J,AD,BOD,BOY,BUD,CAT,CUB,DOG,EGG,GUY,JOE,KID,LAD,MAN; abbr=J
+      visiting: syn=AT*,A BLUE,JAWING,SEEING,CALLING,GABBING,GASSING,PRATING,RAPPING,STAYING,TALKING,BABBLING,BLABBING,CACKLING,CHATTING; ind=container?
+      exposed: syn=OUT,RAW,BALD,BARE,FREE,LOUT,NUDE,OPEN,ROUT,AIRED,BARED,CLEAR,FRANK,NAKED,PLAIN
+      basin: syn=BOWL,DOCK,HOLE,HOME,LAKE,LOCH,POND,POOL,WELL,MAYBE,STANK,LAVABO,PUDDLE,POTHOLE,SALT PAN
+    Definitions:
+      "Bones" -> METATARSI (definition match)
+  AI Reasoning:
+    Anagram of TAR (Jack=sailor) plus letters from 'visiting exposed basin' rearranged to form METATARSI
+  ----------------------------------------------------------------------
+
+  [HIGH] PEACHY  26A. Every single Yankee faced with parking fine
+  Answer: PEACHY
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "fine"
+  Wordplay type: charade
+  Components:
+    abbreviation       parking                   -> P
+    synonym            Every                     -> EACH
+    abbreviation       Yankee                    -> Y
+  Assembly: charade — P(abbr. "parking") + EACH(synonym of "Every") + Y(abbr. "Yankee")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      every: syn=EACH*,ACE,AID,ALL,ANY,ARC,BOW,CUT,EYE,HUB,PEG,ARCH,BEND,BENT,BOON; abbr=ALL; ind=parts
+      single: syn=EACH*,EX,ID,ONE,OUT,OWN,RUN,SET,TAG,TAX,CULL,DUTY,FIRE,FIRM,FREE; abbr=I,LONE
+      yankee: syn=Y,US,BET,RING; abbr=Y*
+      faced: syn=FOUND,CAUGHT,LOOKED
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      parking: syn=P; abbr=P*
+      fine: syn=PEACHY*,A,F,A1,OK,SO,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD; abbr=F,OK
+    Definitions:
+      "fine" -> PEACHY (definition match)
+  AI Reasoning:
+    P (parking) + EACH (every) + Y (Yankee) assembled in order to make PEACHY
+  ----------------------------------------------------------------------
+
+  [MEDIUM] FINANCE  27A. Backing of piano Anne regularly scored before church
+  Answer: FINANCE
+  Tier: Sonnet | Confidence: 42/100
+  Definition: "Backing"
+  Wordplay type: charade
+  Components:
+    alternate_letters  of piano Anne             -> FINAN
+    abbreviation       scored                    -> C
+    abbreviation       church                    -> E
+  Assembly: charade — FINAN(alternate letters of "of piano Anne") + C(abbr. "scored") + E(abbr. "church")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/3 (17%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      backing: syn=FINANCE*,AID,FOR,POD,AIDS,BARK,CARE,CASE,HAND,HELP,HIDE,HULL,HUSK,LIFT,MAIL; ind=reversal
+      piano: syn=P,LEG,GRAND,JOANNA,QUIETLY; abbr=P,PT
+      anne: syn=GIRL,QUEEN,WOMAN,MONARCH
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      scored: syn=CUT,DID,DUG,GOT,HIT,PUT,SAW,WON,ACED,BORE,BRED,DREW,FELT,KNEW,MADE
+      before: syn=OF,ON,TO,UP,ARC,BOW,ERE,GAS,PRE,RUN,ANON,ANTE,ARCH,BEND,FORE; abbr=ERE,PRE
+      church: syn=CE*,C,CH,PA,DAD,DOC,GOD,POP,KING,KIRK,LORD,OF A,PAPA,SIRE,ALLAH; abbr=C*,CE*,CH
+    Definitions:
+      "Backing" -> FINANCE (definition match)
+  AI Reasoning:
+    Taking alternate letters from 'ofpianoanne' gives FINAN, then C (scored/caught) before E (church/east) gives CE, making FINANCE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OASIS  3D. Island supporting nomads periodically?
+  Answer: OASIS
+  Tier: Sonnet | Confidence: 43/100
+  Definition: "Island"
+  Wordplay type: charade
+  Components:
+    alternate_letters  nomads                    -> OAS
+    synonym            supporting                -> IS
+  Assembly: charade — OAS(alternate letters of "nomads") + IS(synonym of "supporting")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      island: syn=IS*,AIT,KEY,SAY,BALI,BUTE,CUBA,ELBA,EYOT,GOZO,GUAM,INCH,IONA,ISLE,JAVA; abbr=I*,IS*
+      supporting: syn=FOR,PRO,DRINK; ind=parts
+      nomads: syn=BUMS,MOVE,ROVER
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN; ind=parts
+  AI Reasoning:
+    OAS (alternate letters of nomads) + IS (supporting) = OASIS
+  ----------------------------------------------------------------------
+
+  [LOW] KNEEDEEP  4D. Require castle guards to be deeply involved
+  Answer: KNEEDEEP
+  Tier: Sonnet | Confidence: -125/100
+  Definition: "deeply involved"
+  Wordplay type: charade
+  Components:
+    synonym            castle guards             -> KN
+    synonym            require to be             -> EEDEEP
+  Assembly: charade — KN(synonym of "castle guards") + EEDEEP(synonym of "require to be")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: KN, EEDEEP | fodder_in_clue=missing: ['require to be'] | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      require: syn=NEED*,AIM,BEAR,BORN,CARE,FIVE,SEAT,TAKE,WALK,WANT,ABACK,APART,CLAIM,COURT,FLOOR
+      castle: syn=KEEP*,MAN,BORN,FORT,ROOK,TOWN,AERIE,GREAT,HOUSE,LEEDS,ARUNDEL,CHATEAU,CITADEL,COUNTRY,HARLECH
+      guards: syn=KEEP*,RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS,COVERS
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      deeply: syn=EMBEDDED
+      involved: syn=DEEP*,GOT,WON,BORE,DREW,GAVE,MADE,QUIT,RAPT,TOOK,ALERT,ALIVE,ASKED,CAGED,FANCY; ind=anagram
+      to be: ind=anagram
+      to be: syn=BE,ARE,ARMS,BORN,LIVE,WERE,APPLY,EXIST,ABOUND,BEGGED
+  AI Reasoning:
+    Castle guards (knights=KN) + require to be (EEDEEP) forms KNEEDEEP meaning deeply involved
+  ----------------------------------------------------------------------
+
+  [ERROR] 5. Alert when bishop hides minute snack = NIBBLE
+  ----------------------------------------------------------------------
+
+  [HIGH] BAINMARIE  6D. Retired sailor at home having name scratched in sea vessel
+  Answer: BAINMARIE
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "sea vessel"
+  Wordplay type: charade
+  Components:
+    reversal           sailor                    -> BA
+    deletion           home                      -> IN [GIN, "at"=deletion]
+    literal            name                      -> MARIE
+  Assembly: charade — BA(AB reversed, "sailor") + IN(GIN minus G, "home") + MARIE("name")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/3 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      retired: syn=BED,DRY,HIT,ABED,AXED,COOL,LEFT,SANK,BORED,DIVED,FIRED,FRAIL,OUTED,QUIET,ABROAD; abbr=EX; ind=reversal
+      sailor: syn=AB,DOG,SEA,TAR,JACK,SALT,JASON,STARS,BOATER,COMMON,HEARTY,LASCAR,RATING,SEAMAN,SINBAD; abbr=AB,JACK,OS,RN,SALT,TAR
+      at: syn=IN*,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      home: syn=IN*,TV,AIM,ALE,ARM,BAY,BOX,GIN,LCD,MUM,NIP,PAD,PEG,POP,RUM; abbr=IN*,NEST,in*
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      name: syn=N,A A,AIM,CUT,DIG,DIS,DUB,FEE,FIX,GUY,NOT,OPT,PUT,REP,SET; abbr=N*
+      scratched: syn=REMOVED
+      in: syn=BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT,VIA; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      sea: syn=AIR,BIN,BOX,GOB,MED,SAY,TAR,BINS,BLOW,BLUE,CASE,DEEP,GALE,JACK,LAKE; abbr=C,MED; ind=anagram; sounds=see
+      vessel: syn=BAINMARIE*,AT,SS,ARK,ART,BUM,CAN,JUG,MAN,MUG,PAN,POT,SUB,TOP,URN; abbr=ARK,PAN,SS
+      at home: abbr=IN*
+      at home: syn=IN*,TO,CUT,DIM,DOG,EAT,FLY,PAD,RAT,SAP
+      in sea: syn=OCEANIC
+  AI Reasoning:
+    AB (sailor) reversed gives BA, plus IN (at home) makes BAIN, then MARIE (the name) completes BAINMARIE
+  ----------------------------------------------------------------------
+
+  [HIGH] LINGOES  7D. Try piercing wrinkles in tongues
+  Answer: LINGOES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "tongues"
+  Wordplay: charade + container
+  Explanation: GO (synonym of "Try") + LINES (synonym of "wrinkles") [container: "in"]; definition: "tongues"
+  ----------------------------------------------------------------------
+
+  [HIGH] OVERSPENT  8A. Vesper not moved out of capital?
+  Answer: OVERSPENT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "out of capital?"
+  Wordplay: anagram
+  Explanation: anagram of VESPERNOT ("Vesper not") [anagram: "moved"] = OVERSPENT; definition: "out of capital?"
+  ----------------------------------------------------------------------
+
+  [ERROR] 9. Naughty people removing clothing in private = INNER
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

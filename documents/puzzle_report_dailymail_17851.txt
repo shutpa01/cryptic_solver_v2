@@ -1,0 +1,558 @@
+================================================================================
+PUZZLE QUALITY REPORT: dailymail #17851
+Generated: 2026-04-07 05:52:06
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      26
+  Assembled:        24/26 (92%)
+    Signature:      1
+    Sig+Enriched:   5
+    Sonnet:         9
+    DB Fallback:    2
+  Failed:           2
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   17  23D, 11A, 12D, 13A, 16D, 2D, 24A, 25D, 8D, 9A, 21D, 1D, 14D, 15A, 19A, 20A, 7D
+  Medium (40-79): 7  10A, 17A, 22A, 26A, 3D, 5D, 6A
+  Low (<40):    0  
+  Failed:       2  18D, 4D
+  Average:      84/100
+
+COST: $1.2197 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (21 entries)
+------------------------------------------------------------
+  ARNO: "Italian banker" -> ARNO  (missing from definition_answers_augmented)
+  BLUR: "Smear" -> BLUR  (missing from definition_answers_augmented)
+  UGLIER: "less attractive" -> UGLIER  (missing from definition_answers_augmented)
+  SPACETRAVELLER: "astronaut, maybe" -> SPACETRAVELLER  (missing from definition_answers_augmented)
+  MATURITY: "A state of full growth?" -> MATURITY  (missing from definition_answers_augmented)
+  ATTACK: "charge" -> ATTACK  (missing from definition_answers_augmented)
+  ADVERB: "perhaps" -> ADVERB  (missing from definition_answers_augmented)
+  DOGTAG: "Identification" -> DOGTAG  (missing from definition_answers_augmented)
+  REDSEA: "body of water" -> REDSEA  (missing from definition_answers_augmented)
+  OPPOSITE: "Contrasting" -> OPPOSITE  (missing from definition_answers_augmented)
+  CLEANCUT: "neat and respectable" -> CLEANCUT  (missing from definition_answers_augmented)
+  DRINKINGUPTIME: "Chance to complete last round?" -> DRINKINGUPTIME  (missing from definition_answers_augmented)
+  HOODOO: "Run of bad luck" -> HOODOO  (missing from definition_answers_augmented)
+  SWITCHED: "turned to another circuit" -> SWITCHED  (missing from definition_answers_augmented)
+  TIER: "Grade in competitive game, right?" -> TIER  (missing from definition_answers_augmented)
+  PULLONESWEIGHT: "to do a proper share of work" -> PULLONESWEIGHT  (missing from definition_answers_augmented)
+  ENMITY: "a hostile feeling" -> ENMITY  (missing from definition_answers_augmented)
+  PLUMPS: Chooses -> PLUMP  (missing from synonyms_pairs)
+  ATTACK: Fiercely -> AT  (missing from abbreviations)
+  ATTACK: oppose -> TACK  (missing from synonyms_pairs)
+  ADVERB: beard -> BEARD  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  HOODOO = 3 (60/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  PULLONESWEIGHT = 6 (57/100): def="to do a proper share of work" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (2)
+------------------------------------------------------------
+  18. Identification for one lately serving in the U.S.? = DOGTAG
+  4. Given a shift, turned to another circuit? = SWITCHED
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  8/26  9A, 11A, 13A, 8D, 12D, 14D, 16D, 25D
+  Type mismatch:         1  3D
+  Weak definition:       1  6A
+  DB gap:                18  6A, 10A, 15A, 17A, 19A, 20A, 22A, 24A, 26A, 1D, 2D, 3D, 4D, 5D, 7D, 18D, 21D, 23D
+  Failed:                2  4D, 18D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   23D  ARNO          Italian banker featuring in unfamiliar novel (4)
+                      hidden in "unfamiliAR NOvel" [hidden: "featuring"]; definition: "Italian banker"  [HIGH]
+   11A  STANDOUT      Part of a ground revealed is attracting attention? (8)
+                      ---  [HIGH]
+   12D  NOTES         Observes number leading group from the south (5)
+                      ---  [HIGH]
+   13A  HERONS        Wading birds present shortly supported by sun (6)
+                      ---  [HIGH]
+   16D  CHANCEIT      Take a risk having disrupted nice chat (6,2)
+                      ---  [HIGH]
+    2D  BLUR          Smear limited publicity for a book (4)
+                      BLURB (synonym of "publicity") + B (abbreviation of "book") [deletion: "limited"]; definition: "Smear"  [HIGH]
+   24A  UGLIER        Gruel I suspect is less attractive (6)
+                      anagram of GRUELI ("Gruel I") [anagram: "suspect"] = UGLIER; definition: "less attractive"  [HIGH]
+   25D  LAIR          Former premier losing book in den (4)
+                      ---  [HIGH]
+    8D  HOTANDBOTHERED  Bond hated other criminal in a state of anxiety? (3,3,8)
+                      ---  [HIGH]
+    9A  SCARED        Wobbling cedars making one afraid (6)
+                      ---  [HIGH]
+   21D  PLUMPS        Chooses fat cakes, ultimately (6)
+                      PLUMP (synonym of "Chooses") + S (last letter of "fat cakes,") [last letter: "ultimately"]  [HIGH]
+    1D  SPACETRAVELLER  Step blocking tall server for astronaut, maybe (5,9)
+                      anagram of SERVER+TALL+PACE(synonym of "step") = SPACETRAVELLER  [HIGH]
+   10A  MATURITY      A state of full growth? (8)
+                      cryptic definition  [MED]
+   14D  REEDS         Grazing animals turning up heading for several grasses (5)
+                      REED(DEER reversed, "Grazing animals") + S(first letter of "several")  [HIGH]
+   15A  ATTACK        Fiercely oppose charge (6)
+                      AT (synonym of "Fiercely") + TACK (synonym of "oppose"); definition: "charge"  [HIGH]
+   17A  ADVERB        Victor is wearing cultivated beard surprisingly, perhaps (6)
+                      anagram of V(abbr. "Victor")+BEARD = ADVERB  [MED]
+   18D  DOGTAG        Identification for one lately serving in the U.S.? (3,3)
+                      ---  [FAIL]
+   19A  REDSEA        Engineer dares to skirt eastern body of water (3,3)
+                      anagram of DARES ("dares") + E (abbreviation of "eastern") [anagram: "Engineer"] = REDSEA; definition: "body of water"  [HIGH]
+   20A  OPPOSITE      Contrasting work I stop somehow close to here (8)
+                      anagram of STOP+E(last letter of "close")+I+OP(synonym of "work") = OPPOSITE  [HIGH]
+   22A  CLEANCUT      Conservative, thin, seen by court regularly looking neat and respectable (5,3)
+                      CLEAN("seen by court regularly") + CUT(synonym of "thin")  [MED]
+   26A  DRINKINGUPTIME  Chance to complete last round? (8,2,4)
+                      cryptic definition  [MED]
+    3D  HOODOO        Run of bad luck in house party among two circles (6)
+                      HO(abbr. "house") + DO(abbr. "party") inside OO("two circles")  [MED]
+    4D  SWITCHED      Given a shift, turned to another circuit? (8)
+                      ---  [FAIL]
+    5D  TIER          Grade in competitive game, right? (4)
+                      cryptic definition  [MED]
+    6A  PULLONESWEIGHT  Get up hills now in a storm, retaining energy to do a proper share of work? (4,4,6)
+                      PULL(synonym of "Get") + ONESWEIGHT("hills now in a")  [MED]
+    7D  ENMITY        Amenity at work to dispel a hostile feeling (6)
+                      delete A from AMENITY, anagram of MENITY = ENMITY  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ARNO  23D. Italian banker featuring in unfamiliar novel
+  Answer: ARNO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Italian banker"
+  Wordplay: hidden
+  Explanation: hidden in "unfamiliAR NOvel" [hidden: "featuring"]; definition: "Italian banker"
+  ----------------------------------------------------------------------
+
+  [HIGH] STANDOUT  11A. Part of a ground revealed is attracting attention?
+  Answer: STANDOUT
+  Tier: --- | Confidence: 100/100
+  Human explanation: STAND (synonym="of a") + OUT (synonym="revealed") = STANDOUT; definition: "attracting attention?"
+  ----------------------------------------------------------------------
+
+  [HIGH] NOTES  12D. Observes number leading group from the south
+  Answer: NOTES
+  Tier: --- | Confidence: 100/100
+  Human explanation: NO (abbreviation="number") + TES (SET="group", reversed) = NOTES; definition: "Observes"
+  ----------------------------------------------------------------------
+
+  [HIGH] HERONS  13A. Wading birds present shortly supported by sun
+  Answer: HERONS
+  Tier: --- | Confidence: 100/100
+  Human explanation: HER (HERE="present", remove last letter) + ON (abbreviation="supported by") + S (abbreviation="sun") = HERONS; definition: "Wading birds"
+  ----------------------------------------------------------------------
+
+  [HIGH] CHANCEIT  16D. Take a risk having disrupted nice chat
+  Answer: CHANCEIT
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of NICE + CHAT = CHANCEIT; definition: "Take a risk"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLUR  2D. Smear limited publicity for a book
+  Answer: BLUR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Smear"
+  Wordplay: charade + deletion
+  Explanation: BLURB (synonym of "publicity") + B (abbreviation of "book") [deletion: "limited"]; definition: "Smear"
+  ----------------------------------------------------------------------
+
+  [HIGH] UGLIER  24A. Gruel I suspect is less attractive
+  Answer: UGLIER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "less attractive"
+  Wordplay: anagram
+  Explanation: anagram of GRUELI ("Gruel I") [anagram: "suspect"] = UGLIER; definition: "less attractive"
+  ----------------------------------------------------------------------
+
+  [HIGH] LAIR  25D. Former premier losing book in den
+  Answer: LAIR
+  Tier: --- | Confidence: 100/100
+  Human explanation: BLAIR (synonym="in") minus B (book) = LAIR; definition: "den"
+  ----------------------------------------------------------------------
+
+  [HIGH] HOTANDBOTHERED  8D. Bond hated other criminal in a state of anxiety?
+  Answer: HOTANDBOTHERED
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of BOND + HATED + OTHER = HOTANDBOTHERED
+  ----------------------------------------------------------------------
+
+  [HIGH] SCARED  9A. Wobbling cedars making one afraid
+  Answer: SCARED
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of CEDARS = SCARED; definition: "afraid"
+  ----------------------------------------------------------------------
+
+  [HIGH] PLUMPS  21D. Chooses fat cakes, ultimately
+  Answer: PLUMPS
+  Tier: Signature | Confidence: 100/100
+  Wordplay: charade + parts
+  Explanation: PLUMP (synonym of "Chooses") + S (last letter of "fat cakes,") [last letter: "ultimately"]
+  ----------------------------------------------------------------------
+
+  [HIGH] SPACETRAVELLER  1D. Step blocking tall server for astronaut, maybe
+  Answer: SPACETRAVELLER
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "astronaut, maybe"
+  Wordplay type: anagram
+  Components:
+    literal            server                    -> SERVER
+    literal            tall                      -> TALL
+    synonym            step                      -> PACE
+  Assembly: anagram — anagram of SERVER+TALL+PACE(synonym of "step") = SPACETRAVELLER
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      step: syn=ACE*,PACE*,TRAVEL*,IT,BOP,CUT,EYE,FLY,HIE,JIG,LEG,PAD,PEG,RAY,RIP; abbr=PACE*; sounds=steppe
+      blocking: syn=BALKING,BARRING,FOILING,BAFFLING,IMPEDING,NEGATING,STALLING,DETERRENT,DETERRING,HAMPERING,HINDERING,RETARDANT,THWARTING,NULLIFYING,PREVENTIVE; ind=container
+      tall: syn=HARD,HIGH,RISE,HEAVY,LOFTY,TOUGH,ARDUOUS,DIFFICULT,FAR-FETCHED; abbr=TA
+      server: syn=WAITER,CATERER,WAITRESS,BARTENDER
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      astronaut: syn=SPACER*,STRONG,SPACEMAN
+      maybe: syn=ISLE,LOAF,MEAL,SCOT,BASIN,MUSIC,WADER,BREWER,FLOWER,LIKELY,MAYHAP,MISFIT,PERHAP,RESEAT,SINGER; ind=anagram
+  AI Reasoning:
+    TALL SERVER anagrammed with deletion gives SPACELLER, then TRAVEL is inserted to form SPACETRAVELLER
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MATURITY  10A. A state of full growth?
+  Answer: MATURITY
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "A state of full growth?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      state: syn=IS,NY,AID,AIR,BED,CAL,GOA,HOT,MOD,NEW,PUT,SAY,SEA,WAY,AIDS; abbr=AVER; ind=anagram,homophone
+      full: syn=IN,OK,SO,ALL,BIG,DUE,FAR,FAT,HOW,LOT,NOT,OUT,RED,SUM,TOO; ind=container?
+      growth: syn=CYST,LUMP,ASTER,POLYP,TUMOR,CANCER,FUNGUS,OX-EYE,SPROUT,ANEMONE,RAGWEED,UPSURGE,ACANTHUS,BINDWEED,MATURING
+      a state: syn=TOP,AGAR,DAZE,ASPIC,IDAHO,JELLY,MAINE,SAUNA,STATE,JERSEY
+      state of: syn=MOORED
+  AI Reasoning:
+    The entire clue asks what we call 'a state of full growth' - the answer is MATURITY
+  ----------------------------------------------------------------------
+
+  [HIGH] REEDS  14D. Grazing animals turning up heading for several grasses
+  Answer: REEDS
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "grasses"
+  Wordplay type: charade
+  Components:
+    reversal           Grazing animals           -> REED
+    indicator          turning up                -> 
+    first_letter       several                   -> S
+    indicator          heading                   -> 
+  Assembly: charade — REED(DEER reversed, "Grazing animals") + S(first letter of "several")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=1/2 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      animals: syn=CATS,DEER,EWES,GNUS,PETS,BEAST,BRUTE,FAUNA,GOATS,OKAPI,SHEEP,ASS,BOD,CAT,EGG
+      turning: syn=WAVY,ABOUT,BOWED,GOING,ICING; ind=anagram,reversal
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      heading: syn=BOD,BOG,BUG,DAM,EGG,FAN,LOO,NOB,SUM,BATH,BENT,BUFF,DIKE,DUCK,FOOL; ind=acrostic,parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      several: syn=FEW,MANY,SOME,A FEW,MIXED,OTHER
+      grasses: syn=REEDS*,RATS
+      grazing animals: syn=ASS,ZEBRA
+      turning up: syn=GOING,ICING
+    Definitions:
+      "grasses" -> REEDS (definition match)
+  AI Reasoning:
+    DEER (grazing animals) reversed by 'turning up' gives REED, plus S (first letter of 'several' indicated by 'heading') = REEDS
+  ----------------------------------------------------------------------
+
+  [HIGH] ATTACK  15A. Fiercely oppose charge
+  Answer: ATTACK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "charge"
+  Wordplay: charade
+  Explanation: AT (synonym of "Fiercely") + TACK (synonym of "oppose"); definition: "charge"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ADVERB  17A. Victor is wearing cultivated beard surprisingly, perhaps
+  Answer: ADVERB
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "perhaps"
+  Wordplay type: anagram
+  Components:
+    abbreviation       Victor                    -> V
+    indicator          cultivated                -> 
+    synonym            beard                     -> BEARD
+    indicator          surprisingly              -> 
+  Assembly: anagram — anagram of V(abbr. "Victor")+BEARD = ADVERB
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      victor: syn=V,VIC,HUGO,INNER; abbr=V*
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      cultivated: syn=CUT,FAUX,GREW,HOED,TAME,BREAD,FAMED,PARED,BOBBED,DOCKED,ERSATZ,FABLED,NIPPED,POLLED,PRUNED; ind=anagram
+      beard: syn=AWN,FACE,MUSIC,ACCOST; fodder=BEARD(5/6 anagram match)
+      surprisingly: ind=anagram
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+  AI Reasoning:
+    Anagram of V (Victor) + BEARD gives ADVERB, with 'cultivated' and 'surprisingly' as anagram indicators
+  ----------------------------------------------------------------------
+
+  [FAILED] DOGTAG  18D. Identification for one lately serving in the U.S.?
+  Answer: DOGTAG
+  Tier: --- | Confidence: 0/100
+  Definition: "Identification"
+  Wordplay type: anagram
+  Components:
+    abbreviation       one                       -> O
+    anagram_fodder     lately                    -> LATELY
+    indicator          serving                   -> 
+  DB Lookups:
+    DB lookups:
+      identification: syn=CARD,NAMING; ind=container?
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I,O*; sounds=won
+      lately: syn=NEW,NOW,JUST,LATE,ONLY,LATER,NEWLY,RECENT
+      serving: syn=FRY,TEA,BAKE,BITE,CHOW,DIET,DISH,EATS,FARE,FEED,FOOD,GRUB,GULP,LUAU,MEAL; ind=anagram?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH,UP,YE
+      for one: abbr=EG
+      for one: syn=EG,GOD,SAY,TEA,FARM,FLEA,HUGE,JANE,MOON,TICK
+      in the: syn=LOW,SAD,DOWN,RUSH,ALARM,ARSON,HASTE,HURRY,SPEED,ARIOSO
+  AI Reasoning:
+    Anagram of 'one lately' (O + LATELY letters) indicated by 'serving' produces DOGTAG
+  ----------------------------------------------------------------------
+
+  [HIGH] REDSEA  19A. Engineer dares to skirt eastern body of water
+  Answer: REDSEA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "body of water"
+  Wordplay: anagram + charade
+  Explanation: anagram of DARES ("dares") + E (abbreviation of "eastern") [anagram: "Engineer"] = REDSEA; definition: "body of water"
+  ----------------------------------------------------------------------
+
+  [HIGH] OPPOSITE  20A. Contrasting work I stop somehow close to here
+  Answer: OPPOSITE
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "Contrasting"
+  Wordplay type: anagram
+  Components:
+    literal            stop                      -> STOP
+    last_letter        close                     -> E
+    abbreviation       i                         -> I
+    synonym            work                      -> OP
+  Assembly: anagram — anagram of STOP+E(last letter of "close")+I+OP(synonym of "work") = OPPOSITE
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      work: syn=OP*,DO,GO,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP*,POST; ind=anagram
+      stop: syn=GO,BAR,BIT,CAN,CUT,DAM,DIE,END,GET,JAM,LAY,LEG,LET,MIX,NEW; ind=deletion
+      somehow: syn=ANYWAY,INAWAY; ind=anagram
+      close: syn=BY,GO,IN,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      here: syn=ET,INN,NOW,UNI,ASIA,CAFE,CELL,EMIL,LAIR,PIER,POOL,UTAH,EPSOM,INDIA,LOCUS; sounds=hear
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO,BESIDE,AGAINST,PENDING
+  AI Reasoning:
+    Anagram of I + STOP + letters extracted from 'here' to form OPPOSITE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CLEANCUT  22A. Conservative, thin, seen by court regularly looking neat and respectable
+  Answer: CLEANCUT
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "neat and respectable"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     seen by court regularly   -> CLEAN
+    synonym            thin                      -> CUT
+  Assembly: charade — CLEAN("seen by court regularly") + CUT(synonym of "thin")
+  Note: dropped piece 0
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      conservative: syn=C,CON,DIE,KEY,LOW,OLD,BLUE,SAFE,TORY,CREEP,RIGHT,SCHOOL,DIEHARD,OLDFOGEY,ORTHODOX; abbr=C*,CON
+      thin: syn=CUT*,BONY,FINE,LANK,SLIM,WEAK,CLOSE,GAUNT,LANKY,LEAST,RANGY,REEDY,SHEER,SPARE,TIGHT
+      seen: syn=DUG,GOT,HAD,EYED,FELT,MADE,HEARD,KNOWN,NOTED,SPIED,BEHELD,CAUGHT,ESPIED,IMAGED,LADIDA; sounds=scene
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      court: syn=CT,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT,ct
+      regularly: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,EVENLY,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY,COMMONLY; ind=parts
+      looking: syn=GOING,ACTING,AIMING,AIRING,GIVING,MAKING,FEELING,MEANING,RAISING,SEEKING,SEEMING,STATING,VENTING,VOICING,ALLOWING; ind=anagram,reversal
+      neat: syn=CLEAN*,A1,OK,OX,BIG,FAB,HOT,THE,TOO,TOP,A-OK,BARE,BLUE,BOSS,BRAG
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      respectable: syn=OK,BEST,FINE,GOOD,JAKE,JUST,LUSH,NAME,NICE,OKAY,TIDY,BOOMY,DUCKY,MAJOR,PALMY
+  AI Reasoning:
+    C + CLEAN (anagram of letters from 'seen by court regularly') + CUT gives CLEANCUT
+  ----------------------------------------------------------------------
+
+  [MEDIUM] DRINKINGUPTIME  26A. Chance to complete last round?
+  Answer: DRINKINGUPTIME
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Chance to complete last round?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      chance: syn=AM,BE,DO,GO,IS,AGE,ARE,BED,HAP,LIE,PAY,SIT,TEA,WAY,BEAR
+      to: syn=UP*,BY,OF,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      complete: syn=IN*,UP*,DO,GO,OK,ACE,ALL,CAN,DIE,END,FIX,OPT,OUT,SET,BARE
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      round: syn=RING*,O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL; abbr=O; ind=anagram,container,reversal
+  AI Reasoning:
+    The entire clue cryptically defines DRINKINGUPTIME - the pub closing time when customers get their chance to complete (finish) their last round of drinks.
+  ----------------------------------------------------------------------
+
+  [MEDIUM] HOODOO  3D. Run of bad luck in house party among two circles
+  Answer: HOODOO
+  Tier: Sonnet | Confidence: 60/100
+  Definition: "Run of bad luck"
+  Wordplay type: charade
+  Components:
+    abbreviation       house                     -> HO
+    abbreviation       party                     -> DO
+    indicator          among                     -> 
+    literal            two circles               -> OO
+  Assembly: container — HO(abbr. "house") + DO(abbr. "party") inside OO("two circles")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      run: syn=DO*,R,BE,GO,IT,ACT,AGE,ARE,BAD,BED,BYE,FAG,FLY,GAB,GAS; abbr=R; ind=anagram?
+      bad: syn=BUM,DIS,ILL,LOW,OFF,RUN,SAD,SIN,BLAH,BLUE,BUSH,DARK,DIRE,DOWN,EVIL; abbr=B,OFF; ind=anagram
+      luck: syn=UP,BAD,HAP,ILL,LOW,SAD,BLUE,BORE,DONE,GLUM,OVER,PUNK,SICK,DRIVE,ELBOW; abbr=L
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      house: syn=HO*,BAR,BOX,CAT,DEN,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN,POD; abbr=HO*; ind=parts
+      party: syn=DO*,HOODOO*,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT; abbr=CON,DO*,LAB,P
+      among: syn=IN,MID,AMID,MIDST,AMIDST; abbr=IN; ind=container,hidden,insertion
+      two: syn=II,XL,BIT,DAB,DIS,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK; abbr=II; sounds=to,too
+      circles: syn=CAPS,CUES,ENDS,KINS,LAYS,MAIN,ORBS,TASK,WAYS,ABOUT,AREAS,BLOOD,CLANS,CORDS,DUCTS; abbr=O*,OO*,OS; ind=container
+      house party: syn=GUESTS,SOCIAL
+  AI Reasoning:
+    HO (house abbrev) + DO among OO (party between two circles = ODOO) gives HOODOO
+  ----------------------------------------------------------------------
+
+  [FAILED] SWITCHED  4D. Given a shift, turned to another circuit?
+  Answer: SWITCHED
+  Tier: --- | Confidence: 0/100
+  Definition: "turned to another circuit"
+  Wordplay type: anagram
+  Components:
+    literal            Given                     -> GIVEN
+    literal            a                         -> A
+    indicator          shift                     -> 
+    literal            to                        -> TO
+  DB Lookups:
+    DB lookups:
+      given: syn=IF,APT,ONE,SET,BORN,BUNG,FIRM,FLAT,FREE,HARD,LEFT,NORM,SOME,SURE,USED
+      shift: syn=SWITCH*,DO,GET,COPE,FARE,MAKE,MEAN,MOVE,SACK,SNAP,STEP,STIR,SWAP,VARY,ALONG; ind=anagram
+      turned: syn=ITCHED*,ATE,BAD,DUG,GOT,OFF,RAN,SAW,BEAT,CAME,GREW,ICED,KNEW,RANK,SLEW; ind=anagram,reversal
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      another: syn=NEW,ELSE,HASH,JURY,LUTE,MORE,REAR,RYDE,ADDED,ALOHA,EXTRA,FRESH,INDIA,JACOB,OTHER; abbr=A; ind=anagram
+      circuit: syn=ARC,LAP,WAY,AXIS,BEAT,BLOC,HIKE,LINE,LOOP,PATH,SIDE,SPIN,TOUR,TREK,WALK
+  AI Reasoning:
+    Anagram of 'GIVEN' + 'A' + 'TO' with 'shift' as indicator produces SWITCHED
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TIER  5D. Grade in competitive game, right?
+  Answer: TIER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Grade in competitive game, right?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      grade: syn=TIER*,AM,BE,DO,IS,ARE,BAR,CUT,HAP,LIE,SET,SIT,AXIS,BEAR,CANT; abbr=A
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      game: syn=TIE*,GO,LI,RU,ACT,FUN,GAM,LAY,LOO,MAH,NIM,TAG,USE,AREA,BOUT; abbr=GO,RU; ind=anagram
+      right: syn=R,OK,ON,PC,RT,SO,A A,APT,CUT,DUE,FAR,FIT,FIX,HOW,LOT; abbr=DEXTER,R*,RT; ind=anagram,deletion,parts,reversal; sounds=rite,write
+    Definitions:
+      "Grade" -> TIER (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines TIER as a grade/level system used in competitive games
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PULLONESWEIGHT  6A. Get up hills now in a storm, retaining energy to do a proper share of work?
+  Answer: PULLONESWEIGHT
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "to do a proper share of work"
+  Wordplay type: charade
+  Components:
+    synonym            Get                       -> PULL
+    anagram_fodder     hills now in a            -> ONESWEIGHT
+  Assembly: charade — PULL(synonym of "Get") + ONESWEIGHT("hills now in a")
+  Note: dropped piece 2
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      get: syn=PULL*,PUT*,DO,GO,IT,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE; abbr=G*,GE
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      hills: syn=UPLANDS,AC,JUT,TOR,BANK,BERG,BUMP,FELL,HUMP,LUMP,RISE,WALK,BULGE,BUNCH,CLIMB
+      now: syn=ON*,AS,IN,IS,IT,UP,ANY,AYE,DEF,FOR,HEP,HIP,HOW,MOD,NEW; abbr=AD
+      in: syn=PULL*,WEIGHT*,T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      storm: syn=DO,TO,ADO,AIR,AMY,AND,FLY,SET,SIC,WAR,GALE,INTO,RACK,RAGE,RAID; ind=anagram
+      retaining: syn=FEEING,HIRING,PAYING,PLACING,ABOUT OR,APPLYING,ASSUMING,ENGAGING,EMPLOYING,LAYING ON,OPERATING,TAKING ON,UTILIZING,EXERCISING,EXPLOITING; ind=container
+      energy: syn=E,GO,CHI,PEP,SAP,VIM,ZIP,BRIO,DASH,FUEL,LIFE,SNAP,ZING,DRIVE,FORCE; abbr=E*,GO,SAP; ind=anagram?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      do: syn=PULL*,PUT*,BE,GO,IS,MY,PI,411,A A,ACT,ADO,ALA,AND,ARE,BED; abbr=C,PARTY; sounds=dew,due
+      proper: syn=ON*,SO,APT,DUE,ODD,BEST,GOOD,KILL,MEET,NICE,PRIM,RARE,REAL,TRUE,WILD
+      share: syn=CUT,END,JOB,LOT,BELT,BULK,DEAL,GIVE,LAND,MASS,MOST,NECK,PART,ROLE,TAKE
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+      get up: syn=HILL,NEED,POST,RISE,ARISE,AROSE,CLIMB,SCALE,STAND,ARISEN
+      in a: syn=FINE,MOLE,WITH,AFIRE,ABLAZE,ADDERS,AFLAME,ASLANT,BETTER,MEMBER
+      a storm: syn=ADO,AIR,AND,ASS,BOX,DIN,FIT,FLY,FOR,GAS
+      to do: syn=REAL,LEGIT,RIGHT,DECENT,PRISSY,PROPER,CORRECT,FITTING,GENTEEL,ONPAPER
+  AI Reasoning:
+    PULL (get) + anagram of 'hills now in a' incorporating E (energy) gives PULLONESWEIGHT
+  ----------------------------------------------------------------------
+
+  [HIGH] ENMITY  7D. Amenity at work to dispel a hostile feeling
+  Answer: ENMITY
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "a hostile feeling"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Amenity                   -> AMENITY
+    indicator          at work                   -> 
+    indicator          to                        -> 
+    indicator          dispel                    -> 
+  Assembly: deletion+anagram — delete A from AMENITY, anagram of MENITY = ENMITY
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      amenity: syn=AT,GOOD,EXTRA,FRILL,LUXURY; fodder=AMENITY(6/6 anagram match)
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      dispel: syn=CLEAR,BANISH; ind=anagram?
+      hostile: syn=BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,ENEMY,HARSH,HEAVY,PROSY,ROUGH
+      feeling: syn=GO,MY,AIR,EYE,FAD,SEE,TON,BUZZ,CHIC,DEEM,FEEL,FISH,GOOD,HAVE,HOLD
+      at work: abbr=IN
+  AI Reasoning:
+    AMENITY with first letter A removed and remaining letters anagrammed gives ENMITY
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

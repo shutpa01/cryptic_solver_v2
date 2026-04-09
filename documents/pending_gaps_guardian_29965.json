@@ -1,0 +1,46 @@
+{
+  "source": "guardian",
+  "puzzle": "29965",
+  "stats": {
+    "total": 32,
+    "assembled": 27,
+    "high": 24,
+    "medium": 2,
+    "low": 1,
+    "failed": 0,
+    "avg_score": 91.92592592592592
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "at end of festivities",
+      "letters": "SIX",
+      "answer": "SIXTIES",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Golden age – at end of festivities?",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Golden age",
+      "answer": "SIXTIES",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Golden age – at end of festivities?",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "England collapse over and over and over and over and over and over and over and over and over and over and over",
+      "answer": "ELEVENFOLD",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "England collapse over and over and over and over and over and over and over and over and over and over and over",
+      "score": 67
+    }
+  ]
+}

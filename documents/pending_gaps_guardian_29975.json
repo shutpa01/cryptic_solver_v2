@@ -1,0 +1,25 @@
+{
+  "source": "guardian",
+  "puzzle": "29975",
+  "stats": {
+    "total": 1,
+    "assembled": 1,
+    "high": 1,
+    "medium": 0,
+    "low": 0,
+    "failed": 0,
+    "avg_score": 85.0
+  },
+  "gaps": [
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wealthy travellers'",
+      "answer": "THEJETSET",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Wealthy travellers’ bad teeth, black and small within",
+      "score": 85
+    }
+  ]
+}
