@@ -165,7 +165,7 @@ def run_pipeline(source, puzzle_number):
             text=True,
             encoding="utf-8",
             errors="replace",
-            timeout=1800,  # 30 min max per puzzle
+            timeout=3600,  # 60 min max per puzzle
         )
     except subprocess.TimeoutExpired:
         log(f"    Pipeline TIMEOUT (30 min) — skipping {source} #{puzzle_number}")
