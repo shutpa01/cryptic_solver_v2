@@ -106,7 +106,7 @@ def run_fifteensquared_pass(source, puzzle_number, pub_date, dry_run=False):
         LEFT JOIN structured_explanations se ON se.clue_id = c.id
         WHERE c.source = ? AND c.puzzle_number = ?
           AND c.answer IS NOT NULL AND c.answer != ''
-          AND (se.confidence IS NULL OR se.confidence < 0.7)
+          AND se.confidence IS NULL
           AND (c.reviewed IS NULL OR c.reviewed != 1)
     """, (source, str(puzzle_number))).fetchall()
 

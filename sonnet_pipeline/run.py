@@ -657,8 +657,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 for row in rows:
                     cid, cnum, direction, clue, answer, enum, explanation = row
 
-                    # Skip clues already solved by S
-                    if cid in sig_solved_ids:
+                    # Skip clues already solved by earlier phases
+                    if cid in hidden_solved_ids or cid in dd_solved_ids or cid in mech_solved_ids or cid in sig_solved_ids:
                         continue
 
                     answer_clean = clean(answer)
@@ -688,8 +688,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                 raw_explanation=tc.get("explanation", "")
                             )
 
-                    # Add to results for report + gap collection
-                    conf_label = "high" if score >= 80 else "medium"
+                        # Add to results for report + gap collection
+                        conf_label = "high" if score >= 80 else "medium"
                         results.append({
                             "status": "ASSEMBLED",
                             "tier": "TFTT",
@@ -762,8 +762,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 for row in rows:
                     cid, cnum, direction, clue, answer, enum, explanation = row
 
-                    # Skip clues already solved by S
-                    if cid in sig_solved_ids:
+                    # Skip clues already solved by earlier phases
+                    if cid in hidden_solved_ids or cid in dd_solved_ids or cid in mech_solved_ids or cid in sig_solved_ids or cid in tftt_solved_ids:
                         continue
 
                     answer_clean = clean(answer)
@@ -798,31 +798,25 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
                     # Add to results for report + gap collection
                     conf_label = "high" if score >= 80 else "medium"
-                        results.append({
-                            "status": "ASSEMBLED",
-                            "tier": "FS",
-                            "confidence": conf_label,
-                            "score": score,
-                            "clue_number": cnum,
-                            "direction": direction,
-                            "enumeration": enum,
-                            "clue": clue,
-                            "answer": answer,
-                            "explanation": explanation,
-                            "ai_output": parsed,  # include pieces for gap collection
-                        })
+                    results.append({
+                        "status": "ASSEMBLED",
+                        "tier": "FS",
+                        "confidence": conf_label,
+                        "score": score,
+                        "clue_number": cnum,
+                        "direction": direction,
+                        "enumeration": enum,
+                        "clue": clue,
+                        "answer": answer,
+                        "explanation": explanation,
+                        "ai_output": parsed,
+                    })
 
-                        reason_str = ", ".join(
-                            "%s(%d)" % (r, d) for r, d in reasons
-                        ) if reasons else "clean"
-                        print("  [FS %3d] %s. %s = %s  %s" % (
-                            score, cnum, clue[:40], answer, reason_str))
-                    else:
-                        reason_str = ", ".join(
-                            "%s(%d)" % (r, d) for r, d in reasons
-                        )
-                        print("  [FS LOW %3d] %s. %s = %s  %s" % (
-                            score, cnum, clue[:40], answer, reason_str))
+                    reason_str = ", ".join(
+                        "%s(%d)" % (r, d) for r, d in reasons
+                    ) if reasons else "clean"
+                    print("  [FS %3d] %s. %s = %s  %s" % (
+                        score, cnum, clue[:40], answer, reason_str))
 
                 elapsed = time.time() - t0
                 remaining = len(rows) - len(sig_solved_ids) - len(fs_solved_ids)
