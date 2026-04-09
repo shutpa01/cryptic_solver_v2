@@ -150,19 +150,16 @@ def run_fifteensquared_pass(source, puzzle_number, pub_date, dry_run=False):
         # Score
         score, reasons = score_parse(parsed, clue["answer"], ref_db)
 
-        if score >= 70:
-            store_fifteensquared_result(
-                conn, clue["id"], parsed, score,
-                fc.get("definition", ""),
-                raw_explanation=fc.get("explanation", ""),
-                source_name=source,
-            )
-            solved += 1
-            cnum = clue["clue_number"]
-            direction = clue["direction"][0].upper()
-            log(f"    [{score}] {cnum}{direction}. {clue['answer']}")
-        else:
-            reason_str = ", ".join("%s(%d)" % (r, d) for r, d in reasons)
+        store_fifteensquared_result(
+            conn, clue["id"], parsed, score,
+            fc.get("definition", ""),
+            raw_explanation=fc.get("explanation", ""),
+            source_name=source,
+        )
+        solved += 1
+        cnum = clue["clue_number"]
+        direction = clue["direction"][0].upper()
+        log(f"    [{score}] {cnum}{direction}. {clue['answer']}")
             failed += 1
 
     conn.commit()
