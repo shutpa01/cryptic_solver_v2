@@ -28,19 +28,19 @@
     </p>
     <div id="wordhelp-practice-{{ idx }}" class="mt-1"></div>
 
-    {# Tool prompt — points user to the solver panel #}
+    {# Tool prompt — opens full-screen tools overlay #}
     {% if tool_prompt %}
     <div id="tool-callout" class="mt-3 flex items-center justify-between gap-2 text-sm font-medium rounded-lg px-4 py-3 border-2 cursor-pointer
         {% if tool == 'anagram' %}bg-violet-50 border-violet-300 text-violet-700{% else %}bg-emerald-50 border-emerald-300 text-emerald-700{% endif %}"
-         onclick="document.getElementById('helper-panel').classList.remove('hidden');document.getElementById('helper-open').classList.add('hidden');solverTab('{{ tool }}');this.classList.add('hidden')">
+         onclick="openPracticeOverlay('{{ tool }}');this.classList.add('hidden')">
         <span>{{ tool_prompt }}</span>
-        <span class="text-lg animate-bounce-x">&#x2197;</span>
+        <span class="text-lg">&#x2197;</span>
     </div>
     {% endif %}
 
     {# User's guess #}
     <div class="mt-4">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
             <input type="text" id="guess-input"
                    placeholder="Click on word(s) or type answer..."
                    class="text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase w-48 focus:outline-none focus:ring-2 focus:ring-{{ colour }}-300"
@@ -49,6 +49,10 @@
             <button onclick="checkGuess()"
                     class="text-sm px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium cursor-pointer">
                 Check
+            </button>
+            <button onclick="openPracticeOverlay('{{ tool or 'anagram' }}')"
+                    class="text-sm px-4 py-2 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
+                Tools
             </button>
             <span id="guess-result" class="text-sm"></span>
         </div>
@@ -170,32 +174,208 @@
     <a href="/learn/{{ wtype }}/practice" class="text-sm px-3 py-1.5 rounded border border-{{ colour }}-300 text-{{ colour }}-700 hover:bg-{{ colour }}-50 font-medium">Random clue</a>
 </div>
 
+{# Full-screen tools overlay for practice mode #}
+<div id="tools-overlay" class="hidden fixed inset-0 z-[100] bg-white flex flex-col">
+    <div class="flex items-center justify-between px-4 py-3 bg-indigo-600 text-white">
+        <span class="font-semibold text-sm">Practice Tools</span>
+        <button onclick="closePracticeOverlay()" class="text-white text-2xl leading-none cursor-pointer">&times;</button>
+    </div>
+    <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+        <p id="tools-overlay-clue" class="text-sm text-gray-800 leading-snug"></p>
+        <span class="text-xs text-gray-400 font-mono">{{ clue.enumeration or '' }}</span>
+    </div>
+    <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
+        <input type="text" id="tools-overlay-answer"
+               placeholder="{{ clue.enumeration or 'answer' }}"
+               class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1.5 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
+               autocomplete="off"
+               onkeydown="if(event.key==='Enter')practiceOverlayCheck()">
+        <button onclick="practiceOverlayCheck()" class="text-xs px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Check</button>
+        <span id="tools-overlay-result" class="text-xs"></span>
+    </div>
+    <div class="flex gap-1 px-4 pt-3 pb-1">
+        <button onclick="solverTab('anagram')" id="tab-anagram"
+                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-violet-100 text-violet-700">Anagram</button>
+        <button onclick="solverTab('pattern')" id="tab-pattern"
+                class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Pattern</button>
+    </div>
+    <div id="solver-pattern" class="p-4 border-b border-gray-100 hidden">
+        <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token-practice" class="flex gap-2">
+            <input type="hidden" id="helper-token-practice" name="ht" value="{{ helper_token }}">
+            <input type="hidden" id="pattern-enum" name="enum" value="{{ clue.enumeration or '' }}">
+            <input type="text" name="pattern" id="pattern-input"
+                   placeholder="e.g. S?O?E or ?A?T?E"
+                   class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                   autocomplete="off" required
+                   oninput="this.value=this.value.replace(/ /g,'?')"
+                   onkeydown="if(event.key===' '){event.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+'?'+this.value.slice(this.selectionEnd);this.setSelectionRange(s+1,s+1)}">
+            <button type="submit" class="px-3 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Find</button>
+        </form>
+        <div class="flex gap-2 mt-1.5 items-center">
+            <span class="text-xs text-gray-400">Must include:</span>
+            <input type="text" id="pattern-include" name="include"
+                   placeholder="e.g. LT"
+                   class="w-20 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                   autocomplete="off">
+        </div>
+    </div>
+    <div id="solver-anagram" class="p-4 border-b border-gray-100">
+        <p class="text-xs text-gray-500 mb-2">Type letters or click words in the clue</p>
+        <div id="anagram-chips" class="flex flex-wrap gap-1 min-h-[2.25rem] p-2 border border-violet-200 rounded bg-violet-50 items-center cursor-text" onclick="document.getElementById('anagram-add').focus()">
+            <input type="text" id="anagram-add"
+                   placeholder="type..."
+                   class="w-16 text-sm font-mono uppercase bg-transparent outline-none flex-shrink-0 placeholder-violet-300"
+                   autocomplete="off" autocapitalize="characters">
+        </div>
+        <div class="flex gap-2 mt-2">
+            <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
+            <button onclick="anagramClear()" class="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Clear</button>
+        </div>
+    </div>
+    {# No similar tab — not useful in practice mode #}
+    <div id="solver-similar" class="hidden"></div>
+    <div id="solver-results" class="p-4 overflow-y-auto flex-1 min-h-0"></div>
+</div>
+
 <script>
 var _answer = "{{ clue.answer }}".replace(/\s/g, '').toUpperCase();
-
-// Word click handler — routes to anagram solver for anagram clues, word lookup otherwise
 var _practiceToolMode = "{{ tool }}";
 var _selectedWords = [];
-function wordHelp(span) {
+var _practiceScrollY = 0;
+
+function openPracticeOverlay(tab) {
+    _practiceScrollY = window.scrollY;
+    var overlay = document.getElementById('tools-overlay');
+    // Build clickable clue words in overlay
+    var clueContainer = document.getElementById('tools-overlay-clue');
+    clueContainer.innerHTML = '';
+    var text = {{ clue.clue_text | tojson }};
+    var parts = text.split(/(\s+)/);
+    var wordIdx = 0;
+    parts.forEach(function(part) {
+        if (part.trim()) {
+            var clean = part.replace(/[^A-Za-z]/g, '').toLowerCase();
+            if (clean) {
+                var span = document.createElement('span');
+                span.className = 'clue-word cursor-pointer hover:bg-indigo-100 hover:rounded px-0.5 -mx-0.5 transition-colors';
+                span.dataset.idx = wordIdx;
+                span.dataset.clean = clean;
+                span.textContent = part;
+                span.onclick = function() { overlayWordHelp(this); };
+                clueContainer.appendChild(span);
+                wordIdx++;
+            } else {
+                clueContainer.appendChild(document.createTextNode(part));
+            }
+        } else {
+            clueContainer.appendChild(document.createTextNode(part));
+        }
+    });
+    // Sync guess input to overlay
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    overlayAnswer.value = document.getElementById('guess-input').value;
+    document.getElementById('tools-overlay-result').textContent = '';
+    // Set up pattern from enumeration
+    var enumVal = "{{ clue.enumeration or '' }}";
+    var patInput = document.getElementById('pattern-input');
+    if (patInput && !patInput.value) {
+        var nums = enumVal.match(/\d+/g);
+        if (nums) {
+            patInput.value = nums.map(function(n) { return '?'.repeat(parseInt(n)); }).join('-');
+        }
+    }
+    document.getElementById('solver-results').innerHTML = '';
+    _tabResultsCache = {};
+    solverTab(tab || 'anagram');
+    overlay.classList.remove('hidden');
+}
+
+function closePracticeOverlay() {
+    var overlay = document.getElementById('tools-overlay');
+    overlay.classList.add('hidden');
+    // Sync overlay answer back to guess input
+    var overlayVal = document.getElementById('tools-overlay-answer').value;
+    if (overlayVal) {
+        document.getElementById('guess-input').value = overlayVal;
+    }
+    document.getElementById('solver-results').innerHTML = '';
+    _tabResultsCache = {};
+    window.scrollTo(0, _practiceScrollY);
+}
+
+function practiceOverlayCheck() {
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    var guess = overlayAnswer.value.replace(/\s/g, '').toUpperCase();
+    var result = document.getElementById('tools-overlay-result');
+    if (!guess) return;
+    // Sync to main guess input
+    document.getElementById('guess-input').value = overlayAnswer.value;
+    if (guess === _answer) {
+        result.className = 'text-xs text-green-600 font-bold';
+        result.textContent = 'Correct!';
+    } else {
+        result.className = 'text-xs text-red-500';
+        result.textContent = 'Not right';
+    }
+}
+
+// Overlay word help — routes to anagram or inline lookup
+var _overlaySelectedWords = [];
+function overlayWordHelp(span) {
     var idx = parseInt(span.dataset.idx);
     var clean = span.dataset.clean;
-    var clueId = span.dataset.clue;
 
-    // For anagram practice, clicking a word adds its letters to the anagram solver
-    if (_practiceToolMode === 'anagram') {
+    // If anagram tab is open, send word there
+    var anagramTab = document.getElementById('solver-anagram');
+    if (anagramTab && !anagramTab.classList.contains('hidden')) {
         span.classList.toggle('bg-violet-200');
         span.classList.toggle('rounded');
         anagramFromWord(clean);
         return;
     }
 
-    // Default: word lookup
-    var target = 'wordhelp-' + clueId;
-    var panel = document.getElementById('helper-panel');
-    if (panel && !panel.classList.contains('hidden')) {
-        panel.classList.add('hidden');
-        document.getElementById('helper-open').classList.remove('hidden');
+    // Word lookup in overlay results
+    if (_overlaySelectedWords.length > 0) {
+        var minIdx = Math.min.apply(null, _overlaySelectedWords.map(function(w) { return w.idx; }));
+        var maxIdx = Math.max.apply(null, _overlaySelectedWords.map(function(w) { return w.idx; }));
+        if (idx === minIdx - 1 || idx === maxIdx + 1) {
+            _overlaySelectedWords.push({el: span, idx: idx, clean: clean});
+            span.classList.add('bg-indigo-200', 'rounded');
+        } else {
+            _overlaySelectedWords.forEach(function(w) { w.el.classList.remove('bg-indigo-200', 'rounded'); });
+            _overlaySelectedWords = [{el: span, idx: idx, clean: clean}];
+            span.classList.add('bg-indigo-200', 'rounded');
+        }
+    } else {
+        _overlaySelectedWords = [{el: span, idx: idx, clean: clean}];
+        span.classList.add('bg-indigo-200', 'rounded');
     }
+    _overlaySelectedWords.sort(function(a, b) { return a.idx - b.idx; });
+    var phrase = _overlaySelectedWords.map(function(w) { return w.clean; }).join(' ');
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht,
+              {target: '#solver-results', swap: 'innerHTML'});
+}
+
+// Page-level word help — for clicking clue words outside the overlay
+function wordHelp(span) {
+    var idx = parseInt(span.dataset.idx);
+    var clean = span.dataset.clean;
+    var clueId = span.dataset.clue;
+
+    // For anagram practice, open overlay and add word
+    if (_practiceToolMode === 'anagram') {
+        span.classList.toggle('bg-violet-200');
+        span.classList.toggle('rounded');
+        var overlay = document.getElementById('tools-overlay');
+        if (overlay.classList.contains('hidden')) {
+            openPracticeOverlay('anagram');
+        }
+        anagramFromWord(clean);
+        return;
+    }
+
+    // Default: inline word lookup below the clue
+    var target = 'wordhelp-' + clueId;
     if (_selectedWords.length > 0 && _selectedWords[0].clueId !== clueId) { _clearSelection(); }
     if (_selectedWords.length === 1 && _selectedWords[0].idx === idx) {
         _clearSelection();
@@ -255,15 +435,7 @@ function revealStep(id) {
 document.addEventListener('DOMContentLoaded', function() {
     var tool = "{{ tool }}";
     if (tool) {
-        var panel = document.getElementById('helper-panel');
-        panel.classList.remove('hidden');
-        document.getElementById('helper-open').classList.add('hidden');
-        solverTab(tool);
-        // Pulse the panel to draw attention
-        panel.classList.add('ring-4', '{% if tool == "anagram" %}ring-violet-300{% else %}ring-emerald-300{% endif %}');
-        setTimeout(function() {
-            panel.classList.remove('ring-4', 'ring-violet-300', 'ring-emerald-300');
-        }, 2000);
+        openPracticeOverlay(tool);
     }
 });
 </script>
@@ -272,14 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-4px); }
     75% { transform: translateX(4px); }
-}
-@keyframes bounce-x {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(4px, -4px); }
-}
-.animate-bounce-x {
-    animation: bounce-x 1s ease-in-out infinite;
-    display: inline-block;
 }
 </style>
 {% endblock %}
@@ -290,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
     CordeliaTips.init([
         {id: 'practice-guess', text: 'Type your answer in the box and hit <strong>Check</strong>. Don\'t worry about getting it wrong &mdash; that\'s how you learn.'},
         {id: 'practice-hints', text: 'Stuck? Use the hint buttons below. Start with the wordplay type, then the definition. No shame in it &mdash; I use them too.'},
-        {id: 'practice-tools', text: 'The solver tools (top right) work here too. Click words in the clue to look them up, or try the pattern finder and anagram solver.'}
+        {id: 'practice-tools', text: 'Hit <strong>Tools</strong> to open the anagram solver and pattern finder. Click words in the clue to look them up.'}
     ]);
 });
 </script>

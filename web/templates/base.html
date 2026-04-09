@@ -355,10 +355,6 @@
         if (clueId && typeof _lastFocusedClueId !== 'undefined') _lastFocusedClueId = clueId;
         var enumInput = document.getElementById('pattern-enum');
         if (enumInput && enumeration) enumInput.value = enumeration;
-        var panel = document.getElementById('helper-panel');
-        var openBtn = document.getElementById('helper-open');
-        if (panel) panel.classList.remove('hidden');
-        if (openBtn) openBtn.classList.add('hidden');
         solverTab('similar');
         document.getElementById('similar-hint').textContent = 'Searching...';
         var url = '/helper/similar?q=' + encodeURIComponent(clueText) + '&ht=' + _ht;
@@ -371,10 +367,6 @@
     }
 
     function anagramFromWord(word) {
-        var panel = document.getElementById('helper-panel');
-        var openBtn = document.getElementById('helper-open');
-        if (panel) panel.classList.remove('hidden');
-        if (openBtn) openBtn.classList.add('hidden');
         solverTab('anagram');
         // Append letters instead of replacing — allows multi-word fodder building
         word.toUpperCase().split('').forEach(function(ch) {
@@ -644,6 +636,48 @@
                 '</div>';
             document.body.appendChild(div);
             this._container = div;
+            // Make draggable
+            this._makeDraggable(div);
+        },
+
+        _makeDraggable: function(el) {
+            var dragging = false, startX, startY, origX, origY;
+            var card = el.querySelector('.cordelia-tip-card');
+            if (!card) return;
+            card.style.cursor = 'grab';
+            function onDown(e) {
+                var t = e.touches ? e.touches[0] : e;
+                dragging = true;
+                startX = t.clientX;
+                startY = t.clientY;
+                var rect = el.getBoundingClientRect();
+                origX = rect.left;
+                origY = rect.top;
+                card.style.cursor = 'grabbing';
+                e.preventDefault();
+            }
+            function onMove(e) {
+                if (!dragging) return;
+                var t = e.touches ? e.touches[0] : e;
+                var dx = t.clientX - startX;
+                var dy = t.clientY - startY;
+                el.style.left = (origX + dx) + 'px';
+                el.style.top = (origY + dy) + 'px';
+                el.style.bottom = 'auto';
+                el.style.right = 'auto';
+                el.style.transform = 'none';
+                e.preventDefault();
+            }
+            function onUp() {
+                dragging = false;
+                card.style.cursor = 'grab';
+            }
+            card.addEventListener('mousedown', onDown);
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+            card.addEventListener('touchstart', onDown, {passive: false});
+            document.addEventListener('touchmove', onMove, {passive: false});
+            document.addEventListener('touchend', onUp);
         },
 
         dismiss: function() {

@@ -444,6 +444,220 @@ window.PUZZLE_CONFIG = {
 {% endblock %}
 
 {% block cordelia_tips %}
+{% if source == 'cordelia' %}
+{# ===== TUTORIAL WALKTHROUGH — STATE MACHINE ===== #}
+<script>
+var _tutStep = 0;
+var _tutFirstClueId = null;
+var _tutTips = {};  // step -> tip text, for back navigation
+
+function _findFirstClueId() {
+    var card = document.getElementById('clue-1-across');
+    return card ? card.dataset.clueId : null;
+}
+
+function _tutTip(text) {
+    _tutTips[_tutStep] = text;
+    var backBtn = _tutStep > 1
+        ? ' <span onclick="_tutGoBack()" style="display:inline-block;margin-top:0.5rem;color:#6366f1;cursor:pointer;font-size:0.75rem;font-weight:600">&larr; Back</span>'
+        : '';
+    CordeliaTips.init([{id: 'tut-' + _tutStep, text: text + backBtn}]);
+}
+
+function _tutAdvance(step) {
+    if (_tutStep >= step) return;
+    _tutStep = step;
+}
+
+function _tutGoBack() {
+    if (_tutStep <= 1) return;
+    var fromStep = _tutStep;
+
+    // Undo UI state for current step
+    var input1a = _tutFirstClueId ? document.querySelector('.solve-answer[data-clue-id="' + _tutFirstClueId + '"]') : null;
+
+    if (fromStep >= 7) {
+        // Undo add-to-grid: delete answer
+        if (input1a) {
+            var delBtn = input1a.parentElement.querySelector('.solve-check-btn');
+            if (delBtn && delBtn.getAttribute('data-mode') === 'delete') {
+                solveDelete(input1a, delBtn);
+            }
+        }
+    }
+    if (fromStep >= 6) {
+        // Undo correct check: clear answer and reset input
+        if (input1a) {
+            input1a.value = '';
+            input1a.disabled = false;
+            input1a.classList.remove('border-green-400', 'bg-green-50', 'border-red-400');
+            input1a.classList.add('border-gray-300');
+            var result = input1a.parentElement.querySelector('.solve-result');
+            if (result) { result.textContent = ''; result.className = 'solve-result text-xs'; }
+            var btn = input1a.parentElement.querySelector('.solve-check-btn');
+            if (btn) {
+                btn.textContent = 'Check';
+                btn.removeAttribute('data-mode');
+                btn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            }
+        }
+    }
+    if (fromStep >= 5) {
+        // Undo picking FEAST: clear answer box
+        if (input1a) input1a.value = '';
+        var overlayAns = document.getElementById('tools-overlay-answer');
+        if (overlayAns) overlayAns.value = '';
+        var overlayRes = document.getElementById('tools-overlay-result');
+        if (overlayRes) overlayRes.textContent = '';
+    }
+    if (fromStep >= 4) {
+        // Undo anagram: clear chips
+        if (typeof anagramClear === 'function') anagramClear();
+    }
+    if (fromStep >= 3) {
+        // Undo tools open: close overlay
+        if (typeof closeToolsOverlay === 'function') closeToolsOverlay();
+    }
+    if (fromStep >= 2) {
+        // Undo word click: clear word help
+        document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
+    }
+
+    // Go back one step and show previous tip
+    _tutStep = fromStep - 1;
+    if (_tutTips[_tutStep]) {
+        _tutTip(_tutTips[_tutStep]);
+    }
+}
+
+// Auto-enter solve mode
+document.addEventListener('DOMContentLoaded', function() {
+    if (!_solveMode) toggleSolveMode();
+    _tutFirstClueId = _findFirstClueId();
+    _tutStep = 1;
+    _tutTip('Right, here\'s your first puzzle &mdash; ten real clues from real crosswords. Let\'s walk through one together. Look at <strong>1 across</strong>: "Twist of fate\'s causing blow-out". Click on the word <strong>Twist</strong>.');
+});
+
+// Hook word clicks
+var _origWordHelp = wordHelp;
+wordHelp = function(span) {
+    _origWordHelp(span);
+    var clean = (span.dataset.clean || '').toLowerCase();
+
+    // Step 1 → 2: user clicked "twist"
+    if (_tutStep === 1 && clean === 'twist') {
+        _tutAdvance(2);
+        setTimeout(function() {
+            _tutTip('See that? <strong>Twist</strong> is flagged as an <strong>anagram indicator</strong> &mdash; it tells you to rearrange some letters. And look at those synonyms &mdash; you can click any of them to try it as your answer. But I want to show you something better. Click the <strong>Tools</strong> button next to 1 across.');
+        }, 800);
+    }
+};
+
+// Hook Tools overlay
+var _origOpenTools = openToolsOverlay;
+openToolsOverlay = function(clueId) {
+    _origOpenTools(clueId);
+
+    // Step 2 → 3: user opened Tools for 1a
+    if (_tutStep === 2) {
+        _tutAdvance(3);
+        setTimeout(function() {
+            _tutTip('This is the <strong>Anagram solver</strong>. See the clue words at the top? Click on <strong>fate\'s</strong> &mdash; that\'s our fodder, the letters we need to rearrange.');
+        }, 500);
+    }
+};
+
+// Hook overlay word clicks (for anagram fodder)
+var _origOverlayWordHelp = typeof overlayWordHelp === 'function' ? overlayWordHelp : null;
+if (_origOverlayWordHelp) {
+    overlayWordHelp = function(span) {
+        _origOverlayWordHelp(span);
+        var clean = (span.dataset.clean || '').toLowerCase();
+
+        // Step 3 → 4: user clicked "fates" in overlay
+        if (_tutStep === 3 && (clean === 'fates' || clean === "fate's")) {
+            _tutAdvance(4);
+            setTimeout(function() {
+                _tutTip('The letters are in the solver and it\'s already found matches. See <strong>FEAST</strong>? Click on it to use it as your answer.');
+            }, 600);
+        }
+    };
+}
+
+// Hook pickResultClick (when user clicks a result like FEAST)
+var _origPickResultClick = pickResultClick;
+pickResultClick = function(word) {
+    _origPickResultClick(word);
+
+    // Step 4 → 5: user picked FEAST from results
+    if (_tutStep === 4 && word.toUpperCase() === 'FEAST') {
+        _tutAdvance(5);
+        setTimeout(function() {
+            _tutTip('It\'s gone into the answer box. Now hit <strong>Check</strong> to see if it\'s right.');
+        }, 500);
+    }
+};
+
+// Hook solveCheck
+var _origSolveCheck = solveCheck;
+solveCheck = function(input) {
+    _origSolveCheck(input);
+    var card = input.closest('.clue-card');
+    var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+    var guess = input.value.replace(/\s/g, '').toUpperCase();
+
+    // Step 5 → 6: user checked and got FEAST correct
+    if (_tutStep === 5 && guess === answer) {
+        _tutAdvance(6);
+        setTimeout(function() {
+            _tutTip('Brilliant! Now hit <strong>Add to grid</strong> to place your answer. Then try <strong>Show grid</strong> &mdash; watch what happens to the crossing letters.');
+        }, 800);
+    }
+};
+
+// Hook Add to Grid
+var _origSolveAddToGrid = solveAddToGrid;
+solveAddToGrid = function(input) {
+    _origSolveAddToGrid(input);
+
+    // Step 6 → 7: user added to grid
+    if (_tutStep === 6) {
+        _tutAdvance(7);
+        setTimeout(function() {
+            _tutTip('See those letters appearing next to the other clues? Those are <strong>crossing letters</strong> &mdash; they come from the answer you just placed. The pattern finder will use them automatically. Now you\'ve used every tool on one clue! <br><br>The rest are yours. And remember &mdash; if you get stuck, every clue has <strong>hint buttons</strong> underneath. Definition, wordplay type, full explanation &mdash; as much or as little as you need. You\'re never on your own.');
+        }, 1500);
+    }
+};
+
+// Hook hints — explain they're everywhere
+var _tutHintShown = false;
+document.body.addEventListener('htmx:afterSwap', function(e) {
+    if (e.target.id && e.target.id.startsWith('hints-') && !_tutHintShown && _tutStep >= 7) {
+        _tutHintShown = true;
+        setTimeout(function() {
+            _tutTip('Those hints are on <strong>every single clue</strong> on the site. You\'re never stuck.');
+        }, 500);
+    }
+});
+
+// Hook progress — detect completion
+var _origUpdateProgress = _updateProgress;
+_updateProgress = function() {
+    _origUpdateProgress();
+    var el = document.getElementById('solve-progress');
+    if (el) {
+        var m = el.textContent.match(/^(\d+)\/(\d+)/);
+        if (m && parseInt(m[1]) === parseInt(m[2]) && parseInt(m[2]) > 0) {
+            setTimeout(function() {
+                _tutTip('You\'ve done it! Every tool you just used is on every puzzle on the site. Pick one and have a go &mdash; I\'ll be right here. <a href="/puzzles" style="color:#4f46e5;font-weight:600;text-decoration:underline">Browse puzzles &rarr;</a>');
+            }, 500);
+        }
+    }
+};
+</script>
+{% else %}
+{# ===== NORMAL PUZZLE TIPS ===== #}
 <script>
 // Browse mode tips
 var _puzzleBrowseTips = [
@@ -507,5 +721,6 @@ toggleSolveMode = function() {
         CordeliaTips.init(_puzzleBrowseTips);
     }
 };
+{% endif %}
 </script>
 {% endblock %}

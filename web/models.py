@@ -106,6 +106,7 @@ TYPE_LABELS = {
     ("guardian", "cryptic"): "Cryptic",
     ("independent", "cryptic"): "Cryptic",
     ("dailymail", "cryptic"): "Cryptic",
+    ("cordelia", "tutorial"): "Tutorial",
 }
 
 
@@ -170,6 +171,11 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
     elif source == "dailymail":
         if 16000 <= num <= 19999:
             return "cryptic", "Cryptic"
+        return None, None
+
+    elif source == "cordelia":
+        if num == 1:
+            return "tutorial", "Tutorial"
         return None, None
 
     return None, None

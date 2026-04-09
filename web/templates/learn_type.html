@@ -62,7 +62,7 @@
             <div class="hidden mt-3 space-y-2">
                 {# Try the tools prompt — contextual per type #}
                 <div class="text-xs text-indigo-600 bg-indigo-50 rounded px-3 py-2 border border-indigo-100 flex flex-wrap items-center gap-2">
-                    <span>Try it: click any word above to look it up.{% if tool == 'anagram' %} Or open the <strong>Anagram solver</strong> (top right).{% elif tool == 'pattern' %} Or try the <strong>Pattern finder</strong> (top right).{% endif %}</span>
+                    <span>Try it: click any word above to look it up.</span>
                 </div>
 
                 {# Colour-coded view #}
@@ -230,13 +230,6 @@ function wordHelp(span) {
     var clean = span.dataset.clean;
     var clueId = span.dataset.clue;
     var target = 'wordhelp-' + clueId;
-
-    // Close solver panel when word help opens
-    var panel = document.getElementById('helper-panel');
-    if (panel && !panel.classList.contains('hidden')) {
-        panel.classList.add('hidden');
-        document.getElementById('helper-open').classList.remove('hidden');
-    }
 
     if (_selectedWords.length > 0 && _selectedWords[0].clueId !== clueId) {
         _clearSelection();
