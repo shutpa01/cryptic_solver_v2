@@ -676,19 +676,17 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     # Score
                     score, reasons = score_parse(parsed, answer, ref_db)
 
-                    # Store all parsed results — a low-scoring blog explanation
-                    # is better than nothing, and avoids wasting Sonnet calls
-                    tftt_solved_ids.add(cid)
                     if score >= 70:
+                        tftt_solved_ids.add(cid)
                         tftt_high += 1
 
-                    # Store to DB
-                    if write_db:
-                        store_tftt_result(
-                            conn, cid, parsed, score,
-                            tc.get("definition", ""),
-                            raw_explanation=tc.get("explanation", "")
-                        )
+                        # Store to DB
+                        if write_db:
+                            store_tftt_result(
+                                conn, cid, parsed, score,
+                                tc.get("definition", ""),
+                                raw_explanation=tc.get("explanation", "")
+                            )
 
                     # Add to results for report + gap collection
                     conf_label = "high" if score >= 80 else "medium"
