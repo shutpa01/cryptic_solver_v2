@@ -378,12 +378,13 @@ def get_puzzle_grid_solution(source, puzzle_number):
 # ---------------------------------------------------------------------------
 
 def _has_explanation(clue):
-    """Check if a clue has OUR OWN explanation content (components or ai).
+    """Check if a clue has any explanation content we can serve.
 
-    Does NOT include scraped 'explanation' — that's third-party content
-    (Big Dave, Fifteen Squared, TftT) which we must not serve.
+    Checks our own content first (components, ai_explanation), then falls
+    back to blog-sourced explanation field.  All are served only behind
+    the progressive hint button — never shown automatically.
     """
-    for field in ("components", "ai_explanation"):
+    for field in ("components", "ai_explanation", "explanation"):
         val = clue[field] if field in clue.keys() else None
         if val:
             return True
@@ -694,4 +695,10 @@ def _build_explanation(clue):
                 return f'{" + ".join(part_strs)} = {answer}'
         except (json.JSONDecodeError, TypeError):
             pass
+
+    # Fall back to blog-sourced explanation (fifteensquared, TFTT, etc.)
+    blog_expl = clue["explanation"] if "explanation" in clue.keys() else None
+    if blog_expl:
+        return blog_expl
+
     return None

@@ -224,32 +224,13 @@ def clue_page(slug):
     faq_schema = generate_faq_schema(clue_dict, steps)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
 
-    # Human explanation fallback and blog attribution
-    from web.models import get_blog_attribution, get_source_puzzle_url, _build_explanation
-    human_explanation = None
-    blog_name = None
-    blog_url = None
-    has_own_explanation = _build_explanation(clue) is not None
-
-    if not has_own_explanation:
-        if source == "telegraph":
-            # Link to Big Dave but don't serve the explanation
-            blog_name, blog_url = get_blog_attribution(source, puzzle_number, pub_date)
-        else:
-            human_raw = clue["explanation"] if "explanation" in clue.keys() else None
-            if human_raw:
-                human_explanation = human_raw
-                blog_name, blog_url = get_blog_attribution(source, puzzle_number)
-
+    from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
     return render_template(
         "clue.html",
         clue=clue_dict,
         other_appearances=other_appearances,
-        human_explanation=human_explanation,
-        blog_name=blog_name,
-        blog_url=blog_url,
         source_puzzle_url=source_puzzle_url,
         meta_description=meta_description,
         faq_schema=faq_schema,

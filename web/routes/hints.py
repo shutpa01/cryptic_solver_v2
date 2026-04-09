@@ -5,6 +5,7 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 from web.models import (
     get_clue_by_id, get_hint_steps, get_hint_content, compute_hint_tier,
+    get_blog_attribution,
 )
 
 bp = Blueprint("hints", __name__)
@@ -30,6 +31,30 @@ def _validate_token(token):
         return data.get("cid")
     except (BadSignature, SignatureExpired):
         return None
+
+
+def _is_blog_sourced(clue):
+    """Check if the explanation content will come from a blog source.
+
+    Returns True when ai_explanation and components are both empty,
+    meaning _build_explanation will fall through to the blog explanation field.
+    """
+    ai = clue["ai_explanation"] if "ai_explanation" in clue.keys() else None
+    comps = clue["components"] if "components" in clue.keys() else None
+    blog = clue["explanation"] if "explanation" in clue.keys() else None
+    return bool(blog) and not ai and not comps
+
+
+def _get_attribution(clue):
+    """Return (blog_name, blog_url) if explanation is blog-sourced, else (None, None)."""
+    if not _is_blog_sourced(clue):
+        return None, None
+    source = clue["source"] if "source" in clue.keys() else None
+    pnum = clue["puzzle_number"] if "puzzle_number" in clue.keys() else None
+    pub_date = clue["publication_date"] if "publication_date" in clue.keys() else None
+    if source and pnum:
+        return get_blog_attribution(source, pnum, pub_date)
+    return None, None
 
 
 @bp.route("/reveal", methods=["POST"])
@@ -59,6 +84,9 @@ def reveal():
     if not steps:
         abort(400)
 
+    # Get blog attribution once — used if any explanation step is blog-sourced
+    blog_name, blog_url = _get_attribution(clue)
+
     show_all = step_raw == "all"
 
     if show_all:
@@ -66,11 +94,11 @@ def reveal():
         revealed = []
         for s in steps:
             content = get_hint_content(clue, s["type"])
-            revealed.append({
-                "label": s["label"],
-                "type": s["type"],
-                "content": content,
-            })
+            hint = {"label": s["label"], "type": s["type"], "content": content}
+            if s["type"] == "explanation" and blog_name:
+                hint["blog_name"] = blog_name
+                hint["blog_url"] = blog_url
+            revealed.append(hint)
         return render_template(
             "partials/hint_step.html",
             revealed=revealed,
@@ -92,11 +120,11 @@ def reveal():
     # Return just this one step
     s = steps[step_num - 1]
     content = get_hint_content(clue, s["type"])
-    revealed = [{
-        "label": s["label"],
-        "type": s["type"],
-        "content": content,
-    }]
+    hint = {"label": s["label"], "type": s["type"], "content": content}
+    if s["type"] == "explanation" and blog_name:
+        hint["blog_name"] = blog_name
+        hint["blog_url"] = blog_url
+    revealed = [hint]
 
     return render_template(
         "partials/hint_step.html",

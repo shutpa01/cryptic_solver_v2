@@ -260,11 +260,13 @@ def _word_spans_letters_only(clue_text):
 
 
 def _is_valid_lurker_span(span, word_spans):
-    """A valid lurker span must:
-      - cross at least one word boundary (span 2+ words)
-      - take a proper suffix of the first word
-      - take a proper prefix of the last word
-      - include complete middle words (if any)
+    """A valid lurker span is any contiguous letter sequence that is a
+    proper substring of the clue — i.e. it doesn't consume the entire clue.
+
+    Allows:
+      - spanning any number of words (2, 3, 4, ...)
+      - hidden within a single word (e.g. OTIC in 'noticed')
+      - starting at a word boundary (e.g. reversed ALPS in 'child's play')
     """
     s, e = span
 
@@ -273,22 +275,18 @@ def _is_valid_lurker_span(span, word_spans):
         if s < we and e > ws:
             touched.append((ws, we))
 
-    if len(touched) < 2 or len(touched) > 3:
+    if not touched:
         return False
 
-    # Check touched words are adjacent
-    for i in range(len(touched) - 1):
-        if touched[i][1] != touched[i + 1][0]:
-            return False
+    # Single-word hidden: answer is a proper substring of one word
+    if len(touched) == 1:
+        ws, we = touched[0]
+        # Must not consume the entire word
+        return (e - s) < (we - ws)
 
-    # First word: must start inside (proper suffix)
-    w1s, w1e = touched[0]
-    if not (w1s < s < w1e):
-        return False
-
-    # Last word: must end inside (proper prefix)
-    wLs, wLe = touched[-1]
-    if not (wLs < e < wLe):
+    # Multi-word: answer spans 2+ words
+    # Must not consume all the words in the clue
+    if len(touched) == len(word_spans):
         return False
 
     return True
@@ -335,46 +333,45 @@ def definition_candidates(clue_text, enumeration, graph):
     return {"candidates": list(candidates), "support": support}
 
 
-def try_hidden(clue_text, answer, graph, enumeration):
-    """Check if the answer is hidden in the clue, with definition confirmation.
+def try_hidden(clue_text, answer, graph=None, enumeration=None):
+    """Check if the answer is hidden in the clue text.
 
-    Follows the V1 pipeline discipline:
-    1. Run definition engine to get candidates from definition windows
-    2. Check that the KNOWN ANSWER is among those candidates (definition confirmed)
-    3. Run lurker to find the answer hidden in the clue text
-    4. Return result with the verified definition
+    Pure mechanical check — if the answer letters appear contiguously
+    spanning 2+ words in the clue, it's a hidden word. No definition
+    confirmation needed.
+
+    Optionally attempts to identify the definition (remaining words)
+    if graph is provided, but this does NOT gate the result.
 
     Returns dict with direction, spanning words, and definition — or None.
     """
-    # Step 1: Get definition-confirmed candidates
-    def_result = definition_candidates(clue_text, enumeration, graph)
-    candidates = def_result["candidates"]
-    support = def_result["support"]
-
-    # Step 2: Check that the known answer is among definition candidates
     answer_norm = norm_letters(answer)
-    matching_candidate = None
-    for cand in candidates:
-        if norm_letters(cand) == answer_norm:
-            matching_candidate = cand
-            break
+    if not answer_norm:
+        return None
+    if enumeration is None:
+        enumeration = len(answer_norm)
 
-    if matching_candidate is None:
-        return None  # Answer not confirmed by definition engine
-
-    # Step 3: Run lurker for ONLY the known answer
+    # Search for the answer hidden in the clue text
     text = strip_enumeration(clue_text)
-    hypotheses = _lurker_search(text, enumeration, [matching_candidate])
+    hypotheses = _lurker_search(text, enumeration, [answer_norm])
 
     if not hypotheses:
         return None
 
-    # Step 4: Get the definition window that confirmed this answer
     hit = hypotheses[0]
-    def_windows = support.get(matching_candidate, set())
-    best_def = max(def_windows, key=lambda w: len(w.split())) if def_windows else None
-    if best_def:
-        best_def = best_def.strip().strip(".,;:!?\"'()-")
+
+    # Optionally find the definition from remaining words
+    best_def = None
+    if graph:
+        def_result = definition_candidates(clue_text, enumeration, graph)
+        support = def_result.get("support", {})
+        for cand in def_result.get("candidates", []):
+            if norm_letters(cand) == answer_norm:
+                def_windows = support.get(cand, set())
+                if def_windows:
+                    best_def = max(def_windows, key=lambda w: len(w.split()))
+                    best_def = best_def.strip().strip(".,;:!?\"'()-")
+                break
 
     return {
         "direction": hit["direction"],
@@ -458,39 +455,46 @@ def _find_spanning_words(span, word_spans, words):
 # ---------------------------------------------------------------------------
 
 def _highlight_hidden(clue_text, answer, direction):
-    """Capitalise the hidden letters within the clue words for the explanation."""
+    """Show the hidden answer separated from surrounding text.
+
+    E.g. clue='Understood our son's', answer='ODOURS' → "understo ODOURS on's"
+    Prefix and suffix in lowercase, hidden answer in uppercase, spaces to separate.
+    """
     answer_clean = norm_letters(answer)
     text = strip_enumeration(clue_text)
 
-    stream = _letters_only_stream(text)
     enum_len = len(answer_clean)
-
     target = answer_clean if direction == "forward" else answer_clean[::-1]
 
-    idx = stream.find(target)
-    if idx < 0:
-        return text
-
-    # Map stream positions back to original text positions
+    # Map letter positions in original text
     char_positions = []
+    letters_only = []
     for pos, ch in enumerate(text):
         if ch.isalpha():
             char_positions.append(pos)
+            letters_only.append(ch.upper())
+
+    letters_str = "".join(letters_only)
+    idx = letters_str.find(target.upper())
+    if idx < 0:
+        return text
 
     if idx + enum_len > len(char_positions):
         return text
 
-    result = list(text)
-    for j in range(idx, idx + enum_len):
-        orig_pos = char_positions[j]
-        result[orig_pos] = result[orig_pos].upper()
-    # Lowercase the rest
-    for j in range(len(char_positions)):
-        if j < idx or j >= idx + enum_len:
-            orig_pos = char_positions[j]
-            result[orig_pos] = result[orig_pos].lower()
+    start_pos = char_positions[idx]
+    end_pos = char_positions[idx + enum_len - 1]
 
-    return "".join(result)
+    prefix = text[:start_pos].lower().rstrip()
+    suffix = text[end_pos + 1:].lower().lstrip()
+
+    parts = []
+    if prefix:
+        parts.append(prefix)
+    parts.append(answer_clean.upper())
+    if suffix:
+        parts.append(suffix)
+    return " ".join(parts)
 
 
 # ---------------------------------------------------------------------------

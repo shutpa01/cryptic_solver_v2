@@ -145,10 +145,12 @@ def _parse_components(clue):
 
 
 def _highlight_hidden(clue_text, answer):
-    """Highlight the hidden answer letters within the clue text.
+    """Highlight the hidden answer separated from surrounding text.
 
-    Returns HTML with hidden letters wrapped in <strong> tags.
-    E.g. 'grim peloton' with answer IMPEL -> 'gr<strong>IM PEL</strong>oton'
+    Returns HTML with prefix lowercase, answer uppercase in <strong> tags,
+    suffix lowercase, spaces separating each part.
+    E.g. 'Understood our son's' with answer ODOURS ->
+         'understo <strong>ODOURS</strong> on's'
     """
     if not answer or not clue_text:
         return clue_text
@@ -166,18 +168,20 @@ def _highlight_hidden(clue_text, answer):
     if idx < 0:
         return clue_text
 
-    # Build result with highlighting
     start_pos = letter_positions[idx]
     end_pos = letter_positions[idx + len(answer_upper) - 1]
 
-    result = ""
-    result += clue_text[:start_pos]
-    result += '<strong class="text-emerald-700 bg-emerald-100 px-0.5 rounded">'
-    result += clue_text[start_pos:end_pos + 1].upper()
-    result += '</strong>'
-    result += clue_text[end_pos + 1:]
+    prefix = clue_text[:start_pos].lower().rstrip()
+    suffix = clue_text[end_pos + 1:].lower().lstrip()
 
-    return result
+    parts = []
+    if prefix:
+        parts.append(prefix)
+    parts.append('<strong class="text-emerald-700 bg-emerald-100 px-0.5 rounded">'
+                 + answer_upper + '</strong>')
+    if suffix:
+        parts.append(suffix)
+    return " ".join(parts)
 
 
 def _build_colour_map(clue):

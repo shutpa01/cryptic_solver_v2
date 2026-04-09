@@ -127,7 +127,10 @@ def build_positional_explanation(answer, definition, wordplay_type, components):
         if pieces:
             spanning = pieces[0].get("clue_word", "")
             direction = "reversed " if "reversed" in assembly_op else ""
-            lines.append(f'<div><b>{answer}</b> is {direction}hidden in "{spanning}"</div>')
+            from sonnet_pipeline.report import _highlight_hidden
+            target = answer[::-1] if "reversed" in assembly_op else answer
+            highlighted = _highlight_hidden(spanning, target)
+            lines.append(f'<div><b>{answer}</b> is {direction}hidden in "{highlighted}"</div>')
         return Markup("\n".join(lines)) if lines else None
 
     # --- Anagram: special case ---
@@ -251,7 +254,10 @@ def build_explanation_text(answer, definition, wordplay_type, components):
         if pieces:
             spanning = pieces[0].get("clue_word", "")
             direction = "reversed " if "reversed" in assembly_op else ""
-            return f'{answer} is {direction}hidden in "{spanning}"'
+            from sonnet_pipeline.report import _highlight_hidden
+            target = answer[::-1] if "reversed" in assembly_op else answer
+            highlighted = _highlight_hidden(spanning, target)
+            return f'{answer} is {direction}hidden in "{highlighted}"'
         return None
 
     # Anagram

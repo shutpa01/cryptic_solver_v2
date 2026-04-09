@@ -109,9 +109,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         except (ValueError, TypeError):
             pass
 
-    # Blog attribution and source link
-    from web.models import get_blog_attribution, get_source_puzzle_url
-    blog_name, blog_url = get_blog_attribution(source, puzzle_number, pub_date)
+    from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
     # Check for grid crossing conflicts (admin only — avoid cost for regular users)
@@ -132,8 +130,6 @@ def puzzle(source, puzzle_type, puzzle_number):
         across=across,
         down=down,
         is_prize=is_prize,
-        blog_name=blog_name,
-        blog_url=blog_url,
         source_puzzle_url=source_puzzle_url,
         grid_conflicts=grid_conflicts,
     )

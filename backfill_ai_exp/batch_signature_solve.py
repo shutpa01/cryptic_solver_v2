@@ -132,7 +132,9 @@ def run_batch(ref_db, source_filter=None, dry_run=False, write_explanations=True
             if write_explanations and not dry_run:
                 hiding_words = hidden_result.get("words", "")
                 is_reversed = "reversed" in hidden_result.get("op", "")
-                expl = 'hidden reversed in "%s"' % hiding_words if is_reversed else 'hidden in "%s"' % hiding_words
+                from sonnet_pipeline.report import _highlight_hidden
+                highlighted = _highlight_hidden(hiding_words, answer_clean[::-1] if is_reversed else answer_clean)
+                expl = 'hidden reversed in "%s"' % highlighted if is_reversed else 'hidden in "%s"' % highlighted
 
                 pieces_data = [{"clue_word": hiding_words, "letters": answer_clean, "mechanism": "hidden"}]
                 components = json.dumps({

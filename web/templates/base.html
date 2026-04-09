@@ -63,82 +63,8 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Solver tools — floating, top-right (not rendered on home/about/puzzle-overlay pages) -->
-    {% if not has_tools_overlay is defined and request.path != '/' and request.path != '/about' %}
-    <div id="helper-widget" class="fixed top-14 right-2 sm:top-auto sm:bottom-4 z-50">
-        <button id="helper-open"
-                onclick="if(typeof closeAllPanels==='function')closeAllPanels('solver');document.getElementById('helper-panel').classList.remove('hidden');this.classList.add('hidden')"
-                class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 text-sm font-medium cursor-pointer flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
-            Solver tools
-        </button>
-        <div id="helper-panel" class="hidden absolute right-0 top-12 w-[calc(100vw-1rem)] sm:w-80 max-h-[60vh] sm:max-h-[80vh] bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
-            <div id="helper-drag-handle" class="px-3 py-1.5 bg-gray-100 border-b border-gray-200 cursor-move flex items-center justify-between select-none">
-                <span class="text-xs text-gray-400">&#x2630; drag to move</span>
-            </div>
-            <div id="solver-clue-context" class="hidden px-3 pt-2 pb-1 bg-gray-50 border-b border-gray-100">
-                <p class="text-xs text-gray-700 leading-snug" id="solver-clue-text"></p>
-                <span class="text-xs text-gray-400 font-mono" id="solver-clue-enum"></span>
-            </div>
-            <div class="flex items-center justify-between px-3 pt-3 pb-1">
-                <div class="flex gap-1">
-                    <button onclick="solverTab('anagram')" id="tab-anagram"
-                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-emerald-100 text-emerald-700">Anagram</button>
-                    <button onclick="solverTab('pattern')" id="tab-pattern"
-                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Pattern</button>
-                    <button onclick="solverTab('similar')" id="tab-similar"
-                            class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Similar</button>
-                </div>
-                <button onclick="solverClose()" class="text-gray-400 hover:text-gray-600 text-lg leading-none cursor-pointer">&times;</button>
-            </div>
-            <!-- Pattern tab -->
-            <div id="solver-pattern" class="p-3 border-b border-gray-100 hidden">
-                <p class="text-xs text-gray-500 mb-2">Known letters + ? for missing, - between words</p>
-                <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token" class="flex gap-2">
-                    <input type="hidden" id="helper-token" name="ht" value="{{ helper_token }}">
-                    <input type="hidden" id="pattern-enum" name="enum" value="">
-                    <input type="text" name="pattern" id="pattern-input"
-                           placeholder="e.g. S?O?E or OX??RD-S?RE?T"
-                           class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-3 py-2 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                           autocomplete="off" required
-                           onfocus="_dismissSolverTip()"
-                           oninput="this.value=this.value.replace(/ /g,'?')"
-                           onkeydown="if(event.key===' '){event.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+'?'+this.value.slice(this.selectionEnd);this.setSelectionRange(s+1,s+1)}">
-                    <button type="submit" class="px-3 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Find</button>
-                </form>
-                <div class="flex gap-2 mt-1.5 items-center">
-                    <span class="text-xs text-gray-400">Must include:</span>
-                    <input type="text" id="pattern-include" name="include"
-                           placeholder="e.g. LT"
-                           class="w-20 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                           autocomplete="off"
-                           oninput="_patternIncludeChanged()">
-                </div>
-            </div>
-            <!-- Anagram tab -->
-            <div id="solver-anagram" class="p-3 border-b border-gray-100">
-                <p class="text-xs text-gray-500 mb-2">Click a word in a clue or type letters — click a letter to remove it</p>
-                <div id="anagram-chips" class="flex flex-wrap gap-1 min-h-[2.25rem] p-2 border border-violet-200 rounded bg-violet-50 items-center cursor-text" onclick="document.getElementById('anagram-add').focus()">
-                    <input type="text" id="anagram-add"
-                           placeholder="type..."
-                           class="w-16 text-sm font-mono uppercase bg-transparent outline-none flex-shrink-0 placeholder-violet-300"
-                           autocomplete="off" autocapitalize="characters"
-                           onfocus="_dismissSolverTip()">
-                </div>
-                <div class="flex gap-2 mt-2">
-                    <button onclick="anagramSolve()" class="px-3 py-1.5 text-sm rounded bg-violet-600 text-white hover:bg-violet-700 font-medium cursor-pointer">Solve</button>
-                    <button onclick="anagramClear()" class="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Clear</button>
-                </div>
-            </div>
-            <!-- Similar tab -->
-            <div id="solver-similar" class="p-3 border-b border-gray-100 hidden">
-                <p class="text-xs text-gray-500" id="similar-hint">Click a clue number to find similar clues</p>
-            </div>
-            <div id="solver-panel-tip"></div>
-            <div id="solver-results" class="p-3 overflow-y-auto flex-1 min-h-0"></div>
-        </div>
-    </div>
-    {% endif %}
+    <!-- Solver tools — floating widget, only rendered when child templates opt in -->
+    {% block helper_widget %}{% endblock %}
     <script>
     function synonymToSolve(word) {
         // Tools overlay mode: fill answer and close overlay
@@ -199,7 +125,17 @@
         }, 400);
     }
 
+    var _currentSolverTab = 'anagram';
+    var _tabResultsCache = {};
+
     function solverTab(tab) {
+        // Save current tab's results before switching
+        var resultsEl = document.getElementById('solver-results');
+        if (resultsEl.innerHTML.trim()) {
+            _tabResultsCache[_currentSolverTab] = resultsEl.innerHTML;
+        }
+        _currentSolverTab = tab;
+
         document.getElementById('solver-pattern').classList.toggle('hidden', tab !== 'pattern');
         document.getElementById('solver-anagram').classList.toggle('hidden', tab !== 'anagram');
         document.getElementById('solver-similar').classList.toggle('hidden', tab !== 'similar');
@@ -212,15 +148,20 @@
             document.getElementById('tab-' + t).className = 'text-xs px-2.5 py-1 rounded font-medium cursor-pointer '
                 + (t === tab ? tabs[t] : 'bg-gray-100 text-gray-500');
         });
-        // When switching to similar tab, show cached results if available
+        // Restore cached results for this tab if available
+        if (_tabResultsCache[tab]) {
+            resultsEl.innerHTML = _tabResultsCache[tab];
+            return;
+        }
+        // Fall back to pre-fetched similar results
         if (tab === 'similar' && typeof _lastFocusedClueId !== 'undefined' && _lastFocusedClueId) {
             var focused = document.querySelector('.solve-answer[data-clue-id="' + _lastFocusedClueId + '"]');
             if (focused && focused.getAttribute('data-similar-html')) {
-                document.getElementById('solver-results').innerHTML = focused.getAttribute('data-similar-html');
+                resultsEl.innerHTML = focused.getAttribute('data-similar-html');
                 return;
             }
         }
-        document.getElementById('solver-results').innerHTML = '';
+        resultsEl.innerHTML = '';
     }
     var _similarTimer = null;
     var _similarEl = null;

@@ -133,9 +133,10 @@ def _find_indicator(ai_pieces):
 
 
 def _highlight_hidden(words, answer):
-    """Capitalise the hidden answer letters within the source words.
+    """Show the hidden answer separated from surrounding text.
 
-    E.g. words='grim peloton', answer='IMPEL' → 'gr IM PEL oton'
+    E.g. words='Understood our son's', answer='ODOURS' → "understo ODOURS on's"
+    Prefix and suffix in lowercase, hidden answer in uppercase, spaces to separate.
     """
     if not answer:
         return words
@@ -153,12 +154,20 @@ def _highlight_hidden(words, answer):
     if idx < 0:
         return words
 
-    # Build result: lowercase everything, uppercase the hidden letters
-    result = list(words.lower())
-    for j in range(idx, idx + len(answer_upper)):
-        pos = letter_positions[j]
-        result[pos] = words[pos].upper()
-    return "".join(result)
+    # Find the start and end positions in the original string
+    start_pos = letter_positions[idx]
+    end_pos = letter_positions[idx + len(answer_upper) - 1]
+
+    prefix = words[:start_pos].lower().rstrip()
+    suffix = words[end_pos + 1:].lower().lstrip()
+
+    parts = []
+    if prefix:
+        parts.append(prefix)
+    parts.append(answer_upper)
+    if suffix:
+        parts.append(suffix)
+    return " ".join(parts)
 
 
 def _describe_assembly(asm, ai_pieces=None, answer=None):

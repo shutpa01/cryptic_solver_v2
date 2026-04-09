@@ -66,8 +66,9 @@ function openToolsOverlay(clueId) {
         });
     }
 
-    // Default to anagram tab, clear any stale results
+    // Default to anagram tab, clear stale results and tab cache
     document.getElementById('solver-results').innerHTML = '';
+    _tabResultsCache = {};
     solverTab('anagram');
     overlay.classList.remove('hidden');
 }
@@ -77,6 +78,7 @@ function closeToolsOverlay() {
     var overlay = document.getElementById('tools-overlay');
     overlay.classList.add('hidden');
     document.getElementById('solver-results').innerHTML = '';
+    _tabResultsCache = {};
     // Restore scroll position
     window.scrollTo(0, _toolsScrollY);
     _toolsClueId = null;
@@ -592,15 +594,12 @@ function solveAutoCheck(input) {
         return;
     }
 
-    // Full-length answer — auto-check
-    if (guess === answer) {
-        solveCheck(input);  // run the full check for correct handling
-    } else {
-        result.className = 'solve-result text-xs text-amber-500';
-        result.textContent = 'Try Check \u2192';
-        input.classList.add('border-amber-300');
-        _saveSolveAnswer(input.dataset.clueId, input.value);
-    }
+    // Full-length answer — nudge user to click Check (don't auto-solve,
+    // as the blur+click race converts the button to Delete before the
+    // click event fires, causing the answer to vanish)
+    _saveSolveAnswer(input.dataset.clueId, input.value);
+    result.className = 'solve-result text-xs text-amber-500';
+    result.textContent = 'Try Check \u2192';
 }
 
 function _saveSolveAnswer(clueId, value, correct) {
@@ -637,6 +636,46 @@ function _updateProgress() {
     }
     var el = document.getElementById('solve-progress');
     el.textContent = solved + '/' + total + ' solved';
+    _trackActiveSolve(solved, total);
+}
+
+var _activeSolvesKey = 'cordelia_active_solves';
+
+function _trackActiveSolve(solved, total) {
+    if (!_solveMode) return;
+    var puzzleId = _cfg.source + '/' + _cfg.puzzleType + '/' + _cfg.puzzleNumber;
+    var url = '/' + puzzleId;
+    var solves = [];
+    try { solves = JSON.parse(localStorage.getItem(_activeSolvesKey) || '[]'); } catch(e) { solves = []; }
+
+    // Remove any existing entry for this puzzle
+    solves = solves.filter(function(s) { return s.id !== puzzleId; });
+
+    // Only track if there's progress but puzzle isn't complete
+    if (solved > 0 && solved < total) {
+        solves.unshift({
+            id: puzzleId,
+            source: _cfg.sourceName || _cfg.source,
+            typeLabel: _cfg.typeLabel || _cfg.puzzleType,
+            number: _cfg.puzzleNumber,
+            date: _cfg.publicationDate || '',
+            progress: solved + '/' + total,
+            url: url,
+            lastActive: new Date().toISOString()
+        });
+    }
+
+    // Keep only the 10 most recent
+    solves = solves.slice(0, 10);
+    localStorage.setItem(_activeSolvesKey, JSON.stringify(solves));
+}
+
+function _removeActiveSolve() {
+    var puzzleId = _cfg.source + '/' + _cfg.puzzleType + '/' + _cfg.puzzleNumber;
+    var solves = [];
+    try { solves = JSON.parse(localStorage.getItem(_activeSolvesKey) || '[]'); } catch(e) { solves = []; }
+    solves = solves.filter(function(s) { return s.id !== puzzleId; });
+    localStorage.setItem(_activeSolvesKey, JSON.stringify(solves));
 }
 
 function scrollToClue(num) {

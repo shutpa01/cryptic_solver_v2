@@ -59,6 +59,45 @@
     </div>
 </section>
 
+<!-- Continue solving — populated from localStorage -->
+<section id="continue-solving" class="pb-6 hidden">
+    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 text-center">Continue solving</h2>
+    <div id="continue-solving-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+</section>
+<script>
+(function() {
+    try {
+        var solves = JSON.parse(localStorage.getItem('cordelia_active_solves') || '[]');
+        if (!solves.length) return;
+        var container = document.getElementById('continue-solving-list');
+        var section = document.getElementById('continue-solving');
+        solves.forEach(function(s) {
+            var a = document.createElement('a');
+            a.href = s.url + '?solve=1';
+            a.className = 'group flex items-center gap-3 bg-white rounded-lg border border-emerald-100 px-4 py-3 hover:border-emerald-400 hover:shadow-sm transition';
+            var progress = s.progress || '';
+            var parts = progress.split('/');
+            var pct = (parts.length === 2 && parseInt(parts[1]) > 0)
+                ? Math.round(parseInt(parts[0]) / parseInt(parts[1]) * 100) : 0;
+            a.innerHTML =
+                '<div class="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center">' +
+                    '<span class="text-xs font-bold text-emerald-700">' + pct + '%</span>' +
+                '</div>' +
+                '<div class="min-w-0">' +
+                    '<div class="text-sm font-semibold text-gray-800 group-hover:text-emerald-700 transition truncate">' +
+                        s.source + ' ' + s.typeLabel + ' #' + s.number +
+                    '</div>' +
+                    '<div class="text-xs text-gray-400">' + progress + ' solved' +
+                        (s.date ? ' &middot; ' + s.date : '') +
+                    '</div>' +
+                '</div>';
+            container.appendChild(a);
+        });
+        section.classList.remove('hidden');
+    } catch(e) {}
+})();
+</script>
+
 <!-- Browse puzzles -->
 <section class="pb-10">
     <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4 text-center">Browse by publication</h2>

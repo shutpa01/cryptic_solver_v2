@@ -326,7 +326,9 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                     (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 """, (clue_id, components, _json.dumps([op]), hidden_def, 1.0, "mechanical_hidden", source))
-                expl = 'hidden in "%s"' % hiding_words
+                from sonnet_pipeline.report import _highlight_hidden
+                highlighted = _highlight_hidden(hiding_words, answer_clean[::-1] if op == "hidden_reversed" else answer_clean)
+                expl = 'hidden in "%s"' % highlighted
                 db.execute("""
                     UPDATE clues SET wordplay_type = ?, definition = ?, ai_explanation = ?, has_solution = 1
                     WHERE id = ?
@@ -1063,7 +1065,9 @@ def reverify_puzzle(source, puzzle_number):
                 hidden_def = hidden_result.get("definition")
                 pieces = [{"clue_word": hiding_words, "letters": answer_clean, "mechanism": "hidden"}]
                 components = _json.dumps({"ai_pieces": pieces, "assembly": {"op": op}, "wordplay_type": op})
-                expl = 'hidden in "%s"' % hiding_words
+                from sonnet_pipeline.report import _highlight_hidden
+                highlighted = _highlight_hidden(hiding_words, answer_clean[::-1] if op == "hidden_reversed" else answer_clean)
+                expl = 'hidden in "%s"' % highlighted
                 db.execute("INSERT OR REPLACE INTO structured_explanations (clue_id, components, wordplay_types, definition_text, confidence, model_version, source) VALUES (?, ?, ?, ?, ?, ?, ?)",
                            (cid, components, _json.dumps([op]), hidden_def, 1.0, "mechanical_hidden", source))
                 db.execute("UPDATE clues SET wordplay_type=?, definition=?, ai_explanation=?, has_solution=1 WHERE id=?",

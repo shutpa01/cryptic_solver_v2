@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set has_tools_overlay = true %}
+{% block helper_widget %}{% endblock %}
 
 {% block title %}{{ source | source_name }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
 
@@ -210,17 +210,6 @@
             Show all
         </button>
         {% endif %}
-        {% if clue.tier != 'HIGH' and clue.answer %}
-        <button hx-post="/explain"
-                hx-vals='{"token": "{{ clue.token }}"}'
-                hx-target="#explain-{{ clue.id }}"
-                hx-swap="innerHTML"
-                hx-indicator="#spinner-{{ clue.id }}"
-                class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
-            Generate explanation
-        </button>
-        <span id="spinner-{{ clue.id }}" class="htmx-indicator text-xs text-sky-500">Generating...</span>
-        {% endif %}
         <button onclick="hideHints('hints-{{ clue.id }}')"
                 class="hint-hide text-xs px-2.5 py-1 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer hidden">
             Hide
@@ -287,26 +276,6 @@
     </div>
     {# Reveal area — HTMX swaps content here #}
     <div id="hints-{{ clue.id }}" class="ml-10"></div>
-    {# Human explanation fallback — non-Telegraph: serve explanation with attribution #}
-    {% if clue.explanation and source != 'telegraph' and clue.tier in ('PENDING', 'FAIL') and blog_name %}
-    <div class="ml-10 mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-        <p class="text-xs text-amber-800 italic mb-1">
-            I haven't cracked this one yet &mdash; but
-            {% if blog_url %}<a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-amber-900 hover:underline">{{ blog_name }}</a>{% else %}<span class="font-semibold">{{ blog_name }}</span>{% endif %}
-            have:
-        </p>
-        <p class="text-xs text-gray-700 leading-relaxed">{{ clue.explanation }}</p>
-    </div>
-    {# Telegraph: link to Big Dave only, no explanation served #}
-    {% elif source == 'telegraph' and clue.tier in ('PENDING', 'FAIL') and blog_name and blog_url %}
-    <div class="ml-10 mt-2 p-2 bg-gray-50 border border-gray-200 rounded">
-        <p class="text-xs text-gray-500 italic">
-            Not cracked yet &mdash; try
-            <a href="{{ blog_url }}" target="_blank" rel="noopener" class="font-semibold text-indigo-600 hover:underline">{{ blog_name }}</a>
-            (aimed at experienced solvers)
-        </p>
-    </div>
-    {% endif %}
     {% if g.is_admin %}
     {# Collapsible DB enrichment — hidden by default #}
     <div id="enrich-{{ clue.id }}" class="ml-10 mt-1" style="display:none">
@@ -458,7 +427,10 @@ window.PUZZLE_CONFIG = {
     puzzleType: '{{ puzzle_type }}',
     puzzleNumber: '{{ puzzle_number }}',
     isPrize: {{ 'true' if is_prize else 'false' }},
-    isAdmin: {{ 'true' if g.is_admin else 'false' }}
+    isAdmin: {{ 'true' if g.is_admin else 'false' }},
+    publicationDate: '{{ publication_date or '' }}',
+    typeLabel: '{{ type_label }}',
+    sourceName: '{{ source | source_name }}'
 };
 </script>
 <script src="{{ url_for('static', filename='js/puzzle.js') }}?v={{ range(10000) | random }}"></script>
