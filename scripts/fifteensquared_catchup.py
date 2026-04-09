@@ -160,7 +160,6 @@ def run_fifteensquared_pass(source, puzzle_number, pub_date, dry_run=False):
         cnum = clue["clue_number"]
         direction = clue["direction"][0].upper()
         log(f"    [{score}] {cnum}{direction}. {clue['answer']}")
-            failed += 1
 
     conn.commit()
     conn.close()
