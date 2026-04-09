@@ -104,6 +104,52 @@ def render():
 
     st.divider()
 
+    # --- FifteenSquared catch-up ---
+    st.subheader("FifteenSquared Catch-up")
+    st.caption("Parse Guardian/Independent blog explanations (Haiku only, no Sonnet)")
+
+    fs_col1, fs_col2, fs_col3 = st.columns(3)
+    with fs_col1:
+        fs_source = st.selectbox(
+            "Source", ["Both", "guardian", "independent"],
+            key="fs_source",
+        )
+    with fs_col2:
+        fs_date = st.text_input("Date", value="", placeholder="YYYY-MM-DD (default: today)", key="fs_date")
+    with fs_col3:
+        st.write("")  # spacer
+        st.write("")
+        if st.button("Run Catch-up", type="primary", key="run_fs_catchup"):
+            source_arg = "" if fs_source == "Both" else f"--source {fs_source}"
+            date_arg = f"--date {fs_date}" if fs_date.strip() else ""
+            cmd = f"{sys.executable} scripts/fifteensquared_catchup.py {source_arg} {date_arg}".split()
+            # Remove empty strings from split
+            cmd = [c for c in cmd if c]
+
+            with st.spinner("Running FifteenSquared catch-up..."):
+                try:
+                    result = subprocess.run(
+                        cmd,
+                        cwd=str(PROJECT_ROOT),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                        encoding="utf-8",
+                        errors="replace",
+                        timeout=300,
+                    )
+                    if result.returncode == 0:
+                        st.success("Catch-up completed.")
+                    else:
+                        st.error(f"Catch-up failed (exit {result.returncode})")
+                    output = result.stdout or "(no output)"
+                    with st.expander("Output", expanded=True):
+                        st.code(output[-3000:] if len(output) > 3000 else output)
+                except Exception as e:
+                    st.error(f"Error: {e}")
+
+    st.divider()
+
     col1, col2 = st.columns(2)
 
     with col1:
