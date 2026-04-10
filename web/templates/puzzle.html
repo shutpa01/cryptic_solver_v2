@@ -456,9 +456,15 @@ function _tutTip(text) {
 
 // Pre-fill solved clues and enter solve mode
 document.addEventListener('DOMContentLoaded', function() {
-    // Replace any existing solve state with tutorial prefill only
-    var key = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
-    localStorage.setItem(key, JSON.stringify(_tutPrefill));
+    // Use a separate localStorage key so we don't pollute the user's real solve state
+    var realKey = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
+    var tutKey = realKey + '_tutorial';
+    // Back up real state if it exists
+    if (localStorage.getItem(realKey) && !localStorage.getItem(tutKey + '_backup')) {
+        localStorage.setItem(tutKey + '_backup', localStorage.getItem(realKey));
+    }
+    // Overwrite with tutorial prefill
+    localStorage.setItem(realKey, JSON.stringify(_tutPrefill));
 
     // Enter solve mode
     if (!_solveMode) toggleSolveMode();
