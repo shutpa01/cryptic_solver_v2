@@ -191,9 +191,12 @@ Piece sources: `(synonym="word")`, `(abbreviation="word")`, `(first letter of "w
 - FAILs and LOWs are fine — the user will review them. False HIGHs are not fine.
 - Check letter counts: anagram fodder must have exactly the right number of letters.
 - Check assembly: pieces must concatenate/combine to give the exact answer.
-- **USE THE BLOG EXPLANATION** — the report includes blog explanations from TFTT/FifteenSquared
-  when available. These are human-written breakdowns of the wordplay. Use them as your primary
-  reference, then reformat into verifier-compatible format. Don't ignore this free information.
+- **USE THE BLOG EXPLANATION AS A COMPASS** — the report includes blog explanations from
+  TFTT/FifteenSquared when available. These tell you what the wordplay mechanism IS (anagram,
+  container, charade, etc.) and what the pieces are. This stops you going down the wrong path.
+  But don't copy them verbatim — they're often incomplete or use non-standard notation.
+  Your job: use the blog to understand the mechanism, then build a proper verifier-compatible
+  explanation with correct piece sources, letter assembly, and definition.
 
 ## GIT SAFETY
 
