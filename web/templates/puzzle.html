@@ -444,7 +444,75 @@ window.PUZZLE_CONFIG = {
 {% endblock %}
 
 {% block cordelia_tips %}
-{% if source == 'cordelia' %}
+{% if request.args.get('tutorial') == '1' %}
+{# ===== GUIDED TUTORIAL ON REAL PUZZLE ===== #}
+<script>
+var _tutStep = 0;
+var _tutPrefill = {{ tutorial_prefill | default('{}') | safe }};
+
+function _tutTip(text) {
+    CordeliaTips.init([{id: 'tut-' + _tutStep, text: text}]);
+}
+
+// Pre-fill solved clues and enter solve mode
+document.addEventListener('DOMContentLoaded', function() {
+    // Inject pre-filled answers into localStorage
+    var key = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
+    var existing = JSON.parse(localStorage.getItem(key) || '{}');
+    var merged = Object.assign({}, _tutPrefill, existing);
+    localStorage.setItem(key, JSON.stringify(merged));
+
+    // Enter solve mode
+    if (!_solveMode) toggleSolveMode();
+
+    // Welcome
+    setTimeout(function() {
+        _tutStep = 1;
+        _tutTip("I've started this puzzle for you &mdash; some answers are already filled in, so you'll have crossing letters to work with. These are the same tools you'll find on every puzzle on the site. Even the experts use tools &mdash; but only Cordelia has them all in one place!<br><br>Let's try <strong>6 across</strong>: \"Mean waitress finally serves?\" &mdash; just four words. We know at least one is the definition. Click on the word <strong>finally</strong>.");
+    }, 500);
+});
+
+// Hook word clicks for 6a walkthrough
+var _origWordHelp = wordHelp;
+wordHelp = function(span) {
+    _origWordHelp(span);
+    var clean = (span.dataset.clean || '').toLowerCase();
+
+    // Step 1: user clicks "finally"
+    if (_tutStep === 1 && clean === 'finally') {
+        _tutStep = 2;
+        setTimeout(function() {
+            _tutTip("See? <strong>Finally</strong> could be an indicator for <strong>last letter</strong>. Indicators usually sit next to their fodder. The word next to it is <strong>waitress</strong> &mdash; so maybe we need the last letter of waitress. That gives us <strong>S</strong>.<br><br>We need 3 more letters for a 4-letter answer. Click on <strong>mean</strong> and look for a 3-letter synonym.");
+        }, 800);
+    }
+
+    // Step 2: user clicks "mean"
+    if (_tutStep === 2 && clean === 'mean') {
+        _tutStep = 3;
+        setTimeout(function() {
+            _tutTip("Look at those synonyms. Which 3-letter word could go with S to make a word meaning <strong>serves</strong>?<br><br><strong>ACE</strong> &mdash; and ACES is what happens when a tennis player delivers a serve the opponent can't return!<br><br>Click <strong>ACE</strong> to put it in the answer box, then type <strong>S</strong> at the end. Hit <strong>Check</strong>.");
+        }, 800);
+    }
+};
+
+// Hook solveCheck for 6a
+var _origSolveCheck = solveCheck;
+solveCheck = function(input) {
+    _origSolveCheck(input);
+    var card = input.closest('.clue-card');
+    var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+    var guess = input.value.replace(/\s/g, '').toUpperCase();
+
+    // Step 3: user got ACES correct
+    if (_tutStep === 3 && guess === answer && answer === 'ACES') {
+        _tutStep = 4;
+        setTimeout(function() {
+            _tutTip("Correct! Now hit <strong>Add to grid</strong> to place it. Then click the <strong>Explanation</strong> hint button underneath the clue &mdash; just as we thought: ACE (mean) + S (last letter of waitress) = ACES. The wordplay type is a <strong>charade</strong> &mdash; pieces joined together.<br><br>Those hint buttons are on <strong>every clue on the site</strong>. Definition, wordplay type, full explanation &mdash; as much or as little as you want. You're never on your own.");
+        }, 800);
+    }
+};
+</script>
+{% elif source == 'cordelia' %}
 {# ===== TUTORIAL WALKTHROUGH — STATE MACHINE ===== #}
 <script>
 var _tutStep = 0;

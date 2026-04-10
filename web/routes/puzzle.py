@@ -120,6 +120,20 @@ def puzzle(source, puzzle_type, puzzle_number):
         if grid and grid.get("conflicts"):
             grid_conflicts = grid["conflicts"]
 
+    # Tutorial mode: pre-fill solved clues
+    tutorial_prefill = "{}"
+    if request.args.get("tutorial") == "1":
+        import json as _json
+        unsolved = {("6", "across"), ("9", "across"), ("10", "across"), ("14", "across"),
+                    ("15", "across"), ("19", "across"), ("21", "across"),
+                    ("4", "down"), ("8", "down"), ("22", "down")}
+        prefill = {}
+        for c in all_clues_list:
+            key = (str(c["clue_number"]), c["direction"])
+            if key not in unsolved and c.get("answer"):
+                prefill[str(c["id"])] = {"value": c["answer"].upper().replace(" ", ""), "correct": True}
+        tutorial_prefill = _json.dumps(prefill)
+
     return render_template(
         "puzzle.html",
         source=source,
@@ -132,6 +146,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         is_prize=is_prize,
         source_puzzle_url=source_puzzle_url,
         grid_conflicts=grid_conflicts,
+        tutorial_prefill=tutorial_prefill,
     )
 
 
