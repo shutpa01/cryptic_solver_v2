@@ -23,6 +23,14 @@
     </div>
     {% endif %}
 
+    {# Abbreviations — right after indicators #}
+    {% if abbreviations %}
+    <div class="rounded px-3 py-2 bg-purple-50 border border-purple-200">
+        <span class="font-medium text-purple-700">Abbreviates to:</span>
+        {% for a in abbreviations %}<span class="synonym-pick text-gray-800 font-mono tracking-wider cursor-pointer hover:bg-purple-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ a | upper }}')" title="Use as answer">{{ a | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
+    </div>
+    {% endif %}
+
     {# Could mean — combined synonyms + definition answers #}
     {% if meanings %}
     <div class="rounded px-3 py-2 bg-blue-50 border border-blue-200">
@@ -53,14 +61,6 @@
         {% else %}
             {% for w in meanings %}<span class="synonym-pick text-gray-800 cursor-pointer hover:bg-blue-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ w | upper }}')" title="Use as answer">{{ w | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
         {% endif %}
-    </div>
-    {% endif %}
-
-    {# Abbreviations #}
-    {% if abbreviations %}
-    <div class="rounded px-3 py-2 bg-purple-50 border border-purple-200">
-        <span class="font-medium text-purple-700">Abbreviates to:</span>
-        {% for a in abbreviations %}<span class="synonym-pick text-gray-800 font-mono tracking-wider cursor-pointer hover:bg-purple-200 hover:rounded px-0.5" onclick="synonymToSolve('{{ a | upper }}')" title="Use as answer">{{ a | upper }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
     </div>
     {% endif %}
 
