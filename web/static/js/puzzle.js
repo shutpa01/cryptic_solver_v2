@@ -547,6 +547,9 @@ function solveCheck(input) {
         _makeDeleteBtn(input.parentElement.querySelector('.solve-check-btn'));
         var crossEl = input.parentElement.querySelector('.solve-crossing');
         if (crossEl) crossEl.classList.add('hidden');
+        // Show hint buttons for this solved clue so user can view explanation
+        var explainEl = document.getElementById('explain-' + clueId);
+        if (explainEl) { explainEl.classList.remove('solve-hidden'); explainEl.style.display = ''; }
         _fetchCrossings();
         // Cordelia tip: add to grid
         CordeliaTips.init([

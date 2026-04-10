@@ -478,13 +478,15 @@
     <style>
     .cordelia-tip {
         position: fixed;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 1rem;
+        right: 1rem;
+        left: auto;
+        bottom: auto;
+        transform: none;
         z-index: 100;
-        max-width: 28rem;
+        max-width: 24rem;
         width: calc(100% - 2rem);
-        animation: tipSlideUp 0.3s ease-out;
+        animation: tipFadeIn 0.3s ease-out;
     }
     .cordelia-tip.near-tools {
         bottom: auto;
