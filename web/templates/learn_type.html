@@ -97,7 +97,7 @@
                 {# Pieces breakdown #}
                 {% if card.pieces %}
                 <div class="flex items-start gap-2">
-                    <span class="text-xs text-gray-500 w-16 shrink-0">Wordplay:</span>
+                    <span class="text-xs text-gray-500 w-16 shrink-0">{{ label }}:</span>
                     <div class="text-sm space-y-1">
                         {% for p in card.pieces %}
                         <div>
