@@ -152,9 +152,9 @@ def lookup():
             more = len(all_words) - 5 if len(all_words) > 5 else 0
             meanings_list.append({"length": l, "words": shown, "more": more})
 
-    # 2. Indicators — alphabetical by type
+    # 2. Indicators — alphabetical by type, include subtype
     indicators = db.execute(
-        """SELECT wordplay_type, confidence FROM indicators
+        """SELECT wordplay_type, subtype, confidence FROM indicators
            WHERE LOWER(word) = ?
            ORDER BY wordplay_type""",
         (word_lower,),
@@ -211,7 +211,8 @@ def lookup():
         meanings=meanings_list,
         meanings_grouped=letters is None,
         indicators=[
-            {"type": r["wordplay_type"].replace("_", " ").title()}
+            {"type": r["wordplay_type"].replace("_", " ").title(),
+             "subtype": (r["subtype"] or "").replace("_", " ") if r["subtype"] and r["subtype"] not in ("general", "") else ""}
             for r in indicators
         ],
         abbreviations=[r["substitution"] for r in abbreviations],

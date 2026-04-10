@@ -17,7 +17,7 @@
         <span class="font-medium text-amber-700">Could be an indicator for:</span>
         {% for ind in indicators %}
         <span class="inline-block bg-amber-100 text-amber-800 rounded px-1.5 py-0.5 text-xs mr-1">
-            {{ ind.type }}
+            {{ ind.type }}{% if ind.subtype %} <span class="text-amber-600">({{ ind.subtype }})</span>{% endif %}
         </span>
         {% endfor %}
     </div>
