@@ -187,36 +187,49 @@ def _highlight_hidden(clue_text, answer):
 def _build_colour_map(clue):
     """Build a word-to-role colour map for a clue.
 
-    Returns dict mapping lowercase word -> (role, colour_class)
-    Roles: definition, indicator, fodder, result
+    If the clue has hand-annotated word_roles, use those directly.
+    Otherwise fall back to automatic detection from pieces/definition.
     """
     import re
 
     clue_text = clue.get("clue_text", "")
+    words = re.findall(r"[A-Za-z''-]+", clue_text)
+
+    COLOURS = {
+        "definition": ("definition", "bg-purple-100", "text-purple-800"),
+        "fodder":     ("fodder", "bg-amber-100", "text-amber-800"),
+        "indicator":  ("indicator", "bg-green-100", "text-green-800"),
+        "link":       None,  # grey / uncoloured
+    }
+
+    # If hand-annotated word_roles exist, use them directly
+    word_roles = clue.get("word_roles")
+    if word_roles and len(word_roles) == len(words):
+        colour_map = {}
+        for i, role in enumerate(word_roles):
+            colour = COLOURS.get(role)
+            if colour:
+                colour_map[i] = colour
+        return words, colour_map
+
+    # Fallback: automatic detection from definition + pieces
+    colour_map = {}
+    words_lower = [w.lower() for w in words]
     definition = (clue.get("definition") or "").lower().strip()
     pieces, assembly = _parse_components(clue)
-
-    colour_map = {}  # word_index -> (role, bg_class, text_class)
-
-    words = re.findall(r"[A-Za-z''-]+", clue_text)
-    words_lower = [w.lower() for w in words]
 
     # Mark definition words
     if definition:
         def_words = re.findall(r"[A-Za-z''-]+", definition)
         def_lower = [w.lower() for w in def_words]
-        # Find contiguous match in clue
         for start in range(len(words_lower)):
             if words_lower[start:start + len(def_lower)] == def_lower:
                 for i in range(start, start + len(def_lower)):
-                    colour_map[i] = ("definition", "bg-purple-100", "text-purple-800")
+                    colour_map[i] = COLOURS["definition"]
                 break
 
-    # Mark fodder — the words that contribute letters to the answer
-    role = ("fodder", "bg-amber-100", "text-amber-800")
-
-    # For hidden words, use assembly.words (the actual hiding text) not the piece clue_word
-    # which may include the indicator
+    # Mark fodder
+    fodder_role = COLOURS["fodder"]
     if assembly and assembly.get("op") in ("hidden", "hidden_reversed"):
         hiding_text = (assembly.get("words") or "").lower().strip()
         if hiding_text:
@@ -226,26 +239,22 @@ def _build_colour_map(clue):
                 if words_lower[start:start + len(hiding_lower)] == hiding_lower:
                     for i in range(start, start + len(hiding_lower)):
                         if i not in colour_map:
-                            colour_map[i] = role
+                            colour_map[i] = fodder_role
                     break
     else:
-        # For all other types, mark each piece's clue_word as fodder
         for p in pieces:
             clue_word = (p.get("clue_word") or "").lower().strip()
             if not clue_word:
                 continue
-
             piece_words = re.findall(r"[A-Za-z''-]+", clue_word)
             piece_lower = [w.lower() for w in piece_words]
-
             for start in range(len(words_lower)):
                 if words_lower[start:start + len(piece_lower)] == piece_lower:
                     for i in range(start, start + len(piece_lower)):
                         if i not in colour_map:
-                            colour_map[i] = role
+                            colour_map[i] = fodder_role
                     break
 
-    # Unmarked words are indicators or linking words — left grey (uncoloured)
     return words, colour_map
 
 

@@ -1420,7 +1420,16 @@
               "words": "Whitefly in greenhouse"
             },
             "wordplay_type": "hidden"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator",
+            "indicator",
+            "definition"
+          ]
         },
         {
           "clue_text": "Somewhat in clover at hers",
@@ -1448,7 +1457,14 @@
               "hidden"
             ],
             "sig_explanation": "hidden in \"clover at hers\" [hidden: \"in\"]; definition: \"Somewhat\""
-          }
+          },
+          "word_roles": [
+            "definition",
+            "indicator",
+            "fodder",
+            "fodder",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Greet host, holding spirit",
@@ -1460,92 +1476,13 @@
           "source": "telegraph",
           "puzzle_number": "31182",
           "confidence": null,
-          "components": null
-        },
-        {
-          "clue_text": "The solver's joy? Our setter welcomes it",
-          "answer": "YOURS",
-          "enumeration": "5",
-          "definition": "The solver's",
-          "wordplay_type": "hidden",
-          "ai_explanation": "hidden in 'joy? Our setter'",
-          "source": "telegraph",
-          "puzzle_number": "31151",
-          "confidence": null,
-          "components": null
-        },
-        {
-          "clue_text": "Passionate, somewhat wayward entrepreneur",
-          "answer": "ARDENT",
-          "enumeration": "6",
-          "definition": "Passionate",
-          "wordplay_type": "hidden",
-          "ai_explanation": "hidden in 'wayward entrepreneur'",
-          "source": "times",
-          "puzzle_number": "29479",
-          "confidence": null,
-          "components": null
-        },
-        {
-          "clue_text": "Pass on preference to have case of money removed",
-          "answer": "REFER",
-          "enumeration": "5",
-          "definition": "Pass on",
-          "wordplay_type": "hidden",
-          "ai_explanation": "re",
-          "source": "times",
-          "puzzle_number": "29481",
-          "confidence": null,
-          "components": null
-        },
-        {
-          "clue_text": "Answering letter enclosing lock of hair",
-          "answer": "RINGLET",
-          "enumeration": "7",
-          "definition": "lock of hair",
-          "wordplay_type": "hidden",
-          "ai_explanation": "hidden in 'Answering letter'",
-          "source": "telegraph",
-          "puzzle_number": "29997",
-          "confidence": 0.7,
-          "components": {
-            "ai_pieces": [
-              {
-                "mechanism": "hidden",
-                "clue_word": "Answering letter",
-                "letters": "RINGLET"
-              }
-            ],
-            "assembly": {
-              "op": "hidden",
-              "words": "Answering letter"
-            },
-            "wordplay_type": "hidden"
-          }
-        },
-        {
-          "clue_text": "Discovers pillagers pinching surplus",
-          "answer": "OVERSPILL",
-          "enumeration": "9",
-          "definition": "surplus",
-          "wordplay_type": "hidden",
-          "ai_explanation": "hidden in 'discOVERS PILLagers'",
-          "source": "telegraph",
-          "puzzle_number": "31185",
-          "confidence": null,
-          "components": null
-        },
-        {
-          "clue_text": "Hardy character demonstrates stamina, to an extent",
-          "answer": "TESS",
-          "enumeration": "4",
-          "definition": "Hardy character",
-          "wordplay_type": "hidden",
-          "ai_explanation": "hidden in 'demonstraTES Stamina,'",
-          "source": "telegraph",
-          "puzzle_number": "31171",
-          "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition"
+          ]
         },
         {
           "clue_text": "Triumphant ombudsman's hiding illusion",
@@ -1570,7 +1507,135 @@
               "words": "Triumphant ombudsman's"
             },
             "wordplay_type": "hidden"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition"
+          ]
+        },
+        {
+          "clue_text": "Answering letter enclosing lock of hair",
+          "answer": "RINGLET",
+          "enumeration": "7",
+          "definition": "lock of hair",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'Answering letter'",
+          "source": "telegraph",
+          "puzzle_number": "29997",
+          "confidence": 0.7,
+          "components": {
+            "ai_pieces": [
+              {
+                "mechanism": "hidden",
+                "clue_word": "Answering letter",
+                "letters": "RINGLET"
+              }
+            ],
+            "assembly": {
+              "op": "hidden",
+              "words": "Answering letter"
+            },
+            "wordplay_type": "hidden"
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition",
+            "definition",
+            "definition"
+          ]
+        },
+        {
+          "clue_text": "Discovers pillagers pinching surplus",
+          "answer": "OVERSPILL",
+          "enumeration": "9",
+          "definition": "surplus",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'discOVERS PILLagers'",
+          "source": "telegraph",
+          "puzzle_number": "31185",
+          "confidence": null,
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition"
+          ]
+        },
+        {
+          "clue_text": "Passionate, somewhat wayward entrepreneur",
+          "answer": "ARDENT",
+          "enumeration": "6",
+          "definition": "Passionate",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'wayward entrepreneur'",
+          "source": "times",
+          "puzzle_number": "29479",
+          "confidence": null,
+          "components": null,
+          "word_roles": [
+            "definition",
+            "indicator",
+            "fodder",
+            "fodder"
+          ]
+        },
+        {
+          "clue_text": "Hardy character demonstrates stamina, to an extent",
+          "answer": "TESS",
+          "enumeration": "4",
+          "definition": "Hardy character",
+          "wordplay_type": "hidden",
+          "ai_explanation": "hidden in 'demonstraTES Stamina,'",
+          "source": "telegraph",
+          "puzzle_number": "31171",
+          "confidence": null,
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator",
+            "indicator"
+          ]
+        },
+        {
+          "answer": "IMPEL",
+          "clue_text": "Drive forward as part of grim peloton",
+          "definition": "Drive forward",
+          "enumeration": "5",
+          "word_roles": [
+            "definition",
+            "definition",
+            "indicator",
+            "indicator",
+            "indicator",
+            "fodder",
+            "fodder"
+          ],
+          "wordplay_type": "hidden"
+        },
+        {
+          "answer": "CUMIN",
+          "clue_text": "Type of spice and some capsicum inside",
+          "definition": "Type of spice",
+          "enumeration": "5",
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "link",
+            "indicator",
+            "fodder",
+            "fodder"
+          ],
+          "wordplay_type": "hidden"
         }
       ]
     },
