@@ -238,23 +238,7 @@ def _build_colour_map(clue):
                         colour_map[i] = role
                 break
 
-    # Check remaining unmarked words against indicators database
-    try:
-        import sqlite3
-        ref_path = str(Path(__file__).resolve().parent.parent.parent / "data" / "cryptic_new.db")
-        ref_conn = sqlite3.connect(ref_path, timeout=5)
-        for i in range(len(words)):
-            if i not in colour_map:
-                row = ref_conn.execute(
-                    "SELECT 1 FROM indicators WHERE LOWER(word) = ? LIMIT 1",
-                    (words_lower[i],)
-                ).fetchone()
-                if row:
-                    colour_map[i] = ("indicator", "bg-green-100", "text-green-800")
-        ref_conn.close()
-    except Exception:
-        pass  # If DB unavailable, leave unmarked words grey
-
+    # Unmarked words are indicators or linking words — left grey (uncoloured)
     return words, colour_map
 
 
