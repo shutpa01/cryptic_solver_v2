@@ -198,7 +198,7 @@ def _build_colour_map(clue):
     COLOURS = {
         "definition": ("definition", "bg-purple-100", "text-purple-800"),
         "fodder":     ("fodder", "bg-amber-100", "text-amber-800"),
-        "indicator":  ("indicator", "bg-green-100", "text-green-800"),
+        "indicator":  ("indicator", "bg-sky-100", "text-sky-800"),
         "link":       None,  # grey / uncoloured
     }
 
