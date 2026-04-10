@@ -239,22 +239,21 @@ def _build_colour_map(clue):
                 break
 
     # Check remaining unmarked words against indicators database
-    from signature_solver.db import RefDB
     try:
-        ref_db = RefDB()
+        import sqlite3
+        ref_path = str(Path(__file__).resolve().parent.parent.parent / "data" / "cryptic_new.db")
+        ref_conn = sqlite3.connect(ref_path, timeout=5)
         for i in range(len(words)):
             if i not in colour_map:
-                word_lower = words_lower[i]
-                # Check if it's a known indicator
-                indicator_types = ref_db.conn.execute(
-                    "SELECT DISTINCT wordplay_type FROM indicators WHERE LOWER(word) = ?",
-                    (word_lower,)
-                ).fetchall()
-                if indicator_types:
+                row = ref_conn.execute(
+                    "SELECT 1 FROM indicators WHERE LOWER(word) = ? LIMIT 1",
+                    (words_lower[i],)
+                ).fetchone()
+                if row:
                     colour_map[i] = ("indicator", "bg-green-100", "text-green-800")
-                # else: leave uncoloured (link word / connecting word)
+        ref_conn.close()
     except Exception:
-        pass  # If RefDB unavailable, leave unmarked words grey
+        pass  # If DB unavailable, leave unmarked words grey
 
     return words, colour_map
 
