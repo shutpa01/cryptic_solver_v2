@@ -35,7 +35,12 @@
               "gives": "ESTIMATE"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Heats pan to cook game bird",
@@ -63,7 +68,15 @@
               "gives": "PHEASANT"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "link",
+            "indicator",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Create concoction of green tea",
@@ -91,7 +104,14 @@
               "gives": "GENERATE"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "indicator",
+            "link",
+            "fodder",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Ban lace pants to create stability",
@@ -119,7 +139,15 @@
               "gives": "BALANCE"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "link",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Hires out a buggy producing permit",
@@ -147,7 +175,15 @@
               "gives": "AUTHORISE"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Joint below or bowel given treatment",
@@ -175,7 +211,15 @@
               "gives": "ELBOW"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "link",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Reconstruct flue with us? That'll be handy",
@@ -209,7 +253,16 @@
               "gives": "USEFUL"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "indicator",
+            "fodder",
+            "link",
+            "fodder",
+            "link",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Terribly poor signs seeing medical forecast",
@@ -237,7 +290,15 @@
               "gives": "PROGNOSIS"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "indicator",
+            "fodder",
+            "fodder",
+            "link",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Their woes compounded if not",
@@ -265,7 +326,14 @@
               "gives": "OTHERWISE"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Crackers seem moist on occasion",
@@ -293,7 +361,14 @@
               "gives": "SOMETIMES"
             },
             "wordplay_type": "anagram"
-          }
+          },
+          "word_roles": [
+            "indicator",
+            "fodder",
+            "fodder",
+            "definition",
+            "definition"
+          ]
         }
       ]
     },
@@ -332,7 +407,15 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "link",
+            "link",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Pure Charlie? It’s superior to speed",
@@ -365,7 +448,16 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "link",
+            "link",
+            "fodder",
+            "link",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Former partner, full-figured specimen",
@@ -398,7 +490,13 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "link",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Aida perhaps got naked for each adult",
@@ -443,7 +541,16 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "link",
+            "fodder",
+            "link",
+            "fodder",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Rubbish as well, Scottish entertainer?",
@@ -476,7 +583,14 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "link",
+            "fodder",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Refrain from church when finally contrite",
@@ -515,7 +629,15 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "fodder",
+            "link",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Friend having top that's rather washed out",
@@ -548,7 +670,16 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "link",
+            "fodder",
+            "link",
+            "link",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Heartless Conservative left to admit regret",
@@ -587,7 +718,15 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "link",
+            "link",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Minute mark",
@@ -614,7 +753,11 @@
               "charade"
             ],
             "sig_explanation": "NOTE (synonym of \"mark\"); definition: \"Minute\""
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Signified average temperature",
@@ -647,7 +790,12 @@
               ]
             },
             "wordplay_type": "charade"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder"
+          ]
         }
       ]
     },
@@ -689,7 +837,13 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Quietly cutting gentleman's tree",
@@ -725,7 +879,13 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "indicator",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Lake bed holds solidified matter",
@@ -752,7 +912,14 @@
             ],
             "wordplay_type": "container",
             "source": "tftt+haiku"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Old man covers chest in warm coat",
@@ -788,7 +955,16 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "fodder",
+            "link",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Fellow from hotel wearing headgear",
@@ -824,7 +1000,14 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "link",
+            "fodder",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Italian banker fences recently stolen picture",
@@ -860,7 +1043,15 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Concern of PR department that is saving publication",
@@ -896,7 +1087,17 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Person engaging lawyer Neil is back in court",
@@ -932,7 +1133,17 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator",
+            "link",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Start to tuck into sandwich and roly-poly",
@@ -959,7 +1170,16 @@
             ],
             "wordplay_type": "container",
             "source": "tftt+haiku"
-          }
+          },
+          "word_roles": [
+            "indicator",
+            "indicator",
+            "fodder",
+            "indicator",
+            "fodder",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Exclude nothing about sweetheart for party",
@@ -1001,7 +1221,15 @@
               ]
             },
             "wordplay_type": "container"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "fodder",
+            "link",
+            "definition"
+          ]
         }
       ]
     },
@@ -1029,7 +1257,14 @@
             ],
             "wordplay_type": "deletion",
             "source": "tftt+haiku"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Be confronted by heartless travesty",
@@ -1051,7 +1286,14 @@
             ],
             "wordplay_type": "deletion",
             "source": "tftt+haiku"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "link",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Celebrity, female, arrived topless",
@@ -1083,7 +1325,13 @@
               "note": "dropped piece 2"
             },
             "wordplay_type": "deletion"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Clutch pot son knocked off piano",
@@ -1119,7 +1367,15 @@
               ]
             },
             "wordplay_type": "deletion"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Tense leader ignoring papers",
@@ -1131,7 +1387,13 @@
           "source": "telegraph",
           "puzzle_number": "31174",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "indicator",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Unwilling to forgo large bond",
@@ -1143,7 +1405,14 @@
           "source": "guardian",
           "puzzle_number": "29910",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "link",
+            "indicator",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "World map eventually detailed",
@@ -1155,7 +1424,13 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "indicator",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Cut short shady European venture",
@@ -1167,7 +1442,14 @@
           "source": "times",
           "puzzle_number": "29481",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "indicator",
+            "indicator",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Public secret initially suppressed",
@@ -1179,7 +1461,13 @@
           "source": "times",
           "puzzle_number": "29482",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "A Christmas Carol — heartless story",
@@ -1191,7 +1479,14 @@
           "source": "times",
           "puzzle_number": "29485",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "indicator",
+            "fodder"
+          ]
         }
       ]
     },
@@ -1215,7 +1510,12 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Shoots game",
@@ -1233,7 +1533,11 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Little wriggler eats",
@@ -1251,7 +1555,12 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Departed behind schedule",
@@ -1269,7 +1578,12 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Club legend is counting cups",
@@ -1287,7 +1601,14 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Achieve exam success while away",
@@ -1305,7 +1626,14 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Clog dance",
@@ -1329,7 +1657,11 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Spanish car: you may sit in it",
@@ -1353,7 +1685,16 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "System command",
@@ -1371,7 +1712,11 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Clever and sweetly pleasing",
@@ -1389,7 +1734,13 @@
               "op": "double_definition"
             },
             "wordplay_type": "double_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "link",
+            "definition",
+            "definition"
+          ]
         }
       ]
     },
@@ -1670,7 +2021,12 @@
               ]
             },
             "wordplay_type": "reversal"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Criticise some informal styles making a comeback",
@@ -1699,7 +2055,16 @@
               ]
             },
             "wordplay_type": "reversal"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Designs aircraft base rejected",
@@ -1724,7 +2089,13 @@
               "reversed": "SNALP"
             },
             "wordplay_type": "reversal"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Hit back in tie",
@@ -1736,7 +2107,13 @@
           "source": "telegraph",
           "puzzle_number": "31179",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "indicator",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Vehicles Sting held up",
@@ -1765,7 +2142,13 @@
               ]
             },
             "wordplay_type": "reversal"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Half rushed back for teaching session",
@@ -1777,7 +2160,15 @@
           "source": "telegraph",
           "puzzle_number": "31174",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "indicator",
+            "link",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Reasonable except when noun plays part of verb",
@@ -1789,7 +2180,17 @@
           "source": "times",
           "puzzle_number": "29476",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Drunkard back with hard stuff",
@@ -1801,7 +2202,14 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "indicator",
+            "link",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Polish brought west to fight make dugouts?",
@@ -1813,7 +2221,16 @@
           "source": "times",
           "puzzle_number": "29477",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "indicator",
+            "indicator",
+            "link",
+            "fodder",
+            "link",
+            "definition"
+          ]
         },
         {
           "clue_text": "Mother raised money as source of meal",
@@ -1848,7 +2265,16 @@
               ]
             },
             "wordplay_type": "reversal"
-          }
+          },
+          "word_roles": [
+            "fodder",
+            "indicator",
+            "fodder",
+            "link",
+            "definition",
+            "definition",
+            "definition"
+          ]
         }
       ]
     },
@@ -1883,7 +2309,14 @@
               ]
             },
             "wordplay_type": "homophone"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "link",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Mounting agreement by the sound of it",
@@ -1912,7 +2345,16 @@
               ]
             },
             "wordplay_type": "homophone"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "indicator",
+            "indicator",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Manipulates desires in audition",
@@ -1924,7 +2366,13 @@
           "source": "independent",
           "puzzle_number": "12264",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Reduces lectures for the audience",
@@ -1936,7 +2384,14 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "indicator",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Consumed tuck, maybe in school, reportedly",
@@ -1948,7 +2403,15 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Confession of drug pusher, originally sacrificing morals",
@@ -1960,7 +2423,16 @@
           "source": "telegraph",
           "puzzle_number": "31191",
           "confidence": 1.0,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Interest announced for every case",
@@ -1972,7 +2444,14 @@
           "source": "times",
           "puzzle_number": "29493",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "indicator",
+            "link",
+            "fodder",
+            "fodder"
+          ]
         },
         {
           "clue_text": "Overheard extremely remarkable couple",
@@ -1984,7 +2463,13 @@
           "source": "telegraph",
           "puzzle_number": "31191",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "indicator",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "Replace exceptionally good, highly ranked player, it's said",
@@ -1996,7 +2481,17 @@
           "source": "telegraph",
           "puzzle_number": "31191",
           "confidence": 1.0,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Reportedly bawdy song for pirate",
@@ -2027,7 +2522,14 @@
               "gives": "CORSAIR"
             },
             "wordplay_type": "homophone"
-          }
+          },
+          "word_roles": [
+            "indicator",
+            "fodder",
+            "fodder",
+            "link",
+            "definition"
+          ]
         }
       ]
     },
@@ -2045,7 +2547,15 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "indicator"
+          ]
         },
         {
           "clue_text": "Leaders of Leeds United despairing over game",
@@ -2057,7 +2567,16 @@
           "source": "telegraph",
           "puzzle_number": "31188",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "indicator",
+            "indicator",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         },
         {
           "clue_text": "At first, factoids and numbers suit organised admirers",
@@ -2069,7 +2588,17 @@
           "source": "times",
           "puzzle_number": "29482",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "indicator",
+            "indicator",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "fodder",
+            "definition"
+          ]
         }
       ]
     },
@@ -2093,7 +2622,11 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Impressive digital snap?",
@@ -2111,7 +2644,12 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Incendiary device in packet?",
@@ -2129,7 +2667,13 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "This is the same round bread",
@@ -2147,7 +2691,15 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "One often depressed during a long sentence?",
@@ -2165,7 +2717,16 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "One barely believes in it?",
@@ -2183,7 +2744,14 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Performer who will take a big bow?",
@@ -2201,7 +2769,16 @@
               "op": "cryptic_definition"
             },
             "wordplay_type": "cryptic_definition"
-          }
+          },
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Tree maintenance check",
@@ -2213,7 +2790,12 @@
           "source": "telegraph",
           "puzzle_number": "29492",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Landlords perhaps providing B&Bs?",
@@ -2225,7 +2807,14 @@
           "source": "telegraph",
           "puzzle_number": "31185",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         },
         {
           "clue_text": "Cowardly manner in which to express pain?",
@@ -2237,7 +2826,16 @@
           "source": "times",
           "puzzle_number": "29479",
           "confidence": null,
-          "components": null
+          "components": null,
+          "word_roles": [
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition",
+            "definition"
+          ]
         }
       ]
     }
