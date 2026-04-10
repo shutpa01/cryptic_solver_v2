@@ -449,9 +449,59 @@ window.PUZZLE_CONFIG = {
 <script>
 var _tutStep = 0;
 var _tutPrefill = {{ tutorial_prefill | default('{}') | safe }};
+var _tutTips = {};
 
 function _tutTip(text) {
-    CordeliaTips.init([{id: 'tut-' + _tutStep, text: text}]);
+    _tutTips[_tutStep] = text;
+    var backBtn = _tutStep > 1
+        ? ' <span onclick="_tutGoBack()" style="display:inline-block;margin-top:0.5rem;color:#6366f1;cursor:pointer;font-size:0.75rem;font-weight:600">&larr; Back</span>'
+        : '';
+    CordeliaTips.init([{id: 'tut-' + _tutStep, text: text + backBtn}]);
+}
+
+function _tutGoBack() {
+    if (_tutStep <= 1) return;
+    var fromStep = _tutStep;
+
+    // Undo UI state
+    if (fromStep >= 4) {
+        // Undo correct check: clear answer and reset input
+        var input6a = document.querySelector('.solve-answer[data-clue-id="{{ across[1].id if across|length > 1 else "" }}"]');
+        if (!input6a) {
+            // Find 6a by looking for ACES clue
+            document.querySelectorAll('.solve-answer').forEach(function(inp) {
+                var card = inp.closest('.clue-card');
+                if (card && (card.dataset.answer || '').toUpperCase() === 'ACES') input6a = inp;
+            });
+        }
+        if (input6a) {
+            input6a.value = '';
+            input6a.disabled = false;
+            input6a.classList.remove('border-green-400', 'bg-green-50', 'border-red-400');
+            input6a.classList.add('border-gray-300');
+            var res = input6a.parentElement.querySelector('.solve-result');
+            if (res) { res.textContent = ''; res.className = 'solve-result text-xs'; }
+            var btn = input6a.parentElement.querySelector('.solve-check-btn');
+            if (btn) {
+                btn.textContent = 'Check';
+                btn.removeAttribute('data-mode');
+                btn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            }
+            // Re-hide hint buttons
+            var explainEl = document.getElementById('explain-' + input6a.dataset.clueId);
+            if (explainEl) { explainEl.classList.add('solve-hidden'); explainEl.style.display = 'none'; }
+        }
+    }
+    if (fromStep >= 2) {
+        // Clear word help panels
+        document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
+    }
+
+    _tutStep = fromStep - 1;
+    if (_tutTips[_tutStep]) {
+        _tutTip(_tutTips[_tutStep]);
+    }
 }
 
 // Pre-fill solved clues and enter solve mode
