@@ -62,84 +62,49 @@
     </div>
 </div>
 
-{# The Language #}
-<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="language">
-    <h2 class="text-lg font-bold text-gray-900 mb-3">The Language — A Few Words You'll Pick Up</h2>
+{# Understanding Wordplay #}
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="wordplay">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">Understanding Wordplay</h2>
 
-    <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
-        <p>Cryptic solvers use a few terms. Don't worry about memorising them — you'll absorb them as you go.</p>
+    <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+        <p>The wordplay part of a clue is built from <strong>fodder</strong> — words that contribute letters to the answer. Sometimes the fodder is just a straight synonym that gives you the answer or part of it:</p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="p-3 rounded bg-gray-50 border border-gray-100">
-                <span class="font-bold text-gray-800">Indicator</span>
-                <p class="text-xs text-gray-500 mt-1">A word that signals what type of wordplay is happening. "Broken" indicates an anagram. "Inside" indicates a container. You learn to spot these.</p>
+        <div class="p-4 bg-amber-50 rounded-lg border border-amber-200">
+            <p class="font-mono text-gray-900 mb-2">"Old queen with place for trains" (8,7)</p>
+            <p class="text-amber-800"><strong>VICTORIA</strong> (old queen) + <strong>STATION</strong> (place for trains) = <strong>VICTORIA STATION</strong></p>
+            <p class="text-xs text-amber-600 mt-1">Two synonyms, side by side, building the answer. That's a <em>charade</em>.</p>
+        </div>
+
+        <p>But often the fodder comes with an <strong>indicator</strong> — a word that tells you what to do with it:</p>
+
+        <div class="space-y-3">
+            <div class="p-4 bg-violet-50 rounded-lg border border-violet-200">
+                <p class="font-mono text-gray-900 mb-2">"Trainee acted strangely" (5)</p>
+                <p class="text-violet-800"><strong>ACTED</strong> is the fodder. <strong>Strangely</strong> tells you to rearrange the letters. ACTED &rarr; <strong>CADET</strong>.</p>
+                <p class="text-xs text-violet-600 mt-1">That's an <em>anagram</em>. The indicator ("strangely") signals the rearrangement.</p>
             </div>
-            <div class="p-3 rounded bg-gray-50 border border-gray-100">
-                <span class="font-bold text-gray-800">Fodder</span>
-                <p class="text-xs text-gray-500 mt-1">The raw material — the letters that get rearranged, reversed, or hidden. In "teatimes varied", TEATIMES is the fodder.</p>
+
+            <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                <p class="font-mono text-gray-900 mb-2">"Uncovers sleep over" (5)</p>
+                <p class="text-emerald-800"><strong>SLEEP</strong> is the fodder. <strong>Over</strong> tells you to reverse it. SLEEP &rarr; <strong>PEELS</strong>.</p>
+                <p class="text-xs text-emerald-600 mt-1">That's a <em>reversal</em>. "Uncovers" is the definition.</p>
             </div>
-            <div class="p-3 rounded bg-gray-50 border border-gray-100">
-                <span class="font-bold text-gray-800">Abbreviation</span>
-                <p class="text-xs text-gray-500 mt-1">Setters love shorthand. "Quiet" = P (piano). "King" = R (Rex). "Old" = O. You'll build a mental dictionary of these.</p>
-            </div>
-            <div class="p-3 rounded bg-gray-50 border border-gray-100">
-                <span class="font-bold text-gray-800">Substitution</span>
-                <p class="text-xs text-gray-500 mt-1">One letter or word standing in for another. "Iron" = FE (chemistry). "Love" = O (tennis). The setter is playing with language.</p>
+
+            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p class="font-mono text-gray-900 mb-2">"Rage found in danger" (5)</p>
+                <p class="text-blue-800">The answer is literally hiding inside the clue: d<strong>ANGER</strong>. <strong>Found in</strong> is the indicator.</p>
+                <p class="text-xs text-blue-600 mt-1">That's a <em>hidden word</em> — the easiest type to spot.</p>
             </div>
         </div>
 
-        <p>When I started, I found our <strong>word lookup tool</strong> invaluable — click any word in a clue and instantly see if it's a known indicator, abbreviation, or synonym. No memorisation needed.</p>
-
-        <div class="p-3 rounded bg-indigo-50 border border-indigo-200">
-            <span class="text-xs text-indigo-600">Try it now: on any puzzle page, click a word in the clue text. You'll see what it could mean in crossword-speak.</span>
-        </div>
-    </div>
-</div>
-
-{# Tools Introduction #}
-<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6" id="tools">
-    <h2 class="text-lg font-bold text-gray-900 mb-3">Your Toolkit — Cordelia's Favourite Helpers</h2>
-
-    <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
-        <p>I don't solve cryptics from memory. I use tools — and so should you. There's no shame in it. These are built right into every puzzle page:</p>
-
-        <div class="space-y-2">
-            <div class="flex items-start gap-3 p-3 rounded bg-indigo-50 border border-indigo-100">
-                <span class="text-lg shrink-0">🔤</span>
-                <div>
-                    <span class="font-bold text-indigo-800">Click any word</span>
-                    <p class="text-xs text-indigo-600 mt-0.5">Click a word in the clue to see if it's an indicator, synonym, or abbreviation. Click adjacent words to look up phrases.</p>
-                </div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded bg-emerald-50 border border-emerald-100">
-                <span class="text-lg shrink-0">🔍</span>
-                <div>
-                    <span class="font-bold text-emerald-800">Pattern Finder</span>
-                    <p class="text-xs text-emerald-600 mt-0.5">Know some letters from crossing answers? Type S?O?E and find all matching words. Add "must include" letters to narrow it down.</p>
-                </div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded bg-violet-50 border border-violet-100">
-                <span class="text-lg shrink-0">🔀</span>
-                <div>
-                    <span class="font-bold text-violet-800">Anagram Solver</span>
-                    <p class="text-xs text-violet-600 mt-0.5">Click the fodder words in the clue and the anagram solver fills with their letters. Delete or add letters for substitutions. Only real words returned.</p>
-                </div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded bg-teal-50 border border-teal-100">
-                <span class="text-lg shrink-0">📋</span>
-                <div>
-                    <span class="font-bold text-teal-800">Similar Clues</span>
-                    <p class="text-xs text-teal-600 mt-0.5">Click the clue number and we'll search 500,000 clues for ones with similar wording. See how other setters used the same words.</p>
-                </div>
-            </div>
-        </div>
+        <p>That's really all there is to it. Fodder gives you the letters, indicators tell you what to do with them. The rest is just variations on this theme.</p>
     </div>
 </div>
 
 {# Wordplay Types #}
 <div class="mb-6" id="types">
-    <h2 class="text-lg font-bold text-gray-900 mb-3">The Wordplay Types — Learn Each One</h2>
-    <p class="text-sm text-gray-600 mb-4">There are about ten types of wordplay. Most clues use just a handful. Start with Hidden Words — they're the easiest to spot — then work through the rest at your own pace.</p>
+    <h2 class="text-lg font-bold text-gray-900 mb-3">The Wordplay Types</h2>
+    <p class="text-sm text-gray-600 mb-4">There are about ten types. Take a look — you'll already know a lot of 'em. Hidden words are the easiest to spot, so start there if you like.</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {% for t in types %}
@@ -190,9 +155,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     CordeliaTips.init([
-        {id: 'learn-start', text: 'Start with <strong>Hidden Words</strong> &mdash; they\'re the easiest to spot and you\'ll get that first win quickly. Then work through the rest at your own pace.'},
-        {id: 'learn-practice', text: 'Each type has a <strong>Practice</strong> button. That\'s where the real learning happens &mdash; I\'ll give you clues and you can use all my tools to work them out.'},
-        {id: 'learn-tools', text: 'On any example clue, click a word to look it up. Same tools as the puzzle pages &mdash; it all works the same way everywhere.'}
+        {id: 'learn-start', text: 'Have a read through the wordplay types below &mdash; <strong>Hidden Words</strong> are the easiest to spot. Then when you\'re ready, scroll down and we\'ll try a real puzzle together.'},
     ]);
 });
 </script>
