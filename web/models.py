@@ -127,6 +127,8 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
         return None, None
 
     if source == "telegraph":
+        if num == 99999:
+            return "cryptic", "Tutorial"
         if 3000 <= num <= 3999:
             return "prize", "Prize Cryptic"
         if 31000 <= num <= 31999:
