@@ -153,6 +153,45 @@ for debugging why clues fail. The chain is:
 5. Check combo: does `_verify_reversal_combo` / `_verify_combo` assemble the answer?
 6. At each step, the answer is either "yes, move to next" or "no, this is the bug."
 
+## SOLVING LEFTOVERS — "solve the DM/DT leftovers"
+
+When the user says "solve the DM leftovers" or "solve the DT leftovers" (or names
+any source/puzzle), follow this EXACT workflow:
+
+### Prerequisites (user must have done these BEFORE asking you to solve)
+1. The pipeline has already run for the puzzle
+2. The user has already verified enrichments in the dashboard
+
+### Steps
+1. **Collect**: Run `python scripts/collect_for_review.py --source <source> --puzzle <number>`
+2. **Read**: Read the generated file at `data/claude_review_YYYY-MM-DD.txt`
+3. **Solve**: Work through every clue. For each one, determine the wordplay type,
+   definition, and explanation.
+4. **Write response**: Write solutions to `data/claude_review_YYYY-MM-DD_response.txt`
+5. **Dry run first**: Run `python scripts/ingest_claude_review.py <response_file> --dry-run`
+   to show verifier scores before committing
+6. **Ingest**: Run without `--dry-run` to write to the database
+7. **Report**: Tell the user the results — how many HIGH/MEDIUM/LOW/FAIL
+
+### Explanation format (CRITICAL — must match verifier expectations)
+Use UPPERCASE for letter pieces. Always end with `; definition: "..."`.
+Piece sources: `(synonym="word")`, `(abbreviation="word")`, `(first letter of "word")`.
+
+- **Charade**: `PIECE (synonym="x") + PIECE (abbreviation="y") = ANSWER; definition: "def"`
+- **Anagram**: `anagram of FODDER + FODDER = ANSWER; definition: "def"`
+- **Hidden**: `hidden in "teXT HEREin"; definition: "def"`
+- **Double def**: `Double definition: meaning1 = ANSWER, meaning2 = ANSWER`
+- **Container**: `OUTER (synonym="x") containing INNER (synonym="y") = ANSWER; definition: "def"`
+- **Homophone**: `ANSWER sounds like "word" (indicator); definition: "def"`
+- **Deletion**: `SOURCE (synonym="x") minus LETTER = ANSWER; definition: "def"`
+
+### Quality standards
+- Every explanation must be HONEST. If you can't parse a clue, say so — don't guess.
+- The verifier will score independently. Do NOT try to game the format to get higher scores.
+- FAILs and LOWs are fine — the user will review them. False HIGHs are not fine.
+- Check letter counts: anagram fodder must have exactly the right number of letters.
+- Check assembly: pieces must concatenate/combine to give the exact answer.
+
 ## GIT SAFETY
 
 - Before starting any phase, suggest I commit current state as a checkpoint
