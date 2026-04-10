@@ -1,11 +1,14 @@
-"""Nightly automated run: scrape all → danword backfill → solve all sources.
+"""Nightly automated run: scrape all → danword backfill → solve DT + DM only.
 
 Designed to run at 2am UTC via Windows Task Scheduler.
 
 Flow:
-  1. Run all scrapers (all sources)
+  1. Run all scrapers (all sources) — clues + answers uploaded to honeypot/cordelia
   2. Danword backfill for any puzzles with missing answers
-  3. Pipeline for ALL sources with answers (weekdays only)
+  3. Pipeline for Telegraph + Daily Mail ONLY (no blog coverage, must use Sonnet)
+
+Times, Guardian, Independent are run manually after blogs post (TFTT, FifteenSquared)
+to save cost — blog+Haiku is ~10x cheaper than Sonnet.
 
 Usage:
     python scripts/nightly_run.py              # full run
@@ -30,8 +33,9 @@ SCRAPER_SCRIPT = str(ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 DANWORD_SCRIPT = str(ROOT / "scraper" / "danword" / "danword_lookup.py")
 LOG_DIR = ROOT / "logs"
 
-# All sources — Sonnet pipeline for everything with answers
-SOLVE_SOURCES = ["telegraph", "times", "guardian", "independent", "dailymail"]
+# Pipeline sources — only those without blog coverage
+# Times/Guardian/Independent run manually after blogs post (cheaper via TFTT/FS+Haiku)
+SOLVE_SOURCES = ["telegraph", "dailymail"]
 
 
 def log(msg):
@@ -120,7 +124,7 @@ def run_danword_backfill(target_date):
 
 
 def find_todays_puzzles(target_date):
-    """Find puzzle numbers for today's DT and Daily Mail (weekdays only)."""
+    """Find puzzle numbers for today's Telegraph + Daily Mail (weekdays only)."""
     # Check if today is a weekday
     try:
         d = date.fromisoformat(target_date)
@@ -222,9 +226,9 @@ def main():
         else:
             run_danword_backfill(target_date)
 
-    # Step 3: Pipeline for DT + Daily Mail (weekdays only)
+    # Step 3: Pipeline for DT + Daily Mail only (weekdays only)
     if not args.skip_pipeline:
-        log("Step 3: Pipeline (all sources, weekdays only)...")
+        log("Step 3: Pipeline (Telegraph + Daily Mail, weekdays only)...")
         puzzles = find_todays_puzzles(target_date)
         if not puzzles:
             log("  No puzzles to solve")
