@@ -10,7 +10,7 @@
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
     <span class="mx-1">/</span>
-    <a href="/learn" class="hover:text-indigo-600">Learn</a>
+    <a href="/learn#types" class="hover:text-indigo-600">Learn</a>
     <span class="mx-1">/</span>
     <span>{{ label }}</span>
 </nav>
@@ -26,7 +26,7 @@
     <p class="text-gray-500 text-sm mt-3 italic">Look through these examples — you'll start spotting the pattern after just a few. When you're ready, try the practice mode. — Cordelia</p>
     <div class="flex gap-3 mt-3">
         <a href="/learn/{{ wtype }}/practice" class="text-sm px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium">Practice these</a>
-        <a href="/learn" class="text-sm px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">All types</a>
+        <a href="/learn#types" class="text-sm px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">All types</a>
     </div>
 </div>
 
@@ -201,7 +201,7 @@
 
 <div class="mt-6 flex gap-3">
     <a href="/learn/{{ wtype }}/practice" class="px-4 py-2 rounded bg-{{ colour }}-600 text-white hover:bg-{{ colour }}-700 font-medium text-sm">Practice {{ label | lower }} clues</a>
-    <a href="/learn" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium text-sm">Back to all types</a>
+    <a href="/learn#types" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium text-sm">Back to all types</a>
 </div>
 
 <script>
