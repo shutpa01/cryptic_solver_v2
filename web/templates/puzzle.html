@@ -174,7 +174,7 @@
                 <button onclick="showSolveGrid()"
                         class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Show grid</button>
                 {% if clue.slug %}
-                <a href="/clue/{{ clue.slug }}?id={{ clue.id }}&back={{ request.path | urlencode }}"
+                <a href="/clue/{{ clue.slug }}?id={{ clue.id }}&back={{ request.path | urlencode }}%3Fsolve%3D1"
                    class="text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-600 hover:bg-purple-50 font-medium cursor-pointer no-underline">Hints</a>
                 {% endif %}
                 <span class="solve-crossing hidden text-xs font-mono tracking-wider text-emerald-600 cursor-pointer hover:text-emerald-800 hover:underline"
