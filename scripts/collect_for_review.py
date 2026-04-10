@@ -46,7 +46,7 @@ def collect_clues(source=None, puzzle_number=None, target_date=None, threshold=8
     rows = conn.execute(f"""
         SELECT c.id, c.source, c.puzzle_number, c.clue_number, c.direction,
                c.clue_text, c.answer, c.enumeration, c.definition,
-               c.wordplay_type, c.ai_explanation,
+               c.wordplay_type, c.ai_explanation, c.explanation,
                se.confidence, se.model_version
         FROM clues c
         LEFT JOIN structured_explanations se ON se.clue_id = c.id
@@ -79,6 +79,7 @@ def collect_clues(source=None, puzzle_number=None, target_date=None, threshold=8
                 "definition": r["definition"],
                 "wordplay_type": r["wordplay_type"],
                 "ai_explanation": r["ai_explanation"],
+                "blog_explanation": r["explanation"],
                 "score": score,
             })
 
@@ -156,10 +157,13 @@ def format_report(clues):
         existing = ""
         if c['ai_explanation']:
             existing = f"\n   Current explanation: {c['ai_explanation']}"
+        blog = ""
+        if c['blog_explanation']:
+            blog = f"\n   Blog explanation: {c['blog_explanation']}"
 
         lines.append(f"ID: {c['id']}")
         lines.append(f"{label}. {c['clue_text']} ({c['enumeration']})")
-        lines.append(f"   Answer: {c['answer']}{score_note}{existing}")
+        lines.append(f"   Answer: {c['answer']}{score_note}{existing}{blog}")
         lines.append("")
 
     return "\n".join(lines)
