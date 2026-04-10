@@ -456,11 +456,9 @@ function _tutTip(text) {
 
 // Pre-fill solved clues and enter solve mode
 document.addEventListener('DOMContentLoaded', function() {
-    // Inject pre-filled answers into localStorage
+    // Replace any existing solve state with tutorial prefill only
     var key = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
-    var existing = JSON.parse(localStorage.getItem(key) || '{}');
-    var merged = Object.assign({}, _tutPrefill, existing);
-    localStorage.setItem(key, JSON.stringify(merged));
+    localStorage.setItem(key, JSON.stringify(_tutPrefill));
 
     // Enter solve mode
     if (!_solveMode) toggleSolveMode();
