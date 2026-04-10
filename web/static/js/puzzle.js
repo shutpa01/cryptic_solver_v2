@@ -333,7 +333,13 @@ function wordHelp(span) {
     document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {
         if (e.id !== target) e.innerHTML = '';
     });
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#' + target, swap: 'innerHTML'});
+    // Pass enumeration for optional filtering
+    var enumVal = '';
+    var solveInput = document.querySelector('.solve-answer[data-clue-id="' + clueId + '"]');
+    if (solveInput) enumVal = solveInput.dataset.enum || '';
+    var url = '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht;
+    if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
+    htmx.ajax('GET', url, {target: '#' + target, swap: 'innerHTML'});
 }
 function _clearSelection() {
     _selectedWords.forEach(function(w) {

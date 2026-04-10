@@ -196,6 +196,14 @@ def lookup():
             (word_lower,),
         ).fetchall()
 
+    # Parse enumeration for filter button (e.g. "5,4" -> total 9)
+    enum_raw = request.args.get("enum", "").strip()
+    enum_total = 0
+    if enum_raw:
+        import re as _re
+        nums = _re.findall(r'\d+', enum_raw)
+        enum_total = sum(int(n) for n in nums) if nums else 0
+
     return render_template(
         "partials/helper_results.html",
         word=word,
@@ -208,6 +216,8 @@ def lookup():
         ],
         abbreviations=[r["substitution"] for r in abbreviations],
         homophones=[r["homophone"] for r in homophones],
+        enum_total=enum_total,
+        helper_token=request.args.get("ht", ""),
     )
 
 

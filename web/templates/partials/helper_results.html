@@ -26,7 +26,15 @@
     {# Could mean — combined synonyms + definition answers #}
     {% if meanings %}
     <div class="rounded px-3 py-2 bg-blue-50 border border-blue-200">
-        <span class="font-medium text-blue-700">Could mean:</span>
+        <div class="flex items-center justify-between mb-1">
+            <span class="font-medium text-blue-700">Could mean:</span>
+            {% if enum_total and meanings_grouped %}
+            <button onclick="var btn=this;var on=btn.dataset.on!=='1';btn.dataset.on=on?'1':'';btn.classList.toggle('bg-blue-600',on);btn.classList.toggle('text-white',on);btn.classList.toggle('bg-blue-100',!on);btn.classList.toggle('text-blue-700',!on);var groups=btn.closest('.rounded').querySelectorAll('[id^=meanings-]');groups.forEach(function(g){var len=parseInt(g.id.split('-')[1]);if(on&&len!=={{ enum_total }}){g.style.display='none'}else{g.style.display=''}})"
+                    class="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-700 cursor-pointer font-medium"
+                    data-on=""
+                    title="Show only {{ enum_total }}-letter matches">Filter ({{ enum_total }})</button>
+            {% endif %}
+        </div>
         {% if meanings_grouped %}
             {% for group in meanings %}
             <div class="mt-1" id="meanings-{{ group.length }}">
