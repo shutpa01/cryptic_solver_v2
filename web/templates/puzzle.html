@@ -450,6 +450,11 @@ window.PUZZLE_CONFIG = {
 var _tutStep = 0;
 var _tutPrefill = {{ tutorial_prefill | default('{}') | safe }};
 var _tutTips = {};
+var _tutCurrentClue = null;  // tracks which clue walkthrough is active
+
+// Clue order for the walkthrough
+var _tutClueOrder = ['ACES','DOGMA','OUTOFTUNE','MISOGYNY','BUNDLE','DRUNKARD','ELEPHANTGRASS','SHOCKING','SPEARHEADS','NARKY'];
+var _tutClueIndex = 0;
 
 function _tutTip(text) {
     _tutTips[_tutStep] = text;
@@ -461,89 +466,165 @@ function _tutTip(text) {
 
 function _tutGoBack() {
     if (_tutStep <= 1) return;
-    var fromStep = _tutStep;
+    // Clear word help and go back one step
+    document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
+    _tutStep = _tutStep - 1;
+    if (_tutTips[_tutStep]) _tutTip(_tutTips[_tutStep]);
+}
 
-    // Undo UI state
-    if (fromStep >= 4) {
-        // Undo correct check: clear answer and reset input
-        var input6a = document.querySelector('.solve-answer[data-clue-id="{{ across[1].id if across|length > 1 else "" }}"]');
-        if (!input6a) {
-            // Find 6a by looking for ACES clue
-            document.querySelectorAll('.solve-answer').forEach(function(inp) {
-                var card = inp.closest('.clue-card');
-                if (card && (card.dataset.answer || '').toUpperCase() === 'ACES') input6a = inp;
-            });
-        }
-        if (input6a) {
-            input6a.value = '';
-            input6a.disabled = false;
-            input6a.classList.remove('border-green-400', 'bg-green-50', 'border-red-400');
-            input6a.classList.add('border-gray-300');
-            var res = input6a.parentElement.querySelector('.solve-result');
-            if (res) { res.textContent = ''; res.className = 'solve-result text-xs'; }
-            var btn = input6a.parentElement.querySelector('.solve-check-btn');
-            if (btn) {
-                btn.textContent = 'Check';
-                btn.removeAttribute('data-mode');
-                btn.classList.remove('bg-red-500', 'hover:bg-red-600');
-                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-            }
-            // Re-hide hint buttons
-            var explainEl = document.getElementById('explain-' + input6a.dataset.clueId);
-            if (explainEl) { explainEl.classList.add('solve-hidden'); explainEl.style.display = 'none'; }
-        }
+function _tutNextClue() {
+    _tutClueIndex++;
+    if (_tutClueIndex >= _tutClueOrder.length) {
+        _tutStep++;
+        _tutTip("You've done it &mdash; every single one! All the tools you just used, all the hints, all the word lookups &mdash; they're on every one of the thousands of puzzles on the site. Even the experts use tools. But only Cordelia has them all in one place.<br><br><a href='/puzzles' style='color:#4f46e5;font-weight:600;text-decoration:underline'>Browse puzzles &rarr;</a>");
+        return;
     }
-    if (fromStep >= 2) {
-        // Clear word help panels
-        document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) { e.innerHTML = ''; });
-    }
+    var next = _tutClueOrder[_tutClueIndex];
+    _tutStep++;
+    _tutIntroClue(next);
+}
 
-    _tutStep = fromStep - 1;
-    if (_tutTips[_tutStep]) {
-        _tutTip(_tutTips[_tutStep]);
-    }
+// Intro messages for each clue
+function _tutIntroClue(answer) {
+    var msgs = {
+        'ACES': "Let's try <strong>6 across</strong>: \"Mean waitress finally serves?\" &mdash; just four words. We know at least one is the definition. Click on the word <strong>finally</strong>.",
+        'DOGMA': "Nice work! Now try <strong>9 across</strong>: \"Icon returned mother's unquestioning faith\". We already have crossing letters D_G_A &mdash; three out of five! Click on <strong>returned</strong>.",
+        'OUTOFTUNE': "Now for something different &mdash; <strong>10 across</strong>: \"Musician's flat?\" with enumeration (3,2,4). This is a <strong>cryptic definition</strong> &mdash; the whole clue is the definition with a twist. A musician's flat isn't an apartment... Try the <strong>pattern finder</strong> with the crossing letters and use the <strong>filter</strong> button to match the exact enumeration.",
+        'MISOGYNY': "Let's try an anagram &mdash; <strong>14 across</strong>: \"Noisy gym cultivated sexism\". We have M_S_G___. Click on <strong>cultivated</strong> to see if it's an indicator.",
+        'BUNDLE': "On to <strong>15 across</strong>: \"Roll, cake and doughnut not included in unemployment payment\". Crossings: _U_D__. Click on <strong>cake</strong> &mdash; look for a 3-letter synonym.",
+        'DRUNKARD': "This one's trickier &mdash; <strong>19 across</strong>: \"Lush trip, right to take old Ford in Disneyland on vacation\". Crossings: _R_N_A__. Click the words and use the <strong>pattern finder</strong> to narrow it down.",
+        'ELEPHANTGRASS': "A big one! <strong>21 across</strong>: \"The Panel excited by singer &mdash; Plant\" (8,5). Crossings: E_E_H___-G_A_S. Click on <strong>excited</strong> &mdash; it could be an anagram indicator. Open <strong>Tools</strong> and try the anagram solver with \"The Panel\".",
+        'SHOCKING': "Now a down clue &mdash; <strong>4 down</strong>: \"Terrible hair, call barber finally getting cut\". Crossings: S___K___. Click on <strong>hair</strong> &mdash; look for a 5-letter synonym. Then click <strong>finally getting cut</strong> to see what kind of indicator it is.",
+        'SPEARHEADS': "Nearly there! <strong>8 down</strong>: \"Pioneers small fruit loaves\". Just one crossing letter: ____R_____. Click on <strong>small</strong>, <strong>fruit</strong>, and <strong>loaves</strong> &mdash; the synonyms and abbreviations will build the answer piece by piece.",
+        'NARKY': "Last one! <strong>22 down</strong>: \"Crikey! Krankies not all revolting and irritable\". Crossings: __R_Y. Click on <strong>revolting</strong> &mdash; it's a reversal indicator. And \"not all\" suggests a hidden word. Can you spot the answer hiding <em>backwards</em> in the clue?",
+    };
+    _tutCurrentClue = answer;
+    _tutTip(msgs[answer] || "Try the next clue!");
 }
 
 // Pre-fill solved clues and enter solve mode
 document.addEventListener('DOMContentLoaded', function() {
-    // Set tutorial prefill state (separate puzzle number, no conflict with real puzzles)
     var key = 'solve_' + _cfg.source + '_' + _cfg.puzzleNumber;
     localStorage.setItem(key, JSON.stringify(_tutPrefill));
-
-    // Enter solve mode
     if (!_solveMode) toggleSolveMode();
 
-    // Welcome
     setTimeout(function() {
         _tutStep = 1;
-        _tutTip("I've started this puzzle for you &mdash; some answers are already filled in, so you'll have crossing letters to work with. These are the same tools you'll find on every puzzle on the site. Even the experts use tools &mdash; but only Cordelia has them all in one place!<br><br>Let's try <strong>6 across</strong>: \"Mean waitress finally serves?\" &mdash; just four words. We know at least one is the definition. Click on the word <strong>finally</strong>.");
+        _tutTip("I've started this puzzle for you &mdash; some answers are already filled in, so you'll have crossing letters to work with. These are the same tools you'll find on every puzzle on the site. Even the experts use tools &mdash; but only Cordelia has them all in one place!<br><br>" + (function() {
+            var msgs = {
+                'ACES': "Let's try <strong>6 across</strong>: \"Mean waitress finally serves?\" &mdash; just four words. We know at least one is the definition. And look &mdash; we already have a <strong>C</strong> as a crossing letter in position 2. Click on the word <strong>finally</strong>.",
+            };
+            return msgs[_tutClueOrder[0]] || '';
+        })());
     }, 500);
 });
 
-// Hook word clicks for 6a walkthrough
+// Hook word clicks
 var _origWordHelp = wordHelp;
 wordHelp = function(span) {
     _origWordHelp(span);
     var clean = (span.dataset.clean || '').toLowerCase();
 
-    // Step 1: user clicks "finally"
-    if (_tutStep === 1 && clean === 'finally') {
-        _tutStep = 2;
-        setTimeout(function() {
-            _tutTip("See? <strong>Finally</strong> could be an indicator for <strong>last letter</strong>. Indicators usually sit next to their fodder. The word next to it is <strong>waitress</strong> &mdash; so maybe we need the last letter of waitress. That gives us <strong>S</strong>.<br><br>We need 3 more letters for a 4-letter answer. Click on <strong>mean</strong> and look for a 3-letter synonym.");
-        }, 800);
+    // === 6a ACES ===
+    if (_tutCurrentClue === 'ACES' || _tutClueIndex === 0) {
+        if (_tutStep === 1 && clean === 'finally') {
+            _tutStep = 2;
+            setTimeout(function() {
+                _tutTip("See? <strong>Finally</strong> could be an indicator for <strong>last letter</strong>. Indicators usually sit next to their fodder. The word next to it is <strong>waitress</strong> &mdash; so maybe we need the last letter of waitress. That gives us <strong>S</strong>.<br><br>We need 3 more letters for a 4-letter answer, and we already have <strong>C</strong> in position 2. Click on <strong>mean</strong> and look for a 3-letter synonym.");
+            }, 800);
+        }
+        if (_tutStep === 2 && clean === 'mean') {
+            _tutStep = 3;
+            setTimeout(function() {
+                _tutTip("Look at those synonyms. Which 3-letter word with C in the second position could go with S to mean <strong>serves</strong>?<br><br><strong>ACE</strong> &mdash; and ACES is what happens when a tennis player delivers a serve the opponent can't return!<br><br>Click <strong>ACE</strong> to put it in the answer box, then type <strong>S</strong> at the end. Hit <strong>Check</strong>.");
+            }, 800);
+        }
     }
 
-    // Step 2: user clicks "mean"
-    if (_tutStep === 2 && clean === 'mean') {
-        _tutStep = 3;
-        setTimeout(function() {
-            _tutTip("Look at those synonyms. Which 3-letter word could go with S to make a word meaning <strong>serves</strong>?<br><br><strong>ACE</strong> &mdash; and ACES is what happens when a tennis player delivers a serve the opponent can't return!<br><br>Click <strong>ACE</strong> to put it in the answer box, then type <strong>S</strong> at the end. Hit <strong>Check</strong>.");
-        }, 800);
+    // === 9a DOGMA ===
+    if (_tutCurrentClue === 'DOGMA') {
+        if (clean === 'returned') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("It's a <strong>reversal indicator</strong>! Something is being reversed. What's next to it? <strong>Icon</strong>. What's a 3-letter word for icon? GOD &mdash; and GOD reversed = <strong>DOG</strong>! That fits our crossing D_G.<br><br>Now click <strong>mother's</strong> &mdash; look for a 2-letter abbreviation.");
+            }, 800);
+        }
+        if (clean === "mother's" || clean === 'mothers' || clean === 'mother') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("See <strong>MA</strong>? DOG + MA = <strong>DOGMA</strong>. And \"unquestioning faith\" is the definition &mdash; that's exactly what dogma means.<br><br>Type DOGMA, <strong>Check</strong>, <strong>Add to grid</strong>.");
+            }, 800);
+        }
+    }
+
+    // === 14a MISOGYNY ===
+    if (_tutCurrentClue === 'MISOGYNY') {
+        if (clean === 'cultivated') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("It's an <strong>anagram indicator</strong>! The fodder must be nearby. <strong>Noisy gym</strong> has 8 letters &mdash; same as the answer!<br><br>Open <strong>Tools</strong> and click on <strong>Noisy</strong> and <strong>gym</strong> in the clue at the top. The anagram solver will find it.");
+            }, 800);
+        }
+    }
+
+    // === 15a BUNDLE ===
+    if (_tutCurrentClue === 'BUNDLE') {
+        if (clean === 'cake') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("See the synonym <strong>BUN</strong>? That's 3 letters. Now \"unemployment payment\" = DOLE, but \"doughnut not included\" means remove the O (the doughnut shape). DOLE minus O = <strong>DLE</strong>.<br><br>BUN + DLE = <strong>BUNDLE</strong>. \"Roll\" is the definition. Type it in and <strong>Check</strong>.");
+            }, 800);
+        }
+    }
+
+    // === 4d SHOCKING ===
+    if (_tutCurrentClue === 'SHOCKING') {
+        if (clean === 'hair') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("See the synonym <strong>SHOCK</strong>? A shock of hair! That's 5 letters, and it fits our crossing S___K. Now we need 3 more letters. \"Call\" = <strong>RING</strong>, but \"barber finally getting cut\" means the last letter of barber (R) is removed. RING minus R = <strong>ING</strong>.<br><br>SHOCK + ING = <strong>SHOCKING</strong>. \"Terrible\" is the definition. Type it in!");
+            }, 800);
+        }
+    }
+
+    // === 8d SPEARHEADS ===
+    if (_tutCurrentClue === 'SPEARHEADS') {
+        if (clean === 'small' || clean === 'fruit' || clean === 'loaves') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("Click all three: <strong>small</strong> = S (abbreviation), <strong>fruit</strong> = PEAR (synonym), <strong>loaves</strong> = HEADS (synonym &mdash; as in \"head\" of bread).<br><br>S + PEAR + HEADS = <strong>SPEARHEADS</strong>. \"Pioneers\" is the definition &mdash; to spearhead something is to pioneer it. Type it in!");
+            }, 800);
+        }
+    }
+
+    // === 22d NARKY ===
+    if (_tutCurrentClue === 'NARKY') {
+        if (clean === 'revolting') {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("It's a <strong>reversal indicator</strong>! And \"not all\" suggests we're looking at part of the clue. This is a <strong>hidden reversed</strong> clue &mdash; the answer is spelled backwards inside the clue words.<br><br>Look at \"crike<strong>Y KRAN</strong>kies\" backwards: Y-K-R-A-N = <strong>NARKY</strong>! \"Irritable\" is the definition. Type it in!");
+            }, 800);
+        }
     }
 };
 
-// Hook solveCheck for 6a
+// Hook Tools overlay for anagram clues
+var _origOpenTools = openToolsOverlay;
+openToolsOverlay = function(clueId) {
+    _origOpenTools(clueId);
+    if (_tutCurrentClue === 'MISOGYNY') {
+        setTimeout(function() {
+            _tutTip("Now click <strong>Noisy</strong> and <strong>gym</strong> in the clue words at the top. The anagram solver fills with the letters and finds <strong>MISOGYNY</strong>. \"Sexism\" is the definition.<br><br>Click the answer to use it, then <strong>Check</strong> and <strong>Add to grid</strong>.");
+        }, 500);
+    }
+    if (_tutCurrentClue === 'ELEPHANTGRASS') {
+        setTimeout(function() {
+            _tutTip("Click <strong>The</strong> and <strong>Panel</strong> in the clue &mdash; the anagram solver finds <strong>ELEPHANT</strong>! Now we need 5 more letters. \"Singer\" in slang = <strong>GRASS</strong> (an informer). ELEPHANT + GRASS = <strong>ELEPHANT GRASS</strong>. \"Plant\" is the definition.<br><br>Type ELEPHANT GRASS, <strong>Check</strong>, <strong>Add to grid</strong>.");
+        }, 500);
+    }
+};
+
+// Hook solveCheck — advance to next clue on correct answer
 var _origSolveCheck = solveCheck;
 solveCheck = function(input) {
     _origSolveCheck(input);
@@ -551,13 +632,25 @@ solveCheck = function(input) {
     var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
     var guess = input.value.replace(/\s/g, '').toUpperCase();
 
-    // Step 3: user got ACES correct
-    if (_tutStep === 3 && guess === answer && answer === 'ACES') {
-        _tutStep = 4;
-        setTimeout(function() {
-            _tutTip("Correct! Now hit <strong>Add to grid</strong> to place it. Then click the <strong>Explanation</strong> hint button underneath the clue &mdash; just as we thought: ACE (mean) + S (last letter of waitress) = ACES. The wordplay type is a <strong>charade</strong> &mdash; pieces joined together.<br><br>Those hint buttons are on <strong>every clue on the site</strong>. Definition, wordplay type, full explanation &mdash; as much or as little as you want. You're never on your own.");
-        }, 800);
+    if (guess === answer) {
+        var expected = _tutClueOrder[_tutClueIndex];
+        if (expected && guess === expected) {
+            _tutStep++;
+            setTimeout(function() {
+                _tutTip("Correct! Hit <strong>Add to grid</strong> and check the <strong>Explanation</strong> button to see the full breakdown. Then we'll move on.");
+            }, 800);
+        }
     }
+};
+
+// Hook Add to Grid — trigger next clue intro
+var _origSolveAddToGrid = solveAddToGrid;
+solveAddToGrid = function(input) {
+    _origSolveAddToGrid(input);
+    // After adding to grid, move to next clue
+    setTimeout(function() {
+        _tutNextClue();
+    }, 1500);
 };
 </script>
 {% elif source == 'cordelia' %}
