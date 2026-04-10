@@ -67,7 +67,7 @@
 
                 {# Colour-coded view #}
                 <div class="flex items-start gap-2">
-                    <span class="text-xs text-gray-500 w-16 shrink-0">Colour map:</span>
+                    <span class="text-xs text-gray-500 w-16 shrink-0">Breakdown:</span>
                     <div class="text-sm leading-relaxed">
                         {% for i in range(card.words | length) %}
                             {% set role = card.colour_map.get(i) %}
@@ -77,6 +77,12 @@
                             <span class="text-gray-400">{{ card.words[i] }}</span>
                             {% endif %}
                         {% endfor %}
+                        <div class="flex flex-wrap gap-2 mt-1.5 text-xs">
+                            <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800">Definition</span>
+                            <span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">Fodder</span>
+                            <span class="px-1.5 py-0.5 rounded bg-green-100 text-green-800">Indicator</span>
+                            <span class="text-gray-400">Grey = linking</span>
+                        </div>
                     </div>
                 </div>
 
@@ -94,7 +100,7 @@
                 </div>
                 {% endif %}
 
-                {# Pieces breakdown #}
+                {# Fodder breakdown — all pieces are fodder (amber) #}
                 {% if card.pieces %}
                 <div class="flex items-start gap-2">
                     <span class="text-xs text-gray-500 w-16 shrink-0">{{ label }}:</span>
@@ -102,32 +108,14 @@
                         {% for p in card.pieces %}
                         <div>
                             {% if p.mechanism == 'anagram_fodder' %}
-                            <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             <span class="text-gray-400">( {{ p.letters }} ) rearranges to form the answer</span>
-                            {% elif p.mechanism == 'synonym' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">=</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
-                            <span class="text-gray-400 text-xs">(synonym)</span>
-                            {% elif p.mechanism == 'abbreviation' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">=</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
-                            <span class="text-gray-400 text-xs">(abbreviation)</span>
-                            {% elif p.mechanism == 'first_letter' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">first letter =</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
-                            {% elif p.mechanism == 'last_letter' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">last letter =</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
                             {% elif p.mechanism == 'hidden' %}
                             <span class="text-gray-400">hidden in</span>
                             {% if card.hidden_highlight %}
                             <span class="text-sm">{{ card.hidden_highlight | safe }}</span>
                             {% else %}
-                            <span class="px-1 rounded bg-blue-100 text-blue-800">{{ p.clue_word }}</span>
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             {% endif %}
                             {% elif p.mechanism == 'reversal' %}
                             <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
@@ -137,19 +125,13 @@
                             <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             <span class="text-gray-400">minus {{ p.get('deleted', '?') }} =</span>
                             <span class="font-mono font-bold">{{ p.letters }}</span>
-                            {% elif p.mechanism == 'sound_of' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">sounds like</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
-                            {% elif p.mechanism == 'alternate_letters' %}
-                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
-                            <span class="text-gray-400">alternate letters =</span>
-                            <span class="font-mono font-bold">{{ p.letters }}</span>
                             {% elif p.mechanism == 'literal' %}
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
+                            <span class="text-gray-400">=</span>
                             <span class="font-mono font-bold">{{ p.letters }}</span>
                             <span class="text-gray-400 text-xs">(literal)</span>
                             {% else %}
-                            <span class="px-1 rounded bg-gray-100 text-gray-700">{{ p.clue_word }}</span>
+                            <span class="px-1 rounded bg-amber-100 text-amber-800">{{ p.clue_word }}</span>
                             <span class="text-gray-400">=</span>
                             <span class="font-mono font-bold">{{ p.letters }}</span>
                             <span class="text-gray-400 text-xs">({{ p.mechanism }})</span>
