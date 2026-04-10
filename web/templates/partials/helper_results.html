@@ -6,11 +6,18 @@
         <span class="font-medium text-gray-700">
             <span class="font-bold">{{ word }}</span>
             {% if letters %}({{ letters }} letter{{ 's' if letters != 1 }}){% endif %}
-            {% if enum_total and not letters %}
-            <button onclick="var btn=this;var on=btn.dataset.on!=='1';btn.dataset.on=on?'1':'';btn.classList.toggle('bg-emerald-600',on);btn.classList.toggle('text-white',on);btn.classList.toggle('bg-emerald-100',!on);btn.classList.toggle('text-emerald-700',!on);var container=btn.closest('.space-y-3');container.querySelectorAll('[id^=meanings-]').forEach(function(g){var len=parseInt(g.id.split('-')[1]);if(on&&len!=={{ enum_total }}){g.style.display='none'}else{g.style.display=''}})"
+            {% if enum_filtered %}
+            <button hx-get="/helper/lookup?word={{ word }}&ht={{ helper_token }}&enum={{ enum_display }}"
+                    hx-target="closest [id^=wordhelp-]"
+                    hx-swap="innerHTML"
+                    class="text-xs px-2 py-0.5 rounded bg-gray-200 text-gray-600 cursor-pointer font-semibold ml-1"
+                    title="Show all results">show all</button>
+            {% elif enum_display and not letters %}
+            <button hx-get="/helper/lookup?word={{ word }}&ht={{ helper_token }}&enum_exact={{ enum_display }}"
+                    hx-target="closest [id^=wordhelp-]"
+                    hx-swap="innerHTML"
                     class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 cursor-pointer font-semibold ml-1"
-                    data-on=""
-                    title="Show only {{ enum_total }}-letter matches">filter ({{ enum_display }})</button>
+                    title="Show only synonyms matching {{ enum_display }}">filter ({{ enum_display }})</button>
             {% endif %}
         </span>
         <button onclick="this.closest('[id^=wordhelp-]').innerHTML='';_clearSelection()"

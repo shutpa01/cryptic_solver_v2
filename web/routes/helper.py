@@ -98,6 +98,7 @@ def lookup():
     """
     word = request.args.get("word", "").strip()
     letters_raw = request.args.get("letters", "").strip()
+    enum_exact = request.args.get("enum_exact", "").strip()
 
     if not word:
         abort(400)
@@ -111,11 +112,46 @@ def lookup():
         if letters is not None and (letters < 1 or letters > 30):
             letters = None
 
+    # Parse exact enumeration pattern for filtering (e.g. "3,2,4")
+    enum_pattern = None
+    if enum_exact:
+        import re as _re
+        nums = _re.findall(r'\d+', enum_exact)
+        if nums:
+            enum_pattern = [int(n) for n in nums]
+
     word_lower = word.lower()
     db = _get_ref_db()
 
     # 1. "Could mean" — combined synonyms + definition answers, deduplicated
-    if letters:
+    if enum_pattern:
+        # Exact enumeration filter: only synonyms whose word lengths match the pattern
+        total_letters = sum(enum_pattern)
+        synonyms = db.execute(
+            """SELECT DISTINCT val FROM (
+                   SELECT UPPER(synonym) AS val FROM synonyms_pairs
+                   WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
+                   UNION
+                   SELECT UPPER(answer) AS val FROM definition_answers_augmented
+                   WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
+               ) ORDER BY val""",
+            (word_lower, total_letters, word_lower, total_letters),
+        ).fetchall()
+
+        def _matches_enum(val, pattern):
+            """Check if a synonym's word lengths match the enumeration pattern."""
+            parts = val.split()
+            if len(parts) != len(pattern):
+                return False
+            return all(len(p) == expected for p, expected in zip(parts, pattern))
+
+        meanings_list = []
+        for r in synonyms:
+            val = r["val"]
+            if _matches_enum(val, enum_pattern):
+                meanings_list.append(val)
+        meanings_list.sort()
+    elif letters:
         synonyms = db.execute(
             """SELECT DISTINCT val FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
@@ -199,19 +235,19 @@ def lookup():
     # Parse enumeration for filter button (e.g. "3,2,4" -> total 9, display "3,2,4")
     enum_raw = request.args.get("enum", "").strip()
     enum_total = 0
-    enum_display = ""
-    if enum_raw:
+    enum_display = enum_exact or enum_raw
+    if enum_display:
         import re as _re
-        nums = _re.findall(r'\d+', enum_raw)
+        nums = _re.findall(r'\d+', enum_display)
         enum_total = sum(int(n) for n in nums) if nums else 0
-        enum_display = enum_raw
 
     return render_template(
         "partials/helper_results.html",
         word=word,
         letters=letters,
         meanings=meanings_list,
-        meanings_grouped=letters is None,
+        meanings_grouped=letters is None and enum_pattern is None,
+        enum_filtered=enum_pattern is not None,
         indicators=[
             {"type": r["wordplay_type"].replace("_", " ").title(),
              "subtype": (r["subtype"] or "").replace("_", " ") if r["subtype"] and r["subtype"] not in ("general", "") else ""}
