@@ -119,23 +119,23 @@ def lookup():
         synonyms = db.execute(
             """SELECT DISTINCT val FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE LOWER(word) = ? AND LENGTH(synonym) = ?
+                   WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE LOWER(definition) = ? AND LENGTH(answer) = ?
+                   WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
                ) ORDER BY val LIMIT 15""",
             (word_lower, letters, word_lower, letters),
         ).fetchall()
         meanings_list = [r["val"] for r in synonyms]
     else:
         synonyms = db.execute(
-            """SELECT DISTINCT val, LENGTH(val) as len FROM (
+            """SELECT DISTINCT val, LENGTH(REPLACE(val, ' ', '')) as len FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
                    WHERE LOWER(word) = ?
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
                    WHERE LOWER(definition) = ?
-               ) ORDER BY LENGTH(val), val LIMIT 200""",
+               ) ORDER BY LENGTH(REPLACE(val, ' ', '')), val LIMIT 200""",
             (word_lower, word_lower),
         ).fetchall()
         # Group by length, top 5 per group, alphabetical
@@ -236,10 +236,10 @@ def meanings_expand():
     rows = db.execute(
         """SELECT DISTINCT val FROM (
                SELECT UPPER(synonym) AS val FROM synonyms_pairs
-               WHERE LOWER(word) = ? AND LENGTH(synonym) = ?
+               WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
                UNION
                SELECT UPPER(answer) AS val FROM definition_answers_augmented
-               WHERE LOWER(definition) = ? AND LENGTH(answer) = ?
+               WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
            ) ORDER BY val""",
         (word_lower, letters, word_lower, letters),
     ).fetchall()
