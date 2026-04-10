@@ -135,7 +135,7 @@ def lookup():
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
                    WHERE LOWER(definition) = ?
-               ) ORDER BY LENGTH(REPLACE(val, ' ', '')), val LIMIT 200""",
+               ) ORDER BY LENGTH(REPLACE(val, ' ', '')), val""",
             (word_lower, word_lower),
         ).fetchall()
         # Group by length, top 5 per group, alphabetical
