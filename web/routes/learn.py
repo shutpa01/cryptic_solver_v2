@@ -212,31 +212,38 @@ def _build_colour_map(clue):
                     colour_map[i] = ("definition", "bg-purple-100", "text-purple-800")
                 break
 
-    # Mark pieces
-    for p in pieces:
-        clue_word = (p.get("clue_word") or "").lower().strip()
-        mechanism = p.get("mechanism", "")
-        if not clue_word:
-            continue
+    # Mark fodder — the words that contribute letters to the answer
+    role = ("fodder", "bg-amber-100", "text-amber-800")
 
-        piece_words = re.findall(r"[A-Za-z''-]+", clue_word)
-        piece_lower = [w.lower() for w in piece_words]
+    # For hidden words, use assembly.words (the actual hiding text) not the piece clue_word
+    # which may include the indicator
+    if assembly and assembly.get("op") in ("hidden", "hidden_reversed"):
+        hiding_text = (assembly.get("words") or "").lower().strip()
+        if hiding_text:
+            hiding_words = re.findall(r"[A-Za-z''-]+", hiding_text)
+            hiding_lower = [w.lower() for w in hiding_words]
+            for start in range(len(words_lower)):
+                if words_lower[start:start + len(hiding_lower)] == hiding_lower:
+                    for i in range(start, start + len(hiding_lower)):
+                        if i not in colour_map:
+                            colour_map[i] = role
+                    break
+    else:
+        # For all other types, mark each piece's clue_word as fodder
+        for p in pieces:
+            clue_word = (p.get("clue_word") or "").lower().strip()
+            if not clue_word:
+                continue
 
-        # Determine role colour — fodder provides letters, indicators signal the mechanism
-        if mechanism in ("anagram_fodder", "literal", "hidden",
-                         "synonym", "abbreviation", "first_letter", "last_letter",
-                         "reversal", "deletion", "alternate_letters", "sound_of"):
-            role = ("fodder", "bg-amber-100", "text-amber-800")
-        else:
-            role = ("fodder", "bg-amber-100", "text-amber-800")
+            piece_words = re.findall(r"[A-Za-z''-]+", clue_word)
+            piece_lower = [w.lower() for w in piece_words]
 
-        # Find in clue
-        for start in range(len(words_lower)):
-            if words_lower[start:start + len(piece_lower)] == piece_lower:
-                for i in range(start, start + len(piece_lower)):
-                    if i not in colour_map:  # Don't overwrite definition
-                        colour_map[i] = role
-                break
+            for start in range(len(words_lower)):
+                if words_lower[start:start + len(piece_lower)] == piece_lower:
+                    for i in range(start, start + len(piece_lower)):
+                        if i not in colour_map:
+                            colour_map[i] = role
+                    break
 
     # Unmarked words are indicators or linking words — left grey (uncoloured)
     return words, colour_map
