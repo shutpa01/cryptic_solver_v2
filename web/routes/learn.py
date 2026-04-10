@@ -222,16 +222,13 @@ def _build_colour_map(clue):
         piece_words = re.findall(r"[A-Za-z''-]+", clue_word)
         piece_lower = [w.lower() for w in piece_words]
 
-        # Determine role colour
-        if mechanism in ("anagram_fodder", "literal"):
-            role = ("fodder", "bg-blue-100", "text-blue-800")
-        elif mechanism == "hidden":
-            role = ("fodder", "bg-blue-100", "text-blue-800")
-        elif mechanism in ("synonym", "abbreviation", "first_letter", "last_letter",
-                           "reversal", "deletion", "alternate_letters", "sound_of"):
-            role = ("wordplay", "bg-amber-100", "text-amber-800")
+        # Determine role colour — fodder provides letters, indicators signal the mechanism
+        if mechanism in ("anagram_fodder", "literal", "hidden",
+                         "synonym", "abbreviation", "first_letter", "last_letter",
+                         "reversal", "deletion", "alternate_letters", "sound_of"):
+            role = ("fodder", "bg-amber-100", "text-amber-800")
         else:
-            role = ("wordplay", "bg-amber-100", "text-amber-800")
+            role = ("fodder", "bg-amber-100", "text-amber-800")
 
         # Find in clue
         for start in range(len(words_lower)):
@@ -240,6 +237,24 @@ def _build_colour_map(clue):
                     if i not in colour_map:  # Don't overwrite definition
                         colour_map[i] = role
                 break
+
+    # Check remaining unmarked words against indicators database
+    from signature_solver.db import RefDB
+    try:
+        ref_db = RefDB()
+        for i in range(len(words)):
+            if i not in colour_map:
+                word_lower = words_lower[i]
+                # Check if it's a known indicator
+                indicator_types = ref_db.conn.execute(
+                    "SELECT DISTINCT wordplay_type FROM indicators WHERE LOWER(word) = ?",
+                    (word_lower,)
+                ).fetchall()
+                if indicator_types:
+                    colour_map[i] = ("indicator", "bg-green-100", "text-green-800")
+                # else: leave uncoloured (link word / connecting word)
+    except Exception:
+        pass  # If RefDB unavailable, leave unmarked words grey
 
     return words, colour_map
 
