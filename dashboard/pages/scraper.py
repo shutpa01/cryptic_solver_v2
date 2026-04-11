@@ -393,6 +393,19 @@ def _render_cordelia_deploy():
 
                 if not failed:
                     steps.append(("Upload code", True, f"{uploaded} items uploaded."))
+                    # Fix permissions — scp sets restrictive modes that block nginx
+                    try:
+                        subprocess.run(
+                            ["ssh", CORDELIA_DROPLET,
+                             f"find {CORDELIA_REMOTE}/web/static -type d -exec chmod 755 {{}} \\; && "
+                             f"find {CORDELIA_REMOTE}/web/static -type f -exec chmod 644 {{}} \\; && "
+                             f"find {CORDELIA_REMOTE}/web/templates -type d -exec chmod 755 {{}} \\; && "
+                             f"find {CORDELIA_REMOTE}/web/templates -type f -exec chmod 644 {{}} \\;"],
+                            capture_output=True, timeout=15,
+                        )
+                        steps.append(("Fix permissions", True, "Static/template permissions fixed."))
+                    except Exception as e:
+                        steps.append(("Fix permissions", False, f"Permission fix failed: {e}"))
 
         # Step 2: Upload databases
         if deploy_db and not failed:
