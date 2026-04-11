@@ -360,7 +360,7 @@ def pattern_counts_batch():
         seen = set()
         for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
             rows = db.execute(
-                "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? LIMIT 200",
+                "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? ",
                 (pat, pat_len),
             ).fetchall()
             for r in rows:
@@ -371,7 +371,7 @@ def pattern_counts_batch():
         for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
             for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
                 ref_rows = ref.execute(
-                    "SELECT DISTINCT UPPER(%s) AS ans FROM %s WHERE UPPER(%s) LIKE ? AND LENGTH(%s) = ? LIMIT 200" % (col, table, col, col),
+                    "SELECT DISTINCT UPPER(%s) AS ans FROM %s WHERE UPPER(%s) LIKE ? AND LENGTH(%s) = ? " % (col, table, col, col),
                     (pat, pat_len),
                 ).fetchall()
                 for r in ref_rows:
@@ -473,7 +473,7 @@ def pattern_count():
 
     for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
         rows = db.execute(
-            "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? LIMIT 200",
+            "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? ",
             (pat, pat_len),
         ).fetchall()
         for r in rows:
@@ -549,7 +549,7 @@ def pattern_search():
                FROM clues
                WHERE UPPER(answer) LIKE ?
                AND LENGTH(answer) = ?
-               LIMIT 200""",
+               """,
             (pat, pat_len),
         ).fetchall()
         for r in rows:
@@ -560,7 +560,7 @@ def pattern_search():
     for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
         for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
             ref_rows = ref.execute(
-                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? LIMIT 200",
+                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? ",
                 (pat, pat_len),
             ).fetchall()
             for r in ref_rows:
@@ -602,9 +602,9 @@ def pattern_search():
                     break
             if match:
                 filtered.append(word)
-        matches = sorted(filtered)[:50]
+        matches = sorted(filtered)
     else:
-        matches = sorted(results)[:50]
+        matches = sorted(results)
 
     return render_template(
         "partials/pattern_results.html",
@@ -710,7 +710,7 @@ def anagram_search():
 
     # Filter out the input itself (don't show fodder as a result)
     input_upper = all_letters.upper()
-    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)[:50]
+    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)
 
     return render_template(
         "partials/anagram_results.html",
