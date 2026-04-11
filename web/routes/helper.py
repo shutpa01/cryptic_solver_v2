@@ -371,12 +371,16 @@ def pattern_counts_batch():
             if len(enum_parts) == 1:
                 seen = {w for w in seen if ' ' not in w}
             elif len(enum_parts) > 1:
-                def _matches_enum(answer, parts):
+                total_len = sum(int(p) for p in enum_parts)
+                def _matches_enum(answer, parts, total):
                     words = answer.split()
-                    if len(words) != len(parts):
-                        return False
-                    return all(len(w) == int(p) for w, p in zip(words, parts))
-                seen = {w for w in seen if _matches_enum(w, enum_parts)}
+                    if len(words) == len(parts):
+                        return all(len(w) == int(p) for w, p in zip(words, parts))
+                    # Also accept single-word answers matching total length
+                    if len(words) == 1 and len(answer) == total:
+                        return True
+                    return False
+                seen = {w for w in seen if _matches_enum(w, enum_parts, total_len)}
 
         results[clue_id] = len(seen)
 
@@ -563,13 +567,16 @@ def pattern_search():
             # Single word — exclude multi-word answers
             results = {w for w in results if ' ' not in w}
         elif len(enum_parts) > 1:
-            # Multi-word — only keep answers whose word lengths match the enumeration
-            def _matches_enum(answer, parts):
+            # Multi-word — keep answers whose word lengths match OR single-word matching total
+            total_len = sum(int(p) for p in enum_parts)
+            def _matches_enum(answer, parts, total):
                 words = answer.split()
-                if len(words) != len(parts):
-                    return False
-                return all(len(w) == int(p) for w, p in zip(words, parts))
-            results = {w for w in results if _matches_enum(w, enum_parts)}
+                if len(words) == len(parts):
+                    return all(len(w) == int(p) for w, p in zip(words, parts))
+                if len(words) == 1 and len(answer) == total:
+                    return True
+                return False
+            results = {w for w in results if _matches_enum(w, enum_parts, total_len)}
 
     if include_letters:
         filtered = []
