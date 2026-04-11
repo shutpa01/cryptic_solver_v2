@@ -162,11 +162,11 @@ def verify_and_store(results, dry_run=False):
             "source": "claude_review",
         })
 
-        # Update clues table
+        # Update clues table — set reviewed=1 to protect from re-verify clearing
         conn.execute("""
             UPDATE clues
             SET definition = ?, wordplay_type = ?, ai_explanation = ?,
-                has_solution = 1
+                has_solution = 1, reviewed = 1
             WHERE id = ?
         """, (definition, wordplay_type, explanation, clue_id))
 
