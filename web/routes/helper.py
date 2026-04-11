@@ -366,6 +366,17 @@ def pattern_counts_batch():
             for r in rows:
                 seen.add(r["ans"])
 
+        # Also search reference DB (same as pattern search does)
+        ref = _get_ref_db()
+        for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
+            for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
+                ref_rows = ref.execute(
+                    "SELECT DISTINCT UPPER(%s) AS ans FROM %s WHERE UPPER(%s) LIKE ? AND LENGTH(%s) = ? LIMIT 200" % (col, table, col, col),
+                    (pat, pat_len),
+                ).fetchall()
+                for r in ref_rows:
+                    seen.add(r["ans"])
+
         if enum_val:
             enum_parts = re.findall(r'\d+', enum_val)
             if len(enum_parts) == 1:
