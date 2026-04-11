@@ -424,7 +424,8 @@ function _enterSolveMode() {
     // Restore saved answers and crossings
     _restoreSolveState();
     _updateProgress();
-    _restoreCachedCrossings() || _fetchCrossings();
+    _restoreCachedCrossings();
+    _fetchCrossings();
 }
 
 function _exitSolveMode() {
@@ -633,6 +634,17 @@ function _restoreSolveState() {
                 result.className = 'solve-result text-xs text-green-600 font-bold';
                 result.textContent = 'Correct!';
                 _makeDeleteBtn(input.parentElement.querySelector('.solve-check-btn'));
+            } else if (saved.value) {
+                // Restore visual state for wrong/unchecked answers
+                var card = input.closest('.clue-card');
+                var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+                var guess = saved.value.replace(/\s/g, '').toUpperCase();
+                if (answer && guess.length === answer.length && guess !== answer) {
+                    input.classList.add('border-red-400');
+                    var result = input.parentElement.querySelector('.solve-result');
+                    result.className = 'solve-result text-xs text-red-500';
+                    result.textContent = 'Not right';
+                }
             }
         }
     });
