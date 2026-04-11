@@ -610,7 +610,7 @@ def _render_enrichment_queue():
     if syn_rows:
         st.subheader(f"Synonyms ({len(syn_rows)})")
         for r in syn_rows:
-            col1, col2, col3, col4, col5 = st.columns([5, 2, 3, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([4, 2, 4, 1.5, 1.5])
             with col1:
                 edited_word = st.text_input(
                     "word", value=r['word'], key=f"eqw_syn_{r['id']}",
@@ -622,7 +622,7 @@ def _render_enrichment_queue():
                     label_visibility="collapsed"
                 )
             with col3:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
+                st.markdown(f"<small style='word-wrap:break-word'>{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:60]} = {r['answer']}</small>", unsafe_allow_html=True)
             with col4:
                 if st.button("Add", key=f"eq_syn_{r['id']}"):
                     edited_r = dict(r)
@@ -645,7 +645,7 @@ def _render_enrichment_queue():
     if abbr_rows:
         st.subheader(f"Abbreviations ({len(abbr_rows)})")
         for r in abbr_rows:
-            col1, col2, col3, col4, col5 = st.columns([5, 2, 3, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([4, 2, 4, 1.5, 1.5])
             with col1:
                 edited_word = st.text_input(
                     "word", value=r['word'], key=f"eqw_abbr_{r['id']}",
@@ -657,7 +657,7 @@ def _render_enrichment_queue():
                     label_visibility="collapsed"
                 )
             with col3:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
+                st.markdown(f"<small style='word-wrap:break-word'>{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:60]} = {r['answer']}</small>", unsafe_allow_html=True)
             with col4:
                 if st.button("Add", key=f"eq_abbr_{r['id']}"):
                     edited_r = dict(r)
@@ -679,7 +679,7 @@ def _render_enrichment_queue():
     if def_rows:
         st.subheader(f"Definitions ({len(def_rows)})")
         for r in def_rows:
-            col1, col2, col3, col4, col5 = st.columns([5, 2, 3, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([4, 2, 4, 1.5, 1.5])
             with col1:
                 edited_word = st.text_input(
                     "word", value=r['word'], key=f"eqw_def_{r['id']}",
@@ -691,7 +691,7 @@ def _render_enrichment_queue():
                     label_visibility="collapsed"
                 )
             with col3:
-                st.caption(f"{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:40]}... = {r['answer']}")
+                st.markdown(f"<small style='word-wrap:break-word'>{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:60]} = {r['answer']}</small>", unsafe_allow_html=True)
             with col4:
                 if st.button("Add", key=f"eq_def_{r['id']}"):
                     edited_r = dict(r)
