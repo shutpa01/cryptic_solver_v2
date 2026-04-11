@@ -1,0 +1,122 @@
+Please solve each cryptic crossword clue below. For each one, provide:
+- wordplay_type (e.g. charade, anagram, container, hidden, double_definition, reversal, deletion, homophone, spoonerism, acrostic, cryptic_definition)
+- definition (the straight definition part of the clue)
+- explanation (how the wordplay works, showing each piece)
+
+Format each answer EXACTLY like this (must match verifier format):
+
+For charade/container/deletion:
+---
+ID: 12345
+WORDPLAY: charade
+DEFINITION: having three parties
+EXPLANATION: TRI (abbreviation="three") + LATE (synonym="delayed") + R (first letter of "year") + AL (synonym="Al") = TRILATERAL; definition: "having three parties"
+---
+
+For anagram:
+---
+ID: 12346
+WORDPLAY: anagram
+DEFINITION: fruit
+EXPLANATION: anagram of LOGO + ON + BREAD = BLOODORANGE; definition: "fruit"
+---
+
+For hidden:
+---
+ID: 12347
+WORDPLAY: hidden
+DEFINITION: skill
+EXPLANATION: hidden in "cARTography"; definition: "skill"
+---
+
+For double definition:
+---
+ID: 12348
+WORDPLAY: double_definition
+DEFINITION: pack
+EXPLANATION: Double definition: pack = STUFF, things = STUFF
+---
+
+For homophone:
+---
+ID: 12349
+WORDPLAY: homophone
+DEFINITION: coast
+EXPLANATION: SHORE sounds like "sure" (mentioned); definition: "coast"
+---
+
+CRITICAL: Use UPPERCASE for letter pieces in explanations. Always end with ; definition: "..."
+Use (synonym="word"), (abbreviation="word"), (first letter of "word") for piece sources.
+
+=== guardian #29977 ===
+
+ID: 10052300
+19a. Individual taking ecstasy (3)
+   Answer: ONE [unsolved]
+
+ID: 10052303
+22a. Sickness resulting from excrement, mostly, around hovel (7)
+   Answer: CHOLERA [unsolved]
+
+ID: 10052304
+24a. Perhaps rib cracked by a silly prat in royal family (9)
+   Answer: BONAPARTE [unsolved]
+
+ID: 10052308
+1d. Suggestion from middleman oddly ignored (4)
+   Answer: IDEA [unsolved]
+
+ID: 10052309
+2d. Destroy spirit (6)
+   Answer: SCOTCH [unsolved]
+
+ID: 10052311
+4d. Supply of suet for juvenile wannabe? (6)
+   Answer: FOETUS [score=65]
+   Current explanation: anagram of OF + SUET = FOETUS; definition: "Supply"
+
+ID: 10052312
+5d. Infiltrate a couple’s enthralling exchange at last (8)
+   Answer: PERMEATE [unsolved]
+
+ID: 10052313
+6d. Revolutionary cut more unusual root vegetable (4)
+   Answer: EDDO [unsolved]
+
+ID: 10052315
+8d. Claim written language doesn’t include the letter R (4)
+   Answer: POSE [unsolved]
+
+ID: 10052316
+13d. Where to find classic content to keep, somehow (5)
+   Answer: EPSOM [score=10]
+   Current explanation: hidden in "ke EPSOM ehow"
+
+ID: 10052317
+15d. Quickly leaving a relationship to keep some credibility, primarily (10)
+   Answer: ABSCONDING [unsolved]
+
+ID: 10052318
+16d. Crimean War conference site boosted at city close to Turkey (5)
+   Answer: YALTA [unsolved]
+
+ID: 10052319
+18d. Musical show Oscar’s promoted in one advance article (8)
+   Answer: IOLANTHE [unsolved]
+
+ID: 10052320
+19d. I reprove criminal on the way out (8)
+   Answer: OVERRIPE [unsolved]
+   Current explanation: anagram of I + REPROVE = OVERRIPE; definition: "out"
+
+ID: 10052321
+22d. Emperor announced what guards should do to escaping woman? (6)
+   Answer: CAESAR [unsolved]
+
+ID: 10052322
+23d. Draw Forth Bridge’s terminus, OK? (6)
+   Answer: ELICIT [unsolved]
+
+ID: 10052325
+27d. Present introduction from Guardian and two shelfmates (4)
+   Answer: GIFT [unsolved]

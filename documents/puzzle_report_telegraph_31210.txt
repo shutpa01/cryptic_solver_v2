@@ -1,0 +1,757 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31210
+Generated: 2026-04-10 02:50:22
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        28/32 (87%)
+    Sig+Enriched:   7
+    Sonnet:         11
+    DB Fallback:    5
+  Failed:           4
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   21  2D, 1D, 10A, 13A, 15D, 18D, 22A, 23D, 27A, 3D, 11A, 12A, 16A, 17A, 17D, 20D, 24D, 25A, 28A, 8D, 9A
+  Medium (40-79): 5  1A, 14D, 18A, 19D, 21A
+  Low (<40):    2  5D, 6D
+  Failed:       4  26A, 4D, 5A, 7D
+  Average:      81/100
+
+COST: $2.1393 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (22 entries)
+------------------------------------------------------------
+  NORTH: "player?" -> NORTH  (missing from definition_answers_augmented)
+  TEMPO: "Beat" -> TEMPO  (missing from definition_answers_augmented)
+  BASHFUL: "Reserved" -> BASHFUL  (missing from definition_answers_augmented)
+  HEARTEN: "give encouragement" -> HEARTEN  (missing from definition_answers_augmented)
+  ACTOR: "Performer" -> ACTOR  (missing from definition_answers_augmented)
+  GUILLEMOT: "flier" -> GUILLEMOT  (missing from definition_answers_augmented)
+  RAISE: "Hold up" -> RAISE  (missing from definition_answers_augmented)
+  EXHAUST: "Wear out engine part" -> EXHAUST  (missing from definition_answers_augmented)
+  sinks in: "understood" -> sinks in  (missing from definition_answers_augmented)
+  Belarus: "somewhere near Lithuania" -> Belarus  (missing from definition_answers_augmented)
+  FRUITLESS: "unproductive" -> FRUITLESS  (missing from definition_answers_augmented)
+  MELANGE: "Pastiche" -> MELANGE  (missing from definition_answers_augmented)
+  FLANNEL: "to what it might be applied" -> FLANNEL  (missing from definition_answers_augmented)
+  FORBEAR: "Ancestor" -> FORBEAR  (missing from definition_answers_augmented)
+  number one: "Anaesthetic" -> number one  (missing from definition_answers_augmented)
+  STRANGLER: "Notorious Bostonian" -> STRANGLER  (missing from definition_answers_augmented)
+  HEARTEN: Gather -> HEAR  (missing from synonyms_pairs)
+  Belarus: vessel -> BURSAL  (missing from synonyms_pairs)
+  FLANNEL: soap -> EL  (missing from abbreviations)
+  FORBEAR: exposed -> BEAR  (missing from synonyms_pairs)
+  AUTOPILOT: first one to -> AUTO  (missing from synonyms_pairs)
+  AUTOPILOT: auction item -> PILOT  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  Mohican = 11 (80/100): AI=anagram, assembled=container
+  FORBEAR = 5 (28/100): AI=homophone, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS — assembler invented these (1 clues)
+------------------------------------------------------------
+  EXPRESS (82/100): S <- brute force (no clue basis)
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  AUTOPILOT = 6 (20/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  PINETUM = 1 (60/100): def="?" (none identified)
+  GUILLEMOT = 14 (55/100): def="flier" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (4)
+------------------------------------------------------------
+  26. Harvested orchard could be unproductive = FRUITLESS
+  4. Pastiche style egregious essentially in this writer = MELANGE
+  5. Soft soap and to what it might be applied? = FLANNEL
+  7. Anaesthetic drug keeps working for lieutenant = number one
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  9/32  13A, 16A, 25A, 27A, 28A, 3D, 8D, 15D, 24D
+  Type mismatch:         2  11A, 5D
+  Fabricated mapping:    1  12A
+  Unverified explain.:   1  6D
+  Weak definition:       2  1A, 14D
+  DB gap:                16  9A, 10A, 18A, 21A, 22A, 26A, 2D, 4D, 5D, 6D, 7D, 14D, 17D, 19D, 20D, 23D
+  Failed:                4  26A, 4D, 5D, 7D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+    2D  NORTH         Cambodian or Thai inspiring bridge player? (5)
+                      hidden in "cambodia NORTH ai inspiring bridge"; definition: "player?"  [HIGH]
+    1D  POSTMAN       Map's not designed for one making regular deliveries (7)
+                      ---  [HIGH]
+   10A  TEMPO         Beat work police force brought back (5)
+                      OP (synonym of "work") + MET (synonym of "police force"); definition: "Beat"  [HIGH]
+   13A  NIGHTWEAR     Pyjamas typically in white gran ordered (9)
+                      ---  [HIGH]
+   15D  THEORISED     Reckless editor, she speculated (9)
+                      ---  [HIGH]
+   18D  BASHFUL       Reserved bus, half modified (7)
+                      anagram of BUSHALF ("bus, half") [anagram: "modified"] = BASHFUL; definition: "Reserved"  [HIGH]
+   22A  HEARTEN       Gather number give encouragement (7)
+                      HEAR (synonym of "Gather") + TEN (synonym of "number"); definition: "give encouragement"  [HIGH]
+   23D  ACTOR         Performer works naked (5)
+                      FACTORY (synonym of "works") [stripping: "naked"]; definition: "Performer"  [HIGH]
+   27A  CITADEL       About fifty at intervals approaching a key stronghold (7)
+                      ---  [HIGH]
+    3D  TONIC         Starts to turn off noisy industrial cement mixer (5)
+                      ---  [HIGH]
+    1A  PINETUM       Mum, smart to go round conifer plantation (7)
+                      PINE(synonym of "conifer") + T(first letter of "to") + delete M from MUM  [MED]
+   11A  Mohican       Complain about this extremely deficient Conservative's hairstyle (7)
+                      HI("this")+C(abbr. "Conservative") inside MOAN(synonym of "Complain")  [HIGH]
+   12A  EXPRESS       Kiss for male aboard perhaps Victoria train (7)
+                      X(abbr. "Kiss") inside EPRES("Victoria") + S  [HIGH]
+   14D  GUILLEMOT     Craft must circle lake, test for flier? (9)
+                      delete AKE from LAKE, anagram of L+GUILE(synonym of "craft")+MOT(synonym of "test") = GUILLEMOT  [MED]
+   16A  LOOSE         Free facilities, barely used (5)
+                      LOO(synonym of "facilities") + SE("barely")  [HIGH]
+   17A  RAISE         Hold up beams, we hear (5)
+                      RAISE (sounds like "beams,") [homophone: "we hear"]; definition: "Hold up"  [HIGH]
+   17D  ROBOTIC       Emotionless Nick overcomes old twitch (7)
+                      ROB(synonym of "Nick") + O(abbr. "old") + TIC(synonym of "twitch")  [HIGH]
+   18A  BREATHERS     Those swimming will grab occasionally brief rests (9)
+                      delete G from GRAB, anagram of THE(synonym of "will")+RAB+RE(alternate letters of "brief")+S(first letter of "swimming") = BREATHERS  [MED]
+   19D  EXHAUST       Wear out engine part (7)
+                      cryptic definition  [MED]
+   20D  sinks in      Great shame receiving tattoos is fully understood (5,2)
+                      S(last letter of "is") + INK(synonym of "tattoos") + delete K from SINK(synonym of "great")  [HIGH]
+   21A  Belarus       Carrying earl abroad vessel capsized somewhere near Lithuania (7)
+                      anagram of E(abbr. "earl")+BURSAL(synonym of "vessel") = Belarus  [MED]
+   24D  THETA         Anthem, hit oddly upsetting Greek character (5)
+                      delete I from HIT, anagram of HT+ETA(synonym of "greek character") = THETA  [HIGH]
+   25A  Times         On occasion son gets newspaper (5)
+                      TIME(synonym of "occasion") + S(abbr. "son")  [HIGH]
+   26A  FRUITLESS     Harvested orchard could be unproductive (9)
+                      ---  [FAIL]
+   28A  TERRAIN       Reptile avoids soft ground (7)
+                      delete P from TERRAPIN  [HIGH]
+    4D  MELANGE       Pastiche style egregious essentially in this writer (7)
+                      ---  [FAIL]
+    5A  FLANNEL       Soft soap and to what it might be applied? (7)
+                      ---  [FAIL]
+    5D  FORBEAR       Ancestor of revolutionary Republican exposed, it's said (7)
+                      FOR(ROF reversed, "Republican") + BEAR(synonym of "exposed")  [LOW]
+    6D  AUTOPILOT     George, first one to plug gold auction item (9)
+                      AUTO(synonym of "first one to") + PILOT(synonym of "auction item")  [LOW]
+    7D  number one    Anaesthetic drug keeps working for lieutenant (6,3)
+                      ---  [FAIL]
+    8D  look-see      Brief inspection of damaged keel soon curtailed (4-3)
+                      delete N from SOON, anagram of KEEL+SOO = look-see  [HIGH]
+    9A  STRANGLER     Notorious Bostonian needs more rum, swallowing litres (9)
+                      STRANGER (synonym of "more rum,") + L (synonym of "litres"); definition: "Notorious Bostonian"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] NORTH  2D. Cambodian or Thai inspiring bridge player?
+  Answer: NORTH
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "player?"
+  Wordplay: hidden
+  Explanation: hidden in "cambodia NORTH ai inspiring bridge"; definition: "player?"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] POSTMAN  1D. Map's not designed for one making regular deliveries
+  Answer: POSTMAN
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of MAP'S + NOT = POSTMAN
+  ----------------------------------------------------------------------
+
+  [HIGH] TEMPO  10A. Beat work police force brought back
+  Answer: TEMPO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Beat"
+  Wordplay: charade
+  Explanation: OP (synonym of "work") + MET (synonym of "police force"); definition: "Beat"
+  ----------------------------------------------------------------------
+
+  [HIGH] NIGHTWEAR  13A. Pyjamas typically in white gran ordered
+  Answer: NIGHTWEAR
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of WHITE + GRAN = NIGHTWEAR; definition: "Pyjamas"
+  ----------------------------------------------------------------------
+
+  [HIGH] THEORISED  15D. Reckless editor, she speculated
+  Answer: THEORISED
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of EDITOR, + SHE = THEORISED; definition: "speculated"
+  ----------------------------------------------------------------------
+
+  [HIGH] BASHFUL  18D. Reserved bus, half modified
+  Answer: BASHFUL
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Reserved"
+  Wordplay: anagram
+  Explanation: anagram of BUSHALF ("bus, half") [anagram: "modified"] = BASHFUL; definition: "Reserved"
+  ----------------------------------------------------------------------
+
+  [HIGH] HEARTEN  22A. Gather number give encouragement
+  Answer: HEARTEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "give encouragement"
+  Wordplay: charade
+  Explanation: HEAR (synonym of "Gather") + TEN (synonym of "number"); definition: "give encouragement"
+  ----------------------------------------------------------------------
+
+  [HIGH] ACTOR  23D. Performer works naked
+  Answer: ACTOR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Performer"
+  Wordplay: charade + deletion
+  Explanation: FACTORY (synonym of "works") [stripping: "naked"]; definition: "Performer"
+  ----------------------------------------------------------------------
+
+  [HIGH] CITADEL  27A. About fifty at intervals approaching a key stronghold
+  Answer: CITADEL
+  Tier: --- | Confidence: 100/100
+  Human explanation: C (abbreviation="About") + IT (even letters of "fifty") + A (first_letter="approaching") + DEL (synonym="key") = CITADEL; definition: "stronghold"
+  ----------------------------------------------------------------------
+
+  [HIGH] TONIC  3D. Starts to turn off noisy industrial cement mixer
+  Answer: TONIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: TO (from clue) + N (first_letter="noisy") + I (first_letter="industrial") + C (first_letter="cement") = TONIC; definition: "mixer"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PINETUM  1A. Mum, smart to go round conifer plantation
+  Answer: PINETUM
+  Tier: DB Fallback | Confidence: 60/100
+  Wordplay type: deletion
+  Components:
+    synonym            conifer                   -> PINE
+    first_letter       to                        -> T
+    literal            mum                       -> MUM
+  Assembly: deletion — PINE(synonym of "conifer") + T(first letter of "to") + delete M from MUM
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=deletion | type_evidence=assembled, AI agrees | yields_check=pass (deletion verified) | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      mum: syn=MA,SH,ALE,GIN,NIP,PEG,POP,RUM,TOT,ALE,,BEER,BELT,BREW,GROG,HOME; abbr=MA
+      smart: syn=IN*,A,BIG,DEF,FLY,HEP,HIP,MOD,SLY,ABLE,ACHE,BURN,CHIC,COOL,FAST; abbr=CHIC
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      go: syn=BE,DO,IT,OR,AGE,BET,BID,CAN,CUT,DIE,END,EYE,FAD,FIT,GET; ind=anagram
+      round: syn=O,MY,ARC,EYE,AMMO,ARCH,ARCS,ARIA,BACK,BALL,BAND,EVEN,FALL,FULL,HOOP; abbr=O; ind=anagram,container,reversal
+      conifer: syn=PINE*,TREE,WOOD,PLANT
+      plantation: syn=ESTATE,FOREST
+      to go: syn=ACT,AIR,PEE,PUT,ACTS,AIRS,BAKE,BALL,EXIT,QUIT
+      go round: syn=GO,BEAT,BODY,DISC,PATH,POTS,ROAD,ROLL,SPIN,TERM
+  ----------------------------------------------------------------------
+
+  [HIGH] Mohican  11A. Complain about this extremely deficient Conservative's hairstyle
+  Answer: Mohican
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "hairstyle"
+  Wordplay type: anagram
+  Components:
+    synonym            Complain                  -> MOAN
+    indicator          about                     -> 
+    literal            this                      -> HI
+    abbreviation       Conservative              -> C
+  Assembly: container — HI("this")+C(abbr. "Conservative") inside MOAN(synonym of "Complain")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      complain: syn=MOAN*,ASS,NAG,BEEF,CARP,CRAB,FUSS,KEEN,KICK,WAIL,WINE,YAWP,YOWL,BITCH,BLEAT; fodder=COMPLAIN(6/7 anagram match)
+      about: syn=CA*,C,AS,BY,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA*,OF,ON,OVER,RE; ind=anagram,container,reversal
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      extremely: syn=SO,FAR,HOW,LOT,NOT,TOO,WAY,BONE,DAMN,DANG,DEAD,EDGY,EVER,FULL,MORE; abbr=V; ind=parts
+      deficient: syn=BAD,LOW,NOT,OFF,SHY,BUSH,CURT,FAST,FROM,HURT,POOR,SIDE,SIZE,AMISS,BELOW; ind=deletion,parts
+      conservative's: syn=C,CON,DIE,KEY,LOW,OLD,BLUE,SAFE,TORY,CREEP,RIGHT,SCHOOL,DIEHARD; abbr=C*,CON
+      hairstyle: syn=MOHICAN*,BOB,CUT,AFRO,HAIR,PERM,PLAIT,MULLET,BEEHIVE,CORNROW,PERHAPS,SHINGLE,TONSURE; ind=reversal?
+      extremely deficient: ind=parts
+    Definitions:
+      "hairstyle" -> Mohican (definition match)
+  AI Reasoning:
+    MOAN + HI + C anagrams (indicated by 'about') to MOHICAN
+  ----------------------------------------------------------------------
+
+  [HIGH] EXPRESS  12A. Kiss for male aboard perhaps Victoria train
+  Answer: EXPRESS
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "train"
+  Wordplay type: container
+  Components:
+    abbreviation       Kiss                      -> X
+    indicator          aboard                    -> 
+    indicator          perhaps                   -> 
+    anagram_fodder     Victoria                  -> EPRES
+  Assembly: container — X(abbr. "Kiss") inside EPRES("Victoria") + S
+  Brute gap: +S
+  Checks: definition=confirmed in DB | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present | gap_fill=1 unexplained letter(s)
+  DB Lookups:
+    DB lookups:
+      kiss: syn=BUSS,NECK,PECK,SNOG,CROSS,GRAZE,SMACK,CARESS,SHAVES,PLONKER,SMACKER; abbr=X*
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      male: syn=M,HE,BOD,BOY,BUD,CAT,CUB,EGG,GUY,JOE,KID,LAD,MAN,SIR,TOM; abbr=A,HE,M,PA; sounds=mail
+      aboard: syn=ON,BOARD,MOUNT,ON OR,BOARDS,EMBARK,GET IN,GOT IN,MOUNTS,BOARDED,EMBARKS,ENPLANE,ENTRAIN,GETS IN,MOUNTED; ind=container,insertion
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      victoria: syn=CAB,GIG,RIG,FOUR,PLUM,TRAP,BUGGY,COACH,COUPÉ,QUEEN,STAGE,STATE,TONGA,CALASH,CHAISE
+      train: syn=AIM,BUM,CUE,SET,AIMS,BACK,BUNS,BUTT,CHOO,DUFF,FILE,HAMS,HEAD,HOME,LINE; ind=anagram
+    Definitions:
+      "train" -> EXPRESS (definition match)
+  AI Reasoning:
+    X from Kiss goes aboard (inside) an anagram of part of Victoria to spell EXPRESS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GUILLEMOT  14D. Craft must circle lake, test for flier?
+  Answer: GUILLEMOT
+  Tier: DB Fallback | Confidence: 55/100
+  Definition: "flier"
+  Wordplay type: anagram
+  Components:
+    literal            lake                      -> LAKE
+    synonym            craft                     -> GUILE
+    synonym            test                      -> MOT
+  Assembly: deletion+anagram — delete AKE from LAKE, anagram of L+GUILE(synonym of "craft")+MOT(synonym of "test") = GUILLEMOT
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=not in DB, odd position | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=L answer=GUILLEMOT | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      craft: syn=GUILE*,AT,ART,BUM,END,ARTS,BOAT,BUNS,BUTT,DRAW,DUFF,HAMS,LESS,LINE,ROOT; ind=anagram
+      must: syn=DO,EYE,BEST,HAVE,NEED,NONE,GOTTA,SHALL,DEMAND,SHOULD,NEW WINE,CONDITION,ESSENTIAL,HAS TO BE,NECESSITY
+      circle: syn=MY,ARC,EYE,LOT,MOB,ROW,SET,WAY,AREA,AXIS,BAND,BIKE,BLOC,BODY,CLAN; abbr=O*
+      lake: syn=L,SEA,ERIE,HOLE,LOCH,MERE,POND,POOL,TARN,WELL,BASIN,HURON,LOUGH,OXBOW,STANK; abbr=L*,LA
+      test: syn=MOT*,OK,ACE,BIG,FAB,HOT,SEE,TAX,TOM,TOP,TRY,A-OK,ACES,BEES,BETA; abbr=ORAL
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      flier: syn=OWL,TIT,BIRD,DOVE,ERNE,IBIS,TEST,WREN,EGRET,GREBE,HERON,OUSEL,PLANE,RAVEN,RIDGE
+  AI Reasoning:
+    Anagram of MUST+O+L+MOT with deletion indicated by 'for' to produce GUILLEMOT
+  ----------------------------------------------------------------------
+
+  [HIGH] LOOSE  16A. Free facilities, barely used
+  Answer: LOOSE
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "Free"
+  Wordplay type: charade
+  Components:
+    synonym            facilities                -> LOO
+    anagram_fodder     barely                    -> SE
+    indicator          used                      -> 
+  Assembly: charade — LOO(synonym of "facilities") + SE("barely")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      free: syn=LOOSE*,OFF,RID,ROW,RUN,BALD,BARE,BODY,BOHO,BOLD,DEAD,FAIR,FRAY,HECK,HELL; abbr=RID; ind=anagram
+      facilities: syn=LOO*
+      barely: syn=JUST,SKIN
+      used: syn=DRY,OLD,ARID,BONY,BURN,DEAD,MILK,PIMP,POOR,SERE,TOOK,WONT,WORK,WORN,ABUSE; ind=anagram
+    Definitions:
+      "Free" -> LOOSE (definition match)
+  AI Reasoning:
+    LOO (facilities) + SE (anagram of barely, indicated by used) = LOOSE
+  ----------------------------------------------------------------------
+
+  [HIGH] RAISE  17A. Hold up beams, we hear
+  Answer: RAISE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Hold up"
+  Wordplay: homophone
+  Explanation: RAISE (sounds like "beams,") [homophone: "we hear"]; definition: "Hold up"
+  ----------------------------------------------------------------------
+
+  [HIGH] ROBOTIC  17D. Emotionless Nick overcomes old twitch
+  Answer: ROBOTIC
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "Emotionless"
+  Wordplay type: charade
+  Components:
+    synonym            Nick                      -> ROB
+    abbreviation       old                       -> O
+    synonym            twitch                    -> TIC
+  Assembly: charade — ROB(synonym of "Nick") + O(abbr. "old") + TIC(synonym of "twitch")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      emotionless: syn=DEADPAN
+      nick: syn=ROB*,CAN,COP,CUT,DIG,HOW,JUG,NAB,NET,RAP,WAY,BUST,CAST,CHIP,FAST
+      overcomes: syn=CANS,DAMS,DIES,ENDS,GETS,GOES,BEATS,BESTS,BUNGS,DROPS,FILLS,HALTS,LICKS,PACKS,PLUGS
+      old: syn=O,EX,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX,O*
+      twitch: syn=TIC*,SHAKE,START,TWEAK
+    Definitions:
+      "Emotionless" -> ROBOTIC (definition match)
+  AI Reasoning:
+    Charade of ROB (nick) + O (old) + TIC (twitch) = ROBOTIC (emotionless)
+  ----------------------------------------------------------------------
+
+  [HIGH] BREATHERS  18A. Those swimming will grab occasionally brief rests
+  Answer: BREATHERS
+  Tier: DB Fallback | Confidence: 78/100
+  Definition: "rests"
+  Wordplay type: anagram
+  Components:
+    synonym            will                      -> THE
+    literal            grab                      -> GRAB
+    alternate_letters  brief                     -> RE
+    first_letter       swimming                  -> S
+  Assembly: deletion+anagram — delete G from GRAB, anagram of THE(synonym of "will")+RAB+RE(alternate letters of "brief")+S(first letter of "swimming") = BREATHERS
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=RAB answer=BREATHERS | pieces_validated=3/4 (88%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      those: abbr=THE*
+      swimming: syn=HAZING,JIVING,JOKING,RIDING,BAITING,GLIDING,HANGING,HINGING,JOSHING,KIDDING,POISING,RAZZING,REELING,RIBBING,SAILING; ind=anagram
+      will: syn=THE*,DEED,FREE,LIKE,WANT,WISH,GONNA,HEART,LEAVE,SHALL,TRADE,ACCORD,CHOICE,CHOOSE,OPTION
+      grab: syn=BAG,COP,GET,NAB,NET,RAP,DEAD,EARN,EVEN,FIRE,GAIN,GLOM,HOOK,LAND,LIFE
+      occasionally: syn=ON,AYE,NOW,OFT,EVER,FROM,MUCH,OFTEN,WHILE,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER
+      brief: syn=US,HIM,JOB,LOW,SHY,SUM,CASE,CURT,FAST,FILL,LESS,SILK,TELL,BLUFF,BLUNT; ind=parts
+      rests: syn=BREATHE*,BREATHER*,LEGAL,BREAKS,SPIDERS,AROUND OR,BED,BUM,HAY,KIP,LAG,LIE,NAP,TEN,Z'S; sounds=wrest
+    Definitions:
+      "rests" -> BREATHERS (definition match)
+  AI Reasoning:
+    Anagram of letters from 'Those' + 'will'(=THE) + occasional letters from 'grab' + brief form, yielding BREATHERS
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXHAUST  19D. Wear out engine part
+  Answer: EXHAUST
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Wear out engine part"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      wear: syn=EXHAUST*,DO,GO,OR,BUG,DON,EAT,FAG,GET,IRK,KIT,MAR,RIG,RUB,SAP; sounds=ware,where
+      out: syn=OK,OR,ALL,DIE,FRO,GET,HIM,OFF,PAY,SET,ABLY,AFAR,AWAY,BABY,DAMN; ind=anagram,deletion
+      engine: syn=LOCO,DIESEL,DRIVER,SOURCE,MACHINE,TURBINE; ind=anagram?
+      part: syn=DO,GO,IT,PT,BIT,CAN,CUT,DIE,END,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      wear out: syn=EXHAUST*,DO,USE,DRAW,KILL,PLAY,USED,WEAR,COVER,DRAIN
+      engine part: syn=DRUM,PISTON,BIG END,DIAGRAM
+    Definitions:
+      "Wear out" -> EXHAUST (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines EXHAUST - both meaning 'to wear out' and literally being an engine part (exhaust system)
+  ----------------------------------------------------------------------
+
+  [HIGH] sinks in  20D. Great shame receiving tattoos is fully understood
+  Answer: sinks in
+  Tier: DB Fallback | Confidence: 85/100
+  Definition: "understood"
+  Wordplay type: deletion
+  Components:
+    last_letter        is                        -> S
+    synonym            great                     -> SINK
+    synonym            tattoos                   -> INK
+  Assembly: deletion — S(last letter of "is") + INK(synonym of "tattoos") + delete K from SINK(synonym of "great")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      great: syn=SINK*,A1,DO,OK,ACE,AIM,ALL,BET,BIG,DIE,END,FAB,FAR,FIT,GET; abbr=G,GR,OS; sounds=grate
+      shame: syn=ARM,HER,HIS,PITY,TAKE,ABASE,ABASH,CRIME,ODIUM,ABASED,ABASES,STIGMA,ABASING,CHAGRIN,DEGRADE
+      receiving: syn=TAKE,ADMIT,ENTER,TAKING; ind=container
+      tattoos: syn=INK*,DRUMS,PARADES,DESIGN,PARADE,ARTWORK,DISPLAY,ON BODY,PAGEANT
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      fully: syn=OK,ALL,OUT,ABLY,BEST,DEAD,EASY,EVEN,FAST,FINE,FLAT,FROM,FULL,GOOD,OVER; ind=deletion
+      understood: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,KENT,KNEW,MADE,SEEN
+      tattoos is: syn=RANK,CLASS,START,STATUS,STATION
+  AI Reasoning:
+    SINK + S + (INKIS with KIS deleted) gives SINKS IN
+  ----------------------------------------------------------------------
+
+  [MEDIUM] Belarus  21A. Carrying earl abroad vessel capsized somewhere near Lithuania
+  Answer: Belarus
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "somewhere near Lithuania"
+  Wordplay type: anagram
+  Components:
+    indicator          carrying                  -> 
+    abbreviation       earl                      -> E
+    indicator          abroad                    -> 
+    synonym            vessel                    -> BURSAL
+    indicator          capsized                  -> 
+  Assembly: anagram — anagram of E(abbr. "earl")+BURSAL(synonym of "vessel") = Belarus
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      carrying: syn=GOING,ICING,COMING,EATING,FOXING,GIVING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING,SEEING,SIRING; ind=container
+      earl: syn=LORD,PEER,LORDS,NOBLE,A NOBLE,COUNTRY; abbr=E*
+      abroad: syn=FRO,OFF,OUT,WAY,AFAR,AWAY,AWOL,DOWN,GONE,ABOUT,APART,ASIDE,HENCE,ROUND,RUMOR; ind=anagram
+      vessel: syn=AT,SS,ARK,ART,BUM,CAN,JUG,MAN,MUG,PAN,POT,SUB,TOP,URN,VAT; abbr=ARK,PAN,SS
+      capsized: ind=reversal
+      somewhere: syn=AN,OR,BUT,STY,FAIR,JUST,MOST,MUCH,NEAR,NEXT,NIGH,ABOUT,HOMES,OF AN,ALMOST
+      near: syn=AN,BY,IN,OR,TO,AGE,ARC,BOW,BUT,GAS,RUN,SAY,ARCH,BEND,COME; abbr=BY; ind=parts
+  AI Reasoning:
+    E + BURSAL reversed (LASRUB) gives ELASRUB, which 'carrying' indicates should be anagrammed to BELARUS
+  ----------------------------------------------------------------------
+
+  [HIGH] THETA  24D. Anthem, hit oddly upsetting Greek character
+  Answer: THETA
+  Tier: DB Fallback | Confidence: 80/100
+  Definition: "Greek character"
+  Wordplay type: anagram
+  Components:
+    literal            hit                       -> HIT
+    synonym            greek character           -> ETA
+  Assembly: deletion+anagram — delete I from HIT, anagram of HT+ETA(synonym of "greek character") = THETA
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=HT answer=THETA | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      anthem: syn=ARIA,HYMN,PART,SONG,WORK,CAROL,CROON,FIGHT,MUSIC,PSALM
+      hit: syn=DO,A A,ASK,BAG,BAT,BIB,BOB,BOP,BOX,DAB,DID,DUG,GET,GOT,LAM; abbr=LAM; ind=anagram
+      oddly: ind=anagram,parts
+      upsetting: ind=anagram,reversal?
+      greek: syn=GK,GR,TAU,FETA,ATTIC,DORIC,IONIC,PLATO,STOIC; abbr=CHI,ETA*,G,GR,MU,NU,PHI,PI; ind=anagram?
+      character: syn=THETA*,AIR,BOD,BOG,BOY,BUG,CAT,CEE,CHI,DAM,EGG,ETH,FAN,GEE,GUY; ind=acrostic
+      greek character: syn=ETA*,THETA*,MU,PI,BIT,CHI,DAY,END,PHI,PSI
+    Definitions:
+      "character" -> THETA (definition match)
+      "Greek character" -> THETA (definition match)
+  AI Reasoning:
+    Take odd-positioned letters from 'ANTHEMHIT' to get ATEHT, then anagram to THETA
+  ----------------------------------------------------------------------
+
+  [HIGH] Times  25A. On occasion son gets newspaper
+  Answer: Times
+  Tier: Sonnet | Confidence: 90/100
+  Definition: "newspaper"
+  Wordplay type: charade
+  Components:
+    synonym            occasion                  -> TIME
+    abbreviation       son                       -> S
+    indicator          gets                      -> 
+  Assembly: charade — TIME(synonym of "occasion") + S(abbr. "son")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      occasion: syn=TIME*,BE,DO,ACT,FAG,RUN,TUG,USE,CALL,DARK,DRAW,FORT,GRUB,HUMP,MAKE
+      son: syn=S,BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY; abbr=S*; sounds=sun
+      gets: syn=BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS,NABS,NETS,OFFS; abbr=G,GE
+      newspaper: syn=TIMES*,FT,MAG,RAG,RED,SUN,BOOK,ZINE,DAILY,ORGAN,PAPER
+      on occasion: syn=AYE,NOW,OFT,EVER,MUCH,OFTEN
+    Definitions:
+      "newspaper" -> Times (definition match)
+  AI Reasoning:
+    TIME (occasion) + S (son) = TIMES, with 'gets' as charade indicator
+  ----------------------------------------------------------------------
+
+  [FAILED] FRUITLESS  26A. Harvested orchard could be unproductive
+  Answer: FRUITLESS
+  Tier: --- | Confidence: 0/100
+  Definition: "unproductive"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     harvested orchard         -> HARVESTEDORCHARD
+    indicator          could be                  -> 
+  DB Lookups:
+    DB lookups:
+      orchard: syn=GARDEN
+      could: syn=MAY,MIGHT; abbr=IS; ind=anagram
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      unproductive: syn=DRY,WIN,ARID,BODY,BONY,DEAD,POOR,SERE,USED,BAKED,BLEAK,LEAST,SPENT,STARK,WASTE
+      could be: ind=anagram
+      could be: syn=SUPS,MAYBE,MAYHAP,SAFELY,SHEILA,SPHERE,CROSSES,HEROINE,LYRICAL,MAY BUG
+  AI Reasoning:
+    Anagram of letters from 'harvested orchard' indicated by 'could be' produces FRUITLESS
+  ----------------------------------------------------------------------
+
+  [HIGH] TERRAIN  28A. Reptile avoids soft ground
+  Answer: TERRAIN
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "ground"
+  Wordplay type: deletion
+  Assembly: deletion — delete P from TERRAPIN
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      reptile: syn=CAD,CUR,DOG,GUN,PET,RAT,SOD,SON,BOOR,CROC,CRUD,FINK,HAUL,HEEL,JERK
+      avoids: syn=END,DUCKS,SHUNS,SKIRTS,ESCAPES,ESCHEWS,LEG,OUT,DUCK,NULL,SHUN,SKIP,STAY,VOID,A LEG
+      soft: syn=DIM,LOW,WET,COZY,DULL,DUMB,EASY,FLAT,LIMP,MILD,SLOW,SNAP,SNUG,VERY,WEAK; abbr=P
+      ground: syn=TERRAIN*,TEN*,A,IF,BOG,EYE,HUB,LEA,LOT,REG,RUB,WHY,AXIS,BASE,BEAT; ind=anagram
+    Definitions:
+      "ground" -> TERRAIN (definition match)
+  AI Reasoning:
+    TERRAPIN (reptile) removes P (soft/piano) to give TERRAIN, with 'ground' indicating the rearrangement and serving as definition
+  ----------------------------------------------------------------------
+
+  [FAILED] MELANGE  4D. Pastiche style egregious essentially in this writer
+  Answer: MELANGE
+  Tier: --- | Confidence: 0/100
+  Definition: "Pastiche"
+  Wordplay type: container
+  Components:
+    indicator          style                     -> 
+    literal            egregious                 -> EGREGIOUS
+    indicator          essentially               -> 
+    indicator          in                        -> 
+    abbreviation       this writer               -> ME
+  DB Lookups:
+    DB lookups:
+      pastiche: syn=MIX,HASH,OLIO,STEW,BOTCH,GUMBO,SALAD,JUMBLE,JUNGLE,LITTER,MEDLEY,MOTLEY,PARODY,RAGBAG,RAGOUT
+      style: syn=ELAN*,GO,A A,DUB,FAD,HOT,HOW,TON,WAY,AFRO,BORN,BUZZ,CALL,CAST,CHIC; ind=anagram; sounds=stile
+      egregious: syn=RANK,GROSS,PATENT,BLATANT,GLARING,OBVIOUS
+      essentially: syn=SE,DIETER,ATHEART,BANKERS; ind=deletion,parts
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      this: syn=END,SET,THI,AUTO,BLOC,BODY,CLUE,DORY,EERY,EXAM,FLAT,HAND,IDLE,ISLE,NAPE; abbr=T,TH
+      writer: syn=ME*,BIC,MAN,MOO,NIB,PEN,POE,AMIS,BIRO,DAHL,FELT,HACK,LAMB,POET,AESOP; abbr=I,PEN
+      in this: syn=DOG,PROM,SHOW,CORGI,BARKER,CANINE,CRUMBS,PROMPT,TELLER,UNISON
+      this writer: abbr=I,IM,M*,ME*
+      this writer: syn=ME*,IVE,BOMB,FUND,MINE,SHAFT,LIMPET,COALPIT
+  AI Reasoning:
+    Essential letters G,L,A,N from 'egregious essentially' anagram to LANG, which goes inside ME to make MELANGE
+  ----------------------------------------------------------------------
+
+  [FAILED] FLANNEL  5A. Soft soap and to what it might be applied?
+  Answer: FLANNEL
+  Tier: --- | Confidence: 0/100
+  Definition: "to what it might be applied"
+  Wordplay type: charade
+  Components:
+    anagram_fodder     Soft                      -> FLAN
+    synonym            soap                      -> EL
+    abbreviation       and                       -> AN
+    indicator          to                        -> 
+    indicator          might                     -> 
+  DB Lookups:
+    DB lookups:
+      soft: syn=DIM,LOW,WET,COZY,DULL,DUMB,EASY,FLAT,LIMP,MILD,SLOW,SNAP,SNUG,VERY,WEAK; abbr=P
+      soap: syn=WASHE,CORRIE,SERIES,CLEANER,FLATTER
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      it: syn=GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD,NIP; abbr=SA
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY; ind=anagram?; sounds=mite
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      applied: syn=LAY,PLY,USE,BEAR,BEND,BORN,GIVE,USED,EXERT,REFER,WIELD,BUCKLE,DEVOTE,EMPLOY,RELATE
+      soft soap: syn=FLANNEL*,ADORE,DEIFY,SUGAR,BUTTER,PRAISE,ADULATE,BLARNEY,FAWNING,FLATTER
+  AI Reasoning:
+    Definition refers to flannel as washing cloth; 'Soft' anagrammed + 'soap' giving EL + 'and' as AN, with indicators 'to' for reversal and 'might' for anagram
+  ----------------------------------------------------------------------
+
+  [LOW] FORBEAR  5D. Ancestor of revolutionary Republican exposed, it's said
+  Answer: FORBEAR
+  Tier: Sonnet | Confidence: 28/100
+  Definition: "Ancestor"
+  Wordplay type: homophone
+  Components:
+    indicator          revolutionary             -> 
+    reversal           Republican                -> FOR
+    synonym            exposed                   -> BEAR
+    indicator          it's said                 -> 
+  Assembly: charade — FOR(ROF reversed, "Republican") + BEAR(synonym of "exposed")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=homophone, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      ancestor: syn=ELDER,CHURCH,FATHER,PARENT,GRANDPA
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR,PAINE,RABID,REBEL,ULTRA,YOUNG,CASTRO,MAOIST,SOCIAL,ATTACHE,EXTREME; ind=anagram,reversal
+      republican: syn=R,SAY,BUSH,MAYBE,PARTY,TRUMP,LINCOLN,POPULAR; abbr=R*
+      exposed: syn=OUT,RAW,BALD,BARE,FREE,LOUT,NUDE,OPEN,ROUT,AIRED,BARED,CLEAR,FRANK,NAKED,OUTED
+      it's: syn=TIS,GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD; abbr=SA
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED,ALLEGED,ASSUMED,AVERRED,CLOTHED,COUCHED,INTONED; ind=homophone
+      it's said: syn=ORAL
+  AI Reasoning:
+    Revolutionary Republican gives 'for', exposed gives 'bear', and 'for bear' sounds like FORBEAR
+  ----------------------------------------------------------------------
+
+  [LOW] AUTOPILOT  6D. George, first one to plug gold auction item
+  Answer: AUTOPILOT
+  Tier: Sonnet | Confidence: 20/100
+  Definition: "George"
+  Wordplay type: charade
+  Components:
+    synonym            first one to              -> AUTO
+    synonym            auction item              -> PILOT
+  Assembly: charade — AUTO(synonym of "first one to") + PILOT(synonym of "auction item")
+  Note: dropped piece 1
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      george: syn=PILOT*,AUTOPILOT*,KING,FELLOW,FORMBY
+      first: syn=TOP*,BIG,EYE,IST,KEY,POP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A*,IST; ind=acrostic,parts
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O*; sounds=won
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      plug: syn=TOIL*,AD,DO,ACT,DAM,FAG,FLY,GUN,POP,RUN,TUG,USE,BUNG,FILL,GRUB; ind=container?
+      gold: syn=AU*,OR,GOL,LONG,NOTE,UPON,AMBER,AURIC,GREEN,LEGAL,METAL,MONEY,CHANGE,NUGGET,THEBEST; abbr=AU*,OR,or
+      auction: syn=BUY,DAY,DEAL,FAIR,SALE,SELL,SWAP,TAKE,VEND,FENCE,REBUY,STEAL,TRADE,BARTER,CORNER
+      item: syn=MY,SO,411,DUO,FEW,GEN,INFO,MANY,NEWS,PAIR,PART,SOLE,UNIT,WORD,POINT
+    Definitions:
+      "George" -> AUTOPILOT (definition match)
+  AI Reasoning:
+    George (definition) = AUTOPILOT, made from AUTO (first one to) + PILOT (auction item), with gold (AU) plugged in via container operation
+  ----------------------------------------------------------------------
+
+  [FAILED] number one  7D. Anaesthetic drug keeps working for lieutenant
+  Answer: number one
+  Tier: --- | Confidence: 0/100
+  Definition: "Anaesthetic"
+  Wordplay type: container
+  Components:
+    abbreviation       drug                      -> E
+    indicator          keeps                     -> 
+    anagram_fodder     working                   -> WORKING
+    indicator          for                       -> 
+    indicator          lieutenant                -> 
+  DB Lookups:
+    DB lookups:
+      anaesthetic: syn=NUMBER*,ETHER,NARCOTIC; ind=container?
+      drug: syn=CAP,POT,ACID,CURE,DOPE,DOSE,DROP,HEAL,HEMP,MEND,METH,PILL,SHOT,BHANG,BOLUS; abbr=E*,POT
+      keeps: syn=OWNS,RUNS,SAYS,CURBS,FENDS,FILES,FILLS,HOLDS,MEETS,PACKS,RULES,STOWS,TAMES,TENDS,WARDS; ind=container
+      working: syn=ON*,LIVE,RISE,ALIVE,DOING,DRONE,GOING,PALMY,USING,USUAL,ACTIVE,LABOUR,LIVING,MAKING,USABLE; abbr=A,ON*; ind=anagram
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      lieutenant: syn=LT,COP,MAN,BULL,DICK,FUZZ,GIRL,HEAT,RANK,BOBBY,COPPER,LAWMAN,POLICE,SHAMUS,SLEUTH; abbr=LT; ind=container
+      working for: abbr=IN
+      working for: syn=UNDER
+  AI Reasoning:
+    E (drug) is contained within an anagram involving 'working' to build NUMBER ONE (anaesthetic contains 'numb')
+  ----------------------------------------------------------------------
+
+  [HIGH] look-see  8D. Brief inspection of damaged keel soon curtailed
+  Answer: look-see
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Brief inspection"
+  Wordplay type: anagram
+  Components:
+    indicator          damaged                   -> 
+    literal            keel                      -> KEEL
+    literal            soon                      -> SOON
+    indicator          curtailed                 -> 
+  Assembly: deletion+anagram — delete N from SOON, anagram of KEEL+SOO = look-see
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=SOO answer=LOOKSEE | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      brief: syn=US,HIM,JOB,LOW,SHY,SUM,CASE,CURT,FAST,FILL,LESS,SILK,TELL,BLUFF,BLUNT; ind=parts
+      inspection: syn=LOOK*,LOOKSEE*,EXAM,QUIZ,SCAN,TEST,VIEW,AUDIT,CHECK,DRIVE,FINAL,PROBE,STUDY,TRIAL,AUDITS
+      damaged: syn=BAD,EVEN,HURT,AMISS,BROKEN,ERRANT,FAULTY,HARMED,MARRED,RUINED,DEFACED,INJURED,SPOILED,WANTING; ind=anagram
+      keel: syn=CAN,HOY,KEG,MAN,TUB,TUG,TUN,VAT,BOAT,BUTT,CASK,DISH,DRUM,PIPE,SHIP
+      soon: syn=BY,MO,AND,HOT,ANON,FAIN,FAST,NEXT,ONCE,WHEN,APACE,CANON,EARLY,FIRST,QUICK
+      curtailed: syn=FAST,BRIEF,CRISP,PITHY,SHORT,TERSE,ABRUPT,DOCKED,LITTLE,SUDDEN,COMPACT,CONCISE,LACONIC,SUMMARY,TRIMMED; ind=deletion,parts
+    Definitions:
+      "Brief inspection" -> look-see (definition match)
+  AI Reasoning:
+    Anagram of KEEL plus SOON curtailed (SOO) gives KEELSOO → LOOKSEE
+  ----------------------------------------------------------------------
+
+  [HIGH] STRANGLER  9A. Notorious Bostonian needs more rum, swallowing litres
+  Answer: STRANGLER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Notorious Bostonian"
+  Wordplay: charade
+  Explanation: STRANGER (synonym of "more rum,") + L (synonym of "litres"); definition: "Notorious Bostonian"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

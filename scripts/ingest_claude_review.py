@@ -62,6 +62,39 @@ def parse_response(text):
     return results
 
 
+def _extract_gaps(checks):
+    """Extract DB gaps from verifier checks for the enrichment queue.
+
+    Parses unverifiable/wrong checks to find missing synonym, definition,
+    and abbreviation mappings that should be reviewed for addition to the DB.
+    """
+    gaps = []
+    for check in checks:
+        status = check.get("status", "")
+        detail = check.get("detail", "")
+        check_type = check.get("check", "")
+
+        if status not in ("unverifiable", "wrong"):
+            continue
+
+        if check_type == "definition" and "not in DB" in detail:
+            m = re.match(r"'(.+?)'\s*->\s*(\w+):", detail)
+            if m:
+                gaps.append(("definition", m.group(1).lower(), m.group(2).upper()))
+
+        elif check_type == "synonym" and "not in DB" in detail:
+            m = re.match(r"'(.+?)'\s*=\s*(\w+):", detail)
+            if m:
+                gaps.append(("synonym", m.group(1).lower(), m.group(2).upper()))
+
+        elif check_type == "abbreviation" and "NOT KNOWN" in detail:
+            m = re.match(r"'(.+?)'\s*->\s*(\w+):", detail)
+            if m:
+                gaps.append(("abbreviation", m.group(1).lower(), m.group(2).upper()))
+
+    return gaps
+
+
 def verify_and_store(results, dry_run=False):
     """Run each result through the verifier and store in the database."""
     conn = sqlite3.connect(str(CLUES_DB), timeout=30)
@@ -73,6 +106,7 @@ def verify_and_store(results, dry_run=False):
 
     stored = 0
     failed = 0
+    enrichments_queued = 0
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     for r in results:
@@ -110,6 +144,7 @@ def verify_and_store(results, dry_run=False):
             score = 50
             verdict = "MEDIUM"
             confidence = 0.5
+            v_result = {"checks": []}
 
         tier = verdict
 
@@ -150,11 +185,32 @@ def verify_and_store(results, dry_run=False):
 
         stored += 1
 
+        # Queue DB gaps for enrichment review
+        gaps = _extract_gaps(v_result.get("checks", []))
+        for gap_type, word, letters in gaps:
+            # Skip if previously rejected
+            rejected = conn.execute(
+                "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                (gap_type, word, letters),
+            ).fetchone()
+            if rejected:
+                continue
+            try:
+                conn.execute("""
+                    INSERT OR IGNORE INTO pending_enrichments
+                    (type, word, letters, answer, clue_text, source, puzzle_number, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """, (gap_type, word, letters, answer, clue_text,
+                      row["source"], row["puzzle_number"], now))
+                enrichments_queued += 1
+            except sqlite3.IntegrityError:
+                pass  # Already queued
+
     if not dry_run:
         conn.commit()
     conn.close()
 
-    print(f"\n{'Would store' if dry_run else 'Stored'}: {stored}, Failed: {failed}")
+    print(f"\n{'Would store' if dry_run else 'Stored'}: {stored}, Failed: {failed}, Enrichments queued: {enrichments_queued}")
     return stored, failed
 
 

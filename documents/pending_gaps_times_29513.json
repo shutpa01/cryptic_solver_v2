@@ -1,0 +1,243 @@
+{
+  "source": "times",
+  "puzzle": "29513",
+  "stats": {
+    "total": 30,
+    "assembled": 27,
+    "high": 20,
+    "medium": 5,
+    "low": 2,
+    "failed": 3,
+    "avg_score": 80.62962962962963
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "carry",
+      "letters": "LOREN",
+      "answer": "SOPHIALOREN",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Italian player substituted sooner given bottle to carry",
+      "score": 25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Republican party",
+      "letters": "GOP",
+      "answer": "GOPLACES",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Republican party ties do very well",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ties",
+      "letters": "LACES",
+      "answer": "GOPLACES",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Republican party ties do very well",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "room, finally",
+      "letters": "DUNK",
+      "answer": "SLAMDUNK",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Basket lost below clothes son put outside room, finally",
+      "score": 45
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "instinctively",
+      "letters": "GUT",
+      "answer": "TUG",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Yank instinctively felt repelled",
+      "score": 50
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Smear",
+      "letters": "RUB",
+      "answer": "RUBESCENT",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Smear cologne on mate’s back, blushing",
+      "score": 65
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "charging",
+      "letters": "ANTILLES",
+      "answer": "LESSERANTILLES",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "WI group managed farm, charging tenants",
+      "score": -10
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "tenants",
+      "letters": "LESSER",
+      "answer": "LESSERANTILLES",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "WI group managed farm, charging tenants",
+      "score": -10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Lighter",
+      "answer": "SCOW",
+      "clue_number": "6",
+      "direction": "across",
+      "clue": "Lighter selection from Tesco welcomed",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "begging",
+      "answer": "SUPPLIANT",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Drink factory one enters, begging",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Large amount",
+      "answer": "ACRES",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Large amount in account, others short",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Discover",
+      "answer": "SUSS",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "Discover son with decapitated cat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "So much ice cream",
+      "answer": "SCOOP",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "So much ice cream commonly sold in small supermarket",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Italian player",
+      "answer": "SOPHIALOREN",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Italian player substituted sooner given bottle to carry",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "do very well",
+      "answer": "GOPLACES",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Republican party ties do very well",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "History",
+      "answer": "BYGONES",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "History smashed Boney’s grand forces apart",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Basket",
+      "answer": "SLAMDUNK",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Basket lost below clothes son put outside room, finally",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Due and true",
+      "answer": "RIGHT",
+      "clue_number": "24",
+      "direction": "down",
+      "clue": "Due and true correspond in sound",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Study",
+      "answer": "CONTEMPLATE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Study chapter that discusses basis for subsequent work",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "WI group",
+      "answer": "LESSERANTILLES",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "WI group managed farm, charging tenants",
+      "score": -10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Examiner questioning how someone passed?",
+      "answer": "CORONER",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Examiner questioning how someone passed?",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Still",
+      "answer": "WINDLESS",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Still second behind cycling cheat",
+      "score": 0
+    }
+  ]
+}

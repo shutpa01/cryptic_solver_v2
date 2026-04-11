@@ -1,0 +1,302 @@
+{
+  "source": "guardian",
+  "puzzle": "29977",
+  "stats": {
+    "total": 33,
+    "assembled": 27,
+    "high": 19,
+    "medium": 5,
+    "low": 3,
+    "failed": 6,
+    "avg_score": 76.18518518518519
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "leaving",
+      "letters": "ABS",
+      "answer": "ABSCONDING",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Quickly leaving a relationship to keep some credibility, primarily",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "relationship",
+      "letters": "CON",
+      "answer": "ABSCONDING",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Quickly leaving a relationship to keep some credibility, primarily",
+      "score": 5
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "War",
+      "letters": "A",
+      "answer": "YALTA",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Crimean War conference site boosted at city close to Turkey",
+      "score": -38
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "excrement",
+      "letters": "CHOLER",
+      "answer": "CHOLERA",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Sickness resulting from excrement, mostly, around hovel",
+      "score": -10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "hovel",
+      "letters": "A",
+      "answer": "CHOLERA",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Sickness resulting from excrement, mostly, around hovel",
+      "score": -10
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "animal sanctuary",
+      "letters": "ARK",
+      "answer": "PARK",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Pressure on animal sanctuary to provide recreation area",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Geordie TV presenter,",
+      "letters": "DEC",
+      "answer": "DECOMPOSE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Go off Geordie TV presenter, old male model",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "stall",
+      "answer": "TEMPORISE",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Rate increase for stall",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hull",
+      "answer": "SHELL",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Husband visiting market in Hull",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "sugar",
+      "answer": "MALTOSE",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Most ale breaks down sugar",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Claimant's",
+      "answer": "PLAINTIFF",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Claimant’s straightforward argument",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Showman,",
+      "answer": "IMPRESARIO",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Showman, one playing Paris and Rome",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Suggestion",
+      "answer": "IDEA",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Suggestion from middleman oddly ignored",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Because",
+      "answer": "DUETO",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Because of two performers, start to obfuscate",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "tremors",
+      "answer": "AFTER",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Following fart, Earth tremors",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Quickly",
+      "answer": "ABSCONDING",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Quickly leaving a relationship to keep some credibility, primarily",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "conference site",
+      "answer": "YALTA",
+      "clue_number": "16",
+      "direction": "down",
+      "clue": "Crimean War conference site boosted at city close to Turkey",
+      "score": -38
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Musical show",
+      "answer": "IOLANTHE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Musical show Oscar’s promoted in one advance article",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Individual taking ecstasy",
+      "answer": "ONE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Individual taking ecstasy",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Destroy spirit",
+      "answer": "SCOTCH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Destroy spirit",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sickness",
+      "answer": "CHOLERA",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Sickness resulting from excrement, mostly, around hovel",
+      "score": -10
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Emperor",
+      "answer": "CAESAR",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Emperor announced what guards should do to escaping woman?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Draw Forth",
+      "answer": "ELICIT",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Draw Forth Bridge’s terminus, OK?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "royal family",
+      "answer": "BONAPARTE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Perhaps rib cracked by a silly prat in royal family",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "recreation area",
+      "answer": "PARK",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Pressure on animal sanctuary to provide recreation area",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Revolutionary cut more unusual root vegetable",
+      "answer": "EDDO",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Revolutionary cut more unusual root vegetable",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Claim",
+      "answer": "POSE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Claim written language doesn’t include the letter R",
+      "score": 65
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Go off",
+      "answer": "DECOMPOSE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Go off Geordie TV presenter, old male model",
+      "score": 100
+    }
+  ]
+}

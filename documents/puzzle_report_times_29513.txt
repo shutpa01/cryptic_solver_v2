@@ -1,0 +1,608 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29513
+Generated: 2026-04-10 03:19:52
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        27/30 (90%)
+    Sig+Enriched:   8
+    Sonnet:         11
+    DB Fallback:    0
+  Failed:           3
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   18  25D, 6A, 1A, 12A, 13A, 14D, 16A, 2D, 21D, 22A, 23A, 28A, 4D, 9D, 15A, 17D, 19D, 24D
+  Medium (40-79): 7  1D, 10A, 18A, 20A, 27A, 29A, 7D
+  Low (<40):    2  11A, 3D
+  Failed:       3  26A, 5D, 8D
+  Average:      81/100
+
+COST: $1.4668 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (22 entries)
+------------------------------------------------------------
+  SCOW: "Lighter" -> SCOW  (missing from definition_answers_augmented)
+  SUPPLIANT: "begging" -> SUPPLIANT  (missing from definition_answers_augmented)
+  ACRES: "Large amount" -> ACRES  (missing from definition_answers_augmented)
+  SUSS: "Discover" -> SUSS  (missing from definition_answers_augmented)
+  SCOOP: "So much ice cream" -> SCOOP  (missing from definition_answers_augmented)
+  SOPHIALOREN: "Italian player" -> SOPHIALOREN  (missing from definition_answers_augmented)
+  GOPLACES: "do very well" -> GOPLACES  (missing from definition_answers_augmented)
+  BYGONES: "History" -> BYGONES  (missing from definition_answers_augmented)
+  SLAMDUNK: "Basket" -> SLAMDUNK  (missing from definition_answers_augmented)
+  RIGHT: "Due and true" -> RIGHT  (missing from definition_answers_augmented)
+  CONTEMPLATE: "Study" -> CONTEMPLATE  (missing from definition_answers_augmented)
+  LESSERANTILLES: "WI group" -> LESSERANTILLES  (missing from definition_answers_augmented)
+  CORONER: "Examiner questioning how someone passed?" -> CORONER  (missing from definition_answers_augmented)
+  WINDLESS: "Still" -> WINDLESS  (missing from definition_answers_augmented)
+  SOPHIALOREN: carry -> LOREN  (missing from synonyms_pairs)
+  GOPLACES: Republican party -> GOP  (missing from abbreviations)
+  GOPLACES: ties -> LACES  (missing from synonyms_pairs)
+  SLAMDUNK: room, finally -> DUNK  (missing from synonyms_pairs)
+  TUG: instinctively -> GUT  (missing from abbreviations)
+  RUBESCENT: Smear -> RUB  (missing from abbreviations)
+  LESSERANTILLES: charging -> ANTILLES  (missing from synonyms_pairs)
+  LESSERANTILLES: tenants -> LESSER  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (3)
+------------------------------------------------------------
+  OUT = 10 (62/100): AI=anagram, assembled=charade
+  ORBIT = 18 (75/100): AI=anagram, assembled=charade
+  LESSERANTILLES = 3 (-10/100): AI=anagram, assembled=charade
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  SOPHIALOREN = 11 (25/100): no pieces verified in DB
+  TUG = 27 (50/100): no pieces verified in DB
+  LESSERANTILLES = 3 (-10/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (3)
+------------------------------------------------------------
+  26. Study chapter that discusses basis for subsequent work = CONTEMPLATE
+  5. Having three parties, suffering hosts delayed fourth for yea = TRILATERAL
+  8. Still second behind cycling cheat = WINDLESS
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  11/30  12A, 13A, 15A, 22A, 23A, 2D, 4D, 9D, 14D, 21D, 25D
+  Type mismatch:         3  10A, 18A, 3D
+  Unverified explain.:   3  11A, 27A, 3D
+  DB gap:                15  6A, 11A, 16A, 20A, 26A, 27A, 28A, 29A, 1D, 3D, 7D, 8D, 17D, 19D, 24D
+  Failed:                3  26A, 5D, 8D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   25D  LAMB          A little Jacob male that needs raising? (4)
+                      hidden reversed in "little jaco BMAL e that needs" [reversal: "raising?"]  [HIGH]
+    6A  SCOW          Lighter selection from Tesco welcomed (4)
+                      hidden in "te SCOW elcomed" [hidden: "selection"]; definition: "Lighter"  [HIGH]
+    1A  SUPPLIANT     Drink factory one enters, begging (9)
+                      SUP (synonym of "Drink") + PLANT (synonym of "factory") + I (synonym of "one"); definition: "begging"  [HIGH]
+   12A  PHONEY        Humbug, penny sweet (6)
+                      ---  [HIGH]
+   13A  MARGINAL      Migrant alarming at the border (8)
+                      ---  [HIGH]
+   14D  WORSHIPPER    Proper wish maybe taking form of prayer? (10)
+                      ---  [HIGH]
+   16A  ACRES         Large amount in account, others short (5)
+                      AC (synonym of "account,") + REST (synonym of "others") [curtailing: "short"]; definition: "Large amount"  [HIGH]
+    2D  POTHOLE       This jolting the Polo? (7)
+                      anagram of THEPOLO ("the Polo?") [anagram: "jolting"] = POTHOLE  [HIGH]
+   21D  NIGHTIE       Close relationship warmer in bed? (7)
+                      ---  [HIGH]
+   22A  LEGALAID      Money provided in case member bet on ace (5,3)
+                      ---  [HIGH]
+   23A  SINGER        Evil German hit interpreter, perhaps (6)
+                      ---  [HIGH]
+   28A  SUSS          Discover son with decapitated cat (4)
+                      S (synonym of "son") + PUSS (synonym of "cat") [beheading: "decapitated"]; definition: "Discover"  [HIGH]
+    4D  ALPS          Lake in spring rising where glaciers have melted (4)
+                      ---  [HIGH]
+    9D  SLUGGARDLINESS  Pull and haul up ropes aboard ship, being very slack? (14)
+                      ---  [HIGH]
+    1D  SCOOP         So much ice cream commonly sold in small supermarket (5)
+                      S(abbr. "small") + COOP(synonym of "supermarket")  [MED]
+   10A  OUT           Anything you hear in Yorkshire’s inaccurate (3)
+                      O(first letter of "Yorkshire's") + U(sounds like "you") + T(first letter of "anything")  [MED]
+   11A  SOPHIALOREN   Italian player substituted sooner given bottle to carry (6,5)
+                      SOPHIA("sooner") + LOREN(synonym of "carry")  [LOW]
+   15A  LETALONE      Deadly unit evacuated by hospital — never mind (3,5)
+                      delete H from LETHAL + ONE(synonym of "unit")  [HIGH]
+   17D  GOPLACES      Republican party ties do very well (2,6)
+                      GOP (abbreviation of "Republican party") + LACES (synonym of "ties"); definition: "do very well"  [HIGH]
+   18A  ORBIT         Did champ taking gold first complete circuits? (5)
+                      OR(abbr. "gold") + BIT(synonym of "champ")  [MED]
+   19D  BYGONES       History smashed Boney’s grand forces apart (7)
+                      anagram of BONEYS("Boney's")+G(abbr. "grand") = BYGONES  [HIGH]
+   20A  SLAMDUNK      Basket lost below clothes son put outside room, finally (4,4)
+                      S(abbr. "son") + LAM("below") + DUNK(synonym of "room, finally")  [MED]
+   24D  RIGHT         Due and true correspond in sound (5)
+                      RIGHT (sounds like "correspond"); definition: "Due and true"  [HIGH]
+   26A  CONTEMPLATE   Study chapter that discusses basis for subsequent work (11)
+                      ---  [FAIL]
+   27A  TUG           Yank instinctively felt repelled (3)
+                      reverse GUT(synonym of "instinctively")  [MED]
+   29A  RUBESCENT     Smear cologne on mate’s back, blushing (9)
+                      RUB(synonym of "Smear") + E(last letter of "mate") + SCENT(synonym of "cologne")  [MED]
+    3D  LESSERANTILLES  WI group managed farm, charging tenants (6,8)
+                      LESSER(synonym of "tenants") + ANTILLES(synonym of "charging")  [LOW]
+    5D  TRILATERAL    Having three parties, suffering hosts delayed fourth for year (10)
+                      ---  [FAIL]
+    7D  CORONER       Examiner questioning how someone passed? (7)
+                      cryptic definition  [MED]
+    8D  WINDLESS      Still second behind cycling cheat (8)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] LAMB  25D. A little Jacob male that needs raising?
+  Answer: LAMB
+  Tier: Sig+Enriched | Confidence: 80/100
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "little jaco BMAL e that needs" [reversal: "raising?"]
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SCOW  6A. Lighter selection from Tesco welcomed
+  Answer: SCOW
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Lighter"
+  Wordplay: hidden
+  Explanation: hidden in "te SCOW elcomed" [hidden: "selection"]; definition: "Lighter"
+  ----------------------------------------------------------------------
+
+  [HIGH] SUPPLIANT  1A. Drink factory one enters, begging
+  Answer: SUPPLIANT
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "begging"
+  Wordplay: charade
+  Explanation: SUP (synonym of "Drink") + PLANT (synonym of "factory") + I (synonym of "one"); definition: "begging"
+  ----------------------------------------------------------------------
+
+  [HIGH] PHONEY  12A. Humbug, penny sweet
+  Answer: PHONEY
+  Tier: --- | Confidence: 100/100
+  Human explanation: P (abbreviation="penny") + HONEY (synonym="sweet") = PHONEY; definition: "Humbug,"
+  ----------------------------------------------------------------------
+
+  [HIGH] MARGINAL  13A. Migrant alarming at the border
+  Answer: MARGINAL
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of ALARMING = MARGINAL
+  ----------------------------------------------------------------------
+
+  [HIGH] WORSHIPPER  14D. Proper wish maybe taking form of prayer?
+  Answer: WORSHIPPER
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of PROPER + WISH = WORSHIPPER
+  ----------------------------------------------------------------------
+
+  [HIGH] ACRES  16A. Large amount in account, others short
+  Answer: ACRES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Large amount"
+  Wordplay: charade + deletion
+  Explanation: AC (synonym of "account,") + REST (synonym of "others") [curtailing: "short"]; definition: "Large amount"
+  ----------------------------------------------------------------------
+
+  [HIGH] POTHOLE  2D. This jolting the Polo?
+  Answer: POTHOLE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: anagram
+  Explanation: anagram of THEPOLO ("the Polo?") [anagram: "jolting"] = POTHOLE
+  ----------------------------------------------------------------------
+
+  [HIGH] NIGHTIE  21D. Close relationship warmer in bed?
+  Answer: NIGHTIE
+  Tier: --- | Confidence: 100/100
+  Human explanation: NIGH (synonym="Close") + TIE (synonym="relationship") = NIGHTIE; definition: "warmer in bed?"
+  ----------------------------------------------------------------------
+
+  [HIGH] LEGALAID  22A. Money provided in case member bet on ace
+  Answer: LEGALAID
+  Tier: --- | Confidence: 100/100
+  Human explanation: LEG (abbreviation="member") + LAID (synonym="bet") + A (abbreviation="ace") = LEGALAID
+  ----------------------------------------------------------------------
+
+  [HIGH] SINGER  23A. Evil German hit interpreter, perhaps
+  Answer: SINGER
+  Tier: --- | Confidence: 100/100
+  Human explanation: SIN (abbreviation="Evil") + GER (synonym="German") = SINGER; definition: "interpreter, perhaps"
+  ----------------------------------------------------------------------
+
+  [HIGH] SUSS  28A. Discover son with decapitated cat
+  Answer: SUSS
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Discover"
+  Wordplay: charade + deletion
+  Explanation: S (synonym of "son") + PUSS (synonym of "cat") [beheading: "decapitated"]; definition: "Discover"
+  ----------------------------------------------------------------------
+
+  [HIGH] ALPS  4D. Lake in spring rising where glaciers have melted
+  Answer: ALPS
+  Tier: --- | Confidence: 100/100
+  Human explanation: APS (reversal="spring") + L (abbreviation="Lake") = ALPS
+  ----------------------------------------------------------------------
+
+  [HIGH] SLUGGARDLINESS  9D. Pull and haul up ropes aboard ship, being very slack?
+  Answer: SLUGGARDLINESS
+  Tier: --- | Confidence: 100/100
+  Human explanation: SS (abbreviation="ship,") + S (first_letter="slack?") + LUG (synonym="Pull") + GARD (reversal="haul") + LINE (synonym="ropes") = SLUGGARDLINESS
+  ----------------------------------------------------------------------
+
+  [HIGH] SCOOP  1D. So much ice cream commonly sold in small supermarket
+  Answer: SCOOP
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "So much ice cream"
+  Wordplay type: charade
+  Components:
+    indicator          in                        -> 
+    abbreviation       small                     -> S
+    synonym            supermarket               -> COOP
+  Assembly: charade — S(abbr. "small") + COOP(synonym of "supermarket")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      so: syn=AS,BY,OK,ON,AID,ANY,FAR,HOW,LOT,NOT,SAY,SIC,TOO,VOW,ABET; sounds=sew,sow
+      much: syn=A,AN,DO,OR,SO,TO,ACE,ACT,AND,AYE,BIG,BUT,DAB,DIG,FAR
+      ice: syn=FOX,GEM,GET,GUN,NET,OFF,PUT,RAP,BAIL,COOL,FLOE,GAUD,GLOM,GROK,ITCH; abbr=IC
+      cream: syn=AT,EAT,FAT,OFF,TOP,WHO,BEST,CONE,EDGE,LIST,PICK,PINK,PULL,SKIM,SKIN
+      commonly: syn=AYE,NOW,OFT,SAY,EVER,MUCH,RULE,OFTEN
+      sold: syn=DAY,FIRM; sounds=soled
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      small: syn=S,ARM,FEW,GUN,LET,OFF,PEN,POD,RAP,TWO,WEE,BABY,CHAT,FINE,HALF; abbr=S*
+      supermarket: syn=COOP*,ALDI,STORE
+      ice cream: syn=BOMBE,SWEET,TORTE
+  AI Reasoning:
+    S (small) + COOP (supermarket) = SCOOP, with 'in' as charade indicator
+  ----------------------------------------------------------------------
+
+  [MEDIUM] OUT  10A. Anything you hear in Yorkshire’s inaccurate
+  Answer: OUT
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "inaccurate"
+  Wordplay type: anagram
+  Components:
+    first_letter       anything                  -> T
+    sound_of           you                       -> U
+    first_letter       Yorkshire's               -> O
+    indicator          in                        -> 
+  Assembly: charade — O(first letter of "Yorkshire's") + U(sounds like "you") + T(first letter of "anything")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/3 (17%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      anything: syn=BAG,JUT,RUN
+      you: syn=U,YE,ONE; abbr=U*,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      hear: syn=HEA,RED,SEE,TRY; ind=homophone; sounds=here
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      inaccurate: syn=OUT*,OFF; ind=anagram?
+  AI Reasoning:
+    T from 'anything' (containing 'thing'), U from sound of 'you', O from 'Yorkshire's', anagrammed by 'in' to give OUT
+  ----------------------------------------------------------------------
+
+  [LOW] SOPHIALOREN  11A. Italian player substituted sooner given bottle to carry
+  Answer: SOPHIALOREN
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "Italian player"
+  Wordplay type: charade
+  Components:
+    indicator          substituted               -> 
+    anagram_fodder     sooner                    -> SOPHIA
+    indicator          given                     -> 
+    indicator          bottle                    -> 
+    indicator          to                        -> 
+    synonym            carry                     -> LOREN
+  Assembly: charade — SOPHIA("sooner") + LOREN(synonym of "carry")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      italian: syn=IT,ROM,SUB,HERO,SUBS,PIERO,HEROES,HOAGIE,PO'BOY,SIGNOR,TUSCAN,GENOESE,GRINDER,HOAGIES,PO'BOYS; abbr=I*,IT
+      player: syn=ALSO,GARY,LEFT,MUSO,OBOE,VIOL,WING,ACTOR,GAMER,NORTH,PARTY,PIPER,THESP,ACTORS,MUMMER
+      substituted: syn=REDID,RECAST,REMADE,TRADED,CHANGED,REVISED,SHIFTED,SNAPPED,COMMUTED,REPLACED,REVAMPED,REWORKED,EXCHANGED,MADE OVER,REMODELED
+      sooner: syn=RATHER
+      given: syn=IF,APT,ONE,SET,BORN,BUNG,FIRM,FLAT,FREE,HARD,LEFT,NORM,SOME,SURE,USED
+      bottle: syn=PHIAL*,ALE,CAN,GIN,MUM,NIP,PEG,POP,RUM,TOT,ALE,,AQUA,BEER,BELT,BREW; abbr=B,VIAL; ind=container
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      carry: syn=A,DO,A A,ASS,GET,LUG,PLY,RUN,TOT,USE,WAY,WIN,ARMS,BEAR,BOOK
+      to carry: syn=POLE,SIGN,TOTEM,EMBLEM,SYMBOL
+  AI Reasoning:
+    Anagram of 'sooner' gives SOPHIA, container/reversal wordplay with 'carry' gives LOREN, combining to form SOPHIALOREN
+  ----------------------------------------------------------------------
+
+  [HIGH] LETALONE  15A. Deadly unit evacuated by hospital — never mind
+  Answer: LETALONE
+  Tier: Sonnet | Confidence: 100/100
+  Definition: "never mind"
+  Wordplay type: deletion
+  Components:
+    synonym            unit                      -> ONE
+  Assembly: deletion — delete H from LETHAL + ONE(synonym of "unit")
+  Note: dropped piece 2
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=1/1 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      deadly: syn=SO,ALL,FAR,HOW,LOT,NOT,OUT,TOO,WAY,BARE,BODY,BONE,DAMN,DANG,DEAD
+      unit: syn=ONE*,AMP,FEE,MHO,OHM,COST,FEES,INCH,ITEM,MILE,OF A,PART,RATE,CORPS,COSTS
+      evacuated: ind=deletion,parts
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      hospital: syn=H,SAN,ENTS,HOME,MASH?,NICHE,CENTER,CLINIC,HOSPICE,MEDICAL,SICK BAY,SICKROOM; abbr=H
+      never: syn=NO,NOT,EDEN,NARY,NONE,ZION,EDENS,NE'ER,NOWAY,ZIONS,HEAVEN,LITTLE,NOWISE,RARELY,SELDOM; ind=deletion
+      mind: syn=BE,MY,ARE,DRY,EYE,OLD,ARID,CARE,DRAB,DULL,FLAT,HARK,HEAD,HEAR,HEED; sounds=mined
+      never mind: syn=ALONE*,STILL,IGNORE,SKIP IT
+    Definitions:
+      "never mind" -> LETALONE (definition match)
+  AI Reasoning:
+    LETHAL + ONE = LETHALONE, then H is evacuated (deleted) to give LETALONE
+  ----------------------------------------------------------------------
+
+  [HIGH] GOPLACES  17D. Republican party ties do very well
+  Answer: GOPLACES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "do very well"
+  Wordplay: charade
+  Explanation: GOP (abbreviation of "Republican party") + LACES (synonym of "ties"); definition: "do very well"
+  ----------------------------------------------------------------------
+
+  [HIGH] ORBIT  18A. Did champ taking gold first complete circuits?
+  Answer: ORBIT
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "circuits"
+  Wordplay type: anagram
+  Components:
+    synonym            champ                     -> BIT
+    indicator          taking                    -> 
+    abbreviation       gold                      -> OR
+    indicator          first                     -> 
+    indicator          complete                  -> 
+  Assembly: charade — OR(abbr. "gold") + BIT(synonym of "champ")
+  Checks: definition=confirmed in DB (synonym) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      did: syn=DUG,GOT,HIT,LAY,PUT,RAN,SAT,SAW,WAS,WON,ACED,BEAT,BILL,BLEW,BORE
+      champ: syn=BIT*,ACE,CAN,CHEW,HERO,MORE,THAN,THAT,CRUSH,MUNCH
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      gold: syn=OR*,AU,GOL,LONG,NOTE,UPON,AMBER,AURIC,GREEN,LEGAL,METAL,MONEY; abbr=AU,OR*,or*
+      first: syn=BIG,EYE,IST,KEY,POP,TOP,ARCH,BEST,BOSS,CAST,EVER,FAIN,FINE,GONE,HEAD; abbr=A,IST; ind=acrostic,parts
+      complete: syn=DO,GO,IN,OK,UP,ACE,ALL,CAN,DIE,END,FIX,OPT,OUT,SET,BARE
+      circuits: syn=ORBIT*,ARC,LAP,WAY,AXIS,BEAT,BLOC,HIKE,LINE,LOOP,PATH,SIDE,SPIN,TOUR,TREK
+  AI Reasoning:
+    BIT (champ) + OR (gold) anagrammed by 'complete' gives ORBIT
+  ----------------------------------------------------------------------
+
+  [HIGH] BYGONES  19D. History smashed Boney’s grand forces apart
+  Answer: BYGONES
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "History"
+  Wordplay type: anagram
+  Components:
+    indicator          smashed                   -> 
+    anagram_fodder     Boney's                   -> BONEYS
+    abbreviation       grand                     -> G
+    indicator          forces                    -> 
+    indicator          apart                     -> 
+  Assembly: anagram — anagram of BONEYS("Boney's")+G(abbr. "grand") = BYGONES
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      history: syn=A,NO,BLOG,CASE,GIVE,PAST,YORE,STORY,A GOOD,ANNALS,RECORD,REPORT,ACCOUNT
+      smashed: syn=HIT,ITS,LIT,PIE,WET,HIGH,SANK,BLIND,BOOZY,BORED,DIVED,DRUNK,FRIED,LITUP,OILED; ind=anagram
+      boney’s: fodder=BONEYS(6/7 anagram match)
+      grand: syn=GONE*,BYGONE*,G,A1,OK,BIG,FAB,HOT,KEY,THE,TOO,TOP,1000,A-OK,ARCH; abbr=G*,K
+      forces: syn=ARM,ARMY,FUNDS,POOLS,IMPELS,POWERS,STOCKS,BUDGETS,COERCES,F,DO,A A,BOD,BOY,CAT; abbr=F; ind=anagram?
+      apart: syn=ACT,AIM,BUY,DIP,EBB,FIT,FIX,GEL,GET,LAY,PUT,SIT,AFAR,AWAY,BEAR
+  AI Reasoning:
+    History (definition) = anagram of BONEYS (Boney's) + G (grand) = BYGONES
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SLAMDUNK  20A. Basket lost below clothes son put outside room, finally
+  Answer: SLAMDUNK
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Basket"
+  Wordplay type: charade
+  Components:
+    abbreviation       son                       -> S
+    indicator          lost                      -> 
+    anagram_fodder     below                     -> LAM
+    indicator          clothes                   -> 
+    indicator          put outside               -> 
+    synonym            room, finally             -> DUNK
+  Assembly: charade — S(abbr. "son") + LAM("below") + DUNK(synonym of "room, finally")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      basket: syn=CREEL,SCOOP,HAMPER,PUNNET,BASSINET
+      lost: syn=A1,BIG,FAB,WIN,A-OK,BOSS,BRAG,COLD,COOL,DEEP,DONE,DOPE,DOWN,GONE,HYPE; ind=anagram,deletion
+      below: syn=BAD,ILL,LOW,OFF,BUSH,DOWN,FOUL,HELL,LAME,NEXT,OVER,PAST,POOR,PUNK,SOUR; ind=reversal
+      clothes: syn=KIT,RIG,BETS,BRAG,DUDS,FITS,GARB,GEAR,GOES,LAYS,PUTS,RAGS,SAYS,SETS,TOGS; ind=deletion; sounds=close
+      son: syn=S,BOD,BOY,CAD,CUR,DOG,EGG,GUY,KID,MAN,RAT,SOD,BABY,BIRD,BODY; abbr=S*; sounds=sun
+      put: syn=DO,GO,IS,A A,ACT,AIR,BET,CAP,CUT,DID,DIG,DIS,DUG,EAT,FIT; abbr=SET
+      outside: syn=MY,OF,BAR,BUT,FEE,FOR,ITS,OFF,OUT,TOP,VIP,ANTE,CAST,COST,FACE; ind=container,deletion,parts
+      room: syn=RM,PAD,WAY,BACK,BATH,CELL,DADO,DARK,FORM,HALL,HOME,OF A,SHOT,SNUG,TAKE
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+  AI Reasoning:
+    S + LAM (anagram of 'below' with deletions) contained + DUNK (room as space to maneuver) = SLAMDUNK
+  ----------------------------------------------------------------------
+
+  [HIGH] RIGHT  24D. Due and true correspond in sound
+  Answer: RIGHT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Due and true"
+  Wordplay: homophone
+  Explanation: RIGHT (sounds like "correspond"); definition: "Due and true"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [FAILED] CONTEMPLATE  26A. Study chapter that discusses basis for subsequent work
+  Answer: CONTEMPLATE
+  Tier: --- | Confidence: 0/100
+  Definition: "Study"
+  Wordplay type: charade
+  Components:
+    abbreviation       chapter                   -> C
+    indicator          discusses                 -> 
+    literal            that                      -> THAT
+    indicator          basis                     -> 
+    indicator          for                       -> 
+    literal            subsequent                -> SUBSEQUENT
+    indicator          work                      -> 
+  DB Lookups:
+    DB lookups:
+      study: syn=CON*,CONTEMPLATE*,DEN,HER,HIS,CRAM,EXAM,FEEL,MUCH,QUIZ,READ,SCAN,SWOT,TEST,VIEW; abbr=CON*,READ
+      chapter: syn=C,CH,CUT,CELL,CLUB,TALK,BOARD,FORUM,GUILD,LOCAL,PANEL,PLACE,POINT,BRANCH,CONFAB; abbr=C*,CH
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      basis: syn=IF,BUM,NET,NUB,SUM,BASE,BOAT,BUNS,BUTT,CORE,CRUX,DUFF,FONT,GERM,GIST; ind=parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      subsequent: syn=NEXT,AFTER,LATER,FOLLOWING
+      work: syn=DO,GO,OP,A A,ACT,AIM,ART,CUT,END,FAG,GET,JOB,LEG,NEW,PLY; abbr=GO,OP,POST; ind=anagram
+  AI Reasoning:
+    C from chapter + anagram (indicated by discusses/work) of THAT + SUBSEQUENT with some deletion/parts operation to get ONTEMPLATE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TUG  27A. Yank instinctively felt repelled
+  Answer: TUG
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "Yank"
+  Wordplay type: reversal
+  Components:
+    synonym            instinctively             -> GUT
+    indicator          repelled                  -> 
+  Assembly: reversal — reverse GUT(synonym of "instinctively")
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      yank: syn=TUG*,LEG; ind=anagram?
+      felt: syn=DID,DUG,GOT,HAD,HIT,MET,PUT,SAW,WON
+      repelled: ind=reversal
+    Definitions:
+      "Yank" -> TUG (definition match)
+  AI Reasoning:
+    GUT (instinctively/gut feeling) reversed by 'repelled' gives TUG
+  ----------------------------------------------------------------------
+
+  [MEDIUM] RUBESCENT  29A. Smear cologne on mate’s back, blushing
+  Answer: RUBESCENT
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "blushing"
+  Wordplay type: charade
+  Components:
+    synonym            Smear                     -> RUB
+    last_letter        mate                      -> E
+    indicator          back                      -> 
+    synonym            cologne                   -> SCENT
+  Assembly: charade — RUB(synonym of "Smear") + E(last letter of "mate") + SCENT(synonym of "cologne")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      smear: syn=HER,HIS,JOB,BLOT,BLUR,COVER,LIBEL,TAINT,ANOINT,BEDAUB,BLACKEN,SLANDER,ANOINTING
+      cologne: syn=SCENT*,CITY,PERFUME,FRAGRANCE
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      back: syn=SO,UN,AFT,AGO,AID,BET,BOB,BUM,CUT,FRO,HIM,INK,JET,NIP,ABET; abbr=REAR; ind=parts,reversal
+      blushing: syn=FLORID
+    Definitions:
+      "blushing" -> RUBESCENT (definition match)
+  AI Reasoning:
+    RUB (smear) + E (back letter of mate) + SCENT (cologne) = RUBESCENT
+  ----------------------------------------------------------------------
+
+  [LOW] LESSERANTILLES  3D. WI group managed farm, charging tenants
+  Answer: LESSERANTILLES
+  Tier: Sonnet | Confidence: -10/100
+  Definition: "WI group"
+  Wordplay type: anagram
+  Components:
+    synonym            charging                  -> ANTILLES
+    synonym            tenants                   -> LESSER
+  Assembly: charade — LESSER(synonym of "tenants") + ANTILLES(synonym of "charging")
+  Note: dropped piece 0
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      wi: syn=MRS
+      group: syn=ARC,BEE,LOT,PEG,REM,SET,WAY,ABBA,AXIS,BAND,BANK,BLOC,BLUR,BODY,CLAN; abbr=CLAN,GP,SET
+      managed: syn=RAN*,MET,HELD,KEPT,COPED,COPER,HEXED,KEPT?,RULED,TAMED,A GRIP,BOSSED,CONNED,CURBED,FENCED; abbr=RAN*; ind=anagram?
+      farm: syn=SAY,BUCK,REAR,TEND,CROFT,OF AN,RANCH,GRANGE,HOLDING,PRODUCE,PRODUCER,CULTIVATE,HOMESTEAD,FRITILLARY,AREA FOR PIGS
+      charging: syn=RED,INVOICING
+      tenants: syn=LESSEES*,OCCUPANTS,LESSEE,RENTER,OCCUPANT,OCCUPIER,RESIDENT,LEASEHOLDER,ONE RENTING
+  AI Reasoning:
+    Anagram of FARM + ANTILLES + LESSER produces LESSERANTILLES (Lesser Antilles), where 'charging' means advancing/rushing = ANTILLES, and 'tenants' = LESSER (as lessors/lessees relationship)
+  ----------------------------------------------------------------------
+
+  [FAILED] TRILATERAL  5D. Having three parties, suffering hosts delayed fourth for year
+  Answer: TRILATERAL
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING,BEARING,CONTROL,FEEDING,HANDING,KEEPING,LEAVING,PASSING,VESTING
+      three: syn=HELL,NEAR,SUIT,TRIO,BABEL,PRIME,THERE,AUTUMN,BEDLAM,CIRCUS,FIGURE,LIVING,NUMBER,NATURAL,TRINITY; abbr=III
+      parties: syn=DO,DOS,SETS,TASK,TOGS,BANDS,BLOCS,CAMPS,CREWS,DRAGS,FIRMS,GALAS,GANGS,GARBS,SECTS
+      suffering: syn=ILL,SAD,ACHE,AGONY,UPSET,BEREFT,CRYING,INFIRM,MISERY,ORDEAL,STRESS,THROES,ANGUISH,PASSION,TORMENT; ind=anagram
+      hosts: syn=CROWDS,THRONGS,NATIONAL,PRESENTS,ANNOUNCERS,ENTERTAINS,MC,ARMY,BIKE,CORE,CRAM,HEFT,HERD,LOON,MASS
+      delayed: syn=LATE*,UP,ONICE,PETAL,ON ICE,AMATEUR,BELATED,HELD UP,POSTHUMOUS,POSTMORTEM
+      fourth: syn=ORDINAL,QUARTER,POSITION,QUADRANT; sounds=forth
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      year: syn=Y,YR,TIME,PERIOD; abbr=Y,YR
+    Definitions:
+      "Having three parties" -> TRILATERAL (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CORONER  7D. Examiner questioning how someone passed?
+  Answer: CORONER
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Examiner questioning how someone passed?"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      examiner: syn=JUDGE,MARKER,WORKER,AUDITOR
+      questioning: syn=ME,GUN,SHOW,THIRD,CURIOUS
+      how: syn=AS,SO,FOR,NOW,TOO,WAY,BONE,BOOK,BORN,CAST,DAMN,DANG,EVER,FORM,FULL
+      someone: syn=ALL,VIP,DINE,FARE,FEED,FRET,CELEB,ERODE,GAMER,ANYONE,DEVOUR,INGEST,ANYBODY,CONSUME,CORRODE
+      passed: syn=BIT,DID,DUG,GOT,HAD,HIT,LAY,MET,PUT,SAT,SAW,WAS,WON,BODE,BORE; sounds=past
+  AI Reasoning:
+    The entire clue cryptically defines CORONER - an examiner who investigates how someone 'passed' (died)
+  ----------------------------------------------------------------------
+
+  [FAILED] WINDLESS  8D. Still second behind cycling cheat
+  Answer: WINDLESS
+  Tier: --- | Confidence: 0/100
+  Definition: "Still"
+  Wordplay type: container
+  Components:
+    synonym            cheat                     -> SWINDLE
+    indicator          cycling                   -> 
+    abbreviation       second                    -> S
+    indicator          behind                    -> 
+  DB Lookups:
+    DB lookups:
+      still: syn=NOT,TUB,YET,CALM,DEAD,DRAW,DUMB,EVEN,FIRE,FLAT,HALT,HOLD,HUSH,JUST,LOWN; abbr=YET
+      second: syn=S,ME,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B,MO,S*; ind=parts
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      cycling: syn=RIDE,SPORT,RIDING; ind=anagram?
+      cheat: syn=DO,CON,LET,ROB,TWO,BILK,BILL,CARD,FAIL,FAST,FOOL,ROOK,SELL,SHAM,SKIN; abbr=DO
+    Definitions:
+      "Still" -> WINDLESS (definition match)
+  AI Reasoning:
+    S (second) is contained within an anagram (cycling) of SWINDLE (cheat) to produce WINDLESS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

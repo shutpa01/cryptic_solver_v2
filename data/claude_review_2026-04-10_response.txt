@@ -1,0 +1,66 @@
+---
+ID: 10052311
+WORDPLAY: anagram
+DEFINITION: juvenile wannabe?
+EXPLANATION: anagram of OFSUET = FOETUS; definition: "juvenile wannabe?"
+---
+---
+ID: 10052313
+WORDPLAY: reversal
+DEFINITION: root vegetable
+EXPLANATION: ODDE reversed (ODDER (synonym="more unusual") cut) = EDDO; definition: "root vegetable"
+---
+---
+ID: 10052315
+WORDPLAY: deletion
+DEFINITION: Claim
+EXPLANATION: PROSE (synonym="written language") minus R ("letter") = POSE; definition: "Claim"
+---
+---
+ID: 10052316
+WORDPLAY: hidden
+DEFINITION: Where to find classic
+EXPLANATION: hidden in "keEPSOMehow"; definition: "Where to find classic"
+---
+---
+ID: 10052317
+WORDPLAY: container
+DEFINITION: Quickly leaving
+EXPLANATION: A (synonym="a") + BONDING (synonym="relationship") containing SC ("primarily some credibility") = ABSCONDING; definition: "Quickly leaving"
+---
+---
+ID: 10052318
+WORDPLAY: charade
+DEFINITION: Crimean War conference site
+EXPLANATION: Y (last letter of "Turkey") + ALTA ("at" + "city" reversed) = YALTA; definition: "Crimean War conference site"
+---
+---
+ID: 10052319
+WORDPLAY: charade
+DEFINITION: Musical show
+EXPLANATION: I (synonym="one") + O (abbreviation="Oscar") + LAN (LOAN="advance" minus O="Oscar promoted") + THE (synonym="article") = IOLANTHE; definition: "Musical show"
+---
+---
+ID: 10052320
+WORDPLAY: anagram
+DEFINITION: on the way out
+EXPLANATION: anagram of IREPROVE = OVERRIPE; definition: "on the way out"
+---
+---
+ID: 10052321
+WORDPLAY: homophone
+DEFINITION: Emperor
+EXPLANATION: CAESAR sounds like "seize her" (what guards should do to escaping woman); definition: "Emperor"
+---
+---
+ID: 10052322
+WORDPLAY: charade
+DEFINITION: Draw Forth
+EXPLANATION: E (last letter of "Bridge") + LICIT (synonym="OK") = ELICIT; definition: "Draw Forth"
+---
+---
+ID: 10052325
+WORDPLAY: charade
+DEFINITION: Present
+EXPLANATION: G (first letter of "Guardian") + I (abbreviation="Independent") + FT ("Financial Times") = GIFT; definition: "Present"
+---

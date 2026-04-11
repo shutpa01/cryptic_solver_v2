@@ -151,12 +151,13 @@ def generate_breadcrumb_schema(clue):
     if len(clue_display) > 60:
         clue_display = clue_display[:57] + "..."
 
+    base = "https://justcordelia.com"
     items = [
         {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "/",
+            "item": f"{base}/",
         },
     ]
 
@@ -165,15 +166,16 @@ def generate_breadcrumb_schema(clue):
             "@type": "ListItem",
             "position": 2,
             "name": f"{source} {type_label}",
-            "item": f"/{clue.get('source')}/{type_slug}/",
+            "item": f"{base}/{clue.get('source')}/{type_slug}/",
         })
 
     if puzzle_number:
+        puzzle_path = clue.get("puzzle_url") or f"/{clue.get('source')}/{type_slug}/{puzzle_number}"
         items.append({
             "@type": "ListItem",
             "position": len(items) + 1,
             "name": f"#{puzzle_number}",
-            "item": clue.get("puzzle_url") or f"/{clue.get('source')}/{type_slug}/{puzzle_number}",
+            "item": f"{base}{puzzle_path}",
         })
 
     items.append({

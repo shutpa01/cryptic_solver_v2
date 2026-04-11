@@ -1,0 +1,72 @@
+---
+ID: 10052635
+WORDPLAY: charade, container
+DEFINITION: afraid of claret?
+EXPLANATION: SQUAMISH ("Pacific Northwest people") containing E (last letter of "Wine") = SQUEAMISH; definition: "afraid of claret?"
+---
+---
+ID: 10052641
+WORDPLAY: charade
+DEFINITION: Tender-hearted
+EXPLANATION: A (synonym="a") + DO (synonym="party") + RING (synonym="cabal") = ADORING; definition: "Tender-hearted"
+---
+---
+ID: 10052642
+WORDPLAY: charade
+DEFINITION: Asian country
+EXPLANATION: I (synonym="me") + RAN ("couldn't see for dust") = IRAN; definition: "Asian country"
+---
+---
+ID: 10052644
+WORDPLAY: charade
+DEFINITION: pardon?
+EXPLANATION: EX (synonym="Old girlfriend") + ONE (synonym="I") + RATE (synonym="fancy") = EXONERATE; definition: "pardon?"
+---
+---
+ID: 10052645
+WORDPLAY: double_definition
+DEFINITION: surprise
+EXPLANATION: Double definition: Some lemon = TWIST (twist of lemon), surprise = TWIST
+---
+---
+ID: 10052646
+WORDPLAY: double_definition
+DEFINITION: capiche?
+EXPLANATION: Double definition: Succeed as photojournalist = GET THE PICTURE, capiche? = GET THE PICTURE
+---
+---
+ID: 10052649
+WORDPLAY: charade, container
+DEFINITION: Bane of comic character
+EXPLANATION: K (last letter of "shtick") + RE ("vacuous routine") containing YPTONIT (anagram of PITYNOT = "pity not" "funny") = K + R(YPTONIT)E = KRYPTONITE; definition: "Bane of comic character"
+---
+---
+ID: 10052651
+WORDPLAY: charade
+DEFINITION: Chest bone
+EXPLANATION: TRUE (synonym="perfectly aligned") + RIB (synonym="pull leg?") = TRUERIB; definition: "Chest bone"
+---
+---
+ID: 10052653
+WORDPLAY: charade, container
+DEFINITION: Masses
+EXPLANATION: HO (abbreviation="house") + I ("two" split) + POLLO ("chicken in Benidorm") + I ("two" split) = HOIPOLLOI; definition: "Masses"
+---
+---
+ID: 10052656
+WORDPLAY: charade
+DEFINITION: still water
+EXPLANATION: BILL (synonym="Price to pay") + A (synonym="a") + BONG (synonym="toll") = BILLABONG; definition: "still water"
+---
+---
+ID: 10052657
+WORDPLAY: charade, container
+DEFINITION: Put up with
+EXPLANATION: SACH (SAC="bag" + H=first letter of "hissing") containing TOM (synonym="cat") = S(TOM)ACH = STOMACH; definition: "Put up with"
+---
+---
+ID: 10052659
+WORDPLAY: charade, container
+DEFINITION: I'm taking leave!
+EXPLANATION: A (synonym="a") + U (abbreviation="uniform") containing DIE (synonym="Stop") = A(DIE)U = ADIEU; definition: "I'm taking leave!"
+---

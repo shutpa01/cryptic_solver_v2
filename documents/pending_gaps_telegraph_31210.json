@@ -1,0 +1,241 @@
+{
+  "source": "telegraph",
+  "puzzle": "31210",
+  "stats": {
+    "total": 32,
+    "assembled": 28,
+    "high": 22,
+    "medium": 4,
+    "low": 2,
+    "failed": 4,
+    "avg_score": 81.14285714285714
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Gather",
+      "letters": "HEAR",
+      "answer": "HEARTEN",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Gather number give encouragement",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "vessel",
+      "letters": "BURSAL",
+      "answer": "Belarus",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Carrying earl abroad vessel capsized somewhere near Lithuania",
+      "score": 57
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "soap",
+      "letters": "EL",
+      "answer": "FLANNEL",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Soft soap and to what it might be applied?",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "exposed",
+      "letters": "BEAR",
+      "answer": "FORBEAR",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Ancestor of revolutionary Republican exposed, it's said",
+      "score": 28
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "first one to",
+      "letters": "AUTO",
+      "answer": "AUTOPILOT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "George, first one to plug gold auction item",
+      "score": 20
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "auction item",
+      "letters": "PILOT",
+      "answer": "AUTOPILOT",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "George, first one to plug gold auction item",
+      "score": 20
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "player?",
+      "answer": "NORTH",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Cambodian or Thai inspiring bridge player?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Beat",
+      "answer": "TEMPO",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Beat work police force brought back",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Reserved",
+      "answer": "BASHFUL",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Reserved bus, half modified",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "give encouragement",
+      "answer": "HEARTEN",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Gather number give encouragement",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Performer",
+      "answer": "ACTOR",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Performer works naked",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "flier",
+      "answer": "GUILLEMOT",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Craft must circle lake, test for flier?",
+      "score": 55
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Hold up",
+      "answer": "RAISE",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Hold up beams, we hear",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wear out engine part",
+      "answer": "EXHAUST",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Wear out engine part",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "understood",
+      "answer": "sinks in",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Great shame receiving tattoos is fully understood",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "somewhere near Lithuania",
+      "answer": "Belarus",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Carrying earl abroad vessel capsized somewhere near Lithuania",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "unproductive",
+      "answer": "FRUITLESS",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Harvested orchard could be unproductive",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Pastiche",
+      "answer": "MELANGE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Pastiche style egregious essentially in this writer",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "to what it might be applied",
+      "answer": "FLANNEL",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Soft soap and to what it might be applied?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ancestor",
+      "answer": "FORBEAR",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Ancestor of revolutionary Republican exposed, it's said",
+      "score": 28
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Anaesthetic",
+      "answer": "number one",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Anaesthetic drug keeps working for lieutenant",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Notorious Bostonian",
+      "answer": "STRANGLER",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Notorious Bostonian needs more rum, swallowing litres",
+      "score": 100
+    }
+  ]
+}

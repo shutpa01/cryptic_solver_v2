@@ -1,0 +1,315 @@
+{
+  "source": "dailymail",
+  "puzzle": "17854",
+  "stats": {
+    "total": 32,
+    "assembled": 27,
+    "high": 17,
+    "medium": 7,
+    "low": 3,
+    "failed": 5,
+    "avg_score": 78.03703703703704
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "judge",
+      "letters": "HEAR",
+      "answer": "HEARTEN",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Cheer up figure behind judge",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "behind",
+      "letters": "UP",
+      "answer": "MUPPETS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Fools leading dogs, say, behind rear of stadium",
+      "score": 40
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "dogs",
+      "letters": "PETS",
+      "answer": "MUPPETS",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Fools leading dogs, say, behind rear of stadium",
+      "score": 40
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Language",
+      "letters": "WELSH",
+      "answer": "WELSHHARP",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Language and phrasing wrong without chant and stringed instrument",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "would-be scout",
+      "letters": "CUB",
+      "answer": "CUBIC",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Solid would-be scout in charge",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "French name",
+      "letters": "NOM",
+      "answer": "NOMINEE",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Candidate with French name in middle of week",
+      "score": 62
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Author Harper",
+      "letters": "LEE",
+      "answer": "ASLEEP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Author Harper in fancy spa is having a kip?",
+      "score": 25
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "chaps",
+      "letters": "NET",
+      "answer": "ENTITLE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Authorise chaps to dispense with money and rank",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "money",
+      "letters": "T",
+      "answer": "ENTITLE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Authorise chaps to dispense with money and rank",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "rank",
+      "letters": "TITLE",
+      "answer": "ENTITLE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Authorise chaps to dispense with money and rank",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Skill",
+      "answer": "ART",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Skill shown in cartography",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Absorb",
+      "answer": "INGEST",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Absorb some amazing estimates",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Cheer up",
+      "answer": "HEARTEN",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Cheer up figure behind judge",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Group",
+      "answer": "BUNCH",
+      "clue_number": "12",
+      "direction": "down",
+      "clue": "Group raised central point with children",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Programmes",
+      "answer": "SCHEDULES",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Programmes chess duel differently",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Preside",
+      "answer": "CHAIR",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Preside over opening of comic musical",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "therapeutic treatment",
+      "answer": "MUDBATH",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Mike had tub replaced for therapeutic treatment",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "poster",
+      "answer": "WALLCHART",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "With everyone, talk about origin of remarkably large poster",
+      "score": 66
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Language",
+      "answer": "WELSHHARP",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Language and phrasing wrong without chant and stringed instrument",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "food for breakfast",
+      "answer": "BACON",
+      "clue_number": "17",
+      "direction": "across",
+      "clue": "Artist Francis's food for breakfast",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "coast",
+      "answer": "SHORE",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Actress Fiona mentioned coast",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "coin",
+      "answer": "RUPEE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Regret keeping case for primitive coin",
+      "score": 72
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "amount of money",
+      "answer": "SUM",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "A number cited amount of money",
+      "score": 30
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Lady in Rome",
+      "answer": "SIGNORA",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Lady in Rome has varied groans about Italy",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "decorative design",
+      "answer": "PATTERN",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Jargon linked to note showing decorative design",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sound of disapproval",
+      "answer": "TUT",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Sound of disapproval from teachers (not half)",
+      "score": 35
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "having a kip",
+      "answer": "ASLEEP",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Author Harper in fancy spa is having a kip?",
+      "score": 25
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Authorise",
+      "answer": "ENTITLE",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Authorise chaps to dispense with money and rank",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Relating to others in party",
+      "answer": "SOCIAL",
+      "clue_number": "5",
+      "direction": "across",
+      "clue": "Relating to others in party",
+      "score": 45
+    }
+  ]
+}

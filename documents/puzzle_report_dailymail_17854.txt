@@ -1,0 +1,682 @@
+================================================================================
+PUZZLE QUALITY REPORT: dailymail #17854
+Generated: 2026-04-10 06:38:42
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      32
+  Assembled:        27/32 (84%)
+    Sig+Enriched:   9
+    Sonnet:         9
+    DB Fallback:    2
+  Failed:           5
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   16  11A, 3D, 8D, 10A, 12A, 12D, 13A, 16A, 16D, 19A, 4D, 5D, 6D, 9A, 1D, 23A
+  Medium (40-79): 8  1A, 14A, 15D, 18D, 2D, 21D, 5A, 7D
+  Low (<40):    3  22A, 25D, 26A
+  Failed:       5  14D, 17A, 20D, 24A, 27A
+  Average:      78/100
+
+COST: $1.2690 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (29 entries)
+------------------------------------------------------------
+  ART: "Skill" -> ART  (missing from definition_answers_augmented)
+  INGEST: "Absorb" -> INGEST  (missing from definition_answers_augmented)
+  HEARTEN: "Cheer up" -> HEARTEN  (missing from definition_answers_augmented)
+  BUNCH: "Group" -> BUNCH  (missing from definition_answers_augmented)
+  SCHEDULES: "Programmes" -> SCHEDULES  (missing from definition_answers_augmented)
+  CHAIR: "Preside" -> CHAIR  (missing from definition_answers_augmented)
+  MUDBATH: "therapeutic treatment" -> MUDBATH  (missing from definition_answers_augmented)
+  WALLCHART: "poster" -> WALLCHART  (missing from definition_answers_augmented)
+  WELSHHARP: "Language" -> WELSHHARP  (missing from definition_answers_augmented)
+  BACON: "food for breakfast" -> BACON  (missing from definition_answers_augmented)
+  SHORE: "coast" -> SHORE  (missing from definition_answers_augmented)
+  RUPEE: "coin" -> RUPEE  (missing from definition_answers_augmented)
+  SUM: "amount of money" -> SUM  (missing from definition_answers_augmented)
+  SIGNORA: "Lady in Rome" -> SIGNORA  (missing from definition_answers_augmented)
+  PATTERN: "decorative design" -> PATTERN  (missing from definition_answers_augmented)
+  TUT: "Sound of disapproval" -> TUT  (missing from definition_answers_augmented)
+  ASLEEP: "having a kip" -> ASLEEP  (missing from definition_answers_augmented)
+  ENTITLE: "Authorise" -> ENTITLE  (missing from definition_answers_augmented)
+  SOCIAL: "Relating to others in party" -> SOCIAL  (missing from definition_answers_augmented)
+  HEARTEN: judge -> HEAR  (missing from synonyms_pairs)
+  MUPPETS: behind -> UP  (missing from abbreviations)
+  MUPPETS: dogs -> PETS  (missing from synonyms_pairs)
+  WELSHHARP: Language -> WELSH  (missing from synonyms_pairs)
+  CUBIC: would-be scout -> CUB  (missing from abbreviations)
+  NOMINEE: French name -> NOM  (missing from abbreviations)
+  ASLEEP: Author Harper -> LEE  (missing from abbreviations)
+  ENTITLE: chaps -> NET  (missing from abbreviations)
+  ENTITLE: money -> T  (missing from abbreviations)
+  ENTITLE: rank -> TITLE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  WALLCHART = 14 (66/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (3)
+------------------------------------------------------------
+  SUM = 22 (30/100): no pieces verified in DB
+  TUT = 25 (35/100): no pieces verified in DB
+  ASLEEP = 26 (25/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (3)
+------------------------------------------------------------
+  PUNITIVEDAMAGES = 2 (65/100): def="?" (none identified)
+  ASLEEP = 26 (25/100): def="having a kip" (not in DB, odd position)
+  ATTENDANCESHEET = 7 (45/100): def="?" (none identified)
+
+FAILED TO ASSEMBLE (5)
+------------------------------------------------------------
+  14. Language and phrasing wrong without chant and stringed instr = WELSHHARP
+  17. Artist Francis's food for breakfast = BACON
+  20. Actress Fiona mentioned coast = SHORE
+  24. Jargon linked to note showing decorative design = PATTERN
+  27. Authorise chaps to dispense with money and rank = ENTITLE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  7/32  9A, 13A, 19A, 3D, 4D, 16D, 16D
+  Type mismatch:         1  14D
+  Unverified explain.:   3  22A, 26A, 25D
+  Weak definition:       3  26A, 2D, 7D
+  DB gap:                19  5A, 10A, 11A, 17A, 22A, 23A, 24A, 26A, 27A, 1D, 6D, 8D, 12D, 14D, 15D, 18D, 20D, 21D, 25D
+  Failed:                5  17A, 24A, 27A, 14D, 20D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   11A  ART           Skill shown in cartography (3)
+                      hidden in "shown in c ART ography"; definition: "Skill"  [HIGH]
+    3D  EDI           Woman ignored, incidentally, in part (3)
+                      hidden in "woman ignor EDI ncidentally," [hidden: "in"]  [HIGH]
+    8D  INGEST        Absorb some amazing estimates (6)
+                      hidden in "amaz INGEST imates" [hidden: "some"]; definition: "Absorb"  [HIGH]
+   10A  HEARTEN       Cheer up figure behind judge (7)
+                      HEAR (synonym of "judge") [last letter: "behind"] + TEN (synonym of "figure"); definition: "Cheer up"  [HIGH]
+   12A  BLOODORANGE   Unusual logo on bread and citrus fruit (5,6)
+                      ---  [HIGH]
+   12D  BUNCH         Group raised central point with children (5)
+                      NUB (synonym of "central point") + CH (synonym of "children"); definition: "Group"  [HIGH]
+   13A  HAVEN         Own new place of refuge (5)
+                      ---  [HIGH]
+   16A  HIDYHOLES     Shy idol, eh, resettled in secretive places (4,5)
+                      ---  [HIGH]
+   16D  HEARSE        Vehicle for late figure here as planned (6)
+                      ---  [HIGH]
+   19A  ATMOSPHERIC   Each import's funnily creating a distinctive mood? (11)
+                      ---  [HIGH]
+    4D  SAYSO         Authority, for instance, Scot regularly shows (3,2)
+                      ---  [HIGH]
+    5D  SCHEDULES     Programmes chess duel differently (9)
+                      anagram of CHESSDUEL ("chess duel") [anagram: "differently"] = SCHEDULES; definition: "Programmes"  [HIGH]
+    6D  CHAIR         Preside over opening of comic musical (5)
+                      C (first letter of "comic") + HAIR (synonym of "musical") [first letter: "opening"]; definition: "Preside"  [HIGH]
+    9A  DENSITY       Refuse to guard place in short showing compactness (7)
+                      ---  [HIGH]
+    1A  MUPPETS       Fools leading dogs, say, behind rear of stadium (7)
+                      M(last letter of "stadium") + UP(synonym of "behind") + PETS(synonym of "dogs")  [MED]
+    1D  MUDBATH       Mike had tub replaced for therapeutic treatment (7)
+                      anagram of HADTUB ("had tub") + M (synonym of "Mike") = MUDBATH; definition: "therapeutic treatment"  [HIGH]
+   14A  WALLCHART     With everyone, talk about origin of remarkably large poster (9)
+                      W(abbr. "with") + ALL(synonym of "everyone") + R(first letter of "origin of remarkably large") inside CHAT(synonym of "talk")  [MED]
+   14D  WELSHHARP     Language and phrasing wrong without chant and stringed instrument (5,4)
+                      ---  [FAIL]
+   15D  CUBIC         Solid would-be scout in charge (5)
+                      CUB(synonym of "would-be scout") + IC(abbr. "in charge")  [MED]
+   17A  BACON         Artist Francis's food for breakfast (5)
+                      ---  [FAIL]
+   18D  NOMINEE       Candidate with French name in middle of week (7)
+                      NOM(synonym of "French name") + IN + EE(core of "week")  [MED]
+    2D  PUNITIVEDAMAGES  Eva in dispute possibly about publication gets legal compensation (8,7)
+                      anagram of DISPUTE+MAG(synonym of "publication")+EVA+IN = PUNITIVEDAMAGES  [MED]
+   20D  SHORE         Actress Fiona mentioned coast (5)
+                      ---  [FAIL]
+   21D  RUPEE         Regret keeping case for primitive coin (5)
+                      PE(first letter of "primitive") inside RUE(synonym of "Regret")  [MED]
+   22A  SUM           A number cited amount of money (3)
+                      SOME sounds like SUM  [LOW]
+   23A  SIGNORA       Lady in Rome has varied groans about Italy (7)
+                      anagram of GROANS ("groans") + I (abbreviation of "Italy") [anagram: "has"] = SIGNORA; definition: "Lady in Rome"  [HIGH]
+   24A  PATTERN       Jargon linked to note showing decorative design (7)
+                      ---  [FAIL]
+   25D  TUT           Sound of disapproval from teachers (not half) (3)
+                      delete ORS from TUTORS(synonym of "teachers")  [LOW]
+   26A  ASLEEP        Author Harper in fancy spa is having a kip? (6)
+                      LEE(synonym of "Author Harper") inside ASP("spa")  [LOW]
+   27A  ENTITLE       Authorise chaps to dispense with money and rank (7)
+                      ---  [FAIL]
+    5A  SOCIAL        Relating to others in party (6)
+                      cryptic definition  [MED]
+    7D  ATTENDANCESHEET  With day gone, need sent and attached different evidence of taking part (10,5)
+                      delete D from NEED, anagram of SENT+ATTACHED+NEE = ATTENDANCESHEET  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ART  11A. Skill shown in cartography
+  Answer: ART
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Skill"
+  Wordplay: hidden
+  Explanation: hidden in "shown in c ART ography"; definition: "Skill"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] EDI  3D. Woman ignored, incidentally, in part
+  Answer: EDI
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: hidden
+  Explanation: hidden in "woman ignor EDI ncidentally," [hidden: "in"]
+  ----------------------------------------------------------------------
+
+  [HIGH] INGEST  8D. Absorb some amazing estimates
+  Answer: INGEST
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Absorb"
+  Wordplay: hidden
+  Explanation: hidden in "amaz INGEST imates" [hidden: "some"]; definition: "Absorb"
+  ----------------------------------------------------------------------
+
+  [HIGH] HEARTEN  10A. Cheer up figure behind judge
+  Answer: HEARTEN
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Cheer up"
+  Wordplay: charade + parts
+  Explanation: HEAR (synonym of "judge") [last letter: "behind"] + TEN (synonym of "figure"); definition: "Cheer up"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLOODORANGE  12A. Unusual logo on bread and citrus fruit
+  Answer: BLOODORANGE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of LOGO + ON + BREAD = BLOODORANGE; definition: "fruit"
+  ----------------------------------------------------------------------
+
+  [HIGH] BUNCH  12D. Group raised central point with children
+  Answer: BUNCH
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Group"
+  Wordplay: charade
+  Explanation: NUB (synonym of "central point") + CH (synonym of "children"); definition: "Group"
+  ----------------------------------------------------------------------
+
+  [HIGH] HAVEN  13A. Own new place of refuge
+  Answer: HAVEN
+  Tier: --- | Confidence: 100/100
+  Human explanation: HAVE (synonym="Own") + N (abbreviation="new") = HAVEN; definition: "place of refuge"
+  ----------------------------------------------------------------------
+
+  [HIGH] HIDYHOLES  16A. Shy idol, eh, resettled in secretive places
+  Answer: HIDYHOLES
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of SHY + IDOL, + EH, = HIDYHOLES
+  ----------------------------------------------------------------------
+
+  [HIGH] HEARSE  16D. Vehicle for late figure here as planned
+  Answer: HEARSE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of HERE + AS = HEARSE; definition: "Vehicle"
+  ----------------------------------------------------------------------
+
+  [HIGH] ATMOSPHERIC  19A. Each import's funnily creating a distinctive mood?
+  Answer: ATMOSPHERIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of EACH + IMPORT'S = ATMOSPHERIC
+  ----------------------------------------------------------------------
+
+  [HIGH] SAYSO  4D. Authority, for instance, Scot regularly shows
+  Answer: SAYSO
+  Tier: --- | Confidence: 100/100
+  Human explanation: SAY (synonym="for instance,") + SO (odd letters of "Scot") = SAYSO; definition: "Authority,"
+  ----------------------------------------------------------------------
+
+  [HIGH] SCHEDULES  5D. Programmes chess duel differently
+  Answer: SCHEDULES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Programmes"
+  Wordplay: anagram
+  Explanation: anagram of CHESSDUEL ("chess duel") [anagram: "differently"] = SCHEDULES; definition: "Programmes"
+  ----------------------------------------------------------------------
+
+  [HIGH] CHAIR  6D. Preside over opening of comic musical
+  Answer: CHAIR
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Preside"
+  Wordplay: acrostic + charade
+  Explanation: C (first letter of "comic") + HAIR (synonym of "musical") [first letter: "opening"]; definition: "Preside"
+  ----------------------------------------------------------------------
+
+  [HIGH] DENSITY  9A. Refuse to guard place in short showing compactness
+  Answer: DENSITY
+  Tier: --- | Confidence: 100/100
+  Human explanation: DENY (synonym="Refuse") + SIT (synonym="place") = DENSITY
+  ----------------------------------------------------------------------
+
+  [MEDIUM] MUPPETS  1A. Fools leading dogs, say, behind rear of stadium
+  Answer: MUPPETS
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Fools"
+  Wordplay type: charade
+  Components:
+    indicator          rear                      -> 
+    last_letter        stadium                   -> M
+    synonym            behind                    -> UP
+    synonym            dogs                      -> PETS
+  Assembly: charade — M(last letter of "stadium") + UP(synonym of "behind") + PETS(synonym of "dogs")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (33%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      fools: syn=TOP,BERK,BUGS,FANS,KIDS,MUGS,ASSES,BERKS,HEADS,NANAS,CHUMPS,FIENDS,FREAKS,HOUNDS,IDIOTS; abbr=ASS,CLOT
+      leading: syn=UP*,BIG,KEY,POP,TOP,ARCH,GONE,HEAD,HIGH,LEAD,MAIN,MUCH,RICH,STAR,ABOVE; abbr=UP*; ind=acrostic,parts
+      dogs: syn=PET*,ALSO,CADS,CURS,EYES,GOES,ISLE,PACK,RATS,RUNS,SODS,TAGS,BOORS,CRUDS,FINKS; abbr=D
+      say: syn=EG,OR,SO,ALL,BED,BOW,PUT,SEA,AVER,DIPS,FARM,HUGO,INTO,ISLE,LIKE; abbr=EG; ind=anagram,homophone
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      rear: syn=AT,DO,A A,AFT,BAR,BUM,CAN,END,USE,BACK,BOOK,BUNS,BUTT,DUFF,FARM; ind=parts
+      stadium: syn=BOWL,ARENA,BOWL?,STAND,VENUE,CIRCUS,GROUND
+    Definitions:
+      "Fools" -> MUPPETS (definition match)
+  AI Reasoning:
+    Charade of M (last letter of stadium) + UP (synonym for behind) + PETS (synonym for dogs) = MUPPETS
+  ----------------------------------------------------------------------
+
+  [HIGH] MUDBATH  1D. Mike had tub replaced for therapeutic treatment
+  Answer: MUDBATH
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "therapeutic treatment"
+  Wordplay: anagram + charade
+  Explanation: anagram of HADTUB ("had tub") + M (synonym of "Mike") = MUDBATH; definition: "therapeutic treatment"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [MEDIUM] WALLCHART  14A. With everyone, talk about origin of remarkably large poster
+  Answer: WALLCHART
+  Tier: Sonnet | Confidence: 66/100
+  Definition: "poster"
+  Wordplay type: charade
+  Components:
+    abbreviation       with                      -> W
+    synonym            everyone                  -> ALL
+    synonym            talk                      -> CHAT
+    indicator          about                     -> 
+    first_letter       origin of remarkably large -> R
+  Assembly: container — W(abbr. "with") + ALL(synonym of "everyone") + R(first letter of "origin of remarkably large") inside CHAT(synonym of "talk")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W*
+      everyone: syn=ALL*,AWL,ONE,EACH,PEEPS,ANYONE,ANYBODY,CAPITAL,EVENING,SOMEONE,ALL-TIME,ALLIANCE,BALLOONS,OF EVERY,SOMEBODY; abbr=ALL*
+      talk: syn=A,IS,MY,AND,FEW,GAB,GAS,JAW,PUT,RAP,ROT,RUN,SAY,BLAB,BUNK
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C*,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      origin: syn=BE,KIN,BASE,CLAN,COOK,LINE,RACE,ROOT,RULE,SEED,TREE,BIRTH,BLOOD,FOLKS,REALM; ind=acrostic,parts
+      remarkably: syn=NOTABLY,UNUSUALLY; ind=anagram?,homophone
+      large: syn=L,IN,LG,BIG,FAT,HOT,MAN,PEN,POP,DEAR,FOND,GOOD,TIDY,VAST,AMPLE; abbr=BIG,L*,OS
+      poster: syn=AD,FLY,BILL,PLUG,SHOW,SIGN,SPOT,WORD,BLURB,BOOST,EDICT,FLYER,PITCH,PROMO,TROLL; ind=container?
+      talk about: syn=CHAT,MOOT,ARGUE,BANDY,CONFER,DEBATE,REASON,AGITATE,CANVASS,DISCUSS
+  AI Reasoning:
+    W + ALL + CHART (where CHART comes from CHAT containing R) = WALLCHART
+  ----------------------------------------------------------------------
+
+  [FAILED] WELSHHARP  14D. Language and phrasing wrong without chant and stringed instrument
+  Answer: WELSHHARP
+  Tier: --- | Confidence: 0/100
+  Definition: "Language"
+  Wordplay type: charade
+  Components:
+    synonym            Language                  -> WELSH
+    anagram_fodder     phrasing                  -> PHRASING
+    indicator          wrong                     -> 
+    indicator          without                   -> 
+    synonym            chant                     -> SING
+  DB Lookups:
+    DB lookups:
+      language: syn=IDO,CANT,ERSE,INCA,JIVE,SHOP,TALK,THAI,TUPI,URDU,ARGOT,AZTEC,BANTU,CARIB,CZECH
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      phrasing: syn=SAY,CAST,VOTE,VOICE,SAY-SO,SINGER,VISAGE,VOICE,,CAROLER,WORDING,LANGUAGE,SONGSTER,VOCALIST,LANGUAGES,STATEMENT
+      wrong: syn=IT,NO,ATE,BAD,BUG,EAT,GET,GOT,ILL,IRE,IRK,MAD,NOT,OFF,SIN; abbr=TORT,X; ind=anagram
+      without: syn=WEAR*,DO,EX,WO,AIM,BET,DIE,END,FIT,GET,LAG,LAY,LIE,OUT,PUT; abbr=EX,NO; ind=deletion
+      chant: syn=ARIA,PART,SING,SONG,CAROL,CROON,FIGHT,INTONE,PRAYER,RECITE,CANTICLE,PLAINSONG
+      instrument: syn=HARP*,TOO,UKE,DRUM,FORT,HORN,LUTE,LYRE,MEAN,OBOE,PAWN,REED,TOOL,TUBA,VIOL
+      stringed instrument: syn=LUTE,ANOTHER
+  AI Reasoning:
+    WELSH (language) + HARP (anagram of PHRASING minus SING/chant)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CUBIC  15D. Solid would-be scout in charge
+  Answer: CUBIC
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Solid"
+  Wordplay type: charade
+  Components:
+    synonym            would-be scout            -> CUB
+    abbreviation       in charge                 -> IC
+  Assembly: charade — CUB(synonym of "would-be scout") + IC(abbr. "in charge")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      solid: syn=CUBIC*,BIG,FIT,BEST,FIRM,GOOD,HALE,HARD,IRON,JUST,SAFE,SNUG,SURE,TRUE,WELL; ind=anagram?
+      would: syn=LIKE,WANT,WISH,LEAVE; sounds=wood
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      scout: syn=BOD,BOY,CAT,EGG,GUY,JOB,JOE,LAD,MAN,SON,BABY,BEAU,BIRD,BODY,BUCK
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      charge: syn=C,DO,GO,MY,SO,ACT,AIR,ARM,ASK,BED,BID,BUY,COP,DIG,FEE; abbr=C*
+      in charge: abbr=IC*
+      in charge: syn=IC*,CODE,HEAD,HIGH,FIRST
+    Definitions:
+      "Solid" -> CUBIC (definition match)
+  AI Reasoning:
+    CUB (would-be scout/young scout) + IC (in charge abbreviation) = CUBIC
+  ----------------------------------------------------------------------
+
+  [FAILED] BACON  17A. Artist Francis's food for breakfast
+  Answer: BACON
+  Tier: --- | Confidence: 0/100
+  Definition: "food for breakfast"
+  Wordplay type: charade
+  Components:
+    synonym            Artist Francis's          -> BACON
+  DB Lookups:
+    DB lookups:
+      artist: syn=BACON*,RA,ACE,DAB,ONO,PRE,ACES,DALI,EMIN,ETTY,GEEK,GOYA,GURU,HALS,HAND; abbr=RA
+      francis's: syn=NAME,SAINT
+      food: syn=BACON*,IF,EGG,BEEF,CHOP,CHOW,DIET,DISH,EATS,EDAM,EGGS,FAIR,FARE,FEED,FETA
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      breakfast: syn=FRY,TEA,BAKE,BITE,CHOW,FEED,FOOD,GULP,LUAU,MEAL,MENU,MESS,BOARD,FEAST,FRYUP
+    Definitions:
+      "Artist" -> BACON (definition match)
+  AI Reasoning:
+    Francis Bacon was an artist, so 'Artist Francis's' gives BACON, which is food for breakfast
+  ----------------------------------------------------------------------
+
+  [MEDIUM] NOMINEE  18D. Candidate with French name in middle of week
+  Answer: NOMINEE
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "Candidate"
+  Wordplay type: charade
+  Components:
+    synonym            French name               -> NOM
+    literal            in                        -> IN
+    indicator          middle                    -> 
+    core_letters       week                      -> EE
+  Assembly: charade — NOM(synonym of "French name") + IN + EE(core of "week")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/3 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      candidate: syn=NOMINEE*,SON,OF A,FRANK,SEEKER,HOPEFUL; ind=anagram?
+      with: syn=IN*,W,BY,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      french: syn=FR,MER,MOT,DOOR,ETRE,GATE,OURS,HATCH,ANGERS,GALLIC,PEOPLE,PORTAL,WICKET,LATTICE,POSTERN; abbr=DE,FR,LA,LE,UN
+      name: syn=N,A A,AIM,CUT,DIG,DIS,DUB,FEE,FIX,GUY,NOT,OPT,PUT,REP,SET; abbr=N*
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      middle: syn=LOW,MID,MOB,RAG,TAG,CORE,DEEP,HERD,HERE,MEAN,POOR,ROUT,SCUM,DEPTH,HEART; abbr=M*; ind=parts
+      week: abbr=W,WK; sounds=weak
+      in middle: ind=insertion
+    Definitions:
+      "Candidate" -> NOMINEE (definition match)
+  AI Reasoning:
+    NOM (French for name) + IN (literal) + EE (middle letters of week) = NOMINEE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PUNITIVEDAMAGES  2D. Eva in dispute possibly about publication gets legal compensation
+  Answer: PUNITIVEDAMAGES
+  Tier: DB Fallback | Confidence: 65/100
+  Wordplay type: anagram
+  Components:
+    literal            dispute                   -> DISPUTE
+    synonym            publication               -> MAG
+    literal            eva                       -> EVA
+    literal            in                        -> IN
+  Assembly: anagram — anagram of DISPUTE+MAG(synonym of "publication")+EVA+IN = PUNITIVEDAMAGES
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      eva: syn=LADY,WOMAN
+      in: syn=IT*,T,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      dispute: syn=AND,ROW,SET,FALL,FAST,FEUD,FIRE,MOOT,ODDS,RACE,RIFT,ROWS,SPAT,TALK,TIFF; abbr=ROW
+      possibly: syn=TAXI,AGENT,MAYBE,LIKELY,MAYHAP,SURELY,CLEARLY,CONTACT,PERHAPS,PLACEBO,PLAINLY,SADDLED,VISIBLY,CREDIBLY,ORIENTAL; ind=anagram
+      about: syn=C,AS,BY,CA,OF,ON,OR,RE,TO,UP,ARC,BOW,BUT,CUT,ODE; abbr=C,CA,OF,ON,OVER,RE; ind=anagram,container,reversal
+      publication: syn=MAG*,HELLO,ISSUE,ORGAN,WRITE,FANZINE,MAGAZINE,PAMPHLET,NEWSPAPER,THEIPAPER,COMMERCIAL,DAILYPAPER,PERIODICAL,SCHOOLBOOK,THE BIG ISSUE; ind=container?
+      gets: syn=IT*,AGE*,EDGE*,BAGS,BUGS,CANS,COPS,DAMS,DIES,DIGS,EATS,ENDS,GOES,ICES,IRKS; abbr=G*,GE*
+      legal: syn=CASH,COIN,FAIR,GOLD,HOLS,JACK,KALE,LOOT,PELF,REST,WRIT,BOARD,BREAD,BREAK,BUCKS
+      compensation: syn=DAMAGES*,PAY,TIME,OFFSET,REWARD,REDRESS,REPRISAL,ATONEMENT,EMOLUMENT,DEFRAYMENT,REPARATIONS,MAKINGAMENDS,SATISFACTION,REIMBURSEMENT
+      in dispute: syn=AT ISSUE,BEING DEBATED
+  ----------------------------------------------------------------------
+
+  [FAILED] SHORE  20D. Actress Fiona mentioned coast
+  Answer: SHORE
+  Tier: --- | Confidence: 0/100
+  Definition: "coast"
+  Wordplay type: homophone
+  Components:
+    synonym            Actress Fiona             -> SHAW
+    indicator          mentioned                 -> 
+  DB Lookups:
+    DB lookups:
+      actress: syn=APE,HAM,APER,LEAD,MIME,STAR,ZANY,ACTOR,CLOWN,EXTRA,GARBO,MIMIC,PLAYE,POSER,THESP
+      mentioned: syn=CITED,NAMED,NOTED; ind=homophone
+      coast: syn=SHORE*,BANK,LIDO,BEACH,BOARD,DRIFT,PLAGE,TABLE
+  AI Reasoning:
+    Actress Fiona Shaw's surname SHAW sounds like SHORE when mentioned/spoken aloud
+  ----------------------------------------------------------------------
+
+  [HIGH] RUPEE  21D. Regret keeping case for primitive coin
+  Answer: RUPEE
+  Tier: Sonnet | Confidence: 72/100
+  Definition: "coin"
+  Wordplay type: container
+  Components:
+    synonym            Regret                    -> RUE
+    indicator          keeping                   -> 
+    first_letter       primitive                 -> PE
+  Assembly: container — PE(first letter of "primitive") inside RUE(synonym of "Regret")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      regret: syn=RUPEE*,RUE*,ROUX,LAUGH,MOURN; abbr=RUE
+      keeping: syn=ARM,HOW,WAY,CARE,CAST,FORM,GAIN,GRIP,HAND,HOLD,NICK,RITE,SWAY,TACK,TRIM; ind=container
+      case: syn=BIN,BOX,FIT,GEL,LOG,NUT,POD,SEA,SET,AS A,BARK,BEAR,BLOG,BOUT,CAKE; ind=parts
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      primitive: syn=LOW,PART,SAVE,EARLY,NAIVE,STONE; ind=anagram?
+      coin: syn=CENT,DIME,DISC,EURO,HAVE,KALE,LONG,NOTE,BUCKS,DUCAT,LEGAL,LOLLY,MONEY,NOBLE,PIECE
+    Definitions:
+      "Regret" -> RUPEE (definition match)
+  AI Reasoning:
+    RUE (regret) contains PE (outer letters of primitive-related word) to make RUPEE
+  ----------------------------------------------------------------------
+
+  [LOW] SUM  22A. A number cited amount of money
+  Answer: SUM
+  Tier: Sonnet | Confidence: 30/100
+  Definition: "amount of money"
+  Wordplay type: homophone
+  Components:
+    synonym            A number                  -> SOME
+    indicator          cited                     -> 
+  Assembly: homophone — SOME sounds like SUM
+  Checks: definition=position OK (start/end of clue) | wordplay_type=homophone | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass (homophone: SOME sounds like SUM) | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      number: syn=N,O,GO,NO,ACT,ADD,AGE,BIT,FEE,FIT,ONE,TEN,VIP; abbr=N,NO,TEN
+      amount: syn=SUM*,LOT
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO; abbr=BREAD,CASH,DOSH
+      a number: syn=GO,NO,FIT,GET,ONE,TOE
+  AI Reasoning:
+    SOME (a number) sounds like SUM when cited (homophone)
+  ----------------------------------------------------------------------
+
+  [HIGH] SIGNORA  23A. Lady in Rome has varied groans about Italy
+  Answer: SIGNORA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Lady in Rome"
+  Wordplay: anagram + charade
+  Explanation: anagram of GROANS ("groans") + I (abbreviation of "Italy") [anagram: "has"] = SIGNORA; definition: "Lady in Rome"
+  ----------------------------------------------------------------------
+
+  [FAILED] PATTERN  24A. Jargon linked to note showing decorative design
+  Answer: PATTERN
+  Tier: --- | Confidence: 0/100
+  Definition: "decorative design"
+  Wordplay type: anagram
+  Components:
+    indicator          jargon                    -> 
+    anagram_fodder     pattern                   -> PATTERN
+  DB Lookups:
+    DB lookups:
+      jargon: syn=CANT,TALK,ARGOT,LINGO,SLANG,PATOIS; ind=anagram?
+      linked: syn=NEAR,NIGH,CLOSE,FLUSH,JOINED,NEARBY,UNITED,AMBIENT,CLOSEST,FENCING,JOINING,NEAREST,RIMMING,TANGENT,VERGING
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      note: syn=TE*,N,DO,FA,LA,ME,MI,MY,RE,TI,UT,AIR,CRY,DOH,EAR; abbr=A*,B,C,D,DO,E*,F,FA,G,LA,MI,N*,NB,RE,SI,SO,SOL,TE*,TI
+      showing: syn=OVERT,RERUN,VISIBLE; ind=hidden
+      decorative: syn=FANCY,ORNATE
+      design: syn=PATTERN*,OK,AIM,END,FEE,FIX,HOW,LAY,OPT,SET,VIP,WAY,AIMS,ANTE,CAST; ind=anagram
+    Definitions:
+      "design" -> PATTERN (definition match)
+  AI Reasoning:
+    Anagram of 'pattern' indicated by 'jargon' gives PATTERN
+  ----------------------------------------------------------------------
+
+  [LOW] TUT  25D. Sound of disapproval from teachers (not half)
+  Answer: TUT
+  Tier: Sonnet | Confidence: 35/100
+  Definition: "Sound of disapproval"
+  Wordplay type: deletion
+  Components:
+    synonym            teachers                  -> TUTORS
+    indicator          not half                  -> 
+  Assembly: deletion — delete ORS from TUTORS(synonym of "teachers")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=0/1 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      sound: syn=DO,A A,ACT,AIR,BAY,CRY,FIT,USE,WAY; ind=homophone
+      disapproval: syn=BOO
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      teachers: syn=DON,ONE,SIR
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO; ind=anagram?,deletion; sounds=knot
+      half: syn=AT,MAD,NUT; ind=deletion
+      sound of: ind=homophone
+      not half: ind=deletion
+  AI Reasoning:
+    TUTORS (teachers) with half the letters deleted gives TUT
+  ----------------------------------------------------------------------
+
+  [LOW] ASLEEP  26A. Author Harper in fancy spa is having a kip?
+  Answer: ASLEEP
+  Tier: Sonnet | Confidence: 25/100
+  Definition: "having a kip"
+  Wordplay type: container
+  Components:
+    synonym            Author Harper             -> LEE
+    indicator          in                        -> 
+    indicator          fancy                     -> 
+    anagram_fodder     spa                       -> ASP
+  Assembly: container — LEE(synonym of "Author Harper") inside ASP("spa")
+  Checks: definition=not in DB, odd position | wordplay_type=container | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      author: syn=MAN,PEN,POE,DAHL,GOD?,HERO,ICON,IDOL,KING,LORD,MANN,SAND,SHAW,SIGN,ALLAH
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      fancy: syn=BE,MY,ARE,BIT,DIG,FAD,HER,HIS,ITS,RED,SEE,TOP,USE,CAKE,FINE; ind=anagram
+      spa: syn=BATH,WELL,HYDRO,AACHEN,HEALTH,RESORT,SPRING
+      is: syn=DO,GE,IL,FOR,HAP,LIE,NOW,PET,PUT,SIT,TAS,USE,BEAR,COME,COOK
+      having: syn=GAIN,GOING,HANDS,CEDING,GIVING,OWNING,SAVING
+      kip: syn=SLEEP*,BED,HAY,Z'S,DOSS,FOUR,LAIR,RACK,REST,WATER,DOZING,REPOSE
+      having a: syn=EYE,DEEP,HAND,JUST,KILL,LOOK,PEEP,RICH,VIEW,WELL
+  AI Reasoning:
+    LEE (Harper Lee) goes inside anagram of 'spa' (A-S-P arranged with gap) to form A-S-LEE-P
+  ----------------------------------------------------------------------
+
+  [FAILED] ENTITLE  27A. Authorise chaps to dispense with money and rank
+  Answer: ENTITLE
+  Tier: --- | Confidence: 0/100
+  Definition: "Authorise"
+  Wordplay type: charade
+  Components:
+    synonym            chaps                     -> NET
+    indicator          to                        -> 
+    indicator          dispense with             -> 
+    abbreviation       money                     -> T
+    synonym            rank                      -> TITLE
+  DB Lookups:
+    DB lookups:
+      authorise: syn=ENTITLE*,OK,OKAY,ALLOW,CLEAR,PERMIT,EMPOWER,ENDORSE,WARRANT
+      chaps: syn=HIS,MEN,BUDS,CATS,CUBS,GEAR,GENT,GUYS,JOES,KIDS,LADS,BUCKS,DUDES,GENTS,JACKS; abbr=gent
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      dispense: syn=ARM,DEAL,HAND,ALLOT,DRUGS,ISSUE,SHARE,SUPPLY,MEASURE
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      money: syn=DON,FIN,LEI,LOB,LSD,ONE,PEG,TEN,TIN,TWO,BILL,BUCK,CASH,CAST,CENT; abbr=BREAD,CASH,DOSH
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      rank: syn=AM,BE,DO,IS,ALL,ARE,BAD,HAP,LIE,OUT,PEG,ROW,SIT,BANK,BARE
+      dispense with: syn=HA,DIKE,DROP,JILT,KILL,SHED,TAKE,CHUCK,DITCH,DRAIN
+      money and: syn=CLUB,BRASSIE
+    Definitions:
+      "Authorise" -> ENTITLE (definition match)
+  AI Reasoning:
+    NET reversed by 'to' gives TEN, then dispense with money (T) leaves EN, plus rank (TITLE) = ENTITLE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SOCIAL  5A. Relating to others in party
+  Answer: SOCIAL
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Relating to others in party"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      relating: ind=anagram?
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      others: syn=AL*,AUKS,ETAL,MATE,REST,EGRET,MATES,NOT US,SPOUSE,GO,ACT,AIR,BAR,BUT,DRY; abbr=O*; ind=parts
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      party: syn=SOCIAL*,DO,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT; abbr=CON,DO,LAB,P
+      relating to: syn=THIS,TIME,JERKY,RENAL,RURAL,SOLAR,SUNNY,TRAIN,USING,ACTING
+    Definitions:
+      "party" -> SOCIAL (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines SOCIAL as both meaning 'relating to others' and being the behavior expected 'in party'
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ATTENDANCESHEET  7D. With day gone, need sent and attached different evidence of taking part
+  Answer: ATTENDANCESHEET
+  Tier: DB Fallback | Confidence: 45/100
+  Wordplay type: anagram
+  Components:
+    literal            sent                      -> SENT
+    literal            attached                  -> ATTACHED
+    literal            need                      -> NEED
+  Assembly: deletion+anagram — delete D from NEED, anagram of SENT+ATTACHED+NEE = ATTENDANCESHEET
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=none identified | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB | yields_check=FAIL: deletion gives=NEE answer=ATTENDANCESHEET | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      day: syn=D,AGE,BIT,BUY,EON,ERA,FRI,SAT,SUN,WED,AGES,BEAT,BUYS,COED,DATE; abbr=D*
+      gone: syn=A1,OK,AGO,BIG,FAB,HOT,LOW,POP,TOO,TOP,A-OK,ARCH,BEAT,BLUE,BODY; ind=deletion
+      need: syn=DO,UP,AIM,EYE,JOB,TAX,THE,BEAR,BEST,BORN,CARE,DAWN,DUTY,FIVE,FORM; sounds=knead,kneed
+      sent: syn=RAPT,SHOT,ELATED,SHIPPED,CONSIGNED,DELIGHTED,ENTRANCED,RAPTUROUS,DISPATCHED,TRANSFERRED,TRANSMITTED,TRANSPORTED; ind=reversal; sounds=cent,scent
+      and: syn=SH*,DO,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN*
+      attached: syn=ON,FIX,SET,FAST,FIRM,FOND,NAME,NEAR,NIGH,SNUG,TAUT,TIED,AFFIX,BOUND,CLOSE
+      different: syn=NEW,JURY,EXTRA,OTHER,PINCH,SPARE,OTHERS,SECOND,SUNDRY,UNLIKE,ANOTHER,DISTANT,DIVERSE,SEVERAL,UNALIKE; ind=anagram
+      evidence: syn=CARD,KNOW,SIGN,PROOF,STATE,TRACE,GROUNDS,SUPPORT,VOUCHER,WITNESS,INDICATE,TESTAMENT,TESTIMONY,EXPRESS OR,VALIDATION
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      part: syn=END*,DO,GO,IT,PT,BIT,CAN,CUT,DIE,GET,JOB,LAY,POP,TIE,USE; abbr=PT,ROLE; ind=anagram,deletion,hidden
+      taking part: abbr=IN
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

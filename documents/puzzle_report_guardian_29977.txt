@@ -1,0 +1,685 @@
+================================================================================
+PUZZLE QUALITY REPORT: guardian #29977
+Generated: 2026-04-10 04:00:49
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      33
+  Assembled:        27/33 (81%)
+    Signature:      1
+    Sig+Enriched:   9
+    Sonnet:         9
+    DB Fallback:    1
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   19  13D, 12A, 14A, 17A, 19D, 20A, 21A, 24D, 26A, 28A, 29A, 4D, 3D, 10A, 11A, 13A, 25D, 7D, 9A
+  Medium (40-79): 5  19A, 2D, 27D, 6D, 8D
+  Low (<40):    3  15D, 16D, 22A
+  Failed:       6  1D, 18D, 22D, 23D, 24A, 5D
+  Average:      76/100
+
+COST: $1.9639 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (28 entries)
+------------------------------------------------------------
+  TEMPORISE: "stall" -> TEMPORISE  (missing from definition_answers_augmented)
+  SHELL: "Hull" -> SHELL  (missing from definition_answers_augmented)
+  MALTOSE: "sugar" -> MALTOSE  (missing from definition_answers_augmented)
+  PLAINTIFF: "Claimant's" -> PLAINTIFF  (missing from definition_answers_augmented)
+  IMPRESARIO: "Showman," -> IMPRESARIO  (missing from definition_answers_augmented)
+  IDEA: "Suggestion" -> IDEA  (missing from definition_answers_augmented)
+  DUETO: "Because" -> DUETO  (missing from definition_answers_augmented)
+  AFTER: "tremors" -> AFTER  (missing from definition_answers_augmented)
+  ABSCONDING: "Quickly" -> ABSCONDING  (missing from definition_answers_augmented)
+  YALTA: "conference site" -> YALTA  (missing from definition_answers_augmented)
+  IOLANTHE: "Musical show" -> IOLANTHE  (missing from definition_answers_augmented)
+  ONE: "Individual taking ecstasy" -> ONE  (missing from definition_answers_augmented)
+  SCOTCH: "Destroy spirit" -> SCOTCH  (missing from definition_answers_augmented)
+  CHOLERA: "Sickness" -> CHOLERA  (missing from definition_answers_augmented)
+  CAESAR: "Emperor" -> CAESAR  (missing from definition_answers_augmented)
+  ELICIT: "Draw Forth" -> ELICIT  (missing from definition_answers_augmented)
+  BONAPARTE: "royal family" -> BONAPARTE  (missing from definition_answers_augmented)
+  PARK: "recreation area" -> PARK  (missing from definition_answers_augmented)
+  EDDO: "Revolutionary cut more unusual root vegetable" -> EDDO  (missing from definition_answers_augmented)
+  POSE: "Claim" -> POSE  (missing from definition_answers_augmented)
+  DECOMPOSE: "Go off" -> DECOMPOSE  (missing from definition_answers_augmented)
+  ABSCONDING: leaving -> ABS  (missing from abbreviations)
+  ABSCONDING: relationship -> CON  (missing from abbreviations)
+  YALTA: War -> A  (missing from abbreviations)
+  CHOLERA: excrement -> CHOLER  (missing from synonyms_pairs)
+  CHOLERA: hovel -> A  (missing from abbreviations)
+  PARK: animal sanctuary -> ARK  (missing from abbreviations)
+  DECOMPOSE: Geordie TV presenter, -> DEC  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (4)
+------------------------------------------------------------
+  YALTA = 16 (-38/100): AI=anagram, assembled=container
+  CHOLERA = 22 (-10/100): AI=container, assembled=charade
+  GIFT = 27 (65/100): AI=acrostic, assembled=charade
+  MEDIOCRE = 7 (80/100): AI=anagram, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  ABSCONDING = 15 (5/100): no pieces verified in DB
+  CHOLERA = 22 (-10/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (1)
+------------------------------------------------------------
+  YALTA = 16 (-38/100): def="conference site" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  1. Suggestion from middleman oddly ignored = IDEA
+  18. Musical show Oscar’s promoted in one advance article = IOLANTHE
+  22. Emperor announced what guards should do to escaping woman? = CAESAR
+  23. Draw Forth Bridge’s terminus, OK? = ELICIT
+  24. Perhaps rib cracked by a silly prat in royal family = BONAPARTE
+  5. Infiltrate a couple’s enthralling exchange at last = PERMEATE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  7/33  13A, 13A, 14A, 17A, 26A, 28A, 4D
+  Type mismatch:         4  7D, 16D, 22D, 27D
+  Unverified explain.:   2  15D, 22D
+  Weak definition:       1  16D
+  DB gap:                20  9A, 10A, 11A, 12A, 19A, 20A, 21A, 24A, 29A, 1D, 2D, 3D, 6D, 8D, 15D, 16D, 18D, 22D, 23D, 25D
+  Failed:                6  24A, 1D, 5D, 18D, 22D, 23D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   13D  EPSOM         Where to find classic content to keep, somehow (5)
+                      ---  [HIGH]
+   12A  TEMPORISE     Rate increase for stall (9)
+                      TEMPO (synonym of "Rate") + RISE (synonym of "increase"); definition: "stall"  [HIGH]
+   14A  ANARCHY       Some welcoming chief’s utter lawlessness (7)
+                      ---  [HIGH]
+   17A  SLIER         Small untruth by rector is more cunning (5)
+                      ---  [HIGH]
+   19D  OVERRIPE      I reprove criminal on the way out (8)
+                      anagram of IREPROVE ("I reprove") [anagram: "criminal"] = OVERRIPE  [HIGH]
+   20A  SHELL         Husband visiting market in Hull (5)
+                      H (synonym of "Husband") + SELL (synonym of "market"); definition: "Hull"  [HIGH]
+   21A  MALTOSE       Most ale breaks down sugar (7)
+                      anagram of MOSTALE ("Most ale") [anagram: "breaks"] = MALTOSE; definition: "sugar"  [HIGH]
+   24D  BOOK          Jeer King James, perhaps (4)
+                      ---  [HIGH]
+   26A  DOING         Working at home is boring Harry (5)
+                      ---  [HIGH]
+   28A  OTHER         Different native losing millions (5)
+                      ---  [HIGH]
+   29A  PLAINTIFF     Claimant’s straightforward argument (9)
+                      PLAIN (synonym of "straightforward") + TIFF (synonym of "argument"); definition: "Claimant's"  [HIGH]
+    4D  FOETUS        Supply of suet for juvenile wannabe? (6)
+                      ---  [HIGH]
+    3D  IMPRESARIO    Showman, one playing Paris and Rome (10)
+                      anagram of PARISROME ("Paris and Rome") + I (synonym of "one") = IMPRESARIO; definition: "Showman,"  [HIGH]
+    1D  IDEA          Suggestion from middleman oddly ignored (4)
+                      ---  [FAIL]
+   10A  DUETO         Because of two performers, start to obfuscate (3,2)
+                      DUET (synonym of "two performers,") + O (first letter of "obfuscate") [first letter: "start"]; definition: "Because"  [HIGH]
+   11A  AFTER         Following fart, Earth tremors (5)
+                      anagram of FART ("fart,") + E (abbreviation of "Earth") [anagram: "Following"] = AFTER; definition: "tremors"  [HIGH]
+   13A  EPHESUS       Man stopping agitated suspect leaving court in ancient city (7)
+                      delete CT from SUSPECT, anagram of SUSPE+HE(synonym of "man") = EPHESUS  [HIGH]
+   15D  ABSCONDING    Quickly leaving a relationship to keep some credibility, primarily (10)
+                      ABS(abbr. "leaving") + CON(abbr. "relationship") + DING(hidden in "credibility")  [LOW]
+   16D  YALTA         Crimean War conference site boosted at city close to Turkey (5)
+                      Y(Y reversed, "Turkey") + L(core of "close") inside AT + A(synonym of "War")  [LOW]
+   18D  IOLANTHE      Musical show Oscar’s promoted in one advance article (8)
+                      ---  [FAIL]
+   19A  ONE           Individual taking ecstasy (3)
+                      cryptic definition  [MED]
+    2D  SCOTCH        Destroy spirit (6)
+                      cryptic definition  [MED]
+   22A  CHOLERA       Sickness resulting from excrement, mostly, around hovel (7)
+                      CHOLER(synonym of "excrement") + A(abbr. "hovel")  [LOW]
+   22D  CAESAR        Emperor announced what guards should do to escaping woman? (6)
+                      ---  [FAIL]
+   23D  ELICIT        Draw Forth Bridge’s terminus, OK? (6)
+                      ---  [FAIL]
+   24A  BONAPARTE     Perhaps rib cracked by a silly prat in royal family (9)
+                      ---  [FAIL]
+   25D  PARK          Pressure on animal sanctuary to provide recreation area (4)
+                      P (synonym of "Pressure") + ARK (synonym of "animal sanctuary"); definition: "recreation area"  [HIGH]
+   27D  GIFT          Present introduction from Guardian and two shelfmates (4)
+                      G(first letter of "Guardian") + I(first letter of "Independent") + F(first letter of "Financial") + T(first letter of "Times")  [MED]
+    5D  PERMEATE      Infiltrate a couple’s enthralling exchange at last (8)
+                      ---  [FAIL]
+    6D  EDDO          Revolutionary cut more unusual root vegetable (4)
+                      cryptic definition  [MED]
+    7D  MEDIOCRE      Average doctor taking nothing on (8)
+                      O(abbr. "nothing") inside MEDIC(synonym of "doctor") + RE(abbr. "on")  [HIGH]
+    8D  POSE          Claim written language doesn’t include the letter R (4)
+                      delete R from PROSE  [MED]
+    9A  DECOMPOSE     Go off Geordie TV presenter, old male model (9)
+                      DEC (synonym of "Geordie TV presenter,") + O (synonym of "old") + M (synonym of "male") + POSE (synonym of "model"); definition: "Go off"  [HIGH]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] EPSOM  13D. Where to find classic content to keep, somehow
+  Answer: EPSOM
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden in "ke EPSOM ehow"
+  ----------------------------------------------------------------------
+
+  [HIGH] TEMPORISE  12A. Rate increase for stall
+  Answer: TEMPORISE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "stall"
+  Wordplay: charade
+  Explanation: TEMPO (synonym of "Rate") + RISE (synonym of "increase"); definition: "stall"
+  ----------------------------------------------------------------------
+
+  [HIGH] ANARCHY  14A. Some welcoming chief’s utter lawlessness
+  Answer: ANARCHY
+  Tier: --- | Confidence: 100/100
+  Human explanation: ANY (synonym="Some") + ARCH (synonym="chief's") = ANARCHY; definition: "lawlessness"
+  ----------------------------------------------------------------------
+
+  [HIGH] SLIER  17A. Small untruth by rector is more cunning
+  Answer: SLIER
+  Tier: --- | Confidence: 100/100
+  Human explanation: S (abbreviation="Small") + LIE (synonym="untruth") + R (first_letter="rector") = SLIER; definition: "more cunning"
+  ----------------------------------------------------------------------
+
+  [HIGH] OVERRIPE  19D. I reprove criminal on the way out
+  Answer: OVERRIPE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: anagram
+  Explanation: anagram of IREPROVE ("I reprove") [anagram: "criminal"] = OVERRIPE
+  ----------------------------------------------------------------------
+
+  [HIGH] SHELL  20A. Husband visiting market in Hull
+  Answer: SHELL
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Hull"
+  Wordplay: charade
+  Explanation: H (synonym of "Husband") + SELL (synonym of "market"); definition: "Hull"
+  ----------------------------------------------------------------------
+
+  [HIGH] MALTOSE  21A. Most ale breaks down sugar
+  Answer: MALTOSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "sugar"
+  Wordplay: anagram
+  Explanation: anagram of MOSTALE ("Most ale") [anagram: "breaks"] = MALTOSE; definition: "sugar"
+  ----------------------------------------------------------------------
+
+  [HIGH] BOOK  24D. Jeer King James, perhaps
+  Answer: BOOK
+  Tier: --- | Confidence: 100/100
+  Human explanation: BOO (synonym="Jeer") + K (abbreviation="King") = BOOK; definition: "James, perhaps"
+  ----------------------------------------------------------------------
+
+  [HIGH] DOING  26A. Working at home is boring Harry
+  Answer: DOING
+  Tier: --- | Confidence: 100/100
+  Human explanation: DOG (synonym="at home") + IN (abbreviation="home") = DOING; definition: "Working"
+  ----------------------------------------------------------------------
+
+  [HIGH] OTHER  28A. Different native losing millions
+  Answer: OTHER
+  Tier: --- | Confidence: 100/100
+  Human explanation: MOTHER (synonym="native") with deletion = OTHER; definition: "Different"
+  ----------------------------------------------------------------------
+
+  [HIGH] PLAINTIFF  29A. Claimant’s straightforward argument
+  Answer: PLAINTIFF
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Claimant's"
+  Wordplay: charade
+  Explanation: PLAIN (synonym of "straightforward") + TIFF (synonym of "argument"); definition: "Claimant's"
+  ----------------------------------------------------------------------
+
+  [HIGH] FOETUS  4D. Supply of suet for juvenile wannabe?
+  Answer: FOETUS
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of OF + SUET = FOETUS
+  ----------------------------------------------------------------------
+
+  [HIGH] IMPRESARIO  3D. Showman, one playing Paris and Rome
+  Answer: IMPRESARIO
+  Tier: Signature | Confidence: 80/100
+  Definition: "Showman,"
+  Wordplay: anagram + charade
+  Explanation: anagram of PARISROME ("Paris and Rome") + I (synonym of "one") = IMPRESARIO; definition: "Showman,"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [FAILED] IDEA  1D. Suggestion from middleman oddly ignored
+  Answer: IDEA
+  Tier: --- | Confidence: 0/100
+  Definition: "Suggestion"
+  Wordplay type: deletion
+  Components:
+    literal            middleman                 -> MIDDLEMAN
+    indicator          oddly                     -> 
+    indicator          ignored                   -> 
+  DB Lookups:
+    DB lookups:
+      suggestion: syn=CUE,CLUE,HINT,LEAD,NOTE,OF A; ind=container?
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      middleman: syn=GO
+      oddly: ind=anagram,parts
+      ignored: syn=CUT,END,IDLE,VOID; ind=deletion?
+    Definitions:
+      "Suggestion" -> IDEA (definition match)
+  AI Reasoning:
+    Delete odd-positioned letters from MIDDLEMAN (M-D-L-M-N) to keep even-positioned letters I-D-E-A
+  ----------------------------------------------------------------------
+
+  [HIGH] DUETO  10A. Because of two performers, start to obfuscate
+  Answer: DUETO
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Because"
+  Wordplay: acrostic + charade
+  Explanation: DUET (synonym of "two performers,") + O (first letter of "obfuscate") [first letter: "start"]; definition: "Because"
+  ----------------------------------------------------------------------
+
+  [HIGH] AFTER  11A. Following fart, Earth tremors
+  Answer: AFTER
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "tremors"
+  Wordplay: anagram + charade
+  Explanation: anagram of FART ("fart,") + E (abbreviation of "Earth") [anagram: "Following"] = AFTER; definition: "tremors"
+  ----------------------------------------------------------------------
+
+  [HIGH] EPHESUS  13A. Man stopping agitated suspect leaving court in ancient city
+  Answer: EPHESUS
+  Tier: DB Fallback | Confidence: 80/100
+  Definition: "ancient city"
+  Wordplay type: anagram
+  Components:
+    literal            suspect                   -> SUSPECT
+    synonym            man                       -> HE
+  Assembly: deletion+anagram — delete CT from SUSPECT, anagram of SUSPE+HE(synonym of "man") = EPHESUS
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=SUSPE answer=EPHESUS | pieces_validated=2/2 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      man: syn=HE*,ED,AID,BOD,BOY,BUD,CAT,COP,CUB,EGG,GUY,IAN,JOE,KEN,KID; abbr=AL,DAN,ED,HE*,IAN,MA,REG,RON,RORY,ROY,TED,TOM
+      stopping: syn=DYING,GOING,ICING,COMING,EATING,EBBING,ENDING,FOXING,IRKING,MAKING,MAZING,MOVING,OFFING,POSING,RILING; ind=container?
+      agitated: syn=AIL,COY,SHY,JOLT,MEEK,STIR,UNDO,ALARM,CHURN,FAZED,HETUP,JUMPY,NERVY,QUAKE,SHAKE; ind=anagram
+      suspect: syn=RUM,FEEL,FISH,IFFY,PERP,THUG,CROOK,DODGY,DOUBT,FUNNY,GUESS,OPINE,SHADY,ASSUME,DUBIOU; ind=anagram; fodder=SUSPECT(5/7 anagram match)
+      leaving: syn=LAST,FINAL,GOING,CEDING,EGRESS,EXODUS,GIVING,HAVING,NOTICE,SAVING,BEARING,CLOSING,EXITING,FEEDING,HANDING; ind=deletion?
+      court: syn=CT,ACT,ASK,BAR,BUY,FIT,GET,OWN,WOO,ASKS,BEAK,BEAR,CALL,CARE,CULL; abbr=CT,ct
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      ancient: syn=AGE,DRY,OLD,AGED,ARID,DRAB,DULL,FLAT,HOAR,LATE,LONG,OLD,,ONCE,OVER,PAST
+      city: syn=EPHESUS*,EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA; abbr=EC,LA,NY,ec; ind=anagram
+      ancient city: abbr=UR
+      ancient city: syn=EPHESUS*,UR,CITY,ROLE,TROY,PETRA,SPARTA,THEBES,KNOSSOS
+    Definitions:
+      "city" -> EPHESUS (definition match)
+      "ancient city" -> EPHESUS (definition match)
+  AI Reasoning:
+    SUSPECT minus CT (court) gives SUSPE, anagrammed to EPSUS, with HE (man) inserted to make EPHESUS
+  ----------------------------------------------------------------------
+
+  [LOW] ABSCONDING  15D. Quickly leaving a relationship to keep some credibility, primarily
+  Answer: ABSCONDING
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Quickly"
+  Wordplay type: charade
+  Components:
+    abbreviation       leaving                   -> ABS
+    abbreviation       relationship              -> CON
+    indicator          to keep                   -> 
+    indicator          some                      -> 
+    hidden             credibility               -> DING
+    indicator          primarily                 -> 
+  Assembly: charade — ABS(abbr. "leaving") + CON(abbr. "relationship") + DING(hidden in "credibility")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      quickly: syn=HOT,CHOP,FAST,KEEN,SOON,ALERT,APACE,BRISK,DIZZY,FLEET,HASTY,NIPPY,QUICK,RAPID,READY
+      leaving: syn=LAST,FINAL,GOING,CEDING,EGRESS,EXODUS,GIVING,HAVING,NOTICE,SAVING,BEARING,CLOSING,EXITING,FEEDING,HANDING; ind=deletion?
+      relationship: syn=KIN,TIE,BOND,JOIN,FLING,RATIO,UNION,AFFAIR,HOOKUP,LINKUP,TIE-UP,BEARING,DELIGHT,KINSHIP,LIAISON
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      keep: syn=GO,AND,BAG,MAN,MET,WAR,BILL,FILL,FOOT,FORT,HACK,HANG,HAVE,HOLD,LAST
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A*,PART,S*; ind=hidden; sounds=sum
+      primarily: syn=BY,AND,LAIC,LAIR,LARGE,MAINLY,MOSTLY,CHIEFLY,FIRSTLY,GENERAL,OVERALL,BASICALLY,GENERALLY,ABSOLUTELY,ALTOGETHER; ind=acrostic,parts
+      a relationship: syn=AGENT,AMOUR,FLING,UNION,AFFAIR,LIAISON,TROUBLE
+      to keep: ind=insertion
+      to keep: syn=TAP,CHECK,HEATH,TRACK,WATCH,GOANNA,MONITOR,WATCHDOG,REGULATOR,SUPERVISE
+  AI Reasoning:
+    ABS (leaving=absent) + CON (relationship=connection) + DING (hidden in creDIbility) = ABSCONDING
+  ----------------------------------------------------------------------
+
+  [LOW] YALTA  16D. Crimean War conference site boosted at city close to Turkey
+  Answer: YALTA
+  Tier: Sonnet | Confidence: -38/100
+  Definition: "conference site"
+  Wordplay type: anagram
+  Components:
+    synonym            War                       -> A
+    indicator          boosted                   -> 
+    literal            at                        -> AT
+    core_letters       close                     -> L
+    indicator          to                        -> 
+    reversal           Turkey                    -> Y
+  Assembly: container — Y(Y reversed, "Turkey") + L(core of "close") inside AT + A(synonym of "War")
+  Checks: definition=not in DB, odd position | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled | yields_check=pass | pieces_validated=2/4 (50%) | unverified_claims=1 synonym/abbr not in DB | nonsense_words=not real words: A | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      war: syn=TO,CRY,HOT,RAW,DUEL,FACE,FEND,HAWK,KEEP,LOOT,RACE,RAID,RUSH,SACK,SAVE; sounds=wore
+      conference: syn=AND,ARC,GET,WAY,AXIS,BLOC,GIVE,HIKE,LINE,PATH,SIDE,SPIN,TALK,TOWN,TREK
+      site: syn=ITS,PLOT,SPOT,LOCUS,PLACE,POINT,SCENE,VENUE,WHERE; sounds=cite,sight
+      at: syn=IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      city: syn=EC,LA,NY,ELY,RIO,AGRA,BAKU,BATH,BURG,DOHA,EDGE,GRAZ,LAND,LIMA,NICE; abbr=EC,LA,NY,ec; ind=anagram
+      close: syn=BY,GO,IN,ME,OK,ARC,BOW,CAN,DAM,DIE,END,FIX,GAS,JAM,LET; abbr=C; ind=parts; sounds=clothes
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      turkey: syn=BUG,DUD,FAN,GIT,NUT,ALSO,BERK,BIRD,BUFF,DOLT,FARE,FLOP,FOOL,HALF,HEAD
+      close to: ind=parts
+      close to: syn=BY,NEAR,NEXT,OR SO
+  AI Reasoning:
+    War+at+part of close+reversed Turkey gives letters A+A+T+L+Y which anagram (boosted) to YALTA
+  ----------------------------------------------------------------------
+
+  [FAILED] IOLANTHE  18D. Musical show Oscar’s promoted in one advance article
+  Answer: IOLANTHE
+  Tier: --- | Confidence: 0/100
+  Definition: "Musical show"
+  Wordplay type: charade
+  Components:
+    abbreviation       one                       -> I
+    synonym            advance                   -> LOAN
+    synonym            article                   -> THE
+    indicator          promoted in               -> 
+  DB Lookups:
+    DB lookups:
+      musical: syn=CAT,CATS,HAIR,SHOW,ANNIE,CHESS,EVITA,LYRIC,POPPY,SWEET,TONAL,DULCET,MELLOW,OLIVER,CHICAGO
+      show: syn=AD,AX,ACT,ADS,AIR,CAN,JOY,PUT,TOP,ACTS,AIRS,AWAY,BILL,COME,EXPO; abbr=S
+      promoted: syn=UP,CUT,GREW,PARED,BOBBED,DOCKED,NIPPED,POLLED,PRUNED,PUSHED,PUT UP,RAISED,REARED,SHAVED,TENDED; ind=reversal?
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      one: syn=AN*,I,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O*; sounds=won
+      advance: syn=GO,UP,AGE,BAR,BED,GET,JOB,LOA,RAY,SUB,WAY,BEAM,COME,EASY,FARE
+      article: syn=AN*,THE*,A,ITEM,ESSAY,FAITH,PAPER,PIECE,THEME,THING,WRITE,BELIEF,CREDIT,OBJECT,THEATRE; abbr=A*,AN*,THE*
+      musical show: syn=WORK,DRAMA,MAYBE,OPERA,PERHAPS,OPERETTA,PATIENCE
+      in one: syn=COMMON,PUBLIC,UNITED,ALIGNED,EMERGED,AT HEART,COMBINED
+  AI Reasoning:
+    I + LOAN + THE = ILOANTHE, then Oscar (O) is promoted forward two positions to give IOLANTHE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ONE  19A. Individual taking ecstasy
+  Answer: ONE
+  Tier: Sonnet | Confidence: 40/100
+  Definition: "Individual taking ecstasy"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      individual: syn=ONE*,BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,SON; ind=anagram?
+      taking: syn=DAY; ind=container
+      ecstasy: syn=E,JOY; abbr=E*; ind=anagram?,container?
+    Definitions:
+      "Individual" -> ONE (definition match)
+  AI Reasoning:
+    The phrase 'Individual taking ecstasy' cryptically describes someone who is 'on one' (slang for being on drugs), which sounds like ONE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] SCOTCH  2D. Destroy spirit
+  Answer: SCOTCH
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Destroy spirit"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      destroy: syn=DO,GUN,BEAT,BEST,DASH,FELL,KILL,LICK,PULL,RAZE,RUIN,SEAT,SLAY,TAKE,TRIM; ind=anagram
+      spirit: syn=DI,EG,RUM,BRIO,ELAN,GROG,MIND,MOOD,PERI,DEMON,DJINN,DRINK,DRYAD,ETHOS,FAIRY; abbr=GIN,GO,RUM
+    Definitions:
+      "spirit" -> SCOTCH (definition match)
+  AI Reasoning:
+    The entire clue cryptically defines SCOTCH, which means both 'to destroy' and 'whisky spirit'
+  ----------------------------------------------------------------------
+
+  [LOW] CHOLERA  22A. Sickness resulting from excrement, mostly, around hovel
+  Answer: CHOLERA
+  Tier: Sonnet | Confidence: -10/100
+  Definition: "Sickness"
+  Wordplay type: container
+  Components:
+    synonym            excrement                 -> CHOLER
+    indicator          mostly                    -> 
+    indicator          around                    -> 
+    abbreviation       hovel                     -> A
+  Assembly: charade — CHOLER(synonym of "excrement") + A(abbr. "hovel")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_mismatch=AI=container, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      sickness: syn=TRUE,MALADY,NAUSEA,AILMENT,DISEASE,ILLNESS,MALAISE,MORNING,TROUBLE; abbr=S
+      resulting: syn=ENDING
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      excrement: syn=DIRT,DUNG,POOP,SOIL,FECES,NIGHT,SLOPS,WASTE,ORDURE,RECALL,REPEAL,CALLING,DOO-DOO,EXCRETA
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL; ind=deletion,parts
+      around: syn=BY,CA,IN,OR,TO,OUT,SAY,BACK,BEAT,BEST,CHUM,DOOR,DRUB,HARD,HUNT; abbr=CA; ind=anagram,container,reversal
+      hovel: syn=DUMP,TOWN,SHACK
+  AI Reasoning:
+    CHOLER (bile/anger as type of excrement) contains A (hovel=abode) to give CHOLERA
+  ----------------------------------------------------------------------
+
+  [FAILED] CAESAR  22D. Emperor announced what guards should do to escaping woman?
+  Answer: CAESAR
+  Tier: --- | Confidence: 0/100
+  Definition: "Emperor"
+  Wordplay type: homophone
+  Components:
+    synonym            what guards should do     -> SEIZE
+    synonym            woman                     -> HER
+    indicator          announced                 -> 
+  DB Lookups:
+    DB lookups:
+      emperor: syn=CAESAR*,KING,MING,NERO,OTTO,SAY?,TSAR,RULER,TITUS,KAISER,LEADER,MIKADO,TRAJAN
+      announced: syn=OPEN,POST,RIFE,AIRED,BLARE,BLAZE,FLASH,SOUND,HERALD,POSTED,PUBLIC,SHARED,SPOKEN,STATED; ind=homophone
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      guards: syn=RUNS,CURBS,FENDS,FILLS,HOLDS,KEEPS,MEETS,RULES,STOWS,TAMES,TENDS,WARDS,CHECKS,COVERS,FENCES
+      should: syn=DO,UP,EYE,BEST,DAWN,FORM,HAVE,LIFT,MUST,NEED,NONE,RISE,SOAR,BEGIN,BREAK
+      do: syn=BE,GO,IS,MY,PI,411,A A,ACT,ADO,ALA,AND,ARE,BED,BET,BUY; abbr=C*,PARTY; sounds=dew,due
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      escaping: syn=END,FLYING,TAKING; ind=deletion?
+      woman: syn=DI,ADA,ANN,DEB,ENA,EVA,EVE,HER,IDA,MRS,SHE,SUE,VAL,ANNA,ANNE; abbr=HER,SHE,SUE,W
+    Definitions:
+      "Emperor" -> CAESAR (definition match)
+  AI Reasoning:
+    SEIZE HER (what guards do to escaping woman) sounds like CAESAR when announced
+  ----------------------------------------------------------------------
+
+  [FAILED] ELICIT  23D. Draw Forth Bridge’s terminus, OK?
+  Answer: ELICIT
+  Tier: --- | Confidence: 0/100
+  Definition: "Draw Forth"
+  Wordplay type: hidden
+  Components:
+    hidden             Bridge's terminus, OK     -> ELICIT
+  DB Lookups:
+    DB lookups:
+      draw: syn=DO,A A,ASS,BAG,GET,GUT,LEG,LUG,SET,TAP,TIE,TOW,TUG,USE,WIN
+      forth: syn=ON,AFORE,AHEAD,ALONG,RIVER,A HEAD,A LONG,AHEAD?,BEFORE,ONWARD; sounds=fourth
+      terminus: syn=END,HOPE,LIMIT,OF THE; ind=parts
+      ok: syn=AY,EV,SO,YO,ALL,AYE,END,FAB,FIX,HOT,OPT,OUT,SET,TOP,YEA
+      draw forth: syn=ELICIT*,TO,EVOKE,OBTAIN
+    Definitions:
+      "Draw Forth" -> ELICIT (definition match)
+  AI Reasoning:
+    ELICIT is hidden within the consecutive letters of 'Bridge's terminus, OK'
+  ----------------------------------------------------------------------
+
+  [FAILED] BONAPARTE  24A. Perhaps rib cracked by a silly prat in royal family
+  Answer: BONAPARTE
+  Tier: --- | Confidence: 0/100
+  Definition: "royal family"
+  Wordplay type: anagram
+  Components:
+    indicator          perhaps                   -> 
+    anagram_fodder     rib                       -> RIB
+    indicator          cracked                   -> 
+    anagram_fodder     a                         -> A
+    indicator          silly                     -> 
+    anagram_fodder     prat                      -> PRAT
+    anagram_fodder     in                        -> IN
+    literal            royal                     -> O
+  DB Lookups:
+    DB lookups:
+      perhaps: syn=CAT,GOD,SAY,CARD,CHAT,DOLL,EZRA,FISH,FORT,IRON,PORT,ROOM,SASH,SHOE,SUPS; ind=anagram,parts
+      rib: syn=GAG,KID,ONE,PUT,YUK,BOFF,BUTT,JOKE,JOSH,MARK,MOCK,OF A,QUIP,SHAM,CHAFF
+      cracked: syn=APE,DID,FEY,HIT,MAD,ODD,OFF,RAN,WUD,AMOK,BATS,BRED,DAFT,EDGY,LIKE; ind=anagram
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      silly: syn=MAD,ODD,DAFT,GAGA,GOON,HALF,LIKE,WEAK,ZANY,ADDLE,APISH,BALMY,BARMY,BATTY,CRAZY; ind=anagram
+      prat: syn=FOOL,KNOW,IDIOT,AIRHEAD,AIRHEADS,BUTTOCKS
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      royal: syn=R,ER,WET,COZY,DULL,KING,MAAM,MILD,SAIL,SNAP,SNUG,SOFT,WEAK,BALMY,BLAND; abbr=ER,R*
+      family: syn=DOC,EMT,KIN,NUN,PAL,SET,ABBÉ,ALLY,CHUM,CLAN,CURÉ,DEAN,DOCS,EMTS,FOLK; abbr=KIN
+      royal family: syn=HAN,LINE,MARY,MING,HOUSE,ROYAL,STUDY,TUDOR,TUDORS,DYNASTY
+  AI Reasoning:
+    Anagram of 'rib a prat in' + O from royal gives letters that rearrange to BONAPARTE
+  ----------------------------------------------------------------------
+
+  [HIGH] PARK  25D. Pressure on animal sanctuary to provide recreation area
+  Answer: PARK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "recreation area"
+  Wordplay: charade
+  Explanation: P (synonym of "Pressure") + ARK (synonym of "animal sanctuary"); definition: "recreation area"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] GIFT  27D. Present introduction from Guardian and two shelfmates
+  Answer: GIFT
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Present"
+  Wordplay type: acrostic
+  Components:
+    indicator          introduction              -> 
+    first_letter       Guardian                  -> G
+    first_letter       Independent               -> I
+    first_letter       Financial                 -> F
+    first_letter       Times                     -> T
+  Assembly: charade — G(first letter of "Guardian") + I(first letter of "Independent") + F(first letter of "Financial") + T(first letter of "Times")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=acrostic, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=4/4 (100%) | fodder_in_clue=missing: ['independent', 'financial', 'times']
+  DB Lookups:
+    DB lookups:
+      present: syn=GIFT*,IN,ARM,HOT,MOD,NEW,NOW,WAY,BALL,GIVE,HAND,HERE,HOST,RILL,SHOW
+      introduction: syn=JOB,USE,DUTY,HAND,PART,POST,ROLE,TASK,WORK; ind=acrostic,parts
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A,EX,OF; ind=anagram?,hidden,reversal
+      guardian: syn=DAD
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      two: syn=II,XL,BIT,DAB,DIS,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK; abbr=II; sounds=to,too
+    Definitions:
+      "Present" -> GIFT (definition match)
+  AI Reasoning:
+    Take first letters from Guardian newspaper and two shelfmates (Independent, Financial Times) to spell GIFT
+  ----------------------------------------------------------------------
+
+  [FAILED] PERMEATE  5D. Infiltrate a couple’s enthralling exchange at last
+  Answer: PERMEATE
+  Tier: --- | Confidence: 0/100
+  DB Lookups:
+    DB lookups:
+      infiltrate: syn=WORK,ENTER
+      enthralling: syn=TOTING,BEARING,BUSYING,CARTING,ELATING,EXILING,HAULING,LUGGING,PACKING,RAPPING,SENDING,BEMUSING,CARRYING,ENGAGING,FERRYING; ind=container
+      exchange: syn=DO,AND,BID,BOX,BUY,COP,DAY,GET,TEN,WIN,CHAT,COED,COPE,FARE,GAIN; ind=anagram
+      at: syn=EAT*,IN,BED,EAR,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE,FOOT; ind=acrostic,anagram?,parts
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      at last: ind=parts
+      at last: syn=LATER,TRIPE,INTIME,BALONEY,FINALLY,RUBBISH,SOMEDAY,COBBLERS,DESSERTS,NONSENSE
+    Definitions:
+      "Infiltrate" -> PERMEATE (definition match)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EDDO  6D. Revolutionary cut more unusual root vegetable
+  Answer: EDDO
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Revolutionary cut more unusual root vegetable"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      revolutionary: syn=CHE,RED,LEFT,TROT,TSAR; ind=anagram,reversal
+      cut: syn=DO*,GO,AXE,BOB,CAN,DIE,DIG,DIS,END,GET,HEW,JOB,LOP,MOW,NIP; ind=deletion,hidden,parts
+      more: syn=SO,EAT,FAR,HIP,TOO,YET,ALSO,CHEW,CHIC,ELSE,FRET,FULL,INTO,LIKE,MINT
+      unusual: syn=MAD,ODD,RUM,THE,WAY,RARE,WEAK,WILD; abbr=NEW; ind=anagram
+      root: syn=BE,BUM,FIT,NET,NUB,PUT,RIG,SUM,ALSO,BASE,BEND,BOAT,BUNS,BUTT,CORE; ind=parts; sounds=route
+      vegetable: syn=PEA,BEAN,BEET,FOOD,KALE,LEEK,NEEP,OKRA,SPUD
+      root vegetable: syn=VEG,ROOT
+    Definitions:
+      "vegetable" -> EDDO (definition match)
+  AI Reasoning:
+    The entire clue serves as a cryptic description of EDDO, as standard cryptic mechanisms cannot produce the required letters (no D's in wordplay)
+  ----------------------------------------------------------------------
+
+  [HIGH] MEDIOCRE  7D. Average doctor taking nothing on
+  Answer: MEDIOCRE
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Average"
+  Wordplay type: anagram
+  Components:
+    synonym            doctor                    -> MEDIC
+    indicator          taking                    -> 
+    abbreviation       nothing                   -> O
+    abbreviation       on                        -> RE
+    indicator          doctor                    -> 
+  Assembly: container — O(abbr. "nothing") inside MEDIC(synonym of "doctor") + RE(abbr. "on")
+  Checks: definition=confirmed in DB | wordplay_type=container | type_mismatch=AI=anagram, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      average: syn=MEDIOCRE*,SO,CUT,PAR,RUN,THE,MEAN,NORM,ANGER,MEAN?,TO BE,COMMON,COURSE,DEMEAN,FACTOR
+      doctor: syn=DR,GP,MB,MD,MO,DOC,DON,EMT,FIT,FIX,HAG,HEX,PUT,RIG,VET; abbr=BM,D*,DR,GP,MB,MO; ind=anagram
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      nothing: syn=O,FA,NO,OF,OH,ON,NIL,NIX,PUT,TWO,ZIP,DODO,DOLT,DOPE,DORK; abbr=NIL,O*
+      on: syn=RE*,AS,OF,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE*,S
+    Definitions:
+      "Average" -> MEDIOCRE (definition match)
+  AI Reasoning:
+    MEDIC (doctor) taking O (nothing) and RE (on) gives MEDICORE, then anagram to get MEDIOCRE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] POSE  8D. Claim written language doesn’t include the letter R
+  Answer: POSE
+  Tier: Sonnet | Confidence: 65/100
+  Definition: "Claim"
+  Wordplay type: deletion
+  Assembly: deletion — delete R from PROSE
+  Note: dropped piece 1
+  Checks: definition=position OK (start/end of clue) | wordplay_type=deletion | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass (deletion verified) | pieces_validated=no pieces to validate | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      claim: syn=DO,GO,A A,BET,DUN,LAY,PUT,AVER,AVOW,BEAR,BORN,CALL,CASE,DIBS,FELL
+      written: ind=reversal
+      language: syn=IDO,CANT,ERSE,INCA,JIVE,SHOP,TALK,THAI,TUPI,URDU
+      include: syn=ADD,BOX,PEN,BALL,CAGE,TAKE,WALL; ind=container?
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T,TH,UP,YE
+      letter: syn=MU,ETA,GEE,INK,PEN,PSI,RHO,TAU,TEA,BETA,CARD,CUSS,IOTA,MAIL,MEMO; abbr=A,B,N
+  AI Reasoning:
+    PROSE (written language) with R removed gives POSE
+  ----------------------------------------------------------------------
+
+  [HIGH] DECOMPOSE  9A. Go off Geordie TV presenter, old male model
+  Answer: DECOMPOSE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Go off"
+  Wordplay: charade
+  Explanation: DEC (synonym of "Geordie TV presenter,") + O (synonym of "old") + M (synonym of "male") + POSE (synonym of "model"); definition: "Go off"
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,358 @@
+{
+  "source": "times",
+  "puzzle": "29514",
+  "stats": {
+    "total": 28,
+    "assembled": 21,
+    "high": 14,
+    "medium": 5,
+    "low": 2,
+    "failed": 7,
+    "avg_score": 77.57142857142857
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "covers wide area",
+      "letters": "BLANKET",
+      "answer": "BLANKETSTITCH",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Output of sewer covers wide area with wee mostly",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Pacific Northwest people",
+      "letters": "SQUAMISH",
+      "answer": "SQUEAMISH",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Wine finally quaffed by Pacific Northwest people — afraid of claret?",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "fracture",
+      "letters": "SPLIT",
+      "answer": "SPLITHAIRS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Boxers in communication after fracture get niggly",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "communication",
+      "letters": "AIRS",
+      "answer": "SPLITHAIRS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Boxers in communication after fracture get niggly",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "toll",
+      "letters": "BONG",
+      "answer": "BILLABONG",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Price to pay, a toll for still water",
+      "score": 50
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "gull seen",
+      "letters": "TWER",
+      "answer": "ANTWERP",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "American gull seen round northern European port",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "animal",
+      "letters": "TOAD",
+      "answer": "TOSTADA",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Good man feeding animal a Mexican dish",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "perfectly",
+      "letters": "TRUE",
+      "answer": "TRUERIB",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Chest bone perfectly aligned, then pull leg?",
+      "score": 47
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "chicken",
+      "letters": "POLLO",
+      "answer": "HOIPOLLOI",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Masses of chicken in Benidorm gobbled by two beneath house",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "two",
+      "letters": "OI",
+      "answer": "HOIPOLLOI",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Masses of chicken in Benidorm gobbled by two beneath house",
+      "score": 0
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "looking lively in Cologne,",
+      "letters": "SHOPPING",
+      "answer": "SHOPPINGCENTRE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Arcade looking lively in Cologne, residence empty",
+      "score": 100
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "residence empty",
+      "letters": "CENTRE",
+      "answer": "SHOPPINGCENTRE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Arcade looking lively in Cologne, residence empty",
+      "score": 100
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Despicable",
+      "letters": "CUR",
+      "answer": "CURRY",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Despicable individual tracks Indian?",
+      "score": 15
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Country",
+      "answer": "ALBANIA",
+      "clue_number": "14",
+      "direction": "across",
+      "clue": "Country region of Spain ablaze to the west",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bar",
+      "answer": "SOAP",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Bar in EastEnders?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Asian",
+      "answer": "THAI",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Asian moor on the phone?",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Output of sewer",
+      "answer": "BLANKETSTITCH",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Output of sewer covers wide area with wee mostly",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "afraid of claret?",
+      "answer": "SQUEAMISH",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Wine finally quaffed by Pacific Northwest people — afraid of claret?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "get niggly",
+      "answer": "SPLITHAIRS",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Boxers in communication after fracture get niggly",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "still water",
+      "answer": "BILLABONG",
+      "clue_number": "15",
+      "direction": "down",
+      "clue": "Price to pay, a toll for still water",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Put up with",
+      "answer": "STOMACH",
+      "clue_number": "18",
+      "direction": "down",
+      "clue": "Put up with bagged cat hissing initially",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Tender-hearted",
+      "answer": "ADORING",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Tender-hearted cabal affiliated to a party",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "port",
+      "answer": "ANTWERP",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "American gull seen round northern European port",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Asian country",
+      "answer": "IRAN",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "You couldn’t see me for dust in Asian country",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "leave",
+      "answer": "ADIEU",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Stop wearing a uniform, I’m taking leave!",
+      "score": 62
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "surprise",
+      "answer": "TWIST",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Some lemon? That would be a surprise",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "capisce",
+      "answer": "GETTHEPICTURE",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Succeed as photojournalist — capiche?",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Bane of comic character",
+      "answer": "KRYPTONITE",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Bane of comic character’s shtick ultimately: pity not funny in vacuous routine",
+      "score": 57
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Mexican dish",
+      "answer": "TOSTADA",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "Good man feeding animal a Mexican dish",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Chest",
+      "answer": "TRUERIB",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Chest bone perfectly aligned, then pull leg?",
+      "score": 47
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Masses of",
+      "answer": "HOIPOLLOI",
+      "clue_number": "7",
+      "direction": "down",
+      "clue": "Masses of chicken in Benidorm gobbled by two beneath house",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Arcade",
+      "answer": "SHOPPINGCENTRE",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Arcade looking lively in Cologne, residence empty",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Indian",
+      "answer": "CURRY",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Despicable individual tracks Indian?",
+      "score": 15
+    }
+  ]
+}

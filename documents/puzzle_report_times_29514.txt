@@ -1,0 +1,658 @@
+================================================================================
+PUZZLE QUALITY REPORT: times #29514
+Generated: 2026-04-11 05:11:53
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        21/28 (75%)
+    Signature:      1
+    Sig+Enriched:   5
+    Sonnet:         9
+    DB Fallback:    0
+  Failed:           7
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   13  14A, 12A, 1D, 13D, 17A, 2D, 21A, 23D, 6D, 16A, 19D, 4D, 8D
+  Medium (40-79): 6  15D, 19A, 22D, 24A, 3D, 5D
+  Low (<40):    2  11A, 9A
+  Failed:       7  1A, 10A, 18D, 20A, 25A, 26A, 7D
+  Average:      78/100
+
+COST: $2.1383 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (33 entries)
+------------------------------------------------------------
+  ALBANIA: "Country" -> ALBANIA  (missing from definition_answers_augmented)
+  SOAP: "Bar" -> SOAP  (missing from definition_answers_augmented)
+  THAI: "Asian" -> THAI  (missing from definition_answers_augmented)
+  BLANKETSTITCH: "Output of sewer" -> BLANKETSTITCH  (missing from definition_answers_augmented)
+  SQUEAMISH: "afraid of claret?" -> SQUEAMISH  (missing from definition_answers_augmented)
+  SPLITHAIRS: "get niggly" -> SPLITHAIRS  (missing from definition_answers_augmented)
+  BILLABONG: "still water" -> BILLABONG  (missing from definition_answers_augmented)
+  STOMACH: "Put up with" -> STOMACH  (missing from definition_answers_augmented)
+  ADORING: "Tender-hearted" -> ADORING  (missing from definition_answers_augmented)
+  ANTWERP: "port" -> ANTWERP  (missing from definition_answers_augmented)
+  IRAN: "Asian country" -> IRAN  (missing from definition_answers_augmented)
+  ADIEU: "leave" -> ADIEU  (missing from definition_answers_augmented)
+  TWIST: "surprise" -> TWIST  (missing from definition_answers_augmented)
+  GETTHEPICTURE: "capisce" -> GETTHEPICTURE  (missing from definition_answers_augmented)
+  KRYPTONITE: "Bane of comic character" -> KRYPTONITE  (missing from definition_answers_augmented)
+  TOSTADA: "Mexican dish" -> TOSTADA  (missing from definition_answers_augmented)
+  TRUERIB: "Chest" -> TRUERIB  (missing from definition_answers_augmented)
+  HOIPOLLOI: "Masses of" -> HOIPOLLOI  (missing from definition_answers_augmented)
+  SHOPPINGCENTRE: "Arcade" -> SHOPPINGCENTRE  (missing from definition_answers_augmented)
+  CURRY: "Indian" -> CURRY  (missing from definition_answers_augmented)
+  BLANKETSTITCH: covers wide area -> BLANKET  (missing from synonyms_pairs)
+  SQUEAMISH: Pacific Northwest people -> SQUAMISH  (missing from synonyms_pairs)
+  SPLITHAIRS: fracture -> SPLIT  (missing from synonyms_pairs)
+  SPLITHAIRS: communication -> AIRS  (missing from synonyms_pairs)
+  BILLABONG: toll -> BONG  (missing from synonyms_pairs)
+  ANTWERP: gull seen -> TWER  (missing from synonyms_pairs)
+  TOSTADA: animal -> TOAD  (missing from synonyms_pairs)
+  TRUERIB: perfectly -> TRUE  (missing from synonyms_pairs)
+  HOIPOLLOI: chicken -> POLLO  (missing from synonyms_pairs)
+  HOIPOLLOI: two -> OI  (missing from abbreviations)
+  SHOPPINGCENTRE: looking lively in Cologne, -> SHOPPING  (missing from synonyms_pairs)
+  SHOPPINGCENTRE: residence empty -> CENTRE  (missing from synonyms_pairs)
+  CURRY: Despicable -> CUR  (missing from abbreviations)
+
+TYPE MISMATCHES — AI and assembler disagree (2)
+------------------------------------------------------------
+  EXONERATE = 24 (67/100): AI=anagram, assembled=charade
+  KRYPTONITE = 3 (57/100): AI=charade, assembled=container
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (2)
+------------------------------------------------------------
+  SPLITHAIRS = 11 (5/100): no pieces verified in DB
+  CURRY = 9 (15/100): no pieces verified in DB
+
+WEAK DEFINITIONS — not confirmed in DB (2)
+------------------------------------------------------------
+  ADIEU = 22 (62/100): def="leave" (not in DB, odd position)
+  CURRY = 9 (15/100): def="Indian" (not in DB, odd position)
+
+FAILED TO ASSEMBLE (7)
+------------------------------------------------------------
+  1. Output of sewer covers wide area with wee mostly = BLANKETSTITCH
+  10. Wine finally quaffed by Pacific Northwest people — afraid of = SQUEAMISH
+  18. Put up with bagged cat hissing initially = STOMACH
+  20. You couldn’t see me for dust in Asian country = IRAN
+  25. Some lemon? That would be a surprise = TWIST
+  26. Succeed as photojournalist — capiche? = GETTHEPICTURE
+  7. Masses of chicken in Benidorm gobbled by two beneath house = HOIPOLLOI
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  6/28  16A, 17A, 21A, 2D, 13D, 23D
+  Type mismatch:         2  24A, 3D
+  Unverified explain.:   2  9A, 11A
+  Weak definition:       2  9A, 22D
+  DB gap:                19  1A, 9A, 10A, 11A, 12A, 14A, 20A, 25A, 26A, 3D, 4D, 5D, 6D, 7D, 8D, 15D, 18D, 19D, 22D
+  Failed:                7  1A, 10A, 20A, 25A, 26A, 7D, 18D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   14A  ALBANIA       Country region of Spain ablaze to the west (7)
+                      hidden reversed in "region of sp AINABLA ze" [reversal: "to"]; definition: "Country"  [HIGH]
+   12A  SOAP          Bar in EastEnders? (4)
+                      SOAP (synonym of "EastEnders?"); definition: "Bar"  [HIGH]
+    1D  BACKSEATDRIVER  Champions scoff over club being a nuisance along the way? (4-4,6)
+                      ---  [HIGH]
+   13D  SCHOLASTIC    Educational classic and hot novel (10)
+                      ---  [HIGH]
+   17A  DILATES       Ready, a cover when pulled back opens up (7)
+                      ---  [HIGH]
+    2D  APRIL         Penny in currency raised for end of tax year? (5)
+                      ---  [HIGH]
+   21A  SOFTPALATE    Fleshy tissue in fat apostle wobbling about (4,6)
+                      ---  [HIGH]
+   23D  WENT          Score, after losing opener and tail end, completely collapsed (4)
+                      ---  [HIGH]
+    6D  THAI          Asian moor on the phone? (4)
+                      THAI (sounds like "moor"); definition: "Asian"  [HIGH]
+    1A  BLANKETSTITCH  Output of sewer covers wide area with wee mostly (7,6)
+                      ---  [FAIL]
+   10A  SQUEAMISH     Wine finally quaffed by Pacific Northwest people — afraid of claret? (9)
+                      ---  [FAIL]
+   11A  SPLITHAIRS    Boxers in communication after fracture get niggly (5,5)
+                      SPLIT(synonym of "fracture") + H("boxers") + AIRS(synonym of "communication")  [LOW]
+   15D  BILLABONG     Price to pay, a toll for still water (9)
+                      BILL(synonym of "Price") + A + BONG(synonym of "toll")  [MED]
+   16A  BACILLI       Bugs Bunny ate carrots originally with green-looking one (7)
+                      B(first letter of "Bunny") + A(first letter of "ate") + C(first letter of "carrots") + ILLI("green")  [HIGH]
+   18D  STOMACH       Put up with bagged cat hissing initially (7)
+                      ---  [FAIL]
+   19A  ADORING       Tender-hearted cabal affiliated to a party (7)
+                      A + DO(abbr. "party") + RING(synonym of "cabal")  [MED]
+   19D  ANTWERP       American gull seen round northern European port (7)
+                      A (synonym of "American") + N (synonym of "northern") + TWER (synonym of "gull seen") + P (synonym of "European"); definition: "port"  [HIGH]
+   20A  IRAN          You couldn’t see me for dust in Asian country (4)
+                      ---  [FAIL]
+   22D  ADIEU         Stop wearing a uniform, I’m taking leave! (5)
+                      A + D(core of "Stop") + I(first letter of "I'm") + E(core of "taking") + U(abbr. "uniform")  [MED]
+   24A  EXONERATE     Old girlfriend I fancy — pardon? (9)
+                      EX(abbr. "Old") + ONERATE("girlfriend I")  [MED]
+   25A  TWIST         Some lemon? That would be a surprise (5)
+                      ---  [FAIL]
+   26A  GETTHEPICTURE  Succeed as photojournalist — capiche? (3,3,7)
+                      ---  [FAIL]
+    3D  KRYPTONITE    Bane of comic character’s shtick ultimately: pity not funny in vacuous routine (10)
+                      K(last letter of "shtick") + YPTONIT("pity not") inside RE(deletion from "routine")  [MED]
+    4D  TOSTADA       Good man feeding animal a Mexican dish (7)
+                      ST (synonym of "Good man") + TOAD (synonym of "animal") + A (abbreviation of "a"); definition: "Mexican dish"  [HIGH]
+    5D  TRUERIB       Chest bone perfectly aligned, then pull leg? (4,3)
+                      TRUE(synonym of "perfectly") + RIB(synonym of "bone")  [MED]
+    7D  HOIPOLLOI     Masses of chicken in Benidorm gobbled by two beneath house (3,6)
+                      ---  [FAIL]
+    8D  SHOPPINGCENTRE  Arcade looking lively in Cologne, residence empty (8,6)
+                      SHOPPING (synonym of "looking lively in Cologne,") + CENTRE (synonym of "residence empty"); definition: "Arcade"  [HIGH]
+    9A  CURRY         Despicable individual tracks Indian? (5)
+                      CUR(synonym of "Despicable") + RY("tracks")  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] ALBANIA  14A. Country region of Spain ablaze to the west
+  Answer: ALBANIA
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Country"
+  Wordplay: hidden + reversal
+  Explanation: hidden reversed in "region of sp AINABLA ze" [reversal: "to"]; definition: "Country"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SOAP  12A. Bar in EastEnders?
+  Answer: SOAP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Bar"
+  Wordplay: charade
+  Explanation: SOAP (synonym of "EastEnders?"); definition: "Bar"
+  ----------------------------------------------------------------------
+
+  [HIGH] BACKSEATDRIVER  1D. Champions scoff over club being a nuisance along the way?
+  Answer: BACKSEATDRIVER
+  Tier: --- | Confidence: 100/100
+  Human explanation: BACKS (synonym="Champions") + EAT (synonym="scoff") + DRIVER (synonym="club") = BACKSEATDRIVER; definition: "nuisance along the way?"
+  ----------------------------------------------------------------------
+
+  [HIGH] SCHOLASTIC  13D. Educational classic and hot novel
+  Answer: SCHOLASTIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of CLASSIC + HOT = SCHOLASTIC
+  ----------------------------------------------------------------------
+
+  [HIGH] DILATES  17A. Ready, a cover when pulled back opens up
+  Answer: DILATES
+  Tier: --- | Confidence: 100/100
+  Human explanation: DIL (LID="cover", reversed) + A (from clue) + TES (SET="Ready,", reversed) = DILATES
+  ----------------------------------------------------------------------
+
+  [HIGH] APRIL  2D. Penny in currency raised for end of tax year?
+  Answer: APRIL
+  Tier: --- | Confidence: 100/100
+  Human explanation: ARIL (reversal="currency") + P (abbreviation="Penny") = APRIL
+  ----------------------------------------------------------------------
+
+  [HIGH] SOFTPALATE  21A. Fleshy tissue in fat apostle wobbling about
+  Answer: SOFTPALATE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of FAT + APOSTLE = SOFTPALATE
+  ----------------------------------------------------------------------
+
+  [HIGH] WENT  23D. Score, after losing opener and tail end, completely collapsed
+  Answer: WENT
+  Tier: --- | Confidence: 100/100
+  Human explanation: TWENTY (synonym="Score,") with deletion = WENT
+  ----------------------------------------------------------------------
+
+  [HIGH] THAI  6D. Asian moor on the phone?
+  Answer: THAI
+  Tier: Signature | Confidence: 80/100
+  Definition: "Asian"
+  Wordplay: homophone
+  Explanation: THAI (sounds like "moor"); definition: "Asian"
+  Checks: missing_indicator_for_hom_f=-20
+  ----------------------------------------------------------------------
+
+  [FAILED] BLANKETSTITCH  1A. Output of sewer covers wide area with wee mostly
+  Answer: BLANKETSTITCH
+  Tier: --- | Confidence: 0/100
+  Definition: "Output of sewer"
+  Wordplay type: charade
+  Components:
+    synonym            covers wide area          -> BLANKET
+    abbreviation       wee                       -> S
+    indicator          mostly                    -> 
+  DB Lookups:
+    DB lookups:
+      output: syn=GET,DATA,FATE,SEED,WORK,CHILD,FRUIT,ISSUE,LABOR,SPAWN,THING,VERSE,YIELD,AFFAIR,EFFECT
+      sewer: syn=DRAIN,BODKIN,NEEDLE,TAILOR,IN CHANNEL,SEAMSTRESS,ONE JOINING,NEEDLEWORKER
+      covers: syn=AN*,BLANKET*,BLANKETS*,BINS,DOGS,EYES,FILL,GOES,PART,PODS,RUNS,TAGS,TOPS,BOXES,CASES; ind=container,parts
+      wide: syn=W,OK,ALL,FAR,FAT,OUT,ABLY,DEAD,DEEP,EASY,EVEN,FAST,FINE,FLAT,FULL; abbr=W
+      area: syn=A,ACRE,FIEF,GAME,LINE,SPOT,WALK,YARD,ZONE,AMBIT,ARENA,FIELD,FRONT,RANGE,REALM; abbr=A*; ind=anagram
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      wee: syn=BABY,SIZE,URINE,ATOMIC,LITTLE,MINUTE,TIDDLY; abbr=S*; sounds=we
+      mostly: syn=BY,AND,LARGE,MAINLY,CHIEFLY,GENERAL,LARGELY,OVERALL,BASICALLY,GENERALLY,INGENERAL,INTHEMAIN,PRIMARILY,ABSOLUTELY,ALTOGETHER; ind=deletion,parts
+  AI Reasoning:
+    BLANKET (covers wide area) + S (wee) + TITCH (from mostly deletion) = BLANKETSTITCH
+  ----------------------------------------------------------------------
+
+  [FAILED] SQUEAMISH  10A. Wine finally quaffed by Pacific Northwest people — afraid of claret?
+  Answer: SQUEAMISH
+  Tier: --- | Confidence: 0/100
+  Definition: "afraid of claret?"
+  Wordplay type: container
+  Components:
+    literal            Wine                      -> WINE
+    indicator          finally                   -> 
+    indicator          quaffed by                -> 
+    synonym            Pacific Northwest people  -> SQUAMISH
+  DB Lookups:
+    DB lookups:
+      wine: syn=ALE,BIN,GIN,MUM,NIP,PEG,POP,RED,RUM,TOT,VIN,ALE,,ASTI,BEER,BELT; abbr=CAVA,HOCK,MERLOT,PORT,VIN; sounds=whine
+      finally: syn=OR,SET,YET,FIRM,FLAT,HARD,LAST,AGAIN,FIXED,LATER,ATLAST,FROZEN,LATEST,LATTER,STABLE; abbr=T; ind=parts
+      quaffed: syn=DRUNK,SWILLED
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      pacific: syn=ANTI,CALM,COOL,LOWN,EQUAL,LEVEL,QUIET,STILL,DOVISH,HUSHED,LIMPID,SEDATE,SERENE,SMOOTH,STILLY
+      people: syn=ELF,FAY,HAG,IMP,KIN,MEN,MOB,NUN,PAL,ABBÉ,ALLY,CAPS,CHUM,CLAN,CUES; abbr=MEN
+      afraid: syn=COWED,LOATH,SCARY,TIMID,AGHAST,SCARED,ALARMED,CHICKEN,DUBIOUS,FEARFUL,NERVOUS,SHOCKED,SPOOKED,COWARDLY,HESITANT
+      claret: syn=RED,WINE,BLOOD,BOOZE,DRINK,BLOODRED,BORDEAUX,RED WINE; abbr=CL
+  AI Reasoning:
+    E (last letter of WINE) is inserted into SQUAMISH (Pacific Northwest people) to form SQUEAMISH
+  ----------------------------------------------------------------------
+
+  [LOW] SPLITHAIRS  11A. Boxers in communication after fracture get niggly
+  Answer: SPLITHAIRS
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "get niggly"
+  Wordplay type: charade
+  Components:
+    synonym            fracture                  -> SPLIT
+    literal            boxers                    -> H
+    indicator          in                        -> 
+    synonym            communication             -> AIRS
+    indicator          after                     -> 
+  Assembly: charade — SPLIT(synonym of "fracture") + H("boxers") + AIRS(synonym of "communication")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/3 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      boxers: syn=DOGS,PLANTS,SHORTS,DRAWERS,UNDERWEAR,ALI,DOG,PUG,CLAY,FURY,USYK,ROCKY,TYSON,BANTAM,FIGHTER
+      in: syn=IT*,T,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      communication: syn=AD,FLY,CARD,CHAT,PLUG,SIGN,SPOT,WORD,BLURB,BOOST,EDICT,EMAIL,FLYER,PITCH,PROMO
+      after: syn=BE,DO,GO,AFT,AGE,BAG,BET,BUG,COP,DIG,ERA,FAD,FIT,GET,HAP; ind=anagram
+      fracture: syn=LEG,NEW,EVEN,WIND,A LEG,BREAK,COVER; ind=anagram?
+      get: syn=IT*,SPLIT*,DO,GO,A A,AGE,AIM,BAG,BED,BIG,BUG,COP,CUT,DIE,DIG; abbr=G,GE
+  AI Reasoning:
+    SPLIT (fracture) + HAIRS (H in AIRS via container) in sequence
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BILLABONG  15D. Price to pay, a toll for still water
+  Answer: BILLABONG
+  Tier: Sonnet | Confidence: 50/100
+  Definition: "still water"
+  Wordplay type: charade
+  Components:
+    synonym            Price                     -> BILL
+    indicator          for                       -> 
+    literal            a                         -> A
+    synonym            toll                      -> BONG
+  Assembly: charade — BILL(synonym of "Price") + A + BONG(synonym of "toll")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=2/3 (67%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      price: syn=BILL*,FEE,LOW,SET,TAB,VIP,ANTE,CAST,COST,DEEM,FACE,FEES,FORM,GARB,ICON; abbr=P
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      pay: syn=GO,ARY,BID,BUY,FEE,GET,JOB,LAY,OUT,WAY,ANTE,BEAR,BORN,DROP,FIND
+      toll: syn=PEAL,VALUE,DAMAGE,SINGLE,TARIFF
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      still: syn=NOT,TUB,YET,CALM,DEAD,DRAW,DUMB,EVEN,FIRE,FLAT,HALT,HOLD,HUSH,JUST,LOWN; abbr=YET
+      water: syn=ALE,BOG,CAN,COT,CUT,GOO,GUM,HAY,KIP,LOO,PAD,PEE,SEA,SOP,TAP
+      to pay: syn=FOOT,PASS,IGNORE,NEGLECT,OVERSEE,OMISSION,OVERLOOK,DISREGARD,TAKE NOTE
+      price to pay: syn=COST
+  AI Reasoning:
+    BILL (price) + A (literal) + BONG (toll as bell sound), with 'pay' deleted by 'for'
+  ----------------------------------------------------------------------
+
+  [HIGH] BACILLI  16A. Bugs Bunny ate carrots originally with green-looking one
+  Answer: BACILLI
+  Tier: Sonnet | Confidence: 91/100
+  Definition: "Bugs"
+  Wordplay type: charade
+  Components:
+    first_letter       Bunny                     -> B
+    first_letter       ate                       -> A
+    first_letter       carrots                   -> C
+    indicator          originally                -> 
+    anagram_fodder     green                     -> ILLI
+    indicator          looking                   -> 
+    anagram_fodder     one                       -> 
+  Assembly: charade — B(first letter of "Bunny") + A(first letter of "ate") + C(first letter of "carrots") + ILLI("green")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bugs: syn=BAGS,COPS,DIGS,FANS,GETS,ICES,NABS,NETS,OFFS,RAPS,RUNS,SEES,BAILS,BOOKS,BUNNY
+      bunny: syn=BUGS,FURY
+      ate: syn=DUG,FED,GOT,PEN,RAN,SAW,BEAT,CAME,DINE,FARE,FEED,FRET,GREW,ICED,KNEW; sounds=eight
+      carrots: syn=BAIT,BRIBE,REDHEAD; sounds=carat,caret,karat
+      originally: syn=FIRST,FIRSTLY,MERMAID; ind=acrostic,anagram?,parts
+      with: syn=W,BY,IN,OF,ON,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      green: syn=ECO,ELF,FAY,NEW,RAW,CASH,GOLD,JACK,LAWN,LIME,LONG,LUSH,NAIF,NOTE,PELF
+      looking: syn=GOING,ACTING,AIMING,AIRING,GIVING,MAKING,FEELING,MEANING,RAISING,SEEKING,SEEMING,STATING,VENTING,VOICING; ind=anagram,reversal
+      one: syn=I,AN,ME,UN,ACE,AGE,ALL,FIN,GAG,IMP,PLY,RIB,SET,TEN,TWO; abbr=A*,ACE,I*,O; sounds=won
+    Definitions:
+      "Bugs" -> BACILLI (definition match)
+  AI Reasoning:
+    BAC from first letters of 'Bunny ate carrots', plus ILLI from anagram of 'green' with 'one' indicated by 'looking'
+  ----------------------------------------------------------------------
+
+  [FAILED] STOMACH  18D. Put up with bagged cat hissing initially
+  Answer: STOMACH
+  Tier: --- | Confidence: 0/100
+  Definition: "Put up with"
+  Wordplay type: container
+  Components:
+    indicator          bagged                    -> 
+    synonym            cat                       -> TOM
+    first_letter       hissing initially         -> S
+  DB Lookups:
+    DB lookups:
+      put: syn=DO,GO,IS,A A,ACT,AIR,BET,CAP,CUT,DID,DIG,DIS,DUG,EAT,FIT; abbr=SET
+      up: syn=TO*,OF,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      with: syn=TO*,W,BY,IN,OF,ON,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      bagged: syn=DID,DUG,GOT,HIT,PUT,SAW,WON,BORE,BRED,DREW,FELT,GAVE,KNEW,LEFT,MADE
+      cat: syn=TOM*,BOD,BOY,BUD,CUB,EGG,GUY,JOE,KID,LAD,MAN,MOG,MOT,PET,BABY
+      initially: syn=FEAR,LOTS,FIRST; ind=acrostic,deletion,parts
+      put up: syn=STOMACH*,DO,UP,A A,BAR,BET,DID,DUG,GOT,HIT
+      put up with: syn=STOMACH*,BEAR,HAIR,TAKE
+    Definitions:
+      "Put up" -> STOMACH (definition match)
+      "Put up with" -> STOMACH (definition match)
+  AI Reasoning:
+    Container structure where TOM (cat) and S (hissing initially) combine within STOMACH framework
+  ----------------------------------------------------------------------
+
+  [HIGH] ADORING  19A. Tender-hearted cabal affiliated to a party
+  Answer: ADORING
+  Tier: Sonnet | Confidence: 75/100
+  Definition: "Tender-hearted"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    abbreviation       party                     -> DO
+    indicator          to                        -> 
+    synonym            cabal                     -> RING
+  Assembly: charade — A + DO(abbr. "party") + RING(synonym of "cabal")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      tender-hearted: syn=KINDLY
+      tender: syn=ADORING*,BID,CAN,HOY,KEG,LOW,OER,PET,TUB,TUG,TUN,VAT,WAY,WET,BUTT
+      cabal: syn=RING*,ARC,WAY,AXIS,BLOC,HIKE,LINE,PATH,PLOT,SIDE,SPIN,TREK,WALK,WING,AMBIT
+      affiliated: syn=AKIN,LIKE,SAME,SUCH,ALIKE,DITTO,ALLIED,COGENT,JOINED,APROPOS,COGNATE,CONNATE,GERMANE,KINDRED,RELATED
+      to: syn=ADO*,BY,OF,UP,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      party: syn=DO*,BOD,BOY,CAT,CON,DOG,EGG,GET,GUY,JOE,LAB,LAD,LIB,LOT,MAN; abbr=CON,DO*,LAB,P
+      a party: syn=DO*,BASH,PARTY,SHINDIG
+  AI Reasoning:
+    A + DO + RING in that order (reversed from normal 'cabal to a party' sequence by 'to' indicator) = ADORING
+  ----------------------------------------------------------------------
+
+  [HIGH] ANTWERP  19D. American gull seen round northern European port
+  Answer: ANTWERP
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "port"
+  Wordplay: charade
+  Explanation: A (synonym of "American") + N (synonym of "northern") + TWER (synonym of "gull seen") + P (synonym of "European"); definition: "port"
+  ----------------------------------------------------------------------
+
+  [FAILED] IRAN  20A. You couldn’t see me for dust in Asian country
+  Answer: IRAN
+  Tier: --- | Confidence: 0/100
+  Definition: "Asian country"
+  Wordplay type: hidden
+  Components:
+    indicator          in                        -> 
+    hidden             me for dust in Asian      -> IRAN
+  DB Lookups:
+    DB lookups:
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH; abbr=U,Y,YE,YO; ind=anagram; sounds=ewe,yew
+      see: syn=V,DO,LO,A A,DIG,ELY,EYE,GET,SPY,USE,BEST,BOOK,CALL,DATE,DEAD; abbr=C,ELY,LO,V; sounds=sea
+      me: syn=AID,EVE,FAN,OLD,AIDS,AKIN,BOON,CULL,EVEN,FANS,FUEL,GOAD,HAND,HELP,LIFT; abbr=I*
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      dust: syn=EAT,ROW,DIRT,JUNK,LAND,POOP,SCAT,SKIN,SMUT,SOIL
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      asian: syn=AGRA,THAI
+      country: syn=IRAN*,UK,DON,PAD,SEA,SOD,AFAR,BUSH,CAMP,CHAD,CITY,CLUB,CUBA,DONS,DUKE; abbr=MALI
+      asian country: syn=THAI
+    Definitions:
+      "country" -> IRAN (definition match)
+      "Asian country" -> IRAN (definition match)
+  AI Reasoning:
+    IRAN is hidden within 'me for dust in Asian' where me=I, for contains R, and Asian contains A and N
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ADIEU  22D. Stop wearing a uniform, I’m taking leave!
+  Answer: ADIEU
+  Tier: Sonnet | Confidence: 62/100
+  Definition: "leave"
+  Wordplay type: charade
+  Components:
+    literal            a                         -> A
+    core_letters       Stop                      -> D
+    first_letter       I'm                       -> I
+    core_letters       taking                    -> E
+    abbreviation       uniform                   -> U
+  Assembly: charade — A + D(core of "Stop") + I(first letter of "I'm") + E(core of "taking") + U(abbr. "uniform")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=4/5 (80%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      stop: syn=DIE*,GO,BAR,BIT,CAN,CUT,DAM,END,GET,JAM,LAY,LEG,LET,MIX,NEW; ind=deletion
+      wearing: syn=IN,BAD,BLAH,GRAY,GRIM,HARD,POKY,WILD,BLANK,BLEAK,CRUEL,HARSH,HEAVY,PROSY,ROUGH; abbr=IN; ind=container,insertion
+      uniform: syn=U,KIT,EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT; abbr=U*
+      taking: syn=DAY,CUTE,FAIR,GOOD,JAKE,BONNY,DOING,DUCKY,EXACT,GOING,ICING,JOLLY,MATCH,TASTY,THEFT; ind=container
+      leave: syn=DIE*,GO,IF,BAG,CAN,COS,END,LET,NEW,OFF,OUT,WAY,YOU,DROP,DUMP; abbr=GO; ind=deletion
+  AI Reasoning:
+    Charade: A (literal) + D (core of END/Stop) + I (first of I'm) + E (core of taking) + U (uniform abbrev) = ADIEU
+  ----------------------------------------------------------------------
+
+  [MEDIUM] EXONERATE  24A. Old girlfriend I fancy — pardon?
+  Answer: EXONERATE
+  Tier: Sonnet | Confidence: 67/100
+  Definition: "pardon"
+  Wordplay type: anagram
+  Components:
+    abbreviation       Old                       -> EX
+    anagram_fodder     girlfriend I              -> ONERATE
+    indicator          fancy                     -> 
+  Assembly: charade — EX(abbr. "Old") + ONERATE("girlfriend I")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_mismatch=AI=anagram, assembled=charade | type_evidence=assembled | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      old: syn=EX*,O,ME,PA,AGE,DAD,DRY,MAN,POP,RUM,VET,AGED,ARID,BEAU,DRAB; abbr=EX*,O*
+      girlfriend: syn=GAL,DAME,DATE,GILL,GIRL,LADY,MRS.,LONER,MADAM,WIFEY,FEMALE,MILADY,MISSUS,STEADY,HELPMATE
+      fancy: syn=BE,MY,ARE,BIT,DIG,FAD,HER,HIS,ITS,RED,SEE,TOP,USE,CAKE,FINE; ind=anagram
+      pardon: syn=EXONERATE*,MY,ITS,PASS,WHAT,ASIDE,REMIT,SORRY,BYPASS,EXCUSE,FORGET,IGNORE,SLIGHT,ABSOLVE,AMNESTY
+      old girlfriend: syn=FLAME
+    Definitions:
+      "pardon" -> EXONERATE (definition match)
+  AI Reasoning:
+    Anagram of 'Old girlfriend I' where 'Old'=EX and 'girlfriend I' provides letters that anagram with EX to form EXONERATE
+  ----------------------------------------------------------------------
+
+  [FAILED] TWIST  25A. Some lemon? That would be a surprise
+  Answer: TWIST
+  Tier: --- | Confidence: 0/100
+  Definition: "surprise"
+  Wordplay type: hidden
+  Components:
+    indicator          Some                      -> 
+    hidden             lemon? That would be a    -> TWIST
+  DB Lookups:
+    DB lookups:
+      some: syn=A,OR,TO,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A,PART,S*; ind=hidden; sounds=sum
+      lemon: syn=DUD,ALSO,MISS,FRUIT
+      that: syn=AS,GO,SO,EAT,FAR,FIT,FOR,HOW,LOT,NOW,THA,TOO,WAY,WHO,YET; abbr=TH,YON
+      would: syn=LIKE,WANT,WISH,LEAVE; sounds=wood
+      be: syn=DO,GO,AGE,BED,DIG,HAP,HOT,LAY,LIE,MAD,OWE,RUN,SIT,USE,WAY; sounds=bee
+      surprise: syn=TWIST*,GOB,JAR,MUG,WEB,YAP,FROM,JOLT,ROCK,STUN,TRAP,AMAZE,FLOOR,MOUTH,SHOCK
+    Definitions:
+      "surprise" -> TWIST (definition match)
+  AI Reasoning:
+    TWIST is hidden in the consecutive letters spanning across 'lemon? That would be a'
+  ----------------------------------------------------------------------
+
+  [FAILED] GETTHEPICTURE  26A. Succeed as photojournalist — capiche?
+  Answer: GETTHEPICTURE
+  Tier: --- | Confidence: 0/100
+  Definition: "capisce"
+  Wordplay type: anagram
+  Components:
+    indicator          succeed                   -> 
+    anagram_fodder     as photojournalist        -> ASPHOTOJOURNALIST
+  DB Lookups:
+    DB lookups:
+      succeed: syn=AT,IT,GOD,HIT,OWN,EDGE,INTO,LAST,PASS,TOWN,WORK,AHEAD,ENSUE,GREAT,ARRIVE; ind=anagram?
+      as: syn=LI,OF,ON,RO,SO,FOR,HOW,NOW,QUA,LIKE,ONCE,THAT,WHEN,ABOUT,AS IF
+  AI Reasoning:
+    Anagram of 'as photojournalist' indicated by 'succeed' gives GETTHEPICTURE, defined by 'capisce' (understand)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] KRYPTONITE  3D. Bane of comic character’s shtick ultimately: pity not funny in vacuous routine
+  Answer: KRYPTONITE
+  Tier: Sonnet | Confidence: 57/100
+  Definition: "Bane of comic character"
+  Wordplay type: charade
+  Components:
+    last_letter        shtick                    -> K
+    indicator          ultimately                -> 
+    deletion           routine                   -> RE
+    indicator          vacuous                   -> 
+    anagram_fodder     pity not                  -> YPTONIT
+    indicator          funny                     -> 
+    indicator          in                        -> 
+  Assembly: container — K(last letter of "shtick") + YPTONIT("pity not") inside RE(deletion from "routine")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=container | type_mismatch=AI=charade, assembled=container | type_evidence=assembled, indicator in DB | yields_check=pass | pieces_validated=1/3 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      bane: syn=CURSE,CANCER,ANATHEMA,ARCH FOE,AFFLICTION,ARCH-ENEMY
+      comic: syn=TOP,WAG,WIT,CARD,SIDE,ANTIC,ATONE,BEANO,CLOWN,DANDY,DROLL,FARCE,FUNNY,HUMOR,JOKER; ind=anagram
+      shtick: syn=ACT,BIT,ROUTINE
+      ultimately: syn=OR,YET,SMUG,AGAIN,LATER,PRISON,SPADES,FINALLY; ind=deletion,parts
+      pity: syn=FEEL,GOOD,RUTH,CRIME,HEART,SHAME,WHITE,AT THE,BEMOAN,FEELFOR,FEELING,AT HEART,SYMPATHY,COMPASSION
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      funny: syn=FAR,GAG,ODD,OFF,ONE,RIB,RUM,THE,WAY,YUK,BOFF,BUTT,JEST,JOKE,JOSH; ind=anagram
+      in: syn=IT*,T,BY,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      vacuous: syn=DIM,BARE,DAMN,DUMB,FLAT,HALF,PURE,RANK,SLOW,SOFT,TOOM,VOID,BLANK,CLEAN,DENSE; ind=deletion,parts
+      routine: syn=OR,ACT,BIT,CUT,RUN,RUT,THE,ACTS,BREAD,DANCE,DRILL,HABIT,USUAL,ANNUAL,COMMON; abbr=RUT
+  AI Reasoning:
+    K (last of shtick) + anagram of 'pity not' (YPTONIT) inserted into vacuous routine (RE) = KRYPTONITE
+  ----------------------------------------------------------------------
+
+  [HIGH] TOSTADA  4D. Good man feeding animal a Mexican dish
+  Answer: TOSTADA
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Mexican dish"
+  Wordplay: charade
+  Explanation: ST (synonym of "Good man") + TOAD (synonym of "animal") + A (abbreviation of "a"); definition: "Mexican dish"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TRUERIB  5D. Chest bone perfectly aligned, then pull leg?
+  Answer: TRUERIB
+  Tier: Sonnet | Confidence: 47/100
+  Definition: "Chest"
+  Wordplay type: charade
+  Components:
+    synonym            perfectly                 -> TRUE
+    indicator          aligned                   -> 
+    synonym            bone                      -> RIB
+  Assembly: charade — TRUE(synonym of "perfectly") + RIB(synonym of "bone")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      chest: syn=ARK,BIN,BOX,POD,SEA,BUST,CASE,HOPE,HULL,HUSK,SAFE,ARMOR,BOSOM,CADDY,CASE,
+      bone: syn=RIB*,HOW,JIG,LOT,ONE,TOO,WAY,BENT,BIAS,DAMN,DANG,EVER,FULL,LAZY,PLAY
+      perfectly: syn=OK,ALL,OUT,ABLY,BEST,DEAD,EASY,EVEN,FAST,FINE,FLAT,FULL,GOOD,JUST,OVER
+      aligned: syn=TRUE*,GO,CUE,FIT,KEY,SET,CUED,EVEN,FILE,FLAT,FUSE,JIBE,JOIN,LINE,PAIR; ind=anagram?
+      then: syn=SO,ANY,NEX,TOO,YET,ALSO,EACH,INTO,MORE,NEXT,WHAT,ABOUT,AGAIN,ROUND,AROUND
+      pull: syn=DO,GO,IN,ASS,BAG,CON,GET,LUG,MUG,NAB,PRY,ROW,TOW,TUG,WIN
+      leg: syn=GO,ON,CAN,DIE,END,FLY,GET,LAP,LUG,MAR,PAD,PIN,PRY,RUN,TOW; abbr=ON
+  AI Reasoning:
+    TRUE (perfectly) + RIB (bone) aligned together to form TRUERIB, which is a type of chest bone
+  ----------------------------------------------------------------------
+
+  [FAILED] HOIPOLLOI  7D. Masses of chicken in Benidorm gobbled by two beneath house
+  Answer: HOIPOLLOI
+  Tier: --- | Confidence: 0/100
+  Definition: "Masses of"
+  Wordplay type: container
+  Components:
+    synonym            chicken                   -> POLLO
+    indicator          in                        -> 
+    hidden             Benidorm                  -> I
+    indicator          gobbled by                -> 
+    synonym            two                       -> OI
+    indicator          beneath                   -> 
+    abbreviation       house                     -> HO
+  DB Lookups:
+    DB lookups:
+      masses: syn=LOTS,RIFF,LUMPS,CROWDS,MIDDLE,OCEANS,HUNDRED,SUBJECT,POPULACE
+      chicken: syn=CUR,HEN,BIRD,FOUL,FUNK,HENS,WIMP,CAPON,FAINT,LAYER,SISSY,TIMID,AFRAID,COWARD,CRAVEN
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      gobbled: syn=FETA,BOLTED,GORGED,GULPED,WOLFED,CRAMMED,GLUTTED,INHALED,RAVENED,SCARFED,SCOFFED,SLOPPED,DEVOURED
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      two: syn=II,XL,BIT,DAB,DIS,FIN,HAY,LIP,ONE,ROT,TAD,TEN,BIKE,BILL,BUCK; abbr=II; sounds=to,too
+      beneath: syn=BELOW,UNDER
+      house: syn=HO*,BAR,BOX,CAT,DEN,GUT,HEM,INN,KIN,LEO,NUN,PAD,PAL,PEN,POD; abbr=HO*; ind=parts
+    Definitions:
+      "Masses" -> HOIPOLLOI (definition match)
+  AI Reasoning:
+    POLLO+I (chicken + letter in Benidorm) is contained by HOI (two=OI positioned beneath house=HO)
+  ----------------------------------------------------------------------
+
+  [HIGH] SHOPPINGCENTRE  8D. Arcade looking lively in Cologne, residence empty
+  Answer: SHOPPINGCENTRE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Arcade"
+  Wordplay: charade
+  Explanation: SHOPPING (synonym of "looking lively in Cologne,") + CENTRE (synonym of "residence empty"); definition: "Arcade"
+  ----------------------------------------------------------------------
+
+  [LOW] CURRY  9A. Despicable individual tracks Indian?
+  Answer: CURRY
+  Tier: Sonnet | Confidence: 15/100
+  Definition: "Indian"
+  Wordplay type: charade
+  Components:
+    synonym            Despicable                -> CUR
+    indicator          individual                -> 
+    anagram_fodder     tracks                    -> RY
+  Assembly: charade — CUR(synonym of "Despicable") + RY("tracks")
+  Checks: definition=not in DB, odd position | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      despicable: syn=LOW,BASE,MEAN,VILE
+      individual: syn=BOD,BOY,CAT,EGG,GUY,JOE,LAD,MAN,ONE,SON,BABY,BEAU,BIRD,BODY,BUCK; ind=anagram?
+      tracks: syn=CAPS,CUES,DOGS,ENDS,EYES,GOES,KINS,LAYS,RUNS,TAGS,WAYS,ALBUM,AREAS,BLOOD,CLANS
+      indian: syn=ARA,GOA,PUB,CREE,POON,CREEP,OCEAN,OSAGE,TAMIL; abbr=I
+  AI Reasoning:
+    Despicable gives CUR (synonym), individual indicates anagram of tracks to give RY, forming CUR+RY=CURRY
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================
