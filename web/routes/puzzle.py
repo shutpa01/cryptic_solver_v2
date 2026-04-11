@@ -134,7 +134,8 @@ def puzzle(source, puzzle_type, puzzle_number):
                 prefill[str(c["id"])] = {"value": c["answer"].upper().replace(" ", ""), "correct": True}
         tutorial_prefill = _json.dumps(prefill)
 
-    return render_template(
+    from flask import make_response
+    resp = make_response(render_template(
         "puzzle.html",
         source=source,
         puzzle_type=puzzle_type,
@@ -147,7 +148,10 @@ def puzzle(source, puzzle_type, puzzle_number):
         source_puzzle_url=source_puzzle_url,
         grid_conflicts=grid_conflicts,
         tutorial_prefill=tutorial_prefill,
-    )
+    ))
+    resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    resp.headers['Pragma'] = 'no-cache'
+    return resp
 
 
 @bp.route("/<source>/<puzzle_type>/<int:puzzle_number>/grid")
