@@ -700,7 +700,8 @@ function _scrollToClueEl(el, num, otherDir) {
     if (!el) return;
     // Remove any existing "also see" links
     document.querySelectorAll('.also-see-link').forEach(function(e) { e.remove(); });
-    el.scrollIntoView({behavior: 'instant', block: 'center'});
+    var y = el.getBoundingClientRect().top + window.pageYOffset - 80;
+    window.scrollTo({top: y, behavior: 'instant'});
     el.classList.add('bg-indigo-50');
     setTimeout(function() { el.classList.remove('bg-indigo-50'); }, 3000);
     // Show "Also see" link if both directions exist
