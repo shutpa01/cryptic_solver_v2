@@ -209,6 +209,14 @@ def create_app(config_name=None):
         from web.routes.helper import generate_helper_token
         return {"helper_token": generate_helper_token()}
 
+    @app.after_request
+    def add_no_cache(response):
+        """Prevent browser caching of HTML pages and JS files."""
+        if response.content_type and ('text/html' in response.content_type or 'javascript' in response.content_type):
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response.headers['Pragma'] = 'no-cache'
+        return response
+
     # Register blueprints
     from web.routes.browse import bp as browse_bp
     from web.routes.puzzle import bp as puzzle_bp
