@@ -131,21 +131,26 @@
     function solverTab(tab) {
         // Save current tab's results before switching
         var resultsEl = document.getElementById('solver-results');
+        if (!resultsEl) return;  // No solver panel on this page
         if (resultsEl.innerHTML.trim()) {
             _tabResultsCache[_currentSolverTab] = resultsEl.innerHTML;
         }
         _currentSolverTab = tab;
 
-        document.getElementById('solver-pattern').classList.toggle('hidden', tab !== 'pattern');
-        document.getElementById('solver-anagram').classList.toggle('hidden', tab !== 'anagram');
-        document.getElementById('solver-similar').classList.toggle('hidden', tab !== 'similar');
+        var sp = document.getElementById('solver-pattern');
+        var sa = document.getElementById('solver-anagram');
+        var ss = document.getElementById('solver-similar');
+        if (sp) sp.classList.toggle('hidden', tab !== 'pattern');
+        if (sa) sa.classList.toggle('hidden', tab !== 'anagram');
+        if (ss) ss.classList.toggle('hidden', tab !== 'similar');
         var tabs = {
             pattern: 'bg-emerald-100 text-emerald-700',
             anagram: 'bg-violet-100 text-violet-700',
             similar: 'bg-teal-100 text-teal-700'
         };
         ['pattern', 'anagram', 'similar'].forEach(function(t) {
-            document.getElementById('tab-' + t).className = 'text-xs px-2.5 py-1 rounded font-medium cursor-pointer '
+            var el = document.getElementById('tab-' + t);
+            if (el) el.className = 'text-xs px-2.5 py-1 rounded font-medium cursor-pointer '
                 + (t === tab ? tabs[t] : 'bg-gray-100 text-gray-500');
         });
         // Restore cached results for this tab if available
@@ -233,13 +238,15 @@
         chip.textContent = ch.toUpperCase();
         chip.onclick = function() { this.remove(); anagramAutoSolve(); };
         var input = document.getElementById('anagram-add');
-        input.parentNode.insertBefore(chip, input);
+        if (input) input.parentNode.insertBefore(chip, input);
     }
 
     function anagramClear() {
         document.querySelectorAll('#anagram-chips .anagram-chip').forEach(function(c) { c.remove(); });
-        document.getElementById('anagram-add').value = '';
-        document.getElementById('solver-results').innerHTML = '';
+        var addEl = document.getElementById('anagram-add');
+        if (addEl) addEl.value = '';
+        var resEl = document.getElementById('solver-results');
+        if (resEl) resEl.innerHTML = '';
         var acct = document.getElementById('anagram-accounting');
         if (acct) { acct.classList.add('hidden'); acct.innerHTML = ''; }
         clearTimeout(_anagramTimer);
@@ -377,6 +384,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         var addInput = document.getElementById('anagram-add');
+        if (!addInput) return;
         addInput.addEventListener('input', function() {
             var val = this.value.toUpperCase();
             if (val && /^[A-Z]$/.test(val)) {
@@ -605,7 +613,7 @@
         _sessionOff: false,
 
         init: function(tips) {
-            if (localStorage.getItem('cordelia-shhh') || this._sessionOff) return;
+            if (this._sessionOff) return;
             this._tips = tips.filter(function(t) {
                 return !CordeliaTips._dismissed[t.id];
             });
@@ -633,8 +641,6 @@
                 '</div>' +
                 '<div class="cordelia-shhh">' +
                     '<a onclick="CordeliaTips.shhhSession()" class="cordelia-shhh-btn">Silence Cordelia for now</a>' +
-                    '<span style="margin:0 0.5rem;color:#d1d5db">&middot;</span>' +
-                    '<a onclick="CordeliaTips.shhhAll()" class="cordelia-shhh-btn">Silence forever</a>' +
                 '</div>';
             document.body.appendChild(div);
             this._container = div;
@@ -688,11 +694,6 @@
             this._remove();
         },
 
-        shhhAll: function() {
-            localStorage.setItem('cordelia-shhh', '1');
-            this._remove();
-        },
-
         shhhSession: function() {
             this._sessionOff = true;
             this._remove();
@@ -706,7 +707,7 @@
 
         // Call from solve mode toggle to show solve-specific tips
         showModeTips: function(mode) {
-            if (localStorage.getItem('cordelia-shhh') || this._sessionOff) return;
+            if (this._sessionOff) return;
             var tips = (window._cordeliaTipsByMode || {})[mode] || [];
             tips = tips.filter(function(t) {
                 return !localStorage.getItem('cordelia-tip-' + t.id);
@@ -735,7 +736,7 @@
         var container = document.getElementById('solver-panel-tip');
         if (!container) return;
         container.innerHTML = '';
-        if (localStorage.getItem('cordelia-shhh') || CordeliaTips._sessionOff) return;
+        if (CordeliaTips._sessionOff) return;
         var tip = _solverPanelTips[tab];
         if (!tip || CordeliaTips._dismissed[tip.id]) return;
 
