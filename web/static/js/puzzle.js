@@ -1004,12 +1004,6 @@ function _fetchMatchCountsStaggered() {
             el.classList.add('hidden');
             return;
         }
-        // If pattern unchanged and we have a cached count, use it
-        if (cached.patterns[clueId] === input.getAttribute('data-crossing') && cached.counts[clueId] !== undefined) {
-            var count = cached.counts[clueId];
-            el.textContent = count > 0 ? count + ' matches' : 'no matches';
-            return;
-        }
         queries[clueId] = {pattern: pat, enum: input.dataset.enum || ''};
     });
 
