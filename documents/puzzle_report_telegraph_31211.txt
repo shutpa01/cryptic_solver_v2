@@ -1,0 +1,600 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31211
+Generated: 2026-04-11 07:25:52
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        24/30 (80%)
+    Signature:      5
+    Sig+Enriched:   3
+    Sonnet:         7
+    DB Fallback:    0
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   20  16A, 25D, 20A, 12A, 13D, 18D, 23A, 24A, 26A, 27D, 4D, 7D, 1A, 15A, 19A, 22D, 8D, 1D, 2D, 3D
+  Medium (40-79): 3  29A, 6D, 9A
+  Low (<40):    1  17D
+  Failed:       6  10A, 11A, 14D, 21D, 28A, 5D
+  Average:      85/100
+
+COST: $1.0352 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (20 entries)
+------------------------------------------------------------
+  STAT: "Numerical fact" -> STAT  (missing from definition_answers_augmented)
+  ADHERE: "Stick" -> ADHERE  (missing from definition_answers_augmented)
+  USK: "river" -> USK  (missing from definition_answers_augmented)
+  SEDUCING: "charming" -> SEDUCING  (missing from definition_answers_augmented)
+  ISLE: "Man" -> ISLE  (missing from definition_answers_augmented)
+  LEFTIE: "Red" -> LEFTIE  (missing from definition_answers_augmented)
+  SEND: "Broadcast" -> SEND  (missing from definition_answers_augmented)
+  TOKEN: "Sign" -> TOKEN  (missing from definition_answers_augmented)
+  OTHELLO: "Play" -> OTHELLO  (missing from definition_answers_augmented)
+  NEEDLESSLY: "unnecessarily" -> NEEDLESSLY  (missing from definition_answers_augmented)
+  HOLDDEAR: "Cherish" -> HOLDDEAR  (missing from definition_answers_augmented)
+  UNSCHEDULED: "Impromptu" -> UNSCHEDULED  (missing from definition_answers_augmented)
+  RETORT: "Answer" -> RETORT  (missing from definition_answers_augmented)
+  THESAURUS: "reference book" -> THESAURUS  (missing from definition_answers_augmented)
+  TAKETHEWRONGWAY: "Misinterpret what rookie taxi driver might do" -> TAKETHEWRONGWAY  (missing from definition_answers_augmented)
+  AYEAYE: "Roger" -> AYEAYE  (missing from definition_answers_augmented)
+  CASTASIDE: "Throw" -> CASTASIDE  (missing from definition_answers_augmented)
+  HOLDDEAR: instruction -> HOLD  (missing from synonyms_pairs)
+  HOLDDEAR: over-familiar telephonist -> DEAR  (missing from synonyms_pairs)
+  CASTASIDE: fishing-line -> CAST  (missing from synonyms_pairs)
+
+TYPE MISMATCHES — AI and assembler disagree (1)
+------------------------------------------------------------
+  CUCKOOSPIT = 1 (85/100): AI=charade, assembled=reversal
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS — no real breakdown (1)
+------------------------------------------------------------
+  HOLDDEAR = 17 (5/100): no pieces verified in DB
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  10. Sign acceptable in unfinished temporary shelter = TOKEN
+  11. Play every second of soft Lionel Richie song = OTHELLO
+  14. Goads Machiavellian unnecessarily = NEEDLESSLY
+  21. Answer coming up: 22 Down, with some hesitation = RETORT
+  28. The Salvation Army Uniform Trust's inside reference book = THESAURUS
+  5. Roger and last couple from Hawaii, it's said = AYEAYE
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  11/30  12A, 16A, 20A, 24A, 26A, 3D, 4D, 6D, 7D, 13D, 18D
+  Type mismatch:         1  1D
+  Unverified explain.:   1  17D
+  DB gap:                17  9A, 10A, 11A, 15A, 19A, 23A, 28A, 29A, 2D, 5D, 8D, 14D, 17D, 21D, 22D, 25D, 27D
+  Failed:                6  10A, 11A, 28A, 5D, 14D, 21D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   16A  PEKE          Small breed of dog – some escape kennels (4)
+                      ---  [HIGH]
+   25D  STAT          Numerical fact a little understated (4)
+                      hidden in "little under STAT ed"; definition: "Numerical fact"  [HIGH]
+   20A  COMPOSED      Wrote music together (8)
+                      ---  [HIGH]
+   12A  YACHTS        Boats in variable current initially heading to shore (6)
+                      ---  [HIGH]
+   13D  TREESPARROW   Were parrots agitating another bird? (4,7)
+                      ---  [HIGH]
+   18D  SPUNYARN      Spurn any badly twisted rope (4,4)
+                      ---  [HIGH]
+   23A  ADHERE        Stick present behind Bill (6)
+                      AD (synonym of "Bill") [last letter: "behind"] + HERE (synonym of "present"); definition: "Stick"  [HIGH]
+   24A  DENTATE       Study gallery with pointed toothlike projections (7)
+                      ---  [HIGH]
+   26A  TRURO         In Cornwall, see tourist slander menu for bistro last of all (5)
+                      ---  [HIGH]
+   27D  USK           King to the south of American river (3)
+                      US (synonym of "American") + K (synonym of "King"); definition: "river"  [HIGH]
+    4D  TRICORNE      Rector in silly three-pointed hat (8)
+                      ---  [HIGH]
+    7D  EEK           Seven days without whiskey? I'm alarmed! (3)
+                      ---  [HIGH]
+    1A  COULDNTCARELESS  Not bothered about complex clue to "slanders" (7,4,4)
+                      anagram of CLUETOSLANDERS ("clue to "slanders"") + C (synonym of "about") = COULDNTCARELESS  [HIGH]
+   15A  SEDUCING      "Dunce" is unexpectedly grand and charming (8)
+                      anagram of DUNCEIS (""Dunce" is") + G (synonym of "grand") = SEDUCING; definition: "charming"  [HIGH]
+   19A  ISLE          Man possibly lives with revolutionary European student (4)
+                      IS (synonym of "lives") + L (abbreviation of "student") + E (synonym of "European"); definition: "Man"  [HIGH]
+   22D  LEFTIE        Red port, case for Isabelle (6)
+                      LEFT (synonym of "port,") + IE (middle of "Isabelle") [outer letters: "case"]; definition: "Red"  [HIGH]
+    8D  SEND          Broadcast last part of Proms finale (4)
+                      S (last letter of "Proms") [last letter: "last"] + END (synonym of "part"); definition: "Broadcast"  [HIGH]
+    1D  CUCKOOSPIT    Froth on leaf tips rising, and nuts higher up (6-4)
+                      CUCKOO(synonym of "nuts") + S(abbr. "on") + reverse TIP("leaf tips")  [HIGH]
+   10A  TOKEN         Sign acceptable in unfinished temporary shelter (5)
+                      ---  [FAIL]
+   11A  OTHELLO       Play every second of soft Lionel Richie song (7)
+                      ---  [FAIL]
+   14D  NEEDLESSLY    Goads Machiavellian unnecessarily (10)
+                      ---  [FAIL]
+   17D  HOLDDEAR      Cherish instruction from over-familiar telephonist? (4,4)
+                      HOLD(synonym of "instruction") + DEAR(synonym of "over-familiar telephonist")  [LOW]
+    2D  UNSCHEDULED   Impromptu funny lunches, Dud entertaining Pete at last (11)
+                      anagram of LUNCHES+DUD+E(last letter of "Pete at last") = UNSCHEDULED  [HIGH]
+   21D  RETORT        Answer coming up: 22 Down, with some hesitation (6)
+                      ---  [FAIL]
+   28A  THESAURUS     The Salvation Army Uniform Trust's inside reference book (9)
+                      ---  [FAIL]
+   29A  TAKETHEWRONGWAY  Misinterpret what rookie taxi driver might do (4,3,5,3)
+                      cryptic definition  [MED]
+    3D  DEADLOCK      Insensitive tight hug leads to impasse (8)
+                      DEAD(synonym of "Insensitive") + LOCK("hug leads")  [HIGH]
+    5D  AYEAYE        Roger and last couple from Hawaii, it's said (3,3)
+                      ---  [FAIL]
+    6D  ENTICE        Occasionally meant to put on diamonds for allure (6)
+                      ENT(alternate letters of "meant") + ICE(synonym of "to put on diamonds")  [MED]
+    9A  CASTASIDE     Throw fishing-line – a small fish rejected (4,5)
+                      CAST(synonym of "fishing-line") + A + S(abbr. "small") + IDE(synonym of "fish")  [MED]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] PEKE  16A. Small breed of dog – some escape kennels
+  Answer: PEKE
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden in "some escape"
+  ----------------------------------------------------------------------
+
+  [HIGH] STAT  25D. Numerical fact a little understated
+  Answer: STAT
+  Tier: Sig+Enriched | Confidence: 80/100
+  Definition: "Numerical fact"
+  Wordplay: hidden
+  Explanation: hidden in "little under STAT ed"; definition: "Numerical fact"
+  Checks: missing_indicator_for_hid_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] COMPOSED  20A. Wrote music together
+  Answer: COMPOSED
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition
+  ----------------------------------------------------------------------
+
+  [HIGH] YACHTS  12A. Boats in variable current initially heading to shore
+  Answer: YACHTS
+  Tier: --- | Confidence: 100/100
+  Human explanation: YATS (reversal="shore") + C (first_letter="current") + H (first_letter="heading") = YACHTS; definition: "Boats"
+  ----------------------------------------------------------------------
+
+  [HIGH] TREESPARROW  13D. Were parrots agitating another bird?
+  Answer: TREESPARROW
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of WERE + PARROTS = TREESPARROW
+  ----------------------------------------------------------------------
+
+  [HIGH] SPUNYARN  18D. Spurn any badly twisted rope
+  Answer: SPUNYARN
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of SPURN + ANY = SPUNYARN
+  ----------------------------------------------------------------------
+
+  [HIGH] ADHERE  23A. Stick present behind Bill
+  Answer: ADHERE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Stick"
+  Wordplay: charade + parts
+  Explanation: AD (synonym of "Bill") [last letter: "behind"] + HERE (synonym of "present"); definition: "Stick"
+  ----------------------------------------------------------------------
+
+  [HIGH] DENTATE  24A. Study gallery with pointed toothlike projections
+  Answer: DENTATE
+  Tier: --- | Confidence: 100/100
+  Human explanation: DEN (synonym="Study") + TATE (abbreviation="gallery") = DENTATE; definition: "pointed toothlike projections"
+  ----------------------------------------------------------------------
+
+  [HIGH] TRURO  26A. In Cornwall, see tourist slander menu for bistro last of all
+  Answer: TRURO
+  Tier: --- | Confidence: 100/100
+  Human explanation: last letters of "tourist slander menu for bistro" = TRURO
+  ----------------------------------------------------------------------
+
+  [HIGH] USK  27D. King to the south of American river
+  Answer: USK
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "river"
+  Wordplay: charade
+  Explanation: US (synonym of "American") + K (synonym of "King"); definition: "river"
+  ----------------------------------------------------------------------
+
+  [HIGH] TRICORNE  4D. Rector in silly three-pointed hat
+  Answer: TRICORNE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of RECTOR + IN = TRICORNE; definition: "hat"
+  ----------------------------------------------------------------------
+
+  [HIGH] EEK  7D. Seven days without whiskey? I'm alarmed!
+  Answer: EEK
+  Tier: --- | Confidence: 100/100
+  Human explanation: WEEK (synonym="Seven days") with deletion = EEK
+  ----------------------------------------------------------------------
+
+  [HIGH] COULDNTCARELESS  1A. Not bothered about complex clue to "slanders"
+  Answer: COULDNTCARELESS
+  Tier: Signature | Confidence: 80/100
+  Wordplay: anagram + charade
+  Explanation: anagram of CLUETOSLANDERS ("clue to "slanders"") + C (synonym of "about") = COULDNTCARELESS
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] SEDUCING  15A. "Dunce" is unexpectedly grand and charming
+  Answer: SEDUCING
+  Tier: Signature | Confidence: 80/100
+  Definition: "charming"
+  Wordplay: anagram + charade
+  Explanation: anagram of DUNCEIS (""Dunce" is") + G (synonym of "grand") = SEDUCING; definition: "charming"
+  Checks: missing_indicator_for_ana_f=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] ISLE  19A. Man possibly lives with revolutionary European student
+  Answer: ISLE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Man"
+  Wordplay: charade
+  Explanation: IS (synonym of "lives") + L (abbreviation of "student") + E (synonym of "European"); definition: "Man"
+  ----------------------------------------------------------------------
+
+  [HIGH] LEFTIE  22D. Red port, case for Isabelle
+  Answer: LEFTIE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Red"
+  Wordplay: charade + parts
+  Explanation: LEFT (synonym of "port,") + IE (middle of "Isabelle") [outer letters: "case"]; definition: "Red"
+  ----------------------------------------------------------------------
+
+  [HIGH] SEND  8D. Broadcast last part of Proms finale
+  Answer: SEND
+  Tier: Signature | Confidence: 100/100
+  Definition: "Broadcast"
+  Wordplay: charade + parts
+  Explanation: S (last letter of "Proms") [last letter: "last"] + END (synonym of "part"); definition: "Broadcast"
+  ----------------------------------------------------------------------
+
+  [HIGH] CUCKOOSPIT  1D. Froth on leaf tips rising, and nuts higher up
+  Answer: CUCKOOSPIT
+  Tier: Sonnet | Confidence: 85/100
+  Definition: "Froth"
+  Wordplay type: charade
+  Components:
+    synonym            nuts                      -> CUCKOO
+    abbreviation       on                        -> S
+    literal            leaf tips                 -> TIP
+    indicator          rising                    -> 
+    indicator          higher up                 -> 
+  Assembly: reversal — CUCKOO(synonym of "nuts") + S(abbr. "on") + reverse TIP("leaf tips")
+  Checks: definition=confirmed in DB | wordplay_type=reversal | type_mismatch=AI=charade, assembled=reversal | type_evidence=assembled, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=3/3 (100%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      froth: syn=CUCKOOSPIT*,FOAM,HEAD,SEETHE
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S*
+      leaf: syn=PAGE,FOLIO,SHEET,CHICORY,LILY PAD,SHAMROCK
+      tips: syn=CUSP*,ENDS,CLUES,DOFFS,HINTS,LEADS,LEANS,LISTS,APEXES,APICES,UPSETS,POINTERS,OVERTURNS,GRATUITIES,UP; ind=acrostic,deletion,parts
+      rising: syn=LIFT,RIOT,RISE,SOAR,CLIMB,TIDAL,ASCENT,MUTINY,REVOLT,UPWARD,ONTHEUP,BUILDING,OUTBREAK,UPRISING,ASCENDENT; ind=reversal
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      nuts: syn=CUCKOO*,CUCKOOS*,APE,FEY,HOT,MAD,ODD,OFF,ROT,WUD,AGOG,AMOK,AVID,BATS,BLAH; ind=anagram
+      higher: syn=UP,HIGH,LATE,LATER,EVOLVED,FORWARD,REFINED,ADVANCED,IMPROVED,SUPERIOR,DEVELOPED; abbr=UP; sounds=hire
+      up: syn=OF,TO,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+    Definitions:
+      "Froth" -> CUCKOOSPIT (definition match)
+  AI Reasoning:
+    CUCKOO (nuts=crazy) + S (on=abbreviation) + PIT (TIP from leaf tips, reversed by rising) = CUCKOOSPIT
+  ----------------------------------------------------------------------
+
+  [FAILED] TOKEN  10A. Sign acceptable in unfinished temporary shelter
+  Answer: TOKEN
+  Tier: --- | Confidence: 0/100
+  Definition: "Sign"
+  Wordplay type: container
+  Components:
+    synonym            temporary shelter         -> TENT
+    indicator          unfinished                -> 
+    abbreviation       acceptable                -> OK
+    indicator          in                        -> 
+  DB Lookups:
+    DB lookups:
+      sign: syn=OK*,TOKEN*,AD,FEE,FLY,INK,LEO,PAY,PEN,SOS,VOW,BECK,BILL,CLUE,FLAG
+      acceptable: syn=OK*,ON,NOT,BEST,FINE,GOOD,JAKE,MENU,OKAY,TEST,DUCKY; abbr=OK*,ON,U
+      in: syn=T,BY,IT,RH,BIG,DEF,HEP,HIP,HOT,MAD,MOD,NOW,PER,POP,POT; abbr=AT HOME; ind=container,hidden,insertion; sounds=inn
+      unfinished: syn=RAW,RUDE,CRUDE; ind=deletion,parts
+      temporary: syn=TERM,BRIEF,CRISP,FLASH,PITHY,SHORT; abbr=T*
+      shelter: syn=FLY,HUT,LEE,CASE,HIDE,HOME,LEAN,TAKE,TENT,TOWN,YURT,BOARD,COVER,HAVEN,HOUSE; abbr=LEE
+    Definitions:
+      "Sign" -> TOKEN (definition match)
+  AI Reasoning:
+    TENT (temporary shelter) becomes TEN when unfinished (last letter deleted), then OK (acceptable) goes in TEN to form TOKEN
+  ----------------------------------------------------------------------
+
+  [FAILED] OTHELLO  11A. Play every second of soft Lionel Richie song
+  Answer: OTHELLO
+  Tier: --- | Confidence: 0/100
+  Definition: "Play"
+  Wordplay type: hidden
+  Components:
+    indicator          every second              -> 
+    hidden             soft Hello                -> OTHELLO
+  DB Lookups:
+    DB lookups:
+      play: syn=OTHELLO*,DO,GO,ACT,BET,BUM,END,FUN,JIG,LAG,LAY,NOH,PUT,TOY,USE; ind=anagram
+      every: syn=ACE,AID,ALL,ANY,ARC,BOW,CUT,EYE,HUB,PEG,ARCH,BEND,BENT,BOON,CORE; abbr=ALL; ind=parts
+      second: syn=S,ME,MO,ACT,BAD,BIT,BUM,DAY,EON,ERA,MOS,NEW,OLD,USE,BACK; abbr=B,MO,S; ind=parts
+      soft: syn=DIM,LOW,WET,COZY,DULL,DUMB,EASY,FLAT,LIMP,MILD,SLOW,SNAP,SNUG,VERY,WEAK; abbr=P
+      song: syn=AIR,LAY,TWO,AIRS,ARIA,HYMN,LIED,MITE,PART,POEM,SOLO,TUNE,CAROL,CHANT,CHEAP; abbr=AIR,ARIA
+      every second: ind=parts
+    Definitions:
+      "Play" -> OTHELLO (definition match)
+  AI Reasoning:
+    Take every second letter from 'soft Hello' (where Lionel Richie song = Hello) to spell OTHELLO
+  ----------------------------------------------------------------------
+
+  [FAILED] NEEDLESSLY  14D. Goads Machiavellian unnecessarily
+  Answer: NEEDLESSLY
+  Tier: --- | Confidence: 0/100
+  Definition: "unnecessarily"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     Goads                     -> GOADS
+    anagram_fodder     Machiavellian             -> MACHIAVELLIAN
+  DB Lookups:
+    DB lookups:
+      goads: syn=ME,SPURS,IMPEL,NETTLE,ABOUT OR
+      machiavellian: syn=EAT,PLOTTER
+      unnecessarily: syn=OTIOSELY
+    Definitions:
+      "unnecessarily" -> NEEDLESSLY (definition match)
+  AI Reasoning:
+    Anagram of selected letters from 'Goads Machiavellian' to form NEEDLESSLY, with the concept of Machiavellian suggesting rearrangement
+  ----------------------------------------------------------------------
+
+  [LOW] HOLDDEAR  17D. Cherish instruction from over-familiar telephonist?
+  Answer: HOLDDEAR
+  Tier: Sonnet | Confidence: 5/100
+  Definition: "Cherish"
+  Wordplay type: charade
+  Components:
+    synonym            instruction               -> HOLD
+    synonym            over-familiar telephonist -> DEAR
+  Assembly: charade — HOLD(synonym of "instruction") + DEAR(synonym of "over-familiar telephonist")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=0/2 (0%) | unverified_claims=2 synonym/abbr not in DB | fodder_in_clue=all present | zero_validation=no pieces verified in DB
+  DB Lookups:
+    DB lookups:
+      cherish: syn=HOLD*,A,DO,BAG,EYE,ARMS,BEST,BORN,HAVE,LINE,LOSE,LOVE,NONE,ADORE,COURT
+      instruction: syn=MY,SO,FEW,JOB,USE,DUTY,HAND,MANY,PART,POST,ROLE,TASK,WORD,WORK,NICHE
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      over: syn=OLD*,O,BY,ON,UP,ALL,LOW,OFT,OUT,TOO,AGED,AMID,ANEW,DEAD,DONE; abbr=O*,ON,UP; ind=anagram,reversal
+      familiar: syn=OLD*,OR,UP,NUN,PAL,ABBÉ,ALLY,BOLD,CHUM,CLAN,CURÉ,DEAN,FOLK,FREE,HOME; ind=container?
+  AI Reasoning:
+    HOLD (telephonist's instruction) + DEAR (what over-familiar telephonist calls you) = HOLDDEAR
+  ----------------------------------------------------------------------
+
+  [HIGH] UNSCHEDULED  2D. Impromptu funny lunches, Dud entertaining Pete at last
+  Answer: UNSCHEDULED
+  Tier: Sonnet | Confidence: 80/100
+  Definition: "Impromptu"
+  Wordplay type: anagram
+  Components:
+    indicator          funny                     -> 
+    anagram_fodder     lunches                   -> LUNCHES
+    anagram_fodder     Dud                       -> DUD
+    indicator          entertaining              -> 
+    last_letter        Pete at last              -> E
+  Assembly: anagram — anagram of LUNCHES+DUD+E(last letter of "Pete at last") = UNSCHEDULED
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=pass | pieces_validated=2/3 (67%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      impromptu: syn=AD,OFF,THE,SNAP,ADLIB,QUICK,READY,AD HOC,AD LIB,AD-LIB,MOMENT,SPEECH,IMPROVISED,OFFTHECUFF,UNPREPARED; ind=anagram?
+      funny: syn=FAR,GAG,ODD,OFF,ONE,RIB,RUM,THE,WAY,YUK,BOFF,BUTT,JEST,JOKE,JOSH; ind=anagram
+      lunches: syn=MEALS
+      dud: syn=ALSO,MISS,LEMON,TOGAS,TURKEY,FAILURE; ind=anagram?
+      entertaining: syn=FUN,AMUSING,AT HOME,HOSTING,ABOUT OR,AROUND OR,DIVERTING,ENJOYABLE,DELIGHTFUL,A DIVERSION,PLEASURABLE; ind=container
+      at: syn=HEED*,IN,BED,EAR,EAT,EYE,FAT,BASE,BEAT,BOAT,BOIL,BUTT,COME,EVER,FIRE; ind=acrostic,anagram?,parts
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      at last: ind=parts
+      at last: syn=LATER,TRIPE,INTIME,BALONEY,FINALLY,RUBBISH,SOMEDAY,COBBLERS,DESSERTS,NONSENSE
+  AI Reasoning:
+    LUNCHES + DUD containing E (last letter of Pete) = LUNCHESDEUD, anagrammed by 'funny' gives UNSCHEDULED
+  ----------------------------------------------------------------------
+
+  [FAILED] RETORT  21D. Answer coming up: 22 Down, with some hesitation
+  Answer: RETORT
+  Tier: --- | Confidence: 0/100
+  Definition: "Answer"
+  Wordplay type: charade
+  Components:
+    abbreviation       22                        -> V
+    indicator          coming up                 -> 
+    reversal           Down                      -> NWOD
+    indicator          some                      -> 
+    hidden             hesitation                -> RETORT
+  DB Lookups:
+    DB lookups:
+      answer: syn=RETORT*,A,DO,GO,ACT,ANS,BED,EYE,FAG,FIT,GET,LEG,MET,NEW,RUN; abbr=A,ANS
+      coming: syn=RAY,WAY,BEAM,FAST,GLOW,HALO,JUMP,LEAP,NEAR,NEXT,STEP,BLAZE,BOUND,DRIFT,FLARE; ind=anagram,reversal
+      up: syn=TO*,OF,ADD,BAR,ERE,HOT,MOD,NEW,NOW,TIP,ADDS,BUSH,DONE,DOWN,EASY; ind=reversal
+      22: syn=ARM,BOX,FIX,GAT,JAM,ROD,BIND,HEAT,HOLE,JAMS,MIRE,SNAG,SPOT,BINDS,BOXES
+      down: syn=A1,OK,UP,BAD,BIG,DIE,DIP,FAB,FRO,FUR,HOT,ILL,LOW,NAP,NOT; ind=anagram
+      with: syn=TO*,W,BY,IN,OF,ON,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON,W
+      some: syn=OR*,TO*,A,AGE,AID,ANY,FEW,ONE,SAY,SET,TOO,YET,ABET,ALSO,AXON; abbr=A,PART,S; ind=hidden; sounds=sum
+      hesitation: syn=ER,UM,FOOT,PAUSE; abbr=ER,UM
+      coming up: syn=LIFT,RIOT,ASCENT,REVOLT,RISING,UPWARD
+    Definitions:
+      "Answer" -> RETORT (definition match)
+    Cross-references:
+      Clue 22 answer = LEFTIE
+  AI Reasoning:
+    RETORT is hidden within 'twenty-two Down, with some hesitation' when 22 is read as twenty-two
+  ----------------------------------------------------------------------
+
+  [FAILED] THESAURUS  28A. The Salvation Army Uniform Trust's inside reference book
+  Answer: THESAURUS
+  Tier: --- | Confidence: 0/100
+  Definition: "reference book"
+  Wordplay type: anagram
+  Components:
+    anagram_fodder     The Salvation Army Uniform Trust's -> THESALVATIONARMYUNIFORMTRUSTS
+    indicator          inside                    -> 
+  DB Lookups:
+    DB lookups:
+      the: syn=LAC,ODD,ROD,TOP,BOSS,DODO,FAIR,FINE,FOGY,KEEN,LACK,MEAN,NEAT,NEED,RARE; abbr=T*,TH*,UP,YE
+      salvation: syn=RESCUE,LIFELINE; abbr=S*
+      army: syn=MOB,BIKE,CORE,CRAM,HEFT,HERD,HOST,MASS,ROUT,TEAM,ACTOR,BRUNT,CHIEF,CROWD,CRUSH; abbr=A*,RE,TA
+      uniform: syn=U,KIT,EVEN,ALIKE,DRESS,EQUAL,FIXED,HABIT,LIVERY,OUTFIT,STABLE,STEADY,ALIGNED,COSTUME,RAIMENT; abbr=U*
+      trust's: syn=ARC,BUY,NEW,NOT,WAY,AXIS,BANK,BLOC,CARE,GIVE,HAND,HIKE,HOPE,LINE,PASS
+      inside: syn=IN,GUT,MID,TOP,HEART,INNER,PRIVY,RELIC,SPACE,COURSE,HUSHED,INMOST,INWARD,MIDDLE,SECRET; abbr=IN; ind=container,hidden,insertion,parts
+      reference: syn=THESAURUS*,CITE,FONT,GRIP,ATLAS,CRADLE,SOURCE,SEEDBED,FOUNTAIN,AUTHORITY,DIRECTORY
+      book: syn=THESAURUS*,B,DO,IT,ACT,BAG,CUT,DIG,GET,HIT,HOW,MAG,PUT,SEE,SHE; abbr=B,NT,TOME
+      reference book: syn=THESAURUS*,A-Z,BOOK,LIST,WORK,LEXICON,CHAMBERS,WORDBOOK,DIRECTORY,REFERENCE
+    Definitions:
+      "book" -> THESAURUS (definition match)
+      "reference book" -> THESAURUS (definition match)
+  AI Reasoning:
+    The letters T-H-E-S-A-U-R-U-S are selected from within 'The Salvation Army Uniform Trust's' with 'inside' indicating this selection mechanism
+  ----------------------------------------------------------------------
+
+  [MEDIUM] TAKETHEWRONGWAY  29A. Misinterpret what rookie taxi driver might do
+  Answer: TAKETHEWRONGWAY
+  Tier: Sonnet | Confidence: 45/100
+  Definition: "Misinterpret what rookie taxi driver might do"
+  Wordplay type: cryptic_definition
+  Assembly: cryptic_definition — cryptic definition
+  Checks: definition=position OK (start/end of clue) | wordplay_type=cryptic_definition | type_evidence=assembled, AI agrees, reasoning supports | yields_check=n/a for cryptic_definition | pieces_validated=n/a for cryptic_definition | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      misinterpret: syn=BEAT,MISS,WIND,COLOR; ind=anagram?
+      what: syn=AH,EH,HA,LO,MY,NO,OH,AHA,FIE,GAD,GEE,HEY,NUT,TOO,UGH; abbr=EH
+      rookie: syn=CUB,BABE,COLT,PUNK,ROOK,TYRO,GREEN,NEWBIE,NOVICE,VIRGIN,RECRUIT,BEGINNER,FRESHMAN,NEOPHYTE,NEWCOMER
+      taxi: syn=CAB,CAN,HOY,KEG,TUB,TUG,TUN,VAT,BUTT,CASK,DRUM,KEEL,OF A,PIPE,TUB,
+      driver: syn=CLUB,FORT,GOLF,NERD,TOOL,WALL,WARD,WOOD,AEGIS,AGENT,ARMOR,CAUSE,COVER,GUARD,MEANS
+      might: syn=MAY,BRAWN,FORCE,POWER,SINEW,VIGOR,ENERGY,MUSCLE,ABILITY,POTENCY,STRENGTH,PUISSANCE; ind=anagram?; sounds=mite
+      do: syn=WAY*,TAKE*,BE,GO,IS,MY,PI,411,A A,ACT,ADO,ALA,AND,ARE,BED; abbr=C,PARTY; sounds=dew,due
+  AI Reasoning:
+    The whole clue cryptically defines TAKETHEWRONGWAY - a rookie driver might literally take the wrong way, while to misinterpret is figuratively to take something the wrong way
+  ----------------------------------------------------------------------
+
+  [HIGH] DEADLOCK  3D. Insensitive tight hug leads to impasse
+  Answer: DEADLOCK
+  Tier: Sonnet | Confidence: 82/100
+  Definition: "impasse"
+  Wordplay type: charade
+  Components:
+    synonym            Insensitive               -> DEAD
+    indicator          tight                     -> 
+    anagram_fodder     hug leads                 -> LOCK
+  Assembly: charade — DEAD(synonym of "Insensitive") + LOCK("hug leads")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=1/2 (50%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      insensitive: syn=DEAD*,NO,BODY,CASE,COLD,HARD,IRON,NUMB,TAKE,BRUTE,STONY,ASLEEP,BRUTAL,NUMBER,RIGHTS
+      tight: syn=ITS,LIT,PIE,SET,WET,FAST,FINE,FIRM,HARD,HIGH,LANK,MEAN,SLIM,SNUG,TAUT; ind=anagram
+      hug: syn=BILL,FEEL,CLING,CLINCH,EMBRACE,ABOUT OR
+      leads: syn=LOCK*,GOES,LAGS,LIES,SAGS,STAR,TIPS,BAILS,BOOKS,CLUES,FADES,FAILS,FLAGS,GROWS,HEADS; abbr=L*,PB; ind=acrostic,parts; sounds=led
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      impasse: syn=DEADLOCK*,22,BOX,FIX,JAM,FISH,HEAD,HOLE,HOUR,LAST,PASS,RACE,SPOT,IDIOT,PINCH
+    Definitions:
+      "impasse" -> DEADLOCK (definition match)
+  AI Reasoning:
+    DEAD (insensitive) + LOCK (anagram of letters from 'hug leads') = DEADLOCK
+  ----------------------------------------------------------------------
+
+  [FAILED] AYEAYE  5D. Roger and last couple from Hawaii, it's said
+  Answer: AYEAYE
+  Tier: --- | Confidence: 0/100
+  Definition: "Roger"
+  Wordplay type: homophone
+  Components:
+    indicator          last                      -> 
+    indicator          couple                    -> 
+    indicator          from                      -> 
+    literal            Hawaii                    -> II
+    indicator          said                      -> 
+  DB Lookups:
+    DB lookups:
+      roger: syn=MAN,CHAP,GOT IT,I HEAR
+      and: syn=DO,SH,ADO,FUN,HOT,OFT,ROW,ZOO,ANON,COIL,FUSS,KEEP,MOIL,MOOT,MUCH; abbr=AN
+      last: syn=GO,PI,BAG,END,FAD,FIX,JAM,LAG,LAS,MAX,NTH,RUN,TON,TOP,BALD; ind=parts
+      couple: syn=DUO,FEW,OWT,TIE,TWO,DUET,DYAD,FUSE,HOOK,ITEM,JOIN,LINK,MATE,NOWT,PAIR
+      from: syn=OF,BAD,BAR,BUT,ERR,ILL,JAR,NOW,OFF,SIN,BUSH,FALL,JOLT,LAME,POOR; abbr=A*,EX,OF; ind=anagram?,hidden,reversal
+      hawaii: syn=HI,STATE,ISLAND,OF THE
+      it's: syn=TIS,GO,IN,SA,BIB,DEF,DIE,END,FLY,GET,HEP,HIE,HIP,JET,MOD; abbr=SA
+      said: syn=PUT,ORAL,TOLD,SPOKE,PASSED,SPOKEN,STATED,TALKED,WORDED; ind=homophone
+      it's said: syn=ORAL
+  AI Reasoning:
+    Last couple from Hawaii extracts II, which sounds like aye-aye as homophone
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ENTICE  6D. Occasionally meant to put on diamonds for allure
+  Answer: ENTICE
+  Tier: Sonnet | Confidence: 63/100
+  Definition: "allure"
+  Wordplay type: charade
+  Components:
+    indicator          Occasionally              -> 
+    alternate_letters  meant                     -> ENT
+    synonym            to put on diamonds        -> ICE
+  Assembly: charade — ENT(alternate letters of "meant") + ICE(synonym of "to put on diamonds")
+  Checks: definition=confirmed in DB | wordplay_type=charade | type_evidence=assembled, AI agrees, reasoning supports | yields_check=pass | pieces_validated=0/2 (25%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      occasionally: syn=ON,AYE,NOW,OFT,EVER,FROM,MUCH,OFTEN,WHILE,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM
+      meant: syn=WEIGHT
+      to: syn=BY,OF,UP,ADO,BOS,ERE,ROW,FLIP,FUSS,MOST,MUCH,NEAR,NIGH,POOR,SLIM; ind=reversal; sounds=too,two
+      put: syn=ICE*,DO,GO,IS,A A,ACT,AIR,BET,CAP,CUT,DID,DIG,DIS,DUG,EAT; abbr=SET
+      on: syn=AS,OF,RE,SO,COM,LEG,NOW,PDQ,ATOP,BANG,GOOD,LIVE,NEXT,OVER,TRUE; abbr=RE,S
+      diamonds: syn=ICE*,D,NICE,SUIT,NICER,ROCKS,RHOMBI,STONES,SUITOR,ACE,ROCK,JEWEL,RHOMB,STONE; abbr=D
+      for: syn=AS,IS,TO,BAR,BUT,HIC,HOW,NOW,PER,PRO,ROW,FRAY,OPEN,QUIZ,RUDE; abbr=PRO,TO; ind=deletion; sounds=four,fore
+      allure: syn=ENTICE*,BAIT,CALL,DRAW,FAST,KILL,LEAD,LURE,POLE,PULL,SPUR,WILE,CHARM,DECOY,FORCE
+      put on: syn=ACT,DON,COPY,FAKE,MOVE,PASS,SHAM,SWAY,WEAR,FEIGN
+    Definitions:
+      "allure" -> ENTICE (definition match)
+  AI Reasoning:
+    Take occasional letters from MEANT (positions 2,4,5) to get ENT, then 'to put on diamonds' means ICE, combining to ENTICE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] CASTASIDE  9A. Throw fishing-line – a small fish rejected
+  Answer: CASTASIDE
+  Tier: Sonnet | Confidence: 51/100
+  Definition: "Throw"
+  Wordplay type: charade
+  Components:
+    synonym            fishing-line              -> CAST
+    literal            a                         -> A
+    abbreviation       small                     -> S
+    synonym            fish                      -> IDE
+    indicator          rejected                  -> 
+  Assembly: charade — CAST(synonym of "fishing-line") + A + S(abbr. "small") + IDE(synonym of "fish")
+  Checks: definition=position OK (start/end of clue) | wordplay_type=charade | type_evidence=assembled, AI agrees | yields_check=pass | pieces_validated=3/4 (75%) | unverified_claims=1 synonym/abbr not in DB | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      throw: syn=CAST*,DON,GAG,LOB,NIX,OUT,PEG,SHY,TIP,BARF,BLOW,DASH,DROP,DUMP,EMIT; ind=anagram?
+      line: syn=CAST*,SIDE*,L,ER,RY,ARC,CUE,DIP,EBB,END,FIT,GET,GUT,JOB,KIN; abbr=L,RY
+      small: syn=S,ARM,FEW,GUN,LET,OFF,PEN,POD,RAP,TWO,WEE,BABY,CHAT,FINE,HALF; abbr=S*
+      fish: syn=IDE*,AHI,BOD,BOX,BOY,CAT,COD,DAB,EEL,EGG,FIX,GAR,GUY,JAM,JOE; abbr=GAR,IDE*,LING,RAY
+      rejected: syn=OUT,IDLE,LEFT,VOID,EMPTY,WASTE,JUNKED,REFUSE,SHABBY,VACANT,BLOCKED,CASTOFF,DISUSED,IGNORED,REFUSED; ind=deletion,reversal
+      a small: syn=DATA,DOPE,FACT,INCH,INFO,UNIT,CHAIN,CREEP,ELSIE,FACTS
+      small fish: syn=FISH,CHILD,SHRIMP,TIDDLER,NURSELING
+  AI Reasoning:
+    CAST (fishing-line) + A + S (small) + IDE (fish) = CASTASIDE, meaning throw/cast aside
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

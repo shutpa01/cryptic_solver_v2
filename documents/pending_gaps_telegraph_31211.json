@@ -1,0 +1,218 @@
+{
+  "source": "telegraph",
+  "puzzle": "31211",
+  "stats": {
+    "total": 30,
+    "assembled": 24,
+    "high": 20,
+    "medium": 3,
+    "low": 1,
+    "failed": 6,
+    "avg_score": 85.45833333333333
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "instruction",
+      "letters": "HOLD",
+      "answer": "HOLDDEAR",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Cherish instruction from over-familiar telephonist?",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "over-familiar telephonist",
+      "letters": "DEAR",
+      "answer": "HOLDDEAR",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Cherish instruction from over-familiar telephonist?",
+      "score": 5
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "fishing-line",
+      "letters": "CAST",
+      "answer": "CASTASIDE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Throw fishing-line – a small fish rejected",
+      "score": 51
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Numerical fact",
+      "answer": "STAT",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Numerical fact a little understated",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Stick",
+      "answer": "ADHERE",
+      "clue_number": "23",
+      "direction": "across",
+      "clue": "Stick present behind Bill",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "river",
+      "answer": "USK",
+      "clue_number": "27",
+      "direction": "down",
+      "clue": "King to the south of American river",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "charming",
+      "answer": "SEDUCING",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "\"Dunce\" is unexpectedly grand and charming",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Man",
+      "answer": "ISLE",
+      "clue_number": "19",
+      "direction": "across",
+      "clue": "Man possibly lives with revolutionary European student",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Red",
+      "answer": "LEFTIE",
+      "clue_number": "22",
+      "direction": "down",
+      "clue": "Red port, case for Isabelle",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Broadcast",
+      "answer": "SEND",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Broadcast last part of Proms finale",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sign",
+      "answer": "TOKEN",
+      "clue_number": "10",
+      "direction": "across",
+      "clue": "Sign acceptable in unfinished temporary shelter",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Play",
+      "answer": "OTHELLO",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Play every second of soft Lionel Richie song",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "unnecessarily",
+      "answer": "NEEDLESSLY",
+      "clue_number": "14",
+      "direction": "down",
+      "clue": "Goads Machiavellian unnecessarily",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Cherish",
+      "answer": "HOLDDEAR",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Cherish instruction from over-familiar telephonist?",
+      "score": 5
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Impromptu",
+      "answer": "UNSCHEDULED",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Impromptu funny lunches, Dud entertaining Pete at last",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Answer",
+      "answer": "RETORT",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Answer coming up: 22 Down, with some hesitation",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "reference book",
+      "answer": "THESAURUS",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "The Salvation Army Uniform Trust's inside reference book",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Misinterpret what rookie taxi driver might do",
+      "answer": "TAKETHEWRONGWAY",
+      "clue_number": "29",
+      "direction": "across",
+      "clue": "Misinterpret what rookie taxi driver might do",
+      "score": 45
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Roger",
+      "answer": "AYEAYE",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Roger and last couple from Hawaii, it's said",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Throw",
+      "answer": "CASTASIDE",
+      "clue_number": "9",
+      "direction": "across",
+      "clue": "Throw fishing-line – a small fish rejected",
+      "score": 51
+    }
+  ]
+}

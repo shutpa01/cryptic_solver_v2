@@ -1,0 +1,466 @@
+================================================================================
+PUZZLE QUALITY REPORT: independent #12327
+Generated: 2026-04-11 08:28:40
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      28
+  Assembled:        27/28 (96%)
+    Signature:      1
+    Sig+Enriched:   2
+    Sonnet:         1
+    DB Fallback:    1
+  Failed:           1
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   22  21D, 10A, 12A, 13A, 14D, 15A, 22A, 26A, 7D, 8D, 25D, 11A, 16A, 17D, 18A, 2D, 23D, 24A, 28A, 3D, 4D, 19D
+  Medium (40-79): 4  1A, 27A, 6D, 9D
+  Low (<40):    1  5D
+  Failed:       1  20A
+  Average:      86/100
+
+COST: $0.2076 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (25 entries)
+------------------------------------------------------------
+  LEAKAGE: "Escape" -> LEAKAGE  (missing from definition_answers_augmented)
+  FAIR: "Just" -> FAIR  (missing from definition_answers_augmented)
+  BOWLINGALLEY: "Where one could get a spare" -> BOWLINGALLEY  (missing from definition_answers_augmented)
+  OFFICER: "Policeman" -> OFFICER  (missing from definition_answers_augmented)
+  EDEN: "prime minister" -> EDEN  (missing from definition_answers_augmented)
+  ACADEMIC: "Ideal fellow" -> ACADEMIC  (missing from definition_answers_augmented)
+  FUJI: "Peak" -> FUJI  (missing from definition_answers_augmented)
+  OUTAGES: "Power cuts" -> OUTAGES  (missing from definition_answers_augmented)
+  ADIEU: "later" -> ADIEU  (missing from definition_answers_augmented)
+  DRAKE: "He dabbles in drugs" -> DRAKE  (missing from definition_answers_augmented)
+  ARMYANT: "Predator" -> ARMYANT  (missing from definition_answers_augmented)
+  SQUASHRACKET: "What's used in court to suppress fraud?" -> SQUASHRACKET  (missing from definition_answers_augmented)
+  LEGACIES: "carrying on what predecessors left" -> LEGACIES  (missing from definition_answers_augmented)
+  NOTE: "A, B, C, D, F or G" -> NOTE  (missing from definition_answers_augmented)
+  LIFER: "one left in can for ages" -> LIFER  (missing from definition_answers_augmented)
+  PRESENTIMENTS: "Forebodings" -> PRESENTIMENTS  (missing from definition_answers_augmented)
+  BOTTICELLI: "Fine stroke-maker" -> BOTTICELLI  (missing from definition_answers_augmented)
+  AGONYAUNTS: "Advisers" -> AGONYAUNTS  (missing from definition_answers_augmented)
+  BOWLINGALLEY: crockery -> BOWL  (missing from synonyms_pairs)
+  ADIEU: random number generator -> DIE  (missing from abbreviations)
+  DRAKE: The Libertines -> RAKE  (missing from synonyms_pairs)
+  PRESENTIMENTS: I should have mentioned -> PS  (missing from abbreviations)
+  PRESENTIMENTS: ill-feeling -> RESENTMENT  (missing from synonyms_pairs)
+  BOTTICELLI: behind -> BOTT  (missing from synonyms_pairs)
+  BOTTICELLI: by -> I  (missing from abbreviations)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (1)
+------------------------------------------------------------
+  20. Fine stroke-maker caught behind by player, not stumped = BOTTICELLI
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  10/28  10A, 12A, 13A, 15A, 22A, 26A, 7D, 8D, 14D, 19D
+  DB gap:                18  1A, 11A, 16A, 18A, 20A, 24A, 27A, 28A, 2D, 3D, 4D, 5D, 6D, 9D, 17D, 21D, 23D, 25D
+  Failed:                1  20A
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   21D  LEAKAGE       Escape from capsule aka Gemini (7)
+                      hidden in "capsu LEAKAGE mini" [hidden: "from"]; definition: "Escape"  [HIGH]
+   10A  UPTIGHT       In an excited state drunk becomes irritated (7)
+                      ---  [HIGH]
+   12A  LOGIC         Laws of generating intelligent conclusions, principally? (5)
+                      ---  [HIGH]
+   13A  HYDRATES      The yards formed compounds (8)
+                      anagram of THEYARDS ("The yards") [anagram: "formed"] = HYDRATES  [HIGH]
+   14D  TINOPENERS    Can access achieved with them spread pretension? (3-7)
+                      ---  [HIGH]
+   15A  ABSTEMIOUS    Troubled about Messi not drinking much? (10)
+                      ---  [HIGH]
+   22A  MISTAKEN      Mankiest bananas emerging through error of judgement (8)
+                      ---  [HIGH]
+   26A  LEETIDE       Flow of water sent back to correct swimmer (3,4)
+                      ---  [HIGH]
+    7D  YACHTED       Chay going off to meet Ted sailed in style (7)
+                      ---  [HIGH]
+    8D  NUCLEARFAMILY  Greek character evidently defending loud friend in French household (7,6)
+                      ---  [HIGH]
+   25D  FAIR          Just food and drink we hear (4)
+                      FAIR (sounds like "food and drink") [homophone: "we hear"]; definition: "Just"  [HIGH]
+    1A  BOWLINGALLEY  Where one could get a spare item of crockery in kitchen (7,5)
+                      ---  [MED]
+   11A  OFFICER       Policeman runs past where skaters relax (7)
+                      ---  [HIGH]
+   16A  EDEN          Junk energy emitted by toothless prime minister (4)
+                      ---  [HIGH]
+   17D  ACADEMIC      Ideal fellow (8)
+                      ---  [HIGH]
+   18A  FUJI          Peak Fury docked twice by international boxing judge (4)
+                      ---  [HIGH]
+    2D  OUTAGES       Power cuts elsewhere succeeded suppressing generation (7)
+                      ---  [HIGH]
+   23D  ADIEU         University will support advanced random number generator later (5)
+                      ---  [HIGH]
+   24A  DRAKE         He dabbles in drugs, primarily with one of The Libertines (5)
+                      ---  [HIGH]
+   27A  ARMYANT       Predator's gun back from Saturday at around noon (4,3)
+                      ---  [MED]
+   28A  SQUASHRACKET  What's used in court to suppress fraud? (6,6)
+                      ---  [HIGH]
+    3D  LEGACIES      Experts defending one carrying on what predecessors left? (8)
+                      ---  [HIGH]
+    4D  NOTE          A, B, C, D, F or G (4)
+                      ---  [HIGH]
+    6D  LIFER         Briefly served up another drink one left in can for ages (5)
+                      ---  [MED]
+    9D  PRESENTIMENTS  Forebodings I should have mentioned, harbouring ill-feeling about island (13)
+                      ---  [MED]
+   19D  JESTERS       Joel sat near us periodically indicating fools (7)
+                      JE(alternate letters of "joel") + delete A from SAT + ER(alternate letters of "near") + S(last letter of "us")  [HIGH]
+   20A  BOTTICELLI    Fine stroke-maker caught behind by player, not stumped (10)
+                      ---  [FAIL]
+    5D  AGONYAUNTS    Advisers against you replacing setter with new rogue (5,5)
+                      delete I from AGAINST, anagram of AGANST+YOU+N(abbr. "new") = AGONYAUNTS  [LOW]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] LEAKAGE  21D. Escape from capsule aka Gemini
+  Answer: LEAKAGE
+  Tier: Sig+Enriched | Confidence: 100/100
+  Definition: "Escape"
+  Wordplay: hidden
+  Explanation: hidden in "capsu LEAKAGE mini" [hidden: "from"]; definition: "Escape"
+  ----------------------------------------------------------------------
+
+  [HIGH] UPTIGHT  10A. In an excited state drunk becomes irritated
+  Answer: UPTIGHT
+  Tier: --- | Confidence: 100/100
+  Human explanation: UP (abbreviation="excited") + TIGHT (synonym="drunk") = UPTIGHT; definition: "irritated"
+  ----------------------------------------------------------------------
+
+  [HIGH] LOGIC  12A. Laws of generating intelligent conclusions, principally?
+  Answer: LOGIC
+  Tier: --- | Confidence: 100/100
+  Human explanation: L (first_letter="Laws") + O (first_letter="of") + G (first_letter="generating") + I (first_letter="intelligent") + C (first_letter="conclusions,") = LOGIC
+  ----------------------------------------------------------------------
+
+  [HIGH] HYDRATES  13A. The yards formed compounds
+  Answer: HYDRATES
+  Tier: Sig+Enriched | Confidence: 100/100
+  Wordplay: anagram
+  Explanation: anagram of THEYARDS ("The yards") [anagram: "formed"] = HYDRATES
+  ----------------------------------------------------------------------
+
+  [HIGH] TINOPENERS  14D. Can access achieved with them spread pretension?
+  Answer: TINOPENERS
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of PRETENSION? = TINOPENERS
+  ----------------------------------------------------------------------
+
+  [HIGH] ABSTEMIOUS  15A. Troubled about Messi not drinking much?
+  Answer: ABSTEMIOUS
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of ABOUT + MESSI = ABSTEMIOUS
+  ----------------------------------------------------------------------
+
+  [HIGH] MISTAKEN  22A. Mankiest bananas emerging through error of judgement
+  Answer: MISTAKEN
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of MANKIEST = MISTAKEN
+  ----------------------------------------------------------------------
+
+  [HIGH] LEETIDE  26A. Flow of water sent back to correct swimmer
+  Answer: LEETIDE
+  Tier: --- | Confidence: 100/100
+  Human explanation: LEE (EEL="swimmer", reversed) + TIDE (synonym="water") = LEETIDE
+  ----------------------------------------------------------------------
+
+  [HIGH] YACHTED  7D. Chay going off to meet Ted sailed in style
+  Answer: YACHTED
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of CHAY + TED = YACHTED
+  ----------------------------------------------------------------------
+
+  [HIGH] NUCLEARFAMILY  8D. Greek character evidently defending loud friend in French household
+  Answer: NUCLEARFAMILY
+  Tier: --- | Confidence: 100/100
+  Human explanation: NU (abbreviation="Greek") + FAMILY (synonym="friend") + CLEAR (synonym="loud") = NUCLEARFAMILY; definition: "household"
+  ----------------------------------------------------------------------
+
+  [HIGH] FAIR  25D. Just food and drink we hear
+  Answer: FAIR
+  Tier: Signature | Confidence: 100/100
+  Definition: "Just"
+  Wordplay: homophone
+  Explanation: FAIR (sounds like "food and drink") [homophone: "we hear"]; definition: "Just"
+  ----------------------------------------------------------------------
+
+  [MEDIUM] BOWLINGALLEY  1A. Where one could get a spare item of crockery in kitchen
+  Answer: BOWLINGALLEY
+  Tier: --- | Confidence: 50/100
+  Definition: "Where one could get a spare"
+  Wordplay type: container
+  Components:
+    synonym            crockery                  -> BOWL
+    synonym            kitchen                   -> GALLEY
+  AI Reasoning:
+    BOWL (crockery) contained in GALLEY (kitchen) = BOWLING ALLEY (where one could get a spare)
+  ----------------------------------------------------------------------
+
+  [HIGH] OFFICER  11A. Policeman runs past where skaters relax
+  Answer: OFFICER
+  Tier: --- | Confidence: 100/100
+  Definition: "Policeman"
+  Wordplay type: charade
+  Components:
+    literal            where skaters relax       -> OFF ICE
+    abbreviation       runs                      -> R
+  AI Reasoning:
+    OFF ICE (where skaters relax) + R (runs) = OFFICER (policeman)
+  ----------------------------------------------------------------------
+
+  [HIGH] EDEN  16A. Junk energy emitted by toothless prime minister
+  Answer: EDEN
+  Tier: --- | Confidence: 100/100
+  Definition: "prime minister"
+  Wordplay type: deletion
+  Components:
+    deletion           toothless                 -> EDEN [EDENTATE - TATE]
+  AI Reasoning:
+    EDENTATE (toothless) with TATE removed leaves EDEN, a former British Prime Minister
+  ----------------------------------------------------------------------
+
+  [HIGH] ACADEMIC  17D. Ideal fellow
+  Answer: ACADEMIC
+  Tier: --- | Confidence: 90/100
+  Definition: "Ideal fellow"
+  Wordplay type: double_definition
+  AI Reasoning:
+    ACADEMIC works as both 'ideal' (theoretical, perfect in form) and 'fellow' (a member of an academic institution)
+  ----------------------------------------------------------------------
+
+  [HIGH] FUJI  18A. Peak Fury docked twice by international boxing judge
+  Answer: FUJI
+  Tier: --- | Confidence: 100/100
+  Definition: "Peak"
+  Wordplay type: charade
+  Components:
+    deletion           Fury                      -> FU [FURY - RY]
+    abbreviation       international             -> I
+    abbreviation       judge                     -> J
+  AI Reasoning:
+    FURY docked twice (FU + RY removed) + I (international) + J (judge) = FUJI, a famous peak
+  ----------------------------------------------------------------------
+
+  [HIGH] OUTAGES  2D. Power cuts elsewhere succeeded suppressing generation
+  Answer: OUTAGES
+  Tier: --- | Confidence: 100/100
+  Definition: "Power cuts"
+  Wordplay type: container
+  Components:
+    literal            elsewhere                 -> OUT
+    literal            generation                -> AGE
+    literal            succeeded                 -> S
+  AI Reasoning:
+    OUT (elsewhere) contains AGE (generation) with S (succeeded) inserted, giving OUT+S+AGE = OUTAGES (power cuts)
+  ----------------------------------------------------------------------
+
+  [HIGH] ADIEU  23D. University will support advanced random number generator later
+  Answer: ADIEU
+  Tier: --- | Confidence: 90/100
+  Definition: "later"
+  Wordplay type: charade
+  Components:
+    first_letter       advanced                  -> A
+    abbreviation       University                -> U
+    abbreviation       random number generator   -> DIE
+  AI Reasoning:
+    A (first letter of 'advanced') + U (abbreviation for 'University') + DIE (abbreviation for 'random number generator', as in die-rolling) = ADIEU, meaning 'later' (goodbye)
+  ----------------------------------------------------------------------
+
+  [HIGH] DRAKE  24A. He dabbles in drugs, primarily with one of The Libertines
+  Answer: DRAKE
+  Tier: --- | Confidence: 80/100
+  Definition: "He dabbles in drugs"
+  Wordplay type: charade
+  Components:
+    first_letter       drugs                     -> D
+    synonym            The Libertines            -> RAKE
+  AI Reasoning:
+    D (first letter of 'drugs') + RAKE (a libertine/rake) = DRAKE
+  ----------------------------------------------------------------------
+
+  [MEDIUM] ARMYANT  27A. Predator's gun back from Saturday at around noon
+  Answer: ARMYANT
+  Tier: --- | Confidence: 40/100
+  Definition: "Predator"
+  Wordplay type: charade
+  Components:
+    synonym            gun                       -> ARM
+    last_letter        Saturday                  -> Y
+    literal            at                        -> AT
+    synonym            around noon               -> N
+  AI Reasoning:
+    ARM (gun) + Y (last letter of Saturday) + AT (literal) + N (around noon = N for noon) = ARMYANT (army ant, a predatory insect)
+  ----------------------------------------------------------------------
+
+  [HIGH] SQUASHRACKET  28A. What's used in court to suppress fraud?
+  Answer: SQUASHRACKET
+  Tier: --- | Confidence: 90/100
+  Definition: "What's used in court to suppress fraud?"
+  Wordplay type: double_definition
+  AI Reasoning:
+    SQUASH RACKET has two meanings: (1) a racket used in the sport of squash, and (2) a fraudulent scheme ('racket') that is suppressed ('squashed') in court
+  ----------------------------------------------------------------------
+
+  [HIGH] LEGACIES  3D. Experts defending one carrying on what predecessors left?
+  Answer: LEGACIES
+  Tier: --- | Confidence: 100/100
+  Definition: "carrying on what predecessors left"
+  Wordplay type: container
+  Components:
+    literal            on                        -> LEG
+    literal            one                       -> I
+    synonym            Experts                   -> ACES
+  AI Reasoning:
+    LEG (on) contains I (one) and ACES (experts) = LEG + I + ACES = LEGACIES
+  ----------------------------------------------------------------------
+
+  [HIGH] NOTE  4D. A, B, C, D, F or G
+  Answer: NOTE
+  Tier: --- | Confidence: 90/100
+  Definition: "A, B, C, D, F or G"
+  Wordplay type: cryptic_definition
+  Components:
+    literal            A, B, C, D, F or G        -> NOTE
+  AI Reasoning:
+    These are musical notes; E is missing from the sequence, so 'NOT E' = NOTE (a musical note or written message)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] LIFER  6D. Briefly served up another drink one left in can for ages
+  Answer: LIFER
+  Tier: --- | Confidence: 70/100
+  Definition: "one left in can for ages"
+  Wordplay type: deletion
+  Components:
+    deletion           REFILL                    -> REFIL [REFILL - L]
+    reversal           served up                 -> LIFER
+  AI Reasoning:
+    REFILL loses one L (briefly) to give REFIL, which reversed (served up) spells LIFER (a long-term prisoner)
+  ----------------------------------------------------------------------
+
+  [MEDIUM] PRESENTIMENTS  9D. Forebodings I should have mentioned, harbouring ill-feeling about island
+  Answer: PRESENTIMENTS
+  Tier: --- | Confidence: 75/100
+  Definition: "Forebodings"
+  Wordplay type: container
+  Components:
+    abbreviation       I should have mentioned   -> PS
+    synonym            ill-feeling               -> RESENTMENT
+    abbreviation       island                    -> I
+  AI Reasoning:
+    PS (abbreviation of 'postscript', what should have been mentioned) contains RESENTMENT (ill-feeling) around I (island abbreviation): PS + RESENTMENT + I = PRESENTIMENTS
+  ----------------------------------------------------------------------
+
+  [HIGH] JESTERS  19D. Joel sat near us periodically indicating fools
+  Answer: JESTERS
+  Tier: DB Fallback | Confidence: 86/100
+  Definition: "fools"
+  Wordplay type: deletion
+  Components:
+    alternate_letters  joel                      -> JE
+    alternate_letters  near                      -> ER
+    last_letter        us                        -> S
+    literal            sat                       -> SAT
+  Assembly: deletion — JE(alternate letters of "joel") + delete A from SAT + ER(alternate letters of "near") + S(last letter of "us")
+  Source: enrichment fallback (DB-driven)
+  Checks: definition=confirmed in DB | wordplay_type=deletion | type_evidence=assembled, AI agrees | yields_check=pass (deletion verified) | pieces_validated=3/4 (75%) | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      joel: syn=BOOK
+      sat: syn=DID,LAY,WAS,BORE,BORN,CAME,LIVED,BEFELL,COOKED,HAPPED,PASSED,RESTED,BETIDED,CHANCED,WENT ON; abbr=POSED
+      near: syn=AN,BY,IN,OR,TO,AGE,ARC,BOW,BUT,GAS,RUN,SAY,ARCH,BEND,COME; abbr=BY; ind=parts
+      us: syn=GIS,HIP,TELL,BRIEF,CLEAR,UNFOC,VERSE,ADVISE,INFORM,AMERICA,APPRISE,FILL IN,MANKIND,ORLANDO,SENIORS; abbr=US
+      periodically: syn=ON,AYE,NOW,OFT,EVER,MUCH,OFTEN,ALWAYS,HOURLY,LITTLE,RARELY,SELDOM,FOREVER,USUALLY; ind=parts
+      indicating: syn=MARKING
+      fools: syn=JESTER*,TOP,BERK,BUGS,FANS,KIDS,MUGS,ASSES,BERKS,HEADS,NANAS,CHUMPS,FIENDS,FREAKS,HOUNDS; abbr=ASS,CLOT
+    Definitions:
+      "fools" -> JESTERS (definition match)
+  AI Reasoning:
+    Taking alternate letters (1st, 3rd, 5th, 7th, 9th, 11th, 13th positions) from 'Joel sat near us' gives JESTERS
+  ----------------------------------------------------------------------
+
+  [FAILED] BOTTICELLI  20A. Fine stroke-maker caught behind by player, not stumped
+  Answer: BOTTICELLI
+  Tier: --- | Confidence: 0/100
+  Definition: "Fine stroke-maker"
+  Wordplay type: charade
+  Components:
+    indicator          caught                    -> 
+    synonym            behind                    -> BOTT
+    synonym            by                        -> I
+    synonym            player                    -> CELLIST
+    indicator          not                       -> 
+  DB Lookups:
+    DB lookups:
+      fine: syn=A,F,A1,OK,SO,ALL,BED,FAB,FIT,HOT,LAY,OUT,PUT,RAD,RIG; abbr=F,OK
+      stroke: syn=BAT,BOP,BOX,DAB,HIT,PAT,PET,RAP,SIP,SUP,BANG,BASH,BEAT,BELT,BIFF
+      maker: syn=GOD?,HERO,ICON,IDOL,KING,LORD,ALLAH,DEITY,AUTHOR,CHURCH,FATHER,YAHWEH,BUILDER,CREATOR,ETERNAL
+      caught: syn=C,A1,ATE,BIG,DID,DUG,FAB,GOT,HAD,HIT,POP,PUT,RAN,SAW,WON; abbr=C*; ind=container
+      behind: syn=OF,AFT,BUM,CAN,DIP,EBB,END,FIT,SET,BACK,BEAR,BUNS,BUTT,CALL,DOWN; abbr=AFT; ind=container,parts
+      by: syn=X,AT,IN,SO,TO,PER,VIA,AMID,ANON,DOOR,HARD,NEAR,NEXT,NIGH,OVER; abbr=X; sounds=buy,bye
+      player: syn=ALSO,GARY,LEFT,MUSO,OBOE,VIOL,WING,ACTOR,GAMER,NORTH,PARTY,PIPER,THESP,ACTORS,MUMMER
+      not: syn=SO,BUM,BUY,FAR,ILL,LOW,NAY,NOR,OFF,SAD,TOO,ANTI,BLUE,CITE,DEEM; ind=anagram?,deletion; sounds=knot
+      stumped: syn=ST,OUT,PUZZLED,CONFUSED; abbr=ST
+  AI Reasoning:
+    BOTT (from 'bottom' via 'caught behind') + I ('by') + CELLI (CELLIST minus ST via 'not stumped')
+  ----------------------------------------------------------------------
+
+  [LOW] AGONYAUNTS  5D. Advisers against you replacing setter with new rogue
+  Answer: AGONYAUNTS
+  Tier: Sonnet | Confidence: -43/100
+  Definition: "Advisers"
+  Wordplay type: anagram
+  Components:
+    synonym            against                   -> AGAINST
+    literal            you                       -> YOU
+    indicator          replacing                 -> 
+    synonym            setter                    -> I
+    abbreviation       new                       -> N
+    indicator          rogue                     -> 
+  Assembly: deletion+anagram — delete I from AGAINST, anagram of AGANST+YOU+N(abbr. "new") = AGONYAUNTS
+  Note: dropped piece 2
+  Checks: definition=position OK (start/end of clue) | wordplay_type=anagram | type_evidence=assembled, AI agrees, indicator in DB, reasoning supports | yields_check=FAIL: deletion gives=AGANST answer=AGONYAUNTS | pieces_validated=2/4 (50%) | unverified_claims=2 synonym/abbr not in DB | nonsense_words=not real words: I | fodder_in_clue=all present
+  DB Lookups:
+    DB lookups:
+      advisers: syn=TELL,BRIEF,COACH,GUIDE,TREAT,CONFER,INFORM,PARLEY,POWWOW,APPRISE,CONSULT,COUNSEL,FILL IN,SUGGEST,ACQUAINT
+      against: syn=ON*,TO,CON,MET,ABUT,AGIN,ANTI,FIND,HARD,JOIN,MEET,MIND,NEXT,UPON,WARE; abbr=TO,V
+      you: syn=U,YE,ONE,LIKE,THEE,THOU,WANT,WISH,ENEMY,LEAVE,CHOOSE,PLEASE,SOLVER,PUZZLER,WHATNOT; abbr=U*,Y*,YE,YO; ind=anagram; sounds=ewe,yew
+      replacing: syn=FOR,GIVING,PAYING,BEARING,REPLYING,YIELDING,ANSWERING,REJOINING,RESTORING,RETORTING,RETURNING,REVERTING,RIPOSTING,REGRESSING
+      setter: syn=ME,BOW,DOG,GEL,GAFF,KITE,CANINE,IN SUN,PECTIN,DOG ONE,GELATIN,HAIRGEL,IT'S ME,AGARAGAR,A PROBLEM; abbr=DOG,I,ME
+      with: syn=ON*,W,BY,IN,OF,TO,UP,AND,BIG,DEF,HEP,HIP,MOD,NOW,PER; abbr=AND,ON*,W
+      new: syn=N,UP,AGE,CAN,DIE,END,FLY,HOT,MAR,MOD,NOW,RED,RUN,BOLT,BUST; abbr=N*,NE,UNUSUAL; ind=anagram; sounds=gnu,knew
+      rogue: syn=NO,BUD,CAD,CUB,CUR,DOG,IMP,KID,LAD,RAT,TAD,BABE,BABY,CHAP,FAST; ind=anagram
+  AI Reasoning:
+    Take AGAINSTYOU, replace I (setter) with N (new) to get AGANNSTYOU, then anagram to AGONYAUNTS
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

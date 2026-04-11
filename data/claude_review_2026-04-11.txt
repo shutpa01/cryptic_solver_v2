@@ -48,75 +48,116 @@ EXPLANATION: SHORE sounds like "sure" (mentioned); definition: "coast"
 CRITICAL: Use UPPERCASE for letter pieces in explanations. Always end with ; definition: "..."
 Use (synonym="word"), (abbreviation="word"), (first letter of "word") for piece sources.
 
-=== times #29514 ===
+=== independent #12327 ===
 
-ID: 10052633
-1a. Output of sewer covers wide area with wee mostly (7,6)
-   Answer: BLANKETSTITCH [unsolved]
+ID: 10052661
+1a. Where one could get a spare item of crockery in kitchen (7,5)
+   Answer: BOWLINGALLEY [unsolved]
+   Blog explanation: Item of crockery [BOWL] in [IN] kitchen [GALLEY]
 
-ID: 10052634
-9a. Despicable individual tracks Indian? (5)
-   Answer: CURRY [score=65]
-   Current explanation: CUR(synonym of "Despicable") + RY("tracks")
+ID: 10052664
+12a. Laws of generating intelligent conclusions, principally? (5)
+   Answer: LOGIC [score=65]
+   Current explanation: L (first_letter="Laws") + O (first_letter="of") + G (first_letter="generating") + I (first_letter="intelligent") + C (first_letter="conclusions,") = LOGIC; definition: "principally?"
 
-ID: 10052635
-10a. Wine finally quaffed by Pacific Northwest people — afraid of claret? (9)
-   Answer: SQUEAMISH [unsolved]
+ID: 10052665
+13a. The yards formed compounds (8)
+   Answer: HYDRATES [score=65]
+   Current explanation: anagram of THE + YARDS = HYDRATES; definition: "compounds"
 
-ID: 10052636
-11a. Boxers in communication after fracture get niggly (5,5)
-   Answer: SPLITHAIRS [unsolved]
+ID: 10052666
+15a. Troubled about Messi not drinking much? (10)
+   Answer: ABSTEMIOUS [score=65]
+   Current explanation: anagram of ABOUT + MESSI = ABSTEMIOUS; definition: "Troubled"
 
-ID: 10052640
-17a. Ready, a cover when pulled back opens up (7)
-   Answer: DILATES [score=65]
-   Current explanation: DIL (LID="cover", reversed) + ATES (NATES="back", remove first letter) = DILATES; definition: "Ready,"
+ID: 10052667
+16a. Junk energy emitted by toothless prime minister (4)
+   Answer: EDEN [score=5]
+   Current explanation: EDEN(EDENTATE minus TATE, "toothless"); definition: "prime minister"
+   Blog explanation: Junk [TAT] energy [E] emitted [removed] by toothless [EDENTATE]
 
-ID: 10052641
-19a. Tender-hearted cabal affiliated to a party (7)
-   Answer: ADORING [unsolved]
+ID: 10052669
+20a. Fine stroke-maker caught behind by player, not stumped (10)
+   Answer: BOTTICELLI [unsolved]
 
-ID: 10052642
-20a. You couldn’t see me for dust in Asian country (4)
-   Answer: IRAN [unsolved]
+ID: 10052670
+22a. Mankiest bananas emerging through error of judgement (8)
+   Answer: MISTAKEN [score=65]
+   Current explanation: anagram of MANKIEST = MISTAKEN; definition: "judgement"
 
-ID: 10052644
-24a. Old girlfriend I fancy — pardon? (9)
-   Answer: EXONERATE [unsolved]
+ID: 10052671
+24a. He dabbles in drugs, primarily with one of The Libertines (5)
+   Answer: DRAKE [score=73]
+   Current explanation: D(first letter of "drugs") + RAKE(synonym of "The Libertines"); definition: "He dabbles in drugs"
+   Blog explanation: Drugs, primarily [D] with one of The Libertines [RAKE]
 
-ID: 10052645
-25a. Some lemon? That would be a surprise (5)
-   Answer: TWIST [unsolved]
+ID: 10052672
+26a. Flow of water sent back to correct swimmer (3,4)
+   Answer: LEETIDE [score=75]
+   Current explanation: LEE (EEL="swimmer", reversed) + TIDE (synonym="water") = LEETIDE; definition: "Flow"
 
-ID: 10052646
-26a. Succeed as photojournalist — capiche? (3,3,7)
-   Answer: GETTHEPICTURE [unsolved]
+ID: 10052673
+27a. Predator's gun back from Saturday at around noon (4,3)
+   Answer: ARMYANT [unsolved]
+   Blog explanation: Gun [ARM] back from [last letter of] Saturday [Y] at [AT] around noon [N]
 
-ID: 10052648
-2d. Penny in currency raised for end of tax year? (5)
-   Answer: APRIL [score=73]
-   Current explanation: ARIL (reversal="currency") + P (abbreviation="Penny") = APRIL; definition: "year?"
+ID: 10052674
+28a. What's used in court to suppress fraud? (6,6)
+   Answer: SQUASHRACKET [unsolved]
 
-ID: 10052649
-3d. Bane of comic character’s shtick ultimately: pity not funny in vacuous routine (10)
-   Answer: KRYPTONITE [unsolved]
+ID: 10052675
+2d. Power cuts elsewhere succeeded suppressing generation (7)
+   Answer: OUTAGES [unsolved]
+   Current explanation: OUT("elsewhere") + AGE("generation") + S("succeeded"); definition: "Power cuts"
+   Blog explanation: Elsewhere [OUT] succeeded [S] suppressing [around] generation [AGE]
 
-ID: 10052651
-5d. Chest bone perfectly aligned, then pull leg? (4,3)
-   Answer: TRUERIB [unsolved]
+ID: 10052676
+3d. Experts defending one carrying on what predecessors left? (8)
+   Answer: LEGACIES [score=75]
+   Current explanation: LEG("on") + I("one") inside ACES(synonym of "Experts"); definition: "carrying on what predecessors left"
+   Blog explanation: Experts [ACES] defending [around] one [I] carrying [under] on [LEG]
 
-ID: 10052653
-7d. Masses of chicken in Benidorm gobbled by two beneath house (3,6)
-   Answer: HOIPOLLOI [unsolved]
+ID: 10052677
+4d. A, B, C, D, F or G (4)
+   Answer: NOTE [score=65]
+   Current explanation: NOTE("A, B, C, D, F or G"); definition: "A, B, C, D, F or G"
+   Blog explanation: NOTE = “NOT E”
 
-ID: 10052656
-15d. Price to pay, a toll for still water (9)
-   Answer: BILLABONG [unsolved]
+ID: 10052678
+5d. Advisers against you replacing setter with new rogue (5,5)
+   Answer: AGONYAUNTS [unsolved]
 
-ID: 10052657
-18d. Put up with bagged cat hissing initially (7)
-   Answer: STOMACH [unsolved]
+ID: 10052679
+6d. Briefly served up another drink one left in can for ages (5)
+   Answer: LIFER [unsolved]
+   Blog explanation: REFILL without second L [briefly] served up [backwards]
 
-ID: 10052659
-22d. Stop wearing a uniform, I’m taking leave! (5)
-   Answer: ADIEU [unsolved]
+ID: 10052680
+7d. Chay going off to meet Ted sailed in style (7)
+   Answer: YACHTED [score=65]
+   Current explanation: anagram of CHAY + TED = YACHTED; definition: "style"
+
+ID: 10052682
+9d. Forebodings I should have mentioned, harbouring ill-feeling about island (13)
+   Answer: PRESENTIMENTS [unsolved]
+   Blog explanation: I should have mentioned [PS], harbouring [around] ill-feeling [RESENTMENT] about island [I]
+
+ID: 10052683
+14d. Can access achieved with them spread pretension? (3-7)
+   Answer: TINOPENERS [score=65]
+   Current explanation: anagram of PRETENSION? = TINOPENERS; definition: "Can"
+
+ID: 10052684
+17d. Ideal fellow (8)
+   Answer: ACADEMIC [unsolved]
+
+ID: 10052685
+19d. Joel sat near us periodically indicating fools (7)
+   Answer: JESTERS [score=5]
+   Current explanation: JE(alternate letters of "joel") + delete A from SAT + ER(alternate letters of "near") + S(last letter of "us")
+
+ID: 10052687
+23d. University will support advanced random number generator later (5)
+   Answer: ADIEU [score=56]
+   Current explanation: A(first letter of "advanced") + DIE(abbr. "random number generator") + U(abbr. "University"); definition: "later"
+   Blog explanation: University [U] will support [under] advanced [A] random number generator [DIE]

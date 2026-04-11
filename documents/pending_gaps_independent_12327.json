@@ -1,0 +1,272 @@
+{
+  "source": "independent",
+  "puzzle": "12327",
+  "stats": {
+    "total": 28,
+    "assembled": 27,
+    "high": 22,
+    "medium": 4,
+    "low": 1,
+    "failed": 1,
+    "avg_score": 85.85185185185185
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "crockery",
+      "letters": "BOWL",
+      "answer": "BOWLINGALLEY",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Where one could get a spare item of crockery in kitchen",
+      "score": 50
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "random number generator",
+      "letters": "DIE",
+      "answer": "ADIEU",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "University will support advanced random number generator later",
+      "score": 90
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "The Libertines",
+      "letters": "RAKE",
+      "answer": "DRAKE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "He dabbles in drugs, primarily with one of The Libertines",
+      "score": 80
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "I should have mentioned",
+      "letters": "PS",
+      "answer": "PRESENTIMENTS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Forebodings I should have mentioned, harbouring ill-feeling about island",
+      "score": 75
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "ill-feeling",
+      "letters": "RESENTMENT",
+      "answer": "PRESENTIMENTS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Forebodings I should have mentioned, harbouring ill-feeling about island",
+      "score": 75
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "behind",
+      "letters": "BOTT",
+      "answer": "BOTTICELLI",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Fine stroke-maker caught behind by player, not stumped",
+      "score": 0
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "by",
+      "letters": "I",
+      "answer": "BOTTICELLI",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Fine stroke-maker caught behind by player, not stumped",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Escape",
+      "answer": "LEAKAGE",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Escape from capsule aka Gemini",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Just",
+      "answer": "FAIR",
+      "clue_number": "25",
+      "direction": "down",
+      "clue": "Just food and drink we hear",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Where one could get a spare",
+      "answer": "BOWLINGALLEY",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Where one could get a spare item of crockery in kitchen",
+      "score": 50
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Policeman",
+      "answer": "OFFICER",
+      "clue_number": "11",
+      "direction": "across",
+      "clue": "Policeman runs past where skaters relax",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "prime minister",
+      "answer": "EDEN",
+      "clue_number": "16",
+      "direction": "across",
+      "clue": "Junk energy emitted by toothless prime minister",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Ideal fellow",
+      "answer": "ACADEMIC",
+      "clue_number": "17",
+      "direction": "down",
+      "clue": "Ideal fellow",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Peak",
+      "answer": "FUJI",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Peak Fury docked twice by international boxing judge",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Power cuts",
+      "answer": "OUTAGES",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "Power cuts elsewhere succeeded suppressing generation",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "later",
+      "answer": "ADIEU",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "University will support advanced random number generator later",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "He dabbles in drugs",
+      "answer": "DRAKE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "He dabbles in drugs, primarily with one of The Libertines",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Predator",
+      "answer": "ARMYANT",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Predator's gun back from Saturday at around noon",
+      "score": 40
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What's used in court to suppress fraud?",
+      "answer": "SQUASHRACKET",
+      "clue_number": "28",
+      "direction": "across",
+      "clue": "What's used in court to suppress fraud?",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "carrying on what predecessors left",
+      "answer": "LEGACIES",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Experts defending one carrying on what predecessors left?",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "A, B, C, D, F or G",
+      "answer": "NOTE",
+      "clue_number": "4",
+      "direction": "down",
+      "clue": "A, B, C, D, F or G",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "one left in can for ages",
+      "answer": "LIFER",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Briefly served up another drink one left in can for ages",
+      "score": 70
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Forebodings",
+      "answer": "PRESENTIMENTS",
+      "clue_number": "9",
+      "direction": "down",
+      "clue": "Forebodings I should have mentioned, harbouring ill-feeling about island",
+      "score": 75
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Fine stroke-maker",
+      "answer": "BOTTICELLI",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Fine stroke-maker caught behind by player, not stumped",
+      "score": 0
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Advisers",
+      "answer": "AGONYAUNTS",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Advisers against you replacing setter with new rogue",
+      "score": -43
+    }
+  ]
+}

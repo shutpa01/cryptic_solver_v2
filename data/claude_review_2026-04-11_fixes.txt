@@ -1,0 +1,6 @@
+---
+ID: 10052667
+WORDPLAY: deletion
+DEFINITION: prime minister
+EXPLANATION: EDEN from EDENTATE (synonym="toothless") with TAT (synonym="junk") and E (abbreviation="energy") removed; definition: "prime minister"
+---

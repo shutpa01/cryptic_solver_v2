@@ -1,72 +1,132 @@
 ---
-ID: 10052635
-WORDPLAY: charade, container
-DEFINITION: afraid of claret?
-EXPLANATION: SQUAMISH ("Pacific Northwest people") containing E (last letter of "Wine") = SQUEAMISH; definition: "afraid of claret?"
+ID: 10052661
+WORDPLAY: container
+DEFINITION: where one could get a spare
+EXPLANATION: BOWL (synonym="item of crockery") + IN (literal) + GALLEY (synonym="kitchen") = BOWLINGALLEY; definition: "where one could get a spare"
 ---
 ---
-ID: 10052641
+ID: 10052664
+WORDPLAY: acrostic
+DEFINITION: principally
+EXPLANATION: first letters of "Laws Of Generating Intelligent Conclusions" = LOGIC; definition: "principally"
+---
+---
+ID: 10052665
+WORDPLAY: anagram
+DEFINITION: compounds
+EXPLANATION: anagram of THEYARDS = HYDRATES; definition: "compounds"
+---
+---
+ID: 10052666
+WORDPLAY: anagram
+DEFINITION: not drinking much
+EXPLANATION: anagram of ABOUTMESSI = ABSTEMIOUS; definition: "not drinking much"
+---
+---
+ID: 10052667
+WORDPLAY: deletion
+DEFINITION: prime minister
+EXPLANATION: EDENTATE (synonym="toothless") minus TATE (synonym="junk" = TAT + "energy" = E) = EDEN; definition: "prime minister"
+---
+---
+ID: 10052669
+WORDPLAY: cryptic_definition
+DEFINITION: fine stroke-maker
+EXPLANATION: cryptic definition: Botticelli was a fine stroke-maker (painter), also a parlour game where players are caught behind, not stumped; definition: "fine stroke-maker"
+---
+---
+ID: 10052670
+WORDPLAY: anagram
+DEFINITION: error of judgement
+EXPLANATION: anagram of MANKIEST = MISTAKEN; definition: "error of judgement"
+---
+---
+ID: 10052671
 WORDPLAY: charade
-DEFINITION: Tender-hearted
-EXPLANATION: A (synonym="a") + DO (synonym="party") + RING (synonym="cabal") = ADORING; definition: "Tender-hearted"
+DEFINITION: he dabbles
+EXPLANATION: D (first letter of "drugs") + RAKE (synonym="one of The Libertines") = DRAKE; definition: "he dabbles"
 ---
 ---
-ID: 10052642
+ID: 10052672
 WORDPLAY: charade
-DEFINITION: Asian country
-EXPLANATION: I (synonym="me") + RAN ("couldn't see for dust") = IRAN; definition: "Asian country"
+DEFINITION: flow of water
+EXPLANATION: LEE (reversal of EEL, synonym="swimmer" reversed = "sent back") + TIDE (reversal of EDIT, synonym="to correct" reversed = "sent back") = LEETIDE; definition: "flow of water"
 ---
 ---
-ID: 10052644
+ID: 10052673
 WORDPLAY: charade
-DEFINITION: pardon?
-EXPLANATION: EX (synonym="Old girlfriend") + ONE (synonym="I") + RATE (synonym="fancy") = EXONERATE; definition: "pardon?"
+DEFINITION: predator
+EXPLANATION: ARM (synonym="gun") + Y (last letter of "Saturday" = "back from Saturday") + ANT (AT synonym="at" containing N abbreviation="noon" = "at around noon") = ARMYANT; definition: "predator"
 ---
 ---
-ID: 10052645
+ID: 10052674
+WORDPLAY: cryptic_definition
+DEFINITION: what's used in court
+EXPLANATION: cryptic definition: SQUASH RACKET = equipment used in a squash court, also SQUASH (suppress) + RACKET (fraud); definition: "what's used in court to suppress fraud"
+---
+---
+ID: 10052675
+WORDPLAY: charade
+DEFINITION: power cuts
+EXPLANATION: OUT (synonym="elsewhere") + AGE (synonym="generation") + S (abbreviation="succeeded") = OUTAGES; definition: "power cuts"
+---
+---
+ID: 10052676
+WORDPLAY: container
+DEFINITION: what predecessors left
+EXPLANATION: LEG (synonym="on") + ACES (synonym="experts") containing I (synonym="one") = LEG + AC(I)ES = LEGACIES; definition: "what predecessors left"
+---
+---
+ID: 10052677
+WORDPLAY: cryptic_definition
+DEFINITION: A, B, C, D, F or G
+EXPLANATION: cryptic definition: NOTE = NOT E (the letters A B C D F G are musical notes, but NOT the note E); definition: "A, B, C, D, F or G"
+---
+---
+ID: 10052678
+WORDPLAY: anagram
+DEFINITION: advisers
+EXPLANATION: anagram of AGAINSTYOU with I replaced by N ("replacing setter with new") = AGONYAUNTS; definition: "advisers"
+---
+---
+ID: 10052679
+WORDPLAY: reversal
+DEFINITION: for ages
+EXPLANATION: REFIL (synonym="REFILL" = "drink" minus L = "briefly") reversed ("served up") = LIFER; definition: "for ages"
+---
+---
+ID: 10052680
+WORDPLAY: anagram
+DEFINITION: sailed
+EXPLANATION: anagram of CHAYTED = YACHTED; definition: "sailed"
+---
+---
+ID: 10052682
+WORDPLAY: container
+DEFINITION: forebodings
+EXPLANATION: PS (synonym="I should have mentioned") containing RESENTMENT (synonym="ill-feeling") containing I (abbreviation="island") = P + RESENTI + MENT + S = PRESENTIMENTS; definition: "forebodings"
+---
+---
+ID: 10052683
+WORDPLAY: anagram
+DEFINITION: can access achieved with them
+EXPLANATION: anagram of PRETENSION = TINOPENERS; definition: "can access achieved with them"
+---
+---
+ID: 10052684
 WORDPLAY: double_definition
-DEFINITION: surprise
-EXPLANATION: Double definition: Some lemon = TWIST (twist of lemon), surprise = TWIST
+DEFINITION: ideal
+EXPLANATION: Double definition: ideal = ACADEMIC (theoretical), fellow = ACADEMIC (university fellow)
 ---
 ---
-ID: 10052646
-WORDPLAY: double_definition
-DEFINITION: capiche?
-EXPLANATION: Double definition: Succeed as photojournalist = GET THE PICTURE, capiche? = GET THE PICTURE
+ID: 10052685
+WORDPLAY: alternate_letters
+DEFINITION: fools
+EXPLANATION: alternate letters of "JoElSaTnEaRuS" = JESTERS; definition: "fools"
 ---
 ---
-ID: 10052649
-WORDPLAY: charade, container
-DEFINITION: Bane of comic character
-EXPLANATION: K (last letter of "shtick") + RE ("vacuous routine") containing YPTONIT (anagram of PITYNOT = "pity not" "funny") = K + R(YPTONIT)E = KRYPTONITE; definition: "Bane of comic character"
----
----
-ID: 10052651
+ID: 10052687
 WORDPLAY: charade
-DEFINITION: Chest bone
-EXPLANATION: TRUE (synonym="perfectly aligned") + RIB (synonym="pull leg?") = TRUERIB; definition: "Chest bone"
----
----
-ID: 10052653
-WORDPLAY: charade, container
-DEFINITION: Masses
-EXPLANATION: HO (abbreviation="house") + I ("two" split) + POLLO ("chicken in Benidorm") + I ("two" split) = HOIPOLLOI; definition: "Masses"
----
----
-ID: 10052656
-WORDPLAY: charade
-DEFINITION: still water
-EXPLANATION: BILL (synonym="Price to pay") + A (synonym="a") + BONG (synonym="toll") = BILLABONG; definition: "still water"
----
----
-ID: 10052657
-WORDPLAY: charade, container
-DEFINITION: Put up with
-EXPLANATION: SACH (SAC="bag" + H=first letter of "hissing") containing TOM (synonym="cat") = S(TOM)ACH = STOMACH; definition: "Put up with"
----
----
-ID: 10052659
-WORDPLAY: charade, container
-DEFINITION: I'm taking leave!
-EXPLANATION: A (synonym="a") + U (abbreviation="uniform") containing DIE (synonym="Stop") = A(DIE)U = ADIEU; definition: "I'm taking leave!"
+DEFINITION: later
+EXPLANATION: A (abbreviation="advanced") + DIE (synonym="random number generator") + U (abbreviation="university") = ADIEU; definition: "later"
 ---
