@@ -954,7 +954,7 @@ function _fetchCrossings() {
                 var raw = (mainPat || '') + (linkedPat || '');
                 pat = _insertEnumBreaks(raw, input.dataset.enum || '');
             } else if (mainPat) {
-                pat = mainPat;
+                pat = _insertEnumBreaks(mainPat, input.dataset.enum || '');
             }
 
             if (pat && !input.disabled) {
