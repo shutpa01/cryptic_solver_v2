@@ -969,11 +969,8 @@ function _fetchCrossings() {
                 window._hasCrossings = true;
             }
         });
-        // Cache patterns for instant restore on refresh — preserve existing counts
-        var prevCache = {};
-        try { prevCache = JSON.parse(localStorage.getItem(_crossingsCacheKey) || '{}'); } catch(e) {}
-        var prevCounts = prevCache.counts || {};
-        localStorage.setItem(_crossingsCacheKey, JSON.stringify({patterns: patterns, counts: prevCounts}));
+        // Cache patterns for instant restore on refresh — clear stale counts
+        localStorage.setItem(_crossingsCacheKey, JSON.stringify({patterns: patterns, counts: {}}));
         // Stagger match count fetches
         setTimeout(_fetchMatchCountsStaggered, 300);
     });
