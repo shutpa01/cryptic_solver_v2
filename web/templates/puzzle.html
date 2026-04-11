@@ -431,6 +431,7 @@ window.PUZZLE_CONFIG = {
     puzzleNumber: '{{ puzzle_number }}',
     isPrize: {{ 'true' if is_prize else 'false' }},
     isAdmin: {{ 'true' if g.is_admin else 'false' }},
+    hasGrid: {{ 'true' if has_grid else 'false' }},
     publicationDate: '{{ publication_date or '' }}',
     typeLabel: '{{ type_label }}',
     sourceName: '{{ source | source_name }}'

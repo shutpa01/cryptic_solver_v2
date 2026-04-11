@@ -225,7 +225,7 @@ def puzzle_already_fetched(puzzle_type, puzzle_number):
     return count > 0
 
 
-def save_to_database(puzzle_data, puzzle_type, raw_api_data=None):
+def save_to_database(puzzle_data, puzzle_type, raw_api_data=None, source_url=None):
     """Save puzzle clues to clues table and grid to puzzle_grids."""
     print(f"Saving to clues table (source='guardian')...")
 
@@ -281,15 +281,17 @@ def save_to_database(puzzle_data, puzzle_type, raw_api_data=None):
                     PRIMARY KEY (source, puzzle_number)
                 )
             """)
+            # api_folder stores the source URL
             cursor.execute("""
                 INSERT INTO puzzle_grids
-                (source, puzzle_number, solution, grid_rows, grid_cols)
-                VALUES (?, ?, ?, ?, ?)
+                (source, puzzle_number, solution, grid_rows, grid_cols, api_folder)
+                VALUES (?, ?, ?, ?, ?, ?)
                 ON CONFLICT(source, puzzle_number) DO UPDATE SET
-                    solution = COALESCE(excluded.solution, puzzle_grids.solution)
+                    solution = COALESCE(excluded.solution, puzzle_grids.solution),
+                    api_folder = COALESCE(excluded.api_folder, puzzle_grids.api_folder)
             """, (
                 'guardian', str(puzzle_number),
-                solution, grid_rows, grid_cols,
+                solution, grid_rows, grid_cols, source_url,
             ))
             print(f"Saved grid solution ({grid_rows}x{grid_cols})")
 
@@ -344,7 +346,9 @@ def fetch_new_puzzles(puzzle_type):
         data = get_puzzle_data(puzzle_type, number)
         if data:
             puzzle = parse_puzzle(data, puzzle_type)
-            save_to_database(puzzle, puzzle_type, raw_api_data=data)
+            url_path = PUZZLE_TYPES[puzzle_type]['url_path']
+            api_url = f"https://www.theguardian.com/crosswords/{url_path}/{number}.json"
+            save_to_database(puzzle, puzzle_type, raw_api_data=data, source_url=api_url)
 
             json_path = f"guardian_{puzzle_type}_{puzzle.get('puzzle_number')}.json"
             with open(json_path, 'w') as f:
@@ -414,7 +418,9 @@ def fetch_puzzle(puzzle_type, puzzle_number=None, target_date=None, force=False)
         first = puzzle['across'][0]
         print(f"Sample: {first['number']}. {first['clue'][:40]}... = {first['answer']}")
 
-    save_to_database(puzzle, puzzle_type, raw_api_data=data)
+    url_path = PUZZLE_TYPES[puzzle_type]['url_path']
+    api_url = f"https://www.theguardian.com/crosswords/{url_path}/{puzzle_number}.json"
+    save_to_database(puzzle, puzzle_type, raw_api_data=data, source_url=api_url)
 
     json_path = f"guardian_{puzzle_type}_{puzzle.get('puzzle_number')}.json"
     with open(json_path, 'w') as f:
