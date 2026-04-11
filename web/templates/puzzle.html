@@ -79,7 +79,10 @@
 
 {% if grid_conflicts %}
 <div class="mb-4 px-3 py-2 bg-red-50 border border-red-300 rounded text-sm text-red-800">
-    &#9888; {{ grid_conflicts|length }} crossing conflict{{ 's' if grid_conflicts|length > 1 else '' }} — check grid for details
+    &#9888; {{ grid_conflicts|length }} crossing conflict{{ 's' if grid_conflicts|length > 1 else '' }}:
+    {% for c in grid_conflicts %}
+    <div class="mt-1 text-xs"><strong>{{ c.clue_a }}</strong> has <strong>{{ c.letter_a }}</strong> but <strong>{{ c.clue_b }}</strong> has <strong>{{ c.letter_b }}</strong> at row {{ c.row + 1 }}, col {{ c.col + 1 }}</div>
+    {% endfor %}
 </div>
 {% endif %}
 
