@@ -168,10 +168,9 @@ any source/puzzle), follow this EXACT workflow:
 3. **Solve**: Work through every clue. For each one, determine the wordplay type,
    definition, and explanation.
 4. **Write response**: Write solutions to `data/claude_review_YYYY-MM-DD_response.txt`
-5. **Dry run first**: Run `python scripts/ingest_claude_review.py <response_file> --dry-run`
-   to show verifier scores before committing
-6. **Ingest**: Run without `--dry-run` to write to the database
-7. **Report**: Tell the user the results — how many HIGH/MEDIUM/LOW/FAIL
+5. **Ingest**: Run `python scripts/ingest_claude_review.py <response_file>` to write to DB
+6. **Report**: Tell the user the results — how many HIGH/MEDIUM/LOW/FAIL
+No dry-run step needed — the verifier scores honestly and the user reviews in the dashboard.
 
 ### Explanation format (CRITICAL — must match verifier expectations)
 Use UPPERCASE for letter pieces. Always end with `; definition: "..."`.
