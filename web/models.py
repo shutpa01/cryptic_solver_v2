@@ -93,6 +93,7 @@ BROWSE_SOURCES = [
     ("times", "cryptic", "Times Cryptic"),
     ("times", "sunday", "Times Sunday"),
     ("guardian", "cryptic", "Guardian Cryptic"),
+    ("guardian", "everyman", "Observer Everyman"),
     ("independent", "cryptic", "Independent Cryptic"),
     ("dailymail", "cryptic", "Daily Mail Cryptic"),
 ]
@@ -104,6 +105,7 @@ TYPE_LABELS = {
     ("times", "cryptic"): "Cryptic",
     ("times", "sunday"): "Sunday",
     ("guardian", "cryptic"): "Cryptic",
+    ("guardian", "everyman"): "Everyman",
     ("independent", "cryptic"): "Cryptic",
     ("dailymail", "cryptic"): "Cryptic",
     ("cordelia", "tutorial"): "Tutorial",
@@ -152,6 +154,8 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
         return None, None
 
     elif source == "guardian":
+        if 4000 <= num <= 5999:
+            return "everyman", "Everyman"
         if 20000 <= num <= 39999:
             if publication_date is None:
                 db = get_db()
@@ -227,6 +231,11 @@ def _puzzle_filter_sql(source, type_slug):
     elif source == "times" and type_slug == "cryptic":
         return (
             "source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 26000 AND 39999",
+            [source],
+        )
+    elif source == "guardian" and type_slug == "everyman":
+        return (
+            "source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 4000 AND 5999",
             [source],
         )
     elif source == "guardian" and type_slug == "cryptic":

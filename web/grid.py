@@ -48,12 +48,18 @@ def parse_grid_solution(solution, rows=15, cols=15):
         return None
 
     # Build 2D letter grid (None = black)
+    # '.' = empty white cell (structure-only grid, no solution yet)
     grid = []
     for r in range(rows):
         row = []
         for c in range(cols):
             ch = solution[r * cols + c]
-            row.append(ch.upper() if ch != ' ' else None)
+            if ch == ' ':
+                row.append(None)
+            elif ch == '.':
+                row.append('')  # white cell, no letter yet
+            else:
+                row.append(ch.upper())
         grid.append(row)
 
     # Assign clue numbers using standard crossword rules:

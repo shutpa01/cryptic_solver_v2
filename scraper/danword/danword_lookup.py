@@ -32,6 +32,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = os.getenv('DB_PATH', str(PROJECT_ROOT / 'data' / 'clues_master.db'))
 TELEGRAPH_JSON_DIR = PROJECT_ROOT / 'scraper' / 'telegraph'
 TIMES_JSON_DIR = PROJECT_ROOT / 'scraper' / 'times'
+GUARDIAN_JSON_DIR = PROJECT_ROOT / 'scraper' / 'guardian'
 
 DANWORD_URL = 'https://www.danword.com'
 
@@ -308,6 +309,11 @@ def find_puzzle_json(source, puzzle_number):
             path = TIMES_JSON_DIR / pattern
             if path.exists():
                 return path
+
+    elif source == 'guardian':
+        path = GUARDIAN_JSON_DIR / f"guardian_everyman_{puzzle_number}.json"
+        if path.exists():
+            return path
 
     return None
 

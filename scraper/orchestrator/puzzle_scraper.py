@@ -32,6 +32,21 @@ BASE_PATH = Path(__file__).resolve().parent.parent  # scraper/
 PROJECT_ROOT = BASE_PATH.parent
 PYTHON = str(PROJECT_ROOT / '.venv' / 'Scripts' / 'python.exe')
 CLUES_MASTER_DB = PROJECT_ROOT / 'data' / 'clues_master.db'
+GIT_BASH = r'C:\Program Files\Git\bin\bash.exe'
+
+
+def _rsync(local_path, remote_path, timeout=300):
+    """Run rsync via Git Bash (provides full MSYS2 environment including SSH)."""
+    # Convert Windows path to MSYS-style: C:\Users\x → /c/Users/x
+    s = str(local_path).replace('\\', '/')
+    if len(s) >= 2 and s[1] == ':':
+        s = '/' + s[0].lower() + s[2:]
+    cmd = f'rsync -cz {s} {remote_path}'
+    return subprocess.run(
+        [GIT_BASH, '-c', cmd],
+        capture_output=True, text=True, timeout=timeout,
+    )
+
 
 # ── Expected puzzle schedule ──────────────────────────────────────────────
 # Each entry: label, source, puzzle_number range (lo, hi), days of week
@@ -45,8 +60,9 @@ EXPECTED_PUZZLES = [
     # Times
     ('Times Cryptic',           'times',     26000, 32000, [0, 1, 2, 3, 4, 5]),
     ('Sunday Times Cryptic',    'times',     4700,  6000,  [6]),
-    # Guardian — cryptic Mon-Fri only (29xxx numbers). Prize/Quiptic/Everyman not followed.
+    # Guardian — cryptic Mon-Fri, Everyman Sunday
     ('Guardian Cryptic',        'guardian',  21000, 32000, [0, 1, 2, 3, 4]),
+    ('Observer Everyman',       'guardian',   4000,  5000, [6]),
     # Independent — cryptic every day
     ('Independent Cryptic',     'independent', 10000, 19999, [0, 1, 2, 3, 4, 5]),
     ('Independent Sunday',      'independent',  1000,  1999, [6]),
@@ -575,16 +591,19 @@ def _sync_honeypot():
         print("Honeypot sync: DB not found, skipping")
         return
 
+    # Checkpoint WAL so all data is in the main .db file before upload
+    try:
+        conn = sqlite3.connect(str(db_path))
+        conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        conn.close()
+    except Exception as e:
+        print(f"  WAL checkpoint failed: {e}")
+
     print("\nSyncing DB to honeypot site...")
     try:
-        result = subprocess.run(
-            ["scp", str(db_path), "root@134.209.21.34:/opt/honeypot/data/clues.db"],
-            timeout=300,
-            capture_output=True,
-            text=True,
-        )
+        result = _rsync(db_path, "root@134.209.21.34:/opt/honeypot/data/clues.db")
         if result.returncode != 0:
-            print(f"  SCP failed: {result.stderr}")
+            print(f"  rsync failed: {result.stderr}")
             return
 
         result = subprocess.run(
@@ -629,28 +648,28 @@ def _sync_cordelia():
         print("Cordelia sync: clues_master.db not found, skipping")
         return
 
+    # Checkpoint WAL so all data is in the main .db files before upload
+    for db in [clues_db, ref_db]:
+        if db.exists():
+            try:
+                conn = sqlite3.connect(str(db))
+                conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+                conn.close()
+            except Exception as e:
+                print(f"  WAL checkpoint failed for {db.name}: {e}")
+
     print("\nSyncing DBs to Cordelia (justcordelia.com)...")
     try:
         # Upload clues_master.db
-        result = subprocess.run(
-            ["scp", str(clues_db), f"{CORDELIA_DROPLET}:/opt/cordelia/data/clues_master.db"],
-            timeout=600,
-            capture_output=True,
-            text=True,
-        )
+        result = _rsync(clues_db, f"{CORDELIA_DROPLET}:/opt/cordelia/data/clues_master.db", timeout=600)
         if result.returncode != 0:
-            print(f"  SCP clues_master.db failed: {result.stderr}")
+            print(f"  rsync clues_master.db failed: {result.stderr}")
             return
         print("  clues_master.db uploaded")
 
         # Upload cryptic_new.db
         if ref_db.exists():
-            result = subprocess.run(
-                ["scp", str(ref_db), f"{CORDELIA_DROPLET}:/opt/cordelia/data/cryptic_new.db"],
-                timeout=600,
-                capture_output=True,
-                text=True,
-            )
+            result = _rsync(ref_db, f"{CORDELIA_DROPLET}:/opt/cordelia/data/cryptic_new.db", timeout=600)
             if result.returncode != 0:
                 print(f"  SCP cryptic_new.db failed: {result.stderr}")
                 return
