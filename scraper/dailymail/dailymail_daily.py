@@ -181,11 +181,47 @@ def save_clues(source: str, puzzle_number: str, pub_date: str,
     return inserted
 
 
-def save_grid(source: str, puzzle_number: str, game_data: dict):
-    """Save grid data to puzzle_grids table."""
+def build_grid_solution(game_data):
+    """Build a flat solution string from DM clue positions and answers.
+    Returns (solution_string, rows, cols) or (None, 15, 15)."""
     data = game_data.get('data', {})
     rows = int(data.get('rows', 15))
     cols = int(data.get('cols', 15))
+
+    grid = [[' '] * cols for _ in range(rows)]
+    has_any = False
+
+    for clue in data.get('hor', []):
+        r_idx = clue['r'] - 1
+        c_idx = clue['c'] - 1
+        ans = clue.get('answer', '').replace(' ', '')
+        for i, ch in enumerate(ans):
+            if 0 <= c_idx + i < cols:
+                grid[r_idx][c_idx + i] = ch.upper()
+                has_any = True
+
+    for clue in data.get('ver', []):
+        r_idx = clue['r'] - 1
+        c_idx = clue['c'] - 1
+        ans = clue.get('answer', '').replace(' ', '')
+        for i, ch in enumerate(ans):
+            if 0 <= r_idx + i < rows:
+                grid[r_idx + i][c_idx] = ch.upper()
+                has_any = True
+
+    if not has_any:
+        return None, rows, cols
+
+    return ''.join(''.join(row) for row in grid), rows, cols
+
+
+def save_grid(source: str, puzzle_number: str, game_data: dict, source_url=None):
+    """Save grid data and solution to puzzle_grids table."""
+    data = game_data.get('data', {})
+    rows = int(data.get('rows', 15))
+    cols = int(data.get('cols', 15))
+
+    solution, grid_rows, grid_cols = build_grid_solution(game_data)
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -206,12 +242,13 @@ def save_grid(source: str, puzzle_number: str, game_data: dict):
 
     cursor.execute("""
         INSERT INTO puzzle_grids
-        (source, puzzle_number, grid_rows, grid_cols, api_folder, api_type, api_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT(source, puzzle_number) DO NOTHING
+        (source, puzzle_number, solution, grid_rows, grid_cols, api_folder, api_type, api_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(source, puzzle_number) DO UPDATE SET
+            solution = COALESCE(excluded.solution, puzzle_grids.solution)
     """, (
-        source, puzzle_number, rows, cols,
-        'dailymail', 'bundle', str(game_data.get('uniqueId', '')),
+        source, puzzle_number, solution, rows, cols,
+        source_url or 'dailymail', 'bundle', str(game_data.get('uniqueId', '')),
     ))
 
     conn.commit()
@@ -277,7 +314,8 @@ def scrape_date(target_date: date, game_ids: list[int]) -> dict:
             continue
 
         inserted = save_clues(source, puzzle_number, date_str, across, down)
-        save_grid(source, puzzle_number, game)
+        bundle_url = f"{API_BASE}/{date_str}/bundle.json"
+        save_grid(source, puzzle_number, game, source_url=bundle_url)
 
         print(f"  {label} #{puzzle_number}: {len(across)}A + {len(down)}D = {total_clues} clues saved")
         stats['fetched'] += 1
