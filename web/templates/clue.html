@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cordelia{% endblock %}
+{% block title %}Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% endblock %}
 
 {% block meta %}
 <meta name="description" content="{{ meta_description }}">
-<meta property="og:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cryptic Clue">
+<meta property="og:title" content="Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
 <meta property="og:description" content="{{ meta_description }}">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
 <meta property="og:url" content="https://justcordelia.com{{ request.path }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cryptic Clue">
+<meta name="twitter:title" content="Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
 <meta name="twitter:description" content="{{ meta_description }}">
 <meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
 {% endblock %}
