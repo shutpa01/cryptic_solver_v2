@@ -32,7 +32,7 @@ CLUES_DB = os.path.join(BASE_DIR, "data", "clues_master.db")
 
 # -- Models --
 HAIKU_MODEL = "claude-haiku-4-5-20251001"
-SONNET_MODEL = "claude-sonnet-4-20250514"
+SONNET_MODEL = "claude-sonnet-4-6"
 
 # -- Scoring threshold: below this, fall back to Sonnet --
 FALLBACK_THRESHOLD = 70
@@ -335,26 +335,7 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
             explanation += " [%s]" % wordplay_type
         explanation += "; definition: \"%s\"" % definition
 
-    # Update clues table
-    conn.execute("""
-        UPDATE clues SET
-            definition = COALESCE(NULLIF(definition, ''), ?),
-            wordplay_type = ?,
-            ai_explanation = ?,
-            explanation = COALESCE(NULLIF(explanation, ''), ?),
-            has_solution = 1,
-            reviewed = ?
-        WHERE id = ?
-    """, (
-        definition,
-        wordplay_type,
-        explanation,
-        raw_explanation,
-        1 if score >= 80 else 0,
-        clue_id,
-    ))
-
-    # Run mechanical verifier for confidence score
+    # Run mechanical verifier BEFORE updating clues — gate has_solution on verifier score
     from .verify_explanation import ExplanationVerifier
     clue_row = conn.execute(
         "SELECT clue_text, answer FROM clues WHERE id = ?", (clue_id,)
@@ -368,6 +349,27 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
         definition, wordplay_type, explanation,
     )
     confidence = v_result["score"] / 100.0 if v_result else score / 100.0
+    v_score = v_result["score"] if v_result else 0
+
+    # Update clues table — use verifier score to gate has_solution and reviewed
+    conn.execute("""
+        UPDATE clues SET
+            definition = COALESCE(NULLIF(definition, ''), ?),
+            wordplay_type = ?,
+            ai_explanation = ?,
+            explanation = COALESCE(NULLIF(explanation, ''), ?),
+            has_solution = ?,
+            reviewed = ?
+        WHERE id = ?
+    """, (
+        definition,
+        wordplay_type,
+        explanation,
+        raw_explanation,
+        1 if v_score > 0 else 0,
+        1 if v_score >= 70 else 0,
+        clue_id,
+    ))
     components = json.dumps({
         "ai_pieces": pieces,
         "assembly": assembly,
@@ -381,10 +383,11 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
     ).fetchone()
 
     puzzle_row = conn.execute(
-        "SELECT puzzle_number, clue_number FROM clues WHERE id = ?", (clue_id,)
+        "SELECT source, puzzle_number, clue_number FROM clues WHERE id = ?", (clue_id,)
     ).fetchone()
-    pnum = puzzle_row[0] if puzzle_row else ""
-    cnum = puzzle_row[1] if puzzle_row else ""
+    src = puzzle_row[0] if puzzle_row else ""
+    pnum = puzzle_row[1] if puzzle_row else ""
+    cnum = puzzle_row[2] if puzzle_row else ""
 
     if existing:
         conn.execute("""
@@ -412,6 +415,59 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
             "tftt+haiku", confidence, "times",
             pnum, cnum,
         ))
+
+    # Queue enrichment gaps (unverifiable synonyms/abbreviations/definitions)
+    if v_result:
+        try:
+            import sqlite3 as _sq
+            _ref = _sq.connect(
+                os.path.join(BASE_DIR, "data", "cryptic_new.db"), timeout=10
+            )
+            clue_text = clue_row[0] if clue_row else ""
+            answer_val = clue_row[1] if clue_row else ""
+            for _gc in v_result.get("checks", []):
+                if _gc["status"] == "unverifiable" and _gc["check"] in (
+                    "synonym", "abbreviation", "definition"
+                ):
+                    _gm = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", _gc["detail"])
+                    if _gm:
+                        _gw = _gm.group(1).strip().lower()
+                        _gl = _gm.group(2).strip().upper()
+                        _gt = _gc["check"]
+                        _already = False
+                        if _gt == "synonym":
+                            _already = _ref.execute(
+                                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
+                                (_gw, _gl),
+                            ).fetchone() is not None
+                        elif _gt == "abbreviation":
+                            _already = _ref.execute(
+                                "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
+                                (_gw, _gl),
+                            ).fetchone() is not None
+                        elif _gt == "definition":
+                            _already = _ref.execute(
+                                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?",
+                                (_gw, _gl),
+                            ).fetchone() is not None
+                        if not _already:
+                            _rejected = conn.execute(
+                                "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                                (_gt, _gw, _gl),
+                            ).fetchone()
+                            if not _rejected:
+                                _existing = conn.execute(
+                                    "SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?",
+                                    (_gw, _gl),
+                                ).fetchone()
+                                if not _existing:
+                                    conn.execute(
+                                        "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                        (_gt, _gw, _gl, answer_val, clue_text, src, pnum),
+                                    )
+            _ref.close()
+        except Exception:
+            pass  # Don't let gap collection failure block the pipeline
 
     conn.commit()
 
@@ -534,7 +590,7 @@ def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False):
 
         # Store if scoring well
         if write_db and score >= FALLBACK_THRESHOLD:
-            store_tftt_result(conn, clue_id, parsed, score, tftt_definition)
+            store_tftt_result(conn, clue_id, parsed, score, tftt_definition, explanation)
 
         # Step 4: Sonnet fallback for low scores
         if score < FALLBACK_THRESHOLD and not no_fallback:
