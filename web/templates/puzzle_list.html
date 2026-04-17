@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block helper_widget %}{% endblock %}
+{% set list_heading = "Cordelia's Daily Mash-up" if source == 'cordelia' and type_label == 'Daily Mash-up' else source | source_name ~ ' ' ~ type_label %}
 
-{% block title %}{{ source | source_name }} {{ type_label }} — Cordelia{% endblock %}
+{% block title %}{{ list_heading }} — Cordelia{% endblock %}
 
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
@@ -9,10 +10,10 @@
     <span class="mx-1">/</span>
     <a href="/puzzles" class="hover:text-indigo-600">Puzzles</a>
     <span class="mx-1">/</span>
-    <span>{{ source | source_name }} {{ type_label }}</span>
+    <span>{{ list_heading }}</span>
 </nav>
 
-<h1 class="text-2xl font-brand font-bold text-gray-900 mb-1">{{ source | source_name }} {{ type_label }}</h1>
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-1">{{ list_heading }}</h1>
 <p class="text-sm text-gray-400 mb-4">Pick a puzzle. I've got the answers and the explanations.</p>
 
 {% if puzzles %}
@@ -32,7 +33,7 @@
             {% for p in puzzles %}
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2">
-                    <a href="/{{ source }}/{{ puzzle_type }}/{{ p.puzzle_number }}?solve=1"
+                    <a href="/{{ source }}/{{ puzzle_type }}/{{ p.puzzle_number }}"
                        class="text-indigo-600 font-medium hover:underline">{{ p.puzzle_number }}</a>
                 </td>
                 <td class="px-4 py-2 text-gray-500">{{ p.publication_date or '—' }}</td>
