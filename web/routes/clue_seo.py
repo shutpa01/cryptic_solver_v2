@@ -80,8 +80,9 @@ def generate_faq_schema(clue, steps):
     is_high = confidence is not None and confidence >= 0.7
 
     # Q1: What does [clue] mean?
+    is_medium = confidence is not None and confidence >= 0.4 and not is_high
     if is_high and ai_explanation:
-        # HIGH confidence — include the full explanation for GEO
+        # HIGH confidence — include the full explanation
         meaning_parts = []
         if definition:
             meaning_parts.append(f'The definition is "{definition}".')
@@ -92,8 +93,20 @@ def generate_faq_schema(clue, steps):
         if answer:
             meaning_parts.append(f"The answer is {answer}.")
         meaning_text = " ".join(meaning_parts)
+    elif is_medium and (definition or wordplay_type):
+        # MEDIUM confidence — definition + wordplay type, no full explanation
+        meaning_parts = []
+        if definition:
+            meaning_parts.append(f'The definition is "{definition}".')
+        if wordplay_type:
+            wp_label = _wordplay_label(wordplay_type)
+            meaning_parts.append(f"The wordplay uses {wp_label}.")
+        if answer:
+            meaning_parts.append(f"The answer is {answer}.")
+        meaning_parts.append("Visit the page for the full step-by-step explanation.")
+        meaning_text = " ".join(meaning_parts)
     else:
-        # Not HIGH — teaser only
+        # LOW/FAIL/PENDING — teaser only
         meaning_text = "This cryptic clue uses wordplay to arrive at the answer. Visit the page for progressive hints — definition, wordplay type, and a full step-by-step explanation."
 
     faq_entries.append({
@@ -239,3 +252,151 @@ _WORDPLAY_LABELS = {
 def _wordplay_label(wordplay_type):
     """Return a human-friendly label for a wordplay type."""
     return _WORDPLAY_LABELS.get(wordplay_type, wordplay_type.replace("_", " "))
+
+
+# ---------------------------------------------------------------------------
+# Puzzle page schemas
+# ---------------------------------------------------------------------------
+
+def generate_puzzle_breadcrumb_schema(source, type_slug, type_label, puzzle_number):
+    """BreadcrumbList JSON-LD for a puzzle page: Home > Source Type > #N."""
+    base = "https://justcordelia.com"
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{base}/"},
+            {"@type": "ListItem", "position": 2, "name": f"{source.title()} {type_label}",
+             "item": f"{base}/{source}/{type_slug}/"},
+            {"@type": "ListItem", "position": 3, "name": f"#{puzzle_number}"},
+        ],
+    }
+    return json.dumps(schema, ensure_ascii=False)
+
+
+def generate_puzzle_faq_schema(source, type_label, puzzle_number, clue_count, publication_date):
+    """FAQPage JSON-LD for a puzzle page."""
+    source_display = source.title().replace("Dailymail", "Daily Mail")
+    puzzle_display = f"{source_display} {type_label} #{puzzle_number}"
+
+    entries = []
+
+    # Q1: What are the answers?
+    a1 = f"Cordelia has answers, hints, and step-by-step explanations for all {clue_count} clues in {puzzle_display}."
+    if publication_date:
+        a1 += f" Published {publication_date}."
+    entries.append({
+        "@type": "Question",
+        "name": f"What are the answers to {puzzle_display}?",
+        "acceptedAnswer": {"@type": "Answer", "text": a1},
+    })
+
+    # Q2: When was it published?
+    if publication_date:
+        entries.append({
+            "@type": "Question",
+            "name": f"When was {puzzle_display} published?",
+            "acceptedAnswer": {"@type": "Answer", "text": f"{puzzle_display} was published on {publication_date}."},
+        })
+
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": entries,
+    }
+    return json.dumps(schema, ensure_ascii=False)
+
+
+# ---------------------------------------------------------------------------
+# Learn page schemas
+# ---------------------------------------------------------------------------
+
+def generate_learn_faq_schema():
+    """FAQPage JSON-LD for the learn index page."""
+    entries = [
+        {
+            "@type": "Question",
+            "name": "How do cryptic crosswords work?",
+            "acceptedAnswer": {"@type": "Answer", "text": (
+                "Every cryptic clue has two parts: a straight definition (always at the start or end) "
+                "and wordplay instructions that build the answer from pieces. You get two routes to the "
+                "same answer — that's not harder than a regular crossword, it's easier."
+            )},
+        },
+        {
+            "@type": "Question",
+            "name": "What are the types of cryptic crossword clue?",
+            "acceptedAnswer": {"@type": "Answer", "text": (
+                "The main types are: anagram (letters rearranged), charade (pieces joined end to end), "
+                "container (one word inside another), hidden word (answer hiding in the clue text), "
+                "reversal (word spelled backwards), double definition (two meanings, one answer), "
+                "homophone (sounds like another word), deletion (letters removed), "
+                "acrostic (first letters spell the answer), and cryptic definition (the whole clue is a tricky definition)."
+            )},
+        },
+        {
+            "@type": "Question",
+            "name": "Are cryptic crosswords hard?",
+            "acceptedAnswer": {"@type": "Answer", "text": (
+                "No — they're different, not harder. In a regular crossword you get one definition. "
+                "In a cryptic you get a definition plus wordplay instructions. Once you learn to spot "
+                "the common patterns, you have two ways to find every answer instead of one."
+            )},
+        },
+    ]
+    schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": entries}
+    return json.dumps(schema, ensure_ascii=False)
+
+
+def generate_learn_breadcrumb_schema():
+    """BreadcrumbList JSON-LD for the learn index page."""
+    base = "https://justcordelia.com"
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{base}/"},
+            {"@type": "ListItem", "position": 2, "name": "Learn"},
+        ],
+    }
+    return json.dumps(schema, ensure_ascii=False)
+
+
+def generate_learn_type_faq_schema(label, short_desc, total):
+    """FAQPage JSON-LD for a learn type page."""
+    entries = [
+        {
+            "@type": "Question",
+            "name": f"What is a {label.lower()} clue in a cryptic crossword?",
+            "acceptedAnswer": {"@type": "Answer", "text": (
+                f"{label}: {short_desc}. Cordelia has {total} example clues with "
+                f"colour-coded visual breakdowns showing exactly how each one works."
+            )},
+        },
+        {
+            "@type": "Question",
+            "name": f"How do I spot a {label.lower()} clue?",
+            "acceptedAnswer": {"@type": "Answer", "text": (
+                f"Look for indicator words in the clue that signal {label.lower()} wordplay. "
+                f"Visit the page for real examples with visual breakdowns — you'll start spotting "
+                f"the pattern after just a few."
+            )},
+        },
+    ]
+    schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": entries}
+    return json.dumps(schema, ensure_ascii=False)
+
+
+def generate_learn_type_breadcrumb_schema(label):
+    """BreadcrumbList JSON-LD for a learn type page."""
+    base = "https://justcordelia.com"
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{base}/"},
+            {"@type": "ListItem", "position": 2, "name": "Learn", "item": f"{base}/learn"},
+            {"@type": "ListItem", "position": 3, "name": label},
+        ],
+    }
+    return json.dumps(schema, ensure_ascii=False)

@@ -1,10 +1,30 @@
 {% extends "base.html" %}
 {% block helper_widget %}{% endblock %}
+{% set puzzle_heading = "Cordelia's Daily Mash-up" if source == 'cordelia' and puzzle_type == 'daily-mashup' else source | source_name ~ ' ' ~ type_label %}
 
-{% block title %}{{ source | source_name }} {{ type_label }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
+{% block title %}{{ puzzle_heading }} #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Cordelia{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% elif source == 'dailymail' %}Daily Mail {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}">
+{% set puzzle_desc %}{% if source == 'telegraph' %}DT {{ puzzle_number }} — Daily Telegraph {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Big Dave's crossword blog alternative.{% elif source == 'times' %}Times {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Times for the Times (TFTT) alternative.{% elif source == 'guardian' %}Guardian {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% elif source == 'dailymail' %}Daily Mail {{ type_label }} #{{ puzzle_number }}. All clues with answers, hints, and explanations.{% endif %}{% if publication_date %} Published {{ publication_date }}.{% endif %}{% endset %}
+<meta name="description" content="{{ puzzle_desc }}">
+<meta property="og:title" content="{{ puzzle_heading }} #{{ puzzle_number }} — Cordelia">
+<meta property="og:description" content="{{ puzzle_desc }}">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
+<meta property="og:url" content="https://justcordelia.com{{ request.path }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ puzzle_heading }} #{{ puzzle_number }} — Cordelia">
+<meta name="twitter:description" content="{{ puzzle_desc }}">
+<meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{{ faq_schema | safe }}
+</script>
+<script type="application/ld+json">
+{{ breadcrumb_schema | safe }}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -13,14 +33,14 @@
     <span class="mx-1">/</span>
     <a href="/puzzles" class="hover:text-indigo-600">Puzzles</a>
     <span class="mx-1">/</span>
-    <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ source | source_name }} {{ type_label }}</a>
+    <a href="/{{ source }}/{{ puzzle_type }}/" class="hover:text-indigo-600">{{ puzzle_heading }}</a>
     <span class="mx-1">/</span>
     <span>#{{ puzzle_number }}</span>
 </nav>
 
 <div class="mb-6 flex items-start justify-between">
     <div>
-        <h1 class="text-2xl font-brand font-bold text-gray-900">{{ source | source_name }} {{ type_label }} #{{ puzzle_number }}</h1>
+        <h1 class="text-2xl font-brand font-bold text-gray-900">{{ puzzle_heading }} #{{ puzzle_number }}</h1>
         {% if publication_date %}
         <p class="text-sm text-gray-400 mt-1">{{ publication_date }}</p>
         {% endif %}
@@ -39,9 +59,9 @@
                 class="text-xs px-3 py-1.5 rounded border border-emerald-400 text-emerald-700 hover:bg-emerald-50 font-medium cursor-pointer">
             Solve
         </button>
-        <button id="solve-grid-btn" onclick="showSolveGrid()"
+        <button id="solve-grid-btn" onclick="document.getElementById('grid-area').scrollIntoView({behavior:'smooth',block:'start'})"
                 class="hidden text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
-            Show grid
+            Go to grid
         </button>
         {% if g.is_admin %}
         <button id="solve-save-btn" onclick="saveAllToDb()"
@@ -76,6 +96,10 @@
     <div id="reverify-result" class="text-sm mt-2"></div>
     {% endif %}
 </div>
+
+{% if source == 'cordelia' and puzzle_type == 'daily-mashup' %}
+<p class="text-sm text-purple-600 mb-4 italic">A mash-up puzzle: real grid and answers with alternative clues from across publications. Challenge yourself!</p>
+{% endif %}
 
 {% if grid_conflicts %}
 <div class="mb-4 px-3 py-2 bg-red-50 border border-red-300 rounded text-sm text-red-800">
@@ -115,7 +139,7 @@
                 <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
                 {% endif %}
                 {% if g.is_admin and clue.slug %}
-                <a href="/clue/{{ clue.slug }}?id={{ clue.id }}" class="inline-block text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded px-1 ml-1 text-sm no-underline" title="View clue page">&#128279;</a>
+                <a href="/clue/{{ clue.slug }}" class="inline-block text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded px-1 ml-1 text-sm no-underline" title="View clue page">&#128279;</a>
                 {% endif %}
                 {% if g.is_admin %}
                 <span id="silly-{{ clue.id }}" hx-post="/admin/silly/{{ clue.id }}" hx-target="#silly-{{ clue.id }}" hx-swap="outerHTML">
@@ -174,18 +198,18 @@
                         class="text-xs px-2.5 py-1 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">Add to grid</button>
                 <button onclick="openToolsOverlay('{{ clue.id }}')"
                         class="text-xs px-2.5 py-1 rounded border border-indigo-400 text-indigo-700 hover:bg-indigo-50 font-medium cursor-pointer">Tools</button>
-                <button onclick="showSolveGrid()"
-                        class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Show grid</button>
-                {% if clue.slug %}
-                <a href="/clue/{{ clue.slug }}?id={{ clue.id }}&back={{ request.path | urlencode }}%3Fsolve%3D1"
-                   class="text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-600 hover:bg-purple-50 font-medium cursor-pointer no-underline">Hints</a>
+                <button onclick="document.getElementById('grid-area').scrollIntoView({behavior:'smooth',block:'start'})"
+                        class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Go to grid</button>
+                {% if clue.steps %}
+                <button onclick="toggleSolveHints('{{ clue.id }}')"
+                        class="solve-hints-toggle text-xs px-2.5 py-1 rounded border border-purple-300 text-purple-600 hover:bg-purple-50 font-medium cursor-pointer">Hints</button>
                 {% endif %}
                 <span class="solve-crossing hidden text-xs font-mono tracking-wider text-emerald-600 cursor-pointer hover:text-emerald-800 hover:underline"
                       onclick="patternFromCrossing(this); _lastFocusedClueId=this.closest('.solve-input').querySelector('.solve-answer').dataset.clueId"
                       title="Open in pattern finder — add letters to narrow down"></span>
                 <span class="solve-result text-xs"></span>
             </div>
-            <div id="wordhelp-{{ clue.id }}" class="ml-0 mt-1"></div>
+            <div id="wordhelp-{{ clue.id }}" class="ml-0 mt-1 lookup-host"></div>
         </div>
     </div>
     {# Buttons row — badges + hint buttons + admin buttons all on one line #}
@@ -228,14 +252,14 @@
                 class="text-xs px-2.5 py-1 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
-        <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
+        <button hx-post="/admin/rerun/{{ clue.id }}"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#rerun-spinner-{{ clue.id }}"
                 class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
             Re-run
         </button>
-        <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1&force=1"
+        <button hx-post="/admin/rerun/{{ clue.id }}?force=1"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#rerun-spinner-{{ clue.id }}"
@@ -382,7 +406,7 @@
                 class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Similar</button>
     </div>
     <div id="solver-pattern" class="p-4 border-b border-gray-100 hidden">
-        <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token-puzzle" class="flex gap-2">
+        <form onsubmit="event.preventDefault(); _patternIncludeChanged(true);" class="flex gap-2">
             <input type="hidden" id="helper-token-puzzle" name="ht" value="{{ helper_token }}">
             <input type="hidden" id="pattern-enum" name="enum" value="">
             <input type="text" name="pattern" id="pattern-input"
@@ -393,13 +417,16 @@
                    onkeydown="if(event.key===' '){event.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+'?'+this.value.slice(this.selectionEnd);this.setSelectionRange(s+1,s+1)}">
             <button type="submit" class="px-3 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Find</button>
         </form>
-        <div class="flex gap-2 mt-1.5 items-center">
+        <div class="flex gap-2 mt-1.5 items-center flex-wrap">
             <span class="text-xs text-gray-400">Must include:</span>
             <input type="text" id="pattern-include" name="include"
                    placeholder="e.g. LT"
                    class="w-20 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
                    autocomplete="off"
                    oninput="_patternIncludeChanged()">
+            <button type="button" id="pattern-enum-toggle"
+                    class="hidden text-xs px-2 py-1 rounded font-semibold cursor-pointer"
+                    onclick="_togglePatternEnum()"></button>
         </div>
     </div>
     <div id="solver-anagram" class="p-4 border-b border-gray-100">
@@ -421,7 +448,7 @@
     <div id="solver-similar" class="p-4 border-b border-gray-100 hidden">
         <p class="text-xs text-gray-500">Loading similar clues...</p>
     </div>
-    <div id="solver-results" class="p-4 overflow-y-auto flex-1 min-h-0"></div>
+    <div id="solver-results" class="p-4 overflow-y-auto flex-1 min-h-0 lookup-host"></div>
 </div>
 
 <script>
@@ -824,7 +851,7 @@ solveCheck = function(input) {
     if (_tutStep === 5 && guess === answer) {
         _tutAdvance(6);
         setTimeout(function() {
-            _tutTip('Brilliant! <strong>FEAST</strong>: "Twist" told us to rearrange, and "fate\'s" gave us the letters &mdash; FATES rearranged = FEAST. "Blow-out" is the definition. <br><br>Now hit <strong>Add to grid</strong> to place your answer. Then try <strong>Show grid</strong> &mdash; watch what happens to the crossing letters.');
+            _tutTip('Brilliant! <strong>FEAST</strong>: "Twist" told us to rearrange, and "fate\'s" gave us the letters &mdash; FATES rearranged = FEAST. "Blow-out" is the definition. <br><br>Now hit <strong>Add to grid</strong> to place your answer &mdash; the grid updates automatically and the crossing letters will appear for other clues.');
         }, 800);
     }
 };

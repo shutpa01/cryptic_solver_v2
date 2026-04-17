@@ -17,6 +17,7 @@ Usage:Predictably the times fi
 """
 
 import argparse
+import json
 import re
 import subprocess
 import sqlite3
@@ -580,6 +581,9 @@ def main():
     _sync_honeypot()
     _sync_cordelia()
 
+    # Submit URLs to Google Indexing API (always — future puzzles are priority)
+    _submit_to_indexing_api(new_puzzles)
+
 
 def _sync_honeypot():
     """Copy clues_master.db to the honeypot server and restart."""
@@ -691,6 +695,161 @@ def _sync_cordelia():
 
     except Exception as e:
         print(f"  Cordelia sync error: {e}")
+
+
+INDEXING_SA_PATH = PROJECT_ROOT / "impressions" / "indexing_service_account.json"
+INDEXING_SUBMITTED_PATH = PROJECT_ROOT / "impressions" / "submitted_future_urls.json"
+CORDELIA_BASE_URL = "https://justcordelia.com"
+INDEXING_DAILY_QUOTA = 200
+
+# Source priority order for indexing — DT first, Indy last
+INDEXING_SOURCE_ORDER = ["telegraph", "dailymail", "times", "guardian", "independent"]
+
+# Weekday cryptic ranges for future puzzle prediction
+FUTURE_PUZZLE_RANGES = [
+    ("telegraph", 31000, 31999),
+    ("dailymail", 16000, 19999),
+    ("times", 26000, 39999),
+    ("guardian", 20000, 39999),
+    ("independent", 1, 19999),
+]
+
+
+def _make_clue_slug(clue_id, clue_text):
+    """Build honeypot clue URL slug: {id}-{slugified-text}."""
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    if not text:
+        return None
+    words = text.split("-")[:12]
+    return f"{clue_id}-{'-'.join(words)}"
+
+
+def _get_future_puzzle_numbers(conn, n=5):
+    """Predict next n puzzle numbers for each weekday cryptic source."""
+    results = []
+    for source, lo, hi in FUTURE_PUZZLE_RANGES:
+        row = conn.execute(
+            "SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues "
+            "WHERE source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?",
+            (source, lo, hi),
+        ).fetchone()
+        if not row or row[0] is None:
+            continue
+        latest = row[0]
+        for i in range(1, n + 1):
+            results.append((source, str(latest + i)))
+    return results
+
+
+def _load_submitted_futures():
+    """Load set of previously submitted future puzzle URLs."""
+    if INDEXING_SUBMITTED_PATH.exists():
+        try:
+            with open(INDEXING_SUBMITTED_PATH, encoding="utf-8") as f:
+                return set(json.load(f))
+        except (json.JSONDecodeError, ValueError):
+            pass
+    return set()
+
+
+def _save_submitted_futures(submitted_set):
+    """Persist submitted future puzzle URLs to disk."""
+    INDEXING_SUBMITTED_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(INDEXING_SUBMITTED_PATH, "w", encoding="utf-8") as f:
+        json.dump(sorted(submitted_set), f, indent=2)
+
+
+def _submit_to_indexing_api(new_puzzles):
+    """Submit URLs to Google's Indexing API with priority ordering.
+
+    Priority: future puzzles (new only) > today's puzzles > today's clue URLs.
+    Cordelia URLs only. Capped at daily quota.
+    Source order: DT > DM > Times > Guardian > Independent.
+    """
+    if not INDEXING_SA_PATH.exists():
+        print("\nIndexing API: service account not found, skipping")
+        return
+
+    try:
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+
+        creds = service_account.Credentials.from_service_account_file(
+            str(INDEXING_SA_PATH),
+            scopes=["https://www.googleapis.com/auth/indexing"],
+        )
+        service = build("indexing", "v3", credentials=creds)
+
+        conn = sqlite3.connect(str(CLUES_MASTER_DB))
+        urls = []
+
+        # --- Priority 1: Future puzzle pages (Cordelia only, new URLs only) ---
+        previously_submitted = _load_submitted_futures()
+        future = _get_future_puzzle_numbers(conn, n=14)
+        source_rank = {s: i for i, s in enumerate(INDEXING_SOURCE_ORDER)}
+        future.sort(key=lambda x: source_rank.get(x[0], 99))
+
+        current_future_urls = set()
+        for source, pnum in future:
+            url = f"{CORDELIA_BASE_URL}/{source}/cryptic/{pnum}"
+            current_future_urls.add(url)
+            if url not in previously_submitted:
+                urls.append(url)
+
+        future_count = len(urls)
+
+        # --- Priority 2: Today's new puzzle pages (Cordelia only) ---
+        sorted_new = sorted(new_puzzles, key=lambda x: source_rank.get(x[0], 99))
+        for source, puzzle_number, _count in sorted_new:
+            urls.append(f"{CORDELIA_BASE_URL}/{source}/cryptic/{puzzle_number}")
+
+        today_count = len(urls) - future_count
+
+        # --- Priority 3: Today's clue URLs (Cordelia, fill remaining quota) ---
+        clue_urls = []
+        for source, puzzle_number, _count in sorted_new:
+            rows = conn.execute(
+                "SELECT id, clue_text FROM clues WHERE source = ? AND puzzle_number = ?",
+                (source, puzzle_number),
+            ).fetchall()
+            for clue_id, clue_text in rows:
+                slug = _make_clue_slug(clue_id, clue_text)
+                if slug:
+                    clue_urls.append(f"{CORDELIA_BASE_URL}/clue/{slug}")
+        conn.close()
+
+        remaining = INDEXING_DAILY_QUOTA - len(urls)
+        if remaining > 0:
+            urls.extend(clue_urls[:remaining])
+
+        clue_count = len(urls) - future_count - today_count
+
+        print(f"\n{'=' * 60}")
+        print(f"GOOGLE INDEXING API — {len(urls)} URLs (quota {INDEXING_DAILY_QUOTA})")
+        print(f"  Future puzzles (new): {future_count}")
+        print(f"  Today's puzzles: {today_count}")
+        print(f"  Clue URLs: {clue_count}")
+        print(f"{'=' * 60}")
+
+        submitted = 0
+        errors = 0
+        for url in urls:
+            try:
+                service.urlNotifications().publish(
+                    body={"url": url, "type": "URL_UPDATED"}
+                ).execute()
+                submitted += 1
+            except Exception as e:
+                print(f"  ERR {url} — {e}")
+                errors += 1
+
+        print(f"  Submitted: {submitted}, Errors: {errors}")
+
+        # Update tracking — keep only current future URLs, add newly submitted
+        _save_submitted_futures(previously_submitted | current_future_urls)
+
+    except Exception as e:
+        print(f"\nIndexing API error: {e}")
 
 
 if __name__ == "__main__":

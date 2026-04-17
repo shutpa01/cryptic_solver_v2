@@ -6,9 +6,26 @@
     <title>{% block title %}Cordelia — Cryptic Crossword Companion{% endblock %}</title>
     {% block meta %}
     <meta name="description" content="Cryptic crossword hints and explanations — understand how the wordplay works, not just the answer.">
+    <meta property="og:title" content="{% block og_title %}Cordelia — Cryptic Crossword Companion{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Cryptic crossword hints and explanations — understand how the wordplay works, not just the answer.{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
+    <meta property="og:url" content="{% block og_url %}https://justcordelia.com{{ request.path }}{% endblock %}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}Cordelia — Cryptic Crossword Companion{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Cryptic crossword hints and explanations — understand how the wordplay works, not just the answer.{% endblock %}">
+    <meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
     {% endblock %}
     {% block structured_data %}{% endblock %}
-    <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}https://justcordelia.com{{ request.path }}{% endblock %}">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVVRMJSEPZ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HVVRMJSEPZ');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -51,6 +68,7 @@
                 <span class="text-xl font-brand font-bold text-indigo-600 tracking-wide">Cordelia</span>
             </a>
             <div class="flex items-center gap-6">
+                <a href="/" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Home</a>
                 <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Puzzles</a>
                 <a href="/learn" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Learn</a>
                 <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Tools</a>
@@ -110,9 +128,9 @@
     }
 
     var _patternIncludeTimer = null;
-    function _patternIncludeChanged() {
+    function _patternIncludeChanged(immediate) {
         clearTimeout(_patternIncludeTimer);
-        _patternIncludeTimer = setTimeout(function() {
+        var fn = function() {
             var patVal = document.getElementById('pattern-input').value;
             if (!patVal || patVal.length < 2) return;
             var includeVal = document.getElementById('pattern-include').value;
@@ -122,7 +140,46 @@
             if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
             url += '&ht=' + _ht;
             htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
-        }, 400);
+        };
+        if (immediate) fn(); else _patternIncludeTimer = setTimeout(fn, 400);
+    }
+
+    var _patternEnumFull = '';  // stores the clue's enumeration even when filter is off
+
+    function _updatePatternEnumToggle(enumVal) {
+        var btn = document.getElementById('pattern-enum-toggle');
+        var input = document.getElementById('pattern-enum');
+        if (!btn) return;
+        _patternEnumFull = enumVal || '';
+        if (!_patternEnumFull) {
+            btn.classList.add('hidden');
+            if (input) input.value = '';
+            return;
+        }
+        btn.classList.remove('hidden');
+        // Start with filter active
+        if (input) input.value = _patternEnumFull;
+        btn.textContent = 'match (' + _patternEnumFull + ')';
+        btn.className = 'text-xs px-2 py-1 rounded font-semibold cursor-pointer bg-emerald-100 text-emerald-700';
+    }
+
+    function _togglePatternEnum() {
+        var btn = document.getElementById('pattern-enum-toggle');
+        var input = document.getElementById('pattern-enum');
+        if (!btn || !input || !_patternEnumFull) return;
+        if (input.value) {
+            // Turn filter OFF
+            input.value = '';
+            btn.textContent = 'match (' + _patternEnumFull + ')';
+            btn.className = 'text-xs px-2 py-1 rounded font-semibold cursor-pointer bg-gray-100 text-gray-400';
+        } else {
+            // Turn filter ON
+            input.value = _patternEnumFull;
+            btn.textContent = 'match (' + _patternEnumFull + ')';
+            btn.className = 'text-xs px-2 py-1 rounded font-semibold cursor-pointer bg-emerald-100 text-emerald-700';
+        }
+        // Re-run search if there's a pattern
+        _patternIncludeChanged();
     }
 
     var _currentSolverTab = 'anagram';

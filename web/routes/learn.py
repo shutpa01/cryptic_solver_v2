@@ -276,7 +276,12 @@ def learn_index():
             "description": type_data.get("description", ""),
         })
 
-    return render_template("learn.html", types=types)
+    from web.routes.clue_seo import generate_learn_faq_schema, generate_learn_breadcrumb_schema
+    faq_schema = generate_learn_faq_schema()
+    breadcrumb_schema = generate_learn_breadcrumb_schema()
+
+    return render_template("learn.html", types=types,
+                           faq_schema=faq_schema, breadcrumb_schema=breadcrumb_schema)
 
 
 @bp.route("/learn/<wtype>")
@@ -307,10 +312,15 @@ def learn_type(wtype):
             "hidden_highlight": hidden_highlight,
         })
 
+    from web.routes.clue_seo import generate_learn_type_faq_schema, generate_learn_type_breadcrumb_schema
+    label = info.get("label", wtype)
+    faq_schema = generate_learn_type_faq_schema(label, info.get("short", ""), len(clues))
+    breadcrumb_schema = generate_learn_type_breadcrumb_schema(label)
+
     return render_template(
         "learn_type.html",
         wtype=wtype,
-        label=info.get("label", wtype),
+        label=label,
         icon=info.get("icon", ""),
         colour=info.get("colour", "gray"),
         description=type_data.get("description", ""),
@@ -319,6 +329,8 @@ def learn_type(wtype):
         tool_prompt=info.get("tool_prompt", ""),
         clue_cards=clue_cards,
         total=len(clues),
+        faq_schema=faq_schema,
+        breadcrumb_schema=breadcrumb_schema,
     )
 
 

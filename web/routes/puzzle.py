@@ -9,6 +9,7 @@ from web.models import (
     classify_puzzle, TYPE_LABELS, _is_valid_type, get_puzzle_clues,
     get_puzzle_date, compute_hint_tier, get_hint_steps, compute_solve_source,
     get_puzzle_grid_data, get_puzzle_grid_solution,
+    is_future_puzzle, get_recent_puzzles,
 )
 from web.routes.hints import generate_token
 from web.routes.clue import generate_clue_slug
@@ -31,6 +32,17 @@ def puzzle(source, puzzle_type, puzzle_number):
 
     clues = get_puzzle_clues(source, puzzle_number)
     if not clues:
+        if is_future_puzzle(source, puzzle_type, puzzle_number):
+            type_label = TYPE_LABELS[(source, puzzle_type)]
+            recent = get_recent_puzzles(source, puzzle_type, limit=5)
+            return render_template(
+                "coming_soon.html",
+                source=source,
+                puzzle_type=puzzle_type,
+                type_label=type_label,
+                puzzle_number=puzzle_number,
+                recent_puzzles=recent,
+            )
         abort(404)
 
     pub_date = get_puzzle_date(source, puzzle_number)
@@ -54,7 +66,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         else:
             clue_dict["token"] = None
         # Slug for individual clue page link
-        clue_dict["slug"] = generate_clue_slug(clue["clue_text"] or "", clue["answer"] or "")
+        clue_dict["slug"] = generate_clue_slug(clue["clue_text"] or "", clue_id=clue["id"])
         if clue["direction"] == "across":
             across.append(clue_dict)
         else:
@@ -134,6 +146,14 @@ def puzzle(source, puzzle_type, puzzle_number):
                 prefill[str(c["id"])] = {"value": c["answer"].upper().replace(" ", ""), "correct": True}
         tutorial_prefill = _json.dumps(prefill)
 
+    # Check if a grid is available for this puzzle
+    has_grid = get_puzzle_grid_solution(source, puzzle_number) is not None
+
+    # Structured data for SEO
+    from web.routes.clue_seo import generate_puzzle_breadcrumb_schema, generate_puzzle_faq_schema
+    breadcrumb_schema = generate_puzzle_breadcrumb_schema(source, puzzle_type, type_label, puzzle_number)
+    faq_schema = generate_puzzle_faq_schema(source, type_label, puzzle_number, len(all_clues_list), pub_date)
+
     return render_template(
         "puzzle.html",
         source=source,
@@ -144,9 +164,12 @@ def puzzle(source, puzzle_type, puzzle_number):
         across=across,
         down=down,
         is_prize=is_prize,
+        has_grid=has_grid,
         source_puzzle_url=source_puzzle_url,
         grid_conflicts=grid_conflicts,
         tutorial_prefill=tutorial_prefill,
+        breadcrumb_schema=breadcrumb_schema,
+        faq_schema=faq_schema,
     )
 
 
@@ -160,13 +183,7 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
     if actual_slug != puzzle_type:
         abort(404)
 
-    # Path 1: rebuild live from JSON structure + current DB answers
-    clue_data = get_puzzle_grid_data(source, puzzle_number)
-    grid = build_grid_from_json(source, puzzle_number, clue_data)
-    if grid is not None:
-        return render_template("partials/grid.html", grid=grid)
-
-    # Path 2: use stored solution string (no JSON available)
+    # Path 1: stored solution string (fast DB lookup — populated by scrapers and backfill)
     stored = get_puzzle_grid_solution(source, puzzle_number)
     if stored:
         solution, grid_rows, grid_cols = stored
@@ -174,7 +191,13 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
         if grid is not None:
             return render_template("partials/grid.html", grid=grid)
 
-    # Path 3: algorithmic reconstruction (last resort)
+    # Path 2: rebuild live from JSON structure + current DB answers
+    clue_data = get_puzzle_grid_data(source, puzzle_number)
+    grid = build_grid_from_json(source, puzzle_number, clue_data)
+    if grid is not None:
+        return render_template("partials/grid.html", grid=grid)
+
+    # Path 3: algorithmic reconstruction (last resort — slow, may be inaccurate)
     if clue_data:
         grid = reconstruct_grid(clue_data)
         if grid is not None:

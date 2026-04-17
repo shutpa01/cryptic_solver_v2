@@ -6,6 +6,15 @@
 <meta name="description" content="Think cryptic crosswords are impossible? Cordelia thought so too. Learn how they work — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools.">
 {% endblock %}
 
+{% block structured_data %}
+<script type="application/ld+json">
+{{ faq_schema | safe }}
+</script>
+<script type="application/ld+json">
+{{ breadcrumb_schema | safe }}
+</script>
+{% endblock %}
+
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
@@ -133,12 +142,27 @@
         <div>
             <h2 class="text-lg font-bold text-gray-900 mb-2">Ready to try one?</h2>
             <p class="text-sm text-gray-600 leading-relaxed mb-3">I don't know about you but I learn better by doing, so let's have a go at a puzzle. And don't worry because you're not on your own. We'll be using a range of tools that are available for every clue on the site. They'll become your best friend, but maybe not forever...</p>
-            <a href="/telegraph/cryptic/99999?tutorial=1&solve=1"
-               class="inline-flex items-center gap-2 text-sm px-5 py-2.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 font-semibold no-underline transition shadow-sm">
-                Let's do this
-                <span>&rarr;</span>
-            </a>
+            <div class="flex flex-wrap gap-3 items-center">
+                <button onclick="document.getElementById('approach-tips').classList.toggle('hidden')"
+                        class="inline-flex items-center gap-2 text-sm px-5 py-2.5 rounded-lg border-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 font-semibold cursor-pointer transition shadow-sm">
+                    How I tackle a puzzle
+                </button>
+                <a href="/telegraph/cryptic/99999?tutorial=1&solve=1"
+                   class="inline-flex items-center gap-2 text-sm px-5 py-2.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 font-semibold no-underline transition shadow-sm">
+                    Let's do this
+                    <span>&rarr;</span>
+                </a>
+            </div>
             <p class="text-xs text-gray-400 mt-2">A real Telegraph puzzle with Cordelia guiding you through every tool</p>
+
+            <div id="approach-tips" class="hidden mt-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200 text-sm text-gray-700 leading-relaxed space-y-3">
+                <p>I can't tell you the best way or the right way. But I can tell you what works for me &mdash; and what doesn't.</p>
+                <p><strong>My number one rule: don't get stuck on 1 across.</strong> I take a first pass through every clue. If I can't crack it in a few seconds, I move on. What I'm trying to do is bank a few easy ones so I've got some crossing letters &mdash; and that makes everything so much easier.</p>
+                <p><strong>Anagrams are a good place to start</strong>, especially with our anagram tool <img src="/static/cordelia_flower.jpg" class="inline h-4 w-4" alt="flower">. Don't forget that anagram fodder is often whole words &mdash; plus or minus odd letters that you can add or remove manually in the solver.</p>
+                <p><strong>Don't spend too long on short answers.</strong> You won't get many crossing letters from a four-letter word. On the other hand, long answers with split enumerations like (5,3,7) are gold &mdash; there are far fewer possible matches. Use the "filter by enumeration" button in the pattern tool, or click a clue word to limit results to the right shape.</p>
+                <p><strong>Once you've got a few in the bag, it gets much easier.</strong> I probably get at least a third of my answers from guessing the definition and then figuring out what fits. Once I think I know the answer, I work backwards to figure out the wordplay. You can come back to a puzzle at any time &mdash; the home page saves partially completed puzzles, so you won't lose anything as long as you use the same device.</p>
+                <p><strong>Let's talk about cheating.</strong> In my book there's only one way to cheat: entering a competition puzzle with answers you got here or from another site. That's a definite cheat. Otherwise? Cheating is breaking the rules you set yourself. You'll need a lot of help at the beginning, so don't expect to learn without using every tool we have here. And your own rules are changeable at will &mdash; if you decide to break them to help you move forward, that ain't cheatin'. <img src="/static/cordelia_flower.jpg" class="inline h-4 w-4" alt="flower"></p>
+            </div>
         </div>
     </div>
 </div>

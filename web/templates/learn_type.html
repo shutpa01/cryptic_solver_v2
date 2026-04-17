@@ -6,6 +6,15 @@
 <meta name="description" content="Learn how {{ label | lower }} clues work in cryptic crosswords. {{ total }} example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay. No jargon, no snobbery.">
 {% endblock %}
 
+{% block structured_data %}
+<script type="application/ld+json">
+{{ faq_schema | safe }}
+</script>
+<script type="application/ld+json">
+{{ breadcrumb_schema | safe }}
+</script>
+{% endblock %}
+
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
@@ -49,7 +58,7 @@
             <span class="text-gray-400 ml-1">({{ card.clue.enumeration }})</span>
             {% endif %}
         </p>
-        <div id="wordhelp-learn-{{ loop.index }}" class="mt-1"></div>
+        <div id="wordhelp-learn-{{ loop.index }}" class="mt-1 lookup-host"></div>
 
         {# Colour-coded breakdown — shown after reveal #}
 
