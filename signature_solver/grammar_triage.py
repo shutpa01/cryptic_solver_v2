@@ -344,7 +344,17 @@ def _try_container(wp_words, answer, db):
 
     word_vals = []
     for word in wp_words:
-        word_vals.append(_get_word_values(word, db, answer_len))
+        vals = _get_word_values(word, db, answer_len)
+        # Also add positional extractions as possible values
+        raw = ''.join(c for c in word.upper() if c.isalpha())
+        if raw and len(raw) >= 2:
+            vals.append((raw[0], 'first_letter'))
+            vals.append((raw[-1], 'last_letter'))
+            vals.append((raw[0] + raw[-1], 'outer_letters'))
+            if len(raw) >= 3:
+                vals.append((raw[:2], 'first_n'))
+                vals.append((raw[-2:], 'last_n'))
+        word_vals.append(vals)
 
     for i in range(n):
         for j in range(n):
