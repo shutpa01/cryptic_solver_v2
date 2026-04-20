@@ -615,6 +615,13 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 # Store to DB
                 if write_db:
                     store_signature_result(conn, cid, sr, clue, answer)
+                    # Queue Haiku-discovered definitions for enrichment
+                    if hasattr(sr, 'definition') and sr.definition:
+                        try:
+                            from signature_solver.haiku_definition import queue_enrichment
+                            queue_enrichment(conn, sr.definition, answer, clue, source, puzzle)
+                        except Exception:
+                            pass
 
                 print("  [S HIGH %3d] %s. %s = %s" % (sr.confidence, cnum, clue[:50], answer))
             elif sr.solved:

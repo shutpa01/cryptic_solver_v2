@@ -136,6 +136,18 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None):
 
     candidates = extract_definition_candidates(clue_words, answer_clean, db)
 
+    # --- Haiku definition fallback (near-free) ---
+    # If no definition candidates found in RefDB, ask Haiku
+    if not candidates:
+        try:
+            from .haiku_definition import find_definition as haiku_find_def
+            haiku_result = haiku_find_def(clue_text, answer)
+            if haiku_result:
+                def_phrase, wp_words = haiku_result
+                candidates.append((def_phrase, wp_words))
+        except Exception:
+            pass
+
     best_sr = None
 
     # --- Grammar-guided triage (fast path) ---
