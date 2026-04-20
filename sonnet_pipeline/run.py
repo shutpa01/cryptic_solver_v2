@@ -894,17 +894,38 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         if xref_note:
             enrichment += xref_note
 
-        # Solve (skip API call if we have cached AI output from prior solve)
-        try:
-            result = solve_clue(
-                clue, answer, enrichment, enricher, homo_engine,
-                example_messages, cached_ai=cached_ai, ref_db=ref_db
-            )
-        except Exception as e:
+        # --- Tier 2: cheap grammar-guided AI multiple choice ---
+        # Replaces the expensive open-ended Sonnet call.
+        # If Tier 2 can't solve, the clue goes to leftovers (not Sonnet).
+        result = None
+        if cached_ai:
+            # Re-run assembler on cached AI output from prior solve
+            try:
+                result = solve_clue(
+                    clue, answer, enrichment, enricher, homo_engine,
+                    example_messages, cached_ai=cached_ai, ref_db=ref_db
+                )
+            except Exception as e:
+                print("\n%s. %s = %s  CACHE ERROR: %s" % (cnum, clue, answer, e))
+                result = None
+        else:
+            try:
+                from sonnet_pipeline.tier2_solver import tier2_solve
+                result = tier2_solve(clue, target, ref_db, ref_db=ref_db)
+                if result:
+                    print("\n%s. %s = %s" % (cnum, clue, answer))
+                    print("   [TIER 2] solved — tokens: %d+%d" % (
+                        result["tokens_in"], result["tokens_out"]))
+            except Exception as e:
+                print("   Tier2 error on %s: %s" % (cnum, e))
+                result = None
+
+        # If Tier 2 didn't solve, mark as failed for leftover routine
+        if result is None or not result.get("assembly"):
             print("\n%s. %s = %s" % (cnum, clue, answer))
-            print("   SONNET ERROR: %s" % e)
+            print("   Status: UNSOLVED (for leftovers)")
             results.append({
-                "status": "error", "tier": None,
+                "status": "FAILED", "tier": "Tier2",
                 "clue_number": cnum, "direction": direction,
                 "enumeration": enum, "clue": clue, "answer": answer,
                 "explanation": explanation,
