@@ -116,6 +116,10 @@ def _normalize_clue(text):
 def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None):
     """Solve a raw clue: extract definition candidates, then solve each.
 
+    Tries grammar-guided triage first (fast, high precision) on each
+    definition candidate. Falls through to catalog-based solve if
+    grammar triage returns nothing.
+
     Args:
         clue_text: the full clue text (string)
         answer: the known answer
@@ -134,6 +138,38 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None):
 
     best_sr = None
 
+    # --- Grammar-guided triage (fast path) ---
+    try:
+        from .grammar_triage import grammar_triage
+
+        # Try with each definition candidate
+        for def_phrase, wp_words in candidates:
+            gt_result = grammar_triage(clue_text, answer_clean, db,
+                                       def_phrase=def_phrase, wp_words=wp_words)
+            if gt_result and gt_result.confidence >= 80:
+                gt_result.definition = def_phrase
+                if best_sr is None or gt_result.confidence > best_sr.confidence:
+                    best_sr = gt_result
+                if gt_result.confidence >= 90:
+                    return best_sr
+
+        # No definition found or grammar failed with all candidates —
+        # try full clue as wordplay (definition unknown)
+        if best_sr is None or best_sr.confidence < 80:
+            gt_result = grammar_triage(clue_text, answer_clean, db,
+                                       wp_words=clue_words)
+            if gt_result and gt_result.confidence >= 80:
+                gt_result.definition = None
+                if best_sr is None or gt_result.confidence > best_sr.confidence:
+                    best_sr = gt_result
+    except Exception:
+        pass  # Grammar triage unavailable — continue with catalog solver
+
+    # If grammar triage found a high-confidence result, return it
+    if best_sr is not None and best_sr.confidence >= 80:
+        return best_sr
+
+    # --- Catalog-based solve (existing path) ---
     for def_phrase, wp_words in candidates:
         # Determine def position: if wp_words are after def, def is at start
         if clue_words[:len(clue_words) - len(wp_words)] == clue_words[:len(def_phrase.split())]:

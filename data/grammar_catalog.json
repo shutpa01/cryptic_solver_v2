@@ -1,0 +1,4202 @@
+[
+  {
+    "pos": [
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 78
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 65
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 28
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 17
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F"
+        ],
+        "count": 15
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 50
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 20
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 16
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 11
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 35
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 21
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 22
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 17
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 10
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 28
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 11
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 18
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 16
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 12
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 17
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 12
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 11
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 19
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 16
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 17
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "LNK"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 21
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 14
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "LNK"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 17
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "REV_I"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 15
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 19
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 12
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 23
+      },
+      {
+        "roles": [
+          "LNK",
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 13
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 13
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 14
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "LNK",
+          "LNK",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 13
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 12
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 11
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 16
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 13
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 8
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 7
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 10
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 10
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "ABR_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vb"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 11
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "Vb",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 9
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "REV_I",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 11
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "NP",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 11
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "Vb",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 10
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 10
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 7
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_I",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "R",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "Vb"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 6
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 5
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "NP",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 7
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "Vb"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 7
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "R",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "X",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK",
+          "ABR_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "C",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      },
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "P",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "R",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "NP",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "NP",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "P",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "Vi",
+      "RP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "REV_I",
+          "REV_I"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_I",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "J",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "X"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "N",
+      "P",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "REV_I",
+          "LNK",
+          "REV_I"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "RP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "REV_I"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "P",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "Vb",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "P",
+      "Vb"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "NP",
+      "D",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 4
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "Vi",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "J",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "ABR_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "D",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "Vb"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "RP",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "X",
+      "N",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "NP",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_I",
+          "LNK",
+          "ANA_F",
+          "ANA_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "N",
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "C",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "REV_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "R",
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "D",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "R",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "D",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "REV_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "NP",
+      "Vi",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "CON_I",
+          "SYN_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "J",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "J",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "J",
+      "N",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ABR_F",
+          "SYN_F",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "N",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "Vb",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "N",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "D",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "NP",
+      "Vi",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "NP",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "J",
+      "P",
+      "J"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "C",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vb",
+      "P",
+      "N",
+      "C"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "J",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ABR_F",
+          "SYN_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "Vb",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vb",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "PR",
+      "Vi",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "Vi",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "Vi",
+      "RP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "REV_I",
+          "REV_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "P",
+      "N",
+      "N",
+      "P"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "NP",
+      "NP"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "PR",
+      "Vi",
+      "P",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "SYN_F",
+          "CON_I",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "NP",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "D",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "N",
+      "PR",
+      "Vi"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "Vb",
+      "P",
+      "J",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "ABR_F",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "CD",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "SYN_F",
+          "ABR_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "P",
+      "N",
+      "N",
+      "C",
+      "N"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "SYN_F",
+          "LNK",
+          "LNK",
+          "SYN_F"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "R",
+      "J",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "LNK",
+          "ANA_I",
+          "ANA_F",
+          "ANA_I"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "D",
+      "N",
+      "R",
+      "Vi",
+      "P",
+      "D"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "ANA_F",
+          "ANA_F",
+          "ANA_I",
+          "ANA_I",
+          "LNK",
+          "LNK"
+        ],
+        "count": 3
+      }
+    ]
+  },
+  {
+    "pos": [
+      "Vi",
+      "P",
+      "NP",
+      "NP",
+      "R",
+      "R"
+    ],
+    "candidates": [
+      {
+        "roles": [
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F",
+          "HID_F"
+        ],
+        "count": 3
+      }
+    ]
+  }
+]
