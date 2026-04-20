@@ -401,6 +401,13 @@ def sig_explain(sr, answer):
                     wordplay_types.add("_pos_first_letter" if mech == "first_letter"
                                        else "charade")
 
+    # Resolve double definition: single SYN_F whose value equals the answer
+    if (len(fodder_items) == 1
+            and fodder_items[0][1] == SYN_F
+            and fodder_items[0][2] == answer_clean):
+        wordplay_types.discard("charade")
+        wordplay_types.add("double_definition")
+
     # Resolve _pos_first_letter: acrostic only if ALL fodder is first-letter
     if "_pos_first_letter" in wordplay_types:
         wordplay_types.discard("_pos_first_letter")

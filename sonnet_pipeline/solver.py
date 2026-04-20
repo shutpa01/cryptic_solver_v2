@@ -22,7 +22,7 @@ from sonnet_pipeline.enricher import _is_fractured_substring
 load_dotenv()
 client = Anthropic()
 
-SONNET_MODEL = "claude-sonnet-4-20250514"
+SONNET_MODEL = "claude-sonnet-4-6"
 
 
 def _is_container_outer(syn, answer_clean):

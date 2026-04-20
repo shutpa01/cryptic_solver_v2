@@ -18,7 +18,7 @@ from .evidence import format_evidence, format_failed_solve_context
 load_dotenv()
 client = Anthropic()
 
-MODEL = "claude-sonnet-4-20250514"
+MODEL = "claude-sonnet-4-6"
 
 SYSTEM_PROMPT = """You are an expert cryptic crossword analyst. You will be given:
 1. A cryptic clue with its answer already known
