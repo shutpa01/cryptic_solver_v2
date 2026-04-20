@@ -184,6 +184,68 @@ def _try_anagram(wp_words, answer, db):
     return None
 
 
+def _try_anagram_with_positional(wp_words, answer, db):
+    """Try anagram where one word contributes only its first or last letter
+    to the anagram fodder (e.g. 'At first, Harry' -> H joins the anagram).
+
+    Strategy: enumerate which words are INCLUDED as fodder (2-5 words),
+    plus one word contributing a positional letter. Check if the combined
+    letters anagram to the answer. Much faster than enumerating exclusions.
+    """
+    from itertools import combinations
+
+    n = len(wp_words)
+    answer_sorted = sorted(answer)
+    answer_len = len(answer)
+    word_letters = [''.join(c for c in w.upper() if c.isalpha()) for w in wp_words]
+
+    # For each word that could contribute a positional letter
+    for pos_idx in range(n):
+        raw = word_letters[pos_idx]
+        if len(raw) < 2:
+            continue
+
+        for letter, pos_type in [(raw[0], 'first_letter'), (raw[-1], 'last_letter')]:
+            # How many more letters do we need from fodder words?
+            needed = answer_len - len(letter)  # = answer_len - 1
+
+            # Try including 1-5 other words as full-letter fodder
+            other_indices = [k for k in range(n) if k != pos_idx]
+            for n_fodder in range(1, min(6, len(other_indices) + 1)):
+                for fodder_combo in combinations(other_indices, n_fodder):
+                    fodder_letters = ''.join(word_letters[k] for k in fodder_combo)
+                    if len(fodder_letters) != needed:
+                        continue
+                    combined = letter + fodder_letters
+                    if sorted(combined) == answer_sorted:
+                        excluded = set(k for k in range(n)
+                                       if k != pos_idx and k not in fodder_combo)
+                        # Build result
+                        word_roles = []
+                        for k in range(n):
+                            if k == pos_idx:
+                                word_roles.append((wp_words[k], ANA_F, letter))
+                            elif k in fodder_combo:
+                                word_roles.append((wp_words[k], ANA_F, word_letters[k]))
+                            else:
+                                ind_types = db.get_indicator_types(_clean(wp_words[k]))
+                                is_ana = any(t == 'anagram' for t, _, _ in ind_types)
+                                if is_ana:
+                                    word_roles.append((wp_words[k], ANA_I, None))
+                                else:
+                                    word_roles.append((wp_words[k], LNK, None))
+
+                        has_indicator = any(t == ANA_I for _, t, _ in word_roles)
+                        fodder = combined
+                        explanation = 'Anagram of "%s" = %s' % (fodder, answer)
+                        sig = SignatureResult([ANA_I, ANA_F] if has_indicator else [ANA_F],
+                                              word_roles, [explanation])
+                        confidence = 85 if has_indicator else 65
+                        return SolveResult(sig, confidence, [('anagram', 0)], [], {})
+
+    return None
+
+
 def _build_anagram_result(wp_words, word_letters, excluded, answer, db):
     """Build SolveResult for an anagram."""
     word_roles = []
@@ -433,6 +495,173 @@ def _try_reversal(wp_words, answer, db):
     return None
 
 
+def _try_anagram_charade(wp_words, answer, db):
+    """Try anagram + charade compound: some words are anagram fodder,
+    the rest provide pieces via SYN/ABR/positional, and together they
+    produce the answer.
+
+    Strategy:
+    1. Identify which words COULD be anagram indicators
+    2. For each possible indicator, the remaining words split into
+       anagram fodder and charade pieces
+    3. Try each split: charade pieces provide fixed letters at start/end
+       of the answer, anagram fodder fills the gap
+    """
+    answer_len = len(answer)
+    n = len(wp_words)
+    if n < 3:
+        return None
+
+    answer_sorted = sorted(answer)
+    word_letters = [''.join(c for c in w.upper() if c.isalpha()) for w in wp_words]
+
+    # Find anagram indicator candidates
+    ana_indicators = set()
+    for k in range(n):
+        ind_types = db.get_indicator_types(_clean(wp_words[k]))
+        if any(t == 'anagram' for t, _, _ in ind_types):
+            ana_indicators.add(k)
+
+    if not ana_indicators:
+        return None
+
+    # For each indicator, try splitting remaining words
+    for ind_idx in ana_indicators:
+        remaining = [k for k in range(n) if k != ind_idx]
+
+        # Each remaining word is either anagram fodder or a charade piece.
+        # Charade pieces contribute fixed values (SYN/ABR/first letter/last letter).
+        # Anagram fodder contributes raw letters to be rearranged.
+        #
+        # Try: 1 charade piece + rest as fodder, 2 charade pieces + rest, etc.
+
+        # Get possible charade values for each remaining word
+        charade_vals = {}  # word_idx -> list of (value, source_type)
+        for k in remaining:
+            vals = []
+            for val, src in _get_word_values(wp_words[k], db, answer_len):
+                vals.append((val, src))
+            raw = word_letters[k]
+            if raw:
+                vals.append((raw[0], 'first_letter'))
+                if len(raw) >= 2:
+                    vals.append((raw[-1], 'last_letter'))
+                    vals.append((raw[0] + raw[-1], 'outer_letters'))
+            charade_vals[k] = vals
+
+        # Try 1 charade piece
+        for c1 in remaining:
+            fodder_indices = [k for k in remaining if k != c1]
+            fodder_letters = ''.join(word_letters[k] for k in fodder_indices)
+
+            for c1_val, c1_src in charade_vals[c1]:
+                needed_from_anagram = answer_len - len(c1_val)
+                if needed_from_anagram < 3 or needed_from_anagram != len(fodder_letters):
+                    continue
+
+                # Try c1 value at start of answer
+                if answer.startswith(c1_val):
+                    gap = answer[len(c1_val):]
+                    if sorted(gap) == sorted(fodder_letters):
+                        return _build_anagram_charade_result(
+                            wp_words, word_letters, ind_idx,
+                            [(c1, c1_val, c1_src)], fodder_indices, answer, db
+                        )
+
+                # Try c1 value at end of answer
+                if answer.endswith(c1_val):
+                    gap = answer[:answer_len - len(c1_val)]
+                    if sorted(gap) == sorted(fodder_letters):
+                        return _build_anagram_charade_result(
+                            wp_words, word_letters, ind_idx,
+                            [(c1, c1_val, c1_src)], fodder_indices, answer, db
+                        )
+
+        # Try 2 charade pieces
+        for ci, c1 in enumerate(remaining):
+            for c2 in remaining[ci + 1:]:
+                fodder_indices = [k for k in remaining if k != c1 and k != c2]
+                fodder_letters = ''.join(word_letters[k] for k in fodder_indices)
+
+                for c1_val, c1_src in charade_vals[c1]:
+                    for c2_val, c2_src in charade_vals[c2]:
+                        needed = answer_len - len(c1_val) - len(c2_val)
+                        if needed < 3 or needed != len(fodder_letters):
+                            continue
+
+                        # Try: c1 at start, c2 at end, anagram in middle
+                        if answer.startswith(c1_val) and answer.endswith(c2_val):
+                            gap = answer[len(c1_val):answer_len - len(c2_val)]
+                            if len(gap) == needed and sorted(gap) == sorted(fodder_letters):
+                                return _build_anagram_charade_result(
+                                    wp_words, word_letters, ind_idx,
+                                    [(c1, c1_val, c1_src), (c2, c2_val, c2_src)],
+                                    fodder_indices, answer, db
+                                )
+
+                        # Try: c2 at start, c1 at end
+                        if answer.startswith(c2_val) and answer.endswith(c1_val):
+                            gap = answer[len(c2_val):answer_len - len(c1_val)]
+                            if len(gap) == needed and sorted(gap) == sorted(fodder_letters):
+                                return _build_anagram_charade_result(
+                                    wp_words, word_letters, ind_idx,
+                                    [(c2, c2_val, c2_src), (c1, c1_val, c1_src)],
+                                    fodder_indices, answer, db
+                                )
+
+                        # Try: c1 at start, anagram, then c2
+                        if answer.startswith(c1_val):
+                            for split in range(len(c1_val), answer_len - len(c2_val) + 1):
+                                if answer[split:split + len(c2_val)] == c2_val:
+                                    before_gap = answer[len(c1_val):split]
+                                    after_gap = answer[split + len(c2_val):]
+                                    gap = before_gap + after_gap
+                                    if len(gap) == needed and sorted(gap) == sorted(fodder_letters):
+                                        return _build_anagram_charade_result(
+                                            wp_words, word_letters, ind_idx,
+                                            [(c1, c1_val, c1_src), (c2, c2_val, c2_src)],
+                                            fodder_indices, answer, db
+                                        )
+
+    return None
+
+
+def _build_anagram_charade_result(wp_words, word_letters, ind_idx,
+                                   charade_pieces, fodder_indices, answer, db):
+    """Build SolveResult for an anagram+charade compound."""
+    word_roles = []
+    fodder_str = ''.join(word_letters[k] for k in fodder_indices)
+    charade_map = {idx: (val, src) for idx, val, src in charade_pieces}
+
+    for k in range(len(wp_words)):
+        if k == ind_idx:
+            word_roles.append((wp_words[k], ANA_I, None))
+        elif k in charade_map:
+            val, src = charade_map[k]
+            if src == 'synonym':
+                tok = SYN_F
+            elif src == 'abbreviation':
+                tok = ABR_F
+            elif src in ('first_letter', 'last_letter', 'outer_letters'):
+                tok = SYN_F  # compatibility
+            else:
+                tok = RAW
+            word_roles.append((wp_words[k], tok, val))
+        elif k in fodder_indices:
+            word_roles.append((wp_words[k], ANA_F, word_letters[k]))
+        else:
+            word_roles.append((wp_words[k], LNK, None))
+
+    pieces_desc = []
+    for idx, val, src in charade_pieces:
+        pieces_desc.append('%s(%s)' % (val, wp_words[idx]))
+    pieces_desc.append('anagram(%s)' % fodder_str)
+
+    explanation = '%s = %s' % (' + '.join(pieces_desc), answer)
+    sig = SignatureResult([ANA_I, ANA_F, SYN_F], word_roles, [explanation])
+    return SolveResult(sig, 85, [('anagram_charade', 0)], [], {})
+
+
 # ============================================================
 # POS mechanism detectors
 # ============================================================
@@ -498,6 +727,15 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
     if _timed_out():
         return None
 
+    # === Anagram with positional feed (e.g. first letter + anagram) ===
+    if 1.5 <= ratio <= 4.0:
+        result = _try_anagram_with_positional(wp_words, answer, db)
+        if result:
+            return result
+
+    if _timed_out():
+        return None
+
     # === Standalone: pure reversal ===
     result = _try_reversal(wp_words, answer, db)
     if result:
@@ -538,6 +776,14 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
 
     # === Structural tests without POS guidance ===
     result = _try_container(wp_words, answer, db)
+    if result:
+        return result
+
+    if _timed_out():
+        return None
+
+    # === Anagram + charade compound ===
+    result = _try_anagram_charade(wp_words, answer, db)
     if result:
         return result
 
