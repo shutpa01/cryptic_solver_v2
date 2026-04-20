@@ -1002,6 +1002,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                 elif _gt == "definition":
                                     _already = _ref.execute("SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?", (_gw, _gl)).fetchone() is not None
                                 if not _already:
+                                    _rejected = conn.execute("SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?", (_gt, _gw, _gl)).fetchone()
+                                    if _rejected:
+                                        continue
                                     _existing = conn.execute("SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?", (_gw, _gl)).fetchone()
                                     if not _existing:
                                         conn.execute(
