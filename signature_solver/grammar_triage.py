@@ -16,7 +16,12 @@ the existing catalog-based solver.
 import json
 import os
 import re
+import time
 from itertools import permutations
+
+# Time limit for grammar triage per clue (seconds).
+# Set to 2x the average successful solve time.
+TRIAGE_TIMEOUT = 0.030  # 30ms
 
 try:
     import spacy
@@ -466,6 +471,11 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
     if n == 0:
         return None
 
+    t_start = time.time()
+
+    def _timed_out():
+        return (time.time() - t_start) > TRIAGE_TIMEOUT
+
     total_letters = sum(len(re.sub(r'[^a-zA-Z]', '', w)) for w in wp_words)
     ratio = total_letters / answer_len if answer_len > 0 else 0
 
@@ -475,10 +485,16 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
         if result and result.confidence >= 70:
             return result
 
+    if _timed_out():
+        return None
+
     # === Standalone: pure reversal ===
     result = _try_reversal(wp_words, answer, db)
     if result:
         return result
+
+    if _timed_out():
+        return None
 
     # === POS-guided path ===
     pos_tags = _pos_tag(wp_words)
@@ -492,9 +508,14 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
         # Grammar signature lookup: try each candidate role sequence
         if mid in catalog:
             for role_seq, count in catalog[mid]:
+                if _timed_out():
+                    return None
                 result = _verify_grammar_roles(wp_words, role_seq, answer, db)
                 if result:
                     return result
+
+        if _timed_out():
+            return None
 
         # Mechanism detection: POS bigrams guide which structural tests to try
         if _detect_container(pos_tags):
@@ -502,14 +523,16 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
             if result:
                 return result
 
-        if _detect_reversal(pos_tags):
-            # Already tried pure reversal above; charade handles reversal pieces
-            pass
+    if _timed_out():
+        return None
 
     # === Structural tests without POS guidance ===
     result = _try_container(wp_words, answer, db)
     if result:
         return result
+
+    if _timed_out():
+        return None
 
     result = _try_charade(wp_words, answer, db)
     if result:
