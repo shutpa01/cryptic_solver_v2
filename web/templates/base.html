@@ -18,6 +18,14 @@
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <link rel="canonical" href="{% block canonical %}https://justcordelia.com{{ request.path }}{% endblock %}">
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wf7b9m2j7f");
+    </script>
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVVRMJSEPZ"></script>
     <script>
@@ -71,7 +79,7 @@
                 <a href="/" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Home</a>
                 <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Puzzles</a>
                 <a href="/learn" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Learn</a>
-                <a href="/puzzles" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Tools</a>
+                <a href="/tools" class="text-sm text-gray-700 hover:text-indigo-600 font-bold">Tools</a>
             </div>
         </div>
     </nav>
