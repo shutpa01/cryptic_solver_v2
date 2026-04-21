@@ -133,9 +133,31 @@ def tier2_solve(clue, answer, db, ref_db=None):
     # Use ref_db if provided, otherwise db
     lookup_db = ref_db if ref_db is not None else db
 
-    # Build word analysis
-    clue_words = clue.strip().split()
-    word_analysis = build_word_analysis(clue_words, target, lookup_db)
+    # Extract definition to separate it from wordplay
+    definition = None
+    wp_words = clue.strip().split()
+    try:
+        from signature_solver.solver import extract_definition_candidates, _normalize_clue
+        clue_words = _normalize_clue(clue).strip().split()
+        candidates = extract_definition_candidates(clue_words, target, lookup_db)
+        if candidates:
+            definition = candidates[0][0]
+            wp_words = candidates[0][1]
+        else:
+            # Try Haiku fallback
+            try:
+                from signature_solver.haiku_definition import find_definition
+                haiku_result = find_definition(clue, answer)
+                if haiku_result:
+                    definition = haiku_result[0]
+                    wp_words = haiku_result[1]
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # Build word analysis on WORDPLAY words only (not definition)
+    word_analysis = build_word_analysis(wp_words, target, lookup_db)
 
     # Check if there are any useful roles at all
     has_roles = any(wa['roles'] for wa in word_analysis)
@@ -143,7 +165,7 @@ def tier2_solve(clue, answer, db, ref_db=None):
         return None
 
     # Build and send prompt
-    prompt = build_prompt(clue, answer, None, word_analysis)
+    prompt = build_prompt(clue, answer, definition, word_analysis)
 
     try:
         client = _get_client()
