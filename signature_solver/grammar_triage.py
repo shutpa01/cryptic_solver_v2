@@ -20,8 +20,8 @@ import time
 from itertools import permutations
 
 # Time limit for grammar triage per clue (seconds).
-# Set to 2x the average successful solve time.
-TRIAGE_TIMEOUT = 0.030  # 30ms
+# Must be generous enough for 9-10 word clues with compound mechanisms.
+TRIAGE_TIMEOUT = 1.0  # 1 second
 
 try:
     import spacy
