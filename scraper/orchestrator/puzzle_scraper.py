@@ -779,9 +779,12 @@ def _submit_to_indexing_api(new_puzzles):
         conn = sqlite3.connect(str(CLUES_MASTER_DB))
         urls = []
 
-        # --- Priority 1: Future puzzle pages (Cordelia only, new URLs only) ---
+        # --- Priority 1: Future puzzle pages (Cordelia only) ---
+        # Resubmit next 7 days EVERY night (not just once) to push
+        # Google to index them. A single submission is unreliable for
+        # a new domain — persistent daily requests are more effective.
         previously_submitted = _load_submitted_futures()
-        future = _get_future_puzzle_numbers(conn, n=14)
+        future = _get_future_puzzle_numbers(conn, n=7)
         source_rank = {s: i for i, s in enumerate(INDEXING_SOURCE_ORDER)}
         future.sort(key=lambda x: source_rank.get(x[0], 99))
 
@@ -789,8 +792,7 @@ def _submit_to_indexing_api(new_puzzles):
         for source, pnum in future:
             url = f"{CORDELIA_BASE_URL}/{source}/cryptic/{pnum}"
             current_future_urls.add(url)
-            if url not in previously_submitted:
-                urls.append(url)
+            urls.append(url)  # always resubmit, not just new
 
         future_count = len(urls)
 
