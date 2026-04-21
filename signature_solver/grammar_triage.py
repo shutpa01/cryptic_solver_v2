@@ -181,6 +181,62 @@ def _try_anagram(wp_words, answer, db):
                 if sorted(remaining) == answer_sorted:
                     return _build_anagram_result(wp_words, word_letters, {i, j}, answer, db)
 
+    # Anagram with abbreviation substitution: some words contribute their
+    # abbreviation/synonym value instead of raw letters (e.g. "western"=W, "area"=A)
+    # Try substituting 1-2 words with their short DB values
+    answer_len = len(answer)
+    short_vals = {}  # word_idx -> list of short values (1-2 chars)
+    for k in range(n):
+        vals = []
+        for val, src in _get_word_values(wp_words[k], db, answer_len):
+            if len(val) <= 2:
+                vals.append((val, src))
+        if vals:
+            short_vals[k] = vals
+
+    if short_vals:
+        from itertools import combinations
+        sub_indices = list(short_vals.keys())
+
+        # Try 1 substitution
+        for si in sub_indices:
+            for sub_val, sub_src in short_vals[si]:
+                others = [k for k in range(n) if k != si]
+                for n_exc in range(0, len(others) + 1):
+                    for exc_combo in combinations(others, n_exc):
+                        remaining = sub_val + ''.join(
+                            word_letters[k] for k in range(n)
+                            if k != si and k not in exc_combo
+                        )
+                        if sorted(remaining) == answer_sorted:
+                            # Build result with substituted word
+                            modified_letters = list(word_letters)
+                            modified_letters[si] = sub_val
+                            return _build_anagram_result(
+                                wp_words, modified_letters, set(exc_combo), answer, db
+                            )
+
+        # Try 2 substitutions
+        if len(sub_indices) >= 2:
+            for s1, s2 in combinations(sub_indices, 2):
+                for v1, src1 in short_vals[s1]:
+                    for v2, src2 in short_vals[s2]:
+                        others = [k for k in range(n) if k not in (s1, s2)]
+                        for n_exc in range(0, len(others) + 1):
+                            for exc_combo in combinations(others, n_exc):
+                                remaining = v1 + v2 + ''.join(
+                                    word_letters[k] for k in range(n)
+                                    if k not in (s1, s2) and k not in exc_combo
+                                )
+                                if sorted(remaining) == answer_sorted:
+                                    modified_letters = list(word_letters)
+                                    modified_letters[s1] = v1
+                                    modified_letters[s2] = v2
+                                    return _build_anagram_result(
+                                        wp_words, modified_letters,
+                                        set(exc_combo), answer, db
+                                    )
+
     return None
 
 
@@ -842,7 +898,19 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
     ratio = total_letters / answer_len if answer_len > 0 else 0
 
     # === Standalone: anagram ===
+    # Pure anagram: budget near 1x (most letters used)
     if 0.8 <= ratio <= 2.5:
+        result = _try_anagram(wp_words, answer, db)
+        if result and result.confidence >= 70:
+            return result
+
+    if _timed_out():
+        return None
+
+    # Anagram with abbreviation substitution: higher budget because some
+    # words contribute short values (W, A) instead of raw letters, and
+    # others are excluded (indicators, links)
+    if ratio > 2.5:
         result = _try_anagram(wp_words, answer, db)
         if result and result.confidence >= 70:
             return result

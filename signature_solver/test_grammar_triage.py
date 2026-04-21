@@ -65,7 +65,9 @@ KNOWN_SOLVES = [
     # DM 17861 — charade with positional
     ("Jenny, say, given varied roses is sort to calculate prices", "ASSESSOR", 80,
      "charade: ASS + ES + S + OR"),
-    # OFFGUARD removed — 11 wordplay words, takes 9s, unreliable within timeout
+    # Anagram with abbreviation substitution
+    ("Underpass is unusually busy around western area", "SUBWAY", 80,
+     "anagram: BUSY + W(western) + A(area)"),
 ]
 
 
