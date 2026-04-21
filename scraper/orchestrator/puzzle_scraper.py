@@ -106,7 +106,7 @@ SCRAPERS = {
 }
 
 DANWORD_SCRIPT = BASE_PATH / 'danword' / 'danword_lookup.py'
-DANWORD_TIMEOUT = 600  # ~30 clues × 8s each + overhead
+DANWORD_TIMEOUT = 900  # ~30 clues × 15s each + Firefox startup overhead
 
 
 def run_scraper(name: str, script: Path, args: list, timeout: int) -> bool:
@@ -470,21 +470,12 @@ def main():
     else:
         print("  None")
 
-    # Danword backfill for answerless (prize) puzzles
-    danword_results = []
+    # Danword backfill for puzzles with missing answers
     answerless = find_answerless_puzzles()
     if answerless:
-        print(f"\n{'=' * 60}")
-        print(f"DANWORD BACKFILL ({len(answerless)} answerless puzzles)")
-        print(f"{'=' * 60}")
         danword_results = run_danword_backfill(answerless)
-        for source, pnum, found, total, grid, conflicts in danword_results:
-            grid_tag = f"  [{grid}]" if grid else ""
-            print(f"  {source:15} #{pnum:>8}  {found}/{total} answers{grid_tag}")
-            for c in conflicts:
-                print(f"    CONFLICT: {c}")
     else:
-        print(f"\n  No answerless puzzles to backfill today")
+        danword_results = []
 
     # Missing answers report
     missing_answers = find_missing_answers()
@@ -571,18 +562,21 @@ def main():
         email_lines.append("")
         email_lines.append(stats)
 
+    # Sync DBs to live sites
+    _sync_honeypot()
+    _sync_cordelia()
+
+    # Submit today's new puzzle and clue URLs to Google Indexing API
+    indexing_summary = _submit_to_indexing_api(new_puzzles)
+    if indexing_summary:
+        email_lines.append("")
+        email_lines.append(indexing_summary)
+
     _send_email(subject, '\n'.join(email_lines))
 
     print(f"\n{'=' * 60}")
     print("DONE")
     print(f"{'=' * 60}")
-
-    # Sync DBs to live sites
-    _sync_honeypot()
-    _sync_cordelia()
-
-    # Submit URLs to Google Indexing API (always — future puzzles are priority)
-    _submit_to_indexing_api(new_puzzles)
 
 
 def _sync_honeypot():
@@ -765,10 +759,12 @@ def _submit_to_indexing_api(new_puzzles):
     Priority: future puzzles (new only) > today's puzzles > today's clue URLs.
     Cordelia URLs only. Capped at daily quota.
     Source order: DT > DM > Times > Guardian > Independent.
+
+    Returns: summary string for email, or None.
     """
     if not INDEXING_SA_PATH.exists():
         print("\nIndexing API: service account not found, skipping")
-        return
+        return None
 
     try:
         from google.oauth2 import service_account
@@ -848,8 +844,18 @@ def _submit_to_indexing_api(new_puzzles):
         # Update tracking — keep only current future URLs, add newly submitted
         _save_submitted_futures(previously_submitted | current_future_urls)
 
+        summary = (
+            f"GOOGLE INDEXING API\n"
+            f"  Future puzzles (new): {future_count}\n"
+            f"  Today's puzzles: {today_count}\n"
+            f"  Clue URLs: {clue_count}\n"
+            f"  Total submitted: {submitted}, Errors: {errors}"
+        )
+        return summary
+
     except Exception as e:
         print(f"\nIndexing API error: {e}")
+        return f"GOOGLE INDEXING API: ERROR — {e}"
 
 
 if __name__ == "__main__":
