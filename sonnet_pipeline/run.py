@@ -631,6 +631,13 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     sr, clue, answer, cnum, direction, enum, explanation
                 )
 
+            # Store definition even when solve fails — useful for leftovers
+            if write_db and not sr.high_confidence and hasattr(sr, 'definition') and sr.definition:
+                conn.execute(
+                    "UPDATE clues SET definition = ? WHERE id = ? AND definition IS NULL",
+                    (sr.definition, cid))
+                conn.commit()
+
         elapsed = time.time() - t0
         print("  Phase 1: %d HIGH, %d medium in %.1fs — %d clues skip API" % (
             sig_high, sig_medium, elapsed, sig_high))

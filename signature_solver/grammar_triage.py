@@ -442,6 +442,129 @@ def _try_container(wp_words, answer, db):
     return None
 
 
+def _try_container_charade(wp_words, answer, db):
+    """Try container + charade: container produces part of the answer,
+    other pieces provide the rest via SYN/ABR/positional.
+
+    E.g. EXCITE = EX(C)IT + E where EXIT contains C, plus E from 'here'.
+    """
+    answer_len = len(answer)
+    n = len(wp_words)
+    if n < 3:
+        return None
+
+    word_vals = []
+    for word in wp_words:
+        vals = _get_word_values(word, db, answer_len)
+        raw = ''.join(c for c in word.upper() if c.isalpha())
+        if raw and len(raw) >= 2:
+            vals.append((raw[0], 'first_letter'))
+            vals.append((raw[-1], 'last_letter'))
+            vals.append((raw[0] + raw[-1], 'outer_letters'))
+        word_vals.append(vals)
+
+    # For each pair (outer_word, inner_word), try container producing a substring
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                continue
+            for outer, outer_src in word_vals[i]:
+                if len(outer) < 2 or len(outer) >= answer_len:
+                    continue
+                for inner, inner_src in word_vals[j]:
+                    if not inner or len(inner) + len(outer) > answer_len:
+                        continue
+                    # Try inserting inner at each position in outer
+                    for pos in range(1, len(outer)):
+                        container_result = outer[:pos] + inner + outer[pos:]
+                        cr_len = len(container_result)
+                        if cr_len >= answer_len or cr_len < 2:
+                            continue
+
+                        # Is this container result a substring of the answer?
+                        idx = answer.find(container_result)
+                        if idx < 0:
+                            continue
+
+                        # Remaining letters needed
+                        before = answer[:idx]
+                        after = answer[idx + cr_len:]
+                        if not before and not after:
+                            # Full answer — handled by _try_container
+                            continue
+
+                        # Try to fill before and after from other words
+                        other_indices = [k for k in range(n) if k != i and k != j]
+
+                        # Simple case: one extra piece provides before or after
+                        for k in other_indices:
+                            for val, src in word_vals[k]:
+                                if before and not after and val == before:
+                                    return _build_container_charade_result(
+                                        wp_words, i, outer, outer_src,
+                                        j, inner, inner_src, pos,
+                                        [(k, val, src, 'before')],
+                                        container_result, answer, db
+                                    )
+                                if after and not before and val == after:
+                                    return _build_container_charade_result(
+                                        wp_words, i, outer, outer_src,
+                                        j, inner, inner_src, pos,
+                                        [(k, val, src, 'after')],
+                                        container_result, answer, db
+                                    )
+
+                        # Two extra pieces: one before, one after
+                        if before and after:
+                            for k1 in other_indices:
+                                for v1, s1 in word_vals[k1]:
+                                    if v1 == before:
+                                        for k2 in other_indices:
+                                            if k2 == k1:
+                                                continue
+                                            for v2, s2 in word_vals[k2]:
+                                                if v2 == after:
+                                                    return _build_container_charade_result(
+                                                        wp_words, i, outer, outer_src,
+                                                        j, inner, inner_src, pos,
+                                                        [(k1, v1, s1, 'before'), (k2, v2, s2, 'after')],
+                                                        container_result, answer, db
+                                                    )
+
+    return None
+
+
+def _build_container_charade_result(wp_words, outer_idx, outer, outer_src,
+                                     inner_idx, inner, inner_src, insert_pos,
+                                     extra_pieces, container_result, answer, db):
+    """Build SolveResult for a container+charade compound."""
+    word_roles = []
+    extra_map = {idx: (val, src) for idx, val, src, position in extra_pieces}
+
+    for k in range(len(wp_words)):
+        if k == outer_idx:
+            tok = SYN_F if outer_src == 'synonym' else ABR_F
+            word_roles.append((wp_words[k], tok, outer))
+        elif k == inner_idx:
+            tok = SYN_F if inner_src == 'synonym' else ABR_F
+            word_roles.append((wp_words[k], tok, inner))
+        elif k in extra_map:
+            val, src = extra_map[k]
+            tok = SYN_F if src == 'synonym' else ABR_F if src == 'abbreviation' else SYN_F
+            word_roles.append((wp_words[k], tok, val))
+        else:
+            ind_types = db.get_indicator_types(_clean(wp_words[k]))
+            is_con = any(t in ('container', 'insertion') for t, _, _ in ind_types)
+            if is_con:
+                word_roles.append((wp_words[k], CON_I, None))
+            else:
+                word_roles.append((wp_words[k], LNK, None))
+
+    explanation = '%s containing %s + extras = %s' % (outer, inner, answer)
+    sig = SignatureResult([SYN_F, CON_I, SYN_F], word_roles, [explanation])
+    return SolveResult(sig, 85, [('container_charade', 0)], [], {})
+
+
 def _build_container_result(wp_words, outer_idx, outer, outer_src,
                              inner_idx, inner, inner_src, answer, db):
     """Build SolveResult for a container."""
@@ -776,6 +899,14 @@ def grammar_triage(clue_text, answer, db, def_phrase=None, wp_words=None):
 
     # === Structural tests without POS guidance ===
     result = _try_container(wp_words, answer, db)
+    if result:
+        return result
+
+    if _timed_out():
+        return None
+
+    # === Container + charade compound ===
+    result = _try_container_charade(wp_words, answer, db)
     if result:
         return result
 
