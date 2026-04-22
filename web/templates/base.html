@@ -26,6 +26,17 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wf7b9m2j7f");
     </script>
+    <script type="text/javascript">
+    // Prevent Clarity from ending sessions on HTMX content swaps
+    if (window.clarity) {
+        clarity("set", "SPA", "true");
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.clarity) {
+            clarity("set", "SPA", "true");
+        }
+    });
+    </script>
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVVRMJSEPZ"></script>
     <script>
