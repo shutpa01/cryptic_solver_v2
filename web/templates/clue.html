@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% endblock %}
+{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — crossword clue answer{% endblock %}
 
 {% block meta %}
 <meta name="description" content="{{ meta_description }}">
-<meta property="og:title" content="Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
+<meta property="og:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — crossword clue answer">
 <meta property="og:description" content="{{ meta_description }}">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
 <meta property="og:url" content="https://justcordelia.com{{ request.path }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ans · Def · Wordplay | {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
+<meta name="twitter:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — crossword clue answer">
 <meta name="twitter:description" content="{{ meta_description }}">
 <meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
 {% endblock %}
@@ -42,13 +42,11 @@
 
 {# Main clue card #}
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-    {# Clue text — prominent display #}
-    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">
+    {# Clue text — clean H1 for SEO, interactive version below #}
+    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}</h1>
+    <p class="mt-2 text-lg text-gray-700 leading-relaxed">
         {{ clue.clue_text | clickable_words(clue.id) }}
-        {% if clue.enumeration %}
-        <span class="text-gray-400 font-normal">({{ clue.enumeration }})</span>
-        {% endif %}
-    </h1>
+    </p>
     <div id="wordhelp-{{ clue.id }}" class="mt-1 lookup-host"></div>
 
     {# Source info line #}
@@ -94,6 +92,25 @@
         {% endif %}
         {% endif %}
     </div>
+
+    {# Answer — visible to crawlers and users #}
+    {% if clue.answer %}
+    <div class="mt-4 py-3 px-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+        <p class="text-sm text-gray-500 mb-1">Answer</p>
+        <p class="text-xl font-bold text-indigo-900 tracking-wide">{{ clue.answer }}</p>
+    </div>
+    {% endif %}
+
+    {# Solve the puzzle CTA #}
+    {% if clue.puzzle_url %}
+    <div class="mt-5 mb-2">
+        <a href="{{ clue.puzzle_url }}?admin={{ request.args.get('admin', '') }}#solve"
+           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-600 font-semibold text-sm transition-all no-underline">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
+            Solve the whole puzzle with Cordelia
+        </a>
+    </div>
+    {% endif %}
 
     {# Hint reveal buttons — same pattern as puzzle.html #}
     <div id="explain-{{ clue.id }}" class="mt-5 flex flex-wrap gap-2 items-center">
@@ -187,9 +204,9 @@
                 similar clue search, and more. Give it a try!
             </p>
             <div class="flex flex-wrap gap-3 mt-3">
-                <a href="{{ clue.puzzle_url }}?solve=1"
+                <a href="{{ clue.puzzle_url }}"
                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
-                    <span>Solve {{ clue.source | source_name }} #{{ clue.puzzle_number }} with me</span>
+                    <span>See all clues for {{ clue.source | source_name }} #{{ clue.puzzle_number }}</span>
                     <span>&rarr;</span>
                 </a>
                 <a href="/learn"
