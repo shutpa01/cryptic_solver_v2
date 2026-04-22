@@ -446,6 +446,18 @@ def _actionable_quality(results):
                         word_found = True
                         break
                 if not word_found:
+                    # Skip positional extractions — first/last/outer letters
+                    # of the clue word are not real synonym/abbreviation gaps
+                    _cw_upper = clue_lower.upper().strip(".,;:!?\"'()-?")
+                    if len(letters_clean) <= 2 and _cw_upper:
+                        if (_cw_upper.startswith(letters_clean)
+                                or _cw_upper.endswith(letters_clean)
+                                or letters_clean == _cw_upper[0]
+                                or letters_clean == _cw_upper[-1]
+                                or (len(_cw_upper) >= 2
+                                    and letters_clean == _cw_upper[0] + _cw_upper[-1])):
+                            continue  # positional extraction, not a real gap
+
                     db_gaps.append({
                         "answer": answer, "clue_word": clue_word,
                         "letters": letters_clean,
