@@ -107,9 +107,9 @@
         <a href="{{ clue.puzzle_url }}"
            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-600 font-semibold text-sm transition-all no-underline">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
-            See the rest of this puzzle
+            <span>See the rest of this puzzle</span>
+            <span class="font-bold">— no spoilers, answers are hidden</span>
         </a>
-        <p class="text-sm text-gray-600 mt-1.5 ml-1">No spoilers — answers are hidden until you choose to reveal them</p>
     </div>
     {% endif %}
 
@@ -208,9 +208,9 @@
                 <a href="{{ clue.puzzle_url }}"
                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-medium text-sm no-underline">
                     <span>See all clues for {{ clue.source | source_name }} #{{ clue.puzzle_number }}</span>
+                    <span class="font-bold">— no spoilers, answers are hidden</span>
                     <span>&rarr;</span>
                 </a>
-                <p class="w-full text-sm text-gray-600 mt-1">No spoilers — answers are hidden until you choose to reveal them</p>
                 <a href="/learn"
                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-rose-300 text-rose-700 hover:bg-rose-50 font-medium text-sm no-underline">
                     <span>Teach me about cryptics</span>
