@@ -97,7 +97,7 @@
     {% if clue.answer %}
     <div class="mt-4 py-3 px-4 bg-indigo-50 border border-indigo-100 rounded-lg">
         <p class="text-sm text-gray-500 mb-1">Answer</p>
-        <p class="text-xl font-bold text-indigo-900 tracking-wide">{{ clue.answer }}</p>
+        <p class="text-xl font-bold text-indigo-900 tracking-wide">{{ clue.answer | format_answer(clue.enumeration) }}</p>
     </div>
     {% endif %}
 

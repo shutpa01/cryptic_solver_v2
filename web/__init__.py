@@ -157,6 +157,37 @@ def create_app(config_name=None):
         except Exception:
             return False
 
+    @app.template_filter("format_answer")
+    def format_answer_filter(answer, enumeration):
+        """Format answer with spaces based on enumeration.
+
+        E.g. 'AGREATDEAL' with enum '1,5,4' -> 'A GREAT DEAL'
+        Handles hyphens too: '4-6' -> 'HALF-NELSON'
+        """
+        if not answer or not enumeration:
+            return answer or ''
+        # Already has spaces — return as-is
+        if ' ' in answer or '-' in answer:
+            return answer
+        # Parse enumeration: split on commas, hyphens become joiners
+        import re
+        parts = re.split(r'([,\-])', enumeration.strip())
+        pos = 0
+        result = []
+        clean = re.sub(r'[^A-Za-z]', '', answer).upper()
+        for part in parts:
+            part = part.strip()
+            if part == ',':
+                result.append(' ')
+            elif part == '-':
+                result.append('-')
+            elif part.isdigit():
+                n = int(part)
+                result.append(clean[pos:pos + n])
+                pos += n
+        formatted = ''.join(result)
+        return formatted if formatted else answer
+
     @app.template_filter("clickable_words")
     def clickable_words_filter(text, clue_id):
         """Wrap each word in a clue in a clickable span for the helper widget.
@@ -226,6 +257,7 @@ def create_app(config_name=None):
     from web.routes.helper import bp as helper_bp
     from web.routes.seo import bp as seo_bp
     from web.routes.learn import bp as learn_bp
+    from web.routes.tools import bp as tools_bp
 
     app.register_blueprint(browse_bp)
     app.register_blueprint(puzzle_bp)
@@ -235,5 +267,6 @@ def create_app(config_name=None):
     app.register_blueprint(helper_bp)
     app.register_blueprint(seo_bp)
     app.register_blueprint(learn_bp)
+    app.register_blueprint(tools_bp)
 
     return app
