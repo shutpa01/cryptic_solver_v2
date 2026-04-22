@@ -1013,6 +1013,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                                     _already = _ref.execute("SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?", (_gw, _gl)).fetchone() is not None
                                 elif _gt == "abbreviation":
                                     _already = _ref.execute("SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?", (_gw, _gl)).fetchone() is not None
+                                    # Skip positional extractions masquerading as abbreviations:
+                                    # first/last letter(s) of the word are not real abbreviations
+                                    if not _already and len(_gl) <= 2:
+                                        _wupper = _gw.upper().strip(".,;:!?\"'()-")
+                                        if (_wupper.startswith(_gl) or _wupper.endswith(_gl)
+                                                or _gl == _wupper[0] or _gl == _wupper[-1]
+                                                or (len(_wupper) >= 2 and _gl == _wupper[0] + _wupper[-1])):
+                                            continue  # positional extraction, not a real abbreviation
                                 elif _gt == "definition":
                                     _already = _ref.execute("SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?", (_gw, _gl)).fetchone() is not None
                                 if not _already:
