@@ -56,8 +56,25 @@
         {% endif %}
         <button id="solve-toggle"
                 onclick="toggleSolveMode()"
-                class="text-xs px-3 py-1.5 rounded border border-emerald-400 text-emerald-700 hover:bg-emerald-50 font-medium cursor-pointer">
-            Solve
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-600 font-semibold text-sm cursor-pointer transition-all"
+                title="Solve the whole puzzle with Cordelia's tools">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/>
+                <rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/>
+                <rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/>
+                <rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/>
+                <rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/>
+                <rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/>
+                <rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/>
+                <rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/>
+                <rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/>
+                <line x1="8.33" y1="1" x2="8.33" y2="23" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                <line x1="15.67" y1="1" x2="15.67" y2="23" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                <line x1="1" y1="8.33" x2="23" y2="8.33" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                <line x1="1" y1="15.67" x2="23" y2="15.67" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+            </svg>
+            Solve this puzzle
         </button>
         <button id="solve-grid-btn" onclick="document.getElementById('grid-area').scrollIntoView({behavior:'smooth',block:'start'})"
                 class="hidden text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
@@ -73,7 +90,7 @@
         <span id="solve-progress" class="hidden text-xs font-medium text-emerald-600"></span>
         <button id="grid-toggle"
                 onclick="toggleGrid(this, '/{{ source }}/{{ puzzle_type }}/{{ puzzle_number }}/grid')"
-                class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
+                class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer hidden">
             Show full grid
         </button>
         <button onclick="hideAllHints()"
@@ -81,6 +98,11 @@
             Hide all hints
         </button>
         {% if g.is_admin %}
+        <button id="admin-grid-toggle"
+                onclick="toggleGrid(this, '/{{ source }}/{{ puzzle_type }}/{{ puzzle_number }}/grid')"
+                class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
+            Show grid
+        </button>
         <button hx-post="/admin/reverify/{{ source }}/{{ puzzle_number }}"
                 hx-target="#reverify-result"
                 hx-swap="innerHTML"
@@ -240,6 +262,12 @@
         <button onclick="hideHints('hints-{{ clue.id }}')"
                 class="hint-hide text-xs px-2.5 py-1 rounded border border-red-200 text-red-400 hover:bg-red-50 font-medium cursor-pointer hidden">
             Hide
+        </button>
+        <button onclick="if(!_solveMode)toggleSolveMode()"
+                class="solve-hide-badges text-xs px-2 py-1 rounded border border-emerald-400 text-emerald-700 hover:bg-emerald-50 font-medium cursor-pointer inline-flex items-center gap-1"
+                title="Solve the whole puzzle with Cordelia's tools">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
+            Solve
         </button>
         {% if g.is_admin %}
         <button onclick="openToolsOverlay('{{ clue.id }}')"
@@ -684,7 +712,7 @@ solveAddToGrid = function(input) {
     }, 1500);
 };
 </script>
-{% elif source == 'cordelia' %}
+{% elif source == 'cordelia' and puzzle_number == 1 %}
 {# ===== TUTORIAL WALKTHROUGH — STATE MACHINE ===== #}
 <script>
 var _tutStep = 0;
