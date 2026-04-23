@@ -47,10 +47,17 @@
                 class="px-6 py-3 rounded-lg bg-amber-600 text-white text-base font-semibold hover:bg-amber-700 cursor-pointer">
             Find
         </button>
-        <button onclick="document.getElementById('synonym-input').value='';document.getElementById('results').innerHTML='';document.getElementById('synonym-input').focus()"
+        <button onclick="document.getElementById('synonym-input').value='';document.getElementById('length-input').value='';document.getElementById('results').innerHTML='';document.getElementById('synonym-input').focus()"
                 class="px-4 py-3 rounded-lg border border-gray-300 text-gray-600 text-base font-medium hover:bg-gray-50 cursor-pointer">
             Clear
         </button>
+    </div>
+    <div class="flex items-center gap-3 mt-3">
+        <label for="length-input" class="text-sm font-medium text-gray-700">Answer length:</label>
+        <input type="number" id="length-input"
+               placeholder="any"
+               min="1" max="25"
+               class="px-3 py-2 rounded border border-gray-300 text-sm font-mono focus:outline-none focus:border-amber-400 w-20">
     </div>
 </div>
 
@@ -76,7 +83,11 @@ function findSynonyms() {
     var word = input.value.trim();
     if (!word || word.length < 1) return;
 
-    fetch('/helper/synonym?word=' + encodeURIComponent(word) + '&ht=' + _ht)
+    var url = '/helper/synonym?word=' + encodeURIComponent(word) + '&ht=' + _ht;
+    var len = document.getElementById('length-input').value.trim();
+    if (len) url += '&length=' + encodeURIComponent(len);
+
+    fetch(url)
         .then(function(r) { return r.text(); })
         .then(function(html) {
             document.getElementById('results').innerHTML = html;
@@ -84,6 +95,9 @@ function findSynonyms() {
 }
 
 document.getElementById('synonym-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
+});
+document.getElementById('length-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
 });
 

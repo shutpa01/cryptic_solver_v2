@@ -464,6 +464,13 @@ def synonym_search():
     all_syns.discard(word_upper)
     all_syns.discard(word_upper.replace(' ', ''))
 
+    # Filter by length if specified
+    length_filter = request.args.get("length", "").strip()
+    if length_filter and length_filter.isdigit():
+        target_len = int(length_filter)
+        all_syns = {s for s in all_syns if len(s.replace(' ', '').replace('-', '')) == target_len}
+        abbreviations = {a for a in abbreviations if len(a) == target_len}
+
     sorted_syns = sorted(all_syns, key=len)[:60]
     sorted_abbrs = sorted(abbreviations, key=len)[:20]
     total = len(sorted_syns) + len(sorted_abbrs)
