@@ -283,10 +283,15 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
     Updates: definition, wordplay_type, ai_explanation, explanation, has_solution, reviewed.
     Also writes to structured_explanations.
     """
-    if not parsed or not parsed.get("pieces"):
+    if not parsed:
         return
 
-    pieces = parsed["pieces"]
+    wtype = parsed.get("wordplay_type", "")
+    pieces = parsed.get("pieces") or []
+
+    # Cryptic definitions and double definitions legitimately have no pieces
+    if not pieces and wtype not in ("cryptic_definition", "double_definition"):
+        return
     wordplay_type = parsed.get("wordplay_type", "unknown")
     definition = parsed.get("definition") or definition_from_tftt or ""
 
@@ -416,7 +421,9 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
             pnum, cnum,
         ))
 
-    # Queue enrichment gaps (unverifiable synonyms/abbreviations/definitions)
+    # Queue enrichment gaps (unverifiable synonyms/abbreviations/definitions/
+    # homophones, plus missing indicators extracted from the explanation's
+    # quoted annotations).
     if v_result:
         try:
             import sqlite3 as _sq
@@ -425,46 +432,105 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
             )
             clue_text = clue_row[0] if clue_row else ""
             answer_val = clue_row[1] if clue_row else ""
+
+            # Collect candidate gaps: (type, word, letters) tuples
+            _gaps_to_queue = []
+            _indicator_types = set()
+
             for _gc in v_result.get("checks", []):
-                if _gc["status"] == "unverifiable" and _gc["check"] in (
+                _status = _gc.get("status", "")
+                _detail = _gc.get("detail", "")
+                _ctype = _gc.get("check", "")
+
+                if _status == "unverifiable" and _ctype in (
                     "synonym", "abbreviation", "definition"
                 ):
-                    _gm = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", _gc["detail"])
+                    _gm = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", _detail)
                     if _gm:
-                        _gw = _gm.group(1).strip().lower()
-                        _gl = _gm.group(2).strip().upper()
-                        _gt = _gc["check"]
-                        _already = False
-                        if _gt == "synonym":
-                            _already = _ref.execute(
-                                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
-                                (_gw, _gl),
-                            ).fetchone() is not None
-                        elif _gt == "abbreviation":
-                            _already = _ref.execute(
-                                "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
-                                (_gw, _gl),
-                            ).fetchone() is not None
-                        elif _gt == "definition":
-                            _already = _ref.execute(
-                                "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?",
-                                (_gw, _gl),
-                            ).fetchone() is not None
-                        if not _already:
-                            _rejected = conn.execute(
-                                "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
-                                (_gt, _gw, _gl),
-                            ).fetchone()
-                            if not _rejected:
-                                _existing = conn.execute(
-                                    "SELECT 1 FROM pending_enrichments WHERE LOWER(word)=? AND UPPER(letters)=?",
-                                    (_gw, _gl),
-                                ).fetchone()
-                                if not _existing:
-                                    conn.execute(
-                                        "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                                        (_gt, _gw, _gl, answer_val, clue_text, src, pnum),
-                                    )
+                        _gaps_to_queue.append(
+                            (_ctype, _gm.group(1).strip().lower(),
+                             _gm.group(2).strip().upper())
+                        )
+
+                elif _ctype == "homophone" and "not in DB" in _detail:
+                    _gm = re.match(r"'(.+?)' sounds like '(.+?)': not in DB", _detail)
+                    if _gm:
+                        _gaps_to_queue.append(
+                            ("homophone", _gm.group(1).strip().lower(),
+                             _gm.group(2).strip().upper())
+                        )
+
+                elif _ctype == "indicator" and _status == "wrong":
+                    _im = re.search(r"no '([^']+)' indicator", _detail)
+                    if _im:
+                        _indicator_types.add(_im.group(1))
+
+            # Extract candidate indicator words from the explanation's quoted
+            # annotations. Skip hidden-spans (internal uppercase) and long
+            # phrases. Queue each candidate for each needed indicator type.
+            if _indicator_types and explanation:
+                _quoted = re.findall(r'"([^"]+)"', explanation)
+                for _qt in _indicator_types:
+                    for _q in _quoted:
+                        _qs = _q.strip()
+                        if (_qs and len(_qs) <= 30
+                                and not any(c.isupper() for c in _qs[1:])):
+                            _gaps_to_queue.append(
+                                ("indicator", _qs.lower(), _qt.upper())
+                            )
+
+            for _gt, _gw, _gl in _gaps_to_queue:
+                _already = False
+                if _gt == "synonym":
+                    _already = _ref.execute(
+                        "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
+                        (_gw, _gl),
+                    ).fetchone() is not None
+                elif _gt == "abbreviation":
+                    _already = _ref.execute(
+                        "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
+                        (_gw, _gl),
+                    ).fetchone() is not None
+                elif _gt == "definition":
+                    _already = _ref.execute(
+                        "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND UPPER(answer)=?",
+                        (_gw, _gl),
+                    ).fetchone() is not None
+                elif _gt == "homophone":
+                    _already = _ref.execute(
+                        "SELECT 1 FROM homophones WHERE "
+                        "(LOWER(word)=? AND LOWER(homophone)=?) OR "
+                        "(LOWER(word)=? AND LOWER(homophone)=?)",
+                        (_gw, _gl.lower(), _gl.lower(), _gw),
+                    ).fetchone() is not None
+                elif _gt == "indicator":
+                    _already = _ref.execute(
+                        "SELECT 1 FROM indicators WHERE LOWER(word)=? AND LOWER(wordplay_type)=?",
+                        (_gw, _gl.lower()),
+                    ).fetchone() is not None
+
+                if _already:
+                    continue
+
+                _rejected = conn.execute(
+                    "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                    (_gt, _gw, _gl),
+                ).fetchone()
+                if _rejected:
+                    continue
+
+                _existing = conn.execute(
+                    "SELECT 1 FROM pending_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",
+                    (_gt, _gw, _gl),
+                ).fetchone()
+                if _existing:
+                    continue
+
+                conn.execute(
+                    "INSERT OR IGNORE INTO pending_enrichments (type, word, letters, answer, clue_text, source, puzzle_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (_gt, _gw, _gl, answer_val, clue_text, src, pnum),
+                )
+
             _ref.close()
         except Exception:
             pass  # Don't let gap collection failure block the pipeline
@@ -488,10 +554,38 @@ def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False):
     tftt_clues = fetch_tftt(puzzle_number)
 
     if not tftt_clues:
-        print("  No TFTT page found for puzzle %d" % puzzle_number)
-        return
+        print("  No TFTT page found — falling through to Sonnet pipeline")
+        import subprocess
+        cmd = [sys.executable, "-m", "sonnet_pipeline.run",
+               "--mode", "1", "--no-review",
+               "--source", "times", str(puzzle_number)]
+        if write_db:
+            cmd.append("--write-db")
+        result = subprocess.run(cmd, cwd=BASE_DIR)
+        sys.exit(result.returncode)
 
     print("  Fetched %d clues from TFTT" % len(tftt_clues))
+
+    # Always save raw blog explanations to the clues table
+    conn_save = sqlite3.connect(CLUES_DB, timeout=30)
+    blog_saved = 0
+    for tc in tftt_clues:
+        if not tc.get("explanation"):
+            continue
+        answer_clean = clean(tc["answer"])
+        result = conn_save.execute(
+            "UPDATE clues SET explanation = ? "
+            "WHERE source = 'times' AND puzzle_number = ? "
+            "AND UPPER(REPLACE(REPLACE(answer, ' ', ''), '-', '')) = ? "
+            "AND (explanation IS NULL OR explanation = '')",
+            (tc["explanation"], str(puzzle_number), answer_clean),
+        )
+        if result.rowcount > 0:
+            blog_saved += 1
+    conn_save.commit()
+    conn_save.close()
+    if blog_saved:
+        print("  Saved %d blog explanations to DB" % blog_saved)
 
     # Load RefDB for scoring
     print("\n--- Loading RefDB ---")

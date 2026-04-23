@@ -62,13 +62,28 @@ def parse_response(text):
     return results
 
 
-def _extract_gaps(checks):
+def _is_indicator_candidate(s):
+    """Does this quoted string look like an indicator candidate rather than a
+    hidden-span (which has internal uppercase letters) or a long phrase?"""
+    s_stripped = s.strip()
+    if not s_stripped or len(s_stripped) > 30:
+        return False
+    # Spans like "bacheLORISaw" have uppercase letters after position 0
+    if any(c.isupper() for c in s_stripped[1:]):
+        return False
+    return True
+
+
+def _extract_gaps(checks, explanation=""):
     """Extract DB gaps from verifier checks for the enrichment queue.
 
     Parses unverifiable/wrong checks to find missing synonym, definition,
-    and abbreviation mappings that should be reviewed for addition to the DB.
+    abbreviation, indicator, and homophone mappings that should be reviewed
+    for addition to the DB.
     """
     gaps = []
+    indicator_types_needed = set()
+
     for check in checks:
         status = check.get("status", "")
         detail = check.get("detail", "")
@@ -91,6 +106,49 @@ def _extract_gaps(checks):
             m = re.match(r"'(.+?)'\s*->\s*(\w+):", detail)
             if m:
                 gaps.append(("abbreviation", m.group(1).lower(), m.group(2).upper()))
+
+        elif check_type == "homophone" and "not in DB" in detail:
+            m = re.match(r"'(.+?)' sounds like '(.+?)': not in DB", detail)
+            if m:
+                gaps.append(("homophone", m.group(1).lower(), m.group(2).upper()))
+
+        elif check_type == "indicator" and status == "wrong":
+            m = re.search(r"no '([^']+)' indicator", detail)
+            if m:
+                indicator_types_needed.add(m.group(1))
+
+    # For each missing indicator type, extract candidate indicator words from
+    # the explanation's quoted annotations. To avoid noise, strip out known
+    # annotation contexts first (synonym/abbreviation/positional/deletion
+    # sources, definition, hidden spans) so only "orphan" quoted words remain
+    # — those are likely the indicator candidates.
+    if indicator_types_needed and explanation:
+        cleaned = explanation
+        cleaned = re.sub(r'\(\s*synonym\s*[=:]?\s*(?:of\s+)?["\'][^"\']*["\']\s*[^)]*\)',
+                         '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'\(\s*abbreviation\s*=\s*["\'][^"\']*["\']\s*[^)]*\)',
+                         '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'\(\s*abbr\.?\s*[^)]*\)', '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(
+            r'\(\s*(?:first|last|middle|initial|final|odd|even|alternat(?:e|ing))'
+            r'\s+letters?\s+(?:of|in|from)\s+[^)]*\)', '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'\(\s*deletion\s*=\s*["\'][^"\']*["\']\s*[^)]*\)',
+                         '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'definition:\s*["\'][^"\']*["\']', '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'hidden(?:\s+reversed)?\s+in\s+["\'][^"\']*["\']',
+                         '', cleaned, flags=re.IGNORECASE)
+
+        quoted = re.findall(r'"([^"]+)"', cleaned)
+        seen = set()
+        for req_type in indicator_types_needed:
+            for q in quoted:
+                if not _is_indicator_candidate(q):
+                    continue
+                key = (q.strip().lower(), req_type.upper())
+                if key in seen:
+                    continue
+                seen.add(key)
+                gaps.append(("indicator", key[0], key[1]))
 
     return gaps
 
@@ -186,7 +244,7 @@ def verify_and_store(results, dry_run=False):
         stored += 1
 
         # Queue DB gaps for enrichment review
-        gaps = _extract_gaps(v_result.get("checks", []))
+        gaps = _extract_gaps(v_result.get("checks", []), explanation=explanation)
         for gap_type, word, letters in gaps:
             # Skip if previously rejected
             rejected = conn.execute(
