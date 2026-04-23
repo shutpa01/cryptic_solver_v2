@@ -145,6 +145,9 @@ class PieceVerifier:
             # Try extracting individual words from gloss text
             if self._check_any_word(word, letters):
                 return {"status": "verified", "detail": f'word in "{word}" -> {letters}: in DB'}
+            # Single-letter "synonyms" not in DB are fabricated abbreviations — wrong
+            if len(letters_norm) == 1:
+                return {"status": "wrong", "detail": f'"{word}" -> {letters}: single-letter synonym NOT in DB'}
             return {"status": "unverifiable", "detail": f'"{word}" -> {letters}: not in DB'}
 
         # --- abbreviation ---
@@ -155,7 +158,8 @@ class PieceVerifier:
                 return {"status": "verified", "detail": f'"{word}" -> {letters}: synonym in DB'}
             if self._check_any_word(word, letters):
                 return {"status": "verified", "detail": f'word in "{word}" -> {letters}: in DB'}
-            return {"status": "unverifiable", "detail": f'"{word}" -> {letters}: not in DB'}
+            # Abbreviations must be in the DB — if not found, it's wrong
+            return {"status": "wrong", "detail": f'"{word}" -> {letters}: abbreviation NOT in DB'}
 
         # --- literal ---
         if mech == "literal":

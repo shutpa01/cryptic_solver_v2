@@ -169,6 +169,42 @@ class ExplanationVerifier:
         r = re.sub(r"[^A-Z]", "", result.upper())
         return s[::-1] == r
 
+    def check_positional(self, kind, letters, source):
+        """Verify a positional-extraction claim: e.g. 'E is the last letter of "conclusion"'.
+
+        Returns True if the claimed letters match the extraction, False if they don't,
+        None if the claim can't be evaluated (empty source or letters).
+        """
+        src = re.sub(r"[^A-Za-z]", "", source or "").upper()
+        L = (letters or "").strip().upper()
+        n = len(L)
+        if not src or not L:
+            return None
+        if kind == "first":
+            return src.startswith(L)
+        if kind == "last":
+            return src.endswith(L)
+        if kind == "middle":
+            if len(src) < n:
+                return False
+            start = (len(src) - n) // 2
+            return src[start:start + n] == L
+        if kind == "initial":
+            return n == 1 and src.startswith(L)
+        if kind == "final":
+            return n == 1 and src.endswith(L)
+        if kind == "odd":
+            odd = "".join(src[i] for i in range(0, len(src), 2))
+            return odd == L
+        if kind == "even":
+            even = "".join(src[i] for i in range(1, len(src), 2))
+            return even == L
+        if kind == "alternate":
+            odd = "".join(src[i] for i in range(0, len(src), 2))
+            even = "".join(src[i] for i in range(1, len(src), 2))
+            return L in (odd, even)
+        return None
+
     def check_container(self, pieces, answer):
         """Can one piece be inserted into another to form the answer?
 
@@ -237,11 +273,19 @@ class ExplanationVerifier:
                     if len(w) > 2 and self.is_synonym(w, result_word):
                         matched = True
                         break
-            checks.append({
-                "check": "synonym",
-                "status": "verified" if matched else "unverifiable",
-                "detail": f"'{source_word}' = {result_word}: {'VERIFIED' if matched else 'not in DB'}",
-            })
+            # Single-letter "synonyms" not in DB are fabricated abbreviations — wrong
+            if not matched and len(result_word.strip()) == 1:
+                checks.append({
+                    "check": "synonym",
+                    "status": "wrong",
+                    "detail": f"'{source_word}' = {result_word}: single-letter NOT in DB",
+                })
+            else:
+                checks.append({
+                    "check": "synonym",
+                    "status": "verified" if matched else "unverifiable",
+                    "detail": f"'{source_word}' = {result_word}: {'VERIFIED' if matched else 'not in DB'}",
+                })
 
         # Check abbreviation claims — verify the specific clue_word → letters mapping
         # Format 1: WORD (abbr. of 'source') — Sonnet format
@@ -320,13 +364,57 @@ class ExplanationVerifier:
         # --- CHECK 4: Type-specific mechanical checks ---
         wtype = (wordplay_type or "").lower()
 
-        if "hidden" in wtype or "hidden in" in expl.lower() or "hidden reversed" in expl.lower():
-            hidden_ok = self.check_hidden(clue_text, answer)
-            checks.append({
-                "check": "hidden_word",
-                "status": "verified" if hidden_ok else "wrong",
-                "detail": f"'{answer_clean}' hidden in clue: {'YES' if hidden_ok else 'NO'}",
-            })
+        # Hidden verification uses the span-naming convention: the explanation
+        # must include `hidden in "..."` where UPPERCASE letters within the
+        # quoted span concatenate to the answer (or reversed answer for
+        # hidden_reversed). The span must also appear as a substring of the
+        # clue text. This verifies the explanation's specific claim, not
+        # just that the answer letters happen to be somewhere in the clue.
+        if ("hidden" in wtype or "hidden in " in expl.lower()
+                or "hidden reversed" in expl.lower()):
+            is_reversed = (wtype == "hidden_reversed"
+                           or "hidden reversed" in expl.lower())
+            span_match = re.search(
+                r"hidden(?:\s+reversed)?\s+in\s+[\"']([^\"']+)[\"']",
+                expl, re.IGNORECASE,
+            )
+            if span_match:
+                span = span_match.group(1)
+                upper_letters = re.sub(r"[^A-Z]", "", span)
+                target = answer_clean[::-1] if is_reversed else answer_clean
+                letters_match = upper_letters == target
+                span_letters = re.sub(r"[^a-z]", "", span.lower())
+                clue_letters = re.sub(r"[^a-z]", "", clue_text.lower())
+                span_in_clue = bool(span_letters) and span_letters in clue_letters
+                if letters_match and span_in_clue:
+                    checks.append({
+                        "check": "hidden_word",
+                        "status": "verified",
+                        "detail": f"span '{span}' in clue; UPPERCASE "
+                                  f"{'reverses to' if is_reversed else 'equals'} "
+                                  f"{answer_clean}",
+                    })
+                else:
+                    problems = []
+                    if not letters_match:
+                        problems.append(
+                            f"UPPERCASE '{upper_letters}' != "
+                            f"{'reversed ' if is_reversed else ''}answer '{target}'"
+                        )
+                    if not span_in_clue:
+                        problems.append(f"span '{span}' not a substring of clue")
+                    checks.append({
+                        "check": "hidden_word",
+                        "status": "wrong",
+                        "detail": "; ".join(problems),
+                    })
+            else:
+                checks.append({
+                    "check": "hidden_word",
+                    "status": "unverifiable",
+                    "detail": "hidden explanation missing span in casing convention "
+                              "hidden in \"...X...\"",
+                })
 
         if wtype == "anagram" or "[anagram" in expl.lower():
             # Extract all uppercase letter groups between "anagram of" and "="
@@ -348,6 +436,27 @@ class ExplanationVerifier:
                     "status": "verified" if ana_ok else "wrong",
                     "detail": f"'{fodder}' anagrams to {answer_clean}: {'YES' if ana_ok else 'NO'}",
                 })
+
+                # --- Fodder provenance: verify each fodder word appears in the clue ---
+                # For multi-word fodder (e.g. "anagram of BARON + STUDIES"), check that
+                # each word appears in the clue text.  Single-letter pieces from
+                # abbreviations (e.g. "N (abbreviation='name')") are trusted only when
+                # the abbreviation itself is verified via DB -- that check already
+                # happens above in CHECK 2 and earns its own +8.  Here we only check
+                # words of 2+ letters from the fodder.
+                if ana_ok and clue_text and fodder_parts:
+                    clue_lower = clue_text.lower()
+                    all_found = True
+                    for fp in fodder_parts:
+                        if fp.lower() not in clue_lower:
+                            all_found = False
+                            break
+                    if all_found:
+                        checks.append({
+                            "check": "fodder_provenance",
+                            "status": "verified",
+                            "detail": f"all fodder words {fodder_parts} found in clue text",
+                        })
 
         is_hidden_reversed = "hidden reversed" in expl.lower() or wtype == "hidden_reversed"
         if not is_hidden_reversed and (wtype == "reversal" or "[reversal" in expl.lower()):
@@ -410,23 +519,46 @@ class ExplanationVerifier:
                     })
                 # No penalty on failure — complex assembly may not parse simply
 
-        # --- CHECK 5: First letter claims ---
-        first_letter_claims = re.findall(
-            r"(\w)\s*\(\s*first\s+letter\s+of\s+[\"']?(\w+)",
-            expl, re.IGNORECASE,
-        )
-        for letter, word in first_letter_claims:
-            fl_ok = word.upper().startswith(letter.upper())
-            checks.append({
-                "check": "first_letter",
-                "status": "verified" if fl_ok else "wrong",
-                "detail": f"first of '{word}' = {letter}: {'YES' if fl_ok else 'NO'}",
-            })
+        # --- CHECK 5: Positional extraction claims ---
+        # Covers: first/last/middle/initial/final letter(s); odd/even/alternating letters.
+        # Verifies the claimed letters actually match the positional extraction of
+        # the source word or phrase. Fabricated positional claims earn "wrong".
+        positional_kinds = [
+            ("first",     r"first\s+letters?"),
+            ("last",      r"last\s+letters?"),
+            ("middle",    r"middle\s+letters?"),
+            ("initial",   r"initials?(?:\s+letter)?"),
+            ("final",     r"finals?(?:\s+letter)?"),
+            ("odd",       r"odd\s+letters?"),
+            ("even",      r"even\s+letters?"),
+            ("alternate", r"alternat(?:ing|e)\s+letters?"),
+        ]
+        seen_positional = set()
+        for kind, phrase_re in positional_kinds:
+            pat = re.compile(
+                r"(\w+)\s*\(\s*" + phrase_re + r"\s+(?:of|in|from)\s+"
+                r"[\"']?([^\")]+?)[\"']?\s*\)",
+                re.IGNORECASE,
+            )
+            for letters, source in pat.findall(expl):
+                key = (kind, letters.upper(), source.strip().lower())
+                if key in seen_positional:
+                    continue
+                seen_positional.add(key)
+                result = self.check_positional(kind, letters, source)
+                if result is None:
+                    continue
+                checks.append({
+                    "check": "positional",
+                    "status": "verified" if result else "wrong",
+                    "detail": f"'{letters}' as {kind} of '{source.strip()}': "
+                              f"{'YES' if result else 'NO'}",
+                })
 
         # --- CHECK 5b: Deletion claims ---
         # Format: LETTERS (deletion="source")
         deletion_claims = re.findall(
-            r"(\w+)\s*\(\s*deletion\s*=\s*\"([^\"]+)\"\s*\)",
+            r"(\w+)\s*\(\s*deletion\s*=\s*\"([^\"]+)\"[^)]*\)",
             expl, re.IGNORECASE,
         )
         for letters, source_word in deletion_claims:
@@ -489,6 +621,47 @@ class ExplanationVerifier:
                     "detail": f"{source_letters} with deletion = {result_letters}: MATCH",
                 })
 
+        # --- CHECK 5e: Silent-piece catch ---
+        # Every piece annotation `WORD (content)` must have content matching a
+        # known verification pattern. If the content is free-form narrative or
+        # an unsupported mechanism (e.g. "(anagram of 'x')", "(LO reversed)"),
+        # the piece is unverified and cannot carry an explanation to HIGH.
+        _valid_content_prefix = re.compile(
+            r"^\s*(?:"
+            r"synonym\s+of\s+[\"']"
+            r"|synonym\s*=\s*\""
+            r"|abbr\.?\s*(?:of\s+)?"
+            r"|abbreviation\s*=\s*\""
+            r"|(?:first|last|middle|initial|final|odd|even|alternat(?:e|ing))"
+            r"\s+letters?\s+(?:of|in|from)\s+"
+            r"|deletion\s*=\s*\""
+            r")",
+            re.IGNORECASE,
+        )
+        _seen_silent = set()
+        for m in re.finditer(r"\b(\w+)\s*\(([^)]*)\)", expl):
+            word, content = m.group(1), m.group(2)
+            content_stripped = content.strip()
+            # Skip inline assembly visualizations — pure uppercase letters
+            if content_stripped and re.fullmatch(r"[A-Z\s]+", content_stripped):
+                continue
+            # Skip empty parens
+            if not content_stripped:
+                continue
+            # Skip if content starts with a known verification keyword
+            if _valid_content_prefix.match(content_stripped):
+                continue
+            key = (word.upper(), content_stripped[:50])
+            if key in _seen_silent:
+                continue
+            _seen_silent.add(key)
+            checks.append({
+                "check": "silent_piece",
+                "status": "unverifiable",
+                "detail": f"piece '{word}' has unrecognised source claim: "
+                          f"'{content_stripped[:60]}'",
+            })
+
         # --- CHECK 6: Trivial explanation detection ---
         # If the explanation is just "ANSWER(synonym of definition)" with no wordplay,
         # it's not a real explanation — it just restates the definition
@@ -526,8 +699,8 @@ class ExplanationVerifier:
             "reversal":         ("reversal", None),
             "container":        ("container", None),
             "deletion":         ("deletion", None),
-            "hidden":           ("hidden", None),
-            "hidden_reversed":  ("hidden", None),
+            # hidden/hidden_reversed use span-naming convention for verification —
+            # no indicator-DB check required.
             "homophone":        ("homophone", None),
         }
 
@@ -600,11 +773,21 @@ class ExplanationVerifier:
                         score += 0  # Assembly passes but pieces are wrong — don't reward
                     else:
                         score += 25  # Pieces make the answer — strong
-                elif c["check"] in ("hidden_word", "anagram", "reversal", "container"):
+                elif c["check"] == "hidden_word":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 35  # Hidden substring is irrefutable — strongest mechanical proof
+                elif c["check"] in ("anagram", "reversal", "container"):
                     if has_wrong:
                         score += 0
                     else:
                         score += 25  # Mechanism works — strong
+                elif c["check"] == "fodder_provenance":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 10  # All fodder words confirmed in clue text
                 elif c["check"] == "definition":
                     score += 15  # Definition confirmed
                 elif c["check"] == "synonym":
@@ -612,7 +795,9 @@ class ExplanationVerifier:
                 elif c["check"] == "abbreviation":
                     score += 8   # Abbreviation confirmed
                 elif c["check"] == "first_letter":
-                    score += 8   # First letter confirmed
+                    score += 8   # First letter confirmed (legacy narrow check)
+                elif c["check"] == "positional":
+                    score += 10  # Positional extraction confirmed (mechanical)
                 elif c["check"] == "deletion":
                     score += 8   # Deletion confirmed
             elif c["status"] == "wrong":
@@ -624,17 +809,36 @@ class ExplanationVerifier:
                     score -= 30  # Trivially verifiable, no excuse
                 elif c["check"] == "first_letter":
                     score -= 30  # Trivially verifiable, no excuse
+                elif c["check"] == "positional":
+                    score -= 30  # Fabricated positional claim — mechanically disprovable
                 elif c["check"] == "abbreviation":
-                    score -= 15  # Likely wrong
+                    score -= 30  # Abbreviation not in DB — likely fabricated
                 elif c["check"] == "trivial":
                     score -= 40  # Just restating the definition, not an explanation
                 elif c["check"] == "indicator":
                     score -= 50  # Operation claimed without indicator — fatal
                 elif c["check"] == "no_definition":
                     score -= 30  # Every cryptic clue must have a definition
-                elif c["check"] in ("definition", "synonym"):
+                elif c["check"] == "synonym":
+                    if "single-letter" in c.get("detail", ""):
+                        score -= 30  # Fabricated single-letter abbreviation disguised as synonym
+                    else:
+                        score -= 5   # Could be DB gap
+                elif c["check"] == "definition":
                     score -= 5   # Could be DB gap
-            # unverifiable = no change
+            elif c["status"] == "unverifiable":
+                # A piece that the verifier tried to check against the DB and could
+                # not confirm is not an explained piece — it's a gap. Penalise so
+                # that unverifiable claims cannot ride through to HIGH on the back
+                # of mechanically-verified assembly alone.
+                if c["check"] == "synonym":
+                    score -= 30
+                elif c["check"] == "definition":
+                    score -= 10
+                elif c["check"] == "abbreviation":
+                    score -= 30
+                elif c["check"] == "silent_piece":
+                    score -= 30  # Piece annotation doesn't match any known verification pattern
 
         score = min(100, max(0, score))
 
