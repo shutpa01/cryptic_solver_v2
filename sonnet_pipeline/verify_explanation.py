@@ -338,6 +338,59 @@ class ExplanationVerifier:
                 "detail": f"'{word_clean}' -> {letters_clean}: {'VERIFIED' if matched else 'NOT KNOWN'}",
             })
 
+        # --- CHECK 2c: Source words must appear in the clue ---
+        # Every synonym or abbreviation source cited in the explanation must
+        # be a word or phrase that actually occurs in the clue. Catches
+        # hallucinated sources where the DB supports source->letters but the
+        # source isn't what the setter put in the clue.
+        if clue_text:
+            clue_norm = clue_text.lower()
+            seen_phantom = set()
+            for result_word, source_word in pieces:
+                source_norm = source_word.lower().strip(" \t\"'?!.,;:")
+                if not source_norm:
+                    continue
+                # Accept full-phrase substring match
+                if source_norm in clue_norm:
+                    continue
+                # Accept if every content word of the source is a word in the clue
+                source_tokens = [t for t in re.findall(r"[a-z']+", source_norm)
+                                 if t not in LINKERS]
+                clue_tokens = set(re.findall(r"[a-z']+", clue_norm))
+                if source_tokens and all(t in clue_tokens for t in source_tokens):
+                    continue
+                key = ("syn", result_word.upper(), source_norm)
+                if key in seen_phantom:
+                    continue
+                seen_phantom.add(key)
+                checks.append({
+                    "check": "source_not_in_clue",
+                    "status": "wrong",
+                    "detail": f"synonym source '{source_word}' not in clue "
+                              f"for piece '{result_word}'",
+                })
+            for letters, word in abbrs:
+                source_norm = word.lower().strip(" \t\"'?!.,;:")
+                if not source_norm:
+                    continue
+                if source_norm in clue_norm:
+                    continue
+                source_tokens = [t for t in re.findall(r"[a-z']+", source_norm)
+                                 if t not in LINKERS]
+                clue_tokens = set(re.findall(r"[a-z']+", clue_norm))
+                if source_tokens and all(t in clue_tokens for t in source_tokens):
+                    continue
+                key = ("abbr", letters.upper(), source_norm)
+                if key in seen_phantom:
+                    continue
+                seen_phantom.add(key)
+                checks.append({
+                    "check": "source_not_in_clue",
+                    "status": "wrong",
+                    "detail": f"abbreviation source '{word}' not in clue "
+                              f"for piece '{letters}'",
+                })
+
         # --- CHECK 3: Assembly verification ---
         # Try arrow format: "WORD → LETTERS"
         arrow_pieces = re.findall(r"(\w+)\s*(?:->|\u2192)\s*([A-Z]+)", expl)
@@ -964,6 +1017,8 @@ class ExplanationVerifier:
                     score -= 5   # Could be DB gap
                 elif c["check"] == "dd":
                     score -= 40  # DD claimed but neither window maps to answer — likely bogus
+                elif c["check"] == "source_not_in_clue":
+                    score -= 30  # Phantom source — piece claims a word the clue doesn't use
             elif c["status"] == "unverifiable":
                 # A piece that the verifier tried to check against the DB and could
                 # not confirm is not an explained piece — it's a gap. Penalise so
