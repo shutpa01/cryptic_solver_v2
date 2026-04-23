@@ -127,8 +127,16 @@ function wordInfoToggle(icon, word) {
         .then(function(text) { display.innerHTML = '<strong>' + word + '</strong>: ' + text; });
 }
 
+var _anagramTimer = null;
 document.getElementById('anagram-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); solveAnagram(); }
+    if (e.key === 'Enter') { e.preventDefault(); solveAnagram(); return; }
+});
+document.getElementById('anagram-input').addEventListener('input', function() {
+    clearTimeout(_anagramTimer);
+    var val = this.value.trim();
+    if (val.length >= 3) {
+        _anagramTimer = setTimeout(solveAnagram, 500);
+    }
 });
 
 {% if prefill_letters %}

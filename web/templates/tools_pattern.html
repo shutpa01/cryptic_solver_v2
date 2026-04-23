@@ -134,8 +134,9 @@ function wordInfoToggle(icon, word) {
         .then(function(text) { display.innerHTML = '<strong>' + word + '</strong>: ' + text; });
 }
 
+var _patternTimer = null;
 document.getElementById('pattern-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); searchPattern(); }
+    if (e.key === 'Enter') { e.preventDefault(); searchPattern(); return; }
     // Spacebar inserts ? instead of space (easier on mobile)
     if (e.key === ' ') {
         e.preventDefault();
@@ -145,8 +146,19 @@ document.getElementById('pattern-input').addEventListener('keydown', function(e)
         input.setSelectionRange(pos + 1, pos + 1);
     }
 });
+document.getElementById('pattern-input').addEventListener('input', function() {
+    clearTimeout(_patternTimer);
+    var val = this.value.trim();
+    if (val.length >= 3) {
+        _patternTimer = setTimeout(searchPattern, 500);
+    }
+});
 document.getElementById('include-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); searchPattern(); }
+});
+document.getElementById('include-input').addEventListener('input', function() {
+    clearTimeout(_patternTimer);
+    _patternTimer = setTimeout(searchPattern, 500);
 });
 
 {% if prefill_pattern %}

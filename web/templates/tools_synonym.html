@@ -94,11 +94,23 @@ function findSynonyms() {
         });
 }
 
+var _synTimer = null;
 document.getElementById('synonym-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
+    if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); return; }
+});
+document.getElementById('synonym-input').addEventListener('input', function() {
+    clearTimeout(_synTimer);
+    var val = this.value.trim();
+    if (val.length >= 2) {
+        _synTimer = setTimeout(findSynonyms, 500);
+    }
 });
 document.getElementById('length-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
+});
+document.getElementById('length-input').addEventListener('input', function() {
+    clearTimeout(_synTimer);
+    _synTimer = setTimeout(findSynonyms, 400);
 });
 
 {% if prefill %}
