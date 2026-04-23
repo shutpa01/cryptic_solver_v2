@@ -678,6 +678,48 @@ class ExplanationVerifier:
                               "'ANSWER sounds like WORD' form",
                 })
 
+        # --- CHECK 4e: Spoonerism ---
+        # A Spoonerism swaps the initial consonant clusters of two words.
+        # Mechanical letter-level verification: take the first two piece
+        # words from the explanation, swap their initial consonant runs,
+        # concatenate, and compare to the answer. This is strict and will
+        # miss phonetic Spoonerisms where silent letters make the letter
+        # count differ (e.g. FOE+NEAR -> NOE+FEAR ≠ NOFEAR) — those are
+        # emitted as unverifiable for human review.
+        if wtype == "spoonerism" or "spooner" in expl.lower():
+            pieces_in_expl = re.findall(r"\b([A-Z]+)\s*\(", expl)
+            if len(pieces_in_expl) >= 2:
+                w1, w2 = pieces_in_expl[0], pieces_in_expl[1]
+
+                def _initial_cluster(w):
+                    m = re.match(r"([^AEIOU]+)", w)
+                    return m.group(1) if m else ""
+
+                c1 = _initial_cluster(w1)
+                c2 = _initial_cluster(w2)
+                swapped = (c2 + w1[len(c1):]) + (c1 + w2[len(c2):])
+                if swapped == answer_clean:
+                    checks.append({
+                        "check": "spoonerism",
+                        "status": "verified",
+                        "detail": f"swap {w1}+{w2} -> {c2}{w1[len(c1):]}+"
+                                  f"{c1}{w2[len(c2):]} = {answer_clean}",
+                    })
+                else:
+                    checks.append({
+                        "check": "spoonerism",
+                        "status": "unverifiable",
+                        "detail": f"mechanical swap of {w1}+{w2} gives "
+                                  f"'{swapped}', answer is '{answer_clean}' "
+                                  f"(likely phonetic Spoonerism)",
+                    })
+            else:
+                checks.append({
+                    "check": "spoonerism",
+                    "status": "unverifiable",
+                    "detail": "Spoonerism: fewer than two piece words found",
+                })
+
         if wtype == "anagram" or "[anagram" in expl.lower():
             # Extract all uppercase letter groups between "anagram of" and "="
             ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
@@ -1065,6 +1107,11 @@ class ExplanationVerifier:
                         score += 0
                     else:
                         score += 35  # Homophone pair in DB — mechanical proof
+                elif c["check"] == "spoonerism":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 30  # Mechanical letter-level swap matches answer
                 elif c["check"] == "definition":
                     score += 15  # Definition confirmed
                 elif c["check"] == "synonym":
@@ -1126,6 +1173,8 @@ class ExplanationVerifier:
                     score -= 10  # CD can't be verified — whole clue / definition not in DB
                 elif c["check"] == "homophone":
                     score -= 20  # Homophone pair not in DB — claim unverified
+                elif c["check"] == "spoonerism":
+                    score -= 10  # Spoonerism letter-swap doesn't match — likely phonetic
 
         score = min(100, max(0, score))
 
