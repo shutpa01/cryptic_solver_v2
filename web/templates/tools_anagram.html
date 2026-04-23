@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Crossword Anagram Solver — Real Answers from 500,000+ Clues | Cordelia{% endblock %}
+{% block meta %}
+<meta name="description" content="Solve crossword anagrams instantly. Enter jumbled letters and find only real answers from 500,000+ published cryptic and quick crossword clues. Free, no sign-up.">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justcordelia.com/"},
+  {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://justcordelia.com/tools"},
+  {"@type": "ListItem", "position": 3, "name": "Anagram Solver"}
+]}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/tools" class="hover:text-indigo-600">Tools</a>
+    <span class="mx-1">/</span>
+    <span>Anagram Solver</span>
+</nav>
+
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-3">Crossword Anagram Solver</h1>
+
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-5">
+    <div class="flex items-start gap-3 mb-4">
+        <img src="/static/cordelia.jpg" alt="Cordelia" class="w-9 h-9 rounded-full object-cover object-top shrink-0">
+        <p class="text-base text-gray-800 leading-relaxed">
+            Type in the jumbled letters and I'll find the answer. I only search real crossword answers
+            from over 500,000 published clues &mdash; no made-up words, no nonsense.
+            Use a dash if the answer is more than one word.
+        </p>
+    </div>
+    <div class="flex gap-2">
+        <input type="text" id="anagram-input"
+               placeholder="e.g. ULBSEKY or ULB-SEKY or ULB,SEKY"
+               value="{{ prefill_letters }}"
+               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-base uppercase tracking-wide font-mono focus:outline-none focus:border-violet-400"
+               autofocus>
+        <button onclick="solveAnagram()"
+                class="px-6 py-3 rounded-lg bg-violet-600 text-white text-base font-semibold hover:bg-violet-700 cursor-pointer">
+            Solve
+        </button>
+        <button onclick="document.getElementById('anagram-input').value='';document.getElementById('results').innerHTML='';document.getElementById('puzzle-match').innerHTML='';document.getElementById('anagram-input').focus()"
+                class="px-4 py-3 rounded-lg border border-gray-300 text-gray-600 text-base font-medium hover:bg-gray-50 cursor-pointer">
+            Clear
+        </button>
+    </div>
+</div>
+
+<div id="results" class="mb-4"></div>
+<div id="puzzle-match" class="mb-4"></div>
+
+<div class="bg-white rounded-lg border border-gray-100 p-5 mb-6">
+    <div class="flex items-start gap-3">
+        <img src="/static/cordelia_flower.jpg" class="w-8 h-8 shrink-0" alt="">
+        <div class="text-base text-gray-700 leading-relaxed">
+            <p class="mb-2">If I recognise the puzzle you're working on, I'll show you a link to the full puzzle page
+            with all the clues, definitions, wordplay types, and step-by-step explanations. No other anagram solver does that.</p>
+            <p>Even better &mdash; on the puzzle page, you can just <strong>click the words in any clue</strong>
+            to feed them straight into the anagram solver. No typing needed.</p>
+            <p class="mt-2">
+                <a href="/tools/pattern" class="text-violet-600 hover:text-violet-800 font-semibold">Try the Pattern Matcher</a>
+                if you know some letters in position.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function solveAnagram() {
+    var input = document.getElementById('anagram-input');
+    var letters = input.value.trim();
+    if (!letters || letters.length < 2) return;
+
+    fetch('/helper/anagram?letters=' + encodeURIComponent(letters) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            var resultsEl = document.getElementById('results');
+            resultsEl.innerHTML = html;
+
+            // Find the first result word and check for puzzle match
+            var spans = resultsEl.querySelectorAll('[onclick]');
+            for (var i = 0; i < spans.length; i++) {
+                var onclick = spans[i].getAttribute('onclick');
+                if (onclick && onclick.indexOf('pickResultClick') >= 0) {
+                    var word = spans[i].textContent.trim().replace(/\s/g, '');
+                    if (word && word.length >= 3) {
+                        checkPuzzleMatch(word);
+                        break;
+                    }
+                }
+            }
+        });
+}
+
+function checkPuzzleMatch(word) {
+    fetch('/tools/puzzle-match?answer=' + encodeURIComponent(word) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            document.getElementById('puzzle-match').innerHTML = html;
+        });
+}
+
+function pickResultClick(word) {
+    checkPuzzleMatch(word.replace(/\s/g, ''));
+}
+
+function wordInfoToggle(icon, word) {
+    var display = document.getElementById('word-info-display');
+    if (!display) return;
+    if (display.getAttribute('data-word') === word && !display.classList.contains('hidden')) {
+        display.classList.add('hidden');
+        return;
+    }
+    display.classList.remove('hidden');
+    display.setAttribute('data-word', word);
+    display.innerHTML = '<span class="text-gray-400">Looking up ' + word + '...</span>';
+    fetch('/helper/word-info?word=' + encodeURIComponent(word) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(text) { display.innerHTML = '<strong>' + word + '</strong>: ' + text; });
+}
+
+document.getElementById('anagram-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); solveAnagram(); }
+});
+
+{% if prefill_letters %}
+document.addEventListener('DOMContentLoaded', function() { solveAnagram(); });
+{% endif %}
+</script>
+{% endblock %}

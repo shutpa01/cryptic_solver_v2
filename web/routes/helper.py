@@ -13,6 +13,7 @@ from pathlib import Path
 import json
 
 from flask import Blueprint, request, render_template, abort, g, jsonify, current_app
+from web.word_cache import match_pattern, match_pattern_user
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 # Stop words to ignore when searching for similar clues
@@ -325,7 +326,6 @@ def pattern_counts_batch():
     except (json.JSONDecodeError, TypeError):
         return jsonify({})
 
-    db = _get_clues_db()
     results = {}
 
     for clue_id, info in queries.items():
@@ -357,41 +357,24 @@ def pattern_counts_batch():
             results[clue_id] = 0
             continue
 
-        seen = set()
-        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-            rows = db.execute(
-                "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? ",
-                (pat, pat_len),
-            ).fetchall()
-            for r in rows:
-                seen.add(r["ans"])
+        enum_parts = re.findall(r'\d+', enum_val) if enum_val else []
 
-        # Also search reference DB (same as pattern search does)
-        ref = _get_ref_db()
-        for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
-            for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-                ref_rows = ref.execute(
-                    "SELECT DISTINCT UPPER(%s) AS ans FROM %s WHERE UPPER(%s) LIKE ? AND LENGTH(%s) = ? " % (col, table, col, col),
-                    (pat, pat_len),
-                ).fetchall()
-                for r in ref_rows:
-                    seen.add(r["ans"])
+        # Clues-only cache with enum-formatted answers (handles hyphenated enums)
+        seen = match_pattern_user(pattern_joined)
+        if getattr(g, 'is_admin', False):
+            # Admin also gets broad word cache for prize puzzles without answers
+            seen |= match_pattern(pattern_joined, pattern_spaced)
 
-        if enum_val:
-            enum_parts = re.findall(r'\d+', enum_val)
+        if enum_val and enum_parts:
             if len(enum_parts) == 1:
                 seen = {w for w in seen if ' ' not in w}
             elif len(enum_parts) > 1:
-                total_len = sum(int(p) for p in enum_parts)
-                def _matches_enum(answer, parts, total):
+                def _matches_enum(answer, parts):
                     words = answer.split()
                     if len(words) == len(parts):
                         return all(len(w) == int(p) for w, p in zip(words, parts))
-                    # Also accept single-word answers matching total length
-                    if len(words) == 1 and len(answer) == total:
-                        return True
                     return False
-                seen = {w for w in seen if _matches_enum(w, enum_parts, total_len)}
+                seen = {w for w in seen if _matches_enum(w, enum_parts)}
 
         results[clue_id] = len(seen)
 
@@ -412,21 +395,36 @@ def word_info():
     ref = _get_ref_db()
     meanings = set()
 
-    # Reverse synonym lookup: what words have this as a synonym?
-    rows = ref.execute(
-        "SELECT DISTINCT LOWER(word) AS w FROM synonyms_pairs WHERE UPPER(synonym) = ? LIMIT 20",
-        (word,),
-    ).fetchall()
-    for r in rows:
-        meanings.add(r["w"])
+    # Try both with-space and without-space variants
+    variants = [word]
+    if " " in word:
+        variants.append(word.replace(" ", ""))
+    elif len(word) > 5:
+        # Try adding spaces at common break points (from clues DB)
+        db = _get_clues_db()
+        spaced = db.execute(
+            "SELECT DISTINCT answer FROM clues WHERE UPPER(REPLACE(answer,' ','')) = ? AND answer LIKE '% %' LIMIT 1",
+            (word,),
+        ).fetchone()
+        if spaced:
+            variants.append(spaced["answer"].upper())
 
-    # Also check definition_answers_augmented
-    rows2 = ref.execute(
-        "SELECT DISTINCT LOWER(definition) AS d FROM definition_answers_augmented WHERE UPPER(answer) = ? LIMIT 20",
-        (word,),
-    ).fetchall()
-    for r in rows2:
-        meanings.add(r["d"])
+    for variant in variants:
+        # Reverse synonym lookup: what words have this as a synonym?
+        rows = ref.execute(
+            "SELECT DISTINCT LOWER(word) AS w FROM synonyms_pairs WHERE UPPER(synonym) = ? LIMIT 20",
+            (variant,),
+        ).fetchall()
+        for r in rows:
+            meanings.add(r["w"])
+
+        # Also check definition_answers_augmented
+        rows2 = ref.execute(
+            "SELECT DISTINCT LOWER(definition) AS d FROM definition_answers_augmented WHERE UPPER(answer) = ? LIMIT 20",
+            (variant,),
+        ).fetchall()
+        for r in rows2:
+            meanings.add(r["d"])
 
     if not meanings:
         return "no definitions found"
@@ -468,28 +466,24 @@ def pattern_count():
     if all(c == '_' for c in pattern_joined):
         return "0"
 
-    db = _get_clues_db()
-    seen = set()
+    enum_parts = re.findall(r'\d+', enum_val) if enum_val else []
 
-    for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-        rows = db.execute(
-            "SELECT DISTINCT UPPER(answer) AS ans FROM clues WHERE UPPER(answer) LIKE ? AND LENGTH(answer) = ? ",
-            (pat, pat_len),
-        ).fetchall()
-        for r in rows:
-            seen.add(r["ans"])
+    # Clues-only cache with enum-formatted answers (handles hyphenated enums)
+    seen = match_pattern_user(pattern_joined)
+    if getattr(g, 'is_admin', False):
+        # Admin also gets broad word cache for prize puzzles without answers
+        seen |= match_pattern(pattern_joined, pattern_spaced)
 
     # Filter by enumeration word breaks
-    if enum_val:
-        enum_parts = re.findall(r'\d+', enum_val)
+    if enum_val and enum_parts:
         if len(enum_parts) == 1:
             seen = {w for w in seen if ' ' not in w}
         elif len(enum_parts) > 1:
             def _matches_enum(answer, parts):
                 words = answer.split()
-                if len(words) != len(parts):
-                    return False
-                return all(len(w) == int(p) for w, p in zip(words, parts))
+                if len(words) == len(parts):
+                    return all(len(w) == int(p) for w, p in zip(words, parts))
+                return False
             seen = {w for w in seen if _matches_enum(w, enum_parts)}
 
     return str(len(seen))
@@ -539,55 +533,32 @@ def pattern_search():
     if total_letters < 2:
         abort(400)
 
-    # Search distinct answers from clues_master — try both spaced and joined forms
-    db = _get_clues_db()
-    results = set()
+    # Filter by enumeration word-break pattern
+    enum_val = request.args.get("enum", "").strip()
+    enum_parts = re.findall(r'\d+', enum_val) if enum_val else []
 
-    for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-        rows = db.execute(
-            """SELECT DISTINCT UPPER(answer) AS ans
-               FROM clues
-               WHERE UPPER(answer) LIKE ?
-               AND LENGTH(answer) = ?
-               """,
-            (pat, pat_len),
-        ).fetchall()
-        for r in rows:
-            results.add(r["ans"])
-
-    # Also search reference DB (synonyms + definitions)
-    ref = _get_ref_db()
-    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
-        for pat, pat_len in [(pattern_spaced, len(pattern_spaced)), (pattern_joined, len(pattern_joined))]:
-            ref_rows = ref.execute(
-                f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE UPPER({col}) LIKE ? AND LENGTH({col}) = ? ",
-                (pat, pat_len),
-            ).fetchall()
-            for r in ref_rows:
-                results.add(r["ans"])
+    # Clues-only cache with enum-formatted answers (handles hyphenated enums)
+    results = match_pattern_user(pattern_joined)
+    if getattr(g, 'is_admin', False):
+        # Admin also gets broad word cache for prize puzzles without answers
+        results |= match_pattern(pattern_joined, pattern_spaced)
 
     # Filter by "must include" letters if specified
     include = request.args.get("include", "").strip().upper()
     include_letters = re.sub(r'[^A-Z]', '', include)
 
-    # Filter by enumeration word-break pattern
-    enum_val = request.args.get("enum", "").strip()
-    if enum_val:
-        enum_parts = re.findall(r'\d+', enum_val)
+    if enum_val and enum_parts:
         if len(enum_parts) == 1:
             # Single word — exclude multi-word answers
             results = {w for w in results if ' ' not in w}
         elif len(enum_parts) > 1:
-            # Multi-word — keep answers whose word lengths match OR single-word matching total
-            total_len = sum(int(p) for p in enum_parts)
-            def _matches_enum(answer, parts, total):
+            # Multi-word — keep only answers whose word lengths exactly match the enumeration
+            def _matches_enum(answer, parts):
                 words = answer.split()
                 if len(words) == len(parts):
                     return all(len(w) == int(p) for w, p in zip(words, parts))
-                if len(words) == 1 and len(answer) == total:
-                    return True
                 return False
-            results = {w for w in results if _matches_enum(w, enum_parts, total_len)}
+            results = {w for w in results if _matches_enum(w, enum_parts)}
 
     if include_letters:
         filtered = []
@@ -638,13 +609,14 @@ def anagram_search():
     if not raw:
         abort(400)
 
-    # Parse: letters + dash structure
-    clean = re.sub(r'[^A-Z\-]', '', raw)
+    # Parse: letters + separator structure (treat , and - interchangeably)
+    clean = re.sub(r'[^A-Z,\-]', '', raw)
+    clean = clean.replace(',', '-')  # normalise separators
     if not clean or len(clean) > 25:
         abort(400)
 
-    parts = clean.split('-')
-    word_lengths = [len(p) for p in parts if p]
+    parts = [p for p in clean.split('-') if p]
+    word_lengths = [len(p) for p in parts]
     all_letters = ''.join(parts)
     total = len(all_letters)
 
@@ -685,7 +657,8 @@ def anagram_search():
             if _letter_signature(r["ans"]) == signature:
                 results.add(r["raw_ans"].upper())
 
-        # Also try joined form (no spaces)
+        # Also try joined form (no spaces) — but only add if we can
+        # format it to match the requested word lengths
         rows2 = db.execute(
             """SELECT DISTINCT UPPER(answer) AS ans
                FROM clues
@@ -695,7 +668,14 @@ def anagram_search():
         ).fetchall()
         for r in rows2:
             if _letter_signature(r["ans"]) == signature:
-                results.add(r["ans"])
+                # Format as multi-word to match the requested enumeration
+                ans = r["ans"].replace(" ", "")
+                formatted = []
+                pos = 0
+                for wl in word_lengths:
+                    formatted.append(ans[pos:pos + wl])
+                    pos += wl
+                results.add(" ".join(formatted))
 
     # Also search reference DB (synonyms + definitions)
     ref = _get_ref_db()
