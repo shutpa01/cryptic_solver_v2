@@ -23,6 +23,29 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 REF_DB = str(PROJECT_ROOT / "data" / "cryptic_new.db")
 CLUES_DB = str(PROJECT_ROOT / "data" / "clues_master.db")
 
+# Link words allowed between / around the two windows of a Double Definition
+# and in other "what's left over" checks. Canonical source: the LINKERS set
+# in `enrichment/05_self_learning_enrichment.py`. Kept in sync manually —
+# that module's name starts with a digit so it can't be imported directly.
+LINKERS = {
+    "of", "in", "the", "a", "an", "to", "for", "with", "and", "or",
+    "by", "from", "as", "on", "at", "but", "so", "yet", "if", "not",
+    "nor", "up", "it", "its", "into", "onto", "within", "without",
+    "that", "which", "when", "where", "while", "how", "why", "who",
+    "this", "these", "those", "such", "one", "ones", "some", "any",
+    "all", "here", "there",
+    "is", "are", "be", "been", "being", "was", "were",
+    "has", "have", "had", "having",
+    "will", "would", "could", "should", "must", "may", "might",
+    "get", "gets", "got", "getting",
+    "give", "gives", "gave", "given", "giving",
+    "make", "makes", "made", "making",
+    "need", "needs",
+    "thus", "hence", "therefore", "maybe",
+    "dont", "doesnt", "didnt", "wont", "wouldnt", "cant", "isnt", "arent",
+    "once",
+}
+
 
 class ExplanationVerifier:
     def __init__(self, ref_db=None, clues_db=None):
@@ -416,6 +439,82 @@ class ExplanationVerifier:
                               "hidden in \"...X...\"",
                 })
 
+        # --- CHECK 4b: Double Definition ---
+        # A DD splits the clue into two windows, each of which defines the
+        # answer. Both windows must map to the answer in the DB, both must
+        # be substrings of the clue, and any clue words outside the two
+        # windows must be on the LINKERS whitelist.
+        if (wtype == "double_definition"
+                or "double definition:" in expl.lower()):
+            dd_match = re.search(
+                r"double\s+definition:\s*(.+?)(?:;|$)",
+                expl, re.IGNORECASE | re.DOTALL,
+            )
+            windows = []
+            if dd_match:
+                dd_content = dd_match.group(1)
+                window_pairs = re.findall(
+                    r"([^,=]+?)\s*=\s*(\w+)", dd_content,
+                )
+                for w, target in window_pairs:
+                    if target.upper().replace(" ", "") == answer_clean:
+                        windows.append(w.strip())
+
+            if len(windows) >= 2:
+                w1, w2 = windows[0], windows[1]
+                # Strip leading/trailing punctuation for DB lookup — keeps
+                # the display form intact while allowing `anecdote?` to match
+                # a DB entry for `anecdote`.
+                w1_lookup = w1.strip(" \t\"'?!.,;:")
+                w2_lookup = w2.strip(" \t\"'?!.,;:")
+                w1_ok = (self.definition_matches(w1_lookup, answer)
+                         or self.is_synonym(w1_lookup, answer))
+                w2_ok = (self.definition_matches(w2_lookup, answer)
+                         or self.is_synonym(w2_lookup, answer))
+                clue_lower = clue_text.lower()
+                w1_in_clue = w1.lower() in clue_lower
+                w2_in_clue = w2.lower() in clue_lower
+                # Remainder: clue with both windows removed, remaining tokens
+                # must all be link words.
+                remainder_text = clue_lower
+                if w1_in_clue:
+                    remainder_text = remainder_text.replace(w1.lower(), " ", 1)
+                if w2_in_clue:
+                    remainder_text = remainder_text.replace(w2.lower(), " ", 1)
+                remainder_tokens = re.findall(r"[a-z]+", remainder_text)
+                non_link = [t for t in remainder_tokens if t not in LINKERS]
+                all_links = not non_link
+
+                if (w1_ok and w2_ok and w1_in_clue and w2_in_clue
+                        and all_links):
+                    checks.append({
+                        "check": "dd",
+                        "status": "verified",
+                        "detail": f"DD verified: '{w1}' + '{w2}' both map to "
+                                  f"{answer_clean}; remainder is link words",
+                    })
+                elif w1_ok or w2_ok:
+                    checks.append({
+                        "check": "dd",
+                        "status": "unverifiable",
+                        "detail": f"DD partial: '{w1}'={w1_ok}, '{w2}'={w2_ok}"
+                                  + (f", non-link remainder: {non_link}"
+                                     if non_link else ""),
+                    })
+                else:
+                    checks.append({
+                        "check": "dd",
+                        "status": "wrong",
+                        "detail": f"DD: neither '{w1}' nor '{w2}' maps to "
+                                  f"{answer_clean} in DB",
+                    })
+            else:
+                checks.append({
+                    "check": "dd",
+                    "status": "unverifiable",
+                    "detail": "DD format did not yield two 'window = ANSWER' pairs",
+                })
+
         if wtype == "anagram" or "[anagram" in expl.lower():
             # Extract all uppercase letter groups between "anagram of" and "="
             ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
@@ -788,6 +887,11 @@ class ExplanationVerifier:
                         score += 0
                     else:
                         score += 10  # All fodder words confirmed in clue text
+                elif c["check"] == "dd":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 40  # Both DD windows map to answer + clean remainder
                 elif c["check"] == "definition":
                     score += 15  # Definition confirmed
                 elif c["check"] == "synonym":
@@ -826,6 +930,8 @@ class ExplanationVerifier:
                         score -= 5   # Could be DB gap
                 elif c["check"] == "definition":
                     score -= 5   # Could be DB gap
+                elif c["check"] == "dd":
+                    score -= 40  # DD claimed but neither window maps to answer — likely bogus
             elif c["status"] == "unverifiable":
                 # A piece that the verifier tried to check against the DB and could
                 # not confirm is not an explained piece — it's a gap. Penalise so
@@ -839,6 +945,8 @@ class ExplanationVerifier:
                     score -= 30
                 elif c["check"] == "silent_piece":
                     score -= 30  # Piece annotation doesn't match any known verification pattern
+                elif c["check"] == "dd":
+                    score -= 10  # DD partial or malformed — not both windows verified
 
         score = min(100, max(0, score))
 
