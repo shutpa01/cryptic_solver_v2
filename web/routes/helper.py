@@ -595,17 +595,28 @@ def pattern_search():
     else:
         matches = sorted(results)
 
-    # Look up enumerations for display
-    db = _get_clues_db()
+    # Look up enumerations for display — single batch query
     match_enums = {}
-    for word in matches:
-        clean_word = word.replace(' ', '')
-        row = db.execute(
-            "SELECT enumeration FROM clues WHERE UPPER(REPLACE(answer,' ','')) = ? AND enumeration IS NOT NULL AND enumeration != '' LIMIT 1",
-            (clean_word,),
-        ).fetchone()
-        if row:
-            match_enums[word] = row[0]
+    if matches:
+        db = _get_clues_db()
+        placeholders = ",".join("?" for _ in matches)
+        clean_words = [w.replace(' ', '').upper() for w in matches]
+        rows = db.execute(
+            f"SELECT UPPER(answer) AS ans, enumeration FROM clues "
+            f"WHERE UPPER(answer) IN ({placeholders}) "
+            f"AND enumeration IS NOT NULL AND enumeration != ''",
+            clean_words,
+        ).fetchall()
+        # Map clean answer -> enumeration (first seen)
+        ans_enum = {}
+        for r in rows:
+            key = r["ans"].replace(' ', '')
+            if key not in ans_enum:
+                ans_enum[key] = r["enumeration"]
+        for word in matches:
+            clean = word.replace(' ', '').upper()
+            if clean in ans_enum:
+                match_enums[word] = ans_enum[clean]
 
     return render_template(
         "partials/pattern_results.html",
