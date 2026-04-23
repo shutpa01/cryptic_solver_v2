@@ -505,9 +505,10 @@ def pattern_search():
     if not raw:
         abort(400)
 
-    # Normalise: spaces and ? both mean unknown letter, - means word break
+    # Normalise: ? means unknown letter, - or , means word break
     # Convert to SQL LIKE pattern: ? -> _, - -> space (multi-word answers stored with spaces)
-    clean = re.sub(r'[^A-Z0-9?\- ]', '', raw)
+    clean = re.sub(r'[^A-Z0-9?\-,]', '', raw)
+    clean = clean.replace(',', '-')  # treat comma same as dash
     if not clean or len(clean) > 25:
         abort(400)
 
@@ -577,11 +578,24 @@ def pattern_search():
     else:
         matches = sorted(results)
 
+    # Look up enumerations for display
+    db = _get_clues_db()
+    match_enums = {}
+    for word in matches:
+        clean_word = word.replace(' ', '')
+        row = db.execute(
+            "SELECT enumeration FROM clues WHERE UPPER(REPLACE(answer,' ','')) = ? AND enumeration IS NOT NULL AND enumeration != '' LIMIT 1",
+            (clean_word,),
+        ).fetchone()
+        if row:
+            match_enums[word] = row[0]
+
     return render_template(
         "partials/pattern_results.html",
         pattern=display,
         total_letters=total_letters,
         matches=matches,
+        match_enums=match_enums,
     )
 
 

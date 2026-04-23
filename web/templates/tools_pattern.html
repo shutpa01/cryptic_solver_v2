@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Crossword Pattern Matcher — Find Missing Letters | Cordelia{% endblock %}
+{% block meta %}
+<meta name="description" content="Find crossword answers by pattern. Enter the letters you know and question marks for unknowns. Only real answers from 500,000+ published clues. Free, no sign-up.">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justcordelia.com/"},
+  {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://justcordelia.com/tools"},
+  {"@type": "ListItem", "position": 3, "name": "Pattern Matcher"}
+]}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/tools" class="hover:text-indigo-600">Tools</a>
+    <span class="mx-1">/</span>
+    <span>Pattern Matcher</span>
+</nav>
+
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-3">Crossword Pattern Matcher</h1>
+
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-5">
+    <div class="flex items-start gap-3 mb-4">
+        <img src="/static/cordelia.jpg" alt="Cordelia" class="w-9 h-9 rounded-full object-cover object-top shrink-0">
+        <p class="text-base text-gray-800 leading-relaxed">
+            Type the letters you know and use <strong>? or spacebar</strong> for the gaps.
+            I'll find every real crossword answer that fits &mdash; from over 500,000 published clues.
+            Use a dash or comma for word breaks.
+        </p>
+    </div>
+    <div class="flex gap-2">
+        <input type="text" id="pattern-input"
+               placeholder="e.g. S?O?E — use ? or spacebar for unknowns"
+               value="{{ prefill_pattern }}"
+               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-base uppercase tracking-wide font-mono focus:outline-none focus:border-emerald-400"
+               autofocus>
+        <button onclick="searchPattern()"
+                class="px-6 py-3 rounded-lg bg-emerald-600 text-white text-base font-semibold hover:bg-emerald-700 cursor-pointer">
+            Search
+        </button>
+        <button onclick="document.getElementById('pattern-input').value='';document.getElementById('include-input').value='';document.getElementById('results').innerHTML='';document.getElementById('puzzle-match').innerHTML='';document.getElementById('pattern-input').focus()"
+                class="px-4 py-3 rounded-lg border border-gray-300 text-gray-600 text-base font-medium hover:bg-gray-50 cursor-pointer">
+            Clear
+        </button>
+    </div>
+    <div class="flex items-center gap-3 mt-3">
+        <label for="include-input" class="text-sm font-medium text-gray-700">Must include:</label>
+        <input type="text" id="include-input"
+               placeholder="letters that must appear"
+               class="px-3 py-2 rounded border border-gray-300 text-sm uppercase font-mono focus:outline-none focus:border-emerald-400 w-48">
+    </div>
+</div>
+
+<div id="results" class="mb-4"></div>
+<div id="puzzle-match" class="mb-4"></div>
+
+<div class="bg-white rounded-lg border border-gray-100 p-5 mb-6">
+    <div class="flex items-start gap-3">
+        <img src="/static/cordelia_flower.jpg" class="w-8 h-8 shrink-0" alt="">
+        <div class="text-base text-gray-700 leading-relaxed">
+            <p class="mb-2">The "Must include" box narrows results to answers containing specific letters,
+            regardless of position. Handy when you've got crossing letters but aren't sure where they go.</p>
+            <p class="mb-2">If I recognise the puzzle you're working on, I'll take you straight to the full puzzle page
+            with all the clues explained.</p>
+            <p>
+                <a href="/tools/anagram" class="text-emerald-600 hover:text-emerald-800 font-semibold">Try the Anagram Solver</a>
+                if you need to unscramble letters.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function searchPattern() {
+    var pattern = document.getElementById('pattern-input').value.trim();
+    if (!pattern || pattern.length < 2) return;
+    var url = '/helper/pattern?pattern=' + encodeURIComponent(pattern) + '&ht=' + _ht;
+    var include = document.getElementById('include-input').value.trim();
+    if (include) url += '&include=' + encodeURIComponent(include);
+
+    fetch(url)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            var resultsEl = document.getElementById('results');
+            resultsEl.innerHTML = html;
+
+            var spans = resultsEl.querySelectorAll('[onclick]');
+            for (var i = 0; i < spans.length; i++) {
+                var onclick = spans[i].getAttribute('onclick');
+                if (onclick && onclick.indexOf('pickResultClick') >= 0) {
+                    var word = spans[i].textContent.trim().replace(/\s/g, '');
+                    if (word && word.length >= 3) {
+                        checkPuzzleMatch(word);
+                        break;
+                    }
+                }
+            }
+        });
+}
+
+function checkPuzzleMatch(word) {
+    fetch('/tools/puzzle-match?answer=' + encodeURIComponent(word) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            document.getElementById('puzzle-match').innerHTML = html;
+        });
+}
+
+function pickResultClick(word) {
+    checkPuzzleMatch(word.replace(/\s/g, ''));
+}
+
+function wordInfoToggle(icon, word) {
+    var display = document.getElementById('word-info-display');
+    if (!display) return;
+    if (display.getAttribute('data-word') === word && !display.classList.contains('hidden')) {
+        display.classList.add('hidden');
+        return;
+    }
+    display.classList.remove('hidden');
+    display.setAttribute('data-word', word);
+    display.innerHTML = '<span class="text-gray-400">Looking up ' + word + '...</span>';
+    fetch('/helper/word-info?word=' + encodeURIComponent(word) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(text) { display.innerHTML = '<strong>' + word + '</strong>: ' + text; });
+}
+
+document.getElementById('pattern-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); searchPattern(); }
+    // Spacebar inserts ? instead of space (easier on mobile)
+    if (e.key === ' ') {
+        e.preventDefault();
+        var input = e.target;
+        var pos = input.selectionStart;
+        input.value = input.value.substring(0, pos) + '?' + input.value.substring(input.selectionEnd);
+        input.setSelectionRange(pos + 1, pos + 1);
+    }
+});
+document.getElementById('include-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); searchPattern(); }
+});
+
+{% if prefill_pattern %}
+document.addEventListener('DOMContentLoaded', function() { searchPattern(); });
+{% endif %}
+</script>
+{% endblock %}
