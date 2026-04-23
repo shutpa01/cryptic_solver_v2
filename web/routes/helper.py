@@ -453,18 +453,26 @@ def synonym_search():
         ).fetchall():
             reverse.add(r["d"])
 
-    # Sort and limit
-    sorted_syns = sorted(synonyms, key=len)[:50]
+    # Merge synonyms and reverse into one deduplicated list
+    # User doesn't care which direction the pair was stored
+    all_syns = set()
+    for s in synonyms:
+        all_syns.add(s.upper())
+    for r in reverse:
+        all_syns.add(r.upper())
+    # Remove the search term itself
+    all_syns.discard(word_upper)
+    all_syns.discard(word_upper.replace(' ', ''))
+
+    sorted_syns = sorted(all_syns, key=len)[:60]
     sorted_abbrs = sorted(abbreviations, key=len)[:20]
-    sorted_rev = sorted(reverse, key=len)[:30]
-    total = len(sorted_syns) + len(sorted_abbrs) + len(sorted_rev)
+    total = len(sorted_syns) + len(sorted_abbrs)
 
     return render_template(
         "partials/synonym_results.html",
         word=raw,
         synonyms=sorted_syns,
         abbreviations=sorted_abbrs,
-        reverse=sorted_rev,
         total=total,
     )
 
