@@ -112,6 +112,30 @@ def _extract_gaps(checks, explanation=""):
             if m:
                 gaps.append(("homophone", m.group(1).lower(), m.group(2).upper()))
 
+        elif check_type == "dd":
+            # Extract the window(s) that didn't map to the answer.
+            # Windows are delimited by backticks (`) to avoid apostrophe
+            # collisions ("Elon Musk's baby").
+            # Partial format:   DD partial: `X`=True, `Y`=False (answer ANS)[, ...]
+            # Both-wrong format: DD: neither `X` nor `Y` maps to ANS in DB
+            ans_m = re.search(r"\(answer (\w+)\)|maps to (\w+) in DB", detail)
+            answer_letters = ""
+            if ans_m:
+                answer_letters = (ans_m.group(1) or ans_m.group(2) or "").upper()
+            # Partial format
+            for m in re.finditer(r"`([^`]+)`=False", detail):
+                window = m.group(1).strip().lower()
+                if window and answer_letters:
+                    gaps.append(("definition", window, answer_letters))
+            # Both-wrong format
+            if "neither" in detail:
+                m = re.match(r"DD: neither `([^`]+)` nor `([^`]+)`", detail)
+                if m and answer_letters:
+                    for w in (m.group(1), m.group(2)):
+                        window = w.strip().lower()
+                        if window:
+                            gaps.append(("definition", window, answer_letters))
+
         elif check_type == "indicator" and status == "wrong":
             m = re.search(r"no '([^']+)' indicator", detail)
             if m:

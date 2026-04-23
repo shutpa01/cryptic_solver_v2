@@ -460,6 +460,23 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
                              _gm.group(2).strip().upper())
                         )
 
+                elif _ctype == "dd":
+                    _ans_m = re.search(r"\(answer (\w+)\)|maps to (\w+) in DB", _detail)
+                    _ans = ""
+                    if _ans_m:
+                        _ans = (_ans_m.group(1) or _ans_m.group(2) or "").upper()
+                    for _wm in re.finditer(r"`([^`]+)`=False", _detail):
+                        _win = _wm.group(1).strip().lower()
+                        if _win and _ans:
+                            _gaps_to_queue.append(("definition", _win, _ans))
+                    if "neither" in _detail:
+                        _nm = re.match(r"DD: neither `([^`]+)` nor `([^`]+)`", _detail)
+                        if _nm and _ans:
+                            for _w in (_nm.group(1), _nm.group(2)):
+                                _win = _w.strip().lower()
+                                if _win:
+                                    _gaps_to_queue.append(("definition", _win, _ans))
+
                 elif _ctype == "indicator" and _status == "wrong":
                     _im = re.search(r"no '([^']+)' indicator", _detail)
                     if _im:

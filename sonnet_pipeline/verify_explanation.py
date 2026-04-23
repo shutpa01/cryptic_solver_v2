@@ -593,14 +593,15 @@ class ExplanationVerifier:
                     checks.append({
                         "check": "dd",
                         "status": "verified",
-                        "detail": f"DD verified: '{w1}' + '{w2}' both map to "
+                        "detail": f"DD verified: `{w1}` + `{w2}` both map to "
                                   f"{answer_clean}; remainder is link words",
                     })
                 elif w1_ok or w2_ok:
                     checks.append({
                         "check": "dd",
                         "status": "unverifiable",
-                        "detail": f"DD partial: '{w1}'={w1_ok}, '{w2}'={w2_ok}"
+                        "detail": f"DD partial: `{w1}`={w1_ok}, `{w2}`={w2_ok} "
+                                  f"(answer {answer_clean})"
                                   + (f", non-link remainder: {non_link}"
                                      if non_link else ""),
                     })
@@ -608,7 +609,7 @@ class ExplanationVerifier:
                     checks.append({
                         "check": "dd",
                         "status": "wrong",
-                        "detail": f"DD: neither '{w1}' nor '{w2}' maps to "
+                        "detail": f"DD: neither `{w1}` nor `{w2}` maps to "
                                   f"{answer_clean} in DB",
                     })
             else:
