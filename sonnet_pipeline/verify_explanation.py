@@ -982,22 +982,10 @@ class ExplanationVerifier:
                     "detail": f"explanation just restates answer as synonym of definition",
                 })
 
-        # --- CHECK 7: Indicator verification ---
-        # For operations that require indicators, verify an indicator word
-        # exists in the clue text. Without an indicator, the claimed operation
-        # is unjustified and the explanation cannot be trusted.
-        #
-        # Mechanisms needing indicators:
-        MECHANISM_INDICATOR_REQUIREMENTS = {
-            "reversal":     ("reversal", None),
-            "deletion":     ("deletion", None),
-            "hidden":       ("hidden", None),
-            "sound_of":     ("homophone", None),
-            "first_letter": ("parts", {"first_use", "first_delete"}),
-            "last_letter":  ("parts", {"last_use", "last_delete", "last", "last letter",
-                                       "tail_delete"}),
-        }
-        # Also check the overall wordplay_type for operation-level indicators
+        # --- CHECK 7: Indicator verification (operation-level only) ---
+        # Piece-level positional mechanisms (first/last/middle letter) are
+        # mechanically verified by check_positional() and no longer need
+        # an indicator-DB match. Operation-level checks still apply.
         OPERATION_INDICATOR_REQUIREMENTS = {
             "anagram":          ("anagram", None),
             "reversal":         ("reversal", None),
@@ -1024,20 +1012,12 @@ class ExplanationVerifier:
                         "detail": f"no '{req_type}' indicator found in clue for {wtype} operation",
                     })
 
-        # Check piece-level indicators from explanation text
-        # Look for mechanism claims like "last letter of", "reversed"
-        last_letter_claims = re.findall(
-            r"(\w)\s*\(\s*last\s+letter\s+of\s+[\"']?(\w+)",
-            expl, re.IGNORECASE,
-        )
-        for letter, word in last_letter_claims:
-            req_type, req_subtypes = MECHANISM_INDICATOR_REQUIREMENTS["last_letter"]
-            if not self.clue_has_indicator(clue_text, req_type, req_subtypes):
-                checks.append({
-                    "check": "indicator",
-                    "status": "wrong",
-                    "detail": f"no 'last letter' indicator in clue for '{word}' -> {letter}",
-                })
+        # Piece-level positional indicator checks have been removed.
+        # `check_positional()` mechanically verifies that e.g. X really is
+        # the last letter of Y — the indicator-DB check was redundant and
+        # produced false negatives when the indicator DB lacked common
+        # words like "outskirts of". Mechanical truth is self-verifying;
+        # requiring an additional DB match was the mirror-trick problem.
 
         # --- SCORING ---
         # Three states: VERIFIED (proven correct), UNVERIFIABLE (not in DB),
