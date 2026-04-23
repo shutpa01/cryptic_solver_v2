@@ -722,10 +722,19 @@ class ExplanationVerifier:
                 })
 
         if wtype == "anagram" or "[anagram" in expl.lower():
-            # Extract all uppercase letter groups between "anagram of" and "="
-            ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
+            # Extract all uppercase letter groups between "anagram of" and "=".
+            # Single-letter pieces (e.g. B from "B (abbreviation=\"black\")")
+            # are included; their abbreviation source is validated separately
+            # by the abbreviation check, and source-in-clue confirms the
+            # source word is actually in the clue. The anagram check here
+            # just needs the full letter count.
+            # Greedy match: stop at the LAST `=` in the explanation (the one
+            # before the answer), not any intermediate `=` inside annotations
+            # like `abbreviation="..."`. This is important for multi-piece
+            # fodder like `OTTER + L (abbreviation="large") + WEIR`.
+            ana_section = re.search(r"anagram\s+(?:of\s+)?(.+)\s*=", expl)
             if ana_section:
-                fodder_parts = re.findall(r"[A-Z]{2,}", ana_section.group(1))
+                fodder_parts = re.findall(r"\b[A-Z]+\b", ana_section.group(1))
                 fodder = "".join(fodder_parts)
             else:
                 # Fallback: try original single-capture pattern
