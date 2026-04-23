@@ -564,27 +564,19 @@ def pattern_search():
             # Single word — exclude multi-word answers
             results = {w for w in results if ' ' not in w}
         elif len(enum_parts) > 1:
-            # Multi-word — format single-word matches and filter
+            # Multi-word — only keep answers that are genuinely multi-word
+            # with the right word lengths. Don't force-split single words.
             expected_lengths = [int(p) for p in enum_parts]
-            formatted = set()
+            filtered = set()
             for w in results:
-                # Already multi-word — check if lengths match
                 if ' ' in w:
                     words = w.split()
                     if len(words) == len(expected_lengths) and all(
                             len(wd) == el for wd, el in zip(words, expected_lengths)):
-                        formatted.add(w)
-                else:
-                    # Single word — try formatting with word breaks
-                    clean_w = w.replace(' ', '')
-                    if len(clean_w) == sum(expected_lengths):
-                        pos = 0
-                        parts_list = []
-                        for el in expected_lengths:
-                            parts_list.append(clean_w[pos:pos + el])
-                            pos += el
-                        formatted.add(' '.join(parts_list))
-            results = formatted
+                        filtered.add(w)
+                # Single words are NOT reformatted — they don't match
+                # the multi-word enumeration the user requested
+            results = filtered
 
     if include_letters:
         filtered = []
