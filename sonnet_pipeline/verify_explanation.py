@@ -192,6 +192,39 @@ class ExplanationVerifier:
         r = re.sub(r"[^A-Z]", "", result.upper())
         return s[::-1] == r
 
+    def check_deletion_mechanism(self, source, result):
+        """Is `result` obtainable from `source` by a recognised cryptic deletion?
+
+        Accepts head, tail, outer (both ends), and heart (middle) removals of
+        one or more contiguous letters. Rejects arbitrary interior substring
+        matches — those are not valid deletions in cryptic convention.
+        """
+        s = re.sub(r"[^A-Z]", "", (source or "").upper())
+        r = re.sub(r"[^A-Z]", "", (result or "").upper())
+        if not s or not r or len(r) >= len(s):
+            return False
+        # Head removal: drop 1..N from the front
+        for n in range(1, len(s) - len(r) + 1):
+            if s[n:] == r:
+                return True
+        # Tail removal: drop 1..N from the back
+        for n in range(1, len(s) - len(r) + 1):
+            if s[:-n] == r:
+                return True
+        # Outer removal: drop both ends (keep contiguous middle)
+        if len(s) - len(r) >= 2:
+            for start in range(1, len(s) - len(r)):
+                end = start + len(r)
+                if end < len(s) and s[start:end] == r:
+                    return True
+        # Heart removal: middle char(s) removed, keep head+tail
+        gap = len(s) - len(r)
+        if gap >= 1:
+            for start in range(1, len(r)):
+                if s[:start] + s[start + gap:] == r:
+                    return True
+        return False
+
     def check_positional(self, kind, letters, source):
         """Verify a positional-extraction claim: e.g. 'E is the last letter of "conclusion"'.
 
@@ -744,13 +777,13 @@ class ExplanationVerifier:
             letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
             source_clean = re.sub(r"[^A-Z]", "", source_word.upper())
             if source_clean and letters_clean:
-                del_ok = (letters_clean in source_clean or
-                          source_clean.startswith(letters_clean) or
-                          source_clean.endswith(letters_clean))
+                del_ok = self.check_deletion_mechanism(source_clean, letters_clean)
+                verdict = ("valid head/tail/outer/heart deletion"
+                           if del_ok else "not a recognised deletion mechanism")
                 checks.append({
                     "check": "deletion",
                     "status": "verified" if del_ok else "wrong",
-                    "detail": f"'{letters}' from '{source_word}': {'YES' if del_ok else 'NOT a substring'}",
+                    "detail": f"'{letters}' from '{source_word}': {verdict}",
                 })
 
         # --- CHECK 5c: "X minus Y = Z" deletion format ---
