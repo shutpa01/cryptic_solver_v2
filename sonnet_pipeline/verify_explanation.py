@@ -103,6 +103,23 @@ class ExplanationVerifier:
             self._abbr_cache[key] = row is not None
         return self._abbr_cache[key]
 
+    def is_homophone(self, word1, word2):
+        """Check if word1 and word2 are registered homophones.
+
+        Looks up both directions in the `homophones` table since it stores
+        pairs both ways.
+        """
+        w1, w2 = word1.lower().strip(), word2.lower().strip()
+        if not w1 or not w2:
+            return False
+        row = self.ref.execute(
+            "SELECT 1 FROM homophones WHERE "
+            "(LOWER(word)=? AND LOWER(homophone)=?) OR "
+            "(LOWER(word)=? AND LOWER(homophone)=?) LIMIT 1",
+            (w1, w2, w2, w1),
+        ).fetchone()
+        return row is not None
+
     def is_indicator(self, word, wordplay_type):
         """Check if word is a known indicator for the given type."""
         key = (word.lower(), wordplay_type.lower())
@@ -628,6 +645,39 @@ class ExplanationVerifier:
                               "in DB — CD cannot be verified",
                 })
 
+        # --- CHECK 4d: Homophone ---
+        # The explanation asserts the answer sounds like another word. The
+        # homophone relationship must exist in the `homophones` DB table
+        # (either direction). Piece-level sub-homophones (e.g. CENS sounds
+        # like SENSE within a charade) are also handled.
+        if wtype == "homophone" or "sounds like" in expl.lower():
+            # Primary pattern: `ANSWER sounds like WORD` (WORD may be bare
+            # or in quotes)
+            homophone_matches = re.findall(
+                r"([A-Z]+)\s+sounds\s+like\s+[\"']?([A-Z]+)[\"']?",
+                expl, re.IGNORECASE,
+            )
+            for answer_claim, sound_alike in homophone_matches:
+                answer_claim_upper = answer_claim.upper()
+                sound_alike_upper = sound_alike.upper()
+                if answer_claim_upper == sound_alike_upper:
+                    continue
+                ok = self.is_homophone(answer_claim, sound_alike)
+                checks.append({
+                    "check": "homophone",
+                    "status": "verified" if ok else "unverifiable",
+                    "detail": f"'{answer_claim}' sounds like "
+                              f"'{sound_alike}': "
+                              f"{'in DB' if ok else 'not in DB'}",
+                })
+            if not homophone_matches and wtype == "homophone":
+                checks.append({
+                    "check": "homophone",
+                    "status": "unverifiable",
+                    "detail": "homophone explanation missing "
+                              "'ANSWER sounds like WORD' form",
+                })
+
         if wtype == "anagram" or "[anagram" in expl.lower():
             # Extract all uppercase letter groups between "anagram of" and "="
             ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
@@ -1010,6 +1060,11 @@ class ExplanationVerifier:
                         score += 0
                     else:
                         score += 40  # CD: clue or definition maps to answer in DB
+                elif c["check"] == "homophone":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 35  # Homophone pair in DB — mechanical proof
                 elif c["check"] == "definition":
                     score += 15  # Definition confirmed
                 elif c["check"] == "synonym":
@@ -1069,6 +1124,8 @@ class ExplanationVerifier:
                     score -= 10  # DD partial or malformed — not both windows verified
                 elif c["check"] == "cd":
                     score -= 10  # CD can't be verified — whole clue / definition not in DB
+                elif c["check"] == "homophone":
+                    score -= 20  # Homophone pair not in DB — claim unverified
 
         score = min(100, max(0, score))
 
