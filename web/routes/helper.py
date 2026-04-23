@@ -381,6 +381,94 @@ def pattern_counts_batch():
     return jsonify(results)
 
 
+@bp.route("/helper/synonym")
+def synonym_search():
+    """Find synonyms, abbreviations, and reverse lookups for a word/phrase.
+
+    Searches both directions in synonyms_pairs and definition_answers_augmented,
+    plus abbreviations from the wordplay table.
+
+    Query params:
+        word (str, required) — word or phrase to look up
+    """
+    raw = request.args.get("word", "").strip()
+    if not raw or len(raw) > 50:
+        abort(400)
+
+    word_lower = raw.lower().strip(".,;:!?\"'()-")
+    word_upper = raw.upper().strip(".,;:!?\"'()-")
+
+    ref = _get_ref_db()
+    synonyms = set()
+    abbreviations = set()
+    reverse = set()
+
+    # Variants: exact, without trailing s (plural), without 's (possessive)
+    variants = [word_lower]
+    if len(word_lower) >= 4 and word_lower.endswith('s') and not word_lower.endswith('ss'):
+        variants.append(word_lower[:-1])
+    if word_lower.endswith("'s"):
+        variants.append(word_lower[:-2])
+
+    for v in variants:
+        # Forward: word -> synonyms
+        for r in ref.execute(
+            "SELECT DISTINCT UPPER(synonym) AS s FROM synonyms_pairs WHERE LOWER(word) = ?", (v,)
+        ).fetchall():
+            synonyms.add(r["s"])
+
+        # Forward: word -> definition answers
+        for r in ref.execute(
+            "SELECT DISTINCT UPPER(answer) AS a FROM definition_answers_augmented WHERE LOWER(definition) = ?", (v,)
+        ).fetchall():
+            synonyms.add(r["a"])
+
+        # Abbreviations: word -> substitution
+        for r in ref.execute(
+            "SELECT DISTINCT UPPER(substitution) AS s FROM wordplay WHERE LOWER(indicator) = ?", (v,)
+        ).fetchall():
+            if r["s"]:
+                abbreviations.add(r["s"])
+
+    # Reverse: what words have THIS as a synonym?
+    for r in ref.execute(
+        "SELECT DISTINCT LOWER(word) AS w FROM synonyms_pairs WHERE UPPER(synonym) = ?", (word_upper,)
+    ).fetchall():
+        reverse.add(r["w"])
+
+    for r in ref.execute(
+        "SELECT DISTINCT LOWER(definition) AS d FROM definition_answers_augmented WHERE UPPER(answer) = ?", (word_upper,)
+    ).fetchall():
+        reverse.add(r["d"])
+
+    # Also try without spaces for reverse
+    word_no_space = word_upper.replace(' ', '')
+    if word_no_space != word_upper:
+        for r in ref.execute(
+            "SELECT DISTINCT LOWER(word) AS w FROM synonyms_pairs WHERE UPPER(synonym) = ?", (word_no_space,)
+        ).fetchall():
+            reverse.add(r["w"])
+        for r in ref.execute(
+            "SELECT DISTINCT LOWER(definition) AS d FROM definition_answers_augmented WHERE UPPER(answer) = ?", (word_no_space,)
+        ).fetchall():
+            reverse.add(r["d"])
+
+    # Sort and limit
+    sorted_syns = sorted(synonyms, key=len)[:50]
+    sorted_abbrs = sorted(abbreviations, key=len)[:20]
+    sorted_rev = sorted(reverse, key=len)[:30]
+    total = len(sorted_syns) + len(sorted_abbrs) + len(sorted_rev)
+
+    return render_template(
+        "partials/synonym_results.html",
+        word=raw,
+        synonyms=sorted_syns,
+        abbreviations=sorted_abbrs,
+        reverse=sorted_rev,
+        total=total,
+    )
+
+
 @bp.route("/helper/word-info")
 def word_info():
     """Quick reverse lookup — what does this word mean in crossword context?

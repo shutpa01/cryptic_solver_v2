@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Crossword Solving Tools | Cordelia{% endblock %}
+{% block meta %}
+<meta name="description" content="Free crossword solving tools. Anagram solver and pattern matcher powered by 500,000+ real published crossword answers. No sign-up, no ads.">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justcordelia.com/"},
+  {"@type": "ListItem", "position": 2, "name": "Tools"}
+]}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <span>Tools</span>
+</nav>
+
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-3">Crossword Solving Tools</h1>
+
+<div class="flex items-start gap-3 mb-6">
+    <img src="/static/cordelia.jpg" alt="Cordelia" class="w-10 h-10 rounded-full object-cover object-top shrink-0">
+    <p class="text-base text-gray-800 leading-relaxed">
+        Stuck on a clue? These tools search over 500,000 real crossword answers from the Telegraph,
+        Times, Guardian, Independent, and Daily Mail. No dictionary fluff, no made-up words &mdash;
+        just answers that have actually appeared in published puzzles.
+    </p>
+</div>
+
+<div class="flex flex-col gap-4 mb-8">
+    <a href="/tools/anagram"
+       class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-5 hover:border-violet-300 hover:shadow-md transition">
+        <div class="text-3xl flex-shrink-0">&#128260;</div>
+        <div>
+            <div class="text-lg font-bold text-gray-800 group-hover:text-violet-600 transition">Anagram Solver</div>
+            <div class="text-base text-gray-600 leading-snug">Got jumbled letters? I'll unscramble them. Use dashes for multi-word answers.</div>
+        </div>
+    </a>
+
+    <a href="/tools/pattern"
+       class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-5 hover:border-emerald-300 hover:shadow-md transition">
+        <div class="text-3xl flex-shrink-0">&#128269;</div>
+        <div>
+            <div class="text-lg font-bold text-gray-800 group-hover:text-emerald-600 transition">Pattern Matcher</div>
+            <div class="text-base text-gray-600 leading-snug">Know some letters? Type what you've got, question marks for the rest. I'll find what fits.</div>
+        </div>
+    </a>
+
+    <a href="/tools/synonym"
+       class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-5 hover:border-amber-300 hover:shadow-md transition">
+        <div class="text-3xl flex-shrink-0">&#128218;</div>
+        <div>
+            <div class="text-lg font-bold text-gray-800 group-hover:text-amber-600 transition">Synonym Finder</div>
+            <div class="text-base text-gray-600 leading-snug">What does a word mean in crossword-land? Find every synonym, abbreviation, and definition the setters use.</div>
+        </div>
+    </a>
+</div>
+
+<div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5">
+    <div class="flex items-start gap-3">
+        <img src="/static/cordelia_flower.jpg" class="w-8 h-8 shrink-0" alt="">
+        <p class="text-base text-gray-700 leading-relaxed">
+            <strong>Here's what makes these different.</strong>
+            If I recognise the puzzle you're working on, I'll offer you the whole thing &mdash;
+            all the clues with definitions, wordplay types, and step-by-step explanations.
+            And on the puzzle page, you can click any word in any clue to feed it straight into the solver.
+            No typing, no copying. Just click.
+        </p>
+    </div>
+</div>
+{% endblock %}

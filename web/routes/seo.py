@@ -37,7 +37,6 @@ def robots_txt():
         "Disallow: /admin/\n"
         "Disallow: /reveal\n"
         "Disallow: /explain\n"
-        "Disallow: /search\n"
         "\n"
         f"Sitemap: {CANONICAL_HOST}/sitemap.xml\n"
     )
@@ -46,29 +45,16 @@ def robots_txt():
 
 @bp.route("/sitemap.xml")
 def sitemap_index():
-    """Sitemap index listing all sub-sitemaps."""
-    db = get_db()
-
-    placeholders = ",".join("?" for _ in SITEMAP_SOURCES)
-    total = db.execute(
-        f"""SELECT COUNT(*) FROM clues
-           WHERE source IN ({placeholders})
-             AND clue_text IS NOT NULL
-             AND answer IS NOT NULL AND answer != ''""",
-        SITEMAP_SOURCES,
-    ).fetchone()[0]
-
-    num_pages = max(1, (total + SITEMAP_PAGE_SIZE - 1) // SITEMAP_PAGE_SIZE)
-
+    """Sitemap index — recent clues, all puzzles, and news."""
     today = date.today().isoformat()
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-    for page in range(1, num_pages + 1):
-        xml.append("  <sitemap>")
-        xml.append(f"    <loc>{CANONICAL_HOST}/sitemap-clues-{page}.xml</loc>")
-        xml.append(f"    <lastmod>{today}</lastmod>")
-        xml.append("  </sitemap>")
+    # Single clue sitemap — last 7 days only
+    xml.append("  <sitemap>")
+    xml.append(f"    <loc>{CANONICAL_HOST}/sitemap-clues.xml</loc>")
+    xml.append(f"    <lastmod>{today}</lastmod>")
+    xml.append("  </sitemap>")
     # Puzzle pages sitemap
     xml.append("  <sitemap>")
     xml.append(f"    <loc>{CANONICAL_HOST}/sitemap-puzzles.xml</loc>")
@@ -84,11 +70,11 @@ def sitemap_index():
     return Response("\n".join(xml), mimetype="application/xml")
 
 
-@bp.route("/sitemap-clues-<int:page>.xml")
-def sitemap_clues(page):
-    """Individual clue sitemap — up to 50k URLs per page."""
+@bp.route("/sitemap-clues.xml")
+def sitemap_clues():
+    """Clue sitemap — last 7 days only. Older clues are still accessible but not pushed to Google."""
     db = get_db()
-    offset = (page - 1) * SITEMAP_PAGE_SIZE
+    cutoff = (date.today() - timedelta(days=7)).isoformat()
 
     placeholders = ",".join("?" for _ in SITEMAP_SOURCES)
     rows = db.execute(
@@ -99,13 +85,10 @@ def sitemap_clues(page):
            WHERE c.source IN ({placeholders})
              AND c.clue_text IS NOT NULL
              AND c.answer IS NOT NULL AND c.answer != ''
-           ORDER BY c.id
-           LIMIT ? OFFSET ?""",
-        (*SITEMAP_SOURCES, SITEMAP_PAGE_SIZE, offset),
+             AND c.publication_date >= ?
+           ORDER BY c.publication_date DESC""",
+        (*SITEMAP_SOURCES, cutoff),
     ).fetchall()
-
-    if not rows:
-        return Response("Not found", status=404)
 
     from web.routes.clue import generate_clue_slug
 
@@ -117,9 +100,8 @@ def sitemap_clues(page):
         if not slug:
             continue
 
-        # lastmod = latest of publication_date and enriched_at
         lastmod = row["publication_date"] or ""
-        enriched = (row["enriched_at"] or "")[:10]  # trim time portion
+        enriched = (row["enriched_at"] or "")[:10]
         if enriched > lastmod:
             lastmod = enriched
 
@@ -127,7 +109,7 @@ def sitemap_clues(page):
         xml.append(f"    <loc>{CANONICAL_HOST}/clue/{slug}</loc>")
         if lastmod:
             xml.append(f"    <lastmod>{lastmod}</lastmod>")
-        xml.append("    <changefreq>monthly</changefreq>")
+        xml.append("    <changefreq>weekly</changefreq>")
         xml.append("  </url>")
 
     xml.append("</urlset>")
@@ -168,6 +150,13 @@ def sitemap_puzzles():
         if row["pub_date"]:
             xml.append(f"    <lastmod>{row['pub_date']}</lastmod>")
         xml.append("    <changefreq>monthly</changefreq>")
+        xml.append("  </url>")
+
+    # Static pages — tools, learn
+    for static_path in ("/tools", "/tools/anagram", "/tools/pattern", "/tools/synonym", "/learn"):
+        xml.append("  <url>")
+        xml.append(f"    <loc>{CANONICAL_HOST}{static_path}</loc>")
+        xml.append("    <changefreq>weekly</changefreq>")
         xml.append("  </url>")
 
     # Future puzzle "coming soon" pages — high priority for pre-indexing

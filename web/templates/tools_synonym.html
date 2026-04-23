@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Crossword Synonym Finder — Real Crossword Pairs | Cordelia{% endblock %}
+{% block meta %}
+<meta name="description" content="Find crossword synonyms and definitions. Enter a word or phrase to see what it could mean in a cryptic crossword. Powered by 500,000+ real clues.">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justcordelia.com/"},
+  {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://justcordelia.com/tools"},
+  {"@type": "ListItem", "position": 3, "name": "Synonym Finder"}
+]}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="text-sm text-gray-500 mb-4">
+    <a href="/" class="hover:text-indigo-600">Home</a>
+    <span class="mx-1">/</span>
+    <a href="/tools" class="hover:text-indigo-600">Tools</a>
+    <span class="mx-1">/</span>
+    <span>Synonym Finder</span>
+</nav>
+
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-3">Crossword Synonym Finder</h1>
+
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-5">
+    <div class="flex items-start gap-3 mb-4">
+        <img src="/static/cordelia.jpg" alt="Cordelia" class="w-9 h-9 rounded-full object-cover object-top shrink-0">
+        <p class="text-base text-gray-800 leading-relaxed">
+            Type a word or phrase and I'll show you every synonym, abbreviation, and definition match
+            from my crossword database. These are the meanings that setters actually use &mdash;
+            not a dictionary, but a crossword-solver's companion.
+        </p>
+    </div>
+    <div class="flex gap-2">
+        <input type="text" id="synonym-input"
+               placeholder="e.g. harbour, old city, run"
+               value="{{ prefill }}"
+               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-base tracking-wide focus:outline-none focus:border-amber-400"
+               autofocus>
+        <button onclick="findSynonyms()"
+                class="px-6 py-3 rounded-lg bg-amber-600 text-white text-base font-semibold hover:bg-amber-700 cursor-pointer">
+            Find
+        </button>
+        <button onclick="document.getElementById('synonym-input').value='';document.getElementById('results').innerHTML='';document.getElementById('synonym-input').focus()"
+                class="px-4 py-3 rounded-lg border border-gray-300 text-gray-600 text-base font-medium hover:bg-gray-50 cursor-pointer">
+            Clear
+        </button>
+    </div>
+</div>
+
+<div id="results" class="mb-4"></div>
+
+<div class="bg-white rounded-lg border border-gray-100 p-5 mb-6">
+    <div class="flex items-start gap-3">
+        <img src="/static/cordelia_flower.jpg" class="w-8 h-8 shrink-0" alt="">
+        <div class="text-base text-gray-700 leading-relaxed">
+            <p class="mb-2">This searches both directions &mdash; type "harbour" to find DOCKS, PORT, HAVEN,
+            or type "DOCKS" to find harbour, quay, wharf. Multi-word phrases work too: try "old city" or "holy man".</p>
+            <p>
+                <a href="/tools/anagram" class="text-amber-600 hover:text-amber-800 font-semibold">Anagram Solver</a> &middot;
+                <a href="/tools/pattern" class="text-amber-600 hover:text-amber-800 font-semibold">Pattern Matcher</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function findSynonyms() {
+    var input = document.getElementById('synonym-input');
+    var word = input.value.trim();
+    if (!word || word.length < 1) return;
+
+    fetch('/helper/synonym?word=' + encodeURIComponent(word) + '&ht=' + _ht)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            document.getElementById('results').innerHTML = html;
+        });
+}
+
+document.getElementById('synonym-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
+});
+
+{% if prefill %}
+document.addEventListener('DOMContentLoaded', function() { findSynonyms(); });
+{% endif %}
+</script>
+{% endblock %}
