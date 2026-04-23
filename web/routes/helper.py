@@ -534,8 +534,15 @@ def pattern_search():
     if total_letters < 2:
         abort(400)
 
-    # Filter by enumeration word-break pattern
+    # Derive enumeration from dash pattern if user typed word breaks
+    # e.g. "I?-S?I?????" -> word_lengths = [2, 7] -> enum_parts = ['2', '7']
+    dash_parts = [p for p in clean.split('-') if p]
+    has_word_breaks = len(dash_parts) > 1
+    word_lengths = [len(re.sub(r'[^A-Z?]', '', p)) for p in dash_parts]
+
     enum_val = request.args.get("enum", "").strip()
+    if not enum_val and has_word_breaks:
+        enum_val = ",".join(str(wl) for wl in word_lengths)
     enum_parts = re.findall(r'\d+', enum_val) if enum_val else []
 
     # Clues-only cache with enum-formatted answers (handles hyphenated enums)
@@ -548,18 +555,36 @@ def pattern_search():
     include = request.args.get("include", "").strip().upper()
     include_letters = re.sub(r'[^A-Z]', '', include)
 
-    if enum_val and enum_parts:
+    # Always filter by enumeration when word breaks are specified
+    if has_word_breaks and not enum_parts:
+        enum_parts = [str(wl) for wl in word_lengths]
+
+    if enum_parts:
         if len(enum_parts) == 1:
             # Single word — exclude multi-word answers
             results = {w for w in results if ' ' not in w}
         elif len(enum_parts) > 1:
-            # Multi-word — keep only answers whose word lengths exactly match the enumeration
-            def _matches_enum(answer, parts):
-                words = answer.split()
-                if len(words) == len(parts):
-                    return all(len(w) == int(p) for w, p in zip(words, parts))
-                return False
-            results = {w for w in results if _matches_enum(w, enum_parts)}
+            # Multi-word — format single-word matches and filter
+            expected_lengths = [int(p) for p in enum_parts]
+            formatted = set()
+            for w in results:
+                # Already multi-word — check if lengths match
+                if ' ' in w:
+                    words = w.split()
+                    if len(words) == len(expected_lengths) and all(
+                            len(wd) == el for wd, el in zip(words, expected_lengths)):
+                        formatted.add(w)
+                else:
+                    # Single word — try formatting with word breaks
+                    clean_w = w.replace(' ', '')
+                    if len(clean_w) == sum(expected_lengths):
+                        pos = 0
+                        parts_list = []
+                        for el in expected_lengths:
+                            parts_list.append(clean_w[pos:pos + el])
+                            pos += el
+                        formatted.add(' '.join(parts_list))
+            results = formatted
 
     if include_letters:
         filtered = []
