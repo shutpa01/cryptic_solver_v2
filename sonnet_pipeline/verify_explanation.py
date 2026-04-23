@@ -515,6 +515,33 @@ class ExplanationVerifier:
                     "detail": "DD format did not yield two 'window = ANSWER' pairs",
                 })
 
+        # --- CHECK 4c: Cryptic Definition ---
+        # A CD has no wordplay mechanism. The only way to verify it is a
+        # direct DB lookup: either the whole clue text, or the extracted
+        # definition, maps to the answer in definition_answers_augmented
+        # (or synonyms_pairs, via definition_matches which checks both).
+        if wtype == "cryptic_definition":
+            cd_clue_ok = self.definition_matches(clue_text, answer)
+            cd_def_ok = bool(definition) and self.definition_matches(definition, answer)
+            if cd_clue_ok or cd_def_ok:
+                parts = []
+                if cd_clue_ok:
+                    parts.append("clue text maps to answer in DB")
+                if cd_def_ok:
+                    parts.append("definition maps to answer in DB")
+                checks.append({
+                    "check": "cd",
+                    "status": "verified",
+                    "detail": "; ".join(parts),
+                })
+            else:
+                checks.append({
+                    "check": "cd",
+                    "status": "unverifiable",
+                    "detail": "neither clue text nor definition maps to answer "
+                              "in DB — CD cannot be verified",
+                })
+
         if wtype == "anagram" or "[anagram" in expl.lower():
             # Extract all uppercase letter groups between "anagram of" and "="
             ana_section = re.search(r"anagram\s+(?:of\s+)?(.+?)\s*=", expl)
@@ -892,6 +919,11 @@ class ExplanationVerifier:
                         score += 0
                     else:
                         score += 40  # Both DD windows map to answer + clean remainder
+                elif c["check"] == "cd":
+                    if has_wrong:
+                        score += 0
+                    else:
+                        score += 40  # CD: clue or definition maps to answer in DB
                 elif c["check"] == "definition":
                     score += 15  # Definition confirmed
                 elif c["check"] == "synonym":
@@ -947,6 +979,8 @@ class ExplanationVerifier:
                     score -= 30  # Piece annotation doesn't match any known verification pattern
                 elif c["check"] == "dd":
                     score -= 10  # DD partial or malformed — not both windows verified
+                elif c["check"] == "cd":
+                    score -= 10  # CD can't be verified — whole clue / definition not in DB
 
         score = min(100, max(0, score))
 
