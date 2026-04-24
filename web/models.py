@@ -288,8 +288,13 @@ def get_future_puzzles(n=5):
 
 
 def is_future_puzzle(source, puzzle_type, puzzle_number):
-    """Check if a puzzle number is a predicted future puzzle."""
-    future = get_future_puzzles()
+    """Check if a puzzle number is a predicted future puzzle.
+
+    Horizon must match the sitemap's n=14 (web/routes/seo.py) so every URL
+    listed in the sitemap either serves a coming-soon page or the real page,
+    never 404.
+    """
+    future = get_future_puzzles(n=14)
     return any(
         s == source and t == puzzle_type and p == str(puzzle_number)
         for s, t, p in future
