@@ -562,8 +562,7 @@ def main():
         email_lines.append("")
         email_lines.append(stats)
 
-    # Sync DBs to live sites
-    _sync_honeypot()
+    # Sync DB to live site (Cordelia only — honeypot retired)
     _sync_cordelia()
 
     # Submit today's new puzzle and clue URLs to Google Indexing API
@@ -577,58 +576,6 @@ def main():
     print(f"\n{'=' * 60}")
     print("DONE")
     print(f"{'=' * 60}")
-
-
-def _sync_honeypot():
-    """Copy clues_master.db to the honeypot server and restart."""
-    import subprocess
-    import shutil
-
-    db_path = CLUES_MASTER_DB
-    if not db_path.exists():
-        print("Honeypot sync: DB not found, skipping")
-        return
-
-    # Checkpoint WAL so all data is in the main .db file before upload
-    try:
-        conn = sqlite3.connect(str(db_path))
-        conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-        conn.close()
-    except Exception as e:
-        print(f"  WAL checkpoint failed: {e}")
-
-    print("\nSyncing DB to honeypot site...")
-    try:
-        result = _rsync(db_path, "root@134.209.21.34:/opt/honeypot/data/clues.db")
-        if result.returncode != 0:
-            print(f"  rsync failed: {result.stderr}")
-            return
-
-        result = subprocess.run(
-            ["ssh", "root@134.209.21.34", "systemctl restart honeypot"],
-            timeout=120,
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode == 0:
-            print("  Honeypot synced and restarted")
-        else:
-            print(f"  Restart failed: {result.stderr}")
-
-        # Regenerate sitemaps on the droplet with the freshly uploaded DB
-        result = subprocess.run(
-            ["ssh", "root@134.209.21.34",
-             "cd /opt/honeypot && python3 generate_sitemaps.py --domain https://clairesclues.xyz"],
-            timeout=120,
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode == 0:
-            print("  Sitemaps regenerated")
-        else:
-            print(f"  Sitemap generation failed: {result.stderr}")
-    except Exception as e:
-        print(f"  Honeypot sync error: {e}")
 
 
 CORDELIA_DROPLET = "root@165.232.46.255"
@@ -710,7 +657,7 @@ FUTURE_PUZZLE_RANGES = [
 
 
 def _make_clue_slug(clue_id, clue_text):
-    """Build honeypot clue URL slug: {id}-{slugified-text}."""
+    """Build Cordelia clue URL slug: {id}-{slugified-text}."""
     text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
     if not text:
         return None
