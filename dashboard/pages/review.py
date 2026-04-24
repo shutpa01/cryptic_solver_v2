@@ -568,13 +568,17 @@ def _render_enrichment_queue():
     syn_rows = [r for r in rows if r["type"] == "synonym"]
     abbr_rows = [r for r in rows if r["type"] == "abbreviation"]
     def_rows = [r for r in rows if r["type"] == "definition"]
+    ind_rows = [r for r in rows if r["type"] == "indicator"]
+    hom_rows = [r for r in rows if r["type"] == "homophone"]
 
     total = len(rows)
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
     c1.metric("Total", total)
     c2.metric("Synonyms", len(syn_rows))
     c3.metric("Abbreviations", len(abbr_rows))
     c4.metric("Definitions", len(def_rows))
+    c5.metric("Indicators", len(ind_rows))
+    c6.metric("Homophones", len(hom_rows))
 
     if total == 0:
         st.info("No pending enrichments. Run the pipeline on more puzzles to generate suggestions.")
@@ -588,6 +592,10 @@ def _render_enrichment_queue():
             _add_abbreviation(row["word"], row["letters"])
         elif row["type"] == "definition":
             _add_definition(row["word"], row["letters"])
+        elif row["type"] == "indicator":
+            _add_indicator(row["word"], row["letters"], "medium")
+        elif row["type"] == "homophone":
+            _add_homophone(row["word"], row["letters"])
         wconn = _get_conn(CLUES_DB, readonly=False)
         wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (row["id"],))
         wconn.commit()
@@ -701,6 +709,74 @@ def _render_enrichment_queue():
                     st.rerun()
             with col5:
                 if st.button("Reject", key=f"rej_def_{r['id']}"):
+                    _reject_and_remove(r)
+                    st.rerun()
+
+    # --- Indicators ---
+    if ind_rows:
+        st.subheader(f"Indicators ({len(ind_rows)})")
+        for r in ind_rows:
+            col1, col2, col3, col4, col5 = st.columns([5, 4, 3, 1.5, 1.5])
+            with col1:
+                edited_word = st.text_input(
+                    "word", value=r['word'], key=f"eqw_ind_{r['id']}",
+                    label_visibility="collapsed"
+                )
+            with col2:
+                edited_val = st.text_input(
+                    "value", value=r['letters'], key=f"eqv_ind_{r['id']}",
+                    label_visibility="collapsed"
+                )
+            with col3:
+                st.markdown(f"<span style='word-wrap:break-word;overflow-wrap:break-word;white-space:normal;font-size:0.85em'>{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:60]} = {r['answer']}</span>", unsafe_allow_html=True)
+            with col4:
+                if st.button("Add", key=f"eq_ind_{r['id']}"):
+                    edited_r = dict(r)
+                    edited_r["word"] = edited_word.strip().lower()
+                    edited_r["letters"] = edited_val.strip().upper()
+                    _accept_and_remove(edited_r)
+                    if edited_r["word"] != r["word"] or edited_r["letters"] != r["letters"]:
+                        wconn = _get_conn(CLUES_DB, readonly=False)
+                        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (r["id"],))
+                        wconn.commit()
+                        wconn.close()
+                    st.rerun()
+            with col5:
+                if st.button("Reject", key=f"rej_ind_{r['id']}"):
+                    _reject_and_remove(r)
+                    st.rerun()
+
+    # --- Homophones ---
+    if hom_rows:
+        st.subheader(f"Homophones ({len(hom_rows)})")
+        for r in hom_rows:
+            col1, col2, col3, col4, col5 = st.columns([5, 4, 3, 1.5, 1.5])
+            with col1:
+                edited_word = st.text_input(
+                    "word", value=r['word'], key=f"eqw_hom_{r['id']}",
+                    label_visibility="collapsed"
+                )
+            with col2:
+                edited_val = st.text_input(
+                    "value", value=r['letters'], key=f"eqv_hom_{r['id']}",
+                    label_visibility="collapsed"
+                )
+            with col3:
+                st.markdown(f"<span style='word-wrap:break-word;overflow-wrap:break-word;white-space:normal;font-size:0.85em'>{r['source']} #{r['puzzle_number']} | {(r['clue_text'] or '')[:60]} = {r['answer']}</span>", unsafe_allow_html=True)
+            with col4:
+                if st.button("Add", key=f"eq_hom_{r['id']}"):
+                    edited_r = dict(r)
+                    edited_r["word"] = edited_word.strip().lower()
+                    edited_r["letters"] = edited_val.strip().upper()
+                    _accept_and_remove(edited_r)
+                    if edited_r["word"] != r["word"] or edited_r["letters"] != r["letters"]:
+                        wconn = _get_conn(CLUES_DB, readonly=False)
+                        wconn.execute("DELETE FROM pending_enrichments WHERE id = ?", (r["id"],))
+                        wconn.commit()
+                        wconn.close()
+                    st.rerun()
+            with col5:
+                if st.button("Reject", key=f"rej_hom_{r['id']}"):
                     _reject_and_remove(r)
                     st.rerun()
 
