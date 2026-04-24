@@ -3,7 +3,20 @@
 {% block title %}{{ source | source_name }} Cryptic Crossword #{{ puzzle_number }}{% if source == 'telegraph' %} (DT {{ puzzle_number }}){% endif %} — Answers &amp; Explanations{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{% if source == 'telegraph' %}Daily Telegraph / DT {{ puzzle_number }} cryptic crossword answers and explanations. Big Dave alternative.{% elif source == 'times' %}Times Cryptic {{ puzzle_number }} answers and explanations. TFTT / Times for the Times alternative.{% elif source == 'guardian' %}Guardian Cryptic {{ puzzle_number }} answers and explanations. Fifteensquared alternative.{% elif source == 'independent' %}Independent Cryptic {{ puzzle_number }} answers and explanations.{% elif source == 'dailymail' %}Daily Mail Cryptic {{ puzzle_number }} answers and explanations.{% endif %} {{ total }} clues{% if publication_date %}, published {{ publication_date }}{% endif %}.">
+<meta name="description" content="{% if source == 'telegraph' %}Daily Telegraph / DT {{ puzzle_number }} cryptic crossword answers and explanations.{% elif source == 'times' %}Times Cryptic {{ puzzle_number }} answers and explanations.{% elif source == 'guardian' %}Guardian Cryptic {{ puzzle_number }} answers and explanations.{% elif source == 'independent' %}Independent Cryptic {{ puzzle_number }} answers and explanations.{% elif source == 'dailymail' %}Daily Mail Cryptic {{ puzzle_number }} answers and explanations.{% endif %} {{ total }} clues{% if publication_date %}, published {{ publication_date }}{% endif %}.">
+{% endblock %}
+
+{% block structured_data %}
+{% if faq_schema %}
+<script type="application/ld+json">
+{{ faq_schema | safe }}
+</script>
+{% endif %}
+{% if breadcrumb_schema %}
+<script type="application/ld+json">
+{{ breadcrumb_schema | safe }}
+</script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -32,6 +45,22 @@
         Solve this puzzle on {{ source | source_name }} &rarr;
     </a>
 </p>
+{% endif %}
+
+{% if cordelia_puzzle_url %}
+<div style="background:linear-gradient(135deg,#f8f0ff 0%,#f0f5ff 100%);border:2px solid #7c3aed;border-radius:0.5rem;padding:1.5rem 1.25rem;margin:1rem 0">
+    <div style="display:flex;align-items:center;gap:1rem">
+        <img src="https://justcordelia.com/static/cordelia.jpg" alt="Cordelia" style="width:64px;height:64px;border-radius:50%;border:2px solid #7c3aed;flex-shrink:0">
+        <div>
+            <div style="font-size:1.3rem;font-weight:800;color:#7c3aed;letter-spacing:-0.01em">Cordelia</div>
+            <div style="font-size:0.85rem;color:#6b7280;margin-bottom:0.5rem">Cryptic Crosswords, Explained</div>
+            <a href="{{ cordelia_puzzle_url }}" rel="noopener" style="display:inline-block;background:#7c3aed;color:white;font-weight:700;font-size:0.9rem;padding:0.5rem 1.25rem;border-radius:6px;text-decoration:none">
+                Solve this puzzle interactively &rarr;
+            </a>
+        </div>
+    </div>
+    <div style="margin-top:0.75rem;font-size:0.8rem;color:#6b7280;text-align:center">Progressive hints &middot; solving tools &middot; full puzzle grid &middot; <strong style="color:#059669">free, no sign-up</strong></div>
+</div>
 {% endif %}
 
 {% macro render_clue(c) %}

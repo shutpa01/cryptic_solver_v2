@@ -31,23 +31,6 @@ def _get_tftt_index():
     return _tftt_index
 
 
-def get_blog_attribution(source, puzzle_number, publication_date=None):
-    """Return (blog_name, blog_url) for a human explanation, or (None, None)."""
-    if source == "times":
-        idx = _get_tftt_index()
-        entry = idx.get(str(puzzle_number))
-        if entry and entry.get("link"):
-            return "Times for the Times", entry["link"]
-        return "Times for the Times", None
-    elif source == "guardian":
-        return "Fifteensquared", f"https://fifteensquared.net/?s=guardian+{puzzle_number}"
-    elif source == "independent":
-        return "Fifteensquared", f"https://fifteensquared.net/?s=independent+{puzzle_number}"
-    elif source == "telegraph":
-        return "Big Dave's Crossword Blog", f"https://bigdave44.com/?s=dt+{puzzle_number}"
-    return None, None
-
-
 def get_source_puzzle_url(source, puzzle_number):
     """Return the URL to the original puzzle on the newspaper's website, or None."""
     if source == "guardian":
@@ -96,6 +79,7 @@ BROWSE_SOURCES = [
     ("guardian", "everyman", "Observer Everyman"),
     ("independent", "cryptic", "Independent Cryptic"),
     ("dailymail", "cryptic", "Daily Mail Cryptic"),
+    ("cordelia", "daily-mashup", "Cordelia's Daily Mash-up"),
 ]
 
 # Label lookup for display
@@ -109,6 +93,7 @@ TYPE_LABELS = {
     ("independent", "cryptic"): "Cryptic",
     ("dailymail", "cryptic"): "Cryptic",
     ("cordelia", "tutorial"): "Tutorial",
+    ("cordelia", "daily-mashup"): "Daily Mash-up",
 }
 
 
@@ -182,6 +167,8 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
     elif source == "cordelia":
         if num == 1:
             return "tutorial", "Tutorial"
+        if num >= 1001:
+            return "daily-mashup", "Daily Mash-up"
         return None, None
 
     return None, None
@@ -254,7 +241,74 @@ def _puzzle_filter_sql(source, type_slug):
             "source = ? AND puzzle_number IS NOT NULL AND puzzle_number != ''",
             [source],
         )
+    elif source == "cordelia" and type_slug == "daily-mashup":
+        from flask import g
+        if g.get("is_admin"):
+            return (
+                "source = ? AND CAST(puzzle_number AS INTEGER) >= 1001",
+                [source],
+            )
+        return (
+            "source = ? AND CAST(puzzle_number AS INTEGER) >= 1001"
+            " AND publication_date <= date('now')",
+            [source],
+        )
     return None, None
+
+
+# Sources eligible for "coming soon" future pages, in priority order
+FUTURE_PUZZLE_SOURCES = [
+    ("telegraph", "cryptic", 31000, 31999),
+    ("dailymail", "cryptic", 16000, 19999),
+    ("times", "cryptic", 26000, 39999),
+    ("guardian", "cryptic", 20000, 39999),
+    ("independent", "cryptic", 1, 19999),
+]
+
+
+def get_future_puzzles(n=5):
+    """Predict the next n puzzle numbers for each weekday cryptic source.
+
+    Returns list of (source, type_slug, puzzle_number) sorted by source priority.
+    """
+    db = get_db()
+    results = []
+    for source, type_slug, lo, hi in FUTURE_PUZZLE_SOURCES:
+        row = db.execute(
+            "SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues "
+            "WHERE source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?",
+            (source, lo, hi),
+        ).fetchone()
+        if not row or row[0] is None:
+            continue
+        latest = row[0]
+        for i in range(1, n + 1):
+            results.append((source, type_slug, str(latest + i)))
+    return results
+
+
+def is_future_puzzle(source, puzzle_type, puzzle_number):
+    """Check if a puzzle number is a predicted future puzzle."""
+    future = get_future_puzzles()
+    return any(
+        s == source and t == puzzle_type and p == str(puzzle_number)
+        for s, t, p in future
+    )
+
+
+def get_recent_puzzles(source, type_slug, limit=5):
+    """Return recent puzzles for a source/type for the coming soon page."""
+    db = get_db()
+    where, params = _puzzle_filter_sql(source, type_slug)
+    if where is None:
+        return []
+    rows = db.execute(
+        f"SELECT puzzle_number, MAX(publication_date) AS pub_date "
+        f"FROM clues WHERE {where} GROUP BY puzzle_number "
+        f"ORDER BY pub_date DESC LIMIT ?",
+        params + [limit],
+    ).fetchall()
+    return [{"puzzle_number": r["puzzle_number"], "publication_date": r["pub_date"]} for r in rows]
 
 
 def get_puzzle_list(source, type_slug, page=1):
@@ -435,11 +489,12 @@ def compute_hint_tier(clue):
         max_steps = 0
 
     # Tier based on pipeline confidence score (stored as 0-1 decimal in DB)
+    # Threshold aligned with verifier: HIGH >= 70, MEDIUM >= 40, LOW < 40
     confidence = clue["confidence"] if "confidence" in clue.keys() else None
     if confidence is not None:
         # Normalise to 0-100 scale if stored as decimal
         score = confidence * 100 if confidence <= 1 else confidence
-        if score >= 80:
+        if score >= 70:
             return "HIGH", max_steps
         elif score >= 40:
             return "MEDIUM", max_steps
@@ -712,10 +767,5 @@ def _build_explanation(clue):
                 return f'{" + ".join(part_strs)} = {answer}'
         except (json.JSONDecodeError, TypeError):
             pass
-
-    # Fall back to blog-sourced explanation (fifteensquared, TFTT, etc.)
-    blog_expl = clue["explanation"] if "explanation" in clue.keys() else None
-    if blog_expl:
-        return blog_expl
 
     return None

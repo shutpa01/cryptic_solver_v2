@@ -11,13 +11,10 @@
         <span>{{ hint.content | wordplay_label }}</span>
         {% elif hint.type == 'answer' %}
         <span class="font-bold tracking-wider uppercase">{{ hint.content }}</span>
+        {% elif hint.type == 'explanation' and not hint.content %}
+        <span class="text-gray-500 italic">Explanation not yet available.</span>
         {% else %}
         <span>{{ hint.content }}</span>
-        {% endif %}
-        {% if hint.blog_name %}
-        <p class="text-xs text-gray-500 italic mt-1">
-            Source: {% if hint.blog_url %}<a href="{{ hint.blog_url }}" target="_blank" rel="noopener" class="font-semibold text-indigo-600 hover:underline">{{ hint.blog_name }}</a>{% else %}{{ hint.blog_name }}{% endif %}
-        </p>
         {% endif %}
     </div>
     {% endfor %}
