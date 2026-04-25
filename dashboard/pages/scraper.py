@@ -12,6 +12,20 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
 PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 SCRAPER_SCRIPT = str(PROJECT_ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
+GIT_BASH = r'C:\Program Files\Git\bin\bash.exe'
+
+
+def _rsync(local_path, remote_path, timeout=300):
+    """Run rsync via Git Bash (provides full MSYS2 environment including SSH)."""
+    s = str(local_path).replace('\\', '/')
+    if len(s) >= 2 and s[1] == ':':
+        s = '/' + s[0].lower() + s[2:]
+    cmd = f'rsync -cz {s} {remote_path}'
+    return subprocess.run(
+        [GIT_BASH, '-c', cmd],
+        capture_output=True, text=True, timeout=timeout,
+        encoding="utf-8", errors="replace",
+    )
 
 
 def render():
@@ -227,13 +241,17 @@ def _render_honeypot_deploy():
 
         # Step 2: Upload DB
         if deploy_db and not failed:
+            # Checkpoint WAL so all recent writes are in the main .db file
+            try:
+                conn = sqlite3.connect(str(CLUES_DB))
+                conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+                conn.close()
+            except Exception as e:
+                steps.append(("WAL checkpoint", False, str(e)))
+
             with st.spinner("Uploading database..."):
                 try:
-                    result = subprocess.run(
-                        ["scp", str(CLUES_DB), f"{DROPLET}:{HONEYPOT_DB_PATH}"],
-                        capture_output=True, text=True, timeout=300,
-                        encoding="utf-8", errors="replace",
-                    )
+                    result = _rsync(CLUES_DB, f"{DROPLET}:{HONEYPOT_DB_PATH}")
                     if result.returncode == 0:
                         steps.append(("Upload DB", True, "Database uploaded."))
                     else:
@@ -409,13 +427,19 @@ def _render_cordelia_deploy():
 
         # Step 2: Upload databases
         if deploy_db and not failed:
+            # Checkpoint WAL so all recent writes are in the main .db files
+            for db in [CLUES_DB, CRYPTIC_NEW_DB]:
+                if db.exists():
+                    try:
+                        conn = sqlite3.connect(str(db))
+                        conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+                        conn.close()
+                    except Exception as e:
+                        steps.append(("WAL checkpoint", False, f"{db.name}: {e}"))
+
             with st.spinner("Uploading clues_master.db..."):
                 try:
-                    result = subprocess.run(
-                        ["scp", str(CLUES_DB), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/clues_master.db"],
-                        capture_output=True, text=True, timeout=600,
-                        encoding="utf-8", errors="replace",
-                    )
+                    result = _rsync(CLUES_DB, f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/clues_master.db", timeout=600)
                     if result.returncode == 0:
                         steps.append(("Upload clues_master.db", True, "Done."))
                     else:
@@ -431,11 +455,7 @@ def _render_cordelia_deploy():
             if not failed and CRYPTIC_NEW_DB.exists():
                 with st.spinner("Uploading cryptic_new.db..."):
                     try:
-                        result = subprocess.run(
-                            ["scp", str(CRYPTIC_NEW_DB), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/cryptic_new.db"],
-                            capture_output=True, text=True, timeout=600,
-                            encoding="utf-8", errors="replace",
-                        )
+                        result = _rsync(CRYPTIC_NEW_DB, f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/cryptic_new.db", timeout=600)
                         if result.returncode == 0:
                             steps.append(("Upload cryptic_new.db", True, "Done."))
                         else:
