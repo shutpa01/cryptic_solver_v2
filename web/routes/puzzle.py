@@ -33,6 +33,14 @@ def puzzle(source, puzzle_type, puzzle_number):
         abort(404)
 
     clues = get_puzzle_clues(source, puzzle_number)
+
+    # Don't show future-dated cordelia puzzles (prepared a day ahead) — except for admin
+    if clues and source == "cordelia" and not g.get("is_admin"):
+        from datetime import date as _date
+        pub = get_puzzle_date(source, puzzle_number)
+        if pub and pub > _date.today().isoformat():
+            clues = None
+
     if not clues:
         if is_future_puzzle(source, puzzle_type, puzzle_number):
             type_label = TYPE_LABELS[(source, puzzle_type)]
@@ -148,8 +156,11 @@ def puzzle(source, puzzle_type, puzzle_number):
                 prefill[str(c["id"])] = {"value": c["answer"].upper().replace(" ", ""), "correct": True}
         tutorial_prefill = _json.dumps(prefill)
 
-    # Check if a grid is available for this puzzle
+    # Check if a grid is available for this puzzle (stored solution or JSON)
     has_grid = get_puzzle_grid_solution(source, puzzle_number) is not None
+    if not has_grid:
+        from scraper.danword.danword_lookup import find_puzzle_json
+        has_grid = find_puzzle_json(source, puzzle_number) is not None
 
     # Structured data for SEO
     from web.routes.clue_seo import generate_puzzle_breadcrumb_schema, generate_puzzle_faq_schema
@@ -185,7 +196,14 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
     if actual_slug != puzzle_type:
         abort(404)
 
-    # Path 1: stored solution string (fast DB lookup — populated by scrapers and backfill)
+    # Path 1: JSON structure — authoritative for black vs white cells.
+    # The stored solution string can mismark unchecked cells as black.
+    all_clue_data = get_puzzle_grid_data(source, puzzle_number)
+    grid = build_grid_from_json(source, puzzle_number, all_clue_data)
+    if grid is not None:
+        return render_template("partials/grid.html", grid=grid)
+
+    # Path 2: Stored solution — fallback when no JSON available
     stored = get_puzzle_grid_solution(source, puzzle_number)
     if stored:
         solution, grid_rows, grid_cols = stored
@@ -193,15 +211,9 @@ def puzzle_grid(source, puzzle_type, puzzle_number):
         if grid is not None:
             return render_template("partials/grid.html", grid=grid)
 
-    # Path 2: rebuild live from JSON structure + current DB answers
-    clue_data = get_puzzle_grid_data(source, puzzle_number)
-    grid = build_grid_from_json(source, puzzle_number, clue_data)
-    if grid is not None:
-        return render_template("partials/grid.html", grid=grid)
-
     # Path 3: algorithmic reconstruction (last resort — slow, may be inaccurate)
-    if clue_data:
-        grid = reconstruct_grid(clue_data)
+    if all_clue_data:
+        grid = reconstruct_grid(all_clue_data)
         if grid is not None:
             return render_template("partials/grid.html", grid=grid)
 
