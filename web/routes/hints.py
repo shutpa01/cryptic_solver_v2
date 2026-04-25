@@ -109,9 +109,17 @@ def reveal():
 def explain():
     """Generate an explanation for a clue via the Sonnet API.
 
+    Admin-only: this endpoint calls the paid Anthropic API on each
+    request. No user-facing UI invokes it, so we hard-gate it to
+    g.is_admin to prevent anonymous callers from burning the API
+    budget by hitting the endpoint directly with a scraped token.
+
     Expects form data: token (signed).
     Calls the API, stores the result, returns updated hint buttons as HTML.
     """
+    if not g.is_admin:
+        abort(403)
+
     token = request.form.get("token", "")
     if not token:
         abort(400)
