@@ -123,7 +123,7 @@ def build_grid_from_json(source, puzzle_number, clue_data):
         grid_array = data["json"].get("grid")
     elif "data" in data:
         copy = data["data"].get("copy", {})
-        grid_array = None
+        grid_array = data["data"].get("grid")
     else:
         copy = data.get("copy", {})
         grid_array = None
