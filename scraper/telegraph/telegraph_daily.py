@@ -487,6 +487,18 @@ def fetch_and_save(puzzle):
     grid_rows = int(gridsize.get('rows', 15))
     grid_cols = int(gridsize.get('cols', 15))
 
+    # Fix unchecked cells: API uses spaces for both black and unchecked cells.
+    # The grid_array is authoritative — replace spaces with dots where cell is white.
+    grid_array = data.get('json', {}).get('grid')
+    if grid_array and grid_solution and len(grid_solution) == grid_rows * grid_cols:
+        chars = list(grid_solution)
+        for r in range(grid_rows):
+            for c in range(grid_cols):
+                idx = r * grid_cols + c
+                if chars[idx] == ' ' and grid_array[r][c].get('Blank') != 'blank':
+                    chars[idx] = '.'
+        grid_solution = ''.join(chars)
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS puzzle_grids (
             source TEXT NOT NULL,
@@ -502,6 +514,8 @@ def fetch_and_save(puzzle):
     """)
 
     has_solution = grid_solution and len(grid_solution) == grid_rows * grid_cols
+    # api_folder stores the full API URL for future reference
+    api_url = f"https://puzzlesdata.telegraph.co.uk/puzzles/{folder}/{link_type}-{api_id}.json"
     cursor.execute("""
         INSERT INTO puzzle_grids
         (source, puzzle_number, solution, grid_rows, grid_cols, api_folder, api_type, api_id)
@@ -515,7 +529,7 @@ def fetch_and_save(puzzle):
         db_source, str(puzzle_number),
         grid_solution if has_solution else None,
         grid_rows, grid_cols,
-        folder, link_type, api_id,
+        api_url, link_type, api_id,
     ))
 
     conn.commit()
