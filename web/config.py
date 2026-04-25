@@ -20,9 +20,12 @@ class Config:
     # Kill switch for per-IP rate limits (web/rate_limit.py).
     # Set False in an emergency to disable without a code change.
     RATE_LIMIT_ENABLED = True
-    # Trust one proxy hop (nginx) for X-Forwarded-For when reading the
-    # client IP. Set to 0 in environments with no proxy in front.
-    PROXY_HOPS = 1
+    # Trust proxy hops for X-Forwarded-For when reading the client IP.
+    # Production chain (2026-04-25 onwards): Cloudflare → nginx → Flask = 2 hops.
+    # Each proxy appends one IP to X-Forwarded-For; ProxyFix reads back the
+    # configured number of trusted hops to find the real client IP.
+    # Set to 0 only in environments with no proxy in front.
+    PROXY_HOPS = 2
 
 
 class DevelopmentConfig(Config):
