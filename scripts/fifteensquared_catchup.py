@@ -92,13 +92,29 @@ def run_fifteensquared_pass(source, puzzle_number, pub_date, dry_run=False):
     if dry_run:
         return len(fs_clues), 0, 0
 
+    # Always save raw blog explanations to the clues table
+    conn = sqlite3.connect(str(CLUES_DB), timeout=30)
+    conn.row_factory = sqlite3.Row
+    blog_saved = 0
+    for fc in fs_clues:
+        if not fc.get("explanation"):
+            continue
+        answer_clean = re.sub(r'[^A-Z]', '', fc["answer"].upper())
+        result = conn.execute("""
+            UPDATE clues SET explanation = ?
+            WHERE source = ? AND puzzle_number = ?
+              AND UPPER(REPLACE(REPLACE(answer, ' ', ''), '-', '')) = ?
+              AND (explanation IS NULL OR explanation = '')
+        """, (fc["explanation"], source, str(puzzle_number), answer_clean))
+        if result.rowcount > 0:
+            blog_saved += 1
+    conn.commit()
+    if blog_saved:
+        log(f"  Saved {blog_saved} blog explanations to DB")
+
     # Load resources
     ref_db = RefDB()
     haiku_client = anthropic.Anthropic()
-
-    # Get unsolved clues from DB
-    conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-    conn.row_factory = sqlite3.Row
 
     clues = conn.execute("""
         SELECT c.id, c.clue_text, c.answer, c.clue_number, c.direction

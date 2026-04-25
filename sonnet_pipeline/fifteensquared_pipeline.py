@@ -107,6 +107,27 @@ def run_fifteensquared_pipeline(source, puzzle_number, pub_date=None,
 
     print("  Fetched %d clues" % len(blog_clues))
 
+    # Always save raw blog explanations to the clues table
+    conn_save = sqlite3.connect(CLUES_DB, timeout=30)
+    blog_saved = 0
+    for bc in blog_clues:
+        if not bc.get("explanation"):
+            continue
+        answer_clean = clean(bc["answer"])
+        result = conn_save.execute(
+            "UPDATE clues SET explanation = ? "
+            "WHERE source = ? AND puzzle_number = ? "
+            "AND UPPER(REPLACE(REPLACE(answer, ' ', ''), '-', '')) = ? "
+            "AND (explanation IS NULL OR explanation = '')",
+            (bc["explanation"], source, str(puzzle_number), answer_clean),
+        )
+        if result.rowcount > 0:
+            blog_saved += 1
+    conn_save.commit()
+    conn_save.close()
+    if blog_saved:
+        print("  Saved %d blog explanations to DB" % blog_saved)
+
     # Load RefDB for scoring
     print("\n--- Loading RefDB ---")
     from signature_solver.db import RefDB
