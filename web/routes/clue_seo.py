@@ -75,26 +75,20 @@ def generate_faq_schema(clue, steps):
     answer = clue.get("answer", "")
     definition = clue.get("definition")
     wordplay_type = clue.get("wordplay_type")
-    ai_explanation = clue.get("ai_explanation")
     confidence = clue.get("confidence")
     is_high = confidence is not None and confidence >= 0.7
+    is_medium = confidence is not None and confidence >= 0.4 and not is_high
 
     # Q1: What does [clue] mean?
-    is_medium = confidence is not None and confidence >= 0.4 and not is_high
-    if is_high and ai_explanation:
-        # HIGH confidence — include the full explanation
-        meaning_parts = []
-        if definition:
-            meaning_parts.append(f'The definition is "{definition}".')
-        if wordplay_type:
-            wp_label = _wordplay_label(wordplay_type)
-            meaning_parts.append(f"The wordplay uses {wp_label}.")
-        meaning_parts.append(ai_explanation)
-        if answer:
-            meaning_parts.append(f"The answer is {answer}.")
-        meaning_text = " ".join(meaning_parts)
-    elif is_medium and (definition or wordplay_type):
-        # MEDIUM confidence — definition + wordplay type, no full explanation
+    #
+    # We deliberately do NOT include the full ai_explanation step-by-step
+    # text in this block, even for HIGH-confidence clues. That text is the
+    # proprietary content the solver pipeline produces; embedding it in
+    # public JSON-LD made it scrapable from one HTTP GET. The structured
+    # data still tells Google what the page is about (definition + wordplay
+    # type + answer) which is enough for SERP context, without handing
+    # over the breakdown that's behind the hint reveal flow.
+    if (is_high or is_medium) and (definition or wordplay_type):
         meaning_parts = []
         if definition:
             meaning_parts.append(f'The definition is "{definition}".')
