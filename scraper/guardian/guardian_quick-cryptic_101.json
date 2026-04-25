@@ -1,0 +1,131 @@
+{
+  "puzzle_type": "quick-cryptic",
+  "puzzle_number": 101,
+  "title": "Quick cryptic crossword No 101",
+  "setter": "Turnstone",
+  "date": "2026-03-07",
+  "across": [
+    {
+      "number": 1,
+      "clue": "Parent always bears property cost",
+      "answer": "RENTAL",
+      "enumeration": "6"
+    },
+    {
+      "number": 4,
+      "clue": "Article in erudite magazine",
+      "answer": "ITEM",
+      "enumeration": "4"
+    },
+    {
+      "number": 8,
+      "clue": "Admit dog ran through houses",
+      "answer": "GRANT",
+      "enumeration": "5"
+    },
+    {
+      "number": 9,
+      "clue": "Portrait accurately captures dish",
+      "answer": "RAITA",
+      "enumeration": "5"
+    },
+    {
+      "number": 10,
+      "clue": "Eccentric ad-libs to newspapers",
+      "answer": "TABLOIDS",
+      "enumeration": "8"
+    },
+    {
+      "number": 13,
+      "clue": "Care \u2013 a bit \u2013 about germs",
+      "answer": "BACTERIA",
+      "enumeration": "8"
+    },
+    {
+      "number": 16,
+      "clue": "Picked up catalogue for composer",
+      "answer": "LISZT",
+      "enumeration": "5"
+    },
+    {
+      "number": 17,
+      "clue": "In conversation disparages alcohol",
+      "answer": "BOOZE",
+      "enumeration": "5"
+    },
+    {
+      "number": 18,
+      "clue": "Cut fruit for the audience",
+      "answer": "PARE",
+      "enumeration": "4"
+    },
+    {
+      "number": 19,
+      "clue": "Against poetry broadcast",
+      "answer": "VERSUS",
+      "enumeration": "6"
+    }
+  ],
+  "down": [
+    {
+      "number": 1,
+      "clue": "Corrects ceremonies verbally",
+      "answer": "RIGHTS",
+      "enumeration": "6"
+    },
+    {
+      "number": 2,
+      "clue": "Barney dancing around",
+      "answer": "NEARBY",
+      "enumeration": "6"
+    },
+    {
+      "number": 3,
+      "clue": "Cook roasts tuna for long-distance travellers",
+      "answer": "ASTRONAUTS",
+      "enumeration": "10"
+    },
+    {
+      "number": 5,
+      "clue": "Follow story on the radio",
+      "answer": "TAIL",
+      "enumeration": "4"
+    },
+    {
+      "number": 6,
+      "clue": "Low average",
+      "answer": "MEAN",
+      "enumeration": "4"
+    },
+    {
+      "number": 7,
+      "clue": "Trustworthy ID bracelet developed",
+      "answer": "CREDITABLE",
+      "enumeration": "10"
+    },
+    {
+      "number": 11,
+      "clue": "Tolerates streams of water",
+      "answer": "BROOKS",
+      "enumeration": "6"
+    },
+    {
+      "number": 12,
+      "clue": "Skips garnishes",
+      "answer": "CAPERS",
+      "enumeration": "6"
+    },
+    {
+      "number": 14,
+      "clue": "Secretly pass piece of paper",
+      "answer": "SLIP",
+      "enumeration": "4"
+    },
+    {
+      "number": 15,
+      "clue": "House rules constrain employer",
+      "answer": "USER",
+      "enumeration": "4"
+    }
+  ]
+}

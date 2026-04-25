@@ -1,0 +1,2294 @@
+{
+  "data": {
+    "headline": "Times Cryptic No 29516",
+    "type": "crossword",
+    "copy": {
+      "title": "Times Cryptic No 29516",
+      "id": "87138",
+      "description": "",
+      "publisher": "",
+      "setter": "",
+      "byline": "",
+      "date-publish": "Tuesday, 14 April 2026",
+      "date-publish-email": "14 April 2026",
+      "date-publish-analytics": "2026/04/14 00:00 Tuesday",
+      "date-release": "Tuesday, 07 April 2026",
+      "date-solution": "Tuesday, 07 April 2026",
+      "crosswordtype": "Times Cryptic",
+      "correctsolutionmessagetext": "Congratulations",
+      "previoussolutiontext": "",
+      "previoussolutionlink": "",
+      "type": "block",
+      "gridsize": {
+        "type": "Standard",
+        "cols": "15",
+        "rows": "15"
+      },
+      "settings": {
+        "solution_hashed": "f646eddee82afed8067ccaa295528b07",
+        "solution": "GODSPEED BONOBO N H N O U A E  ATONESWITSEND  R W M A T   O BOLSHY GREATAUK L T   E R R I ALLOPATRIC ACNE   P S   U M   LIMP SOCKPUPPET N E A A   O M AVERSION ECLAIR A   L A N I N  DISMALSCIENCE  E E N T A E N PRIEST ACCURATE"
+      },
+      "hints": {
+        "Mark Errors": "0",
+        "Solve Letter": "0",
+        "Solve Word": "0",
+        "Ask A Friend": "0"
+      },
+      "words": [
+        {
+          "id": 1,
+          "x": "1-8",
+          "y": "1",
+          "solution": "GODSPEED"
+        },
+        {
+          "id": 2,
+          "x": "10-15",
+          "y": "1",
+          "solution": "BONOBO"
+        },
+        {
+          "id": 3,
+          "x": "2-14",
+          "y": "3",
+          "solution": "ATONESWITSEND"
+        },
+        {
+          "id": 4,
+          "x": "1-6",
+          "y": "5",
+          "solution": "BOLSHY"
+        },
+        {
+          "id": 5,
+          "x": "8-15",
+          "y": "5",
+          "solution": "GREATAUK"
+        },
+        {
+          "id": 6,
+          "x": "1-10",
+          "y": "7",
+          "solution": "ALLOPATRIC"
+        },
+        {
+          "id": 7,
+          "x": "12-15",
+          "y": "7",
+          "solution": "ACNE"
+        },
+        {
+          "id": 8,
+          "x": "1-4",
+          "y": "9",
+          "solution": "LIMP"
+        },
+        {
+          "id": 9,
+          "x": "6-15",
+          "y": "9",
+          "solution": "SOCKPUPPET"
+        },
+        {
+          "id": 10,
+          "x": "1-8",
+          "y": "11",
+          "solution": "AVERSION"
+        },
+        {
+          "id": 11,
+          "x": "10-15",
+          "y": "11",
+          "solution": "ECLAIR"
+        },
+        {
+          "id": 12,
+          "x": "2-14",
+          "y": "13",
+          "solution": "DISMALSCIENCE"
+        },
+        {
+          "id": 13,
+          "x": "1-6",
+          "y": "15",
+          "solution": "PRIEST"
+        },
+        {
+          "id": 14,
+          "x": "8-15",
+          "y": "15",
+          "solution": "ACCURATE"
+        },
+        {
+          "id": 15,
+          "x": "2",
+          "y": "1-7",
+          "solution": "ONAROLL"
+        },
+        {
+          "id": 16,
+          "x": "4",
+          "y": "1-11",
+          "solution": "SHOWSTOPPER"
+        },
+        {
+          "id": 17,
+          "x": "6",
+          "y": "1-5",
+          "solution": "ENEMY"
+        },
+        {
+          "id": 18,
+          "x": "8",
+          "y": "1-7",
+          "solution": "DOWAGER"
+        },
+        {
+          "id": 19,
+          "x": "10",
+          "y": "1-9",
+          "solution": "BUTTERCUP"
+        },
+        {
+          "id": 20,
+          "x": "12",
+          "y": "1-3",
+          "solution": "NAE"
+        },
+        {
+          "id": 21,
+          "x": "14",
+          "y": "1-7",
+          "solution": "BEDOUIN"
+        },
+        {
+          "id": 22,
+          "x": "12",
+          "y": "5-15",
+          "solution": "TRAMPOLINER"
+        },
+        {
+          "id": 23,
+          "x": "6",
+          "y": "7-15",
+          "solution": "ASSAILANT"
+        },
+        {
+          "id": 24,
+          "x": "2",
+          "y": "9-15",
+          "solution": "INVADER"
+        },
+        {
+          "id": 25,
+          "x": "8",
+          "y": "9-15",
+          "solution": "CANASTA"
+        },
+        {
+          "id": 26,
+          "x": "14",
+          "y": "9-15",
+          "solution": "EMINENT"
+        },
+        {
+          "id": 27,
+          "x": "10",
+          "y": "11-15",
+          "solution": "ENIAC"
+        },
+        {
+          "id": 28,
+          "x": "4",
+          "y": "13-15",
+          "solution": "SEE"
+        }
+      ],
+      "clues": [
+        {
+          "name": "Clues",
+          "title": "Across",
+          "clues": [
+            {
+              "word": 1,
+              "number": 1,
+              "clue": "All the best working dogs went",
+              "format": "8",
+              "length": 8,
+              "answer": "GODSPEED"
+            },
+            {
+              "word": 2,
+              "number": 6,
+              "clue": "Blunder, almost hugging new primate",
+              "format": "6",
+              "length": 6,
+              "answer": "BONOBO"
+            },
+            {
+              "word": 3,
+              "number": 9,
+              "clue": "Perplexed, makes up for deficiencies with shortened broadcast",
+              "format": "2,4,4,3",
+              "length": 13,
+              "answer": "at ones wits end"
+            },
+            {
+              "word": 4,
+              "number": 10,
+              "clue": "Rebellious, throw to the left, then throw to the right",
+              "format": "6",
+              "length": 6,
+              "answer": "BOLSHY"
+            },
+            {
+              "word": 5,
+              "number": 11,
+              "clue": "Dull lecture announced extinct bird",
+              "format": "5,3",
+              "length": 8,
+              "answer": "great auk"
+            },
+            {
+              "word": 6,
+              "number": 13,
+              "clue": "Work at probing every Republican in charge of different geographical areas",
+              "format": "10",
+              "length": 10,
+              "answer": "ALLOPATRIC"
+            },
+            {
+              "word": 7,
+              "number": 15,
+              "clue": "Problem of teenagers in north contained by expert",
+              "format": "4",
+              "length": 4,
+              "answer": "ACNE"
+            },
+            {
+              "word": 8,
+              "number": 16,
+              "clue": "Lacking in energy, male stops backchat",
+              "format": "4",
+              "length": 4,
+              "answer": "LIMP"
+            },
+            {
+              "word": 9,
+              "number": 18,
+              "clue": "Cops kept up with malfunctioning toy",
+              "format": "4,6",
+              "length": 10,
+              "answer": "sock puppet"
+            },
+            {
+              "word": 10,
+              "number": 21,
+              "clue": "State is backed and supported by hatred",
+              "format": "8",
+              "length": 8,
+              "answer": "AVERSION"
+            },
+            {
+              "word": 11,
+              "number": 22,
+              "clue": "Fat reduced by half in round rice cake",
+              "format": "6",
+              "length": 6,
+              "answer": "ECLAIR"
+            },
+            {
+              "word": 12,
+              "number": 23,
+              "clue": "Horrific Icelandic mess in economics?",
+              "format": "6,7",
+              "length": 13,
+              "answer": "dismal science"
+            },
+            {
+              "word": 13,
+              "number": 25,
+              "clue": "Meddles close to first minister",
+              "format": "6",
+              "length": 6,
+              "answer": "PRIEST"
+            },
+            {
+              "word": 14,
+              "number": 26,
+              "clue": "Current price of copper is precise",
+              "format": "8",
+              "length": 8,
+              "answer": "ACCURATE"
+            }
+          ]
+        },
+        {
+          "name": "Clues",
+          "title": "Down",
+          "clues": [
+            {
+              "word": 15,
+              "number": 2,
+              "clue": "Respect part in audition experiencing continuing success",
+              "format": "2,1,4",
+              "length": 7,
+              "answer": "on a roll"
+            },
+            {
+              "word": 16,
+              "number": 3,
+              "clue": "Rows with pet shop about spectacular event",
+              "format": "11",
+              "length": 11,
+              "answer": "SHOWSTOPPER"
+            },
+            {
+              "word": 17,
+              "number": 4,
+              "clue": "Heading north, cavalrymen easily suppressing hostile forces",
+              "format": "5",
+              "length": 5,
+              "answer": "ENEMY"
+            },
+            {
+              "word": 18,
+              "number": 5,
+              "clue": "Make bet for wealthy old lady",
+              "format": "7",
+              "length": 7,
+              "answer": "DOWAGER"
+            },
+            {
+              "word": 19,
+              "number": 6,
+              "clue": "Part of seat higher for broadcast, which is a bloomer",
+              "format": "9",
+              "length": 9,
+              "answer": "BUTTERCUP"
+            },
+            {
+              "word": 20,
+              "number": 7,
+              "clue": "Engage regularly? In Perth, no",
+              "format": "3",
+              "length": 3,
+              "answer": "NAE"
+            },
+            {
+              "word": 21,
+              "number": 8,
+              "clue": "Nomad&rsquo;s become settled around Oxford University",
+              "format": "7",
+              "length": 7,
+              "answer": "BEDOUIN"
+            },
+            {
+              "word": 22,
+              "number": 12,
+              "clue": "Bouncer&rsquo;s two modes of transport across river",
+              "format": "11",
+              "length": 11,
+              "answer": "TRAMPOLINER"
+            },
+            {
+              "word": 23,
+              "number": 14,
+              "clue": "Attacker of creature, one with six feet, having internal trouble",
+              "format": "9",
+              "length": 9,
+              "answer": "ASSAILANT"
+            },
+            {
+              "word": 24,
+              "number": 17,
+              "clue": "Vice-admiral blocking popular article from German aggressor",
+              "format": "7",
+              "length": 7,
+              "answer": "INVADER"
+            },
+            {
+              "word": 25,
+              "number": 19,
+              "clue": "John thanks nurses when playing card game",
+              "format": "7",
+              "length": 7,
+              "answer": "CANASTA"
+            },
+            {
+              "word": 26,
+              "number": 20,
+              "clue": "Important and valuable source found in English books",
+              "format": "7",
+              "length": 7,
+              "answer": "EMINENT"
+            },
+            {
+              "word": 27,
+              "number": 22,
+              "clue": "Essentially, sent kid back for early computer",
+              "format": "5",
+              "length": 5,
+              "answer": "ENIAC"
+            },
+            {
+              "word": 28,
+              "number": 24,
+              "clue": "Witness search for missing king",
+              "format": "3",
+              "length": 3,
+              "answer": "SEE"
+            }
+          ]
+        }
+      ],
+      "identifier": "645b40ce-1c18-47df-a908-69d4182f4518",
+      "date-epoch": "1776121200",
+      "incorrectsolutionmessagetext": "Unlucky"
+    },
+    "options": [],
+    "grid": [
+      [
+        {
+          "SquareID": 1,
+          "Number": "1",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": "",
+          "Letter": "G"
+        },
+        {
+          "SquareID": 2,
+          "Number": "2",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": 15,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 3,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": "",
+          "Letter": "D"
+        },
+        {
+          "SquareID": 4,
+          "Number": "3",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": 16,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 5,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": "",
+          "Letter": "P"
+        },
+        {
+          "SquareID": 6,
+          "Number": "4",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": 17,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 7,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": "",
+          "Letter": "E"
+        },
+        {
+          "SquareID": 8,
+          "Number": "5",
+          "Blank": "",
+          "WordAcrossID": 1,
+          "WordDownID": 18,
+          "Letter": "D"
+        },
+        {
+          "SquareID": 9,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 10,
+          "Number": "6",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": 19,
+          "Letter": "B"
+        },
+        {
+          "SquareID": 11,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": "",
+          "Letter": "O"
+        },
+        {
+          "SquareID": 12,
+          "Number": "7",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": 20,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 13,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": "",
+          "Letter": "O"
+        },
+        {
+          "SquareID": 14,
+          "Number": "8",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": 21,
+          "Letter": "B"
+        },
+        {
+          "SquareID": 15,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 2,
+          "WordDownID": "",
+          "Letter": "O"
+        }
+      ],
+      [
+        {
+          "SquareID": 16,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 17,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 15,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 18,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 19,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 16,
+          "Letter": "H"
+        },
+        {
+          "SquareID": 20,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 21,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 17,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 22,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 23,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 18,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 24,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 25,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 19,
+          "Letter": "U"
+        },
+        {
+          "SquareID": 26,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 27,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 20,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 28,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 29,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 21,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 30,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 31,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 32,
+          "Number": "9",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 15,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 33,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "T"
+        },
+        {
+          "SquareID": 34,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 16,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 35,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "N"
+        },
+        {
+          "SquareID": 36,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 17,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 37,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "S"
+        },
+        {
+          "SquareID": 38,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 18,
+          "Letter": "W"
+        },
+        {
+          "SquareID": 39,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "I"
+        },
+        {
+          "SquareID": 40,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 19,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 41,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "S"
+        },
+        {
+          "SquareID": 42,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 20,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 43,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": "",
+          "Letter": "N"
+        },
+        {
+          "SquareID": 44,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 3,
+          "WordDownID": 21,
+          "Letter": "D"
+        },
+        {
+          "SquareID": 45,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 46,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 47,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 15,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 48,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 49,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 16,
+          "Letter": "W"
+        },
+        {
+          "SquareID": 50,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 51,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 17,
+          "Letter": "M"
+        },
+        {
+          "SquareID": 52,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 53,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 18,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 54,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 55,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 19,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 56,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 57,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 58,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 59,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 21,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 60,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 61,
+          "Number": "10",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": "",
+          "Letter": "B"
+        },
+        {
+          "SquareID": 62,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": 15,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 63,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": "",
+          "Letter": "L"
+        },
+        {
+          "SquareID": 64,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": 16,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 65,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": "",
+          "Letter": "H"
+        },
+        {
+          "SquareID": 66,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 4,
+          "WordDownID": 17,
+          "Letter": "Y"
+        },
+        {
+          "SquareID": 67,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 68,
+          "Number": "11",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": 18,
+          "Letter": "G"
+        },
+        {
+          "SquareID": 69,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": "",
+          "Letter": "R"
+        },
+        {
+          "SquareID": 70,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": 19,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 71,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 72,
+          "Number": "12",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": 22,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 73,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 74,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": 21,
+          "Letter": "U"
+        },
+        {
+          "SquareID": 75,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 5,
+          "WordDownID": "",
+          "Letter": "K"
+        }
+      ],
+      [
+        {
+          "SquareID": 76,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 77,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 15,
+          "Letter": "L"
+        },
+        {
+          "SquareID": 78,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 79,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 16,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 80,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 81,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 82,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 83,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 18,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 84,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 85,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 19,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 86,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 87,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 22,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 88,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 89,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 21,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 90,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 91,
+          "Number": "13",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 92,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": 15,
+          "Letter": "L"
+        },
+        {
+          "SquareID": 93,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": "",
+          "Letter": "L"
+        },
+        {
+          "SquareID": 94,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": 16,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 95,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": "",
+          "Letter": "P"
+        },
+        {
+          "SquareID": 96,
+          "Number": "14",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": 23,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 97,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": "",
+          "Letter": "T"
+        },
+        {
+          "SquareID": 98,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": 18,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 99,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": "",
+          "Letter": "I"
+        },
+        {
+          "SquareID": 100,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 6,
+          "WordDownID": 19,
+          "Letter": "C"
+        },
+        {
+          "SquareID": 101,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 102,
+          "Number": "15",
+          "Blank": "",
+          "WordAcrossID": 7,
+          "WordDownID": 22,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 103,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 7,
+          "WordDownID": "",
+          "Letter": "C"
+        },
+        {
+          "SquareID": 104,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 7,
+          "WordDownID": 21,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 105,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 7,
+          "WordDownID": "",
+          "Letter": "E"
+        }
+      ],
+      [
+        {
+          "SquareID": 106,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 107,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 108,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 109,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 16,
+          "Letter": "P"
+        },
+        {
+          "SquareID": 110,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 111,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 23,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 112,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 113,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 114,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 115,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 19,
+          "Letter": "U"
+        },
+        {
+          "SquareID": 116,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 117,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 22,
+          "Letter": "M"
+        },
+        {
+          "SquareID": 118,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 119,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 120,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 121,
+          "Number": "16",
+          "Blank": "",
+          "WordAcrossID": 8,
+          "WordDownID": "",
+          "Letter": "L"
+        },
+        {
+          "SquareID": 122,
+          "Number": "17",
+          "Blank": "",
+          "WordAcrossID": 8,
+          "WordDownID": 24,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 123,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 8,
+          "WordDownID": "",
+          "Letter": "M"
+        },
+        {
+          "SquareID": 124,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 8,
+          "WordDownID": 16,
+          "Letter": "P"
+        },
+        {
+          "SquareID": 125,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 126,
+          "Number": "18",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": 23,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 127,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": "",
+          "Letter": "O"
+        },
+        {
+          "SquareID": 128,
+          "Number": "19",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": 25,
+          "Letter": "C"
+        },
+        {
+          "SquareID": 129,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": "",
+          "Letter": "K"
+        },
+        {
+          "SquareID": 130,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": 19,
+          "Letter": "P"
+        },
+        {
+          "SquareID": 131,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": "",
+          "Letter": "U"
+        },
+        {
+          "SquareID": 132,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": 22,
+          "Letter": "P"
+        },
+        {
+          "SquareID": 133,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": "",
+          "Letter": "P"
+        },
+        {
+          "SquareID": 134,
+          "Number": "20",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": 26,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 135,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 9,
+          "WordDownID": "",
+          "Letter": "T"
+        }
+      ],
+      [
+        {
+          "SquareID": 136,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 137,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 24,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 138,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 139,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 16,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 140,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 141,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 23,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 142,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 143,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 25,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 144,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 145,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 146,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 147,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 22,
+          "Letter": "O"
+        },
+        {
+          "SquareID": 148,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 149,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 26,
+          "Letter": "M"
+        },
+        {
+          "SquareID": 150,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 151,
+          "Number": "21",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 152,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": 24,
+          "Letter": "V"
+        },
+        {
+          "SquareID": 153,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": "",
+          "Letter": "E"
+        },
+        {
+          "SquareID": 154,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": 16,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 155,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": "",
+          "Letter": "S"
+        },
+        {
+          "SquareID": 156,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": 23,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 157,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": "",
+          "Letter": "O"
+        },
+        {
+          "SquareID": 158,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 10,
+          "WordDownID": 25,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 159,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 160,
+          "Number": "22",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": 27,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 161,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": "",
+          "Letter": "C"
+        },
+        {
+          "SquareID": 162,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": 22,
+          "Letter": "L"
+        },
+        {
+          "SquareID": 163,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 164,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": 26,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 165,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 11,
+          "WordDownID": "",
+          "Letter": "R"
+        }
+      ],
+      [
+        {
+          "SquareID": 166,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 167,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 24,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 168,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 169,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 170,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 171,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 23,
+          "Letter": "L"
+        },
+        {
+          "SquareID": 172,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 173,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 25,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 174,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 175,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 27,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 176,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 177,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 22,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 178,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 179,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 26,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 180,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 181,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 182,
+          "Number": "23",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 24,
+          "Letter": "D"
+        },
+        {
+          "SquareID": 183,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "I"
+        },
+        {
+          "SquareID": 184,
+          "Number": "24",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 28,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 185,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "M"
+        },
+        {
+          "SquareID": 186,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 23,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 187,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "L"
+        },
+        {
+          "SquareID": 188,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 25,
+          "Letter": "S"
+        },
+        {
+          "SquareID": 189,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "C"
+        },
+        {
+          "SquareID": 190,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 27,
+          "Letter": "I"
+        },
+        {
+          "SquareID": 191,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "E"
+        },
+        {
+          "SquareID": 192,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 22,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 193,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": "",
+          "Letter": "C"
+        },
+        {
+          "SquareID": 194,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 12,
+          "WordDownID": 26,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 195,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 196,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 197,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 24,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 198,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 199,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 28,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 200,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 201,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 23,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 202,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 203,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 25,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 204,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 205,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 27,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 206,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 207,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 22,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 208,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 209,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": "",
+          "WordDownID": 26,
+          "Letter": "N"
+        },
+        {
+          "SquareID": 210,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        }
+      ],
+      [
+        {
+          "SquareID": 211,
+          "Number": "25",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": "",
+          "Letter": "P"
+        },
+        {
+          "SquareID": 212,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": 24,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 213,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": "",
+          "Letter": "I"
+        },
+        {
+          "SquareID": 214,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": 28,
+          "Letter": "E"
+        },
+        {
+          "SquareID": 215,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": "",
+          "Letter": "S"
+        },
+        {
+          "SquareID": 216,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 13,
+          "WordDownID": 23,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 217,
+          "Number": "",
+          "Blank": "blank",
+          "WordAcrossID": "",
+          "WordDownID": "",
+          "Letter": ""
+        },
+        {
+          "SquareID": 218,
+          "Number": "26",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": 25,
+          "Letter": "A"
+        },
+        {
+          "SquareID": 219,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": "",
+          "Letter": "C"
+        },
+        {
+          "SquareID": 220,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": 27,
+          "Letter": "C"
+        },
+        {
+          "SquareID": 221,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": "",
+          "Letter": "U"
+        },
+        {
+          "SquareID": 222,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": 22,
+          "Letter": "R"
+        },
+        {
+          "SquareID": 223,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": "",
+          "Letter": "A"
+        },
+        {
+          "SquareID": 224,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": 26,
+          "Letter": "T"
+        },
+        {
+          "SquareID": 225,
+          "Number": "",
+          "Blank": "",
+          "WordAcrossID": 14,
+          "WordDownID": "",
+          "Letter": "E"
+        }
+      ]
+    ],
+    "meta": {
+      "pdf": "crossword-20260414-87138.pdf",
+      "variant": "Times Cryptic",
+      "slug": "times-cryptic-no-29516",
+      "id": "87138",
+      "number": "29516",
+      "description": null,
+      "type": "crossword",
+      "difficulty": ""
+    },
+    "competitioncrossword": 0
+  }
+}
