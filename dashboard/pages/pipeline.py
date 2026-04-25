@@ -3,6 +3,7 @@
 import sqlite3
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 import streamlit as st
@@ -12,11 +13,78 @@ CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
 PYTHON = r"C:\Users\shute\PycharmProjects\AI_Solver\.venv\Scripts\python.exe"
 
 
+def _check_tftt_available(puzzle_number):
+    """Lightweight HTTP check: does a TFTT blog post exist for this puzzle?"""
+    import requests
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
+    }
+
+    url = f"https://timesforthetimes.co.uk/times-cryptic-{puzzle_number}"
+    try:
+        resp = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
+        if resp.status_code == 200:
+            return True
+    except Exception:
+        pass
+
+    try:
+        resp = requests.get(
+            "https://timesforthetimes.co.uk/wp-json/wp/v2/posts",
+            headers=headers, timeout=10,
+            params={"search": str(puzzle_number), "per_page": 3, "categories": "11,21"},
+        )
+        if resp.status_code == 200:
+            for post in resp.json():
+                if str(puzzle_number) in post.get("slug", ""):
+                    return True
+    except Exception:
+        pass
+
+    return False
+
+
+def _check_fifteensquared_available(source, puzzle_number):
+    """Lightweight HTTP check: does a FifteenSquared blog post exist for this puzzle?"""
+    import re
+    import requests
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
+    }
+    category_ids = {'guardian': 7, 'independent': 8}
+    cat_id = category_ids.get(source)
+    if not cat_id:
+        return False
+
+    try:
+        resp = requests.get(
+            "https://www.fifteensquared.net/wp-json/wp/v2/posts",
+            headers=headers, timeout=10,
+            params={"search": str(puzzle_number), "categories": str(cat_id), "per_page": 5},
+        )
+        if resp.status_code == 200:
+            pnum_str = str(puzzle_number)
+            pnum_pattern = re.compile(r'(?<!\d)' + re.escape(pnum_str) + r'(?!\d)')
+            for post in resp.json():
+                title = post.get("title", {}).get("rendered", "").replace(",", "")
+                slug = post.get("slug", "")
+                if pnum_pattern.search(title) or pnum_pattern.search(slug):
+                    return True
+    except Exception:
+        pass
+
+    return False
+
+
 def _get_unrun_puzzles(source_filter=None):
     """Get puzzles that have answers but haven't been fully run through the pipeline."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
-    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
+    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail', 'cordelia')"
     params = []
     if source_filter:
         where = "WHERE source = ?"
@@ -49,37 +117,50 @@ def render():
     st.subheader("Puzzles awaiting pipeline")
     filter_source = st.selectbox(
         "Filter by source",
-        ["all", "telegraph", "times", "guardian", "independent", "dailymail"],
+        ["all", "telegraph", "times", "guardian", "independent", "dailymail", "cordelia"],
         key="unrun_filter",
     )
     unrun = _get_unrun_puzzles(filter_source if filter_source != "all" else None)
 
     if unrun:
-        st.caption(f"Showing {len(unrun)} puzzles with answers but untried clues (most recent first)")
-        # Build a multi-select table with checkboxes
-        cols_header = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
-        cols_header[0].markdown("**Select**")
-        cols_header[1].markdown("**Source**")
-        cols_header[2].markdown("**Puzzle**")
-        cols_header[3].markdown("**Date**")
-        cols_header[4].markdown("**Total**")
-        cols_header[5].markdown("**Answers**")
-        cols_header[6].markdown("**Untried**")
-        cols_header[7].markdown("**Solved**")
+        today_str = date.today().isoformat()
+        today_puzzles = [r for r in unrun if r["publication_date"] == today_str]
+        older_puzzles = [r for r in unrun if r["publication_date"] != today_str]
 
         batch_selected = []
-        for i, r in enumerate(unrun):
-            cols = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
-            key = f"sel_{r['source']}_{r['puzzle_number']}"
-            if cols[0].checkbox("", key=key, label_visibility="collapsed"):
-                batch_selected.append((r["source"], str(r["puzzle_number"])))
-            cols[1].write(r["source"])
-            cols[2].write(str(r["puzzle_number"]))
-            cols[3].write(r["publication_date"] or "—")
-            cols[4].write(str(r["total"]))
-            cols[5].write(str(r["with_answer"]))
-            cols[6].write(str(r["untried"]))
-            cols[7].write(str(r["solved"] or 0))
+
+        def _render_unrun_table(rows, prefix):
+            selected = []
+            cols_header = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
+            cols_header[0].markdown("**Select**")
+            cols_header[1].markdown("**Source**")
+            cols_header[2].markdown("**Puzzle**")
+            cols_header[3].markdown("**Date**")
+            cols_header[4].markdown("**Total**")
+            cols_header[5].markdown("**Answers**")
+            cols_header[6].markdown("**Untried**")
+            cols_header[7].markdown("**Solved**")
+            for i, r in enumerate(rows):
+                cols = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
+                key = f"{prefix}_{r['source']}_{r['puzzle_number']}"
+                if cols[0].checkbox("", key=key, label_visibility="collapsed"):
+                    selected.append((r["source"], str(r["puzzle_number"])))
+                cols[1].write(r["source"])
+                cols[2].write(str(r["puzzle_number"]))
+                cols[3].write(r["publication_date"] or "—")
+                cols[4].write(str(r["total"]))
+                cols[5].write(str(r["with_answer"]))
+                cols[6].write(str(r["untried"]))
+                cols[7].write(str(r["solved"] or 0))
+            return selected
+
+        if today_puzzles:
+            st.caption(f"Today's puzzles ({len(today_puzzles)})")
+            batch_selected += _render_unrun_table(today_puzzles, "sel")
+
+        if older_puzzles:
+            with st.expander(f"Older puzzles ({len(older_puzzles)})", expanded=False):
+                batch_selected += _render_unrun_table(older_puzzles, "old")
 
         if batch_selected:
             st.info(f"{len(batch_selected)} puzzle(s) selected")
@@ -115,38 +196,40 @@ def render():
             key="fs_source",
         )
     with fs_col2:
-        fs_date = st.text_input("Date", value="", placeholder="YYYY-MM-DD (default: today)", key="fs_date")
+        fs_date = st.date_input("Date", value=date.today(), key="fs_date")
     with fs_col3:
         st.write("")  # spacer
         st.write("")
-        if st.button("Run Catch-up", type="primary", key="run_fs_catchup"):
-            source_arg = "" if fs_source == "Both" else f"--source {fs_source}"
-            date_arg = f"--date {fs_date}" if fs_date.strip() else ""
-            cmd = f"{sys.executable} scripts/fifteensquared_catchup.py {source_arg} {date_arg}".split()
-            # Remove empty strings from split
-            cmd = [c for c in cmd if c]
+        fs_run_clicked = st.button("Run Catch-up", type="primary", key="run_fs_catchup")
 
-            with st.spinner("Running FifteenSquared catch-up..."):
-                try:
-                    result = subprocess.run(
-                        cmd,
-                        cwd=str(PROJECT_ROOT),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        encoding="utf-8",
-                        errors="replace",
-                        timeout=300,
-                    )
-                    if result.returncode == 0:
-                        st.success("Catch-up completed.")
-                    else:
-                        st.error(f"Catch-up failed (exit {result.returncode})")
-                    output = result.stdout or "(no output)"
-                    with st.expander("Output", expanded=True):
-                        st.code(output[-3000:] if len(output) > 3000 else output)
-                except Exception as e:
-                    st.error(f"Error: {e}")
+    # Output at full width, outside the columns
+    if fs_run_clicked:
+        source_arg = "" if fs_source == "Both" else f"--source {fs_source}"
+        date_arg = f"--date {fs_date.isoformat()}"
+        cmd = f"{sys.executable} scripts/fifteensquared_catchup.py {source_arg} {date_arg}".split()
+        cmd = [c for c in cmd if c]
+
+        with st.spinner("Running FifteenSquared catch-up..."):
+            try:
+                result = subprocess.run(
+                    cmd,
+                    cwd=str(PROJECT_ROOT),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=300,
+                )
+                if result.returncode == 0:
+                    st.success("Catch-up completed.")
+                else:
+                    st.error(f"Catch-up failed (exit {result.returncode})")
+                output = result.stdout or "(no output)"
+                with st.expander("Output", expanded=True):
+                    st.code(output[-3000:] if len(output) > 3000 else output)
+            except Exception as e:
+                st.error(f"Error: {e}")
 
     st.divider()
 
@@ -206,26 +289,49 @@ def render():
             st.error("Enter a puzzle number or single clue text.")
             return
 
-        cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review"]
+        # Check for blog first — 10x cheaper via blog+Haiku (~$0.10 vs ~$1.30)
+        use_blog = False
+        blog_cmd = None
+        if not single_clue and puzzle_number:
+            if source == "times":
+                with st.spinner("Checking TFTT blog..."):
+                    if _check_tftt_available(puzzle_number):
+                        use_blog = True
+                        blog_cmd = [PYTHON, "-m", "sonnet_pipeline.tftt_pipeline",
+                                    str(puzzle_number), "--write-db"]
+                        st.success(f"TFTT blog found — using blog+Haiku pipeline (~$0.10)")
+                    else:
+                        st.warning("TFTT not posted — using full Sonnet pipeline")
+            elif source in ("guardian", "independent"):
+                with st.spinner("Checking FifteenSquared blog..."):
+                    if _check_fifteensquared_available(source, puzzle_number):
+                        use_blog = True
+                        blog_cmd = [PYTHON, "-m", "sonnet_pipeline.fifteensquared_pipeline",
+                                    source, str(puzzle_number), "--write-db"]
+                        st.success(f"FifteenSquared blog found — using blog+Haiku pipeline (~$0.10)")
+                    else:
+                        st.warning("FifteenSquared not posted — using full Sonnet pipeline")
 
-        if single_clue:
-            cmd += ["--single-clue", single_clue]
-            # If single clue, we still need a puzzle number for the pipeline
-            # but the auto-detect in run.py will handle it
-            if not puzzle_number and match:
-                # Use the first match's source and puzzle
-                cmd += ["--source", match[0]["source"], match[0]["puzzle_number"]]
-            elif puzzle_number:
-                cmd += ["--source", source, puzzle_number]
+        if use_blog:
+            cmd = blog_cmd
         else:
-            cmd += ["--source", source, puzzle_number]
+            cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review"]
 
-        if write_db:
-            cmd += ["--write-db"]
-        if force_api:
-            cmd += ["--force"]
-        if partials:
-            cmd += ["--partials"]
+            if single_clue:
+                cmd += ["--single-clue", single_clue]
+                if not puzzle_number and match:
+                    cmd += ["--source", match[0]["source"], match[0]["puzzle_number"]]
+                elif puzzle_number:
+                    cmd += ["--source", source, puzzle_number]
+            else:
+                cmd += ["--source", source, puzzle_number]
+
+            if write_db:
+                cmd += ["--write-db"]
+            if force_api:
+                cmd += ["--force"]
+            if partials:
+                cmd += ["--partials"]
 
         st.info(f"Running: `{' '.join(cmd)}`")
 
@@ -239,6 +345,7 @@ def render():
                     text=True,
                     encoding="utf-8",
                     errors="replace",
+                    timeout=1200,
                 )
                 if result.returncode == 0:
                     st.success("Pipeline completed successfully.")
@@ -247,6 +354,8 @@ def render():
                 output = result.stdout or "(no output)"
                 with st.expander("Output", expanded=True):
                     st.code(output[-5000:] if len(output) > 5000 else output)
+            except subprocess.TimeoutExpired:
+                st.error("Pipeline timed out after 20 minutes")
             except Exception as e:
                 st.error(f"Failed to run pipeline: {e}")
 
@@ -260,14 +369,37 @@ def _run_batch(puzzles, write_db, force, partials):
     for i, (source, puzzle_number) in enumerate(puzzles):
         progress.progress((i) / total, text=f"Running {source} #{puzzle_number} ({i+1}/{total})")
 
-        cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review",
-               "--source", source, puzzle_number]
-        if write_db:
-            cmd += ["--write-db"]
-        if force:
-            cmd += ["--force"]
-        if partials:
-            cmd += ["--partials"]
+        # Check for blog first — 10x cheaper via blog+Haiku
+        use_blog = False
+        blog_cmd = None
+        if source == "times":
+            try:
+                if _check_tftt_available(puzzle_number):
+                    use_blog = True
+                    blog_cmd = [PYTHON, "-m", "sonnet_pipeline.tftt_pipeline",
+                                str(puzzle_number), "--write-db"]
+            except Exception:
+                pass
+        elif source in ("guardian", "independent"):
+            try:
+                if _check_fifteensquared_available(source, puzzle_number):
+                    use_blog = True
+                    blog_cmd = [PYTHON, "-m", "sonnet_pipeline.fifteensquared_pipeline",
+                                source, str(puzzle_number), "--write-db"]
+            except Exception:
+                pass
+
+        if use_blog:
+            cmd = blog_cmd
+        else:
+            cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review",
+                   "--source", source, puzzle_number]
+            if write_db:
+                cmd += ["--write-db"]
+            if force:
+                cmd += ["--force"]
+            if partials:
+                cmd += ["--partials"]
 
         try:
             result = subprocess.run(
@@ -278,9 +410,13 @@ def _run_batch(puzzles, write_db, force, partials):
                 text=True,
                 encoding="utf-8",
                 errors="replace",
+                timeout=1200,
             )
             ok = result.returncode == 0
-            results.append((source, puzzle_number, ok, result.stdout or ""))
+            label = f"[BLOG] {result.stdout or ''}" if use_blog else (result.stdout or "")
+            results.append((source, puzzle_number, ok, label))
+        except subprocess.TimeoutExpired:
+            results.append((source, puzzle_number, False, "TIMEOUT (20 min)"))
         except Exception as e:
             results.append((source, puzzle_number, False, str(e)))
 
@@ -304,7 +440,7 @@ def _render_reset_section(source_filter=None):
     """Show recently run puzzles with checkboxes for batch reset."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
-    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')"
+    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail', 'cordelia')"
     params = []
     if source_filter:
         where = "WHERE source = ?"
@@ -331,26 +467,27 @@ def _render_reset_section(source_filter=None):
         return
 
     selected = []
-    cols_header = st.columns([1, 2, 2, 2, 1, 1, 1])
-    cols_header[0].markdown("**Select**")
-    cols_header[1].markdown("**Source**")
-    cols_header[2].markdown("**Puzzle**")
-    cols_header[3].markdown("**Date**")
-    cols_header[4].markdown("**Solved**")
-    cols_header[5].markdown("**Partial**")
-    cols_header[6].markdown("**Failed**")
 
-    for i, r in enumerate(rows):
-        cols = st.columns([1, 2, 2, 2, 1, 1, 1])
-        key = f"rst_{r['source']}_{r['puzzle_number']}"
-        if cols[0].checkbox("", key=key, label_visibility="collapsed"):
-            selected.append((r["source"], str(r["puzzle_number"])))
-        cols[1].write(r["source"])
-        cols[2].write(str(r["puzzle_number"]))
-        cols[3].write(r["publication_date"] or "—")
-        cols[4].write(str(r["solved"] or 0))
-        cols[5].write(str(r["partial"] or 0))
-        cols[6].write(str(r["failed"] or 0))
+    with st.expander(f"Previously run puzzles ({len(rows)})", expanded=False):
+        cols_header = st.columns([1, 2, 2, 2, 1, 1, 1])
+        cols_header[0].markdown("**Select**")
+        cols_header[1].markdown("**Source**")
+        cols_header[2].markdown("**Puzzle**")
+        cols_header[3].markdown("**Date**")
+        cols_header[4].markdown("**Solved**")
+        cols_header[5].markdown("**Partial**")
+        cols_header[6].markdown("**Failed**")
+        for i, r in enumerate(rows):
+            cols = st.columns([1, 2, 2, 2, 1, 1, 1])
+            key = f"rst_{r['source']}_{r['puzzle_number']}"
+            if cols[0].checkbox("", key=key, label_visibility="collapsed"):
+                selected.append((r["source"], str(r["puzzle_number"])))
+            cols[1].write(r["source"])
+            cols[2].write(str(r["puzzle_number"]))
+            cols[3].write(r["publication_date"] or "—")
+            cols[4].write(str(r["solved"] or 0))
+            cols[5].write(str(r["partial"] or 0))
+            cols[6].write(str(r["failed"] or 0))
 
     if selected:
         st.warning(f"{len(selected)} puzzle(s) selected for reset")
