@@ -240,7 +240,8 @@ def parse_puzzle(puzzle_json, puzzle_date, puzzle_title):
     return clues, grid_solution, rows, cols, puzzle_number
 
 
-def save_to_database(clues, puzzle_date, puzzle_number, grid_solution, grid_rows, grid_cols):
+def save_to_database(clues, puzzle_date, puzzle_number, grid_solution, grid_rows, grid_cols,
+                     source_url=None):
     """Save clues to clues table and grid to puzzle_grids.
 
     Returns count of clues saved.
@@ -284,13 +285,15 @@ def save_to_database(clues, puzzle_date, puzzle_number, grid_solution, grid_rows
                 UNIQUE(source, puzzle_number)
             )
         """)
+        # api_folder stores the source URL
         cursor.execute("""
             INSERT INTO puzzle_grids
-            (source, puzzle_number, solution, grid_rows, grid_cols)
-            VALUES (?, ?, ?, ?, ?)
+            (source, puzzle_number, solution, grid_rows, grid_cols, api_folder)
+            VALUES (?, ?, ?, ?, ?, ?)
             ON CONFLICT(source, puzzle_number) DO UPDATE SET
-                solution = COALESCE(excluded.solution, puzzle_grids.solution)
-        """, ('independent', puzzle_number, grid_solution, grid_rows, grid_cols))
+                solution = COALESCE(excluded.solution, puzzle_grids.solution),
+                api_folder = COALESCE(excluded.api_folder, puzzle_grids.api_folder)
+        """, ('independent', puzzle_number, grid_solution, grid_rows, grid_cols, source_url))
 
     conn.commit()
     conn.close()
@@ -343,7 +346,8 @@ def scrape_date(puzzle_date, dry_run=False):
 
     # Step 5: Save to database
     clue_count = save_to_database(
-        clues, puzzle_date, puzzle_number, grid_solution, grid_rows, grid_cols
+        clues, puzzle_date, puzzle_number, grid_solution, grid_rows, grid_cols,
+        source_url=puzzle_url
     )
     print(f"#{puzzle_number} — {clue_count} clues ({across}A + {down}D){grid_tag}")
     return puzzle_number, clue_count
