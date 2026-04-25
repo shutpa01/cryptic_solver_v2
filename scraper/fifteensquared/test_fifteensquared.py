@@ -652,6 +652,133 @@ def parse_fts_table(content):
     return clues
 
 
+def _split_p_on_br(p):
+    """Split a <p> tag's content on <br/> tags into text lines."""
+    lines = []
+    current = []
+    for child in p.children:
+        if getattr(child, 'name', None) == 'br':
+            line = ' '.join(current).strip()
+            if line:
+                lines.append(line)
+            current = []
+        elif hasattr(child, 'get_text'):
+            current.append(child.get_text(separator=' ', strip=True))
+        elif isinstance(child, str) and child.strip():
+            current.append(child.strip())
+    line = ' '.join(current).strip()
+    if line:
+        lines.append(line)
+    return lines
+
+
+def parse_single_para_format(content):
+    """Parse format where clue, answer, and explanation are in one <p> tag
+    separated by <br/> tags.
+
+    Handles two variants:
+      A) Bold answer: <p>NUM clue (enum)<br/><strong>ANSWER</strong><br/>explanation</p>
+      B) Inline answer: <p>NUM clue (enum)<br/>explanation = ANSWER</p>
+
+    Direction headers may be standalone <p> or combined with first clue via <br/>.
+    """
+    clues = []
+    paras = content.find_all('p')
+    if not paras:
+        return clues
+
+    direction = None
+
+    for p in paras:
+        text = p.get_text(separator=' ', strip=True)
+        if not text:
+            continue
+
+        text_lower = text.lower().strip()
+
+        # Standalone section header
+        if text_lower in ('across', 'down'):
+            direction = 'across' if text_lower == 'across' else 'down'
+            continue
+
+        # Combined header: <strong>Across</strong><br/>clue...
+        bold_tag = p.find(['strong', 'b'])
+        if bold_tag:
+            bold_text = bold_tag.get_text(strip=True).lower()
+            if bold_text in ('across', 'down'):
+                direction = bold_text
+                # Fall through to process clue lines in this same <p>
+
+        if direction is None:
+            continue
+
+        if not p.find('br'):
+            continue
+
+        # Split paragraph on <br/> into lines
+        lines = _split_p_on_br(p)
+
+        # Skip direction header line if present
+        start = 0
+        if lines and lines[0].lower() in ('across', 'down'):
+            start = 1
+
+        # Process clue+explanation pairs
+        i = start
+        while i + 1 < len(lines):
+            clue_line = lines[i]
+            expl_line = lines[i + 1]
+
+            clue_match = re.match(r'^(\d+)\s', clue_line)
+            if not clue_match:
+                i += 1
+                continue
+
+            clue_num = clue_match.group(1)
+
+            # Try bold answer first
+            answer = ''
+            bold = p.find(['strong', 'b'])
+            if bold:
+                candidate = bold.get_text(strip=True)
+                candidate = re.sub(r'[\s:–—\-]+$', '', candidate).strip()
+                if is_answer(candidate):
+                    answer = candidate
+
+            # If no bold answer, find ALL CAPS answer in explanation
+            if not answer:
+                ans_match = re.search(r'=\s*([A-Z][A-Z\s\-\']{1,}[A-Z])', expl_line)
+                if not ans_match:
+                    ans_match = re.search(r'\b([A-Z][A-Z\-\s]{1,}[A-Z])\b', expl_line)
+                if ans_match:
+                    answer = ans_match.group(1).strip()
+
+            if not answer:
+                i += 1
+                continue
+
+            # Extract enumeration
+            m = ENUM_PAT.search(clue_line)
+            enum = m.group(1).strip() if m else ''
+
+            # Extract definition from underlined text in this paragraph
+            definition = _extract_definition(p)
+
+            dir_suffix = 'a' if direction == 'across' else 'd'
+            clues.append({
+                'clue_number': f'{clue_num}{dir_suffix}',
+                'direction': direction,
+                'clue_text': clue_line,
+                'enumeration': enum,
+                'answer': answer,
+                'definition': definition,
+                'explanation': expl_line,
+            })
+            i += 2  # Skip the explanation line
+
+    return clues
+
+
 def parse_paragraph_format(content):
     """Parse paragraph-based format where clues are in <p> tags, not tables.
 
@@ -797,6 +924,10 @@ def parse_post(html):
     if not clues:
         clues = parse_two_col_table(content)
         fmt = 'two_col_table'
+
+    if not clues:
+        clues = parse_single_para_format(content)
+        fmt = 'single_para'
 
     if not clues:
         clues = parse_paragraph_format(content)
