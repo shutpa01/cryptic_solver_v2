@@ -7,6 +7,7 @@ from web.models import (
     get_clue_by_id, get_hint_steps, get_hint_content, compute_hint_tier,
 )
 from web.rate_limit import rate_limit
+from web.session_token import has_valid_session
 
 bp = Blueprint("hints", __name__)
 
@@ -39,8 +40,18 @@ def reveal():
     """Reveal a specific hint step (or all) for a clue.
 
     Expects form data: token (signed), step (int 1-based, or "all").
+    Also requires a valid session cookie (set by /clue or /puzzle
+    on page load) so a naked POST without a prior page-fetch is
+    rejected. Admin sessions bypass.
+
     Returns an HTML fragment for HTMX to swap in.
     """
+    if not g.is_admin and not has_valid_session():
+        return render_template(
+            "partials/hint_error.html",
+            message="Session expired — please reload the page.",
+        ), 403
+
     token = request.form.get("token", "")
     step_raw = request.form.get("step", "")
 

@@ -17,11 +17,14 @@ from web.models import (
     classify_puzzle, compute_hint_tier, get_hint_steps, compute_solve_source,
     get_hint_content, clue_slug,
 )
+from flask import make_response
+
 from web.routes.hints import generate_token
 from web.routes.clue_seo import (
     generate_meta_description, generate_faq_schema, generate_breadcrumb_schema,
 )
 from web.rate_limit import rate_limit
+from web.session_token import issue_session_cookie
 
 bp = Blueprint("clue", __name__)
 
@@ -166,7 +169,7 @@ def clue_page(slug):
     from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
-    return render_template(
+    response = make_response(render_template(
         "clue.html",
         clue=clue_dict,
         other_appearances=other_appearances,
@@ -174,4 +177,5 @@ def clue_page(slug):
         meta_description=meta_description,
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
-    )
+    ))
+    return issue_session_cookie(response)

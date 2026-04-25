@@ -3,7 +3,7 @@
 import json
 import re
 
-from flask import Blueprint, render_template, abort, request, Response, g
+from flask import Blueprint, render_template, abort, make_response, request, Response, g
 
 from web.models import (
     classify_puzzle, TYPE_LABELS, _is_valid_type, get_puzzle_clues,
@@ -15,6 +15,7 @@ from web.routes.hints import generate_token
 from web.routes.clue import generate_clue_slug
 from web.grid import reconstruct_grid, parse_grid_solution, build_grid_from_json
 from web.rate_limit import rate_limit
+from web.session_token import issue_session_cookie
 
 bp = Blueprint("puzzle", __name__)
 
@@ -167,7 +168,7 @@ def puzzle(source, puzzle_type, puzzle_number):
     breadcrumb_schema = generate_puzzle_breadcrumb_schema(source, puzzle_type, type_label, puzzle_number)
     faq_schema = generate_puzzle_faq_schema(source, type_label, puzzle_number, len(all_clues_list), pub_date)
 
-    return render_template(
+    response = make_response(render_template(
         "puzzle.html",
         source=source,
         puzzle_type=puzzle_type,
@@ -183,7 +184,8 @@ def puzzle(source, puzzle_type, puzzle_number):
         tutorial_prefill=tutorial_prefill,
         breadcrumb_schema=breadcrumb_schema,
         faq_schema=faq_schema,
-    )
+    ))
+    return issue_session_cookie(response)
 
 
 @bp.route("/<source>/<puzzle_type>/<int:puzzle_number>/grid")
