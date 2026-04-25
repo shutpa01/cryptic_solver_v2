@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Crossword Answer{% endblock %}
+{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% if clue.answer %} — {{ clue.answer }}{% endif %} — Crossword Clue Explained{% endblock %}
 
 {% block meta %}
 <meta name="description" content="{{ meta_description }}">
-<meta property="og:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — Cryptic Crossword Clue">
+<meta property="og:title" content="{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% if clue.answer %} — {{ clue.answer }}{% endif %} — Crossword Clue Explained">
 <meta property="og:description" content="{{ meta_description }}">
 <meta property="og:type" content="article">
 {% endblock %}
@@ -92,6 +92,22 @@
         </details>
     </div>
 </div>
+
+{% if cordelia_clue_url %}
+<div class="card" style="background:linear-gradient(135deg,#f8f0ff 0%,#f0f5ff 100%);border:2px solid #7c3aed;padding:1.5rem 1.25rem">
+    <div style="display:flex;align-items:center;gap:1rem">
+        <img src="https://justcordelia.com/static/cordelia.jpg" alt="Cordelia" style="width:64px;height:64px;border-radius:50%;border:2px solid #7c3aed;flex-shrink:0">
+        <div>
+            <div style="font-size:1.3rem;font-weight:800;color:#7c3aed;letter-spacing:-0.01em">Cordelia</div>
+            <div style="font-size:0.85rem;color:#6b7280;margin-bottom:0.5rem">Cryptic Crosswords, Explained</div>
+            <a href="{{ cordelia_clue_url }}" rel="noopener" style="display:inline-block;background:#7c3aed;color:white;font-weight:700;font-size:0.9rem;padding:0.5rem 1.25rem;border-radius:6px;text-decoration:none">
+                Solve this clue interactively &rarr;
+            </a>
+        </div>
+    </div>
+    <div style="margin-top:0.75rem;font-size:0.8rem;color:#6b7280;text-align:center">Progressive hints &middot; solving tools &middot; full puzzle grid &middot; <strong style="color:#059669">free, no sign-up</strong></div>
+</div>
+{% endif %}
 
 {% if clue.puzzle_number %}
 <div class="card">
