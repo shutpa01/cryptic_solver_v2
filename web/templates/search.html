@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{% if q %}Search: {{ q }} — Cordelia{% else %}Search — Cordelia{% endif %}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-brand font-bold text-gray-900 mb-4">Search</h1>
+
+<form action="/search" method="get" class="mb-6" autocomplete="off">
+    <div class="flex">
+        <input type="text" name="q" value="{{ q }}"
+               placeholder="Search by clue text or puzzle number..."
+               class="flex-1 px-4 py-3 rounded-l-lg border border-gray-200 text-sm focus:outline-none focus:border-indigo-400"
+               autofocus>
+        <button type="submit"
+                class="px-5 py-3 rounded-r-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 cursor-pointer">
+            Search
+        </button>
+    </div>
+</form>
+
+{% if too_short is defined and too_short %}
+<p class="text-sm text-gray-500">Please enter at least 3 characters.</p>
+{% endif %}
+
+{% if puzzles is defined and puzzles %}
+<h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Puzzles</h2>
+<div class="space-y-2 mb-6">
+    {% for p in puzzles %}
+    <a href="/{{ p.source }}/{{ p.type_slug }}/{{ p.puzzle_number }}"
+       class="block bg-white rounded-lg border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-sm transition">
+        <span class="font-semibold text-indigo-600">{{ p.source | source_name }} {{ p.type_label }} #{{ p.puzzle_number }}</span>
+        {% if p.publication_date %}
+        <span class="text-sm text-gray-400 ml-2">{{ p.publication_date }}</span>
+        {% endif %}
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if results %}
+<h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Clues ({{ results | length }})</h2>
+<div class="space-y-2">
+    {% for r in results %}
+    <a href="/clue/{{ r.slug }}"
+       class="block bg-white rounded-lg border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-sm transition">
+        <div class="text-gray-900 font-medium">{{ r.clue_text }}{% if r.enumeration %} <span class="text-gray-400">({{ r.enumeration }})</span>{% endif %}</div>
+        <div class="text-sm text-gray-500 mt-1">
+            {{ r.source | source_name }} #{{ r.puzzle_number }}
+            {% if r.answer %}
+            <span class="text-gray-300 mx-1">|</span>
+            <span class="font-medium text-indigo-600">{{ r.answer }}</span>
+            {% endif %}
+            {% if r.publication_date %}
+            <span class="text-gray-300 mx-1">|</span>
+            {{ r.publication_date }}
+            {% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% elif q and (puzzles is not defined or not puzzles) and (too_short is not defined or not too_short) %}
+<p class="text-sm text-gray-500">No results found for "{{ q }}".</p>
+{% endif %}
+{% endblock %}

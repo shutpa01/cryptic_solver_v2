@@ -30,114 +30,42 @@ bp = Blueprint("clue", __name__)
 # Slug helpers
 # ---------------------------------------------------------------------------
 
-def generate_clue_slug(clue_text, answer):
-    """Create a URL-safe slug from clue text and answer.
+def generate_clue_slug(clue_text, answer=None, clue_id=None):
+    """Create a URL-safe slug from clue ID and clue text.
 
-    Format: clue-text-words-here-ANSWER
-    Example: "Companions shredded corset" + "ESCORT" -> "companions-shredded-corset-ESCORT"
+    Format: {id}-{clue-text-words}
+    Example: 2046138-parisian-is-running-home-to-host-a-european
 
-    The answer is kept uppercase to visually separate it from the clue words
-    and to make parsing unambiguous (last uppercase segment = answer).
+    Answer is NOT included in the slug — it would defeat the purpose
+    of progressive hints.
     """
+    if not clue_id:
+        return None
     # Clean clue text: lowercase, replace non-alphanumeric with hyphens
     text = clue_text.lower().strip()
     text = re.sub(r"[^a-z0-9]+", "-", text)
     text = text.strip("-")
-
     if not text:
         return None
-
-    # Clean answer: uppercase, alphanumeric only
-    ans = re.sub(r"[^A-Za-z0-9]", "", (answer or "")).upper()
-    if not ans:
-        return None
-
-    return f"{text}-{ans}"
+    # Truncate to keep URLs reasonable
+    words = text.split("-")[:12]
+    text = "-".join(words)
+    return f"{clue_id}-{text}"
 
 
-def get_clue_by_slug(slug):
-    """Reverse a slug back to a DB lookup.
+def parse_clue_slug(slug):
+    """Extract clue ID from slug.
 
-    Parses the slug to extract the answer (last uppercase segment) and
-    clue text words, then searches the database.
-
-    Returns a list of matching clue rows (with structured_explanations
-    joined), ordered by best explanation first.
+    Returns (clue_id, slug_text) or (None, None).
     """
     if not slug:
-        return []
-
-    # Split slug into parts
-    parts = slug.split("-")
-    if len(parts) < 2:
-        return []
-
-    # Find the answer: scan from the end for consecutive uppercase parts.
-    # The answer is always the last segment(s), all uppercase.
-    answer_parts = []
-    clue_parts = []
-    found_answer = False
-
-    for i in range(len(parts) - 1, -1, -1):
-        p = parts[i]
-        if not found_answer:
-            # Check if this part is all uppercase (the answer)
-            if p and p == p.upper() and p.isalpha():
-                answer_parts.insert(0, p)
-            else:
-                # Once we hit a non-uppercase part, everything before is clue text
-                found_answer = True
-                clue_parts = parts[:i + 1]
-        # If we already found the transition, we're done
-        if found_answer:
-            break
-
-    if not found_answer:
-        # All parts were uppercase — unlikely but handle it
-        # Treat last part as answer, rest as clue
-        answer_parts = [parts[-1]]
-        clue_parts = parts[:-1]
-
-    if not answer_parts or not clue_parts:
-        return []
-
-    answer = "".join(answer_parts)
-
-    db = get_db()
-
-    # Use LIKE on first few clue words to narrow candidates, plus exact answer match
-    where_clauses = ["UPPER(c.answer) = ?"]
-    params = [answer.upper()]
-
-    for w in clue_parts[:3]:
-        if w:
-            where_clauses.append("LOWER(c.clue_text) LIKE ?")
-            params.append(f"%{w}%")
-
-    sql = """SELECT c.id, c.source, c.puzzle_number, c.publication_date,
-                    c.clue_number, c.direction, c.clue_text, c.enumeration,
-                    c.answer, c.definition, c.wordplay_type, c.explanation,
-                    c.ai_explanation, se.components, se.confidence, se.model_version
-             FROM clues c
-             LEFT JOIN structured_explanations se ON se.clue_id = c.id
-             WHERE c.source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
-               AND c.clue_text IS NOT NULL
-               AND %s
-             ORDER BY
-                 se.confidence DESC,
-                 c.publication_date DESC
-             LIMIT 50""" % " AND ".join(where_clauses)
-
-    rows = db.execute(sql, params).fetchall()
-
-    # Filter to exact slug match in Python
-    matches = []
-    for row in rows:
-        row_slug = generate_clue_slug(row["clue_text"], row["answer"])
-        if row_slug == slug:
-            matches.append(row)
-
-    return matches
+        return None, None
+    parts = slug.split("-", 1)
+    if not parts or not parts[0].isdigit():
+        return None, None
+    clue_id = int(parts[0])
+    slug_text = parts[1] if len(parts) > 1 else ""
+    return clue_id, slug_text
 
 
 # ---------------------------------------------------------------------------
@@ -160,26 +88,35 @@ def clue_page(slug):
 
     Optional ?id= param to select a specific clue when slug has duplicates.
     """
-    # If specific id requested, use that
-    specific_id = request.args.get("id", type=int)
-    if specific_id:
-        from web.models import get_clue_by_id
-        clue = get_clue_by_id(specific_id)
-        if clue is None:
-            abort(404)
-        # Verify slug matches
-        actual_slug = generate_clue_slug(clue["clue_text"], clue["answer"])
-        if actual_slug != slug:
-            abort(404)
-        matches = get_clue_by_slug(slug)
-        # Remove the selected clue from "others"
-        matches = [m for m in matches if m["id"] != specific_id]
-    else:
-        matches = get_clue_by_slug(slug)
-        if not matches:
-            abort(404)
-        clue = matches[0]
-        matches = matches[1:]
+    # Look up by clue ID embedded in slug
+    clue_id, slug_text = parse_clue_slug(slug)
+
+    # Also support ?id= parameter for backwards compatibility
+    if not clue_id:
+        clue_id = request.args.get("id", type=int)
+
+    if not clue_id:
+        abort(404)
+
+    from web.models import get_clue_by_id
+    clue = get_clue_by_id(clue_id)
+    if clue is None:
+        abort(404)
+
+    # Find other appearances of the same clue text + answer
+    db = get_db()
+    other_rows = db.execute(
+        """SELECT id, source, puzzle_number, publication_date, clue_number, direction,
+                  clue_text, enumeration, answer, definition, wordplay_type,
+                  explanation, ai_explanation
+           FROM clues
+           WHERE answer = ? AND clue_text = ? AND id != ?
+             AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+           ORDER BY publication_date DESC
+           LIMIT 5""",
+        (clue["answer"], clue["clue_text"], clue_id),
+    ).fetchall()
+    matches = list(other_rows)
 
     clue_dict = dict(clue)
 
@@ -211,14 +148,14 @@ def clue_page(slug):
         o_pnum = other["puzzle_number"]
         o_pub = other["publication_date"] if "publication_date" in other.keys() else None
         o_type_slug, o_type_label = classify_puzzle(o_source, o_pnum, o_pub)
-        o_slug = generate_clue_slug(other["clue_text"], other["answer"])
+        o_slug = generate_clue_slug(other["clue_text"], clue_id=other["id"])
         other_appearances.append({
             "source": o_source,
             "puzzle_number": o_pnum,
             "publication_date": o_pub,
             "type_label": o_type_label,
             "answer": other["answer"],
-            "clue_url": f"/clue/{o_slug}?id={other['id']}",
+            "clue_url": f"/clue/{o_slug}",
         })
 
     # SEO data

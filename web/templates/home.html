@@ -30,8 +30,22 @@
         </a>
     </div>
 
-    <!-- Right: The three offerings -->
+    <!-- Right: Search + offerings -->
     <div class="flex flex-col gap-3 w-full lg:pt-4">
+
+        <form action="/search" method="get" class="w-full" autocomplete="off">
+            <div class="flex relative">
+                <input type="text" name="q" id="main-q"
+                       placeholder="Search by clue text or puzzle number..."
+                       class="flex-1 px-4 py-3 rounded-l-lg border border-gray-200 text-sm focus:outline-none focus:border-indigo-400"
+                       autofocus>
+                <button type="submit"
+                        class="px-5 py-3 rounded-r-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 cursor-pointer">
+                    Search
+                </button>
+                <div id="main-suggest" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-lg shadow-lg z-50 max-h-80 overflow-y-auto"></div>
+            </div>
+        </form>
 
         <a href="/puzzles"
            class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition">
@@ -48,6 +62,24 @@
             <div>
                 <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Learn</div>
                 <div class="text-sm text-gray-400 leading-snug">How cryptic clues work. No jargon, no snobbery.</div>
+            </div>
+        </a>
+
+        <a href="/tools"
+           class="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition">
+            <div class="text-3xl flex-shrink-0">&#128295;</div>
+            <div>
+                <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Tools</div>
+                <div class="text-sm text-gray-400 leading-snug">Anagram solver and pattern matcher. Real answers from 500,000+ published clues.</div>
+            </div>
+        </a>
+
+        <a href="/cordelia/daily-mashup/"
+           class="group flex items-center gap-4 bg-purple-50 rounded-xl border border-purple-100 px-5 py-4 hover:border-purple-300 hover:shadow-md transition">
+            <div class="text-3xl flex-shrink-0">&#127922;</div>
+            <div>
+                <div class="text-base font-bold text-purple-800 group-hover:text-purple-600 transition">Cordelia's Daily Mash-up</div>
+                <div class="text-sm text-gray-500 leading-snug">Why do one crossword when you can do five-in-one? A new puzzle every day, borrowing the best clues from all five publications.</div>
             </div>
         </a>
 
@@ -72,9 +104,12 @@
         var container = document.getElementById('continue-solving-list');
         var section = document.getElementById('continue-solving');
         solves.forEach(function(s) {
+            var wrapper = document.createElement('div');
+            wrapper.className = 'relative group';
+
             var a = document.createElement('a');
             a.href = s.url + '?solve=1';
-            a.className = 'group flex items-center gap-3 bg-white rounded-lg border border-emerald-100 px-4 py-3 hover:border-emerald-400 hover:shadow-sm transition';
+            a.className = 'flex items-center gap-3 bg-white rounded-lg border border-emerald-100 px-4 py-3 pr-9 hover:border-emerald-400 hover:shadow-sm transition';
             var progress = s.progress || '';
             var parts = progress.split('/');
             var pct = (parts.length === 2 && parseInt(parts[1]) > 0)
@@ -91,7 +126,26 @@
                         (s.date ? ' &middot; ' + s.date : '') +
                     '</div>' +
                 '</div>';
-            container.appendChild(a);
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 transition';
+            btn.innerHTML = '&#x2715;';
+            btn.title = 'Remove';
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var stored = [];
+                try { stored = JSON.parse(localStorage.getItem('cordelia_active_solves') || '[]'); } catch(ex) {}
+                stored = stored.filter(function(x) { return x.id !== s.id; });
+                localStorage.setItem('cordelia_active_solves', JSON.stringify(stored));
+                wrapper.remove();
+                if (!container.children.length) section.classList.add('hidden');
+            });
+
+            wrapper.appendChild(a);
+            wrapper.appendChild(btn);
+            container.appendChild(wrapper);
         });
         section.classList.remove('hidden');
     } catch(e) {}
@@ -119,4 +173,84 @@
         But hey&nbsp;&mdash; I'm just Cordelia."
     </p>
 </section>
+
+<script>
+(function() {
+    var timer = null;
+    var selectedIdx = -1;
+    var inputEl = document.getElementById('main-q');
+    var dropdownEl = document.getElementById('main-suggest');
+    if (!inputEl || !dropdownEl) return;
+
+    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    inputEl.addEventListener('input', function() {
+        clearTimeout(timer);
+        var q = inputEl.value.trim();
+        if (q.length < 3) { dropdownEl.innerHTML = ''; dropdownEl.classList.add('hidden'); return; }
+        timer = setTimeout(function() { fetchSuggestions(q); }, 250);
+        selectedIdx = -1;
+    });
+
+    inputEl.addEventListener('keydown', function(e) {
+        var items = dropdownEl.querySelectorAll('a');
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
+            updateSelected(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIdx = Math.max(selectedIdx - 1, 0);
+            updateSelected(items);
+        } else if (e.key === 'Enter' && selectedIdx >= 0) {
+            e.preventDefault();
+            window.location.href = items[selectedIdx].href;
+        }
+    });
+
+    inputEl.addEventListener('focus', function() {
+        if (dropdownEl.children.length > 0) dropdownEl.classList.remove('hidden');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!inputEl.contains(e.target) && !dropdownEl.contains(e.target)) {
+            dropdownEl.classList.add('hidden');
+        }
+    });
+
+    function updateSelected(items) {
+        for (var i = 0; i < items.length; i++) {
+            items[i].style.background = i === selectedIdx ? '#eef2ff' : '';
+        }
+    }
+
+    function fetchSuggestions(q) {
+        fetch('/search/suggest?q=' + encodeURIComponent(q))
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (!data.length) { dropdownEl.innerHTML = ''; dropdownEl.classList.add('hidden'); return; }
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    var d = data[i];
+                    if (d.type === 'puzzle') {
+                        html += '<a href="' + d.url + '" class="block px-4 py-2 text-sm hover:bg-indigo-50 border-b border-gray-100">'
+                            + '<span class="font-semibold text-indigo-600">' + esc(d.text) + '</span>'
+                            + (d.date ? ' <span class="text-gray-400 text-xs">' + esc(d.date) + '</span>' : '')
+                            + '</a>';
+                    } else {
+                        html += '<a href="' + d.url + '" class="block px-4 py-2 text-sm hover:bg-indigo-50 border-b border-gray-100">'
+                            + '<span class="text-gray-800">' + esc(d.text) + '</span>'
+                            + ' <span class="font-mono font-bold text-indigo-700 text-xs">' + esc(d.answer) + '</span>'
+                            + ' <span class="text-gray-400 text-xs">' + esc(d.source) + '</span>'
+                            + '</a>';
+                    }
+                }
+                dropdownEl.innerHTML = html;
+                dropdownEl.classList.remove('hidden');
+            })
+            .catch(function() { dropdownEl.classList.add('hidden'); });
+    }
+})();
+</script>
 {% endblock %}
