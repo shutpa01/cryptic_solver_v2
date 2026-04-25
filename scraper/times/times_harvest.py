@@ -502,15 +502,15 @@ def collect_and_extract_from_archive(driver, harvest_data, creds, max_years=1,
                         harvest_data[puzzle_type][puzzle_num] = api_url
                         total_harvested += 1
                         save_harvest(harvest_data)
-                        print(f"✓ Verified & saved")
+                        print(f"OK: Verified & saved")
                     else:
-                        print(f"✗ URL returned {resp.status_code}")
+                        print(f"FAIL: URL returned {resp.status_code}")
                         total_errors += 1
                 except Exception as e:
-                    print(f"✗ Fetch error: {e}")
+                    print(f"FAIL: Fetch error: {e}")
                     total_errors += 1
             else:
-                print(f"✗ No API URL found")
+                print(f"FAIL: No API URL found")
                 total_errors += 1
 
             puzzles_since_restart += 1
@@ -518,6 +518,7 @@ def collect_and_extract_from_archive(driver, harvest_data, creds, max_years=1,
             # Restart browser periodically to prevent crashes
             if puzzles_since_restart >= RESTART_EVERY:
                 print(f"\n  [Restarting browser to prevent crashes...]")
+                from times_all import is_logged_in as _is_logged_in, login as _login
                 try:
                     driver.quit()
                 except:
@@ -526,19 +527,12 @@ def collect_and_extract_from_archive(driver, harvest_data, creds, max_years=1,
                 try:
                     driver = create_driver()
                     time.sleep(2)
-                    login(driver, creds)
+                    if not _is_logged_in(driver):
+                        _login(driver)
                     puzzles_since_restart = 0
                 except Exception as e:
-                    print(f"  [Restart failed: {e}, continuing with current browser]")
-                    # Try to create a fresh driver without login
-                    try:
-                        driver = create_driver()
-                        time.sleep(2)
-                        login(driver, creds)
-                        puzzles_since_restart = 0
-                    except:
-                        print(f"  [Second restart attempt failed, stopping]")
-                        break
+                    print(f"  [Restart failed: {e}, stopping]")
+                    break
 
         save_progress(year, month_name, week_text)
 
@@ -546,11 +540,9 @@ def collect_and_extract_from_archive(driver, harvest_data, creds, max_years=1,
 
 
 def create_driver():
-    """Create a new browser instance with network logging."""
-    options = uc.ChromeOptions()
-    options.add_argument("--start-maximized")
-    options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
-    return uc.Chrome(options=options, version_main=144)
+    """Create browser using the nightly scraper's method (persistent profile, auto Chrome version)."""
+    from times_all import create_browser
+    return create_browser()
 
 
 def main():
@@ -588,8 +580,10 @@ def main():
     driver = create_driver()
 
     try:
-        # Login
-        login(driver, creds)
+        # Login using nightly scraper's method (persistent profile, current selectors)
+        from times_all import is_logged_in as _is_logged_in, login as _login
+        if not _is_logged_in(driver):
+            _login(driver)
 
         # Collect and extract in one pass - clicking each puzzle from week pages
         harvested, skipped, errors, driver = collect_and_extract_from_archive(
