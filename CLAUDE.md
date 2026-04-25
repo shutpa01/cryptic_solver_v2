@@ -8,6 +8,13 @@
 3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
 4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
 
+## MEMORY HYGIENE — CRITICAL
+
+5. **Save to memory frequently during long conversations.** Do not wait until the
+   end of a session. If a new concept, feature design, or decision is discussed,
+   save it to memory promptly. Conversations can be lost — memory is the only
+   thing that persists. If in doubt, save it.
+
 ## QUALITY NOT SPEED — CRITICAL
 
 The user is in pursuit of quality, not speed. Speed does not impress.
@@ -38,6 +45,14 @@ or make any changes in response to a question.
 Only write, create, edit, or delete files when the user has explicitly instructed
 you to do so in the same message. The words "fix", "change", "update", "add",
 "remove" are instructions. Questions are not.
+
+## READ WHAT THE USER SAYS — CRITICAL
+
+Thoroughly read every word the user writes before responding. If the user states
+a fact ("I ran it from the pipeline", "I already tried X"), take it at face value
+and factor it into your response. Do not ignore stated facts and investigate
+something the user has already told you the answer to. Failing to read the user's
+message wastes their time and erodes trust.
 
 ## VERIFY BEFORE CLAIMING — CRITICAL
 
