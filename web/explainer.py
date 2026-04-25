@@ -22,7 +22,7 @@ CRYPTIC_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
 
 # Reuse the same model as the batch pipeline
-SONNET_MODEL = "claude-sonnet-4-20250514"
+SONNET_MODEL = "claude-sonnet-4-6"
 
 # Rate limiting: max calls per minute
 MAX_CALLS_PER_MINUTE = 10
