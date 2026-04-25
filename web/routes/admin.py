@@ -115,6 +115,14 @@ def edit_save(clue_id):
             clue_id,
         ),
     )
+
+    # Mark as manually edited so reverify won't overwrite
+    db.execute(
+        """UPDATE structured_explanations SET model_version = 'manual_edit'
+           WHERE clue_id = ? AND model_version NOT IN ('manual_approve', 'manual_edit')""",
+        (clue_id,),
+    )
+
     db.commit()
 
     # Rebuild grid if answer changed
@@ -1025,7 +1033,8 @@ def reverify_puzzle(source, puzzle_number):
     db = get_admin_db()
     clues = db.execute(
         """SELECT c.id, c.clue_text, c.answer, c.definition, c.wordplay_type,
-                  c.ai_explanation, se.confidence AS old_confidence
+                  c.ai_explanation, se.confidence AS old_confidence,
+                  se.model_version AS se_model
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            WHERE c.source = ? AND c.puzzle_number = ?
@@ -1047,7 +1056,14 @@ def reverify_puzzle(source, puzzle_number):
     import sqlite3 as _sqlite3
     ref_conn = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
 
+    MANUAL_MODELS = ("manual_approve", "manual_edit")
+
     for clue in clues:
+        # Never re-score manually approved or edited clues
+        if clue["se_model"] in MANUAL_MODELS:
+            unchanged += 1
+            continue
+
         result = verifier.verify(
             clue["clue_text"], clue["answer"],
             clue["definition"], clue["wordplay_type"],
@@ -1144,9 +1160,9 @@ def reverify_puzzle(source, puzzle_number):
         lines.append('<strong>Upgraded:</strong> ' + ', '.join(upgraded_list))
     if downgraded_list:
         lines.append('<strong>Downgraded:</strong> ' + ', '.join(downgraded_list))
-    lines.append('Refresh to see updated tiers.')
     body = '<br>'.join(lines)
     return (
         f'<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">'
         f'{body}</div>'
+        f'<script>setTimeout(function(){{ window.location.reload(); }}, 2000);</script>'
     )
