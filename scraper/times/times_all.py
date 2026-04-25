@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """The Times Cryptic Crossword Scraper
 
-Uses undetected-chromedriver to log in and discover API ID from network traffic.
-No longer relies on offset calculations - captures the real API URL.
-Saves clues directly to the clues table in clues_master.db.
+Phase 1 (HTTP): Fetches puzzle listing page, extracts API URL from puzzle page HTML,
+and downloads puzzle JSON — no browser needed. Gets the real puzzle number from
+the API (meta.number) rather than estimating from date counting.
 
-Uses a SINGLE browser session for all puzzle types — login once, fetch all.
+Phase 2 (Selenium fallback): If HTTP fails (e.g. Times changes page rendering),
+falls back to the original Selenium approach using undetected-chromedriver.
 
-Requires .env file with:
+Saves clues to the clues table and grid to puzzle_grids in clues_master.db.
+
+Requires .env file with (only needed for Selenium fallback):
 TIMES_EMAIL=your_email
 TIMES_PASSWORD=your_password
 """
@@ -69,6 +72,94 @@ PUZZLE_TYPES = {
 }
 
 LOGIN_URL = "https://login.thetimes.co.uk/"
+LISTING_URL = "https://www.thetimes.com/puzzles/crossword"
+
+# URL patterns for finding puzzle links on the listing page
+LINK_PATTERNS = {
+    'cryptic': re.compile(r'href="(/puzzles/crossword/times-cryptic-no-(\d+)-[^"]+)"'),
+    'sunday-cryptic': re.compile(r'href="(/puzzles/crossword/sunday-times-cryptic-no-(\d+)-[^"]+)"'),
+}
+
+API_URL_PATTERN = re.compile(
+    r'(https://feeds\.thetimes\.(?:com|co\.uk)/puzzles/sp/[^"\']+)'
+)
+
+
+def fetch_puzzle_http(puzzle_type):
+    """Fetch today's puzzle using plain HTTP requests (no Selenium).
+
+    Returns (json_data, puzzle_number, api_url) or (None, None, None) on failure.
+    """
+    config = PUZZLE_TYPES[puzzle_type]
+    print(f"\n  HTTP: Fetching {config['name']}...")
+
+    # Step 1: Get listing page and find the latest puzzle link
+    try:
+        r = requests.get(LISTING_URL, timeout=15)
+        if r.status_code != 200:
+            print(f"  HTTP: Listing page returned {r.status_code}")
+            return None, None, None
+    except Exception as e:
+        print(f"  HTTP: Listing page error: {e}")
+        return None, None, None
+
+    pattern = LINK_PATTERNS.get(puzzle_type)
+    if not pattern:
+        print(f"  HTTP: No link pattern for {puzzle_type}")
+        return None, None, None
+
+    matches = pattern.findall(r.text)
+    if not matches:
+        print(f"  HTTP: No puzzle links found for {puzzle_type}")
+        return None, None, None
+
+    # Pick the highest puzzle number (most recent)
+    matches.sort(key=lambda x: int(x[1]), reverse=True)
+    path, puzzle_number_str = matches[0]
+    puzzle_number = int(puzzle_number_str)
+    puzzle_page_url = f"https://www.thetimes.com{path}"
+    print(f"  HTTP: Found #{puzzle_number} at {path}")
+
+    # Step 2: Get puzzle page and extract API URL
+    try:
+        r2 = requests.get(puzzle_page_url, timeout=15)
+        if r2.status_code != 200:
+            print(f"  HTTP: Puzzle page returned {r2.status_code}")
+            return None, None, None
+    except Exception as e:
+        print(f"  HTTP: Puzzle page error: {e}")
+        return None, None, None
+
+    api_match = API_URL_PATTERN.search(r2.text)
+    if not api_match:
+        print(f"  HTTP: No API URL found in puzzle page")
+        return None, None, None
+
+    api_base = api_match.group(1).rstrip('/')
+    api_url = api_base + '/data.json'
+    print(f"  HTTP: API URL: {api_url}")
+
+    # Step 3: Fetch the puzzle JSON
+    try:
+        r3 = requests.get(api_url, timeout=15)
+        if r3.status_code != 200:
+            print(f"  HTTP: API returned {r3.status_code}")
+            return None, None, None
+        json_data = r3.json()
+    except Exception as e:
+        print(f"  HTTP: API fetch error: {e}")
+        return None, None, None
+
+    # Verify puzzle number from API matches what we found on the page
+    meta_number = json_data.get('data', {}).get('meta', {}).get('number')
+    if meta_number:
+        meta_number = int(meta_number)
+        if meta_number != puzzle_number:
+            print(f"  HTTP: WARNING — page says #{puzzle_number} but API says #{meta_number}, using API number")
+        puzzle_number = meta_number
+
+    print(f"  HTTP: Successfully fetched #{puzzle_number}")
+    return json_data, puzzle_number, api_url
 
 
 def estimate_puzzle_number(puzzle_type, target_date=None):
@@ -636,35 +727,121 @@ def main():
 
     print(f"Puzzle types to fetch: {', '.join(types_to_run)}")
 
-    # Single browser session with persistent profile
-    driver = create_browser()
-    try:
-        if not is_logged_in(driver):
-            login(driver)
+    # --- Phase 1: Try HTTP (no browser) ---
+    print(f"\n--- Phase 1: HTTP fetch (no browser) ---")
+    results = {}
+    selenium_needed = []
 
-        results = {}
-        for pt in types_to_run:
+    for pt in types_to_run:
+        json_data, puzzle_number, api_url = fetch_puzzle_http(pt)
+
+        if json_data and puzzle_number:
+            # Check if already fetched
+            if not force and puzzle_exists(puzzle_number, pt):
+                print(f"  Puzzle {puzzle_number} already in database.")
+                results[pt] = True
+                continue
+
+            # Parse and save
+            puzzle_data = parse_puzzle(json_data)
+            if not puzzle_data.get('puzzle_number') and puzzle_number:
+                puzzle_data['puzzle_number'] = puzzle_number
+
+            if puzzle_data.get('puzzle_number'):
+                # Delete existing if force mode
+                if force and puzzle_exists(puzzle_number, pt):
+                    print(f"  Removing existing puzzle {puzzle_number}...")
+                    conn = sqlite3.connect(DB_PATH)
+                    conn.execute("DELETE FROM clues WHERE source = 'times' AND puzzle_number = ?",
+                                 (str(puzzle_number),))
+                    conn.commit()
+                    conn.close()
+
+                save_to_database(puzzle_data)
+
+                # Save grid to puzzle_grids
+                solution = json_data.get('data', {}).get('copy', {}).get('settings', {}).get('solution', '')
+                gridsize = json_data.get('data', {}).get('copy', {}).get('gridsize', {})
+                rows = int(gridsize.get('rows', 15))
+                cols = int(gridsize.get('cols', 15))
+
+                # Fix unchecked cells in solution (spaces -> dots where grid says white)
+                grid_array = json_data.get('data', {}).get('grid')
+                if solution and len(solution) == rows * cols and grid_array:
+                    chars = list(solution)
+                    for r in range(rows):
+                        for c in range(cols):
+                            idx = r * cols + c
+                            if chars[idx] == ' ' and grid_array[r][c].get('Blank') != 'blank':
+                                chars[idx] = '.'
+                    solution = ''.join(chars)
+
+                # If no plaintext solution, build structure-only from grid_array
+                if (not solution or len(solution) != rows * cols) and grid_array:
+                    solution = ''.join(
+                        ' ' if grid_array[r][c].get('Blank') == 'blank' else '.'
+                        for r in range(rows) for c in range(cols)
+                    )
+
+                if solution and len(solution) == rows * cols:
+                    conn = sqlite3.connect(DB_PATH)
+                    conn.execute("""
+                        INSERT OR REPLACE INTO puzzle_grids
+                        (source, puzzle_number, solution, grid_rows, grid_cols, api_folder)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                    """, ('times', str(puzzle_number), solution, rows, cols, api_url))
+                    conn.commit()
+                    conn.close()
+                    print(f"  Grid saved ({rows}x{cols})")
+
+                # Save JSON backup
+                json_path = SCRIPT_DIR / f"times_{pt}_{puzzle_number}.json"
+                with open(json_path, 'w') as f:
+                    json.dump(json_data, f, indent=2)
+                print(f"  JSON backup: {json_path}")
+
+                results[pt] = True
+            else:
+                print(f"  HTTP: Failed to parse puzzle data")
+                selenium_needed.append(pt)
+        else:
+            print(f"  HTTP: Failed for {pt}, will try Selenium")
+            selenium_needed.append(pt)
+
+    # --- Phase 2: Selenium fallback for any that failed ---
+    if selenium_needed:
+        print(f"\n--- Phase 2: Selenium fallback for {selenium_needed} ---")
+        driver = create_browser()
+        try:
+            if not is_logged_in(driver):
+                login(driver)
+
+            for pt in selenium_needed:
+                try:
+                    results[pt] = process_puzzle(driver, pt, force=force)
+                except Exception as e:
+                    print(f"Error fetching {pt}: {e}")
+                    results[pt] = False
+
+        except Exception as e:
+            print(f"Login/browser error: {e}")
             try:
-                results[pt] = process_puzzle(driver, pt, force=force)
-            except Exception as e:
-                print(f"Error fetching {pt}: {e}")
-                results[pt] = False
-
-    except Exception as e:
-        print(f"Login/browser error: {e}")
-        try:
-            driver.save_screenshot(str(SCRIPT_DIR / "times_error.png"))
-            with open(str(SCRIPT_DIR / "times_error.html"), 'w', encoding='utf-8') as f:
-                f.write(driver.page_source)
-        except Exception:
-            pass
-        results = {pt: False for pt in types_to_run}
-    finally:
-        try:
-            driver.quit()
-        except Exception:
-            pass
-        print("Browser closed.")
+                driver.save_screenshot(str(SCRIPT_DIR / "times_error.png"))
+                with open(str(SCRIPT_DIR / "times_error.html"), 'w', encoding='utf-8') as f:
+                    f.write(driver.page_source)
+            except Exception:
+                pass
+            for pt in selenium_needed:
+                if pt not in results:
+                    results[pt] = False
+        finally:
+            try:
+                driver.quit()
+            except Exception:
+                pass
+            print("Browser closed.")
+    else:
+        print(f"\n--- All puzzles fetched via HTTP, no browser needed ---")
 
     # Summary
     print(f"\n{'=' * 60}")
