@@ -903,7 +903,7 @@ solveAddToGrid = function(input) {
 // Clue type map for contextual tips + answer explanations
 var _tutClueTypes = {
     {% for clue in across + down %}
-    "{{ clue.id }}": {type: "{{ clue.wordplay_type }}", label: "{{ clue.clue_number }}{{ clue.direction[0] }}", answer: "{{ clue.answer }}", expl: {{ clue.ai_explanation | tojson }}},
+    "{{ clue.id }}": {type: "{{ clue.wordplay_type }}", label: "{{ clue.clue_number }}{{ clue.direction[0] }}", answer: "{{ clue.answer }}"},
     {% endfor %}
 };
 
@@ -959,9 +959,6 @@ solveCheck = function(input) {
         var total = document.querySelectorAll('.clue-card').length;
         var remaining = total - _tutCorrectCount - 1;  // -1 for clue 1 already done
 
-        // Build explanation in Cordelia's voice
-        var expl = info && info.expl ? '<br><br><strong>' + info.answer + '</strong>: ' + info.expl : '';
-
         if (remaining > 0) {
             var encouragements = [
                 'Nice one!',
@@ -975,7 +972,7 @@ solveCheck = function(input) {
                 'Look at you go!'
             ];
             var enc = encouragements[Math.min(_tutCorrectCount - 1, encouragements.length - 1)];
-            var msg = enc + expl + '<br><br>' + remaining + ' to go. Don\'t forget <strong>Add to grid</strong> for those crossing letters.';
+            var msg = enc + '<br><br>' + remaining + ' to go. Don\'t forget <strong>Add to grid</strong> for those crossing letters.';
             setTimeout(function() {
                 _tutStep++;
                 _tutTip(msg);
