@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ source_name }} Cryptic Crossword #{{ puzzle_number }} — Answers &amp; Explanations{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ source_name }} Cryptic Crossword #{{ puzzle_number }} answers and explanations.">
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb">
+    <a href="/">Home</a> /
+    <a href="/source/{{ source }}/">{{ source_name }}</a> /
+    <span>#{{ puzzle_number }}</span>
+</nav>
+
+<h1 class="page-heading">{{ source_name }} Cryptic #{{ puzzle_number }}</h1>
+
+<div style="text-align: center; padding: 2rem 0;">
+    <p style="font-size: 1.1rem; color: #555; margin-bottom: 0.5rem;">
+        This puzzle hasn't been published yet — answers and explanations will appear here as soon as it's available.
+    </p>
+    <p style="font-size: 0.9rem; color: #888; margin-bottom: 2rem;">
+        Check back soon, or browse recent puzzles below.
+    </p>
+
+    {% if recent_puzzles %}
+    <h2 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin-bottom: 0.75rem;">
+        Recent {{ source_name }} puzzles
+    </h2>
+    <div style="max-width: 400px; margin: 0 auto;">
+        {% for p in recent_puzzles %}
+        <a href="/puzzle/{{ source }}/{{ p.puzzle_number }}"
+           style="display: block; padding: 0.6rem 1rem; margin-bottom: 0.4rem; border: 1px solid #e5e5e5; border-radius: 4px; text-align: center; background: white;">
+            <strong>#{{ p.puzzle_number }}</strong>
+            {% if p.publication_date %}
+            <span style="color: #999; margin-left: 0.5rem; font-size: 0.85rem;">{{ p.publication_date }}</span>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: #f3f0ff; border-radius: 8px;">
+    <p style="font-size: 0.95rem; color: #5b21b6; margin-bottom: 0.5rem;">
+        <strong>Want more than just the answers?</strong>
+    </p>
+    <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 0.75rem;">
+        Progressive hints, solving tools, full puzzle grid — free, no sign-up.
+    </p>
+    <a href="https://justcordelia.com/{{ source }}/cryptic/{{ puzzle_number }}"
+       style="display: inline-block; padding: 0.5rem 1.5rem; background: #7c3aed; color: white; border-radius: 6px; font-weight: 600; text-decoration: none;">
+        Try Cordelia
+    </a>
+</div>
+{% endblock %}

@@ -107,6 +107,9 @@ def generate(domain):
 
     print(f"\nUnique slugs: {unique_count}")
 
+    from datetime import date as _date
+    today = _date.today().isoformat()
+
     # --- Puzzle sitemap ---
     puzzle_cursor = conn.execute("""
         SELECT source, puzzle_number, MAX(publication_date) as pub_date
@@ -133,14 +136,38 @@ def generate(domain):
             pf.write("    <changefreq>monthly</changefreq>\n")
             pf.write("  </url>\n")
             puzzle_count += 1
+
+        # Future puzzle "coming soon" pages — pre-index before publication
+        future_ranges = [
+            ("telegraph", 31000, 31999),
+            ("dailymail", 16000, 19999),
+            ("times", 26000, 39999),
+            ("guardian", 20000, 39999),
+            ("independent", 1, 19999),
+        ]
+        for f_source, lo, hi in future_ranges:
+            row = conn.execute(
+                "SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues "
+                "WHERE source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?",
+                (f_source, lo, hi),
+            ).fetchone()
+            if not row or row[0] is None:
+                continue
+            latest = row[0]
+            for i in range(1, 6):
+                pf.write("  <url>\n")
+                pf.write(f"    <loc>{domain}/puzzle/{f_source}/{latest + i}</loc>\n")
+                pf.write(f"    <lastmod>{today}</lastmod>\n")
+                pf.write("    <changefreq>daily</changefreq>\n")
+                pf.write("  </url>\n")
+                puzzle_count += 1
+
         pf.write("</urlset>\n")
 
     sitemap_files.append("sitemap_puzzles.xml")
     print(f"  Wrote sitemap_puzzles.xml ({puzzle_count} puzzles)")
 
     # Write sitemap index (with lastmod so Google knows when to re-read)
-    from datetime import date as _date
-    today = _date.today().isoformat()
     index_path = OUT_DIR / "sitemap_index.xml"
     with open(index_path, "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n')

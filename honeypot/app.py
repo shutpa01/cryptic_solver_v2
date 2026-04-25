@@ -24,6 +24,54 @@ ALLOWED_SOURCES_SQL = "('telegraph', 'times', 'guardian', 'independent', 'dailym
 
 # Guardian puzzle_number < 20000 are quiptic/everyman/quick-cryptic — not served
 EXCLUDE_NON_CRYPTIC = "AND NOT (source = 'guardian' AND CAST(puzzle_number AS INTEGER) < 20000)"
+
+# Future puzzle prediction for "coming soon" pages
+FUTURE_PUZZLE_RANGES = [
+    ("telegraph", 31000, 31999),
+    ("dailymail", 16000, 19999),
+    ("times", 26000, 39999),
+    ("guardian", 20000, 39999),
+    ("independent", 1, 19999),
+]
+SOURCE_DISPLAY = {
+    "telegraph": "Telegraph", "dailymail": "Daily Mail",
+    "times": "Times", "guardian": "Guardian", "independent": "Independent",
+}
+
+
+def _is_future_puzzle(db, source, puzzle_number):
+    """Check if puzzle_number is a predicted future puzzle (next 5 ahead)."""
+    try:
+        pnum = int(puzzle_number)
+    except (ValueError, TypeError):
+        return False
+    for src, lo, hi in FUTURE_PUZZLE_RANGES:
+        if src != source:
+            continue
+        if not (lo <= pnum <= hi):
+            return False
+        row = db.execute(
+            "SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues "
+            "WHERE source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?",
+            (source, lo, hi),
+        ).fetchone()
+        if not row or row[0] is None:
+            return False
+        latest = row[0]
+        return latest < pnum <= latest + 5
+    return False
+
+
+def _get_recent_puzzles(db, source, limit=5):
+    """Return recent puzzles for a source."""
+    rows = db.execute(
+        "SELECT puzzle_number, MAX(publication_date) AS pub_date "
+        "FROM clues WHERE source = ? AND puzzle_number IS NOT NULL "
+        f"{EXCLUDE_NON_CRYPTIC} "
+        "GROUP BY puzzle_number ORDER BY pub_date DESC LIMIT ?",
+        (source, limit),
+    ).fetchall()
+    return [{"puzzle_number": r["puzzle_number"], "publication_date": r["pub_date"]} for r in rows]
 EXCLUDE_NON_CRYPTIC_C = "AND NOT (c.source = 'guardian' AND CAST(c.puzzle_number AS INTEGER) < 20000)"
 
 # --- Blog attribution for human explanations ---
@@ -115,6 +163,43 @@ def wordplay_label_filter(value):
 @app.template_filter("source_name")
 def source_name_filter(value):
     return SOURCE_NAMES.get(value, (value or "").title())
+
+
+# ---------------------------------------------------------------------------
+# Cordelia cross-link helpers
+# ---------------------------------------------------------------------------
+
+CORDELIA_BASE = "https://justcordelia.com"
+
+# Puzzle type classification matching Cordelia's classify_puzzle()
+def _cordelia_puzzle_type(source, puzzle_number, publication_date=None):
+    """Return Cordelia puzzle_type slug for a given source/number."""
+    try:
+        num = int(puzzle_number)
+    except (ValueError, TypeError):
+        return "cryptic"
+    if source == "telegraph":
+        if 3000 <= num <= 3999:
+            return "prize"
+        return "cryptic"
+    elif source == "times":
+        if 5000 <= num <= 9999:
+            return "sunday"
+        return "cryptic"
+    elif source == "guardian":
+        if 4000 <= num <= 5999:
+            return "everyman"
+        return "cryptic"
+    return "cryptic"
+
+
+def cordelia_puzzle_url(source, puzzle_number, publication_date=None):
+    ptype = _cordelia_puzzle_type(source, puzzle_number, publication_date)
+    return f"{CORDELIA_BASE}/{source}/{ptype}/{puzzle_number}"
+
+
+def cordelia_clue_url(slug):
+    return f"{CORDELIA_BASE}/clue/{slug}"
 
 
 # ---------------------------------------------------------------------------
@@ -315,6 +400,8 @@ def generate_meta_description(clue):
     wordplay_type = clue.get("wordplay_type")
     has_explanation = clue.get("_has_explanation", False)
 
+    answer = clue.get("answer", "")
+
     if definition and wordplay_type and has_explanation:
         offer = "Full explanation with definition, wordplay type, and step-by-step breakdown."
     elif definition and wordplay_type:
@@ -324,7 +411,10 @@ def generate_meta_description(clue):
     else:
         offer = "Answer to this cryptic crossword clue."
 
-    desc = f'Cryptic crossword clue: "{core}" from {origin}. {offer}'
+    if answer:
+        desc = f'Cryptic crossword clue: "{core}" from {origin}. The answer is {answer}. {offer}'
+    else:
+        desc = f'Cryptic crossword clue: "{core}" from {origin}. {offer}'
     if len(desc) > 160:
         desc = desc[:157] + "..."
     return desc
@@ -674,6 +764,8 @@ def clue_page(slug):
         meta_description=meta_description,
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
+        cordelia_clue_url=cordelia_clue_url(slug),
+        cordelia_puzzle_url=cordelia_puzzle_url(row["source"], row["puzzle_number"]),
     )
 
 
@@ -704,27 +796,88 @@ def puzzle_page(source, puzzle_number):
     """, (source, puzzle_number)).fetchall()
 
     if not rows:
+        if _is_future_puzzle(db, source, puzzle_number):
+            recent = _get_recent_puzzles(db, source, limit=5)
+            return render_template(
+                "coming_soon.html",
+                source=source,
+                source_name=SOURCE_DISPLAY.get(source, source.title()),
+                puzzle_number=puzzle_number,
+                recent_puzzles=recent,
+            )
         abort(404)
 
-    # Get blog attribution once for the whole puzzle
-    blog_name, blog_url = get_blog_attribution(source, puzzle_number) if source != "telegraph" else (None, None)
-
     clue_dicts = []
+    has_human_explanation = False
     for row in rows:
         d = dict(row)
         ai_expl = _build_explanation(row)
         d["_explanation"] = ai_expl
         if not ai_expl and source != "telegraph":
             d["_human_explanation"] = row["explanation"] if row["explanation"] else None
+            if d["_human_explanation"]:
+                has_human_explanation = True
         else:
             d["_human_explanation"] = None
         clue_dicts.append(d)
+
+    # Only attribute blog source when we're actually serving their explanations
+    if has_human_explanation and source != "telegraph":
+        blog_name, blog_url = get_blog_attribution(source, puzzle_number)
+    else:
+        blog_name, blog_url = None, None
 
     pub_date = clue_dicts[0]["publication_date"] if clue_dicts else None
     across = [c for c in clue_dicts if c["direction"] == "across"]
     down = [c for c in clue_dicts if c["direction"] == "down"]
 
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
+
+    # --- Puzzle-level structured data for SEO ---
+    base_url = "https://clairesclues.xyz"
+    src_label = source_name_filter(source)
+
+    # FAQ schema: top question with answer list
+    answered = [c for c in clue_dicts if c.get("answer")]
+    faq_entries = []
+    if answered:
+        answer_lines = "; ".join(
+            f'{c["clue_number"]}{"a" if c.get("direction") == "across" else "d"} {c["answer"]}'
+            for c in answered[:30]
+        )
+        faq_entries.append({
+            "@type": "Question",
+            "name": f"What are the answers to {src_label} Cryptic #{puzzle_number}?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f"The answers are: {answer_lines}.",
+            },
+        })
+    if pub_date:
+        faq_entries.append({
+            "@type": "Question",
+            "name": f"When was {src_label} Cryptic #{puzzle_number} published?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f"{src_label} Cryptic Crossword #{puzzle_number} was published on {pub_date}.",
+            },
+        })
+    puzzle_faq_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faq_entries,
+    }, ensure_ascii=False) if faq_entries else None
+
+    # Breadcrumb schema
+    puzzle_breadcrumb_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{base_url}/"},
+            {"@type": "ListItem", "position": 2, "name": src_label, "item": f"{base_url}/source/{source}/"},
+            {"@type": "ListItem", "position": 3, "name": f"#{puzzle_number}"},
+        ],
+    }, ensure_ascii=False)
 
     return render_template(
         "puzzle.html",
@@ -738,6 +891,9 @@ def puzzle_page(source, puzzle_number):
         blog_name=blog_name,
         blog_url=blog_url,
         source_puzzle_url=source_puzzle_url,
+        faq_schema=puzzle_faq_schema,
+        breadcrumb_schema=puzzle_breadcrumb_schema,
+        cordelia_puzzle_url=cordelia_puzzle_url(source, puzzle_number, pub_date),
     )
 
 
