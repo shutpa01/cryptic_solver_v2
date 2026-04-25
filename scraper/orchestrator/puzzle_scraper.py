@@ -49,6 +49,28 @@ def _rsync(local_path, remote_path, timeout=300):
     )
 
 
+def _rsync_json_dir(local_dir, remote_dir, timeout=300):
+    """Rsync only *.json files from a directory to a remote directory.
+
+    Trailing slashes on both sides matter: copies CONTENTS of local_dir into
+    remote_dir, not the directory itself. --mkpath creates the remote dir
+    if missing. No --delete: missing local files are left alone on remote.
+    """
+    s = str(local_dir).replace('\\', '/')
+    if len(s) >= 2 and s[1] == ':':
+        s = '/' + s[0].lower() + s[2:]
+    s = s.rstrip('/') + '/'
+    remote = remote_dir.rstrip('/') + '/'
+    cmd = (
+        f"rsync -cz --mkpath --include='*.json' --exclude='*' "
+        f"{s} {remote}"
+    )
+    return subprocess.run(
+        [GIT_BASH, '-c', cmd],
+        capture_output=True, text=True, timeout=timeout,
+    )
+
+
 # ── Expected puzzle schedule ──────────────────────────────────────────────
 # Each entry: label, source, puzzle_number range (lo, hi), days of week
 # Days: 0=Mon, 1=Tue, 2=Wed, 3=Thu, 4=Fri, 5=Sat, 6=Sun
@@ -621,6 +643,36 @@ def _sync_cordelia():
             print("  cryptic_new.db uploaded")
         else:
             print("  cryptic_new.db not found, skipping")
+
+        # Upload puzzle JSON files (grid structure source — local-only data,
+        # required by web/grid.py:build_grid_from_json so the droplet can
+        # render grids using the publisher's authoritative clue numbering
+        # instead of falling back to algorithmic re-derivation).
+        json_dirs = [
+            (PROJECT_ROOT / 'scraper' / 'telegraph', '/opt/cordelia/scraper/telegraph'),
+            (PROJECT_ROOT / 'scraper' / 'times', '/opt/cordelia/scraper/times'),
+            (PROJECT_ROOT / 'scraper' / 'guardian', '/opt/cordelia/scraper/guardian'),
+        ]
+        for local_dir, remote_dir in json_dirs:
+            if not local_dir.exists():
+                print(f"  {local_dir.name}: skipped (local dir missing)")
+                continue
+            try:
+                result = _rsync_json_dir(
+                    local_dir,
+                    f"{CORDELIA_DROPLET}:{remote_dir}",
+                    timeout=300,
+                )
+                if result.returncode == 0:
+                    print(f"  {local_dir.name}: JSON synced")
+                else:
+                    # Don't abort — DB sync already succeeded, restart should still happen
+                    print(f"  {local_dir.name}: JSON sync failed (rc={result.returncode}): "
+                          f"{result.stderr.strip()[:200]}")
+            except subprocess.TimeoutExpired:
+                print(f"  {local_dir.name}: JSON sync timed out")
+            except Exception as e:
+                print(f"  {local_dir.name}: JSON sync error: {e}")
 
         # Restart service
         result = subprocess.run(
