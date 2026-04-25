@@ -1,0 +1,7 @@
+{# Inline 429 message for HTMX swaps. Rendered into the same target the
+   normal hint content would land in, so the user sees feedback right where
+   they clicked. #}
+<div class="mt-2 rounded px-3 py-2 text-sm bg-amber-50 border border-amber-200 text-amber-800">
+    <strong>Slow down a moment.</strong>
+    Too many requests in a short time — try again in about {{ retry_after }} seconds.
+</div>

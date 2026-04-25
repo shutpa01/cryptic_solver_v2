@@ -63,6 +63,17 @@
     </script>
     <script>var _ht = "{{ helper_token }}";</script>
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script>
+        // Make HTMX swap 429 (rate limit) responses into the target so the
+        // user sees the friendly fragment instead of a silent click. Other
+        // 4xx/5xx responses keep their default error behaviour.
+        document.body.addEventListener('htmx:beforeSwap', function(evt) {
+            if (evt.detail.xhr && evt.detail.xhr.status === 429) {
+                evt.detail.shouldSwap = true;
+                evt.detail.isError = false;
+            }
+        });
+    </script>
     <style>
         /* Tier badge colours */
         .tier-high { background-color: #16a34a; color: white; }

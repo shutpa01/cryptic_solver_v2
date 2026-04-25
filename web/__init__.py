@@ -5,6 +5,7 @@ import re
 
 from markupsafe import Markup
 from flask import Flask, g, request, session
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from web.config import config_by_name
 from web import db
@@ -34,6 +35,19 @@ def create_app(config_name=None):
 
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
+
+    # nginx (in production) sets X-Forwarded-For. ProxyFix rewrites
+    # request.remote_addr to the real client IP so per-IP rate limits
+    # (web/rate_limit.py) and helper.py's existing IP throttle work.
+    # If the deployment has no proxy in front, set PROXY_HOPS = 0.
+    proxy_hops = app.config.get("PROXY_HOPS", 1)
+    if proxy_hops:
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app,
+            x_for=proxy_hops,
+            x_proto=proxy_hops,
+            x_host=proxy_hops,
+        )
 
     # Database teardown
     db.init_app(app)

@@ -14,11 +14,13 @@ from web.models import (
 from web.routes.hints import generate_token
 from web.routes.clue import generate_clue_slug
 from web.grid import reconstruct_grid, parse_grid_solution, build_grid_from_json
+from web.rate_limit import rate_limit
 
 bp = Blueprint("puzzle", __name__)
 
 
 @bp.route("/<source>/<puzzle_type>/<int:puzzle_number>")
+@rate_limit(scope="puzzle_page", limit=60, window=60)
 def puzzle(source, puzzle_type, puzzle_number):
     """Puzzle page showing all clues with hint tier badges and reveal buttons."""
     # Validate source/type

@@ -17,6 +17,12 @@ class Config:
     SESSION_COOKIE_SAMESITE = "Lax"
     CLUES_DB = str(CLUES_DB)
     PUZZLES_PER_PAGE = PUZZLES_PER_PAGE
+    # Kill switch for per-IP rate limits (web/rate_limit.py).
+    # Set False in an emergency to disable without a code change.
+    RATE_LIMIT_ENABLED = True
+    # Trust one proxy hop (nginx) for X-Forwarded-For when reading the
+    # client IP. Set to 0 in environments with no proxy in front.
+    PROXY_HOPS = 1
 
 
 class DevelopmentConfig(Config):

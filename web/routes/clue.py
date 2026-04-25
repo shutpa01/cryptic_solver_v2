@@ -21,6 +21,7 @@ from web.routes.hints import generate_token
 from web.routes.clue_seo import (
     generate_meta_description, generate_faq_schema, generate_breadcrumb_schema,
 )
+from web.rate_limit import rate_limit
 
 bp = Blueprint("clue", __name__)
 
@@ -144,6 +145,7 @@ def get_clue_by_slug(slug):
 # ---------------------------------------------------------------------------
 
 @bp.route("/clue/<slug>")
+@rate_limit(scope="clue_page", limit=60, window=60)
 def clue_page(slug):
     """Individual clue page — looked up by URL slug.
 

@@ -6,6 +6,7 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from web.models import (
     get_clue_by_id, get_hint_steps, get_hint_content, compute_hint_tier,
 )
+from web.rate_limit import rate_limit
 
 bp = Blueprint("hints", __name__)
 
@@ -33,6 +34,7 @@ def _validate_token(token):
 
 
 @bp.route("/reveal", methods=["POST"])
+@rate_limit(scope="reveal", limit=30, window=60)
 def reveal():
     """Reveal a specific hint step (or all) for a clue.
 
@@ -103,6 +105,7 @@ def reveal():
 
 
 @bp.route("/explain", methods=["POST"])
+@rate_limit(scope="explain", limit=5, window=60)
 def explain():
     """Generate an explanation for a clue via the Sonnet API.
 
