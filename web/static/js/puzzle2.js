@@ -41,6 +41,7 @@ function openToolsOverlay(clueId) {
     var patInput = document.getElementById('pattern-input');
     var enumInput = document.getElementById('pattern-enum');
     if (enumInput) enumInput.value = enumVal;
+    if (typeof _updatePatternEnumToggle === 'function') _updatePatternEnumToggle(enumVal);
     var crossing = input.getAttribute('data-crossing');
     if (crossing && patInput) {
         patInput.value = crossing.replace(/_/g, '?');
@@ -149,8 +150,13 @@ function overlayWordHelp(span) {
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
 
-    // Word lookup in the overlay results area
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#solver-results', swap: 'innerHTML'});
+    // Word lookup in the overlay results area — include enum so filter button appears
+    var lookupUrl = '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht;
+    if (_toolsClueId) {
+        var _luAns = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+        if (_luAns && _luAns.dataset.enum) lookupUrl += '&enum=' + encodeURIComponent(_luAns.dataset.enum);
+    }
+    htmx.ajax('GET', lookupUrl, {target: '#solver-results', swap: 'innerHTML'});
 }
 
 function _toolsFillAnswer(word) {
@@ -249,13 +255,12 @@ function closeAllPanels(except) {
         var openBtn = document.getElementById('helper-open');
         if (openBtn) openBtn.classList.remove('hidden');
     }
-    // Close grid
-    if (except !== 'grid') {
+    // Close grid (but never in solve mode — grid persists)
+    if (except !== 'grid' && !_solveMode) {
         var gridArea = document.getElementById('grid-area');
         if (gridArea) gridArea.innerHTML = '';
-        // Reset grid toggle button text
         var gridBtn = document.getElementById('grid-toggle');
-        if (gridBtn) gridBtn.textContent = _solveMode ? 'Show full grid' : 'Show full grid';
+        if (gridBtn) gridBtn.textContent = 'Show full grid';
     }
 }
 
@@ -379,6 +384,18 @@ document.body.addEventListener('htmx:afterSwap', function(e) {
 var _solveMode = false;
 
 function toggleSolveMode() {
+    // Block solve mode if no grid is available
+    if (!_solveMode && !_cfg.hasGrid) {
+        var btn = document.getElementById('solve-toggle');
+        var orig = btn.textContent;
+        btn.textContent = 'No grid available for this puzzle';
+        btn.classList.add('bg-red-100', 'text-red-700', 'border-red-300');
+        setTimeout(function() {
+            btn.textContent = orig;
+            btn.classList.remove('bg-red-100', 'text-red-700', 'border-red-300');
+        }, 3000);
+        return;
+    }
     _solveMode = !_solveMode;
     var btn = document.getElementById('solve-toggle');
     if (_solveMode) {
@@ -393,6 +410,22 @@ function toggleSolveMode() {
         _exitSolveMode();
     }
     localStorage.setItem(_solveKey + '_active', _solveMode ? '1' : '');
+}
+
+function _prefillDbAnswers() {
+    var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
+    var changed = false;
+    document.querySelectorAll('.clue-card').forEach(function(card) {
+        var clueId = card.dataset.clueId;
+        var answer = (card.dataset.answer || '').replace(/\s/g, '').toUpperCase();
+        if (answer && !state[clueId]) {
+            state[clueId] = { value: answer, correct: true };
+            changed = true;
+        }
+    });
+    if (changed) {
+        localStorage.setItem(_solveKey, JSON.stringify(state));
+    }
 }
 
 function _enterSolveMode() {
@@ -421,10 +454,17 @@ function _enterSolveMode() {
     document.getElementById('solve-grid-btn').classList.remove('hidden');
     var saveBtn = document.getElementById('solve-save-btn');
     if (saveBtn) saveBtn.classList.remove('hidden');
+    // Admin: pre-populate solve state with existing DB answers so crossings
+    // appear for unsolved clues and the grid shows all known letters.
+    if (_cfg.isAdmin) {
+        _prefillDbAnswers();
+    }
     // Restore saved answers and crossings
     _restoreSolveState();
     _updateProgress();
     _restoreCachedCrossings() || _fetchCrossings();
+    // Auto-show grid — it persists throughout solve mode
+    showSolveGrid();
 }
 
 function _exitSolveMode() {
@@ -448,8 +488,24 @@ function _exitSolveMode() {
     document.getElementById('solve-grid-btn').classList.add('hidden');
     var saveBtn = document.getElementById('solve-save-btn');
     if (saveBtn) saveBtn.classList.add('hidden');
-    // Reset grid button text
+    // Clear the solve-mode grid and reset button text
+    var gridArea = document.getElementById('grid-area');
+    if (gridArea) gridArea.innerHTML = '';
     document.getElementById('grid-toggle').textContent = 'Show full grid';
+}
+
+function toggleSolveHints(clueId) {
+    var row = document.getElementById('explain-' + clueId);
+    if (!row) return;
+    var isHidden = row.style.display === 'none';
+    if (isHidden) {
+        row.style.display = '';
+    } else {
+        row.style.display = 'none';
+        // Clear any revealed hint content when hiding
+        var hints = document.getElementById('hints-' + clueId);
+        if (hints) hints.innerHTML = '';
+    }
 }
 
 function solveCheckOrDelete(btn) {
@@ -491,6 +547,8 @@ function solveDelete(input, btn) {
     // Recalculate crossings without the deleted answer
     localStorage.removeItem(_crossingsCacheKey);
     _fetchCrossings();
+    // Refresh the persistent grid without the deleted answer
+    showSolveGrid();
 }
 
 function _makeDeleteBtn(btn) {
@@ -553,7 +611,7 @@ function solveCheck(input) {
         _fetchCrossings();
         // Cordelia tip: add to grid
         CordeliaTips.init([
-            {id: 'solve-correct-grid', text: 'Got it! Now hit <strong>Add to grid</strong> to place it, then <strong>Show grid</strong> to see your progress and pick up crossing letters for other clues.'}
+            {id: 'solve-correct-grid', text: 'Got it! Now hit <strong>Add to grid</strong> to place it. The grid at the top updates automatically &mdash; use <strong>Go to grid</strong> to scroll up and see your progress.'}
         ]);
     } else {
         var conflict = _checkCrossingConflict(input, guess);
@@ -772,6 +830,8 @@ function solveAddToGrid(input) {
     _updateProgress();
     _fetchCrossings();
     closeAllPanels();
+    // Refresh the persistent grid with the newly added answer
+    showSolveGrid();
     // Queue enrichment from explanation pieces
     fetch('/admin/queue-enrichment/' + clueId, {method: 'POST'}).catch(function(){});
 }
@@ -785,51 +845,26 @@ function _getSolvedIds() {
     return ids;
 }
 
-var _revealedCells = {};  // {"row,col": "LETTER"}
+var _revealedCells = {};  // kept empty — reveals are now fleeting
 
 function revealGridLetter(td) {
     var letter = td.dataset.solution;
     if (!letter) return;
-    // Show the letter
+    if (td._peekTimer) return;  // already peeking
+    // Flash the letter briefly
     var span = td.querySelector('span:last-child');
     span.textContent = letter;
     span.classList.add('text-indigo-600');
-    // Style the cell as revealed — still clickable to un-reveal
-    td.classList.remove('hover:bg-indigo-50');
     td.classList.add('bg-indigo-50');
-    td.setAttribute('onclick', 'unrevealGridLetter(this)');
-    td.setAttribute('title', 'Click to hide this letter');
-    // Track the revealed cell position
-    var tr = td.parentElement;
-    var table = tr.parentElement;
-    var rowIdx = Array.from(table.children).indexOf(tr);
-    var colIdx = Array.from(tr.children).indexOf(td);
-    _revealedCells[rowIdx + ',' + colIdx] = letter;
-    // Recalculate crossings with revealed letters
-    _fetchCrossings();
-    // Cordelia tip
-    CordeliaTips.init([
-        {id: 'solve-reveal-letter', text: 'That letter will show up in the crossing pattern for any clue that passes through it. Click the pattern to search for matches.'}
-    ]);
-}
-
-function unrevealGridLetter(td) {
-    // Hide the letter
-    var span = td.querySelector('span:last-child');
-    span.textContent = '';
-    span.classList.remove('text-indigo-600');
-    td.classList.remove('bg-indigo-50');
-    td.classList.add('hover:bg-indigo-50');
-    td.setAttribute('onclick', 'revealGridLetter(this)');
-    td.setAttribute('title', 'Click to reveal this letter');
-    // Remove from tracked revealed cells
-    var tr = td.parentElement;
-    var table = tr.parentElement;
-    var rowIdx = Array.from(table.children).indexOf(tr);
-    var colIdx = Array.from(tr.children).indexOf(td);
-    delete _revealedCells[rowIdx + ',' + colIdx];
-    // Recalculate crossings without this letter
-    _fetchCrossings();
+    td.classList.remove('hover:bg-indigo-50');
+    // Hide after 1.5 seconds
+    td._peekTimer = setTimeout(function() {
+        span.textContent = '';
+        span.classList.remove('text-indigo-600');
+        td.classList.remove('bg-indigo-50');
+        td.classList.add('hover:bg-indigo-50');
+        td._peekTimer = null;
+    }, 1500);
 }
 
 function _puzzleUrl(path) {
@@ -852,16 +887,15 @@ function showSolveGrid() {
             + '&answers=' + encodeURIComponent(JSON.stringify(userAnswers));
     var gridArea = document.getElementById('grid-area');
     htmx.ajax('GET', url, {target: '#grid-area', swap: 'innerHTML'}).then(function() {
-        gridArea.scrollIntoView({block: 'start'});
         // Don't fetch crossings here — they're already on the page.
         // Crossings are only re-fetched after Add to Grid when they change.
         CordeliaTips.init([
-            {id: 'solve-grid-numbers', text: 'Click a clue number to jump to that clue. Stuck? Click any empty square to reveal its letter &mdash; it\'ll feed into the crossing patterns for other clues.'}
+            {id: 'solve-grid-numbers', text: 'Click a clue number to jump to that clue. Stuck? Click any empty square for a quick peek at the letter.'}
         ]);
     });
 }
 
-var _crossingsCacheKey = _solveKey + '_crossings';
+var _crossingsCacheKey = _solveKey + '_crossings_v2';
 
 function _getExpectedLength(enumStr) {
     var nums = (enumStr || '').match(/\d+/g);
@@ -1115,6 +1149,7 @@ function patternFromCrossing(el, crossingStr) {
     // Set the enum input for subsequent form searches
     var enumInput = document.getElementById('pattern-enum');
     if (enumInput && enumVal) enumInput.value = enumVal;
+    if (typeof _updatePatternEnumToggle === 'function') _updatePatternEnumToggle(enumVal);
     // Open tools overlay or floating panel with pattern tab
     var overlay = document.getElementById('tools-overlay');
     if (overlay && _solveMode) {
@@ -1132,10 +1167,8 @@ function patternFromCrossing(el, crossingStr) {
     var patInput = document.getElementById('pattern-input');
     patInput.value = patternStr;
     document.getElementById('pattern-include').value = '';
-    // Auto-search with enum
-    var url = '/helper/pattern?pattern=' + encodeURIComponent(patternStr) + '&ht=' + _ht;
-    if (enumVal) url += '&enum=' + encodeURIComponent(enumVal);
-    htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
+    // Search using _patternIncludeChanged which reads enum from the hidden input
+    _patternIncludeChanged();
 }
 
 function saveAllToDb() {
@@ -1170,12 +1203,24 @@ function saveAllToDb() {
     });
 }
 
-// Restore solve mode if it was active, or auto-activate for prize puzzles
-// Admin users: never auto-restore (they're reviewing, not solving)
+// Enter solve mode only if explicitly requested via ?solve=1, or restore if
+// the user has genuine solve progress (answers they entered).
+// Admin users: never auto-activate.
 document.addEventListener('DOMContentLoaded', function() {
-    if (!_cfg.isAdmin && (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1'
-            || new URLSearchParams(window.location.search).get('solve') === '1')) {
+    if (_cfg.isAdmin) return;
+    var explicitSolve = new URLSearchParams(window.location.search).get('solve') === '1';
+    var wasActive = localStorage.getItem(_solveKey + '_active') === '1';
+    var hasProgress = false;
+    if (wasActive) {
+        var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
+        for (var k in state) {
+            if (state[k].correct) { hasProgress = true; break; }
+        }
+    }
+    if (_cfg.hasGrid && (explicitSolve || (wasActive && hasProgress))) {
         toggleSolveMode();
+    } else {
+        localStorage.removeItem(_solveKey + '_active');
     }
 
     // Block non-letter characters in solve inputs

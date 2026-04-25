@@ -41,6 +41,7 @@ function openToolsOverlay(clueId) {
     var patInput = document.getElementById('pattern-input');
     var enumInput = document.getElementById('pattern-enum');
     if (enumInput) enumInput.value = enumVal;
+    if (typeof _updatePatternEnumToggle === 'function') _updatePatternEnumToggle(enumVal);
     var crossing = input.getAttribute('data-crossing');
     if (crossing && patInput) {
         patInput.value = crossing.replace(/_/g, '?');
@@ -149,8 +150,13 @@ function overlayWordHelp(span) {
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
     var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
 
-    // Word lookup in the overlay results area
-    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht, {target: '#solver-results', swap: 'innerHTML'});
+    // Word lookup in the overlay results area — include enum so filter button appears
+    var lookupUrl = '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht;
+    if (_toolsClueId) {
+        var _luAns = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+        if (_luAns && _luAns.dataset.enum) lookupUrl += '&enum=' + encodeURIComponent(_luAns.dataset.enum);
+    }
+    htmx.ajax('GET', lookupUrl, {target: '#solver-results', swap: 'innerHTML'});
 }
 
 function _toolsFillAnswer(word) {
@@ -872,7 +878,7 @@ function showSolveGrid() {
     });
 }
 
-var _crossingsCacheKey = _solveKey + '_crossings';
+var _crossingsCacheKey = _solveKey + '_crossings_v2';
 
 function _getExpectedLength(enumStr) {
     var nums = (enumStr || '').match(/\d+/g);
@@ -1126,6 +1132,7 @@ function patternFromCrossing(el, crossingStr) {
     // Set the enum input for subsequent form searches
     var enumInput = document.getElementById('pattern-enum');
     if (enumInput && enumVal) enumInput.value = enumVal;
+    if (typeof _updatePatternEnumToggle === 'function') _updatePatternEnumToggle(enumVal);
     // Open tools overlay or floating panel with pattern tab
     var overlay = document.getElementById('tools-overlay');
     if (overlay && _solveMode) {
@@ -1181,12 +1188,24 @@ function saveAllToDb() {
     });
 }
 
-// Restore solve mode if it was active, or auto-activate for prize puzzles
-// Admin users: never auto-restore (they're reviewing, not solving)
+// Enter solve mode only if explicitly requested via ?solve=1, or restore if
+// the user has genuine solve progress (answers they entered).
+// Admin users: never auto-activate.
 document.addEventListener('DOMContentLoaded', function() {
-    if (!_cfg.isAdmin && (_cfg.isPrize || localStorage.getItem(_solveKey + '_active') === '1'
-            || new URLSearchParams(window.location.search).get('solve') === '1')) {
+    if (_cfg.isAdmin) return;
+    var explicitSolve = new URLSearchParams(window.location.search).get('solve') === '1';
+    var wasActive = localStorage.getItem(_solveKey + '_active') === '1';
+    var hasProgress = false;
+    if (wasActive) {
+        var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
+        for (var k in state) {
+            if (state[k].correct) { hasProgress = true; break; }
+        }
+    }
+    if (_cfg.hasGrid && (explicitSolve || (wasActive && hasProgress))) {
         toggleSolveMode();
+    } else {
+        localStorage.removeItem(_solveKey + '_active');
     }
 
     // Block non-letter characters in solve inputs
