@@ -24,7 +24,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 CLUES_DB = str(PROJECT_ROOT / "data" / "clues_master.db")
-SONNET_MODEL = "claude-sonnet-4-20250514"
+SONNET_MODEL = "claude-sonnet-4-6"
 
 FIX_PROMPT = """You are fixing errors in a cryptic crossword explanation. The mechanical verifier has found specific wrong claims.
 

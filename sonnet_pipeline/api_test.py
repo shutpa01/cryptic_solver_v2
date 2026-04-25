@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = Anthropic()
 
-SONNET = "claude-sonnet-4-20250514"
+SONNET = "claude-sonnet-4-6"
 OPUS = "claude-opus-4-20250514"
 
 # Simple prompt — just solve the clue, no framework

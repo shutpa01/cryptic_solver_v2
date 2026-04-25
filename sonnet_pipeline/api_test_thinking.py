@@ -18,7 +18,7 @@ load_dotenv()
 client = Anthropic()
 
 OPUS = "claude-opus-4-20250514"
-SONNET = "claude-sonnet-4-20250514"
+SONNET = "claude-sonnet-4-6"
 
 SIMPLE_PROMPT = """You are an expert cryptic crossword solver. Given a clue and its answer, explain how the wordplay works.
 
