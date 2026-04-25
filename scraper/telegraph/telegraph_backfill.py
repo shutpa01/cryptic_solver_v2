@@ -56,7 +56,7 @@ def save_harvest(data):
     """Save harvest data to JSON file."""
     with open(HARVEST_FILE, 'w') as f:
         json.dump(data, f, indent=2)
-    total = sum(len(v) for v in data.values())
+    total = sum(len(v) for v in data.values() if isinstance(v, dict))
     print(f"  [Saved {total} API URLs]")
 
 
@@ -148,11 +148,13 @@ def extract_puzzles_from_page(driver):
             if puzzle_num:
                 key = f"{ptype}-{puzzle_num}"
                 if key not in puzzles:
+                    api_url = f"https://puzzlesdata.telegraph.co.uk/puzzles/{folder}/{ptype}-{api_id}.json"
                     puzzles[key] = {
                         'type': ptype,
                         'puzzle_number': puzzle_num,
                         'api_id': api_id,
-                        'folder': folder
+                        'folder': folder,
+                        'url': api_url
                     }
         except:
             continue
@@ -187,59 +189,13 @@ def js_click(driver, element):
 
 
 def navigate_to_puzzle_type(driver, puzzle_type):
-    """Select a puzzle type using the filter dropdown."""
-    # First make sure we're on the puzzles page
-    if 'puzzles' not in driver.current_url:
-        driver.get(PUZZLES_URL)
-        time.sleep(5)
-        dismiss_overlays(driver)
-
-    # Map internal names to display names
-    display_names = {
-        'cryptic-crossword': 'Cryptic Crossword',
-        'toughie-crossword': 'Toughie',
-        'prize-toughie': 'Prize Toughie',
-        'prize-cryptic': 'Prize Cryptic'
-    }
-
-    display_name = display_names.get(puzzle_type, puzzle_type)
-    print(f"  Selecting filter: {display_name}")
-
-    try:
-        # Click on "All puzzles" or current filter to open dropdown
-        filter_selectors = [
-            "//div[contains(text(), 'All puzzles')]",
-            "//div[contains(text(), 'Cryptic')]",
-            "//div[contains(text(), 'Toughie')]",
-            "//button[contains(text(), 'All puzzles')]",
-            "//*[contains(@class, 'filter')]//*[contains(@class, 'select')]",
-            "//*[contains(@class, 'dropdown')]",
-        ]
-
-        filter_btn = None
-        for selector in filter_selectors:
-            try:
-                filter_btn = driver.find_element(By.XPATH, selector)
-                break
-            except:
-                continue
-
-        if filter_btn:
-            js_click(driver, filter_btn)
-            time.sleep(1)
-
-            # Select the puzzle type from dropdown
-            option = driver.find_element(By.XPATH,
-                                         f"//*[contains(text(), '{display_name}')]")
-            js_click(driver, option)
-            time.sleep(3)
-            return True
-        else:
-            print(f"    Could not find filter button")
-            return False
-    except Exception as e:
-        print(f"    Could not select filter: {e}")
-        return False
+    """Navigate directly to the puzzle type page."""
+    url = f"https://www.telegraph.co.uk/puzzles/puzzle/{puzzle_type}/"
+    print(f"  Navigating to {url}")
+    driver.get(url)
+    time.sleep(5)
+    dismiss_overlays(driver)
+    return True
 
 
 def click_date_button(driver):
@@ -307,7 +263,8 @@ def select_month(driver, month_name):
             return False
 
 
-def harvest_all_puzzles(driver, harvest_data, start_year=2017):
+def harvest_all_puzzles(driver, harvest_data, start_year=2017,
+                        test_type=None, test_year=None, test_month=None):
     """Navigate through all dates and harvest puzzle URLs."""
     current_year = date.today().year
     current_month = date.today().month
@@ -317,14 +274,15 @@ def harvest_all_puzzles(driver, harvest_data, start_year=2017):
     total_harvested = 0
     total_skipped = 0
 
-    # Navigate to puzzles page first
-    print(f"\nNavigating to {PUZZLES_URL}")
-    driver.get(PUZZLES_URL)
-    time.sleep(5)
-    dismiss_overlays(driver)
-    time.sleep(2)
+    # Track completed months so we can resume after a crash
+    completed = set()
+    if '_completed_months' in harvest_data:
+        completed = set(harvest_data['_completed_months'])
 
-    for puzzle_type in PUZZLE_TYPES:
+    # In test mode, restrict to a single type/year/month
+    types_to_process = [test_type] if test_type else PUZZLE_TYPES
+
+    for puzzle_type in types_to_process:
         print(f"\n{'=' * 60}")
         print(f"HARVESTING: {puzzle_type}")
         print(f"{'=' * 60}")
@@ -336,37 +294,68 @@ def harvest_all_puzzles(driver, harvest_data, start_year=2017):
         navigate_to_puzzle_type(driver, puzzle_type)
         time.sleep(3)
 
-        # Skip 2026 - start from 2025
-        # Go through each year from 2025 back to start_year
-        for year in range(current_year - 1, start_year - 1, -1):
+        # Go through each year from current year back to start_year
+        if test_year:
+            years_to_process = [test_year]
+        else:
+            years_to_process = range(current_year, start_year - 1, -1)
+
+        for year in years_to_process:
+            # Only process up to current month for current year
+            if test_month:
+                months_to_process = [test_month]
+            elif year == current_year:
+                months_to_process = months[:current_month]
+            else:
+                months_to_process = months
+
+            # Skip entire year if all its months are already completed
+            all_done = all(
+                f"{puzzle_type}:{year}:{m}" in completed
+                for m in months_to_process
+            )
+            if all_done:
+                print(f"\n  Year {year}: all months completed (skipping)")
+                continue
+
             print(f"\n  Year {year}:")
 
-            # All 12 months for past years
-            months_to_process = months
-
             # Open date picker
+            print(f"    [debug] opening date picker...")
             if not click_date_button(driver):
                 print(f"    Could not open date picker for year {year}")
                 continue
+            print(f"    [debug] date picker opened")
 
             time.sleep(1)
 
             # Navigate to correct year by clicking left arrow
+            print(f"    [debug] reading picker year...")
             picker_year = get_current_picker_year(driver)
+            print(f"    [debug] picker year = {picker_year}")
             if picker_year:
                 while picker_year > year:
+                    print(f"    [debug] clicking left arrow ({picker_year} -> {year})...")
                     if not click_year_arrow(driver, 'left'):
                         print(f"    Could not navigate to year {year}")
                         break
                     time.sleep(0.5)
                     picker_year = get_current_picker_year(driver)
+                    print(f"    [debug] picker year now = {picker_year}")
 
             # Now process each month in this year
             for month in months_to_process:
+                month_key = f"{puzzle_type}:{year}:{month}"
+                if month_key in completed:
+                    print(f"    {month}: already completed (skipping)")
+                    continue
+
                 # Select the month
+                print(f"    [debug] selecting {month}...")
                 if not select_month(driver, month):
                     print(f"    {month}: could not select")
                     # Re-open picker for next month
+                    print(f"    [debug] re-opening picker after failed select...")
                     click_date_button(driver)
                     time.sleep(2)
                     continue
@@ -377,26 +366,40 @@ def harvest_all_puzzles(driver, harvest_data, start_year=2017):
                 puzzles = extract_puzzles_from_page(driver)
 
                 new_count = 0
+                month_nums = []
                 for key, puzzle in puzzles.items():
                     if puzzle['type'] != puzzle_type:
                         continue
 
                     pnum = puzzle['puzzle_number']
+                    month_nums.append(int(pnum))
                     if pnum not in harvest_data[puzzle_type]:
                         harvest_data[puzzle_type][pnum] = {
                             'api_id': puzzle['api_id'],
-                            'folder': puzzle['folder']
+                            'folder': puzzle['folder'],
+                            'url': puzzle['url']
                         }
                         new_count += 1
                         total_harvested += 1
                     else:
                         total_skipped += 1
 
-                if new_count > 0:
-                    print(f"    {month}: +{new_count} puzzles")
-                    save_harvest(harvest_data)
+                # Mark month as completed and save
+                completed.add(month_key)
+                harvest_data['_completed_months'] = sorted(completed)
+
+                # Log puzzle numbers found this month
+                if month_nums:
+                    month_nums.sort()
+                    print(f"    {month}: {len(month_nums)} found (#{month_nums[0]}-#{month_nums[-1]}), {new_count} new")
+                    # Check for gaps in sequence
+                    expected = set(range(month_nums[0], month_nums[-1] + 1))
+                    missing = sorted(expected - set(month_nums))
+                    if missing:
+                        print(f"      GAPS: {missing}")
                 else:
-                    print(f"    {month}: no new puzzles")
+                    print(f"    {month}: 0 found")
+                save_harvest(harvest_data)
 
                 # Re-open date picker for next month (it closes after selecting)
                 if not click_date_button(driver):
@@ -412,30 +415,75 @@ def harvest_all_puzzles(driver, harvest_data, start_year=2017):
                         time.sleep(1)
                         picker_year = get_current_picker_year(driver)
 
+    # Per-type summary: full range and gaps
+    print(f"\n{'=' * 60}")
+    print("SEQUENCE ANALYSIS")
+    print(f"{'=' * 60}")
+    for puzzle_type in types_to_process:
+        if puzzle_type not in harvest_data or not harvest_data[puzzle_type]:
+            continue
+        all_nums = sorted(int(p) for p in harvest_data[puzzle_type].keys())
+        expected = set(range(all_nums[0], all_nums[-1] + 1))
+        missing = sorted(expected - set(all_nums))
+        print(f"\n  {puzzle_type}: {len(all_nums)} puzzles, #{all_nums[0]}-#{all_nums[-1]}")
+        if missing:
+            print(f"    MISSING ({len(missing)}): {missing[:50]}")
+            if len(missing) > 50:
+                print(f"    ... and {len(missing) - 50} more")
+        else:
+            print(f"    No gaps in sequence")
+
     return total_harvested, total_skipped
 
 
 def main():
-    print("=" * 60)
-    print("TELEGRAPH BACKFILL HARVESTER")
-    print(f"Date: {date.today().strftime('%A, %d %B %Y')}")
-    print("=" * 60)
+    import argparse
+    parser = argparse.ArgumentParser(description="Telegraph Backfill Harvester")
+    parser.add_argument("--test", action="store_true",
+                        help="Test mode: harvest one puzzle type, one month only")
+    parser.add_argument("--type", type=str, default=None,
+                        help="Puzzle type to harvest (e.g. cryptic-crossword)")
+    parser.add_argument("--year", type=int, default=None,
+                        help="Single year to harvest")
+    parser.add_argument("--month", type=str, default=None,
+                        help="Single month to harvest (e.g. January)")
+    args = parser.parse_args()
+
+    # In --test mode, default to one recent month of cryptic
+    if args.test:
+        test_type = args.type or 'cryptic-crossword'
+        test_year = args.year or 2026
+        test_month = args.month or 'March'
+        print("=" * 60)
+        print(f"TEST MODE: {test_type}, {test_month} {test_year}")
+        print("=" * 60)
+    else:
+        test_type = args.type
+        test_year = args.year
+        test_month = args.month
+        print("=" * 60)
+        print("TELEGRAPH BACKFILL HARVESTER")
+        print(f"Date: {date.today().strftime('%A, %d %B %Y')}")
+        print("=" * 60)
 
     creds = get_credentials()
     harvest_data = load_existing_harvest()
 
-    existing_count = sum(len(v) for v in harvest_data.values())
+    existing_count = sum(len(v) for k, v in harvest_data.items()
+                         if k != '_completed_months' and isinstance(v, dict))
     print(f"\nExisting harvest: {existing_count} API URLs")
 
     print("\nLaunching browser...")
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
-    driver = uc.Chrome(options=options, version_main=144)
+    driver = uc.Chrome(options=options, version_main=146)
 
     try:
         login(driver, creds)
 
-        harvested, skipped = harvest_all_puzzles(driver, harvest_data)
+        harvested, skipped = harvest_all_puzzles(
+            driver, harvest_data,
+            test_type=test_type, test_year=test_year, test_month=test_month)
 
         print("\n" + "=" * 60)
         print("HARVEST COMPLETE")
@@ -444,7 +492,8 @@ def main():
         print(f"Skipped (already had): {skipped}")
         print(f"\nTotal API URLs:")
         for ptype, urls in harvest_data.items():
-            print(f"  {ptype}: {len(urls)}")
+            if ptype != '_completed_months' and isinstance(urls, dict):
+                print(f"  {ptype}: {len(urls)}")
 
     except Exception as e:
         print(f"\nError: {e}")
