@@ -26,7 +26,7 @@
         <span class="text-gray-400 ml-1">({{ clue.enumeration }})</span>
         {% endif %}
     </p>
-    <div id="wordhelp-practice-{{ idx }}" class="mt-1"></div>
+    <div id="wordhelp-practice-{{ idx }}" class="mt-1 lookup-host"></div>
 
     {# Tool prompt — opens full-screen tools overlay #}
     {% if tool_prompt %}
@@ -200,7 +200,7 @@
                 class="text-xs px-2.5 py-1 rounded font-medium cursor-pointer bg-gray-100 text-gray-500">Pattern</button>
     </div>
     <div id="solver-pattern" class="p-4 border-b border-gray-100 hidden">
-        <form hx-get="/helper/pattern" hx-target="#solver-results" hx-swap="innerHTML" hx-include="#pattern-include,#pattern-enum,#helper-token-practice" class="flex gap-2">
+        <form onsubmit="event.preventDefault(); _patternIncludeChanged(true);" class="flex gap-2">
             <input type="hidden" id="helper-token-practice" name="ht" value="{{ helper_token }}">
             <input type="hidden" id="pattern-enum" name="enum" value="{{ clue.enumeration or '' }}">
             <input type="text" name="pattern" id="pattern-input"
