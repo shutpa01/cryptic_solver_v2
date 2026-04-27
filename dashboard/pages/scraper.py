@@ -81,19 +81,19 @@ def render():
 
     st.divider()
 
-    st.subheader("Deploy to Honeypot")
-    try:
-        _render_honeypot_deploy()
-    except Exception as e:
-        st.error(f"Error in honeypot deploy: {e}")
-
-    st.divider()
-
     st.subheader("Deploy to Cordelia")
     try:
         _render_cordelia_deploy()
     except Exception as e:
         st.error(f"Error in Cordelia deploy: {e}")
+
+    st.divider()
+
+    st.subheader("Scrape detector")
+    try:
+        _render_scrape_detector()
+    except Exception as e:
+        st.error(f"Error in scrape detector: {e}")
 
     st.divider()
 
@@ -149,9 +149,6 @@ def _show_todays_puzzles():
     conn.close()
 
 
-DROPLET = "root@134.209.21.34"
-HONEYPOT_DB_PATH = "/opt/honeypot/data/clues.db"
-
 CORDELIA_DROPLET = "root@165.232.46.255"
 CORDELIA_REMOTE = "/opt/cordelia"
 CRYPTIC_NEW_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
@@ -174,137 +171,102 @@ CORDELIA_EXTRA_FILES = [
 ]
 
 
-HONEYPOT_LOCAL = PROJECT_ROOT / "honeypot"
-HONEYPOT_REMOTE = "/opt/honeypot"
-# Files to deploy (relative to honeypot/ directory)
-HONEYPOT_CODE_FILES = [
-    "app.py",
-    "generate_sitemaps.py",
-    "generate_slugs.py",
-    "templates/base.html",
-    "templates/home.html",
-    "templates/clue.html",
-    "templates/puzzle.html",
-    "templates/source.html",
-    "templates/search.html",
-]
-
-
-def _render_honeypot_deploy():
-    """Deploy database and/or code to the honeypot droplet."""
-    st.caption("Deploy to clairesclues.xyz — upload database, code, or both.")
+def _render_scrape_detector():
+    """Surface IPs that look like batch /clue/* scrapers in nginx access logs."""
+    st.caption(
+        "Scan recent nginx access logs from the Cordelia droplet for IPs that "
+        "hit many /clue/ pages in a tight time window — the signature of a "
+        "daily batch scraper. Note: IPs shown are Cloudflare proxy IPs, not "
+        "real client IPs (see scripts/scrape_detector.py docstring)."
+    )
 
     col1, col2 = st.columns(2)
     with col1:
-        deploy_db = st.checkbox("Deploy database", value=True, key="hp_deploy_db")
-        deploy_code = st.checkbox("Deploy code", value=False, key="hp_deploy_code")
+        days = st.number_input(
+            "Days to scan", min_value=1, max_value=14, value=2, key="sd_days"
+        )
     with col2:
-        regen_sitemaps = st.checkbox("Regenerate sitemaps", value=True, key="hp_regen")
-        if deploy_db:
-            st.write(f"**DB size:** {CLUES_DB.stat().st_size / 1024 / 1024:.0f} MB")
+        threshold = st.number_input(
+            "Min /clue/ hits to flag", min_value=10, max_value=10000,
+            value=50, step=10, key="sd_threshold",
+        )
 
-    if not deploy_db and not deploy_code:
-        st.info("Select at least one option to deploy.")
+    if not st.button("Run detector", type="primary", key="run_detector"):
         return
 
-    if st.button("Deploy to Honeypot", type="primary", key="deploy_honeypot"):
-        steps = []
-        failed = False
+    # Import the script's analysis functions. Cached import path: scripts/.
+    import sys
+    scripts_dir = str(PROJECT_ROOT / "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        from scrape_detector import fetch_log_lines, parse_line, analyse
+    except ImportError as e:
+        st.error(f"Could not import scrape_detector: {e}")
+        return
 
-        # Step 1: Upload code files
-        if deploy_code and not failed:
-            with st.spinner("Uploading code files..."):
-                uploaded = 0
-                for f in HONEYPOT_CODE_FILES:
-                    local = HONEYPOT_LOCAL / f
-                    remote = f"{DROPLET}:{HONEYPOT_REMOTE}/{f}"
-                    if not local.exists():
-                        continue
-                    try:
-                        result = subprocess.run(
-                            ["scp", str(local), remote],
-                            capture_output=True, text=True, timeout=30,
-                            encoding="utf-8", errors="replace",
-                        )
-                        if result.returncode == 0:
-                            uploaded += 1
-                        else:
-                            steps.append(("Upload code", False, f"Failed on {f}: {result.stderr}"))
-                            failed = True
-                            break
-                    except Exception as e:
-                        steps.append(("Upload code", False, f"Failed on {f}: {e}"))
-                        failed = True
-                        break
-                if not failed:
-                    steps.append(("Upload code", True, f"{uploaded} files uploaded."))
+    with st.spinner(f"Pulling last {days} day(s) of logs from droplet..."):
+        try:
+            lines = fetch_log_lines(int(days))
+        except Exception as e:
+            st.error(f"SSH/grep failed: {e}")
+            return
 
-        # Step 2: Upload DB
-        if deploy_db and not failed:
-            # Checkpoint WAL so all recent writes are in the main .db file
-            try:
-                conn = sqlite3.connect(str(CLUES_DB))
-                conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-                conn.close()
-            except Exception as e:
-                steps.append(("WAL checkpoint", False, str(e)))
+    if not lines:
+        st.error(
+            "No log lines retrieved. Check SSH access to "
+            f"{CORDELIA_DROPLET} and that the log files exist."
+        )
+        return
 
-            with st.spinner("Uploading database..."):
-                try:
-                    result = _rsync(CLUES_DB, f"{DROPLET}:{HONEYPOT_DB_PATH}")
-                    if result.returncode == 0:
-                        steps.append(("Upload DB", True, "Database uploaded."))
-                    else:
-                        steps.append(("Upload DB", False, result.stderr or "Upload failed."))
-                        failed = True
-                except subprocess.TimeoutExpired:
-                    steps.append(("Upload DB", False, "Upload timed out after 5 minutes."))
-                    failed = True
-                except Exception as e:
-                    steps.append(("Upload DB", False, str(e)))
-                    failed = True
+    st.write(f"Pulled **{len(lines):,}** log lines.")
+    records = [r for r in (parse_line(l) for l in lines) if r is not None]
+    st.write(f"Parsed **{len(records):,}** records.")
 
-        # Step 3: Restart service
-        if not failed:
-            with st.spinner("Restarting honeypot service..."):
-                try:
-                    result = subprocess.run(
-                        ["ssh", DROPLET, "systemctl restart honeypot"],
-                        capture_output=True, text=True, timeout=120,
-                        encoding="utf-8", errors="replace",
-                    )
-                    if result.returncode == 0:
-                        steps.append(("Restart service", True, "Service restarted."))
-                    else:
-                        steps.append(("Restart service", False, result.stderr or "Restart failed."))
-                        failed = True
-                except Exception as e:
-                    steps.append(("Restart service", False, str(e)))
-                    failed = True
+    candidates = analyse(records, int(threshold))
+    if not candidates:
+        st.success(
+            f"No IPs above threshold ({threshold} clue hits). "
+            "No batch-scrape pattern detected in this window."
+        )
+        return
 
-        # Step 4: Regenerate sitemaps (optional)
-        if regen_sitemaps and not failed:
-            with st.spinner("Regenerating sitemaps..."):
-                try:
-                    result = subprocess.run(
-                        ["ssh", DROPLET,
-                         "cd /opt/honeypot && python3 generate_sitemaps.py --domain https://clairesclues.xyz"],
-                        capture_output=True, text=True, timeout=120,
-                        encoding="utf-8", errors="replace",
-                    )
-                    if result.returncode == 0:
-                        steps.append(("Regenerate sitemaps", True, result.stdout[-500:] if result.stdout else "Done."))
-                    else:
-                        steps.append(("Regenerate sitemaps", False, result.stderr or "Failed."))
-                except Exception as e:
-                    steps.append(("Regenerate sitemaps", False, str(e)))
+    st.write(f"Flagged **{len(candidates)}** IP(s):")
+    rows = []
+    for c in candidates:
+        span_s = c["span_seconds"]
+        if span_s < 3600:
+            span_str = f"{span_s / 60:.1f}m"
+        else:
+            span_str = f"{span_s / 3600:.1f}h"
+        rows.append({
+            "CF IP": c["ip"],
+            "Score": c["score"],
+            "Clue hits": c["clue_hits"],
+            "Rate/min": round(c["rate_per_min"], 1),
+            "Span": span_str,
+            "Peak hour UTC": c["peak_hour"] if c["peak_hour"] is not None else "-",
+            "Peak %": round(c["peak_share"] * 100),
+            "UAs": len(c["uas"]),
+        })
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-        # Show results
-        for label, ok, msg in steps:
-            if ok:
-                st.success(f"{label}: {msg}")
-            else:
-                st.error(f"{label}: {msg}")
+    top = [c for c in candidates if c["score"] >= 5]
+    if not top:
+        return
+    st.markdown(f"**Detail for top {len(top)} candidate(s) (score ≥ 5):**")
+    for c in top:
+        header = f"{c['ip']} — score {c['score']}, {c['clue_hits']} hits"
+        with st.expander(header):
+            st.write(f"**First → last:** {c['first_time']} → {c['last_time']}")
+            st.write(
+                f"**Peak hour (UTC):** {c['peak_hour']} "
+                f"({c['peak_share']*100:.0f}% of hits)"
+            )
+            st.write(f"**Rate per minute:** {c['rate_per_min']:.1f}")
+            st.write(f"**User-agents ({len(c['uas'])}):**")
+            for ua in c["uas"][:5]:
+                st.code(ua)
 
 
 def _render_cordelia_deploy():
