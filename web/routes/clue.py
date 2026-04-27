@@ -10,7 +10,7 @@ Blueprint registration (already in web/__init__.py):
 
 import re
 
-from flask import Blueprint, render_template, request, abort, g
+from flask import Blueprint, render_template, request, abort, g, redirect, url_for
 
 from web.db import get_db
 from web.models import (
@@ -71,6 +71,68 @@ def parse_clue_slug(slug):
     return clue_id, slug_text
 
 
+def _build_old_slug(clue_text, answer):
+    """Reconstruct the pre-`8efd6532` slug for matching: text-words-ANSWER."""
+    if not clue_text or not answer:
+        return None
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    ans = re.sub(r"[^A-Za-z0-9]", "", answer).upper()
+    if not text or not ans:
+        return None
+    return f"{text}-{ans}"
+
+
+def old_slug_to_new_id(slug):
+    """If `slug` matches the pre-`8efd6532` format, return the clue id, else None.
+
+    Old format put the answer as a trailing all-uppercase block, e.g.
+    `companions-shredded-corset-ESCORT`. Some clues share text+answer across
+    sources/puzzles; we accept any match (caller redirects to one canonical id).
+    """
+    if not slug:
+        return None
+    parts = slug.split("-")
+    if len(parts) < 2:
+        return None
+
+    # Collect trailing uppercase alphanumeric parts that contain at least
+    # one letter (the answer block, possibly split if it had digits).
+    answer_parts = []
+    for i in range(len(parts) - 1, -1, -1):
+        p = parts[i]
+        if p and p.isalnum() and p == p.upper() and any(c.isalpha() for c in p):
+            answer_parts.insert(0, p)
+        else:
+            break
+    if not answer_parts:
+        return None
+    clue_parts = parts[:len(parts) - len(answer_parts)]
+    if not clue_parts:
+        return None
+
+    answer = "".join(answer_parts)
+
+    db = get_db()
+    where_clauses = ["UPPER(answer) = ?"]
+    params = [answer]
+    for w in clue_parts[:3]:
+        if w:
+            where_clauses.append("LOWER(clue_text) LIKE ?")
+            params.append(f"%{w}%")
+    sql = (
+        "SELECT id, clue_text, answer FROM clues "
+        "WHERE source IN ('telegraph','times','guardian','independent','dailymail') "
+        "  AND clue_text IS NOT NULL "
+        f"  AND {' AND '.join(where_clauses)} "
+        "ORDER BY publication_date DESC LIMIT 50"
+    )
+    rows = db.execute(sql, params).fetchall()
+    for row in rows:
+        if _build_old_slug(row["clue_text"], row["answer"]) == slug:
+            return row["id"]
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Route
 # ---------------------------------------------------------------------------
@@ -94,8 +156,16 @@ def clue_page(slug):
     # Look up by clue ID embedded in slug
     clue_id, slug_text = parse_clue_slug(slug)
 
-    # Also support ?id= parameter for backwards compatibility
     if not clue_id:
+        # Old-format slug (pre-`8efd6532`, answer-suffixed): permanent-redirect
+        # to the new id-based URL so Google's existing index transfers cleanly.
+        old_id = old_slug_to_new_id(slug)
+        if old_id is not None:
+            from web.models import get_clue_by_id
+            row = get_clue_by_id(old_id)
+            new_slug = generate_clue_slug(row["clue_text"], clue_id=old_id) if row else str(old_id)
+            return redirect(url_for("clue.clue_page", slug=new_slug or str(old_id)), code=301)
+        # Also support ?id= parameter for backwards compatibility
         clue_id = request.args.get("id", type=int)
 
     if not clue_id:
