@@ -14,6 +14,7 @@ import json
 
 from flask import Blueprint, request, render_template, abort, g, jsonify, current_app
 from web.word_cache import match_pattern, match_pattern_user
+from web.session_token import has_valid_session
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 # Stop words to ignore when searching for similar clues
@@ -25,6 +26,11 @@ _STOP_WORDS = frozenset(
 bp = Blueprint("helper", __name__)
 
 HELPER_TOKEN_MAX_AGE = 7200  # 2 hours
+
+# Hard caps on result list sizes — anti-bulk-scrape guardrail.
+# Each cap is well above legitimate UI use (no user wants to read 100+ items)
+# but bounds how much of the reference DB any single request can return.
+HELPER_RESULT_CAP = 100
 
 
 def generate_helper_token():
@@ -40,8 +46,16 @@ RATE_LIMIT_WINDOW = 60  # seconds
 
 @bp.before_request
 def _require_helper_token():
-    """Validate helper token and enforce rate limiting.
-    Admin users bypass both checks."""
+    """Validate helper token, page-load session cookie, and enforce rate limiting.
+    Admin users bypass all checks.
+
+    Two stacked credentials:
+    - `?ht=` token: signed, 2h, issued in any helper-using page's HTML.
+    - `cordelia_session` cookie: HttpOnly, 1h, set by /clue, /puzzle, /tools/*.
+    Requiring both means a stolen `?ht=` token alone is not enough to scrape
+    the reference DB without also navigating through a page that sets the
+    cookie (and preserving cookies between requests).
+    """
     if getattr(g, 'is_admin', False):
         return
 
@@ -53,6 +67,10 @@ def _require_helper_token():
     try:
         s.loads(token, max_age=HELPER_TOKEN_MAX_AGE, salt="helper-access")
     except (BadSignature, SignatureExpired):
+        abort(403)
+
+    # Page-load session cookie required (matches /reveal — see commit bd12d0a4).
+    if not has_valid_session():
         abort(403)
 
     # Rate limiting
@@ -291,8 +309,8 @@ def meanings_expand():
                UNION
                SELECT UPPER(answer) AS val FROM definition_answers_augmented
                WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
-           ) ORDER BY val""",
-        (word_lower, letters, word_lower, letters),
+           ) ORDER BY val LIMIT ?""",
+        (word_lower, letters, word_lower, letters, HELPER_RESULT_CAP),
     ).fetchall()
 
     words = [r["val"] for r in rows]
@@ -694,9 +712,9 @@ def pattern_search():
                     break
             if match:
                 filtered.append(word)
-        matches = sorted(filtered)
+        matches = sorted(filtered)[:HELPER_RESULT_CAP]
     else:
-        matches = sorted(results)
+        matches = sorted(results)[:HELPER_RESULT_CAP]
 
     # Look up enumerations for display — single batch query
     match_enums = {}
@@ -835,7 +853,7 @@ def anagram_search():
 
     # Filter out the input itself (don't show fodder as a result)
     input_upper = all_letters.upper()
-    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)
+    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)[:HELPER_RESULT_CAP]
 
     return render_template(
         "partials/anagram_results.html",

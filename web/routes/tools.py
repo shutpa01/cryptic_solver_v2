@@ -8,11 +8,12 @@ full puzzle experience.
 
 import re
 
-from flask import Blueprint, request, render_template, abort, current_app
+from flask import Blueprint, request, render_template, abort, current_app, make_response
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 from web.db import get_db
 from web.models import classify_puzzle
+from web.session_token import issue_session_cookie, has_valid_session
 
 bp = Blueprint("tools", __name__)
 
@@ -32,19 +33,22 @@ def tools_index():
 @bp.route("/tools/anagram")
 def tools_anagram():
     prefill = request.args.get("letters", "").strip()
-    return render_template("tools_anagram.html", prefill_letters=prefill)
+    response = make_response(render_template("tools_anagram.html", prefill_letters=prefill))
+    return issue_session_cookie(response)
 
 
 @bp.route("/tools/synonym")
 def tools_synonym():
     prefill = request.args.get("word", "").strip()
-    return render_template("tools_synonym.html", prefill=prefill)
+    response = make_response(render_template("tools_synonym.html", prefill=prefill))
+    return issue_session_cookie(response)
 
 
 @bp.route("/tools/pattern")
 def tools_pattern():
     prefill = request.args.get("pattern", "").strip()
-    return render_template("tools_pattern.html", prefill_pattern=prefill)
+    response = make_response(render_template("tools_pattern.html", prefill_pattern=prefill))
+    return issue_session_cookie(response)
 
 
 @bp.route("/tools/puzzle-match")
@@ -57,6 +61,9 @@ def puzzle_match():
     try:
         s.loads(token, max_age=7200, salt="helper-access")
     except (BadSignature, SignatureExpired):
+        abort(403)
+    # Page-load session cookie required (matches helper endpoints).
+    if not has_valid_session():
         abort(403)
 
     answer = request.args.get("answer", "").strip().upper()

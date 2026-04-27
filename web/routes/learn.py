@@ -5,7 +5,9 @@ import random
 import re
 from pathlib import Path
 
-from flask import Blueprint, render_template, abort, request
+from flask import Blueprint, render_template, abort, request, make_response
+
+from web.session_token import issue_session_cookie
 
 bp = Blueprint("learn", __name__)
 
@@ -317,7 +319,7 @@ def learn_type(wtype):
     faq_schema = generate_learn_type_faq_schema(label, info.get("short", ""), len(clues))
     breadcrumb_schema = generate_learn_type_breadcrumb_schema(label)
 
-    return render_template(
+    response = make_response(render_template(
         "learn_type.html",
         wtype=wtype,
         label=label,
@@ -331,7 +333,8 @@ def learn_type(wtype):
         total=len(clues),
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
-    )
+    ))
+    return issue_session_cookie(response)
 
 
 @bp.route("/learn/<wtype>/practice")
@@ -362,7 +365,7 @@ def learn_practice(wtype):
     if wtype == "hidden" or (assembly and assembly.get("op") == "hidden"):
         hidden_highlight = _highlight_hidden(clue.get("clue_text", ""), clue.get("answer", ""))
 
-    return render_template(
+    response = make_response(render_template(
         "learn_practice.html",
         wtype=wtype,
         label=info.get("label", wtype),
@@ -378,4 +381,5 @@ def learn_practice(wtype):
         hidden_highlight=hidden_highlight,
         idx=idx,
         total=len(clues),
-    )
+    ))
+    return issue_session_cookie(response)
