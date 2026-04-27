@@ -3,6 +3,8 @@
 import json
 import re
 
+from flask import current_app
+
 
 def generate_meta_description(clue):
     """Build a dynamic meta description for a clue page.
@@ -88,7 +90,23 @@ def generate_faq_schema(clue, steps):
     # data still tells Google what the page is about (definition + wordplay
     # type + answer) which is enough for SERP context, without handing
     # over the breakdown that's behind the hint reveal flow.
-    if (is_high or is_medium) and (definition or wordplay_type):
+    #
+    # The STRIP_DEFINITION_FROM_JSONLD config flag (web/config.py) replaces
+    # the definition+wordplay sentences with a teaser, leaving only the
+    # answer in JSON-LD. Use this to cut off scrapers harvesting our parses
+    # without removing the answer Google needs for "{clue} crossword answer"
+    # queries.
+    strip_def = bool(current_app.config.get("STRIP_DEFINITION_FROM_JSONLD", False))
+    if strip_def:
+        meaning_parts = []
+        if answer:
+            meaning_parts.append(f"The answer is {answer}.")
+        meaning_parts.append(
+            "Visit the page for the full step-by-step explanation, "
+            "including which word in the clue serves as the definition."
+        )
+        meaning_text = " ".join(meaning_parts)
+    elif (is_high or is_medium) and (definition or wordplay_type):
         meaning_parts = []
         if definition:
             meaning_parts.append(f'The definition is "{definition}".')
