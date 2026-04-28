@@ -57,6 +57,101 @@ LOG_LINE_RE = re.compile(
 )
 NGINX_TIME = "%d/%b/%Y:%H:%M:%S %z"
 
+# Known-bot User-Agent patterns. First match wins. Anything that doesn't match
+# any of these gets labelled "(unknown)" — the cases worth investigating.
+# Patterns are case-insensitive substring matches against the UA string.
+BOT_PATTERNS: list[tuple[str, str]] = [
+    ("Googlebot", "Googlebot"),
+    ("bingbot", "Bingbot"),
+    ("Applebot", "Applebot"),
+    ("YandexBot", "YandexBot"),
+    ("Baiduspider", "Baiduspider"),
+    ("DuckDuckBot", "DuckDuckBot"),
+    # SEO / backlink crawlers
+    ("AhrefsBot", "AhrefsBot"),
+    ("SemrushBot", "SemrushBot"),
+    ("MJ12bot", "MJ12bot"),
+    ("DotBot", "DotBot"),
+    ("BLEXBot", "BLEXBot"),
+    ("PetalBot", "PetalBot"),
+    ("YisouSpider", "YisouSpider"),
+    # AI / LLM crawlers
+    ("GPTBot", "GPTBot"),
+    ("ChatGPT-User", "ChatGPT-User"),
+    ("ClaudeBot", "ClaudeBot"),
+    ("anthropic-ai", "anthropic-ai"),
+    ("PerplexityBot", "PerplexityBot"),
+    ("Bytespider", "Bytespider"),
+    ("CCBot", "CCBot (CommonCrawl)"),
+    ("Amazonbot", "Amazonbot"),
+    ("Meta-ExternalAgent", "Meta-ExternalAgent"),
+    ("FacebookBot", "FacebookBot"),
+    # Social / link previewers (low risk)
+    ("facebookexternalhit", "facebookexternalhit"),
+    ("Twitterbot", "Twitterbot"),
+    ("LinkedInBot", "LinkedInBot"),
+    ("WhatsApp", "WhatsApp"),
+    ("Slackbot", "Slackbot"),
+    ("Discordbot", "Discordbot"),
+    ("TelegramBot", "TelegramBot"),
+    # Generic clients that are almost always automation
+    ("python-requests", "python-requests"),
+    ("python-urllib", "python-urllib"),
+    ("Scrapy", "Scrapy"),
+    ("curl/", "curl"),
+    ("Wget/", "wget"),
+    ("HTTrack", "HTTrack"),
+    ("Go-http-client", "Go-http-client"),
+    ("axios", "axios"),
+    ("node-fetch", "node-fetch"),
+]
+
+
+def identify_bot(ua: str) -> str:
+    """Return a label for the User-Agent.
+
+    Categories returned:
+      - The bot's name (e.g. "Googlebot", "MJ12bot") if it matches BOT_PATTERNS.
+      - "(browser)" if the UA looks like a real browser (Mozilla/* + a known
+        rendering-engine token). Real users *and* stealth scrapers can both
+        live here — UA alone cannot distinguish them.
+      - "(custom)" if it's neither: non-browser, non-known-bot. These are
+        the genuinely interesting ones to investigate.
+      - "(no UA)" if the field is empty or "-".
+    """
+    if not ua or ua == "-":
+        return "(no UA)"
+    for needle, label in BOT_PATTERNS:
+        if needle.lower() in ua.lower():
+            return label
+    if "Mozilla/" in ua and any(
+        engine in ua for engine in ("AppleWebKit", "Gecko", "Trident")
+    ):
+        return "(browser)"
+    return "(custom)"
+
+
+def summarise_uas(uas) -> tuple[str, bool]:
+    """Return (display label, suspicious flag) for a candidate's UA set.
+
+    suspicious = True if any UA is "(custom)" or "(no UA)" — those are
+    unknown automation worth investigating. Pure-browser or pure-known-bot
+    candidates are not flagged suspicious.
+    """
+    if not uas:
+        return "(no UA)", True
+    import collections
+    labels = [identify_bot(u) for u in uas]
+    counter = collections.Counter(labels)
+    suspicious = ("(custom)" in counter) or ("(no UA)" in counter)
+    if len(counter) == 1:
+        only = next(iter(counter))
+        return only, suspicious
+    # Multiple distinct labels — show the most prominent one or two with counts.
+    top = counter.most_common(3)
+    parts = [f"{lbl}*{n}" for lbl, n in top]
+    return " + ".join(parts), suspicious
+
 
 def fetch_log_lines(days: int) -> list[str]:
     """Pull lines from droplet logs covering today and the last `days` days."""
@@ -148,6 +243,7 @@ def analyse(records: list[dict], threshold: int) -> list[dict]:
         if d["clue_hits"] > 100 and span_s < 600:
             score += 2      # 100+ hits in <10 min is a tight batch
 
+        bot_label, suspicious = summarise_uas(d["uas"])
         candidates.append({
             "ip": ip,
             "clue_hits": d["clue_hits"],
@@ -161,42 +257,55 @@ def analyse(records: list[dict], threshold: int) -> list[dict]:
             "first_time": times[0] if times else None,
             "last_time": times[-1] if times else None,
             "uas": list(d["uas"]),
+            "bot_label": bot_label,
+            "suspicious": suspicious,
             "score": score,
         })
-    return sorted(candidates, key=lambda c: (c["score"], c["clue_hits"]), reverse=True)
+    # Sort: suspicious (custom or no UA) first — those are the candidates worth
+    # investigating. Within each tier, by score desc, then clue_hits desc.
+    return sorted(
+        candidates,
+        key=lambda c: (
+            0 if c["suspicious"] else 1,
+            -c["score"],
+            -c["clue_hits"],
+        ),
+    )
 
 
 def report(candidates: list[dict]) -> None:
     if not candidates:
         print("No IPs matched the threshold. No scrape pattern detected.")
         return
-    print(f"{'CF-IP':<18} {'clue':>5} {'rt/m':>5} {'span':>8} "
+    print(f"{'CF-IP':<18} {'bot':<25} {'clue':>5} {'rt/m':>5} {'span':>8} "
           f"{'peakH':>5} {'peak%':>5} {'UAs':>3} score")
-    print("-" * 64)
+    print("-" * 90)
     for c in candidates:
         span_str = f"{c['span_seconds']/60:.1f}m" if c['span_seconds'] < 3600 else f"{c['span_seconds']/3600:.1f}h"
         peak_str = str(c['peak_hour']) if c['peak_hour'] is not None else '-'
-        print(f"{c['ip']:<18} {c['clue_hits']:>5} "
+        bot_str = (c['bot_label'] or '')[:25]
+        print(f"{c['ip']:<18} {bot_str:<25} {c['clue_hits']:>5} "
               f"{c['rate_per_min']:>5.1f} {span_str:>8} "
               f"{peak_str:>5} {c['peak_share']*100:>4.0f}% "
               f"{len(c['uas']):>3} {c['score']:>5}")
     print()
     # Detail block for each top scoring candidate
-    top = [c for c in candidates if c["score"] >= 5]
-    if not top:
-        print("(No high-score candidates for detail. Lower threshold or wait for more data.)")
+    interesting = [c for c in candidates if c["suspicious"] or c["score"] >= 5]
+    if not interesting:
+        print("(No suspicious or high-score candidates for detail.)")
         return
-    print(f"=== Detail for top-scoring candidates (score >= 5) ===")
+    print("=== Detail for suspicious or high-score candidates ===")
     print()
-    for c in top:
-        print(f"-- {c['ip']}  (score {c['score']}) --")
+    for c in interesting:
+        flag = "SUSPICIOUS " if c["suspicious"] else ""
+        print(f"-- {flag}{c['ip']}  (score {c['score']}, label {c['bot_label']}) --")
         print(f"   clue hits      : {c['clue_hits']}")
         print(f"   first / last   : {c['first_time']}  ->  {c['last_time']}")
         print(f"   peak hour (UTC): {c['peak_hour']}  ({c['peak_share']*100:.0f}% of hits)")
         print(f"   rate per minute: {c['rate_per_min']:.1f}")
         print(f"   user-agents ({len(c['uas'])}):")
-        for ua in c["uas"][:5]:
-            print(f"     - {ua[:120]}")
+        for ua in c["uas"][:8]:
+            print(f"     - [{identify_bot(ua)}] {ua[:120]}")
         print()
 
 

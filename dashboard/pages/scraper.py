@@ -231,7 +231,12 @@ def _render_scrape_detector():
         )
         return
 
-    st.write(f"Flagged **{len(candidates)}** IP(s):")
+    n_susp = sum(1 for c in candidates if c.get("suspicious"))
+    st.write(
+        f"Flagged **{len(candidates)}** IP(s) — "
+        f"**{n_susp} suspicious** (custom or missing UA), "
+        f"the rest matched a known bot or look like real browsers."
+    )
     rows = []
     for c in candidates:
         span_s = c["span_seconds"]
@@ -240,7 +245,9 @@ def _render_scrape_detector():
         else:
             span_str = f"{span_s / 3600:.1f}h"
         rows.append({
+            "Susp": "!" if c.get("suspicious") else "",
             "CF IP": c["ip"],
+            "Bot label": c.get("bot_label", ""),
             "Score": c["score"],
             "Clue hits": c["clue_hits"],
             "Rate/min": round(c["rate_per_min"], 1),
@@ -251,12 +258,25 @@ def _render_scrape_detector():
         })
     st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-    top = [c for c in candidates if c["score"] >= 5]
-    if not top:
+    # Detail expanders: show suspicious entries (any score) and high-score known
+    # entries (score >= 5). Suspicious ones first.
+    interesting = [c for c in candidates if c.get("suspicious") or c["score"] >= 5]
+    if not interesting:
         return
-    st.markdown(f"**Detail for top {len(top)} candidate(s) (score ≥ 5):**")
-    for c in top:
-        header = f"{c['ip']} — score {c['score']}, {c['clue_hits']} hits"
+    try:
+        from scrape_detector import identify_bot  # already imported above
+    except ImportError:
+        identify_bot = lambda ua: ""
+    st.markdown(
+        f"**Detail for {len(interesting)} candidate(s) "
+        f"(suspicious or score ≥ 5):**"
+    )
+    for c in interesting:
+        flag = "🚩 " if c.get("suspicious") else ""
+        header = (
+            f"{flag}{c['ip']} — {c.get('bot_label', '?')} — "
+            f"score {c['score']}, {c['clue_hits']} hits"
+        )
         with st.expander(header):
             st.write(f"**First → last:** {c['first_time']} → {c['last_time']}")
             st.write(
@@ -265,8 +285,8 @@ def _render_scrape_detector():
             )
             st.write(f"**Rate per minute:** {c['rate_per_min']:.1f}")
             st.write(f"**User-agents ({len(c['uas'])}):**")
-            for ua in c["uas"][:5]:
-                st.code(ua)
+            for ua in c["uas"][:8]:
+                st.code(f"[{identify_bot(ua)}] {ua}")
 
 
 def _render_cordelia_deploy():
