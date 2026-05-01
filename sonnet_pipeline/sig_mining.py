@@ -66,7 +66,7 @@ def extract_discoveries(sr, answer):
     answer_clean = answer.upper().replace(" ", "").replace("-", "")
     discoveries = []
 
-    for word, tok, val in sr.result.word_roles:
+    for word, tok, val, *_ in sr.result.word_roles:
         word_clean = word.lower().strip(".,;:!?\"'()-").strip()
         if not word_clean:
             continue

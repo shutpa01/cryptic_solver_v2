@@ -20,6 +20,7 @@ import re
 import sqlite3
 import sys
 import time
+import unicodedata
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -69,8 +70,14 @@ Return ONLY valid JSON, no other text."""
 
 
 def clean(s):
-    """Strip non-alpha characters and uppercase."""
-    return re.sub(r'[^A-Za-z]', '', s).upper()
+    """Strip accents and non-alpha characters, then uppercase.
+
+    Decomposes unicode so that "BÉARNAISE" becomes "BEARNAISE" (the É is
+    decomposed to E + combining acute, and the combining mark is dropped).
+    """
+    nfkd = unicodedata.normalize('NFKD', s)
+    ascii_only = ''.join(c for c in nfkd if not unicodedata.combining(c))
+    return re.sub(r'[^A-Za-z]', '', ascii_only).upper()
 
 
 # ============================================================
@@ -83,21 +90,21 @@ def fetch_tftt(puzzle_number):
     Tries multiple URL patterns since TFTT changed their slug format:
     - Old: times-cryptic-XXXXX
     - New: XXXXX-title-slug (discovered via WordPress search API)
+    - Newer: XXXXX-N (numeric suffix)
+
+    Uses cloudscraper to bypass Cloudflare bot challenge.
     """
-    import requests
+    import cloudscraper
 
     sys.path.insert(0, os.path.join(BASE_DIR, "scraper", "timesforthetimes"))
     from timesforthetimes_scraper import parse_page
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
-    }
+    scraper = cloudscraper.create_scraper()
 
     # Try old URL pattern first (fast)
     old_url = "https://timesforthetimes.co.uk/times-cryptic-%d" % puzzle_number
     try:
-        resp = requests.get(old_url, headers=headers, timeout=15)
+        resp = scraper.get(old_url, timeout=30)
         if resp.status_code == 200:
             clues = parse_page(resp.text, puzzle_number)
             if clues:
@@ -105,10 +112,22 @@ def fetch_tftt(puzzle_number):
     except Exception:
         pass
 
+    # Try numeric-suffix URL (e.g., 29530-2)
+    for suffix in (2, 3, 4):
+        suffix_url = "https://timesforthetimes.co.uk/%d-%d" % (puzzle_number, suffix)
+        try:
+            resp = scraper.get(suffix_url, timeout=30)
+            if resp.status_code == 200:
+                clues = parse_page(resp.text, puzzle_number)
+                if clues:
+                    return clues
+        except Exception:
+            pass
+
     # Try WordPress search API to find the correct slug
     search_url = "https://timesforthetimes.co.uk/wp-json/wp/v2/posts"
     try:
-        resp = requests.get(search_url, headers=headers, timeout=15, params={
+        resp = scraper.get(search_url, timeout=30, params={
             "search": str(puzzle_number),
             "per_page": 5,
             "categories": "11,21",  # Daily Cryptic, Weekend Cryptic
@@ -119,7 +138,7 @@ def fetch_tftt(puzzle_number):
                 slug = post.get("slug", "")
                 if str(puzzle_number) in slug:
                     post_url = post.get("link") or "https://timesforthetimes.co.uk/%s" % slug
-                    resp2 = requests.get(post_url, headers=headers, timeout=15)
+                    resp2 = scraper.get(post_url, timeout=30)
                     if resp2.status_code == 200:
                         clues = parse_page(resp2.text, puzzle_number)
                         if clues:

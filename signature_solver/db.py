@@ -46,9 +46,13 @@ class RefDB:
             self.indicators[w].append((wtype, subtype, confidence))
 
         # --- Abbreviations (wordplay table): word -> list of substitutions ---
+        # category='dbe' rows are definition-by-example markers (say, perhaps,
+        # for example, etc.) — they don't produce letters and must not be
+        # loaded as abbreviations. They will be consumed by a future DBE solver.
         self.abbreviations = {}
         for indicator, substitution in conn.execute(
-            "SELECT indicator, substitution FROM wordplay"
+            "SELECT indicator, substitution FROM wordplay "
+            "WHERE category IS NULL OR category != 'dbe'"
         ):
             w = _normalize_key(indicator)
             if w not in self.abbreviations:
@@ -216,6 +220,46 @@ class RefDB:
         answer_upper = answer.upper()
         return [s for s in self.get_synonyms(word) if s in answer_upper and s != answer_upper]
 
+    def is_extra_synonym(self, word, value):
+        """Default: nothing is an extra (no overlay applied). The
+        _SynonymOverlayRefDB overrides this to return True for
+        DBE-injected pairs so the matcher can tag them in word_roles."""
+        return False
+
+    def with_extra_synonyms(self, extras):
+        """Return a thin overlay over this RefDB that adds extra synonyms.
+
+        extras: dict mapping clue-word (lowercase, normalised) -> list of
+        uppercase candidate synonyms.
+
+        The overlay forwards every method/attribute to the underlying
+        RefDB except synonym lookups, which are unioned with the extras
+        for the matching word. The original RefDB is never mutated.
+
+        Pattern is intentionally narrow: a no-op when extras is empty,
+        and the overlay can be passed anywhere a RefDB is expected.
+        """
+        if not extras:
+            return self
+        return _SynonymOverlayRefDB(self, extras)
+
+    def with_extra_indicators(self, extras):
+        """Return an overlay that adds extra indicator entries.
+
+        extras: dict mapping clue-word (lowercase, normalised) -> list of
+        (wordplay_type, subtype, confidence) tuples — same shape as
+        get_indicator_types returns. Confidence is typically 'medium'
+        for solver-injected guesses.
+
+        Composes cleanly with with_extra_synonyms — call either order:
+            db.with_extra_synonyms(s).with_extra_indicators(i)
+            db.with_extra_indicators(i).with_extra_synonyms(s)
+        Both produce a stack of overlays that delegate via __getattr__.
+        """
+        if not extras:
+            return self
+        return _IndicatorOverlayRefDB(self, extras)
+
     def get_homophones(self, word):
         """Return list of homophones (uppercase)."""
         results = []
@@ -263,3 +307,170 @@ class RefDB:
         if not w or len(w) < 2:
             return False
         return w in self.wordlist
+
+
+class _SynonymOverlayRefDB:
+    """Thin wrapper that augments a base RefDB with extra synonyms for
+    specific words. Created via RefDB.with_extra_synonyms(extras).
+
+    All other methods and attributes pass through unchanged. The base
+    RefDB is never mutated — extras live only on this wrapper instance,
+    so concurrent solves can each have their own overlay.
+    """
+
+    __slots__ = ('_base', '_extras')
+
+    def __init__(self, base, extras):
+        self._base = base
+        # Normalise keys + values once at construction; uppercase candidates.
+        self._extras = {}
+        for word, vals in extras.items():
+            key = _normalize_key(word)
+            cleaned = []
+            seen = set()
+            for v in vals:
+                vu = v.upper().strip() if isinstance(v, str) else ''
+                if vu and vu not in seen:
+                    cleaned.append(vu)
+                    seen.add(vu)
+            if cleaned:
+                self._extras[key] = cleaned
+
+    def __getattr__(self, name):
+        # Delegate any attribute we don't override to the base RefDB.
+        return getattr(self._base, name)
+
+    def _extra_for(self, word):
+        for v in self._base._word_variants(word):
+            if v in self._extras:
+                return self._extras[v]
+        return []
+
+    def is_extra_synonym(self, word, value):
+        """Did `value` come from the extras (DBE injection) for `word`?
+
+        Helps the matcher tag DBE-sourced pieces in word_roles so the
+        explanation can attribute them honestly.
+        """
+        if not value:
+            return False
+        v_upper = value.upper().strip()
+        return v_upper in self._extra_for(word)
+
+    # --- Augmented synonym methods ---
+
+    def get_synonyms(self, word, max_len=None):
+        results = self._base.get_synonyms(word, max_len=max_len)
+        for s in self._extra_for(word):
+            if s in results:
+                continue
+            if max_len is None or len(s) <= max_len:
+                results.append(s)
+        return results
+
+    def get_synonyms_of_length(self, word, length):
+        return [s for s in self.get_synonyms(word) if len(s) == length]
+
+    def get_synonyms_substring_of(self, word, answer):
+        answer_upper = answer.upper()
+        return [s for s in self.get_synonyms(word)
+                if s in answer_upper and s != answer_upper]
+
+    # --- Composition: stack overlays without losing this one ---
+
+    def with_extra_synonyms(self, extras):
+        if not extras:
+            return self
+        # Merge into THIS overlay's extras rather than wrap again.
+        merged = {k: list(v) for k, v in self._extras.items()}
+        for word, vals in extras.items():
+            from signature_solver.db import _normalize_key as _nk
+            key = _nk(word)
+            seen = set(merged.get(key, []))
+            for v in vals:
+                vu = v.upper().strip() if isinstance(v, str) else ''
+                if vu and vu not in seen:
+                    merged.setdefault(key, []).append(vu)
+                    seen.add(vu)
+        return _SynonymOverlayRefDB(self._base, merged)
+
+    def with_extra_indicators(self, extras):
+        if not extras:
+            return self
+        return _IndicatorOverlayRefDB(self, extras)
+
+
+class _IndicatorOverlayRefDB:
+    """Overlay that augments a base RefDB with extra indicator entries
+    for specific words. Created via RefDB.with_extra_indicators(extras).
+
+    extras: dict mapping word -> list of (wordplay_type, subtype, confidence).
+    Same shape as RefDB.get_indicator_types returns, so unioning is direct.
+    """
+
+    __slots__ = ('_base', '_extras')
+
+    def __init__(self, base, extras):
+        self._base = base
+        self._extras = {}
+        for word, entries in extras.items():
+            key = _normalize_key(word)
+            cleaned = []
+            for e in entries:
+                if not isinstance(e, (tuple, list)) or len(e) < 2:
+                    continue
+                wtype = e[0]
+                subtype = e[1] if len(e) >= 2 else None
+                conf = e[2] if len(e) >= 3 else 'medium'
+                cleaned.append((wtype, subtype, conf))
+            if cleaned:
+                self._extras[key] = cleaned
+
+    def __getattr__(self, name):
+        return getattr(self._base, name)
+
+    def get_indicator_types(self, word):
+        results = list(self._base.get_indicator_types(word))
+        # Use the same word-variants helper as the base for consistency.
+        # Walk up to the underlying RefDB to find the helper if needed.
+        base = self._base
+        while not hasattr(base, '_word_variants'):
+            base = base._base
+        for v in base._word_variants(word):
+            if v in self._extras:
+                for entry in self._extras[v]:
+                    if entry not in results:
+                        results.append(entry)
+        return results
+
+    # --- Composition ---
+
+    def with_extra_synonyms(self, extras):
+        if not extras:
+            return self
+        return _SynonymOverlayRefDB(self, extras)
+
+    def with_extra_indicators(self, extras):
+        if not extras:
+            return self
+        # Merge into THIS overlay's extras rather than wrap again.
+        merged = {k: list(v) for k, v in self._extras.items()}
+        # Walk up to the base RefDB for normalisation
+        base = self._base
+        while not hasattr(base, '_word_variants'):
+            base = base._base
+        from signature_solver.db import _normalize_key as _nk
+        for word, entries in extras.items():
+            key = _nk(word)
+            existing = list(merged.get(key, []))
+            for e in entries:
+                if not isinstance(e, (tuple, list)) or len(e) < 2:
+                    continue
+                wtype = e[0]
+                subtype = e[1] if len(e) >= 2 else None
+                conf = e[2] if len(e) >= 3 else 'medium'
+                tup = (wtype, subtype, conf)
+                if tup not in existing:
+                    existing.append(tup)
+            merged[key] = existing
+        return _IndicatorOverlayRefDB(self._base, merged)

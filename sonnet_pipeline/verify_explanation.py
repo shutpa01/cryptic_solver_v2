@@ -161,6 +161,34 @@ class ExplanationVerifier:
             self._def_cache[key] = row is not None
         return self._def_cache[key]
 
+    def explanation_names_indicator(self, expl, op_type):
+        """Find [op_type: "word"] annotation in the explanation and check
+        the named word is a known indicator of op_type.
+
+        Returns one of:
+          ('verified', word) — annotation present and word IS an indicator
+          ('wrong',    word) — annotation present but word is NOT an indicator
+          ('missing',  None) — no annotation found in the explanation
+
+        Accepts brackets that bundle multiple annotations:
+          [container: "visiting"; reversal: "upset"]
+        as well as a single annotation per bracket.
+        """
+        pattern = re.compile(
+            r"\b" + re.escape(op_type) + r"\s*:\s*[\"']([^\"']+)[\"']",
+            re.IGNORECASE,
+        )
+        m = pattern.search(expl or "")
+        if not m:
+            return ('missing', None)
+        word = m.group(1).strip()
+        if self.is_indicator(word, op_type):
+            return ('verified', word)
+        # Container annotations also accept insertion-type indicators.
+        if op_type == 'container' and self.is_indicator(word, 'insertion'):
+            return ('verified', word)
+        return ('wrong', word)
+
     def clue_has_indicator(self, clue_text, required_type, required_subtypes=None):
         """Check if any word in the clue is a known indicator of the required type.
 
@@ -208,6 +236,44 @@ class ExplanationVerifier:
         s = re.sub(r"[^A-Z]", "", source.upper())
         r = re.sub(r"[^A-Z]", "", result.upper())
         return s[::-1] == r
+
+    def check_reversal_source(self, letters, source_word):
+        """Verify a 'X (reversal of "Y")' piece claim.
+
+        Returns True if some synonym, abbreviation, or the literal letters
+        of source_word, when reversed, equals letters. False otherwise.
+        Returns None if either input is empty.
+        """
+        L = re.sub(r"[^A-Z]", "", (letters or "").upper())
+        sw = (source_word or "").lower().strip(".,;:!?\"'()-")
+        if not L or not sw:
+            return None
+        target = L[::-1]  # the source candidate that, reversed, gives L
+        # Direct: source_word's letters themselves
+        sw_letters = re.sub(r"[^A-Z]", "", source_word.upper())
+        if sw_letters == target:
+            return True
+        # Synonym lookup
+        try:
+            for syn in self.ref.execute(
+                "SELECT synonym FROM synonyms_pairs WHERE LOWER(word)=?",
+                (sw,),
+            ):
+                if re.sub(r"[^A-Z]", "", (syn[0] or "").upper()) == target:
+                    return True
+        except Exception:
+            pass
+        # Abbreviation lookup
+        try:
+            for sub in self.ref.execute(
+                "SELECT substitution FROM wordplay WHERE LOWER(indicator)=?",
+                (sw,),
+            ):
+                if re.sub(r"[^A-Z]", "", (sub[0] or "").upper()) == target:
+                    return True
+        except Exception:
+            pass
+        return False
 
     def check_deletion_mechanism(self, source, result):
         """Is `result` obtainable from `source` by a recognised cryptic deletion?
@@ -262,6 +328,14 @@ class ExplanationVerifier:
                 return False
             start = (len(src) - n) // 2
             return src[start:start + n] == L
+        if kind == "outer":
+            # Outer letters = first + last (drop middle). For n=2 the
+            # standard form is the single first + single last char.
+            if n == 2:
+                return L[0] == src[0] and L[-1] == src[-1]
+            # For n>2 the convention varies; accept first half + last half.
+            half = n // 2
+            return L == src[:half] + src[-(n - half):]
         if kind == "initial":
             return n == 1 and src.startswith(L)
         if kind == "final":
@@ -759,10 +833,13 @@ class ExplanationVerifier:
                 # happens above in CHECK 2 and earns its own +8.  Here we only check
                 # words of 2+ letters from the fodder.
                 if ana_ok and clue_text and fodder_parts:
-                    clue_lower = clue_text.lower()
+                    # Normalise both sides: strip everything that isn't a letter,
+                    # so "BRIDES" matches "bride's", "GT" matches "G&T", etc.
+                    clue_norm = re.sub(r"[^a-z]", "", clue_text.lower())
                     all_found = True
                     for fp in fodder_parts:
-                        if fp.lower() not in clue_lower:
+                        fp_norm = re.sub(r"[^a-z]", "", fp.lower())
+                        if fp_norm and fp_norm not in clue_norm:
                             all_found = False
                             break
                     if all_found:
@@ -841,6 +918,7 @@ class ExplanationVerifier:
             ("first",     r"first\s+letters?"),
             ("last",      r"last\s+letters?"),
             ("middle",    r"middle\s+letters?"),
+            ("outer",     r"outer\s+letters?"),
             ("initial",   r"initials?(?:\s+letter)?"),
             ("final",     r"finals?(?:\s+letter)?"),
             ("odd",       r"odd\s+letters?"),
@@ -868,6 +946,29 @@ class ExplanationVerifier:
                     "detail": f"'{letters}' as {kind} of '{source.strip()}': "
                               f"{'YES' if result else 'NO'}",
                 })
+
+        # --- CHECK 5a2: Reversal-source piece claims ---
+        # Format: LETTERS (reversal of "source") — the piece comes from
+        # reversing some synonym/abbreviation/literal of source.
+        seen_rev_src = set()
+        rev_src_pat = re.compile(
+            r"(\w+)\s*\(\s*(?:reversal|reverse)\s+of\s+[\"']?([^\")]+?)[\"']?\s*\)",
+            re.IGNORECASE,
+        )
+        for letters, source in rev_src_pat.findall(expl):
+            key = (letters.upper(), source.strip().lower())
+            if key in seen_rev_src:
+                continue
+            seen_rev_src.add(key)
+            ok = self.check_reversal_source(letters, source)
+            if ok is None:
+                continue
+            checks.append({
+                "check": "reversal_source",
+                "status": "verified" if ok else "wrong",
+                "detail": f"'{letters}' as reversal of '{source.strip()}': "
+                          f"{'YES' if ok else 'NO'}",
+            })
 
         # --- CHECK 5b: Deletion claims ---
         # Format: LETTERS (deletion="source")
@@ -946,8 +1047,10 @@ class ExplanationVerifier:
             r"|synonym\s*=\s*\""
             r"|abbr\.?\s*(?:of\s+)?"
             r"|abbreviation\s*=\s*\""
-            r"|(?:first|last|middle|initial|final|odd|even|alternat(?:e|ing))"
+            r"|(?:first|last|middle|outer|initial|final|odd|even|alternat(?:e|ing))"
             r"\s+letters?\s+(?:of|in|from)\s+"
+            r"|(?:reversal|reverse)\s+of\s+"
+            r"|from\s+clue\b"
             r"|deletion\s*=\s*\""
             r")",
             re.IGNORECASE,
@@ -1006,20 +1109,67 @@ class ExplanationVerifier:
             "homophone":        ("homophone", None),
         }
 
-        # Check operation-level indicator
-        wtype = (wordplay_type or "").lower().replace(" ", "_")
-        if wtype in OPERATION_INDICATOR_REQUIREMENTS:
-            req_type, req_subtypes = OPERATION_INDICATOR_REQUIREMENTS[wtype]
-            if not self.clue_has_indicator(clue_text, req_type, req_subtypes):
-                # Also check 'insertion' for container
-                found = False
-                if req_type == "container":
-                    found = self.clue_has_indicator(clue_text, "insertion")
-                if not found:
+        # Check operation-level indicator: the explanation MUST name a
+        # known indicator word for each operation that requires one. Just
+        # having an indicator somewhere in the clue isn't enough — the
+        # parse must show which word does the work, otherwise the
+        # mechanism is hidden from the user.
+        #
+        # wordplay_type can be a comma-separated list (e.g. "container,
+        # reversal") for compound parses; check each component.
+        wtypes_raw = (wordplay_type or "").lower()
+        wtypes_list = [w.strip().replace(" ", "_")
+                        for w in wtypes_raw.split(",") if w.strip()]
+
+        # Also flag piece-level reversal inside a non-reversal parse:
+        # "X (reversal of "Y")" inside the explanation means a reversal
+        # mechanism is in play even if wordplay_type is "container".
+        if "reversal of" in (expl or "").lower() and "reversal" not in wtypes_list:
+            wtypes_list.append("reversal")
+
+        seen_op_checks = set()
+        for wtype in wtypes_list:
+            if wtype not in OPERATION_INDICATOR_REQUIREMENTS:
+                continue
+            req_type, _req_subtypes = OPERATION_INDICATOR_REQUIREMENTS[wtype]
+            if req_type in seen_op_checks:
+                continue
+            seen_op_checks.add(req_type)
+            status, word = self.explanation_names_indicator(expl, req_type)
+            if status == 'verified':
+                checks.append({
+                    "check": "indicator",
+                    "status": "verified",
+                    "detail": f"'{word}' is a known {req_type} indicator",
+                })
+            elif status == 'wrong':
+                checks.append({
+                    "check": "indicator",
+                    "status": "wrong",
+                    "detail": f"'{word}' is not a known {req_type} indicator",
+                })
+            else:  # missing
+                # Fallback: explanation didn't NAME an indicator, but does
+                # the clue have one? Mark as 'unverifiable' (mechanism
+                # hidden) rather than 'wrong' if at least the clue contains
+                # an indicator. If the clue has no indicator at all, that's
+                # 'wrong'.
+                clue_has = self.clue_has_indicator(clue_text, req_type)
+                if not clue_has and req_type == "container":
+                    clue_has = self.clue_has_indicator(clue_text, "insertion")
+                if clue_has:
+                    checks.append({
+                        "check": "indicator",
+                        "status": "unverifiable",
+                        "detail": f"explanation does not name the {req_type} "
+                                  f"indicator (mechanism hidden from user)",
+                    })
+                else:
                     checks.append({
                         "check": "indicator",
                         "status": "wrong",
-                        "detail": f"no '{req_type}' indicator found in clue for {wtype} operation",
+                        "detail": f"no '{req_type}' indicator found in clue "
+                                  f"for {wtype} operation",
                     })
 
         # Piece-level positional indicator checks have been removed.
@@ -1114,6 +1264,10 @@ class ExplanationVerifier:
                     score += 10  # Positional extraction confirmed (mechanical)
                 elif c["check"] == "deletion":
                     score += 8   # Deletion confirmed
+                elif c["check"] == "indicator":
+                    score += 10  # Operation indicator confirmed (named + valid)
+                elif c["check"] == "reversal_source":
+                    score += 10  # Reversal source verified via DB lookup
             elif c["status"] == "wrong":
                 if c["check"] == "assembly":
                     score -= 50  # Pieces don't make the answer — fatal
@@ -1165,6 +1319,12 @@ class ExplanationVerifier:
                     score -= 20  # Homophone pair not in DB — claim unverified
                 elif c["check"] == "spoonerism":
                     score -= 10  # Spoonerism letter-swap doesn't match — likely phonetic
+                elif c["check"] == "indicator":
+                    # Mechanism hidden from user — explanation didn't name
+                    # the licensing indicator. Significant penalty so the
+                    # parse cannot ride to HIGH (or even MEDIUM) on
+                    # assembly alone.
+                    score -= 30
 
         score = min(100, max(0, score))
 

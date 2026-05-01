@@ -442,19 +442,43 @@ def _add_synonym(word, synonym):
     return True
 
 
-def _add_indicator(word, wordplay_type, confidence):
+def _add_indicator(word, letters, confidence):
+    """Insert a new indicator row.
+
+    `letters` accepts two formats:
+      - bare TYPE (e.g. 'ANAGRAM') — wordplay_type set, subtype = NULL
+      - 'TYPE:subtype' (e.g. 'PARTS:last_use') — both set
+    The TYPE part is lowercased to match the dominant convention used in
+    the indicators table ('anagram', 'parts', 'container', ...).
+    """
+    if ':' in letters:
+        wp_type, subtype = letters.split(':', 1)
+        wp_type = wp_type.strip().lower()
+        subtype = subtype.strip().lower() or None
+    else:
+        wp_type = letters.strip().lower()
+        subtype = None
+
     conn = _get_conn(CRYPTIC_DB, readonly=False)
-    existing = conn.execute(
-        "SELECT id FROM indicators WHERE word = ? AND wordplay_type = ?",
-        (word, wordplay_type),
-    ).fetchone()
+    if subtype is None:
+        existing = conn.execute(
+            "SELECT id FROM indicators "
+            "WHERE word = ? AND wordplay_type = ? AND subtype IS NULL",
+            (word, wp_type),
+        ).fetchone()
+    else:
+        existing = conn.execute(
+            "SELECT id FROM indicators "
+            "WHERE word = ? AND wordplay_type = ? AND subtype = ?",
+            (word, wp_type, subtype),
+        ).fetchone()
     if existing:
         conn.close()
         return False
     conn.execute(
-        "INSERT INTO indicators (word, wordplay_type, confidence, source) "
-        "VALUES (?, ?, ?, 'dashboard')",
-        (word, wordplay_type, confidence),
+        "INSERT INTO indicators (word, wordplay_type, subtype, confidence, source) "
+        "VALUES (?, ?, ?, ?, 'dashboard')",
+        (word, wp_type, subtype, confidence),
     )
     conn.commit()
     conn.close()

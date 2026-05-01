@@ -61,7 +61,7 @@ def score_result(result, words, answer, analyses, db):
     fodder_types_present = set()
     indicator_types_present = set()
 
-    for word, tok, val in roles:
+    for word, tok, val, *_ in roles:
 
         # Link words
         if tok == LNK:
@@ -196,8 +196,8 @@ def _check_circularity(roles, answer):
     Exception: double definitions where the only fodder is a single SYN_F
     whose value equals the answer — that's correct by design.
     """
-    fodder_roles = [(w, t, v) for w, t, v in roles if t in FODDER_TOKENS]
-    for word, tok, val in fodder_roles:
+    fodder_roles = [(w, t, v) for w, t, v, *_ in roles if t in FODDER_TOKENS]
+    for word, tok, val, *_ in fodder_roles:
         if tok == SYN_F and val == answer:
             if len(fodder_roles) == 1:
                 return 0

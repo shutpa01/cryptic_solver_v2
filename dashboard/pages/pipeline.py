@@ -260,6 +260,21 @@ def render():
             placeholder="e.g. Lasting without salary",
         )
         if single_clue:
+            # Normalise pasted text — copying from a web page or chat can
+            # introduce non-breaking spaces, smart quotes, or trailing
+            # whitespace that defeat the LIKE substring match.
+            single_clue = (
+                single_clue
+                .replace(" ", " ")   # NBSP
+                .replace("‘", "'").replace("’", "'")  # smart quotes
+                .replace("“", '"').replace("”", '"')
+                .replace("–", "-").replace("—", "-")  # en/em dash
+                .strip()
+            )
+            # Strip trailing enumeration like "(7)" or "(3,4)" or "(5-2)".
+            import re as _re
+            single_clue = _re.sub(
+                r"\s*\(\d+(?:[\-,]\d+)*\)\s*$", "", single_clue).strip()
             # Auto-detect source and puzzle from DB
             conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
             conn.row_factory = sqlite3.Row
@@ -561,12 +576,15 @@ def _reset_puzzle(source, puzzle_number):
         clue_ids
     )
 
-    # Clear pipeline-written fields on clues, revert to untried state
+    # Clear pipeline-written fields on clues, revert to scrape-only state
     conn.execute(f"""
         UPDATE clues SET
             has_solution = NULL,
             reviewed = NULL,
-            ai_explanation = NULL
+            ai_explanation = NULL,
+            explanation = NULL,
+            definition = NULL,
+            wordplay_type = NULL
         WHERE id IN ({placeholders})
     """, clue_ids)
 

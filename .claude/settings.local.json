@@ -38,7 +38,30 @@
       "WebFetch(domain:clairesclues.xyz)",
       "WebFetch(domain:lookup.icann.org)",
       "WebFetch(domain:justcordelia.com)",
-      "WebFetch(domain:llmrefs.com)"
+      "WebFetch(domain:llmrefs.com)",
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:www.wordplays.com)",
+      "WebFetch(domain:crosswordzone301.com)",
+      "WebFetch(domain:www.clickrank.ai)",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:seo.co)",
+      "WebFetch(domain:www.hobo-web.co.uk)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:support.google.com)",
+      "WebFetch(domain:developers.google.com)",
+      "PowerShell(New-ScheduledTaskAction *)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:\\Users\\shute\\PycharmProjects\\cryptic_solver_V2\\scripts\\backup_dbs.py --skip-if-younger-than 6"
+          }
+        ]
+      }
     ]
   }
 }

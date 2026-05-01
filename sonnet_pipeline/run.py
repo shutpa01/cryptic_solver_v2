@@ -518,7 +518,10 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 mech_solved_ids.add(cid)
                 mech_count += 1
 
-                expl_text = _v1_build_explanation(mech_wtype, mech_pieces, definition, answer)
+                expl_text = _v1_build_explanation(
+                    mech_wtype, mech_pieces, definition, answer,
+                    clue_text=clue, ref_db=ref_db,
+                    assembly=mech_result if isinstance(mech_result, dict) else None)
 
                 results.append({
                     "status": "ASSEMBLED",
@@ -637,6 +640,37 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     "UPDATE clues SET definition = ? WHERE id = ? AND definition IS NULL",
                     (sr.definition, cid))
                 conn.commit()
+
+            # Queue DBE-Haiku-derived synonym suggestions for enrichment review.
+            # Queued REGARDLESS of whether the solve succeeded — we paid for the
+            # Haiku call and the candidates already passed the answer-substring
+            # filter, so they're worth human review either way.
+            if write_db and hasattr(sr, 'dbe_haiku_candidates') and sr.dbe_haiku_candidates:
+                try:
+                    from signature_solver.haiku_dbe import queue_dbe_enrichment
+                    for word, cands in sr.dbe_haiku_candidates.items():
+                        for cand in cands:
+                            queue_dbe_enrichment(
+                                conn, word, cand, answer, clue,
+                                source, puzzle)
+                except Exception:
+                    pass
+
+            # Queue indicator suggestions that ENABLED a successful solve.
+            # Unlike DBE candidates (queued unconditionally), indicators only
+            # qualify when the chained retry produced a HIGH solve — that's
+            # the proof the suggested (word, type, subtype) is right.
+            if (write_db and sr.high_confidence
+                    and hasattr(sr, 'suggested_indicators')
+                    and sr.suggested_indicators):
+                try:
+                    from signature_solver.haiku_indicator import queue_indicator_enrichment
+                    for word, wp_type, subtype in sr.suggested_indicators:
+                        queue_indicator_enrichment(
+                            conn, word, wp_type, subtype,
+                            answer, clue, source, puzzle)
+                except Exception:
+                    pass
 
         elapsed = time.time() - t0
         print("  Phase 1: %d HIGH, %d medium in %.1fs — %d clues skip API" % (
@@ -1472,17 +1506,54 @@ def main():
     if args.single_clue:
         conn = sqlite3.connect(CLUES_DB, timeout=30)
         match = conn.execute(
-            "SELECT source, puzzle_number, clue_text FROM clues WHERE clue_text LIKE ? LIMIT 1",
+            "SELECT id, source, puzzle_number, clue_text, answer "
+            "FROM clues WHERE clue_text LIKE ? LIMIT 1",
             ("%" + args.single_clue + "%",)
         ).fetchone()
-        conn.close()
         if not match:
+            conn.close()
             print("No clue found matching: %s" % args.single_clue)
             sys.exit(1)
-        args.source = match[0]
-        args.puzzles = [str(match[1])]
+        clue_id, c_src, c_pz, c_text, c_ans = match
+        args.source = c_src
+        args.puzzles = [str(c_pz)]
         print("Single-clue mode: matched '%s' in %s #%s" % (
-            match[2][:60], match[0], match[1]))
+            c_text[:60], c_src, c_pz))
+
+        # Reset the matched clue so renderer/verifier improvements take
+        # effect on re-run. Manual edits (model_version manual_edit /
+        # manual_approve) are protected.
+        if args.write_db:
+            existing = conn.execute(
+                "SELECT model_version FROM structured_explanations "
+                "WHERE clue_id = ?",
+                (clue_id,)
+            ).fetchone()
+            mv = existing[0] if existing else None
+            if mv in ('manual_edit', 'manual_approve'):
+                print("  (skipping reset — clue is %s, protected)" % mv)
+            else:
+                conn.execute(
+                    "UPDATE clues SET ai_explanation = NULL, "
+                    "definition = NULL, wordplay_type = NULL, "
+                    "has_solution = NULL, reviewed = NULL "
+                    "WHERE id = ?",
+                    (clue_id,)
+                )
+                conn.execute(
+                    "DELETE FROM structured_explanations WHERE clue_id = ?",
+                    (clue_id,)
+                )
+                # Pending enrichments queued from prior runs of this clue.
+                conn.execute(
+                    "DELETE FROM pending_enrichments "
+                    "WHERE source = ? AND puzzle_number = ? "
+                    "AND answer = ? AND clue_text = ?",
+                    (c_src, c_pz, c_ans, c_text)
+                )
+                conn.commit()
+                print("  (reset clue id=%s — old explanation cleared)" % clue_id)
+        conn.close()
 
     if not args.puzzles:
         parser.error("No puzzle number(s) provided. Set PUZZLE_NUMBER at the top of run.py or pass on the command line.")

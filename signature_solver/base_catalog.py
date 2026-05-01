@@ -101,7 +101,13 @@ OPERATION_FODDER_TYPES = {
 
 
 def _load_catalog():
-    """Load base catalog entries from JSON data file."""
+    """Load base catalog entries from JSON data file.
+
+    Filters out entries with n_indicator=0 for operations that require an
+    indicator (anagram, reversal, container, hidden, homophone, deletion,
+    plus all compound operations that include any of those). Charade and
+    synonym don't require an indicator and are kept regardless.
+    """
     json_path = os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
         'data', 'base_catalog.json'
@@ -111,11 +117,17 @@ def _load_catalog():
 
     entries = []
     for item in raw:
-        entries.append(BaseEntry(
+        entry = BaseEntry(
             pattern=item['pattern'],
             operation=item['operation'],
             count=item['count'],
-        ))
+        )
+        # Reject 0-indicator entries for operations that require an indicator.
+        # The presence of the operation in OPERATION_INDICATOR_TYPE means the
+        # operation needs a licensing word in the clue.
+        if entry.n_indicator == 0 and entry.operation in OPERATION_INDICATOR_TYPE:
+            continue
+        entries.append(entry)
     return entries
 
 

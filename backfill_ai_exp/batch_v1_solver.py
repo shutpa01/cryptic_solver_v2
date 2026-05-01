@@ -1049,8 +1049,79 @@ def build_payload(definition, wordplay_type, pieces, explanation_text,
     }
 
 
-def build_explanation_text(wordplay_type, pieces, definition, answer):
-    """Build human-readable explanation."""
+def _piece_label(letters, clue_word, mech, prefix_map):
+    """Render a single piece with verifier-friendly attribution."""
+    if mech == "literal" or (len(letters) <= 1
+                              and letters.lower() == clue_word.lower()):
+        return '%s (from clue)' % letters
+    if mech.startswith("deletion:"):
+        del_parts = mech.split(":", 2)
+        source_word = del_parts[1] if len(del_parts) > 1 else "?"
+        del_desc = del_parts[2] if len(del_parts) > 2 else "deletion"
+        return '%s (%s="%s", %s)' % (letters, source_word, clue_word, del_desc)
+    if mech.startswith("reversal:"):
+        source_word = mech.split(":", 1)[1]
+        return '%s (%s="%s", reversed)' % (letters, source_word, clue_word)
+    if mech == "odd_letters":
+        return '%s (odd letters of "%s")' % (letters, clue_word)
+    if mech == "even_letters":
+        return '%s (even letters of "%s")' % (letters, clue_word)
+    prefix = prefix_map.get(mech)
+    if prefix:
+        return '%s (%s "%s")' % (letters, prefix, clue_word)
+    return '%s (%s="%s")' % (letters, mech, clue_word)
+
+
+def _find_indicator_word(clue_text, ref_db, want_type, exclude_words=None):
+    """Scan clue_text for a word/phrase that's a known indicator of want_type.
+
+    Returns the FIRST matching word (lowercase) NOT in exclude_words, or None.
+    exclude_words is a set of lowercase words to skip (typically the
+    definition words, so we don't pick up indicator-shaped def words).
+    """
+    if not clue_text or not ref_db:
+        return None
+    import re as _re
+    excluded = set()
+    if exclude_words:
+        excluded = {w.lower() for w in exclude_words}
+    words = _re.findall(r"[a-zA-Z][a-zA-Z'-]*", clue_text)
+    for w in words:
+        wl = w.lower()
+        if wl in excluded:
+            continue
+        try:
+            for t, _st, _conf in ref_db.get_indicator_types(wl):
+                if t == want_type:
+                    return wl
+        except Exception:
+            pass
+    return None
+
+
+def build_explanation_text(wordplay_type, pieces, definition, answer,
+                            clue_text=None, ref_db=None, assembly=None):
+    """Build human-readable explanation.
+
+    Optional args:
+      clue_text + ref_db: used to identify and surface the container/
+        reversal indicator words in the explanation.
+      assembly: dict from the mechanical solver containing inner/outer/
+        insert_pos for container clues. When provided, container parses
+        render as 'INNER inside OUTER' instead of 'X + Y + Z'.
+    """
+    _MECH_PREFIX = {
+        'synonym':       'synonym of',
+        'abbreviation':  'abbreviation of',
+        'first_letter':  'first letter of',
+        'last_letter':   'last letter of',
+        'middle_letters':'middle letters of',
+        'outer_letters': 'outer letters of',
+        'alternate_letters': 'alternate letters of',
+        'hidden':        'hidden in',
+        'sound_of':      'sounds like',
+        'reversal':      'reversal of',
+    }
     if wordplay_type == "anagram":
         fodder = " + ".join(p["clue_word"].upper() for p in pieces)
         expl = 'anagram of %s = %s' % (fodder, answer.upper())
@@ -1065,30 +1136,77 @@ def build_explanation_text(wordplay_type, pieces, definition, answer):
         else:
             expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
     elif wordplay_type in ("container", "charade"):
-        parts = []
-        for p in pieces:
-            mech = p["mechanism"]
-            letters = p["letters"]
-            clue_word = p["clue_word"]
-            if mech == "literal" or (len(letters) <= 1 and letters.lower() == clue_word.lower()):
-                parts.append('%s (from clue)' % letters)
-            elif mech.startswith("deletion:"):
-                # Format: deletion:SOURCE:DESC
-                del_parts = mech.split(":", 2)
-                source_word = del_parts[1] if len(del_parts) > 1 else "?"
-                del_desc = del_parts[2] if len(del_parts) > 2 else "deletion"
-                parts.append('%s (%s="%s", %s)' % (letters, source_word, clue_word, del_desc))
-            elif mech.startswith("reversal:"):
-                # Format: reversal:SOURCE
-                source_word = mech.split(":", 1)[1]
-                parts.append('%s (%s="%s", reversed)' % (letters, source_word, clue_word))
-            elif mech == "odd_letters":
-                parts.append('%s (odd letters of "%s")' % (letters, clue_word))
-            elif mech == "even_letters":
-                parts.append('%s (even letters of "%s")' % (letters, clue_word))
+        # Render container clues honestly as INNER inside OUTER. Charade
+        # clues stay as A + B + C. The container path requires assembly
+        # info from the solver to know which piece is the inner.
+        is_container = (wordplay_type == "container"
+                         and assembly is not None
+                         and assembly.get("inner")
+                         and assembly.get("outer"))
+        if is_container:
+            inner_letters = (assembly.get("inner") or "").upper()
+            outer_letters = (assembly.get("outer") or "").upper()
+            inner_pieces = []
+            outer_pieces = []
+            # Split pieces into inner-group and outer-group by greedy
+            # left-to-right matching against the inner/outer letter strings.
+            remaining_inner = inner_letters
+            remaining_outer = outer_letters
+            for p in pieces:
+                lp = (p.get("letters") or "").upper()
+                if lp and remaining_inner.startswith(lp):
+                    inner_pieces.append(p)
+                    remaining_inner = remaining_inner[len(lp):]
+                elif lp and remaining_outer.startswith(lp):
+                    outer_pieces.append(p)
+                    remaining_outer = remaining_outer[len(lp):]
+                else:
+                    # Couldn't classify — fall through to charade format
+                    inner_pieces = None
+                    break
+            if inner_pieces is not None and inner_pieces and outer_pieces:
+                inner_desc = " + ".join(
+                    _piece_label(p["letters"], p["clue_word"], p["mechanism"], _MECH_PREFIX)
+                    for p in inner_pieces)
+                outer_desc = " + ".join(
+                    _piece_label(p["letters"], p["clue_word"], p["mechanism"], _MECH_PREFIX)
+                    for p in outer_pieces)
+                expl = '%s inside %s = %s' % (
+                    inner_desc, outer_desc, answer.upper())
             else:
-                parts.append('%s (%s="%s")' % (letters, mech, clue_word))
-        expl = " + ".join(parts) + " = " + answer.upper()
+                # Fallback: classification failed, render as charade
+                parts = [_piece_label(p["letters"], p["clue_word"],
+                                       p["mechanism"], _MECH_PREFIX)
+                         for p in pieces]
+                expl = " + ".join(parts) + " = " + answer.upper()
+        else:
+            parts = [_piece_label(p["letters"], p["clue_word"],
+                                   p["mechanism"], _MECH_PREFIX)
+                     for p in pieces]
+            expl = " + ".join(parts) + " = " + answer.upper()
+
+        # Append indicator annotations: container indicator (if container),
+        # reversal indicator (if any reversal piece is present). Definition
+        # words are excluded from the indicator search so def words like
+        # "back" in "Pay back" aren't mistaken for reversal indicators.
+        def_words = set()
+        if definition:
+            import re as _re
+            def_words = {w.lower() for w in _re.findall(
+                r"[a-zA-Z][a-zA-Z'-]*", definition)}
+        ind_notes = []
+        if wordplay_type == "container":
+            ind = _find_indicator_word(clue_text, ref_db, "container", def_words)
+            if ind:
+                ind_notes.append('container: "%s"' % ind)
+        if any(p.get("mechanism") == "reversal"
+               or (p.get("mechanism") or "").startswith("reversal:")
+               for p in pieces):
+            ind = _find_indicator_word(clue_text, ref_db, "reversal", def_words)
+            if ind:
+                ind_notes.append('reversal: "%s"' % ind)
+        if ind_notes:
+            expl += " [%s]" % "; ".join(ind_notes)
     elif wordplay_type == "reversal":
         expl = 'reverse of %s = %s' % (pieces[0]["letters"], answer.upper())
     elif wordplay_type == "acrostic":

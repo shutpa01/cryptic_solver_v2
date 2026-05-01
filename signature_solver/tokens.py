@@ -36,6 +36,7 @@ POS_I_HALF = "POS_I_HALF"                # take half the letters
 # Structural tokens
 DEF = "DEF"            # definition
 LNK = "LNK"            # link word (ignorable)
+DBE_MARKER = "DBE_MARKER"  # definition-by-example marker (maybe, perhaps, say, ...)
 
 # Whole-clue types (no wordplay window)
 DOUBLE_DEFINITION = "DOUBLE_DEFINITION"
@@ -106,14 +107,33 @@ LINK_WORDS = {
     # Result words (already had most)
     "giving", "making", "producing", "getting", "providing", "creating",
     "showing", "becoming", "yielding",
-    # Possibility
-    "perhaps", "maybe", "possibly",
+    # NOTE: "perhaps", "maybe", "possibly", "say", "for example", "for one",
+    # "for instance", "example", "in particular" are DBE (definition-by-example)
+    # markers, NOT link words. Treating them as LNK silently swallows them
+    # before the DBE substitution-licensing logic can act on them.
     # Words that are also indicators but frequently serve as links
     # (both roles coexist — matcher picks whichever fits the pattern)
     "wanting", "needing", "requiring",
     # Surface words that carry no cryptic role
     "soft",
 }
+
+# Definition-by-example markers. When one of these is adjacent to a clue
+# word, the cryptic convention is that the word stands for an EXAMPLE in a
+# category — so the word's RAW letters cannot be used as a wordplay piece;
+# only synonyms / category-mates count. Source: data/cryptic_new.db
+# wordplay table where category='dbe', plus the conventional 'maybe' and
+# 'possibly' which crossword setters use the same way.
+DBE_MARKERS_SINGLE = frozenset({
+    'maybe', 'perhaps', 'possibly', 'say', 'example',
+})
+# Multi-word DBE markers (lowercase tuples).
+DBE_MARKERS_MULTI = (
+    ('for', 'example'),
+    ('for', 'one'),
+    ('for', 'instance'),
+    ('in', 'particular'),
+)
 
 # All fodder tokens (contribute letters to the answer)
 FODDER_TOKENS = {SYN_F, ABR_F, ANA_F, RAW, HID_F, HOM_F, POS_F}
