@@ -106,6 +106,19 @@ _SKIP_TOKENS = frozenset([
 ])
 
 
+def _strip_indicator_punct(word):
+    """Strip trailing punctuation from an indicator word so the
+    rendered bracket form ('[anagram: "abroad"]') matches the
+    indicator-DB lookup. Without this, a clue ending in 'abroad?'
+    would render as '[anagram: "abroad?"]' and the verifier's
+    is_indicator('abroad?', 'anagram') call would fail because the DB
+    has 'abroad' (no '?'). Strips ?!,.;: from both ends.
+    """
+    if not word:
+        return word
+    return word.strip("?!.,;: \t")
+
+
 def build_ai_pieces(sr):
     """Build P-compatible ai_pieces list from SolveResult's word_roles.
 
@@ -314,7 +327,7 @@ def _describe_fodder(word, tok, val, pos_indicator=None, meta=None):
             ind = meta.get('reversal_indicator')
             if ind:
                 base = '%s reversed = %s [reversal: "%s"]' % (
-                    base, meta['reversed_to'], ind)
+                    base, meta['reversed_to'], _strip_indicator_punct(ind))
             else:
                 base = '%s reversed = %s' % (base, meta['reversed_to'])
         return base
@@ -453,7 +466,8 @@ def _explain_container_with_deletion(sr, answer):
         '[container: "%s"; deletion: "%s"] = %s'
         % (out_val, out_prefix,
            in_derived, in_val, del_label,
-           con_word, del_word, answer_clean)
+           _strip_indicator_punct(con_word),
+           _strip_indicator_punct(del_word), answer_clean)
     )
 
     if definition:
@@ -545,7 +559,8 @@ def sig_explain(sr, answer):
             indicator_note = ""
             if pending_indicator:
                 iw, it = pending_indicator
-                indicator_note = ' [%s: "%s"]' % (_indicator_label(it), iw)
+                indicator_note = ' [%s: "%s"]' % (
+                    _indicator_label(it), _strip_indicator_punct(iw))
                 pending_indicator = None
 
             desc = _describe_fodder(word, tok, val, pos_indicator, meta=meta)
@@ -596,7 +611,8 @@ def sig_explain(sr, answer):
     if pending_indicator and fodder_items:
         iw, it = pending_indicator
         w, t, v, desc, note = fodder_items[-1]
-        note += ' [%s: "%s"]' % (_indicator_label(it), iw)
+        note += ' [%s: "%s"]' % (
+            _indicator_label(it), _strip_indicator_punct(iw))
         fodder_items[-1] = (w, t, v, desc, note)
 
     # Now build the explanation in ASSEMBLY order (the order that spells the answer)
