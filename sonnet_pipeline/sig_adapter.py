@@ -305,13 +305,16 @@ def _describe_fodder(word, tok, val, pos_indicator=None, meta=None):
         # category-mate) is preserved in word_roles meta but not surfaced
         # in the explanation string.
         base = '%s (synonym of "%s")' % (val, word)
-        # Reversal: if this synonym was used reversed, show that explicitly,
-        # naming the reversal indicator word when known.
+        # Reversal: if this synonym was used reversed, show that explicitly.
+        # The indicator word is named in verifier-recognised bracket form
+        # ([reversal: "word"]) so explanation_names_indicator() can confirm
+        # it. The previous inline form ('reversed by "word"') was the same
+        # English but didn't match the verifier's regex.
         if meta.get('transform') == 'reversed' and meta.get('reversed_to'):
             ind = meta.get('reversal_indicator')
             if ind:
-                base = '%s reversed by "%s" = %s' % (
-                    base, ind, meta['reversed_to'])
+                base = '%s reversed = %s [reversal: "%s"]' % (
+                    base, meta['reversed_to'], ind)
             else:
                 base = '%s reversed = %s' % (base, meta['reversed_to'])
         return base
