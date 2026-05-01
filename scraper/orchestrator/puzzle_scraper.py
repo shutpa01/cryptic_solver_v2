@@ -778,11 +778,31 @@ def _submit_to_indexing_api(new_puzzles):
         conn = sqlite3.connect(str(CLUES_MASTER_DB))
         urls = []
 
-        # Puzzle URL submissions (future + today's) intentionally disabled.
-        # Clue URLs only — one per clue, up to the daily quota.
+        # --- Priority 1: Future puzzle pages (Cordelia only) ---
+        # Resubmit next 7 days EVERY night (not just once) to push
+        # Google to index them. A single submission is unreliable for
+        # a new domain — persistent daily requests are more effective.
+        previously_submitted = _load_submitted_futures()
+        future = _get_future_puzzle_numbers(conn, n=7)
         source_rank = {s: i for i, s in enumerate(INDEXING_SOURCE_ORDER)}
-        sorted_new = sorted(new_puzzles, key=lambda x: source_rank.get(x[0], 99))
+        future.sort(key=lambda x: source_rank.get(x[0], 99))
 
+        current_future_urls = set()
+        for source, pnum in future:
+            url = f"{CORDELIA_BASE_URL}/{source}/cryptic/{pnum}"
+            current_future_urls.add(url)
+            urls.append(url)  # always resubmit, not just new
+
+        future_count = len(urls)
+
+        # --- Priority 2: Today's new puzzle pages (Cordelia only) ---
+        sorted_new = sorted(new_puzzles, key=lambda x: source_rank.get(x[0], 99))
+        for source, puzzle_number, _count in sorted_new:
+            urls.append(f"{CORDELIA_BASE_URL}/{source}/cryptic/{puzzle_number}")
+
+        today_count = len(urls) - future_count
+
+        # --- Priority 3: Today's clue URLs (Cordelia, fill remaining quota) ---
         clue_urls = []
         for source, puzzle_number, _count in sorted_new:
             rows = conn.execute(
@@ -795,13 +815,17 @@ def _submit_to_indexing_api(new_puzzles):
                     clue_urls.append(f"{CORDELIA_BASE_URL}/clue/{slug}")
         conn.close()
 
-        urls.extend(clue_urls[:INDEXING_DAILY_QUOTA])
-        clue_count = len(urls)
+        remaining = INDEXING_DAILY_QUOTA - len(urls)
+        if remaining > 0:
+            urls.extend(clue_urls[:remaining])
+
+        clue_count = len(urls) - future_count - today_count
 
         print(f"\n{'=' * 60}")
         print(f"GOOGLE INDEXING API — {len(urls)} URLs (quota {INDEXING_DAILY_QUOTA})")
+        print(f"  Future puzzles (new): {future_count}")
+        print(f"  Today's puzzles: {today_count}")
         print(f"  Clue URLs: {clue_count}")
-        print(f"  Puzzle URLs: DISABLED")
         print(f"{'=' * 60}")
 
         submitted = 0
@@ -818,10 +842,14 @@ def _submit_to_indexing_api(new_puzzles):
 
         print(f"  Submitted: {submitted}, Errors: {errors}")
 
+        # Update tracking — keep only current future URLs, add newly submitted
+        _save_submitted_futures(previously_submitted | current_future_urls)
+
         summary = (
             f"GOOGLE INDEXING API\n"
+            f"  Future puzzles (new): {future_count}\n"
+            f"  Today's puzzles: {today_count}\n"
             f"  Clue URLs: {clue_count}\n"
-            f"  Puzzle URLs: DISABLED\n"
             f"  Total submitted: {submitted}, Errors: {errors}"
         )
         return summary
