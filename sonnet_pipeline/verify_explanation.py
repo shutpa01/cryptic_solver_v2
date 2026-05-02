@@ -1172,6 +1172,74 @@ class ExplanationVerifier:
                                   f"for {wtype} operation",
                     })
 
+        # --- CHECK 7b: Clue-side indicator scan (mechanism-hiding catch) ---
+        # The check above only fires for operations DECLARED in wordplay_type
+        # or surfaced by a "reversal of" string in the explanation. A parse
+        # that hides the mechanism completely (e.g. mechanical_v1 storing
+        # `wordplay_type="charade"` with no reversal mention, despite the
+        # clue containing "sent over") slips through with no demerit.
+        #
+        # This check independently scans the CLUE for indicators of each
+        # operation type. If the clue has e.g. a reversal indicator and
+        # the explanation neither declares the reversal in wordplay_type
+        # nor names the indicator, score WRONG — the explanation is
+        # hiding a mechanism the clue plainly contains.
+        #
+        # Honours the standing rule (2026-05-01): "verifier cannot ignore
+        # an indicator present in the clue". Without this scan, the
+        # earlier rule only covered the case where the explanation leaked
+        # the operation accidentally; here we catch the case where the
+        # explanation hides it on purpose.
+        # Build the set of clue words and 2-word phrases (used below).
+        _clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                                 (clue_text or "").lower())
+        _clue_phrases = [_clue_words[i] + " " + _clue_words[i + 1]
+                         for i in range(len(_clue_words) - 1)]
+        _expl_lower = (expl or "").lower()
+
+        for op_type in OPERATION_INDICATOR_REQUIREMENTS:
+            req_type, _ = OPERATION_INDICATOR_REQUIREMENTS[op_type]
+            if req_type in seen_op_checks:
+                continue  # already addressed by check 7a above
+
+            # Find specific clue word(s)/phrase(s) that are indicators
+            # for this op type per the indicators DB.
+            indicator_tokens = []
+            for w in _clue_words:
+                for wt, _st in self._indicators_by_word.get(w, []):
+                    if wt == req_type or (req_type == "container"
+                                          and wt == "insertion"):
+                        indicator_tokens.append(w)
+                        break
+            for ph in _clue_phrases:
+                for wt, _st in self._indicators_by_word.get(ph, []):
+                    if wt == req_type or (req_type == "container"
+                                          and wt == "insertion"):
+                        indicator_tokens.append(ph)
+                        break
+
+            if not indicator_tokens:
+                continue
+
+            # If any of those exact words/phrases appear ANYWHERE in the
+            # explanation, the parse has already addressed them (possibly
+            # under a different op-type — ambiguous indicators like "over"
+            # can be anagram OR reversal). Don't double-fault.
+            if any(tok in _expl_lower for tok in indicator_tokens):
+                continue
+
+            # The clue has an indicator for this op-type, no other
+            # op-type in the parse used it, and it's invisible in the
+            # explanation. Mechanism hidden — flag WRONG.
+            checks.append({
+                "check": "indicator",
+                "status": "wrong",
+                "detail": f"clue contains a {req_type} indicator "
+                          f"({indicator_tokens[0]!r}) but the parse "
+                          f"hides this mechanism",
+            })
+            seen_op_checks.add(req_type)
+
         # Piece-level positional indicator checks have been removed.
         # `check_positional()` mechanically verifies that e.g. X really is
         # the last letter of Y — the indicator-DB check was redundant and
