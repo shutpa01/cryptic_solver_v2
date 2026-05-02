@@ -1099,6 +1099,62 @@ def _find_indicator_word(clue_text, ref_db, want_type, exclude_words=None):
     return None
 
 
+def _find_indicator_phrase(clue_text, ref_db, want_type, exclude_words=None):
+    """Scan clue_text for the best single-word indicator of want_type.
+
+    Returns a single lowercase word, or None.
+
+    Selection rule: prefer the FIRST indicator that is NOT also a member
+    of LINK_WORDS. If only link-word indicators exist (e.g. "in"), fall
+    back to the first such match. Reason: a link-word indicator like "in"
+    is too generic and surrounding link words ("the", "of") would have
+    no anchor; preferring a content-bearing indicator like "grip" leaves
+    the function-words to fall through to the verifier's link-word
+    classification, achieving full word accounting without inflating
+    annotations that the indicators DB cannot verify.
+
+    The function name is preserved (was: `_find_indicator_phrase`) to
+    keep callers stable; the practical return is currently single-word.
+    Phrase-aware extension is deferred until the indicators DB carries
+    multi-word entries.
+    """
+    if not clue_text or not ref_db:
+        return None
+    import re as _re
+    try:
+        from signature_solver.tokens import LINK_WORDS
+    except Exception:
+        LINK_WORDS = set()
+
+    excluded = set()
+    if exclude_words:
+        excluded = {w.lower() for w in exclude_words}
+
+    words = _re.findall(r"[a-zA-Z][a-zA-Z'-]*", clue_text)
+    if not words:
+        return None
+
+    fallback = None  # first link-word indicator, used only if no non-link match
+
+    for w in words:
+        wl = w.lower()
+        if wl in excluded:
+            continue
+        try:
+            types = {t for t, _st, _conf in ref_db.get_indicator_types(wl)}
+        except Exception:
+            types = set()
+        if want_type not in types:
+            # Container indicators may also be tagged 'insertion' in the DB.
+            if not (want_type == "container" and "insertion" in types):
+                continue
+        if wl not in LINK_WORDS:
+            return wl  # prefer non-link
+        if fallback is None:
+            fallback = wl
+    return fallback
+
+
 def build_explanation_text(wordplay_type, pieces, definition, answer,
                             clue_text=None, ref_db=None, assembly=None):
     """Build human-readable explanation.
@@ -1125,6 +1181,18 @@ def build_explanation_text(wordplay_type, pieces, definition, answer,
     if wordplay_type == "anagram":
         fodder = " + ".join(p["clue_word"].upper() for p in pieces)
         expl = 'anagram of %s = %s' % (fodder, answer.upper())
+        # Surface the anagram indicator phrase so the verifier's word
+        # coverage check can claim it. Definition words excluded so def
+        # phrases don't get picked up as indicators.
+        _def_words_anag = set()
+        if definition:
+            import re as _re_a
+            _def_words_anag = {w.lower() for w in _re_a.findall(
+                r"[a-zA-Z][a-zA-Z'-]*", definition)}
+        _ind_a = _find_indicator_phrase(
+            clue_text, ref_db, "anagram", _def_words_anag)
+        if _ind_a:
+            expl += ' [anagram: "%s"]' % _ind_a
     elif wordplay_type == "deletion":
         source = pieces[0]["letters"] if pieces else "?"
         source_word = pieces[0]["clue_word"] if pieces else "?"
@@ -1135,6 +1203,16 @@ def build_explanation_text(wordplay_type, pieces, definition, answer,
             expl = '%s (synonym="%s") minus %s (%s) = %s' % (source, source_word, removed, removed_word, answer.upper())
         else:
             expl = '%s (synonym="%s") with deletion = %s' % (source, source_word, answer.upper())
+        # Surface the deletion indicator phrase
+        _def_words_del = set()
+        if definition:
+            import re as _re_d
+            _def_words_del = {w.lower() for w in _re_d.findall(
+                r"[a-zA-Z][a-zA-Z'-]*", definition)}
+        _ind_d = _find_indicator_phrase(
+            clue_text, ref_db, "deletion", _def_words_del)
+        if _ind_d:
+            expl += ' [deletion: "%s"]' % _ind_d
     elif wordplay_type in ("container", "charade"):
         # Render container clues honestly as INNER inside OUTER. Charade
         # clues stay as A + B + C. The container path requires assembly
@@ -1196,13 +1274,13 @@ def build_explanation_text(wordplay_type, pieces, definition, answer,
                 r"[a-zA-Z][a-zA-Z'-]*", definition)}
         ind_notes = []
         if wordplay_type == "container":
-            ind = _find_indicator_word(clue_text, ref_db, "container", def_words)
+            ind = _find_indicator_phrase(clue_text, ref_db, "container", def_words)
             if ind:
                 ind_notes.append('container: "%s"' % ind)
         if any(p.get("mechanism") == "reversal"
                or (p.get("mechanism") or "").startswith("reversal:")
                for p in pieces):
-            ind = _find_indicator_word(clue_text, ref_db, "reversal", def_words)
+            ind = _find_indicator_phrase(clue_text, ref_db, "reversal", def_words)
             if ind:
                 ind_notes.append('reversal: "%s"' % ind)
         if ind_notes:
