@@ -473,15 +473,22 @@ class ExplanationVerifier:
                 r"deletion\s*=\s*" + Q, expl, re.IGNORECASE):
             _claim_phrase(_qval(m), "deletion_source")
 
-        # 7. Indicator phrases: [type: "X"]
-        for m in re.finditer(
-                r'\[\s*(?:anagram|reversal|container|deletion|homophone'
-                r'|hidden|first\s+letters?|last\s+letters?|middle\s+letters?'
-                r'|outer\s+letters?|initial|final|odd|even|alternat(?:e|ing)'
-                r'|spoonerism|charade|cycle|cycling|insertion'
-                r'|acrostic|substitution|parts|selection)'
-                r'\s*:\s*' + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "indicator")
+        # 7. Indicator phrases: [type: "X"; type: "Y"; ...]
+        # Multi-indicator brackets use ';' separators inside one [...] pair,
+        # so we walk each bracket's inner content and extract each
+        # type:"phrase" pair. A single \[type:"X"\] regex would only catch
+        # the FIRST indicator in a multi-indicator bracket.
+        _IND_TYPES = (r"anagram|reversal|container|deletion|homophone|"
+                      r"hidden|first\s+letters?|last\s+letters?|middle\s+letters?|"
+                      r"outer\s+letters?|initial|final|odd|even|alternat(?:e|ing)|"
+                      r"spoonerism|charade|cycle|cycling|insertion|"
+                      r"acrostic|substitution|parts|selection")
+        for bm in re.finditer(r"\[([^\]]+)\]", expl):
+            inner = bm.group(1)
+            for m in re.finditer(
+                    r"(?:" + _IND_TYPES + r")\s*:\s*" + Q,
+                    inner, re.IGNORECASE):
+                _claim_phrase(_qval(m), "indicator")
 
         # 8. Anagram fodder: clue words appearing as uppercase tokens
         # between "anagram of" and the next "=" (greedy stop at last =).
@@ -1451,7 +1458,7 @@ class ExplanationVerifier:
         # words like "outskirts of". Mechanical truth is self-verifying;
         # requiring an additional DB match was the mirror-trick problem.
 
-        # --- CHECK 8: Word coverage (DRY-RUN, informational only) ---
+        # --- CHECK 8: Word coverage ---
         # Classify every word in the clue by the role the explanation
         # claims for it. Words may be claimed as: definition, synonym
         # source, abbreviation source, positional source, reversal
@@ -1459,18 +1466,20 @@ class ExplanationVerifier:
         # source, dbe_marker. Whatever is left over is then checked
         # against the LINK_WORDS allow-list — leftover-AND-in-list →
         # link; leftover-and-not-in-list → unaccounted.
-        # Status is "info" so this does not affect scoring; it is a
-        # diagnostic for measuring coverage gaps before generators are
-        # upgraded.
+        # Per the user brief: every word must have a use. Unaccounted
+        # words mark the explanation as incomplete and the score
+        # reflects that via the wrong-branch penalty in the scoring
+        # section (see -15 per word, capped at -50).
         try:
             coverage = self._classify_clue_words(
                 clue_text, expl, definition)
+            unaccounted = coverage["unaccounted"]
             checks.append({
                 "check": "word_coverage",
-                "status": "info",
+                "status": "wrong" if unaccounted else "verified",
                 "detail": coverage["summary"],
                 "classified": coverage["classified"],
-                "unaccounted": coverage["unaccounted"],
+                "unaccounted": unaccounted,
             })
         except Exception:
             pass  # Diagnostic check must never disrupt verification
@@ -1594,6 +1603,17 @@ class ExplanationVerifier:
                     score -= 40  # DD claimed but neither window maps to answer — likely bogus
                 elif c["check"] == "source_not_in_clue":
                     score -= 30  # Phantom source — piece claims a word the clue doesn't use
+                elif c["check"] == "word_coverage":
+                    # Every clue word must have an assigned use per the brief.
+                    # Penalty: -25 per unaccounted word, no cap. The score
+                    # floor at 0 takes care of clues with many missing words.
+                    # Calibrated so 1 unaccounted word in a HIGH-scoring
+                    # explanation drops it below the HIGH threshold (70):
+                    # 85→60 = MEDIUM, 100→75 = still HIGH only if otherwise
+                    # immaculate.
+                    n = len(c.get("unaccounted", []))
+                    if n > 0:
+                        score -= 25 * n
             elif c["status"] == "unverifiable":
                 # A piece that the verifier tried to check against the DB and could
                 # not confirm is not an explained piece — it's a gap. Penalise so
