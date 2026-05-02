@@ -1292,8 +1292,28 @@ def build_explanation_text(wordplay_type, pieces, definition, answer,
         mech = pieces[0]["mechanism"] if pieces else "first_letter"
         label = "first letters" if mech == "first_letter" else "last letters"
         expl = '%s of "%s" = %s' % (label, words, answer.upper())
+        # Surface acrostic indicator (e.g. "primarily", "leads", "tops")
+        _def_words_acr = set()
+        if definition:
+            import re as _re_ac
+            _def_words_acr = {w.lower() for w in _re_ac.findall(
+                r"[a-zA-Z][a-zA-Z'-]*", definition)}
+        _ind_ac = _find_indicator_phrase(
+            clue_text, ref_db, "acrostic", _def_words_acr)
+        if _ind_ac:
+            expl += ' [acrostic: "%s"]' % _ind_ac
     elif wordplay_type == "homophone":
         expl = 'sounds like %s = %s' % (pieces[0]["clue_word"], answer.upper())
+        # Surface homophone indicator (e.g. "reportedly", "we hear", "say")
+        _def_words_hom = set()
+        if definition:
+            import re as _re_h
+            _def_words_hom = {w.lower() for w in _re_h.findall(
+                r"[a-zA-Z][a-zA-Z'-]*", definition)}
+        _ind_h = _find_indicator_phrase(
+            clue_text, ref_db, "homophone", _def_words_hom)
+        if _ind_h:
+            expl += ' [homophone: "%s"]' % _ind_h
     else:
         expl = answer.upper()
 

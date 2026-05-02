@@ -478,7 +478,8 @@ class ExplanationVerifier:
                 r'\[\s*(?:anagram|reversal|container|deletion|homophone'
                 r'|hidden|first\s+letters?|last\s+letters?|middle\s+letters?'
                 r'|outer\s+letters?|initial|final|odd|even|alternat(?:e|ing)'
-                r'|spoonerism|charade|cycle|cycling|insertion)'
+                r'|spoonerism|charade|cycle|cycling|insertion'
+                r'|acrostic|substitution|parts|selection)'
                 r'\s*:\s*' + Q, expl, re.IGNORECASE):
             _claim_phrase(_qval(m), "indicator")
 
