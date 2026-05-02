@@ -2563,6 +2563,12 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     clue_answer = clue_row[1] if clue_row else None
     clue_text = clue_row[0] if clue_row else ""
     explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
+    # Append operation-indicator bracket(s) from Haiku response. Tier2 prompt
+    # asks for an "indicators" list per operation; without this surface step
+    # the bracket annotation never reaches the verifier's CHECK 7/8.
+    if explanation_text and ai_output:
+        from .tftt_pipeline import _format_indicators_bracket
+        explanation_text += _format_indicators_bracket(ai_output)
 
     # Run mechanical verifier for confidence score
     if explanation_text:

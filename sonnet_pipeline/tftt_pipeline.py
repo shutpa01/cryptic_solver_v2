@@ -48,14 +48,19 @@ Output ONLY valid JSON with:
   - "clue_word": the word(s) from the clue this piece comes from
   - "letters": the uppercase letters this piece contributes to the answer
   - "mechanism": one of: synonym, abbreviation, literal, anagram_fodder, first_letter, last_letter, reversal, hidden, deletion, alternate_letters, core_letters, sound_of
+- "indicators": array of {"type": "...", "phrase": "..."} objects naming the EXACT word or phrase from the clue that signals each operation. Use the same wordplay-type names as wordplay_type. Empty array [] if there is no indicator (e.g. pure charade with only link words). Examples:
+    [{"type": "anagram", "phrase": "crushed"}]
+    [{"type": "container", "phrase": "in the grip of"}, {"type": "deletion", "phrase": "without"}]
+    [{"type": "homophone", "phrase": "reportedly"}]
 - "_reasoning": one-line summary
 
 Rules:
 - Each piece must map to the SMALLEST unit: individual words, not lumped phrases.
-- Indicator words (anagram indicators, reversal indicators, etc.) are NOT pieces — they signal operations but contribute no letters.
-- Link words (in, for, with, etc.) are NOT pieces.
+- Indicator words (anagram indicators, reversal indicators, etc.) are NOT pieces — they go in the "indicators" array, not "pieces". They signal operations but contribute no letters.
+- Link words (in, for, with, etc.) are NOT pieces and NOT indicators — they fall through to be classified separately.
 - The definition words are NOT pieces.
 - pieces letters must concatenate (or combine via the wordplay_type operation) to spell the answer.
+- For the "indicators" field: capture the FULL phrase the setter wrote, even when only one of its words is the recognised indicator (e.g. write "in the grip of", not just "grip"). Multi-word phrases are fine.
 - For anagrams: pieces are the raw fodder letters BEFORE rearrangement.
 - For containers: show outer and inner pieces separately.
 - For hidden words: one piece with the spanning clue words.
@@ -296,6 +301,36 @@ def solve_with_sonnet(client, clue_text, answer, enrichment, enricher, homo_engi
 # Step 5: Store results
 # ============================================================
 
+def _format_indicators_bracket(parsed):
+    """Convert parsed['indicators'] list into ' [type: "phrase"; ...]' string.
+
+    Returns the bracket string with a leading space, or empty string when
+    there are no indicators. Each indicator is type+phrase from the Haiku
+    response. Used by the Haiku-based generators to surface the operation
+    indicators the verifier's CHECK 7 / CHECK 8 expect.
+    """
+    inds = parsed.get("indicators") if isinstance(parsed, dict) else None
+    if not inds or not isinstance(inds, list):
+        return ""
+    parts = []
+    seen = set()
+    for ind in inds:
+        if not isinstance(ind, dict):
+            continue
+        t = (ind.get("type") or "").strip().lower()
+        p = (ind.get("phrase") or "").strip()
+        if not t or not p:
+            continue
+        key = (t, p.lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        parts.append('%s: "%s"' % (t, p))
+    if not parts:
+        return ""
+    return " [%s]" % "; ".join(parts)
+
+
 def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_explanation=""):
     """Store a TFTT-parsed result into clues_master.db.
 
@@ -330,6 +365,11 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
         explanation = _describe_assembly(assembly, pieces, answer=answer)
         if not explanation:
             explanation = ""
+        # Append operation-indicator bracket(s) parsed from Haiku response.
+        # _describe_assembly does not see indicators (they live outside the
+        # assembly), so this is the surface point for [type: "phrase"; ...]
+        # annotations the verifier's CHECK 7/8 require.
+        explanation += _format_indicators_bracket(parsed)
         # Add definition
         if explanation and definition:
             explanation += "; definition: \"%s\"" % definition

@@ -109,9 +109,16 @@ def build_prompt(clue_text, answer, definition, word_analysis):
         "and how the pieces assemble to produce the answer.\n\n"
         "Respond with ONLY valid JSON (no markdown, no explanation outside JSON):\n"
         '{"definition": "...", "wordplay_type": "...", '
-        '"pieces": [{"clue_word": "...", "letters": "...", "mechanism": "..."}]}\n\n'
+        '"pieces": [{"clue_word": "...", "letters": "...", "mechanism": "..."}], '
+        '"indicators": [{"type": "...", "phrase": "..."}]}\n\n'
         "mechanism must be one of: synonym, abbreviation, first_letter, last_letter,\n"
         "anagram_fodder, reversal, raw, container_outer, container_inner, indicator, link\n\n"
+        "indicators rules:\n"
+        "- One entry per operation (anagram, reversal, container, deletion, homophone, hidden, acrostic, spoonerism)\n"
+        "- 'type' matches wordplay_type names; 'phrase' is the EXACT word/phrase from the clue\n"
+        "- Capture the FULL setter phrase, even multi-word (e.g. 'in the grip of', not just 'in')\n"
+        "- Empty array [] for pure charades or clues with no indicator\n"
+        "- Indicator words go HERE, not in pieces\n\n"
         "If you cannot find a valid decomposition, respond: {\"error\": \"cannot_solve\"}"
     ) % (
         clue_text, answer, len(answer.replace(' ', '').replace('-', '')),
