@@ -269,7 +269,14 @@ def verify_and_store(results, dry_run=False):
 
         # Queue DB gaps for enrichment review
         gaps = _extract_gaps(v_result.get("checks", []), explanation=explanation)
+        from sonnet_pipeline.enrichment_gate import already_in_reference_db
         for gap_type, word, letters in gaps:
+            # Skip if already known in the reference DB. The verifier
+            # sometimes flags a "missing" lookup that's actually present
+            # via a different table or matching path; queueing those
+            # wastes review time.
+            if already_in_reference_db(gap_type, word, letters):
+                continue
             # Skip if previously rejected
             rejected = conn.execute(
                 "SELECT 1 FROM rejected_enrichments WHERE type=? AND LOWER(word)=? AND UPPER(letters)=?",

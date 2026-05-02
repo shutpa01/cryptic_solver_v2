@@ -1337,7 +1337,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
         # Store gaps in DB for dashboard review — skip items already in reference DB
         gap_conn = sqlite3.connect(CLUES_DB, timeout=30)
-        ref_conn = sqlite3.connect(CRYPTIC_DB, timeout=10)
+        from sonnet_pipeline.enrichment_gate import already_in_reference_db
         for g in gaps:
             gtype = g.get("type", "")
             word = g.get("word") or g.get("definition") or ""
@@ -1348,23 +1348,9 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             answer = g.get("answer", "")
             clue = g.get("clue", "")
 
-            # Check if already in reference DB (either table)
-            already = False
-            if gtype in ("synonym", "abbreviation"):
-                already = ref_conn.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? AND UPPER(synonym)=?",
-                    (word.lower(), letters.upper())
-                ).fetchone() is not None
-                if not already:
-                    already = ref_conn.execute(
-                        "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? AND UPPER(substitution)=?",
-                        (word.lower(), letters.upper())
-                    ).fetchone() is not None
-            elif gtype == "definition":
-                already = ref_conn.execute(
-                    "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition)=? AND LOWER(answer)=?",
-                    (word.lower(), letters.lower())
-                ).fetchone() is not None
+            # Comprehensive pre-check (synonyms_pairs, def_answers_augmented,
+            # wordplay, synonyms text blob, indicators, homophones).
+            already = already_in_reference_db(gtype, word, letters)
 
             if not already:
                 rejected = gap_conn.execute(
@@ -1381,7 +1367,6 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 )
         gap_conn.commit()
         gap_conn.close()
-        ref_conn.close()
 
     return results, stats, gaps
 

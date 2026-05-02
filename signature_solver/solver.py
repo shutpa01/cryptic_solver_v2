@@ -473,7 +473,16 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                 h_def, h_wp = haiku_result
                 already_tried = any(dp == h_def for dp, _ in candidates)
                 if not already_tried:
-                    candidates.insert(0, (h_def, h_wp))
+                    # APPEND, not insert(0). DB candidates already in the
+                    # list are correct (came from definition_answers_augmented
+                    # or synonyms_pairs); Haiku's guess goes at the end so
+                    # the unsolved-fallback below uses candidates[0] (the DB
+                    # one) when the assembly fails. Previously this was
+                    # insert(0,...) and a wrong Haiku def could override a
+                    # right DB def — observed for 1d CARRIAGE: DB had
+                    # "Coach"→CARRIAGE, Haiku returned "bearing", prepend
+                    # made "bearing" win.
+                    candidates.append((h_def, h_wp))
                     # Retry grammar triage with the new candidate
                     try:
                         from .grammar_triage import grammar_triage
