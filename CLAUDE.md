@@ -168,49 +168,24 @@ for debugging why clues fail. The chain is:
 5. Check combo: does `_verify_reversal_combo` / `_verify_combo` assemble the answer?
 6. At each step, the answer is either "yes, move to next" or "no, this is the bug."
 
-## SOLVING LEFTOVERS — "solve the DM/DT leftovers"
+## SOLVING LEFTOVERS — "solve the DM/DT/Times leftovers"
 
-When the user says "solve the DM leftovers" or "solve the DT leftovers" (or names
-any source/puzzle), follow this EXACT workflow:
+When the user says "solve the leftovers" for any puzzle, follow the workflow in
+**`memory/feedback_leftover_process.md`** (auto-loaded each session). It is the
+single source of truth.
 
-### Prerequisites (user must have done these BEFORE asking you to solve)
-1. The pipeline has already run for the puzzle
-2. The user has already verified enrichments in the dashboard
+Headlines (do not deviate without reading the full doc first):
 
-### Steps
-1. **Collect**: Run `python scripts/collect_for_review.py --source <source> --puzzle <number>`
-2. **Read**: Read the generated file at `data/claude_review_YYYY-MM-DD.txt`
-3. **Solve**: Work through every clue. For each one, determine the wordplay type,
-   definition, and explanation.
-4. **Write response**: Write solutions to `data/claude_review_YYYY-MM-DD_response.txt`
-5. **Ingest**: Run `python scripts/ingest_claude_review.py <response_file>` to write to DB
-6. **Report**: Tell the user the results — how many HIGH/MEDIUM/LOW/FAIL
-No dry-run step needed — the verifier scores honestly and the user reviews in the dashboard.
-
-### Explanation format (CRITICAL — must match verifier expectations)
-Use UPPERCASE for letter pieces. Always end with `; definition: "..."`.
-Piece sources: `(synonym="word")`, `(abbreviation="word")`, `(first letter of "word")`.
-
-- **Charade**: `PIECE (synonym="x") + PIECE (abbreviation="y") = ANSWER; definition: "def"`
-- **Anagram**: `anagram of FODDER + FODDER = ANSWER; definition: "def"`
-- **Hidden**: `hidden in "teXT HEREin"; definition: "def"`
-- **Double def**: `Double definition: meaning1 = ANSWER, meaning2 = ANSWER`
-- **Container**: `OUTER (synonym="x") containing INNER (synonym="y") = ANSWER; definition: "def"`
-- **Homophone**: `ANSWER sounds like "word" (indicator); definition: "def"`
-- **Deletion**: `SOURCE (synonym="x") minus LETTER = ANSWER; definition: "def"`
-
-### Quality standards
-- Every explanation must be HONEST. If you can't parse a clue, say so — don't guess.
-- The verifier will score independently. Do NOT try to game the format to get higher scores.
-- FAILs and LOWs are fine — the user will review them. False HIGHs are not fine.
-- Check letter counts: anagram fodder must have exactly the right number of letters.
-- Check assembly: pieces must concatenate/combine to give the exact answer.
-- **USE THE BLOG EXPLANATION AS A COMPASS** — the report includes blog explanations from
-  TFTT/FifteenSquared when available. These tell you what the wordplay mechanism IS (anagram,
-  container, charade, etc.) and what the pieces are. This stops you going down the wrong path.
-  But don't copy them verbatim — they're often incomplete or use non-standard notation.
-  Your job: use the blog to understand the mechanism, then build a proper verifier-compatible
-  explanation with correct piece sources, letter assembly, and definition.
+- Use the **live SQL query** to get the work list — no `collect_for_review.py` /
+  `ingest_claude_review.py` round-trip. The intermediate file is unreliable.
+- Every clue MUST end with a definition. Leftover processing is the **last line
+  of defence** — no automated layer is allowed to be the final word.
+- **Coverage check before any DB write**: every `(synonym=...)`, `(abbreviation=...)`,
+  `[indicator: ...]`, and definition phrase must already be in the DB or queued in
+  `pending_enrichments`. The verifier's auto-queue misses phrase-level gaps.
+- **Self-check before reporting done**: re-run the work-list query. If it returns
+  rows, you didn't finish.
+- Honesty over score. False HIGHs are not acceptable.
 
 ## GIT SAFETY
 

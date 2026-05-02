@@ -164,9 +164,17 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
 
     candidates = extract_definition_candidates(clue_words, answer_clean, db)
 
+    # Track whether the Haiku definition fallback has been consulted.
+    # Two invocation points: (1) here, when RefDB returns no candidates
+    # at all, and (2) below, as a second-chance after every candidate
+    # fails to produce a confident solve. The flag prevents redundant
+    # calls and makes the gating explicit.
+    haiku_tried = False
+
     # --- Haiku definition fallback (near-free) ---
     # If no definition candidates found in RefDB, ask Haiku
     if not candidates:
+        haiku_tried = True
         try:
             from .haiku_definition import find_definition as haiku_find_def
             haiku_result = haiku_find_def(clue_text, answer)
@@ -199,7 +207,13 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
             gt_result = grammar_triage(clue_text, answer_clean, db,
                                        wp_words=clue_words)
             if gt_result and gt_result.confidence >= 80:
-                gt_result.definition = None
+                # If candidates exist (DB- or Haiku-supplied), preserve the
+                # first candidate's def_phrase rather than discarding to None.
+                # Without this, a confident full-clue parse silently overrides
+                # a known-correct definition (verified for ABBA, CLOWNISH).
+                # Wordplay parse may double-use def words; the user gets a
+                # semantic definition rather than nothing.
+                gt_result.definition = candidates[0][0] if candidates else None
                 if best_sr is None or gt_result.confidence > best_sr.confidence:
                     best_sr = gt_result
     except Exception:
@@ -439,6 +453,57 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
             if suggested_indicator:
                 sr.suggested_indicators = [suggested_indicator]
         return sr
+
+    # --- Haiku definition second-chance ---
+    # If we got here without a confident solve AND Haiku hasn't been
+    # consulted (because DB candidates were non-empty at the top of
+    # this function), give Haiku a chance now. The DB candidates may
+    # have been weak fuzzy matches that prevented the initial Haiku
+    # gate from firing yet failed to produce a parse. A successful
+    # Haiku candidate is prepended to `candidates` so the unsolved-
+    # fallback path below uses its def_phrase rather than the failed
+    # DB one; we also retry grammar-triage and catalog-solve with it
+    # in case the better definition unlocks a parse.
+    if (best_sr is None or not best_sr.high_confidence) and not haiku_tried:
+        haiku_tried = True
+        try:
+            from .haiku_definition import find_definition as haiku_find_def
+            haiku_result = haiku_find_def(clue_text, answer)
+            if haiku_result:
+                h_def, h_wp = haiku_result
+                already_tried = any(dp == h_def for dp, _ in candidates)
+                if not already_tried:
+                    candidates.insert(0, (h_def, h_wp))
+                    # Retry grammar triage with the new candidate
+                    try:
+                        from .grammar_triage import grammar_triage
+                        gt_result = grammar_triage(
+                            clue_text, answer_clean, db,
+                            def_phrase=h_def, wp_words=h_wp)
+                        if gt_result and gt_result.confidence >= 80:
+                            gt_result.definition = h_def
+                            if (best_sr is None
+                                    or gt_result.confidence > best_sr.confidence):
+                                best_sr = gt_result
+                    except Exception:
+                        pass
+                    # Retry catalog solve with the new candidate
+                    if best_sr is None or not best_sr.high_confidence:
+                        if (clue_words[:len(clue_words) - len(h_wp)]
+                                == clue_words[:len(h_def.split())]):
+                            def_pos = 'start'
+                        else:
+                            def_pos = 'end'
+                        sr_h = solve(h_wp, answer_clean, db, min_confidence,
+                                     def_pos=def_pos,
+                                     extra_catalog=extra_catalog)
+                        if sr_h.solved:
+                            sr_h.definition = h_def
+                            if (best_sr is None
+                                    or sr_h.confidence > best_sr.confidence):
+                                best_sr = sr_h
+        except Exception:
+            pass
 
     if best_sr is not None:
         return _attach_and_return(best_sr)

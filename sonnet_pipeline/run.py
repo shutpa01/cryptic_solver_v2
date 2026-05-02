@@ -438,6 +438,23 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
 
             # Try definition-first approach
             definition, remaining = _v1_find_definition(clue, answer_clean, ref_db)
+
+            # Haiku fallback: when V1's DB-only finder misses, ask Haiku.
+            # Mirrors the gate in signature_solver/solver.py so the mechanical
+            # phase doesn't write rows with definition=None when Haiku could
+            # supply one. Failure modes (no API key, network) silently fall
+            # through — definition stays None and the existing path continues.
+            if definition is None:
+                try:
+                    from signature_solver.haiku_definition import (
+                        find_definition as _haiku_find_def,
+                    )
+                    haiku_result = _haiku_find_def(clue, answer)
+                    if haiku_result:
+                        definition, remaining = haiku_result
+                except Exception:
+                    pass
+
             if remaining is None:
                 remaining = _strip_enum(clue).split()
 
@@ -1010,7 +1027,15 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
         print("   Pieces: %s -> %s (target=%s)" % (
             sonnet_pieces, "".join(sonnet_pieces), target))
         if assembly:
-            desc = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [], answer=answer)
+            # Defensive: _describe_assembly has crashed pipelines mid-loop with
+            # TypeError when assembly["order"] contains ints (report.py:191).
+            # The description is for the log only — never let it kill processing
+            # of remaining clues.
+            try:
+                desc = _describe_assembly(assembly, sonnet_out.get("pieces", []) if sonnet_out else [], answer=answer)
+            except Exception as _desc_err:
+                desc = None
+                print("   [_describe_assembly error: %s]" % _desc_err)
             if desc:
                 print("   Assembly: %s — %s" % (assembly.get("op", "?"), desc))
             else:

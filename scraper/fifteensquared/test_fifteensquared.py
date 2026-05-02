@@ -87,39 +87,49 @@ def discover_post_url(puzzle_number, source, pub_date=None):
 
 
 def _search_wp_api(puzzle_number, cat_id):
-    """Search WP API for a post containing the puzzle number."""
-    try:
-        resp = requests.get(WP_API, headers=HEADERS, timeout=15, params={
-            'search': str(puzzle_number),
-            'categories': str(cat_id),
-            'per_page': 10,
-        })
-        if resp.status_code != 200:
-            print(f'    WP search returned HTTP {resp.status_code}')
-            return None, None
+    """Search WP API for a post containing the puzzle number.
 
-        posts = resp.json()
-        if not posts:
-            return None, None
+    Tries both unformatted ("12342") and comma-formatted ("12,342") search
+    terms because fifteensquared indexes titles with commas, so the WP
+    search engine treats "12342" and "12,342" as different tokens.
+    """
+    pnum_str = str(puzzle_number)
+    search_terms = [pnum_str]
+    if puzzle_number >= 1000:
+        # Insert thousands separator (e.g., 12342 -> "12,342")
+        search_terms.append(f"{puzzle_number:,}")
 
-        # Find post whose title/slug contains our puzzle number
-        pnum_str = str(puzzle_number)
-        for post in posts:
-            title = post.get('title', {}).get('rendered', '')
-            slug = post.get('slug', '')
-            link = post.get('link', '')
-            # Check if puzzle number appears in title or slug
-            # Title may have commas: "No 29,958" → check both with and without
-            # Must be word-boundary match to avoid 1647 matching 11647
-            title_clean = title.replace(',', '').replace('.', '')
-            pnum_pattern = re.compile(r'(?<!\d)' + re.escape(pnum_str) + r'(?!\d)')
-            if pnum_pattern.search(title_clean) or pnum_pattern.search(slug):
-                return link, title
+    pnum_pattern = re.compile(r'(?<!\d)' + re.escape(pnum_str) + r'(?!\d)')
 
-        return None, None
-    except Exception as e:
-        print(f'    WP search error: {e}')
-        return None, None
+    for term in search_terms:
+        try:
+            resp = requests.get(WP_API, headers=HEADERS, timeout=15, params={
+                'search': term,
+                'categories': str(cat_id),
+                'per_page': 10,
+            })
+            if resp.status_code != 200:
+                print(f'    WP search returned HTTP {resp.status_code}')
+                continue
+
+            posts = resp.json()
+            if not posts:
+                continue
+
+            # Find post whose title/slug contains our puzzle number
+            for post in posts:
+                title = post.get('title', {}).get('rendered', '')
+                slug = post.get('slug', '')
+                link = post.get('link', '')
+                # Title may have commas: "No 29,958" → strip them before matching
+                # Must be word-boundary match to avoid 1647 matching 11647
+                title_clean = title.replace(',', '').replace('.', '')
+                if pnum_pattern.search(title_clean) or pnum_pattern.search(slug):
+                    return link, title
+        except Exception as e:
+            print(f'    WP search error: {e}')
+
+    return None, None
 
 
 def _search_wp_by_date(puzzle_number, cat_id, pub_date):
@@ -897,6 +907,137 @@ def _is_cross_reference(clue):
     return bool(re.match(r'^See\s+\d', text, re.IGNORECASE))
 
 
+def parse_paired_row_table(content):
+    """Parse 2-rows-per-clue table format (e.g. Independent/Bluebird).
+
+    Structure:
+      <table>
+        <tr><td colspan="2"><b>Across</b></td></tr>     # direction header (1 td)
+        <tr><td>1a</td><td>clue text (enum)</td></tr>   # clue row
+        <tr><td></td><td><b>ANSWER</b> – parse</td></tr> # parse row
+        ... repeat for next clue
+      </table>
+    Each clue spans two consecutive rows: clue text in row N, answer + parse
+    in row N+1 (with N+1's first cell empty / whitespace).
+    """
+    clues = []
+    direction = None
+
+    for element in content.children:
+        if not isinstance(element, Tag):
+            continue
+
+        # Direction headers in surrounding paragraphs
+        if element.name in ('p', 'h2', 'h3', 'h4'):
+            text = element.get_text(strip=True).lower()
+            if text in ('across', 'down'):
+                direction = text
+                continue
+            bold = element.find(['strong', 'b'])
+            if bold and bold.get_text(strip=True).lower() in ('across', 'down'):
+                direction = bold.get_text(strip=True).lower()
+                continue
+
+        if element.name != 'table':
+            continue
+
+        rows = element.find_all('tr')
+        i = 0
+        while i < len(rows):
+            tds = rows[i].find_all('td')
+
+            # Direction header row (1 cell with "Across" / "Down", possibly bold)
+            if len(tds) >= 1:
+                first_text = tds[0].get_text(strip=True).lower()
+                if first_text in ('across', 'down'):
+                    direction = first_text
+                    i += 1
+                    continue
+                bold = tds[0].find(['strong', 'b'])
+                if bold and bold.get_text(strip=True).lower() in ('across', 'down'):
+                    direction = bold.get_text(strip=True).lower()
+                    i += 1
+                    continue
+
+            # Clue row needs 2 cells: label + clue text
+            if len(tds) < 2:
+                i += 1
+                continue
+
+            # Label may carry direction suffix (e.g. "1a", "23d") — accept either
+            # numeric-only with surrounding direction header or combined form.
+            label_raw = tds[0].get_text(strip=True).strip(' .:')
+            m = re.match(r'^(\d+)\s*([adAD])?$', label_raw)
+            if not m:
+                i += 1
+                continue
+            clue_num = m.group(1)
+            label_dir_letter = (m.group(2) or '').lower()
+            if label_dir_letter == 'a':
+                row_direction = 'across'
+            elif label_dir_letter == 'd':
+                row_direction = 'down'
+            else:
+                row_direction = direction
+            if not row_direction:
+                i += 1
+                continue
+
+            # Need a following parse row
+            if i + 1 >= len(rows):
+                i += 1
+                continue
+            parse_tds = rows[i + 1].find_all('td')
+            if len(parse_tds) < 2:
+                i += 1
+                continue
+
+            # Clue text: full TD[1] text + enumeration
+            clue_td = tds[1]
+            clue_text = clue_td.get_text(separator=' ', strip=True)
+            enum_m = ENUM_PAT.search(clue_text)
+            enumeration = enum_m.group(1).strip() if enum_m else ''
+            definition = _extract_definition(clue_td)
+
+            # Answer: first bold tag in parse cell that looks like an answer.
+            parse_td = parse_tds[1]
+            answer = ''
+            for tag in parse_td.find_all(['b', 'strong']):
+                candidate = tag.get_text(strip=True)
+                if is_answer(candidate):
+                    answer = candidate
+                    break
+            if not answer:
+                i += 1
+                continue
+
+            # Explanation: everything after the answer in TD[1] of the parse row
+            full_parse = parse_td.get_text(separator=' ', strip=True)
+            ans_clean = answer.upper().replace(' ', '').replace('-', '')
+            full_clean = re.sub(r'[\s\-]', '', full_parse).upper()
+            ans_idx = full_clean.find(ans_clean)
+            explanation = full_parse
+            # Strip the answer (case-insensitive) from the start of the parse text
+            m_ans = re.search(re.escape(answer), full_parse, re.IGNORECASE)
+            if m_ans:
+                explanation = full_parse[m_ans.end():]
+            explanation = re.sub(r'^[\s\-–—:\.\xa0•]+', '', explanation).strip()
+
+            dir_suffix = 'a' if row_direction == 'across' else 'd'
+            clues.append({
+                'clue_number': f'{clue_num}{dir_suffix}',
+                'direction': row_direction,
+                'answer': answer.upper().replace('\xa0', '').strip(),
+                'clue_text': clue_text,
+                'enumeration': enumeration,
+                'definition': definition,
+                'explanation': explanation,
+            })
+            i += 2  # consume both clue + parse rows
+
+    return clues
+
+
 def parse_post(html):
     """Parse a fifteensquared blog post. Auto-detects format.
 
@@ -924,6 +1065,10 @@ def parse_post(html):
     if not clues:
         clues = parse_two_col_table(content)
         fmt = 'two_col_table'
+
+    if not clues:
+        clues = parse_paired_row_table(content)
+        fmt = 'paired_row_table'
 
     if not clues:
         clues = parse_single_para_format(content)
