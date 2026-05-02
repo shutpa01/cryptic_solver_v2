@@ -370,6 +370,187 @@ class ExplanationVerifier:
                     return True, inner_clean, outer
         return False, None, None
 
+    def _classify_clue_words(self, clue_text, ai_explanation, definition_text):
+        """Classify every clue word by the role the explanation claims for it.
+
+        Returns dict with:
+            classified: list of (word, role) tuples in clue order
+            unaccounted: list of words neither role-claimed nor in LINK_WORDS
+            link: list of words classified as link
+            summary: short human-readable summary
+
+        Roles (in claim-priority order):
+            definition, synonym_source, abbreviation_source, positional_source,
+            reversal_source, deletion_source, indicator, anagram_fodder,
+            hidden_source, dbe_marker, link, unaccounted
+
+        Order matters: a clue word is claimed by the FIRST role that owns it.
+        Whatever remains after all role claims is matched against LINK_WORDS
+        — present in list → link; not in list → unaccounted.
+        """
+        from signature_solver.tokens import (
+            LINK_WORDS, DBE_MARKERS_SINGLE, DBE_MARKERS_MULTI,
+        )
+
+        clue = clue_text or ""
+        # Strip enumeration "(7)", "(3,4)", etc. before tokenising
+        clue = re.sub(r"\s*\([\d,\-\s/]+\)\s*$", "", clue)
+        words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue.lower())
+        if not words:
+            return {"classified": [], "unaccounted": [], "link": [],
+                    "summary": "no clue words"}
+
+        expl = ai_explanation or ""
+        claimed = {}  # word_index -> role
+
+        # Quoted-value pattern: matches "..." OR '...' allowing the *other*
+        # quote type inside (so synonym="queen's worker" captures full value).
+        # Use group(1) or group(2) — whichever matched.
+        Q = r'(?:"([^"]+)"|\'([^\']+)\')'
+
+        def _qval(m):
+            return m.group(1) if m.group(1) is not None else m.group(2)
+
+        def _norm(w):
+            """Strip trailing 's possessive for matching equivalence."""
+            return w[:-2] if w.endswith("'s") else w
+
+        def _claim_phrase(phrase, role):
+            """Claim each word of `phrase` once against unclaimed clue words.
+            Match is case-insensitive and possessive-tolerant
+            (lincolnshire matches lincolnshire's, and vice versa)."""
+            if not phrase:
+                return
+            phrase_words = re.findall(
+                r"[a-zA-Z]+(?:'[a-zA-Z]+)?", phrase.lower())
+            for pw in phrase_words:
+                pw_norm = _norm(pw)
+                for i, w in enumerate(words):
+                    if i in claimed:
+                        continue
+                    if _norm(w) == pw_norm:
+                        claimed[i] = role
+                        break
+
+        # 1. Definition phrase
+        if definition_text:
+            _claim_phrase(definition_text, "definition")
+
+        # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
+        for m in re.finditer(
+                r"synonym\s*=\s*" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "synonym_source")
+        for m in re.finditer(
+                r"synonym\s+of\s+" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "synonym_source")
+
+        # 3. Abbreviation sources
+        for m in re.finditer(
+                r"abbreviation\s*=\s*" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "abbreviation_source")
+        for m in re.finditer(
+                r"abbreviation\s+of\s+" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "abbreviation_source")
+        for m in re.finditer(
+                r"abbr\.?\s*(?:of\s+)?" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "abbreviation_source")
+
+        # 4. Positional sources: (first/last/middle/outer/etc. letter(s) of "X")
+        for m in re.finditer(
+                r"(?:first|last|middle|outer|initial|final|odd|even"
+                r"|alternat(?:e|ing))\s+letters?\s+(?:of|in|from)\s+" + Q,
+                expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "positional_source")
+
+        # 5. Reversal sources: (reversal of "X") or (reverse of "X")
+        for m in re.finditer(
+                r"(?:reversal|reverse)\s+of\s+" + Q,
+                expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "reversal_source")
+
+        # 6. Deletion sources: deletion="X"
+        for m in re.finditer(
+                r"deletion\s*=\s*" + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "deletion_source")
+
+        # 7. Indicator phrases: [type: "X"]
+        for m in re.finditer(
+                r'\[\s*(?:anagram|reversal|container|deletion|homophone'
+                r'|hidden|first\s+letters?|last\s+letters?|middle\s+letters?'
+                r'|outer\s+letters?|initial|final|odd|even|alternat(?:e|ing)'
+                r'|spoonerism|charade|cycle|cycling|insertion)'
+                r'\s*:\s*' + Q, expl, re.IGNORECASE):
+            _claim_phrase(_qval(m), "indicator")
+
+        # 8. Anagram fodder: clue words appearing as uppercase tokens
+        # between "anagram of" and the next "=" (greedy stop at last =).
+        ana_match = re.search(
+            r"anagram\s+(?:of\s+)?(.+?)\s*=", expl, re.IGNORECASE)
+        if ana_match:
+            fodder_words = re.findall(r"\b[A-Z]{2,}\b", ana_match.group(1))
+            for fw in fodder_words:
+                fw_lower = fw.lower()
+                for i, w in enumerate(words):
+                    if i in claimed:
+                        continue
+                    if w == fw_lower:
+                        claimed[i] = "anagram_fodder"
+                        break
+
+        # 9. Hidden span: hidden in "X" — claim clue words whose letters
+        # contiguously appear in the span (case-insensitive substring check
+        # over the letter-only normalisation).
+        for m in re.finditer(
+                r'hidden(?:\s+reversed)?\s+in\s+["\']([^"\']+)["\']',
+                expl, re.IGNORECASE):
+            span_letters = re.sub(r"[^a-z]", "", m.group(1).lower())
+            for i, w in enumerate(words):
+                if i in claimed:
+                    continue
+                if w and w in span_letters:
+                    claimed[i] = "hidden_source"
+
+        # 10. DBE markers (single + multi-word phrases)
+        for i, w in enumerate(words):
+            if i in claimed:
+                continue
+            if w in DBE_MARKERS_SINGLE:
+                claimed[i] = "dbe_marker"
+        for i in range(len(words) - 1):
+            if i in claimed or (i + 1) in claimed:
+                continue
+            if (words[i], words[i + 1]) in DBE_MARKERS_MULTI:
+                claimed[i] = "dbe_marker"
+                claimed[i + 1] = "dbe_marker"
+
+        # 11. Link words (last; leftover AND in LINK_WORDS)
+        link_words = []
+        unaccounted = []
+        classified = []
+        for i, w in enumerate(words):
+            if i in claimed:
+                classified.append((w, claimed[i]))
+            elif w in LINK_WORDS:
+                link_words.append(w)
+                classified.append((w, "link"))
+            else:
+                unaccounted.append(w)
+                classified.append((w, "unaccounted"))
+
+        if unaccounted:
+            summary = (f"{len(unaccounted)}/{len(words)} unaccounted: "
+                       + ", ".join(unaccounted))
+        else:
+            summary = (f"all {len(words)} clue words accounted for "
+                       f"({len(link_words)} link)")
+
+        return {
+            "classified": classified,
+            "unaccounted": unaccounted,
+            "link": link_words,
+            "summary": summary,
+        }
+
     def verify(self, clue_text, answer, definition, wordplay_type, ai_explanation):
         """Run all mechanical checks on an explanation.
 
@@ -1246,6 +1427,30 @@ class ExplanationVerifier:
         # produced false negatives when the indicator DB lacked common
         # words like "outskirts of". Mechanical truth is self-verifying;
         # requiring an additional DB match was the mirror-trick problem.
+
+        # --- CHECK 8: Word coverage (DRY-RUN, informational only) ---
+        # Classify every word in the clue by the role the explanation
+        # claims for it. Words may be claimed as: definition, synonym
+        # source, abbreviation source, positional source, reversal
+        # source, deletion source, indicator, anagram fodder, hidden
+        # source, dbe_marker. Whatever is left over is then checked
+        # against the LINK_WORDS allow-list — leftover-AND-in-list →
+        # link; leftover-and-not-in-list → unaccounted.
+        # Status is "info" so this does not affect scoring; it is a
+        # diagnostic for measuring coverage gaps before generators are
+        # upgraded.
+        try:
+            coverage = self._classify_clue_words(
+                clue_text, expl, definition)
+            checks.append({
+                "check": "word_coverage",
+                "status": "info",
+                "detail": coverage["summary"],
+                "classified": coverage["classified"],
+                "unaccounted": coverage["unaccounted"],
+            })
+        except Exception:
+            pass  # Diagnostic check must never disrupt verification
 
         # --- SCORING ---
         # Three states: VERIFIED (proven correct), UNVERIFIABLE (not in DB),
