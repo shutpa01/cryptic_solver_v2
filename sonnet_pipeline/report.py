@@ -178,6 +178,21 @@ def _describe_assembly(asm, ai_pieces=None, answer=None):
 
     if op == "charade":
         order = asm.get("order", [])
+        # Some assemblies (notably Tier2 output) put integer indices in
+        # `order` rather than the letter strings themselves. Resolve via
+        # `pieces` when present, so downstream "".join(order[...]) does
+        # not raise TypeError on int items.
+        if order and order and not isinstance(order[0], str):
+            pieces_list = asm.get("pieces") or []
+            if pieces_list:
+                try:
+                    order = [pieces_list[i] if isinstance(i, int)
+                             and 0 <= i < len(pieces_list) else str(i)
+                             for i in order]
+                except Exception:
+                    order = [str(i) for i in order]
+            else:
+                order = [str(i) for i in order]
         if order:
             # Merge adjacent pieces when their concatenation matches an AI piece
             # e.g. ["P", "T"] with AI piece letters="PT" → single "PT(priest vacated)"

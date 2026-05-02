@@ -2562,7 +2562,14 @@ def store_result(conn, clue_id, ai_output, assembly, validation, tier):
     clue_row = conn.execute("SELECT clue_text, answer FROM clues WHERE id = ?", (clue_id,)).fetchone()
     clue_answer = clue_row[1] if clue_row else None
     clue_text = clue_row[0] if clue_row else ""
-    explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
+    # Defensive: _describe_assembly has crashed pipelines mid-loop with
+    # TypeError when assembly["order"] contains ints (report.py:191).
+    # Skip rather than abort; the row falls back to no explanation_text.
+    try:
+        explanation_text = _describe_assembly(assembly, ai_pieces, answer=clue_answer) if assembly else None
+    except Exception as _desc_err:
+        print(f"   [_describe_assembly error in store_result: {_desc_err}]")
+        explanation_text = None
     # Append operation-indicator bracket(s) from Haiku response. Tier2 prompt
     # asks for an "indicators" list per operation; without this surface step
     # the bracket annotation never reaches the verifier's CHECK 7/8.
