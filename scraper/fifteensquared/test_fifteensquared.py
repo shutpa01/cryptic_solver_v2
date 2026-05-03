@@ -739,7 +739,7 @@ def parse_single_para_format(content):
             clue_line = lines[i]
             expl_line = lines[i + 1]
 
-            clue_match = re.match(r'^(\d+)\s', clue_line)
+            clue_match = re.match(r'^(\d+)[\s.]', clue_line)
             if not clue_match:
                 i += 1
                 continue
