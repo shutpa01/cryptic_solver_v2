@@ -558,11 +558,25 @@ def fetch_everyman_new():
             number += 1
             continue
 
-        consecutive_misses = 0
         puzzle = parse_everyman_puzzle(data)
-        if not puzzle.get('puzzle_number'):
+        parsed_number = puzzle.get('puzzle_number')
+        if not parsed_number:
+            consecutive_misses += 1
             number += 1
             continue
+
+        # The article URL for an unpublished number can return 200 with related-
+        # article UUIDs in the HTML; fetch_everyman_uuid then picks one of those
+        # and we end up with data for an OLDER puzzle. Treat that as a miss
+        # instead of silently overwriting the older puzzle's row.
+        if parsed_number != number:
+            print(f"  Article #{number} returned data for #{parsed_number} - "
+                  f"requested puzzle not yet published, skipping")
+            consecutive_misses += 1
+            number += 1
+            continue
+
+        consecutive_misses = 0
 
         # Save this week's clues (answers may be empty)
         source_url = OBSERVER_DATA_URL.format(uuid)
