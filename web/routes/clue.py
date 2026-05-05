@@ -133,6 +133,74 @@ def old_slug_to_new_id(slug):
     return None
 
 
+def _build_enum_slug(clue_text, enumeration):
+    """Reconstruct an enumeration-suffixed slug for matching: text-words-N(-M)."""
+    if not clue_text or not enumeration:
+        return None
+    text = re.sub(r"[^a-z0-9]+", "-", clue_text.lower().strip()).strip("-")
+    enum = re.sub(r"[^0-9]+", "-", enumeration).strip("-")
+    if not text or not enum:
+        return None
+    return f"{text}-{enum}"
+
+
+def enum_slug_to_new_id(slug):
+    """If `slug` matches the oldest enumeration-suffix format, return clue id, else None.
+
+    The pre-pre-`8efd6532` URL format used the puzzle enumeration as the
+    trailing suffix, e.g. `ring-back-about-origin-of-incredibly-small-tree-5`
+    where `-5` is the enumeration "(5)", or `-5-3` for "(5,3)".
+
+    DB stores enumeration as `5`, `5,3`, or `5-3` depending on the original
+    setter convention; the slug uses `-` between numbers regardless.
+    """
+    if not slug:
+        return None
+    parts = slug.split("-")
+    if len(parts) < 2:
+        return None
+
+    # Collect trailing all-digit parts (the enumeration block).
+    enum_parts = []
+    for i in range(len(parts) - 1, -1, -1):
+        p = parts[i]
+        if p and p.isdigit():
+            enum_parts.insert(0, p)
+        else:
+            break
+    if not enum_parts:
+        return None
+    text_parts = parts[:len(parts) - len(enum_parts)]
+    if not text_parts:
+        return None
+
+    # Candidate DB enumeration formats — slug "-5-3" could match "5-3" or "5,3".
+    enum_dash = "-".join(enum_parts)
+    enum_comma = ",".join(enum_parts)
+    enum_candidates = list({enum_dash, enum_comma})
+
+    db = get_db()
+    placeholders = ",".join("?" for _ in enum_candidates)
+    where_clauses = [f"enumeration IN ({placeholders})"]
+    params = list(enum_candidates)
+    for w in text_parts[:3]:
+        if w:
+            where_clauses.append("LOWER(clue_text) LIKE ?")
+            params.append(f"%{w}%")
+    sql = (
+        "SELECT id, clue_text, enumeration FROM clues "
+        "WHERE source IN ('telegraph','times','guardian','independent','dailymail') "
+        "  AND clue_text IS NOT NULL "
+        f"  AND {' AND '.join(where_clauses)} "
+        "ORDER BY publication_date DESC LIMIT 50"
+    )
+    rows = db.execute(sql, params).fetchall()
+    for row in rows:
+        if _build_enum_slug(row["clue_text"], row["enumeration"]) == slug:
+            return row["id"]
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Route
 # ---------------------------------------------------------------------------
@@ -160,6 +228,11 @@ def clue_page(slug):
         # Old-format slug (pre-`8efd6532`, answer-suffixed): permanent-redirect
         # to the new id-based URL so Google's existing index transfers cleanly.
         old_id = old_slug_to_new_id(slug)
+        if old_id is None:
+            # Even older format (enumeration-suffixed). 14k+ Googlebot 404s
+            # observed Apr 28-30 2026 came from this format, throttling the
+            # crawl rate by 99%. Recovers PageRank from those URLs.
+            old_id = enum_slug_to_new_id(slug)
         if old_id is not None:
             from web.models import get_clue_by_id
             row = get_clue_by_id(old_id)
