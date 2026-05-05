@@ -211,16 +211,6 @@ def sitemap_puzzles():
         xml.append("    <changefreq>weekly</changefreq>")
         xml.append("  </url>")
 
-    # Future puzzle "coming soon" pages — high priority for pre-indexing
-    from web.models import get_future_puzzles
-    today = date.today().isoformat()
-    for f_source, f_type_slug, f_pnum in get_future_puzzles(n=14):
-        xml.append("  <url>")
-        xml.append(f"    <loc>{CANONICAL_HOST}/{f_source}/{f_type_slug}/{f_pnum}</loc>")
-        xml.append(f"    <lastmod>{today}</lastmod>")
-        xml.append("    <changefreq>daily</changefreq>")
-        xml.append("  </url>")
-
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
 

@@ -9,7 +9,6 @@ from web.models import (
     classify_puzzle, TYPE_LABELS, _is_valid_type, get_puzzle_clues,
     get_puzzle_date, compute_hint_tier, get_hint_steps, compute_solve_source,
     get_puzzle_grid_data, get_puzzle_grid_solution,
-    is_future_puzzle, get_recent_puzzles,
 )
 from web.routes.hints import generate_token
 from web.routes.clue import generate_clue_slug
@@ -43,17 +42,6 @@ def puzzle(source, puzzle_type, puzzle_number):
             clues = None
 
     if not clues:
-        if is_future_puzzle(source, puzzle_type, puzzle_number):
-            type_label = TYPE_LABELS[(source, puzzle_type)]
-            recent = get_recent_puzzles(source, puzzle_type, limit=5)
-            return render_template(
-                "coming_soon.html",
-                source=source,
-                puzzle_type=puzzle_type,
-                type_label=type_label,
-                puzzle_number=puzzle_number,
-                recent_puzzles=recent,
-            )
         abort(404)
 
     pub_date = get_puzzle_date(source, puzzle_number)

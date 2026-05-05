@@ -257,65 +257,6 @@ def _puzzle_filter_sql(source, type_slug):
 
 
 # Sources eligible for "coming soon" future pages, in priority order
-FUTURE_PUZZLE_SOURCES = [
-    ("telegraph", "cryptic", 31000, 31999),
-    ("dailymail", "cryptic", 16000, 19999),
-    ("times", "cryptic", 26000, 39999),
-    ("guardian", "cryptic", 20000, 39999),
-    ("independent", "cryptic", 1, 19999),
-]
-
-
-def get_future_puzzles(n=5):
-    """Predict the next n puzzle numbers for each weekday cryptic source.
-
-    Returns list of (source, type_slug, puzzle_number) sorted by source priority.
-    """
-    db = get_db()
-    results = []
-    for source, type_slug, lo, hi in FUTURE_PUZZLE_SOURCES:
-        row = db.execute(
-            "SELECT MAX(CAST(puzzle_number AS INTEGER)) FROM clues "
-            "WHERE source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN ? AND ?",
-            (source, lo, hi),
-        ).fetchone()
-        if not row or row[0] is None:
-            continue
-        latest = row[0]
-        for i in range(1, n + 1):
-            results.append((source, type_slug, str(latest + i)))
-    return results
-
-
-def is_future_puzzle(source, puzzle_type, puzzle_number):
-    """Check if a puzzle number is a predicted future puzzle.
-
-    Horizon must match the sitemap's n=14 (web/routes/seo.py) so every URL
-    listed in the sitemap either serves a coming-soon page or the real page,
-    never 404.
-    """
-    future = get_future_puzzles(n=14)
-    return any(
-        s == source and t == puzzle_type and p == str(puzzle_number)
-        for s, t, p in future
-    )
-
-
-def get_recent_puzzles(source, type_slug, limit=5):
-    """Return recent puzzles for a source/type for the coming soon page."""
-    db = get_db()
-    where, params = _puzzle_filter_sql(source, type_slug)
-    if where is None:
-        return []
-    rows = db.execute(
-        f"SELECT puzzle_number, MAX(publication_date) AS pub_date "
-        f"FROM clues WHERE {where} GROUP BY puzzle_number "
-        f"ORDER BY pub_date DESC LIMIT ?",
-        params + [limit],
-    ).fetchall()
-    return [{"puzzle_number": r["puzzle_number"], "publication_date": r["pub_date"]} for r in rows]
-
-
 def get_puzzle_list(source, type_slug, page=1):
     """Return paginated puzzle list with clue counts and coverage stats.
 
