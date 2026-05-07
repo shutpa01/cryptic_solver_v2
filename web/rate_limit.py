@@ -90,6 +90,20 @@ def _client_ip() -> str:
     return request.remote_addr or "unknown"
 
 
+# Verified search-engine bots that self-regulate crawl rate. Rate-limiting
+# them produces 429s that Google interprets as crawl errors, throttling
+# subsequent crawl. Confirmed Apr 28 2026: 60/min limit on /clue 429'd
+# Googlebot in burst windows, contributing to a 99% crawl-rate crash.
+# UA-based check is sufficient because Cloudflare's Verified Bots layer
+# already filters spoofed Googlebot via reverse DNS upstream of origin.
+_VERIFIED_BOT_UAS = ("googlebot", "bingbot", "applebot", "duckduckbot")
+
+
+def _is_verified_bot() -> bool:
+    ua = (request.headers.get("User-Agent") or "").lower()
+    return any(bot in ua for bot in _VERIFIED_BOT_UAS)
+
+
 def _is_enabled() -> bool:
     try:
         return bool(current_app.config.get("RATE_LIMIT_ENABLED", True))
@@ -179,6 +193,10 @@ def rate_limit(scope: str, limit: int, window: int):
 
     Behaviour:
         - Admin (g.is_admin) bypasses.
+        - Verified search-engine bots (Googlebot, Bingbot, Applebot,
+          DuckDuckBot) bypass via User-Agent check. These bots
+          self-regulate; rate-limiting them produces 429s that get
+          interpreted as crawl errors and throttle subsequent crawl.
         - When app.config['RATE_LIMIT_ENABLED'] is False, bypasses.
         - Over the limit returns 429 with Retry-After header. The body
           is a styled HTML fragment for HTMX requests (so it swaps into
@@ -192,7 +210,9 @@ def rate_limit(scope: str, limit: int, window: int):
     def decorator(fn):
         @wraps(fn)
         def wrapped(*args, **kwargs):
-            if not _is_enabled() or getattr(g, "is_admin", False):
+            if (not _is_enabled()
+                    or getattr(g, "is_admin", False)
+                    or _is_verified_bot()):
                 return fn(*args, **kwargs)
             allowed, retry_after = _check_and_increment(
                 scope, _client_ip(), limit, window
