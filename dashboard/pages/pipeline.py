@@ -14,26 +14,32 @@ PYTHON = r"C:\Users\shute\PycharmProjects\AI_Solver\.venv\Scripts\python.exe"
 
 
 def _check_tftt_available(puzzle_number):
-    """Lightweight HTTP check: does a TFTT blog post exist for this puzzle?"""
-    import requests
+    """Lightweight HTTP check: does a TFTT blog post exist for this puzzle?
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
-    }
+    Uses curl_cffi with Chrome TLS impersonation — TFTT now sits behind
+    Cloudflare and plain `requests` returns 403 on every call.
+    """
+    from curl_cffi import requests as curl_requests
 
-    url = f"https://timesforthetimes.co.uk/times-cryptic-{puzzle_number}"
+    # Try both URL patterns: recent puzzles use /times-cryptic-{N},
+    # older ones moved to /times-cryptic-no-{N}.
+    for tmpl in (
+        "https://timesforthetimes.co.uk/times-cryptic-{}",
+        "https://timesforthetimes.co.uk/times-cryptic-no-{}",
+    ):
+        url = tmpl.format(puzzle_number)
+        try:
+            resp = curl_requests.get(url, impersonate='chrome',
+                                     timeout=10, allow_redirects=True)
+            if resp.status_code == 200:
+                return True
+        except Exception:
+            pass
+
     try:
-        resp = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
-        if resp.status_code == 200:
-            return True
-    except Exception:
-        pass
-
-    try:
-        resp = requests.get(
+        resp = curl_requests.get(
             "https://timesforthetimes.co.uk/wp-json/wp/v2/posts",
-            headers=headers, timeout=10,
+            impersonate='chrome', timeout=10,
             params={"search": str(puzzle_number), "per_page": 3, "categories": "11,21"},
         )
         if resp.status_code == 200:

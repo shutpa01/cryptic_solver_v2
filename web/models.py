@@ -31,6 +31,24 @@ def _get_tftt_index():
     return _tftt_index
 
 
+
+def get_blog_attribution(source, puzzle_number, publication_date=None):
+    """Return (blog_name, blog_url) for a human explanation, or (None, None)."""
+    if source == "times":
+        idx = _get_tftt_index()
+        entry = idx.get(str(puzzle_number))
+        if entry and entry.get("link"):
+            return "Times for the Times", entry["link"]
+        return "Times for the Times", None
+    elif source == "guardian":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=guardian+{puzzle_number}"
+    elif source == "independent":
+        return "Fifteensquared", f"https://fifteensquared.net/?s=independent+{puzzle_number}"
+    elif source == "telegraph":
+        return "Big Dave's Crossword Blog", f"https://bigdave44.com/?s=dt+{puzzle_number}"
+    return None, None
+
+
 def get_source_puzzle_url(source, puzzle_number):
     """Return the URL to the original puzzle on the newspaper's website, or None."""
     if source == "guardian":
@@ -256,7 +274,6 @@ def _puzzle_filter_sql(source, type_slug):
     return None, None
 
 
-# Sources eligible for "coming soon" future pages, in priority order
 def get_puzzle_list(source, type_slug, page=1):
     """Return paginated puzzle list with clue counts and coverage stats.
 

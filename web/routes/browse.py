@@ -2,7 +2,7 @@
 
 import re
 
-from flask import Blueprint, render_template, request, abort, jsonify
+from flask import Blueprint, render_template, request, abort, jsonify, g
 
 from web.db import get_db
 from web.models import BROWSE_SOURCES, TYPE_LABELS, _is_valid_type, get_puzzle_list, classify_puzzle
@@ -21,16 +21,23 @@ def _source_name(source):
     return _SOURCE_NAMES.get(source, source.title())
 
 
+def _public_sources():
+    """BROWSE_SOURCES filtered for non-admin visitors (hides cordelia)."""
+    if getattr(g, "is_admin", False):
+        return BROWSE_SOURCES
+    return [s for s in BROWSE_SOURCES if s[0] != "cordelia"]
+
+
 @bp.route("/")
 def home():
     """Home page — browse by source and type."""
-    return render_template("home.html", sources=BROWSE_SOURCES)
+    return render_template("home.html", sources=_public_sources())
 
 
 @bp.route("/puzzles")
 def puzzles():
     """Puzzles page — browse all publications."""
-    return render_template("puzzles.html", sources=BROWSE_SOURCES)
+    return render_template("puzzles.html", sources=_public_sources())
 
 
 @bp.route("/about")

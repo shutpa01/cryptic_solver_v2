@@ -493,39 +493,25 @@ class ExplanationVerifier:
         # 8. Anagram fodder: clue words appearing as uppercase tokens
         # between "anagram of" and the next "=" (greedy stop at last =).
         # Includes single-letter fodder (e.g. "anagram of I + ANOTHER").
-        # First tries literal lowercased match; failing that, queries the
-        # synonym/abbreviation DB so that fodder ET claims clue word "alien"
-        # when the explanation lacks an inline (synonym=...) annotation.
+        # LITERAL match only. The verifier never does the solver's job:
+        # if fodder ET appears without an inline (synonym="alien")
+        # annotation, the clue word "alien" is unaccounted. The
+        # explanation has to say where ET came from; the verifier does
+        # not infer it via a synonym DB lookup. (Earlier versions of
+        # this check did so — that was solver-like behaviour and hid
+        # exactly the gaps the user wants surfaced.)
         ana_match = re.search(
             r"anagram\s+(?:of\s+)?(.+?)\s*=", expl, re.IGNORECASE)
         if ana_match:
             fodder_words = re.findall(r"\b[A-Z]+\b", ana_match.group(1))
             for fw in fodder_words:
                 fw_lower = fw.lower()
-                fw_upper = fw.upper()
-                # Step 1: literal match
-                literal_claimed = False
                 for i, w in enumerate(words):
                     if i in claimed:
                         continue
                     if _norm(w) == fw_lower:
                         claimed[i] = "anagram_fodder"
-                        literal_claimed = True
                         break
-                if literal_claimed:
-                    continue
-                # Step 2: synonym/abbreviation lookup against unclaimed words
-                for i, w in enumerate(words):
-                    if i in claimed:
-                        continue
-                    base = _norm(w)
-                    try:
-                        if (self.is_synonym(base, fw_upper)
-                                or self.is_abbreviation(base, fw_upper)):
-                            claimed[i] = "anagram_fodder"
-                            break
-                    except Exception:
-                        pass
 
         # 9. Hidden span: hidden in "X" — claim clue words whose letters
         # contiguously appear in the span (case-insensitive substring check

@@ -1,0 +1,5416 @@
+[
+  {
+    "id": 10060049,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "1a",
+    "answer": "DECAPITATE",
+    "wordplay_type": "container",
+    "definition": "Remove head",
+    "ai_explanation": "DATE (synonym=\"fruit\") containing ECAP (PACE reversed, \"turning\", where PACE = synonym=\"speed\") + IT = D(ECAPIT)ATE = DECAPITATE; definition: \"Remove head\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Remove head' -> DECAPITATE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'fruit' = DATE: VERIFIED"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ECAP' has unrecognised source claim: 'PACE reversed, \"turning\", where PACE = synonym=\"speed\"'"
+      },
+      {
+        "check": "indicator",
+        "status": "wrong",
+        "detail": "no 'container' indicator found in clue for container operation"
+      }
+    ]
+  },
+  {
+    "id": 10060050,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "6a",
+    "answer": "EPIC",
+    "wordplay_type": "hidden",
+    "definition": "Terrific story",
+    "ai_explanation": "hidden in \"hugEPICture-house\"; definition: \"Terrific story\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Terrific story' -> EPIC: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'hugEPICture-house' in clue; UPPERCASE equals EPIC"
+      }
+    ]
+  },
+  {
+    "id": 10060051,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "9a",
+    "answer": "CASTIGATED",
+    "wordplay_type": "charade",
+    "definition": "reprimanded",
+    "ai_explanation": "CAST (synonym=\"Players\") + I + GATED (synonym=\"confined to quarters\") = CASTIGATED; definition: \"reprimanded\"",
+    "score": 75,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'reprimanded' -> CASTIGATED: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Players' = CAST: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'confined to quarters' = GATED: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060052,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "10a",
+    "answer": "STYE",
+    "wordplay_type": "homophone",
+    "definition": "infection",
+    "ai_explanation": "STYE sounds like \"sty\" (reported) \u2014 where STY = \"Animal house\"; definition: \"infection\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'infection' -> STYE: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "unverifiable",
+        "detail": "'STYE' sounds like 'sty': not in DB"
+      }
+    ]
+  },
+  {
+    "id": 10060053,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "12a",
+    "answer": "STAGECOACHES",
+    "wordplay_type": "charade",
+    "definition": "transport",
+    "ai_explanation": "STAGE (synonym of \"Actors'\") + COACHES (synonym of \"helpers,\"); definition: \"transport\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'transport' -> STAGECOACHES: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'helpers,' = COACHES: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces STAGE+COACHES = STAGECOACHES: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060054,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "15a",
+    "answer": "ROUBLE",
+    "wordplay_type": "deletion",
+    "definition": "foreign currency",
+    "ai_explanation": "TROUBLE (synonym=\"Difficulty\") minus T (first letter \u2014 \"skimming top off\") = ROUBLE; definition: \"foreign currency\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'foreign currency' -> ROUBLE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Difficulty' = TROUBLE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "TROUBLE minus T = ROUBLE: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'T' has unrecognised source claim: 'first letter \u2014 \"skimming top off\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060055,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "16a",
+    "answer": "DESTINED",
+    "wordplay_type": "anagram",
+    "definition": "Determined in advance",
+    "ai_explanation": "anagram of D (abbreviation=\"Democrat\") + NEEDS + IT (\"badly\") = DESTINED; definition: \"Determined in advance\"",
+    "score": 68,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Determined in advance' -> DESTINED: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'democrat' -> D: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'DNEEDSIT' anagrams to DESTINED: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['D', 'NEEDS', 'IT'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'IT' has unrecognised source claim: '\"badly\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060056,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "18a",
+    "answer": "PATRIOTS",
+    "wordplay_type": "charade",
+    "definition": "Loyalists",
+    "ai_explanation": "PAT (synonym of \"knock\") + RIOTS (synonym of \"disturbances\"); definition: \"Loyalists\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Loyalists' -> PATRIOTS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'knock' = PAT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'disturbances' = RIOTS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces PAT+RIOTS = PATRIOTS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060057,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "19a",
+    "answer": "MASSIF",
+    "wordplay_type": "charade",
+    "definition": "large, elevated area",
+    "ai_explanation": "MASS (synonym=\"Church service\") + IF (synonym=\"when\") = MASSIF; definition: \"large, elevated area\"",
+    "score": 75,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'large, elevated area' -> MASSIF: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Church service' = MASS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'when' = IF: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces MASS+IF = MASSIF: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060058,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "21a",
+    "answer": "GHOSTWRITTEN",
+    "wordplay_type": "anagram",
+    "definition": "concocted by one person, but credited to another",
+    "ai_explanation": "anagram of WINTER + GT + SHOT (\"cocktail\") = GHOSTWRITTEN; definition: \"concocted by one person, but credited to another\"",
+    "score": 25,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'concocted by one person, but credited to another' -> GHOSTWRITTEN: not in DB"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'WINTERGTSHOT' anagrams to GHOSTWRITTEN: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'SHOT' has unrecognised source claim: '\"cocktail\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060059,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "24a",
+    "answer": "Noel",
+    "wordplay_type": "reversal",
+    "definition": "associated with Xmas",
+    "ai_explanation": "reverse of LEON (= \"one chap or another\" \u2014 a man's name) = NOEL; definition: \"associated with Xmas\"",
+    "score": 75,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'associated with Xmas' -> Noel: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "anagram of LEON = NOEL: MATCH"
+      },
+      {
+        "check": "reversal",
+        "status": "verified",
+        "detail": "'LEON' reversed = NOEL: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'LEON' has unrecognised source claim: '= \"one chap or another\" \u2014 a man's name'"
+      }
+    ]
+  },
+  {
+    "id": 10060060,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "25a",
+    "answer": "PILGRIMAGE",
+    "wordplay_type": "charade",
+    "definition": "devout journey",
+    "ai_explanation": "PIL (LIP reversed, \"about\", where LIP = synonym=\"Insolence\") + GRIM (synonym=\"dismal\") + AGE (synonym=\"period\") = PILGRIMAGE; definition: \"devout journey\"",
+    "score": 70,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'devout journey' -> PILGRIMAGE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'dismal' = GRIM: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'period' = AGE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces PIL+GRIM+AGE = PILGRIMAGE: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'PIL' has unrecognised source claim: 'LIP reversed, \"about\", where LIP = synonym=\"Insolence\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060061,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "26a",
+    "answer": "Afro",
+    "wordplay_type": "hidden",
+    "definition": "this hairstyle",
+    "ai_explanation": "hidden in \"deAFROman\"; definition: \"this hairstyle\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'this hairstyle' -> Afro: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'deAFROman' in clue; UPPERCASE equals AFRO"
+      }
+    ]
+  },
+  {
+    "id": 10060062,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "27a",
+    "answer": "UNLADYLIKE",
+    "wordplay_type": "anagram",
+    "definition": "indelicate",
+    "ai_explanation": "anagram of KIND + EU + ALLY (\"confused\") = UNLADYLIKE; definition: \"indelicate\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'indelicate' -> UNLADYLIKE: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'KINDEUALLY' anagrams to UNLADYLIKE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['KIND', 'EU', 'ALLY'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ALLY' has unrecognised source claim: '\"confused\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060063,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "1d",
+    "answer": "DECK",
+    "wordplay_type": "double_definition",
+    "definition": "part of ship",
+    "ai_explanation": "Double definition: Pack (a deck of cards) = DECK, part of ship = DECK",
+    "score": 15,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'part of ship' -> DECK: VERIFIED"
+      },
+      {
+        "check": "dd",
+        "status": "unverifiable",
+        "detail": "DD partial: `Pack (a deck of cards)`=False, `part of ship`=True (answer DECK), non-link remainder: ['pack']"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'Pack' has unrecognised source claim: 'a deck of cards'"
+      }
+    ]
+  },
+  {
+    "id": 10060064,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "2d",
+    "answer": "CASK",
+    "wordplay_type": "charade",
+    "definition": "container",
+    "ai_explanation": "C (synonym of \"Constant\") + ASK (synonym of \"request\"); definition: \"container\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'container' -> CASK: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Constant' = C: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'request' = ASK: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces C+ASK = CASK: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060065,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "3d",
+    "answer": "POINTILLISTS",
+    "wordplay_type": "container",
+    "definition": "some artists",
+    "ai_explanation": "POSTS (synonym=\"jobs\") containing IN (synonym=\"Fashionable\") + TILL (synonym=\"until\") + I = POINTILLISTS; definition: \"some artists\"",
+    "score": 85,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'some artists' -> POINTILLISTS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'jobs' = POSTS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Fashionable' = IN: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'until' = TILL: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060066,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "4d",
+    "answer": "TWANGS",
+    "wordplay_type": "acrostic",
+    "definition": "noisy guitar sound",
+    "ai_explanation": "T (first letter of \"tries\") + W (first letter of \"wild\") + A (first letter of \"and\") + N (first letter of \"noisy\") + G (first letter of \"guitar\") + S (first letter of \"sound\") = TWANGS; definition: \"noisy guitar sound\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'noisy guitar sound' -> TWANGS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces T+W+A+N+G+S = TWANGS: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'T' as first of 'tries': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'W' as first of 'wild': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'A' as first of 'and': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'N' as first of 'noisy': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'G' as first of 'guitar': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'S' as first of 'sound': YES"
+      }
+    ]
+  },
+  {
+    "id": 10060067,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "5d",
+    "answer": "TRENCHER",
+    "wordplay_type": "charade",
+    "definition": "plate",
+    "ai_explanation": "TRENCH (synonym=\"Ditch\") + ER (final third of \"fodder\") = TRENCHER; definition: \"plate\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'plate' -> TRENCHER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Ditch' = TRENCH: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces TRENCH+ER = TRENCHER: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ER' has unrecognised source claim: 'final third of \"fodder\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060068,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "7d",
+    "answer": "PATCHINESS",
+    "wordplay_type": "charade, container",
+    "definition": "Unevenness",
+    "ai_explanation": "CHIN (synonym of \"feature\") + PATE (synonym of \"head\") [container: \"aboard\"] + SS (synonym of \"ship\"); definition: \"Unevenness\"",
+    "score": 85,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Unevenness' -> PATCHINESS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'feature' = CHIN: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'head' = PATE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'ship' = SS: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060069,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "8d",
+    "answer": "cheesed off",
+    "wordplay_type": "charade",
+    "definition": "Fed up",
+    "ai_explanation": "CHEESE (synonym=\"dairy product\") + D (first letter of \"delicious\", \"initially\") + OFF (synonym=\"gets rancid\") = CHEESEDOFF; definition: \"Fed up\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Fed up' -> cheesed off: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'dairy product' = CHEESE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'gets rancid' = OFF: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces CHEESE+D+OFF = CHEESEDOFF: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060070,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "11d",
+    "answer": "SALTLAKECITY",
+    "wordplay_type": "anagram",
+    "definition": "Place in the desert",
+    "ai_explanation": "anagram of ITS + CAKE + TALLY (\"prepared\") = SALTLAKECITY; definition: \"Place in the desert\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'Place in the desert' -> SALTLAKECITY: not in DB"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'ITSCAKETALLY' anagrams to SALTLAKECITY: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['ITS', 'CAKE', 'TALLY'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'TALLY' has unrecognised source claim: '\"prepared\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060071,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "13d",
+    "answer": "PROPAGANDA",
+    "wordplay_type": "homophone",
+    "definition": "deliberate misinformation",
+    "ai_explanation": "PROPAGANDA sounds like \"proper gander\" (uttered) \u2014 where PROPER = \"Decent\" and GANDER = \"butcher's\" (Cockney rhyming slang: butcher's hook = look = gander); definition: \"deliberate misinformation\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'deliberate misinformation' -> PROPAGANDA: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "unverifiable",
+        "detail": "'PROPAGANDA' sounds like 'proper': not in DB"
+      }
+    ]
+  },
+  {
+    "id": 10060072,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "14d",
+    "answer": "AUCTIONEER",
+    "wordplay_type": "anagram",
+    "definition": "He sells lots",
+    "ai_explanation": "anagram of AU (= \"gold\" \u2014 chemical symbol Au) + ONCE + RITE (\"arranged\") = AUCTIONEER; definition: \"He sells lots\"",
+    "score": 20,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'He sells lots' -> AUCTIONEER: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'AUONCERITE' anagrams to AUCTIONEER: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'AU' has unrecognised source claim: '= \"gold\" \u2014 chemical symbol Au'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'RITE' has unrecognised source claim: '\"arranged\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060073,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "17d",
+    "answer": "star sign",
+    "wordplay_type": "charade",
+    "definition": "Leo perhaps",
+    "ai_explanation": "STAR (synonym=\"Top actor\") + SIGN (synonym=\"autograph\") = STARSIGN; definition: \"Leo perhaps\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Leo perhaps' -> star sign: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Top actor' = STAR: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'autograph' = SIGN: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces STAR+SIGN = STARSIGN: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060074,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "20d",
+    "answer": "STIGMA",
+    "wordplay_type": "charade",
+    "definition": "mark of shame",
+    "ai_explanation": "STIG (= \"person\" \u2014 a male name) + MA (synonym=\"mother\") = STIGMA; definition: \"mark of shame\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'mark of shame' -> STIGMA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'mother' = MA: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces STIG+MA = STIGMA: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'STIG' has unrecognised source claim: '= \"person\" \u2014 a male name'"
+      }
+    ]
+  },
+  {
+    "id": 10060075,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "22d",
+    "answer": "Bali",
+    "wordplay_type": "reversal",
+    "definition": "tropical island",
+    "ai_explanation": "reverse of I (synonym=\"One\") + LAB (abbreviation=\"research facility\") = BALI; definition: \"tropical island\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'tropical island' -> Bali: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'One' = I: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'research facility' -> LAB: VERIFIED"
+      },
+      {
+        "check": "reversal",
+        "status": "verified",
+        "detail": "'I' reversed = I, claimed piece in BALI: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060076,
+    "source": "telegraph",
+    "puzzle": "31224",
+    "label": "23d",
+    "answer": "CEDE",
+    "wordplay_type": "homophone",
+    "definition": "Give up",
+    "ai_explanation": "CEDE sounds like \"seed\" (reportedly) \u2014 where SEED = \"plant ovule\"; definition: \"Give up\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Give up' -> CEDE: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "verified",
+        "detail": "'CEDE' sounds like 'seed': in DB"
+      }
+    ]
+  },
+  {
+    "id": 10059728,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "1a",
+    "answer": "CHARIOTRACE",
+    "wordplay_type": "charade",
+    "definition": "Ancient pursuit",
+    "ai_explanation": "CHA (synonym=\"tea\") + RIO (synonym=\"Olympic hosts\") + TRACE (synonym=\"discover\") = CHARIOTRACE; definition: \"Ancient pursuit\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Ancient pursuit' -> CHARIOTRACE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'tea' = CHA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Olympic hosts' = RIO: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'discover' = TRACE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces CHA+RIO+TRACE = CHARIOTRACE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059729,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "9a",
+    "answer": "HURTLED",
+    "wordplay_type": "charade",
+    "definition": "ran fast",
+    "ai_explanation": "HURT (synonym=\"Injured\") + LED (synonym=\"ran\") = HURTLED; definition: \"ran fast\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'ran fast' -> HURTLED: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Injured' = HURT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'ran' = LED: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces HURT+LED = HURTLED: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059730,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "10a",
+    "answer": "TWILIT",
+    "wordplay_type": "container",
+    "definition": "seen late in the day",
+    "ai_explanation": "TWIT (synonym=\"ignoramus\") containing I (synonym=\"One\") + L (last letter of \"proposal\") = TWILIT; definition: \"seen late in the day\"",
+    "score": 85,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'seen late in the day' -> TWILIT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'ignoramus' = TWIT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'One' = I: VERIFIED"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'L' as last of 'proposal': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059731,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "12a",
+    "answer": "SULTANA",
+    "wordplay_type": "double_definition",
+    "definition": "queen",
+    "ai_explanation": "Double definition: something like a raisin (a sultana is a small dried grape) = SULTANA, queen (a sultan's wife) = SULTANA",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'queen' -> SULTANA: VERIFIED"
+      },
+      {
+        "check": "dd",
+        "status": "wrong",
+        "detail": "DD: neither `something like a raisin (a sultana is a small dried grape)` nor `queen (a sultan's wife)` maps to SULTANA in DB"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'raisin' has unrecognised source claim: 'a sultana is a small dried grape'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'queen' has unrecognised source claim: 'a sultan's wife'"
+      }
+    ]
+  },
+  {
+    "id": 10059732,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "13a",
+    "answer": "DESPAIR",
+    "wordplay_type": "anagram",
+    "definition": "Wretchedness",
+    "ai_explanation": "anagram of A + SPIDER = DESPAIR; definition: \"Wretchedness\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Wretchedness' -> DESPAIR: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'ASPIDER' anagrams to DESPAIR: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['A', 'SPIDER'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059733,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "14a",
+    "answer": "WHEEL",
+    "wordplay_type": "charade",
+    "definition": "roller",
+    "ai_explanation": "W (first letter of \"wig\") + HEEL (synonym=\"Back\") = WHEEL; definition: \"roller\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'roller' -> WHEEL: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Back' = HEEL: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces W+HEEL = WHEEL: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'W' as first of 'wig': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059734,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "15a",
+    "answer": "MINNESOTA",
+    "wordplay_type": "anagram",
+    "definition": "a state",
+    "ai_explanation": "anagram of INN + SOT + ME + A = MINNESOTA; definition: \"a state\"",
+    "score": 80,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'a state' -> MINNESOTA: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'INNSOTMEA' anagrams to MINNESOTA: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059735,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "17a",
+    "answer": "INTHEKNOW",
+    "wordplay_type": "anagram",
+    "definition": "Switched on",
+    "ai_explanation": "anagram of ON + WE + THINK = INTHEKNOW; definition: \"Switched on\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Switched on' -> INTHEKNOW: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'ONWETHINK' anagrams to INTHEKNOW: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['ON', 'WE', 'THINK'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059736,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "20a",
+    "answer": "SCREW",
+    "wordplay_type": "double_definition",
+    "definition": "cheat",
+    "ai_explanation": "Double definition: Fixer (a screw fastens things) = SCREW, cheat (to swindle) = SCREW",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'cheat' -> SCREW: VERIFIED"
+      },
+      {
+        "check": "dd",
+        "status": "unverifiable",
+        "detail": "DD partial: `Fixer (a screw fastens things)`=False, `cheat (to swindle)`=True (answer SCREW), non-link remainder: ['fixer', 'cheat']"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'Fixer' has unrecognised source claim: 'a screw fastens things'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'cheat' has unrecognised source claim: 'to swindle'"
+      }
+    ]
+  },
+  {
+    "id": 10059737,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "22a",
+    "answer": "EXPRESS",
+    "wordplay_type": "charade",
+    "definition": "say",
+    "ai_explanation": "EX (abbreviation of \"retired\") + PRESS (synonym of \"A\"); definition: \"say\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'say' -> EXPRESS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'A' = PRESS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces EX+PRESS = EXPRESS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059738,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "24a",
+    "answer": "FACTION",
+    "wordplay_type": "charade",
+    "definition": "group",
+    "ai_explanation": "F (synonym of \"Female\") + ACTION (synonym of \"fighting\"); definition: \"group\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'group' -> FACTION: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Female' = F: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'fighting' = ACTION: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces F+ACTION = FACTION: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059739,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "25a",
+    "answer": "SCREAM",
+    "wordplay_type": "charade",
+    "definition": "laugh",
+    "ai_explanation": "S (last letter of \"tears\") + CREAM (synonym=\"best\") = SCREAM; definition: \"laugh\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'laugh' -> SCREAM: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'best' = CREAM: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces S+CREAM = SCREAM: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'S' as last of 'tears': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059740,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "26a",
+    "answer": "ASININE",
+    "wordplay_type": "charade",
+    "definition": "Silly",
+    "ai_explanation": "AS (synonym=\"like\") + I (synonym=\"yours truly\") + NINE (synonym=\"primary school age\") = ASININE; definition: \"Silly\"",
+    "score": 45,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Silly' -> ASININE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'like' = AS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "wrong",
+        "detail": "'yours truly' = I: single-letter NOT in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'primary school age' = NINE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces AS+I+NINE = ASININE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059741,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "27a",
+    "answer": "CLOSEATHAND",
+    "wordplay_type": "container",
+    "definition": "within reach",
+    "ai_explanation": "CLOTH (synonym=\"Rag\") containing SEA (synonym=\"water\") + AND (synonym=\"also\") = CLOSEATHAND; definition: \"within reach\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'within reach' -> CLOSEATHAND: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Rag' = CLOTH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'water' = SEA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'also' = AND: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "anagram of CLOTHSEAAND = CLOSEATHAND: MATCH"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "SEA inside CLOTHAND = CLOSEATHAND: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059742,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "2d",
+    "answer": "HOLDALL",
+    "wordplay_type": "charade, container",
+    "definition": "Bag",
+    "ai_explanation": "OLD (synonym of \"antique\") + HALL (synonym of \"auditorium\") [container: \"in\"]; definition: \"Bag\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Bag' -> HOLDALL: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'antique' = OLD: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'auditorium' = HALL: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "OLD inside HALL = HOLDALL: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059743,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "3d",
+    "answer": "REDSALMON",
+    "wordplay_type": "anagram",
+    "definition": "Swimmer",
+    "ai_explanation": "anagram of RAN + SELDOM = REDSALMON; definition: \"Swimmer\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Swimmer' -> REDSALMON: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'RANSELDOM' anagrams to REDSALMON: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['RAN', 'SELDOM'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059744,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "4d",
+    "answer": "OPTED",
+    "wordplay_type": "container",
+    "definition": "selected",
+    "ai_explanation": "OED (abbreviation=\"dictionary\") containing PT (abbreviation=\"Exercise\") = OPTED; definition: \"selected\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'selected' -> OPTED: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'dictionary' -> OED: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'exercise' -> PT: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "anagram of OEDPT = OPTED: MATCH"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "PT inside OED = OPTED: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059745,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "5d",
+    "answer": "REISSUE",
+    "wordplay_type": "anagram",
+    "definition": "put out again",
+    "ai_explanation": "anagram of SERIES + U (abbreviation=\"university\") = REISSUE; definition: \"put out again\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'put out again' -> REISSUE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'university' -> U: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'SERIESU' anagrams to REISSUE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['SERIES', 'U'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059746,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "6d",
+    "answer": "CHICAGO",
+    "wordplay_type": "charade",
+    "definition": "musical",
+    "ai_explanation": "CHIC (synonym of \"in\") + AGO (synonym of \"past,\"); definition: \"musical\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'musical' -> CHICAGO: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'in' = CHIC: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'past,' = AGO: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces CHIC+AGO = CHICAGO: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059747,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "7d",
+    "answer": "GHOSTWRITER",
+    "wordplay_type": "cryptic_definition",
+    "definition": "Author",
+    "ai_explanation": "cryptic definition",
+    "score": 95,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Author' -> GHOSTWRITER: VERIFIED"
+      },
+      {
+        "check": "cd",
+        "status": "verified",
+        "detail": "definition maps to answer in DB"
+      }
+    ]
+  },
+  {
+    "id": 10059748,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "8d",
+    "answer": "ORELSE",
+    "wordplay_type": "anagram",
+    "definition": "Otherwise",
+    "ai_explanation": "anagram of LOSER + E (first letter of \"effect\") = ORELSE; definition: \"Otherwise\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Otherwise' -> ORELSE: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'LOSERE' anagrams to ORELSE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['LOSER', 'E'] found in clue text"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'E' as first of 'effect': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059749,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "11d",
+    "answer": "BREADWINNER",
+    "wordplay_type": "charade",
+    "definition": "Earner",
+    "ai_explanation": "BREAD (synonym=\"a crust\") + WINNER (synonym=\"Earner\") = BREADWINNER; definition: \"Earner\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Earner' -> BREADWINNER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'a crust' = BREAD: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "unverifiable",
+        "detail": "'Earner' = WINNER: not in DB"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces BREAD+WINNER = BREADWINNER: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059750,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "16d",
+    "answer": "NEWSFLASH",
+    "wordplay_type": "charade, container",
+    "definition": "report",
+    "ai_explanation": "NEW (synonym of \"Latest\") + SLASH (synonym of \"hack\") + F (synonym of \"fine\") [container: \"pens\"]; definition: \"report\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'report' -> NEWSFLASH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Latest' = NEW: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'hack' = SLASH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'fine' = F: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "F inside NEWSLASH = NEWSFLASH: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059751,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "18d",
+    "answer": "TYPICAL",
+    "wordplay_type": "anagram",
+    "definition": "classic",
+    "ai_explanation": "anagram of CITY + PAL = TYPICAL; definition: \"classic\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'classic' -> TYPICAL: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'CITYPAL' anagrams to TYPICAL: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['CITY', 'PAL'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059752,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "19d",
+    "answer": "ELEVENS",
+    "wordplay_type": "cryptic_definition",
+    "definition": "Teams",
+    "ai_explanation": "Cryptic definition: ELEVENS = sporting teams (cricket and football have 11 players); the heart of \"Mexico\" gives XI (Roman numeral 11 = ELEVEN); \"Marxists?\" hints at left-wingers (the number 11 position in football). Multi-element cryptic, no clean letter assembly.",
+    "score": 5,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Teams' -> ELEVENS: VERIFIED"
+      },
+      {
+        "check": "cd",
+        "status": "verified",
+        "detail": "definition maps to answer in DB"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'teams' has unrecognised source claim: 'cricket and football have 11 players'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'XI' has unrecognised source claim: 'Roman numeral 11 = ELEVEN'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'wingers' has unrecognised source claim: 'the number 11 position in football'"
+      }
+    ]
+  },
+  {
+    "id": 10059753,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "20d",
+    "answer": "SECTION",
+    "wordplay_type": "anagram",
+    "definition": "hunk",
+    "ai_explanation": "anagram of NOTICES = SECTION; definition: \"hunk\"",
+    "score": 65,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'hunk' -> SECTION: not in DB"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'NOTICES' anagrams to SECTION: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['NOTICES'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059754,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "21d",
+    "answer": "RAISIN",
+    "wordplay_type": "charade, container",
+    "definition": "shrivelled up",
+    "ai_explanation": "IS (abbreviation of \"is\") + RAIN (synonym of \"shower\") [container: \"in\"]; definition: \"shrivelled up\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'shrivelled up' -> RAISIN: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'shower' = RAIN: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "IS inside RAIN = RAISIN: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059755,
+    "source": "telegraph",
+    "puzzle": "3366",
+    "label": "23d",
+    "answer": "SAMOA",
+    "wordplay_type": "acrostic",
+    "definition": "country",
+    "ai_explanation": "S (first letter of \"South\") + A (first letter of \"America\") + M (first letter of \"modelled\") + O (first letter of \"on\") + A (first letter of \"African\") = SAMOA; definition: \"country\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'country' -> SAMOA: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces S+A+M+O+A = SAMOA: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'S' as first of 'South': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'A' as first of 'America': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'M' as first of 'modelled': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'O' as first of 'on': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'A' as first of 'African': YES"
+      }
+    ]
+  },
+  {
+    "id": 10060318,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "1a",
+    "answer": "BIRDSEYEVIEW",
+    "wordplay_type": "anagram",
+    "definition": "high vantage point",
+    "ai_explanation": "anagram of IVY + WEE + BRIDES (\"disturbed\") = BIRDSEYEVIEW; definition: \"high vantage point\"",
+    "score": 50,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'high vantage point' -> BIRDSEYEVIEW: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'IVYWEEBRIDES' anagrams to BIRDSEYEVIEW: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'BRIDES' has unrecognised source claim: '\"disturbed\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060319,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "8a",
+    "answer": "RESTFUL",
+    "wordplay_type": "anagram",
+    "definition": "comfortable",
+    "ai_explanation": "anagram of F (abbreviation=\"Fellow\") + ULSTER (\"after treatment\") = RESTFUL; definition: \"comfortable\"",
+    "score": 68,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'comfortable' -> RESTFUL: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'fellow' -> F: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'FULSTER' anagrams to RESTFUL: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['F', 'ULSTER'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ULSTER' has unrecognised source claim: '\"after treatment\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060320,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "9a",
+    "answer": "AEROBIC",
+    "wordplay_type": "charade",
+    "definition": "regarding some exercise",
+    "ai_explanation": "A + EROB (BORE reversed, \"back\", where BORE = synonym=\"dull figure\") + IC (abbreviation=\"in charge\") = AEROBIC; definition: \"regarding some exercise\"",
+    "score": 8,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'regarding some exercise' -> AEROBIC: not in DB"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'in charge' -> IC: VERIFIED"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'EROB' has unrecognised source claim: 'BORE reversed, \"back\", where BORE = synonym=\"dull figure\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060321,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "11a",
+    "answer": "SHOPAROUND",
+    "wordplay_type": "charade",
+    "definition": "Compare prices",
+    "ai_explanation": "SH (synonym=\"quiet\") + OP (abbreviation=\"work\") + A + ROUND (synonym=\"set of drinks\") = SHOPAROUND; definition: \"Compare prices\"",
+    "score": 83,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Compare prices' -> SHOPAROUND: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'quiet' = SH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'set of drinks' = ROUND: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'work' -> OP: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060322,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "12a",
+    "answer": "BARM",
+    "wordplay_type": "charade",
+    "definition": "yeasty froth",
+    "ai_explanation": "BAR (synonym=\"drinks venue\") + M (abbreviation=\"Money\") = BARM; definition: \"yeasty froth\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'yeasty froth' -> BARM: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'drinks venue' = BAR: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "wrong",
+        "detail": "'money' -> M: NOT KNOWN"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces BAR+M = BARM: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060323,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "14a",
+    "answer": "IDENTITY",
+    "wordplay_type": "charade",
+    "definition": "personal details",
+    "ai_explanation": "ID (DI reversed, \"kept back\", where DI = abbreviation=\"Inspector\") + ENTITY (synonym=\"individual\") = IDENTITY; definition: \"personal details\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'personal details' -> IDENTITY: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'individual' = ENTITY: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces ID+ENTITY = IDENTITY: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ID' has unrecognised source claim: 'DI reversed, \"kept back\", where DI = abbreviation=\"Inspector'"
+      }
+    ]
+  },
+  {
+    "id": 10060324,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "16a",
+    "answer": "SHEENA",
+    "wordplay_type": "container",
+    "definition": "Woman",
+    "ai_explanation": "SEEN (synonym=\"observed\") containing H (abbreviation=\"hot\") + A (abbreviation=\"area\") = S(H)EEN + A = SHEENA; definition: \"Woman\"",
+    "score": 81,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Woman' -> SHEENA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'observed' = SEEN: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'hot' -> H: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'area' -> A: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060325,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "17a",
+    "answer": "SEW",
+    "wordplay_type": "charade",
+    "definition": "use a needle and thread",
+    "ai_explanation": "S (south) + E (east) + W (west) \u2014 three compass directions = SEW; definition: \"use a needle and thread\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'use a needle and thread' -> SEW: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces S+E+W = SEW: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'S' has unrecognised source claim: 'south'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'E' has unrecognised source claim: 'east'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'W' has unrecognised source claim: 'west'"
+      }
+    ]
+  },
+  {
+    "id": 10060326,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "19a",
+    "answer": "GOKART",
+    "wordplay_type": "charade",
+    "definition": "small racing vehicle",
+    "ai_explanation": "G (first letter of \"guys\") + OK (synonym=\"satisfactory\") + ART (synonym=\"skill\") = GOKART; definition: \"small racing vehicle\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'small racing vehicle' -> GOKART: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'satisfactory' = OK: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'skill' = ART: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces G+OK+ART = GOKART: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'G' as first of 'guys': YES"
+      }
+    ]
+  },
+  {
+    "id": 10060327,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "21a",
+    "answer": "NARROWED",
+    "wordplay_type": "charade",
+    "definition": "Contracted",
+    "ai_explanation": "N (abbreviation=\"name\") + ARROW (synonym=\"a pointer\") + ED (\"given\" \u2014 past participle suffix) = NARROWED; definition: \"Contracted\"",
+    "score": 68,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Contracted' -> NARROWED: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'a pointer' = ARROW: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'name' -> N: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces N+ARROW+ED = NARROWED: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ED' has unrecognised source claim: '\"given\" \u2014 past participle suffix'"
+      }
+    ]
+  },
+  {
+    "id": 10060328,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "24a",
+    "answer": "OILS",
+    "wordplay_type": "deletion",
+    "definition": "painting materials",
+    "ai_explanation": "TOILS (synonym=\"Works hard\") minus T (abbreviation=\"time\", \"losing\") = OILS; definition: \"painting materials\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'painting materials' -> OILS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Works hard' = TOILS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "TOILS minus T = OILS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060329,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "25a",
+    "answer": "ORANGETREE",
+    "wordplay_type": "cryptic_definition",
+    "definition": "Source of fruit",
+    "ai_explanation": "Could not parse the wordplay confidently. ORANGETREE is the source of orange fruit. The wordplay \"sort essentially exciting teenager\" likely involves ORANGE (perhaps from \"sort\" = RANGE with extras) + TREE (perhaps from \"essentially exciting teenager\"), but specific piece sources unclear. FAIL.",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Source of fruit' -> ORANGETREE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces ORANGE+TREE = ORANGETREE: MATCH"
+      },
+      {
+        "check": "cd",
+        "status": "verified",
+        "detail": "definition maps to answer in DB"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ORANGE' has unrecognised source claim: 'perhaps from \"sort\" = RANGE with extras'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'TREE' has unrecognised source claim: 'perhaps from \"essentially exciting teenager\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060330,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "27a",
+    "answer": "NEATEST",
+    "wordplay_type": "container",
+    "definition": "best order",
+    "ai_explanation": "NEST (synonym=\"comfortable place\") containing ATE (synonym=\"Dined\") = NE(ATE)ST = NEATEST; definition: \"best order\"",
+    "score": 75,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'best order' -> NEATEST: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'comfortable place' = NEST: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Dined' = ATE: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060331,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "28a",
+    "answer": "NETLIKE",
+    "wordplay_type": "charade",
+    "definition": "characteristic of a mesh",
+    "ai_explanation": "NET (TEN reversed, \"taken aback\", where TEN = synonym=\"Figure\") + LIKE (synonym=\"fancy\") = NETLIKE; definition: \"characteristic of a mesh\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'characteristic of a mesh' -> NETLIKE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'fancy' = LIKE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces NET+LIKE = NETLIKE: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'NET' has unrecognised source claim: 'TEN reversed, \"taken aback\", where TEN = synonym=\"Figure\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060332,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "29a",
+    "answer": "WELLREASONED",
+    "wordplay_type": "anagram",
+    "definition": "logically argued",
+    "ai_explanation": "anagram of NEW + LEADER + ALSO minus A (article, \"putting out\") = WELLREASONED; definition: \"logically argued\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'logically argued' -> WELLREASONED: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "wrong",
+        "detail": "'NEWLEADERALSOA' anagrams to WELLREASONED: NO"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'A' has unrecognised source claim: 'article, \"putting out\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060333,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "1d",
+    "answer": "BESPOKE",
+    "wordplay_type": "charade",
+    "definition": "describing some tailoring",
+    "ai_explanation": "BE (outer letters of \"Bloke\" \u2014 \"on vacation\" empties the middle) + SPOKE (synonym=\"made an utterance\") = BESPOKE; definition: \"describing some tailoring\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'describing some tailoring' -> BESPOKE: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'made an utterance' = SPOKE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces BE+SPOKE = BESPOKE: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'BE' has unrecognised source claim: 'outer letters of \"Bloke\" \u2014 \"on vacation\" empties the middle'"
+      }
+    ]
+  },
+  {
+    "id": 10060334,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "2d",
+    "answer": "REFRACTORY",
+    "wordplay_type": "container",
+    "definition": "unmanageable",
+    "ai_explanation": "RE (synonym=\"Note\") + FACTORY (synonym=\"industrial site\") containing R (abbreviation=\"Republican\") = RE + F(R)ACTORY = REFRACTORY; definition: \"unmanageable\"",
+    "score": 83,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'unmanageable' -> REFRACTORY: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Note' = RE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'industrial site' = FACTORY: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'republican' -> R: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060335,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "3d",
+    "answer": "SELLOUTS",
+    "wordplay_type": "anagram",
+    "definition": "very popular events",
+    "ai_explanation": "anagram of RULES + LOTS minus R (\"broke\", with R removed via \"no end of disorder\" = last letter of \"disorder\") = SELLOUTS; definition: \"very popular events\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'very popular events' -> SELLOUTS: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "wrong",
+        "detail": "'RULESLOTSRR' anagrams to SELLOUTS: NO"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'R' has unrecognised source claim: '\"broke\", with R removed via \"no end of disorder\" = last lett'"
+      }
+    ]
+  },
+  {
+    "id": 10060336,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "4d",
+    "answer": "YEARNS",
+    "wordplay_type": "container",
+    "definition": "Longs for",
+    "ai_explanation": "YEARS (synonym=\"periods of time\") containing N (abbreviation=\"Norway\", \"around\") = YEAR(N)S = YEARNS; definition: \"Longs for\"",
+    "score": 65,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Longs for' -> YEARNS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'periods of time' = YEARS: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060337,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "5d",
+    "answer": "VERY",
+    "wordplay_type": "deletion",
+    "definition": "Precise",
+    "ai_explanation": "DELIVERY (synonym=\"transfer of goods\") minus DELI (first half, \"not half\") = VERY; definition: \"Precise\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Precise' -> VERY: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'transfer of goods' = DELIVERY: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "DELIVERY minus DELI = VERY: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'DELI' has unrecognised source claim: 'first half, \"not half\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060338,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "6d",
+    "answer": "EMBRACE",
+    "wordplay_type": "charade",
+    "definition": "Hug",
+    "ai_explanation": "E (abbreviation=\"English\") + MB (abbreviation=\"doctor\") + RACE (synonym=\"competition\") = EMBRACE; definition: \"Hug\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Hug' -> EMBRACE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'competition' = RACE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'english' -> E: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'doctor' -> MB: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces E+MB+RACE = EMBRACE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060339,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "7d",
+    "answer": "DRESSINGDOWN",
+    "wordplay_type": "double_definition",
+    "definition": "reprimand",
+    "ai_explanation": "Double definition: Being casually attired = DRESSINGDOWN, reprimand = DRESSINGDOWN",
+    "score": 45,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'reprimand' -> DRESSINGDOWN: VERIFIED"
+      },
+      {
+        "check": "dd",
+        "status": "unverifiable",
+        "detail": "DD partial: `Being casually attired`=True, `reprimand`=True (answer DRESSINGDOWN), non-link remainder: ['brings']"
+      }
+    ]
+  },
+  {
+    "id": 10060340,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "10d",
+    "answer": "COMMANDEERED",
+    "wordplay_type": "anagram",
+    "definition": "is requisitioned",
+    "ai_explanation": "anagram of C (first letter of \"court\", \"Entry to\") + ROMAN + DEEMED (\"out of order\") = COMMANDEERED; definition: \"is requisitioned\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'is requisitioned' -> COMMANDEERED: not in DB"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'CROMANDEEMED' anagrams to COMMANDEERED: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['C', 'ROMAN', 'DEEMED'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'DEEMED' has unrecognised source claim: '\"out of order\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060341,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "13d",
+    "answer": "CHARLESTON",
+    "wordplay_type": "anagram",
+    "definition": "lively dance",
+    "ai_explanation": "anagram of ROLE + CHANTS = CHARLESTON; definition: \"lively dance\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'lively dance' -> CHARLESTON: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'ROLECHANTS' anagrams to CHARLESTON: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['ROLE', 'CHANTS'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10060342,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "15d",
+    "answer": "YEN",
+    "wordplay_type": "hidden",
+    "definition": "Asian money",
+    "ai_explanation": "hidden in \"subsidYENticingly\"; definition: \"Asian money\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Asian money' -> YEN: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'subsidYENticingly' in clue; UPPERCASE equals YEN"
+      }
+    ]
+  },
+  {
+    "id": 10060343,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "18d",
+    "answer": "WARNINGS",
+    "wordplay_type": "container",
+    "definition": "Notices of danger",
+    "ai_explanation": "WANING (synonym=\"in decline\") containing R (synonym=\"right\", \"About\") + S (first letter of \"summer\", \"start of\") = WAR(N)ING + S = WARNINGS; definition: \"Notices of danger\"",
+    "score": 65,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Notices of danger' -> WARNINGS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'in decline' = WANING: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10060344,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "20d",
+    "answer": "KILDARE",
+    "wordplay_type": "anagram",
+    "definition": "Irish county",
+    "ai_explanation": "anagram of LIKED + A + R (abbreviation=\"river\") (\"to ramble\") = KILDARE; definition: \"Irish county\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Irish county' -> KILDARE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'river' -> R: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'LIKEDAR' anagrams to KILDARE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['LIKED', 'A', 'R'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10060345,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "22d",
+    "answer": "WORRIED",
+    "wordplay_type": "charade",
+    "definition": "Anxious",
+    "ai_explanation": "WORRI (IR + ROW reversed, \"in turn\", where IR = abbreviation=\"Irish\" and ROW = synonym=\"line\") + ED (abbreviation=\"journalist\", \"supporting\" = below in down clue) = WORRIED; definition: \"Anxious\"",
+    "score": 50,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Anxious' -> WORRIED: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces WORRI+ED = WORRIED: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'WORRI' has unrecognised source claim: 'IR + ROW reversed, \"in turn\", where IR = abbreviation=\"Irish'"
+      }
+    ]
+  },
+  {
+    "id": 10060346,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "23d",
+    "answer": "WRITHE",
+    "wordplay_type": "container",
+    "definition": "squirm",
+    "ai_explanation": "WRITE (synonym=\"Record\") + H (abbreviation=\"husband\") = WRITHE; definition: \"squirm\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'squirm' -> WRITHE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Record' = WRITE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'husband' -> H: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "H inside WRITE = WRITHE: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060347,
+    "source": "dailymail",
+    "puzzle": "17865",
+    "label": "26d",
+    "answer": "PEAL",
+    "wordplay_type": "deletion",
+    "definition": "Ringing",
+    "ai_explanation": "PEALS (synonym=\"bells\") with deletion = PEAL; definition: \"Ringing\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Ringing' -> PEAL: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'bells' = PEALS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "PEALS with deletion = PEAL: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059993,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "1a",
+    "answer": "CLEMATIS",
+    "wordplay_type": "anagram",
+    "definition": "Climber",
+    "ai_explanation": "anagram of LAST+ICE+M(first letter of \"muesli\") = CLEMATIS; definition: \"Climber\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Climber' -> CLEMATIS: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'LASTICEM' anagrams to CLEMATIS: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['LAST', 'ICE', 'M'] found in clue text"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'M' as first of 'muesli': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059994,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "6a",
+    "answer": "CHICHI",
+    "wordplay_type": "homophone",
+    "definition": "pretentious",
+    "ai_explanation": "CHICHI sounds like \"she she\" (sounded \u2014 That woman doubly); definition: \"pretentious\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'pretentious' -> CHICHI: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "unverifiable",
+        "detail": "'CHICHI' sounds like 'she': not in DB"
+      }
+    ]
+  },
+  {
+    "id": 10059995,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "9a",
+    "answer": "SKIDDY",
+    "wordplay_type": "charade",
+    "definition": "having very weak grip",
+    "ai_explanation": "S (abbreviation=\"Small\") + KIDDY (synonym=\"child\") = SKIDDY; definition: \"having very weak grip\"",
+    "score": 73,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'having very weak grip' -> SKIDDY: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'child' = KIDDY: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'small' -> S: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces S+KIDDY = SKIDDY: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059996,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "10a",
+    "answer": "EXACTING",
+    "wordplay_type": "charade",
+    "definition": "Difficult",
+    "ai_explanation": "EX (= \"X\" spelled out) + ACTING (synonym=\"pretending to be someone else\") = EXACTING; definition: \"Difficult\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Difficult' -> EXACTING: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'pretending to be someone else' = ACTING: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces EX+ACTING = EXACTING: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'EX' has unrecognised source claim: '= \"X\" spelled out'"
+      }
+    ]
+  },
+  {
+    "id": 10059997,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "11a",
+    "answer": "BLANDISHMENT",
+    "wordplay_type": "charade",
+    "definition": "flattery",
+    "ai_explanation": "BLANDISH(synonym of \"dull\") + MEN(synonym of \"guys\") + T(last letter of \"expect\"); definition: \"flattery\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'flattery' -> BLANDISHMENT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'dull' = BLANDISH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'guys' = MEN: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces BLANDISH+MEN+T = BLANDISHMENT: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'T' as last of 'expect': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059998,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "13a",
+    "answer": "PARAFFIN",
+    "wordplay_type": "charade",
+    "definition": "Fuel",
+    "ai_explanation": "PARA (synonym=\"soldier\") + FFIN (NIFF reversed, \"brought round\", where NIFF = synonym=\"nasty smell\") = PARAFFIN; definition: \"Fuel\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Fuel' -> PARAFFIN: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'soldier' = PARA: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces PARA+FFIN = PARAFFIN: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'FFIN' has unrecognised source claim: 'NIFF reversed, \"brought round\", where NIFF = synonym=\"nasty '"
+      }
+    ]
+  },
+  {
+    "id": 10059999,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "15a",
+    "answer": "ELEVEN",
+    "wordplay_type": "charade",
+    "definition": "Team",
+    "ai_explanation": "EL (PELE with outer letters removed \u2014 \"no wingers\") + EVEN (synonym=\"well-balanced\") = ELEVEN; definition: \"Team\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Team' -> ELEVEN: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'well-balanced' = EVEN: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces EL+EVEN = ELEVEN: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'EL' has unrecognised source claim: 'PELE with outer letters removed \u2014 \"no wingers\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060000,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "16a",
+    "answer": "LEMANS",
+    "wordplay_type": "container",
+    "definition": "endurance race",
+    "ai_explanation": "M(abbr. \"Mike\") inside LEANS(synonym of \"heels\"); definition: \"endurance race\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'endurance race' -> LEMANS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'heels' = LEANS: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'mike' -> M: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "M inside LEANS = LEMANS: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060001,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "18a",
+    "answer": "UPSTAIRS",
+    "wordplay_type": "container",
+    "definition": "on flight",
+    "ai_explanation": "UP (synonym=\"revolting\") + STARS (synonym=\"celebrities\") containing I (synonym=\"One\") = UPSTAIRS; definition: \"on flight\"",
+    "score": 45,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'on flight' -> UPSTAIRS: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "unverifiable",
+        "detail": "'revolting' = UP: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'celebrities' = STARS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'One' = I: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "I inside UPSTARS = UPSTAIRS: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060002,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "20a",
+    "answer": "CONFIDENTIAL",
+    "wordplay_type": "anagram",
+    "definition": "that mustn't be passed on",
+    "ai_explanation": "anagram of LAD+INFECTION = CONFIDENTIAL; definition: \"that mustn't be passed on\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'that mustn't be passed on' -> CONFIDENTIAL: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'LADINFECTION' anagrams to CONFIDENTIAL: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['LAD', 'INFECTION'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10060003,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "23a",
+    "answer": "MALINGER",
+    "wordplay_type": "anagram",
+    "definition": "act poorly",
+    "ai_explanation": "anagram of MEAN + GIRL (\"Most of Mean Girls\" \u2014 last S dropped) = MALINGER; definition: \"act poorly\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'act poorly' -> MALINGER: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "wrong",
+        "detail": "'MEANGIRLS' anagrams to MALINGER: NO"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'GIRL' has unrecognised source claim: '\"Most of Mean Girls\" \u2014 last S dropped'"
+      }
+    ]
+  },
+  {
+    "id": 10060004,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "24a",
+    "answer": "CUTTER",
+    "wordplay_type": "charade",
+    "definition": "one reducing spending",
+    "ai_explanation": "C(abbr. \"Conservative\") + UTTER(synonym of \"say\"); definition: \"one reducing spending\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'one reducing spending' -> CUTTER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'say' = UTTER: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'conservative' -> C: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces C+UTTER = CUTTER: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060005,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "25a",
+    "answer": "WEIGHT",
+    "wordplay_type": "homophone",
+    "definition": "Force directed towards Earth",
+    "ai_explanation": "WEIGHT sounds like \"wait\" (when told); definition: \"Force directed towards Earth\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Force directed towards Earth' -> WEIGHT: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "verified",
+        "detail": "'WEIGHT' sounds like 'wait': in DB"
+      }
+    ]
+  },
+  {
+    "id": 10060006,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "26a",
+    "answer": "OVERRIDE",
+    "wordplay_type": "charade",
+    "definition": "Emergency control",
+    "ai_explanation": "OVER(synonym of \"other side of\") + RIDE(synonym of \"bike\"); definition: \"Emergency control\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Emergency control' -> OVERRIDE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'other side of' = OVER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'bike' = RIDE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces OVER+RIDE = OVERRIDE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060007,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "2d",
+    "answer": "LIKEBLAZES",
+    "wordplay_type": "charade",
+    "definition": "with much passion",
+    "ai_explanation": "LIKE (synonym=\"Fancy\") + B (abbreviation=\"bishop\") + LAZES (synonym=\"does nothing\") = LIKEBLAZES; definition: \"with much passion\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'with much passion' -> LIKEBLAZES: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Fancy' = LIKE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'does nothing' = LAZES: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'bishop' -> B: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces LIKE+B+LAZES = LIKEBLAZES: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060008,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "3d",
+    "answer": "MADRASA",
+    "wordplay_type": "charade",
+    "definition": "seminary",
+    "ai_explanation": "MAD (synonym=\"cross\") + RASA (alternate letters of \"fRiAr SpAt\" \u2014 \"regularly\") = MADRASA; definition: \"seminary\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'seminary' -> MADRASA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'cross' = MAD: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces MAD+RASA = MADRASA: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060009,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "4d",
+    "answer": "TOYED",
+    "wordplay_type": "anagram",
+    "definition": "Did flirt",
+    "ai_explanation": "anagram of DY (outer letters of \"Daisy's\" \u2014 skirts) + TOE = TOYED; definition: \"Did flirt\"",
+    "score": 50,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Did flirt' -> TOYED: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'DYTOE' anagrams to TOYED: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'DY' has unrecognised source claim: 'outer letters of \"Daisy's\" \u2014 skirts'"
+      }
+    ]
+  },
+  {
+    "id": 10060010,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "5d",
+    "answer": "STEPSON",
+    "wordplay_type": "charade",
+    "definition": "Relative",
+    "ai_explanation": "STEPS (= \"keeps walking\") + ON (continuing) = STEPSON; definition: \"Relative\"",
+    "score": 20,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Relative' -> STEPSON: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces STEPS+ON = STEPSON: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'STEPS' has unrecognised source claim: '= \"keeps walking\"'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ON' has unrecognised source claim: 'continuing'"
+      }
+    ]
+  },
+  {
+    "id": 10060011,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "6d",
+    "answer": "CHARMLESS",
+    "wordplay_type": "container",
+    "definition": "Cold tea left in canteen",
+    "ai_explanation": "CHAR(synonym of \"tea\") + L(abbr. \"left\") inside MESS(synonym of \"canteen\"); definition: \"Cold tea left in canteen\"",
+    "score": 83,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'Cold tea left in canteen' -> CHARMLESS: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'tea' = CHAR: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'canteen' = MESS: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'left' -> L: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "L inside CHARMESS = CHARMLESS: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060012,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "7d",
+    "answer": "INTENSE",
+    "wordplay_type": "charade",
+    "definition": "Profound",
+    "ai_explanation": "IN + TENS (= \"how decimal system counts\") + E (= \"irrational number\" \u2014 Euler's number e) = INTENSE; definition: \"Profound\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Profound' -> INTENSE: VERIFIED"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'TENS' has unrecognised source claim: '= \"how decimal system counts\"'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'E' has unrecognised source claim: '= \"irrational number\" \u2014 Euler's number e'"
+      }
+    ]
+  },
+  {
+    "id": 10060013,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "8d",
+    "answer": "HAND",
+    "wordplay_type": "container",
+    "definition": "Worker",
+    "ai_explanation": "N(first letter of \"new\") inside HAD(synonym of \"delivered\"); definition: \"Worker\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Worker' -> HAND: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'delivered' = HAD: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "N inside HAD = HAND: YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'N' as first of 'new': YES"
+      }
+    ]
+  },
+  {
+    "id": 10060014,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "12d",
+    "answer": "PETROLHEAD",
+    "wordplay_type": "charade",
+    "definition": "Driving fan",
+    "ai_explanation": "P (abbreviation=\"parking\") + anagram of HERE + AT + OLD (\"ground\") = PETROLHEAD; definition: \"Driving fan\"",
+    "score": 33,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Driving fan' -> PETROLHEAD: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'parking' -> P: VERIFIED"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'OLD' has unrecognised source claim: '\"ground\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060015,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "14d",
+    "answer": "FISTFIGHT",
+    "wordplay_type": "charade",
+    "definition": "punch-up",
+    "ai_explanation": "FIST (FIRST minus R, where FIRST = synonym=\"initially\") + FIGHT (FRIGHT minus R, where FRIGHT = synonym=\"fear\") = FISTFIGHT; definition: \"punch-up\"",
+    "score": 20,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'punch-up' -> FISTFIGHT: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces FIST+FIGHT = FISTFIGHT: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'FIST' has unrecognised source claim: 'FIRST minus R, where FIRST = synonym=\"initially\"'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'FIGHT' has unrecognised source claim: 'FRIGHT minus R, where FRIGHT = synonym=\"fear\"'"
+      }
+    ]
+  },
+  {
+    "id": 10060016,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "17d",
+    "answer": "ADORING",
+    "wordplay_type": "anagram",
+    "definition": "Very keen on",
+    "ai_explanation": "anagram of GORDIAN (\"knots\") = ADORING; definition: \"Very keen on\"",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Very keen on' -> ADORING: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "anagram of GORDIAN = ADORING: MATCH"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'GORDIAN' anagrams to ADORING: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['GORDIAN'] found in clue text"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'GORDIAN' has unrecognised source claim: '\"knots\"'"
+      },
+      {
+        "check": "indicator",
+        "status": "wrong",
+        "detail": "no 'anagram' indicator found in clue for anagram operation"
+      }
+    ]
+  },
+  {
+    "id": 10060017,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "18d",
+    "answer": "UNDERGO",
+    "wordplay_type": "charade",
+    "definition": "Bear",
+    "ai_explanation": "UNDER(synonym of \"short of\") + GO(synonym of \"energy\"); definition: \"Bear\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Bear' -> UNDERGO: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'short of' = UNDER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'energy' = GO: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces UNDER+GO = UNDERGO: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10060018,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "19d",
+    "answer": "AVIATOR",
+    "wordplay_type": "charade",
+    "definition": "Traveller",
+    "ai_explanation": "A (first letter of \"arrive\") + VIA (synonym=\"by way of\") + TOR (synonym=\"height\") = AVIATOR; definition: \"Traveller\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Traveller' -> AVIATOR: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'by way of' = VIA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'height' = TOR: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces A+VIA+TOR = AVIATOR: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'A' as first of 'arrive': YES"
+      }
+    ]
+  },
+  {
+    "id": 10060019,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "21d",
+    "answer": "NICHE",
+    "wordplay_type": "container",
+    "definition": "attracting particular clientele",
+    "ai_explanation": "NICE (synonym=\"south coast resort\") containing H (abbreviation=\"Hospital\") = NICHE; definition: \"attracting particular clientele\"",
+    "score": 98,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'attracting particular clientele' -> NICHE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'south coast resort' = NICE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'hospital' -> H: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "H inside NICE = NICHE: YES"
+      }
+    ]
+  },
+  {
+    "id": 10060020,
+    "source": "independent",
+    "puzzle": "1887",
+    "label": "22d",
+    "answer": "GALE",
+    "wordplay_type": "reversal",
+    "definition": "Heavy blow",
+    "ai_explanation": "reverse of E (abbreviation=\"English\") + LAG (synonym=\"prisoner\") = GALE; definition: \"Heavy blow\"",
+    "score": 23,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Heavy blow' -> GALE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'prisoner' = LAG: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'english' -> E: VERIFIED"
+      },
+      {
+        "check": "reversal",
+        "status": "verified",
+        "detail": "'E' reversed = E, claimed piece in GALE: YES"
+      },
+      {
+        "check": "indicator",
+        "status": "wrong",
+        "detail": "no 'reversal' indicator found in clue for reversal operation"
+      }
+    ]
+  },
+  {
+    "id": 10059965,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "1a",
+    "answer": "MACE",
+    "wordplay_type": "charade",
+    "definition": "club",
+    "ai_explanation": "M (abbreviation of \"Masculine\") + ACE (synonym of \"one's\"); definition: \"club\"",
+    "score": 80,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'club' -> MACE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces M+ACE = MACE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059966,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "3a",
+    "answer": "UPPERCRUST",
+    "wordplay_type": "anagram",
+    "definition": "Posh people",
+    "ai_explanation": "anagram of CURT + SUPPER = UPPERCRUST; definition: \"Posh people\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Posh people' -> UPPERCRUST: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'CURTSUPPER' anagrams to UPPERCRUST: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['CURT', 'SUPPER'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059967,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "10a",
+    "answer": "TRIPOLI",
+    "wordplay_type": "homophone",
+    "definition": "port on the Med",
+    "ai_explanation": "TRIPOLI sounds like \"triply\" (Caught \u2014 heard); definition: \"port on the Med\"",
+    "score": 5,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'port on the Med' -> TRIPOLI: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "verified",
+        "detail": "'TRIPOLI' sounds like 'triply': in DB"
+      },
+      {
+        "check": "indicator",
+        "status": "wrong",
+        "detail": "no 'homophone' indicator found in clue for homophone operation"
+      }
+    ]
+  },
+  {
+    "id": 10059968,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "11a",
+    "answer": "VULTURE",
+    "wordplay_type": "cryptic_definition",
+    "definition": "My food is usually late",
+    "ai_explanation": "Cryptic definition: a VULTURE feeds on carrion \u2014 its food is usually \"late\" (deceased, as in \"the late ___\")",
+    "score": 20,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'My food is usually late' -> VULTURE: not in DB"
+      },
+      {
+        "check": "cd",
+        "status": "unverifiable",
+        "detail": "neither clue text nor definition maps to answer in DB \u2014 CD cannot be verified"
+      }
+    ]
+  },
+  {
+    "id": 10059969,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "12a",
+    "answer": "HOODWINKS",
+    "wordplay_type": "charade",
+    "definition": "Tricks",
+    "ai_explanation": "HOOD (synonym=\"gangster\") + WINKS (synonym=\"cheeky gesture\") = HOODWINKS; definition: \"Tricks\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Tricks' -> HOODWINKS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'gangster' = HOOD: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'cheeky gesture' = WINKS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces HOOD+WINKS = HOODWINKS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059970,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "13a",
+    "answer": "LAUGH",
+    "wordplay_type": "hidden",
+    "definition": "Roar",
+    "ai_explanation": "Hidden in aLAUGHterhouse",
+    "score": 55,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Roar' -> LAUGH: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "unverifiable",
+        "detail": "hidden explanation missing span in casing convention hidden in \"...X...\""
+      }
+    ]
+  },
+  {
+    "id": 10059971,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "14a",
+    "answer": "OUTSTANDINGLY",
+    "wordplay_type": "charade",
+    "definition": "to extraordinary degree",
+    "ai_explanation": "OUTSTANDING (synonym=\"Unsettled\") + LY (outer letters of \"Lucy\", vacuous = empty middle) = OUTSTANDINGLY; definition: \"to extraordinary degree\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'to extraordinary degree' -> OUTSTANDINGLY: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Unsettled' = OUTSTANDING: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces OUTSTANDING+LY = OUTSTANDINGLY: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'LY' has unrecognised source claim: 'outer letters of \"Lucy\", vacuous = empty middle'"
+      }
+    ]
+  },
+  {
+    "id": 10059972,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "18a",
+    "answer": "DIRTYMARTINIS",
+    "wordplay_type": "charade",
+    "definition": "drinks",
+    "ai_explanation": "DIRTY (synonym=\"Blue\") + MARTIN (synonym=\"bird\") + IS (literal \"is\") = DIRTYMARTINIS; definition: \"drinks\"",
+    "score": 70,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'drinks' -> DIRTYMARTINIS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Blue' = DIRTY: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'bird' = MARTIN: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces DIRTY+MARTIN+IS = DIRTYMARTINIS: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'IS' has unrecognised source claim: 'literal \"is\"'"
+      }
+    ]
+  },
+  {
+    "id": 10059973,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "20a",
+    "answer": "SALVO",
+    "wordplay_type": "hidden",
+    "definition": "attack",
+    "ai_explanation": "hidden in \"colosSAL VOles\"; definition: \"attack\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'attack' -> SALVO: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'colosSAL VOles' in clue; UPPERCASE equals SALVO"
+      }
+    ]
+  },
+  {
+    "id": 10059975,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "23a",
+    "answer": "RISOTTO",
+    "wordplay_type": "anagram",
+    "definition": "carby dish",
+    "ai_explanation": "anagram of ROOTS + IT = RISOTTO; definition: \"carby dish\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'carby dish' -> RISOTTO: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'ROOTSIT' anagrams to RISOTTO: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['ROOTS', 'IT'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059976,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "24a",
+    "answer": "AVARICE",
+    "wordplay_type": "container",
+    "definition": "another sin",
+    "ai_explanation": "A (literal) + VICE (synonym=\"one sin\") containing AR (= \"A rector\", with R = abbreviation for rector) = AVARICE; definition: \"another sin\"",
+    "score": 30,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'another sin' -> AVARICE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'one sin' = VICE: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "AR inside AVICE = AVARICE: YES"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'A' has unrecognised source claim: 'literal'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'AR' has unrecognised source claim: '= \"A rector\", with R = abbreviation for rector'"
+      }
+    ]
+  },
+  {
+    "id": 10059977,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "25a",
+    "answer": "MASTERKEYS",
+    "wordplay_type": "charade",
+    "definition": "Such should open many doors",
+    "ai_explanation": "MASTER (synonym=\"Pass grade-eight\") + KEYS (synonym=\"piano\") = MASTERKEYS; definition: \"Such should open many doors\"",
+    "score": 20,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Such should open many doors' -> MASTERKEYS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "unverifiable",
+        "detail": "'Pass grade-eight' = MASTER: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "unverifiable",
+        "detail": "'piano' = KEYS: not in DB"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces MASTER+KEYS = MASTERKEYS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059978,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "26a",
+    "answer": "ERIE",
+    "wordplay_type": "reversal",
+    "definition": "Great Lake",
+    "ai_explanation": "reverse of EIRE (synonym=\"land\") = ERIE; definition: \"Great Lake\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Great Lake' -> ERIE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'land' = EIRE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "anagram of EIRE = ERIE: MATCH"
+      },
+      {
+        "check": "reversal",
+        "status": "verified",
+        "detail": "'EIRE' reversed = ERIE: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059979,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "1d",
+    "answer": "MATCHBOX",
+    "wordplay_type": "charade",
+    "definition": "source of illumination",
+    "ai_explanation": "MATCH (synonym=\"fight\" \u2014 a boxing match) + BOX (synonym=\"fight\" \u2014 to box) = MATCHBOX; definition: \"source of illumination\"",
+    "score": 80,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'source of illumination' -> MATCHBOX: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces MATCH+BOX = MATCHBOX: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059980,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "2d",
+    "answer": "CHINO",
+    "wordplay_type": "hidden",
+    "definition": "cotton",
+    "ai_explanation": "hidden in \"starCHIN Old\"; definition: \"cotton\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'cotton' -> CHINO: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'starCHIN Old' in clue; UPPERCASE equals CHINO"
+      }
+    ]
+  },
+  {
+    "id": 10059981,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "4d",
+    "answer": "POIGNANCY",
+    "wordplay_type": "anagram",
+    "definition": "aura of sadness",
+    "ai_explanation": "anagram of CANOPYING = POIGNANCY; definition: \"aura of sadness\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'aura of sadness' -> POIGNANCY: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'CANOPYING' anagrams to POIGNANCY: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['CANOPYING'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059983,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "6d",
+    "answer": "COLDLIGHTOFDAY",
+    "wordplay_type": "anagram",
+    "definition": "it's easier to see now",
+    "ai_explanation": "anagram of FACT + HOLLY + DID + GO = COLDLIGHTOFDAY; definition: \"it's easier to see now\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'it's easier to see now' -> COLDLIGHTOFDAY: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'FACTHOLLYDIDGO' anagrams to COLDLIGHTOFDAY: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['FACT', 'HOLLY', 'DID', 'GO'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059985,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "8d",
+    "answer": "TEETHE",
+    "wordplay_type": "charade",
+    "definition": "that's cut, in a way",
+    "ai_explanation": "TEE (synonym=\"Support\") + THE (synonym=\"article\") = TEETHE; definition: \"that's cut, in a way\"",
+    "score": 75,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'that's cut, in a way' -> TEETHE: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Support' = TEE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'article' = THE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces TEE+THE = TEETHE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059986,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "9d",
+    "answer": "HOTWATERBOTTLE",
+    "wordplay_type": "charade",
+    "definition": "that's taken to bed",
+    "ai_explanation": "HOTWATER (synonym=\"Trouble\") + BOTTLE (synonym=\"spirit\") = HOTWATERBOTTLE; definition: \"that's taken to bed\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'that's taken to bed' -> HOTWATERBOTTLE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Trouble' = HOTWATER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'spirit' = BOTTLE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces HOTWATER+BOTTLE = HOTWATERBOTTLE: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059987,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "15d",
+    "answer": "TODOLISTS",
+    "wordplay_type": "charade",
+    "definition": "lists of chores",
+    "ai_explanation": "TODO (synonym=\"Fuss\") + LISTS (synonym=\"tips\" \u2014 to list = to tip over) = TODOLISTS; definition: \"lists of chores\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'lists of chores' -> TODOLISTS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Fuss' = TODO: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces TODO+LISTS = TODOLISTS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059989,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "17d",
+    "answer": "ASITWERE",
+    "wordplay_type": "anagram",
+    "definition": "so to speak",
+    "ai_explanation": "anagram of WEARIEST = ASITWERE; definition: \"so to speak\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'so to speak' -> ASITWERE: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'WEARIEST' anagrams to ASITWERE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['WEARIEST'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059990,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "19d",
+    "answer": "ASHRAM",
+    "wordplay_type": "charade",
+    "definition": "retreat",
+    "ai_explanation": "ASH (synonym=\"tree\") + RAM (synonym=\"Sheep\") = ASHRAM; definition: \"retreat\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'retreat' -> ASHRAM: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'tree' = ASH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Sheep' = RAM: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces ASH+RAM = ASHRAM: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059991,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "21d",
+    "answer": "STORK",
+    "wordplay_type": "acrostic",
+    "definition": "the one relaying kids",
+    "ai_explanation": "S (first letter of \"supposedly\") + T (first letter of \"the\") + O (first letter of \"one\") + R (first letter of \"relaying\") + K (first letter of \"kids\") = STORK; definition: \"the one relaying kids\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'the one relaying kids' -> STORK: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces S+T+O+R+K = STORK: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'S' as first of 'supposedly': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'T' as first of 'the': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'O' as first of 'one': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'R' as first of 'relaying': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'K' as first of 'kids': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059992,
+    "source": "guardian",
+    "puzzle": "4149",
+    "label": "22d",
+    "answer": "ICIER",
+    "wordplay_type": "deletion",
+    "definition": "more remote",
+    "ai_explanation": "DICIER (synonym=\"More risky\") minus D (heading off, first letter) = ICIER; definition: \"more remote\"",
+    "score": 35,
+    "verdict": "LOW",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'more remote' -> ICIER: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'More risky' = DICIER: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "DICIER minus D = ICIER: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'D' has unrecognised source claim: 'heading off, first letter'"
+      }
+    ]
+  },
+  {
+    "id": 10059937,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "1a",
+    "answer": "GAPS",
+    "wordplay_type": "charade, container",
+    "definition": "Intervals",
+    "ai_explanation": "P (synonym of \"quiet\") + GAS (synonym of \"chatter\") [container: \"amid\"]; definition: \"Intervals\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Intervals' -> GAPS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'quiet' = P: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'chatter' = GAS: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "P inside GAS = GAPS: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059938,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "3a",
+    "answer": "INDENTURES",
+    "wordplay_type": "charade, container",
+    "definition": "contracts",
+    "ai_explanation": "DENT (synonym of \"Crater\u2019s\") + INURES (synonym of \"hardens\") [container: \"inside\"]; definition: \"contracts\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'contracts' -> INDENTURES: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Crater\u2019s' = DENT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'hardens' = INURES: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "DENT inside INURES = INDENTURES: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059939,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "10a",
+    "answer": "LUNCH",
+    "wordplay_type": "deletion",
+    "definition": "meal",
+    "ai_explanation": "LAUNCH (synonym=\"Start\") minus A = LUNCH; definition: \"meal\"",
+    "score": 15,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'meal' -> LUNCH: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Start' = LAUNCH: VERIFIED"
+      },
+      {
+        "check": "indicator",
+        "status": "wrong",
+        "detail": "no 'deletion' indicator found in clue for deletion operation"
+      }
+    ]
+  },
+  {
+    "id": 10059940,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "11a",
+    "answer": "PARASITIC",
+    "wordplay_type": "charade, container",
+    "definition": "Sponging",
+    "ai_explanation": "PARA (synonym of \"soldiers\") [container: \"housed\"] + IT (synonym of \"in\") + SIC (synonym of \"charge\"); definition: \"Sponging\"",
+    "score": 85,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Sponging' -> PARASITIC: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'soldiers' = PARA: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'in' = IT: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'charge' = SIC: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10059941,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "12a",
+    "answer": "PRIMEMINISTERS",
+    "wordplay_type": "charade",
+    "definition": "leading politicians",
+    "ai_explanation": "PRIME (synonym=\"Perhaps two\" \u2014 2 is a prime number) + MINISTERS (synonym=\"clergymen\") = PRIMEMINISTERS; definition: \"leading politicians\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'leading politicians' -> PRIMEMINISTERS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'clergymen' = MINISTERS: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces PRIME+MINISTERS = PRIMEMINISTERS: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059942,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "14a",
+    "answer": "APERCUS",
+    "wordplay_type": "hidden",
+    "definition": "Insights",
+    "ai_explanation": "hidden in \"newspAPER CUStomers\"; definition: \"Insights\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Insights' -> APERCUS: VERIFIED"
+      },
+      {
+        "check": "hidden_word",
+        "status": "verified",
+        "detail": "span 'newspAPER CUStomers' in clue; UPPERCASE equals APERCUS"
+      }
+    ]
+  },
+  {
+    "id": 10059943,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "15a",
+    "answer": "RUBICON",
+    "wordplay_type": "charade",
+    "definition": "Runner",
+    "ai_explanation": "Could not parse the wordplay confidently. RUBICON is a \"runner\" (river that runs). The wordplay \"one must keep going after\" likely splits as RUB + I (one) + CON, but the synonym for RUB (\"must keep going\") and CON (\"after\") are weak. FAIL.",
+    "score": 0,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "unverifiable",
+        "detail": "'Runner' -> RUBICON: not in DB"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'I' has unrecognised source claim: 'one'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'RUB' has unrecognised source claim: '\"must keep going\"'"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'CON' has unrecognised source claim: '\"after\"'"
+      }
+    ]
+  },
+  {
+    "id": 10059944,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "17a",
+    "answer": "ENSURES",
+    "wordplay_type": "deletion",
+    "definition": "guarantees",
+    "ai_explanation": "CENSURES (synonym=\"blames\") minus C (capital, first letter) = ENSURES; definition: \"guarantees\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'guarantees' -> ENSURES: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'blames' = CENSURES: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "CENSURES minus C = ENSURES: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'C' has unrecognised source claim: 'capital, first letter'"
+      }
+    ]
+  },
+  {
+    "id": 10059945,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "19a",
+    "answer": "BUBONIC",
+    "wordplay_type": "anagram",
+    "definition": "like the plague",
+    "ai_explanation": "anagram of IU (alternate letters of \"Virus\") + ON + BBC = BUBONIC; definition: \"like the plague\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'like the plague' -> BUBONIC: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'IUONBBC' anagrams to BUBONIC: YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'IU' as alternate of 'Virus': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059946,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "20a",
+    "answer": "STUMBLINGBLOCK",
+    "wordplay_type": "container",
+    "definition": "Difficulty",
+    "ai_explanation": "SOCK (synonym=\"footwear\") containing TUMBLING (synonym=\"acrobatics\") + B (first letter of \"big\") + L (first letter of \"lumps\") = STUMBLINGBLOCK; definition: \"Difficulty\"",
+    "score": 95,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Difficulty' -> STUMBLINGBLOCK: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'footwear' = SOCK: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'acrobatics' = TUMBLING: VERIFIED"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'B' as first of 'big': YES"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'L' as first of 'lumps': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059947,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "23a",
+    "answer": "HOMINOIDS",
+    "wordplay_type": "anagram",
+    "definition": "Great apes",
+    "ai_explanation": "anagram of IN + HIS + DOOM = HOMINOIDS; definition: \"Great apes\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Great apes' -> HOMINOIDS: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'INHISDOOM' anagrams to HOMINOIDS: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['IN', 'HIS', 'DOOM'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059948,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "24a",
+    "answer": "EVADE",
+    "wordplay_type": "container",
+    "definition": "skirt",
+    "ai_explanation": "EVE (synonym=\"the First Lady\") containing A + D (abbreviation=\"democrat\") = EVADE; definition: \"skirt\"",
+    "score": 73,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'skirt' -> EVADE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'the First Lady' = EVE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'democrat' -> D: VERIFIED"
+      }
+    ]
+  },
+  {
+    "id": 10059949,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "25a",
+    "answer": "FORBEARING",
+    "wordplay_type": "charade",
+    "definition": "Patient",
+    "ai_explanation": "FOR (synonym=\"meant\") + BEARING (synonym=\"to be carried\") = FORBEARING; definition: \"Patient\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Patient' -> FORBEARING: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "unverifiable",
+        "detail": "'meant' = FOR: not in DB"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'to be carried' = BEARING: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces FOR+BEARING = FORBEARING: MATCH"
+      }
+    ]
+  },
+  {
+    "id": 10059950,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "26a",
+    "answer": "SEED",
+    "wordplay_type": "homophone",
+    "definition": "Children",
+    "ai_explanation": "SEED sounds like \"cede\" (caught); definition: \"Children\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Children' -> SEED: VERIFIED"
+      },
+      {
+        "check": "homophone",
+        "status": "verified",
+        "detail": "'SEED' sounds like 'cede': in DB"
+      }
+    ]
+  },
+  {
+    "id": 10059951,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "1d",
+    "answer": "GOLDPLATED",
+    "wordplay_type": "charade",
+    "definition": "in gilt",
+    "ai_explanation": "G (abbreviation=\"Grand\") + OLD (synonym=\"antique\") + PLATE (synonym=\"dish\") + D (last letter of \"edged\") = GOLDPLATED; definition: \"in gilt\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'in gilt' -> GOLDPLATED: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'antique' = OLD: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'dish' = PLATE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'grand' -> G: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces G+OLD+PLATE+D = GOLDPLATED: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'D' as last of 'edged': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059952,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "2d",
+    "answer": "PENNILESS",
+    "wordplay_type": "container",
+    "definition": "stony",
+    "ai_explanation": "PENS (synonym=\"Authors\") containing NILE (synonym=\"river\") + S (abbreviation=\"small\") = PENNILESS; definition: \"stony\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'stony' -> PENNILESS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Authors' = PENS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'river' = NILE: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'small' -> S: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "NILE inside PENSS = PENNILESS: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059953,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "4d",
+    "answer": "NAPKINS",
+    "wordplay_type": "charade",
+    "definition": "linen on the table",
+    "ai_explanation": "NAP (synonym=\"Pile\") + KIN (synonym=\"family\") + S (apostrophe-S) = NAPKINS; definition: \"linen on the table\"",
+    "score": 70,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'linen on the table' -> NAPKINS: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Pile' = NAP: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'family' = KIN: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces NAP+KIN+S = NAPKINS: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'S' has unrecognised source claim: 'apostrophe-S'"
+      }
+    ]
+  },
+  {
+    "id": 10059954,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "5d",
+    "answer": "EARLIER",
+    "wordplay_type": "charade",
+    "definition": "Former",
+    "ai_explanation": "EARL (synonym=\"noble\") + IE (abbreviation=\"that is\") + R (first letter of \"retire\") = EARLIER; definition: \"Former\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Former' -> EARLIER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'noble' = EARL: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'that is' -> IE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces EARL+IE+R = EARLIER: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'R' as first of 'retire': YES"
+      }
+    ]
+  },
+  {
+    "id": 10059955,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "6d",
+    "answer": "TESTTUBEBABIES",
+    "wordplay_type": "cryptic_definition",
+    "definition": "Issue",
+    "ai_explanation": "Cryptic definition: TESTTUBEBABIES are \"Issue\" (offspring) created by IVF \u2014 eggs being fertilised in the lab and \"delivered\" back to the womb; definition: \"Issue\"",
+    "score": 95,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Issue' -> TESTTUBEBABIES: VERIFIED"
+      },
+      {
+        "check": "cd",
+        "status": "verified",
+        "detail": "definition maps to answer in DB"
+      }
+    ]
+  },
+  {
+    "id": 10059956,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "7d",
+    "answer": "ROTOR",
+    "wordplay_type": "cryptic_definition",
+    "definition": "Blade",
+    "ai_explanation": "Cryptic definition: ROTOR is a blade (helicopter rotor) and a palindrome \u2014 it \"turns both ways\", reading the same forwards and backwards; definition: \"Blade\"",
+    "score": 65,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Blade' -> ROTOR: VERIFIED"
+      },
+      {
+        "check": "cd",
+        "status": "verified",
+        "detail": "definition maps to answer in DB"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'blade' has unrecognised source claim: 'helicopter rotor'"
+      }
+    ]
+  },
+  {
+    "id": 10059957,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "8d",
+    "answer": "SACK",
+    "wordplay_type": "double_definition",
+    "definition": "bag",
+    "ai_explanation": "Double definition: Boot (= dismiss, give the boot) = SACK, bag = SACK",
+    "score": 15,
+    "verdict": "FAIL",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'bag' -> SACK: VERIFIED"
+      },
+      {
+        "check": "dd",
+        "status": "unverifiable",
+        "detail": "DD partial: `give the boot)`=True, `bag`=True (answer SACK), non-link remainder: ['boot']"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'Boot' has unrecognised source claim: '= dismiss, give the boot'"
+      }
+    ]
+  },
+  {
+    "id": 10059958,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "9d",
+    "answer": "THREECARDMONTE",
+    "wordplay_type": "anagram",
+    "definition": "Con artist's trick",
+    "ai_explanation": "anagram of MEN + TRACED + TO + HER = THREECARDMONTE; definition: \"Con artist's trick\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Con artist's trick' -> THREECARDMONTE: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'MENTRACEDTOHER' anagrams to THREECARDMONTE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['MEN', 'TRACED', 'TO', 'HER'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059959,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "13d",
+    "answer": "KNOCKKNEED",
+    "wordplay_type": "charade / homophone",
+    "definition": "With members turning in",
+    "ai_explanation": "KNOCK (synonym=\"strike\") + KNEED (sounds like \"knead\" = work, \"we hear\") = KNOCKKNEED; definition: \"With members turning in\"",
+    "score": 60,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'With members turning in' -> KNOCKKNEED: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'strike' = KNOCK: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces KNOCK+KNEED = KNOCKKNEED: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'KNEED' has unrecognised source claim: 'sounds like \"knead\" = work, \"we hear\"'"
+      }
+    ]
+  },
+  {
+    "id": 10059960,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "16d",
+    "answer": "CANNONADE",
+    "wordplay_type": "anagram",
+    "definition": "volley",
+    "ai_explanation": "anagram of CAN + END + ON + A = CANNONADE; definition: \"volley\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'volley' -> CANNONADE: VERIFIED"
+      },
+      {
+        "check": "anagram",
+        "status": "verified",
+        "detail": "'CANENDONA' anagrams to CANNONADE: YES"
+      },
+      {
+        "check": "fodder_provenance",
+        "status": "verified",
+        "detail": "all fodder words ['CAN', 'END', 'ON', 'A'] found in clue text"
+      }
+    ]
+  },
+  {
+    "id": 10059961,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "18d",
+    "answer": "SOLDIER",
+    "wordplay_type": "charade, container",
+    "definition": "private?",
+    "ai_explanation": "OLDIE (synonym of \"Classic\") + SR (synonym of \"sister\") [container: \"keeps\"]; definition: \"private?\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'private?' -> SOLDIER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Classic' = OLDIE: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'sister' = SR: VERIFIED"
+      },
+      {
+        "check": "container",
+        "status": "verified",
+        "detail": "OLDIE inside SR = SOLDIER: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059962,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "19d",
+    "answer": "BENISON",
+    "wordplay_type": "charade",
+    "definition": "blessing",
+    "ai_explanation": "B (abbreviation=\"bishop\") + ENISON (VENISON minus first letter, where VENISON = synonym=\"Meat\") = BENISON; definition: \"blessing\"",
+    "score": 58,
+    "verdict": "MEDIUM",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'blessing' -> BENISON: VERIFIED"
+      },
+      {
+        "check": "abbreviation",
+        "status": "verified",
+        "detail": "'bishop' -> B: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces B+ENISON = BENISON: MATCH"
+      },
+      {
+        "check": "silent_piece",
+        "status": "unverifiable",
+        "detail": "piece 'ENISON' has unrecognised source claim: 'VENISON minus first letter, where VENISON = synonym=\"Meat\"'"
+      }
+    ]
+  },
+  {
+    "id": 10059963,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "21d",
+    "answer": "TIMER",
+    "wordplay_type": "charade, reversal",
+    "definition": "Watch",
+    "ai_explanation": "reverse of REMIT (synonym of \"terms of reference\") [reversal: \"written\"]; definition: \"Watch\"",
+    "score": 90,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'Watch' -> TIMER: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'terms of reference' = REMIT: VERIFIED"
+      },
+      {
+        "check": "reversal",
+        "status": "verified",
+        "detail": "'REMIT' reversed = TIMER: YES"
+      }
+    ]
+  },
+  {
+    "id": 10059964,
+    "source": "times",
+    "puzzle": "5213",
+    "label": "22d",
+    "answer": "CHEF",
+    "wordplay_type": "charade",
+    "definition": "cook",
+    "ai_explanation": "CHE (synonym=\"Revolutionary\") + F (first letter of \"flamboyant\") = CHEF; definition: \"cook\"",
+    "score": 100,
+    "verdict": "HIGH",
+    "checks": [
+      {
+        "check": "definition",
+        "status": "verified",
+        "detail": "'cook' -> CHEF: VERIFIED"
+      },
+      {
+        "check": "synonym",
+        "status": "verified",
+        "detail": "'Revolutionary' = CHE: VERIFIED"
+      },
+      {
+        "check": "assembly",
+        "status": "verified",
+        "detail": "pieces CHE+F = CHEF: MATCH"
+      },
+      {
+        "check": "positional",
+        "status": "verified",
+        "detail": "'F' as first of 'flamboyant': YES"
+      }
+    ]
+  }
+]
