@@ -540,7 +540,7 @@ def update_puzzle_grid_solution(source, puzzle_number, solution, rows, cols):
 
 # ---------- Main orchestrator ------------------------------------------
 
-def lookup_puzzle(source, puzzle_number, dry_run=False):
+def lookup_puzzle(source, puzzle_number, dry_run=False, pause_after_first=False):
     """Look up all clues for a puzzle on danword and optionally write answers."""
     clues = get_answerless_clues(source, puzzle_number)
     if not clues:
@@ -583,6 +583,20 @@ def lookup_puzzle(source, puzzle_number, dry_run=False):
                         write_answers([(clean_answer, clue_id)])
             else:
                 print(" -> NOT FOUND")
+
+            # After first clue, optionally pause so the user can solve any captcha
+            # in the Selenium-driven Firefox window. Cookies persist for the rest.
+            if pause_after_first and i == 0:
+                sentinel = PROJECT_ROOT / 'data' / '.danword_continue'
+                try:
+                    sentinel.unlink()
+                except FileNotFoundError:
+                    pass
+                print(f"\n*** PAUSED: solve any captcha in the Firefox window, then create {sentinel} to continue ***")
+                while not sentinel.exists():
+                    time.sleep(2)
+                sentinel.unlink()
+                print("*** Resuming ***")
 
             # Brief delay between searches (longer every 10 to avoid rate limiting)
             if i < len(clues) - 1:
@@ -643,6 +657,8 @@ def main():
                         help='Find answers but do not write to DB')
     parser.add_argument('--seed', action='store_true',
                         help='Seed the Firefox profile: opens danword for manual testing, then exits')
+    parser.add_argument('--pause-after-first', action='store_true',
+                        help='Pause after the first clue so the user can solve any captcha in the Firefox window')
     args = parser.parse_args()
 
     if args.seed:
@@ -663,7 +679,8 @@ def main():
     print(f"Danword Lookup -- {args.source} #{args.puzzle}")
     print(f"Database: {DB_PATH}")
 
-    found, total = lookup_puzzle(args.source, args.puzzle, dry_run=args.dry_run)
+    found, total = lookup_puzzle(args.source, args.puzzle, dry_run=args.dry_run,
+                                 pause_after_first=args.pause_after_first)
 
     print(f"\nDone: {found}/{total} answers {'found' if args.dry_run else 'written'}")
     sys.exit(0 if found > 0 else 1)
