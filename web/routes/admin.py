@@ -108,10 +108,10 @@ def edit_save(clue_id):
            WHERE id = ?""",
         (
             clue_text or clue["clue_text"],
-            answer or None,
-            definition or None,
-            wordplay_type or None,
-            ai_explanation or None,
+            answer or "",
+            definition or "",
+            wordplay_type or "",
+            ai_explanation or "",
             clue_id,
         ),
     )
