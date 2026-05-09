@@ -1,0 +1,3630 @@
+{
+  "n": 57,
+  "summary": {
+    "PASS": 12,
+    "FAIL": 31,
+    "NO_FORM": 14
+  },
+  "fail_modes": {
+    "leaf_justification": 21,
+    "definition": 2,
+    "indicator_presence": 4,
+    "indicator_db": 8,
+    "mechanism": 4,
+    "coverage": 2
+  },
+  "parse_errors": {
+    "no form produced": 14
+  },
+  "per_clue": [
+    {
+      "clue_id": 10062651,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Yes, German king cutting party nibbles for impertinent individual",
+      "answer": "JACKANAPES",
+      "definition_db": "impertinent individual",
+      "blog": "JA (German for yes) and K (king) in [cutting] CANAPES (nibbles).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "JA",
+              "source_word": "Yes German"
+            },
+            {
+              "operation": "container",
+              "indicator": "cutting",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "CANAPES",
+                  "source_word": "party nibbles"
+                },
+                {
+                  "operation": "abbreviation",
+                  "value": "K",
+                  "source_word": "king"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "for impertinent individual",
+          "answer": "JACKANAPES"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified abbreviation(JA←'Yes German'); synonym(CANAPES←'party nibbles'); abbreviation(K←'king')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces JACKANAPES"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062652,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "6",
+      "direction": "across",
+      "clue_text": "Former PM’s garden",
+      "answer": "EDEN",
+      "definition_db": "Double definition",
+      "blog": "Double definition.",
+      "form": {
+        "tree": {
+          "operation": "double_definition",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "EDEN",
+              "source_word": "Former PM s"
+            },
+            {
+              "operation": "synonym",
+              "value": "EDEN",
+              "source_word": "garden"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "EDEN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'EDEN' not in DB for 'Former PM s'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EDEN"
+          },
+          {
+            "name": "definition",
+            "status": "fail",
+            "detail": "definition phrase is empty"
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062653,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "8",
+      "direction": "across",
+      "clue_text": "I am associated with beer merchant buying from abroad",
+      "answer": "IMPORTER",
+      "definition_db": "merchant buying from abroad",
+      "blog": "I'M + PORTER (beer).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "I",
+              "source_word": "I"
+            },
+            {
+              "operation": "positional",
+              "value": "M",
+              "source_word": "am",
+              "positional_kind": "last"
+            },
+            {
+              "operation": "synonym",
+              "value": "PORTER",
+              "source_word": "associated with beer"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "merchant buying from abroad",
+          "answer": "IMPORTER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'PORTER' not in DB for 'associated with beer'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "fail",
+            "detail": "positional[last] leaf 'M' from 'am' has no indicator"
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces IMPORTER"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062654,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Left one pound in cash",
+      "answer": "LIQUID",
+      "definition_db": "in cash",
+      "blog": "L (left) + I (one) + QUID (pound).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "L",
+              "source_word": "Left"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "I",
+              "source_word": "one"
+            },
+            {
+              "operation": "synonym",
+              "value": "QUID",
+              "source_word": "pound"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "in cash",
+          "answer": "LIQUID"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified abbreviation(L←'Left'); abbreviation(I←'one'); synonym(QUID←'pound')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LIQUID"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062655,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Remove water from bottle to begin with and feel poorly",
+      "answer": "BAIL",
+      "definition_db": "Remove water from",
+      "blog": "B ottle [to begin with] + AIL (feel poorly).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "B",
+              "source_word": "bottle to begin with",
+              "positional_kind": "first"
+            },
+            {
+              "operation": "synonym",
+              "value": "AIL",
+              "source_word": "feel poorly"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Remove water from",
+          "answer": "BAIL"
+        },
+        "link_words": [
+          "and"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified positional[first](B←'bottle to begin with'); synonym(AIL←'feel poorly')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "fail",
+            "detail": "positional[first] leaf 'B' from 'bottle to begin with' has no indicator"
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces BAIL"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062656,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Band of smooth chaps securing help",
+      "answer": "IRONMAIDEN",
+      "definition_db": "Band",
+      "blog": "IRON (smooth) + AID (help) in MEN (chaps).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "IRON",
+              "source_word": "smooth"
+            },
+            {
+              "operation": "container",
+              "indicator": "securing",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "MEN",
+                  "source_word": "chaps"
+                },
+                {
+                  "operation": "synonym",
+                  "value": "AID",
+                  "source_word": "help"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Band of",
+          "answer": "IRONMAIDEN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(IRON←'smooth'); synonym(MEN←'chaps'); synonym(AID←'help')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces IRONMAIDEN"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062657,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Lee in a state of mind that’s primitive?",
+      "answer": "ELEMENTAL",
+      "definition_db": "primitive?",
+      "blog": "(Lee)* [in a state] + MENTAL (of mind).",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "in a state",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "LEE",
+              "source_word": "Lee"
+            },
+            {
+              "operation": "synonym",
+              "value": "MENTAL",
+              "source_word": "of mind that s"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "primitive",
+          "answer": "ELEMENTAL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'MENTAL' not in DB for 'of mind that s'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'in a state' for op 'anagram': no DB row with type in ['anagram']"
+          },
+          {
+            "name": "mechanism",
+            "status": "fail",
+            "detail": "anagram contains non-literal child (synonym); anagram fodder must be literal letters from the clue"
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ELEMENTAL"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062658,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Punter initially keen on horse",
+      "answer": "PINTO",
+      "definition_db": "horse",
+      "blog": "Punter [initially] + INTO (keen on).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "P",
+              "source_word": "Punter initially",
+              "positional_kind": "first"
+            },
+            {
+              "operation": "synonym",
+              "value": "INTO",
+              "source_word": "keen on"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "horse",
+          "answer": "PINTO"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified positional[first](P←'Punter initially'); synonym(INTO←'keen on')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "fail",
+            "detail": "positional[first] leaf 'P' from 'Punter initially' has no indicator"
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PINTO"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062659,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Currency Harry’s friend found in Ford",
+      "answer": "KRONA",
+      "definition_db": "Currency",
+      "blog": "RON (Weasley; Harry Potter’s friend) in KA (model of Ford car).",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "found",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "KA",
+              "source_word": "Ford"
+            },
+            {
+              "operation": "synonym",
+              "value": "RON",
+              "source_word": "Harry s friend"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Currency",
+          "answer": "KRONA"
+        },
+        "link_words": [
+          "in"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "abbreviation 'KA' not in DB for 'Ford'; synonym 'RON' not in DB for 'Harry s friend'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'found' for op 'container': no DB row with type in ['container', 'insertion']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces KRONA"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062660,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Certain code quiet cryptic setter uncovered",
+      "answer": "ETIQUETTE",
+      "definition_db": "Certain code",
+      "blog": "(quiet)* [cryptic] + {s}ETTE{r} [uncovered].",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "cryptic",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "QUIET",
+              "source_word": "quiet"
+            },
+            {
+              "operation": "literal",
+              "value": "ETTE",
+              "source_word": "setter uncovered"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Certain code",
+          "answer": "ETIQUETTE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "literal 'ETTE': source letters 'SETTERUNCOVERED' != value"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ETIQUETTE"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062661,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Catch a taxi by an American beach",
+      "answer": "COPACABANA",
+      "definition_db": "beach",
+      "blog": "COP (catch) + A + CAB (taxi) + AN + A (American).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "COP",
+              "source_word": "Catch"
+            },
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "synonym",
+              "value": "CAB",
+              "source_word": "taxi"
+            },
+            {
+              "operation": "literal",
+              "value": "AN",
+              "source_word": "an"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "American"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "beach",
+          "answer": "COPACABANA"
+        },
+        "link_words": [
+          "by"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(COP←'Catch'); literal(A←'a'); synonym(CAB←'taxi'); literal(AN←'an'); abbreviation(A←'American')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces COPACABANA"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062662,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Turning point while hosting cricket team?",
+      "answer": "AXIS",
+      "definition_db": "team?",
+      "blog": "XI (eleven; cricket team) in AS (while).",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "hosting",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "AS",
+              "source_word": "while"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "XI",
+              "source_word": "cricket team"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Turning point",
+          "answer": "AXIS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "abbreviation 'XI' not in DB for 'cricket team'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces AXIS"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062663,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Drink supplier put iodine in drink",
+      "answer": "WAITER",
+      "definition_db": "supplier",
+      "blog": "I (chemical symbol for Iodine) in WATER (drink).",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "put",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "WATER",
+              "source_word": "Drink"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "I",
+              "source_word": "iodine in drink"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "supplier",
+          "answer": "WAITER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "abbreviation 'I' not in DB for 'iodine in drink'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'put' for op 'container': no DB row with type in ['container', 'insertion']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces WAITER"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062664,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Infant to hurry back with first aid item",
+      "answer": "NURSLING",
+      "definition_db": "Infant",
+      "blog": "RUN (hurry) [back] -> NUR + SLING (first aid item).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "reversal",
+              "indicator": "back",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "RUN",
+                  "source_word": "hurry"
+                }
+              ]
+            },
+            {
+              "operation": "synonym",
+              "value": "SLING",
+              "source_word": "first aid item"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Infant to",
+          "answer": "NURSLING"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(RUN←'hurry'); synonym(SLING←'first aid item')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NURSLING"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062665,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Gymnast ultimately leaving risky exploit for floor",
+      "answer": "STUN",
+      "definition_db": "floor",
+      "blog": "STUN{t} (risky exploit) without the last letter of gymnasT.",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10062666,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "ChatGPT may fail this, stuttering badly",
+      "answer": "TURINGTEST",
+      "definition_db": "fail",
+      "blog": "(stuttering)* [badly].",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "badly",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "STUTTERING",
+              "source_word": "stuttering"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "ChatGPT may fail this",
+          "answer": "TURINGTEST"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(STUTTERING←'stuttering')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces TURINGTEST"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062667,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Short-term plan?",
+      "answer": "JAILBREAK",
+      "definition_db": "Short-term plan?",
+      "blog": "Cryptic definition",
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "JAILBREAK",
+          "source_word": "Short term plan"
+        },
+        "definition": {
+          "phrase": "Short term plan",
+          "answer": "JAILBREAK"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'JAILBREAK' not in DB for 'Short term plan'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces JAILBREAK"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062668,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Upset with specification for baseball attire?",
+      "answer": "CAPSIZE",
+      "definition_db": "Upset",
+      "blog": "CAP SIZE (specification for baseball attire).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "CAP",
+              "source_word": "baseball attire"
+            },
+            {
+              "operation": "synonym",
+              "value": "SIZE",
+              "source_word": "specification"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Upset with",
+          "answer": "CAPSIZE"
+        },
+        "link_words": [
+          "for"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(CAP←'baseball attire'); synonym(SIZE←'specification')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces CAPSIZE"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062669,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Nutter in Barking? Goodness!",
+      "answer": "NUTRIENT",
+      "definition_db": "Goodness",
+      "blog": "(Nutter in)* [barking].",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "Barking",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "NUTTERIN",
+              "source_word": "Nutter in"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Goodness",
+          "answer": "NUTRIENT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(NUTTERIN←'Nutter in')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NUTRIENT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062670,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Fitness coach working on a laser printer",
+      "answer": "PERSONALTRAINER",
+      "definition_db": "Fitness coach",
+      "blog": "[Working] (on a laser printer)*.",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "working",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "ONALASERPRINTER",
+              "source_word": "on a laser printer"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Fitness coach",
+          "answer": "PERSONALTRAINER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(ONALASERPRINTER←'on a laser printer')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PERSONALTRAINER"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062671,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "Meat essential to croquettes a la minute",
+      "answer": "SALAMI",
+      "definition_db": "Meat",
+      "blog": "Hidden in croquetteS A LA MInute.",
+      "form": {
+        "tree": {
+          "operation": "hidden",
+          "indicator": "essential",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "CROQUETTES",
+              "source_word": "croquettes"
+            },
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "literal",
+              "value": "LA",
+              "source_word": "la"
+            },
+            {
+              "operation": "literal",
+              "value": "MINUTE",
+              "source_word": "minute"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Meat",
+          "answer": "SALAMI"
+        },
+        "link_words": [
+          "to"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(CROQUETTES←'croquettes'); literal(A←'a'); literal(LA←'la'); literal(MINUTE←'minute')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'essential' for op 'hidden': no DB row with type in ['hidden']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SALAMI"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062672,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Beautiful old partner is cracking a bit",
+      "answer": "EXQUISITE",
+      "definition_db": "Beautiful",
+      "blog": "EX (old partner) + IS in, [cracking], QUITE (a bit).",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "cracking",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "EX",
+              "source_word": "old partner"
+            },
+            {
+              "operation": "literal",
+              "value": "IS",
+              "source_word": "is"
+            },
+            {
+              "operation": "synonym",
+              "value": "QUITE",
+              "source_word": "a bit"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Beautiful",
+          "answer": "EXQUISITE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified abbreviation(EX←'old partner'); literal(IS←'is'); synonym(QUITE←'a bit')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "fail",
+            "detail": "anagram contains non-literal child (abbreviation); anagram fodder must be literal letters from the clue"
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EXQUISITE"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062673,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Obvious occasion to carry papers",
+      "answer": "EVIDENT",
+      "definition_db": "Obvious",
+      "blog": "ID (papers) in EVENT (occasion).",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "carry",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "EVENT",
+              "source_word": "occasion"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "ID",
+              "source_word": "papers"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Obvious",
+          "answer": "EVIDENT"
+        },
+        "link_words": [
+          "to"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(EVENT←'occasion'); abbreviation(ID←'papers')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'carry' for op 'container': no DB row with type in ['container', 'insertion']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EVIDENT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062674,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "13",
+      "direction": "down",
+      "clue_text": "Geez! Panama possibly get bronze in part of New York",
+      "answer": "MANHATTAN",
+      "definition_db": "part of New York",
+      "blog": "MAN ! (Geex!) + HAT (panama, possibly) + TAN (get bronze).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "MAN",
+              "source_word": "Geez"
+            },
+            {
+              "operation": "synonym",
+              "value": "HAT",
+              "source_word": "Panama possibly"
+            },
+            {
+              "operation": "synonym",
+              "value": "TAN",
+              "source_word": "get bronze"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "in part of New York",
+          "answer": "MANHATTAN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'HAT' not in DB for 'Panama possibly'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces MANHATTAN"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062675,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "Supervision error",
+      "answer": "OVERSIGHT",
+      "definition_db": "Double definition",
+      "blog": "Double definition.",
+      "form": {
+        "tree": {
+          "operation": "double_definition",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "OVERSIGHT",
+              "source_word": "Supervision"
+            },
+            {
+              "operation": "synonym",
+              "value": "OVERSIGHT",
+              "source_word": "error"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "OVERSIGHT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(OVERSIGHT←'Supervision'); synonym(OVERSIGHT←'error')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces OVERSIGHT"
+          },
+          {
+            "name": "definition",
+            "status": "fail",
+            "detail": "definition phrase is empty"
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062676,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Muscle right into boy’s military unit",
+      "answer": "SQUADRON",
+      "definition_db": "military unit",
+      "blog": "QUAD (muscle) + R (right) in SON (boy).",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "s",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "SON",
+              "source_word": "boy"
+            },
+            {
+              "operation": "charade",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "QUAD",
+                  "source_word": "Muscle"
+                },
+                {
+                  "operation": "abbreviation",
+                  "value": "R",
+                  "source_word": "right"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "military unit",
+          "answer": "SQUADRON"
+        },
+        "link_words": [
+          "into"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(SON←'boy'); synonym(QUAD←'Muscle'); abbreviation(R←'right')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 's' for op 'container': no DB row with type in ['container', 'insertion']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SQUADRON"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062677,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Speech read to mob — Republican senator turning up during it",
+      "answer": "RIOTACT",
+      "definition_db": "Speech read to mob",
+      "blog": "R (Republican) + CATO (senator) [turning up] -> OTAC in IT .",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "during",
+          "sources": [
+            {
+              "operation": "charade",
+              "sources": [
+                {
+                  "operation": "abbreviation",
+                  "value": "R",
+                  "source_word": "Republican"
+                },
+                {
+                  "operation": "literal",
+                  "value": "IT",
+                  "source_word": "it"
+                }
+              ]
+            },
+            {
+              "operation": "reversal",
+              "indicator": "turning up",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "CATO",
+                  "source_word": "senator"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Speech read to mob",
+          "answer": "RIOTACT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified abbreviation(R←'Republican'); literal(IT←'it'); synonym(CATO←'senator')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'turning up' for op 'reversal': no DB row with type in ['reversal']"
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces RIOTACT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062678,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Copy French island’s material",
+      "answer": "TEXTILE",
+      "definition_db": "material",
+      "blog": "TEXT (copy) + ILE (island in French).",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "TEXT",
+              "source_word": "Copy"
+            },
+            {
+              "operation": "synonym",
+              "value": "ILE",
+              "source_word": "French island s"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "material",
+          "answer": "TEXTILE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'TEXT' not in DB for 'Copy'; synonym 'ILE' not in DB for 'French island s'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces TEXTILE"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10062679,
+      "source": "times",
+      "puzzle_number": "29533",
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Repeat — one of Henry’s wives got beheaded",
+      "answer": "PARROT",
+      "definition_db": "Repeat",
+      "blog": "PARR (one of Henry's wives) + {g}OT [beheaded].",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PARR",
+              "source_word": "one of Henry s wives"
+            },
+            {
+              "operation": "literal",
+              "value": "OT",
+              "source_word": "got beheaded"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Repeat",
+          "answer": "PARROT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'PARR' not in DB for 'one of Henry s wives'; literal 'OT': source letters 'GOTBEHEADED' != value"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PARROT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063008,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "On air row traumatised and exhausted Robert Plant",
+      "answer": "LIVERWORT",
+      "definition_db": "Plant",
+      "blog": "LIVE (on air), anagram [traumatised] of ROW , then R {ober} T [exhausted]. Apparently Robert Plant was the lead singer of the rock band Led Zeppelin.",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "traumatised",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "LIVE",
+              "source_word": "On air"
+            },
+            {
+              "operation": "literal",
+              "value": "ROW",
+              "source_word": "row"
+            },
+            {
+              "operation": "positional",
+              "value": "RT",
+              "source_word": "exhausted Robert",
+              "positional_kind": "outer"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Plant",
+          "answer": "LIVERWORT"
+        },
+        "link_words": [
+          "and"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(LIVE←'On air'); literal(ROW←'row'); positional[outer](RT←'exhausted Robert')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "fail",
+            "detail": "positional[outer] leaf 'RT' from 'exhausted Robert' has no indicator"
+          },
+          {
+            "name": "indicator_db",
+            "status": "fail",
+            "detail": "indicator 'traumatised' for op 'anagram': no DB row with type in ['anagram']"
+          },
+          {
+            "name": "mechanism",
+            "status": "fail",
+            "detail": "anagram contains non-literal child (synonym); anagram fodder must be literal letters from the clue"
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LIVERWORT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063009,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "6",
+      "direction": "across",
+      "clue_text": "Piercing, principally shrill instrument",
+      "answer": "SHARP",
+      "definition_db": "Piercing",
+      "blog": "S {hrill} [principally], HARP (instrument)",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "S",
+              "source_word": "principally shrill"
+            },
+            {
+              "operation": "synonym",
+              "value": "HARP",
+              "source_word": "instrument"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Piercing",
+          "answer": "SHARP"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "literal 'S': source letters 'PRINCIPALLYSHRILL' != value"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SHARP"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063010,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Smashing racket crime?",
+      "answer": "CONTEMPTOFCOURT",
+      "definition_db": "Smashing racket crime?",
+      "blog": "Cryptic with reference to tennis",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063011,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Disease from beer we knocked back",
+      "answer": "MILDEW",
+      "definition_db": "Disease",
+      "blog": "MILD (beer), then WE reversed [knocked back]. A plant disease caused by fungus.",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "MILD",
+              "source_word": "beer"
+            },
+            {
+              "operation": "reversal",
+              "indicator": "knocked back",
+              "sources": [
+                {
+                  "operation": "literal",
+                  "value": "WE",
+                  "source_word": "we"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Disease from",
+          "answer": "MILDEW"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified synonym(MILD←'beer'); literal(WE←'we')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces MILDEW"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063012,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Imperative to get little George a close friend",
+      "answer": "ALTEREGO",
+      "definition_db": "a close friend",
+      "blog": "Imperative here is an instruction, so ‘to get little George ‘ / GEO you ALTER EGO",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063013,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "13",
+      "direction": "across",
+      "clue_text": "Huge letters used to spell “Dad”, being popular in China",
+      "answer": "GIANTPANDA",
+      "definition_db": "being popular in China",
+      "blog": "GIANT (huge), P AND A (letters used to spell PA – Dad)",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063014,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Knock down chap emitting cry of pain",
+      "answer": "FELL",
+      "definition_db": "Knock down",
+      "blog": "FELL {ow} (chap) [emitting cry of pain]",
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "FELL",
+          "source_word": "chap emitting cry of pain"
+        },
+        "definition": {
+          "phrase": "Knock down",
+          "answer": "FELL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'FELL' not in DB for 'chap emitting cry of pain'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces FELL"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063015,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "16",
+      "direction": "across",
+      "clue_text": "Chief taking off first of the month",
+      "answer": "ARCH",
+      "definition_db": "Chief",
+      "blog": "{m} ARCH (month) [taking off first]",
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "ARCH",
+          "source_word": "month"
+        },
+        "definition": {
+          "phrase": "Chief",
+          "answer": "ARCH"
+        },
+        "link_words": [
+          "of",
+          "the"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "fail",
+            "detail": "unaccounted: 'taking'; unaccounted: 'off'; unaccounted: 'first'"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'ARCH' not in DB for 'month'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ARCH"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063016,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Write uninspiring incomplete ending for literary work",
+      "answer": "PENTAMETER",
+      "definition_db": "literary work",
+      "blog": "PEN (write), TAME (uninspiring), TER {m} (ending) [incomplete]",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PEN",
+              "source_word": "Write"
+            },
+            {
+              "operation": "synonym",
+              "value": "TAME",
+              "source_word": "uninspiring"
+            },
+            {
+              "operation": "synonym",
+              "value": "TER",
+              "source_word": "incomplete ending"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "for literary work",
+          "answer": "PENTAMETER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'TER' not in DB for 'incomplete ending'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PENTAMETER"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063017,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Italian snail unexpectedly seen around here in France",
+      "answer": "SICILIAN",
+      "definition_db": "Italian",
+      "blog": "Anagram [unexpectedly] of SNAIL containing [seen around] ICI (‘here’ in France)",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "seen around",
+          "sources": [
+            {
+              "operation": "anagram",
+              "indicator": "unexpectedly",
+              "sources": [
+                {
+                  "operation": "literal",
+                  "value": "SNAIL",
+                  "source_word": "snail"
+                }
+              ]
+            },
+            {
+              "operation": "synonym",
+              "value": "ICI",
+              "source_word": "here in France"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Italian",
+          "answer": "SICILIAN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(SNAIL←'snail'); synonym(ICI←'here in France')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SICILIAN"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063018,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "20",
+      "direction": "across",
+      "clue_text": "Husky is a cracking four-legged friend",
+      "answer": "HOARSE",
+      "definition_db": "Husky",
+      "blog": "A contained by [cracking] HO ⁁ RSE ( four-legged friend ). From the days of Uncle Mac and Children’s Favourites on the radio .",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063019,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Inspector isn’t overworked by this perfunctory luggage check?",
+      "answer": "OPENANDSHUTCASE",
+      "definition_db": "Inspector isn't overworked by this",
+      "blog": "Two meanings",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063020,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "This compiler heading west bumped into tourist",
+      "answer": "EMMET",
+      "definition_db": "tourist",
+      "blog": "ME (this compiler) reversed [heading west], MET (bumped into). Cornish slang for a holidaymaker. In Devon they’re called Grockles.",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "reversal",
+              "indicator": "heading west",
+              "sources": [
+                {
+                  "operation": "abbreviation",
+                  "value": "ME",
+                  "source_word": "This compiler"
+                }
+              ]
+            },
+            {
+              "operation": "synonym",
+              "value": "MET",
+              "source_word": "bumped into"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "tourist",
+          "answer": "EMMET"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified abbreviation(ME←'This compiler'); synonym(MET←'bumped into')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EMMET"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063021,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Turned on Conservative about regular instances of vilest infamy",
+      "answer": "NOTORIETY",
+      "definition_db": "infamy",
+      "blog": "ON reversed [turned], TOR ⁁ Y (Conservative) containing [about] {v} I {l} E {s} T [regular instances of…]",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063022,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Substitute officer upset uniform men at the start",
+      "answer": "LOCUM",
+      "definition_db": "Substitute",
+      "blog": "COL (officer – Colonel ) reversed [upset], U (uniform), M {en} [at the start]",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "reversal",
+              "indicator": "upset",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "COL",
+                  "source_word": "officer"
+                }
+              ]
+            },
+            {
+              "operation": "abbreviation",
+              "value": "U",
+              "source_word": "uniform"
+            },
+            {
+              "operation": "literal",
+              "value": "M",
+              "source_word": "men at the start"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Substitute",
+          "answer": "LOCUM"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "literal 'M': source letters 'MENATTHESTART' != value"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LOCUM"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063023,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Sweet eclair Calvin ordered each month",
+      "answer": "VANILLAICECREAM",
+      "definition_db": "Sweet",
+      "blog": "Anagram [ordered] of ECLAIR CALVIN , then EA (each), M (month)",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "ordered",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "ECLAIRCALVIN",
+              "source_word": "eclair Calvin"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "EA",
+              "source_word": "each"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "M",
+              "source_word": "month"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Sweet",
+          "answer": "VANILLAICECREAM"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "pass",
+            "detail": "verified literal(ECLAIRCALVIN←'eclair Calvin'); abbreviation(EA←'each'); abbreviation(M←'month')"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "fail",
+            "detail": "anagram contains non-literal child (abbreviation); anagram fodder must be literal letters from the clue"
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces VANILLAICECREAM"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063024,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Staggers after receiving shock treatment, puts back in power",
+      "answer": "REELECTS",
+      "definition_db": "puts back in power",
+      "blog": "REEL ⁁ S (staggers) containing [after receiving] ECT (shock treatment – electroconvulsive therapy )",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063025,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Served up spirit, just missing king … sorry!",
+      "answer": "OOPS",
+      "definition_db": "sorry!",
+      "blog": "SPOO {k} (spirit) reversed [served up] [just missing king]",
+      "form": {
+        "tree": {
+          "operation": "reversal",
+          "indicator": "Served up",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "SPOO",
+              "source_word": "spirit just missing king"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "sorry",
+          "answer": "OOPS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'SPOO' not in DB for 'spirit just missing king'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces OOPS"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063026,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "Grotty old vagrant last seen in cave?",
+      "answer": "TROGLODYTE",
+      "definition_db": "cave?",
+      "blog": "Anagram [vagrant] of GROTTY OLD , then {cav} E [last seen in…]. A troglodyte was a cave-dweller so I guess the whole clue has to be the definition here.",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063027,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Way to accommodate long bag",
+      "answer": "SACHET",
+      "definition_db": "bag",
+      "blog": "S ⁁ T (way) containing [to accommodate] ACHE (long)",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063028,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Cameramen used at broadcast games screened here",
+      "answer": "AMUSEMENTARCADE",
+      "definition_db": "games screened here",
+      "blog": "Anagram [broadcast] of CAMERAMAN USED AT",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063029,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Post Office worker struggling to pen book, one written to raise cash",
+      "answer": "POTBOILER",
+      "definition_db": "one written to raise cash",
+      "blog": "PO (Post Office), T ⁁ OILER (worker struggling) containing [to pen] B (book). Not sure where to place ‘struggling’ in this, but ‘toil’ suggests hard work. The definition refers back to ‘book’.",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063030,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "12",
+      "direction": "down",
+      "clue_text": "Plucky wife, endlessly zealous officer in reserve",
+      "answer": "GAMEWARDEN",
+      "definition_db": "officer in reserve",
+      "blog": "GAME (plucky), W (wife), ARDEN {t} (zealous) [endlessly]",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "GAME",
+              "source_word": "Plucky"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "W",
+              "source_word": "wife"
+            },
+            {
+              "operation": "synonym",
+              "value": "ARDEN",
+              "source_word": "endlessly zealous"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "officer in reserve",
+          "answer": "GAMEWARDEN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "synonym 'ARDEN' not in DB for 'endlessly zealous'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces GAMEWARDEN"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063031,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "13",
+      "direction": "down",
+      "clue_text": "Young man’s backing good quality statesman",
+      "answer": "GLADSTONE",
+      "definition_db": "statesman",
+      "blog": "G (good), LAD’S (young man’s), TONE (quality)",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "G",
+              "source_word": "backing good"
+            },
+            {
+              "operation": "synonym",
+              "value": "LAD",
+              "source_word": "Young man"
+            },
+            {
+              "operation": "literal",
+              "value": "S",
+              "source_word": "s"
+            },
+            {
+              "operation": "synonym",
+              "value": "TONE",
+              "source_word": "quality"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "statesman",
+          "answer": "GLADSTONE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "abbreviation 'G' not in DB for 'backing good'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces GLADSTONE"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063032,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "Deceitful character put up motorway notice",
+      "answer": "IMPOSTER",
+      "definition_db": "Deceitful character",
+      "blog": "M1 (motorway) reversed [put up], POSTER (notice)",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063033,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Plastic factory beginning to implement cuts",
+      "answer": "PLIANT",
+      "definition_db": "Plastic",
+      "blog": "I {mplement} [beginning to…] contained by [cuts] PL ⁁ ANT (factory)",
+      "form": null,
+      "verdict": {
+        "verdict": "NO_FORM",
+        "checks": []
+      }
+    },
+    {
+      "clue_id": 10063034,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Lament English cricket side, the ultimate in ignominy",
+      "answer": "ELEGY",
+      "definition_db": "Lament",
+      "blog": "E (English), LEG (cricket side – as opposed to ‘off’ ), {ignomin} Y [the ultimate in…]",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "E",
+              "source_word": "English"
+            },
+            {
+              "operation": "synonym",
+              "value": "LEG",
+              "source_word": "cricket side"
+            },
+            {
+              "operation": "literal",
+              "value": "Y",
+              "source_word": "the ultimate in ignominy"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Lament",
+          "answer": "ELEGY"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "pass",
+            "detail": "all clue words accounted for"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "literal 'Y': source letters 'THEULTIMATEINIGNOMINY' != value"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ELEGY"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10063035,
+      "source": "times",
+      "puzzle_number": "29534",
+      "clue_number": "22",
+      "direction": "down",
+      "clue_text": "Congress supporting leaders of White House a tiny bit",
+      "answer": "WHIT",
+      "definition_db": "a tiny bit",
+      "blog": "W {hite} + H {ouse} [leaders of…], IT (congress). A little weak having ‘white’ in the clue although of course it adds to the surface.",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "W",
+              "source_word": "White"
+            },
+            {
+              "operation": "literal",
+              "value": "H",
+              "source_word": "House"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "IT",
+              "source_word": "Congress supporting"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "a tiny bit",
+          "answer": "WHIT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "coverage",
+            "status": "fail",
+            "detail": "unaccounted: 'leaders'; unaccounted: 'of'"
+          },
+          {
+            "name": "leaf_justification",
+            "status": "fail",
+            "detail": "literal 'W': source letters 'WHITE' != value; literal 'H': source letters 'HOUSE' != value; abbreviation 'IT' not in DB for 'Congress supporting'"
+          },
+          {
+            "name": "indicator_presence",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "indicator_db",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "mechanism",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces WHIT"
+          },
+          {
+            "name": "definition",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    }
+  ]
+}

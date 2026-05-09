@@ -1,0 +1,4244 @@
+{
+  "n": 28,
+  "pass1": {
+    "NO_FORM": 27,
+    "FAIL": 1
+  },
+  "pass2": {
+    "NO_FORM": 27,
+    "FAIL": 1
+  },
+  "transitions": {
+    "NO_FORM -> NO_FORM": 27,
+    "FAIL -> FAIL": 1
+  },
+  "shadow_writes": {
+    "synonym": 10,
+    "abbreviation": 39,
+    "indicator": 22,
+    "definition": 0,
+    "skipped": 86
+  },
+  "per_clue": [
+    {
+      "clue_id": 10058516,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Board deal",
+      "answer": "ACCOMMODATION",
+      "blog": "A dd to start us off. Not so hard once you have a couple of checking letters, quite hard otherwise!",
+      "definition_db": "Board",
+      "mapping": {
+        "clue_text": "Board deal",
+        "answer": "ACCOMMODATION",
+        "clue_words": [
+          "Board",
+          "deal"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Board"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "deal"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "N",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058517,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Boys in art tutorial originally housed by place close to Uffizi",
+      "answer": "PUTTI",
+      "blog": "T(utorial) in PUT (place) + (uffiz)I. This clue also took a little working out.",
+      "definition_db": "Boys in art",
+      "mapping": {
+        "clue_text": "Boys in art tutorial originally housed by place close to Uffizi",
+        "answer": "PUTTI",
+        "clue_words": [
+          "Boys",
+          "in",
+          "art",
+          "tutorial",
+          "originally",
+          "housed",
+          "by",
+          "place",
+          "close",
+          "to",
+          "Uffizi"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "Boys",
+              "in",
+              "art"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "tutorial"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=T, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "originally"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "housed"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "by"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=T, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              11
+            ],
+            "words": [
+              "place",
+              "close",
+              "to",
+              "Uffizi"
+            ],
+            "role": "piece",
+            "value": "PUT",
+            "mechanism": "synonym",
+            "notes": [
+              "pos_widened to absorb 'close'",
+              "pos_widened to absorb 'Uffizi'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "tutorial",
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "originally",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "by",
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "housed",
+          "value": "housed",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058518,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Does my pun put out Lemony Snicket?",
+      "answer": "PSEUDONYM",
+      "blog": "*(DOES MY PUN). Apparently the nho Mr Snicket is the pseudonym of an American novelist. I might have gone for George Orwell myself, or George Eliot.. or Robert Galbraith, anyone?",
+      "definition_db": "Lemony Snicket",
+      "mapping": {
+        "clue_text": "Does my pun put out Lemony Snicket?",
+        "answer": "PSEUDONYM",
+        "clue_words": [
+          "Does",
+          "my",
+          "pun",
+          "put",
+          "out",
+          "Lemony",
+          "Snicket"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "Does",
+              "my",
+              "pun"
+            ],
+            "role": "piece",
+            "value": "DOESMYPUN",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "put"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "out"
+            ],
+            "role": "indicator",
+            "operation": "anagram",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              7
+            ],
+            "words": [
+              "Lemony",
+              "Snicket"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "anagram",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "put",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "M",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "S",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "G",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "O",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "G",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "G",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "out",
+          "value": "out",
+          "operation": "anagram",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058519,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Hunters\u2019 targets smartly foiled?",
+      "answer": "EASTEREGGS",
+      "blog": "Well I see that one can go on an Easter egg hunt, done it myself, and that they are usually covered in foil. So I presume it is just a CD, unless I\u2019m missing something.",
+      "definition_db": "Hunters' targets smartly foiled",
+      "mapping": {
+        "clue_text": "Hunters\u2019 targets smartly foiled?",
+        "answer": "EASTEREGGS",
+        "clue_words": [
+          "Hunters",
+          "targets",
+          "smartly",
+          "foiled"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              4
+            ],
+            "words": [
+              "Hunters",
+              "targets",
+              "smartly",
+              "foiled"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "S",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "CD",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058520,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Writer, turning 50, led up the garden path",
+      "answer": "DAHL",
+      "blog": "L (Roman 50) and HAD, conned, all rev. A rather problematic character, these days.",
+      "definition_db": "Writer",
+      "mapping": {
+        "clue_text": "Writer, turning 50, led up the garden path",
+        "answer": "DAHL",
+        "clue_words": [
+          "Writer",
+          "turning",
+          "led",
+          "up",
+          "the",
+          "garden",
+          "path"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Writer"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "turning"
+            ],
+            "role": "indicator",
+            "operation": "reversal",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "led"
+            ],
+            "role": "piece",
+            "value": "L",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=L, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "up"
+            ],
+            "role": "piece",
+            "value": "HAD",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=HAD, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              7
+            ],
+            "words": [
+              "the",
+              "garden",
+              "path"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate",
+              "pos_widened to absorb 'garden'",
+              "pos_widened to absorb 'path'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "reversal",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "led",
+          "value": "L",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "synonym",
+          "source_word": "up",
+          "value": "HAD",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "the",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "turning",
+          "value": "turning",
+          "operation": "reversal",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058521,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Moves up when Saracens\u2019 back stifles constant passing",
+      "answer": "ASCENDS",
+      "blog": "C(onstant) + END (passing), all inside AS (when) + (saracen)S. Harder to parse than to solve!",
+      "definition_db": "Moves up",
+      "mapping": {
+        "clue_text": "Moves up when Saracens\u2019 back stifles constant passing",
+        "answer": "ASCENDS",
+        "clue_words": [
+          "Moves",
+          "up",
+          "when",
+          "Saracens",
+          "back",
+          "stifles",
+          "constant",
+          "passing"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Moves",
+              "up"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "when"
+            ],
+            "role": "piece",
+            "value": "AS",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "Saracens"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "back"
+            ],
+            "role": "piece",
+            "value": "S",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=S, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "stifles"
+            ],
+            "role": "piece",
+            "value": "H",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=H, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "constant"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "passing"
+            ],
+            "role": "piece",
+            "value": "END",
+            "mechanism": "synonym"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "back",
+          "value": "S",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "stifles",
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "Saracens",
+          "value": "Saracens",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058522,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "16",
+      "direction": "across",
+      "clue_text": "Game king and queen crossing over European river",
+      "answer": "ROEDEER",
+      "blog": "E(uropean) + DEE (river) in R (rex, king) + ER (our own dear late queen). I put red deer at first, even though it doesn\u2019t parse. To my surprise the roe deer is indeed a game animal, and literally millions of them are shot each year. For fun. Another fun fact: if in your car you collide with and kill a deer, as happens every day hereabouts, it is illegal to stop and pop the deer into your boot. If you are in the car behind, however, it is not illegal to do so. My son-in-law has acquired a respectable amount of venison this way.",
+      "definition_db": "Game",
+      "mapping": {
+        "clue_text": "Game king and queen crossing over European river",
+        "answer": "ROEDEER",
+        "clue_words": [
+          "Game",
+          "king",
+          "and",
+          "queen",
+          "crossing",
+          "over",
+          "European",
+          "river"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Game"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "king"
+            ],
+            "role": "piece",
+            "value": "R",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "and"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "queen"
+            ],
+            "role": "piece",
+            "value": "ER",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "crossing"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "over"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=T, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "European"
+            ],
+            "role": "piece",
+            "value": "E",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "river"
+            ],
+            "role": "piece",
+            "value": "DEE",
+            "mechanism": "synonym"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "and",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "over",
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "F",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "M",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "crossing",
+          "value": "crossing",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058523,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Driving icy and slippery, stopped by motorway",
+      "answer": "DYNAMIC",
+      "blog": "M(otorway), in *(ICY AND)",
+      "definition_db": "Driving",
+      "mapping": {
+        "clue_text": "Driving icy and slippery, stopped by motorway",
+        "answer": "DYNAMIC",
+        "clue_words": [
+          "Driving",
+          "icy",
+          "and",
+          "slippery",
+          "stopped",
+          "by",
+          "motorway"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Driving"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              3
+            ],
+            "words": [
+              "icy",
+              "and"
+            ],
+            "role": "piece",
+            "value": "ICYAND",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "slippery"
+            ],
+            "role": "indicator",
+            "operation": "anagram",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "stopped"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "by"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "motorway"
+            ],
+            "role": "piece",
+            "value": "M",
+            "mechanism": "abbreviation"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "anagram",
+            null
+          ],
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "stopped",
+          "sources": [
+            {
+              "operation": "anagram",
+              "indicator": "slippery",
+              "sources": [
+                {
+                  "operation": "literal",
+                  "value": "ICYAND",
+                  "source_word": "icy and"
+                }
+              ]
+            },
+            {
+              "operation": "abbreviation",
+              "value": "M",
+              "source_word": "motorway"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Driving",
+          "answer": "DYNAMIC"
+        },
+        "link_words": [
+          "by"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "container > anagram",
+      "pattern": "container_anagram",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'IACMNYD', 'IACNMYD', 'IACNYMD', 'IAMCNYD', 'IAMYCDN', 'IAMYNCD' (+ 59 more) - need 'DYNAMIC'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"icy and\"; \"motorway\"->M (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "indicator 'stopped' not in DB for op 'container' (expected types ['container', 'insertion'])"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "indicator",
+          "source_word": "slippery",
+          "value": "slippery",
+          "operation": "anagram",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "stopped",
+          "value": "stopped",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'IACMNYD', 'IACNMYD', 'IACNYMD', 'IAMCNYD', 'IAMYCDN', 'IAMYNCD' (+ 59 more) - need 'DYNAMIC'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"icy and\"; \"motorway\"->M (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"stopped\" -> container; \"slippery\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 10058524,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Reserve defender left good ball from the right",
+      "answer": "BACKLOG",
+      "blog": "BACK (defender); + G(ood) + 0 (ball) + L(eft) all rev. I wasn\u2019t sure about this because I think of a reserve as a deliberate store, and a backlog as an inadvertent problem. But they are both reserves of a sort, I suppose.",
+      "definition_db": "Reserve",
+      "mapping": {
+        "clue_text": "Reserve defender left good ball from the right",
+        "answer": "BACKLOG",
+        "clue_words": [
+          "Reserve",
+          "defender",
+          "left",
+          "good",
+          "ball",
+          "from",
+          "the",
+          "right"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Reserve"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "defender"
+            ],
+            "role": "piece",
+            "value": "BACK",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "left"
+            ],
+            "role": "piece",
+            "value": "L",
+            "mechanism": "literal",
+            "sub_kind": "tail"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "good"
+            ],
+            "role": "piece",
+            "value": "G",
+            "mechanism": "literal",
+            "sub_kind": "tail"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "ball"
+            ],
+            "role": "piece",
+            "value": "B",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "from"
+            ],
+            "role": "indicator",
+            "operation": "reversal",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "the"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "right"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "reversal",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "the",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "right",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "from",
+          "value": "from",
+          "operation": "reversal",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058525,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "20",
+      "direction": "across",
+      "clue_text": "Couple rolling around kiss and leave",
+      "answer": "EXIT",
+      "blog": "TIE (couple) reversed with an X (kiss) poked in",
+      "definition_db": "leave",
+      "mapping": {
+        "clue_text": "Couple rolling around kiss and leave",
+        "answer": "EXIT",
+        "clue_words": [
+          "Couple",
+          "rolling",
+          "around",
+          "kiss",
+          "and",
+          "leave"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Couple"
+            ],
+            "role": "piece",
+            "value": "TIE",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "rolling"
+            ],
+            "role": "indicator",
+            "operation": "reversal",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "around"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "kiss"
+            ],
+            "role": "piece",
+            "value": "X",
+            "mechanism": "abbreviation",
+            "notes": [
+              "db_miss; shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              6
+            ],
+            "words": [
+              "and",
+              "leave"
+            ],
+            "role": "definition",
+            "notes": [
+              "extended"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "reversal",
+            null
+          ],
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "kiss",
+          "value": "X",
+          "evidence": "anchored via blog gloss; DB miss"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "rolling",
+          "value": "rolling",
+          "operation": "reversal",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "around",
+          "value": "around",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058526,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "21",
+      "direction": "across",
+      "clue_text": "Singing only in unison, Spooner\u2019s line works",
+      "answer": "PLAINCHANT",
+      "blog": "Our friend the Rev. Spooner would say \u201cChain plant.\u201d Allegedly. What I would term plainsong , and about as far from the sort of music I like, as music can get. Well, apart from rap perhaps.",
+      "definition_db": "Singing only in unison",
+      "mapping": {
+        "clue_text": "Singing only in unison, Spooner\u2019s line works",
+        "answer": "PLAINCHANT",
+        "clue_words": [
+          "Singing",
+          "only",
+          "in",
+          "unison",
+          "Spooner",
+          "s",
+          "line",
+          "works"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              4
+            ],
+            "words": [
+              "Singing",
+              "only",
+              "in",
+              "unison"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "Spooner"
+            ],
+            "role": "piece",
+            "value": "S",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "s"
+            ],
+            "role": "piece",
+            "value": "O",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=O, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "line"
+            ],
+            "role": "piece",
+            "value": "R",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=R, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "works"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=C, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "s",
+          "value": "O",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "line",
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "works",
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058527,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Yahoo\u2019s broken down",
+      "answer": "ROUGHNECK",
+      "blog": "Well a roughneck can be a yahoo, and I can also see that DOWN can mean neck, swallow. But beyond that I don\u2019t understand this clue and await enlightenment. What am I missing? Can ROUGH really mean broken?",
+      "definition_db": "Yahoo",
+      "mapping": {
+        "clue_text": "Yahoo\u2019s broken down",
+        "answer": "ROUGHNECK",
+        "clue_words": [
+          "Yahoo",
+          "s",
+          "broken",
+          "down"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Yahoo"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "s"
+            ],
+            "role": "piece",
+            "value": "W",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=W, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "broken"
+            ],
+            "role": "piece",
+            "value": "ROUGH",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "down"
+            ],
+            "role": "piece",
+            "value": "DOWN",
+            "mechanism": "literal"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "s",
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058528,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Something bought in case Mario Javier\u2019s around",
+      "answer": "RIOJA",
+      "blog": "hidden, as above. I blush to admit that I have indeed bought Rioja by the case (sorry, anyone from Provence \ud83d\ude42 ) but more usually, just by the bottle. Google Contino, for some of the very best there is.",
+      "definition_db": "Something bought in case",
+      "mapping": {
+        "clue_text": "Something bought in case Mario Javier\u2019s around",
+        "answer": "RIOJA",
+        "clue_words": [
+          "Something",
+          "bought",
+          "in",
+          "case",
+          "Mario",
+          "Javier",
+          "s",
+          "around"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              4
+            ],
+            "words": [
+              "Something",
+              "bought",
+              "in",
+              "case"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "Mario"
+            ],
+            "role": "indicator",
+            "operation": "hidden",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "Javier"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "s"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "around"
+            ],
+            "role": "piece",
+            "value": "R",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=R, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "hidden",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "Javier",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "s",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "around",
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "G",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "Mario",
+          "value": "Mario",
+          "operation": "hidden",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058529,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Swimmer sporting leech marks in front of boat",
+      "answer": "MACKERELSHARK",
+      "blog": "*(LEECH MARKS) + ARK, boat. I thought \u201cfront of boat\u201d would obviously be B, but it wasn\u2019t ..",
+      "definition_db": "Swimmer",
+      "mapping": {
+        "clue_text": "Swimmer sporting leech marks in front of boat",
+        "answer": "MACKERELSHARK",
+        "clue_words": [
+          "Swimmer",
+          "sporting",
+          "leech",
+          "marks",
+          "in",
+          "front",
+          "of",
+          "boat"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Swimmer"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "sporting"
+            ],
+            "role": "indicator",
+            "operation": "anagram",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              4
+            ],
+            "words": [
+              "leech",
+              "marks"
+            ],
+            "role": "piece",
+            "value": "LEECHMARKS",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "in"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "front"
+            ],
+            "role": "piece",
+            "value": "B",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=B, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "of"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "boat"
+            ],
+            "role": "piece",
+            "value": "ARK",
+            "mechanism": "synonym"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "anagram",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "in",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "front",
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "sporting",
+          "value": "sporting",
+          "operation": "anagram",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058530,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "On which a Bow Street Runner might be laid?",
+      "answer": "APPLESANDPEARS",
+      "blog": "CRS for stairs, on which a runner might be put. In Bow. Would you Adam \u2018n Eve it? (Runner: a narrow rug or carpet, as for a passage. Collins)",
+      "definition_db": "On which a Bow Street Runner might be laid",
+      "mapping": {
+        "clue_text": "On which a Bow Street Runner might be laid?",
+        "answer": "APPLESANDPEARS",
+        "clue_words": [
+          "On",
+          "which",
+          "a",
+          "Bow",
+          "Street",
+          "Runner",
+          "might",
+          "be",
+          "laid"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              9
+            ],
+            "words": [
+              "On",
+              "which",
+              "a",
+              "Bow",
+              "Street",
+              "Runner",
+              "might",
+              "be",
+              "laid"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": null,
+          "value": "CRS",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "W",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058531,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Mentions spectacles being picked up",
+      "answer": "CITES",
+      "blog": "Sounds like \u201csights,\u201d spectacles.",
+      "definition_db": "Mentions",
+      "mapping": {
+        "clue_text": "Mentions spectacles being picked up",
+        "answer": "CITES",
+        "clue_words": [
+          "Mentions",
+          "spectacles",
+          "being",
+          "picked",
+          "up"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Mentions"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              4
+            ],
+            "words": [
+              "spectacles",
+              "being",
+              "picked"
+            ],
+            "role": "piece",
+            "value": "S",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=S, shadow_candidate",
+              "pos_widened to absorb 'picked'"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "up"
+            ],
+            "role": "unaccounted"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "spectacles",
+          "value": "S",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058532,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "I mend a damaged pick handle no longer in use?",
+      "answer": "MAIDENNAME",
+      "blog": "*(I MEND A), + PICK (name). You can name/pick your successor, for example. A bit churlish, to point out that increasingly, maiden names are being stuck with rather than ditched.",
+      "definition_db": "handle no longer in use",
+      "mapping": {
+        "clue_text": "I mend a damaged pick handle no longer in use?",
+        "answer": "MAIDENNAME",
+        "clue_words": [
+          "I",
+          "mend",
+          "a",
+          "damaged",
+          "pick",
+          "handle",
+          "no",
+          "longer",
+          "in",
+          "use"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "I",
+              "mend",
+              "a"
+            ],
+            "role": "piece",
+            "value": "IMENDA",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "damaged"
+            ],
+            "role": "indicator",
+            "operation": "anagram",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "pick"
+            ],
+            "role": "piece",
+            "value": "PICK",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              5,
+              10
+            ],
+            "words": [
+              "handle",
+              "no",
+              "longer",
+              "in",
+              "use"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "anagram",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "Y",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "damaged",
+          "value": "damaged",
+          "operation": "anagram",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058533,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Bard\u2019s complete works missing introduction about terms in English verse",
+      "answer": "ORPHEUS",
+      "blog": "(englis)H + (vers)E in (c)ORPUS. This clue took a bit of assembling! Orpheus had an interesting life, he was an Argonaut who saved the Argo from the sirens, by playing better, luder music than them and drowning them out. He descended to Hades to recover his dead wife Eurydice, and very nearly (but not quite) got her out. He died by being torn to pieces by female followers of Dionysus, because he preferred men: \u201cthe Ciconian women, followers of Dionysus, first threw sticks and stones at him as he played, but his music was so beautiful even the rocks and branches refused to hit him. Enraged, the women tore him to pieces during the frenzy of their Bacchic orgies.\u201d C\u2019est la vie.",
+      "definition_db": "Bard",
+      "mapping": {
+        "clue_text": "Bard\u2019s complete works missing introduction about terms in English verse",
+        "answer": "ORPHEUS",
+        "clue_words": [
+          "Bard",
+          "s",
+          "complete",
+          "works",
+          "missing",
+          "introduction",
+          "about",
+          "terms",
+          "in",
+          "English",
+          "verse"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Bard"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "s"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "complete"
+            ],
+            "role": "piece",
+            "value": "H",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=H, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "works"
+            ],
+            "role": "piece",
+            "value": "ORPUS",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=ORPUS, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "missing"
+            ],
+            "role": "piece",
+            "value": "O",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=O, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "introduction"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "about"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "terms"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              8,
+              9
+            ],
+            "words": [
+              "in"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              9,
+              10
+            ],
+            "words": [
+              "English"
+            ],
+            "role": "piece",
+            "value": "E",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              10,
+              11
+            ],
+            "words": [
+              "verse"
+            ],
+            "role": "piece",
+            "value": "H",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=H, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "complete",
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "synonym",
+          "source_word": "works",
+          "value": "ORPUS",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "missing",
+          "value": "O",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "introduction",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "terms",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "verse",
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "D",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "D",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "s",
+          "value": "s",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058534,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "One getting back at vegan cooking eclair without filling",
+      "answer": "AVENGER",
+      "blog": "*(VEGAN) + E(clai)R. Nice to see ER clued un-royally for once, perhaps because 16ac got there first?",
+      "definition_db": "One getting back at",
+      "mapping": {
+        "clue_text": "One getting back at vegan cooking eclair without filling",
+        "answer": "AVENGER",
+        "clue_words": [
+          "One",
+          "getting",
+          "back",
+          "at",
+          "vegan",
+          "cooking",
+          "eclair",
+          "without",
+          "filling"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              4
+            ],
+            "words": [
+              "One",
+              "getting",
+              "back",
+              "at"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "vegan"
+            ],
+            "role": "piece",
+            "value": "VEGAN",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "cooking"
+            ],
+            "role": "indicator",
+            "operation": "anagram",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "eclair"
+            ],
+            "role": "piece",
+            "value": "E",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=E, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "without"
+            ],
+            "role": "piece",
+            "value": "R",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=R, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              8,
+              9
+            ],
+            "words": [
+              "filling"
+            ],
+            "role": "piece",
+            "value": "N",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=N, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "anagram",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "eclair",
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "without",
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "filling",
+          "value": "N",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "ER",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "cooking",
+          "value": "cooking",
+          "operation": "anagram",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058535,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Nervous with Dodges racing",
+      "answer": "INDY",
+      "blog": "WINDY, with the W(ith) missing. An American form of motor racing.",
+      "definition_db": "racing",
+      "mapping": {
+        "clue_text": "Nervous with Dodges racing",
+        "answer": "INDY",
+        "clue_words": [
+          "Nervous",
+          "with",
+          "Dodges",
+          "racing"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Nervous"
+            ],
+            "role": "piece",
+            "value": "WINDY",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=WINDY, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "piece",
+            "value": "W",
+            "mechanism": "literal",
+            "sub_kind": "tail"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "Dodges"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "racing"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "Nervous",
+          "value": "WINDY",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "Dodges",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058536,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Unique legal right overturned to retain acceptable standard",
+      "answer": "NONPAREIL",
+      "blog": "ON PAR (acceptable standard) in LIEN rev. (legal right)",
+      "definition_db": "Unique",
+      "mapping": {
+        "clue_text": "Unique legal right overturned to retain acceptable standard",
+        "answer": "NONPAREIL",
+        "clue_words": [
+          "Unique",
+          "legal",
+          "right",
+          "overturned",
+          "to",
+          "retain",
+          "acceptable",
+          "standard"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Unique"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "legal"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "right"
+            ],
+            "role": "piece",
+            "value": "ON",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "overturned"
+            ],
+            "role": "indicator",
+            "operation": "reversal",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "to"
+            ],
+            "role": "piece",
+            "value": "LIEN",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=LIEN, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              8
+            ],
+            "words": [
+              "retain",
+              "acceptable",
+              "standard"
+            ],
+            "role": "piece",
+            "value": "PAR",
+            "mechanism": "synonym",
+            "notes": [
+              "db_miss; shadow_candidate",
+              "pos_widened to absorb 'retain'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ],
+          [
+            "reversal",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "acceptable standard",
+          "value": "PAR",
+          "evidence": "anchored via blog gloss; DB miss"
+        },
+        {
+          "kind": "synonym",
+          "source_word": "to",
+          "value": "LIEN",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "legal",
+          "value": "legal",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "overturned",
+          "value": "overturned",
+          "operation": "reversal",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058537,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Picture fitting in one shopping centre lift",
+      "answer": "IMALLRIGHTJACK",
+      "blog": "RIGHT (fitting) in I MALL (one shopping centre) + JACK, a lift, eg a car jack. I\u2019m All Right Jack was a comedy film from 1959 starring Ian Carmichael and Peter Sellers. The cast list reads like a roll call of famous British actors and actresses. Uniquely British I would say, in the way it points fun at British ways, comedy but with an edge to it. I suppose you young millennials can be forgiven for not knowing of it, but it is a fine film in its way, and worth looking out.",
+      "definition_db": "Picture",
+      "mapping": {
+        "clue_text": "Picture fitting in one shopping centre lift",
+        "answer": "IMALLRIGHTJACK",
+        "clue_words": [
+          "Picture",
+          "fitting",
+          "in",
+          "one",
+          "shopping",
+          "centre",
+          "lift"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Picture"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "fitting"
+            ],
+            "role": "piece",
+            "value": "RIGHT",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "in"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "one"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              4,
+              6
+            ],
+            "words": [
+              "shopping",
+              "centre"
+            ],
+            "role": "piece",
+            "value": "MALL",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "lift"
+            ],
+            "role": "piece",
+            "value": "JACK",
+            "mechanism": "synonym"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "J",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "P",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "S",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "U",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "B",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058538,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "13",
+      "direction": "down",
+      "clue_text": "Non-combatant volunteers and training expert declared man alive!",
+      "answer": "PEACECORPS",
+      "blog": "PE ACE (training expert) + CORPS, sounds like cor, man alive. The American equivalent of VSO . I didn\u2019t like this clue much. Never said \u201cMan alive!\u201d myself, and it\u2019s not in Collins.",
+      "definition_db": "Non-combatant volunteers",
+      "mapping": {
+        "clue_text": "Non-combatant volunteers and training expert declared man alive!",
+        "answer": "PEACECORPS",
+        "clue_words": [
+          "Non",
+          "combatant",
+          "volunteers",
+          "and",
+          "training",
+          "expert",
+          "declared",
+          "man",
+          "alive"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "Non",
+              "combatant",
+              "volunteers"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "and"
+            ],
+            "role": "piece",
+            "value": "CORPS",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=CORPS, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "training"
+            ],
+            "role": "piece",
+            "value": "PE",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "expert"
+            ],
+            "role": "piece",
+            "value": "ACE",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "declared"
+            ],
+            "role": "indicator",
+            "operation": "homophone",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "man"
+            ],
+            "role": "piece",
+            "value": "M",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          },
+          {
+            "span": [
+              8,
+              9
+            ],
+            "words": [
+              "alive"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "homophone",
+            null
+          ],
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "and",
+          "value": "CORPS",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "synonym",
+          "source_word": null,
+          "value": "VSO",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "N",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "declared",
+          "value": "declared",
+          "operation": "homophone",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "alive",
+          "value": "alive",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058539,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "University I\u2019m considering supporting with cash, an ongoing thing",
+      "answer": "CONTINUUM",
+      "blog": "CON TIN (with cash) + U(ni) + UM, I\u2019m considering. Con as in con brio, or similar. Tin, slang for money.",
+      "definition_db": "an ongoing thing",
+      "mapping": {
+        "clue_text": "University I\u2019m considering supporting with cash, an ongoing thing",
+        "answer": "CONTINUUM",
+        "clue_words": [
+          "University",
+          "I",
+          "m",
+          "considering",
+          "supporting",
+          "with",
+          "cash",
+          "an",
+          "ongoing",
+          "thing"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "University"
+            ],
+            "role": "piece",
+            "value": "U",
+            "mechanism": "abbreviation",
+            "sub_kind": "tail"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "I"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "m"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "considering"
+            ],
+            "role": "piece",
+            "value": "CON",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=CON, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "supporting"
+            ],
+            "role": "piece",
+            "value": "UM",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=UM, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              7
+            ],
+            "words": [
+              "with",
+              "cash"
+            ],
+            "role": "piece",
+            "value": "TIN",
+            "mechanism": "synonym",
+            "notes": [
+              "db_miss; shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "an"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=C, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              8,
+              10
+            ],
+            "words": [
+              "ongoing",
+              "thing"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "considering",
+          "value": "CON",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "synonym",
+          "source_word": "with cash",
+          "value": "TIN",
+          "evidence": "anchored via blog gloss; DB miss"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "supporting",
+          "value": "UM",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "an",
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "m",
+          "value": "m",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058540,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Short prayers \u2014 half of them, say \u2014 initially entreat Jesus?",
+      "answer": "COLLEGE",
+      "blog": "COLL(ects) + EG (say) + E(ntreat). Jesus college, Cambridge, though perhaps the other place has one too \ud83d\ude42 Collect: a short church prayer generally preceding the lesson or epistle in communion and other services (Collins)",
+      "definition_db": "Short prayers",
+      "mapping": {
+        "clue_text": "Short prayers \u2014 half of them, say \u2014 initially entreat Jesus?",
+        "answer": "COLLEGE",
+        "clue_words": [
+          "Short",
+          "prayers",
+          "half",
+          "of",
+          "them",
+          "say",
+          "initially",
+          "entreat",
+          "Jesus"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Short",
+              "prayers"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "half"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "of"
+            ],
+            "role": "piece",
+            "value": "COLL",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=COLL, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "them"
+            ],
+            "role": "piece",
+            "value": "E",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=E, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "say"
+            ],
+            "role": "piece",
+            "value": "EG",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "initially"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=C, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "entreat"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=C, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              8,
+              9
+            ],
+            "words": [
+              "Jesus"
+            ],
+            "role": "piece",
+            "value": "J",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "of",
+          "value": "COLL",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "them",
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "initially",
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "entreat",
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "half",
+          "value": "half",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058541,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "Labourer putting soldier on a stretcher?",
+      "answer": "BRICKIE",
+      "blog": "a cute reference to bricklaying: Soldier: a brick laid vertically with the narrower long face out (only in the US Collins entry, but it is in the OED) Stretcher: a brick or stone laid horizontally with its length parallel to the length of a wall. As opposed to a header, laid across the wall.",
+      "definition_db": "Labourer",
+      "mapping": {
+        "clue_text": "Labourer putting soldier on a stretcher?",
+        "answer": "BRICKIE",
+        "clue_words": [
+          "Labourer",
+          "putting",
+          "soldier",
+          "on",
+          "a",
+          "stretcher"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Labourer"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              3
+            ],
+            "words": [
+              "putting",
+              "soldier"
+            ],
+            "role": "piece",
+            "value": "S",
+            "mechanism": "positional",
+            "sub_kind": "first",
+            "notes": [
+              "pos_widened to absorb 'putting'"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "on"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "a"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "stretcher"
+            ],
+            "role": "piece",
+            "value": "S",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058542,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "22",
+      "direction": "down",
+      "clue_text": "Looking up, calm doorman periodically scratched nose",
+      "answer": "AROMA",
+      "blog": "C A L M D O O R M A N, rev. Nose, aroma as in wine tasting argot",
+      "definition_db": "nose",
+      "mapping": {
+        "clue_text": "Looking up, calm doorman periodically scratched nose",
+        "answer": "AROMA",
+        "clue_words": [
+          "Looking",
+          "up",
+          "calm",
+          "doorman",
+          "periodically",
+          "scratched",
+          "nose"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              6
+            ],
+            "words": [
+              "Looking",
+              "up",
+              "calm",
+              "doorman",
+              "periodically",
+              "scratched"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "nose"
+            ],
+            "role": "piece",
+            "value": "N",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "reversal",
+            null
+          ],
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "C",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "L",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "M",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "D",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "O",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "O",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "R",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "M",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": null,
+          "value": "N",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 10058543,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "23",
+      "direction": "down",
+      "clue_text": "Elegant chapter on Cicero\u2019s here",
+      "answer": "CHIC",
+      "blog": "C(hapter) + HIC, Latin for here as in Hic, haec, hoc etc.",
+      "definition_db": "Elegant",
+      "mapping": {
+        "clue_text": "Elegant chapter on Cicero\u2019s here",
+        "answer": "CHIC",
+        "clue_words": [
+          "Elegant",
+          "chapter",
+          "on",
+          "Cicero",
+          "s",
+          "here"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Elegant"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "chapter"
+            ],
+            "role": "piece",
+            "value": "C",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "on"
+            ],
+            "role": "piece",
+            "value": "HIC",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=HIC, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "Cicero"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "s"
+            ],
+            "role": "piece",
+            "value": "L",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=L, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "here"
+            ],
+            "role": "piece",
+            "value": "H",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=H, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "on",
+          "value": "HIC",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "s",
+          "value": "L",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "here",
+          "value": "H",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "Cicero",
+          "value": "Cicero",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    }
+  ]
+}

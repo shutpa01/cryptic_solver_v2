@@ -1,0 +1,1242 @@
+{
+  "source": "telegraph",
+  "puzzle": "31132",
+  "n_clues": 30,
+  "statuses": {
+    "PASS": 6,
+    "FAIL": 10,
+    "NO_FORM": 14
+  },
+  "flag_counts": {
+    "op_name_not_preserved_in_solveresult": 2,
+    "op_inferred_from_token_mix_not_provided": 2,
+    "container_outer_inner_not_preserved": 5,
+    "solver_no_result": 14,
+    "container_charade_structure_not_preserved": 1,
+    "definition_phrase_missing": 1
+  },
+  "per_clue": [
+    {
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "A padre is prepared for heaven",
+      "answer": "PARADISE",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PARADISE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"A\"; literal \"padre\"; literal \"is\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"prepared\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "prepared",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "A"
+            },
+            {
+              "operation": "literal",
+              "value": "PADRE",
+              "source_word": "padre"
+            },
+            {
+              "operation": "literal",
+              "value": "IS",
+              "source_word": "is"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "heaven",
+          "answer": "PARADISE"
+        },
+        "link_words": [
+          "for"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=3 ind=['ANA_I'] lnk=1 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "5",
+      "direction": "across",
+      "clue_text": "Photograph largely enjoyable meal out",
+      "answer": "PICNIC",
+      "status": "PASS",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided"
+      ],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PICNIC"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Photograph\"->PIC; \"enjoyable\"->NICE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"largely\" -> deletion"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PIC",
+              "source_word": "Photograph"
+            },
+            {
+              "operation": "deletion",
+              "indicator": "largely",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "NICE",
+                  "source_word": "enjoyable"
+                }
+              ],
+              "deletion_kind": "tail"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "meal out",
+          "answer": "PICNIC"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided"
+        ]
+      },
+      "notes": "op=None leaves=2 ind=['POS_I_TRIM_LAST'] lnk=0 dbe=0 conf=100"
+    },
+    {
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Dexter's lead character in an oeuvre beaten up and shot",
+      "answer": "ENDEAVOUR",
+      "status": "FAIL",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ENDEAVOUR"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "abbreviation 'U' not in DB for 'up'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"in\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['beaten', 'character', \"dexter's\", 'lead', 'oeuvre']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "in",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "U",
+              "source_word": "up"
+            },
+            {
+              "operation": "synonym",
+              "value": "ENDEAVOR",
+              "source_word": "shot"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "shot",
+          "answer": "ENDEAVOUR"
+        },
+        "link_words": [
+          "Dexter's",
+          "lead",
+          "character",
+          "an",
+          "oeuvre",
+          "beaten",
+          "and"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=['CON_I'] lnk=7 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Lure agency worker with Tango",
+      "answer": "TEMPT",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'TEMPTEMPT' - need 'TEMPT'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'TEMP' not in DB for 'agency'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "TEMP",
+              "source_word": "agency"
+            },
+            {
+              "operation": "synonym",
+              "value": "TEMP",
+              "source_word": "worker"
+            },
+            {
+              "operation": "synonym",
+              "value": "T",
+              "source_word": "Tango"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Lure",
+          "answer": "TEMPT"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=[] lnk=1 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Stretch hats gingerly, every so often twisting",
+      "answer": "LENGTH",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "13",
+      "direction": "across",
+      "clue_text": "Dramatic scheme reduced smell near a South American port",
+      "answer": "SCENARIO",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "15",
+      "direction": "across",
+      "clue_text": "One emerges from cell to achieve what Canute couldn't?",
+      "answer": "direct current",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "18",
+      "direction": "across",
+      "clue_text": "Maintain storm creates additional damage for diner",
+      "answer": "service charge",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SERVICECHARGE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Maintain\"->SERVICE; \"storm\"->CHARGE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['diner', 'for']; non-link words declared as link_words: ['creates']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "SERVICE",
+              "source_word": "Maintain"
+            },
+            {
+              "operation": "synonym",
+              "value": "CHARGE",
+              "source_word": "storm"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "additional damage",
+          "answer": "SERVICECHARGE"
+        },
+        "link_words": [
+          "creates"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=[] lnk=1 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Parisian is trapped by cycle stand",
+      "answer": "PEDESTAL",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Giving voice to group of chatbots?",
+      "answer": "AIRING",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces AIRING"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"voice\"->AIRING"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['chatbots']; non-link words declared as link_words: ['chatbots?', 'group']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "AIRING",
+          "source_word": "voice"
+        },
+        "definition": {
+          "phrase": "Giving",
+          "answer": "AIRING"
+        },
+        "link_words": [
+          "to",
+          "group",
+          "of",
+          "chatbots?"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=1 ind=[] lnk=4 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Single run involving women's title holder",
+      "answer": "OWNER",
+      "status": "FAIL",
+      "flags": [
+        "container_charade_structure_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'ONRWE', 'ORWNE' - need 'OWNER'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Single\"->ONE; \"run\"->R; \"women's\"->W"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"involving\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['title']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "involving",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "ONE",
+              "source_word": "Single"
+            },
+            {
+              "operation": "charade",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "R",
+                  "source_word": "run"
+                },
+                {
+                  "operation": "synonym",
+                  "value": "W",
+                  "source_word": "women's"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "holder",
+          "answer": "OWNER"
+        },
+        "link_words": [
+          "title"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_charade_structure_not_preserved"
+        ]
+      },
+      "notes": "op=container_charade leaves=3 ind=['CON_I'] lnk=1 dbe=0 conf=85"
+    },
+    {
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "Delving into energy price, fancy I'm no financial expert",
+      "answer": "ECONOMIST",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "28",
+      "direction": "across",
+      "clue_text": "Neckwear frequently sported by Trump, Donald, in banks",
+      "answer": "TIERED",
+      "status": "FAIL",
+      "flags": [
+        "definition_phrase_missing"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'EDTIER' - need 'TIERED'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified last of \"sported\"=ED; \"banks\"->TIER"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['donald', 'frequently', 'trump']; non-link words declared as link_words: ['donald,', 'neckwear', 'trump,']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "ED",
+              "source_word": "sported",
+              "positional_kind": "last"
+            },
+            {
+              "operation": "synonym",
+              "value": "TIER",
+              "source_word": "banks"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "TIERED"
+        },
+        "link_words": [
+          "Neckwear",
+          "by",
+          "Trump,",
+          "Donald,",
+          "in"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "definition_phrase_missing"
+        ]
+      },
+      "notes": "op=charade leaves=2 ind=['POS_I_LAST'] lnk=5 dbe=0 conf=85"
+    },
+    {
+      "clue_number": "29",
+      "direction": "across",
+      "clue_text": "Duchess mentions cuddling more than one bishop?",
+      "answer": "CHESSMEN",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Rule out opening boxing clubs",
+      "answer": "PRECLUDE",
+      "status": "PASS",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PRECLUDE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"opening\"->PRELUDE; \"clubs\"->C"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"boxing\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "boxing",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PRELUDE",
+              "source_word": "opening"
+            },
+            {
+              "operation": "synonym",
+              "value": "C",
+              "source_word": "clubs"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Rule out",
+          "answer": "PRECLUDE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=['CON_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Element of song and dance in Royal Navy",
+      "answer": "RADON",
+      "status": "FAIL",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces RADON"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"and\"->ADO; \"Navy\"->RN"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"in\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['dance', 'royal', 'song']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "in",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "ADO",
+              "source_word": "and"
+            },
+            {
+              "operation": "synonym",
+              "value": "RN",
+              "source_word": "Navy"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Element",
+          "answer": "RADON"
+        },
+        "link_words": [
+          "of",
+          "song",
+          "dance",
+          "Royal"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=['CON_I'] lnk=4 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Severe Republican given fizzy drink in Washington",
+      "answer": "DRASTIC",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Nothing interrupting quiet day in flats?",
+      "answer": "SHOD",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'OSHD' - need 'SHOD'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Nothing\"->O; \"quiet\"->SH; \"day\"->D"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['interrupting']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "O",
+              "source_word": "Nothing"
+            },
+            {
+              "operation": "synonym",
+              "value": "SH",
+              "source_word": "quiet"
+            },
+            {
+              "operation": "synonym",
+              "value": "D",
+              "source_word": "day"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "flats",
+          "answer": "SHOD"
+        },
+        "link_words": [
+          "interrupting",
+          "in"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=[] lnk=2 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "How green bottles come close to blue, deep?",
+      "answer": "INTENSE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Man with router breaking one in half",
+      "answer": "NUMERATOR",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Against eating too much fibre",
+      "answer": "COTTON",
+      "status": "PASS",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided",
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces COTTON"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Against\"->CON; \"too much\"->OTT"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"eating\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "eating",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "CON",
+              "source_word": "Against"
+            },
+            {
+              "operation": "synonym",
+              "value": "OTT",
+              "source_word": "too much"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "fibre",
+          "answer": "COTTON"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided",
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=None leaves=2 ind=['CON_I'] lnk=0 dbe=0 conf=100"
+    },
+    {
+      "clue_number": "10",
+      "direction": "down",
+      "clue_text": "One gets blown about in both directions, gripping rope",
+      "answer": "RECORDER",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "14",
+      "direction": "down",
+      "clue_text": "Switch on aircon and television around one, brewing tea",
+      "answer": "ACTIVATE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Sincere about taking retiring editor's place",
+      "answer": "RESIDENCE",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'SINCEREEDITORS' - need 'RESIDENCE'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"Sincere\"; literal \"editor's\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"about\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['retiring', 'taking']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "about",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "SINCERE",
+              "source_word": "Sincere"
+            },
+            {
+              "operation": "literal",
+              "value": "EDITORS",
+              "source_word": "editor's"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "place",
+          "answer": "RESIDENCE"
+        },
+        "link_words": [
+          "taking",
+          "retiring"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=2 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "17",
+      "direction": "down",
+      "clue_text": "Reinforce layer protecting crew",
+      "answer": "HEIGHTEN",
+      "status": "PASS",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces HEIGHTEN"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"layer\"->HEN; \"crew\"->EIGHT"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"protecting\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "protecting",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "HEN",
+              "source_word": "layer"
+            },
+            {
+              "operation": "synonym",
+              "value": "EIGHT",
+              "source_word": "crew"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Reinforce",
+          "answer": "HEIGHTEN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=['CON_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "Book suggests what to do following a fault?",
+      "answer": "RESERVE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Monstrous bats in house",
+      "answer": "HEINOUS",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces HEINOUS"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"in\"; literal \"house\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"bats\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "bats",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "IN",
+              "source_word": "in"
+            },
+            {
+              "operation": "literal",
+              "value": "HOUSE",
+              "source_word": "house"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Monstrous",
+          "answer": "HEINOUS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "French author promoting small green vegetable",
+      "answer": "SPROUT",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "24",
+      "direction": "down",
+      "clue_text": "Fool wasting time over minute piece of cake, say",
+      "answer": "IDIOM",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "25",
+      "direction": "down",
+      "clue_text": "Why deli doesn't make delish food?",
+      "answer": "NOSH",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NOSH"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Why\"->NO; last of \"delish\"=SH"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['make']; non-link words declared as link_words: ['deli', \"doesn't\"]"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "NO",
+              "source_word": "Why"
+            },
+            {
+              "operation": "positional",
+              "value": "SH",
+              "source_word": "delish",
+              "positional_kind": "last"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "food?",
+          "answer": "NOSH"
+        },
+        "link_words": [
+          "deli",
+          "doesn't"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=['POS_I_LAST'] lnk=2 dbe=0 conf=85"
+    }
+  ]
+}

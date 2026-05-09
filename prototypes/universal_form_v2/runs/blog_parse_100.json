@@ -1,0 +1,3556 @@
+{
+  "n": 100,
+  "statuses": {
+    "form": 33,
+    "no_match": 51,
+    "form_unverified": 16
+  },
+  "patterns": {
+    "charade": 25,
+    "container": 10,
+    "homophone": 5,
+    "hidden": 2,
+    "anagram": 2,
+    "reversal": 3,
+    "double_definition": 2
+  },
+  "wordplay_types": {
+    "charade": 24,
+    "container": 10,
+    "homophone": 5,
+    "hidden": 1,
+    "anagram": 2,
+    "reversal": 3,
+    "double_definition": 2,
+    "synonym": 1,
+    "reversal > hidden": 1
+  },
+  "per_clue": [
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "EXP",
+              "source_word": "EXP"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "I",
+              "source_word": "island"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "AT",
+              "source_word": "migrant"
+            },
+            {
+              "operation": "literal",
+              "value": "ION",
+              "source_word": "ION"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Emigrant touring next to Iona not quite making amends",
+          "answer": "EXPIATION"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "migrant",
+          "value": "AT",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "island",
+          "value": "I",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Emigrant touring next to Iona not quite making amends",
+          "value": "EXPIATION",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10051163,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "21",
+      "direction": "across",
+      "clue_text": "Emigrant touring island next to Iona, not quite making amends",
+      "answer": "EXPIATION",
+      "blog_text": "EXP~AT (migrant) containing [touring] I (island), then ION {a} [not quite]"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10057778,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Enemy not far away, according to Spooner? Certainly not",
+      "answer": "NOFEAR",
+      "blog_text": "\u2018foe near\u2019 after Spoonerisation"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9951101,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "First thing honest outlaw admits, at great cost",
+      "answer": "BRIGHTANDEARLY",
+      "blog_text": "BAN (outlaw) around (admits) RIGHT (honest) + DEARLY (at great cost)"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "BAT",
+              "source_word": "club"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "O",
+              "source_word": "Oscar"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Dish finally lined with sheets by in",
+          "answer": "DREAMBOAT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "Oscar",
+          "value": "O",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "club",
+          "value": "BAT",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Dish finally lined with sheets by in",
+          "value": "DREAMBOAT",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9950681,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Dish finally lined with sheets by Oscar in club",
+      "answer": "DREAMBOAT",
+      "blog_text": "last letter of lineD, then REAM (sheets), and O (Oscar) inside BAT (club)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9951112,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Chest expander\u2019s broken rim had gap",
+      "answer": "DIAPHRAGM",
+      "blog_text": "anagram of (broken) RIM HAD GAP"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061333,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Suffers fools",
+      "answer": "HAS",
+      "blog_text": "Two definitions: he has a cold, he has us all with his trickery."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10060614,
+      "source": "times",
+      "puzzle_number": "29528",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Author with Irish name",
+      "answer": "ANDERSEN",
+      "blog_text": "AND (with), ERSE (Irish), N (name). Hans Christian Andersen (1805-1875)."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "homophone",
+      "wordplay_type": "homophone",
+      "form": {
+        "tree": {
+          "operation": "homophone",
+          "value": null,
+          "source_word": null
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "CENSUS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "homophone parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10058936,
+      "source": "times",
+      "puzzle_number": "29524",
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Faculty said American people count",
+      "answer": "CENSUS",
+      "blog_text": "homophone of SENSE (faculty), then US (American)"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "I",
+              "source_word": "I"
+            },
+            {
+              "operation": "synonym",
+              "value": "RIGHT",
+              "source_word": "fitting"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Picture in one shopping centre lift",
+          "answer": "IMALLRIGHTJACK"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "fitting",
+          "value": "RIGHT",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Picture in one shopping centre lift",
+          "value": "IMALLRIGHTJACK",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058537,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Picture fitting in one shopping centre lift",
+      "answer": "IMALLRIGHTJACK",
+      "blog_text": "RIGHT (fitting) in I MALL (one shopping centre) + JACK, a lift, eg a car jack. I\u2019m All Right Jack was a comedy film from 1959 starring Ian Carmichael and Peter Sellers. The cast list reads like a roll call of famous British actors and actresses. Uniquely British I would say, in the way it points fun at British ways, comedy but with an edge to it. I suppose you young millennials can be forgiven for not knowing of it, but it is a fine film in its way, and worth looking out."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061340,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Change to hammers automated building",
+      "answer": "SMARTHOME",
+      "blog_text": "An anagram (change) of TO HAMMERS."
+    },
+    {
+      "status": "form",
+      "pattern": "hidden",
+      "wordplay_type": "hidden",
+      "form": {
+        "tree": {
+          "operation": "hidden",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "SHORT",
+              "source_word": "Short"
+            },
+            {
+              "operation": "literal",
+              "value": "CHARACTERS",
+              "source_word": "characters"
+            },
+            {
+              "operation": "literal",
+              "value": "SITTING",
+              "source_word": "sitting"
+            },
+            {
+              "operation": "literal",
+              "value": "IN",
+              "source_word": "in"
+            },
+            {
+              "operation": "literal",
+              "value": "BOOSTER",
+              "source_word": "booster"
+            },
+            {
+              "operation": "literal",
+              "value": "SEAT",
+              "source_word": "seat"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "TERSE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [],
+      "clue_id": 10051164,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Short characters sitting in booster seat",
+      "answer": "TERSE",
+      "blog_text": "Hidden [characters sitting in] {boos} TER SE {at}"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10048857,
+      "source": "times",
+      "puzzle_number": "29506",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Able to figure out true name",
+      "answer": "NUMERATE",
+      "blog_text": "An anagram (out) of TRUE NAME"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058520,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Writer, turning 50, led up the garden path",
+      "answer": "DAHL",
+      "blog_text": "L (Roman 50) and HAD, conned, all rev. A rather problematic character, these days."
+    },
+    {
+      "status": "form",
+      "pattern": "anagram",
+      "wordplay_type": "anagram",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "cast",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "MADE",
+              "source_word": "MADE"
+            },
+            {
+              "operation": "literal",
+              "value": "PORN",
+              "source_word": "PORN"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "I m sorry",
+          "answer": "PARDONME"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "indicator",
+          "source_word": "cast",
+          "value": "",
+          "sub": "anagram"
+        },
+        {
+          "kind": "definition",
+          "source_word": "I m sorry",
+          "value": "PARDONME",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058159,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "I\u2019m sorry cast made porn",
+      "answer": "PARDONME",
+      "blog_text": "Anagram [cast] of MADE PORN"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "STAT",
+              "source_word": "useful bit of information"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "IN",
+              "source_word": "part of"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "prescription for many",
+          "answer": "STATIN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "useful bit of information",
+          "value": "STAT",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "part of",
+          "value": "IN",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "prescription for many",
+          "value": "STATIN",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9951105,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Useful bit of information, part of prescription for many",
+      "answer": "STATIN",
+      "blog_text": "STAT (useful bit of information) IN (part of)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058919,
+      "source": "times",
+      "puzzle_number": "29524",
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Shock caused acute pain briefly",
+      "answer": "STUN",
+      "blog_text": "STUNG (caused acute pain) minus the last letter"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "answer"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "DO",
+              "source_word": "ditto, the same as before"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Bother",
+          "answer": "ADO"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "answer",
+          "value": "A",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "ditto, the same as before",
+          "value": "DO",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Bother",
+          "value": "ADO",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10051915,
+      "source": "times",
+      "puzzle_number": "29512",
+      "clue_number": "25",
+      "direction": "down",
+      "clue_text": "Answer the same as before? Bother!",
+      "answer": "ADO",
+      "blog_text": "A (answer), DO (ditto, the same as before)"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "reversal",
+      "wordplay_type": "reversal",
+      "form": {
+        "tree": {
+          "operation": "reversal",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "RAY",
+              "source_word": "RAY"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "YARN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "reversal parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10059302,
+      "source": "times",
+      "puzzle_number": "29525",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Skate around east end of London\u2019s Strand",
+      "answer": "YARN",
+      "blog_text": "RAY reversed + {londo}N I had the ingredients here immediately but put them together incorrectly, \u00e0 la RA(N)Y."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051166,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Writer originally identifying location for Robin Hood",
+      "answer": "ISHERWOOD",
+      "blog_text": "I {dentifying} [originally] SHERWOOD (location for Robin Hood \u2013 Sherwood Forest ). Christopher Isherwood (1904-1986) is perhaps most famous as the author of Goodbye to Berlin ."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "VICES",
+              "source_word": "VICES"
+            },
+            {
+              "operation": "literal",
+              "value": "QUAD",
+              "source_word": "QUAD"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Police department clamps off road vehicle",
+          "answer": "VICESQUAD"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Police department clamps off road vehicle",
+          "value": "VICESQUAD",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10059323,
+      "source": "times",
+      "puzzle_number": "29525",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Police department clamps off-road vehicle",
+      "answer": "VICESQUAD",
+      "blog_text": "VICES QUAD"
+    },
+    {
+      "status": "form",
+      "pattern": "anagram",
+      "wordplay_type": "anagram",
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "involved",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "IN",
+              "source_word": "IN"
+            },
+            {
+              "operation": "literal",
+              "value": "MORE",
+              "source_word": "MORE"
+            },
+            {
+              "operation": "literal",
+              "value": "DISGRACE",
+              "source_word": "DISGRACE"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Business offering protection perhaps",
+          "answer": "ORGANISEDCRIME"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "indicator",
+          "source_word": "involved",
+          "value": "",
+          "sub": "anagram"
+        },
+        {
+          "kind": "definition",
+          "source_word": "Business offering protection perhaps",
+          "value": "ORGANISEDCRIME",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058141,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Business offering protection perhaps involved in more disgrace",
+      "answer": "ORGANISEDCRIME",
+      "blog_text": "Anagram [involved] of IN MORE DISGRACE"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "LIVING",
+              "source_word": "being"
+            },
+            {
+              "operation": "synonym",
+              "value": "STANDARDS",
+              "source_word": "flags"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Something people always want to raise",
+          "answer": "LIVINGSTANDARDS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "being",
+          "value": "LIVING",
+          "sub": ""
+        },
+        {
+          "kind": "synonym",
+          "source_word": "flags",
+          "value": "STANDARDS",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Something people always want to raise",
+          "value": "LIVINGSTANDARDS",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10049745,
+      "source": "times",
+      "puzzle_number": "29507",
+      "clue_number": "18",
+      "direction": "across",
+      "clue_text": "Something people always want to raise being flags?",
+      "answer": "LIVINGSTANDARDS",
+      "blog_text": "LIVING (being) + STANDARDS (flags)."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "O",
+              "source_word": "O"
+            },
+            {
+              "operation": "literal",
+              "value": "W",
+              "source_word": "W"
+            },
+            {
+              "operation": "literal",
+              "value": "L",
+              "source_word": "L"
+            },
+            {
+              "operation": "literal",
+              "value": "ET",
+              "source_word": "ET"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Nothing soppy about beginning to like little bird",
+          "answer": "OWLET"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Nothing soppy about beginning to like little bird",
+          "value": "OWLET",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10060247,
+      "source": "times",
+      "puzzle_number": "29527",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Nothing soppy about beginning to like little bird",
+      "answer": "OWLET",
+      "blog_text": "O W(L[ike]ET."
+    },
+    {
+      "status": "form",
+      "pattern": "double_definition",
+      "wordplay_type": "double_definition",
+      "form": {
+        "tree": {
+          "operation": "double_definition",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "STEADY",
+              "source_word": "Be careful"
+            },
+            {
+              "operation": "synonym",
+              "value": "STEADY",
+              "source_word": "young man"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Be careful",
+          "answer": "STEADY"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Be careful",
+          "value": "STEADY",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "young man",
+          "value": "STEADY",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10057770,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "Be careful, young man?",
+      "answer": "STEADY",
+      "blog_text": "double definition: \u2018Steady. old chap!\u2019 and \u2018Kevin\u2019s my steady\u2019"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "synonym",
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "URGE",
+          "source_word": "powerless"
+        },
+        "definition": {
+          "phrase": "Get rid of press",
+          "answer": "URGE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "powerless",
+          "value": "URGE",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Get rid of press",
+          "value": "URGE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10059311,
+      "source": "times",
+      "puzzle_number": "29525",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Get rid of powerless press",
+      "answer": "URGE",
+      "blog_text": "{p}URGE (powerless)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9952636,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Pull up garment put on around start of winter",
+      "answer": "DRESSDOWN",
+      "blog_text": "DRESS + DO(W[inter])N.\u00a0 \u00a0Pull up is not stopping your car, or what your toddler might wear, but bears the UK slang meaning of reprimand."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9951097,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Ducks again repelled predator",
+      "answer": "SPIDER",
+      "blog_text": "RE-DIPS (ducks again) reversed (repelled)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061345,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "25",
+      "direction": "down",
+      "clue_text": "A US campus meets variable goodwill",
+      "answer": "AMITY",
+      "blog_text": "Out setter avoids arguments over whether MIT is an American university or not by defining it as A campus (the A is part of the wordplay).The variable is Y."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "IN",
+              "source_word": "IN"
+            },
+            {
+              "operation": "literal",
+              "value": "CREASE",
+              "source_word": "CREASE"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Go up and wait for delivery here",
+          "answer": "INCREASE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Go up and wait for delivery here",
+          "value": "INCREASE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10054634,
+      "source": "times",
+      "puzzle_number": "29515",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Go up and wait for delivery here?",
+      "answer": "INCREASE",
+      "blog_text": "IN CREASE, in the case of cricket and deliveries from the bowler."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10048872,
+      "source": "times",
+      "puzzle_number": "29506",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Bewitching creature that Parisian married, stopping return of curse",
+      "answer": "QUEENMAB",
+      "blog_text": "As described by Mercutio in Romeo and Juliet, responsible for Romeo\u2019s sudden access of love. That in French is QUE, then M[arried] plugs into BANE for curse backwards. Probably the most demanding of today\u2019s clues both in construction and definition."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "GRAND",
+              "source_word": "\u00a31,000"
+            },
+            {
+              "operation": "literal",
+              "value": "CRU",
+              "source_word": "CRU"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Company reportedly pursuing wine",
+          "answer": "GRANDCRU"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "\u00a31,000",
+          "value": "GRAND",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Company reportedly pursuing wine",
+          "value": "GRANDCRU",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10060955,
+      "source": "times",
+      "puzzle_number": "29529",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Company reportedly pursuing \u00a31000 wine",
+      "answer": "GRANDCRU",
+      "blog_text": "GRAND (\u00a31,000) + CRU, sounds like \u201ccrew,\u201d a company."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "CHEER",
+              "source_word": "CHEER"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "IO",
+              "source_word": "maiden Zeus seduced \u2013 this poor girl was raped by Zeus then turned into a heifer by either Zeus or a seething Hera"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Comfort for so long",
+          "answer": "CHEERIO"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "maiden Zeus seduced \u2013 this poor girl was raped by Zeus then turned into a heifer by either Zeus or a seething Hera",
+          "value": "IO",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Comfort for so long",
+          "value": "CHEERIO",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10050812,
+      "source": "times",
+      "puzzle_number": "29509",
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "Comfort maiden Zeus seduced for so long",
+      "answer": "CHEERIO",
+      "blog_text": "CHEER IO (maiden Zeus seduced \u2013 this poor girl was raped by Zeus then turned into a heifer by either Zeus or a seething Hera)"
+    },
+    {
+      "status": "form",
+      "pattern": "double_definition",
+      "wordplay_type": "double_definition",
+      "form": {
+        "tree": {
+          "operation": "double_definition",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "RIDER",
+              "source_word": "Legal clause added by"
+            },
+            {
+              "operation": "synonym",
+              "value": "RIDER",
+              "source_word": "one in the saddle"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Legal clause added by",
+          "answer": "RIDER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Legal clause added by",
+          "value": "RIDER",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "one in the saddle",
+          "value": "RIDER",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10060958,
+      "source": "times",
+      "puzzle_number": "29529",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Legal clause added by one in the saddle?",
+      "answer": "RIDER",
+      "blog_text": "a DD."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "AB",
+              "source_word": "sailor"
+            },
+            {
+              "operation": "literal",
+              "value": "DIC",
+              "source_word": "DIC"
+            },
+            {
+              "operation": "synonym",
+              "value": "ATED",
+              "source_word": "read aloud"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "gave up",
+          "answer": "ABDICATED"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "sailor",
+          "value": "AB",
+          "sub": ""
+        },
+        {
+          "kind": "synonym",
+          "source_word": "read aloud",
+          "value": "ATED",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "gave up",
+          "value": "ABDICATED",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9953085,
+      "source": "times",
+      "puzzle_number": "29504",
+      "clue_number": "14",
+      "direction": "down",
+      "clue_text": "Sailor read aloud, not enjoying the first time, gave up",
+      "answer": "ABDICATED",
+      "blog_text": "AB (sailor), DIC {t} ATED (read aloud) [not enjoying the first time]"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "homophone",
+      "wordplay_type": "homophone",
+      "form": {
+        "tree": {
+          "operation": "homophone",
+          "value": null,
+          "source_word": null
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "ANALYST"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "homophone parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10060233,
+      "source": "times",
+      "puzzle_number": "29527",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Register reportedly concludes article by American pundit",
+      "answer": "ANALYST",
+      "blog_text": "AN, A + sounds like LIST."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "F",
+              "source_word": "fine"
+            },
+            {
+              "operation": "synonym",
+              "value": "LIES",
+              "source_word": "stories"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Even must embrace art",
+          "answer": "STILLLIFES"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "stories",
+          "value": "LIES",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "fine",
+          "value": "F",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Even must embrace art",
+          "value": "STILLLIFES",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058908,
+      "source": "times",
+      "puzzle_number": "29524",
+      "clue_number": "",
+      "direction": "across",
+      "clue_text": "Even stories must embrace fine art",
+      "answer": "STILLLIFES",
+      "blog_text": "STILL (even) then LIES (stories) containing F (fine)"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "L",
+              "source_word": "L"
+            },
+            {
+              "operation": "literal",
+              "value": "E",
+              "source_word": "E"
+            },
+            {
+              "operation": "literal",
+              "value": "T",
+              "source_word": "T"
+            },
+            {
+              "operation": "literal",
+              "value": "OFF",
+              "source_word": "OFF"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Time away after extremely lame excuse",
+          "answer": "LETOFF"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Time away after extremely lame excuse",
+          "value": "LETOFF",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10057758,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Time away after extremely lame excuse",
+      "answer": "LETOFF",
+      "blog_text": "L am E T OFF"
+    },
+    {
+      "status": "form",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "STRANGER",
+              "source_word": "STRANGER"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "L",
+              "source_word": "arge"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Foreigner carrying large variety of fig",
+          "answer": "STRANGLER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "arge",
+          "value": "L",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Foreigner carrying large variety of fig",
+          "value": "STRANGLER",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10060948,
+      "source": "times",
+      "puzzle_number": "29529",
+      "clue_number": "8",
+      "direction": "across",
+      "clue_text": "Foreigner carrying large variety of fig?",
+      "answer": "STRANGLER",
+      "blog_text": "L(arge) in STRANGER, foreigner. I struggled with this, through lack of a crucial piece of GK: the strangler fig . You don\u2019t see them much here in Kent."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9951121,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Doctor cycles around area and runs not at all",
+      "answer": "SCARCELY",
+      "blog_text": "anagram of (doctor) CYCLES around A (area) + (and) R (run)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058148,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "Indecisive article in journal\u2019s replaced with another",
+      "answer": "DITHERY",
+      "blog_text": "DIaRY (journal) becomes DITHERY when one article (a) is replaced with another (THE)"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "LIVERY",
+              "source_word": "irritable"
+            },
+            {
+              "operation": "literal",
+              "value": "MAN",
+              "source_word": "MAN"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Stable worker s having cut pony s hair",
+          "answer": "LIVERYMAN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "irritable",
+          "value": "LIVERY",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Stable worker s having cut pony s hair",
+          "value": "LIVERYMAN",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10049761,
+      "source": "times",
+      "puzzle_number": "29507",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Stable worker\u2019s irritable having cut pony\u2019s hair",
+      "answer": "LIVERYMAN",
+      "blog_text": "LIVERY (irritable) + MANe (pony\u2019s hair) missing its last (cut)."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051897,
+      "source": "times",
+      "puzzle_number": "29512",
+      "clue_number": "20",
+      "direction": "across",
+      "clue_text": "Allot gold \u201cstar\u201d",
+      "answer": "METEOR",
+      "blog_text": "METE (allot), OR (gold). Did myself no favours by entering CAST,OR here originally"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061342,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Old brass boat capsized under fire",
+      "answer": "SACKBUT",
+      "blog_text": "That is old brass instrument. A TUB or boat reversed below SACK for fire."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "IN",
+              "source_word": "popular"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "VA",
+              "source_word": "Vice-admiral"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "DER",
+              "source_word": "article from German"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "blocking aggressor",
+          "answer": "INVADER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "Vice-admiral",
+          "value": "VA",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "popular",
+          "value": "IN",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "article from German",
+          "value": "DER",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "blocking aggressor",
+          "value": "INVADER",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10055032,
+      "source": "times",
+      "puzzle_number": "29516",
+      "clue_number": "17",
+      "direction": "down",
+      "clue_text": "Vice-admiral blocking popular article from German aggressor",
+      "answer": "INVADER",
+      "blog_text": "VA (Vice-admiral) contained by [blocking] IN (popular) \u2041 DER (article from German)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9950689,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Bones gathered by Jack visiting exposed basin",
+      "answer": "METATARSI",
+      "blog_text": "MET (gathered) then TAR (Jack) inside the interior letters of bASIn"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058532,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "I mend a damaged pick handle no longer in use?",
+      "answer": "MAIDENNAME",
+      "blog_text": "*(I MEND A), + PICK (name). You can name/pick your successor, for example. A bit churlish, to point out that increasingly, maiden names are being stuck with rather than ditched."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "AU",
+              "source_word": "gilded china"
+            },
+            {
+              "operation": "literal",
+              "value": "MATE",
+              "source_word": "MATE"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Lay before king",
+          "answer": "AMATEUR"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "gilded china",
+          "value": "AU",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Lay before king",
+          "value": "AMATEUR",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10059317,
+      "source": "times",
+      "puzzle_number": "29525",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Lay gilded china before king",
+      "answer": "AMATEUR",
+      "blog_text": "MATE in AU (gilded china) + R"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061338,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "9",
+      "direction": "down",
+      "clue_text": "Measure sides as a whole?",
+      "answer": "LEAGUE",
+      "blog_text": "A variable measure of distance. A number of sporting sides together also form a league"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9950682,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "13",
+      "direction": "across",
+      "clue_text": "Note anxiety beginning to ease next to River Clyde?",
+      "answer": "GANGSTER",
+      "blog_text": "G (musical note), ANGST (anxiety) the first letter of Ease and R (river). Referring to Clyde Barrow probably best known in Bonnie and Clyde ."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10057762,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Criticise nonsense written about American head of state",
+      "answer": "ROAST",
+      "blog_text": "A S~ in ROT"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10049757,
+      "source": "times",
+      "puzzle_number": "29507",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Stripped-down Tesco bid to get in India\u2019s head chef",
+      "answer": "ESCOFFIER",
+      "blog_text": "central letters from (stripped-down) tESCo + OFFER (bid) containing (to get in) the first of (head) I (India). Auguste Escoffier, French chef, and the staunchest roadblock in my solve."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "HOLD",
+              "source_word": "maintain"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "ALL",
+              "source_word": "the greatest possible"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "grip",
+          "answer": "HOLDALL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "maintain",
+          "value": "HOLD",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "the greatest possible",
+          "value": "ALL",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "grip",
+          "value": "HOLDALL",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058934,
+      "source": "times",
+      "puzzle_number": "29524",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Maintain the greatest possible grip",
+      "answer": "HOLDALL",
+      "blog_text": "HOLD (maintain), ALL (the greatest possible)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061331,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Group of commuters race after Mark cycling",
+      "answer": "CARSHARE",
+      "blog_text": "Cycle the letters of SCAR, mark, to get CARS, add HARE for race."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "homophone",
+      "wordplay_type": "homophone",
+      "form": {
+        "tree": {
+          "operation": "homophone",
+          "value": null,
+          "source_word": null
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "CORSICAN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "homophone parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10055404,
+      "source": "times",
+      "puzzle_number": "29517",
+      "clue_number": "20",
+      "direction": "across",
+      "clue_text": "Revolt reported on much of central part of island",
+      "answer": "CORSICAN",
+      "blog_text": "So, I think this is COR(e) (much of central part) + \u201csicken,\u201d sounds like SICAN. I tend to think that homophones and puns share one thing: the worse they are, the better and more fun they are. So this is a really good one!"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "LO",
+              "source_word": "look"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "USE",
+              "source_word": "take advantage of"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "to miserable individual",
+          "answer": "LOUSE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "look",
+          "value": "LO",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "take advantage of",
+          "value": "USE",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "to miserable individual",
+          "value": "LOUSE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9953079,
+      "source": "times",
+      "puzzle_number": "29504",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Look to take advantage of miserable individual",
+      "answer": "LOUSE",
+      "blog_text": "LO (look), USE (take advantage of)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10048852,
+      "source": "times",
+      "puzzle_number": "29506",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Kick-off ends in furious fight round pitch",
+      "answer": "START",
+      "blog_text": "The last letters, ends, of furiouS fighT with TAR for pitch inserted."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9950693,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "City roads essentially cleared prior to retreat",
+      "answer": "DRESDEN",
+      "blog_text": "DRIVES (roads) minus the central letters, then DEN (retreat)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058543,
+      "source": "times",
+      "puzzle_number": "29523",
+      "clue_number": "23",
+      "direction": "down",
+      "clue_text": "Elegant chapter on Cicero\u2019s here",
+      "answer": "CHIC",
+      "blog_text": "C(hapter) + HIC, Latin for here as in Hic, haec, hoc etc."
+    },
+    {
+      "status": "form",
+      "pattern": "hidden",
+      "wordplay_type": "reversal > hidden",
+      "form": {
+        "tree": {
+          "operation": "reversal",
+          "sources": [
+            {
+              "operation": "hidden",
+              "sources": [
+                {
+                  "operation": "literal",
+                  "value": "SKIRT",
+                  "source_word": "Skirt"
+                },
+                {
+                  "operation": "literal",
+                  "value": "THAT",
+                  "source_word": "that"
+                },
+                {
+                  "operation": "literal",
+                  "value": "LIKELY",
+                  "source_word": "likely"
+                },
+                {
+                  "operation": "literal",
+                  "value": "COVERS",
+                  "source_word": "covers"
+                },
+                {
+                  "operation": "literal",
+                  "value": "BOTTOM",
+                  "source_word": "bottom"
+                },
+                {
+                  "operation": "literal",
+                  "value": "UP",
+                  "source_word": "up"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "KILT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [],
+      "clue_id": 9951117,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Skirt that likely covers bottom up",
+      "answer": "KILT",
+      "blog_text": "hidden reversed (covers bottom up) in THAT LIKELY"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "LET",
+              "source_word": "LET"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "P",
+              "source_word": "hosphorus"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Divulge receiving phosphorus atom component",
+          "answer": "LEPTON"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "hosphorus",
+          "value": "P",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Divulge receiving phosphorus atom component",
+          "value": "LEPTON",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10048206,
+      "source": "times",
+      "puzzle_number": "29505",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Divulge receiving phosphorus atom component",
+      "answer": "LEPTON",
+      "blog_text": "P(hosphorus) in LET ON, or divulge. A lepton is an elementary particle of half-integer spin (spin \u2060 \u00bd \u2060 ) that unlike quarks, does not undergo strong interactions, as any fule kno. But confusingly it turns out that electrons, muons and neutrinos are all also leptons."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "reversal",
+      "wordplay_type": "reversal",
+      "form": {
+        "tree": {
+          "operation": "reversal",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "A"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "YALTA"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "reversal parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10050798,
+      "source": "times",
+      "puzzle_number": "29509",
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "Agent on vacation was resting around Black Sea resort",
+      "answer": "YALTA",
+      "blog_text": "reversal of A~T LAY; best known for conference held in Feb 1945 which sealed fate of parts of Europe"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061323,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Fare from Scotland has bags regularly going astray",
+      "answer": "HAGGIS",
+      "blog_text": "I\u2019ll do the wordplay so you don\u2019t have to. It\u2019s HAS taking in a mix (astray) of the odd letters of GoInG. Cue debate about indirect anagrams, but did you honestly think it was going to be anything else?"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "S",
+              "source_word": "small"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "JAM",
+              "source_word": "preserve"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "BOK",
+              "source_word": "antelope"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Hide crop from on",
+          "answer": "SJAMBOK"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "antelope",
+          "value": "BOK",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "small",
+          "value": "S",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "preserve",
+          "value": "JAM",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Hide crop from on",
+          "value": "SJAMBOK",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9951098,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "5",
+      "direction": "across",
+      "clue_text": "Hide crop from antelope on small preserve",
+      "answer": "SJAMBOK",
+      "blog_text": "BOK (antelope) next to (on) S (small) JAM (preserve)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9953074,
+      "source": "times",
+      "puzzle_number": "29504",
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Aging tips, time to change \u2014 it looks no different!",
+      "answer": "SPITTINGIMAGE",
+      "blog_text": "Anagram [to change) of AGING TIPS TIME . The wordplay forces the alternative spelling of \u2018ageing\u2019."
+    },
+    {
+      "status": "form",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "TRACE",
+              "source_word": "TRACE"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "ER",
+              "source_word": "her being woman\u2019s, \u2018er being Cockney woman\u2019s"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Suspicion surrounding patio",
+          "answer": "TERRACE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "her being woman\u2019s, \u2018er being Cockney woman\u2019s",
+          "value": "ER",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Suspicion surrounding patio",
+          "value": "TERRACE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10057776,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Suspicion surrounding Cockney woman\u2019s patio",
+      "answer": "TERRACE",
+      "blog_text": "\u2018ER (her being woman\u2019s, \u2018er being Cockney woman\u2019s) in TRACE"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "N",
+              "source_word": "N"
+            },
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "A"
+            },
+            {
+              "operation": "literal",
+              "value": "E",
+              "source_word": "E"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Engage In Perth no",
+          "answer": "NAE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Engage In Perth no",
+          "value": "NAE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10055028,
+      "source": "times",
+      "puzzle_number": "29516",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Engage regularly? In Perth, no",
+      "answer": "NAE",
+      "blog_text": "{e} N {g} A {g} E [regularly]"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10060253,
+      "source": "times",
+      "puzzle_number": "29527",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Onset of frost threatened to overwhelm British garden feature",
+      "answer": "FLOWERBED",
+      "blog_text": "F + LOWER(B)ED.\u00a0 \u00a0I would be inclined to write loured, but that is not what is required here."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9952656,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "Show religious leader in rocket with American",
+      "answer": "SOAPOPERA",
+      "blog_text": "SOA(POPE)R + A."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10048231,
+      "source": "times",
+      "puzzle_number": "29505",
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "Tech company in the vicinity of Cumbrian town",
+      "answer": "APPLEBY",
+      "blog_text": "APPLE BY. Appleby\u2019s main claim to fame is the annual Appleby Horse Fair , when all the sensible locals go away on holiday and the extra police are drafted in."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051532,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Insect moving round on the parrot",
+      "answer": "ORTHOPTERAN",
+      "blog_text": "Another NHO for me and this time \u2013 horror of horrors \u2013 clued as an anagram (moving round). Well done if you got this without any checkers. I needed all of them to get the letters of *(ON THE PARROT) in the most likely order. Orthoptera is the cockroach order of insects, with firm forewings serving as covers to the fanwise folded hind-wings."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "homophone",
+      "wordplay_type": "homophone",
+      "form": {
+        "tree": {
+          "operation": "homophone",
+          "value": null,
+          "source_word": null
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "NUN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "homophone parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10051534,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "A sort of single person? Not a single person, we hear",
+      "answer": "NUN",
+      "blog_text": "A homophone clue (we hear) on the basis that the answer and NONE (not a single person) sound the same. As it happens I do say them the same but I suspect not everyone does."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "KIM",
+              "source_word": "North Korean leader"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "SPY",
+              "source_word": "agent"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Revealing providing cover for Asian",
+          "answer": "SKIMPY"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "agent",
+          "value": "SPY",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "North Korean leader",
+          "value": "KIM",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Revealing providing cover for Asian",
+          "value": "SKIMPY",
+          "sub": ""
+        }
+      ],
+      "clue_id": 9950704,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Revealing agent providing cover for Asian leader",
+      "answer": "SKIMPY",
+      "blog_text": "SPY (agent) containing KIM (North Korean leader)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051531,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Your bar set up for party fun?",
+      "answer": "REVELRY",
+      "blog_text": "YR is an accepted abbreviation for \u201cyour\u201d which adjoins LEVER (bar) before being reversed (up)."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058151,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Briefly had sheep rearing a pony",
+      "answer": "CONNEMARA",
+      "blog_text": "CONNE {d} (had) [briefly], RAM (sheep) reversed [rearing], A . I vaguely knew of the place but not the pony."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10055405,
+      "source": "times",
+      "puzzle_number": "29517",
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Feel me regularly probing inflamed wound",
+      "answer": "REELED",
+      "blog_text": "(f)E(e)L (m)E, inside RED, inflamed."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "I",
+              "source_word": "one"
+            },
+            {
+              "operation": "synonym",
+              "value": "LAMENT",
+              "source_word": "complaint"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Standard about s diet",
+          "answer": "PARLIAMENT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "complaint",
+          "value": "LAMENT",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "one",
+          "value": "I",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Standard about s diet",
+          "value": "PARLIAMENT",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10049739,
+      "source": "times",
+      "puzzle_number": "29507",
+      "clue_number": "3",
+      "direction": "across",
+      "clue_text": "Standard complaint about one\u2019s diet?",
+      "answer": "PARLIAMENT",
+      "blog_text": "PAR (standard) + LAMENT (complaint) containing (about) I (one). Japan\u2019s legislature, for example, is a \u2018diet\u2019."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10058146,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "On vacation, people expected to ring back golf teacher",
+      "answer": "PEDAGOGUE",
+      "blog_text": "P {eopl} E [on vacation], D \u2041 UE (expected) containing [to ring] AGO (back) + G (golf)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10059306,
+      "source": "times",
+      "puzzle_number": "29525",
+      "clue_number": "15",
+      "direction": "across",
+      "clue_text": "Internally survey dozens in preparation for meeting",
+      "answer": "RENDEZVOUS",
+      "blog_text": "{s}URVE{y} DOZENS anagrammed"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "UNI",
+              "source_word": "UNI"
+            },
+            {
+              "operation": "literal",
+              "value": "M",
+              "source_word": "M"
+            },
+            {
+              "operation": "literal",
+              "value": "PAIRED",
+              "source_word": "PAIRED"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Perfect study site millions joined",
+          "answer": "UNIMPAIRED"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Perfect study site millions joined",
+          "value": "UNIMPAIRED",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10054632,
+      "source": "times",
+      "puzzle_number": "29515",
+      "clue_number": "13",
+      "direction": "down",
+      "clue_text": "Perfect study site millions joined",
+      "answer": "UNIMPAIRED",
+      "blog_text": "UNI + M + PAIRED."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10050804,
+      "source": "times",
+      "puzzle_number": "29509",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "Decline leads to everyone being broke",
+      "answer": "EBB",
+      "blog_text": "initial letters"
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "homophone",
+      "wordplay_type": "homophone",
+      "form": {
+        "tree": {
+          "operation": "homophone",
+          "value": null,
+          "source_word": null
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "LEADER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "homophone parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10057764,
+      "source": "times",
+      "puzzle_number": "29521",
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "One conducting German songs in recital",
+      "answer": "LEADER",
+      "blog_text": "sounds like LIEDER"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9951122,
+      "source": "times",
+      "puzzle_number": "29501",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Having no restraint in back of Fiesta, belt attached",
+      "answer": "ABANDON",
+      "blog_text": "last letter (back) of FIESTA + BAND (belt) ON (attached)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10048856,
+      "source": "times",
+      "puzzle_number": "29506",
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Preserve large plant opened by business graduate",
+      "answer": "EMBALM",
+      "blog_text": "Having conceded that a light year is \u201cmany\u201d miles, I\u2019ll agree that an ELM is a large plant, in which I\u2019ll hide an MBA."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "nswer"
+            },
+            {
+              "operation": "synonym",
+              "value": "DEPT",
+              "source_word": "h"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Expert answer with a lot of complexity",
+          "answer": "ADEPT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "nswer",
+          "value": "A",
+          "sub": ""
+        },
+        {
+          "kind": "synonym",
+          "source_word": "h",
+          "value": "DEPT",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Expert answer with a lot of complexity",
+          "value": "ADEPT",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10060975,
+      "source": "times",
+      "puzzle_number": "29529",
+      "clue_number": "23",
+      "direction": "down",
+      "clue_text": "Expert answer with a lot of complexity",
+      "answer": "ADEPT",
+      "blog_text": "A(nswer) + DEPT(h), complexity mostly."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051518,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Bolt stand with three legs after first bit has fallen off",
+      "answer": "RIVET",
+      "blog_text": "Yes, I thought RIPOD might be the answer before my hand slapped my forehead and the rather more obvious answer presented itself \u2013 TRIVET, without its first letter."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "container",
+      "wordplay_type": "container",
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "TRAIL",
+              "source_word": "TRAIL"
+            },
+            {
+              "operation": "literal",
+              "value": "V",
+              "source_word": "V"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Path to secure a victory for Labour",
+          "answer": "TRAVAIL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "container parsed but assembly didn't match answer"
+      ],
+      "extraction": [
+        {
+          "kind": "definition",
+          "source_word": "Path to secure a victory for Labour",
+          "value": "TRAVAIL",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10050801,
+      "source": "times",
+      "puzzle_number": "29509",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Path to secure a victory for Labour",
+      "answer": "TRAVAIL",
+      "blog_text": "A V in TRAIL"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10050811,
+      "source": "times",
+      "puzzle_number": "29509",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Willing rider Richard endlessly breaking wind",
+      "answer": "CODICIL",
+      "blog_text": "DIC k in COIL"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051529,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "29",
+      "direction": "across",
+      "clue_text": "Pupil is needed for this crew? Certainly will be in it",
+      "answer": "EYESIGHT",
+      "blog_text": "\u201cCertainly\u201d could be aye, ay, sure or similar but is YES around which goes EIGHT (crew). There might be a time when \u201cpupil\u201d in a clue refers to someone in a classroom, but I won\u2019t be holding my breath."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "I",
+              "source_word": "I"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "LL",
+              "source_word": "the author will"
+            },
+            {
+              "operation": "synonym",
+              "value": "ITERATE",
+              "source_word": "repeat"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "lacking understanding of characters",
+          "answer": "ILLITERATE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "the author will",
+          "value": "LL",
+          "sub": ""
+        },
+        {
+          "kind": "synonym",
+          "source_word": "repeat",
+          "value": "ITERATE",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "lacking understanding of characters",
+          "value": "ILLITERATE",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058918,
+      "source": "times",
+      "puzzle_number": "29524",
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "The author will repeat lacking understanding of characters?",
+      "answer": "ILLITERATE",
+      "blog_text": "I\u2019LL (the author will), ITERATE (repeat)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 9950692,
+      "source": "times",
+      "puzzle_number": "29500",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Test site doctor about to catch itinerant on cycle",
+      "answer": "PROVINGGROUND",
+      "blog_text": "GP (doctor) reversed containing ROVING (itinerant), then ROUND (cycle of a song)"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10060968,
+      "source": "times",
+      "puzzle_number": "29529",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Tongue was hurt on hot pepper, not cold",
+      "answer": "SWAHILI",
+      "blog_text": "*(WAS) + (c)HILI. Slightly held up here by a lifetime of spelling it chilli."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "PEP",
+              "source_word": "energy"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "PER",
+              "source_word": "for each"
+            },
+            {
+              "operation": "literal",
+              "value": "MILL",
+              "source_word": "MILL"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "What transforms output from plant and factory",
+          "answer": "PEPPERMILL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "energy",
+          "value": "PEP",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "for each",
+          "value": "PER",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "What transforms output from plant and factory",
+          "value": "PEPPERMILL",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10049752,
+      "source": "times",
+      "puzzle_number": "29507",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "What transforms output from plant and energy for each factory",
+      "answer": "PEPPERMILL",
+      "blog_text": "PEP (energy) + PER (for each) + MILL."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061341,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Person demonstrating regret to billions when overthrown",
+      "answer": "SABOTEUR",
+      "blog_text": "Regret RUE, TO, B[illions] when AS, all reversed (overthrown)."
+    },
+    {
+      "status": "form_unverified",
+      "pattern": "reversal",
+      "wordplay_type": "reversal",
+      "form": {
+        "tree": {
+          "operation": "reversal",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "NEER",
+              "source_word": "NEER"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "TREENAIL"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [
+        "reversal parsed but assembly didn't match answer"
+      ],
+      "extraction": [],
+      "clue_id": 10051524,
+      "source": "times",
+      "puzzle_number": "29511",
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Pin never to be inserted the wrong way round in end-piece",
+      "answer": "TREENAIL",
+      "blog_text": "Despite my devotion to the Aubrey-Maturin series of books by Patrick O\u2019Brian, this term for a long wooden pin or nail to fasten the planks of a ship to its timbers, is most definitely a NHO. As with ALMANDINE, the wordplay is pretty generous (a reversal of NEER (never) inside TAIL (end-piece)) but even so there was a degree of finger-crossing when submitting."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10061346,
+      "source": "times",
+      "puzzle_number": "29530",
+      "clue_number": "28",
+      "direction": "down",
+      "clue_text": "Queue up endlessly for nothing",
+      "answer": "NIL",
+      "blog_text": "The sort of queue you want is a LINE, from which you remove the end and then reverse (up in a down clue)."
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "LIKE",
+              "source_word": "appreciate"
+            },
+            {
+              "operation": "literal",
+              "value": "T",
+              "source_word": "T"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "HAT",
+              "source_word": "formal headwear"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Instantly",
+          "answer": "LIKETHAT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "synonym",
+          "source_word": "appreciate",
+          "value": "LIKE",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "formal headwear",
+          "value": "HAT",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "Instantly",
+          "value": "LIKETHAT",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10051179,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Instantly appreciate formal headwear when out of work",
+      "answer": "LIKETHAT",
+      "blog_text": "LIKE (appreciate), T {op} HAT (formal headwear) [when out of work \u2013 op ]"
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051156,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "5",
+      "direction": "across",
+      "clue_text": "Company note port is full of spirit",
+      "answer": "CONBRIO",
+      "blog_text": "CO (company), NB (note \u2013 nota bene ), RIO (port). A musical direction."
+    },
+    {
+      "status": "no_match",
+      "pattern": "",
+      "wordplay_type": null,
+      "form": null,
+      "notes": [
+        "no parser branch matched"
+      ],
+      "extraction": [],
+      "clue_id": 10051159,
+      "source": "times",
+      "puzzle_number": "29510",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "City kept changing sides before international",
+      "answer": "DELHI",
+      "blog_text": "HELD (kept} changing sides becomes DELH , then I (international)"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "CAN",
+              "source_word": "John \u2013 loo"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "AS",
+              "source_word": "when"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "TA",
+              "source_word": "thanks"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "nurses playing card game",
+          "answer": "CANASTA"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "John \u2013 loo",
+          "value": "CAN",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "thanks",
+          "value": "TA",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "when",
+          "value": "AS",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "nurses playing card game",
+          "value": "CANASTA",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10055033,
+      "source": "times",
+      "puzzle_number": "29516",
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "John thanks nurses when playing card game",
+      "answer": "CANASTA",
+      "blog_text": "CAN (John \u2013 loo ) \u2041 TA (thanks) contains [nurses] AS (when)"
+    },
+    {
+      "status": "form",
+      "pattern": "charade",
+      "wordplay_type": "charade",
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "HER",
+              "source_word": "HER"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "E",
+              "source_word": "drug"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "B",
+              "source_word": "sage perhaps"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "Y",
+              "source_word": "years"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "injecting over as a result of this",
+          "answer": "HEREBY"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": [],
+      "extraction": [
+        {
+          "kind": "abbreviation",
+          "source_word": "sage perhaps",
+          "value": "B",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "drug",
+          "value": "E",
+          "sub": ""
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "years",
+          "value": "Y",
+          "sub": ""
+        },
+        {
+          "kind": "definition",
+          "source_word": "injecting over as a result of this",
+          "value": "HEREBY",
+          "sub": ""
+        }
+      ],
+      "clue_id": 10058162,
+      "source": "times",
+      "puzzle_number": "29522",
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Sage perhaps injecting drug over years as a result of this",
+      "answer": "HEREBY",
+      "blog_text": "HER \u2041 B (sage perhaps) containing [injecting] E (drug), then Y (years)"
+    }
+  ]
+}

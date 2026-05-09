@@ -1,0 +1,1529 @@
+{
+  "version": "v0",
+  "source_runs": [
+    "prototypes/universal_form_v2/runs/shadow_pipeline_random300.json",
+    "prototypes/universal_form_v2/runs/shadow_pipeline_29534.json"
+  ],
+  "total_strict_pass": 60,
+  "entries": [
+    {
+      "id": "anagram(literal)",
+      "structure": {
+        "op": "anagram",
+        "children": [
+          {
+            "op": "literal",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "literal"
+      ],
+      "frequency": 9,
+      "examples": [
+        {
+          "answer": "TRADESECRET",
+          "clue": "Setter cared about proprietary information",
+          "blog": "*(SETTER CARED).",
+          "source": "times",
+          "puzzle_number": "29505",
+          "clue_id": 10048217
+        },
+        {
+          "answer": "ELECTRONICMAIL",
+          "clue": "Loin meat cleric misrepresented as spam etc",
+          "blog": "*(LOIN MEAT CLERIC). Not a hard clue to parse, although you still have to work out the anagram. I get more spam than I do etc., these days.",
+          "source": "times",
+          "puzzle_number": "29505",
+          "clue_id": 10048227
+        },
+        {
+          "answer": "NUMERATE",
+          "clue": "Able to figure out true name",
+          "blog": "An anagram (out) of TRUE NAME",
+          "source": "times",
+          "puzzle_number": "29506",
+          "clue_id": 10048857
+        },
+        {
+          "answer": "ATLIBERTY",
+          "clue": "Tribal yet unusually free",
+          "blog": "Anagram [unusually] of TRIBAL YET",
+          "source": "times",
+          "puzzle_number": "29510",
+          "clue_id": 10051157
+        },
+        {
+          "answer": "COGITOERGOSUM",
+          "clue": "Drunk groom got us ice as proof of life?",
+          "blog": "Anagram [drunk] of GROOM GOT US ICE . The saying associated with the French scientist and philosopher René Descartes usually translates as “I think, therefore I am”.",
+          "source": "times",
+          "puzzle_number": "29510",
+          "clue_id": 10051161
+        }
+      ]
+    },
+    {
+      "id": "anagram(literal,literal,literal)",
+      "structure": {
+        "op": "anagram",
+        "children": [
+          {
+            "op": "literal",
+            "leaf": true
+          },
+          {
+            "op": "literal",
+            "leaf": true
+          },
+          {
+            "op": "literal",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "literal",
+        "literal",
+        "literal"
+      ],
+      "frequency": 5,
+      "examples": [
+        {
+          "answer": "DIAPHRAGM",
+          "clue": "Chest expander’s broken rim had gap",
+          "blog": "anagram of (broken) RIM HAD GAP",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951112
+        },
+        {
+          "answer": "INTACT",
+          "clue": "It can’t possibly sound",
+          "blog": "anagram of (possibly) IT CAN’T.",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049759
+        },
+        {
+          "answer": "DANIELDEFOE",
+          "clue": "Writer of Aeneid led astray",
+          "blog": "OF AENEID LED*",
+          "source": "times",
+          "puzzle_number": "29509",
+          "clue_id": 10050791
+        },
+        {
+          "answer": "ONENIGHTSTAND",
+          "clue": "Donning hat, set out for Brief Encounter",
+          "blog": "anagram of DONNING,HAT,SET",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051901
+        },
+        {
+          "answer": "WORRISOME",
+          "clue": "Rome row is terribly perturbing",
+          "blog": "ROME ROW IS*",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057760
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,abbreviation)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "abbreviation",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 5,
+      "examples": [
+        {
+          "answer": "PASTA",
+          "clue": "Basic fare no longer available with first class",
+          "blog": "PAST + A.",
+          "source": "times",
+          "puzzle_number": "29503",
+          "clue_id": 9952652
+        },
+        {
+          "answer": "PUTT",
+          "clue": "Set time for golfer’s play",
+          "blog": "PUT (set) + T (time).",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049738
+        },
+        {
+          "answer": "TONG",
+          "clue": "Fashion good for Chinese society",
+          "blog": "TON (fashion) + G (good).",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049758
+        },
+        {
+          "answer": "METEOR",
+          "clue": "Allot gold “star”",
+          "blog": "METE (allot), OR (gold). Did myself no favours by entering CAST,OR here originally",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051897
+        },
+        {
+          "answer": "BATH",
+          "clue": "Stick by hot tub",
+          "blog": "BAT (stick) then H (hot)",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051900
+        }
+      ]
+    },
+    {
+      "id": "anagram(literal,literal)",
+      "structure": {
+        "op": "anagram",
+        "children": [
+          {
+            "op": "literal",
+            "leaf": true
+          },
+          {
+            "op": "literal",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "literal",
+        "literal"
+      ],
+      "frequency": 3,
+      "examples": [
+        {
+          "answer": "OVERSPENT",
+          "clue": "Vesper not moved out of capital?",
+          "blog": "anagram of VESPER,NOT",
+          "source": "times",
+          "puzzle_number": "29500",
+          "clue_id": 9950678
+        },
+        {
+          "answer": "EDITORIAL",
+          "clue": "Adroit lie ruined newspaper piece",
+          "blog": "anagram of (ruined) ADROIT LIE.",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049749
+        },
+        {
+          "answer": "EVISCERATED",
+          "clue": "Saver confused with deceit is gutted",
+          "blog": "anagram of SAVER and DECEIT",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051909
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 3,
+      "examples": [
+        {
+          "answer": "MEANWELL",
+          "clue": "Have good aim? Poor, I suppose",
+          "blog": "MEAN (poor) WELL (I suppose)",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951119
+        },
+        {
+          "answer": "LIVINGSTANDARDS",
+          "clue": "Something people always want to raise being flags?",
+          "blog": "LIVING (being) + STANDARDS (flags).",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049745
+        },
+        {
+          "answer": "SHEWED",
+          "clue": "That woman, married, proved old-fashioned",
+          "blog": "SHE (that woman), WED (married)",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051892
+        }
+      ]
+    },
+    {
+      "id": "container(synonym,synonym)",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 3,
+      "examples": [
+        {
+          "answer": "TARTAN",
+          "clue": "Arthur Brown keeps material in check",
+          "blog": "ART short for Arthur kept in by TAN for brown. Check patterned material.",
+          "source": "times",
+          "puzzle_number": "29506",
+          "clue_id": 10048855
+        },
+        {
+          "answer": "STARCHING",
+          "clue": "Stiffening wound round supporting structure",
+          "blog": "STING (wound) containing (round) ARCH (supporting structure).",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049762
+        },
+        {
+          "answer": "SWALLOW",
+          "clue": "Plant holding partition down",
+          "blog": "S~OW ( to plant) containing [holding] WALL (partition)",
+          "source": "times",
+          "puzzle_number": "29510",
+          "clue_id": 10051155
+        }
+      ]
+    },
+    {
+      "id": "synonym",
+      "structure": {
+        "op": "synonym",
+        "leaf": true
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "synonym"
+      ],
+      "frequency": 3,
+      "examples": [
+        {
+          "answer": "WHISTLEBLOWER",
+          "clue": "One signalling game is up?",
+          "blog": "a cryptic definition with two meanings, depending on the sense of ‘game’ (sporting event or undertaking)",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057766
+        },
+        {
+          "answer": "SPACEINVADERS",
+          "clue": "Game of those coming too close to you?",
+          "blog": "another cryptic definition with, shall we say, two elements; shoot ’em up video game released in 1978 and those who get too near you for comfort in social situations",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057773
+        },
+        {
+          "answer": "SHOEHORN",
+          "clue": "A help getting into Oxford?",
+          "blog": "another cryptic definition, which we had only last week, I believe",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057775
+        }
+      ]
+    },
+    {
+      "id": "charade(abbreviation,synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 2,
+      "examples": [
+        {
+          "answer": "SPAD",
+          "clue": "Second home — one affecting minister’s judgement?",
+          "blog": "S (second) PAD (home) Didn’t know this term.",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951126
+        },
+        {
+          "answer": "LOUSE",
+          "clue": "Look to take advantage of miserable individual",
+          "blog": "LO (look), USE (take advantage of)",
+          "source": "times",
+          "puzzle_number": "29504",
+          "clue_id": 9953079
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,abbreviation,synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 2,
+      "examples": [
+        {
+          "answer": "SKEWERED",
+          "clue": "Biased eastern revolutionary driven through with spike",
+          "blog": "SKEW (biased), E (eastern), RED (revolutionary)",
+          "source": "times",
+          "puzzle_number": "29504",
+          "clue_id": 9953076
+        },
+        {
+          "answer": "TUTORED",
+          "clue": "Did coach express disapproval? Nothing revolutionary",
+          "blog": "TUT O RED",
+          "source": "times",
+          "puzzle_number": "29509",
+          "clue_id": 10050797
+        }
+      ]
+    },
+    {
+      "id": "container(synonym,abbreviation)",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "abbreviation",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 2,
+      "examples": [
+        {
+          "answer": "LINGOES",
+          "clue": "Try piercing wrinkles in tongues",
+          "blog": "GO (try) inside LINES (wrinkles)",
+          "source": "times",
+          "puzzle_number": "29500",
+          "clue_id": 9950698
+        },
+        {
+          "answer": "MACON",
+          "clue": "Crew welcoming company for wine",
+          "blog": "MAN (to crew) containing (welcoming) CO (company). A firm summer favourite.",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049741
+        }
+      ]
+    },
+    {
+      "id": "charade(abbreviation,abbreviation,synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "abbreviation",
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "WRANGLE",
+          "clue": "Argue with Republican approach",
+          "blog": "W R ANGLE",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057750
+        }
+      ]
+    },
+    {
+      "id": "charade(abbreviation,container(synonym,synonym))",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "REINCARNATE",
+          "clue": "Engineers instinctive about vehicle revived with new body",
+          "blog": "RE (engineers) + IN~NATE (instinctive) containing [about] CAR (vehicle)",
+          "source": "times",
+          "puzzle_number": "29504",
+          "clue_id": 9953084
+        }
+      ]
+    },
+    {
+      "id": "charade(abbreviation,synonym,synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "abbreviation",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "SJAMBOK",
+          "clue": "Hide crop from antelope on small preserve",
+          "blog": "BOK (antelope) next to (on) S (small) JAM (preserve)",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951098
+        }
+      ]
+    },
+    {
+      "id": "charade(container(abbreviation,synonym),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "ESTABLISH",
+          "clue": "Go into the Spanish sort of institute",
+          "blog": "STAB (go – shot, try ) contained by [into] E~L (‘the’ Spanish), -ISH (sort of)",
+          "source": "times",
+          "puzzle_number": "29510",
+          "clue_id": 10051160
+        }
+      ]
+    },
+    {
+      "id": "charade(container(charade(abbreviation,synonym),synonym),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "charade",
+                "children": [
+                  {
+                    "op": "abbreviation",
+                    "leaf": true
+                  },
+                  {
+                    "op": "synonym",
+                    "leaf": true
+                  }
+                ]
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym",
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "IMALLRIGHTJACK",
+          "clue": "Picture fitting in one shopping centre lift",
+          "blog": "RIGHT (fitting) in I MALL (one shopping centre) + JACK, a lift, eg a car jack. I’m All Right Jack was a comedy film from 1959 starring Ian Carmichael and Peter Sellers. The cast list reads like a roll call of famous British actors and actresses. Uniquely British I would say, in the way it points fun at British ways, comedy but with an edge to it. I suppose you young millennials can be forgiven for not knowing of it, but it is a fine film in its way, and worth looking out.",
+          "source": "times",
+          "puzzle_number": "29523",
+          "clue_id": 10058537
+        }
+      ]
+    },
+    {
+      "id": "charade(container(synonym,abbreviation),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "MEATLOAF",
+          "clue": "Came across entertaining American lounge singer",
+          "blog": "MET (came across), containing A (American), then LOAF (lounge). Clever surface.",
+          "source": "times",
+          "puzzle_number": "29512",
+          "clue_id": 10051891
+        }
+      ]
+    },
+    {
+      "id": "charade(container(synonym,synonym),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "BRIGHTANDEARLY",
+          "clue": "First thing honest outlaw admits, at great cost",
+          "blog": "BAN (outlaw) around (admits) RIGHT (honest) + DEARLY (at great cost)",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951101
+        }
+      ]
+    },
+    {
+      "id": "charade(reversal(abbreviation),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "EMMET",
+          "clue": "This compiler heading west bumped into tourist",
+          "blog": "ME (this compiler) reversed [heading west], MET (bumped into). Cornish slang for a holidaymaker. In Devon they’re called Grockles.",
+          "source": "times",
+          "puzzle_number": "29534",
+          "clue_id": 10063020
+        }
+      ]
+    },
+    {
+      "id": "charade(reversal(synonym),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "WORCESTER",
+          "clue": "Brag about compound in Midlands city",
+          "blog": "CROW (brag) reversed [about], ESTER (compound). ‘Ester’ featured in the QC I blogged yesterday when it was clued as ‘floral smelling compound’, so it was fresh in my mind.",
+          "source": "times",
+          "puzzle_number": "29510",
+          "clue_id": 10051172
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,container(literal,abbreviation),synonym)",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "literal",
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "ESPIONAGE",
+          "clue": "Psychic powers in later years keeping old in secret work",
+          "blog": "ESP O in IN AGE",
+          "source": "times",
+          "puzzle_number": "29509",
+          "clue_id": 10050789
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,container(synonym,abbreviation))",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "STILLLIFES",
+          "clue": "Even stories must embrace fine art",
+          "blog": "STILL (even) then LIES (stories) containing F (fine)",
+          "source": "times",
+          "puzzle_number": "29524",
+          "clue_id": 10058908
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,reversal(abbreviation))",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "PARASOL",
+          "clue": "Soldiers look round for protection from sun",
+          "blog": "PARAS the LO reversed",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057772
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,reversal(literal))",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "literal"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "MILDEW",
+          "clue": "Disease from beer we knocked back",
+          "blog": "MILD (beer), then WE reversed [knocked back]. A plant disease caused by fungus.",
+          "source": "times",
+          "puzzle_number": "29534",
+          "clue_id": 10063011
+        }
+      ]
+    },
+    {
+      "id": "charade(synonym,reversal(synonym))",
+      "structure": {
+        "op": "charade",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "NUTMEG",
+          "clue": "Fanatic with stone climbing tree",
+          "blog": "NUT (fanatic) then GEM (stone) reversed",
+          "source": "times",
+          "puzzle_number": "29500",
+          "clue_id": 9950696
+        }
+      ]
+    },
+    {
+      "id": "container(anagram(literal),charade(abbreviation,abbreviation))",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "anagram",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "charade",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [],
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "literal",
+        "abbreviation",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "SCARCELY",
+          "clue": "Doctor cycles around area and runs not at all",
+          "blog": "anagram of (doctor) CYCLES around A (area) + (and) R (run)",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951121
+        }
+      ]
+    },
+    {
+      "id": "container(anagram(literal),synonym)",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "anagram",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              }
+            ]
+          },
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        [],
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "literal",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "SICILIAN",
+          "clue": "Italian snail unexpectedly seen around here in France",
+          "blog": "Anagram [unexpectedly] of SNAIL containing [seen around] ICI (‘here’ in France)",
+          "source": "times",
+          "puzzle_number": "29534",
+          "clue_id": 10063017
+        }
+      ]
+    },
+    {
+      "id": "container(synonym,charade(abbreviation,synonym))",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "charade",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "ROLEMODEL",
+          "clue": "Rock embracing European form for example",
+          "blog": "E MODE in ROLL",
+          "source": "times",
+          "puzzle_number": "29509",
+          "clue_id": 10050802
+        }
+      ]
+    },
+    {
+      "id": "container(synonym,charade(literal,abbreviation))",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "charade",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "literal",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "TRAVAIL",
+          "clue": "Path to secure a victory for Labour",
+          "blog": "A V in TRAIL",
+          "source": "times",
+          "puzzle_number": "29509",
+          "clue_id": 10050801
+        }
+      ]
+    },
+    {
+      "id": "container(synonym,reversal(synonym))",
+      "structure": {
+        "op": "container",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          },
+          {
+            "op": "reversal",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [],
+        [
+          "children",
+          "1"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "PADDOCK",
+          "clue": "Group hiding rum around racing enclosure",
+          "blog": "PACK (group) containing ODD (rum) reversed",
+          "source": "times",
+          "puzzle_number": "29500",
+          "clue_id": 9950676
+        }
+      ]
+    },
+    {
+      "id": "homophone(synonym)",
+      "structure": {
+        "op": "homophone",
+        "children": [
+          {
+            "op": "synonym",
+            "leaf": true
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "LEADER",
+          "clue": "One conducting German songs in recital",
+          "blog": "sounds like LIEDER",
+          "source": "times",
+          "puzzle_number": "29521",
+          "clue_id": 10057764
+        }
+      ]
+    },
+    {
+      "id": "reversal(charade(abbreviation,synonym))",
+      "structure": {
+        "op": "reversal",
+        "children": [
+          {
+            "op": "charade",
+            "children": [
+              {
+                "op": "abbreviation",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "abbreviation",
+        "synonym"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "SPIDER",
+          "clue": "Ducks again repelled predator",
+          "blog": "RE-DIPS (ducks again) reversed (repelled)",
+          "source": "times",
+          "puzzle_number": "29501",
+          "clue_id": 9951097
+        }
+      ]
+    },
+    {
+      "id": "reversal(charade(literal,synonym,abbreviation))",
+      "structure": {
+        "op": "reversal",
+        "children": [
+          {
+            "op": "charade",
+            "children": [
+              {
+                "op": "literal",
+                "leaf": true
+              },
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        []
+      ],
+      "leaf_kinds": [
+        "literal",
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "COLOSSI",
+          "clue": "Charlie is unaccompanied going around Luxor sculptures",
+          "blog": "C (Charlie), then IS + SOLO (unaccompanied) reversed (going around).",
+          "source": "times",
+          "puzzle_number": "29507",
+          "clue_id": 10049747
+        }
+      ]
+    },
+    {
+      "id": "reversal(container(synonym,abbreviation))",
+      "structure": {
+        "op": "reversal",
+        "children": [
+          {
+            "op": "container",
+            "children": [
+              {
+                "op": "synonym",
+                "leaf": true
+              },
+              {
+                "op": "abbreviation",
+                "leaf": true
+              }
+            ]
+          }
+        ]
+      },
+      "indicator_slots": [
+        [],
+        [
+          "children",
+          "0"
+        ]
+      ],
+      "leaf_kinds": [
+        "synonym",
+        "abbreviation"
+      ],
+      "frequency": 1,
+      "examples": [
+        {
+          "answer": "EXIT",
+          "clue": "Couple rolling around kiss and leave",
+          "blog": "TIE (couple) reversed with an X (kiss) poked in",
+          "source": "times",
+          "puzzle_number": "29523",
+          "clue_id": 10058525
+        }
+      ]
+    }
+  ]
+}

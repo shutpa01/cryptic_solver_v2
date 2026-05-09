@@ -1,0 +1,1188 @@
+{
+  "source": "telegraph",
+  "puzzle": "31138",
+  "n_clues": 30,
+  "statuses": {
+    "NO_FORM": 15,
+    "FAIL": 13,
+    "PASS": 2
+  },
+  "flag_counts": {
+    "solver_no_result": 15,
+    "op_name_not_preserved_in_solveresult": 2,
+    "op_inferred_from_token_mix_not_provided": 2,
+    "hidden_indicator_not_tagged_by_solver": 1
+  },
+  "per_clue": [
+    {
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Turn meat over with some wood",
+      "answer": "MAHOGANY",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "5",
+      "direction": "across",
+      "clue_text": "Curve on map is essentially ignored by local",
+      "answer": "ISOBAR",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ISOBAR"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified first of \"is\"=I; \"by\"->SO; \"local\"->BAR"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['ignored']; non-link words declared as link_words: ['essentially']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "I",
+              "source_word": "is",
+              "positional_kind": "first"
+            },
+            {
+              "operation": "synonym",
+              "value": "SO",
+              "source_word": "by"
+            },
+            {
+              "operation": "synonym",
+              "value": "BAR",
+              "source_word": "local"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Curve on map",
+          "answer": "ISOBAR"
+        },
+        "link_words": [
+          "essentially"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=['POS_I_FIRST'] lnk=1 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Had food on back of empty steel pan",
+      "answer": "SLATE",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'ATESL' - need 'SLATE'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Had\"->ATE; \"on\"->S (abbr); last of \"steel\"=L"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['back']; non-link words declared as link_words: ['empty', 'food']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "ATE",
+              "source_word": "Had"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "S",
+              "source_word": "on"
+            },
+            {
+              "operation": "positional",
+              "value": "L",
+              "source_word": "steel",
+              "positional_kind": "last"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "pan",
+          "answer": "SLATE"
+        },
+        "link_words": [
+          "food",
+          "of",
+          "empty"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=['POS_I_LAST'] lnk=3 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Spare iPad somehow given a value",
+      "answer": "APPRAISED",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces APPRAISED"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"Spare\"; literal \"iPad\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"somehow\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "somehow",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "SPARE",
+              "source_word": "Spare"
+            },
+            {
+              "operation": "literal",
+              "value": "IPAD",
+              "source_word": "iPad"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "given a value",
+          "answer": "APPRAISED"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Lying at home after Sunday school class?",
+      "answer": "INSINCERE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "13",
+      "direction": "across",
+      "clue_text": "Charlie recalled hosting naked gala dance",
+      "answer": "SALSA",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Victor interrupting frisky actor's frolic",
+      "answer": "CAVORT",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "15",
+      "direction": "across",
+      "clue_text": "Card game oddly calmer after a lot of wine",
+      "answer": "PINOCLE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "18",
+      "direction": "across",
+      "clue_text": "Ring performer Mike visiting a party with Republican",
+      "answer": "MATADOR",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces MATADOR"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Mike\"->M; \"visiting\"->AT; literal \"a\"; \"party\"->DO; \"Republican\"->R"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "M",
+              "source_word": "Mike"
+            },
+            {
+              "operation": "synonym",
+              "value": "AT",
+              "source_word": "visiting"
+            },
+            {
+              "operation": "raw",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "synonym",
+              "value": "DO",
+              "source_word": "party"
+            },
+            {
+              "operation": "synonym",
+              "value": "R",
+              "source_word": "Republican"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Ring performer",
+          "answer": "MATADOR"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=5 ind=[] lnk=1 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "20",
+      "direction": "across",
+      "clue_text": "Advises American screening seed supplier",
+      "answer": "SESAME",
+      "status": "FAIL",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided",
+        "hidden_indicator_not_tagged_by_solver"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SESAME"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"Advises American screening\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "hidden node has no indicator"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "hidden",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "ADVISESAMERICANSCREENING",
+              "source_word": "Advises American screening"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "seed supplier",
+          "answer": "SESAME"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided",
+          "hidden_indicator_not_tagged_by_solver"
+        ]
+      },
+      "notes": "op=None leaves=1 ind=[] lnk=0 dbe=0 conf=80"
+    },
+    {
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Adult and child inspired by church store",
+      "answer": "CACHE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Read Pinter after cycling on front of tandem",
+      "answer": "INTERPRET",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Liberal blocking second delivery of total budget shortfall?",
+      "answer": "black hole",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Father quietly covering chapter in trained group",
+      "answer": "PADRE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "Politician welcomed by island conglomerate",
+      "answer": "EMPIRE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "28",
+      "direction": "across",
+      "clue_text": "Modern offices secured finally by river for media centre",
+      "answer": "news desk",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NEWSDESK"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Modern\"->NEW; last of \"offices\"=S; last of \"secured\"=D; \"river\"->ESK"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['finally']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "NEW",
+              "source_word": "Modern"
+            },
+            {
+              "operation": "positional",
+              "value": "S",
+              "source_word": "offices",
+              "positional_kind": "last"
+            },
+            {
+              "operation": "positional",
+              "value": "D",
+              "source_word": "secured",
+              "positional_kind": "last"
+            },
+            {
+              "operation": "synonym",
+              "value": "ESK",
+              "source_word": "river"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "media centre",
+          "answer": "NEWSDESK"
+        },
+        "link_words": [
+          "by",
+          "for"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=4 ind=['POS_I_LAST'] lnk=2 dbe=0 conf=85"
+    },
+    {
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Large amount rolled inside of fine fabric",
+      "answer": "MUSLIN",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'LSUMIN' - need 'MUSLIN'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Large\"->L; \"amount\"->SUM; \"inside\"->IN"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['rolled']; non-link words declared as link_words: ['fine']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "L",
+              "source_word": "Large"
+            },
+            {
+              "operation": "synonym",
+              "value": "SUM",
+              "source_word": "amount"
+            },
+            {
+              "operation": "synonym",
+              "value": "IN",
+              "source_word": "inside"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "fabric",
+          "answer": "MUSLIN"
+        },
+        "link_words": [
+          "of",
+          "fine"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=['REV_I'] lnk=2 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Early advantage of promotion above street in centre",
+      "answer": "head start",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Young wife precooked wild bird",
+      "answer": "green woodpecker",
+      "status": "FAIL",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'GREENWPRECOOKED' - need 'GREENWOODPECKER'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Young\"->GREEN; \"wife\"->W (abbr); literal \"precooked\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "GREEN",
+              "source_word": "Young"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "W",
+              "source_word": "wife"
+            },
+            {
+              "operation": "literal",
+              "value": "PRECOOKED",
+              "source_word": "precooked"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "wild bird",
+          "answer": "GREENWOODPECKER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided"
+        ]
+      },
+      "notes": "op=None leaves=3 ind=[] lnk=0 dbe=0 conf=80"
+    },
+    {
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Attention held by shelter easiest to reach?",
+      "answer": "NEAREST",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Flag pests around beach rubbish on top of shingle",
+      "answer": "Stars and Stripes",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Loyal voters left European city",
+      "answer": "Basel",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "8",
+      "direction": "down",
+      "clue_text": "Fans out of area D sit all over the place",
+      "answer": "RADIATES",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'AREADSITTHE' - need 'RADIATES'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"area\"; literal \"D\"; literal \"sit\"; literal \"the\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"over\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['place']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "over",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "AREA",
+              "source_word": "area"
+            },
+            {
+              "operation": "literal",
+              "value": "D",
+              "source_word": "D"
+            },
+            {
+              "operation": "literal",
+              "value": "SIT",
+              "source_word": "sit"
+            },
+            {
+              "operation": "literal",
+              "value": "THE",
+              "source_word": "the"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Fans out",
+          "answer": "RADIATES"
+        },
+        "link_words": [
+          "of",
+          "all",
+          "place"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=4 ind=['ANA_I'] lnk=3 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "9",
+      "direction": "down",
+      "clue_text": "Running ahead before spy returned",
+      "answer": "UPKEEP",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Doctors caught scaling bank in city",
+      "answer": "Cambridge",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'MBCARIDGE' - need 'CAMBRIDGE'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Doctors\"->MB; first of \"caught\"=CA; \"bank\"->RIDGE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['scaling']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "MB",
+              "source_word": "Doctors"
+            },
+            {
+              "operation": "positional",
+              "value": "CA",
+              "source_word": "caught",
+              "positional_kind": "first"
+            },
+            {
+              "operation": "synonym",
+              "value": "RIDGE",
+              "source_word": "bank"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "city",
+          "answer": "CAMBRIDGE"
+        },
+        "link_words": [
+          "in"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=['POS_I_FIRST'] lnk=1 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "17",
+      "direction": "down",
+      "clue_text": "Friendly novelist abridged message",
+      "answer": "AMICABLE",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces AMICABLE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Friendly\"->AMICABLE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['abridged', 'message', 'novelist']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "AMICABLE",
+          "source_word": "Friendly"
+        },
+        "definition": {
+          "phrase": "Friendly",
+          "answer": "AMICABLE"
+        },
+        "link_words": [
+          "novelist",
+          "abridged",
+          "message"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=1 ind=[] lnk=3 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "19",
+      "direction": "down",
+      "clue_text": "Queen greeting Poles housing old animals",
+      "answer": "RHINOS",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'SRHINO' - need 'RHINOS'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Poles\"->S (abbr); \"animals\"->RHINO"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['greeting', 'housing', 'old', 'queen']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "S",
+              "source_word": "Poles"
+            },
+            {
+              "operation": "synonym",
+              "value": "RHINO",
+              "source_word": "animals"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "animals",
+          "answer": "RHINOS"
+        },
+        "link_words": [
+          "Queen",
+          "greeting",
+          "housing",
+          "old"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=[] lnk=4 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Triumphal expression of drunk with present",
+      "answer": "so there",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SOTHERE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"drunk\"->SOT; \"present\"->HERE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['triumphal']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "SOT",
+              "source_word": "drunk"
+            },
+            {
+              "operation": "synonym",
+              "value": "HERE",
+              "source_word": "present"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "expression",
+          "answer": "SOTHERE"
+        },
+        "link_words": [
+          "of",
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=[] lnk=2 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Romeo takes off for cheeky run across pitch?",
+      "answer": "STREAK",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'ROMEOTAKES' - need 'STREAK'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"Romeo\"; literal \"takes\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"off\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['across', 'pitch']; non-link words declared as link_words: ['cheeky']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "off",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "ROMEO",
+              "source_word": "Romeo"
+            },
+            {
+              "operation": "literal",
+              "value": "TAKES",
+              "source_word": "takes"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "run",
+          "answer": "STREAK"
+        },
+        "link_words": [
+          "for",
+          "cheeky"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=2 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "23",
+      "direction": "down",
+      "clue_text": "Colonel eviscerated reptile in hold",
+      "answer": "CLASP",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces CLASP"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified outer of \"Colonel\"=CL; \"reptile\"->ASP"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['eviscerated']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "CL",
+              "source_word": "Colonel",
+              "positional_kind": "outer"
+            },
+            {
+              "operation": "synonym",
+              "value": "ASP",
+              "source_word": "reptile"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "hold",
+          "answer": "CLASP"
+        },
+        "link_words": [
+          "in"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=['POS_I_OUTER'] lnk=1 dbe=0 conf=85"
+    }
+  ]
+}

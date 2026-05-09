@@ -1,0 +1,1063 @@
+{
+  "source": "times",
+  "puzzle": "29533",
+  "n_clues": 29,
+  "statuses": {
+    "NO_FORM": 16,
+    "FAIL": 9,
+    "PASS": 4
+  },
+  "flag_counts": {
+    "solver_no_result": 16,
+    "op_name_not_preserved_in_solveresult": 2,
+    "op_inferred_from_token_mix_not_provided": 2,
+    "definition_phrase_missing": 1,
+    "container_charade_structure_not_preserved": 1,
+    "container_outer_inner_not_preserved": 2
+  },
+  "per_clue": [
+    {
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Yes, German king cutting party nibbles for impertinent individual",
+      "answer": "JACKANAPES",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "6",
+      "direction": "across",
+      "clue_text": "Former PM\u2019s garden",
+      "answer": "EDEN",
+      "status": "FAIL",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EDEN"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Former PM's\"->EDEN"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['pm', 's']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "EDEN",
+          "source_word": "Former PM's"
+        },
+        "definition": {
+          "phrase": "garden",
+          "answer": "EDEN"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided"
+        ]
+      },
+      "notes": "op=None leaves=1 ind=[] lnk=0 dbe=0 conf=100"
+    },
+    {
+      "clue_number": "8",
+      "direction": "across",
+      "clue_text": "I am associated with beer merchant buying from abroad",
+      "answer": "IMPORTER",
+      "status": "FAIL",
+      "flags": [
+        "definition_phrase_missing"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces IMPORTER"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"I\"; last of \"am\"=M; \"beer\"->PORTER"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['with']; non-link words declared as link_words: ['abroad', 'associated', 'buying', 'merchant']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "raw",
+              "value": "I",
+              "source_word": "I"
+            },
+            {
+              "operation": "positional",
+              "value": "M",
+              "source_word": "am",
+              "positional_kind": "last"
+            },
+            {
+              "operation": "synonym",
+              "value": "PORTER",
+              "source_word": "beer"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "",
+          "answer": "IMPORTER"
+        },
+        "link_words": [
+          "associated",
+          "merchant",
+          "buying",
+          "from",
+          "abroad"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "definition_phrase_missing"
+        ]
+      },
+      "notes": "op=charade leaves=3 ind=['POS_I_LAST'] lnk=5 dbe=0 conf=83"
+    },
+    {
+      "clue_number": "9",
+      "direction": "across",
+      "clue_text": "Left one pound in cash",
+      "answer": "LIQUID",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LIQUID"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Left\"->L; \"one\"->I; \"pound\"->QUID"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "L",
+              "source_word": "Left"
+            },
+            {
+              "operation": "synonym",
+              "value": "I",
+              "source_word": "one"
+            },
+            {
+              "operation": "synonym",
+              "value": "QUID",
+              "source_word": "pound"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "in cash",
+          "answer": "LIQUID"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=3 ind=[] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Remove water from bottle to begin with and feel poorly",
+      "answer": "BAIL",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Band of smooth chaps securing help",
+      "answer": "IRONMAIDEN",
+      "status": "FAIL",
+      "flags": [
+        "container_charade_structure_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'IMENAIDRON', 'IRMENAIDON', 'IROMENAIDN' - need 'IRONMAIDEN'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"smooth\"->IRON; \"chaps\"->MEN; \"help\"->AID"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"securing\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "securing",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "IRON",
+              "source_word": "smooth"
+            },
+            {
+              "operation": "charade",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "MEN",
+                  "source_word": "chaps"
+                },
+                {
+                  "operation": "synonym",
+                  "value": "AID",
+                  "source_word": "help"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Band",
+          "answer": "IRONMAIDEN"
+        },
+        "link_words": [
+          "of"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_charade_structure_not_preserved"
+        ]
+      },
+      "notes": "op=container_charade leaves=3 ind=['CON_I'] lnk=1 dbe=0 conf=85"
+    },
+    {
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Lee in a state of mind that\u2019s primitive?",
+      "answer": "ELEMENTAL",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "14",
+      "direction": "across",
+      "clue_text": "Punter initially keen on horse",
+      "answer": "PINTO",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PINTO"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified first of \"Punter\"=P; \"keen\"->INTO"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['initially']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "positional",
+              "value": "P",
+              "source_word": "Punter",
+              "positional_kind": "first"
+            },
+            {
+              "operation": "synonym",
+              "value": "INTO",
+              "source_word": "keen"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "horse",
+          "answer": "PINTO"
+        },
+        "link_words": [
+          "on"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=2 ind=['POS_I_FIRST'] lnk=1 dbe=0 conf=85"
+    },
+    {
+      "clue_number": "17",
+      "direction": "across",
+      "clue_text": "Currency Harry\u2019s friend found in Ford",
+      "answer": "KRONA",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "19",
+      "direction": "across",
+      "clue_text": "Certain code quiet cryptic setter uncovered",
+      "answer": "ETIQUETTE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "22",
+      "direction": "across",
+      "clue_text": "Catch a taxi by an American beach",
+      "answer": "COPACABANA",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces COPACABANA"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Catch\"->COP; literal \"a\"; \"taxi\"->CAB; literal \"an\"; \"American\"->A"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "COP",
+              "source_word": "Catch"
+            },
+            {
+              "operation": "raw",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "synonym",
+              "value": "CAB",
+              "source_word": "taxi"
+            },
+            {
+              "operation": "raw",
+              "value": "AN",
+              "source_word": "an"
+            },
+            {
+              "operation": "synonym",
+              "value": "A",
+              "source_word": "American"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "beach",
+          "answer": "COPACABANA"
+        },
+        "link_words": [
+          "by"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=5 ind=[] lnk=1 dbe=0 conf=86"
+    },
+    {
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Turning point while hosting cricket team?",
+      "answer": "AXIS",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "fail",
+            "detail": "tree produces 'WHILETEAM' - need 'AXIS'"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"while\"; literal \"team?\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"Turning\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['cricket', 'hosting', 'point']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "Turning",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "WHILE",
+              "source_word": "while"
+            },
+            {
+              "operation": "literal",
+              "value": "TEAM",
+              "source_word": "team?"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "team?",
+          "answer": "AXIS"
+        },
+        "link_words": [
+          "point",
+          "hosting",
+          "cricket"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=3 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "24",
+      "direction": "across",
+      "clue_text": "Drink supplier put iodine in drink",
+      "answer": "WAITER",
+      "status": "FAIL",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces WAITER"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"iodine\"->I (abbr); \"drink\"->WATER"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"in\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['put']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "in",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "I",
+              "source_word": "iodine"
+            },
+            {
+              "operation": "synonym",
+              "value": "WATER",
+              "source_word": "drink"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "supplier",
+          "answer": "WAITER"
+        },
+        "link_words": [
+          "put"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=['CON_I'] lnk=1 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Infant to hurry back with first aid item",
+      "answer": "NURSLING",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Gymnast ultimately leaving risky exploit for floor",
+      "answer": "STUN",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "27",
+      "direction": "across",
+      "clue_text": "ChatGPT may fail this, stuttering badly",
+      "answer": "TURINGTEST",
+      "status": "FAIL",
+      "flags": [
+        "op_name_not_preserved_in_solveresult",
+        "op_inferred_from_token_mix_not_provided"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces TURINGTEST"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"stuttering\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"badly\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "unaccounted: ['chatgpt', 'may', 'this']; non-link words declared as link_words: ['this,']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "badly",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "STUTTERING",
+              "source_word": "stuttering"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "fail",
+          "answer": "TURINGTEST"
+        },
+        "link_words": [
+          "this,"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "op_name_not_preserved_in_solveresult",
+          "op_inferred_from_token_mix_not_provided"
+        ]
+      },
+      "notes": "op=None leaves=1 ind=['ANA_I'] lnk=1 dbe=0 conf=95"
+    },
+    {
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Short-term plan?",
+      "answer": "JAILBREAK",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Upset with specification for baseball attire?",
+      "answer": "CAPSIZE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Nutter in Barking? Goodness!",
+      "answer": "NUTRIENT",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NUTRIENT"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"Nutter\"; literal \"in\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"Barking\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "Barking",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "NUTTER",
+              "source_word": "Nutter"
+            },
+            {
+              "operation": "literal",
+              "value": "IN",
+              "source_word": "in"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Goodness",
+          "answer": "NUTRIENT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=2 ind=['ANA_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Fitness coach working on a laser printer",
+      "answer": "PERSONALTRAINER",
+      "status": "PASS",
+      "flags": [],
+      "verdict": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PERSONALTRAINER"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"on\"; literal \"a\"; literal \"laser\"; literal \"printer\""
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"working\" -> anagram"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "anagram",
+          "indicator": "working",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "ON",
+              "source_word": "on"
+            },
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "literal",
+              "value": "LASER",
+              "source_word": "laser"
+            },
+            {
+              "operation": "literal",
+              "value": "PRINTER",
+              "source_word": "printer"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Fitness coach",
+          "answer": "PERSONALTRAINER"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=anagram leaves=4 ind=['ANA_I'] lnk=0 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "Meat essential to croquettes a la minute",
+      "answer": "SALAMI",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Beautiful old partner is cracking a bit",
+      "answer": "EXQUISITE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Obvious occasion to carry papers",
+      "answer": "EVIDENT",
+      "status": "FAIL",
+      "flags": [
+        "container_outer_inner_not_preserved"
+      ],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces EVIDENT"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"occasion\"->EVENT; \"papers\"->ID"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "container node has no indicator"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['carry']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "EVENT",
+              "source_word": "occasion"
+            },
+            {
+              "operation": "synonym",
+              "value": "ID",
+              "source_word": "papers"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Obvious",
+          "answer": "EVIDENT"
+        },
+        "link_words": [
+          "to",
+          "carry"
+        ],
+        "is_and_lit": false,
+        "flags": [
+          "container_outer_inner_not_preserved"
+        ]
+      },
+      "notes": "op=container leaves=2 ind=[] lnk=2 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "13",
+      "direction": "down",
+      "clue_text": "Geez! Panama possibly get bronze in part of New York",
+      "answer": "MANHATTAN",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "Supervision error",
+      "answer": "OVERSIGHT",
+      "status": "FAIL",
+      "flags": [],
+      "verdict": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces OVERSIGHT"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Supervision\"->OVERSIGHT"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "fail",
+            "detail": "non-link words declared as link_words: ['error']"
+          }
+        ]
+      },
+      "form": {
+        "tree": {
+          "operation": "synonym",
+          "value": "OVERSIGHT",
+          "source_word": "Supervision"
+        },
+        "definition": {
+          "phrase": "Supervision",
+          "answer": "OVERSIGHT"
+        },
+        "link_words": [
+          "error"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "notes": "op=charade leaves=1 ind=[] lnk=1 dbe=0 conf=90"
+    },
+    {
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "Muscle right into boy\u2019s military unit",
+      "answer": "SQUADRON",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "18",
+      "direction": "down",
+      "clue_text": "Speech read to mob \u2014 Republican senator turning up during it",
+      "answer": "RIOTACT",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "Copy French island\u2019s material",
+      "answer": "TEXTILE",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    },
+    {
+      "clue_number": "21",
+      "direction": "down",
+      "clue_text": "Repeat \u2014 one of Henry\u2019s wives got beheaded",
+      "answer": "PARROT",
+      "status": "NO_FORM",
+      "flags": [
+        "solver_no_result"
+      ],
+      "verdict": null,
+      "form": null,
+      "notes": "solve_clue returned no SignatureResult"
+    }
+  ]
+}

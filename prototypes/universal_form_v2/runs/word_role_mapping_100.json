@@ -1,0 +1,7518 @@
+[
+  {
+    "puzzle": "29511",
+    "clue_number": "1",
+    "direction": "down",
+    "clue_text": "French mathematician having love for English design",
+    "answer": "FORMAT",
+    "blog": "This is a substitution clue where FERMAT (French mathematician) has its E (English) swapped for an O (love).",
+    "mapping": {
+      "clue_text": "French mathematician having love for English design",
+      "answer": "FORMAT",
+      "clue_words": [
+        "French",
+        "mathematician",
+        "having",
+        "love",
+        "for",
+        "English",
+        "design"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "French",
+            "mathematician"
+          ],
+          "role": "piece",
+          "value": "FERMAT",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "having"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "love"
+          ],
+          "role": "piece",
+          "value": "O",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "for"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "English"
+          ],
+          "role": "piece",
+          "value": "E",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "design"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29509",
+    "clue_number": "21",
+    "direction": "down",
+    "clue_text": "Board somehow communicating green light from Macron, then Merz",
+    "answer": "OUIJA",
+    "blog": "OUI JA",
+    "mapping": {
+      "clue_text": "Board somehow communicating green light from Macron, then Merz",
+      "answer": "OUIJA",
+      "clue_words": [
+        "Board",
+        "somehow",
+        "communicating",
+        "green",
+        "light",
+        "from",
+        "Macron",
+        "then",
+        "Merz"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            9
+          ],
+          "words": [
+            "Board",
+            "somehow",
+            "communicating",
+            "green",
+            "light",
+            "from",
+            "Macron",
+            "then",
+            "Merz"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "OUI",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "JA",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29501",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Principal before Scrooge giving away shillings",
+    "answer": "PREMIER",
+    "blog": "PRE (before) MISER (Scrooge) \u2013 (giving away) S (shillings)",
+    "mapping": {
+      "clue_text": "Principal before Scrooge giving away shillings",
+      "answer": "PREMIER",
+      "clue_words": [
+        "Principal",
+        "before",
+        "Scrooge",
+        "giving",
+        "away",
+        "shillings"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Principal"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "before"
+          ],
+          "role": "piece",
+          "value": "PRE",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "Scrooge"
+          ],
+          "role": "piece",
+          "value": "MISER",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            5
+          ],
+          "words": [
+            "giving",
+            "away"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "shillings"
+          ],
+          "role": "piece",
+          "value": "S",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29516",
+    "clue_number": "7",
+    "direction": "down",
+    "clue_text": "Engage regularly? In Perth, no",
+    "answer": "NAE",
+    "blog": "{e} N {g} A {g} E [regularly]",
+    "mapping": {
+      "clue_text": "Engage regularly? In Perth, no",
+      "answer": "NAE",
+      "clue_words": [
+        "Engage",
+        "regularly",
+        "In",
+        "Perth",
+        "no"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Engage"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "regularly"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'regularly'"
+          ]
+        },
+        {
+          "span": [
+            2,
+            5
+          ],
+          "words": [
+            "In",
+            "Perth",
+            "no"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "N",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29523",
+    "clue_number": "26",
+    "direction": "across",
+    "clue_text": "Swimmer sporting leech marks in front of boat",
+    "answer": "MACKERELSHARK",
+    "blog": "*(LEECH MARKS) + ARK, boat. I thought \u201cfront of boat\u201d would obviously be B, but it wasn\u2019t ..",
+    "mapping": {
+      "clue_text": "Swimmer sporting leech marks in front of boat",
+      "answer": "MACKERELSHARK",
+      "clue_words": [
+        "Swimmer",
+        "sporting",
+        "leech",
+        "marks",
+        "in",
+        "front",
+        "of",
+        "boat"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Swimmer",
+            "sporting",
+            "leech",
+            "marks",
+            "in",
+            "front",
+            "of",
+            "boat"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "LEECH",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "MARKS",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ARK",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "24",
+    "direction": "across",
+    "clue_text": "Criticise nonsense written about American head of state",
+    "answer": "ROAST",
+    "blog": "A S~ in ROT",
+    "mapping": {
+      "clue_text": "Criticise nonsense written about American head of state",
+      "answer": "ROAST",
+      "clue_words": [
+        "Criticise",
+        "nonsense",
+        "written",
+        "about",
+        "American",
+        "head",
+        "of",
+        "state"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Criticise",
+            "nonsense",
+            "written",
+            "about",
+            "American",
+            "head",
+            "of",
+            "state"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ROT",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "9",
+    "direction": "down",
+    "clue_text": "Succeed, for example, after experiencing setback? Thanks, boss",
+    "answer": "GETAHEAD",
+    "blog": "E.G. upside-down + TA + HEAD..",
+    "mapping": {
+      "clue_text": "Succeed, for example, after experiencing setback? Thanks, boss",
+      "answer": "GETAHEAD",
+      "clue_words": [
+        "Succeed",
+        "for",
+        "example",
+        "after",
+        "experiencing",
+        "setback",
+        "Thanks",
+        "boss"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Succeed",
+            "for",
+            "example",
+            "after",
+            "experiencing",
+            "setback",
+            "Thanks",
+            "boss"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "TA",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "HEAD",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29517",
+    "clue_number": "27",
+    "direction": "across",
+    "clue_text": "Taxing task poorly tackled by king and queen",
+    "answer": "KILLER",
+    "blog": "ILL (poorly) in between K(ing) and ER, queen.",
+    "mapping": {
+      "clue_text": "Taxing task poorly tackled by king and queen",
+      "answer": "KILLER",
+      "clue_words": [
+        "Taxing",
+        "task",
+        "poorly",
+        "tackled",
+        "by",
+        "king",
+        "and",
+        "queen"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Taxing"
+          ],
+          "role": "piece",
+          "value": "K",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "task"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "poorly"
+          ],
+          "role": "piece",
+          "value": "ILL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            8
+          ],
+          "words": [
+            "tackled",
+            "by",
+            "king",
+            "and",
+            "queen"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ER",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "13",
+    "direction": "across",
+    "clue_text": "When drunk, never share, lacking resistance and respect",
+    "answer": "VENERATION",
+    "blog": "Anagram [when drunk] of NEVER . then {r} ATION (share) [lacking resistance]",
+    "mapping": {
+      "clue_text": "When drunk, never share, lacking resistance and respect",
+      "answer": "VENERATION",
+      "clue_words": [
+        "When",
+        "drunk",
+        "never",
+        "share",
+        "lacking",
+        "resistance",
+        "and",
+        "respect"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "When",
+            "drunk"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'when drunk'"
+          ]
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "never"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "share"
+          ],
+          "role": "piece",
+          "value": "ATION",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "lacking",
+            "resistance"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'lacking resistance'"
+          ]
+        },
+        {
+          "span": [
+            6,
+            8
+          ],
+          "words": [
+            "and",
+            "respect"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "NEVER",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "8",
+    "direction": "across",
+    "clue_text": "Foreigner carrying large variety of fig?",
+    "answer": "STRANGLER",
+    "blog": "L(arge) in STRANGER, foreigner. I struggled with this, through lack of a crucial piece of GK: the strangler fig . You don\u2019t see them much here in Kent.",
+    "mapping": {
+      "clue_text": "Foreigner carrying large variety of fig?",
+      "answer": "STRANGLER",
+      "clue_words": [
+        "Foreigner",
+        "carrying",
+        "large",
+        "variety",
+        "of",
+        "fig"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Foreigner",
+            "carrying"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "large"
+          ],
+          "role": "piece",
+          "value": "L",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            6
+          ],
+          "words": [
+            "variety",
+            "of",
+            "fig"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "STRANGER",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "GK",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "Y",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "K",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29505",
+    "clue_number": "16",
+    "direction": "down",
+    "clue_text": "A lot of publicity and a lot of attention may be mesmerising",
+    "answer": "HYPNOTIC",
+    "blog": "HYP(e), publicity, + NOTIC(e), attention. I liked this clue, very neat.",
+    "mapping": {
+      "clue_text": "A lot of publicity and a lot of attention may be mesmerising",
+      "answer": "HYPNOTIC",
+      "clue_words": [
+        "A",
+        "lot",
+        "of",
+        "publicity",
+        "and",
+        "a",
+        "lot",
+        "of",
+        "attention",
+        "may",
+        "be",
+        "mesmerising"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "A",
+            "lot",
+            "of",
+            "publicity",
+            "and",
+            "a",
+            "lot",
+            "of"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            8,
+            9
+          ],
+          "words": [
+            "attention"
+          ],
+          "role": "piece",
+          "value": "HYP",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            9,
+            10
+          ],
+          "words": [
+            "may"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            10,
+            11
+          ],
+          "words": [
+            "be"
+          ],
+          "role": "piece",
+          "value": "NOTIC",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            11,
+            12
+          ],
+          "words": [
+            "mesmerising"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29525",
+    "clue_number": "12",
+    "direction": "across",
+    "clue_text": "Exaggerated ruggedness of individual waterproof Jiffy bags",
+    "answer": "MACHISMO",
+    "blog": "MAC (waterproof) MO (jiffy) around (bags) HIS (of individual) I guess \u2018waterproof\u2019 is a noun?",
+    "mapping": {
+      "clue_text": "Exaggerated ruggedness of individual waterproof Jiffy bags",
+      "answer": "MACHISMO",
+      "clue_words": [
+        "Exaggerated",
+        "ruggedness",
+        "of",
+        "individual",
+        "waterproof",
+        "Jiffy",
+        "bags"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Exaggerated",
+            "ruggedness"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "of",
+            "individual"
+          ],
+          "role": "piece",
+          "value": "HIS",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "waterproof"
+          ],
+          "role": "piece",
+          "value": "MAC",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "Jiffy"
+          ],
+          "role": "piece",
+          "value": "MO",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "bags"
+          ],
+          "role": "indicator",
+          "operation": "container"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29516",
+    "clue_number": "1",
+    "direction": "across",
+    "clue_text": "All the best working dogs went",
+    "answer": "GODSPEED",
+    "blog": "Anagram [working] of DOGS , then PEED (went)",
+    "mapping": {
+      "clue_text": "All the best working dogs went",
+      "answer": "GODSPEED",
+      "clue_words": [
+        "All",
+        "the",
+        "best",
+        "working",
+        "dogs",
+        "went"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "All",
+            "the",
+            "best"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "working"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'working'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "dogs"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "went"
+          ],
+          "role": "piece",
+          "value": "PEED",
+          "mechanism": "synonym"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "DOGS",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29500",
+    "clue_number": "23",
+    "direction": "down",
+    "clue_text": "Interpose one metal after another briefly",
+    "answer": "CUTIN",
+    "blog": "TIN (one metal) after CU (atomic symbol for another)",
+    "mapping": {
+      "clue_text": "Interpose one metal after another briefly",
+      "answer": "CUTIN",
+      "clue_words": [
+        "Interpose",
+        "one",
+        "metal",
+        "after",
+        "another",
+        "briefly"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Interpose"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "one",
+            "metal"
+          ],
+          "role": "piece",
+          "value": "TIN",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            6
+          ],
+          "words": [
+            "after",
+            "another",
+            "briefly"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "CU",
+          "gloss": "atomic symbol for another",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "9",
+    "direction": "across",
+    "clue_text": "Town centre in Rome with a good hospital",
+    "answer": "OMAGH",
+    "blog": "(r)OM(e) + A G(ood) H(ospital). County town of County Tyrone, associated by most with the bombings that took place there",
+    "mapping": {
+      "clue_text": "Town centre in Rome with a good hospital",
+      "answer": "OMAGH",
+      "clue_words": [
+        "Town",
+        "centre",
+        "in",
+        "Rome",
+        "with",
+        "a",
+        "good",
+        "hospital"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Town"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "centre"
+          ],
+          "role": "piece",
+          "value": "OM",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            2,
+            5
+          ],
+          "words": [
+            "in",
+            "Rome",
+            "with"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "a"
+          ],
+          "role": "piece",
+          "value": "H",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "good"
+          ],
+          "role": "piece",
+          "value": "G",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "hospital"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29530",
+    "clue_number": "3",
+    "direction": "down",
+    "clue_text": "Suffers fools",
+    "answer": "HAS",
+    "blog": "Two definitions: he has a cold, he has us all with his trickery.",
+    "mapping": {
+      "clue_text": "Suffers fools",
+      "answer": "HAS",
+      "clue_words": [
+        "Suffers",
+        "fools"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Suffers",
+            "fools"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "23",
+    "direction": "across",
+    "clue_text": "Trim line on archbishop\u2019s cloak and dress",
+    "answer": "APPAREL",
+    "blog": "PARE L in front of A[rchbisho]P.\u00a0 \u00a0 Hard to parse, easy to biff.",
+    "mapping": {
+      "clue_text": "Trim line on archbishop\u2019s cloak and dress",
+      "answer": "APPAREL",
+      "clue_words": [
+        "Trim",
+        "line",
+        "on",
+        "archbishop",
+        "s",
+        "cloak",
+        "and",
+        "dress"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "Trim",
+            "line",
+            "on"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "archbishop"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'rchbisho'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            8
+          ],
+          "words": [
+            "s",
+            "cloak",
+            "and",
+            "dress"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "PARE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "L",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "P",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "H",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "5",
+    "direction": "across",
+    "clue_text": "Company note port is full of spirit",
+    "answer": "CONBRIO",
+    "blog": "CO (company), NB (note \u2013 nota bene ), RIO (port). A musical direction.",
+    "mapping": {
+      "clue_text": "Company note port is full of spirit",
+      "answer": "CONBRIO",
+      "clue_words": [
+        "Company",
+        "note",
+        "port",
+        "is",
+        "full",
+        "of",
+        "spirit"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Company"
+          ],
+          "role": "piece",
+          "value": "CO",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "note"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "port"
+          ],
+          "role": "piece",
+          "value": "RIO",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            7
+          ],
+          "words": [
+            "is",
+            "full",
+            "of",
+            "spirit"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "NB",
+          "gloss": "note \u2013 nota bene ",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "7",
+    "direction": "down",
+    "clue_text": "Run in stockings for Jade, perhaps",
+    "answer": "HORSE",
+    "blog": "HO(R)SE.\u00a0 \u00a0 Familiar to readers of 18th-century poetry, among others.",
+    "mapping": {
+      "clue_text": "Run in stockings for Jade, perhaps",
+      "answer": "HORSE",
+      "clue_words": [
+        "Run",
+        "in",
+        "stockings",
+        "for",
+        "Jade",
+        "perhaps"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Run"
+          ],
+          "role": "piece",
+          "value": "HO",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            1,
+            6
+          ],
+          "words": [
+            "in",
+            "stockings",
+            "for",
+            "Jade",
+            "perhaps"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "SE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "F",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29523",
+    "clue_number": "25",
+    "direction": "across",
+    "clue_text": "Something bought in case Mario Javier\u2019s around",
+    "answer": "RIOJA",
+    "blog": "hidden, as above. I blush to admit that I have indeed bought Rioja by the case (sorry, anyone from Provence \ud83d\ude42 ) but more usually, just by the bottle. Google Contino, for some of the very best there is.",
+    "mapping": {
+      "clue_text": "Something bought in case Mario Javier\u2019s around",
+      "answer": "RIOJA",
+      "clue_words": [
+        "Something",
+        "bought",
+        "in",
+        "case",
+        "Mario",
+        "Javier",
+        "s",
+        "around"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Something",
+            "bought",
+            "in",
+            "case",
+            "Mario",
+            "Javier",
+            "s",
+            "around"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "5",
+    "direction": "across",
+    "clue_text": "Scattered boxes with energy",
+    "answer": "SPARSE",
+    "blog": "SPARS (boxes) + E(nergy) .. ditto!",
+    "mapping": {
+      "clue_text": "Scattered boxes with energy",
+      "answer": "SPARSE",
+      "clue_words": [
+        "Scattered",
+        "boxes",
+        "with",
+        "energy"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Scattered"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "boxes"
+          ],
+          "role": "piece",
+          "value": "SPARS",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "with"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "energy"
+          ],
+          "role": "piece",
+          "value": "E",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29522",
+    "clue_number": "18",
+    "direction": "down",
+    "clue_text": "Very large African nation adopting name of Turkish empire",
+    "answer": "OSMANLI",
+    "blog": "OS (very large), MA \u2041 LI (African nation) containing [adopting] N (name). Not a word I knew but it has appeared a few times before, including a puzzle I blogged 7 years ago.",
+    "mapping": {
+      "clue_text": "Very large African nation adopting name of Turkish empire",
+      "answer": "OSMANLI",
+      "clue_words": [
+        "Very",
+        "large",
+        "African",
+        "nation",
+        "adopting",
+        "name",
+        "of",
+        "Turkish",
+        "empire"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Very",
+            "large"
+          ],
+          "role": "piece",
+          "value": "OS",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "African",
+            "nation"
+          ],
+          "role": "piece",
+          "value": "LI",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "adopting"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'adopting'"
+          ]
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "name"
+          ],
+          "role": "piece",
+          "value": "N",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            6,
+            9
+          ],
+          "words": [
+            "of",
+            "Turkish",
+            "empire"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "MA",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "N",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29503",
+    "clue_number": "3",
+    "direction": "down",
+    "clue_text": "Heard about Victory in Europe after soldiers got back",
+    "answer": "RETRIEVED",
+    "blog": "R.E. + TRIE(V.E.)D.",
+    "mapping": {
+      "clue_text": "Heard about Victory in Europe after soldiers got back",
+      "answer": "RETRIEVED",
+      "clue_words": [
+        "Heard",
+        "about",
+        "Victory",
+        "in",
+        "Europe",
+        "after",
+        "soldiers",
+        "got",
+        "back"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            9
+          ],
+          "words": [
+            "Heard",
+            "about",
+            "Victory",
+            "in",
+            "Europe",
+            "after",
+            "soldiers",
+            "got",
+            "back"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "TRIE",
+          "gloss": "V.E.",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "D",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29506",
+    "clue_number": "12",
+    "direction": "across",
+    "clue_text": "Many miles they staggered in disposing of grail",
+    "answer": "LIGHTYEAR",
+    "blog": "I\u2019ll concede that 5,878,625,373,183.6 miles is \u201cmany\u201d (\u201cbut that\u2019s nothing compared to space\u201d). An anagram (staggered) of THEY within an anagram (disposing of) grail.",
+    "mapping": {
+      "clue_text": "Many miles they staggered in disposing of grail",
+      "answer": "LIGHTYEAR",
+      "clue_words": [
+        "Many",
+        "miles",
+        "they",
+        "staggered",
+        "in",
+        "disposing",
+        "of",
+        "grail"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "Many",
+            "miles",
+            "they"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "staggered"
+          ],
+          "role": "indicator",
+          "operation": "anagram"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "in"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            5,
+            7
+          ],
+          "words": [
+            "disposing",
+            "of"
+          ],
+          "role": "indicator",
+          "operation": "anagram"
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "grail"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "THEY",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29522",
+    "clue_number": "4",
+    "direction": "down",
+    "clue_text": "Head of Science spied their new lab equipment",
+    "answer": "PETRIDISHES",
+    "blog": "Anagram [new] of S {cience} [head of\u2026] SPIED THEIR",
+    "mapping": {
+      "clue_text": "Head of Science spied their new lab equipment",
+      "answer": "PETRIDISHES",
+      "clue_words": [
+        "Head",
+        "of",
+        "Science",
+        "spied",
+        "their",
+        "new",
+        "lab",
+        "equipment"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Head",
+            "of"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'head of\u2026'"
+          ]
+        },
+        {
+          "span": [
+            2,
+            5
+          ],
+          "words": [
+            "Science",
+            "spied",
+            "their"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "new"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'new'"
+          ]
+        },
+        {
+          "span": [
+            6,
+            8
+          ],
+          "words": [
+            "lab",
+            "equipment"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "SPIED",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "THEIR",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29501",
+    "clue_number": "26",
+    "direction": "across",
+    "clue_text": "Leaderless Jedi pilot catches Oscar making script changes",
+    "answer": "EDITORIAL",
+    "blog": "JEDI without first letter (leaderless) + TRIAL (pilot) around (catches) O (Oscar)",
+    "mapping": {
+      "clue_text": "Leaderless Jedi pilot catches Oscar making script changes",
+      "answer": "EDITORIAL",
+      "clue_words": [
+        "Leaderless",
+        "Jedi",
+        "pilot",
+        "catches",
+        "Oscar",
+        "making",
+        "script",
+        "changes"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Leaderless",
+            "Jedi"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "pilot"
+          ],
+          "role": "piece",
+          "value": "TRIAL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "catches"
+          ],
+          "role": "indicator",
+          "operation": "container"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "Oscar"
+          ],
+          "role": "piece",
+          "value": "O",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            8
+          ],
+          "words": [
+            "making",
+            "script",
+            "changes"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "JEDI",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "25",
+    "direction": "across",
+    "clue_text": "Haunting conclusion to homicide case",
+    "answer": "EVOCATIVE",
+    "blog": "~E VOCATIVE (case in Ancient Greek and Latin, as well as in many modern languages, including Greek, plus a good number of other ancient languages)",
+    "mapping": {
+      "clue_text": "Haunting conclusion to homicide case",
+      "answer": "EVOCATIVE",
+      "clue_words": [
+        "Haunting",
+        "conclusion",
+        "to",
+        "homicide",
+        "case"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            5
+          ],
+          "words": [
+            "Haunting",
+            "conclusion",
+            "to",
+            "homicide",
+            "case"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "VOCATIVE",
+          "gloss": "case in Ancient Greek and Latin, as well as in many modern languages, including Greek, plus a good number of other ancient languages",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29507",
+    "clue_number": "18",
+    "direction": "across",
+    "clue_text": "Something people always want to raise being flags?",
+    "answer": "LIVINGSTANDARDS",
+    "blog": "LIVING (being) + STANDARDS (flags).",
+    "mapping": {
+      "clue_text": "Something people always want to raise being flags?",
+      "answer": "LIVINGSTANDARDS",
+      "clue_words": [
+        "Something",
+        "people",
+        "always",
+        "want",
+        "to",
+        "raise",
+        "being",
+        "flags"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "Something",
+            "people",
+            "always",
+            "want",
+            "to",
+            "raise"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "being"
+          ],
+          "role": "piece",
+          "value": "LIVING",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "flags"
+          ],
+          "role": "piece",
+          "value": "STANDARDS",
+          "mechanism": "synonym"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Release loaves bishop ordered",
+    "answer": "ABSOLVE",
+    "blog": "LOAVES B*",
+    "mapping": {
+      "clue_text": "Release loaves bishop ordered",
+      "answer": "ABSOLVE",
+      "clue_words": [
+        "Release",
+        "loaves",
+        "bishop",
+        "ordered"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Release",
+            "loaves",
+            "bishop",
+            "ordered"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "LOAVES",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "1",
+    "direction": "across",
+    "clue_text": "Plant holding partition down",
+    "answer": "SWALLOW",
+    "blog": "S~OW ( to plant) containing [holding] WALL (partition)",
+    "mapping": {
+      "clue_text": "Plant holding partition down",
+      "answer": "SWALLOW",
+      "clue_words": [
+        "Plant",
+        "holding",
+        "partition",
+        "down"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Plant"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "holding"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'holding'"
+          ]
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "partition"
+          ],
+          "role": "piece",
+          "value": "WALL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "down"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "OW",
+          "gloss": " to plant",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29509",
+    "clue_number": "14",
+    "direction": "down",
+    "clue_text": "Powerful group of 50 swelling fantastic gay choir",
+    "answer": "OLIGARCHY",
+    "blog": "L in GAY CHOIR*",
+    "mapping": {
+      "clue_text": "Powerful group of 50 swelling fantastic gay choir",
+      "answer": "OLIGARCHY",
+      "clue_words": [
+        "Powerful",
+        "group",
+        "of",
+        "swelling",
+        "fantastic",
+        "gay",
+        "choir"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Powerful",
+            "group",
+            "of",
+            "swelling",
+            "fantastic",
+            "gay",
+            "choir"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "L",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "GAY",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "CHOIR",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29501",
+    "clue_number": "14",
+    "direction": "across",
+    "clue_text": "1,000 miles crossed by railroad traffic",
+    "answer": "COMMERCE",
+    "blog": "M (1,000) M (miles) in (crossed by) COERCE (railroad)",
+    "mapping": {
+      "clue_text": "1,000 miles crossed by railroad traffic",
+      "answer": "COMMERCE",
+      "clue_words": [
+        "miles",
+        "crossed",
+        "by",
+        "railroad",
+        "traffic"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "miles"
+          ],
+          "role": "piece",
+          "value": "M",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "crossed",
+            "by"
+          ],
+          "role": "indicator",
+          "operation": "container"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "railroad"
+          ],
+          "role": "piece",
+          "value": "COERCE",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "traffic"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "M",
+          "gloss": "1,000",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "19",
+    "direction": "down",
+    "clue_text": "Four of them are on the fiddle!",
+    "answer": "STRINGS",
+    "blog": "Barely cryptic with reference to he number of strings on a violin.",
+    "mapping": {
+      "clue_text": "Four of them are on the fiddle!",
+      "answer": "STRINGS",
+      "clue_words": [
+        "Four",
+        "of",
+        "them",
+        "are",
+        "on",
+        "the",
+        "fiddle"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Four",
+            "of",
+            "them",
+            "are",
+            "on",
+            "the",
+            "fiddle"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "18",
+    "direction": "across",
+    "clue_text": "Perhaps millions live on for ever",
+    "answer": "MAYBE",
+    "blog": "M + AY\u00a0 + BE.",
+    "mapping": {
+      "clue_text": "Perhaps millions live on for ever",
+      "answer": "MAYBE",
+      "clue_words": [
+        "Perhaps",
+        "millions",
+        "live",
+        "on",
+        "for",
+        "ever"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "Perhaps",
+            "millions",
+            "live",
+            "on",
+            "for",
+            "ever"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "AY",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "BE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "20",
+    "direction": "across",
+    "clue_text": "Fewer than 500 try backing unlikely winner",
+    "answer": "UNDERDOG",
+    "blog": "UNDER D + GO backwards.",
+    "mapping": {
+      "clue_text": "Fewer than 500 try backing unlikely winner",
+      "answer": "UNDERDOG",
+      "clue_words": [
+        "Fewer",
+        "than",
+        "try",
+        "backing",
+        "unlikely",
+        "winner"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "Fewer",
+            "than",
+            "try",
+            "backing",
+            "unlikely",
+            "winner"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "UNDER",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "D",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "GO",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29500",
+    "clue_number": "15",
+    "direction": "across",
+    "clue_text": "Picture old servant taking Conservative to port",
+    "answer": "FRESCO",
+    "blog": "O (old), SERF (servant), containing C (conservative), all reversed",
+    "mapping": {
+      "clue_text": "Picture old servant taking Conservative to port",
+      "answer": "FRESCO",
+      "clue_words": [
+        "Picture",
+        "old",
+        "servant",
+        "taking",
+        "Conservative",
+        "to",
+        "port"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Picture"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "old"
+          ],
+          "role": "piece",
+          "value": "O",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "servant"
+          ],
+          "role": "piece",
+          "value": "SERF",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "taking"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "Conservative"
+          ],
+          "role": "piece",
+          "value": "C",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            7
+          ],
+          "words": [
+            "to",
+            "port"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29523",
+    "clue_number": "17",
+    "direction": "across",
+    "clue_text": "Driving icy and slippery, stopped by motorway",
+    "answer": "DYNAMIC",
+    "blog": "M(otorway), in *(ICY AND)",
+    "mapping": {
+      "clue_text": "Driving icy and slippery, stopped by motorway",
+      "answer": "DYNAMIC",
+      "clue_words": [
+        "Driving",
+        "icy",
+        "and",
+        "slippery",
+        "stopped",
+        "by",
+        "motorway"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Driving"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "icy",
+            "and"
+          ],
+          "role": "indicator",
+          "operation": "container"
+        },
+        {
+          "span": [
+            3,
+            6
+          ],
+          "words": [
+            "slippery",
+            "stopped",
+            "by"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "motorway"
+          ],
+          "role": "piece",
+          "value": "M",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29524",
+    "clue_number": "15",
+    "direction": "down",
+    "clue_text": "Part of cell or gene all mutated",
+    "answer": "ORGANELLE",
+    "blog": "anagram of OR,GENE,ALL",
+    "mapping": {
+      "clue_text": "Part of cell or gene all mutated",
+      "answer": "ORGANELLE",
+      "clue_words": [
+        "Part",
+        "of",
+        "cell",
+        "or",
+        "gene",
+        "all",
+        "mutated"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Part",
+            "of",
+            "cell",
+            "or",
+            "gene",
+            "all",
+            "mutated"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "OR",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "GENE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ALL",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29506",
+    "clue_number": "19",
+    "direction": "across",
+    "clue_text": "Able to figure out true name",
+    "answer": "NUMERATE",
+    "blog": "An anagram (out) of TRUE NAME",
+    "mapping": {
+      "clue_text": "Able to figure out true name",
+      "answer": "NUMERATE",
+      "clue_words": [
+        "Able",
+        "to",
+        "figure",
+        "out",
+        "true",
+        "name"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "Able",
+            "to",
+            "figure"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "out"
+          ],
+          "role": "indicator",
+          "operation": "anagram"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "true",
+            "name"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "TRUE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "NAME",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29505",
+    "clue_number": "23",
+    "direction": "across",
+    "clue_text": "America getting behind baseball\u2019s foremost coach?",
+    "answer": "BUS",
+    "blog": "B(aseball) + US, America.",
+    "mapping": {
+      "clue_text": "America getting behind baseball\u2019s foremost coach?",
+      "answer": "BUS",
+      "clue_words": [
+        "America",
+        "getting",
+        "behind",
+        "baseball",
+        "s",
+        "foremost",
+        "coach"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "America",
+            "getting",
+            "behind"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "baseball"
+          ],
+          "role": "piece",
+          "value": "B",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            7
+          ],
+          "words": [
+            "s",
+            "foremost",
+            "coach"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "US",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29517",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Artist and author\u2019s personal pronouns \u2014 start to finish",
+    "answer": "EMINEM",
+    "blog": "MINE and ME, our setter\u2019s personal pronouns, with the initial M sent to the end. Eminem , m\u2019lud, is a popular exponent of music known as a \u201cRapper.\u201d Very popular, not necessarily all that musical, but he is extremely successful. So much so that even I had heard of him.",
+    "mapping": {
+      "clue_text": "Artist and author\u2019s personal pronouns \u2014 start to finish",
+      "answer": "EMINEM",
+      "clue_words": [
+        "Artist",
+        "and",
+        "author",
+        "s",
+        "personal",
+        "pronouns",
+        "start",
+        "to",
+        "finish"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            9
+          ],
+          "words": [
+            "Artist",
+            "and",
+            "author",
+            "s",
+            "personal",
+            "pronouns",
+            "start",
+            "to",
+            "finish"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "MINE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ME",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "V",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29507",
+    "clue_number": "16",
+    "direction": "down",
+    "clue_text": "Stable worker\u2019s irritable having cut pony\u2019s hair",
+    "answer": "LIVERYMAN",
+    "blog": "LIVERY (irritable) + MANe (pony\u2019s hair) missing its last (cut).",
+    "mapping": {
+      "clue_text": "Stable worker\u2019s irritable having cut pony\u2019s hair",
+      "answer": "LIVERYMAN",
+      "clue_words": [
+        "Stable",
+        "worker",
+        "s",
+        "irritable",
+        "having",
+        "cut",
+        "pony",
+        "s",
+        "hair"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "Stable",
+            "worker",
+            "s"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "irritable"
+          ],
+          "role": "piece",
+          "value": "LIVERY",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            9
+          ],
+          "words": [
+            "having",
+            "cut",
+            "pony",
+            "s",
+            "hair"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "MAN",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29524",
+    "clue_number": "",
+    "direction": "across",
+    "clue_text": "Even stories must embrace fine art",
+    "answer": "STILLLIFES",
+    "blog": "STILL (even) then LIES (stories) containing F (fine)",
+    "mapping": {
+      "clue_text": "Even stories must embrace fine art",
+      "answer": "STILLLIFES",
+      "clue_words": [
+        "Even",
+        "stories",
+        "must",
+        "embrace",
+        "fine",
+        "art"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Even"
+          ],
+          "role": "piece",
+          "value": "STILL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "stories"
+          ],
+          "role": "piece",
+          "value": "LIES",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "must",
+            "embrace"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "fine"
+          ],
+          "role": "piece",
+          "value": "F",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "art"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29530",
+    "clue_number": "15",
+    "direction": "across",
+    "clue_text": "Lie about uranium remnants",
+    "answer": "RESIDUE",
+    "blog": "RESIDE stands in for lie, and encloses U for uranium.",
+    "mapping": {
+      "clue_text": "Lie about uranium remnants",
+      "answer": "RESIDUE",
+      "clue_words": [
+        "Lie",
+        "about",
+        "uranium",
+        "remnants"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Lie",
+            "about",
+            "uranium",
+            "remnants"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "RESIDE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "U",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29530",
+    "clue_number": "4",
+    "direction": "across",
+    "clue_text": "Haul iron spades into street fight",
+    "answer": "SLUGFEST",
+    "blog": "Haul is LUG, and iron is FE (Fe for purists). Place both into ST[reet]. \u201cA match or struggle, characterized by heavy blows.\u201d",
+    "mapping": {
+      "clue_text": "Haul iron spades into street fight",
+      "answer": "SLUGFEST",
+      "clue_words": [
+        "Haul",
+        "iron",
+        "spades",
+        "into",
+        "street",
+        "fight"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Haul",
+            "iron",
+            "spades",
+            "into"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "street"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'reet'"
+          ]
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "fight"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "H",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "LUG",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "FE",
+          "gloss": "Fe for purists",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "P",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ST",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29501",
+    "clue_number": "3",
+    "direction": "down",
+    "clue_text": "Chest expander\u2019s broken rim had gap",
+    "answer": "DIAPHRAGM",
+    "blog": "anagram of (broken) RIM HAD GAP",
+    "mapping": {
+      "clue_text": "Chest expander\u2019s broken rim had gap",
+      "answer": "DIAPHRAGM",
+      "clue_words": [
+        "Chest",
+        "expander",
+        "s",
+        "broken",
+        "rim",
+        "had",
+        "gap"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Chest",
+            "expander",
+            "s",
+            "broken",
+            "rim",
+            "had",
+            "gap"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "RIM",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "HAD",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "GAP",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29528",
+    "clue_number": "4",
+    "direction": "down",
+    "clue_text": "Canines still within limits to explore the ground",
+    "answer": "EYETEETH",
+    "blog": "YET (still) contained by [within] E \u2041 E (limits to e xplor e ), then anagram [ground] of THE . As in \u201cI\u2019d give my eyeteeth for something or other\u201d.",
+    "mapping": {
+      "clue_text": "Canines still within limits to explore the ground",
+      "answer": "EYETEETH",
+      "clue_words": [
+        "Canines",
+        "still",
+        "within",
+        "limits",
+        "to",
+        "explore",
+        "the",
+        "ground"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Canines"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "still"
+          ],
+          "role": "piece",
+          "value": "YET",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "within"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'within'"
+          ]
+        },
+        {
+          "span": [
+            3,
+            7
+          ],
+          "words": [
+            "limits",
+            "to",
+            "explore",
+            "the"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "ground"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'ground'"
+          ]
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": "limits to e xplor e ",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "THE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "23",
+    "direction": "down",
+    "clue_text": "More distant royal once found beneath here in Versailles",
+    "answer": "ICIER",
+    "blog": "ICI (\u2018here\u2019 in Versailles), ER (royal once)",
+    "mapping": {
+      "clue_text": "More distant royal once found beneath here in Versailles",
+      "answer": "ICIER",
+      "clue_words": [
+        "More",
+        "distant",
+        "royal",
+        "once",
+        "found",
+        "beneath",
+        "here",
+        "in",
+        "Versailles"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "More",
+            "distant"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "royal",
+            "once"
+          ],
+          "role": "piece",
+          "value": "ER",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "found",
+            "beneath"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            6,
+            9
+          ],
+          "words": [
+            "here",
+            "in",
+            "Versailles"
+          ],
+          "role": "piece",
+          "value": "ICI",
+          "mechanism": "synonym"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "16",
+    "direction": "down",
+    "clue_text": "Instantly appreciate formal headwear when out of work",
+    "answer": "LIKETHAT",
+    "blog": "LIKE (appreciate), T {op} HAT (formal headwear) [when out of work \u2013 op ]",
+    "mapping": {
+      "clue_text": "Instantly appreciate formal headwear when out of work",
+      "answer": "LIKETHAT",
+      "clue_words": [
+        "Instantly",
+        "appreciate",
+        "formal",
+        "headwear",
+        "when",
+        "out",
+        "of",
+        "work"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Instantly"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "appreciate"
+          ],
+          "role": "piece",
+          "value": "LIKE",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "formal",
+            "headwear"
+          ],
+          "role": "piece",
+          "value": "HAT",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            8
+          ],
+          "words": [
+            "when",
+            "out",
+            "of",
+            "work"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29523",
+    "clue_number": "10",
+    "direction": "across",
+    "clue_text": "Does my pun put out Lemony Snicket?",
+    "answer": "PSEUDONYM",
+    "blog": "*(DOES MY PUN). Apparently the nho Mr Snicket is the pseudonym of an American novelist. I might have gone for George Orwell myself, or George Eliot.. or Robert Galbraith, anyone?",
+    "mapping": {
+      "clue_text": "Does my pun put out Lemony Snicket?",
+      "answer": "PSEUDONYM",
+      "clue_words": [
+        "Does",
+        "my",
+        "pun",
+        "put",
+        "out",
+        "Lemony",
+        "Snicket"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Does",
+            "my",
+            "pun",
+            "put",
+            "out",
+            "Lemony",
+            "Snicket"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "DOES",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "MY",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "PUN",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "O",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "18",
+    "direction": "down",
+    "clue_text": "Where you shouldn\u2019t pull with difficulty?",
+    "answer": "ATAPUSH",
+    "blog": "A cryptic hint precedes the literal",
+    "mapping": {
+      "clue_text": "Where you shouldn\u2019t pull with difficulty?",
+      "answer": "ATAPUSH",
+      "clue_words": [
+        "Where",
+        "you",
+        "shouldn",
+        "t",
+        "pull",
+        "with",
+        "difficulty"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Where",
+            "you",
+            "shouldn",
+            "t",
+            "pull",
+            "with",
+            "difficulty"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29530",
+    "clue_number": "19",
+    "direction": "across",
+    "clue_text": "Fare from Scotland has bags regularly going astray",
+    "answer": "HAGGIS",
+    "blog": "I\u2019ll do the wordplay so you don\u2019t have to. It\u2019s HAS taking in a mix (astray) of the odd letters of GoInG. Cue debate about indirect anagrams, but did you honestly think it was going to be anything else?",
+    "mapping": {
+      "clue_text": "Fare from Scotland has bags regularly going astray",
+      "answer": "HAGGIS",
+      "clue_words": [
+        "Fare",
+        "from",
+        "Scotland",
+        "has",
+        "bags",
+        "regularly",
+        "going",
+        "astray"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Fare",
+            "from",
+            "Scotland",
+            "has",
+            "bags",
+            "regularly",
+            "going",
+            "astray"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "HAS",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "G",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29515",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Page summing up superfluous content in article",
+    "answer": "PADDING",
+    "blog": "P + ADDING.",
+    "mapping": {
+      "clue_text": "Page summing up superfluous content in article",
+      "answer": "PADDING",
+      "clue_words": [
+        "Page",
+        "summing",
+        "up",
+        "superfluous",
+        "content",
+        "in",
+        "article"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Page",
+            "summing",
+            "up",
+            "superfluous",
+            "content",
+            "in",
+            "article"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "P",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ADDING",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29516",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Respect part in audition experiencing continuing success",
+    "answer": "ONAROLL",
+    "blog": "Aural wordplay [in audition]: ON A / \u201chonour\u201d (respect) + ROLL / \u201crole\u201d (part),",
+    "mapping": {
+      "clue_text": "Respect part in audition experiencing continuing success",
+      "answer": "ONAROLL",
+      "clue_words": [
+        "Respect",
+        "part",
+        "in",
+        "audition",
+        "experiencing",
+        "continuing",
+        "success"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Respect",
+            "part"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "in",
+            "audition"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'in audition'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            7
+          ],
+          "words": [
+            "experiencing",
+            "continuing",
+            "success"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ON",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ROLL",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29500",
+    "clue_number": "25",
+    "direction": "across",
+    "clue_text": "Bones gathered by Jack visiting exposed basin",
+    "answer": "METATARSI",
+    "blog": "MET (gathered) then TAR (Jack) inside the interior letters of bASIn",
+    "mapping": {
+      "clue_text": "Bones gathered by Jack visiting exposed basin",
+      "answer": "METATARSI",
+      "clue_words": [
+        "Bones",
+        "gathered",
+        "by",
+        "Jack",
+        "visiting",
+        "exposed",
+        "basin"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Bones"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "gathered"
+          ],
+          "role": "piece",
+          "value": "MET",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "by"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "Jack"
+          ],
+          "role": "piece",
+          "value": "TAR",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            7
+          ],
+          "words": [
+            "visiting",
+            "exposed",
+            "basin"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ASI",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29515",
+    "clue_number": "13",
+    "direction": "down",
+    "clue_text": "Perfect study site millions joined",
+    "answer": "UNIMPAIRED",
+    "blog": "UNI + M + PAIRED.",
+    "mapping": {
+      "clue_text": "Perfect study site millions joined",
+      "answer": "UNIMPAIRED",
+      "clue_words": [
+        "Perfect",
+        "study",
+        "site",
+        "millions",
+        "joined"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            5
+          ],
+          "words": [
+            "Perfect",
+            "study",
+            "site",
+            "millions",
+            "joined"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "UNI",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "PAIRED",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29517",
+    "clue_number": "3",
+    "direction": "down",
+    "clue_text": "Smart person using pivoted device to split two hundred timber pieces",
+    "answer": "CLEVERCLOGS",
+    "blog": "LEVER, a pivoted device, in between CC, two hundred, + LOGS, pieces of timber.",
+    "mapping": {
+      "clue_text": "Smart person using pivoted device to split two hundred timber pieces",
+      "answer": "CLEVERCLOGS",
+      "clue_words": [
+        "Smart",
+        "person",
+        "using",
+        "pivoted",
+        "device",
+        "to",
+        "split",
+        "two",
+        "hundred",
+        "timber",
+        "pieces"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            11
+          ],
+          "words": [
+            "Smart",
+            "person",
+            "using",
+            "pivoted",
+            "device",
+            "to",
+            "split",
+            "two",
+            "hundred",
+            "timber",
+            "pieces"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "LEVER",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "CC",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "LOGS",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29507",
+    "clue_number": "26",
+    "direction": "across",
+    "clue_text": "Clear fluid left larva without nitrogen",
+    "answer": "LYMPH",
+    "blog": "L (left) + nYMPH (larva) after deleting (without) \u2018n\u2019 (nitrogen).",
+    "mapping": {
+      "clue_text": "Clear fluid left larva without nitrogen",
+      "answer": "LYMPH",
+      "clue_words": [
+        "Clear",
+        "fluid",
+        "left",
+        "larva",
+        "without",
+        "nitrogen"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Clear",
+            "fluid"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "left"
+          ],
+          "role": "piece",
+          "value": "L",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "larva"
+          ],
+          "role": "piece",
+          "value": "YMPH",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "without",
+            "nitrogen"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "5",
+    "direction": "down",
+    "clue_text": "Cash for one slicing tea bread",
+    "answer": "CHAPATI",
+    "blog": "PAT (Cash, for one \u2013 Australian tennis player ) contained by [slicing] CHA~I (tea)",
+    "mapping": {
+      "clue_text": "Cash for one slicing tea bread",
+      "answer": "CHAPATI",
+      "clue_words": [
+        "Cash",
+        "for",
+        "one",
+        "slicing",
+        "tea",
+        "bread"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "Cash",
+            "for",
+            "one"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "slicing"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'slicing'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "tea"
+          ],
+          "role": "piece",
+          "value": "I",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "bread"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "PAT",
+          "gloss": "Cash, for one \u2013 Australian tennis player ",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "CHA",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "11",
+    "direction": "across",
+    "clue_text": "City kept changing sides before international",
+    "answer": "DELHI",
+    "blog": "HELD (kept} changing sides becomes DELH , then I (international)",
+    "mapping": {
+      "clue_text": "City kept changing sides before international",
+      "answer": "DELHI",
+      "clue_words": [
+        "City",
+        "kept",
+        "changing",
+        "sides",
+        "before",
+        "international"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "City",
+            "kept",
+            "changing",
+            "sides",
+            "before",
+            "international"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "HELD",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29528",
+    "clue_number": "11",
+    "direction": "across",
+    "clue_text": "Writer very naughty boy involved in Fourth Estate in France?",
+    "answer": "CHATEAUBRIAND",
+    "blog": "BRIAN (very naughty boy) contained by [involved in] CHAUTEAU \u2041 D (Fourth Estate in France). As opposed to Ch\u00e2teau A, B or C. I think the film Monty Python\u2019s Life of Brian was referenced in a clue here very recently.",
+    "mapping": {
+      "clue_text": "Writer very naughty boy involved in Fourth Estate in France?",
+      "answer": "CHATEAUBRIAND",
+      "clue_words": [
+        "Writer",
+        "very",
+        "naughty",
+        "boy",
+        "involved",
+        "in",
+        "Fourth",
+        "Estate",
+        "in",
+        "France"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Writer"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            4
+          ],
+          "words": [
+            "very",
+            "naughty",
+            "boy"
+          ],
+          "role": "piece",
+          "value": "BRIAN",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "involved",
+            "in"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'involved in'"
+          ]
+        },
+        {
+          "span": [
+            6,
+            10
+          ],
+          "words": [
+            "Fourth",
+            "Estate",
+            "in",
+            "France"
+          ],
+          "role": "piece",
+          "value": "D",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "CHAUTEAU",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "P",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "L",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29522",
+    "clue_number": "9",
+    "direction": "across",
+    "clue_text": "Revolutionary turned, checking on cause of explosion",
+    "answer": "DETONATOR",
+    "blog": "ROTA \u2041 TED (turned) reversed [revolutionary] containing [checking] ON",
+    "mapping": {
+      "clue_text": "Revolutionary turned, checking on cause of explosion",
+      "answer": "DETONATOR",
+      "clue_words": [
+        "Revolutionary",
+        "turned",
+        "checking",
+        "on",
+        "cause",
+        "of",
+        "explosion"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Revolutionary"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'revolutionary'"
+          ]
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "turned"
+          ],
+          "role": "piece",
+          "value": "TED",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "checking"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'checking'"
+          ]
+        },
+        {
+          "span": [
+            3,
+            7
+          ],
+          "words": [
+            "on",
+            "cause",
+            "of",
+            "explosion"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ROTA",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ON",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "1",
+    "direction": "across",
+    "clue_text": "State agent caught you \u2014 beginning of life in pen",
+    "answer": "REPUBLIC",
+    "blog": "REP (agent), aural wordplay [caught] U / \u201cyou\u201d, then L {ife} [beginning of\u2026] contained by [in] B~IC (pen)",
+    "mapping": {
+      "clue_text": "State agent caught you \u2014 beginning of life in pen",
+      "answer": "REPUBLIC",
+      "clue_words": [
+        "State",
+        "agent",
+        "caught",
+        "you",
+        "beginning",
+        "of",
+        "life",
+        "in",
+        "pen"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "State"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "agent"
+          ],
+          "role": "piece",
+          "value": "REP",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "caught"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'caught'"
+          ]
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "you"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "beginning",
+            "of"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'beginning of\u2026'"
+          ]
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "life"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "in"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'in'"
+          ]
+        },
+        {
+          "span": [
+            8,
+            9
+          ],
+          "words": [
+            "pen"
+          ],
+          "role": "piece",
+          "value": "IC",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "U",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "L",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "1",
+    "direction": "across",
+    "clue_text": "Argue with Republican approach",
+    "answer": "WRANGLE",
+    "blog": "W R ANGLE",
+    "mapping": {
+      "clue_text": "Argue with Republican approach",
+      "answer": "WRANGLE",
+      "clue_words": [
+        "Argue",
+        "with",
+        "Republican",
+        "approach"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Argue",
+            "with",
+            "Republican",
+            "approach"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "W",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ANGLE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29505",
+    "clue_number": "24",
+    "direction": "across",
+    "clue_text": "Setter cared about proprietary information",
+    "answer": "TRADESECRET",
+    "blog": "*(SETTER CARED).",
+    "mapping": {
+      "clue_text": "Setter cared about proprietary information",
+      "answer": "TRADESECRET",
+      "clue_words": [
+        "Setter",
+        "cared",
+        "about",
+        "proprietary",
+        "information"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            5
+          ],
+          "words": [
+            "Setter",
+            "cared",
+            "about",
+            "proprietary",
+            "information"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "SETTER",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "CARED",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29500",
+    "clue_number": "19",
+    "direction": "across",
+    "clue_text": "Duck spied running across interior of nests",
+    "answer": "SIDESTEP",
+    "blog": "anagram of SPIED containing the interior letters of nESTs",
+    "mapping": {
+      "clue_text": "Duck spied running across interior of nests",
+      "answer": "SIDESTEP",
+      "clue_words": [
+        "Duck",
+        "spied",
+        "running",
+        "across",
+        "interior",
+        "of",
+        "nests"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Duck",
+            "spied",
+            "running",
+            "across",
+            "interior",
+            "of",
+            "nests"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "SPIED",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "EST",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "12",
+    "direction": "across",
+    "clue_text": "Go into the Spanish sort of institute",
+    "answer": "ESTABLISH",
+    "blog": "STAB (go \u2013 shot, try ) contained by [into] E~L (\u2018the\u2019 Spanish), -ISH (sort of)",
+    "mapping": {
+      "clue_text": "Go into the Spanish sort of institute",
+      "answer": "ESTABLISH",
+      "clue_words": [
+        "Go",
+        "into",
+        "the",
+        "Spanish",
+        "sort",
+        "of",
+        "institute"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Go"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "into"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'into'"
+          ]
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "the",
+            "Spanish"
+          ],
+          "role": "piece",
+          "value": "L",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "sort",
+            "of"
+          ],
+          "role": "piece",
+          "value": "ISH",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "institute"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "STAB",
+          "gloss": "go \u2013 shot, try ",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29530",
+    "clue_number": "11",
+    "direction": "across",
+    "clue_text": "Blade whirling either way",
+    "answer": "ROTOR",
+    "blog": "Either way indicates you\u2019re looking for a palindrome.",
+    "mapping": {
+      "clue_text": "Blade whirling either way",
+      "answer": "ROTOR",
+      "clue_words": [
+        "Blade",
+        "whirling",
+        "either",
+        "way"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Blade",
+            "whirling",
+            "either",
+            "way"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "1",
+    "direction": "down",
+    "clue_text": "One signalling game is up?",
+    "answer": "WHISTLEBLOWER",
+    "blog": "a cryptic definition with two meanings, depending on the sense of \u2018game\u2019 (sporting event or undertaking)",
+    "mapping": {
+      "clue_text": "One signalling game is up?",
+      "answer": "WHISTLEBLOWER",
+      "clue_words": [
+        "One",
+        "signalling",
+        "game",
+        "is",
+        "up"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            5
+          ],
+          "words": [
+            "One",
+            "signalling",
+            "game",
+            "is",
+            "up"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29522",
+    "clue_number": "16",
+    "direction": "down",
+    "clue_text": "I\u2019m sorry cast made porn",
+    "answer": "PARDONME",
+    "blog": "Anagram [cast] of MADE PORN",
+    "mapping": {
+      "clue_text": "I\u2019m sorry cast made porn",
+      "answer": "PARDONME",
+      "clue_words": [
+        "I",
+        "m",
+        "sorry",
+        "cast",
+        "made",
+        "porn"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            3
+          ],
+          "words": [
+            "I",
+            "m",
+            "sorry"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "cast"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'cast'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "made",
+            "porn"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "MADE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "PORN",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29511",
+    "clue_number": "9",
+    "direction": "across",
+    "clue_text": "Bolt stand with three legs after first bit has fallen off",
+    "answer": "RIVET",
+    "blog": "Yes, I thought RIPOD might be the answer before my hand slapped my forehead and the rather more obvious answer presented itself \u2013 TRIVET, without its first letter.",
+    "mapping": {
+      "clue_text": "Bolt stand with three legs after first bit has fallen off",
+      "answer": "RIVET",
+      "clue_words": [
+        "Bolt",
+        "stand",
+        "with",
+        "three",
+        "legs",
+        "after",
+        "first",
+        "bit",
+        "has",
+        "fallen",
+        "off"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            11
+          ],
+          "words": [
+            "Bolt",
+            "stand",
+            "with",
+            "three",
+            "legs",
+            "after",
+            "first",
+            "bit",
+            "has",
+            "fallen",
+            "off"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "Y",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "RIPOD",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "TRIVET",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29512",
+    "clue_number": "10",
+    "direction": "across",
+    "clue_text": "Came across entertaining American lounge singer",
+    "answer": "MEATLOAF",
+    "blog": "MET (came across), containing A (American), then LOAF (lounge). Clever surface.",
+    "mapping": {
+      "clue_text": "Came across entertaining American lounge singer",
+      "answer": "MEATLOAF",
+      "clue_words": [
+        "Came",
+        "across",
+        "entertaining",
+        "American",
+        "lounge",
+        "singer"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Came",
+            "across"
+          ],
+          "role": "piece",
+          "value": "MET",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "entertaining"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "American"
+          ],
+          "role": "piece",
+          "value": "A",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "lounge"
+          ],
+          "role": "piece",
+          "value": "LOAF",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "singer"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29506",
+    "clue_number": "15",
+    "direction": "across",
+    "clue_text": "Arthur Brown keeps material in check",
+    "answer": "TARTAN",
+    "blog": "ART short for Arthur kept in by TAN for brown. Check patterned material.",
+    "mapping": {
+      "clue_text": "Arthur Brown keeps material in check",
+      "answer": "TARTAN",
+      "clue_words": [
+        "Arthur",
+        "Brown",
+        "keeps",
+        "material",
+        "in",
+        "check"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "Arthur",
+            "Brown",
+            "keeps",
+            "material",
+            "in",
+            "check"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ART",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "TAN",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29528",
+    "clue_number": "23",
+    "direction": "down",
+    "clue_text": "Crowd in road earth mover crosses",
+    "answer": "HORDE",
+    "blog": "HO \u2041 E (earth mover) contains [crosses] RD (road)",
+    "mapping": {
+      "clue_text": "Crowd in road earth mover crosses",
+      "answer": "HORDE",
+      "clue_words": [
+        "Crowd",
+        "in",
+        "road",
+        "earth",
+        "mover",
+        "crosses"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Crowd",
+            "in"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "road"
+          ],
+          "role": "piece",
+          "value": "RD",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            5
+          ],
+          "words": [
+            "earth",
+            "mover"
+          ],
+          "role": "piece",
+          "value": "E",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "crosses"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'crosses'"
+          ]
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "HO",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "18",
+    "direction": "down",
+    "clue_text": "Relative with really good degree",
+    "answer": "GRANDMA",
+    "blog": "GRAND (really good) + MA, a master of arts degree.",
+    "mapping": {
+      "clue_text": "Relative with really good degree",
+      "answer": "GRANDMA",
+      "clue_words": [
+        "Relative",
+        "with",
+        "really",
+        "good",
+        "degree"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Relative",
+            "with"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "really",
+            "good"
+          ],
+          "role": "piece",
+          "value": "GRAND",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "degree"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "MA",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29511",
+    "clue_number": "24",
+    "direction": "down",
+    "clue_text": "Founder of religious sect recalled you once entertaining theologian",
+    "answer": "EDDY",
+    "blog": "YE is what we once used for \u201cyou\u201d. Reverse that and insert DD for our Doctor of Divinity theologian. Sect sounds quite pejorative but in the dictionaries is simply defined as a subdivision of one of the main religious divisions of mankind. I don\u2019t know how many this will be a NHO for but Mary Baker EDDY was well known to me as my grandmother subscribed to the Church of Christ, Scientist of which Mary Baker Eddy was the founder. I will let readers read and make up their own minds but I don\u2019t think it would be unfair to say that \u201cScientist\u201d is something of a misnomer. Whatever you think of their beliefs, the success and spread of the \u201csubdivision\u201d after the end of the 19th century was quite notable.",
+    "mapping": {
+      "clue_text": "Founder of religious sect recalled you once entertaining theologian",
+      "answer": "EDDY",
+      "clue_words": [
+        "Founder",
+        "of",
+        "religious",
+        "sect",
+        "recalled",
+        "you",
+        "once",
+        "entertaining",
+        "theologian"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            9
+          ],
+          "words": [
+            "Founder",
+            "of",
+            "religious",
+            "sect",
+            "recalled",
+            "you",
+            "once",
+            "entertaining",
+            "theologian"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "YE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "DD",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "D",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "D",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "NHO",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "EDDY",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "W",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "13",
+    "direction": "across",
+    "clue_text": "Bone\u2019s depleted cell area left in clamp",
+    "answer": "CLAVICLE",
+    "blog": "C[el]L + A\u00a0 + VIC(L)E.",
+    "mapping": {
+      "clue_text": "Bone\u2019s depleted cell area left in clamp",
+      "answer": "CLAVICLE",
+      "clue_words": [
+        "Bone",
+        "s",
+        "depleted",
+        "cell",
+        "area",
+        "left",
+        "in",
+        "clamp"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Bone",
+            "s"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "depleted"
+          ],
+          "role": "piece",
+          "value": "VIC",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "cell"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'el'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            8
+          ],
+          "words": [
+            "area",
+            "left",
+            "in",
+            "clamp"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "L",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "6",
+    "direction": "down",
+    "clue_text": "Beer guzzling job for true believer",
+    "answer": "APOSTLE",
+    "blog": "A(POST)LE, a chestnut for sure.",
+    "mapping": {
+      "clue_text": "Beer guzzling job for true believer",
+      "answer": "APOSTLE",
+      "clue_words": [
+        "Beer",
+        "guzzling",
+        "job",
+        "for",
+        "true",
+        "believer"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            6
+          ],
+          "words": [
+            "Beer",
+            "guzzling",
+            "job",
+            "for",
+            "true",
+            "believer"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": "POST",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "LE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29528",
+    "clue_number": "28",
+    "direction": "across",
+    "clue_text": "Provoked Scots hooligan was in van around east",
+    "answer": "NEEDLED",
+    "blog": "NE \u2041 D (Scots hooligan) + LED (was in van) containing [around] E (east)",
+    "mapping": {
+      "clue_text": "Provoked Scots hooligan was in van around east",
+      "answer": "NEEDLED",
+      "clue_words": [
+        "Provoked",
+        "Scots",
+        "hooligan",
+        "was",
+        "in",
+        "van",
+        "around",
+        "east"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Provoked"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "Scots",
+            "hooligan"
+          ],
+          "role": "piece",
+          "value": "D",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            6
+          ],
+          "words": [
+            "was",
+            "in",
+            "van"
+          ],
+          "role": "piece",
+          "value": "LED",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "around"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'around'"
+          ]
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "east"
+          ],
+          "role": "piece",
+          "value": "E",
+          "mechanism": "abbreviation"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "NE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29525",
+    "clue_number": "6",
+    "direction": "down",
+    "clue_text": "Worry about pound cake filling",
+    "answer": "GANACHE",
+    "blog": "NAG reversed + ACHE (pound)",
+    "mapping": {
+      "clue_text": "Worry about pound cake filling",
+      "answer": "GANACHE",
+      "clue_words": [
+        "Worry",
+        "about",
+        "pound",
+        "cake",
+        "filling"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Worry",
+            "about"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "pound"
+          ],
+          "role": "piece",
+          "value": "ACHE",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            5
+          ],
+          "words": [
+            "cake",
+            "filling"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "NAG",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Social cycling doesn\u2019t involve national sports team",
+    "answer": "ALLBLACKS",
+    "blog": "BALL (social) cycling becomes ALL / B , then LACKS (doesn\u2019t involve)",
+    "mapping": {
+      "clue_text": "Social cycling doesn\u2019t involve national sports team",
+      "answer": "ALLBLACKS",
+      "clue_words": [
+        "Social",
+        "cycling",
+        "doesn",
+        "t",
+        "involve",
+        "national",
+        "sports",
+        "team"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Social"
+          ],
+          "role": "piece",
+          "value": "BALL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "cycling"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            5
+          ],
+          "words": [
+            "doesn",
+            "t",
+            "involve"
+          ],
+          "role": "piece",
+          "value": "LACKS",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            5,
+            8
+          ],
+          "words": [
+            "national",
+            "sports",
+            "team"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ALL",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29509",
+    "clue_number": "27",
+    "direction": "across",
+    "clue_text": "Agent on vacation was resting around Black Sea resort",
+    "answer": "YALTA",
+    "blog": "reversal of A~T LAY; best known for conference held in Feb 1945 which sealed fate of parts of Europe",
+    "mapping": {
+      "clue_text": "Agent on vacation was resting around Black Sea resort",
+      "answer": "YALTA",
+      "clue_words": [
+        "Agent",
+        "on",
+        "vacation",
+        "was",
+        "resting",
+        "around",
+        "Black",
+        "Sea",
+        "resort"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            9
+          ],
+          "words": [
+            "Agent",
+            "on",
+            "vacation",
+            "was",
+            "resting",
+            "around",
+            "Black",
+            "Sea",
+            "resort"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "LAY",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "F",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29500",
+    "clue_number": "1",
+    "direction": "across",
+    "clue_text": "Group hiding rum around racing enclosure",
+    "answer": "PADDOCK",
+    "blog": "PACK (group) containing ODD (rum) reversed",
+    "mapping": {
+      "clue_text": "Group hiding rum around racing enclosure",
+      "answer": "PADDOCK",
+      "clue_words": [
+        "Group",
+        "hiding",
+        "rum",
+        "around",
+        "racing",
+        "enclosure"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Group"
+          ],
+          "role": "piece",
+          "value": "PACK",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "hiding"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "rum"
+          ],
+          "role": "piece",
+          "value": "ODD",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            6
+          ],
+          "words": [
+            "around",
+            "racing",
+            "enclosure"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29521",
+    "clue_number": "15",
+    "direction": "across",
+    "clue_text": "British pulling out of engagement with European PM",
+    "answer": "ATTLEE",
+    "blog": "b ATTLE E",
+    "mapping": {
+      "clue_text": "British pulling out of engagement with European PM",
+      "answer": "ATTLEE",
+      "clue_words": [
+        "British",
+        "pulling",
+        "out",
+        "of",
+        "engagement",
+        "with",
+        "European",
+        "PM"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "British",
+            "pulling",
+            "out",
+            "of",
+            "engagement",
+            "with",
+            "European",
+            "PM"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ATTLE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "E",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "27",
+    "direction": "across",
+    "clue_text": "With nothing odd \u2014 in fact, surreally so?",
+    "answer": "NATURAL",
+    "blog": "One of Collins\u2019 definitions is \u201cnot supernatural or strange.\u201d So far so good, but the opposite of surreal, so I am still a bit bemused about that bit of the clue. I\u2019m thinking it could be a reference to So, the musical note, (a needle pulling thread), which I assume is a natural.. my musical knowledge is very limited. More or less confined to that Julie Andrews song in fact.",
+    "mapping": {
+      "clue_text": "With nothing odd \u2014 in fact, surreally so?",
+      "answer": "NATURAL",
+      "clue_words": [
+        "With",
+        "nothing",
+        "odd",
+        "in",
+        "fact",
+        "surreally",
+        "so"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "With",
+            "nothing",
+            "odd",
+            "in",
+            "fact",
+            "surreally",
+            "so"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "O",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "C",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "M",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "J",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "A",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29509",
+    "clue_number": "1",
+    "direction": "down",
+    "clue_text": "One desiring less herb to begin with and more sage",
+    "answer": "WISER",
+    "blog": "WIS h ER",
+    "mapping": {
+      "clue_text": "One desiring less herb to begin with and more sage",
+      "answer": "WISER",
+      "clue_words": [
+        "One",
+        "desiring",
+        "less",
+        "herb",
+        "to",
+        "begin",
+        "with",
+        "and",
+        "more",
+        "sage"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            10
+          ],
+          "words": [
+            "One",
+            "desiring",
+            "less",
+            "herb",
+            "to",
+            "begin",
+            "with",
+            "and",
+            "more",
+            "sage"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "WIS",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ER",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29512",
+    "clue_number": "25",
+    "direction": "down",
+    "clue_text": "Answer the same as before? Bother!",
+    "answer": "ADO",
+    "blog": "A (answer), DO (ditto, the same as before)",
+    "mapping": {
+      "clue_text": "Answer the same as before? Bother!",
+      "answer": "ADO",
+      "clue_words": [
+        "Answer",
+        "the",
+        "same",
+        "as",
+        "before",
+        "Bother"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Answer"
+          ],
+          "role": "piece",
+          "value": "A",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            1,
+            6
+          ],
+          "words": [
+            "the",
+            "same",
+            "as",
+            "before",
+            "Bother"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "DO",
+          "gloss": "ditto, the same as before",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29529",
+    "clue_number": "7",
+    "direction": "down",
+    "clue_text": "Tongue was hurt on hot pepper, not cold",
+    "answer": "SWAHILI",
+    "blog": "*(WAS) + (c)HILI. Slightly held up here by a lifetime of spelling it chilli.",
+    "mapping": {
+      "clue_text": "Tongue was hurt on hot pepper, not cold",
+      "answer": "SWAHILI",
+      "clue_words": [
+        "Tongue",
+        "was",
+        "hurt",
+        "on",
+        "hot",
+        "pepper",
+        "not",
+        "cold"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Tongue",
+            "was",
+            "hurt",
+            "on",
+            "hot",
+            "pepper",
+            "not",
+            "cold"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "WAS",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "HILI",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29527",
+    "clue_number": "25",
+    "direction": "across",
+    "clue_text": "Part of mosaic seen in square\u2019s setting from the east",
+    "answer": "TESSERA",
+    "blog": "Backwards hidden in [squ]ARE\u2019S SET[ting].",
+    "mapping": {
+      "clue_text": "Part of mosaic seen in square\u2019s setting from the east",
+      "answer": "TESSERA",
+      "clue_words": [
+        "Part",
+        "of",
+        "mosaic",
+        "seen",
+        "in",
+        "square",
+        "s",
+        "setting",
+        "from",
+        "the",
+        "east"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            4
+          ],
+          "words": [
+            "Part",
+            "of",
+            "mosaic",
+            "seen"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "in"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'ting'"
+          ]
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "square"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'squ'"
+          ]
+        },
+        {
+          "span": [
+            6,
+            11
+          ],
+          "words": [
+            "s",
+            "setting",
+            "from",
+            "the",
+            "east"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "B",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ARE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "S",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "SET",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29510",
+    "clue_number": "19",
+    "direction": "down",
+    "clue_text": "British playwright dismissing top writer\u2019s acting",
+    "answer": "INTERIM",
+    "blog": "{p} INTER (British playwright \u2013 Harold ) [dismissing top], I\u2019M (writer\u2019s)",
+    "mapping": {
+      "clue_text": "British playwright dismissing top writer\u2019s acting",
+      "answer": "INTERIM",
+      "clue_words": [
+        "British",
+        "playwright",
+        "dismissing",
+        "top",
+        "writer",
+        "s",
+        "acting"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "British",
+            "playwright"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "dismissing",
+            "top"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'dismissing top'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "writer",
+            "s"
+          ],
+          "role": "piece",
+          "value": "M",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "acting"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "INTER",
+          "gloss": "British playwright \u2013 Harold ",
+          "reason": "gloss not in clue"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29524",
+    "clue_number": "18",
+    "direction": "down",
+    "clue_text": "Maintain the greatest possible grip",
+    "answer": "HOLDALL",
+    "blog": "HOLD (maintain), ALL (the greatest possible)",
+    "mapping": {
+      "clue_text": "Maintain the greatest possible grip",
+      "answer": "HOLDALL",
+      "clue_words": [
+        "Maintain",
+        "the",
+        "greatest",
+        "possible",
+        "grip"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Maintain"
+          ],
+          "role": "piece",
+          "value": "HOLD",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            1,
+            4
+          ],
+          "words": [
+            "the",
+            "greatest",
+            "possible"
+          ],
+          "role": "piece",
+          "value": "ALL",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "grip"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "6",
+    "direction": "down",
+    "clue_text": "Cries, deleting one chapter, done with rewriting climax",
+    "answer": "CRESCENDO",
+    "blog": "CR {i} ES [deleting one], C (chapter), anagram [rewriting] of DONE . I\u2019m tempted to quibble over the definition but the usual dictionaries support it.",
+    "mapping": {
+      "clue_text": "Cries, deleting one chapter, done with rewriting climax",
+      "answer": "CRESCENDO",
+      "clue_words": [
+        "Cries",
+        "deleting",
+        "one",
+        "chapter",
+        "done",
+        "with",
+        "rewriting",
+        "climax"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Cries"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "deleting",
+            "one"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'deleting one'"
+          ]
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "chapter"
+          ],
+          "role": "piece",
+          "value": "C",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            4,
+            6
+          ],
+          "words": [
+            "done",
+            "with"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            6,
+            7
+          ],
+          "words": [
+            "rewriting"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'rewriting'"
+          ]
+        },
+        {
+          "span": [
+            7,
+            8
+          ],
+          "words": [
+            "climax"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "CR",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ES",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "DONE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29525",
+    "clue_number": "4",
+    "direction": "down",
+    "clue_text": "Lay gilded china before king",
+    "answer": "AMATEUR",
+    "blog": "MATE in AU (gilded china) + R",
+    "mapping": {
+      "clue_text": "Lay gilded china before king",
+      "answer": "AMATEUR",
+      "clue_words": [
+        "Lay",
+        "gilded",
+        "china",
+        "before",
+        "king"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Lay"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "gilded",
+            "china"
+          ],
+          "role": "piece",
+          "value": "AU",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            5
+          ],
+          "words": [
+            "before",
+            "king"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "MATE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "R",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29522",
+    "clue_number": "19",
+    "direction": "down",
+    "clue_text": "Self-satisfied delight, finishing early run",
+    "answer": "SMUGGLE",
+    "blog": "SMUG (self-satisfied) GLE {e} (delight) [finishing early]",
+    "mapping": {
+      "clue_text": "Self-satisfied delight, finishing early run",
+      "answer": "SMUGGLE",
+      "clue_words": [
+        "Self",
+        "satisfied",
+        "delight",
+        "finishing",
+        "early",
+        "run"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Self",
+            "satisfied"
+          ],
+          "role": "piece",
+          "value": "SMUG",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "delight"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            5
+          ],
+          "words": [
+            "finishing",
+            "early"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'finishing early'"
+          ]
+        },
+        {
+          "span": [
+            5,
+            6
+          ],
+          "words": [
+            "run"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "GLE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29504",
+    "clue_number": "21",
+    "direction": "across",
+    "clue_text": "Expert meeting crude dancing farmer?",
+    "answer": "PRODUCER",
+    "blog": "PRO (expert), anagram [dancing] of CRUDE",
+    "mapping": {
+      "clue_text": "Expert meeting crude dancing farmer?",
+      "answer": "PRODUCER",
+      "clue_words": [
+        "Expert",
+        "meeting",
+        "crude",
+        "dancing",
+        "farmer"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Expert"
+          ],
+          "role": "piece",
+          "value": "PRO",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            1,
+            3
+          ],
+          "words": [
+            "meeting",
+            "crude"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "dancing"
+          ],
+          "role": "indicator",
+          "notes": [
+            "bracket-indicator 'dancing'"
+          ]
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "farmer"
+          ],
+          "role": "unaccounted"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "CRUDE",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29509",
+    "clue_number": "9",
+    "direction": "across",
+    "clue_text": "Leaving a duck, everyone tucks into exclusive seafood",
+    "answer": "SCALLOP",
+    "blog": "ALL in SCO o P (minus one O \u2013 \u2018leaving a duck\u2019)",
+    "mapping": {
+      "clue_text": "Leaving a duck, everyone tucks into exclusive seafood",
+      "answer": "SCALLOP",
+      "clue_words": [
+        "Leaving",
+        "a",
+        "duck",
+        "everyone",
+        "tucks",
+        "into",
+        "exclusive",
+        "seafood"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            8
+          ],
+          "words": [
+            "Leaving",
+            "a",
+            "duck",
+            "everyone",
+            "tucks",
+            "into",
+            "exclusive",
+            "seafood"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "ALL",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "SCO",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "P",
+          "gloss": "minus one O \u2013 \u2018leaving a duck\u2019",
+          "reason": "gloss not in clue"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29525",
+    "clue_number": "23",
+    "direction": "across",
+    "clue_text": "Craft is able to make controlled descent",
+    "answer": "ABSEIL",
+    "blog": "anagram of IS ABLE I know this one from crosswords past.",
+    "mapping": {
+      "clue_text": "Craft is able to make controlled descent",
+      "answer": "ABSEIL",
+      "clue_words": [
+        "Craft",
+        "is",
+        "able",
+        "to",
+        "make",
+        "controlled",
+        "descent"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            7
+          ],
+          "words": [
+            "Craft",
+            "is",
+            "able",
+            "to",
+            "make",
+            "controlled",
+            "descent"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "IS",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "ABLE",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "I",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29501",
+    "clue_number": "11",
+    "direction": "across",
+    "clue_text": "First thing honest outlaw admits, at great cost",
+    "answer": "BRIGHTANDEARLY",
+    "blog": "BAN (outlaw) around (admits) RIGHT (honest) + DEARLY (at great cost)",
+    "mapping": {
+      "clue_text": "First thing honest outlaw admits, at great cost",
+      "answer": "BRIGHTANDEARLY",
+      "clue_words": [
+        "First",
+        "thing",
+        "honest",
+        "outlaw",
+        "admits",
+        "at",
+        "great",
+        "cost"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "First",
+            "thing"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "honest"
+          ],
+          "role": "piece",
+          "value": "RIGHT",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "outlaw"
+          ],
+          "role": "piece",
+          "value": "BAN",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "admits"
+          ],
+          "role": "indicator",
+          "operation": "container"
+        },
+        {
+          "span": [
+            5,
+            8
+          ],
+          "words": [
+            "at",
+            "great",
+            "cost"
+          ],
+          "role": "piece",
+          "value": "DEARLY",
+          "mechanism": "synonym"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29524",
+    "clue_number": "2",
+    "direction": "down",
+    "clue_text": "Enthusiastic about Congress including Republican part of service",
+    "answer": "INTROIT",
+    "blog": "INTO (enthusiastic about), IT (congress) containing R (Republican)",
+    "mapping": {
+      "clue_text": "Enthusiastic about Congress including Republican part of service",
+      "answer": "INTROIT",
+      "clue_words": [
+        "Enthusiastic",
+        "about",
+        "Congress",
+        "including",
+        "Republican",
+        "part",
+        "of",
+        "service"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            2
+          ],
+          "words": [
+            "Enthusiastic",
+            "about"
+          ],
+          "role": "piece",
+          "value": "INTO",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            3
+          ],
+          "words": [
+            "Congress"
+          ],
+          "role": "piece",
+          "value": "IT",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            3,
+            4
+          ],
+          "words": [
+            "including"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "Republican"
+          ],
+          "role": "piece",
+          "value": "R",
+          "mechanism": "abbreviation"
+        },
+        {
+          "span": [
+            5,
+            8
+          ],
+          "words": [
+            "part",
+            "of",
+            "service"
+          ],
+          "role": "definition"
+        }
+      ],
+      "unmapped_pieces": [],
+      "notes": []
+    }
+  },
+  {
+    "puzzle": "29517",
+    "clue_number": "14",
+    "direction": "across",
+    "clue_text": "Checking drawbacks connected with exercise",
+    "answer": "CONSTRAINING",
+    "blog": "CONS (drawbacks) + TRAINING (exercise). This clue could hardly be any simpler. Why did it take me so long?",
+    "mapping": {
+      "clue_text": "Checking drawbacks connected with exercise",
+      "answer": "CONSTRAINING",
+      "clue_words": [
+        "Checking",
+        "drawbacks",
+        "connected",
+        "with",
+        "exercise"
+      ],
+      "tags": [
+        {
+          "span": [
+            0,
+            1
+          ],
+          "words": [
+            "Checking"
+          ],
+          "role": "unaccounted"
+        },
+        {
+          "span": [
+            1,
+            2
+          ],
+          "words": [
+            "drawbacks"
+          ],
+          "role": "piece",
+          "value": "CONS",
+          "mechanism": "synonym"
+        },
+        {
+          "span": [
+            2,
+            4
+          ],
+          "words": [
+            "connected",
+            "with"
+          ],
+          "role": "definition"
+        },
+        {
+          "span": [
+            4,
+            5
+          ],
+          "words": [
+            "exercise"
+          ],
+          "role": "piece",
+          "value": "TRAINING",
+          "mechanism": "synonym"
+        }
+      ],
+      "unmapped_pieces": [
+        {
+          "token": "T",
+          "gloss": null,
+          "reason": "no gloss"
+        },
+        {
+          "token": "W",
+          "gloss": null,
+          "reason": "no gloss"
+        }
+      ],
+      "notes": []
+    }
+  }
+]

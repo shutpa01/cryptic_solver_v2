@@ -1,0 +1,3120 @@
+{
+  "n": 21,
+  "pass1": {
+    "FAIL": 10,
+    "NO_FORM": 10,
+    "PASS": 1
+  },
+  "pass2": {
+    "PASS": 10,
+    "NO_FORM": 10,
+    "FAIL": 1
+  },
+  "transitions": {
+    "FAIL -> PASS": 9,
+    "NO_FORM -> NO_FORM": 10,
+    "FAIL -> FAIL": 1,
+    "PASS -> PASS": 1
+  },
+  "shadow_writes": {
+    "synonym": 13,
+    "abbreviation": 14,
+    "indicator": 5,
+    "definition": 0,
+    "skipped": 1
+  },
+  "per_clue": [
+    {
+      "clue_id": 9952633,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "1",
+      "direction": "across",
+      "clue_text": "Some letters in top of shoe box",
+      "answer": "UPPERCASE",
+      "blog": "UPPER + CASE.",
+      "definition_db": "letters",
+      "mapping": {
+        "clue_text": "Some letters in top of shoe box",
+        "answer": "UPPERCASE",
+        "clue_words": [
+          "Some",
+          "letters",
+          "in",
+          "top",
+          "of",
+          "shoe",
+          "box"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Some"
+            ],
+            "role": "piece",
+            "value": "UPPER",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=UPPER, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              1,
+              5
+            ],
+            "words": [
+              "letters",
+              "in",
+              "top",
+              "of"
+            ],
+            "role": "definition",
+            "notes": [
+              "extended"
+            ]
+          },
+          {
+            "span": [
+              5,
+              7
+            ],
+            "words": [
+              "shoe",
+              "box"
+            ],
+            "role": "piece",
+            "value": "CASE",
+            "mechanism": "synonym",
+            "notes": [
+              "pos_widened to absorb 'shoe'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "UPPER",
+              "source_word": "Some"
+            },
+            {
+              "operation": "synonym",
+              "value": "CASE",
+              "source_word": "shoe box"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "letters in top of",
+          "answer": "UPPERCASE"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces UPPERCASE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'UPPER' not in DB for 'some'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "Some",
+          "value": "UPPER",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces UPPERCASE"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Some\"->UPPER; \"shoe box\"->CASE"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952634,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "6",
+      "direction": "across",
+      "clue_text": "Quietly add number to constant acceleration",
+      "answer": "PIANO",
+      "blog": "PI + A + NO.",
+      "definition_db": "Quietly",
+      "mapping": {
+        "clue_text": "Quietly add number to constant acceleration",
+        "answer": "PIANO",
+        "clue_words": [
+          "Quietly",
+          "add",
+          "number",
+          "to",
+          "constant",
+          "acceleration"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Quietly"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "add"
+            ],
+            "role": "piece",
+            "value": "PI",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=PI, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "number"
+            ],
+            "role": "piece",
+            "value": "NO",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              3,
+              6
+            ],
+            "words": [
+              "to",
+              "constant",
+              "acceleration"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate",
+              "pos_widened to absorb 'constant'",
+              "pos_widened to absorb 'acceleration'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "PI",
+              "source_word": "add"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "to constant acceleration"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "NO",
+              "source_word": "number"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Quietly",
+          "answer": "PIANO"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PIANO"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "abbreviation 'PI' not in DB for 'add'; abbreviation 'A' not in DB for 'to constant acceleration'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "add",
+          "value": "PI",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "to",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PIANO"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"add\"->PI (abbr); \"to constant acceleration\"->A (abbr); \"number\"->NO (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952636,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "10",
+      "direction": "across",
+      "clue_text": "Pull up garment put on around start of winter",
+      "answer": "DRESSDOWN",
+      "blog": "DRESS + DO(W[inter])N.\u00a0 \u00a0Pull up is not stopping your car, or what your toddler might wear, but bears the UK slang meaning of reprimand.",
+      "definition_db": "Pull up",
+      "mapping": {
+        "clue_text": "Pull up garment put on around start of winter",
+        "answer": "DRESSDOWN",
+        "clue_words": [
+          "Pull",
+          "up",
+          "garment",
+          "put",
+          "on",
+          "around",
+          "start",
+          "of",
+          "winter"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Pull",
+              "up"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "garment"
+            ],
+            "role": "piece",
+            "value": "DRESS",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "put"
+            ],
+            "role": "piece",
+            "value": "DO",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "on"
+            ],
+            "role": "piece",
+            "value": "N",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=N, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "around"
+            ],
+            "role": "piece",
+            "value": "P",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=P, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              9
+            ],
+            "words": [
+              "start",
+              "of",
+              "winter"
+            ],
+            "role": "piece",
+            "value": "UK",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=UK, shadow_candidate",
+              "pos_widened to absorb 'winter'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "on",
+          "value": "N",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "around",
+          "value": "P",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "start",
+          "value": "UK",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952637,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "11",
+      "direction": "across",
+      "clue_text": "Sceptic occupied with bank job?",
+      "answer": "ATHEIST",
+      "blog": "AT HEIST, a chestnut.",
+      "definition_db": "Sceptic",
+      "mapping": {
+        "clue_text": "Sceptic occupied with bank job?",
+        "answer": "ATHEIST",
+        "clue_words": [
+          "Sceptic",
+          "occupied",
+          "with",
+          "bank",
+          "job"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Sceptic"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "occupied"
+            ],
+            "role": "piece",
+            "value": "AT",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=AT, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              3,
+              5
+            ],
+            "words": [
+              "bank",
+              "job"
+            ],
+            "role": "piece",
+            "value": "HEIST",
+            "mechanism": "synonym",
+            "notes": [
+              "pos_widened to absorb 'bank'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "AT",
+              "source_word": "occupied"
+            },
+            {
+              "operation": "synonym",
+              "value": "HEIST",
+              "source_word": "bank job"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Sceptic",
+          "answer": "ATHEIST"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ATHEIST"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "abbreviation 'AT' not in DB for 'occupied'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "occupied",
+          "value": "AT",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ATHEIST"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"occupied\"->AT (abbr); \"bank job\"->HEIST"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952638,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "12",
+      "direction": "across",
+      "clue_text": "Financial expert taking one pound from fastidiously good person",
+      "answer": "ANALYST",
+      "blog": "ANAL[l]Y ST.\u00a0 \u00a0 The financial chap was chosen to mislead, rather than using a psychiatrist which would give away the game.",
+      "definition_db": "Financial expert",
+      "mapping": {
+        "clue_text": "Financial expert taking one pound from fastidiously good person",
+        "answer": "ANALYST",
+        "clue_words": [
+          "Financial",
+          "expert",
+          "taking",
+          "one",
+          "pound",
+          "from",
+          "fastidiously",
+          "good",
+          "person"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Financial",
+              "expert"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "taking"
+            ],
+            "role": "piece",
+            "value": "ANALY",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=ANALY, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              5
+            ],
+            "words": [
+              "one",
+              "pound"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=T, shadow_candidate",
+              "pos_widened to absorb 'pound'"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "from"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              9
+            ],
+            "words": [
+              "fastidiously",
+              "good",
+              "person"
+            ],
+            "role": "piece",
+            "value": "ST",
+            "mechanism": "abbreviation",
+            "notes": [
+              "pos_widened to absorb 'fastidiously'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "taking",
+          "value": "ANALY",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "one",
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952642,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "23",
+      "direction": "across",
+      "clue_text": "Code for \u201cg\u201d",
+      "answer": "PROGRAM",
+      "blog": "PRO + GRAM, for which G is a valid abbreviation.",
+      "definition_db": "Code",
+      "mapping": {
+        "clue_text": "Code for \u201cg\u201d",
+        "answer": "PROGRAM",
+        "clue_words": [
+          "Code",
+          "for",
+          "g"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Code"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "for"
+            ],
+            "role": "piece",
+            "value": "PRO",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "g"
+            ],
+            "role": "piece",
+            "value": "G",
+            "mechanism": "positional",
+            "sub_kind": "first"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": null,
+          "value": "GRAM",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952643,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "25",
+      "direction": "across",
+      "clue_text": "Bar made from metal by Native American",
+      "answer": "BRASSERIE",
+      "blog": "BRASS + ERIE, who lived on the shores of\u2026.Lake Erie!",
+      "definition_db": "Bar",
+      "mapping": {
+        "clue_text": "Bar made from metal by Native American",
+        "answer": "BRASSERIE",
+        "clue_words": [
+          "Bar",
+          "made",
+          "from",
+          "metal",
+          "by",
+          "Native",
+          "American"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Bar"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "made"
+            ],
+            "role": "piece",
+            "value": "ERIE",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=ERIE, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "from"
+            ],
+            "role": "piece",
+            "value": "L",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=L, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "metal"
+            ],
+            "role": "piece",
+            "value": "BRASS",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              4,
+              7
+            ],
+            "words": [
+              "by",
+              "Native",
+              "American"
+            ],
+            "role": "piece",
+            "value": "E",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=E, shadow_candidate",
+              "pos_widened to absorb 'Native'",
+              "pos_widened to absorb 'American'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "made",
+          "value": "ERIE",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "from",
+          "value": "L",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "by",
+          "value": "E",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952644,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "26",
+      "direction": "across",
+      "clue_text": "Be bigoted, losing face",
+      "answer": "EXIST",
+      "blog": "[s]EXIST.",
+      "definition_db": "Be bigoted",
+      "mapping": {
+        "clue_text": "Be bigoted, losing face",
+        "answer": "EXIST",
+        "clue_words": [
+          "Be",
+          "bigoted",
+          "losing",
+          "face"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Be",
+              "bigoted"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              4
+            ],
+            "words": [
+              "losing",
+              "face"
+            ],
+            "role": "piece",
+            "value": "EXIST",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=EXIST, shadow_candidate",
+              "pos_widened to absorb 'face'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "losing",
+          "value": "EXIST",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952646,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "28",
+      "direction": "across",
+      "clue_text": "Ordinary state, and not country with vacated territory",
+      "answer": "NORMALITY",
+      "blog": "NOR + MALI + T[erritor]Y.",
+      "definition_db": "Ordinary state",
+      "mapping": {
+        "clue_text": "Ordinary state, and not country with vacated territory",
+        "answer": "NORMALITY",
+        "clue_words": [
+          "Ordinary",
+          "state",
+          "and",
+          "not",
+          "country",
+          "with",
+          "vacated",
+          "territory"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Ordinary",
+              "state"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              4
+            ],
+            "words": [
+              "and",
+              "not"
+            ],
+            "role": "piece",
+            "value": "NOR",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "country"
+            ],
+            "role": "piece",
+            "value": "MALI",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              8
+            ],
+            "words": [
+              "vacated",
+              "territory"
+            ],
+            "role": "piece",
+            "value": "TY",
+            "mechanism": "literal",
+            "sub_kind": "heart",
+            "notes": [
+              "pos_widened to absorb 'vacated'"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "NOR",
+              "source_word": "and not"
+            },
+            {
+              "operation": "synonym",
+              "value": "MALI",
+              "source_word": "country"
+            },
+            {
+              "operation": "literal",
+              "value": "TY",
+              "source_word": "vacated territory"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Ordinary state",
+          "answer": "NORMALITY"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NORMALITY"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "literal value 'TY' not derivable from source 'vacated territory'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [],
+      "verdict_pass2": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces NORMALITY"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "literal value 'TY' not derivable from source 'vacated territory'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952647,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "1",
+      "direction": "down",
+      "clue_text": "Disruption at university \u2014 high explosive and hot stuff lying around",
+      "answer": "UPHEAVAL",
+      "blog": "UP + H.E. + LAVA backwards.",
+      "definition_db": "Disruption",
+      "mapping": {
+        "clue_text": "Disruption at university \u2014 high explosive and hot stuff lying around",
+        "answer": "UPHEAVAL",
+        "clue_words": [
+          "Disruption",
+          "at",
+          "university",
+          "high",
+          "explosive",
+          "and",
+          "hot",
+          "stuff",
+          "lying",
+          "around"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Disruption"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              3
+            ],
+            "words": [
+              "at",
+              "university"
+            ],
+            "role": "piece",
+            "value": "UP",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              3,
+              5
+            ],
+            "words": [
+              "high",
+              "explosive"
+            ],
+            "role": "piece",
+            "value": "HE",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "and"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              8
+            ],
+            "words": [
+              "hot",
+              "stuff"
+            ],
+            "role": "piece",
+            "value": "LAVA",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              8,
+              9
+            ],
+            "words": [
+              "lying"
+            ],
+            "role": "indicator",
+            "operation": "reversal",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              9,
+              10
+            ],
+            "words": [
+              "around"
+            ],
+            "role": "unaccounted"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "reversal",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "abbreviation",
+              "value": "UP",
+              "source_word": "at university"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "HE",
+              "source_word": "high explosive"
+            },
+            {
+              "operation": "reversal",
+              "indicator": "lying",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "LAVA",
+                  "source_word": "hot stuff"
+                }
+              ]
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Disruption",
+          "answer": "UPHEAVAL"
+        },
+        "link_words": [
+          "and",
+          "around"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade > reversal",
+      "pattern": "reversal_charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces UPHEAVAL"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"at university\"->UP (abbr); \"high explosive\"->HE (abbr); \"hot stuff\"->LAVA"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "indicator 'lying' not in DB for op 'reversal' (expected types ['reversal'])"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "indicator",
+          "source_word": "lying",
+          "value": "lying",
+          "operation": "reversal",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces UPHEAVAL"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"at university\"->UP (abbr); \"high explosive\"->HE (abbr); \"hot stuff\"->LAVA"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"lying\" -> reversal"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952648,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "2",
+      "direction": "down",
+      "clue_text": "Check under type of green fruit",
+      "answer": "PEACH",
+      "blog": "PEA + CH.",
+      "definition_db": "type of green fruit",
+      "mapping": {
+        "clue_text": "Check under type of green fruit",
+        "answer": "PEACH",
+        "clue_words": [
+          "Check",
+          "under",
+          "type",
+          "of",
+          "green",
+          "fruit"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Check"
+            ],
+            "role": "piece",
+            "value": "CH",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "under"
+            ],
+            "role": "piece",
+            "value": "PEA",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=PEA, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              6
+            ],
+            "words": [
+              "type",
+              "of",
+              "green",
+              "fruit"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PEA",
+              "source_word": "under"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "CH",
+              "source_word": "Check"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "type of green fruit",
+          "answer": "PEACH"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PEACH"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'PEA' not in DB for 'under'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "under",
+          "value": "PEA",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PEACH"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"under\"->PEA; \"Check\"->CH (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952649,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "3",
+      "direction": "down",
+      "clue_text": "Heard about Victory in Europe after soldiers got back",
+      "answer": "RETRIEVED",
+      "blog": "R.E. + TRIE(V.E.)D.",
+      "definition_db": "got back",
+      "mapping": {
+        "clue_text": "Heard about Victory in Europe after soldiers got back",
+        "answer": "RETRIEVED",
+        "clue_words": [
+          "Heard",
+          "about",
+          "Victory",
+          "in",
+          "Europe",
+          "after",
+          "soldiers",
+          "got",
+          "back"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Heard"
+            ],
+            "role": "piece",
+            "value": "TRIE",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=TRIE, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "about"
+            ],
+            "role": "piece",
+            "value": "RE",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              2,
+              7
+            ],
+            "words": [
+              "Victory",
+              "in",
+              "Europe",
+              "after",
+              "soldiers"
+            ],
+            "role": "piece",
+            "value": "D",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=D, shadow_candidate",
+              "pos_widened to absorb 'Europe'",
+              "pos_widened to absorb 'soldiers'"
+            ]
+          },
+          {
+            "span": [
+              7,
+              9
+            ],
+            "words": [
+              "got",
+              "back"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "Heard",
+          "value": "TRIE",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "Victory",
+          "value": "D",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952650,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "4",
+      "direction": "down",
+      "clue_text": "Someone reviewing books theatre with 30 per cent off",
+      "answer": "AUDITOR",
+      "blog": "AUDITOR[ium].",
+      "definition_db": "Someone reviewing books",
+      "mapping": {
+        "clue_text": "Someone reviewing books theatre with 30 per cent off",
+        "answer": "AUDITOR",
+        "clue_words": [
+          "Someone",
+          "reviewing",
+          "books",
+          "theatre",
+          "with",
+          "per",
+          "cent",
+          "off"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "Someone",
+              "reviewing",
+              "books"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              3,
+              7
+            ],
+            "words": [
+              "theatre",
+              "with",
+              "per",
+              "cent"
+            ],
+            "role": "piece",
+            "value": "AUDITOR",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=AUDITOR, shadow_candidate",
+              "pos_widened to absorb 'per'",
+              "pos_widened to absorb 'cent'"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "off"
+            ],
+            "role": "unaccounted"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "theatre",
+          "value": "AUDITOR",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952651,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "5",
+      "direction": "down",
+      "clue_text": "He easily managed, without one bit of hair",
+      "answer": "EYELASH",
+      "blog": "Anagram of HE EASILY \u2013 I.",
+      "definition_db": "bit of hair",
+      "mapping": {
+        "clue_text": "He easily managed, without one bit of hair",
+        "answer": "EYELASH",
+        "clue_words": [
+          "He",
+          "easily",
+          "managed",
+          "without",
+          "one",
+          "bit",
+          "of",
+          "hair"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "He"
+            ],
+            "role": "piece",
+            "value": "HE",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "easily"
+            ],
+            "role": "piece",
+            "value": "EASILY",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "managed"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=A, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "without"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "one"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              5,
+              8
+            ],
+            "words": [
+              "bit",
+              "of",
+              "hair"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "abbreviation",
+          "source_word": "managed",
+          "value": "A",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952652,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "6",
+      "direction": "down",
+      "clue_text": "Basic fare no longer available with first class",
+      "answer": "PASTA",
+      "blog": "PAST + A.",
+      "definition_db": "Basic fare",
+      "mapping": {
+        "clue_text": "Basic fare no longer available with first class",
+        "answer": "PASTA",
+        "clue_words": [
+          "Basic",
+          "fare",
+          "no",
+          "longer",
+          "available",
+          "with",
+          "first",
+          "class"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              2
+            ],
+            "words": [
+              "Basic",
+              "fare"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              2,
+              5
+            ],
+            "words": [
+              "no",
+              "longer",
+              "available"
+            ],
+            "role": "piece",
+            "value": "PAST",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              8
+            ],
+            "words": [
+              "first",
+              "class"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "PAST",
+              "source_word": "no longer available"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "first class"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Basic fare",
+          "answer": "PASTA"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PASTA"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"no longer available\"->PAST; \"first class\"->A (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces PASTA"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"no longer available\"->PAST; \"first class\"->A (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952653,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "7",
+      "direction": "down",
+      "clue_text": "Working in a city, shy person doesn\u2019t wind up nameless",
+      "answer": "ANONYMOUS",
+      "blog": "A N(ON)Y + MOUS[e].",
+      "definition_db": "nameless",
+      "mapping": {
+        "clue_text": "Working in a city, shy person doesn\u2019t wind up nameless",
+        "answer": "ANONYMOUS",
+        "clue_words": [
+          "Working",
+          "in",
+          "a",
+          "city",
+          "shy",
+          "person",
+          "doesn",
+          "t",
+          "wind",
+          "up",
+          "nameless"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Working"
+            ],
+            "role": "piece",
+            "value": "ON",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "in"
+            ],
+            "role": "piece",
+            "value": "MOUS",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=MOUS, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              2,
+              3
+            ],
+            "words": [
+              "a"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "literal"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "city"
+            ],
+            "role": "piece",
+            "value": "NY",
+            "mechanism": "abbreviation"
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "shy"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              11
+            ],
+            "words": [
+              "person",
+              "doesn",
+              "t",
+              "wind",
+              "up",
+              "nameless"
+            ],
+            "role": "definition",
+            "notes": [
+              "extended"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "literal",
+              "value": "A",
+              "source_word": "a"
+            },
+            {
+              "operation": "container",
+              "indicator": "shy",
+              "sources": [
+                {
+                  "operation": "abbreviation",
+                  "value": "NY",
+                  "source_word": "city"
+                },
+                {
+                  "operation": "abbreviation",
+                  "value": "ON",
+                  "source_word": "Working"
+                }
+              ]
+            },
+            {
+              "operation": "synonym",
+              "value": "MOUS",
+              "source_word": "in"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "person doesn t wind up nameless",
+          "answer": "ANONYMOUS"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade > container",
+      "pattern": "container_charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ANONYMOUS"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'MOUS' not in DB for 'in'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "indicator 'shy' not in DB for op 'container' (expected types ['container', 'insertion'])"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "in",
+          "value": "MOUS",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "shy",
+          "value": "shy",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ANONYMOUS"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified literal \"a\"; \"city\"->NY (abbr); \"Working\"->ON (abbr); \"in\"->MOUS"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"shy\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952655,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "14",
+      "direction": "down",
+      "clue_text": "Rise late with serve and be ready to attack",
+      "answer": "LIEINWAIT",
+      "blog": "LIE IN + WAIT.",
+      "definition_db": "be ready to attack",
+      "mapping": {
+        "clue_text": "Rise late with serve and be ready to attack",
+        "answer": "LIEINWAIT",
+        "clue_words": [
+          "Rise",
+          "late",
+          "with",
+          "serve",
+          "and",
+          "be",
+          "ready",
+          "to",
+          "attack"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Rise"
+            ],
+            "role": "piece",
+            "value": "LIE",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=LIE, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              1,
+              3
+            ],
+            "words": [
+              "late",
+              "with"
+            ],
+            "role": "piece",
+            "value": "IN",
+            "mechanism": "abbreviation",
+            "notes": [
+              "pos_widened to absorb 'late'"
+            ]
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "serve"
+            ],
+            "role": "piece",
+            "value": "WAIT",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              4,
+              9
+            ],
+            "words": [
+              "and",
+              "be",
+              "ready",
+              "to",
+              "attack"
+            ],
+            "role": "definition",
+            "notes": [
+              "extended"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "LIE",
+              "source_word": "Rise"
+            },
+            {
+              "operation": "abbreviation",
+              "value": "IN",
+              "source_word": "late with"
+            },
+            {
+              "operation": "synonym",
+              "value": "WAIT",
+              "source_word": "serve"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "and be ready to attack",
+          "answer": "LIEINWAIT"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade",
+      "pattern": "charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LIEINWAIT"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'LIE' not in DB for 'rise'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "Rise",
+          "value": "LIE",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces LIEINWAIT"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"Rise\"->LIE; \"late with\"->IN (abbr); \"serve\"->WAIT"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "no indicator-bearing nodes"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952656,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "15",
+      "direction": "down",
+      "clue_text": "Show religious leader in rocket with American",
+      "answer": "SOAPOPERA",
+      "blog": "SOA(POPE)R + A.",
+      "definition_db": "Show",
+      "mapping": {
+        "clue_text": "Show religious leader in rocket with American",
+        "answer": "SOAPOPERA",
+        "clue_words": [
+          "Show",
+          "religious",
+          "leader",
+          "in",
+          "rocket",
+          "with",
+          "American"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "Show"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              1,
+              3
+            ],
+            "words": [
+              "religious",
+              "leader"
+            ],
+            "role": "piece",
+            "value": "POPE",
+            "mechanism": "synonym"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "in"
+            ],
+            "role": "piece",
+            "value": "SOAR",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=SOAR, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "rocket"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "unaccounted"
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "American"
+            ],
+            "role": "piece",
+            "value": "A",
+            "mechanism": "abbreviation"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "charade",
+          "sources": [
+            {
+              "operation": "container",
+              "indicator": "rocket",
+              "sources": [
+                {
+                  "operation": "synonym",
+                  "value": "SOAR",
+                  "source_word": "in"
+                },
+                {
+                  "operation": "synonym",
+                  "value": "POPE",
+                  "source_word": "religious leader"
+                }
+              ]
+            },
+            {
+              "operation": "abbreviation",
+              "value": "A",
+              "source_word": "American"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "Show",
+          "answer": "SOAPOPERA"
+        },
+        "link_words": [
+          "with"
+        ],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "charade > container",
+      "pattern": "container_charade",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SOAPOPERA"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'SOAR' not in DB for 'in'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "fail",
+            "detail": "indicator 'rocket' not in DB for op 'container' (expected types ['container', 'insertion'])"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "in",
+          "value": "SOAR",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "rocket",
+          "value": "rocket",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces SOAPOPERA"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"in\"->SOAR; \"religious leader\"->POPE; \"American\"->A (abbr)"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"rocket\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952657,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "16",
+      "direction": "down",
+      "clue_text": "International attempt sustains a little equality of measure",
+      "answer": "ISOMETRY",
+      "blog": "I (SOME) TRY.",
+      "definition_db": "equality of measure",
+      "mapping": {
+        "clue_text": "International attempt sustains a little equality of measure",
+        "answer": "ISOMETRY",
+        "clue_words": [
+          "International",
+          "attempt",
+          "sustains",
+          "a",
+          "little",
+          "equality",
+          "of",
+          "measure"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              1
+            ],
+            "words": [
+              "International"
+            ],
+            "role": "piece",
+            "value": "ITRY",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=ITRY, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              1,
+              2
+            ],
+            "words": [
+              "attempt"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              2,
+              5
+            ],
+            "words": [
+              "sustains",
+              "a",
+              "little"
+            ],
+            "role": "piece",
+            "value": "SOME",
+            "mechanism": "synonym",
+            "notes": [
+              "pos_widened to absorb 'sustains'"
+            ]
+          },
+          {
+            "span": [
+              5,
+              8
+            ],
+            "words": [
+              "equality",
+              "of",
+              "measure"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": {
+        "tree": {
+          "operation": "container",
+          "indicator": "attempt",
+          "sources": [
+            {
+              "operation": "synonym",
+              "value": "ITRY",
+              "source_word": "International"
+            },
+            {
+              "operation": "synonym",
+              "value": "SOME",
+              "source_word": "sustains a little"
+            }
+          ]
+        },
+        "definition": {
+          "phrase": "equality of measure",
+          "answer": "ISOMETRY"
+        },
+        "link_words": [],
+        "is_and_lit": false,
+        "flags": []
+      },
+      "wordplay_type": "container",
+      "pattern": "container",
+      "verdict_pass1": {
+        "verdict": "FAIL",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ISOMETRY"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "fail",
+            "detail": "synonym 'ITRY' not in DB for 'international'"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"attempt\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      },
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "International",
+          "value": "ITRY",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "attempt",
+          "value": "attempt",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": {
+        "verdict": "PASS",
+        "checks": [
+          {
+            "name": "assembly",
+            "status": "pass",
+            "detail": "tree produces ISOMETRY"
+          },
+          {
+            "name": "bridge.leaves",
+            "status": "pass",
+            "detail": "verified \"International\"->ITRY; \"sustains a little\"->SOME"
+          },
+          {
+            "name": "bridge.indicators",
+            "status": "pass",
+            "detail": "verified \"attempt\" -> container"
+          },
+          {
+            "name": "residue",
+            "status": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    },
+    {
+      "clue_id": 9952660,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "20",
+      "direction": "down",
+      "clue_text": "United Nations ignored by arbitration board displaying group loyalty",
+      "answer": "TRIBAL",
+      "blog": "TRIB[un]AL.",
+      "definition_db": "group loyalty",
+      "mapping": {
+        "clue_text": "United Nations ignored by arbitration board displaying group loyalty",
+        "answer": "TRIBAL",
+        "clue_words": [
+          "United",
+          "Nations",
+          "ignored",
+          "by",
+          "arbitration",
+          "board",
+          "displaying",
+          "group",
+          "loyalty"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              7
+            ],
+            "words": [
+              "United",
+              "Nations",
+              "ignored",
+              "by",
+              "arbitration",
+              "board",
+              "displaying"
+            ],
+            "role": "piece",
+            "value": "TRIBAL",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=TRIBAL, shadow_candidate",
+              "pos_widened to absorb 'Nations'",
+              "pos_widened to absorb 'ignored'",
+              "pos_widened to absorb 'arbitration'",
+              "pos_widened to absorb 'board'",
+              "pos_widened to absorb 'displaying'"
+            ]
+          },
+          {
+            "span": [
+              7,
+              9
+            ],
+            "words": [
+              "group",
+              "loyalty"
+            ],
+            "role": "definition"
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "United",
+          "value": "TRIBAL",
+          "evidence": "blog piece, no DB match"
+        }
+      ],
+      "verdict_pass2": null
+    },
+    {
+      "clue_id": 9952662,
+      "source": "times",
+      "puzzle_number": "29503",
+      "clue_number": "24",
+      "direction": "down",
+      "clue_text": "Healing by touching arsenic regularly with bare skin",
+      "answer": "REIKI",
+      "blog": "[a]R[s]E[n]I[c] + [s]KI[n].\u00a0 \u00a0This was vaguely familiar; seem like it was in a puzzle I blogged in 2023, so maybe that\u2019s why.",
+      "definition_db": "Healing by touching",
+      "mapping": {
+        "clue_text": "Healing by touching arsenic regularly with bare skin",
+        "answer": "REIKI",
+        "clue_words": [
+          "Healing",
+          "by",
+          "touching",
+          "arsenic",
+          "regularly",
+          "with",
+          "bare",
+          "skin"
+        ],
+        "tags": [
+          {
+            "span": [
+              0,
+              3
+            ],
+            "words": [
+              "Healing",
+              "by",
+              "touching"
+            ],
+            "role": "definition"
+          },
+          {
+            "span": [
+              3,
+              4
+            ],
+            "words": [
+              "arsenic"
+            ],
+            "role": "indicator",
+            "operation": "container",
+            "notes": [
+              "floating-op anchored by elimination"
+            ]
+          },
+          {
+            "span": [
+              4,
+              5
+            ],
+            "words": [
+              "regularly"
+            ],
+            "role": "piece",
+            "value": "REI",
+            "mechanism": "synonym",
+            "notes": [
+              "by-elimination, value=REI, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              5,
+              6
+            ],
+            "words": [
+              "with"
+            ],
+            "role": "piece",
+            "value": "KI",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=KI, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              6,
+              7
+            ],
+            "words": [
+              "bare"
+            ],
+            "role": "piece",
+            "value": "T",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=T, shadow_candidate"
+            ]
+          },
+          {
+            "span": [
+              7,
+              8
+            ],
+            "words": [
+              "skin"
+            ],
+            "role": "piece",
+            "value": "I",
+            "mechanism": "abbreviation",
+            "notes": [
+              "by-elimination, value=I, shadow_candidate"
+            ]
+          }
+        ],
+        "unmapped_pieces": [],
+        "floating_ops": [
+          [
+            "container",
+            null
+          ]
+        ],
+        "notes": []
+      },
+      "form": null,
+      "wordplay_type": null,
+      "pattern": "",
+      "verdict_pass1": null,
+      "shadow_candidates": [
+        {
+          "kind": "synonym",
+          "source_word": "regularly",
+          "value": "REI",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "with",
+          "value": "KI",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "bare",
+          "value": "T",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "abbreviation",
+          "source_word": "skin",
+          "value": "I",
+          "evidence": "blog piece, no DB match"
+        },
+        {
+          "kind": "indicator",
+          "source_word": "arsenic",
+          "value": "arsenic",
+          "operation": "container",
+          "subtype": null,
+          "evidence": "blog implies this op; clue word taken by-elimination"
+        }
+      ],
+      "verdict_pass2": null
+    }
+  ]
+}

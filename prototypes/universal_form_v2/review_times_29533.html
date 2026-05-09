@@ -1,0 +1,913 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Universal form v0 - times_29533</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+       Helvetica, Arial, sans-serif; margin: 0; padding: 16px;
+       background: #fafafa; color: #222; line-height: 1.4; }
+h1 { margin: 0 0 4px 0; font-size: 18px; }
+.subtitle { color: #666; font-size: 12px; margin-bottom: 16px; }
+
+.summary { background: #fff; padding: 12px; border-radius: 6px;
+           border: 1px solid #ddd; margin-bottom: 12px; }
+.stat-row { padding: 4px 0; font-size: 13px; }
+.stat { display: inline-block; padding: 2px 8px; margin: 2px;
+        background: #f0f0f0; border-radius: 4px; font-size: 12px; }
+.stat b { color: #000; }
+
+.toolbar { background: #fff; padding: 10px; border-radius: 6px;
+           border: 1px solid #ddd; margin-bottom: 12px;
+           position: sticky; top: 8px; z-index: 5; }
+.toolbar button { padding: 6px 10px; margin: 2px; border: 1px solid #ccc;
+                  background: #fff; border-radius: 4px; cursor: pointer;
+                  font-size: 12px; font-family: inherit; }
+.toolbar button:hover { background: #eef; }
+.toolbar button.active { background: #345; color: #fff; border-color: #345; }
+.toolbar input { padding: 6px 8px; margin: 2px; border: 1px solid #ccc;
+                 border-radius: 4px; font-size: 12px; width: 240px;
+                 font-family: inherit; }
+.toolbar label { font-size: 12px; color: #666; margin-left: 6px; }
+
+.card { background: #fff; border: 1px solid #ddd; border-radius: 6px;
+        margin-bottom: 12px; padding: 12px; }
+.card-head { display: flex; justify-content: space-between;
+             align-items: flex-start; gap: 8px; margin-bottom: 6px;
+             flex-wrap: wrap; }
+.card-h-l .puzzle { color: #888; font-size: 11px; margin-right: 8px;
+                    font-family: ui-monospace, Menlo, Consolas, monospace; }
+.card-h-l .num { font-weight: bold; color: #444; margin-right: 8px; }
+.card-h-l .ans { font-family: ui-monospace, Menlo, Consolas, monospace;
+                 font-weight: bold; font-size: 14px; }
+.card-h-r .pill { display: inline-block; padding: 3px 8px; margin: 2px;
+                  border-radius: 12px; font-size: 11px;
+                  font-family: ui-monospace, Menlo, Consolas, monospace;
+                  border: 1px solid transparent; }
+.pill.v-pass { background: #d0f5d6; color: #014a13; border-color: #80d090; }
+.pill.v-fail { background: #ffd5d5; color: #6a0000; border-color: #e08080; }
+.pill.v-noform { background: #eee; color: #555; border-color: #ccc; }
+.pill.wptype { background: #e8e0ff; color: #2a0066; border-color: #b090e0;
+               font-weight: bold; }
+
+.clue { font-size: 14px; color: #111; margin: 4px 0; font-style: italic; }
+.meta { color: #888; font-size: 11px; margin-bottom: 8px;
+        font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+.section { background: #fcfcfc; border: 1px solid #eee; border-radius: 4px;
+           padding: 8px; margin-top: 6px; }
+.section-label { font-weight: bold; font-size: 12px; color: #444;
+                 margin-bottom: 4px; }
+
+pre.rendered { font-family: ui-monospace, Menlo, Consolas, monospace;
+               white-space: pre-wrap; word-wrap: break-word;
+               margin: 0; padding: 8px; background: #f6f6f6;
+               border-radius: 4px; font-size: 12px; line-height: 1.4; }
+
+.checks { display: flex; flex-direction: column; gap: 2px;
+          margin-top: 4px; }
+.check { display: grid; grid-template-columns: 22px 180px 1fr; gap: 6px;
+         padding: 3px 6px; font-size: 11px;
+         font-family: ui-monospace, Menlo, Consolas, monospace; }
+.check.ck-ok { background: #e8f8ec; }
+.check.ck-bad { background: #ffe5e5; }
+.ck-mark { font-weight: bold; }
+.ck-name { color: #555; }
+.ck-detail { color: #222; word-wrap: break-word; }
+
+.tree { font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 11px; color: #444; padding: 8px;
+        background: #f6f6f6; border-radius: 4px; white-space: pre; }
+
+.flags { font-family: ui-monospace, Menlo, Consolas, monospace;
+         font-size: 11px; color: #666; margin-top: 4px; }
+.flag { display: inline-block; padding: 1px 6px; margin: 2px;
+        background: #fff5cc; color: #5a4400;
+        border: 1px solid #f0c060; border-radius: 3px; }
+.banner-soft { padding: 6px 10px; background: #f4f4f4; color: #666;
+               border-radius: 4px; font-size: 11px; font-style: italic; }
+</style>
+</head><body>
+<h1>Universal form v0 - 29 clues (times_29533)</h1>
+<div class="subtitle">Per-clue review. Showing <span id="shown">29</span>. Read-only.</div>
+<div class="summary">
+<div class="stat-row"><b>Verdicts:</b> <span class="stat">PASS: <b>4</b></span><span class="stat">FAIL: <b>9</b></span><span class="stat">NO_FORM: <b>16</b></span></div>
+<div class="stat-row"><b>Wordplay type paths:</b> <span class="stat">charade: <b>4</b></span><span class="stat">anagram: <b>4</b></span><span class="stat">synonym: <b>2</b></span><span class="stat">container: <b>2</b></span><span class="stat">container &gt; charade: <b>1</b></span></div>
+</div>
+<div class="toolbar">
+<button data-cat="all" class="active">All</button><button data-cat="pass">PASS</button><button data-cat="fail">FAIL</button><button data-cat="no-form">NO_FORM</button>
+<input id="q" type="search" placeholder="Search clue / answer / wordplay-type / flag...">
+</div>
+<div class="card" data-cat="no-form" data-text="Yes, German king cutting party nibbles for impertinent individual JACKANAPES - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">1a</span>
+<span class="ans">JACKANAPES</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Yes, German king cutting party nibbles for impertinent individual</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Former PM’s garden EDEN synonym op_name_not_preserved_in_solveresult op_inferred_from_token_mix_not_provided">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">6a</span>
+<span class="ans">EDEN</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">synonym</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Former PM’s garden</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">EDEN (synonym of &quot;Former PM&#x27;s&quot;)
+= EDEN
+definition: &quot;garden&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">synonym(&#x27;EDEN&#x27; src=&quot;Former PM&#x27;s&quot;)</div>
+<div class="meta" style="margin-top:6px;">definition: "garden" -> EDEN</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces EDEN</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;Former PM&#x27;s&quot;-&gt;EDEN</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">unaccounted: [&#x27;pm&#x27;, &#x27;s&#x27;]</span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">op_inferred_from_token_mix_not_provided</span>
+<span class="flag">op_name_not_preserved_in_solveresult</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="I am associated with beer merchant buying from abroad IMPORTER charade definition_phrase_missing">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">8a</span>
+<span class="ans">IMPORTER</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">charade</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">I am associated with beer merchant buying from abroad</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">I (&quot;I&quot;) + M (last letter(s) of &quot;am&quot;) + PORTER (synonym of &quot;beer&quot;)
+= IMPORTER</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">charade
+  raw(&#x27;I&#x27;)
+  positional(&#x27;M&#x27; src=&#x27;am&#x27;) kind=last
+  synonym(&#x27;PORTER&#x27; src=&#x27;beer&#x27;)</div>
+<div class="meta">link_words: [&#x27;associated&#x27;, &#x27;merchant&#x27;, &#x27;buying&#x27;, &#x27;from&#x27;, &#x27;abroad&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces IMPORTER</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified literal &quot;I&quot;; last of &quot;am&quot;=M; &quot;beer&quot;-&gt;PORTER</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">unaccounted: [&#x27;with&#x27;]; non-link words declared as link_words: [&#x27;abroad&#x27;, &#x27;associated&#x27;, &#x27;buying&#x27;, &#x27;merchant&#x27;]</span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">definition_phrase_missing</span>
+</div>
+</div>
+<div class="card" data-cat="pass" data-text="Left one pound in cash LIQUID charade ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">9a</span>
+<span class="ans">LIQUID</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">charade</span>
+<span class="pill v-pass">PASS</span>
+</div>
+</div>
+<div class="clue">Left one pound in cash</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">L (synonym of &quot;Left&quot;) + I (synonym of &quot;one&quot;) + QUID (synonym of &quot;pound&quot;)
+= LIQUID
+definition: &quot;in cash&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">charade
+  synonym(&#x27;L&#x27; src=&#x27;Left&#x27;)
+  synonym(&#x27;I&#x27; src=&#x27;one&#x27;)
+  synonym(&#x27;QUID&#x27; src=&#x27;pound&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "in cash" -> LIQUID</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces LIQUID</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;Left&quot;-&gt;L; &quot;one&quot;-&gt;I; &quot;pound&quot;-&gt;QUID</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">residue</span><span class="ck-detail"></span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Remove water from bottle to begin with and feel poorly BAIL - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">10a</span>
+<span class="ans">BAIL</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Remove water from bottle to begin with and feel poorly</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Band of smooth chaps securing help IRONMAIDEN container &gt; charade container_charade_structure_not_preserved">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">11a</span>
+<span class="ans">IRONMAIDEN</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">container &gt; charade</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Band of smooth chaps securing help</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">MEN (synonym of &quot;chaps&quot;) + AID (synonym of &quot;help&quot;) inside [&quot;securing&quot;] IRON (synonym of &quot;smooth&quot;)
+= IRONMAIDEN
+definition: &quot;Band&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">container [&#x27;securing&#x27;]
+  synonym(&#x27;IRON&#x27; src=&#x27;smooth&#x27;)
+  charade
+    synonym(&#x27;MEN&#x27; src=&#x27;chaps&#x27;)
+    synonym(&#x27;AID&#x27; src=&#x27;help&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "Band" -> IRONMAIDEN</div>
+<div class="meta">link_words: [&#x27;of&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces &#x27;IMENAIDRON&#x27;, &#x27;IRMENAIDON&#x27;, &#x27;IROMENAIDN&#x27; - need &#x27;IRONMAIDEN&#x27;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;smooth&quot;-&gt;IRON; &quot;chaps&quot;-&gt;MEN; &quot;help&quot;-&gt;AID</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;securing&quot; -&gt; container</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">residue</span><span class="ck-detail"></span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">container_charade_structure_not_preserved</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Lee in a state of mind that’s primitive? ELEMENTAL - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">12a</span>
+<span class="ans">ELEMENTAL</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Lee in a state of mind that’s primitive?</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Punter initially keen on horse PINTO charade ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">14a</span>
+<span class="ans">PINTO</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">charade</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Punter initially keen on horse</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">P (first letter(s) of &quot;Punter&quot;) + INTO (synonym of &quot;keen&quot;)
+= PINTO
+definition: &quot;horse&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">charade
+  positional(&#x27;P&#x27; src=&#x27;Punter&#x27;) kind=first
+  synonym(&#x27;INTO&#x27; src=&#x27;keen&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "horse" -> PINTO</div>
+<div class="meta">link_words: [&#x27;on&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces PINTO</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified first of &quot;Punter&quot;=P; &quot;keen&quot;-&gt;INTO</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">unaccounted: [&#x27;initially&#x27;]</span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Currency Harry’s friend found in Ford KRONA - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">17a</span>
+<span class="ans">KRONA</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Currency Harry’s friend found in Ford</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Certain code quiet cryptic setter uncovered ETIQUETTE - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">19a</span>
+<span class="ans">ETIQUETTE</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Certain code quiet cryptic setter uncovered</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="pass" data-text="Catch a taxi by an American beach COPACABANA charade ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">22a</span>
+<span class="ans">COPACABANA</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">charade</span>
+<span class="pill v-pass">PASS</span>
+</div>
+</div>
+<div class="clue">Catch a taxi by an American beach</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">COP (synonym of &quot;Catch&quot;) + A (&quot;a&quot;) + CAB (synonym of &quot;taxi&quot;) + AN (&quot;an&quot;) + A (synonym of &quot;American&quot;)
+= COPACABANA
+definition: &quot;beach&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">charade
+  synonym(&#x27;COP&#x27; src=&#x27;Catch&#x27;)
+  raw(&#x27;A&#x27; src=&#x27;a&#x27;)
+  synonym(&#x27;CAB&#x27; src=&#x27;taxi&#x27;)
+  raw(&#x27;AN&#x27; src=&#x27;an&#x27;)
+  synonym(&#x27;A&#x27; src=&#x27;American&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "beach" -> COPACABANA</div>
+<div class="meta">link_words: [&#x27;by&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces COPACABANA</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;Catch&quot;-&gt;COP; literal &quot;a&quot;; &quot;taxi&quot;-&gt;CAB; literal &quot;an&quot;; &quot;American&quot;-&gt;A</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">residue</span><span class="ck-detail"></span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Turning point while hosting cricket team? AXIS anagram ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">23a</span>
+<span class="ans">AXIS</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">anagram</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Turning point while hosting cricket team?</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">anagram [&quot;Turning&quot;] of [&quot;while&quot;, &quot;team?&quot;]
+= AXIS
+definition: &quot;team?&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">anagram [&#x27;Turning&#x27;]
+  literal(&#x27;WHILE&#x27; src=&#x27;while&#x27;)
+  literal(&#x27;TEAM&#x27; src=&#x27;team?&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "team?" -> AXIS</div>
+<div class="meta">link_words: [&#x27;point&#x27;, &#x27;hosting&#x27;, &#x27;cricket&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces &#x27;WHILETEAM&#x27; - need &#x27;AXIS&#x27;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified literal &quot;while&quot;; literal &quot;team?&quot;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;Turning&quot; -&gt; anagram</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">non-link words declared as link_words: [&#x27;cricket&#x27;, &#x27;hosting&#x27;, &#x27;point&#x27;]</span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Drink supplier put iodine in drink WAITER container container_outer_inner_not_preserved">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">24a</span>
+<span class="ans">WAITER</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">container</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Drink supplier put iodine in drink</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">WATER (synonym of &quot;drink&quot;) inside [&quot;in&quot;] I (abbreviation of &quot;iodine&quot;)
+= WAITER
+definition: &quot;supplier&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">container [&#x27;in&#x27;]
+  abbreviation(&#x27;I&#x27; src=&#x27;iodine&#x27;)
+  synonym(&#x27;WATER&#x27; src=&#x27;drink&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "supplier" -> WAITER</div>
+<div class="meta">link_words: [&#x27;put&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces WAITER</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;iodine&quot;-&gt;I (abbr); &quot;drink&quot;-&gt;WATER</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;in&quot; -&gt; container</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">non-link words declared as link_words: [&#x27;put&#x27;]</span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">container_outer_inner_not_preserved</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Infant to hurry back with first aid item NURSLING - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">25a</span>
+<span class="ans">NURSLING</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Infant to hurry back with first aid item</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Gymnast ultimately leaving risky exploit for floor STUN - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">26a</span>
+<span class="ans">STUN</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Gymnast ultimately leaving risky exploit for floor</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="ChatGPT may fail this, stuttering badly TURINGTEST anagram op_name_not_preserved_in_solveresult op_inferred_from_token_mix_not_provided">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">27a</span>
+<span class="ans">TURINGTEST</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">anagram</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">ChatGPT may fail this, stuttering badly</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">anagram [&quot;badly&quot;] of &quot;stuttering&quot;
+= TURINGTEST
+definition: &quot;fail&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">anagram [&#x27;badly&#x27;]
+  literal(&#x27;STUTTERING&#x27; src=&#x27;stuttering&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "fail" -> TURINGTEST</div>
+<div class="meta">link_words: [&#x27;this,&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces TURINGTEST</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified literal &quot;stuttering&quot;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;badly&quot; -&gt; anagram</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">unaccounted: [&#x27;chatgpt&#x27;, &#x27;may&#x27;, &#x27;this&#x27;]; non-link words declared as link_words: [&#x27;this,&#x27;]</span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">op_inferred_from_token_mix_not_provided</span>
+<span class="flag">op_name_not_preserved_in_solveresult</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Short-term plan? JAILBREAK - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">1d</span>
+<span class="ans">JAILBREAK</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Short-term plan?</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Upset with specification for baseball attire? CAPSIZE - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">2d</span>
+<span class="ans">CAPSIZE</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Upset with specification for baseball attire?</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="pass" data-text="Nutter in Barking? Goodness! NUTRIENT anagram ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">3d</span>
+<span class="ans">NUTRIENT</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">anagram</span>
+<span class="pill v-pass">PASS</span>
+</div>
+</div>
+<div class="clue">Nutter in Barking? Goodness!</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">anagram [&quot;Barking&quot;] of [&quot;Nutter&quot;, &quot;in&quot;]
+= NUTRIENT
+definition: &quot;Goodness&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">anagram [&#x27;Barking&#x27;]
+  literal(&#x27;NUTTER&#x27; src=&#x27;Nutter&#x27;)
+  literal(&#x27;IN&#x27; src=&#x27;in&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "Goodness" -> NUTRIENT</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces NUTRIENT</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified literal &quot;Nutter&quot;; literal &quot;in&quot;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;Barking&quot; -&gt; anagram</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">residue</span><span class="ck-detail"></span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="pass" data-text="Fitness coach working on a laser printer PERSONALTRAINER anagram ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">4d</span>
+<span class="ans">PERSONALTRAINER</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">anagram</span>
+<span class="pill v-pass">PASS</span>
+</div>
+</div>
+<div class="clue">Fitness coach working on a laser printer</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">anagram [&quot;working&quot;] of [&quot;on&quot;, &quot;a&quot;, &quot;laser&quot;, &quot;printer&quot;]
+= PERSONALTRAINER
+definition: &quot;Fitness coach&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">anagram [&#x27;working&#x27;]
+  literal(&#x27;ON&#x27; src=&#x27;on&#x27;)
+  literal(&#x27;A&#x27; src=&#x27;a&#x27;)
+  literal(&#x27;LASER&#x27; src=&#x27;laser&#x27;)
+  literal(&#x27;PRINTER&#x27; src=&#x27;printer&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "Fitness coach" -> PERSONALTRAINER</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces PERSONALTRAINER</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified literal &quot;on&quot;; literal &quot;a&quot;; literal &quot;laser&quot;; literal &quot;printer&quot;</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">verified &quot;working&quot; -&gt; anagram</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">residue</span><span class="ck-detail"></span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Meat essential to croquettes a la minute SALAMI - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">5d</span>
+<span class="ans">SALAMI</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Meat essential to croquettes a la minute</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Beautiful old partner is cracking a bit EXQUISITE - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">6d</span>
+<span class="ans">EXQUISITE</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Beautiful old partner is cracking a bit</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Obvious occasion to carry papers EVIDENT container container_outer_inner_not_preserved">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">7d</span>
+<span class="ans">EVIDENT</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">container</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Obvious occasion to carry papers</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">ID (synonym of &quot;papers&quot;) inside (container indicator missing) EVENT (synonym of &quot;occasion&quot;)
+= EVIDENT
+definition: &quot;Obvious&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">container
+  synonym(&#x27;EVENT&#x27; src=&#x27;occasion&#x27;)
+  synonym(&#x27;ID&#x27; src=&#x27;papers&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "Obvious" -> EVIDENT</div>
+<div class="meta">link_words: [&#x27;to&#x27;, &#x27;carry&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces EVIDENT</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;occasion&quot;-&gt;EVENT; &quot;papers&quot;-&gt;ID</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">container node has no indicator</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">non-link words declared as link_words: [&#x27;carry&#x27;]</span></div>
+</div>
+</div>
+<div class="flags">flags: 
+<span class="flag">container_outer_inner_not_preserved</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Geez! Panama possibly get bronze in part of New York MANHATTAN - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">13d</span>
+<span class="ans">MANHATTAN</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Geez! Panama possibly get bronze in part of New York</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="fail" data-text="Supervision error OVERSIGHT synonym ">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">15d</span>
+<span class="ans">OVERSIGHT</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">synonym</span>
+<span class="pill v-fail">FAIL</span>
+</div>
+</div>
+<div class="clue">Supervision error</div>
+<div class="section">
+<div class="section-label">Explanation</div>
+<pre class="rendered">OVERSIGHT (synonym of &quot;Supervision&quot;)
+= OVERSIGHT
+definition: &quot;Supervision&quot;</pre>
+</div>
+<div class="section">
+<div class="section-label">Form tree</div>
+<div class="tree">synonym(&#x27;OVERSIGHT&#x27; src=&#x27;Supervision&#x27;)</div>
+<div class="meta" style="margin-top:6px;">definition: "Supervision" -> OVERSIGHT</div>
+<div class="meta">link_words: [&#x27;error&#x27;]</div>
+</div>
+<div class="section">
+<div class="section-label">Verifier checks</div>
+<div class="checks">
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">assembly</span><span class="ck-detail">tree produces OVERSIGHT</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.leaves</span><span class="ck-detail">verified &quot;Supervision&quot;-&gt;OVERSIGHT</span></div>
+<div class="check ck-ok"><span class="ck-mark">+</span><span class="ck-name">bridge.indicators</span><span class="ck-detail">no indicator-bearing nodes</span></div>
+<div class="check ck-bad"><span class="ck-mark">X</span><span class="ck-name">residue</span><span class="ck-detail">non-link words declared as link_words: [&#x27;error&#x27;]</span></div>
+</div>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Muscle right into boy’s military unit SQUADRON - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">16d</span>
+<span class="ans">SQUADRON</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Muscle right into boy’s military unit</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Speech read to mob — Republican senator turning up during it RIOTACT - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">18d</span>
+<span class="ans">RIOTACT</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Speech read to mob — Republican senator turning up during it</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Copy French island’s material TEXTILE - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">20d</span>
+<span class="ans">TEXTILE</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Copy French island’s material</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<div class="card" data-cat="no-form" data-text="Repeat — one of Henry’s wives got beheaded PARROT - solver_no_result">
+<div class="card-head">
+<div class="card-h-l">
+<span class="puzzle">times_29533</span>
+<span class="num">21d</span>
+<span class="ans">PARROT</span>
+</div>
+<div class="card-h-r">
+<span class="pill wptype">-</span>
+<span class="pill v-noform">NO_FORM</span>
+</div>
+</div>
+<div class="clue">Repeat — one of Henry’s wives got beheaded</div>
+<div class="banner-soft">solve_clue returned no SignatureResult</div>
+<div class="flags">flags: 
+<span class="flag">solver_no_result</span>
+</div>
+</div>
+<script>
+function applyFilter() {
+  const cat = document.querySelector('button.active')?.dataset.cat || 'all';
+  const q = (document.getElementById('q').value || '').toLowerCase();
+  let shown = 0;
+  for (const card of document.querySelectorAll('.card')) {
+    const cardCat = card.dataset.cat || '';
+    const text = (card.dataset.text || '').toLowerCase();
+    const catOk = (cat === 'all' || cardCat.split(' ').includes(cat));
+    const qOk = (q === '' || text.includes(q));
+    card.style.display = (catOk && qOk) ? '' : 'none';
+    if (catOk && qOk) shown += 1;
+  }
+  document.getElementById('shown').textContent = String(shown);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  for (const b of document.querySelectorAll('.toolbar button')) {
+    b.addEventListener('click', () => {
+      for (const x of document.querySelectorAll('.toolbar button'))
+        x.classList.remove('active');
+      b.classList.add('active');
+      applyFilter();
+    });
+  }
+  document.getElementById('q').addEventListener('input', applyFilter);
+});
+</script>
+</body></html>

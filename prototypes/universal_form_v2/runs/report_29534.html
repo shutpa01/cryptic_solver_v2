@@ -1,0 +1,515 @@
+<!DOCTYPE html><html><head>
+<meta charset="utf-8">
+<title>Times 29534 - Form Pipeline Report</title>
+
+<style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+       max-width: 1100px; margin: 0 auto; padding: 24px;
+       color: #1a1a1a; background: #fafafa; line-height: 1.5; }
+h1 { margin: 0 0 8px; }
+h2 { margin: 32px 0 12px; padding-bottom: 6px;
+     border-bottom: 2px solid #ddd; }
+.summary { background: #fff; padding: 16px 20px; border-radius: 8px;
+           border: 1px solid #ddd; margin: 12px 0 24px;
+           font-size: 1.05em; }
+.summary span { display: inline-block; margin-right: 24px; }
+.summary .pass { color: #1a7f37; font-weight: 600; }
+.summary .fail { color: #cf222e; font-weight: 600; }
+.summary .none { color: #9a6700; font-weight: 600; }
+.clue { background: #fff; border: 1px solid #ddd; border-radius: 8px;
+        padding: 16px 20px; margin: 12px 0; }
+.clue.pass { border-left: 4px solid #1a7f37; }
+.clue.fail { border-left: 4px solid #cf222e; }
+.clue.no_form { border-left: 4px solid #9a6700; }
+.clue h3 { margin: 0 0 8px; font-size: 1.1em;
+           display: flex; justify-content: space-between; align-items: baseline; }
+.clue .verdict-tag { font-size: 0.75em; font-weight: 700;
+                     padding: 3px 10px; border-radius: 999px;
+                     letter-spacing: 0.5px; }
+.verdict-tag.pass { background: #d1f4d8; color: #1a7f37; }
+.verdict-tag.fail { background: #ffd3d3; color: #cf222e; }
+.verdict-tag.no_form { background: #ffe9b3; color: #9a6700; }
+.field { margin: 6px 0; }
+.field-label { display: inline-block; font-weight: 600;
+                color: #555; min-width: 160px; vertical-align: top; }
+.field-value { display: inline-block; max-width: calc(100% - 170px); }
+code { background: #f0f0f0; padding: 1px 6px; border-radius: 4px;
+       font-size: 0.92em; word-break: break-word; }
+.form { font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.85em; background: #f5f5f5; padding: 8px 12px;
+        border-radius: 6px; word-break: break-word;
+        white-space: pre-wrap; line-height: 1.4; margin: 6px 0;
+        border-left: 3px solid #888; }
+.checks { margin: 8px 0 4px; padding-left: 0; list-style: none; }
+.checks li { font-size: 0.92em; padding: 2px 0;
+             font-family: "SF Mono", Menlo, Consolas, monospace; }
+.check-pass::before { content: "✓ "; color: #1a7f37; font-weight: 700; }
+.check-fail::before { content: "✗ "; color: #cf222e; font-weight: 700; }
+.wpt-match { color: #1a7f37; font-weight: 600; }
+.wpt-mismatch { color: #cf222e; font-weight: 600; }
+.note { font-style: italic; color: #555; margin-top: 6px;
+        background: #fff8dd; padding: 6px 10px; border-radius: 4px;
+        border-left: 3px solid #d4a72c; font-size: 0.92em; }
+table.toc { width: 100%; border-collapse: collapse; margin: 12px 0; }
+table.toc td, table.toc th { padding: 4px 8px; border-bottom: 1px solid #eee;
+                                font-size: 0.9em; }
+table.toc th { text-align: left; background: #f0f0f0; }
+table.toc a { text-decoration: none; color: inherit; }
+table.toc a:hover { text-decoration: underline; }
+table.toc tr.pass td:first-child { color: #1a7f37; font-weight: 600; }
+table.toc tr.fail td:first-child { color: #cf222e; font-weight: 600; }
+table.toc tr.no_form td:first-child { color: #9a6700; font-weight: 600; }
+</style>
+
+</head><body>
+<h1>Times 29534 - Form Pipeline Report</h1>
+<div class="summary">
+<span class="pass">PASS: 14/28 (50%)</span>
+<span class="fail">FAIL: 2</span>
+<span class="none">NO_FORM: 12</span>
+<br><span style="color:#666">Run: 2026-05-05 - Held-out puzzle (not in training sample 29500-29530)</span>
+</div>
+<h2>Index</h2>
+<table class="toc"><thead><tr><th>Verdict</th><th>Clue</th><th>Answer</th><th>DB wordplay type</th><th>Pipeline pattern</th></tr></thead><tbody>
+<tr class="pass"><td>PASS</td><td><a href="#c1a">1a</a></td><td>LIVERWORT</td><td><code>charade</code></td><td><code>anagram</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c6a">6a</a></td><td>SHARP</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c9a">9a</a></td><td>CONTEMPTOFCOURT</td><td><code>double_definition</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c10a">10a</a></td><td>MILDEW</td><td><code>charade</code></td><td><code>reversal_charade</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c11a">11a</a></td><td>ALTEREGO</td><td><code>charade</code></td><td><code>-</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c13a">13a</a></td><td>GIANTPANDA</td><td><code>charade</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c14a">14a</a></td><td>FELL</td><td><code>-</code></td><td><code>single_piece</code></td></tr>
+<tr class="fail"><td>FAIL</td><td><a href="#c16a">16a</a></td><td>ARCH</td><td><code>deletion</code></td><td><code>single_piece</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c17a">17a</a></td><td>PENTAMETER</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c19a">19a</a></td><td>SICILIAN</td><td><code>container</code></td><td><code>container_anagram</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c20a">20a</a></td><td>HOARSE</td><td><code>container</code></td><td><code>-</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c23a">23a</a></td><td>OPENANDSHUTCASE</td><td><code>double_definition</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c24a">24a</a></td><td>EMMET</td><td><code>charade</code></td><td><code>reversal_charade</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c25a">25a</a></td><td>NOTORIETY</td><td><code>container</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c1d">1d</a></td><td>LOCUM</td><td><code>charade</code></td><td><code>reversal_charade</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c2d">2d</a></td><td>VANILLAICECREAM</td><td><code>-</code></td><td><code>anagram</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c3d">3d</a></td><td>REELECTS</td><td><code>container</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c4d">4d</a></td><td>OOPS</td><td><code>reversal</code></td><td><code>reversal</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c5d">5d</a></td><td>TROGLODYTE</td><td><code>anagram</code></td><td><code>anagram</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c6d">6d</a></td><td>SACHET</td><td><code>container</code></td><td><code>-</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c7d">7d</a></td><td>AMUSEMENTARCADE</td><td><code>anagram</code></td><td><code>-</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c8d">8d</a></td><td>POTBOILER</td><td><code>-</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c12d">12d</a></td><td>GAMEWARDEN</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c13d">13d</a></td><td>GLADSTONE</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c15d">15d</a></td><td>IMPOSTER</td><td><code>charade</code></td><td><code>-</code></td></tr>
+<tr class="no_form"><td>NO_FORM</td><td><a href="#c18d">18d</a></td><td>PLIANT</td><td><code>container</code></td><td><code>-</code></td></tr>
+<tr class="pass"><td>PASS</td><td><a href="#c21d">21d</a></td><td>ELEGY</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+<tr class="fail"><td>FAIL</td><td><a href="#c22d">22d</a></td><td>WHIT</td><td><code>charade</code></td><td><code>charade</code></td></tr>
+</tbody></table>
+<h2>Clue-by-clue detail</h2>
+<div class="clue pass" id="c1a">
+<h3>1a. LIVERWORT<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">On air row traumatised and exhausted Robert Plant</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">LIVE (on air), anagram [traumatised] of ROW , then R {ober} T [exhausted]. Apparently Robert Plant was the lead singer of the rock band Led Zeppelin.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Plant</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-mismatch"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-mismatch"><code>anagram</code> (trial fired: <code>anagram</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">anagram [traumatised](synonym(LIVE ← 'On air'), literal(ROW ← 'row'), positional[outer](RT ← 'exhausted Robert'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>LIVE</code> ← 'On air'; <code>ROW</code> ← 'row'; <code>RT</code> ← 'exhausted Robert'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>traumatised</code>' [anagram]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces LIVERWORT</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;On air&quot;-&gt;LIVE; literal &quot;row&quot;; outer of &quot;exhausted Robert&quot;=RT</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;traumatised&quot; -&gt; anagram</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue pass" id="c6a">
+<h3>6a. SHARP<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Piercing, principally shrill instrument</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">S {hrill} [principally], HARP (instrument)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Piercing</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(literal(S ← 'principally shrill'), synonym(HARP ← 'instrument'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>S</code> ← 'principally shrill'; <code>HARP</code> ← 'instrument'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces SHARP</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified literal &quot;principally shrill&quot;; &quot;instrument&quot;-&gt;HARP</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c9a">
+<h3>9a. CONTEMPTOFCOURT<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Smashing racket crime?</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Cryptic with reference to tennis</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Smashing racket crime?</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>double_definition</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="note">Pure double-definition. Blog says &quot;Cryptic with reference to tennis&quot; - DD detector requires literal &quot;Double definition&quot; or &quot;DD&quot;.</div>
+</div>
+<div class="clue pass" id="c10a">
+<h3>10a. MILDEW<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Disease from beer we knocked back</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">MILD (beer), then WE reversed [knocked back]. A plant disease caused by fungus.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Disease</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade &gt; reversal</code> (trial fired: <code>reversal_charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(synonym(MILD ← 'beer'), reversal [knocked back](literal(WE ← 'we')))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>MILD</code> ← 'beer'; <code>WE</code> ← 'we'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>knocked back</code>' [reversal]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces MILDEW</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;beer&quot;-&gt;MILD; literal &quot;we&quot;</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;knocked back&quot; -&gt; reversal</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c11a">
+<h3>11a. ALTEREGO<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Imperative to get little George a close friend</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Imperative here is an instruction, so ‘to get little George ‘ / GEO you ALTER EGO</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>a close friend</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>I</code> ← 'Imperative'; <code>EGO</code> ← 'to'; <code>GEO</code> ← 'get'; <code>ALTER</code> ← 'little'; <code>G</code> ← 'George'</span></div>
+<div class="note">Unusual instruction-prose blog. Even hard for a human to parse mechanically.</div>
+</div>
+<div class="clue no_form" id="c13a">
+<h3>13a. GIANTPANDA<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Huge letters used to spell “Dad”, being popular in China</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">GIANT (huge), P AND A (letters used to spell PA – Dad)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>being popular in China</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>GIANT</code> ← 'Huge'; <code>A</code> ← 'letters used to spell Dad'</span></div>
+<div class="note">Blog notation &quot;P AND A&quot; with literal AND between letters not parsed as charade(P, AND, A).</div>
+</div>
+<div class="clue pass" id="c14a">
+<h3>14a. FELL<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Knock down chap emitting cry of pain</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">FELL {ow} (chap) [emitting cry of pain]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Knock down</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>-</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>synonym</code> (trial fired: <code>single_piece</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">synonym(FELL ← 'chap emitting cry of pain')</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>FELL</code> ← 'chap emitting cry of pain'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces FELL</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;chap emitting cry of pain&quot;-&gt;FELL</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue fail" id="c16a">
+<h3>16a. ARCH<span class="verdict-tag fail">FAIL</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Chief taking off first of the month</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">{m} ARCH (month) [taking off first]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Chief</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-mismatch"><code>deletion</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-mismatch"><code>synonym</code> (trial fired: <code>single_piece</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">synonym(ARCH ← 'month')</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>ARCH</code> ← 'month'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>taking off first</code>' [container]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces ARCH</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;month&quot;-&gt;ARCH</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-fail"><code>residue</code>: unaccounted: [&#x27;first&#x27;, &#x27;off&#x27;, &#x27;taking&#x27;]</li>
+</ul>
+<div class="note">Should be a head-deletion of M from MARCH. The {m} curly notation was identified but the deletion node never got built into the form.</div>
+</div>
+<div class="clue pass" id="c17a">
+<h3>17a. PENTAMETER<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Write uninspiring incomplete ending for literary work</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">PEN (write), TAME (uninspiring), TER {m} (ending) [incomplete]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>literary work</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(synonym(PEN ← 'Write'), synonym(TAME ← 'uninspiring'), synonym(TER ← 'incomplete ending'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>PEN</code> ← 'Write'; <code>TAME</code> ← 'uninspiring'; <code>TER</code> ← 'incomplete ending'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces PENTAMETER</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;Write&quot;-&gt;PEN; &quot;uninspiring&quot;-&gt;TAME; &quot;incomplete ending&quot;-&gt;TER</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue pass" id="c19a">
+<h3>19a. SICILIAN<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Italian snail unexpectedly seen around here in France</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Anagram [unexpectedly] of SNAIL containing [seen around] ICI (‘here’ in France)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Italian</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>container &gt; anagram</code> (trial fired: <code>container_anagram</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">container [seen around](anagram [unexpectedly](literal(SNAIL ← 'snail')), synonym(ICI ← 'here in France'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>SNAIL</code> ← 'snail'; <code>ICI</code> ← 'here in France'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>unexpectedly</code>' [anagram]; '<code>seen around</code>' [container]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces SICILIAN</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified literal &quot;snail&quot;; &quot;here in France&quot;-&gt;ICI</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;seen around&quot; -&gt; container; &quot;unexpectedly&quot; -&gt; anagram</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c20a">
+<h3>20a. HOARSE<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Husky is a cracking four-legged friend</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">A contained by [cracking] HO ⁁ RSE ( four-legged friend ). From the days of Uncle Mac and Children’s Favourites on the radio .</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Husky</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>A</code> ← 'a'; <code>RSE</code> ← 'four legged friend'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>is</code>' [container]; '<code>cracking</code>' [anagram]</span></div>
+<div class="note">Caret marker in HO⁁RSE was not stripped, splitting HORSE into two pieces. Should be container(HORSE, A) = HOARSE.</div>
+</div>
+<div class="clue no_form" id="c23a">
+<h3>23a. OPENANDSHUTCASE<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Inspector isn’t overworked by this perfunctory luggage check?</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Two meanings</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Inspector isn’t overworked by this / perfunctory luggage check</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>double_definition</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="note">Same as above - &quot;Two meanings&quot; not detected as DD.</div>
+</div>
+<div class="clue pass" id="c24a">
+<h3>24a. EMMET<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">This compiler heading west bumped into tourist</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">ME (this compiler) reversed [heading west], MET (bumped into). Cornish slang for a holidaymaker. In Devon they’re called Grockles.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>tourist</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade &gt; reversal</code> (trial fired: <code>reversal_charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(reversal [heading west](abbreviation(ME ← 'This compiler')), synonym(MET ← 'bumped into'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>ME</code> ← 'This compiler'; <code>MET</code> ← 'bumped into'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>heading west</code>' [reversal]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces EMMET</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;This compiler&quot;-&gt;ME (abbr); &quot;bumped into&quot;-&gt;MET</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;heading west&quot; -&gt; reversal</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c25a">
+<h3>25a. NOTORIETY<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Turned on Conservative about regular instances of vilest infamy</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">ON reversed [turned], TOR ⁁ Y (Conservative) containing [about] {v} I {l} E {s} T [regular instances of…]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>infamy</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>ON</code> ← 'on'; <code>Y</code> ← 'Conservative'; <code>IET</code> ← 'regular instances of vilest'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>Turned</code>' [reversal]; '<code>about</code>' [reversal]</span></div>
+<div class="note">Caret marker in TOR⁁Y splits TORY into TOR + Y.</div>
+</div>
+<div class="clue pass" id="c1d">
+<h3>1d. LOCUM<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Substitute officer upset uniform men at the start</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">COL (officer – Colonel ) reversed [upset], U (uniform), M {en} [at the start]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Substitute</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade &gt; reversal</code> (trial fired: <code>reversal_charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(reversal [upset](synonym(COL ← 'officer')), abbreviation(U ← 'uniform'), literal(M ← 'men at the start'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>COL</code> ← 'officer'; <code>U</code> ← 'uniform'; <code>M</code> ← 'men at the start'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>upset</code>' [reversal]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces LOCUM</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;officer&quot;-&gt;COL; &quot;uniform&quot;-&gt;U (abbr); literal &quot;men at the start&quot;</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;upset&quot; -&gt; reversal</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue pass" id="c2d">
+<h3>2d. VANILLAICECREAM<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Sweet eclair Calvin ordered each month</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Anagram [ordered] of ECLAIR CALVIN , then EA (each), M (month)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Sweet</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>-</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>anagram</code> (trial fired: <code>anagram</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">anagram [ordered](literal(ECLAIRCALVIN ← 'eclair Calvin'), abbreviation(EA ← 'each'), abbreviation(M ← 'month'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>ECLAIRCALVIN</code> ← 'eclair Calvin'; <code>EA</code> ← 'each'; <code>M</code> ← 'month'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>ordered</code>' [anagram]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces VANILLAICECREAM</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified literal &quot;eclair Calvin&quot;; &quot;each&quot;-&gt;EA (abbr); &quot;month&quot;-&gt;M (abbr)</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;ordered&quot; -&gt; anagram</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c3d">
+<h3>3d. REELECTS<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Staggers after receiving shock treatment, puts back in power</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">REEL ⁁ S (staggers) containing [after receiving] ECT (shock treatment – electroconvulsive therapy )</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>puts back in power</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>S</code> ← 'Staggers'; <code>ECT</code> ← 'shock treatment'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>after receiving</code>' [container]</span></div>
+<div class="note">Caret marker in REEL⁁S splits REELS into REEL + S.</div>
+</div>
+<div class="clue pass" id="c4d">
+<h3>4d. OOPS<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Served up spirit, just missing king … sorry!</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">SPOO {k} (spirit) reversed [served up] [just missing king]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>sorry</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>reversal</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>reversal</code> (trial fired: <code>reversal</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">reversal [Served up](synonym(SPOO ← 'spirit just missing king'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>SPOO</code> ← 'spirit just missing king'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>Served up</code>' [reversal]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces OOPS</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;spirit just missing king&quot;-&gt;SPOO</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;Served up&quot; -&gt; reversal</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue pass" id="c5d">
+<h3>5d. TROGLODYTE<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Grotty old vagrant last seen in cave?</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Anagram [vagrant] of GROTTY OLD , then {cav} E [last seen in…]. A troglodyte was a cave-dweller so I guess the whole clue has to be the definition here.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Grotty old vagrant last seen in cave?</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>anagram</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>anagram</code> (trial fired: <code>anagram</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">anagram [vagrant](literal(GROTTYOLD ← 'Grotty old'), literal(E ← 'last seen in cave'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>GROTTYOLD</code> ← 'Grotty old'; <code>E</code> ← 'last seen in cave'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>vagrant</code>' [anagram]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces TROGLODYTE</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified literal &quot;Grotty old&quot;; literal &quot;last seen in cave&quot;</li>
+<li class="check-pass"><code>bridge.indicators</code>: verified &quot;vagrant&quot; -&gt; anagram</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c6d">
+<h3>6d. SACHET<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Way to accommodate long bag</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">S ⁁ T (way) containing [to accommodate] ACHE (long)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>bag</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>T</code> ← 'Way'; <code>ACHE</code> ← 'long'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>to accommodate</code>' [container]</span></div>
+<div class="note">Caret marker in S⁁T splits ST into S + T.</div>
+</div>
+<div class="clue no_form" id="c7d">
+<h3>7d. AMUSEMENTARCADE<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Cameramen used at broadcast games screened here</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">Anagram [broadcast] of CAMERAMAN USED AT</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>games screened here</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>anagram</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>CAMERAMANUSEDAT</code> ← 'Cameramen used at'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>broadcast</code>' [anagram]</span></div>
+<div class="note">Blog typo: &quot;CAMERAMAN USED AT&quot; instead of &quot;CAMERAMEN USED AT&quot; (the clue says CAMERAMEN). Letter sets do not match - assembly fails.</div>
+</div>
+<div class="clue no_form" id="c8d">
+<h3>8d. POTBOILER<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Post Office worker struggling to pen book, one written to raise cash</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">PO (Post Office), T ⁁ OILER (worker struggling) containing [to pen] B (book). Not sure where to place ‘struggling’ in this, but ‘toil’ suggests hard work. The definition refers back to ‘book’.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>one written to raise cash</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>-</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>PO</code> ← 'Post Office'; <code>OILER</code> ← 'worker struggling'; <code>B</code> ← 'book'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>to pen</code>' [container]</span></div>
+<div class="note">Caret marker in T⁁OILER splits TOILER into T + OILER.</div>
+</div>
+<div class="clue pass" id="c12d">
+<h3>12d. GAMEWARDEN<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Plucky wife, endlessly zealous officer in reserve</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">GAME (plucky), W (wife), ARDEN {t} (zealous) [endlessly]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>officer in reserve</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(synonym(GAME ← 'Plucky'), abbreviation(W ← 'wife'), synonym(ARDEN ← 'endlessly zealous'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>GAME</code> ← 'Plucky'; <code>W</code> ← 'wife'; <code>ARDEN</code> ← 'endlessly zealous'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces GAMEWARDEN</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;Plucky&quot;-&gt;GAME; &quot;wife&quot;-&gt;W (abbr); &quot;endlessly zealous&quot;-&gt;ARDEN</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue pass" id="c13d">
+<h3>13d. GLADSTONE<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Young man’s backing good quality statesman</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">G (good), LAD’S (young man’s), TONE (quality)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>statesman</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(abbreviation(G ← 'backing good'), synonym(LAD ← 'Young man'), literal(S ← 's'), synonym(TONE ← 'quality'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>LAD</code> ← 'Young man'; <code>S</code> ← 's'; <code>G</code> ← 'backing good'; <code>TONE</code> ← 'quality'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces GLADSTONE</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;backing good&quot;-&gt;G (abbr); &quot;Young man&quot;-&gt;LAD; literal &quot;s&quot;; &quot;quality&quot;-&gt;TONE</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue no_form" id="c15d">
+<h3>15d. IMPOSTER<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Deceitful character put up motorway notice</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">M1 (motorway) reversed [put up], POSTER (notice)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Deceitful character</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>M</code> ← 'motorway'; <code>POSTER</code> ← 'notice'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>put up</code>' [reversal]</span></div>
+<div class="note">Blog has M1 (uppercase letter + digit). Parser only matches uppercase letter sequences for PIECEs, so it picked up M but dropped the 1. The 1 reverses to I (numeral-as-letter trick).</div>
+</div>
+<div class="clue no_form" id="c18d">
+<h3>18d. PLIANT<span class="verdict-tag no_form">NO_FORM</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Plastic factory beginning to implement cuts</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">I {mplement} [beginning to…] contained by [cuts] PL ⁁ ANT (factory)</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Plastic</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value "><code>container</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value "><code>-</code> (trial fired: <code>-</code>)</span></div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>ANT</code> ← 'factory'; <code>I</code> ← 'beginning to implement'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>cuts</code>' [deletion]</span></div>
+<div class="note">Caret marker in PL⁁ANT splits PLANT into PL + ANT. &quot;cuts&quot; wrongly tagged as deletion - it is the container indicator here.</div>
+</div>
+<div class="clue pass" id="c21d">
+<h3>21d. ELEGY<span class="verdict-tag pass">PASS</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Lament English cricket side, the ultimate in ignominy</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">E (English), LEG (cricket side – as opposed to ‘off’ ), {ignomin} Y [the ultimate in…]</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>Lament</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(abbreviation(E ← 'English'), synonym(LEG ← 'cricket side'), literal(Y ← 'the ultimate in ignominy'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>E</code> ← 'English'; <code>LEG</code> ← 'cricket side'; <code>Y</code> ← 'the ultimate in ignominy'</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces ELEGY</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified &quot;English&quot;-&gt;E (abbr); &quot;cricket side&quot;-&gt;LEG; literal &quot;the ultimate in ignominy&quot;</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-pass"><code>residue</code>: (no detail)</li>
+</ul>
+</div>
+<div class="clue fail" id="c22d">
+<h3>22d. WHIT<span class="verdict-tag fail">FAIL</span></h3>
+<div class="field"><span class="field-label">Clue:</span><span class="field-value">Congress supporting leaders of White House a tiny bit</span></div>
+<div class="field"><span class="field-label">Blog:</span><span class="field-value">W {hite} + H {ouse} [leaders of…], IT (congress). A little weak having ‘white’ in the clue although of course it adds to the surface.</span></div>
+<div class="field"><span class="field-label">Definition (DB):</span><span class="field-value"><code>a tiny bit</code></span></div>
+<div class="field"><span class="field-label">Wordplay type (DB):</span><span class="field-value wpt-match"><code>charade</code></span></div>
+<div class="field"><span class="field-label">Pipeline classification:</span><span class="field-value wpt-match"><code>charade</code> (trial fired: <code>charade</code>)</span></div>
+<div class="field"><span class="field-label">Form:</span></div>
+<div class="form">charade(literal(W ← 'White'), literal(H ← 'House'), abbreviation(IT ← 'Congress supporting'))</div>
+<div class="field"><span class="field-label">Pieces:</span><span class="field-value"><code>IT</code> ← 'Congress supporting'; <code>W</code> ← 'White'; <code>H</code> ← 'House'</span></div>
+<div class="field"><span class="field-label">Indicators:</span><span class="field-value">'<code>leaders of</code>' [acrostic]</span></div>
+<ul class="checks">
+<li class="check-pass"><code>assembly</code>: tree produces WHIT</li>
+<li class="check-pass"><code>bridge.leaves</code>: verified literal &quot;White&quot;; literal &quot;House&quot;; &quot;Congress supporting&quot;-&gt;IT (abbr)</li>
+<li class="check-pass"><code>bridge.indicators</code>: no indicator-bearing nodes</li>
+<li class="check-fail"><code>residue</code>: unaccounted: [&#x27;leaders&#x27;, &#x27;of&#x27;]</li>
+</ul>
+<div class="note">&quot;leaders of&quot; was tagged as acrostic indicator but the form ended up as plain charade - the acrostic op did not fire because pieces W, H were already typed as literals.</div>
+</div>
+</body></html>
