@@ -111,7 +111,7 @@ The cascade structure mirrors `sonnet_pipeline/run.py`:
 | 0c | Double definitions | `backfill_ai_exp.backfill_dd_hidden.generate_dd_hypotheses` |
 | 0.5 | V1 mechanical (anagram, charade, container, deletion, reversal, acrostic, homophone) | `backfill_ai_exp.batch_v1_solver.try_*` |
 | 1 | Catalog match | **NEW: tree-aware matcher** (replaces production's flat-token signature_solver) |
-| 2 | LLM (Sonnet) | wired but skipped in prototype |
+| 2 | LLM (Haiku) | wired but skipped in prototype |
 | 3 | Re-solve after enrichment | meta-process |
 
 ### 3.3 Production engines as DETECTORS, not solvers
@@ -170,6 +170,82 @@ ambiguity is rare); we record one canonical form per clue.
 enrichment candidates. **For solved clues**, no further enrichment
 candidates are emitted (they would be spurious).
 
+### 3.6 Per-puzzle flow — two passes plus PENDING review
+
+The runtime unit of work is **one puzzle**, not a random cohort.
+Each puzzle goes through the cascade self-contained, mirroring how
+the live system runs day-to-day. Cohort-based sampling was the
+one-off bulk catalog build (33 → 265 templates); per-puzzle
+processing is the steady-state model going forward.
+
+**First pass.** Walk every clue in the puzzle through §3.4. Each
+clue receives one of three verdicts, recorded in `shadow_db.solves`:
+
+- **PASS** — clipboard-verified form. Done.
+- **FAIL** — no template fit and no verified form. The cascade
+  emits the deduped enrichment candidates from every failed
+  attempt, naming the exact missing synonyms, abbreviations, or
+  indicators.
+- **PENDING** — the verifier cannot mechanically judge the form.
+  Today this covers &lit clues (whole clue is both definition and
+  wordplay); after leftover authoring it also covers cryptic
+  definitions.
+
+**Leftover authoring.** Every FAIL goes into the leftover queue.
+The leftover process now produces the two artefacts the clue
+needs to verify:
+
+1. A catalog entry for the clue's structure, if it isn't already
+   in `catalog_v1.json`.
+2. The shadow-vocabulary rows (synonyms, abbreviations, indicators)
+   that bridge the wordplay to the answer.
+
+Both must be authored together — a new template without the rows
+to verify it is half a fix. Catalog and DB rows land in the
+shadow layer with provenance.
+
+For Times, Guardian, and Independent puzzles the leftover author
+has the **blog explanation** as raw material. TFTT covers Times;
+15² covers Guardian and Independent. The blogger has already
+done the cryptic reading; authoring becomes translation from
+prose into a Form plus the exact DB rows the wordplay needs.
+Telegraph and Daily Mail puzzles have no public blog; for those
+the author works from the clue and answer alone.
+
+**The leftover process no longer authors prose explanations.**
+The explanation falls out of the verified form, not the other way
+round. Authoring catalog + enrichment is the new shape.
+
+If the leftover author concludes a FAIL is a **cryptic definition**
+— no wordplay to mechanise — they tag it **PENDING** rather than
+authoring a template. The clue moves into the PENDING queue
+without re-entering the cascade.
+
+**Second pass.** With the enriched catalog and shadow vocabulary
+in place, re-run the cascade on every clue that was FAIL on the
+first pass. Two kinds of clue clear here:
+
+- Clues that matched a signature on the first pass but failed the
+  verifier for missing DB rows. Now PASS.
+- Clues that needed a freshly-authored signature. Now PASS via
+  the new template.
+
+After the second pass, every clue should be **PASS or PENDING**.
+A residual FAIL means leftover authoring was incomplete — a flag
+for the reviewer, not a runtime failure.
+
+**PENDING review.** The dashboard's PENDING tab surfaces every
+PENDING clue (CDs and &lits). For each item the reviewer either:
+
+- **Confirms** — the form is correct; verdict promotes to PASS;
+  the form joins the catalog like any other PASS.
+- **Rejects** — the form is wrong; verdict drops to FAIL; the
+  clue re-enters the leftover queue.
+
+PENDING is a third verdict, not a soft PASS. Catalog templates
+never grow from a PENDING item until the reviewer has confirmed
+it.
+
 -----
 
 ## 4. Data model
@@ -219,7 +295,13 @@ collects clipboard-PASS forms and groups them by signature.
 
 ### 4.3 Shadow DB (`prototypes/universal_form_v2/shadow_db.py`)
 
-Six tables in `data/shadow_blog_v0.db`. Live DB is never touched.
+Six tables in `data/shadow_blog_v0.db`. The prototype solver writes
+only to shadow; the live `cryptic_new` DB is never written to
+directly. Promotion of approved enrichment candidates from shadow
+into `cryptic_new` happens via the dashboard's human-review tab —
+the same gate the live system already uses for its own enrichment
+workflow. The shadow DB is staging, not a separate untouchable
+layer.
 
 **Vocabulary tables** mirror the live DB shape, with **clue_id and
 solve_id provenance** so every shadow row can be audited:
@@ -365,6 +447,54 @@ When you say "run the signature on a sample," you mean fit the
 template to **clue text**, with the blog set aside. Never reach for
 blog regex — that pattern-matches notation, not mechanism.
 
+### 5.9 Abbreviation vs synonym — must be classified honestly
+
+An **abbreviation** is a shortening whose letters are taken from
+the initial letters of the source word(s). The source and the short
+form are the same word(s), just compressed.
+
+- STREET → ST — abbreviation (S then T are letters of STREET).
+- CUBIC CENTILITER → CC — abbreviation (C from CUBIC, C from
+  CENTILITER).
+- DEGREE → D — abbreviation (initial letter of the source).
+
+A **synonym** is a different word or phrase with the same meaning.
+The letters of the short form are not lifted from the source.
+
+- PENSIONER → OAP — synonym (OAP is "old age pensioner", a
+  different phrase).
+- COMPUTERS → IT — synonym (IT is "information technology"; the
+  letters I, T are not initial letters of "computers").
+
+If the short form's letters cannot be derived from the initial
+letters of the source word(s), the relationship is **synonymous,
+not abbreviational**. The verifier's Rule 2 distinguishes the two
+via different DB tables; enrichment review must classify each
+candidate correctly before approval. A row filed in the wrong
+table is worse than no row at all — it pollutes future solves.
+
+### 5.10 Indicators must be filed under their actual cryptic role
+
+Every indicator has a specific cryptic role: anagram, reversal,
+container, deletion, hidden, homophone, acrostic, **outer-letter**,
+positional (first / last / middle / alternate), and so on. An
+indicator must be filed under the role its surface meaning
+actually plays — not under a near-miss role that happens to match
+the answer's letters in this one clue.
+
+- HUSK is an **outer-letter** indicator: the husk is the outer
+  skin, so HUSK signals "the outer letters of …". HUSK is **not**
+  a deletion indicator on its own.
+- To delete the inner letters and keep only the outer ones, the
+  clue must pair HUSK (outer-letter) with a deletion or insertion
+  indicator. Compound mechanism, two indicators.
+- Same principle for every indicator. Classify by surface meaning,
+  not by what would happen to fit the answer.
+
+A near-miss filing is not a small error — it lets the verifier
+PASS structurally wrong forms, exactly the failure mode the
+fodder-integrity sub-rule was added to close.
+
 -----
 
 ## 6. Components
@@ -394,8 +524,12 @@ blog regex — that pattern-matches notation, not mechanism.
 | Cascade driver | Single entry point `solve_clue_parallel(clue_id, clue_text, answer, db, ref_db, dd_graph, shadow_conn)` orchestrating phases 0a → 1, with shadow_db writes. |
 | Per-phase routing-hint adapters | Tiny functions that call production's detector and return a mechanism-class hint. |
 | Spoonerism factory in schema.py | One-line addition. |
-| Review surface for shadow_db | CLI or report so the user can scan shadow rows and approve / reject before promotion. |
+| Enrichment dashboard tab | A new tab on the existing live-system dashboard, parallel to the live enrichment surface. Surfaces the prototype's enrichment candidates (shadow vocabulary rows + verifier-FAIL diagnostics, with `clue_id` / `solve_id` provenance). The reviewer approves or rejects each candidate; **approval promotes the row into the live `cryptic_new` DB** exactly as the live enrichment workflow does today. The shadow DB is staging, not a separate untouchable layer. |
 | Catalog templates for ops production solves at phase 0/0.5 | Hidden, spoonerism, DD, anagram, etc. They will accrue once the matcher can produce forms in those shapes and runs against a corpus. |
+| Per-puzzle driver | Mirror of `sonnet_pipeline/run.py::run_puzzle` for the parallel system. Orchestrates first pass, hands FAILs to leftover authoring, runs the second pass, surfaces PENDING for review. The puzzle is the unit of work. |
+| Leftover authoring tool | Dashboard surface where the human (assisted by Haiku where blogs are available) authors a catalog entry plus the shadow-vocabulary rows for a FAIL clue. Reads `seed_failures` / cascade FAIL output; writes catalog candidates and shadow vocabulary rows with provenance. Tags CDs as PENDING in lieu of a template. |
+| Second-pass orchestration | After leftover authoring for a puzzle, re-run the cascade against every first-pass FAIL with the enriched catalog + shadow vocabulary loaded. |
+| PENDING review tab | Dashboard tab that surfaces PENDING clues (CDs and &lits). Reviewer confirms (→ PASS, joins catalog) or rejects (→ FAIL, back to leftover). |
 
 -----
 
@@ -436,8 +570,13 @@ The parallel system does **not** reuse:
 - `sonnet_pipeline/verify_explanation.py::ExplanationVerifier` — the
   current Phase-0.5 gate; replaced by clipboard verifier.
 
-The parallel system does **not write to** the live DB. The live DB
-is read-only. All writes go to the shadow DB.
+The parallel system **never writes directly** to the live DB. The
+prototype solver and its detectors are read-only against the live
+DB; all of their writes go to the shadow DB. Promotion of approved
+enrichment candidates from shadow into the live `cryptic_new` DB
+happens via the dashboard's human-review tab — the same gate the
+live system's existing enrichment workflow uses today, never
+automatic.
 
 -----
 
@@ -503,3 +642,44 @@ document, mark it [woven].
 - **2026-05-06 [woven]** — early-exit: first PASSing template wins
   per clue; no further attempts; for unsolved clues every template
   is tried and FAILs feed enrichment.
+- **2026-05-09 [woven]** — Phase-2 LLM is Haiku, not Sonnet. The
+  live system uses Haiku; the prototype follows suit (skipped
+  by default in prototype runs).
+- **2026-05-09 [woven]** — enrichment dashboard becomes a **new
+  tab on the existing live dashboard**, not a separate parallel
+  surface. Approved shadow candidates **promote into the live
+  `cryptic_new` DB** via human review, mirroring the live system's
+  existing enrichment workflow. Live DB is never written to
+  directly; the human-review gate is the only promotion path.
+- **2026-05-09 [woven]** — abbreviation discipline (§5.9) added.
+  An abbreviation's letters must be initial letters of the source
+  word(s); otherwise the relationship is synonymous, not
+  abbreviational. Wrong filing pollutes future solves.
+- **2026-05-09 [woven]** — indicator-role discipline (§5.10) added.
+  Indicators must be filed under their actual cryptic role
+  (HUSK = outer-letter, not deletion). Compound mechanisms pair
+  two indicators (e.g. HUSK + a deletion indicator); a single
+  near-miss filing is rejected.
+- **2026-05-09 [woven]** — runtime unit is the **puzzle**, not a
+  random cohort. Cohort-based seeding was the one-off bulk catalog
+  build (33 → 265 templates); per-puzzle processing is the
+  steady-state model going forward, mirroring how the live system
+  runs day-to-day.
+- **2026-05-09 [woven]** — every puzzle gets **two passes** through
+  the cascade. First pass yields PASS / FAIL / PENDING per clue.
+  Leftover authoring sits between the passes. Second pass re-runs
+  the cascade against first-pass FAILs with the enriched catalog +
+  shadow vocabulary loaded. After the second pass every clue
+  should be PASS or PENDING.
+- **2026-05-09 [woven]** — leftover process no longer authors
+  prose explanations. It authors **a catalog entry plus the
+  shadow-vocabulary rows needed to verify it**, both together. For
+  Times / Guardian / Independent the blog (TFTT / 15²) is raw
+  material; Telegraph and Daily Mail have no blog and the author
+  works from clue + answer alone.
+- **2026-05-09 [woven]** — three verdicts: PASS / FAIL / **PENDING**.
+  PENDING covers cryptic definitions (leftover-tagged) and &lit
+  clues (cascade-detected). PENDING items go to the dashboard's
+  PENDING tab for human review — confirm → PASS (joins catalog),
+  or reject → FAIL (back to leftover). Catalog never grows from a
+  PENDING item until the reviewer confirms it.
