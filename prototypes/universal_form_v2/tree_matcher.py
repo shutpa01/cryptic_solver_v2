@@ -31,7 +31,6 @@ from typing import Iterator, List, Optional, Tuple
 
 from signature_solver.solver import extract_definition_candidates
 from signature_solver.db import RefDB
-from signature_solver.tokens import SYN_F, ABR_F, HOM_F
 
 from .schema import (
     Form, Definition, Node, lit, syn, charade, deletion,
@@ -46,21 +45,6 @@ from .clipboard_verifier import (
 
 
 MAX_BINDINGS = 100
-
-
-def _build_phrase_lookup(word_analysis):
-    """Build {phrase_text_lower: WordAnalysis} from analyze_phrases'
-    (single, phrases) output. Returns empty dict when word_analysis
-    is None — leaf binders fall back to raw DB lookups in that case."""
-    out = {}
-    if word_analysis is None:
-        return out
-    single, phrases = word_analysis
-    for wa in single:
-        out[(wa.text or "").lower()] = wa
-    for (_i, _j), wa in phrases.items():
-        out[(wa.text or "").lower()] = wa
-    return out
 
 # TODO: target-driven binding. The matcher currently enumerates every
 # (synonym × child) combination and then filters by mechanical assembly.
@@ -87,7 +71,6 @@ def match_signature(
     db: RefDB,
     shadow_conn: Optional[sqlite3.Connection] = None,
     and_lit: bool = False,
-    word_analysis=None,
 ) -> List[Form]:
     """Walk the catalog entry's structure tree against the clue.
 
@@ -113,10 +96,6 @@ def match_signature(
 
     syn_cache: dict = {}
     ind_cache: dict = {}
-    # Stash the phrase-text -> WordAnalysis lookup on syn_cache under a
-    # sentinel key. _bind_leaf reads it for SYN_F / ABR_F / HOM_F
-    # pre-filtering. None means leaves fall back to raw DB lookups.
-    syn_cache["__phrase_lookup__"] = _build_phrase_lookup(word_analysis)
 
     out: List[Form] = []
 
@@ -238,21 +217,10 @@ def _bind_leaf(node: dict, span: list, db: RefDB,
         return
     if op == "synonym":
         phrase = " ".join(w.lower() for w in span)
-        # Prefer word_analyzer's pre-filtered SYN_F values (typically
-        # <10) over the raw DB scan (typically up to 50). The
-        # pre-filter keeps only synonyms that could plausibly be
-        # answer-substrings or otherwise relevant — exactly the
-        # constraint the matcher needs.
-        phrase_lookup = syn_cache.get("__phrase_lookup__") or {}
-        wa = phrase_lookup.get(phrase)
-        if wa is not None and SYN_F in wa.roles:
-            values = [v for v in wa.roles[SYN_F] if isinstance(v, str)]
-        else:
-            cache_key = ("syn", phrase)
-            values = syn_cache.get(cache_key)
-            if values is None:
-                values = list(db.get_synonyms(phrase))
-                syn_cache[cache_key] = values
+        values = syn_cache.get(phrase)
+        if values is None:
+            values = list(db.get_synonyms(phrase))
+            syn_cache[phrase] = values
         for v in values:
             yield (syn(source_word=phrase, value=v.upper()), [])
         return
@@ -267,48 +235,30 @@ def _bind_leaf(node: dict, span: list, db: RefDB,
         return
     if op == "abbreviation":
         # Per the design: DB requirement is wordplay(category=abbreviation)
-        # OR synonyms_pairs — the verifier accepts either.
+        # OR synonyms_pairs — the verifier accepts either, so the matcher
+        # proposes values from both.
         phrase = " ".join(w.lower() for w in span)
-        phrase_lookup = syn_cache.get("__phrase_lookup__") or {}
-        wa = phrase_lookup.get(phrase)
-        if wa is not None and (ABR_F in wa.roles or SYN_F in wa.roles):
+        cache_key = ("abbr", phrase)
+        values = syn_cache.get(cache_key)
+        if values is None:
             uniq = set()
-            for v in wa.roles.get(ABR_F, []):
-                if isinstance(v, str):
-                    uniq.add(v.upper())
-            for v in wa.roles.get(SYN_F, []):
-                if isinstance(v, str):
-                    uniq.add(v.upper())
+            for v in db.get_abbreviations(phrase):
+                uniq.add(v.upper())
+            for v in db.get_synonyms(phrase):
+                uniq.add(v.upper())
             values = sorted(uniq)
-        else:
-            cache_key = ("abbr", phrase)
-            values = syn_cache.get(cache_key)
-            if values is None:
-                uniq = set()
-                for v in db.get_abbreviations(phrase):
-                    uniq.add(v.upper())
-                for v in db.get_synonyms(phrase):
-                    uniq.add(v.upper())
-                values = sorted(uniq)
-                syn_cache[cache_key] = values
+            syn_cache[cache_key] = values
         for v in values:
             yield (abbr(source_word=phrase, value=v), [])
         return
     if op == "homophone":
         # Leaf-form homophone (vs op-form, which is a non-leaf).
         phrase = " ".join(w.lower() for w in span)
-        phrase_lookup = syn_cache.get("__phrase_lookup__") or {}
-        wa = phrase_lookup.get(phrase)
-        if wa is not None and HOM_F in wa.roles:
-            values = sorted({v.upper() for v in wa.roles[HOM_F]
-                             if isinstance(v, str)})
-        else:
-            cache_key = ("homo", phrase)
-            values = syn_cache.get(cache_key)
-            if values is None:
-                values = sorted({v.upper()
-                                 for v in db.get_homophones(phrase)})
-                syn_cache[cache_key] = values
+        cache_key = ("homo", phrase)
+        values = syn_cache.get(cache_key)
+        if values is None:
+            values = sorted({v.upper() for v in db.get_homophones(phrase)})
+            syn_cache[cache_key] = values
         for v in values:
             yield (homophone_leaf(source_word=phrase, value=v), [])
         return
