@@ -152,11 +152,26 @@ def edit_save(clue_id):
     steps = get_hint_steps(clue, is_admin=True)
     new_token = generate_token(clue_id)
     solve_source = compute_solve_source(clue)
-    return render_template(
+    response_html = render_template(
         "partials/admin_rerun_result.html",
         clue=clue, tier=new_tier, steps=steps,
         token=new_token, solve_source=solve_source,
     )
+
+    # If the answer was just cleared, also remove it from solve-mode localStorage
+    # so it can't be redisplayed in solve mode or pushed back to the DB by
+    # the "Save all to DB" button.
+    if old_answer and not answer:
+        response_html += (
+            '<script>(function(){try{'
+            f'var k="solve_{clue["source"]}_{clue["puzzle_number"]}";'
+            'var s=JSON.parse(localStorage.getItem(k)||"{}");'
+            f'delete s["{clue_id}"];'
+            'localStorage.setItem(k,JSON.stringify(s));'
+            '}catch(e){}})();</script>'
+        )
+
+    return response_html
 
 
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
