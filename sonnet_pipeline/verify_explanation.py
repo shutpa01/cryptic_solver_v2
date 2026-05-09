@@ -584,8 +584,10 @@ class ExplanationVerifier:
         expl = ai_explanation
 
         # --- CHECK 1: Definition verification ---
+        def_verified = False
         if definition:
             matched = self.definition_matches(definition, answer)
+            def_verified = matched
             checks.append({
                 "check": "definition",
                 "status": "verified" if matched else "unverifiable",
@@ -1424,6 +1426,15 @@ class ExplanationVerifier:
             # can be anagram OR reversal). Don't double-fault.
             if any(tok in _expl_lower for tok in indicator_tokens):
                 continue
+
+            # If the definition has been verified in DB, words that fall
+            # inside the definition phrase are owned by the definition
+            # role and don't need to satisfy wordplay-side indicator
+            # requirements. Don't flag them.
+            if def_verified:
+                _def_lower = (definition or "").lower()
+                if any(tok in _def_lower for tok in indicator_tokens):
+                    continue
 
             # The clue has an indicator for this op-type, no other
             # op-type in the parse used it, and it's invisible in the
