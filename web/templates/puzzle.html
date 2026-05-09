@@ -76,7 +76,7 @@
             </svg>
             Solve this puzzle
         </button>
-        <button id="solve-grid-btn" onclick="document.getElementById('grid-area').scrollIntoView({behavior:'smooth',block:'start'})"
+        <button id="solve-grid-btn" onclick="document.getElementById('grid-area').scrollIntoView({behavior:'instant',block:'start'})"
                 class="hidden text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
             Go to grid
         </button>
@@ -220,7 +220,7 @@
                         class="text-xs px-2.5 py-1 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">Add to grid</button>
                 <button onclick="openToolsOverlay('{{ clue.id }}')"
                         class="text-xs px-2.5 py-1 rounded border border-indigo-400 text-indigo-700 hover:bg-indigo-50 font-medium cursor-pointer">Tools</button>
-                <button onclick="document.getElementById('grid-area').scrollIntoView({behavior:'smooth',block:'start'})"
+                <button onclick="document.getElementById('grid-area').scrollIntoView({behavior:'instant',block:'start'})"
                         class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Go to grid</button>
                 {% if clue.steps %}
                 <button onclick="toggleSolveHints('{{ clue.id }}')"
