@@ -45,6 +45,9 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
 
 from signature_solver.db import RefDB
 from signature_solver.solver import extract_definition_candidates
+from signature_solver.grammar_triage import (
+    grammar_triage as _grammar_triage,
+)
 from backfill_ai_exp.backfill_dd_hidden import (
     build_graph as _build_dd_graph,
     try_hidden as _detect_hidden,
@@ -52,6 +55,10 @@ from backfill_ai_exp.backfill_dd_hidden import (
 )
 from sonnet_pipeline.solver import (
     try_spoonerism_v2 as _detect_spoonerism, clean,
+)
+from sonnet_pipeline.sig_adapter import (
+    build_ai_pieces as _sig_build_ai_pieces,
+    build_assembly_dict as _sig_build_assembly_dict,
 )
 from backfill_ai_exp.batch_v1_solver import (
     try_anagram as _detect_anagram,
@@ -68,6 +75,15 @@ from prototypes.universal_form_v2.shadow_db import (
     ensure_shadow, write_solve, write_seed_failure,
 )
 from prototypes.universal_form_v2.surface import tokenize as _tokenize
+from prototypes.universal_form_v2.json_translator import (
+    translate_components as _translate_components,
+)
+from prototypes.universal_form_v2.clipboard_verifier import (
+    verify as _clipboard_verify,
+)
+from prototypes.universal_form_v2.extract_catalog import (
+    signature as _form_signature,
+)
 
 
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
@@ -258,6 +274,100 @@ def reorder_catalog_by_hints(catalog_entries: list, hints: list) -> list:
     return hinted + rest
 
 
+# --- Grammar-triage routing layer (§3.3a) ---------------------------------
+
+def try_grammar_triage_solve(clue_text: str, answer_clean: str,
+                              db: RefDB, shadow_conn) -> tuple:
+    """Linguistic-triage solve attempt via signature_solver.grammar_triage.
+
+    Per §3.3a, this is the routing layer in front of the
+    tree-matcher. spaCy POS-tags the clue; the resulting grammar
+    pattern yields per-word role predictions and a candidate solve.
+    Where the V1 detectors give a coarse mechanism-class hint,
+    grammar_triage gives the partition itself.
+
+    For each definition candidate, runs grammar_triage; on a
+    high-confidence result, converts the SignatureResult through
+    sonnet_pipeline.sig_adapter into a components-style dict, runs
+    that through json_translator to produce a universal-form Form,
+    and finally runs the clipboard verifier on the Form.
+
+    Returns (form, signature_string) on a verifier-PASS, or
+    (None, None) if grammar_triage didn't solve, the conversion
+    chain rejected the result, or the verifier rejected the form.
+
+    The clipboard verifier remains the trust anchor: a
+    grammar_triage solve is a hypothesis until clipboard PASSes it.
+    """
+    try:
+        tokens = _tokenize(clue_text)
+        def_candidates = extract_definition_candidates(
+            tokens, answer_clean, db)
+    except Exception:
+        return None, None
+
+    for def_phrase, wp_words in def_candidates:
+        if not wp_words:
+            continue
+        try:
+            gt = _grammar_triage(clue_text, answer_clean, db,
+                                  def_phrase=def_phrase,
+                                  wp_words=list(wp_words))
+        except Exception:
+            continue
+        if not gt or gt.confidence < 80 or gt.result is None:
+            continue
+
+        # SignatureResult → components JSON dict via sig_adapter.
+        try:
+            ai_pieces = _sig_build_ai_pieces(gt)
+            assembly = _sig_build_assembly_dict(gt)
+        except Exception:
+            continue
+        if not ai_pieces or not assembly:
+            continue
+        wordplay_type = assembly.get("op")
+        if not wordplay_type:
+            continue
+
+        components_json = json.dumps({
+            "ai_pieces": ai_pieces,
+            "assembly": assembly,
+            "wordplay_type": wordplay_type,
+        })
+
+        # Components dict → Form via json_translator.
+        row = {
+            "clue_text": clue_text,
+            "answer": answer_clean,
+            "components": components_json,
+            "definition_text": def_phrase,
+        }
+        try:
+            form, _err = _translate_components(row, db)
+        except Exception:
+            continue
+        if form is None:
+            continue
+
+        # Form → clipboard verifier (the trust anchor).
+        try:
+            verdict = _clipboard_verify(form, clue_text, db, shadow_conn)
+        except Exception:
+            continue
+        if verdict.verdict != "PASS":
+            continue
+
+        # Derive the universal-form signature from the Form's tree.
+        try:
+            sig = _form_signature(form.tree)
+        except Exception:
+            sig = wordplay_type or "grammar_triage"
+        return form, sig
+
+    return None, None
+
+
 # --- Per-clue processing --------------------------------------------------
 
 def process_clue(clue_row: dict, catalog: list, db: RefDB,
@@ -275,6 +385,44 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
     answer = clue_row["answer"]
     answer_clean = clean(answer)
 
+    meta = {
+        "source": source,
+        "puzzle_number": puzzle_number,
+        "clue_number": clue_row["clue_number"],
+        "direction": clue_row["direction"],
+        "clue_text": clue_text,
+        "answer": answer,
+    }
+
+    # Per §3.3a: try the grammar-triage routing layer first. If
+    # spaCy's POS pattern gives confident per-word roles and the
+    # converted Form clipboard-verifies, we bypass the catalog walk.
+    gt_form, gt_signature = try_grammar_triage_solve(
+        clue_text, answer_clean, db, shadow)
+    if gt_form is not None:
+        write_solve(
+            shadow,
+            clue_id=clue_id,
+            signature=gt_signature or "",
+            verdict="PASS",
+            answer=answer_clean,
+            form_dict=gt_form.to_dict(),
+            run_number=run_number,
+        )
+        record = {
+            "clue_id": clue_id,
+            "clue_number": clue_row["clue_number"],
+            "direction": clue_row["direction"],
+            "clue_text": clue_text,
+            "answer": answer,
+            "verdict": "PASS",
+            "signature": gt_signature,
+            "hints": ["grammar_triage"],
+            "n_enrichments": 0,
+        }
+        return "PASS", record
+
+    # Fall through to the cascade with V1-detector triage.
     hints = detect_routing_hints(clue_text, answer_clean, dd_graph, db)
     ordered_catalog = reorder_catalog_by_hints(catalog, hints)
 
@@ -297,15 +445,6 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         "signature": result.signature,
         "hints": hints,
         "n_enrichments": len(result.enrichment_candidates),
-    }
-
-    meta = {
-        "source": source,
-        "puzzle_number": puzzle_number,
-        "clue_number": clue_row["clue_number"],
-        "direction": clue_row["direction"],
-        "clue_text": clue_text,
-        "answer": answer,
     }
 
     if result.verdict in ("PASS", "PENDING"):
