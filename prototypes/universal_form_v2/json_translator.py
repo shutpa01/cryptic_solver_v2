@@ -127,6 +127,15 @@ def translate_components(row, db) -> Tuple[Optional[Form], Optional[dict]]:
     if op == "container":
         return _translate_container(
             pieces, assembly, clue_text, answer_clean, definition_text, db)
+    if op in ("deletion", "trim"):
+        return _translate_deletion(
+            pieces, assembly, clue_text, answer_clean, definition_text, db)
+    if op == "reversal":
+        return _translate_reversal(
+            pieces, assembly, clue_text, answer_clean, definition_text, db)
+    if op == "homophone":
+        return _translate_homophone(
+            pieces, assembly, clue_text, answer_clean, definition_text, db)
 
     return None, _err("translation_error",
                       f"op {op!r} not yet supported in slice-1 translator")
@@ -501,6 +510,227 @@ def _translate_container(pieces, assembly, clue_text, answer_clean,
     ), None
 
 
+def _translate_deletion(pieces, assembly, clue_text, answer_clean,
+                         definition_text, db):
+    """Deletion: a single source piece (synonym/abbreviation/literal)
+    has letters removed at one end (head/tail/outer/heart) to yield
+    the answer. The clue carries a deletion or parts indicator.
+
+    Slice 1 covers head, tail, outer, heart kinds — the standard
+    cryptic positions. Specific-internal-letter deletion (e.g.
+    LAUNCH minus the literal A naming the deleted letter) is a
+    later slice and FAILs here.
+    """
+    source_value = (assembly.get("from") or "").strip().upper()
+    if not source_value:
+        # Some assemblies don't record `from`; try to read it from
+        # the lone fodder piece.
+        if len(pieces) == 1:
+            source_value = (pieces[0].get("letters") or "").strip().upper()
+    if not source_value:
+        return None, _err(
+            "translation_error",
+            "deletion: assembly missing 'from' value and no single piece")
+
+    if not source_value.endswith(answer_clean) and \
+            not source_value.startswith(answer_clean) and \
+            not (source_value[1:-1] == answer_clean) and \
+            answer_clean not in source_value:
+        # Bail early if the answer can't be carved out at all.
+        return None, _err(
+            "translation_error",
+            f"deletion: source {source_value!r} doesn't contain "
+            f"{answer_clean!r} as a head/tail/outer/heart subword")
+
+    # Determine deletion kind by which subword equals the answer.
+    kind: Optional[str] = None
+    if source_value[len(source_value) - len(answer_clean):] == answer_clean \
+            and len(source_value) > len(answer_clean):
+        # Trailing portion equals answer → leading letters were dropped
+        kind = "head"
+    if kind is None and source_value[:len(answer_clean)] == answer_clean \
+            and len(source_value) > len(answer_clean):
+        kind = "tail"
+    if kind is None and len(source_value) >= len(answer_clean) + 2 \
+            and source_value[1:1 + len(answer_clean)] == answer_clean:
+        # First and last dropped (outer letters removed)
+        kind = "outer"
+    if kind is None:
+        # Heart: middle removed; outer letters of source equal outer
+        # letters of answer
+        n = len(source_value)
+        if n >= len(answer_clean) + 1 and answer_clean and \
+                source_value[0] == answer_clean[0] and \
+                source_value[-1] == answer_clean[-1]:
+            kind = "heart"
+    if kind is None:
+        return None, _err(
+            "translation_error",
+            f"deletion: {source_value!r} -> {answer_clean!r} doesn't fit "
+            f"head/tail/outer/heart kinds")
+
+    # Build the source leaf from the single fodder piece.
+    fodder_pieces = [p for p in pieces
+                     if (p.get("letters") or "").strip().upper() == source_value]
+    if not fodder_pieces:
+        return None, _err(
+            "translation_error",
+            f"deletion: no piece with letters={source_value!r}")
+    if len(fodder_pieces) > 1:
+        return None, _err(
+            "translation_error",
+            "deletion: multiple pieces match source value — "
+            "compound shape not yet supported")
+    src_leaf, err = _build_leaf(fodder_pieces[0])
+    if src_leaf is None:
+        return None, err or _err("translation_error",
+                                  "deletion: failed to build source leaf")
+
+    indicator_word = _find_indicator(
+        clue_text, definition_text, [src_leaf], db,
+        expected_types={"deletion", "parts"})
+    if not indicator_word:
+        return None, _err(
+            "translation_error",
+            "deletion: no deletion/parts indicator found in clue")
+
+    tree = deletion(src_leaf, indicator=indicator_word, kind=kind)
+
+    def_phrase = definition_text or ""
+    link_words = _residual_link_words(
+        clue_text, def_phrase, [src_leaf], indicators=[indicator_word])
+    if link_words is None:
+        return None, _err(
+            "translation_error",
+            "deletion: leftover clue word(s) not on LINK_WORDS allow-list")
+
+    return Form(
+        tree=tree,
+        definition=Definition(phrase=def_phrase, answer=answer_clean),
+        link_words=link_words,
+    ), None
+
+
+def _translate_reversal(pieces, assembly, clue_text, answer_clean,
+                        definition_text, db):
+    """Reversal: a single source piece's value reversed equals the answer.
+
+    Slice 1 covers the single-piece case. The compound case
+    (`reversed_parts`: charade of pieces, then whole reversed) is a
+    later slice.
+    """
+    if assembly.get("reversed_parts"):
+        return None, _err(
+            "translation_error",
+            "reversal of multiple pieces (reversed_parts) not yet supported")
+    source_value = (assembly.get("reversed") or "").strip().upper()
+    if not source_value and len(pieces) == 1:
+        source_value = (pieces[0].get("letters") or "").strip().upper()
+    if not source_value:
+        return None, _err(
+            "translation_error",
+            "reversal: assembly missing 'reversed' value")
+    if source_value[::-1] != answer_clean:
+        return None, _err(
+            "translation_error",
+            f"reversal: {source_value!r} reversed != {answer_clean!r}")
+
+    fodder_pieces = [p for p in pieces
+                     if (p.get("letters") or "").strip().upper() == source_value]
+    if not fodder_pieces:
+        return None, _err(
+            "translation_error",
+            f"reversal: no piece with letters={source_value!r}")
+    if len(fodder_pieces) > 1:
+        return None, _err(
+            "translation_error",
+            "reversal: multiple pieces match — compound not yet supported")
+    src_leaf, err = _build_leaf(fodder_pieces[0])
+    if src_leaf is None:
+        return None, err or _err("translation_error",
+                                  "reversal: failed to build source leaf")
+
+    indicator_word = _find_indicator(
+        clue_text, definition_text, [src_leaf], db,
+        expected_types={"reversal"})
+    if not indicator_word:
+        return None, _err(
+            "translation_error",
+            "reversal: no reversal indicator found in clue")
+
+    tree = reversal(src_leaf, indicator=indicator_word)
+
+    def_phrase = definition_text or ""
+    link_words = _residual_link_words(
+        clue_text, def_phrase, [src_leaf], indicators=[indicator_word])
+    if link_words is None:
+        return None, _err(
+            "translation_error",
+            "reversal: leftover clue word(s) not on LINK_WORDS allow-list")
+
+    return Form(
+        tree=tree,
+        definition=Definition(phrase=def_phrase, answer=answer_clean),
+        link_words=link_words,
+    ), None
+
+
+def _translate_homophone(pieces, assembly, clue_text, answer_clean,
+                         definition_text, db):
+    """Homophone (op form): a single child piece yields a value that
+    sounds like the answer. The clue carries a homophone indicator
+    (e.g. "reportedly", "we hear", "audibly").
+    """
+    sounds_like = (assembly.get("sounds_like") or "").strip().upper()
+    if not sounds_like and len(pieces) == 1:
+        sounds_like = (pieces[0].get("letters") or "").strip().upper()
+    if not sounds_like:
+        return None, _err(
+            "translation_error",
+            "homophone: assembly missing 'sounds_like' value")
+
+    fodder_pieces = [p for p in pieces
+                     if (p.get("letters") or "").strip().upper() == sounds_like]
+    if not fodder_pieces:
+        return None, _err(
+            "translation_error",
+            f"homophone: no piece with letters={sounds_like!r}")
+    if len(fodder_pieces) > 1:
+        return None, _err(
+            "translation_error",
+            "homophone: multiple pieces match — compound not yet supported")
+    child_leaf, err = _build_leaf(fodder_pieces[0])
+    if child_leaf is None:
+        return None, err or _err("translation_error",
+                                  "homophone: failed to build child leaf")
+
+    indicator_word = _find_indicator(
+        clue_text, definition_text, [child_leaf], db,
+        expected_types={"homophone"})
+    if not indicator_word:
+        return None, _err(
+            "translation_error",
+            "homophone: no homophone indicator found in clue")
+
+    # Schema's homophone op is a non-leaf with one child.
+    tree = Node(operation="homophone", indicator=indicator_word,
+                sources=[child_leaf])
+
+    def_phrase = definition_text or ""
+    link_words = _residual_link_words(
+        clue_text, def_phrase, [child_leaf], indicators=[indicator_word])
+    if link_words is None:
+        return None, _err(
+            "translation_error",
+            "homophone: leftover clue word(s) not on LINK_WORDS allow-list")
+
+    return Form(
+        tree=tree,
+        definition=Definition(phrase=def_phrase, answer=answer_clean),
+        link_words=link_words,
+    ), None
+
+
 # --- Leaf builders ------------------------------------------------------
 
 def _build_leaf(piece: dict) -> Tuple[Optional[Node], Optional[dict]]:
@@ -546,9 +776,60 @@ def _build_leaf(piece: dict) -> Tuple[Optional[Node], Optional[dict]]:
                    value=re.sub(r"[^A-Za-z]", "", cw).upper()), None
     if mech == "first_letter":
         return _build_first_letter_leaf(cw, letters)
+    if mech == "last_letter":
+        return _build_positional_leaf(cw, letters, kind="last")
+    if mech == "outer_letters":
+        return _build_positional_leaf(cw, letters, kind="outer")
+    if mech == "middle_letters":
+        return _build_positional_leaf(cw, letters, kind="middle")
+    if mech == "alternate_letters":
+        return _build_positional_leaf(cw, letters, kind="alternate")
+    if mech == "half_letters":
+        return _build_positional_leaf(cw, letters, kind="half")
+    if mech == "homophone":
+        return homophone_leaf(source_word=cw, value=letters), None
 
     return None, _err("translation_error",
                       f"mechanism {mech!r} not yet supported")
+
+
+def _build_positional_leaf(cw: str, letters: str, kind: str
+                            ) -> Tuple[Optional[Node], Optional[dict]]:
+    """Build a positional leaf of the given kind from a piece whose
+    clue_word may carry a bundled indicator (e.g. "occasionally
+    loud" with letters="LU" and kind="alternate"). The source word
+    is the rightmost token whose positional-extracted letters match
+    the piece's letters value; remaining tokens become the leaf's
+    bundled indicator phrase, to be reconciled later.
+    """
+    tokens = _tokenize(cw)
+    if not tokens:
+        return None, _err(
+            "translation_error",
+            f"{kind}_letters: clue_word {cw!r} tokenises to nothing")
+
+    # Walk tokens; the source is the one whose positional extract
+    # matches `letters` exactly. Prefer rightmost candidate.
+    from .clipboard_verifier import _positional_extract
+    candidates = []
+    for i, tok in enumerate(tokens):
+        bare = re.sub(r"[^A-Za-z]", "", tok).upper()
+        if not bare:
+            continue
+        extracted = _positional_extract(bare, kind)
+        if extracted == letters.upper():
+            candidates.append((i, tok))
+    if not candidates:
+        return None, _err(
+            "translation_error",
+            f"{kind}_letters: no token in {cw!r} produces {letters!r}")
+
+    idx, src_tok = candidates[-1]
+    leaf = positional(source_word=src_tok, value=letters.upper(), kind=kind)
+    indicator_tokens = [t for i, t in enumerate(tokens) if i != idx]
+    if indicator_tokens:
+        leaf.indicator = " ".join(indicator_tokens)
+    return leaf, None
 
 
 def _build_first_letter_leaf(cw: str, letters: str
