@@ -53,6 +53,7 @@ LINK_WORDS = frozenset({
     "his", "her", "its", "our", "their", "my", "your",
     "i", "we", "they", "you", "me", "us", "him", "them",
     "than", "then", "if",
+    "getting",
 })
 
 
