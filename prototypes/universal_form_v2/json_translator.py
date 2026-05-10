@@ -124,6 +124,9 @@ def translate_components(row, db) -> Tuple[Optional[Form], Optional[dict]]:
         return _translate_hidden(
             pieces, assembly, clue_text, answer_clean, definition_text, db,
             reversed_=(op == "hidden_reversed"))
+    if op == "container":
+        return _translate_container(
+            pieces, assembly, clue_text, answer_clean, definition_text, db)
 
     return None, _err("translation_error",
                       f"op {op!r} not yet supported in slice-1 translator")
@@ -403,6 +406,93 @@ def _translate_anagram(pieces, assembly, clue_text, answer_clean,
         return None, _err(
             "translation_error",
             "anagram: leftover clue word(s) not on LINK_WORDS allow-list")
+
+    return Form(
+        tree=tree,
+        definition=Definition(phrase=def_phrase, answer=answer_clean),
+        link_words=link_words,
+    ), None
+
+
+def _translate_container(pieces, assembly, clue_text, answer_clean,
+                          definition_text, db):
+    """Container: outer wraps inner. Indicator from clue (type=container
+    or insertion).
+
+    Slice 1 handles the two-piece case: one ai_piece supplies the
+    outer letters, another supplies the inner letters, and one
+    surface phrase in the clue is a container/insertion indicator.
+    Compound shapes (e.g. charade-with-container-piece) require a
+    later slice and FAIL here as translation_error.
+    """
+    inner_letters = (assembly.get("inner") or "").strip().upper()
+    outer_letters = (assembly.get("outer") or "").strip().upper()
+    if not inner_letters or not outer_letters:
+        return None, _err(
+            "translation_error",
+            "container: assembly missing inner or outer letters")
+
+    # Mechanical assembly check: outer with inner inserted at some
+    # position equals the answer.
+    insertable = False
+    for i in range(len(outer_letters) + 1):
+        if (outer_letters[:i] + inner_letters
+                + outer_letters[i:]) == answer_clean:
+            insertable = True
+            break
+    if not insertable:
+        return None, _err(
+            "translation_error",
+            f"container: outer {outer_letters!r} with inner "
+            f"{inner_letters!r} inserted doesn't yield {answer_clean!r}")
+
+    # Build a leaf for each ai_piece, then match by letters to inner /
+    # outer. Any piece whose letters don't match either slot is
+    # unaccounted-for — slice 1 doesn't handle compound shapes.
+    inner_node: Optional[Node] = None
+    outer_node: Optional[Node] = None
+    unaccounted: list = []
+    for p in pieces:
+        leaf, err = _build_leaf(p)
+        if leaf is None:
+            return None, err or _err(
+                "translation_error",
+                "container: failed to build leaf from piece")
+        if leaf.value == inner_letters and inner_node is None:
+            inner_node = leaf
+        elif leaf.value == outer_letters and outer_node is None:
+            outer_node = leaf
+        else:
+            unaccounted.append(leaf.value)
+    if unaccounted:
+        return None, _err(
+            "translation_error",
+            f"container: extra piece(s) {unaccounted!r} beyond "
+            f"inner/outer — compound shape not yet supported")
+    if inner_node is None or outer_node is None:
+        return None, _err(
+            "translation_error",
+            f"container: couldn't match pieces to "
+            f"inner={inner_letters!r} / outer={outer_letters!r}")
+
+    indicator_word = _find_indicator(
+        clue_text, definition_text, [inner_node, outer_node], db,
+        expected_types={"container", "insertion"})
+    if not indicator_word:
+        return None, _err(
+            "translation_error",
+            "container: no container/insertion indicator found in clue")
+
+    tree = container(outer_node, inner_node, indicator=indicator_word)
+
+    def_phrase = definition_text or ""
+    link_words = _residual_link_words(
+        clue_text, def_phrase, [inner_node, outer_node],
+        indicators=[indicator_word])
+    if link_words is None:
+        return None, _err(
+            "translation_error",
+            "container: leftover clue word(s) not on LINK_WORDS allow-list")
 
     return Form(
         tree=tree,

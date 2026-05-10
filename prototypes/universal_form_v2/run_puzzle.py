@@ -283,28 +283,33 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
     Per §3.3a, this is the routing layer in front of the
     tree-matcher. spaCy POS-tags the clue; the resulting grammar
     pattern yields per-word role predictions and a candidate solve.
-    Where the V1 detectors give a coarse mechanism-class hint,
-    grammar_triage gives the partition itself.
 
-    For each definition candidate, runs grammar_triage; on a
-    high-confidence result, converts the SignatureResult through
-    sonnet_pipeline.sig_adapter into a components-style dict, runs
-    that through json_translator to produce a universal-form Form,
-    and finally runs the clipboard verifier on the Form.
+    No confidence threshold is applied: every grammar_triage result
+    that has a SignatureResult is pushed through the conversion
+    chain (sig_adapter → json_translator → clipboard verifier).
+    The clipboard verifier is the trust anchor — a low-confidence
+    triage reading that doesn't verify costs nothing.
 
-    Returns (form, signature_string) on a verifier-PASS, or
-    (None, None) if grammar_triage didn't solve, the conversion
-    chain rejected the result, or the verifier rejected the form.
+    Even when no def candidate yields a verifier-PASSing form, the
+    wordplay-type predictions grammar_triage emitted are returned
+    as routing hints so the cascade can bias its catalog walk
+    toward the predicted family.
 
-    The clipboard verifier remains the trust anchor: a
-    grammar_triage solve is a hypothesis until clipboard PASSes it.
+    Returns (form, signature_string, hints):
+      - form: the verified Form, or None on no PASS;
+      - signature_string: the universal-form signature from the
+        Form's tree on PASS, else None;
+      - hints: list of unique wordplay_type strings grammar_triage
+        proposed across def candidates (empty if grammar_triage
+        produced nothing).
     """
+    hints: list = []
     try:
         tokens = _tokenize(clue_text)
         def_candidates = extract_definition_candidates(
             tokens, answer_clean, db)
     except Exception:
-        return None, None
+        return None, None, hints
 
     for def_phrase, wp_words in def_candidates:
         if not wp_words:
@@ -315,7 +320,7 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
                                   wp_words=list(wp_words))
         except Exception:
             continue
-        if not gt or gt.confidence < 80 or gt.result is None:
+        if not gt or gt.result is None:
             continue
 
         # SignatureResult → components JSON dict via sig_adapter.
@@ -324,10 +329,16 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
             assembly = _sig_build_assembly_dict(gt)
         except Exception:
             continue
-        if not ai_pieces or not assembly:
+        if not assembly:
             continue
         wordplay_type = assembly.get("op")
-        if not wordplay_type:
+
+        # Record the wordplay_type as a routing hint for the
+        # cascade fallback, even if this attempt won't verify.
+        if wordplay_type and wordplay_type not in hints:
+            hints.append(wordplay_type)
+
+        if not ai_pieces or not wordplay_type:
             continue
 
         components_json = json.dumps({
@@ -363,9 +374,9 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
             sig = _form_signature(form.tree)
         except Exception:
             sig = wordplay_type or "grammar_triage"
-        return form, sig
+        return form, sig, hints
 
-    return None, None
+    return None, None, hints
 
 
 # --- Per-clue processing --------------------------------------------------
@@ -394,10 +405,11 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         "answer": answer,
     }
 
-    # Per §3.3a: try the grammar-triage routing layer first. If
-    # spaCy's POS pattern gives confident per-word roles and the
-    # converted Form clipboard-verifies, we bypass the catalog walk.
-    gt_form, gt_signature = try_grammar_triage_solve(
+    # Per §3.3a: try the grammar-triage routing layer first. No
+    # confidence threshold — clipboard verifier is the trust anchor.
+    # On verifier-PASS we bypass the catalog walk; on miss we still
+    # collect the wordplay-type predictions as routing hints.
+    gt_form, gt_signature, gt_hints = try_grammar_triage_solve(
         clue_text, answer_clean, db, shadow)
     if gt_form is not None:
         write_solve(
@@ -417,13 +429,17 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
             "answer": answer,
             "verdict": "PASS",
             "signature": gt_signature,
-            "hints": ["grammar_triage"],
+            "hints": ["grammar_triage"] + gt_hints,
             "n_enrichments": 0,
         }
         return "PASS", record
 
-    # Fall through to the cascade with V1-detector triage.
-    hints = detect_routing_hints(clue_text, answer_clean, dd_graph, db)
+    # Fall through to the cascade. Combine grammar_triage's
+    # wordplay-type predictions (when it produced any) with the V1
+    # detectors' mechanism-class hints. Both feed the catalog walk
+    # order; the verifier still gates every form.
+    v1_hints = detect_routing_hints(clue_text, answer_clean, dd_graph, db)
+    hints = list(dict.fromkeys(gt_hints + v1_hints))
     ordered_catalog = reorder_catalog_by_hints(catalog, hints)
 
     result = solve_clue_parallel(
