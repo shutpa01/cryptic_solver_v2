@@ -1,7 +1,14 @@
 """Individual clue page — the primary SEO entry point.
 
-Each of the 500k clues gets its own URL with the clue text and answer in
-the slug, e.g. /clue/companions-shredded-corset-ESCORT
+Each of the 500k clues gets its own URL: id prefix + clue text, e.g.
+/clue/2046138-parisian-is-running-home-to-host-a-european . The answer
+is deliberately NOT in the slug — that would leak it before the user
+chooses to reveal it.
+
+Legacy URL formats from before commit 8efd6532 (text-ANSWER and
+text-ENUMERATION suffixes) are handled by the redirect helpers
+old_slug_to_new_id and enum_slug_to_new_id, which 301 to the current
+answer-free format.
 
 Blueprint registration (already in web/__init__.py):
     from web.routes.clue import bp as clue_bp
@@ -144,6 +151,43 @@ def _build_enum_slug(clue_text, enumeration):
     return f"{text}-{enum}"
 
 
+def _enum_slug_db_lookup(text_parts, enum_parts, slug):
+    """DB-side lookup for one (text_parts, enum_parts) split. Returns id or None.
+
+    Filter words: prefer distinctive (>=3 char) words. Short tokens like
+    'a', 'of', 'i', 'm' match too broadly and let LIMIT 50 truncate before
+    the right row appears.
+    """
+    enum_dash = "-".join(enum_parts)
+    enum_comma = ",".join(enum_parts)
+    enum_candidates = list({enum_dash, enum_comma})
+
+    long_words = [w for w in text_parts if len(w) >= 3]
+    filter_words = (sorted(long_words, key=len, reverse=True)[:3]
+                    if len(long_words) >= 1 else text_parts[:3])
+
+    db = get_db()
+    placeholders = ",".join("?" for _ in enum_candidates)
+    where_clauses = [f"enumeration IN ({placeholders})"]
+    params = list(enum_candidates)
+    for w in filter_words:
+        if w:
+            where_clauses.append("LOWER(clue_text) LIKE ?")
+            params.append(f"%{w}%")
+    sql = (
+        "SELECT id, clue_text, enumeration FROM clues "
+        "WHERE source IN ('telegraph','times','guardian','independent','dailymail') "
+        "  AND clue_text IS NOT NULL "
+        f"  AND {' AND '.join(where_clauses)} "
+        "ORDER BY publication_date DESC LIMIT 200"
+    )
+    rows = db.execute(sql, params).fetchall()
+    for row in rows:
+        if _build_enum_slug(row["clue_text"], row["enumeration"]) == slug:
+            return row["id"]
+    return None
+
+
 def enum_slug_to_new_id(slug):
     """If `slug` matches the oldest enumeration-suffix format, return clue id, else None.
 
@@ -160,44 +204,28 @@ def enum_slug_to_new_id(slug):
     if len(parts) < 2:
         return None
 
-    # Collect trailing all-digit parts (the enumeration block).
-    enum_parts = []
+    # Collect trailing all-digit parts (potential enumeration blocks).
+    trailing_digits = []
     for i in range(len(parts) - 1, -1, -1):
         p = parts[i]
         if p and p.isdigit():
-            enum_parts.insert(0, p)
+            trailing_digits.insert(0, p)
         else:
             break
-    if not enum_parts:
-        return None
-    text_parts = parts[:len(parts) - len(enum_parts)]
-    if not text_parts:
+    if not trailing_digits:
         return None
 
-    # Candidate DB enumeration formats — slug "-5-3" could match "5-3" or "5,3".
-    enum_dash = "-".join(enum_parts)
-    enum_comma = ",".join(enum_parts)
-    enum_candidates = list({enum_dash, enum_comma})
-
-    db = get_db()
-    placeholders = ",".join("?" for _ in enum_candidates)
-    where_clauses = [f"enumeration IN ({placeholders})"]
-    params = list(enum_candidates)
-    for w in text_parts[:3]:
-        if w:
-            where_clauses.append("LOWER(clue_text) LIKE ?")
-            params.append(f"%{w}%")
-    sql = (
-        "SELECT id, clue_text, enumeration FROM clues "
-        "WHERE source IN ('telegraph','times','guardian','independent','dailymail') "
-        "  AND clue_text IS NOT NULL "
-        f"  AND {' AND '.join(where_clauses)} "
-        "ORDER BY publication_date DESC LIMIT 50"
-    )
-    rows = db.execute(sql, params).fetchall()
-    for row in rows:
-        if _build_enum_slug(row["clue_text"], row["enumeration"]) == slug:
-            return row["id"]
+    # Try maximal-greedy enum first, then progressively shorter splits.
+    # Some clue texts contain trailing numbers (e.g. "after 11") that get
+    # absorbed into the enum guess; peel them off and retry.
+    for n_enum in range(len(trailing_digits), 0, -1):
+        enum_parts = trailing_digits[-n_enum:]
+        text_parts = parts[:len(parts) - n_enum]
+        if not text_parts:
+            continue
+        match = _enum_slug_db_lookup(text_parts, enum_parts, slug)
+        if match is not None:
+            return match
     return None
 
 
@@ -223,10 +251,13 @@ def clue_page(slug):
     """
     # Look up by clue ID embedded in slug
     clue_id, slug_text = parse_clue_slug(slug)
+    from web.models import get_clue_by_id
+    clue = get_clue_by_id(clue_id) if clue_id else None
 
-    if not clue_id:
-        # Old-format slug (pre-`8efd6532`, answer-suffixed): permanent-redirect
-        # to the new id-based URL so Google's existing index transfers cleanly.
+    if clue is None:
+        # parse_clue_slug may have misread a leading digit as a clue ID
+        # (e.g. "/clue/6-ceding-power-..." where "6" is part of the clue text).
+        # Try old-format redirect helpers before giving up.
         old_id = old_slug_to_new_id(slug)
         if old_id is None:
             # Even older format (enumeration-suffixed). 14k+ Googlebot 404s
@@ -234,20 +265,17 @@ def clue_page(slug):
             # crawl rate by 99%. Recovers PageRank from those URLs.
             old_id = enum_slug_to_new_id(slug)
         if old_id is not None:
-            from web.models import get_clue_by_id
             row = get_clue_by_id(old_id)
             new_slug = generate_clue_slug(row["clue_text"], clue_id=old_id) if row else str(old_id)
             return redirect(url_for("clue.clue_page", slug=new_slug or str(old_id)), code=301)
         # Also support ?id= parameter for backwards compatibility
         clue_id = request.args.get("id", type=int)
+        if clue_id:
+            clue = get_clue_by_id(clue_id)
 
-    if not clue_id:
-        abort(404)
-
-    from web.models import get_clue_by_id
-    clue = get_clue_by_id(clue_id)
     if clue is None:
         abort(404)
+    clue_id = clue["id"]
 
     # Find other appearances of the same clue text + answer
     db = get_db()
