@@ -44,7 +44,10 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from signature_solver.db import RefDB
-from signature_solver.solver import extract_definition_candidates
+from signature_solver.solver import (
+    extract_definition_candidates,
+    solve_clue as _sig_solve_clue,
+)
 from signature_solver.grammar_triage import (
     grammar_triage as _grammar_triage,
 )
@@ -379,6 +382,87 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
     return None, None, hints
 
 
+# --- Production signature_solver fallback ---------------------------------
+
+def try_production_solve(clue_text: str, answer_clean: str,
+                          db: RefDB, shadow_conn) -> tuple:
+    """Call the production signature_solver end-to-end.
+
+    Production's `signature_solver.solver.solve_clue` orchestrates:
+    grammar_triage (also on full clue when no def candidates),
+    haiku_definition fallback when no DB definition is found,
+    flat-token catalog walks (CATALOG / BASE_CATALOG /
+    POSITIONAL_CATALOG via match_signatures / match_base /
+    match_positional), and the haiku_dbe / haiku_indicator
+    enrichment-retry fallbacks. Calling it gives us all of that
+    machinery in one go.
+
+    The returned SolveResult is converted through the sig_adapter
+    chain (build_ai_pieces + build_assembly_dict) into a
+    components-style dict, then through json_translator to a
+    universal-form Form, and finally through clipboard_verifier.
+    Only verifier-PASS results are accepted.
+
+    Returns (form, signature_string) on PASS, or (None, None) on
+    miss (production didn't reach high confidence, or the
+    conversion chain rejected the result, or the verifier rejected
+    the form).
+    """
+    try:
+        sr = _sig_solve_clue(clue_text, answer_clean, db)
+    except Exception:
+        return None, None
+    if not sr or not sr.solved:
+        return None, None
+    # Production's confidence threshold for "this is a solve" is 80.
+    if sr.confidence < 80:
+        return None, None
+    if sr.result is None:
+        return None, None
+
+    try:
+        ai_pieces = _sig_build_ai_pieces(sr)
+        assembly = _sig_build_assembly_dict(sr)
+    except Exception:
+        return None, None
+    if not ai_pieces or not assembly:
+        return None, None
+    wordplay_type = assembly.get("op")
+    if not wordplay_type:
+        return None, None
+
+    components_json = json.dumps({
+        "ai_pieces": ai_pieces,
+        "assembly": assembly,
+        "wordplay_type": wordplay_type,
+    })
+    row = {
+        "clue_text": clue_text,
+        "answer": answer_clean,
+        "components": components_json,
+        "definition_text": getattr(sr, "definition", None) or "",
+    }
+    try:
+        form, _err = _translate_components(row, db)
+    except Exception:
+        return None, None
+    if form is None:
+        return None, None
+
+    try:
+        verdict = _clipboard_verify(form, clue_text, db, shadow_conn)
+    except Exception:
+        return None, None
+    if verdict.verdict != "PASS":
+        return None, None
+
+    try:
+        sig = _form_signature(form.tree)
+    except Exception:
+        sig = wordplay_type or "production_solve"
+    return form, sig
+
+
 # --- Per-clue processing --------------------------------------------------
 
 def process_clue(clue_row: dict, catalog: list, db: RefDB,
@@ -434,10 +518,40 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         }
         return "PASS", record
 
-    # Fall through to the cascade. Combine grammar_triage's
-    # wordplay-type predictions (when it produced any) with the V1
-    # detectors' mechanism-class hints. Both feed the catalog walk
-    # order; the verifier still gates every form.
+    # Production signature_solver fallback: invokes grammar_triage
+    # again (on full clue too), the flat-token catalog walks, and
+    # the haiku_definition / haiku_dbe / haiku_indicator
+    # enrichment-retry helpers. Conversion + clipboard verifier as
+    # the trust anchor.
+    prod_form, prod_signature = try_production_solve(
+        clue_text, answer_clean, db, shadow)
+    if prod_form is not None:
+        write_solve(
+            shadow,
+            clue_id=clue_id,
+            signature=prod_signature or "",
+            verdict="PASS",
+            answer=answer_clean,
+            form_dict=prod_form.to_dict(),
+            run_number=run_number,
+        )
+        record = {
+            "clue_id": clue_id,
+            "clue_number": clue_row["clue_number"],
+            "direction": clue_row["direction"],
+            "clue_text": clue_text,
+            "answer": answer,
+            "verdict": "PASS",
+            "signature": prod_signature,
+            "hints": ["production_solve"] + gt_hints,
+            "n_enrichments": 0,
+        }
+        return "PASS", record
+
+    # Fall through to the universal-form cascade. Combine
+    # grammar_triage's wordplay-type predictions (when it produced
+    # any) with the V1 detectors' mechanism-class hints. Both feed
+    # the catalog walk order; the verifier still gates every form.
     v1_hints = detect_routing_hints(clue_text, answer_clean, dd_graph, db)
     hints = list(dict.fromkeys(gt_hints + v1_hints))
     ordered_catalog = reorder_catalog_by_hints(catalog, hints)

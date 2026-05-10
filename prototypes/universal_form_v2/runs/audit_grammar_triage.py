@@ -69,7 +69,7 @@ def audit_clue(clue_text, answer_clean, db):
                                  wp_words=list(wp_words))
         except Exception:
             continue
-        if not gt or gt.confidence < 80 or gt.result is None:
+        if not gt or gt.result is None:
             continue
 
         # Conversion chain.
