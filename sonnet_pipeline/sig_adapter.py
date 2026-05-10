@@ -789,6 +789,27 @@ def store_signature_result(conn, clue_id, sr, clue_text, answer, enriched=False)
     wordplay_types = sig_expl["wordplay_types"]
     wordplay_type = ", ".join(wordplay_types) if wordplay_types else "unknown"
 
+    # --- Independent verification gate ----------------------------------
+    # Never let signature_solver (incl. grammar triage) self-grade its way
+    # into HIGH. Re-score with the strict verifier, which checks that
+    # pieces actually assemble to the answer, that every clue word has a
+    # role, and that mechanism indicators in the clue are accounted for.
+    # If the strict score is lower than the self-reported one, use the
+    # strict score — the parse is still stored for review, but it won't
+    # auto-approve as HIGH on the strength of the solver's own verdict.
+    try:
+        from sonnet_pipeline.verify_explanation import ExplanationVerifier
+        _v = ExplanationVerifier()
+        _r = _v.verify(clue_text, answer, definition, wordplay_type, explanation_text)
+        _strict_score = _r.get("score", 0)
+        if _strict_score < score:
+            score = _strict_score
+    except Exception:
+        # Verifier error must not silently revert to self-graded score —
+        # demote to a clearly non-HIGH value so the result still gets
+        # stored for review but cannot auto-approve.
+        score = min(score, 50)
+
     # Build components JSON
     components = {
         "ai_pieces": ai_pieces,
