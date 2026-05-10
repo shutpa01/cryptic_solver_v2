@@ -137,6 +137,44 @@ This means:
 - Per-phase "adapters" become trivial routing hints
   (`mechanism="hidden"`), not form constructors.
 
+### 3.3a Grammar-triage routing layer
+
+A second, more precise routing layer sits at
+`signature_solver/grammar_triage.py`. It loads spaCy's
+`en_core_web_sm` model and POS-tags the clue's surface; the
+resulting grammar pattern yields **per-word role predictions** —
+which word(s) are the definition, which are wordplay fodder,
+which are indicators, which are link words — plus an expected
+wordplay type.
+
+Where the V1 detectors of §3.3 produce a coarse mechanism-class
+hint, grammar_triage produces the **partition itself**: with role
+predictions in hand the matcher does not have to search where each
+piece sits in the wordplay window — the linguistic layer has
+already said.
+
+This matters because the catalog's signatures are abstract. A
+signature like `charade(synonym, synonym)` records "two synonym
+pieces concatenated" without word counts or surface positions, so
+without help the matcher must enumerate every contiguous partition
+of the wordplay words and try a synonym lookup for each side.
+Grammar_triage's role assignments collapse that search into a
+single direct bind.
+
+The triage layers stack:
+
+- Grammar_triage runs first. If its role assignment is confident,
+  the matcher attempts the predicted partition against the
+  template family the grammar layer points to.
+- The V1 detectors run alongside, providing mechanism-class hints
+  the matcher uses to order any further template attempts when the
+  grammar layer's pick fails or is low-confidence.
+- The catalog walk by frequency is the residual fallback.
+
+The clipboard verifier remains the trust anchor at every step. A
+grammar_triage role assignment is a hypothesis; only a
+verifier-PASSing form counts as a solve.
+
 ### 3.4 Per-clue flow
 
 For each clue:
@@ -145,9 +183,18 @@ For each clue:
    internal apostrophes). See section 5.1.
 2. Find definition candidates via production's
    `extract_definition_candidates`.
-3. Run production's detectors (try_hidden, try_spoonerism_v2,
-   generate_dd_hypotheses, V1 op detectors). If any fires, note its
-   mechanism class as a routing hint.
+3. Run the routing layers (per §3.3a):
+   - `signature_solver/grammar_triage.py` — POS-tags the clue and
+     emits per-word role predictions (definition / fodder /
+     indicator / link) plus an expected wordplay type. When
+     confident, this fixes the partition the matcher would
+     otherwise have to search for.
+   - V1 op detectors (`try_hidden`, `try_spoonerism_v2`,
+     `generate_dd_hypotheses`, `try_anagram`, `try_charade`,
+     `try_container`, `try_deletion`, `try_reversal`,
+     `try_acrostic`, `try_homophone`) — supplementary
+     mechanism-class hints, run on the wordplay window after
+     definition extraction.
 4. Walk catalog templates in order:
    - If a routing hint is set, prefer matching templates of that class
      first.
@@ -221,9 +268,18 @@ If the leftover author concludes a FAIL is a **cryptic definition**
 authoring a template. The clue moves into the PENDING queue
 without re-entering the cascade.
 
-**Second pass.** With the enriched catalog and shadow vocabulary
-in place, re-run the cascade on every clue that was FAIL on the
-first pass. Two kinds of clue clear here:
+**Second pass.** First and second passes are **separate
+invocations** of the per-puzzle driver, not a single back-to-back
+run — leftover authoring is a real pause that takes minutes to
+hours of human work. The second pass re-loads the catalog and
+shadow vocabulary at startup so anything authored in the gap is
+picked up. PENDING items from the first pass are **not** re-run;
+PENDING means awaiting human review, not awaiting another cascade
+attempt.
+
+With the enriched catalog and shadow vocabulary in place, the
+second pass re-runs the cascade on every clue that was FAIL on
+the first pass. Two kinds of clue clear here:
 
 - Clues that matched a signature on the first pass but failed the
   verifier for missing DB rows. Now PASS.
@@ -530,6 +586,7 @@ fodder-integrity sub-rule was added to close.
 | Leftover authoring tool | Dashboard surface where the human (assisted by Haiku where blogs are available) authors a catalog entry plus the shadow-vocabulary rows for a FAIL clue. Reads `seed_failures` / cascade FAIL output; writes catalog candidates and shadow vocabulary rows with provenance. Tags CDs as PENDING in lieu of a template. |
 | Second-pass orchestration | After leftover authoring for a puzzle, re-run the cascade against every first-pass FAIL with the enriched catalog + shadow vocabulary loaded. |
 | PENDING review tab | Dashboard tab that surfaces PENDING clues (CDs and &lits). Reviewer confirms (→ PASS, joins catalog) or rejects (→ FAIL, back to leftover). |
+| Grammar-triage wiring | Plug `signature_solver/grammar_triage.py` into `cascade.solve_clue_parallel` ahead of the matcher. When grammar_triage returns a confident per-word role assignment, the matcher attempts that exact partition against the predicted template family rather than enumerating every partition of the wordplay window. Closes the per-clue combinatorial cost the abstract catalog otherwise carries. |
 
 -----
 
@@ -560,6 +617,14 @@ modification:
   try_container / try_deletion / try_reversal / try_acrostic /
   try_homophone / find_definition / solve_without_definition` —
   Phase 0.5 op detectors.
+- `signature_solver/grammar_triage.py` — POS-based linguistic
+  triage. Loads spaCy `en_core_web_sm`, reads the clue's
+  part-of-speech pattern, and returns per-word role predictions
+  (definition / fodder / indicator / link) plus an expected
+  wordplay type. Used by the cascade ahead of the matcher to fix
+  the per-clue partition (which words belong to which piece), so
+  the matcher binds directly instead of searching every possible
+  chunking of the wordplay window. See §3.3a.
 
 The parallel system does **not** reuse:
 
@@ -683,3 +748,16 @@ document, mark it [woven].
   PENDING tab for human review — confirm → PASS (joins catalog),
   or reject → FAIL (back to leftover). Catalog never grows from a
   PENDING item until the reviewer confirms it.
+- **2026-05-10 [woven]** — `signature_solver/grammar_triage.py` is
+  the **routing layer in front of the tree-matcher** (§3.3a).
+  spaCy POS-tags the clue; the resulting grammar pattern yields
+  per-word role predictions (definition / fodder / indicator /
+  link) and an expected wordplay type. Where the V1 detectors give
+  a coarse mechanism-class hint, grammar_triage gives the
+  partition itself, so the matcher binds directly instead of
+  searching every possible chunking of the wordplay window. This
+  is the production component that closes the per-clue
+  combinatorial problem without enlarging the catalog with precise
+  word-count signatures. The clipboard verifier remains the trust
+  anchor; grammar_triage's role assignment is a hypothesis until
+  the verifier PASSes the form.
