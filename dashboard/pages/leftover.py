@@ -390,6 +390,10 @@ def _render_fail_detail(fail: dict) -> None:
     else:
         st.info("No verifier-suggested enrichment candidates on this row.")
 
+    # Author form (catalog entry)
+    st.subheader("Author form (catalog entry)")
+    _render_form_authoring(clue_id, fail)
+
     # Manual row entry
     st.subheader("Manual row entry (shadow)")
     _render_manual_forms(clue_id, fail["answer"])
@@ -430,6 +434,164 @@ def _render_fail_detail(fail: dict) -> None:
         if err:
             with st.expander("stderr"):
                 st.text(err)
+
+
+# --- Form-authoring panel ------------------------------------------------
+
+_DEFAULT_COMPONENTS_TEMPLATE = {
+    "ai_pieces": [
+        {"mechanism": "synonym", "clue_word": "<source>",
+         "letters": "<VALUE>"},
+    ],
+    "assembly": {"op": "charade", "order": ["<VALUE>"]},
+    "wordplay_type": "charade",
+}
+
+
+def _render_form_authoring(clue_id: int, fail: dict) -> None:
+    """Author a Form for this clue.
+
+    The user supplies a `components` JSON in the production format
+    (ai_pieces + assembly + wordplay_type), plus the definition
+    phrase. We hand it to json_translator → Form, then run the
+    clipboard verifier on it. PASS writes to shadow_db.solves and
+    can feed catalog regeneration.
+
+    On verifier FAIL we show the failure detail so the author can
+    fix the components or add the missing DB rows (via the manual
+    panel or the candidate accept buttons) and try again.
+    """
+    st.caption(
+        "Paste a components JSON in the production format. The "
+        "translator builds a Form, the clipboard verifier checks "
+        "it. PASS writes to `shadow_db.solves` and the new "
+        "structure becomes eligible for the catalog on the next "
+        "`extract_catalog` run."
+    )
+
+    ctx = fetch_clue_context(clue_id)
+    default_components = None
+    if ctx.get("components"):
+        try:
+            default_components = json.loads(ctx["components"])
+        except Exception:
+            default_components = None
+    if default_components is None:
+        default_components = _DEFAULT_COMPONENTS_TEMPLATE
+
+    default_def = ctx.get("definition") or fail.get("clue_text") or ""
+
+    col_def, col_btn = st.columns([4, 1])
+    with col_def:
+        def_phrase = st.text_input(
+            "Definition phrase",
+            value=default_def,
+            key=f"author_def_{clue_id}",
+        )
+    components_text = st.text_area(
+        "Components JSON",
+        value=json.dumps(default_components, indent=2),
+        height=260,
+        key=f"author_comp_{clue_id}",
+    )
+
+    if st.button("Verify form", key=f"author_verify_{clue_id}"):
+        _verify_and_show(clue_id, fail, def_phrase, components_text,
+                          save_on_pass=False)
+
+    if st.button("Verify and save (on PASS)",
+                  key=f"author_save_{clue_id}"):
+        _verify_and_show(clue_id, fail, def_phrase, components_text,
+                          save_on_pass=True)
+
+
+def _verify_and_show(clue_id: int, fail: dict, def_phrase: str,
+                       components_text: str, save_on_pass: bool) -> None:
+    """Parse the components JSON, build the Form via json_translator,
+    run clipboard_verifier, render the result. If `save_on_pass`,
+    write a PASS row to shadow_db.solves."""
+    # Lazy imports so the dashboard module loads without these heavy
+    # imports until the author actually clicks.
+    sys.path.insert(0, str(PROJECT_ROOT))
+    from signature_solver.db import RefDB
+    from prototypes.universal_form_v2.json_translator import (
+        translate_components,
+    )
+    from prototypes.universal_form_v2.clipboard_verifier import verify
+    from prototypes.universal_form_v2.extract_catalog import (
+        signature as form_signature,
+    )
+    from prototypes.universal_form_v2.shadow_db import (
+        ensure_shadow, write_solve,
+    )
+
+    try:
+        components_obj = json.loads(components_text)
+    except Exception as e:  # noqa: BLE001
+        st.error(f"JSON parse failed: {e}")
+        return
+
+    row = {
+        "clue_text": fail["clue_text"],
+        "answer": fail["answer"],
+        "components": json.dumps(components_obj),
+        "definition_text": def_phrase,
+    }
+    db = RefDB(str(CRYPTIC_DB))
+    shadow_conn = ensure_shadow()
+    try:
+        form, err = translate_components(row, db)
+    except Exception as e:  # noqa: BLE001
+        st.error(f"Translator exception: {e}")
+        return
+
+    if form is None:
+        st.error(f"Translator rejected the form: {err}")
+        return
+
+    try:
+        verdict = verify(form, fail["clue_text"], db, shadow_conn)
+    except Exception as e:  # noqa: BLE001
+        st.error(f"Verifier exception: {e}")
+        return
+
+    if verdict.verdict == "PASS":
+        st.success("Verifier PASS")
+        try:
+            sig = form_signature(form.tree)
+        except Exception:
+            sig = "authored"
+        st.write(f"**Signature:** `{sig}`")
+        st.write("**Form tree:**")
+        st.json(form.to_dict())
+        if save_on_pass:
+            try:
+                solve_id = write_solve(
+                    shadow_conn,
+                    clue_id=clue_id,
+                    signature=sig,
+                    verdict="PASS",
+                    answer=fail["answer"],
+                    form_dict=form.to_dict(),
+                    run_number=3,
+                )
+                st.success(
+                    f"Saved to shadow_db.solves (solve_id={solve_id}, "
+                    f"run_number=3)."
+                )
+            except Exception as e:  # noqa: BLE001
+                st.error(f"Save failed: {e}")
+    else:
+        st.warning(f"Verifier {verdict.verdict}")
+        if verdict.enrichment_candidates:
+            st.write("**Enrichment candidates from this attempt:**")
+            for c in verdict.enrichment_candidates:
+                st.write(f"   - {c.to_dict()}")
+        failing = [c for c in verdict.checks if c.status != "pass"]
+        if failing:
+            st.write("**Failing checks:**")
+            for c in failing:
+                st.write(f"   - {c.name}: {c.detail}")
 
 
 def _accept_candidate(cand: dict, clue_id: int) -> None:
