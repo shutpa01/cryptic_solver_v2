@@ -4,6 +4,30 @@
 {% block meta %}
 <meta name="description" content="Who is Cordelia? A train, an abandoned newspaper, and a cryptic clue that changed everything.">
 {% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Cordelia",
+  "alternateName": "Just Cordelia",
+  "url": "https://justcordelia.com",
+  "logo": "https://justcordelia.com/static/cordelia.jpg",
+  "image": "https://justcordelia.com/static/cordelia.jpg",
+  "description": "Cordelia is a cryptic crossword companion — solving complete puzzles, explaining the wordplay behind every clue, and teaching cryptics interactively. Covers Telegraph, Times, Guardian, Independent, and Daily Mail puzzles.",
+  "knowsAbout": [
+    "Cryptic crosswords",
+    "Wordplay",
+    "Anagrams",
+    "Hidden words",
+    "Double definitions",
+    "Charades",
+    "Container clues",
+    "Spoonerisms"
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <article class="max-w-lg mx-auto">
