@@ -118,7 +118,7 @@ def solve_clue_parallel(
     # simple structures (≤ 3 leaves typically). Beyond that, the
     # synonym-expansion combinatorics blow up against the whole-clue
     # span with no realistic chance of a true &lit form.
-    if not timed_out and n_clue_words <= 5:
+    if not timed_out and n_clue_words <= 10:
         for entry in eligible:
             if time.time() > deadline:
                 break
