@@ -32,6 +32,7 @@ import json
 import re
 import sqlite3
 import sys
+import threading
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -408,10 +409,32 @@ def try_production_solve(clue_text: str, answer_clean: str,
     conversion chain rejected the result, or the verifier rejected
     the form).
     """
-    try:
-        sr = _sig_solve_clue(clue_text, answer_clean, db)
-    except Exception:
+    # Cap production_solve at 30s wall-clock. The call goes through
+    # grammar_triage (full-clue path), flat-token catalog walks, plus
+    # haiku_definition / haiku_dbe / haiku_indicator fallbacks. On
+    # hard clues (ARMADILLO seen at 2949s) it would otherwise dominate
+    # per-clue runtime. The thread continues running in background
+    # after timeout — Python can't kill it cleanly — but the cascade
+    # moves on.
+    result_box: list = [None]
+    error_box: list = [None]
+
+    def _worker():
+        try:
+            result_box[0] = _sig_solve_clue(clue_text, answer_clean, db)
+        except Exception as e:  # noqa: BLE001
+            error_box[0] = e
+
+    t = threading.Thread(target=_worker, daemon=True)
+    t.start()
+    t.join(timeout=30.0)
+    if t.is_alive():
+        # Timed out — abandon the worker (continues in background as
+        # a daemon, will exit with the process).
         return None, None
+    if error_box[0] is not None:
+        return None, None
+    sr = result_box[0]
     if not sr or not sr.solved:
         return None, None
     # Production's confidence threshold for "this is a solve" is 80.
