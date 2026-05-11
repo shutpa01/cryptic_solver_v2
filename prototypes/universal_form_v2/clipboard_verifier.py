@@ -53,7 +53,8 @@ LINK_WORDS = frozenset({
     "his", "her", "its", "our", "their", "my", "your",
     "i", "we", "they", "you", "me", "us", "him", "them",
     "than", "then", "if",
-    "getting",
+    "getting", "needs", "needing", "takes", "taking",
+    "gets", "having", "holding", "shows",
     # Common 's-contractions (= "that is", "it is", etc.) read as
     # pure connective tissue when they survive as surface leftovers.
     "that's", "that’s",

@@ -143,12 +143,53 @@ def translate_components(row, db) -> Tuple[Optional[Form], Optional[dict]]:
 
 # --- Per-op translators (slice 1) ---------------------------------------
 
+def _merge_consecutive_duplicates(pieces: list) -> list:
+    """Merge runs of consecutive ai_pieces sharing the same letters
+    AND mechanism into a single compound-source piece.
+
+    Production solve_clue can list multiple clue words as
+    alternative sources for the same piece slot — e.g. "First" and
+    "Lady" both → EVE for the EVE piece in EVEREST. The pieces are
+    listed individually because production's verifier accepts any
+    one of them; it is not saying every piece contributes
+    separately to the answer.
+
+    Our schema requires each piece to have a single source, so we
+    coalesce the run into one piece whose clue_word joins the
+    contributing words ("First Lady"). The verifier then looks up
+    the compound phrase in synonyms_pairs as one bridge; a missing
+    row becomes a precise enrichment candidate rather than silent
+    over-counting.
+    """
+    if not pieces:
+        return pieces
+    merged: list = []
+    cur = dict(pieces[0])
+    for p in pieces[1:]:
+        cur_letters = (cur.get("letters") or "").strip().upper()
+        p_letters = (p.get("letters") or "").strip().upper()
+        cur_mech = (cur.get("mechanism") or "").lower()
+        p_mech = (p.get("mechanism") or "").lower()
+        if cur_letters and cur_letters == p_letters and cur_mech == p_mech:
+            cur_cw = (cur.get("clue_word") or "").strip()
+            p_cw = (p.get("clue_word") or "").strip()
+            cur["clue_word"] = (cur_cw + " " + p_cw).strip()
+        else:
+            merged.append(cur)
+            cur = dict(p)
+    merged.append(cur)
+    return merged
+
+
 def _translate_charade(pieces, assembly, clue_text, answer_clean,
                         definition_text, db):
     """Charade: ordered concatenation of leaves built from each piece."""
     if not pieces:
         return None, _err("translation_error",
                           "charade with empty ai_pieces")
+
+    # Coalesce alternative-source pieces (see _merge_consecutive_duplicates).
+    pieces = _merge_consecutive_duplicates(pieces)
 
     children = []
     for p in pieces:
