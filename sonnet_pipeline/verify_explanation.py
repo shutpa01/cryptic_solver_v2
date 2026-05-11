@@ -195,7 +195,8 @@ class ExplanationVerifier:
         Scans single words and 2-word phrases against the indicators table.
         If required_subtypes is provided, also checks the subtype matches.
         """
-        clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_text.lower())
+        clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                                clue_text.lower().replace("’", "'"))
         # Single words
         for word in clue_words:
             entries = self._indicators_by_word.get(word, [])
@@ -395,7 +396,8 @@ class ExplanationVerifier:
         clue = clue_text or ""
         # Strip enumeration "(7)", "(3,4)", etc. before tokenising
         clue = re.sub(r"\s*\([\d,\-\s/]+\)\s*$", "", clue)
-        words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue.lower())
+        words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                           clue.lower().replace("’", "'"))
         if not words:
             return {"classified": [], "unaccounted": [], "link": [],
                     "summary": "no clue words"}
@@ -1391,7 +1393,7 @@ class ExplanationVerifier:
         # explanation hides it on purpose.
         # Build the set of clue words and 2-word phrases (used below).
         _clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-                                 (clue_text or "").lower())
+                                 (clue_text or "").lower().replace("’", "'"))
         _clue_phrases = [_clue_words[i] + " " + _clue_words[i + 1]
                          for i in range(len(_clue_words) - 1)]
         _expl_lower = (expl or "").lower()

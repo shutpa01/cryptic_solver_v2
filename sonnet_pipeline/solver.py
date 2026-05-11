@@ -1892,7 +1892,8 @@ def refine_pieces(ai_output, clue_text, enricher):
     if not pieces:
         return
 
-    clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_text.lower())
+    clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                            clue_text.lower().replace("’", "'"))
 
     # Track pieces that should be replaced with multiple pieces (for Case 3)
     replacements = {}  # idx -> list of replacement piece dicts
@@ -1907,7 +1908,8 @@ def refine_pieces(ai_output, clue_text, enricher):
         # Case 1: "synonym" piece with multi-word clue_word — check for
         # truncation pattern like "Short emperor" → NER (really NERO truncated)
         if mech == "synonym":
-            words_in_piece = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", clue_word.lower())
+            words_in_piece = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                                        clue_word.lower().replace("’", "'"))
             if len(words_in_piece) >= 2:
                 found = False
                 for i, w in enumerate(words_in_piece):
