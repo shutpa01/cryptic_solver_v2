@@ -676,20 +676,16 @@ def run_pass(source: str, puzzle_number: str, run_number: int,
     print(f"=== {label} pass — {source} puzzle {puzzle_number} ===",
           flush=True)
 
+    # check_same_thread=False on the connections so the per-clue
+    # worker thread (see _clue_worker below) can use them. RefDB is
+    # in-memory so doesn't need this. Main thread serialises — only
+    # one thread touches a connection at a time — so cross-thread
+    # access is safe here.
     clues_conn = sqlite3.connect(
         f"file:{CLUES_DB}?mode=ro", uri=True, check_same_thread=False)
     clues_conn.row_factory = sqlite3.Row
     print("  opening RefDB ...", flush=True)
     db = RefDB(str(CRYPTIC_DB))
-    # Allow cross-thread use of the RefDB connection: per-clue worker
-    # threads (see below) need to call into the production solver,
-    # which uses this connection. Main thread serializes — only one
-    # thread touches the connection at a time — so cross-thread is
-    # safe.
-    db.conn.close()
-    db.conn = sqlite3.connect(
-        str(CRYPTIC_DB), timeout=30, check_same_thread=False)
-    db.conn.row_factory = sqlite3.Row
     shadow = ensure_shadow()
     shadow.close()
     shadow = sqlite3.connect(
