@@ -507,14 +507,17 @@ def render():
         "Reject records the decision and removes the row."
     )
 
-    tab1, tab2 = st.tabs([
+    tab1, tab2, tab3 = st.tabs([
         "Unsolved (with reading)",
         "Unsolved (no reading)",
+        "Puzzle overview",
     ])
     with tab1:
         _render_with_reading()
     with tab2:
         _render_no_reading()
+    with tab3:
+        _render_overview()
 
 
 def _render_with_reading():
@@ -810,6 +813,220 @@ def _verify_and_save(clue: dict, def_phrase: str,
         run_number=3,
     )
     st.success(f"Saved. Signature: `{sig}`")
+
+
+# --- Puzzle overview tab ---------------------------------------------
+
+def fetch_puzzle_state(source: str, puzzle: str) -> list:
+    """For every clue in the puzzle, return its current state in our
+    shadow_db plus any recorded production reading. Verdict priority:
+    PASS > PENDING > FAIL > not-run.
+    """
+    clues = _ro(CLUES_DB)
+    rows = clues.execute(
+        """
+        SELECT c.id AS clue_id, c.clue_number, c.direction, c.clue_text,
+               c.answer, c.definition, c.ai_explanation,
+               se.confidence AS prod_conf, se.model_version
+        FROM clues c
+        LEFT JOIN structured_explanations se ON se.clue_id = c.id
+        WHERE c.source = ? AND c.puzzle_number = ?
+        ORDER BY CAST(c.clue_number AS INTEGER), c.direction
+        """,
+        (source, puzzle),
+    ).fetchall()
+    out: list = []
+
+    shadow = _ro(SHADOW_DB)
+    for r in rows:
+        rec = dict(r)
+        clue_id = rec["clue_id"]
+        verdict = None
+        signature = None
+        form_json = None
+        run_number = None
+        for s in shadow.execute(
+            "SELECT verdict, signature, form_json, run_number, created_at "
+            "FROM solves WHERE clue_id = ? "
+            "ORDER BY CASE verdict WHEN 'PASS' THEN 0 "
+            "  WHEN 'PENDING' THEN 1 ELSE 2 END, created_at DESC",
+            (clue_id,),
+        ):
+            verdict = s["verdict"]
+            signature = s["signature"]
+            form_json = s["form_json"]
+            run_number = s["run_number"]
+            break
+        if verdict is None:
+            fail = shadow.execute(
+                "SELECT 1 FROM seed_failures WHERE clue_id = ? LIMIT 1",
+                (clue_id,),
+            ).fetchone()
+            if fail:
+                verdict = "FAIL"
+        rec["verdict"] = verdict or "not-run"
+        rec["signature"] = signature
+        rec["form_json"] = form_json
+        rec["run_number"] = run_number
+        out.append(rec)
+    return out
+
+
+def _render_overview():
+    col_a, col_b = st.columns([2, 2])
+    with col_a:
+        source = st.selectbox(
+            "Source",
+            ["telegraph", "times", "guardian", "independent", "dailymail"],
+            key="lo_ov_src",
+        )
+    with col_b:
+        puzzle = st.text_input("Puzzle number", key="lo_ov_puz")
+    if not puzzle.strip():
+        st.info("Enter a puzzle number above.")
+        return
+
+    rows = fetch_puzzle_state(source, puzzle.strip())
+    if not rows:
+        st.info("No clues found for that source / puzzle.")
+        return
+
+    counts = {"PASS": 0, "PENDING": 0, "FAIL": 0, "not-run": 0}
+    for r in rows:
+        counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
+    cs = st.columns(5)
+    cs[0].metric("Total", len(rows))
+    cs[1].metric("PASS", counts.get("PASS", 0))
+    cs[2].metric("PENDING", counts.get("PENDING", 0))
+    cs[3].metric("FAIL", counts.get("FAIL", 0))
+    cs[4].metric("Not run", counts.get("not-run", 0))
+
+    verdict_filter = st.selectbox(
+        "Filter",
+        ["All", "PASS", "PENDING", "FAIL", "not-run"],
+        key="lo_ov_filter",
+    )
+    filtered = (rows if verdict_filter == "All"
+                else [r for r in rows if r["verdict"] == verdict_filter])
+
+    import pandas as pd
+    df = pd.DataFrame([
+        {
+            "Clue": f"{r['clue_number']}{(r['direction'] or '')[:1]}",
+            "Verdict": r["verdict"],
+            "Answer": r["answer"] or "",
+            "Clue text": (r["clue_text"] or "")[:80],
+            "Signature": r["signature"] or "",
+            "Run": r["run_number"] or "",
+        }
+        for r in filtered
+    ])
+    st.dataframe(df, hide_index=True, use_container_width=True)
+
+    st.divider()
+    st.subheader("Clue detail")
+    options = [
+        f"{r['clue_number']}{(r['direction'] or '')[:1]}  "
+        f"{r['verdict']}  — {r['answer'] or ''}"
+        for r in filtered
+    ]
+    if not options:
+        st.info("No clues match the filter.")
+        return
+    idx = st.selectbox("Pick a clue to inspect",
+                        options=list(range(len(filtered))),
+                        format_func=lambda i: options[i],
+                        key="lo_ov_idx")
+    r = filtered[idx]
+    _render_overview_detail(r)
+
+
+def _render_overview_detail(r: dict) -> None:
+    st.markdown(
+        f"**{r['clue_number']}{(r['direction'] or '')[:1]}  "
+        f"— {r['answer']}  ({r['verdict']})**"
+    )
+    st.write(r["clue_text"])
+    if r.get("definition"):
+        st.write(f"**Recorded definition:** `{r['definition']}`")
+    if r.get("ai_explanation"):
+        st.write(f"**Production reading:** {r['ai_explanation']}")
+        if r.get("prod_conf"):
+            st.caption(
+                f"(production confidence {r['prod_conf']:.2f}, "
+                f"source {r.get('model_version', '?')})"
+            )
+
+    if r.get("form_json"):
+        try:
+            form = json.loads(r["form_json"])
+        except Exception:
+            form = None
+        if form:
+            st.write("**Universal-form reading (our system):**")
+            _render_form_pretty(form)
+            with st.expander("Full form JSON"):
+                st.json(form)
+
+    if r["verdict"] == "FAIL":
+        st.info(
+            "Use the 'Unsolved (with reading)' tab to accept missing "
+            "DB rows, or the 'Unsolved (no reading)' tab to author a "
+            "form."
+        )
+
+
+def _render_form_pretty(form: dict) -> None:
+    tree = form.get("tree") or {}
+    def_phrase = (form.get("definition") or {}).get("phrase", "")
+    link_words = form.get("link_words") or []
+    is_and_lit = form.get("is_and_lit") or False
+
+    if def_phrase:
+        st.write(f"**Definition:** `{def_phrase}`")
+    if link_words:
+        st.write(f"**Link words:** {', '.join(link_words)}")
+    if is_and_lit:
+        st.write("**&lit** (whole clue is both definition and wordplay)")
+
+    pieces = _walk_form(tree)
+    if pieces:
+        for line in pieces:
+            st.write(f"- {line}")
+
+
+def _walk_form(node: dict, depth: int = 0) -> list:
+    out: list = []
+    if not isinstance(node, dict):
+        return out
+    op = node.get("operation")
+    indicator = node.get("indicator")
+    value = node.get("value")
+    source_word = node.get("source_word")
+    sources = node.get("sources") or []
+    prefix = "  " * depth
+
+    if sources:
+        ind = f' [{indicator}]' if indicator else ''
+        kind_tag = ""
+        if node.get("deletion_kind"):
+            kind_tag = f"[{node['deletion_kind']}]"
+        elif node.get("acrostic_kind"):
+            kind_tag = f"[{node['acrostic_kind']}]"
+        elif node.get("positional_kind"):
+            kind_tag = f"[{node['positional_kind']}]"
+        out.append(f"{prefix}{op}{kind_tag}{ind}")
+        for c in sources:
+            out.extend(_walk_form(c, depth + 1))
+    else:
+        ind = f' [{indicator}]' if indicator else ''
+        kind_tag = ""
+        if node.get("positional_kind"):
+            kind_tag = f"[{node['positional_kind']}]"
+        out.append(
+            f"{prefix}{op}{kind_tag}: `{source_word}` → `{value}`{ind}"
+        )
+    return out
 
 
 render()
