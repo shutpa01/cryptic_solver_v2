@@ -558,36 +558,46 @@ def compute_diagnostic_candidates(clue: dict, live, shadow) -> list:
                     "value": str(cand).upper(),
                 })
 
-    # grammar_triage roles → synonym / abbreviation hypotheses
+    # grammar_triage + production_solve roles → synonym / abbreviation
+    # hypotheses. production_solve produces a SINGLE word_roles list
+    # while grammar_triage produces a list-of-readings; unify both
+    # under the same dedup so a high-confidence production role
+    # doesn't get duplicated by a lower-confidence triage role for
+    # the same (word, value).
+    role_readings: list = []
     gt_list = diag.get("grammar_triage") or []
     if isinstance(gt_list, list):
-        seen = set()
         for gt in gt_list:
-            if not isinstance(gt, dict):
+            if isinstance(gt, dict) and gt.get("word_roles"):
+                role_readings.append(gt["word_roles"])
+    ps = diag.get("production_solve") or {}
+    if isinstance(ps, dict) and ps.get("word_roles"):
+        role_readings.append(ps["word_roles"])
+
+    seen_roles: set = set()
+    for word_roles in role_readings:
+        for role in word_roles:
+            if not isinstance(role, (list, tuple)) or len(role) < 3:
                 continue
-            for role in gt.get("word_roles") or []:
-                # role is [word, token, value, ...optional_meta]
-                if not isinstance(role, (list, tuple)) or len(role) < 3:
-                    continue
-                word, tok, val = role[0], role[1], role[2]
-                if not word or not val:
-                    continue
-                kind = None
-                if tok == "SYN_F":
-                    kind = "synonym"
-                elif tok == "ABR_F":
-                    kind = "abbreviation"
-                if not kind:
-                    continue
-                key = (kind, str(word).lower(), str(val).upper())
-                if key in seen:
-                    continue
-                seen.add(key)
-                needs.append({
-                    "kind": kind,
-                    "word": str(word),
-                    "value": str(val).upper(),
-                })
+            word, tok, val = role[0], role[1], role[2]
+            if not word or not val:
+                continue
+            kind = None
+            if tok == "SYN_F":
+                kind = "synonym"
+            elif tok == "ABR_F":
+                kind = "abbreviation"
+            if not kind:
+                continue
+            key = (kind, str(word).lower(), str(val).upper())
+            if key in seen_roles:
+                continue
+            seen_roles.add(key)
+            needs.append({
+                "kind": kind,
+                "word": str(word),
+                "value": str(val).upper(),
+            })
 
     return _filter_missing(clue["clue_id"], needs, live, shadow)
 
