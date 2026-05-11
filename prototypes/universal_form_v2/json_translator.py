@@ -188,18 +188,34 @@ def _translate_charade(pieces, assembly, clue_text, answer_clean,
         return None, _err("translation_error",
                           "charade with empty ai_pieces")
 
-    # Coalesce alternative-source pieces (see _merge_consecutive_duplicates).
-    pieces = _merge_consecutive_duplicates(pieces)
+    # First try the pieces as-given. If the strict concat doesn't
+    # match the answer, try the merge: production sometimes lists
+    # alternative-source pieces sharing the same letters (see
+    # _merge_consecutive_duplicates); coalesce them and retry.
+    def _build_children(piece_list):
+        kids = []
+        for p in piece_list:
+            leaf, err = _build_leaf(p)
+            if err:
+                return None, err
+            kids.append(leaf)
+        return kids, None
 
-    children = []
-    for p in pieces:
-        leaf, err = _build_leaf(p)
-        if err:
-            return None, err
-        children.append(leaf)
-
-    # Mechanical assembly check: child values concat to answer.
+    children, err = _build_children(pieces)
+    if err:
+        return None, err
     concat = "".join((c.value or "").upper() for c in children)
+    if concat != answer_clean:
+        merged_pieces = _merge_consecutive_duplicates(pieces)
+        if merged_pieces != pieces:
+            merged_children, m_err = _build_children(merged_pieces)
+            if not m_err:
+                merged_concat = "".join(
+                    (c.value or "").upper() for c in merged_children)
+                if merged_concat == answer_clean:
+                    pieces = merged_pieces
+                    children = merged_children
+                    concat = merged_concat
     if concat != answer_clean:
         return None, _err(
             "translation_error",
