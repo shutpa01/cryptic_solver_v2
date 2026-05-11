@@ -913,15 +913,30 @@ def _render_overview():
     df = pd.DataFrame([
         {
             "Clue": f"{r['clue_number']}{(r['direction'] or '')[:1]}",
-            "Verdict": r["verdict"],
+            "V": r["verdict"],
             "Answer": r["answer"] or "",
-            "Clue text": (r["clue_text"] or "")[:80],
+            "Clue text": r["clue_text"] or "",
+            "Definition": r.get("definition") or "",
+            "Reading": r.get("ai_explanation") or "",
             "Signature": r["signature"] or "",
-            "Run": r["run_number"] or "",
         }
         for r in filtered
     ])
-    st.dataframe(df, hide_index=True, use_container_width=True)
+    st.dataframe(
+        df,
+        hide_index=True,
+        use_container_width=True,
+        height=min(70 + 35 * len(df), 600),
+        column_config={
+            "Clue": st.column_config.TextColumn(width="small"),
+            "V": st.column_config.TextColumn(width="small"),
+            "Answer": st.column_config.TextColumn(width="small"),
+            "Clue text": st.column_config.TextColumn(width="large"),
+            "Definition": st.column_config.TextColumn(width="medium"),
+            "Reading": st.column_config.TextColumn(width="large"),
+            "Signature": st.column_config.TextColumn(width="medium"),
+        },
+    )
 
     st.divider()
     st.subheader("Clue detail")
