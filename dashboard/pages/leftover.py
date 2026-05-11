@@ -392,10 +392,13 @@ def fetch_unsolved_clues_with_reading(source_filter: str,
     """Pull the clues that:
     - have a row in shadow_db.seed_failures (= FAILed)
     - have NO PASS row in shadow_db.solves (still unsolved)
-    - have a structured_explanations row with components in
-      clues_master.db (= recorded reading available)
+    - have EITHER (a) a structured_explanations row with components,
+      OR (b) a seed_failures row carrying diagnostics_json (so the
+      cascade run captured candidate hypotheses at FAIL time).
 
     Returns dicts with clue_id + reading payload + clue context.
+    LEFT JOINs structured_explanations so cold clues come through
+    too (they'll have NULL components / definition_text).
     """
     shadow = _ro(SHADOW_DB)
     where_sf = ["1=1"]
@@ -411,6 +414,14 @@ def fetch_unsolved_clues_with_reading(source_filter: str,
         r[0] for r in shadow.execute(
             f"SELECT DISTINCT clue_id FROM seed_failures "
             f"WHERE {' AND '.join(where_sf)}",
+            params_sf,
+        )
+    )
+    diag_clue_ids = set(
+        r[0] for r in shadow.execute(
+            f"SELECT DISTINCT clue_id FROM seed_failures "
+            f"WHERE diagnostics_json IS NOT NULL "
+            f"  AND ({' AND '.join(where_sf)})",
             params_sf,
         )
     )
@@ -439,15 +450,23 @@ def fetch_unsolved_clues_with_reading(source_filter: str,
                    se.components, se.definition_text, se.confidence,
                    se.model_version
             FROM clues c
-            JOIN structured_explanations se ON se.clue_id = c.id
+            LEFT JOIN structured_explanations se ON se.clue_id = c.id
             WHERE c.id IN ({placeholders})
-              AND se.components IS NOT NULL
-              AND se.components != ''
             """,
             chunk,
         ).fetchall()
         for r in rows:
-            out.append(dict(r))
+            rec = dict(r)
+            # Keep clues that EITHER have a recorded reading OR
+            # have diagnostics captured. Otherwise nothing to
+            # surface — they belong in the no-reading authoring tab.
+            has_reading = bool((rec.get("components") or "").strip())
+            has_diag = rec["clue_id"] in diag_clue_ids
+            if not (has_reading or has_diag):
+                continue
+            rec["has_reading"] = has_reading
+            rec["has_diagnostics"] = has_diag
+            out.append(rec)
     out.sort(key=lambda x: (
         x.get("source") or "", x.get("puzzle_number") or "",
         int(str(x.get("clue_number") or 0).split("-")[0]) if
@@ -474,7 +493,108 @@ def compute_missing_for_clue(clue: dict, live, shadow) -> list:
         clue.get("ai_explanation") or "",
     )
 
-    # Read decisions to filter out already-rejected candidates.
+    return _filter_missing(clue["clue_id"], needs, live, shadow)
+
+
+def compute_diagnostic_candidates(clue: dict, live, shadow) -> list:
+    """Mine seed_failures.diagnostics_json (captured during the
+    cascade run) for candidate enrichments. Three sources:
+
+      - haiku_definition: the (phrase, answer) Haiku suggested when
+        the DB had no def candidate. → definition row.
+      - haiku_dbe: per-word Haiku DBE category-mate suggestions
+        when the clue carries a DBE marker. → synonym rows.
+      - grammar_triage word_roles: for each SYN_F / ABR_F entry
+        across all attempted readings, the (clue_word, letters)
+        pair the system hypothesised. → synonym / abbreviation row.
+
+    These are hypotheses, not deterministic needs. The reviewer
+    sees them with the same Add / Reject UI as the
+    `compute_missing_for_clue` flow; filter to missing-in-DB and
+    not-already-decided. Returned dicts carry the same shape so
+    the renderer can treat them uniformly.
+    """
+    sh_ro = _ro(SHADOW_DB)
+    rows = sh_ro.execute(
+        """
+        SELECT diagnostics_json FROM seed_failures
+        WHERE clue_id = ? AND diagnostics_json IS NOT NULL
+        ORDER BY run_number DESC, created_at DESC
+        LIMIT 1
+        """,
+        (clue["clue_id"],),
+    ).fetchall()
+    if not rows:
+        return []
+    try:
+        diag = json.loads(rows[0]["diagnostics_json"])
+    except Exception:
+        return []
+    if not isinstance(diag, dict):
+        return []
+
+    needs: list = []
+    answer_u = (clue.get("answer") or "").upper().strip()
+
+    # haiku_definition → definition_answers_augmented row
+    hd = diag.get("haiku_definition") or {}
+    if isinstance(hd, dict) and hd.get("phrase"):
+        needs.append({
+            "kind": "definition",
+            "word": hd["phrase"],
+            "value": answer_u,
+        })
+
+    # haiku_dbe → synonym rows for each DBE-marked word
+    hdbe = diag.get("haiku_dbe") or {}
+    if isinstance(hdbe, dict):
+        for word, cands in hdbe.items():
+            if not isinstance(cands, list):
+                continue
+            for cand in cands:
+                needs.append({
+                    "kind": "synonym",
+                    "word": word,
+                    "value": str(cand).upper(),
+                })
+
+    # grammar_triage roles → synonym / abbreviation hypotheses
+    gt_list = diag.get("grammar_triage") or []
+    if isinstance(gt_list, list):
+        seen = set()
+        for gt in gt_list:
+            if not isinstance(gt, dict):
+                continue
+            for role in gt.get("word_roles") or []:
+                # role is [word, token, value, ...optional_meta]
+                if not isinstance(role, (list, tuple)) or len(role) < 3:
+                    continue
+                word, tok, val = role[0], role[1], role[2]
+                if not word or not val:
+                    continue
+                kind = None
+                if tok == "SYN_F":
+                    kind = "synonym"
+                elif tok == "ABR_F":
+                    kind = "abbreviation"
+                if not kind:
+                    continue
+                key = (kind, str(word).lower(), str(val).upper())
+                if key in seen:
+                    continue
+                seen.add(key)
+                needs.append({
+                    "kind": kind,
+                    "word": str(word),
+                    "value": str(val).upper(),
+                })
+
+    return _filter_missing(clue["clue_id"], needs, live, shadow)
+
+
+def _filter_missing(clue_id: int, needs: list, live, shadow) -> list:
+    """Common tail for the two candidate sources: keep only the
+    needs that aren't already in the DB and haven't been decided."""
     sh_w = _rw_shadow()
     decisions = {
         r["candidate_key"]: r["decision"]
@@ -483,15 +603,16 @@ def compute_missing_for_clue(clue: dict, live, shadow) -> list:
             "FROM shadow_candidate_decisions"
         )
     }
-
     out: list = []
+    seen_keys: set = set()
     for n in needs:
         if not need_is_missing(n, live, shadow):
             continue
-        key = _candidate_key(clue["clue_id"], n)
-        if key in decisions:
+        key = _candidate_key(clue_id, n)
+        if key in seen_keys or key in decisions:
             continue
-        out.append({**n, "key": key, "clue_id": clue["clue_id"]})
+        seen_keys.add(key)
+        out.append({**n, "key": key, "clue_id": clue_id})
     return out
 
 
@@ -561,11 +682,28 @@ def _render_with_reading():
 
     rendered_anything = False
     for c in clues:
-        missing = compute_missing_for_clue(c, live, shadow)
-        if not missing:
+        # Deterministic needs derived from a recorded reading.
+        deterministic = compute_missing_for_clue(c, live, shadow)
+        for n in deterministic:
+            n["source"] = "reading"
+        # Hypotheses captured during the cascade FAIL run.
+        diagnostic = compute_diagnostic_candidates(c, live, shadow)
+        for n in diagnostic:
+            n["source"] = "diagnostic"
+        # Dedup: a deterministic candidate trumps a diagnostic with
+        # the same (kind, word, value); both have the same key so a
+        # set of seen keys suffices.
+        seen: set = set()
+        combined: list = []
+        for n in deterministic + diagnostic:
+            if n["key"] in seen:
+                continue
+            seen.add(n["key"])
+            combined.append(n)
+        if not combined:
             continue
         rendered_anything = True
-        _render_clue_with_missing(c, missing, also_live)
+        _render_clue_with_missing(c, combined, also_live)
 
     if not rendered_anything:
         st.info(
@@ -580,10 +718,23 @@ def _render_with_reading():
 
 def _render_clue_with_missing(clue: dict, missing: list,
                                 also_live: bool) -> None:
+    badges = []
+    if clue.get("has_reading"):
+        badges.append(
+            "<span style='background:#1a4480;color:white;padding:1px "
+            "6px;border-radius:3px;font-size:0.75em'>reading</span>"
+        )
+    if clue.get("has_diagnostics"):
+        badges.append(
+            "<span style='background:#b58a00;color:white;padding:1px "
+            "6px;border-radius:3px;font-size:0.75em'>diagnostics</span>"
+        )
+    badge_html = "&nbsp;".join(badges)
     st.markdown(
         f"**{clue.get('source','?')} {clue.get('puzzle_number','?')}  "
         f"{clue.get('clue_number','?')}{(clue.get('direction') or '')[:1]}  "
-        f"— {clue.get('answer','?')}**"
+        f"— {clue.get('answer','?')}** &nbsp;{badge_html}",
+        unsafe_allow_html=True,
     )
     st.write(clue.get("clue_text", ""))
     if clue.get("ai_explanation"):
@@ -602,9 +753,23 @@ def _render_clue_with_missing(clue: dict, missing: list,
             label = f"definition: `{n['word']}` → `{n['value']}`"
         else:
             label = f"{kind}: `{n['word']}` → `{n['value']}`"
+        # Tag deterministic-from-reading vs hypothesis-from-diag.
+        src = n.get("source", "reading")
+        if src == "diagnostic":
+            tag = (
+                "<span style='background:#b58a00;color:white;"
+                "padding:1px 6px;border-radius:3px;font-size:0.75em;"
+                "margin-right:6px'>hypothesis</span>"
+            )
+        else:
+            tag = (
+                "<span style='background:#1a4480;color:white;"
+                "padding:1px 6px;border-radius:3px;font-size:0.75em;"
+                "margin-right:6px'>from reading</span>"
+            )
         cols = st.columns([6, 1, 1])
         with cols[0]:
-            st.write(label)
+            st.markdown(tag + label, unsafe_allow_html=True)
         with cols[1]:
             if st.button("Add", key=f"add_{n['key']}"):
                 try:
