@@ -575,7 +575,27 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
     # grammar_triage's wordplay-type predictions (when it produced
     # any) with the V1 detectors' mechanism-class hints. Both feed
     # the catalog walk order; the verifier still gates every form.
-    v1_hints = detect_routing_hints(clue_text, answer_clean, dd_graph, db)
+    #
+    # detect_routing_hints iterates definition candidates × seven V1
+    # detectors and has been observed at 20+ minutes on some
+    # multi-def-candidate clues. Cap it at 10s via the same
+    # thread-with-timeout pattern as try_production_solve; on timeout
+    # we proceed with no V1 hints (cascade walks by frequency,
+    # bounded by its own 30s cap).
+    hint_box: list = [None]
+
+    def _hint_worker():
+        try:
+            hint_box[0] = detect_routing_hints(
+                clue_text, answer_clean, dd_graph, db)
+        except Exception:  # noqa: BLE001
+            hint_box[0] = []
+
+    ht = threading.Thread(target=_hint_worker, daemon=True)
+    ht.start()
+    ht.join(timeout=10.0)
+    v1_hints = [] if ht.is_alive() else (hint_box[0] or [])
+
     hints = list(dict.fromkeys(gt_hints + v1_hints))
     ordered_catalog = reorder_catalog_by_hints(catalog, hints)
 
