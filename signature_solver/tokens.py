@@ -113,7 +113,7 @@ LINK_WORDS = {
     # before the DBE substitution-licensing logic can act on them.
     # Words that are also indicators but frequently serve as links
     # (both roles coexist — matcher picks whichever fits the pattern)
-    "wanting", "needing", "requiring",
+    "wanting", "needing", "requiring", "made",
     # Surface words that carry no cryptic role
     "soft",
 }
