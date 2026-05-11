@@ -120,7 +120,11 @@ def derive_needed_rows(components: dict, definition_text: str,
         elif mech == "homophone":
             needs.append({"kind": "homophone", "word": cw, "value": letters})
 
-    # Top-level indicator (when the op needs one)
+    # Top-level indicator (when the op needs one). Emit the
+    # canonical wordplay_type for the op (container for container
+    # ops, deletion for deletion ops, etc.) — not the alternative
+    # types the verifier also tolerates on lookup ("insertion",
+    # "parts"). Adding rows under the wrong type pollutes the DB.
     assembly = components.get("assembly") or {}
     op = (assembly.get("op") or "").lower()
     if op in OP_INDICATOR_TYPES:
@@ -129,15 +133,10 @@ def derive_needed_rows(components: dict, definition_text: str,
         #    [anagram: "shifting"]   [container: "in"]
         ind_word = _extract_indicator_from_explanation(ai_explanation, op)
         if ind_word:
-            for wp_type in OP_INDICATOR_TYPES[op]:
-                needs.append({
-                    "kind": "indicator", "word": ind_word,
-                    "value": "", "op": wp_type,
-                })
-                # Just one wordplay_type variant per indicator
-                # (container OR insertion etc.) — DB lookup tolerates
-                # either; we prefer the first.
-                break
+            needs.append({
+                "kind": "indicator", "word": ind_word,
+                "value": "", "op": op,
+            })
 
     return needs
 
