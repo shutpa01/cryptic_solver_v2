@@ -733,45 +733,55 @@ def parse_single_para_format(content):
         if lines and lines[0].lower() in ('across', 'down'):
             start = 1
 
-        # Process clue+explanation pairs
+        # Process clue + answer + explanation triples (variant A: bold answer
+        # on its own <br/> line, explanation on the next) or clue +
+        # explanation-with-inline-answer pairs (variant B).
         i = start
-        while i + 1 < len(lines):
+        while i < len(lines):
             clue_line = lines[i]
-            expl_line = lines[i + 1]
-
             clue_match = re.match(r'^(\d+)[\s.]', clue_line)
             if not clue_match:
                 i += 1
                 continue
-
             clue_num = clue_match.group(1)
 
-            # Try bold answer first
             answer = ''
-            bold = p.find(['strong', 'b'])
-            if bold:
-                candidate = bold.get_text(strip=True)
-                candidate = re.sub(r'[\s:–—\-]+$', '', candidate).strip()
+            expl_line = ''
+            advance = 1
+
+            # Variant A: lines[i+1] is a bare bold answer; explanation is lines[i+2].
+            if i + 1 < len(lines):
+                next_line = lines[i + 1].strip()
+                candidate = re.sub(r'[\s:–—\-]+$', '', next_line).strip()
                 if is_answer(candidate):
                     answer = candidate
+                    expl_line = lines[i + 2] if i + 2 < len(lines) else ''
+                    advance = 3
 
-            # If no bold answer, find ALL CAPS answer in explanation
-            if not answer:
+            # Variant B: lines[i+1] is the explanation with answer embedded inline.
+            if not answer and i + 1 < len(lines):
+                expl_line = lines[i + 1]
+                advance = 2
                 ans_match = re.search(r'=\s*([A-Z][A-Z\s\-\']{1,}[A-Z])', expl_line)
                 if not ans_match:
                     ans_match = re.search(r'\b([A-Z][A-Z\-\s]{1,}[A-Z])\b', expl_line)
                 if ans_match:
                     answer = ans_match.group(1).strip()
 
+            # Last-resort fallback: scan the whole paragraph for a bold answer.
+            if not answer:
+                for tag in p.find_all(['strong', 'b']):
+                    cand = re.sub(r'[\s:–—\-]+$', '', tag.get_text(strip=True)).strip()
+                    if is_answer(cand):
+                        answer = cand
+                        break
+
             if not answer:
                 i += 1
                 continue
 
-            # Extract enumeration
             m = ENUM_PAT.search(clue_line)
             enum = m.group(1).strip() if m else ''
-
-            # Extract definition from underlined text in this paragraph
             definition = _extract_definition(p)
 
             dir_suffix = 'a' if direction == 'across' else 'd'
@@ -784,7 +794,7 @@ def parse_single_para_format(content):
                 'definition': definition,
                 'explanation': expl_line,
             })
-            i += 2  # Skip the explanation line
+            i += advance
 
     return clues
 
