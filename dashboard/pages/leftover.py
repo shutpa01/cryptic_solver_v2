@@ -498,9 +498,7 @@ def compute_missing_for_clue(clue: dict, live, shadow) -> list:
 # --- Rendering --------------------------------------------------------
 
 def render():
-    print("[leftover.py] render() called", flush=True)
     st.header("Prototype enrichment review")
-    st.warning("LOADED VERSION: 2026-05-11 with tab try/except wrapped")
     st.caption(
         "Per clue: parse the recorded reading, work out exactly which "
         "DB rows the verifier needs to PASS it, show the missing ones. "
@@ -515,28 +513,11 @@ def render():
         "Puzzle overview",
     ])
     with tab1:
-        try:
-            _render_with_reading()
-        except Exception as e:  # noqa: BLE001
-            st.error(f"tab1 error: {e}")
-            import traceback
-            st.code(traceback.format_exc())
+        _render_with_reading()
     with tab2:
-        try:
-            _render_no_reading()
-        except Exception as e:  # noqa: BLE001
-            st.error(f"tab2 error: {e}")
-            import traceback
-            st.code(traceback.format_exc())
+        _render_no_reading()
     with tab3:
-        try:
-            _render_overview()
-        except Exception as e:  # noqa: BLE001
-            st.error(f"tab3 error: {e}")
-            import traceback
-            st.code(traceback.format_exc())
-    st.warning("MARKER B: render() reached end of function (tabs all completed)")
-    print("[leftover.py] render() finished", flush=True)
+        _render_overview()
 
 
 def _render_with_reading():
@@ -555,6 +536,14 @@ def _render_with_reading():
             "Also live", value=False, key="lo_live",
             help="Promote Add'd rows to cryptic_new as well as shadow.",
         )
+
+    if source == "All" and not puzzle.strip():
+        st.info(
+            "Pick a source (or enter a puzzle number) before loading. "
+            "The unfiltered queue is many thousands of clues and "
+            "would make the page hang."
+        )
+        return
 
     clues = fetch_unsolved_clues_with_reading(source, puzzle.strip())
     st.metric("Unsolved clues with a recorded reading", len(clues))
@@ -703,6 +692,12 @@ def _render_no_reading():
         )
     with col_b:
         puzzle = st.text_input("Puzzle (optional)", key="lo_nr_puz")
+
+    if source == "All" and not puzzle.strip():
+        st.info(
+            "Pick a source (or enter a puzzle number) before loading."
+        )
+        return
 
     clues = fetch_unsolved_clues_no_reading(source, puzzle.strip())
     st.metric("Unsolved clues with NO recorded reading", len(clues))
