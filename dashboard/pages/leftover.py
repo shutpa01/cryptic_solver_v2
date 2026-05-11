@@ -498,7 +498,9 @@ def compute_missing_for_clue(clue: dict, live, shadow) -> list:
 # --- Rendering --------------------------------------------------------
 
 def render():
+    print("[leftover.py] render() called", flush=True)
     st.header("Prototype enrichment review")
+    st.warning("LOADED VERSION: 2026-05-11 with tab try/except wrapped")
     st.caption(
         "Per clue: parse the recorded reading, work out exactly which "
         "DB rows the verifier needs to PASS it, show the missing ones. "
@@ -513,11 +515,28 @@ def render():
         "Puzzle overview",
     ])
     with tab1:
-        _render_with_reading()
+        try:
+            _render_with_reading()
+        except Exception as e:  # noqa: BLE001
+            st.error(f"tab1 error: {e}")
+            import traceback
+            st.code(traceback.format_exc())
     with tab2:
-        _render_no_reading()
+        try:
+            _render_no_reading()
+        except Exception as e:  # noqa: BLE001
+            st.error(f"tab2 error: {e}")
+            import traceback
+            st.code(traceback.format_exc())
     with tab3:
-        _render_overview()
+        try:
+            _render_overview()
+        except Exception as e:  # noqa: BLE001
+            st.error(f"tab3 error: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    st.warning("MARKER B: render() reached end of function (tabs all completed)")
+    print("[leftover.py] render() finished", flush=True)
 
 
 def _render_with_reading():
@@ -909,37 +928,185 @@ def _render_overview():
     filtered = (rows if verdict_filter == "All"
                 else [r for r in rows if r["verdict"] == verdict_filter])
 
-    import pandas as pd
-    df = pd.DataFrame([
-        {
-            "Clue": f"{r['clue_number']}{(r['direction'] or '')[:1]}",
-            "V": r["verdict"],
-            "Answer": r["answer"] or "",
-            "Clue text": r["clue_text"] or "",
-            "Definition": r.get("definition") or "",
-            "Reading": r.get("ai_explanation") or "",
-            "Signature": r["signature"] or "",
-        }
-        for r in filtered
-    ])
-    st.dataframe(df, hide_index=True, use_container_width=True)
+    for r in filtered:
+        _render_overview_card(r)
+        st.divider()
 
-    st.divider()
-    st.subheader("Clue detail")
-    options = [
-        f"{r['clue_number']}{(r['direction'] or '')[:1]}  "
-        f"{r['verdict']}  — {r['answer'] or ''}"
-        for r in filtered
-    ]
-    if not options:
-        st.info("No clues match the filter.")
-        return
-    idx = st.selectbox("Pick a clue to inspect",
-                        options=list(range(len(filtered))),
-                        format_func=lambda i: options[i],
-                        key="lo_ov_idx")
-    r = filtered[idx]
-    _render_overview_detail(r)
+
+def _render_overview_card(r: dict) -> None:
+    """One card per clue: header, clue text with per-word attribution
+    (multi-word spans grouped under a single label), and a fall-back
+    summary line when no form is available.
+    """
+    verdict = r["verdict"]
+    badge_colour = {
+        "PASS": "#1a9e3e", "PENDING": "#b58a00",
+        "FAIL": "#b03030", "not-run": "#888",
+    }.get(verdict, "#888")
+    cnum = f"{r['clue_number']}{(r['direction'] or '')[:1]}"
+    header = (
+        f"<span style='font-weight:bold;font-size:1.05em'>"
+        f"{cnum} — {r['answer'] or ''}</span> &nbsp;"
+        f"<span style='background:{badge_colour};color:white;padding:2px "
+        f"8px;border-radius:8px;font-size:0.85em'>{verdict}</span>"
+    )
+    st.markdown(header, unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='font-size:1.05em;margin:6px 0'>"
+        f"{r['clue_text'] or ''}</div>",
+        unsafe_allow_html=True,
+    )
+
+    form = None
+    if r.get("form_json"):
+        try:
+            form = json.loads(r["form_json"])
+        except Exception:
+            form = None
+
+    if form:
+        attrs = _attribute_clue(r["clue_text"] or "", form)
+        for span_text, label, colour in attrs:
+            st.markdown(
+                f"<div style='margin:2px 0'>"
+                f"<span style='background:{colour};padding:2px 8px;"
+                f"border-radius:4px;color:#fff;font-size:0.85em;"
+                f"margin-right:8px;display:inline-block;min-width:140px'>"
+                f"{label}</span>"
+                f"<span style='font-size:1em'>{span_text}</span>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+        if r.get("signature"):
+            st.caption(f"signature: `{r['signature']}` "
+                         f"(run {r.get('run_number','?')})")
+    else:
+        if r.get("ai_explanation"):
+            st.markdown(
+                f"<div style='font-size:0.9em;color:#666'>"
+                f"production reading: {r['ai_explanation']}</div>",
+                unsafe_allow_html=True,
+            )
+        elif r.get("definition"):
+            st.markdown(
+                f"<div style='font-size:0.9em;color:#666'>"
+                f"recorded definition: <code>{r['definition']}</code></div>",
+                unsafe_allow_html=True,
+            )
+
+
+def _attribute_clue(clue_text: str, form: dict) -> list:
+    """Walk the form and turn the clue text into a list of
+    (span_text, label, colour) tuples — one entry per attribution
+    group. Multi-word spans (definition, multi-word source word,
+    multi-word indicator) are grouped together.
+    """
+    sys.path.insert(0, str(PROJECT_ROOT))
+    from prototypes.universal_form_v2.surface import tokenize
+
+    tokens = tokenize(clue_text)
+    n = len(tokens)
+    # For each surface position, we'll attach (label, colour).
+    role: list = [None] * n
+
+    def _label_positions(phrase: str, label: str, colour: str) -> None:
+        if not phrase:
+            return
+        phrase_tokens = [t.lower() for t in tokenize(phrase)]
+        if not phrase_tokens:
+            return
+        # Find phrase as contiguous lowercase token match in clue.
+        lower = [t.lower() for t in tokens]
+        for i in range(n - len(phrase_tokens) + 1):
+            if lower[i:i + len(phrase_tokens)] == phrase_tokens:
+                for j in range(i, i + len(phrase_tokens)):
+                    if role[j] is None:
+                        role[j] = (label, colour)
+                break
+
+    # Definition first (multi-word).
+    def_phrase = (form.get("definition") or {}).get("phrase", "")
+    if def_phrase:
+        _label_positions(def_phrase, f"definition", "#1a4480")
+
+    # Walk tree: collect leaves and op-indicators.
+    def _walk(node):
+        if not isinstance(node, dict):
+            return
+        op = node.get("operation")
+        sources = node.get("sources") or []
+        indicator = node.get("indicator")
+        if sources:
+            if indicator:
+                colour = _OP_COLOURS.get(op, "#666")
+                _label_positions(indicator, f"{op} indicator", colour)
+            for c in sources:
+                _walk(c)
+        else:
+            # Leaf
+            cw = node.get("source_word") or ""
+            value = node.get("value") or ""
+            mech = op or "leaf"
+            if node.get("positional_kind"):
+                mech = f"{node['positional_kind']}-letter"
+            label = f"{mech} → {value}"
+            _label_positions(cw, label, _MECH_COLOURS.get(op, "#5a5a5a"))
+            # If positional leaf carried its own indicator, label that too
+            if indicator:
+                _label_positions(indicator, f"{op} indicator",
+                                  _OP_COLOURS.get(op, "#666"))
+
+    _walk(form.get("tree") or {})
+
+    # link_words
+    for lw in form.get("link_words") or []:
+        for i, t in enumerate(tokens):
+            if t.lower() == lw.lower() and role[i] is None:
+                role[i] = ("link", "#808080")
+
+    # Anything still None is unattributed.
+    for i in range(n):
+        if role[i] is None:
+            role[i] = ("(unaccounted)", "#a00")
+
+    # Group consecutive tokens that share the same (label, colour).
+    groups: list = []
+    cur_label = None
+    cur_colour = None
+    cur_words: list = []
+    for tok, (label, colour) in zip(tokens, role):
+        if (label, colour) == (cur_label, cur_colour):
+            cur_words.append(tok)
+        else:
+            if cur_words:
+                groups.append((" ".join(cur_words), cur_label, cur_colour))
+            cur_label, cur_colour = label, colour
+            cur_words = [tok]
+    if cur_words:
+        groups.append((" ".join(cur_words), cur_label, cur_colour))
+    return groups
+
+
+_MECH_COLOURS = {
+    "synonym":     "#3a6e9e",
+    "abbreviation": "#7a4a9e",
+    "literal":     "#4a7a4a",
+    "raw":         "#4a7a4a",
+    "homophone":   "#9e7a3a",
+    "positional":  "#5a5a5a",
+}
+
+_OP_COLOURS = {
+    "charade":   "#3a6e9e",
+    "anagram":   "#9e3a3a",
+    "container": "#3a9e6e",
+    "deletion":  "#9e6e3a",
+    "reversal":  "#6e3a9e",
+    "hidden":    "#3a9e9e",
+    "homophone": "#9e7a3a",
+    "acrostic":  "#9e3a6e",
+    "double_definition": "#1a4480",
+}
 
 
 def _render_overview_detail(r: dict) -> None:
