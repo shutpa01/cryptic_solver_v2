@@ -1,18 +1,24 @@
-"""Leftover authoring — prototype dashboard tab.
+"""Leftover authoring — prototype enrichment review.
 
-Top-level view is the enrichment queue: every verifier-suggested
-candidate across the shadow_db FAIL queue, grouped by kind, with
-Add / Reject buttons per row. Mirrors the existing live "DB
-Enrichment" tab shape.
+Right-shape pattern: every clue in the shadow FAIL queue that has a
+recorded reading (production's ai_explanation / structured_explanations
+components) is analysed to derive the exact DB rows the verifier
+would need to PASS it. We then check which of those rows are
+missing from (live ∪ shadow) and surface only the missing ones as
+candidates.
 
-A secondary "FAIL detail" tab covers the per-clue deep dive
-(production reading, blog, author a whole form) for cases the
-queue can't address.
+This is *deterministic enrichment*, not guesswork: each candidate
+is a row we know is needed for that clue. Accept writes it.
+
+For FAILs with no recorded reading, the second tab is a form-
+authoring surface — the human supplies a reading and the same
+analyser fires.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sqlite3
 import subprocess
 import sys
@@ -61,74 +67,196 @@ def _ensure_decisions_table(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
-def _candidate_key(cand: dict) -> str:
-    """A stable key for a candidate so we can track its decision."""
+# --- Reading → needed rows ---------------------------------------------
+
+# Maps assembly.op → required indicator wordplay_type(s).
+OP_INDICATOR_TYPES = {
+    "anagram":   {"anagram"},
+    "reversal":  {"reversal"},
+    "container": {"container", "insertion"},
+    "deletion":  {"deletion", "parts"},
+    "hidden":    {"hidden"},
+    "homophone": {"homophone"},
+    "acrostic":  {"acrostic", "parts"},
+}
+
+
+def derive_needed_rows(components: dict, definition_text: str,
+                        answer: str, ai_explanation: str) -> list:
+    """From a recorded reading, derive the DB rows the verifier
+    needs to PASS this clue. Returns list of dicts with kind, word,
+    value, plus optional op/subtype for indicators.
+
+    Coverage today: synonym, abbreviation, homophone (leaf-level
+    bridges from clue word → piece letters), definition (definition
+    phrase → answer), and top-level indicators where the op needs
+    one and the indicator word is named in the recorded explanation.
+    """
+    needs: list = []
+    answer_u = (answer or "").upper().strip()
+
+    # Definition
+    def_text = (definition_text or "").strip()
+    if def_text and answer_u:
+        needs.append({
+            "kind": "definition",
+            "word": def_text,
+            "value": answer_u,
+        })
+
+    # Leaf-level bridges from ai_pieces
+    for p in components.get("ai_pieces") or []:
+        if not isinstance(p, dict):
+            continue
+        mech = (p.get("mechanism") or "").lower().strip()
+        cw = (p.get("clue_word") or "").strip()
+        letters = (p.get("letters") or "").upper().strip()
+        if not cw or not letters:
+            continue
+        if mech == "synonym":
+            needs.append({"kind": "synonym", "word": cw, "value": letters})
+        elif mech == "abbreviation":
+            needs.append({"kind": "abbreviation", "word": cw, "value": letters})
+        elif mech == "homophone":
+            needs.append({"kind": "homophone", "word": cw, "value": letters})
+
+    # Top-level indicator (when the op needs one)
+    assembly = components.get("assembly") or {}
+    op = (assembly.get("op") or "").lower()
+    if op in OP_INDICATOR_TYPES:
+        # Try to read the indicator word from the ai_explanation,
+        # which typically names it in square brackets:
+        #    [anagram: "shifting"]   [container: "in"]
+        ind_word = _extract_indicator_from_explanation(ai_explanation, op)
+        if ind_word:
+            for wp_type in OP_INDICATOR_TYPES[op]:
+                needs.append({
+                    "kind": "indicator", "word": ind_word,
+                    "value": "", "op": wp_type,
+                })
+                # Just one wordplay_type variant per indicator
+                # (container OR insertion etc.) — DB lookup tolerates
+                # either; we prefer the first.
+                break
+
+    return needs
+
+
+_IND_RE = re.compile(
+    r'\[\s*(anagram|reversal|container|insertion|deletion|parts|'
+    r'hidden|homophone|acrostic)\s*:\s*["“‘]([^"”’]+)'
+    r'["”’]\s*\]',
+    re.IGNORECASE,
+)
+
+
+def _extract_indicator_from_explanation(explanation: str, op: str) -> str:
+    if not explanation:
+        return ""
+    for m in _IND_RE.finditer(explanation):
+        tag = m.group(1).lower()
+        if op == "container" and tag in ("container", "insertion"):
+            return m.group(2).strip()
+        if op == "deletion" and tag in ("deletion", "parts"):
+            return m.group(2).strip()
+        if op == "acrostic" and tag in ("acrostic", "parts"):
+            return m.group(2).strip()
+        if tag == op:
+            return m.group(2).strip()
+    return ""
+
+
+# --- DB membership checks ----------------------------------------------
+
+def has_synonym(word: str, value: str, live, shadow) -> bool:
+    w, v = word.lower().strip(), value.upper().strip()
+    for c in (live, shadow):
+        if c.execute(
+            "SELECT 1 FROM synonyms_pairs "
+            "WHERE LOWER(word)=? AND UPPER(synonym)=? LIMIT 1",
+            (w, v),
+        ).fetchone():
+            return True
+    return False
+
+
+def has_abbreviation(word: str, value: str, live, shadow) -> bool:
+    w, v = word.lower().strip(), value.upper().strip()
+    for c in (live, shadow):
+        if c.execute(
+            "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? "
+            "AND UPPER(substitution)=? AND category='abbreviation' LIMIT 1",
+            (w, v),
+        ).fetchone():
+            return True
+    return False
+
+
+def has_definition(definition: str, answer: str, live, shadow) -> bool:
+    d, a = definition.lower().strip(), answer.upper().strip()
+    for c in (live, shadow):
+        if c.execute(
+            "SELECT 1 FROM definition_answers_augmented "
+            "WHERE LOWER(definition)=? AND UPPER(answer)=? LIMIT 1",
+            (d, a),
+        ).fetchone():
+            return True
+    return False
+
+
+def has_homophone(word: str, value: str, live, shadow) -> bool:
+    w, v = word.lower().strip(), value.upper().strip()
+    for c in (live, shadow):
+        try:
+            if c.execute(
+                "SELECT 1 FROM homophones WHERE LOWER(word)=? "
+                "AND UPPER(homophone)=? LIMIT 1",
+                (w, v),
+            ).fetchone():
+                return True
+        except sqlite3.OperationalError:
+            pass
+    return False
+
+
+def has_indicator(word: str, op: str, live, shadow) -> bool:
+    w = word.lower().strip()
+    for c in (live, shadow):
+        if c.execute(
+            "SELECT 1 FROM indicators WHERE LOWER(word)=? "
+            "AND wordplay_type=? LIMIT 1",
+            (w, op),
+        ).fetchone():
+            return True
+    return False
+
+
+def need_is_missing(need: dict, live, shadow) -> bool:
+    k = need["kind"]
+    if k == "synonym":
+        return not has_synonym(need["word"], need["value"], live, shadow)
+    if k == "abbreviation":
+        return not has_abbreviation(need["word"], need["value"], live, shadow)
+    if k == "definition":
+        return not has_definition(need["word"], need["value"], live, shadow)
+    if k == "homophone":
+        return not has_homophone(need["word"], need["value"], live, shadow)
+    if k == "indicator":
+        return not has_indicator(need["word"], need["op"], live, shadow)
+    return False
+
+
+# --- Inserts -----------------------------------------------------------
+
+def _candidate_key(clue_id: int, need: dict) -> str:
     payload = "|".join([
-        str(cand.get("kind") or ""),
-        str(cand.get("source_word") or "").lower(),
-        str(cand.get("value") or "").upper(),
-        str(cand.get("operation") or ""),
-        str(cand.get("subtype") or ""),
+        str(clue_id),
+        str(need.get("kind") or ""),
+        str(need.get("word") or "").lower(),
+        str(need.get("value") or "").upper(),
+        str(need.get("op") or ""),
     ])
     return hashlib.sha1(payload.encode("utf-8")).hexdigest()
-
-
-# --- Queue queries -----------------------------------------------------
-
-def fetch_candidates() -> list:
-    """Flatten every non-empty enrichments_json across seed_failures
-    into one row per candidate. Excludes candidates that already
-    have a decision (accepted or rejected) recorded."""
-    shadow = _rw_shadow()
-    decisions = {
-        r["candidate_key"]: r["decision"]
-        for r in shadow.execute(
-            "SELECT candidate_key, decision FROM shadow_candidate_decisions"
-        )
-    }
-    rows = shadow.execute(
-        """
-        SELECT clue_id, source, puzzle_number, clue_number, direction,
-               clue_text, answer, enrichments_json
-        FROM seed_failures
-        WHERE enrichments_json IS NOT NULL
-          AND enrichments_json != ''
-          AND enrichments_json != '[]'
-        ORDER BY source, puzzle_number,
-                 CAST(clue_number AS INTEGER), direction
-        """
-    ).fetchall()
-    out: list = []
-    for r in rows:
-        try:
-            cands = json.loads(r["enrichments_json"])
-        except Exception:
-            continue
-        if not isinstance(cands, list):
-            continue
-        for c in cands:
-            if not isinstance(c, dict):
-                continue
-            key = _candidate_key(c)
-            if key in decisions:
-                continue
-            out.append({
-                "key": key,
-                "kind": c.get("kind") or "",
-                "word": c.get("source_word") or "",
-                "value": c.get("value") or "",
-                "operation": c.get("operation") or "",
-                "subtype": c.get("subtype") or "",
-                "detail": c.get("detail") or "",
-                "clue_id": r["clue_id"],
-                "source": r["source"],
-                "puzzle_number": r["puzzle_number"],
-                "clue_number": r["clue_number"],
-                "direction": r["direction"],
-                "clue_text": r["clue_text"],
-                "answer": r["answer"],
-            })
-    return out
 
 
 def record_decision(key: str, decision: str) -> None:
@@ -141,51 +269,40 @@ def record_decision(key: str, decision: str) -> None:
     conn.commit()
 
 
-# --- Writes -----------------------------------------------------------
-
 def insert_shadow_synonym(word: str, value: str, clue_id: int) -> None:
-    conn = _rw_shadow()
-    conn.execute(
+    _rw_shadow().execute(
         "INSERT INTO synonyms_pairs (word, synonym, source, clue_id) "
         "VALUES (?, ?, 'leftover_dashboard', ?)",
         (word.lower().strip(), value.upper().strip(), clue_id),
-    )
-    conn.commit()
+    ).connection.commit()
 
 
 def insert_shadow_abbreviation(word: str, value: str, clue_id: int) -> None:
-    conn = _rw_shadow()
-    conn.execute(
+    _rw_shadow().execute(
         "INSERT INTO wordplay (indicator, substitution, category, "
         "confidence, clue_id) "
         "VALUES (?, ?, 'abbreviation', 'medium', ?)",
         (word.lower().strip(), value.upper().strip(), clue_id),
-    )
-    conn.commit()
+    ).connection.commit()
 
 
-def insert_shadow_indicator(word: str, op: str, subtype: str,
-                              clue_id: int) -> None:
-    conn = _rw_shadow()
-    conn.execute(
-        "INSERT INTO indicators (word, wordplay_type, subtype, "
-        "confidence, source, clue_id) "
-        "VALUES (?, ?, ?, 'medium', 'leftover_dashboard', ?)",
-        (word.lower().strip(), op, subtype or None, clue_id),
-    )
-    conn.commit()
+def insert_shadow_indicator(word: str, op: str, clue_id: int) -> None:
+    _rw_shadow().execute(
+        "INSERT INTO indicators (word, wordplay_type, confidence, "
+        "source, clue_id) "
+        "VALUES (?, ?, 'medium', 'leftover_dashboard', ?)",
+        (word.lower().strip(), op, clue_id),
+    ).connection.commit()
 
 
 def insert_shadow_definition(definition: str, answer: str,
                                clue_id: int) -> None:
-    conn = _rw_shadow()
-    conn.execute(
+    _rw_shadow().execute(
         "INSERT INTO definition_answers_augmented (definition, answer, "
         "source, clue_id) "
         "VALUES (?, ?, 'leftover_dashboard', ?)",
         (definition.lower().strip(), answer.upper().strip(), clue_id),
-    )
-    conn.commit()
+    ).connection.commit()
 
 
 def promote_synonym_live(word: str, value: str) -> None:
@@ -218,22 +335,6 @@ def promote_abbreviation_live(word: str, value: str) -> None:
     conn.commit()
 
 
-def promote_indicator_live(word: str, op: str, subtype: str) -> None:
-    conn = _rw_live()
-    if conn.execute(
-        "SELECT 1 FROM indicators WHERE LOWER(word)=? AND wordplay_type=? "
-        "AND COALESCE(subtype,'')=?",
-        (word.lower().strip(), op, subtype or ""),
-    ).fetchone():
-        return
-    conn.execute(
-        "INSERT INTO indicators (word, wordplay_type, subtype, confidence) "
-        "VALUES (?, ?, ?, 'high')",
-        (word.lower().strip(), op, subtype or None),
-    )
-    conn.commit()
-
-
 def promote_definition_live(definition: str, answer: str) -> None:
     conn = _rw_live()
     if conn.execute(
@@ -250,35 +351,149 @@ def promote_definition_live(definition: str, answer: str) -> None:
     conn.commit()
 
 
-def accept_candidate(c: dict, also_live: bool) -> None:
-    kind = c["kind"]
-    if kind == "synonym":
-        insert_shadow_synonym(c["word"], c["value"], c["clue_id"])
-        if also_live:
-            promote_synonym_live(c["word"], c["value"])
-    elif kind == "abbreviation":
-        insert_shadow_abbreviation(c["word"], c["value"], c["clue_id"])
-        if also_live:
-            promote_abbreviation_live(c["word"], c["value"])
-    elif kind == "indicator":
-        op = c["operation"]
-        if not op:
-            raise ValueError("indicator candidate missing operation")
-        insert_shadow_indicator(
-            c["word"], op, c.get("subtype") or "", c["clue_id"])
-        if also_live:
-            promote_indicator_live(c["word"], op, c.get("subtype") or "")
-    elif kind == "definition":
-        insert_shadow_definition(c["word"], c["value"], c["clue_id"])
-        if also_live:
-            promote_definition_live(c["word"], c["value"])
-    else:
-        raise ValueError(f"unknown candidate kind: {kind}")
-    record_decision(c["key"], "accepted")
+def promote_indicator_live(word: str, op: str) -> None:
+    conn = _rw_live()
+    if conn.execute(
+        "SELECT 1 FROM indicators WHERE LOWER(word)=? AND wordplay_type=?",
+        (word.lower().strip(), op),
+    ).fetchone():
+        return
+    conn.execute(
+        "INSERT INTO indicators (word, wordplay_type, confidence) "
+        "VALUES (?, ?, 'high')",
+        (word.lower().strip(), op),
+    )
+    conn.commit()
 
 
-def reject_candidate(c: dict) -> None:
-    record_decision(c["key"], "rejected")
+def accept_need(need: dict, clue_id: int, also_live: bool) -> None:
+    k = need["kind"]
+    if k == "synonym":
+        insert_shadow_synonym(need["word"], need["value"], clue_id)
+        if also_live:
+            promote_synonym_live(need["word"], need["value"])
+    elif k == "abbreviation":
+        insert_shadow_abbreviation(need["word"], need["value"], clue_id)
+        if also_live:
+            promote_abbreviation_live(need["word"], need["value"])
+    elif k == "definition":
+        insert_shadow_definition(need["word"], need["value"], clue_id)
+        if also_live:
+            promote_definition_live(need["word"], need["value"])
+    elif k == "indicator":
+        insert_shadow_indicator(need["word"], need["op"], clue_id)
+        if also_live:
+            promote_indicator_live(need["word"], need["op"])
+
+
+# --- Queries -----------------------------------------------------------
+
+def fetch_unsolved_clues_with_reading(source_filter: str,
+                                        puzzle_filter: str) -> list:
+    """Pull the clues that:
+    - have a row in shadow_db.seed_failures (= FAILed)
+    - have NO PASS row in shadow_db.solves (still unsolved)
+    - have a structured_explanations row with components in
+      clues_master.db (= recorded reading available)
+
+    Returns dicts with clue_id + reading payload + clue context.
+    """
+    shadow = _ro(SHADOW_DB)
+    where_sf = ["1=1"]
+    params_sf: list = []
+    if source_filter and source_filter != "All":
+        where_sf.append("source = ?")
+        params_sf.append(source_filter)
+    if puzzle_filter:
+        where_sf.append("puzzle_number = ?")
+        params_sf.append(puzzle_filter)
+
+    fail_clue_ids = set(
+        r[0] for r in shadow.execute(
+            f"SELECT DISTINCT clue_id FROM seed_failures "
+            f"WHERE {' AND '.join(where_sf)}",
+            params_sf,
+        )
+    )
+    pass_clue_ids = set(
+        r[0] for r in shadow.execute(
+            "SELECT DISTINCT clue_id FROM solves WHERE verdict='PASS'"
+        )
+    )
+    unsolved_ids = fail_clue_ids - pass_clue_ids
+    if not unsolved_ids:
+        return []
+
+    clues = _ro(CLUES_DB)
+    out: list = []
+    # Chunk the IN list to avoid SQL limits.
+    ids = list(unsolved_ids)
+    for i in range(0, len(ids), 500):
+        chunk = ids[i:i + 500]
+        placeholders = ",".join("?" * len(chunk))
+        rows = clues.execute(
+            f"""
+            SELECT c.id AS clue_id, c.source, c.puzzle_number,
+                   c.clue_number, c.direction, c.clue_text, c.answer,
+                   c.definition, c.wordplay_type, c.ai_explanation,
+                   c.explanation,
+                   se.components, se.definition_text, se.confidence,
+                   se.model_version
+            FROM clues c
+            JOIN structured_explanations se ON se.clue_id = c.id
+            WHERE c.id IN ({placeholders})
+              AND se.components IS NOT NULL
+              AND se.components != ''
+            """,
+            chunk,
+        ).fetchall()
+        for r in rows:
+            out.append(dict(r))
+    out.sort(key=lambda x: (
+        x.get("source") or "", x.get("puzzle_number") or "",
+        int(str(x.get("clue_number") or 0).split("-")[0]) if
+            str(x.get("clue_number") or "").replace("-", "").isdigit() else 0,
+        x.get("direction") or "",
+    ))
+    return out
+
+
+def compute_missing_for_clue(clue: dict, live, shadow) -> list:
+    """Parse the clue's recorded reading, derive needed rows, filter
+    to missing ones, attach a stable key, and exclude any candidate
+    that's been previously rejected via shadow_candidate_decisions."""
+    try:
+        components = json.loads(clue.get("components") or "{}")
+    except Exception:
+        return []
+    if not isinstance(components, dict):
+        return []
+    def_text = (clue.get("definition_text") or clue.get("definition")
+                or "").strip()
+    needs = derive_needed_rows(
+        components, def_text, clue.get("answer") or "",
+        clue.get("ai_explanation") or "",
+    )
+
+    # Read decisions to filter out already-rejected candidates.
+    sh_w = _rw_shadow()
+    decisions = {
+        r["candidate_key"]: r["decision"]
+        for r in sh_w.execute(
+            "SELECT candidate_key, decision "
+            "FROM shadow_candidate_decisions"
+        )
+    }
+
+    out: list = []
+    for n in needs:
+        if not need_is_missing(n, live, shadow):
+            continue
+        key = _candidate_key(clue["clue_id"], n)
+        if key in decisions:
+            continue
+        out.append({**n, "key": key, "clue_id": clue["clue_id"]})
+    return out
 
 
 # --- Rendering --------------------------------------------------------
@@ -286,305 +501,257 @@ def reject_candidate(c: dict) -> None:
 def render():
     st.header("Prototype enrichment review")
     st.caption(
-        "Verifier-suggested rows from the prototype's FAIL queue. "
+        "Per clue: parse the recorded reading, work out exactly which "
+        "DB rows the verifier needs to PASS it, show the missing ones. "
         "Add writes to shadow; the optional 'Also live' checkbox at "
         "the top promotes accepted rows into `cryptic_new` too. "
-        "Reject records the decision and removes the row from the "
-        "queue."
+        "Reject records the decision and removes the row."
     )
 
-    tab1, tab2 = st.tabs(["Enrichment queue", "FAIL detail"])
+    tab1, tab2 = st.tabs([
+        "Unsolved (with reading)",
+        "Unsolved (no reading)",
+    ])
     with tab1:
-        _render_queue()
+        _render_with_reading()
     with tab2:
-        _render_detail()
+        _render_no_reading()
 
 
-def _render_queue():
-    also_live = st.checkbox(
-        "Also write accepted rows to live `cryptic_new`",
-        value=False, key="lo_live")
-
-    candidates = fetch_candidates()
-    by_kind: dict = {"synonym": [], "abbreviation": [],
-                       "indicator": [], "definition": []}
-    for c in candidates:
-        by_kind.setdefault(c["kind"], []).append(c)
-
-    cols = st.columns(5)
-    cols[0].metric("Total", len(candidates))
-    cols[1].metric("Synonyms", len(by_kind.get("synonym", [])))
-    cols[2].metric("Abbrevs", len(by_kind.get("abbreviation", [])))
-    cols[3].metric("Indicators", len(by_kind.get("indicator", [])))
-    cols[4].metric("Definitions", len(by_kind.get("definition", [])))
-
-    if not candidates:
-        st.info(
-            "No pending candidates. Either the FAIL queue is empty, "
-            "or all candidates have been decided. Decisions live in "
-            "`shadow_db.shadow_candidate_decisions`."
-        )
-        return
-
-    if by_kind.get("synonym"):
-        _render_group("Synonyms", by_kind["synonym"], also_live)
-    if by_kind.get("abbreviation"):
-        _render_group("Abbreviations", by_kind["abbreviation"], also_live)
-    if by_kind.get("indicator"):
-        _render_group("Indicators", by_kind["indicator"], also_live,
-                       indicator=True)
-    if by_kind.get("definition"):
-        _render_group("Definitions", by_kind["definition"], also_live,
-                       definition=True)
-
-
-def _render_group(title: str, items: list, also_live: bool,
-                    indicator: bool = False, definition: bool = False):
-    st.subheader(f"{title} ({len(items)})")
-    for c in items:
-        ctx = (
-            f"{c['source']} #{c['puzzle_number']} "
-            f"{c['clue_number']}{(c['direction'] or '')[:1]}  "
-            f"= {c['answer']}  — {(c['clue_text'] or '')[:70]}"
-        )
-        if indicator:
-            cols = st.columns([4, 3, 2, 4, 1.2, 1.2])
-        else:
-            cols = st.columns([4, 4, 5, 1.2, 1.2])
-
-        with cols[0]:
-            new_word = st.text_input(
-                "word", value=c["word"], key=f"w_{c['key']}",
-                label_visibility="collapsed",
-            )
-        with cols[1]:
-            label = "definition" if definition else "value"
-            new_value = st.text_input(
-                label, value=c["value"], key=f"v_{c['key']}",
-                label_visibility="collapsed",
-            )
-        if indicator:
-            with cols[2]:
-                op_default = c.get("operation") or "anagram"
-                op_choices = [
-                    "anagram", "hidden", "container", "insertion",
-                    "deletion", "parts", "reversal", "homophone",
-                    "acrostic", "alternating", "charade",
-                ]
-                if op_default not in op_choices:
-                    op_choices.insert(0, op_default)
-                new_op = st.selectbox(
-                    "op", op_choices,
-                    index=op_choices.index(op_default),
-                    key=f"o_{c['key']}",
-                    label_visibility="collapsed",
-                )
-            ctx_col = cols[3]
-            add_col = cols[4]
-            rej_col = cols[5]
-        else:
-            new_op = None
-            ctx_col = cols[2]
-            add_col = cols[3]
-            rej_col = cols[4]
-
-        with ctx_col:
-            st.markdown(
-                f"<span style='font-size:0.85em;color:#666'>{ctx}</span>",
-                unsafe_allow_html=True,
-            )
-        with add_col:
-            if st.button("Add", key=f"add_{c['key']}"):
-                edited = dict(c)
-                edited["word"] = new_word.strip()
-                edited["value"] = new_value.strip()
-                if new_op:
-                    edited["operation"] = new_op
-                try:
-                    accept_candidate(edited, also_live)
-                    st.rerun()
-                except Exception as e:  # noqa: BLE001
-                    st.error(f"Add failed: {e}")
-        with rej_col:
-            if st.button("Reject", key=f"rej_{c['key']}"):
-                try:
-                    reject_candidate(c)
-                    st.rerun()
-                except Exception as e:  # noqa: BLE001
-                    st.error(f"Reject failed: {e}")
-
-
-# --- FAIL detail tab (per-clue deep dive) ---------------------------------
-
-def fetch_fail_queue(source: str, puzzle: str, limit: int) -> list:
-    shadow = _ro(SHADOW_DB)
-    where = ["1=1"]
-    params: list = []
-    if source and source != "All":
-        where.append("sf.source = ?")
-        params.append(source)
-    if puzzle:
-        where.append("sf.puzzle_number = ?")
-        params.append(puzzle)
-    where_sql = " AND ".join(where)
-    rows = shadow.execute(
-        f"""
-        SELECT sf.id AS fail_id, sf.clue_id, sf.source, sf.puzzle_number,
-               sf.clue_number, sf.direction, sf.clue_text, sf.answer,
-               sf.failure_kind, sf.failure_detail, sf.enrichments_json,
-               sf.run_number, sf.created_at
-        FROM seed_failures sf
-        WHERE {where_sql}
-        ORDER BY sf.source, sf.puzzle_number,
-                 CAST(sf.clue_number AS INTEGER), sf.direction,
-                 sf.run_number DESC
-        LIMIT ?
-        """,
-        params + [limit],
-    ).fetchall()
-    return [dict(r) for r in rows]
-
-
-def fetch_clue_context(clue_id: int) -> dict:
-    conn = _ro(CLUES_DB)
-    row = conn.execute(
-        """
-        SELECT c.clue_text, c.answer, c.definition, c.wordplay_type,
-               c.ai_explanation, c.explanation,
-               se.components, se.confidence, se.model_version
-        FROM clues c
-        LEFT JOIN structured_explanations se ON se.clue_id = c.id
-        WHERE c.id = ?
-        """,
-        (clue_id,),
-    ).fetchone()
-    return dict(row) if row else {}
-
-
-def rerun_clue(source: str, puzzle: str) -> tuple:
-    cmd = [
-        sys.executable, "-u", "-X", "utf8", "-m",
-        "prototypes.universal_form_v2.run_puzzle",
-        source, str(puzzle), "--second-pass",
-    ]
-    proc = subprocess.run(
-        cmd, cwd=str(PROJECT_ROOT),
-        capture_output=True, text=True, timeout=3600,
-    )
-    return proc.returncode, proc.stdout, proc.stderr
-
-
-def _render_detail():
+def _render_with_reading():
     col_a, col_b, col_c = st.columns([2, 2, 1])
     with col_a:
         source = st.selectbox(
             "Source",
             ["All", "telegraph", "times", "guardian", "independent",
              "dailymail"],
-            key="lod_source",
+            key="lo_src",
         )
     with col_b:
-        puzzle = st.text_input("Puzzle number (optional)", key="lod_puzzle")
+        puzzle = st.text_input("Puzzle (optional)", key="lo_puz")
     with col_c:
-        limit = st.number_input(
-            "Limit", min_value=10, max_value=500, value=50, step=10,
-            key="lod_limit",
+        also_live = st.checkbox(
+            "Also live", value=False, key="lo_live",
+            help="Promote Add'd rows to cryptic_new as well as shadow.",
         )
 
-    rows = fetch_fail_queue(source, puzzle.strip(), int(limit))
-    if not rows:
-        st.info("No FAIL rows match.")
+    clues = fetch_unsolved_clues_with_reading(source, puzzle.strip())
+    st.metric("Unsolved clues with a recorded reading", len(clues))
+
+    if not clues:
+        st.info(
+            "No clues match. The combination might be: this filter "
+            "matches no FAILs, all matching clues are already PASS, "
+            "or none of them have a `structured_explanations` row."
+        )
+        return
+
+    live = _rw_live()
+    shadow = _rw_shadow()
+
+    rendered_anything = False
+    for c in clues:
+        missing = compute_missing_for_clue(c, live, shadow)
+        if not missing:
+            continue
+        rendered_anything = True
+        _render_clue_with_missing(c, missing, also_live)
+
+    if not rendered_anything:
+        st.info(
+            "Every clue with a recorded reading has all its rows "
+            "already in (live ∪ shadow). Either the readings are "
+            "fully covered, or the cascade is failing on these "
+            "clues for some other reason (translator gap, schema "
+            "mismatch). Look at the 'Unsolved (no reading)' tab "
+            "for the rest of the FAIL queue."
+        )
+
+
+def _render_clue_with_missing(clue: dict, missing: list,
+                                also_live: bool) -> None:
+    st.markdown(
+        f"**{clue.get('source','?')} {clue.get('puzzle_number','?')}  "
+        f"{clue.get('clue_number','?')}{(clue.get('direction') or '')[:1]}  "
+        f"— {clue.get('answer','?')}**"
+    )
+    st.write(clue.get("clue_text", ""))
+    if clue.get("ai_explanation"):
+        st.markdown(
+            f"<span style='font-size:0.85em;color:#666'>"
+            f"reading: {clue['ai_explanation']}</span>",
+            unsafe_allow_html=True,
+        )
+
+    for n in missing:
+        kind = n["kind"]
+        if kind == "indicator":
+            label = (f"indicator: `{n['word']}` "
+                       f"(wordplay_type=`{n['op']}`)")
+        elif kind == "definition":
+            label = f"definition: `{n['word']}` → `{n['value']}`"
+        else:
+            label = f"{kind}: `{n['word']}` → `{n['value']}`"
+        cols = st.columns([6, 1, 1])
+        with cols[0]:
+            st.write(label)
+        with cols[1]:
+            if st.button("Add", key=f"add_{n['key']}"):
+                try:
+                    accept_need(n, clue["clue_id"], also_live)
+                    record_decision(n["key"], "accepted")
+                    st.rerun()
+                except Exception as e:  # noqa: BLE001
+                    st.error(f"Add failed: {e}")
+        with cols[2]:
+            if st.button("Reject", key=f"rej_{n['key']}"):
+                try:
+                    record_decision(n["key"], "rejected")
+                    st.rerun()
+                except Exception as e:  # noqa: BLE001
+                    st.error(f"Reject failed: {e}")
+    st.divider()
+
+
+# --- No-reading tab (form authoring) ---------------------------------
+
+def fetch_unsolved_clues_no_reading(source_filter: str,
+                                      puzzle_filter: str) -> list:
+    shadow = _ro(SHADOW_DB)
+    where_sf = ["1=1"]
+    params_sf: list = []
+    if source_filter and source_filter != "All":
+        where_sf.append("source = ?")
+        params_sf.append(source_filter)
+    if puzzle_filter:
+        where_sf.append("puzzle_number = ?")
+        params_sf.append(puzzle_filter)
+    fail_clue_ids = set(
+        r[0] for r in shadow.execute(
+            f"SELECT DISTINCT clue_id FROM seed_failures "
+            f"WHERE {' AND '.join(where_sf)}",
+            params_sf,
+        )
+    )
+    pass_clue_ids = set(
+        r[0] for r in shadow.execute(
+            "SELECT DISTINCT clue_id FROM solves WHERE verdict='PASS'"
+        )
+    )
+    unsolved_ids = fail_clue_ids - pass_clue_ids
+    if not unsolved_ids:
+        return []
+
+    clues = _ro(CLUES_DB)
+    out: list = []
+    ids = list(unsolved_ids)
+    for i in range(0, len(ids), 500):
+        chunk = ids[i:i + 500]
+        placeholders = ",".join("?" * len(chunk))
+        rows = clues.execute(
+            f"""
+            SELECT c.id AS clue_id, c.source, c.puzzle_number,
+                   c.clue_number, c.direction, c.clue_text, c.answer,
+                   c.definition, c.ai_explanation, c.explanation
+            FROM clues c
+            LEFT JOIN structured_explanations se ON se.clue_id = c.id
+            WHERE c.id IN ({placeholders})
+              AND (se.components IS NULL OR se.components = '')
+            """,
+            chunk,
+        ).fetchall()
+        for r in rows:
+            out.append(dict(r))
+    out.sort(key=lambda x: (
+        x.get("source") or "", x.get("puzzle_number") or "",
+        int(str(x.get("clue_number") or 0).split("-")[0]) if
+            str(x.get("clue_number") or "").replace("-", "").isdigit() else 0,
+        x.get("direction") or "",
+    ))
+    return out
+
+
+def _render_no_reading():
+    col_a, col_b = st.columns([2, 2])
+    with col_a:
+        source = st.selectbox(
+            "Source",
+            ["All", "telegraph", "times", "guardian", "independent",
+             "dailymail"],
+            key="lo_nr_src",
+        )
+    with col_b:
+        puzzle = st.text_input("Puzzle (optional)", key="lo_nr_puz")
+
+    clues = fetch_unsolved_clues_no_reading(source, puzzle.strip())
+    st.metric("Unsolved clues with NO recorded reading", len(clues))
+
+    if not clues:
+        st.info("Nothing to author here.")
         return
 
     options = [
-        f"{r['source']} {r['puzzle_number']} "
-        f"{r['clue_number']}{(r['direction'] or '')[:1]}  "
-        f"— {(r['answer'] or '').strip()}  — {(r['clue_text'] or '')[:60]}"
-        for r in rows
+        f"{c.get('source','?')} {c.get('puzzle_number','?')} "
+        f"{c.get('clue_number','?')}"
+        f"{(c.get('direction') or '')[:1]}  "
+        f"— {(c.get('answer') or '').strip()}  "
+        f"— {(c.get('clue_text') or '')[:60]}"
+        for c in clues
     ]
-    idx = st.selectbox("Select a FAIL",
-                        options=list(range(len(rows))),
+    idx = st.selectbox("Pick a clue to author",
+                        options=list(range(len(clues))),
                         format_func=lambda i: options[i],
-                        key="lod_idx")
-    fail = rows[idx]
-    ctx = fetch_clue_context(fail["clue_id"])
+                        key="lo_nr_idx")
+    clue = clues[idx]
 
-    st.subheader(
-        f"{fail['source']} {fail['puzzle_number']} "
-        f"{fail['clue_number']}{(fail['direction'] or '')[:1]}  "
-        f"— {fail['answer']}"
-    )
-    st.write(f"**Clue:** {fail['clue_text']}")
-    st.write(f"**Answer:** {fail['answer']}")
-    if ctx.get("definition"):
-        st.write(f"**Recorded definition:** `{ctx['definition']}`")
-    if ctx.get("ai_explanation"):
-        st.write(f"**Production reading:** {ctx['ai_explanation']}")
-    if ctx.get("explanation"):
+    st.markdown(f"**Clue:** {clue.get('clue_text','')}")
+    st.markdown(f"**Answer:** {clue.get('answer','')}")
+    if clue.get("definition"):
+        st.markdown(f"**Recorded definition:** `{clue['definition']}`")
+    if clue.get("ai_explanation"):
+        st.markdown(
+            f"<span style='font-size:0.85em;color:#666'>"
+            f"production reading: {clue['ai_explanation']}</span>",
+            unsafe_allow_html=True,
+        )
+    if clue.get("explanation"):
         with st.expander("Blog explanation"):
-            st.text(ctx["explanation"])
-    if fail.get("failure_detail"):
-        st.write(f"**Failure detail:** {fail['failure_detail']}")
+            st.text(clue["explanation"])
 
-    _render_author_form(fail, ctx)
+    st.caption(
+        "Author a reading by supplying a `components` JSON in the "
+        "production format. The translator builds a Form, clipboard "
+        "verifier checks it. On PASS we save to shadow_db.solves AND "
+        "compute the rows the reading needs; missing rows appear in "
+        "the 'with reading' tab for accept/reject."
+    )
 
-    st.divider()
-    if st.button("Re-run second pass on this puzzle",
-                  key=f"rerun_{fail['clue_id']}"):
-        with st.spinner("Running ..."):
-            rc, out, err = rerun_clue(fail["source"], fail["puzzle_number"])
-        st.write(f"Exit code: {rc}")
-        if out:
-            with st.expander("stdout"):
-                st.text(out)
-        if err:
-            with st.expander("stderr"):
-                st.text(err)
-
-
-def _render_author_form(fail: dict, ctx: dict):
-    st.subheader("Author form (catalog entry)")
-    default_components = None
-    if ctx.get("components"):
-        try:
-            default_components = json.loads(ctx["components"])
-        except Exception:
-            default_components = None
-    if default_components is None:
-        default_components = {
-            "ai_pieces": [
-                {"mechanism": "synonym", "clue_word": "<source>",
-                 "letters": "<VALUE>"},
-            ],
-            "assembly": {"op": "charade", "order": ["<VALUE>"]},
-            "wordplay_type": "charade",
-        }
-    default_def = ctx.get("definition") or ""
-
+    default_template = {
+        "ai_pieces": [
+            {"mechanism": "synonym", "clue_word": "<source>",
+             "letters": "<VALUE>"},
+        ],
+        "assembly": {"op": "charade", "order": ["<VALUE>"]},
+        "wordplay_type": "charade",
+    }
     def_phrase = st.text_input(
-        "Definition phrase", value=default_def,
-        key=f"author_def_{fail['clue_id']}",
+        "Definition phrase",
+        value=clue.get("definition") or "",
+        key=f"auth_def_{clue['clue_id']}",
     )
     components_text = st.text_area(
         "Components JSON",
-        value=json.dumps(default_components, indent=2),
-        height=240,
-        key=f"author_comp_{fail['clue_id']}",
+        value=json.dumps(default_template, indent=2),
+        height=220,
+        key=f"auth_comp_{clue['clue_id']}",
     )
-
-    col_v, col_s = st.columns(2)
-    with col_v:
-        if st.button("Verify form",
-                       key=f"author_verify_{fail['clue_id']}"):
-            _verify(fail, def_phrase, components_text, save=False)
-    with col_s:
-        if st.button("Verify and save (on PASS)",
-                       key=f"author_save_{fail['clue_id']}"):
-            _verify(fail, def_phrase, components_text, save=True)
+    if st.button("Verify and save (on PASS)",
+                  key=f"auth_save_{clue['clue_id']}"):
+        _verify_and_save(clue, def_phrase, components_text)
 
 
-def _verify(fail: dict, def_phrase: str, components_text: str,
-              save: bool) -> None:
+def _verify_and_save(clue: dict, def_phrase: str,
+                      components_text: str) -> None:
     sys.path.insert(0, str(PROJECT_ROOT))
     from signature_solver.db import RefDB
     from prototypes.universal_form_v2.json_translator import (
@@ -604,8 +771,8 @@ def _verify(fail: dict, def_phrase: str, components_text: str,
         st.error(f"JSON parse failed: {e}")
         return
     row = {
-        "clue_text": fail["clue_text"],
-        "answer": fail["answer"],
+        "clue_text": clue["clue_text"],
+        "answer": clue["answer"],
         "components": json.dumps(components_obj),
         "definition_text": def_phrase,
     }
@@ -620,39 +787,30 @@ def _verify(fail: dict, def_phrase: str, components_text: str,
         st.error(f"Translator rejected: {err}")
         return
     try:
-        verdict = verify(form, fail["clue_text"], db, shadow_conn)
+        verdict = verify(form, clue["clue_text"], db, shadow_conn)
     except Exception as e:  # noqa: BLE001
         st.error(f"Verifier exception: {e}")
         return
-    if verdict.verdict == "PASS":
-        st.success("Verifier PASS")
-        try:
-            sig = form_signature(form.tree)
-        except Exception:
-            sig = "authored"
-        st.write(f"Signature: `{sig}`")
-        st.json(form.to_dict())
-        if save:
-            try:
-                solve_id = write_solve(
-                    shadow_conn,
-                    clue_id=fail["clue_id"],
-                    signature=sig,
-                    verdict="PASS",
-                    answer=fail["answer"],
-                    form_dict=form.to_dict(),
-                    run_number=3,
-                )
-                st.success(
-                    f"Saved (solve_id={solve_id}, run_number=3)."
-                )
-            except Exception as e:  # noqa: BLE001
-                st.error(f"Save failed: {e}")
-    else:
+    if verdict.verdict != "PASS":
         st.warning(f"Verifier {verdict.verdict}")
         for c in verdict.checks:
             if c.status != "pass":
-                st.write(f" - {c.name}: {c.detail}")
+                st.write(f"   - {c.name}: {c.detail}")
+        return
+    try:
+        sig = form_signature(form.tree)
+    except Exception:
+        sig = "authored"
+    write_solve(
+        shadow_conn,
+        clue_id=clue["clue_id"],
+        signature=sig,
+        verdict="PASS",
+        answer=clue["answer"],
+        form_dict=form.to_dict(),
+        run_number=3,
+    )
+    st.success(f"Saved. Signature: `{sig}`")
 
 
 render()
