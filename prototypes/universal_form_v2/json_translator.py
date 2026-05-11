@@ -485,12 +485,23 @@ def _translate_container(pieces, assembly, clue_text, answer_clean,
     """Container: outer wraps inner. Indicator from clue (type=container
     or insertion).
 
-    Slice 1 handles the two-piece case: one ai_piece supplies the
-    outer letters, another supplies the inner letters, and one
-    surface phrase in the clue is a container/insertion indicator.
-    Compound shapes (e.g. charade-with-container-piece) require a
-    later slice and FAIL here as translation_error.
+    Two-piece case: one ai_piece supplies the outer letters, another
+    supplies the inner letters, and one surface phrase in the clue
+    is a container/insertion indicator.
+
+    Three-piece compound: production's flat assembly dict can't
+    record the nested shape (it just records two of the three letter
+    values as inner/outer). We enumerate the four standard 3-piece
+    compound container shapes and pick the one whose assembly equals
+    the answer.
+
+    Four-or-more piece compounds aren't yet supported and FAIL here.
     """
+    if len([p for p in pieces
+            if (p.get("letters") or "").strip()]) >= 3:
+        return _translate_compound_container(
+            pieces, assembly, clue_text, answer_clean,
+            definition_text, db)
     inner_letters = (assembly.get("inner") or "").strip().upper()
     outer_letters = (assembly.get("outer") or "").strip().upper()
     if not inner_letters or not outer_letters:
@@ -560,6 +571,134 @@ def _translate_container(pieces, assembly, clue_text, answer_clean,
             "translation_error",
             "container: leftover clue word(s) not on LINK_WORDS allow-list")
 
+    return Form(
+        tree=tree,
+        definition=Definition(phrase=def_phrase, answer=answer_clean),
+        link_words=link_words,
+    ), None
+
+
+def _translate_compound_container(pieces, assembly, clue_text,
+                                    answer_clean, definition_text, db):
+    """Three-piece compound container.
+
+    Enumerates four nested shapes and picks the one whose mechanical
+    assembly equals the answer:
+
+      A) charade(p1, container(p2, p3))   — outside piece, then a
+         simple container.
+      B) charade(container(p1, p2), p3)   — simple container, then
+         outside piece.
+      C) container(charade(p1, p2), p3)   — outer is a charade.
+      D) container(p1, charade(p2, p3))   — inner is a charade.
+
+    Tries all 6 permutations of the 3 pieces × 4 shapes × all
+    insertion positions. The first combination whose concatenated
+    value equals the answer wins.
+    """
+    from itertools import permutations
+
+    # Build leaves up-front (one per piece).
+    leaves = []
+    for p in pieces:
+        leaf, err = _build_leaf(p)
+        if leaf is None:
+            return None, err or _err(
+                "translation_error",
+                "compound container: failed to build a leaf")
+        leaves.append(leaf)
+
+    if len(leaves) != 3:
+        return None, _err(
+            "translation_error",
+            f"compound container: only 3-piece shapes supported, "
+            f"got {len(leaves)}")
+
+    indicator_word = _find_indicator(
+        clue_text, definition_text, leaves, db,
+        expected_types={"container", "insertion"})
+    if not indicator_word:
+        return None, _err(
+            "translation_error",
+            "compound container: no container/insertion indicator in clue")
+
+    for a, b, c in permutations(leaves):
+        a_v, b_v, c_v = a.value or "", b.value or "", c.value or ""
+
+        # Shape A: charade(a, container(outer=b, inner=c))
+        for i in range(len(b_v) + 1):
+            inner_placed = b_v[:i] + c_v + b_v[i:]
+            if a_v + inner_placed == answer_clean:
+                tree = charade(
+                    a,
+                    container(b, c, indicator=indicator_word),
+                )
+                return _finish_compound(
+                    tree, [a, b, c], indicator_word,
+                    clue_text, answer_clean, definition_text,
+                    "compound container A")
+
+        # Shape B: charade(container(outer=a, inner=b), c)
+        for i in range(len(a_v) + 1):
+            inner_placed = a_v[:i] + b_v + a_v[i:]
+            if inner_placed + c_v == answer_clean:
+                tree = charade(
+                    container(a, b, indicator=indicator_word),
+                    c,
+                )
+                return _finish_compound(
+                    tree, [a, b, c], indicator_word,
+                    clue_text, answer_clean, definition_text,
+                    "compound container B")
+
+        # Shape C: container(outer=charade(a, b), inner=c)
+        outer_v = a_v + b_v
+        for i in range(len(outer_v) + 1):
+            placed = outer_v[:i] + c_v + outer_v[i:]
+            if placed == answer_clean:
+                tree = container(
+                    charade(a, b),
+                    c,
+                    indicator=indicator_word,
+                )
+                return _finish_compound(
+                    tree, [a, b, c], indicator_word,
+                    clue_text, answer_clean, definition_text,
+                    "compound container C")
+
+        # Shape D: container(outer=a, inner=charade(b, c))
+        inner_v = b_v + c_v
+        for i in range(len(a_v) + 1):
+            placed = a_v[:i] + inner_v + a_v[i:]
+            if placed == answer_clean:
+                tree = container(
+                    a,
+                    charade(b, c),
+                    indicator=indicator_word,
+                )
+                return _finish_compound(
+                    tree, [a, b, c], indicator_word,
+                    clue_text, answer_clean, definition_text,
+                    "compound container D")
+
+    return None, _err(
+        "translation_error",
+        f"compound container: no 3-piece arrangement yields "
+        f"{answer_clean!r}")
+
+
+def _finish_compound(tree, leaves, indicator_word, clue_text,
+                      answer_clean, definition_text, shape_name):
+    """Common tail for compound-container translators: link-words
+    check and Form construction."""
+    def_phrase = definition_text or ""
+    link_words = _residual_link_words(
+        clue_text, def_phrase, leaves, indicators=[indicator_word])
+    if link_words is None:
+        return None, _err(
+            "translation_error",
+            f"{shape_name}: leftover clue word(s) not on LINK_WORDS "
+            f"allow-list")
     return Form(
         tree=tree,
         definition=Definition(phrase=def_phrase, answer=answer_clean),
