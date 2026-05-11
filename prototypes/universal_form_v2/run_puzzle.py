@@ -760,14 +760,43 @@ def run_pass(source: str, puzzle_number: str, run_number: int,
         t_clue = datetime.now()
         print(f"  → {cnum} {answer:<14}  {clue_text[:50]}", flush=True)
 
-        try:
-            verdict, record = process_clue(
-                r, catalog, db, dd_graph, shadow,
-                source, puzzle_number, run_number)
-        except Exception as e:  # noqa: BLE001 - keep the run going
+        # Hard cap on the whole clue. The inner caps (grammar_triage,
+        # production_solve, detect_routing_hints, cascade) should
+        # already bound per-stage work, but if anything leaks past
+        # them this is the belt-and-braces backstop.
+        clue_box: list = [None]
+        clue_error: list = [None]
+
+        def _clue_worker():
+            try:
+                clue_box[0] = process_clue(
+                    r, catalog, db, dd_graph, shadow,
+                    source, puzzle_number, run_number)
+            except Exception as e:  # noqa: BLE001
+                clue_error[0] = e
+
+        ct = threading.Thread(target=_clue_worker, daemon=True)
+        ct.start()
+        ct.join(timeout=90.0)
+
+        if ct.is_alive():
+            elapsed = (datetime.now() - t_clue).total_seconds()
+            print(f"  [TIMEOUT {elapsed:.1f}s] {cnum}: process_clue "
+                  f"exceeded 90s budget", flush=True)
+            stats["FAIL"] += 1
+            records.append({
+                "clue_id": clue_id, "clue_number": r["clue_number"],
+                "direction": r["direction"], "clue_text": clue_text,
+                "answer": answer, "verdict": "TIMEOUT",
+                "signature": None, "hints": [], "n_enrichments": 0,
+            })
+            continue
+
+        if clue_error[0] is not None:
+            e = clue_error[0]
             elapsed = (datetime.now() - t_clue).total_seconds()
             print(f"  [ERROR {elapsed:.1f}s] {cnum}: {e}", flush=True)
-            stats["FAIL"] += 1  # treat as failure for accounting
+            stats["FAIL"] += 1
             records.append({
                 "clue_id": clue_id, "clue_number": r["clue_number"],
                 "direction": r["direction"], "clue_text": clue_text,
@@ -775,6 +804,8 @@ def run_pass(source: str, puzzle_number: str, run_number: int,
                 "hints": [], "n_enrichments": 0, "error": str(e),
             })
             continue
+
+        verdict, record = clue_box[0]
 
         elapsed = (datetime.now() - t_clue).total_seconds()
         stats[verdict] += 1
