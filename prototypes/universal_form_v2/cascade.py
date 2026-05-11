@@ -26,6 +26,7 @@ by humans in the leftover review tool, not by the cascade.
 from __future__ import annotations
 
 import sqlite3
+import time
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
@@ -52,12 +53,19 @@ def solve_clue_parallel(
     db: RefDB,
     catalog_entries: list,
     shadow_conn: Optional[sqlite3.Connection] = None,
+    time_budget_seconds: float = 30.0,
 ) -> CascadeResult:
     """Solve a single clue against the catalog.
 
     `catalog_entries` is a list of dicts with at least `id` and
     `structure`. Walked in the order given (caller decides — typically
     highest-frequency first).
+
+    `time_budget_seconds` caps the total wall-clock spent walking the
+    catalog. The matcher's per-yield interleaving means the deadline
+    check fires regularly inside the form-iteration loops; once the
+    deadline passes, the cascade exits with whatever enrichment
+    candidates it has gathered (FAIL) rather than running unbounded.
 
     Returns a CascadeResult. On PASS / PENDING, `enrichment_candidates`
     is empty (the form verified on its own). On FAIL, it's the union
@@ -68,6 +76,8 @@ def solve_clue_parallel(
     from .surface import tokenize as _tokenize
     n_clue_words = len(_tokenize(clue_text))
 
+    deadline = time.time() + time_budget_seconds
+
     # Pre-filter: each entry has a minimum word requirement based on
     # leaves and indicator slots. Skip entries that obviously can't fit.
     eligible = [e for e in catalog_entries
@@ -76,9 +86,16 @@ def solve_clue_parallel(
     # Pass 1: standard split-form interpretations
     fail_enrichments = []
     seen_keys = set()
+    timed_out = False
     for entry in eligible:
+        if time.time() > deadline:
+            timed_out = True
+            break
         forms = match_signature(entry, clue_text, answer, db, shadow_conn)
         for f in forms:
+            if time.time() > deadline:
+                timed_out = True
+                break
             v = verify(f, clue_text, db, shadow_conn)
             if v.verdict == "PASS":
                 return CascadeResult(
@@ -93,19 +110,25 @@ def solve_clue_parallel(
                     continue
                 seen_keys.add(key)
                 fail_enrichments.append(c)
+        if timed_out:
+            break
 
     # Pass 2: &lit fallback. Restricted by clue length AND template
     # complexity — real &lit clues are short (2–5 words) and use
     # simple structures (≤ 3 leaves typically). Beyond that, the
     # synonym-expansion combinatorics blow up against the whole-clue
     # span with no realistic chance of a true &lit form.
-    if n_clue_words <= 5:
+    if not timed_out and n_clue_words <= 5:
         for entry in eligible:
+            if time.time() > deadline:
+                break
             if _leaf_count(entry["structure"]) > 3:
                 continue
             forms = match_signature(entry, clue_text, answer, db,
                                       shadow_conn, and_lit=True)
             for f in forms:
+                if time.time() > deadline:
+                    break
                 v = verify(f, clue_text, db, shadow_conn)
                 if v.verdict == "PENDING":
                     return CascadeResult(
@@ -113,7 +136,7 @@ def solve_clue_parallel(
                         signature=entry.get("id"),
                         enrichment_candidates=[])
 
-    # All attempts failed
+    # All attempts failed (or budget exhausted with no PASS).
     return CascadeResult(
         verdict="FAIL", form=None, signature=None,
         enrichment_candidates=fail_enrichments)
