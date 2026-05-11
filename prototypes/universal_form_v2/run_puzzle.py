@@ -281,7 +281,8 @@ def reorder_catalog_by_hints(catalog_entries: list, hints: list) -> list:
 # --- Grammar-triage routing layer (§3.3a) ---------------------------------
 
 def try_grammar_triage_solve(clue_text: str, answer_clean: str,
-                              db: RefDB, shadow_conn) -> tuple:
+                              db: RefDB, shadow_conn,
+                              diag: Optional[dict] = None) -> tuple:
     """Linguistic-triage solve attempt via signature_solver.grammar_triage.
 
     Per §3.3a, this is the routing layer in front of the
@@ -315,6 +316,13 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
     except Exception:
         return None, None, hints
 
+    if diag is not None:
+        diag.setdefault("def_candidates", [
+            {"phrase": d, "wp_words": list(w)}
+            for d, w in def_candidates
+        ])
+        diag.setdefault("grammar_triage", [])
+
     for def_phrase, wp_words in def_candidates:
         if not wp_words:
             continue
@@ -326,6 +334,16 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
             continue
         if not gt or gt.result is None:
             continue
+
+        if diag is not None:
+            diag["grammar_triage"].append({
+                "def_phrase": def_phrase,
+                "confidence": getattr(gt, "confidence", None),
+                "signature": list(gt.result.signature) if gt.result else None,
+                "word_roles": [
+                    list(r) for r in (gt.result.word_roles or [])
+                ],
+            })
 
         # SignatureResult → components JSON dict via sig_adapter.
         try:
@@ -386,7 +404,8 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
 # --- Production signature_solver fallback ---------------------------------
 
 def try_production_solve(clue_text: str, answer_clean: str,
-                          db: RefDB, shadow_conn) -> tuple:
+                          db: RefDB, shadow_conn,
+                          diag: Optional[dict] = None) -> tuple:
     """Call the production signature_solver end-to-end.
 
     Production's `signature_solver.solver.solve_clue` orchestrates:
@@ -435,6 +454,21 @@ def try_production_solve(clue_text: str, answer_clean: str,
     if error_box[0] is not None:
         return None, None
     sr = result_box[0]
+
+    if diag is not None and sr is not None:
+        diag["production_solve"] = {
+            "solved": bool(getattr(sr, "solved", False)),
+            "confidence": getattr(sr, "confidence", None),
+            "definition": getattr(sr, "definition", None),
+            "signature": (list(sr.result.signature)
+                            if sr.result and sr.result.signature
+                            else None),
+            "word_roles": [
+                list(r) for r in
+                (sr.result.word_roles if sr.result else [])
+            ] if sr.result else [],
+        }
+
     if not sr or not sr.solved:
         return None, None
     # Production's confidence threshold for "this is a solve" is 80.
@@ -512,12 +546,18 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         "answer": answer,
     }
 
+    # Diagnostics dict gets populated as we go through the helpers
+    # so any FAIL row carries a record of what the system actually
+    # saw — def candidates, hints, grammar_triage and production_solve
+    # readings, missing-row enrichment candidates.
+    diag: dict = {}
+
     # Per §3.3a: try the grammar-triage routing layer first. No
     # confidence threshold — clipboard verifier is the trust anchor.
     # On verifier-PASS we bypass the catalog walk; on miss we still
     # collect the wordplay-type predictions as routing hints.
     gt_form, gt_signature, gt_hints = try_grammar_triage_solve(
-        clue_text, answer_clean, db, shadow)
+        clue_text, answer_clean, db, shadow, diag=diag)
     if gt_form is not None:
         write_solve(
             shadow,
@@ -547,7 +587,7 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
     # enrichment-retry helpers. Conversion + clipboard verifier as
     # the trust anchor.
     prod_form, prod_signature = try_production_solve(
-        clue_text, answer_clean, db, shadow)
+        clue_text, answer_clean, db, shadow, diag=diag)
     if prod_form is not None:
         write_solve(
             shadow,
@@ -639,6 +679,8 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         # from the runtime cascade rather than the seeding-pass
         # translators.
         enrichments = [c.to_dict() for c in result.enrichment_candidates]
+        diag["hints"] = hints
+        diag["cascade_enrichments"] = enrichments
         write_seed_failure(
             shadow,
             clue_id=clue_id,
@@ -647,6 +689,7 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
             failure_detail="cascade walked catalog; no template verified",
             clue_meta=meta,
             enrichments=enrichments,
+            diagnostics=diag,
             run_number=run_number,
         )
         record["enrichments"] = enrichments

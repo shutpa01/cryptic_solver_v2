@@ -185,7 +185,12 @@ def ensure_shadow(path=None) -> sqlite3.Connection:
 
 def _migrate_run_number(conn: sqlite3.Connection) -> None:
     """Add `run_number` to solves / seed_failures if absent. Existing
-    rows get the default value 1 (treated as initial-run history)."""
+    rows get the default value 1 (treated as initial-run history).
+
+    Also adds `diagnostics_json` to seed_failures (captures what the
+    cascade saw during a FAIL — def candidates, hints, grammar_triage
+    output, production_solve output, Haiku-derived suggestions).
+    """
     for table in ("solves", "seed_failures"):
         cols = [r[1] for r in conn.execute(
             f"PRAGMA table_info({table})").fetchall()]
@@ -193,6 +198,11 @@ def _migrate_run_number(conn: sqlite3.Connection) -> None:
             conn.execute(
                 f"ALTER TABLE {table} ADD COLUMN "
                 f"run_number INTEGER NOT NULL DEFAULT 1")
+    cols_sf = [r[1] for r in conn.execute(
+        "PRAGMA table_info(seed_failures)").fetchall()]
+    if "diagnostics_json" not in cols_sf:
+        conn.execute(
+            "ALTER TABLE seed_failures ADD COLUMN diagnostics_json TEXT")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_solves_run "
                   "ON solves(run_number)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_seed_fail_run "
@@ -373,6 +383,7 @@ def write_seed_failure(conn: sqlite3.Connection,
                         blog_text: Optional[str] = None,
                         translated_form: Optional[dict] = None,
                         enrichments: Optional[list] = None,
+                        diagnostics: Optional[dict] = None,
                         run_number: int = 1) -> int:
     """Record a seeder-failure row.
 
@@ -392,8 +403,9 @@ def write_seed_failure(conn: sqlite3.Connection,
         "(clue_id, seed_source, source, puzzle_number, clue_number, "
         "direction, clue_text, answer, structured_explanation_id, "
         "components_json, blog_text, translated_form_json, "
-        "failure_kind, failure_detail, enrichments_json, run_number) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "failure_kind, failure_detail, enrichments_json, "
+        "diagnostics_json, run_number) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (clue_id, seed_source,
          meta.get("source"), meta.get("puzzle_number"),
          meta.get("clue_number"), meta.get("direction"),
@@ -404,6 +416,8 @@ def write_seed_failure(conn: sqlite3.Connection,
          failure_kind, failure_detail,
          json.dumps(enrichments, ensure_ascii=False)
             if enrichments else None,
+         json.dumps(diagnostics, ensure_ascii=False, default=str)
+            if diagnostics else None,
          run_number))
     conn.commit()
     return cur.lastrowid
