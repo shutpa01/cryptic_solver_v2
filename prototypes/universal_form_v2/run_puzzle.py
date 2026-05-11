@@ -520,6 +520,84 @@ def try_production_solve(clue_text: str, answer_clean: str,
     return form, sig
 
 
+# --- Haiku diagnostics capture ---------------------------------------
+
+# Common definition-by-example markers. When one appears in the clue,
+# the adjacent clue word is the DBE-marked piece whose value is what
+# the example exemplifies (Garibaldi → BISCUIT, Hill → DAMON).
+_DBE_MARKERS = {
+    "say", "perhaps", "maybe", "e.g.", "eg", "etc", "etc.",
+    "for example",
+}
+
+
+def _capture_haiku_suggestions(clue_text: str, answer_clean: str,
+                                 db: RefDB, diag: dict) -> None:
+    """For a FAIL clue, invoke Haiku helpers and stash their
+    suggestions into `diag` for dashboard review.
+
+    Two helpers fire on FAIL:
+      - `haiku_definition.find_definition`: when no DB definition
+        candidate exists, ask Haiku to identify the def phrase.
+      - `haiku_dbe.find_dbe_candidates`: for each clue word
+        adjacent to a DBE marker (say / perhaps / e.g. / etc.),
+        ask Haiku for category-mate substitutions.
+
+    Network / API failures are swallowed silently — Haiku
+    suggestions are a nice-to-have, not a hard requirement.
+    """
+    # 1. Definition fallback when no DB def candidate found
+    if not diag.get("def_candidates"):
+        try:
+            from signature_solver.haiku_definition import find_definition
+            hd = find_definition(clue_text, answer_clean)
+            if hd:
+                phrase, wp_words = hd
+                diag["haiku_definition"] = {
+                    "phrase": phrase,
+                    "wp_words": list(wp_words),
+                }
+        except Exception:  # noqa: BLE001
+            pass
+
+    # 2. DBE category-mate suggestions
+    tokens = _tokenize(clue_text)
+    if not tokens:
+        return
+    dbe_targets: list = []
+    seen_targets: set = set()
+    for i, tok in enumerate(tokens):
+        if tok.lower().strip(".,;:!?\"'()") not in _DBE_MARKERS:
+            continue
+        # The DBE marker decorates an adjacent word — prefer the
+        # word immediately before, else after.
+        for j in (i - 1, i + 1):
+            if 0 <= j < len(tokens):
+                cand = tokens[j].strip(".,;:!?\"'()")
+                if (cand.lower() not in _DBE_MARKERS
+                        and cand.lower() not in seen_targets):
+                    dbe_targets.append(cand)
+                    seen_targets.add(cand.lower())
+                    break
+
+    if not dbe_targets:
+        return
+    try:
+        from signature_solver.haiku_dbe import find_dbe_candidates
+    except Exception:  # noqa: BLE001
+        return
+    dbe_results: dict = {}
+    for word in dbe_targets:
+        try:
+            cands = find_dbe_candidates(word, answer_clean, clue_text)
+        except Exception:  # noqa: BLE001
+            continue
+        if cands:
+            dbe_results[word] = list(cands)
+    if dbe_results:
+        diag["haiku_dbe"] = dbe_results
+
+
 # --- Per-clue processing --------------------------------------------------
 
 def process_clue(clue_row: dict, catalog: list, db: RefDB,
@@ -674,13 +752,15 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
             run_number=run_number,
         )
     else:
-        # FAIL — record in seed_failures with the deduped enrichment
-        # candidates. seed_source='cascade' marks the row as coming
-        # from the runtime cascade rather than the seeding-pass
-        # translators.
+        # FAIL — capture Haiku suggestions (definition fallback,
+        # DBE category-mates) and record in seed_failures with the
+        # deduped enrichment candidates. seed_source='cascade'
+        # marks the row as coming from the runtime cascade rather
+        # than the seeding-pass translators.
         enrichments = [c.to_dict() for c in result.enrichment_candidates]
         diag["hints"] = hints
         diag["cascade_enrichments"] = enrichments
+        _capture_haiku_suggestions(clue_text, answer_clean, db, diag)
         write_seed_failure(
             shadow,
             clue_id=clue_id,
