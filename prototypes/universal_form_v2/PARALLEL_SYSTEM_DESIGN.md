@@ -290,6 +290,44 @@ After the second pass, every clue should be **PASS or PENDING**.
 A residual FAIL means leftover authoring was incomplete — a flag
 for the reviewer, not a runtime failure.
 
+**Process new signatures (catalog authoring).** Triggered by the
+user phrase "process new signatures" for a specific puzzle. This
+is the catalog-side of leftover authoring — it grows the catalog
+from FAIL clues that don't yet match any existing entry, in
+parallel to the row-side enrichment that the dashboard's
+"Unsolved (with reading)" tab handles.
+
+For each FAIL clue without a matching catalog entry:
+
+1. Read the clue text and the answer.
+2. If the puzzle has a public blog (Times / Guardian /
+   Independent), use it for the cryptic reading; otherwise work
+   from the clue and answer alone.
+3. Write the cryptic reading as a components JSON in production's
+   format (ai_pieces + assembly + wordplay_type). Multi-word
+   synonyms and indicators stay grouped under one piece;
+   abbreviations and synonyms are distinguished honestly (§5.9);
+   indicators are filed under their canonical role (§5.10);
+   the definition is the phrase from the clue, never substituted
+   from elsewhere.
+4. Run the components through `json_translator.translate_components`
+   → `clipboard_verifier.verify`. The form only counts if the
+   verifier returns PASS. No manual override.
+5. On PASS the form is written to `shadow_db.solves` with the
+   signature derived from the tree.
+
+After authoring forms for the puzzle, regenerate
+`catalog_v1.json` by running `extract_catalog.py` so that any new
+signature with at least one verified-PASS form lands in the
+catalog. Then re-run the puzzle with `--second-pass`: other clues
+that match the new shapes can now PASS via the cascade.
+
+Reports per invocation: count of new signatures created, count of
+other clues that PASSed via those new signatures on the second
+pass, and a list of translator gaps encountered (cases where a
+recorded reading converted cleanly in production but our
+translator rejected it — those are code work, not authoring).
+
 **PENDING review.** The dashboard's PENDING tab surfaces every
 PENDING clue (CDs and &lits). For each item the reviewer either:
 
@@ -748,6 +786,13 @@ document, mark it [woven].
   PENDING tab for human review — confirm → PASS (joins catalog),
   or reject → FAIL (back to leftover). Catalog never grows from a
   PENDING item until the reviewer confirms it.
+- **2026-05-11 [woven]** — "Process new signatures" workflow
+  defined (§3.6). Triggered by the user phrase, it grows the
+  catalog from FAIL clues that don't yet match any existing
+  entry. Author components JSON → translate → clipboard verifier
+  → on PASS, write to shadow_db.solves; after authoring, regen
+  catalog_v1.json via extract_catalog.py and run --second-pass.
+  Clipboard verifier remains the trust anchor.
 - **2026-05-10 [woven]** — `signature_solver/grammar_triage.py` is
   the **routing layer in front of the tree-matcher** (§3.3a).
   spaCy POS-tags the clue; the resulting grammar pattern yields
