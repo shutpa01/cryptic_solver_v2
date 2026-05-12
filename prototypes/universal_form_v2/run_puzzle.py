@@ -75,6 +75,9 @@ from backfill_ai_exp.batch_v1_solver import (
 )
 
 from prototypes.universal_form_v2.cascade import solve_clue_parallel
+from prototypes.universal_form_v2.haiku_form_builder import (
+    build_form_from_pieces,
+)
 from prototypes.universal_form_v2.shadow_db import (
     ensure_shadow, write_solve, write_seed_failure,
 )
@@ -466,6 +469,91 @@ def try_grammar_triage_solve(clue_text: str, answer_clean: str,
 
 # --- Production signature_solver fallback ---------------------------------
 
+def try_haiku_solve(clue_text: str, answer_clean: str,
+                     db: RefDB, shadow_conn,
+                     diag: Optional[dict] = None) -> tuple:
+    """Ask Haiku to decompose the wordplay, build a Form from the
+    decomposition, and verify it. Returns (form, signature) on
+    verifier-PASS, or (None, None) otherwise.
+
+    Runs after grammar_triage (which is fast and DB-only) and before
+    production_solve / the cascade. On PASS we skip both, going
+    direct from a known answer + a model's role assignment to a
+    verified Form. On miss the cascade runs as today.
+
+    Requires a definition phrase to anchor on. Tries every DB
+    def_candidate; if none, falls back to Haiku's definition
+    fallback (still through `haiku_definition.find_definition`).
+    """
+    from signature_solver.solver import extract_definition_candidates
+    from signature_solver.haiku_wordplay_leaves import (
+        find_wordplay_leaves,
+    )
+    tokens = _tokenize(clue_text)
+    if not tokens:
+        return None, None
+    try:
+        def_candidates = extract_definition_candidates(
+            tokens, answer_clean, db)
+    except Exception:  # noqa: BLE001
+        def_candidates = []
+
+    # Haiku def fallback when DB has none.
+    if not def_candidates:
+        try:
+            from signature_solver.haiku_definition import find_definition
+            hd = find_definition(clue_text, answer_clean)
+            if hd:
+                phrase, wp_words = hd
+                def_candidates = [(phrase, list(wp_words))]
+        except Exception:  # noqa: BLE001
+            pass
+
+    if not def_candidates:
+        return None, None
+
+    for def_phrase, wp_words in def_candidates:
+        if not wp_words:
+            continue
+        try:
+            pieces = find_wordplay_leaves(
+                clue_text, answer_clean, def_phrase, list(wp_words))
+        except Exception:  # noqa: BLE001
+            pieces = None
+        if not pieces:
+            continue
+
+        if diag is not None:
+            # Record the suggestion even if the solve fails further
+            # down; the dashboard mines this for enrichment review.
+            diag.setdefault("haiku_wordplay_leaves", pieces)
+
+        try:
+            form = build_form_from_pieces(
+                pieces, def_phrase, clue_text, answer_clean)
+        except Exception:  # noqa: BLE001
+            form = None
+        if form is None:
+            continue
+
+        # Run through the clipboard verifier — the trust anchor.
+        try:
+            verdict = _clipboard_verify(
+                form, clue_text, db, shadow_conn)
+        except Exception:  # noqa: BLE001
+            continue
+        if verdict.verdict != "PASS":
+            continue
+
+        try:
+            sig = _form_signature(form.tree)
+        except Exception:  # noqa: BLE001
+            sig = "haiku_solve"
+        return form, sig
+
+    return None, None
+
+
 def try_production_solve(clue_text: str, answer_clean: str,
                           db: RefDB, shadow_conn,
                           diag: Optional[dict] = None) -> tuple:
@@ -756,6 +844,36 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
         }
         return "PASS", record
 
+    # Haiku-driven solve: ask Haiku to label each wordplay word with
+    # a role + value, build a Form directly from that labelling, and
+    # verify. On PASS we skip production_solve and the cascade
+    # entirely. The verifier is the trust anchor, so a wrong Haiku
+    # decomposition simply fails verification and we fall through.
+    haiku_form, haiku_signature = try_haiku_solve(
+        clue_text, answer_clean, db, shadow, diag=diag)
+    if haiku_form is not None:
+        write_solve(
+            shadow,
+            clue_id=clue_id,
+            signature=haiku_signature or "",
+            verdict="PASS",
+            answer=answer_clean,
+            form_dict=haiku_form.to_dict(),
+            run_number=run_number,
+        )
+        record = {
+            "clue_id": clue_id,
+            "clue_number": clue_row["clue_number"],
+            "direction": clue_row["direction"],
+            "clue_text": clue_text,
+            "answer": answer,
+            "verdict": "PASS",
+            "signature": haiku_signature,
+            "hints": ["haiku_solve"] + gt_hints,
+            "n_enrichments": 0,
+        }
+        return "PASS", record
+
     # Production signature_solver fallback: invokes grammar_triage
     # again (on full clue too), the flat-token catalog walks, and
     # the haiku_definition / haiku_dbe / haiku_indicator
@@ -824,6 +942,13 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
     # rest only if the hinted walk returns no PASS / PENDING.
     # Correctness preserved by the fallback; in the common case
     # where hints are right, we skip most of the catalog.
+    #
+    # SHARED budget: cascade total stays at 30s across both walks
+    # so the two-stage approach never costs more wall-clock than the
+    # original single walk. If the hinted walk uses most of the
+    # budget, the fallback gets whatever is left (min 1s for cleanup).
+    import time as _time
+    _TOTAL_BUDGET = 30.0
     hinted, rest = split_catalog_by_hints(catalog, hints)
     if not hinted:
         # No hints (or no template matches them) — single walk
@@ -835,8 +960,10 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
             db=db,
             catalog_entries=catalog,
             shadow_conn=shadow,
+            time_budget_seconds=_TOTAL_BUDGET,
         )
     else:
+        t0 = _time.time()
         result = solve_clue_parallel(
             clue_id=clue_id,
             clue_text=clue_text,
@@ -844,8 +971,10 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
             db=db,
             catalog_entries=hinted,
             shadow_conn=shadow,
+            time_budget_seconds=_TOTAL_BUDGET,
         )
         if result.verdict == "FAIL" and rest:
+            remaining = max(1.0, _TOTAL_BUDGET - (_time.time() - t0))
             fallback = solve_clue_parallel(
                 clue_id=clue_id,
                 clue_text=clue_text,
@@ -853,6 +982,7 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
                 db=db,
                 catalog_entries=rest,
                 shadow_conn=shadow,
+                time_budget_seconds=remaining,
             )
             if fallback.verdict != "FAIL":
                 result = fallback
