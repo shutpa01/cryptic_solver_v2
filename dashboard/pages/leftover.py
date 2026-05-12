@@ -365,24 +365,24 @@ def promote_indicator_live(word: str, op: str) -> None:
     conn.commit()
 
 
-def accept_need(need: dict, clue_id: int, also_live: bool) -> None:
+def accept_need(need: dict, clue_id: int) -> None:
+    """Accept a candidate enrichment. Writes both shadow (with
+    clue_id provenance) and live (the cascade's RefDB reads live,
+    so the row must reach there for the next pass to see it).
+    """
     k = need["kind"]
     if k == "synonym":
         insert_shadow_synonym(need["word"], need["value"], clue_id)
-        if also_live:
-            promote_synonym_live(need["word"], need["value"])
+        promote_synonym_live(need["word"], need["value"])
     elif k == "abbreviation":
         insert_shadow_abbreviation(need["word"], need["value"], clue_id)
-        if also_live:
-            promote_abbreviation_live(need["word"], need["value"])
+        promote_abbreviation_live(need["word"], need["value"])
     elif k == "definition":
         insert_shadow_definition(need["word"], need["value"], clue_id)
-        if also_live:
-            promote_definition_live(need["word"], need["value"])
+        promote_definition_live(need["word"], need["value"])
     elif k == "indicator":
         insert_shadow_indicator(need["word"], need["op"], clue_id)
-        if also_live:
-            promote_indicator_live(need["word"], need["op"])
+        promote_indicator_live(need["word"], need["op"])
 
 
 # --- Queries -----------------------------------------------------------
@@ -633,9 +633,9 @@ def render():
     st.caption(
         "Per clue: parse the recorded reading, work out exactly which "
         "DB rows the verifier needs to PASS it, show the missing ones. "
-        "Add writes to shadow; the optional 'Also live' checkbox at "
-        "the top promotes accepted rows into `cryptic_new` too. "
-        "Reject records the decision and removes the row."
+        "Add writes to both shadow and the live reference DB so the "
+        "next cascade run picks them up. Reject records the decision "
+        "and removes the row."
     )
 
     tab1, tab2, tab3 = st.tabs([
@@ -652,7 +652,7 @@ def render():
 
 
 def _render_with_reading():
-    col_a, col_b, col_c = st.columns([2, 2, 1])
+    col_a, col_b = st.columns([2, 2])
     with col_a:
         source = st.selectbox(
             "Source",
@@ -662,11 +662,6 @@ def _render_with_reading():
         )
     with col_b:
         puzzle = st.text_input("Puzzle (optional)", key="lo_puz")
-    with col_c:
-        also_live = st.checkbox(
-            "Also live", value=False, key="lo_live",
-            help="Promote Add'd rows to cryptic_new as well as shadow.",
-        )
 
     if source == "All" and not puzzle.strip():
         st.info(
@@ -713,7 +708,7 @@ def _render_with_reading():
         if not combined:
             continue
         rendered_anything = True
-        _render_clue_with_missing(c, combined, also_live)
+        _render_clue_with_missing(c, combined)
 
     if not rendered_anything:
         st.info(
@@ -726,8 +721,7 @@ def _render_with_reading():
         )
 
 
-def _render_clue_with_missing(clue: dict, missing: list,
-                                also_live: bool) -> None:
+def _render_clue_with_missing(clue: dict, missing: list) -> None:
     badges = []
     if clue.get("has_reading"):
         badges.append(
@@ -806,7 +800,7 @@ def _render_clue_with_missing(clue: dict, missing: list,
                     edited_n["value"] = edited_value.strip().upper()
                 new_key = _candidate_key(clue["clue_id"], edited_n)
                 try:
-                    accept_need(edited_n, clue["clue_id"], also_live)
+                    accept_need(edited_n, clue["clue_id"])
                     record_decision(new_key, "accepted")
                     if new_key != n["key"]:
                         record_decision(n["key"], "superseded")
