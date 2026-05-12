@@ -498,12 +498,17 @@ def compute_missing_for_clue(clue: dict, live, shadow) -> list:
 
 def compute_diagnostic_candidates(clue: dict, live, shadow) -> list:
     """Mine seed_failures.diagnostics_json (captured during the
-    cascade run) for candidate enrichments. Three sources:
+    cascade run) for candidate enrichments. Four sources:
 
       - haiku_definition: the (phrase, answer) Haiku suggested when
         the DB had no def candidate. → definition row.
       - haiku_dbe: per-word Haiku DBE category-mate suggestions
         when the clue carries a DBE marker. → synonym rows.
+      - haiku_wordplay_leaves: per-piece role tags Haiku assigned
+        to the wordplay window once a definition was identified.
+        → synonym / abbreviation / indicator rows for actionable
+        roles; non-actionable roles (link_word, literal, *_fodder)
+        are skipped.
       - grammar_triage word_roles: for each SYN_F / ABR_F entry
         across all attempted readings, the (clue_word, letters)
         pair the system hypothesised. → synonym / abbreviation row.
@@ -556,6 +561,60 @@ def compute_diagnostic_candidates(clue: dict, live, shadow) -> list:
                     "kind": "synonym",
                     "word": word,
                     "value": str(cand).upper(),
+                })
+
+    # haiku_wordplay_leaves → synonym / abbreviation / indicator
+    # candidates. Indicator roles produce indicator-table rows;
+    # abbreviation roles produce wordplay-table rows; every other
+    # letter-bearing piece role (synonym, containment inner/outer,
+    # deletion/reversal/hidden/homophone/acrostic source) produces
+    # a synonyms_pairs row — the DB doesn't distinguish piece roles
+    # at the storage level, only the mechanism that consumes the
+    # row. Non-letter-bearing roles (link_word, literal, *_fodder)
+    # are explanation-only.
+    hwl = diag.get("haiku_wordplay_leaves") or []
+    if isinstance(hwl, list):
+        _INDICATOR_ROLE_TO_OP = {
+            "anagram_indicator":   "anagram",
+            "container_indicator": "container",
+            "deletion_indicator":  "deletion",
+            "reversal_indicator":  "reversal",
+            "hidden_indicator":    "hidden",
+            "homophone_indicator": "homophone",
+            "acrostic_indicator":  "acrostic",
+        }
+        _SYN_VALUE_ROLES = {
+            "synonym",
+            "containment_inner", "containment_outer",
+            "deletion_source", "reversal_source",
+            "hidden_source", "homophone_source", "acrostic_source",
+        }
+        for p in hwl:
+            if not isinstance(p, dict):
+                continue
+            word = str(p.get("word") or "").strip()
+            role = str(p.get("role") or "").strip().lower()
+            value = p.get("value")
+            if not word or not role:
+                continue
+            if role in _SYN_VALUE_ROLES and value:
+                needs.append({
+                    "kind": "synonym",
+                    "word": word,
+                    "value": str(value).upper(),
+                })
+            elif role == "abbreviation" and value:
+                needs.append({
+                    "kind": "abbreviation",
+                    "word": word,
+                    "value": str(value).upper(),
+                })
+            elif role in _INDICATOR_ROLE_TO_OP:
+                needs.append({
+                    "kind": "indicator",
+                    "word": word,
+                    "value": "",
+                    "op": _INDICATOR_ROLE_TO_OP[role],
                 })
 
     # grammar_triage + production_solve roles → synonym / abbreviation

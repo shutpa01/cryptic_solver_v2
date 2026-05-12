@@ -536,12 +536,19 @@ def _capture_haiku_suggestions(clue_text: str, answer_clean: str,
     """For a FAIL clue, invoke Haiku helpers and stash their
     suggestions into `diag` for dashboard review.
 
-    Two helpers fire on FAIL:
+    Three helpers fire on FAIL:
       - `haiku_definition.find_definition`: when no DB definition
         candidate exists, ask Haiku to identify the def phrase.
       - `haiku_dbe.find_dbe_candidates`: for each clue word
         adjacent to a DBE marker (say / perhaps / e.g. / etc.),
         ask Haiku for category-mate substitutions.
+      - `haiku_wordplay_leaves.find_wordplay_leaves`: with a
+        definition in hand (DB or Haiku), ask Haiku to decompose
+        the wordplay window into role-tagged pieces (synonym /
+        abbreviation / indicator / fodder / link / literal). The
+        dashboard's diagnostic-candidate miner surfaces actionable
+        pieces (synonym, abbreviation, indicator) as enrichment
+        candidates.
 
     Network / API failures are swallowed silently — Haiku
     suggestions are a nice-to-have, not a hard requirement.
@@ -562,40 +569,67 @@ def _capture_haiku_suggestions(clue_text: str, answer_clean: str,
 
     # 2. DBE category-mate suggestions
     tokens = _tokenize(clue_text)
-    if not tokens:
-        return
     dbe_targets: list = []
-    seen_targets: set = set()
-    for i, tok in enumerate(tokens):
-        if tok.lower().strip(".,;:!?\"'()") not in _DBE_MARKERS:
-            continue
-        # The DBE marker decorates an adjacent word — prefer the
-        # word immediately before, else after.
-        for j in (i - 1, i + 1):
-            if 0 <= j < len(tokens):
-                cand = tokens[j].strip(".,;:!?\"'()")
-                if (cand.lower() not in _DBE_MARKERS
-                        and cand.lower() not in seen_targets):
-                    dbe_targets.append(cand)
-                    seen_targets.add(cand.lower())
-                    break
+    if tokens:
+        seen_targets: set = set()
+        for i, tok in enumerate(tokens):
+            if tok.lower().strip(".,;:!?\"'()") not in _DBE_MARKERS:
+                continue
+            # The DBE marker decorates an adjacent word — prefer the
+            # word immediately before, else after.
+            for j in (i - 1, i + 1):
+                if 0 <= j < len(tokens):
+                    cand = tokens[j].strip(".,;:!?\"'()")
+                    if (cand.lower() not in _DBE_MARKERS
+                            and cand.lower() not in seen_targets):
+                        dbe_targets.append(cand)
+                        seen_targets.add(cand.lower())
+                        break
 
-    if not dbe_targets:
-        return
-    try:
-        from signature_solver.haiku_dbe import find_dbe_candidates
-    except Exception:  # noqa: BLE001
-        return
-    dbe_results: dict = {}
-    for word in dbe_targets:
+        if dbe_targets:
+            try:
+                from signature_solver.haiku_dbe import find_dbe_candidates
+                dbe_results: dict = {}
+                for word in dbe_targets:
+                    try:
+                        cands = find_dbe_candidates(
+                            word, answer_clean, clue_text)
+                    except Exception:  # noqa: BLE001
+                        continue
+                    if cands:
+                        dbe_results[word] = list(cands)
+                if dbe_results:
+                    diag["haiku_dbe"] = dbe_results
+            except Exception:  # noqa: BLE001
+                pass
+
+    # 3. Wordplay-leaf decomposition (anchored on a definition).
+    # Prefer the first DB def candidate; if none, use Haiku's
+    # definition fallback if it produced one. Without any def to
+    # anchor on, Haiku has too little context to be useful here.
+    def_phrase = None
+    wp_words_for_leaves: list = []
+    db_def_candidates = diag.get("def_candidates") or []
+    if db_def_candidates:
+        first = db_def_candidates[0]
+        def_phrase = first.get("phrase")
+        wp_words_for_leaves = list(first.get("wp_words") or [])
+    elif diag.get("haiku_definition"):
+        hd = diag["haiku_definition"]
+        def_phrase = hd.get("phrase")
+        wp_words_for_leaves = list(hd.get("wp_words") or [])
+
+    if def_phrase and wp_words_for_leaves:
         try:
-            cands = find_dbe_candidates(word, answer_clean, clue_text)
+            from signature_solver.haiku_wordplay_leaves import (
+                find_wordplay_leaves,
+            )
+            pieces = find_wordplay_leaves(
+                clue_text, answer_clean, def_phrase, wp_words_for_leaves)
+            if pieces:
+                diag["haiku_wordplay_leaves"] = pieces
         except Exception:  # noqa: BLE001
-            continue
-        if cands:
-            dbe_results[word] = list(cands)
-    if dbe_results:
-        diag["haiku_dbe"] = dbe_results
+            pass
 
 
 # --- Per-clue processing --------------------------------------------------
