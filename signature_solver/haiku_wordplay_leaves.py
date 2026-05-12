@@ -71,44 +71,31 @@ def find_wordplay_leaves(clue_text, answer, def_phrase, wp_words):
     prompt = (
         f"Clue: {clue_text}\n"
         f"Answer: {answer} ({len(answer_letters)} letters)\n"
-        f"Definition (do NOT include in your output): {def_phrase}\n"
+        f"Definition (already identified): {def_phrase}\n"
         f"Wordplay window: {' '.join(wp_words)}\n\n"
-        "Assign each WORDPLAY word a role. ONLY the wordplay words "
-        f"appear in your output: {' / '.join(wp_words)}. The "
-        "definition word(s) above must NOT appear. Allowed roles: "
-        "synonym, abbreviation, anagram_indicator, anagram_fodder, "
+        "Decompose the wordplay window. Allowed roles: synonym, "
+        "abbreviation, anagram_indicator, anagram_fodder, "
         "container_indicator, containment_inner, containment_outer, "
         "deletion_indicator, deletion_source, reversal_indicator, "
         "reversal_source, hidden_indicator, hidden_source, "
         "homophone_indicator, homophone_source, acrostic_indicator, "
         "acrostic_source, link_word, literal.\n\n"
-        "Rules: every wordplay word appears exactly once. "
-        "Indicators (anagram_indicator, reversal_indicator, "
-        "container_indicator, deletion_indicator, hidden_indicator, "
-        "homophone_indicator, acrostic_indicator) and link_words are "
-        "ALWAYS single words. Only synonym / abbreviation / "
-        "anagram_fodder / source roles may combine consecutive "
-        "words into one element, and only when the phrase has a "
-        "meaning together (e.g. 'some beer' meaning HALF). "
-        "value = uppercase letters the piece contributes (source "
-        "letters for anagram_fodder / reversal_source), null for "
-        "indicators and link_word. The non-null values together "
-        "(anagram_fodder as a letter multiset, others in order) "
-        f"must produce the answer letters {sorted(answer_letters)}. "
-        "If you cannot find a decomposition that produces the "
-        "answer, reply [].\n\n"
-        "Example A: clue 'Good man helping with simple tasks' "
-        "answer HANDYMAN def 'helping with simple tasks' wordplay "
-        "'Good man' ->\n"
+        "Rules:\n"
+        "1. Every wordplay word appears exactly once. Combine "
+        "consecutive words into one element if the role spans them.\n"
+        "2. value = uppercase letters the piece contributes (source "
+        "letters for anagram_fodder / reversal_source). For "
+        "indicators and link_word use null.\n"
+        "3. Concatenate all non-null values; the multiset of letters "
+        f"must equal {sorted(answer_letters)} (anagram_fodder "
+        "contributes its letters as a multiset; other pieces "
+        "contribute their letters in order).\n"
+        "4. If no decomposition adds up to the answer, reply [].\n\n"
+        "Example: clue 'Good man helping' answer HANDYMAN def "
+        "'helping' window 'Good man' ->\n"
         '[{"word":"Good","role":"synonym","value":"HANDY"},'
         '{"word":"man","role":"synonym","value":"MAN"}]\n\n'
-        "Example B: clue 'Volley troubled by lovely shot' answer "
-        "VOLLEY def 'shot' wordplay 'Volley troubled by lovely' ->\n"
-        '[{"word":"Volley","role":"link_word","value":null},'
-        '{"word":"troubled","role":"anagram_indicator","value":null},'
-        '{"word":"by","role":"link_word","value":null},'
-        '{"word":"lovely","role":"anagram_fodder","value":"LOVELY"}]\n\n'
-        "Reply ONLY with a JSON array. No prose, no fences."
+        "Reply with ONLY a JSON array. No prose, no fences."
     )
 
     try:
@@ -132,17 +119,6 @@ def find_wordplay_leaves(clue_text, answer, def_phrase, wp_words):
     if pieces is None:
         return None
 
-    # Build the set of valid word strings: every individual wp_word
-    # plus every space-joined contiguous run. This lets Haiku label
-    # multi-word phrases like "some beer" as one piece while still
-    # rejecting any word it invents that isn't in the window.
-    valid_phrases: set = set()
-    cleaned_wp = [w.strip() for w in wp_words]
-    for i in range(len(cleaned_wp)):
-        for j in range(i + 1, len(cleaned_wp) + 1):
-            valid_phrases.add(
-                " ".join(cleaned_wp[i:j]).lower())
-
     out = []
     for p in pieces:
         if not isinstance(p, dict):
@@ -151,11 +127,6 @@ def find_wordplay_leaves(clue_text, answer, def_phrase, wp_words):
         role = str(p.get("role") or "").strip().lower()
         value = p.get("value")
         if not word or role not in _VALID_ROLES:
-            continue
-        # Drop pieces that name words outside the wordplay window —
-        # Haiku occasionally hallucinates the definition word back in
-        # or invents new tokens that violate the input.
-        if word.lower() not in valid_phrases:
             continue
         if isinstance(value, str):
             value = value.strip().upper() or None
