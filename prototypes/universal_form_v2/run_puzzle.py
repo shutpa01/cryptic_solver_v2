@@ -264,81 +264,18 @@ def detect_routing_hints(clue_text: str, answer_clean: str,
 def reorder_catalog_by_hints(catalog_entries: list, hints: list) -> list:
     """Reorder so signatures matching any hint come first (in their
     existing frequency order), then the rest. Hint biases — never
-    restricts — per §3.3.
-
-    Retained for callers that still want the bias-only behaviour;
-    the cascade itself now uses split_catalog_by_hints + a two-stage
-    walk (hinted templates first, fall back to rest only if no PASS).
-    """
+    restricts — per §3.3."""
     if not hints:
         return catalog_entries
-    hinted, rest = split_catalog_by_hints(catalog_entries, hints)
-    return hinted + rest
-
-
-def split_catalog_by_hints(catalog_entries: list,
-                              hints: list) -> tuple:
-    """Split the catalog into (hinted, rest) based on the hint list.
-
-    A catalog entry is hinted if its signature id contains any of the
-    hint strings as a substring. The split preserves the input order
-    inside each bucket.
-    """
-    if not hints:
-        return [], list(catalog_entries)
-    hinted: list = []
-    rest: list = []
+    hinted = []
+    rest = []
     for e in catalog_entries:
-        sig_id = (e.get("id") or "").lower()
+        sig_id = e.get("id", "").lower()
         if any(h in sig_id for h in hints):
             hinted.append(e)
         else:
             rest.append(e)
-    return hinted, rest
-
-
-# Maps an indicator wordplay_type (as stored in the DB indicators
-# table) to the hint token the cascade matches against catalog
-# entry ids. Most are 1:1 with the type name; "parts" can carry
-# subtypes that target positional / deletion / acrostic families.
-_INDICATOR_TYPE_TO_HINT = {
-    "anagram":   "anagram",
-    "container": "container",
-    "insertion": "container",
-    "deletion":  "deletion",
-    "reversal":  "reversal",
-    "hidden":    "hidden",
-    "homophone": "homophone",
-    "acrostic":  "acrostic",
-}
-
-
-def hints_from_indicator_presence(clue_text: str, db: RefDB) -> list:
-    """Cheap mechanism-class hints derived from indicator words in
-    the clue. For each surface word, look up its indicator types in
-    the DB; every type that fires becomes a hint.
-
-    Returns a list of unique hint tokens in first-seen order.
-    """
-    tokens = _tokenize(clue_text)
-    if not tokens:
-        return []
-    hints: list = []
-    seen: set = set()
-    for tok in tokens:
-        word = tok.lower().strip(".,;:!?\"'()-")
-        if not word:
-            continue
-        try:
-            ind_types = db.get_indicator_types(word)
-        except Exception:  # noqa: BLE001
-            continue
-        for wtype, _subtype, _conf in ind_types:
-            hint = _INDICATOR_TYPE_TO_HINT.get(wtype)
-            if hint and hint not in seen:
-                seen.add(hint)
-                hints.append(hint)
-    return hints
+    return hinted + rest
 
 
 # --- Grammar-triage routing layer (§3.3a) ---------------------------------
@@ -811,72 +748,17 @@ def process_clue(clue_row: dict, catalog: list, db: RefDB,
     ht.join(timeout=10.0)
     v1_hints = [] if ht.is_alive() else (hint_box[0] or [])
 
-    # Cheap third hint source: indicator-presence in clue text. Each
-    # word looked up in the indicators table; every type that fires
-    # becomes a mechanism hint. Cost is one DB lookup per word.
-    ind_hints = hints_from_indicator_presence(clue_text, db)
+    hints = list(dict.fromkeys(gt_hints + v1_hints))
+    ordered_catalog = reorder_catalog_by_hints(catalog, hints)
 
-    hints = list(dict.fromkeys(gt_hints + v1_hints + ind_hints))
-    if diag is not None:
-        diag["indicator_presence_hints"] = ind_hints
-
-    # Two-stage walk: try hinted templates first, fall back to the
-    # rest only if the hinted walk returns no PASS / PENDING.
-    # Correctness preserved by the fallback; in the common case
-    # where hints are right, we skip most of the catalog.
-    hinted, rest = split_catalog_by_hints(catalog, hints)
-    if not hinted:
-        # No hints (or no template matches them) — single walk
-        # over the full catalog, same as the old behaviour.
-        result = solve_clue_parallel(
-            clue_id=clue_id,
-            clue_text=clue_text,
-            answer=answer_clean,
-            db=db,
-            catalog_entries=catalog,
-            shadow_conn=shadow,
-        )
-    else:
-        result = solve_clue_parallel(
-            clue_id=clue_id,
-            clue_text=clue_text,
-            answer=answer_clean,
-            db=db,
-            catalog_entries=hinted,
-            shadow_conn=shadow,
-        )
-        if result.verdict == "FAIL" and rest:
-            fallback = solve_clue_parallel(
-                clue_id=clue_id,
-                clue_text=clue_text,
-                answer=answer_clean,
-                db=db,
-                catalog_entries=rest,
-                shadow_conn=shadow,
-            )
-            if fallback.verdict != "FAIL":
-                result = fallback
-            else:
-                # Merge enrichment candidates from both walks so the
-                # dashboard sees the union. Dedup by the same key the
-                # cascade uses inside its own walk.
-                seen: set = set()
-                merged: list = []
-                for c in (result.enrichment_candidates
-                            + fallback.enrichment_candidates):
-                    k = (c.kind, c.source_word, c.value,
-                         c.operation, c.subtype)
-                    if k in seen:
-                        continue
-                    seen.add(k)
-                    merged.append(c)
-                from prototypes.universal_form_v2.cascade import (
-                    CascadeResult as _CR,
-                )
-                result = _CR(
-                    verdict="FAIL", form=None, signature=None,
-                    enrichment_candidates=merged,
-                )
+    result = solve_clue_parallel(
+        clue_id=clue_id,
+        clue_text=clue_text,
+        answer=answer_clean,
+        db=db,
+        catalog_entries=ordered_catalog,
+        shadow_conn=shadow,
+    )
 
     record = {
         "clue_id": clue_id,
