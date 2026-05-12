@@ -371,7 +371,7 @@ class ExplanationVerifier:
                     return True, inner_clean, outer
         return False, None, None
 
-    def _classify_clue_words(self, clue_text, ai_explanation, definition_text):
+    def _classify_clue_words(self, clue_text, ai_explanation, definition_text, answer=None):
         """Classify every clue word by the role the explanation claims for it.
 
         Returns dict with:
@@ -438,6 +438,33 @@ class ExplanationVerifier:
         if definition_text:
             _claim_phrase(definition_text, "definition")
 
+        # 1b. Double-definition second window: when the explanation declares
+        # a DD with `WINDOW = ANSWER` pairs, both windows act as definitions.
+        # The DD check (CHECK 4b) verifies each window against the DB; if
+        # both verify, the second window's words ARE legitimately claimed
+        # as definition role. Without this, word_coverage would flag the
+        # second window's words as unaccounted even though the parse is
+        # honest. Added 2026-05-12.
+        if answer and "double definition:" in expl.lower():
+            answer_clean_local = re.sub(r"[^A-Z]", "", answer.upper())
+            dd_match = re.search(
+                r"double\s+definition:\s*(.+?)(?:;|$)",
+                expl, re.IGNORECASE | re.DOTALL,
+            )
+            if dd_match:
+                for w, target in re.findall(
+                        r"([^,=]+?)\s*=\s*(\w+)", dd_match.group(1)):
+                    if target.upper().replace(" ", "") != answer_clean_local:
+                        continue
+                    w_clean = w.strip(" \t\"'?!.,;:+")
+                    if not w_clean:
+                        continue
+                    # Only claim if this window actually maps to the answer
+                    # in the DB (real DD window, not a paraphrase).
+                    if (self.definition_matches(w_clean, answer)
+                            or self.is_synonym(w_clean, answer)):
+                        _claim_phrase(w_clean, "definition")
+
         # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
         for m in re.finditer(
                 r"synonym\s*=\s*" + Q, expl, re.IGNORECASE):
@@ -480,17 +507,86 @@ class ExplanationVerifier:
         # so we walk each bracket's inner content and extract each
         # type:"phrase" pair. A single \[type:"X"\] regex would only catch
         # the FIRST indicator in a multi-indicator bracket.
+        #
+        # SAFETY (added 2026-05-12): the bracket annotation may only claim
+        # X's clue words as 'indicator' role when X is a DB-recognised
+        # indicator of the given type. Without this check, `[parts:
+        # "arbitrary clue words"]` would dump those words as "indicator
+        # role" and silence the unaccounted-word penalty — a loophole that
+        # let undecoded wordplay score HIGH.
         _IND_TYPES = (r"anagram|reversal|container|deletion|homophone|"
                       r"hidden|first\s+letters?|last\s+letters?|middle\s+letters?|"
                       r"outer\s+letters?|initial|final|odd|even|alternat(?:e|ing)|"
                       r"spoonerism|charade|cycle|cycling|insertion|"
                       r"acrostic|substitution|parts|selection")
+        # Capture op_type as group(1); phrase comes from _qval(m).
+        _IND_PAT = re.compile(
+            r"(" + _IND_TYPES + r")\s*:\s*" + Q,
+            re.IGNORECASE,
+        )
+
+        def _normalize_op_type(raw):
+            r = raw.strip().lower()
+            # Canonical names for is_indicator lookup
+            if r.startswith("first letter"): return "first letter"
+            if r.startswith("last letter"): return "last letter"
+            if r.startswith("middle letter"): return "middle letter"
+            if r.startswith("outer letter"): return "outer letter"
+            if r in ("alternating", "alternate"): return "alternate"
+            if r == "cycling": return "cycle"
+            return r
+
+        def _annotation_is_real_indicator(phrase, op_type):
+            """Closes the bracket-dumping loophole.
+
+            Returns True iff the named phrase is a DB-recognised indicator
+            for the given op_type. For positional/charade meta-types where
+            the DB does not catalogue exact indicators, we are conservative:
+            require the phrase to be an indicator of `parts` (the generic
+            positional category) or the op_type itself.
+            """
+            op = _normalize_op_type(op_type)
+            # Direct DB hit
+            if self.is_indicator(phrase, op):
+                return True
+            # Container annotation also accepts insertion-type indicators
+            if op == "container" and self.is_indicator(phrase, "insertion"):
+                return True
+            # 'parts' family — accept any indicator listed as parts/acrostic/etc.
+            if op == "parts":
+                for alt in ("parts", "acrostic", "selection"):
+                    if self.is_indicator(phrase, alt):
+                        return True
+                return False
+            # Positional letter types — accept if the phrase is a real
+            # first/last/middle/outer letter indicator in DB.
+            if op in ("first letter", "last letter", "middle letter",
+                      "outer letter", "initial", "final", "odd", "even",
+                      "alternate", "acrostic"):
+                if self.is_indicator(phrase, "parts"):
+                    return True
+                if self.is_indicator(phrase, "acrostic"):
+                    return True
+                return False
+            # Charade / cycle / substitution — no DB indicator table, reject
+            # to prevent these from being used as dumping vehicles.
+            if op in ("charade", "cycle", "substitution"):
+                return False
+            return False
+
         for bm in re.finditer(r"\[([^\]]+)\]", expl):
             inner = bm.group(1)
-            for m in re.finditer(
-                    r"(?:" + _IND_TYPES + r")\s*:\s*" + Q,
-                    inner, re.IGNORECASE):
-                _claim_phrase(_qval(m), "indicator")
+            for m in _IND_PAT.finditer(inner):
+                op_raw = m.group(1)
+                phrase = m.group(2) if m.group(2) is not None else m.group(3)
+                if not phrase:
+                    continue
+                if _annotation_is_real_indicator(phrase, op_raw):
+                    _claim_phrase(phrase, "indicator")
+                # Else: the bracket exists but its phrase is not a DB
+                # indicator — do NOT claim its words. This is the
+                # loophole closure: arbitrary phrases inside [parts:
+                # ...] etc. no longer silence word_coverage.
 
         # 8. Anagram fodder: clue words appearing as uppercase tokens
         # between "anagram of" and the next "=" (greedy stop at last =).
@@ -895,30 +991,28 @@ class ExplanationVerifier:
                 })
 
         # --- CHECK 4c: Cryptic Definition ---
-        # A CD has no wordplay mechanism. The only way to verify it is a
-        # direct DB lookup: either the whole clue text, or the extracted
-        # definition, maps to the answer in definition_answers_augmented
-        # (or synonyms_pairs, via definition_matches which checks both).
+        # A real CD has the WHOLE clue functioning as the cryptic definition.
+        # We therefore require the full clue text to map to the answer in
+        # `definition_answers_augmented` (or `synonyms_pairs`). The earlier
+        # behaviour also accepted a snippet definition match as proof of a
+        # CD — that was a loophole: it let any clue whose short definition
+        # happened to be in the DB score HIGH as a "CD" even when the rest
+        # of the clue was undecoded wordplay. Closed 2026-05-12.
         if wtype == "cryptic_definition":
             cd_clue_ok = self.definition_matches(clue_text, answer)
-            cd_def_ok = bool(definition) and self.definition_matches(definition, answer)
-            if cd_clue_ok or cd_def_ok:
-                parts = []
-                if cd_clue_ok:
-                    parts.append("clue text maps to answer in DB")
-                if cd_def_ok:
-                    parts.append("definition maps to answer in DB")
+            if cd_clue_ok:
                 checks.append({
                     "check": "cd",
                     "status": "verified",
-                    "detail": "; ".join(parts),
+                    "detail": "full clue text maps to answer in DB",
                 })
             else:
                 checks.append({
                     "check": "cd",
                     "status": "unverifiable",
-                    "detail": "neither clue text nor definition maps to answer "
-                              "in DB — CD cannot be verified",
+                    "detail": "full clue text does not map to answer in DB — "
+                              "CD requires whole-clue verification, snippet "
+                              "definition match is not sufficient",
                 })
 
         # --- CHECK 4d: Homophone ---
@@ -1422,11 +1516,98 @@ class ExplanationVerifier:
             if not indicator_tokens:
                 continue
 
-            # If any of those exact words/phrases appear ANYWHERE in the
-            # explanation, the parse has already addressed them (possibly
-            # under a different op-type — ambiguous indicators like "over"
-            # can be anagram OR reversal). Don't double-fault.
-            if any(tok in _expl_lower for tok in indicator_tokens):
+            # If any of those clue indicators is properly addressed in the
+            # explanation, skip the check. "Properly addressed" means:
+            #   (a) the token appears inside a [<op_type>: "..."] annotation
+            #       that names it AS the indicator for an op-type matching
+            #       (or compatible with) req_type, OR
+            #   (b) the parse uses a piece-source claim that references the
+            #       op (e.g. "reversal of ..." for reversal, "deletion=..."
+            #       for deletion, "hidden in ..." for hidden), OR
+            #   (c) the token appears inside a bracket annotation of ANY
+            #       known op-type — covers ambiguous indicators like "over"
+            #       (anagram OR reversal) where the parse legitimately
+            #       picked one.
+            #
+            # Mere substring presence anywhere in the explanation is NOT
+            # sufficient — that was the silencer loophole that let
+            # `[parts: "for"]` style dumping clear the check on linker
+            # words that were unrelated to any wordplay. Closed 2026-05-12.
+            addressed = False
+            # (a)+(c): bracket-annotation form [op_type: "tok"]
+            ann_pat = re.compile(
+                r"\[\s*(\w+(?:\s+\w+)?)\s*:\s*[\"']([^\"']+)[\"']",
+                re.IGNORECASE,
+            )
+            for am in ann_pat.finditer(expl or ""):
+                ann_phrase = am.group(2).strip().lower()
+                if ann_phrase in indicator_tokens:
+                    addressed = True
+                    break
+            # Also walk multi-annotation brackets [op_a: "X"; op_b: "Y"]
+            if not addressed:
+                for bracket in re.finditer(r"\[([^\]]+)\]", expl or ""):
+                    inner = bracket.group(1).lower()
+                    for tok in indicator_tokens:
+                        if re.search(r":\s*[\"']" + re.escape(tok) + r"[\"']", inner):
+                            addressed = True
+                            break
+                    if addressed:
+                        break
+            # (b): piece-source form for specific op-types
+            if not addressed:
+                if req_type == "reversal" and re.search(r"reversal\s+of\s+[\"']", _expl_lower):
+                    addressed = True
+                elif req_type == "deletion" and re.search(r"\bdeletion\s*=", _expl_lower):
+                    addressed = True
+                elif req_type == "hidden" and "hidden in " in _expl_lower:
+                    addressed = True
+                elif req_type == "homophone" and "sounds like" in _expl_lower:
+                    addressed = True
+                elif req_type == "anagram" and "anagram of" in _expl_lower:
+                    addressed = True
+                elif req_type == "container" and re.search(r"\bcontaining\b", _expl_lower):
+                    addressed = True
+            # (d): the indicator word is used in a synonym/abbreviation/
+            # positional source claim. If the parse names "End" as a
+            # synonym source (TIP synonym="End"), it has clearly assigned
+            # a role to that word — the 7b check should not also demand
+            # it be treated as a deletion indicator.
+            if not addressed:
+                source_pat = re.compile(
+                    r"\(\s*(?:synonym|abbreviation|abbr\.?|first\s+letters?|"
+                    r"last\s+letters?|middle\s+letters?|outer\s+letters?|"
+                    r"initial|final|odd|even|alternat(?:e|ing)|"
+                    r"reversal|reverse|deletion)"
+                    r"\s*(?:=|\s+of)?\s*[\"']([^\"']+)[\"']",
+                    re.IGNORECASE,
+                )
+                source_words = set()
+                for sm in source_pat.finditer(expl or ""):
+                    for w in re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                                         sm.group(1).lower()):
+                        source_words.add(w)
+                if any(tok in source_words for tok in indicator_tokens):
+                    addressed = True
+            # (e): the indicator word lives inside a DD second window
+            # that verifies against the DB. DD windows are definitions
+            # by another name; a word inside one is owned by the
+            # definition role, not by a phantom op-type.
+            if not addressed and "double definition:" in _expl_lower:
+                dd_match = re.search(
+                    r"double\s+definition:\s*(.+?)(?:;|$)",
+                    expl or "", re.IGNORECASE | re.DOTALL,
+                )
+                if dd_match:
+                    for w, target in re.findall(
+                            r"([^,=]+?)\s*=\s*(\w+)", dd_match.group(1)):
+                        if (target.upper().replace(" ", "") ==
+                                answer_clean):
+                            w_lower = w.strip(" \t\"'?!.,;:+").lower()
+                            if any(tok in w_lower for tok in indicator_tokens):
+                                addressed = True
+                                break
+            if addressed:
                 continue
 
             # If the definition has been verified in DB, words that fall
@@ -1471,7 +1652,7 @@ class ExplanationVerifier:
         # section (see -15 per word, capped at -50).
         try:
             coverage = self._classify_clue_words(
-                clue_text, expl, definition)
+                clue_text, expl, definition, answer=answer)
             unaccounted = coverage["unaccounted"]
             checks.append({
                 "check": "word_coverage",
