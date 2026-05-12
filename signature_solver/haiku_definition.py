@@ -40,8 +40,11 @@ def find_definition(clue_text, answer):
             temperature=0,
             messages=[{'role': 'user', 'content':
                 'In this cryptic crossword clue, which word or short phrase '
-                'at the START or END of the clue is a synonym or definition '
-                'of the answer %s? Just reply with the word(s), nothing else.'
+                'is a synonym or definition of the answer %s? The definition '
+                'must be either the FIRST word(s) of the clue or the LAST '
+                'word(s) of the clue — no real words may be left orphaned '
+                'before it (if at the start) or after it (if at the end). '
+                'Reply with the exact phrase from the clue, nothing else.'
                 '\n\nClue: %s' % (answer, clue_text)
             }],
         )
@@ -50,19 +53,29 @@ def find_definition(clue_text, answer):
         if not definition:
             return None
 
-        # Validate: definition must be near start or end of clue.
-        # Allow small link words (as, a, the, etc.) before/after.
-        clue_lower = clue_text.lower().strip()
         clue_words = clue_text.strip().split()
         def_lower = definition.lower().strip()
         def_words = def_lower.split()
         n = len(clue_words)
         nd = len(def_words)
 
-        # Try matching at start (first 1-4 words)
+        _PUNCT = '.,;:!?"\'()-…'
+
+        def _is_pure_punct(word):
+            return not word.strip(_PUNCT)
+
+        # Try matching at start. skip>0 is only OK when the skipped
+        # tokens are pure punctuation — real words at the start would
+        # be orphaned (which is what the user flagged).
         wp_start = None
         for skip in range(min(3, n)):
-            candidate = ' '.join(w.lower().strip('.,;:!?"\'()-') for w in clue_words[skip:skip + nd])
+            if skip > 0 and not all(_is_pure_punct(w)
+                                       for w in clue_words[:skip]):
+                break
+            candidate = ' '.join(
+                w.lower().strip(_PUNCT)
+                for w in clue_words[skip:skip + nd]
+            )
             if candidate == def_lower:
                 wp_start = skip + nd
                 break
@@ -74,13 +87,20 @@ def find_definition(clue_text, answer):
             if wp_words:
                 return definition, wp_words
 
-        # Try matching at end (last 1-4 words)
+        # Try matching at end. Same orphan rule applies — skipped
+        # trailing tokens must be pure punctuation.
         for skip in range(min(3, n)):
+            if skip > 0 and not all(_is_pure_punct(w)
+                                       for w in clue_words[n - skip:]):
+                break
             end_pos = n - skip
             start_pos = end_pos - nd
             if start_pos < 0:
                 break
-            candidate = ' '.join(w.lower().strip('.,;:!?"\'()-') for w in clue_words[start_pos:end_pos])
+            candidate = ' '.join(
+                w.lower().strip(_PUNCT)
+                for w in clue_words[start_pos:end_pos]
+            )
             if candidate == def_lower:
                 remaining = ' '.join(clue_words[:start_pos])
                 remaining = remaining.strip().strip('.,;:!? ')

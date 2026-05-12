@@ -756,39 +756,64 @@ def _render_clue_with_missing(clue: dict, missing: list,
 
     for n in missing:
         kind = n["kind"]
-        if kind == "indicator":
-            label = (f"indicator: `{n['word']}` "
-                       f"(wordplay_type=`{n['op']}`)")
-        elif kind == "definition":
-            label = f"definition: `{n['word']}` → `{n['value']}`"
-        else:
-            label = f"{kind}: `{n['word']}` → `{n['value']}`"
-        # Tag deterministic-from-reading vs hypothesis-from-diag.
         src = n.get("source", "reading")
         if src == "diagnostic":
-            tag = (
+            tag_html = (
                 "<span style='background:#b58a00;color:white;"
                 "padding:1px 6px;border-radius:3px;font-size:0.75em;"
                 "margin-right:6px'>hypothesis</span>"
             )
         else:
-            tag = (
+            tag_html = (
                 "<span style='background:#1a4480;color:white;"
                 "padding:1px 6px;border-radius:3px;font-size:0.75em;"
                 "margin-right:6px'>from reading</span>"
             )
-        cols = st.columns([6, 1, 1])
+        kind_suffix = f" ({n['op']})" if kind == "indicator" else ""
+        kind_label = (
+            f"{tag_html}<span style='font-size:0.9em'>"
+            f"{kind}{kind_suffix}</span>"
+        )
+
+        cols = st.columns([3, 3, 3, 1, 1])
         with cols[0]:
-            st.markdown(tag + label, unsafe_allow_html=True)
+            st.markdown(kind_label, unsafe_allow_html=True)
         with cols[1]:
+            edited_word = st.text_input(
+                "word", value=n["word"],
+                key=f"eqw_{n['key']}",
+                label_visibility="collapsed",
+            )
+        with cols[2]:
+            if kind == "indicator":
+                st.markdown(
+                    f"<span style='font-size:0.85em;color:#888'>"
+                    f"wordplay_type: <code>{n['op']}</code></span>",
+                    unsafe_allow_html=True,
+                )
+                edited_value = n.get("value", "")
+            else:
+                edited_value = st.text_input(
+                    "value", value=n.get("value", ""),
+                    key=f"eqv_{n['key']}",
+                    label_visibility="collapsed",
+                )
+        with cols[3]:
             if st.button("Add", key=f"add_{n['key']}"):
+                edited_n = dict(n)
+                edited_n["word"] = edited_word.strip()
+                if kind != "indicator":
+                    edited_n["value"] = edited_value.strip().upper()
+                new_key = _candidate_key(clue["clue_id"], edited_n)
                 try:
-                    accept_need(n, clue["clue_id"], also_live)
-                    record_decision(n["key"], "accepted")
+                    accept_need(edited_n, clue["clue_id"], also_live)
+                    record_decision(new_key, "accepted")
+                    if new_key != n["key"]:
+                        record_decision(n["key"], "superseded")
                     st.rerun()
                 except Exception as e:  # noqa: BLE001
                     st.error(f"Add failed: {e}")
-        with cols[2]:
+        with cols[4]:
             if st.button("Reject", key=f"rej_{n['key']}"):
                 try:
                     record_decision(n["key"], "rejected")
