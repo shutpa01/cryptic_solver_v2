@@ -207,7 +207,7 @@
                     {% elif grp.role == 'unaccounted' %}text-rose-500
                     {% elif grp.role == 'synonym' or grp.role == 'synonym_source' %}text-blue-700
                     {% else %}text-blue-800{% endif %}">
-                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
+                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% elif grp.role == 'anagram_fodder' %}fodder{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters and grp.role != 'anagram_fodder' %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
                 </div>
                 <div class="text-base text-gray-900 font-medium">{{ grp.words | join(' ') }}</div>
             </div>
