@@ -441,6 +441,36 @@ def clue_page(slug):
         f"/{source}/{type_slug}/{puzzle_number}" if type_slug else None
     )
 
+    # Prev/next within the same puzzle — across by clue_number first,
+    # then down by clue_number. Admin-only navigation lives on the
+    # action row so reviewers can step through every clue without
+    # bouncing back to the puzzle page.
+    sibling_clues = db.execute(
+        """SELECT id, clue_text, clue_number, direction
+           FROM clues
+           WHERE source = ? AND puzzle_number = ?
+           ORDER BY CASE WHEN direction='across' THEN 0 ELSE 1 END,
+                    CAST(clue_number AS INTEGER)""",
+        (source, puzzle_number),
+    ).fetchall()
+    prev_id = next_id = None
+    for i, sib in enumerate(sibling_clues):
+        if sib["id"] == clue_id:
+            if i > 0:
+                prev_id = sibling_clues[i - 1]["id"]
+            if i + 1 < len(sibling_clues):
+                next_id = sibling_clues[i + 1]["id"]
+            break
+    def _sibling_url(sib_id):
+        if not sib_id:
+            return None
+        sib = next((s for s in sibling_clues if s["id"] == sib_id), None)
+        if not sib:
+            return None
+        return f"/clue/{generate_clue_slug(sib['clue_text'], clue_id=sib_id)}"
+    clue_dict["prev_url"] = _sibling_url(prev_id)
+    clue_dict["next_url"] = _sibling_url(next_id)
+
     # Other appearances of the same clue
     other_appearances = []
     for other in matches:

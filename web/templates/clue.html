@@ -254,6 +254,18 @@
     {# Admin actions — separate row, admin only #}
     {% if g.is_admin %}
     <div id="explain-{{ clue.id }}" class="mt-4 flex flex-wrap gap-2 items-center">
+        {% if clue.prev_url %}
+        <a href="{{ clue.prev_url }}"
+           class="text-sm px-3 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium no-underline">
+            ‹ Prev
+        </a>
+        {% endif %}
+        {% if clue.next_url %}
+        <a href="{{ clue.next_url }}"
+           class="text-sm px-3 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium no-underline">
+            Next ›
+        </a>
+        {% endif %}
         <button hx-get="/admin/edit/{{ clue.id }}"
                 hx-target="#hints-{{ clue.id }}"
                 hx-swap="innerHTML"
