@@ -485,6 +485,11 @@ def clue_page(slug):
         for i in range(len(answer_for_contrib))
         if not used_positions[i]
     )
+    # For hidden parses, the hidden span IS the answer — every
+    # hidden_source row contributes the answer letters collectively.
+    # Show the answer letters on the FIRST hidden_source row only so
+    # the column reads cleanly.
+    first_hidden_seen = False
     for grp in role_groups:
         rl = grp.get("role") or ""
         L = grp.get("letters")
@@ -494,6 +499,12 @@ def clue_page(slug):
             if (fodder_letters
                     and sorted(leftover) == sorted(fodder_letters)):
                 grp["contributes"] = leftover
+            else:
+                grp["contributes"] = None
+        elif rl == "hidden_source":
+            if not first_hidden_seen:
+                grp["contributes"] = answer_for_contrib
+                first_hidden_seen = True
             else:
                 grp["contributes"] = None
         else:
