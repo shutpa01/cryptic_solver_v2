@@ -703,6 +703,13 @@ class ExplanationVerifier:
             # to prevent these from being used as dumping vehicles.
             if op in ("charade", "cycle", "substitution"):
                 return False
+            # Spoonerism — no DB indicator table; accept a short fixed
+            # list of universal spoonerism markers.
+            if op == "spoonerism":
+                return phrase.strip().lower() in {
+                    "spooner", "spoonerism", "reverend spooner",
+                    "as spooner", "from spooner", "by spooner",
+                }
             return False
 
         for bm in re.finditer(r"\[([^\]]+)\]", expl):
@@ -1246,13 +1253,28 @@ class ExplanationVerifier:
                         "detail": f"swap {w1}+{w2} -> {c2}{w1[len(c1):]}+"
                                   f"{c1}{w2[len(c2):]} = {answer_clean}",
                     })
+                elif self.is_homophone(swapped, answer_clean):
+                    # Spelling diverged from sound but the swapped form is a
+                    # registered homophone of the answer. The DB hit is the
+                    # independent proof — the verifier does not re-do the
+                    # solver's reasoning, it asks the homophones table.
+                    checks.append({
+                        "check": "spoonerism",
+                        "status": "verified",
+                        "detail": f"swap {w1}+{w2} -> '{swapped}', a registered "
+                                  f"homophone of '{answer_clean}'",
+                    })
                 else:
+                    # Mechanical swap doesn't equal the answer and the
+                    # spelling-vs-sound bridge isn't in the homophones DB.
+                    # Surface as unverifiable so an enrichment row can be
+                    # queued for human review.
                     checks.append({
                         "check": "spoonerism",
                         "status": "unverifiable",
                         "detail": f"mechanical swap of {w1}+{w2} gives "
-                                  f"'{swapped}', answer is '{answer_clean}' "
-                                  f"(likely phonetic Spoonerism)",
+                                  f"'{swapped}'; needs homophone DB entry "
+                                  f"({swapped} <-> {answer_clean})",
                     })
             else:
                 checks.append({
