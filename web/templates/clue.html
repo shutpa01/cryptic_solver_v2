@@ -244,6 +244,20 @@
                             {% endfor %}
                         </select>
                     </form>
+                    {% if w.accept_target %}
+                    <form hx-post="/admin/accept-enrichment/{{ clue.id }}/{{ w.word_index }}"
+                          hx-target="this" hx-swap="outerHTML"
+                          class="mt-1">
+                        <input type="hidden" name="type" value="{{ w.accept_target[0] }}">
+                        <input type="hidden" name="word" value="{{ w.accept_target[1] }}">
+                        <input type="hidden" name="letters" value="{{ w.accept_target[2] }}">
+                        <button type="submit"
+                                class="text-xs px-2 py-0.5 rounded border border-emerald-300 text-emerald-700 hover:bg-emerald-50 cursor-pointer w-full"
+                                title="Add ({{ w.accept_target[1] }} → {{ w.accept_target[2] }}) to {{ w.accept_target[0] }} DB">
+                            Accept {{ w.accept_target[0] }}: {{ w.accept_target[2] }}
+                        </button>
+                    </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>

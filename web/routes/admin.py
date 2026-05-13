@@ -105,6 +105,66 @@ WORD_ROLE_CHOICES = (
 )
 
 
+@bp.route("/accept-enrichment/<int:clue_id>/<int:word_index>", methods=["POST"])
+def accept_enrichment(clue_id, word_index):
+    """Accept an inline enrichment proposed on the clue page.
+
+    Inserts the (word, letters) pair into the appropriate reference
+    table (synonyms_pairs / definition_answers_augmented / wordplay /
+    indicators) with source='admin_clue_page' for traceability. Also
+    clears any matching rejected_enrichments row so the entry isn't
+    blocked from later automatic queueing.
+    """
+    _require_admin()
+    etype = (request.form.get("type") or "").strip()
+    word = (request.form.get("word") or "").strip()
+    letters = (request.form.get("letters") or "").strip()
+    if not (etype and word and letters):
+        abort(400)
+    import sqlite3 as _sqlite3
+    ref = _sqlite3.connect(
+        str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
+    try:
+        if etype == "synonym":
+            ref.execute(
+                "INSERT INTO synonyms_pairs (word, synonym, source) "
+                "VALUES (?, ?, 'admin_clue_page')",
+                (word, letters.upper()))
+        elif etype == "abbreviation":
+            ref.execute(
+                "INSERT INTO wordplay "
+                "(indicator, substitution, category, confidence) "
+                "VALUES (?, ?, 'abbreviation', 'high')",
+                (word, letters.upper()))
+        elif etype == "definition":
+            ref.execute(
+                "INSERT INTO definition_answers_augmented "
+                "(definition, answer, source) "
+                "VALUES (?, ?, 'admin_clue_page')",
+                (word, letters.upper()))
+        elif etype == "indicator":
+            ref.execute(
+                "INSERT INTO indicators "
+                "(word, wordplay_type, source) "
+                "VALUES (?, ?, 'admin_clue_page')",
+                (word, letters.lower()))
+        else:
+            abort(400)
+        ref.commit()
+    finally:
+        ref.close()
+    # Clear any rejection so the entry stays accepted
+    db = get_admin_db()
+    db.execute(
+        "DELETE FROM rejected_enrichments WHERE type=? "
+        "AND LOWER(word)=? AND UPPER(letters)=?",
+        (etype, word.lower(),
+         letters.upper() if etype != "indicator" else letters.lower()))
+    db.commit()
+    return ('<span class="text-xs text-emerald-700 font-medium">'
+            f'Accepted: {etype}</span>')
+
+
 @bp.route("/word-role/<int:clue_id>/<int:word_index>", methods=["POST"])
 def set_word_role(clue_id, word_index):
     """Save a manual role override for a single clue word.

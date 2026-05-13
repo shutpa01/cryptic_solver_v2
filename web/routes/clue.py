@@ -365,6 +365,78 @@ def clue_page(slug):
     clue_dict["word_roles"] = word_role_rows
     clue_dict["role_groups"] = role_groups
 
+    # Per-piece enrichment-needed flag for the admin override panel.
+    # We walk word_role_rows, group multi-word pieces (by piece_key or
+    # consecutive 'definition' rows), do one DB lookup per group, and
+    # attach an accept_target to the FIRST row of each group when the
+    # lookup misses. The template renders an Accept button only on rows
+    # that carry an accept_target.
+    import sqlite3 as _sqlite3
+    import re as _re_acc
+    answer_clean_for_def = _re_acc.sub(
+        r"[^A-Z]", "", (clue["answer"] or "").upper())
+    piece_groups_for_accept = []
+    cur = None
+    for i, row in enumerate(word_role_rows):
+        pk = row["piece_key"]
+        rl = row["role"]
+        same_group = (
+            cur is not None and (
+                (pk is not None and pk == cur["piece_key"])
+                or (pk is None and cur["piece_key"] is None
+                    and rl == "definition" and cur["role"] == "definition")
+            )
+        )
+        if same_group:
+            cur["words"].append(row["word_text"])
+        else:
+            if cur:
+                piece_groups_for_accept.append(cur)
+            cur = {"first_index": i, "piece_key": pk, "role": rl,
+                   "words": [row["word_text"]], "letters": row["letters"]}
+    if cur:
+        piece_groups_for_accept.append(cur)
+
+    ref_acc = _sqlite3.connect(
+        str(PROJECT_ROOT / "data" / "cryptic_new.db"))
+    accept_by_index = {}
+    for pg in piece_groups_for_accept:
+        phrase = " ".join(pg["words"]).strip()
+        role = pg["role"] or ""
+        letters = pg["letters"]
+        target = in_db = None
+        if role in ("synonym", "synonym_source") and letters:
+            target = ("synonym", phrase, letters.upper())
+            in_db = ref_acc.execute(
+                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? "
+                "AND UPPER(synonym)=? LIMIT 1",
+                (phrase.lower(), letters.upper())).fetchone()
+        elif role in ("abbreviation", "abbreviation_source") and letters:
+            target = ("abbreviation", phrase, letters.upper())
+            in_db = ref_acc.execute(
+                "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? "
+                "AND UPPER(substitution)=? LIMIT 1",
+                (phrase.lower(), letters.upper())).fetchone()
+        elif role == "definition":
+            target = ("definition", phrase, answer_clean_for_def)
+            in_db = ref_acc.execute(
+                "SELECT 1 FROM definition_answers_augmented "
+                "WHERE LOWER(definition)=? AND UPPER(answer)=? LIMIT 1",
+                (phrase.lower(), answer_clean_for_def)).fetchone()
+        elif role.endswith("_indicator"):
+            op_type = role[:-len("_indicator")]
+            target = ("indicator", phrase, op_type)
+            in_db = ref_acc.execute(
+                "SELECT 1 FROM indicators WHERE LOWER(word)=? "
+                "AND LOWER(wordplay_type)=? LIMIT 1",
+                (phrase.lower(), op_type.lower())).fetchone()
+        if target and not in_db:
+            accept_by_index[pg["first_index"]] = target
+    ref_acc.close()
+
+    for i, row in enumerate(word_role_rows):
+        row["accept_target"] = accept_by_index.get(i)
+
     # Render-time post-pass: surface a literal S piece sourced from a
     # possessive 's in the clue. The parser writes "+ S (from clue)" for
     # the S contributed by a "...'s" token, but the classifier has already
