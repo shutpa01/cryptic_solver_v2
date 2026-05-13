@@ -54,6 +54,7 @@ WORD_ROLE_CHOICES = (
     "charade_joiner",
     "literal_source",
     "possessive_source",
+    "letter_position_indicator",
     "unaccounted",
     # Letters-producing (verifier-derived from wordplay.category)
     "synonym",

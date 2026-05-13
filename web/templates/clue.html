@@ -243,13 +243,13 @@
                           hx-swap="innerHTML"
                           class="flex gap-1">
                         <input type="hidden" name="word_text" value="{{ w.word_text }}">
-                        <select name="role" hx-trigger="change"
+                        <select name="role" hx-trigger="change, blur"
                                 class="text-xs border border-slate-300 rounded px-1 py-0.5 flex-1
                                     {% if w.role == 'unaccounted' %}bg-rose-50 text-rose-700
                                     {% elif w.source == 'manual' %}bg-emerald-50 text-emerald-700
                                     {% else %}bg-white text-gray-600{% endif %}">
-                            {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','reversal_source','deletion_source','literal_source','possessive_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
-                            <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ choice }}</option>
+                            {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','letter_position_indicator','reversal_source','deletion_source','literal_source','possessive_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
+                            <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ choice.replace('_', ' ') }}</option>
                             {% endfor %}
                         </select>
                         <input type="text" name="letters"
