@@ -26,7 +26,8 @@ from scripts._times29540_parses import CLUES
 
 # Enrichments to queue. Each tuple: (type, word, letters/answer, optional answer override)
 # These were validated against the DB on 2026-05-12 and are genuine misses.
-# type values: 'synonym', 'abbreviation', 'indicator:<wtype>', 'definition', 'homophone'
+# type values: 'synonym' / 'abbreviation' / 'definition' / 'homophone' / 'indicator'
+# For 'indicator' rows, the wordplay type (anagram, reversal, container, ...) goes in `letters`.
 ENRICHMENTS = [
     # ===== Synonyms =====
     ('synonym', 'funny show', 'SITCOM', 'SITCOM'),
@@ -59,9 +60,9 @@ ENRICHMENTS = [
     ('definition', 'Hat', 'DERBY', 'DERBY'),
     ('definition', 'Drink', 'GINGERALE', 'GINGERALE'),
     # ===== Indicators =====
-    ('indicator:container', 'opening', 'container', 'ADIMEADOZEN'),
-    ('indicator:hidden', 'delivered', 'hidden', 'ETH'),
-    ('indicator:hidden', 'delivered in', 'hidden', 'ETH'),
+    ('indicator', 'opening', 'container', 'ADIMEADOZEN'),
+    ('indicator', 'delivered', 'hidden', 'ETH'),
+    ('indicator', 'delivered in', 'hidden', 'ETH'),
     # ===== Homophone pairs =====
     ('homophone', 'few', 'phew', 'FEW'),
     ('homophone', 'grizzly', 'grisly', 'GRIZZLYBEAR'),
@@ -104,11 +105,12 @@ def has_in_db(ref, etype, word, letters):
             (w, L)
         ).fetchone()
         return bool(r or r2)
-    if etype.startswith('indicator:'):
-        wt = etype.split(':', 1)[1]
+    if etype == 'indicator':
+        # `letters` carries the wordplay_type for indicator enrichments
+        # (matches dashboard convention; type column stays 'indicator').
         r = ref.execute(
             "SELECT 1 FROM indicators WHERE LOWER(word)=? AND LOWER(wordplay_type)=? LIMIT 1",
-            (w, wt)
+            (word.lower(), letters.lower())
         ).fetchone()
         return bool(r)
     if etype == 'homophone':
@@ -197,7 +199,7 @@ def main():
     # === Phase 3: Queue enrichments ===
     if not dry_run:
         for etype, word, letters, answer in to_queue:
-            # type field: synonym/abbreviation/definition/homophone OR indicator:<wtype>
+            # type field: synonym / abbreviation / definition / homophone / indicator
             qtype = etype
             conn.execute(
                 "INSERT INTO pending_enrichments "

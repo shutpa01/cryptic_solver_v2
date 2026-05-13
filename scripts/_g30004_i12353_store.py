@@ -24,7 +24,8 @@ from sonnet_pipeline.verify_explanation import ExplanationVerifier
 from scripts._g30004_i12353_parses import G30004, I12353
 
 # (type, word, letters, answer) — same format as Times 29540 store script.
-# type is 'synonym' / 'abbreviation' / 'definition' / 'homophone' / 'indicator:<wtype>'
+# type is 'synonym' / 'abbreviation' / 'definition' / 'homophone' / 'indicator'
+# For 'indicator' rows, the wordplay type (anagram, reversal, container, ...) goes in `letters`.
 
 G30004_ENRICHMENTS = [
     # 1a TITFER
@@ -102,7 +103,7 @@ I12353_ENRICHMENTS = [
     ('definition', 'hard to bear', 'ONEROUS', 'ONEROUS'),
     # 10a BURGLAR
     ('definition', 'criminal', 'BURGLAR', 'BURGLAR'),
-    ('indicator:reversal', 'Withdrawing', 'reversal', 'BURGLAR'),
+    ('indicator', 'Withdrawing', 'reversal', 'BURGLAR'),
     # 11a TES
     ('definition', 'Supplement', 'TES', 'TES'),
     # 13a CONDEMN
@@ -120,7 +121,7 @@ I12353_ENRICHMENTS = [
     ('synonym', 'Pat', 'PET', 'TEPIDLY'),
     ('synonym', 'lazily', 'IDLY', 'TEPIDLY'),
     ('definition', 'without enthusiasm', 'TEPIDLY', 'TEPIDLY'),
-    ('indicator:reversal', 'rolled over', 'reversal', 'TEPIDLY'),
+    ('indicator', 'rolled over', 'reversal', 'TEPIDLY'),
     # 26a GROUPIE
     ('synonym', 'swimmer', 'GROUPER', 'GROUPIE'),
     ('definition', 'Obsessive', 'GROUPIE', 'GROUPIE'),
@@ -133,16 +134,16 @@ I12353_ENRICHMENTS = [
     # 30a SPEARED
     ('synonym', 'drug', 'SPEED', 'SPEARED'),
     ('definition', 'Spiked', 'SPEARED', 'SPEARED'),
-    ('indicator:container', 'snared by', 'container', 'SPEARED'),
+    ('indicator', 'snared by', 'container', 'SPEARED'),
     # 31a BILLETS
     ('synonym', 'ads', 'BILLS', 'BILLETS'),
     ('synonym', 'Spielberg movie', 'ET', 'BILLETS'),
     ('definition', 'Digs', 'BILLETS', 'BILLETS'),
-    ('indicator:container', 'showcasing', 'container', 'BILLETS'),
+    ('indicator', 'showcasing', 'container', 'BILLETS'),
     # 1d JOLLY
     ('synonym', 'ecstasy', 'JOY', 'JOLLY'),
     ('definition', 'trip', 'JOLLY', 'JOLLY'),
-    ('indicator:container', 'absorbed by', 'container', 'JOLLY'),
+    ('indicator', 'absorbed by', 'container', 'JOLLY'),
     # 3d COPS
     ('synonym', 'Sci-fi character', 'SPOCK', 'COPS'),
     ('definition', 'the Force', 'COPS', 'COPS'),
@@ -165,7 +166,7 @@ I12353_ENRICHMENTS = [
     # 15d SPACEOPERA
     ('synonym', 'a', 'PER', 'SPACEOPERA'),
     ('definition', 'a work of science fiction', 'SPACEOPERA', 'SPACEOPERA'),
-    ('indicator:container', 'inspiring', 'container', 'SPACEOPERA'),
+    ('indicator', 'inspiring', 'container', 'SPACEOPERA'),
     # 17d INDIGEST
     ('synonym', 'land', 'INDIA', 'INDIGEST'),
     ('homophone', 'gest', 'jest', 'INDIGEST'),
@@ -227,11 +228,12 @@ def has_in_db(ref, etype, word, letters):
             (w, L)
         ).fetchone()
         return bool(r or r2)
-    if etype.startswith('indicator:'):
-        wt = etype.split(':', 1)[1]
+    if etype == 'indicator':
+        # `letters` carries the wordplay_type for indicator enrichments
+        # (matches dashboard convention; type column stays 'indicator').
         r = ref.execute(
             "SELECT 1 FROM indicators WHERE LOWER(word)=? AND LOWER(wordplay_type)=? LIMIT 1",
-            (word.lower(), wt.lower())
+            (word.lower(), letters.lower())
         ).fetchone()
         return bool(r)
     if etype == 'homophone':
