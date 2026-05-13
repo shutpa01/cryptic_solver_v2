@@ -584,14 +584,16 @@ def main():
         email_lines.append("")
         email_lines.append(stats)
 
-    # Sync DB to live site (Cordelia only — honeypot retired)
-    _sync_cordelia()
-
-    # Submit today's clue URLs to Google Indexing API
-    indexing_summary = _submit_to_indexing_api(new_puzzles)
-    if indexing_summary:
-        email_lines.append("")
-        email_lines.append(indexing_summary)
+    # DB sync to droplet and Google Indexing API submission are disabled
+    # (2026-05-13) — nightly run stays local. Re-enable by uncommenting
+    # the two calls below; the function definitions remain in this file.
+    # _sync_cordelia()
+    # indexing_summary = _submit_to_indexing_api(new_puzzles)
+    # if indexing_summary:
+    #     email_lines.append("")
+    #     email_lines.append(indexing_summary)
+    email_lines.append("")
+    email_lines.append("Droplet sync + Indexing API: DISABLED (local-only run)")
 
     _send_email(subject, '\n'.join(email_lines))
 
