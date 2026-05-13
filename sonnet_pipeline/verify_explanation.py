@@ -617,6 +617,27 @@ class ExplanationVerifier:
                 r"synonym\s+of\s+" + Q, expl, re.IGNORECASE):
             _claim_phrase(_qval(m), "synonym_source")
 
+        # 2b. Literal "from clue" pieces — e.g. A (from clue) for a clue
+        # that uses the literal letter 'a' as part of the wordplay. The
+        # piece's letters identify the matching clue word; we tag that
+        # word as literal_source so word_coverage sees it as accounted
+        # and the word-by-word panel shows it as a contributing piece
+        # rather than a link/unaccounted fallback.
+        for m in re.finditer(
+                r"(\w+)\s*\(\s*from\s+clue\s*\)",
+                expl, re.IGNORECASE):
+            letters = m.group(1)
+            letters_lower = letters.lower()
+            pk = _next_piece_key()
+            for i, w in enumerate(words):
+                if i in claimed:
+                    continue
+                if _norm(w) == letters_lower:
+                    claimed[i] = "literal_source"
+                    claimed_letters[i] = letters.upper()
+                    claimed_piece[i] = pk
+                    break
+
         # 3. Abbreviation sources
         for m in re.finditer(
                 r"abbreviation\s*=\s*" + Q, expl, re.IGNORECASE):
