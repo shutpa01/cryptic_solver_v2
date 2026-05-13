@@ -499,6 +499,11 @@ def clue_page(slug):
     hidden_match = _re_acc.search(
         r'hidden(?:\s+reversed)?\s+in\s+["\']([^"\']+)["\']',
         expl_for_hidden, _re_acc.IGNORECASE)
+    hidden_is_reversed = bool(
+        _re_acc.search(r"hidden\s+reversed\s+in",
+                       expl_for_hidden, _re_acc.IGNORECASE)
+        or (clue_dict.get("wordplay_type") or "") == "hidden_reversed"
+    )
     hidden_span_in_clue = None  # (start, end) over the stripped clue
     if hidden_match:
         span_raw = hidden_match.group(1)
@@ -565,6 +570,12 @@ def clue_page(slug):
             ovl_end = min(we, he)
             if ovl_end > ovl_start:
                 contrib_letters = clue_stripped_for_words[ovl_start:ovl_end].upper()
+                # For hidden_reversed, the whole span is reversed before
+                # placement in the answer — apply that reversal to each
+                # word's contribution so the letters shown are the ones
+                # landing in the answer (mirrors the RUM->MUR treatment).
+                if hidden_is_reversed:
+                    contrib_letters = contrib_letters[::-1]
                 grp["contributes"] = contrib_letters
             else:
                 grp["contributes"] = None
