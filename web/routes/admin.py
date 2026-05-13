@@ -44,7 +44,7 @@ WORD_ROLE_CHOICES = (
     # Structural
     "definition",
     "link",
-    "indicator",
+    "indicator",  # legacy generic; new code uses a specific *_indicator
     "anagram_fodder",
     "hidden_source",
     "positional_source",
@@ -53,7 +53,7 @@ WORD_ROLE_CHOICES = (
     "dbe_marker",
     "charade_joiner",
     "unaccounted",
-    # Letters-producing (verifier-derived)
+    # Letters-producing (verifier-derived from wordplay.category)
     "synonym",
     "synonym_source",  # legacy alias retained
     "abbreviation",
@@ -83,6 +83,25 @@ WORD_ROLE_CHOICES = (
     "foreign_latin",
     "cryptic_synonym",
     "misc",
+    # Indicator-type roles (derived from indicators.wordplay_type)
+    "anagram_indicator",
+    "container_indicator",
+    "reversal_indicator",
+    "deletion_indicator",
+    "homophone_indicator",
+    "hidden_indicator",
+    "insertion_indicator",
+    "acrostic_indicator",
+    "parts_indicator",
+    "selection_indicator",
+    "alternating_indicator",
+    "spoonerism_indicator",
+    "charade_indicator",
+    "first_letter_indicator",
+    "last_letter_indicator",
+    "middle_letter_indicator",
+    "outer_letter_indicator",
+    "substitution_indicator",
 )
 
 

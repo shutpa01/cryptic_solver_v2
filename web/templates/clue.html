@@ -168,10 +168,18 @@
                      deletion / anagram_fodder / hidden)
                    - flag colours (unaccounted, charade_joiner)
                 #}
+                {# Roles fall into three colour families:
+                   - structural (definition, link)
+                   - indicators (any role ending in _indicator) — amber
+                   - letters-producing pieces (wordplay.category values
+                     plus positional / reversal / deletion / anagram_fodder
+                     / hidden / synonym)
+                   - flag colours (unaccounted, charade_joiner)
+                #}
                 <div class="font-mono text-xs
                     {% if grp.role == 'definition' %}text-green-700
                     {% elif grp.role == 'link' %}text-gray-400
-                    {% elif grp.role == 'indicator' %}text-amber-700
+                    {% elif grp.role.endswith('_indicator') or grp.role == 'indicator' %}text-amber-700
                     {% elif grp.role == 'anagram_fodder' %}text-purple-700
                     {% elif grp.role == 'hidden_source' %}text-cyan-700
                     {% elif grp.role == 'positional_source' %}text-indigo-700

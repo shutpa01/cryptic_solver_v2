@@ -696,7 +696,19 @@ class ExplanationVerifier:
                 if not phrase:
                     continue
                 if _annotation_is_real_indicator(phrase, op_raw):
-                    _claim_phrase(phrase, "indicator")
+                    # Specialise the role to the indicator's wordplay
+                    # type so the clue page can show e.g.
+                    # 'container indicator', 'anagram indicator',
+                    # 'reversal indicator' etc. instead of a flat
+                    # 'indicator'. Pulled from the indicators table by
+                    # way of the bracket's op_type (which the
+                    # _annotation_is_real_indicator check has just
+                    # confirmed matches a DB row).
+                    op_normalised = _normalize_op_type(op_raw)
+                    role = (
+                        op_normalised.replace(" ", "_") + "_indicator"
+                    )
+                    _claim_phrase(phrase, role)
                 # Else: the bracket exists but its phrase is not a DB
                 # indicator — do NOT claim its words. This is the
                 # loophole closure: arbitrary phrases inside [parts:
