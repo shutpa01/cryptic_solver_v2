@@ -353,9 +353,10 @@ def reverify_clue(clue_id):
         abort(404)
     if not clue["ai_explanation"]:
         return ('<span class="text-xs text-amber-700">No parse to verify</span>')
-    if (clue["model_version"] or "") in ("manual_edit", "manual_approve"):
-        return ('<span class="text-xs text-blue-700">Protected '
-                f'({clue["model_version"]}) — not re-verified</span>')
+    # manual_edit / manual_approve still re-verifies: the explanation
+    # itself is never modified, only confidence is updated based on
+    # current DB state and manual word-role overrides. Protection
+    # applies to destructive paths (Re-run) — not to scoring.
     verifier = ExplanationVerifier()
     result = verifier.verify(
         clue["clue_text"], clue["answer"], clue["definition"],
@@ -1284,10 +1285,15 @@ def reverify_puzzle(source, puzzle_number):
     import sqlite3 as _sqlite3
     ref_conn = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
 
-    MANUAL_MODELS = ("manual_approve", "manual_edit")
+    # manual_approve is a hard "trust me, the score is fixed" tag and
+    # stays protected from auto re-score. manual_edit only protects the
+    # explanation TEXT from auto-solver overwrite — re-verifying still
+    # makes sense since the score reflects current DB state and any
+    # manual word-role overrides.
+    MANUAL_MODELS = ("manual_approve",)
 
     for clue in clues:
-        # Never re-score manually approved or edited clues
+        # Never re-score manually approved clues
         if clue["se_model"] in MANUAL_MODELS:
             unchanged += 1
             continue
