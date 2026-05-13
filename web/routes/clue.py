@@ -373,6 +373,8 @@ def clue_page(slug):
     # that carry an accept_target.
     import sqlite3 as _sqlite3
     import re as _re_acc
+    from pathlib import Path as _Path
+    _PROJECT_ROOT = _Path(__file__).resolve().parent.parent.parent
     answer_clean_for_def = _re_acc.sub(
         r"[^A-Z]", "", (clue["answer"] or "").upper())
     piece_groups_for_accept = []
@@ -398,7 +400,7 @@ def clue_page(slug):
         piece_groups_for_accept.append(cur)
 
     ref_acc = _sqlite3.connect(
-        str(PROJECT_ROOT / "data" / "cryptic_new.db"))
+        str(_PROJECT_ROOT / "data" / "cryptic_new.db"))
     accept_by_index = {}
     for pg in piece_groups_for_accept:
         phrase = " ".join(pg["words"]).strip()
