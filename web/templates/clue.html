@@ -42,11 +42,12 @@
 
 {# Main clue card #}
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-    {# Clue text — clean H1 for SEO, interactive version below #}
-    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}</h1>
-    <p class="mt-2 text-lg text-gray-700 leading-relaxed">
-        {{ clue.clue_text | clickable_words(clue.id) }}
-    </p>
+    {# Clue text — single H1, clickable for word-lookup, also gets the
+       enumeration suffix appended. One instance only; downstream
+       sections do not repeat it. #}
+    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">
+        {{ clue.clue_text | clickable_words(clue.id) }}{% if clue.enumeration %} <span class="text-gray-500 font-normal">({{ clue.enumeration }})</span>{% endif %}
+    </h1>
     <div id="wordhelp-{{ clue.id }}" class="mt-1 lookup-host"></div>
 
     {# Source info line #}
@@ -93,50 +94,59 @@
         {% endif %}
     </div>
 
-    {# Answer — visible to crawlers and users #}
-    {% if clue.answer %}
-    <div class="mt-4 py-3 px-4 bg-indigo-50 border border-indigo-100 rounded-lg">
-        <p class="text-sm text-gray-500 mb-1">Answer</p>
-        <p class="text-xl font-bold text-indigo-900 tracking-wide">{{ clue.answer | format_answer(clue.enumeration) }}</p>
-    </div>
-    {% endif %}
-
-    {# Puzzle page CTA — reassure no spoilers #}
-    {% if clue.puzzle_url %}
-    <div class="mt-5 mb-2">
+    {# Row 1: Answer | See rest of puzzle CTA — side-by-side containers
+       so the most valuable elements sit above the fold. Stacks on
+       mobile. #}
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+        {% if clue.answer %}
+        <div class="py-3 px-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+            <p class="text-sm text-gray-500 mb-1">Answer</p>
+            <p class="text-xl font-bold text-indigo-900 tracking-wide">{{ clue.answer | format_answer(clue.enumeration) }}</p>
+        </div>
+        {% endif %}
+        {% if clue.puzzle_url %}
         <a href="{{ clue.puzzle_url }}"
-           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-600 font-semibold text-sm transition-all no-underline">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
-            <span>See the rest of this puzzle</span>
-            <span class="font-bold">— no spoilers, answers are hidden</span>
+           class="py-3 px-4 bg-emerald-50 border-2 border-emerald-300 rounded-lg flex items-center gap-3 hover:bg-emerald-100 hover:border-emerald-400 no-underline transition-all">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-emerald-700 shrink-0"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
+            <div>
+                <p class="text-sm text-emerald-700 mb-0.5">See the rest of this puzzle</p>
+                <p class="text-xs text-emerald-800 font-semibold">No spoilers — answers hidden</p>
+            </div>
         </a>
+        {% endif %}
     </div>
-    {% endif %}
 
-    {# Inline hint cards — definition / wordplay type / explanation
-       are shown on initial page load (no reveal click) for SEO and a
-       cleaner read. Answer is rendered above. #}
-    {% if clue.inline_hints %}
-    <div class="mt-5 space-y-2">
-        {% for hint in clue.inline_hints %}
-        <div class="rounded px-3 py-2 text-sm
-            {% if hint.type == 'definition' %}bg-green-50 border border-green-200
-            {% elif hint.type == 'wordplay_type' %}bg-amber-50 border border-amber-200
-            {% else %}bg-gray-50 border border-gray-200{% endif %}">
-            <span class="font-medium text-gray-600">
-                {% if hint.type == 'definition' %}Definition{% elif hint.type == 'wordplay_type' %}Wordplay type{% else %}Explanation{% endif %}:
-            </span>
-            {% if hint.type == 'wordplay_type' %}
-            {% if hint.is_mechanism_label %}
-            <span class="font-medium tracking-wide">{{ hint.content }}</span>
+    {# Row 2: Definition | Wordplay type — each in its own container,
+       side by side on desktop, stacked on mobile. #}
+    {% set def_hint = (clue.inline_hints | selectattr('type', 'equalto', 'definition') | list | first) %}
+    {% set wp_hint = (clue.inline_hints | selectattr('type', 'equalto', 'wordplay_type') | list | first) %}
+    {% if def_hint or wp_hint %}
+    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+        {% if def_hint %}
+        <div class="rounded px-3 py-2 text-sm bg-green-50 border border-green-200">
+            <span class="font-medium text-gray-600">Definition:</span>
+            <span>{{ def_hint.content }}</span>
+        </div>
+        {% endif %}
+        {% if wp_hint %}
+        <div class="rounded px-3 py-2 text-sm bg-amber-50 border border-amber-200">
+            <span class="font-medium text-gray-600">Wordplay type:</span>
+            {% if wp_hint.is_mechanism_label %}
+            <span class="font-medium tracking-wide">{{ wp_hint.content }}</span>
             {% else %}
-            <span>{{ hint.content | wordplay_label }}</span>
-            {% endif %}
-            {% else %}
-            <span>{{ hint.content }}</span>
+            <span>{{ wp_hint.content | wordplay_label }}</span>
             {% endif %}
         </div>
-        {% endfor %}
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {# Explanation — full-width on its own row #}
+    {% set expl_hint = (clue.inline_hints | selectattr('type', 'equalto', 'explanation') | list | first) %}
+    {% if expl_hint %}
+    <div class="mt-3 rounded px-3 py-2 text-sm bg-gray-50 border border-gray-200">
+        <span class="font-medium text-gray-600">Explanation:</span>
+        <span>{{ expl_hint.content }}</span>
     </div>
     {% endif %}
 
@@ -158,8 +168,8 @@
        Each role gets a colour class for consistent visual coding.
     #}
     {% if clue.role_groups %}
-    <div class="mt-5 rounded border border-slate-200 bg-white px-4 py-3">
-        <p class="text-base text-gray-900 mb-3">{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}</p>
+    <div class="mt-3 rounded border border-slate-200 bg-white px-4 py-3">
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Word-by-word</p>
         <div class="space-y-1 text-sm">
             {% for grp in clue.role_groups %}
             <div class="grid grid-cols-[10rem_auto] gap-x-4 items-baseline">
