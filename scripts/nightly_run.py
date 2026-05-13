@@ -363,39 +363,40 @@ def main():
         else:
             log(f"  TFTT not yet posted for Times #{times_puzzle} — retry at 4am")
 
-    # Step 5: Cordelia's Daily Mash-up
-    # Today's mashup was prepared yesterday — it's already in the DB with today's date.
-    # Now prepare TOMORROW's mashup and run the pipeline on its unsolved clues.
-    tomorrow = (date.fromisoformat(target_date) + timedelta(days=1)).isoformat()
-    log(f"Step 5: Cordelia's Daily Mash-up (preparing {tomorrow})...")
-    if args.dry_run:
-        log(f"  [DRY RUN] Would generate mash-up for {tomorrow}")
-    else:
-        try:
-            sys.path.insert(0, str(ROOT))
-            from scripts.generate_mashup import generate_mashup
-            mashup_number = generate_mashup(tomorrow)
-            if mashup_number:
-                log(f"  Mash-up #{mashup_number} generated for {tomorrow}")
-                # Run pipeline on unsolved clues
-                conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-                unsolved = conn.execute("""
-                    SELECT COUNT(*) FROM clues
-                    WHERE source = 'cordelia' AND puzzle_number = ?
-                      AND answer IS NOT NULL AND answer != ''
-                      AND (has_solution IS NULL OR has_solution = 0)
-                      AND clue_text NOT LIKE 'See %%'
-                """, (str(mashup_number),)).fetchone()[0]
-                conn.close()
-                if unsolved > 0:
-                    log(f"  Running pipeline on {unsolved} unsolved clues...")
-                    run_pipeline("cordelia", str(mashup_number))
-                else:
-                    log(f"  All clues already explained — no pipeline needed")
-            else:
-                log(f"  Mash-up skipped (already exists or no eligible base puzzle)")
-        except Exception as e:
-            log(f"  Mash-up generation error: {e}")
+    # Step 5: Cordelia's Daily Mash-up — DISABLED 2026-05-13.
+    # Re-enable by uncommenting the block below; the generate_mashup helper
+    # still exists in scripts/generate_mashup.py.
+    log("Step 5: Cordelia's Daily Mash-up: DISABLED")
+    # tomorrow = (date.fromisoformat(target_date) + timedelta(days=1)).isoformat()
+    # log(f"Step 5: Cordelia's Daily Mash-up (preparing {tomorrow})...")
+    # if args.dry_run:
+    #     log(f"  [DRY RUN] Would generate mash-up for {tomorrow}")
+    # else:
+    #     try:
+    #         sys.path.insert(0, str(ROOT))
+    #         from scripts.generate_mashup import generate_mashup
+    #         mashup_number = generate_mashup(tomorrow)
+    #         if mashup_number:
+    #             log(f"  Mash-up #{mashup_number} generated for {tomorrow}")
+    #             # Run pipeline on unsolved clues
+    #             conn = sqlite3.connect(str(CLUES_DB), timeout=30)
+    #             unsolved = conn.execute("""
+    #                 SELECT COUNT(*) FROM clues
+    #                 WHERE source = 'cordelia' AND puzzle_number = ?
+    #                   AND answer IS NOT NULL AND answer != ''
+    #                   AND (has_solution IS NULL OR has_solution = 0)
+    #                   AND clue_text NOT LIKE 'See %%'
+    #             """, (str(mashup_number),)).fetchone()[0]
+    #             conn.close()
+    #             if unsolved > 0:
+    #                 log(f"  Running pipeline on {unsolved} unsolved clues...")
+    #                 run_pipeline("cordelia", str(mashup_number))
+    #             else:
+    #                 log(f"  All clues already explained — no pipeline needed")
+    #         else:
+    #             log(f"  Mash-up skipped (already exists or no eligible base puzzle)")
+    #     except Exception as e:
+    #         log(f"  Mash-up generation error: {e}")
 
     log("")
     log("=" * 60)
