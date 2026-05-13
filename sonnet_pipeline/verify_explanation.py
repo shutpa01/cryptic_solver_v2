@@ -665,13 +665,23 @@ class ExplanationVerifier:
             "summary": summary,
         }
 
-    def verify(self, clue_text, answer, definition, wordplay_type, ai_explanation):
+    def verify(self, clue_text, answer, definition, wordplay_type,
+               ai_explanation, clue_id=None):
         """Run all mechanical checks on an explanation.
+
+        Args:
+            clue_id: optional. If provided, manual rows in
+                clue_word_roles for this clue are merged into the
+                word-coverage classification (so manually-assigned
+                roles count as accounted) AND the resulting auto
+                classification is persisted back.
 
         Returns dict with:
             score: 0-100
             checks: list of {check, passed, detail}
             verdict: HIGH/MEDIUM/LOW/FAIL
+            classified: list of (word, role) tuples for clue words
+                        (only present if word_coverage check ran)
         """
         checks = []
         answer_clean = (answer or "").upper().replace(" ", "")
@@ -1653,12 +1663,44 @@ class ExplanationVerifier:
         try:
             coverage = self._classify_clue_words(
                 clue_text, expl, definition, answer=answer)
-            unaccounted = coverage["unaccounted"]
+            classified = list(coverage["classified"])
+
+            # Merge any manual rows from clue_word_roles, then persist
+            # the auto classification. Manual rows override the auto
+            # role at the same word_index (matched by lowercased word).
+            if clue_id is not None:
+                try:
+                    from sonnet_pipeline.word_roles_store import (
+                        get_roles, write_auto_roles,
+                    )
+                    manual = [
+                        (idx, wt, r) for (idx, wt, r, s) in get_roles(clue_id)
+                        if s == "manual"
+                    ]
+                    for idx, wt, role in manual:
+                        if 0 <= idx < len(classified):
+                            cur_word, _ = classified[idx]
+                            if cur_word.lower() == (wt or "").lower():
+                                classified[idx] = (cur_word, role)
+                    # Persist auto rows (write_auto_roles preserves manual)
+                    write_auto_roles(clue_id, classified)
+                except Exception:
+                    pass  # Persistence must never disrupt verification
+
+            # Recompute unaccounted from the (possibly merged) list so
+            # manual overrides count as accounted.
+            unaccounted = [w for (w, r) in classified if r == "unaccounted"]
+            summary = coverage["summary"]
+            if unaccounted != coverage["unaccounted"]:
+                summary = (
+                    f"{len(unaccounted)}/{len(classified)} unaccounted: "
+                    + ", ".join(unaccounted)
+                ) if unaccounted else "all words accounted"
             checks.append({
                 "check": "word_coverage",
                 "status": "wrong" if unaccounted else "verified",
-                "detail": coverage["summary"],
-                "classified": coverage["classified"],
+                "detail": summary,
+                "classified": classified,
                 "unaccounted": unaccounted,
             })
         except Exception:
@@ -1844,6 +1886,14 @@ class ExplanationVerifier:
             if not wordplay_checks:
                 verdict = "LOW"
 
+        # Surface the word-coverage classified list at the top level so
+        # display callers don't have to dig it out of the checks list.
+        classified = []
+        for c in checks:
+            if c.get("check") == "word_coverage" and "classified" in c:
+                classified = c["classified"]
+                break
+
         return {
             "score": score,
             "checks": checks,
@@ -1851,6 +1901,7 @@ class ExplanationVerifier:
             "unverifiable": unverifiable,
             "wrong": wrong,
             "verdict": verdict,
+            "classified": classified,
         }
 
 
