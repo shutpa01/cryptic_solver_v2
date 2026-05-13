@@ -225,20 +225,29 @@
         <div class="mt-2 rounded border border-slate-200 bg-slate-50 px-4 py-3">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-1 text-sm">
                 {% for w in clue.word_roles %}
-                <div class="flex items-baseline gap-2">
-                    <span class="font-medium text-gray-900">{{ w.word_text }}</span>
+                {% set role_labels = {
+                    'definition': 'def', 'synonym_source': 'synonym',
+                    'abbreviation_source': 'abbr', 'positional_source': 'letters',
+                    'reversal_source': 'reversal', 'deletion_source': 'deletion',
+                    'indicator': 'indicator', 'anagram_fodder': 'fodder',
+                    'hidden_source': 'hidden', 'dbe_marker': 'DBE',
+                    'link': 'link', 'charade_joiner': 'joiner',
+                    'unaccounted': 'unaccounted',
+                } %}
+                <div class="flex items-baseline gap-2 min-w-0">
+                    <span class="font-medium text-gray-900 truncate">{{ w.word_text }}</span>
                     <form hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
                           hx-target="next .role-saved-{{ w.word_index }}"
                           hx-swap="innerHTML"
-                          class="inline-flex items-center gap-1">
+                          class="inline-flex items-center gap-1 min-w-0">
                         <input type="hidden" name="word_text" value="{{ w.word_text }}">
                         <select name="role" hx-trigger="change"
-                                class="text-xs border border-slate-300 rounded px-1 py-0.5
+                                class="text-xs border border-slate-300 rounded px-1 py-0.5 max-w-[7rem]
                                     {% if w.role == 'unaccounted' %}bg-rose-50 text-rose-700
                                     {% elif w.source == 'manual' %}bg-emerald-50 text-emerald-700
                                     {% else %}bg-white text-gray-600{% endif %}">
                             {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','reversal_source','deletion_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
-                            <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ choice }}</option>
+                            <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ role_labels.get(choice, choice) }}</option>
                             {% endfor %}
                         </select>
                     </form>
