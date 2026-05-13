@@ -16,12 +16,25 @@ Checks performed:
 
 import re
 import sqlite3
+import unicodedata
 from collections import Counter
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 REF_DB = str(PROJECT_ROOT / "data" / "cryptic_new.db")
 CLUES_DB = str(PROJECT_ROOT / "data" / "clues_master.db")
+
+
+def _strip_letters(text):
+    """Normalise to lowercase ASCII letters only. Accented characters
+    (î, é, ñ, ...) are decomposed to their base letter then folded
+    back to ASCII so hidden-span checks work across accented clue
+    text. Non-letter characters (spaces, punctuation) are dropped."""
+    if not text:
+        return ""
+    decomposed = unicodedata.normalize("NFKD", text)
+    ascii_folded = decomposed.encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z]", "", ascii_folded.lower())
 
 # Link words allowed between / around the two windows of a Double Definition
 # and in other "what's left over" checks. Canonical source: the LINKERS set
@@ -755,7 +768,7 @@ class ExplanationVerifier:
         for m in re.finditer(
                 r'hidden(?:\s+reversed)?\s+in\s+["\']([^"\']+)["\']',
                 expl, re.IGNORECASE):
-            span_letters = re.sub(r"[^a-z]", "", m.group(1).lower())
+            span_letters = _strip_letters(m.group(1))
             for i, w in enumerate(words):
                 if i in claimed:
                     continue
@@ -1035,8 +1048,8 @@ class ExplanationVerifier:
                 upper_letters = re.sub(r"[^A-Z]", "", span)
                 target = answer_clean[::-1] if is_reversed else answer_clean
                 letters_match = upper_letters == target
-                span_letters = re.sub(r"[^a-z]", "", span.lower())
-                clue_letters = re.sub(r"[^a-z]", "", clue_text.lower())
+                span_letters = _strip_letters(span)
+                clue_letters = _strip_letters(clue_text)
                 span_in_clue = bool(span_letters) and span_letters in clue_letters
                 if letters_match and span_in_clue:
                     checks.append({
