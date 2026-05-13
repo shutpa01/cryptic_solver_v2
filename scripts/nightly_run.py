@@ -1,14 +1,17 @@
-"""Nightly automated run: scrape all → danword backfill → solve DT + DM → TFTT → mashup.
+"""Nightly automated run: DT + DM only (scrape, danword, pipeline).
 
 Designed to run at 2am UTC via Windows Task Scheduler.
 
+As of 2026-05-13 the nightly is restricted to Telegraph and Daily Mail:
+those are the no-blog sources that must use Sonnet, so they're worth
+running on a schedule. Times / Guardian / Independent are processed
+manually when blogs appear (cheaper via TFTT/FS+Haiku) and the
+Cordelia daily mash-up is disabled.
+
 Flow:
-  1. Run all scrapers (all sources) — clues + answers uploaded to honeypot/cordelia
-  2. Danword backfill for any puzzles with missing answers
-  3. Pipeline for Telegraph + Daily Mail ONLY (no blog coverage, must use Sonnet)
-  4. Times TFTT — if blog has posted, run blog+Haiku (10x cheaper than Sonnet)
-     If not posted, retry_tftt.py runs at 4am via separate Task Scheduler job.
-  5. Cordelia's Daily Mash-up
+  1. Scrape Telegraph + Daily Mail
+  2. Danword backfill for missing answers (DT + DM only)
+  3. Pipeline (Sonnet) for DT + DM
 
 Usage:
     python scripts/nightly_run.py              # full run
@@ -46,51 +49,63 @@ def log(msg):
 
 
 def run_scraper():
-    """Run the puzzle scraper to fetch today's puzzles from all sources."""
-    log("Step 1: Running all scrapers...")
-    try:
-        result = subprocess.run(
-            [PYTHON_SCRAPER, SCRAPER_SCRIPT],
-            cwd=str(ROOT),
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=1800,
-        )
-    except subprocess.TimeoutExpired:
-        log("  Scraper TIMEOUT (30 min) — continuing without scraper")
-        return False
-    except Exception as e:
-        log(f"  Scraper ERROR: {e} — continuing")
-        return False
+    """Scrape today's Telegraph and Daily Mail puzzles.
 
-    if result.returncode != 0:
-        log(f"  Scraper failed (exit {result.returncode})")
-        if result.stderr:
-            log(f"  stderr: {result.stderr[-500:]}")
-        return False
-    # Show summary lines from output
-    for line in (result.stdout or "").splitlines():
-        if any(k in line.lower() for k in ("clues", "saved", "skip", "indexing", "submitted", "err ")):
-            log(f"  {line.strip()}")
-    log("  Scraper completed")
-    return True
+    puzzle_scraper.py's --only flag takes a single source, so we invoke
+    it once per source. Failure of one source doesn't stop the other.
+    """
+    overall_ok = True
+    for source in SOLVE_SOURCES:
+        log(f"Step 1: Scraping {source}...")
+        try:
+            result = subprocess.run(
+                [PYTHON_SCRAPER, SCRAPER_SCRIPT, "--only", source],
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=1800,
+            )
+        except subprocess.TimeoutExpired:
+            log(f"  {source} scraper TIMEOUT (30 min) — continuing")
+            overall_ok = False
+            continue
+        except Exception as e:
+            log(f"  {source} scraper ERROR: {e} — continuing")
+            overall_ok = False
+            continue
+
+        if result.returncode != 0:
+            log(f"  {source} scraper failed (exit {result.returncode})")
+            if result.stderr:
+                log(f"  stderr: {result.stderr[-500:]}")
+            overall_ok = False
+            continue
+
+        # Show summary lines from output
+        for line in (result.stdout or "").splitlines():
+            if any(k in line.lower() for k in
+                   ("clues", "saved", "skip", "indexing", "submitted", "err ")):
+                log(f"  {line.strip()}")
+        log(f"  {source} scraper completed")
+    return overall_ok
 
 
 def run_danword_backfill(target_date):
-    """Run Danword lookup for any puzzles with missing answers."""
-    log("Step 2: Danword backfill for missing answers...")
+    """Run Danword lookup for any DT/DM puzzles with missing answers."""
+    log("Step 2: Danword backfill for missing answers (DT + DM only)...")
+    placeholders = ",".join("?" * len(SOLVE_SOURCES))
     conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-    rows = conn.execute("""
+    rows = conn.execute(f"""
         SELECT source, puzzle_number, COUNT(*) as total,
                SUM(CASE WHEN answer IS NULL OR answer = '' THEN 1 ELSE 0 END) as missing
         FROM clues
         WHERE publication_date = ?
-          AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+          AND source IN ({placeholders})
         GROUP BY source, puzzle_number
         HAVING missing > 0
-    """, (target_date,)).fetchall()
+    """, (target_date, *SOLVE_SOURCES)).fetchall()
     conn.close()
 
     if not rows:
@@ -193,103 +208,6 @@ def run_pipeline(source, puzzle_number):
     return True
 
 
-def _get_times_puzzle(target_date):
-    """Get today's Times puzzle number from the DB (already scraped in Step 1)."""
-    conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-    row = conn.execute(
-        "SELECT DISTINCT puzzle_number FROM clues "
-        "WHERE source = 'times' AND publication_date = ?",
-        (target_date,)
-    ).fetchone()
-    conn.close()
-    return row[0] if row else None
-
-
-def _times_already_solved(target_date):
-    """Check if today's Times puzzle already has TFTT explanations."""
-    conn = sqlite3.connect(str(CLUES_DB), timeout=30)
-    row = conn.execute("""
-        SELECT COUNT(*) FROM clues
-        WHERE source = 'times' AND publication_date = ?
-          AND explanation IS NOT NULL AND explanation != ''
-    """, (target_date,)).fetchone()
-    conn.close()
-    return row[0] > 0
-
-
-def _check_tftt_available(puzzle_number):
-    """Lightweight HTTP check: does a TFTT blog post exist for this puzzle?"""
-    import requests
-
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'
-    }
-
-    # Try direct URL (fast)
-    url = f"https://timesforthetimes.co.uk/times-cryptic-{puzzle_number}"
-    try:
-        resp = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
-        if resp.status_code == 200:
-            return True
-    except Exception:
-        pass
-
-    # Try WordPress search API
-    try:
-        resp = requests.get(
-            "https://timesforthetimes.co.uk/wp-json/wp/v2/posts",
-            headers=headers, timeout=10,
-            params={"search": str(puzzle_number), "per_page": 3, "categories": "11,21"},
-        )
-        if resp.status_code == 200:
-            for post in resp.json():
-                if str(puzzle_number) in post.get("slug", ""):
-                    return True
-    except Exception:
-        pass
-
-    return False
-
-
-def run_tftt_pipeline(puzzle_number):
-    """Run the TFTT+Haiku pipeline on a Times puzzle via subprocess."""
-    log(f"  Running TFTT pipeline for Times #{puzzle_number}...")
-    cmd = [
-        PYTHON_PIPELINE, "-m", "sonnet_pipeline.tftt_pipeline",
-        str(puzzle_number), "--write-db",
-    ]
-    try:
-        result = subprocess.run(
-            cmd,
-            cwd=str(ROOT),
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=600,  # 10 min max
-        )
-    except subprocess.TimeoutExpired:
-        log(f"    TFTT pipeline TIMEOUT (10 min)")
-        return False
-    except Exception as e:
-        log(f"    TFTT pipeline ERROR: {e}")
-        return False
-
-    if result.returncode != 0:
-        log(f"    TFTT pipeline failed (exit {result.returncode})")
-        if result.stderr:
-            log(f"    stderr: {result.stderr[-300:]}")
-        return False
-
-    # Show summary lines
-    for line in (result.stdout or "").splitlines()[-10:]:
-        if any(k in line.lower() for k in ("high", "medium", "low", "cost", "score", "clue")):
-            log(f"    {line.strip()}")
-    log(f"    TFTT pipeline completed")
-    return True
-
-
 def main():
     parser = argparse.ArgumentParser(description="Nightly scrape + solve")
     parser.add_argument("--dry-run", action="store_true", help="Show plan without executing")
@@ -309,10 +227,11 @@ def main():
     log(f"NIGHTLY RUN — {target_date} ({target_day})")
     log("=" * 60)
 
-    # Step 1: Scrape all sources
+    # Step 1: Scrape Telegraph + Daily Mail (only the no-blog sources;
+    # other puzzles are processed manually when blogs appear)
     if not args.skip_scraper:
         if args.dry_run:
-            log("[DRY RUN] Would run all scrapers")
+            log("[DRY RUN] Would scrape: " + ", ".join(SOLVE_SOURCES))
         else:
             run_scraper()
 
@@ -347,21 +266,11 @@ def main():
             failures = len(results) - successes
             log(f"  Pipeline: {successes} succeeded, {failures} failed")
 
-    # Step 4: Times TFTT — run blog+Haiku if TFTT has posted
-    log("Step 4: Times TFTT blog check...")
-    times_puzzle = _get_times_puzzle(target_date)
-    if not times_puzzle:
-        log("  No Times puzzle found for today")
-    elif _times_already_solved(target_date):
-        log(f"  Times #{times_puzzle} already has explanations — skipping")
-    elif args.dry_run:
-        log(f"  [DRY RUN] Would check TFTT for Times #{times_puzzle}")
-    else:
-        if _check_tftt_available(times_puzzle):
-            log(f"  TFTT blog found for Times #{times_puzzle}")
-            run_tftt_pipeline(times_puzzle)
-        else:
-            log(f"  TFTT not yet posted for Times #{times_puzzle} — retry at 4am")
+    # Step 4: Times TFTT — DISABLED 2026-05-13 along with the
+    # restriction of the nightly to DT+DM only. Times / Guardian /
+    # Independent are processed manually as blogs appear; the
+    # helpers and retry_tftt.py can still be invoked by hand.
+    log("Step 4: Times TFTT auto-check: DISABLED")
 
     # Step 5: Cordelia's Daily Mash-up — DISABLED 2026-05-13.
     # Re-enable by uncommenting the block below; the generate_mashup helper
