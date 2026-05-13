@@ -29,6 +29,7 @@ from flask import make_response
 from web.routes.hints import generate_token
 from web.routes.clue_seo import (
     generate_meta_description, generate_faq_schema, generate_breadcrumb_schema,
+    generate_word_roles_schema,
 )
 from web.rate_limit import rate_limit
 from web.session_token import issue_session_cookie
@@ -426,6 +427,9 @@ def clue_page(slug):
     meta_description = generate_meta_description(clue_dict)
     faq_schema = generate_faq_schema(clue_dict, steps)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
+    word_roles_schema = generate_word_roles_schema(
+        clue_dict, role_groups, clue_dict.get("mechanism_label"),
+    )
 
     from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
@@ -438,5 +442,6 @@ def clue_page(slug):
         meta_description=meta_description,
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
+        word_roles_schema=word_roles_schema,
     ))
     return issue_session_cookie(response)

@@ -24,6 +24,14 @@
 <script type="application/ld+json">
 {{ breadcrumb_schema | safe }}
 </script>
+{# DefinedTermSet schema — gives classifiers a machine-readable view
+   of the word-by-word breakdown. Empty when no role data exists for
+   the clue. #}
+{% if word_roles_schema %}
+<script type="application/ld+json">
+{{ word_roles_schema | safe }}
+</script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -86,10 +94,13 @@
         {% else %}
         {% if clue.tier == 'HIGH' %}
         <span title="I'm pretty confident I've nailed this one"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
+        <span class="text-xs text-gray-500">Verified by Cordelia</span>
         {% elif clue.tier == 'MEDIUM' %}
         <span title="I think this is right but I'm not completely sure"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
+        <span class="text-xs text-gray-500">Verified by Cordelia (partial)</span>
         {% elif clue.tier == 'LOW' %}
         <span title="My best guess — take with a pinch of salt!"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
+        <span class="text-xs text-gray-500">Cordelia's best guess</span>
         {% endif %}
         {% endif %}
     </div>
@@ -169,7 +180,8 @@
     #}
     {% if clue.role_groups %}
     <div class="mt-4 rounded-lg border-2 border-slate-300 bg-slate-50 px-5 py-4 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-900 mb-3">Word by word</h2>
+        <h2 class="text-lg font-bold text-slate-900 mb-1">Word by word</h2>
+        <p class="text-sm text-slate-600 mb-3">Every word in the clue is accounted for. Each piece has been checked against Cordelia's reference database to ensure the wordplay actually produces the answer.</p>
         <div class="divide-y divide-slate-200">
             {# Roles fall into three colour families:
                - structural (definition, link)

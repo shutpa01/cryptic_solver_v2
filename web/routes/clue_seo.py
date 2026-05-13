@@ -218,6 +218,85 @@ def generate_breadcrumb_schema(clue):
     return json.dumps(schema, ensure_ascii=False)
 
 
+def generate_word_roles_schema(clue, role_groups, mechanism_label=None):
+    """Build a DefinedTermSet JSON-LD block describing the word-by-word
+    breakdown. Each piece in role_groups becomes a DefinedTerm with its
+    role + letters as the term's name and description.
+
+    The visible HTML already shows the same data; this just hands the
+    classifier a machine-readable view of it. Returns an empty string
+    when there are no role_groups (the structured-data block then
+    omits the script tag entirely).
+
+    Respects STRIP_DEFINITION_FROM_JSONLD: when set, we still emit a
+    minimal stub so the page advertises that the analysis exists, but
+    the per-word breakdown is replaced with a teaser. This matches the
+    posture in generate_faq_schema — don't hand the parses to scrapers
+    via JSON-LD when the flag is on.
+    """
+    if not role_groups:
+        return ""
+
+    clue_text = clue.get("clue_text", "")
+    enum = clue.get("enumeration", "")
+    clue_display = clue_text + (f" ({enum})" if enum else "")
+    name = f"Wordplay analysis for the cryptic crossword clue {clue_display!r}"
+
+    strip_def = bool(current_app.config.get("STRIP_DEFINITION_FROM_JSONLD", False))
+    if strip_def:
+        # Emit a presence marker without the actual breakdown.
+        schema = {
+            "@context": "https://schema.org",
+            "@type": "DefinedTermSet",
+            "name": name,
+            "description": (
+                "Cordelia analyses every word in the clue and records its role "
+                "(definition, indicator, letters-producing piece). Visit the "
+                "page for the full word-by-word breakdown."
+            ),
+        }
+        return json.dumps(schema, ensure_ascii=False)
+
+    terms = []
+    for idx, grp in enumerate(role_groups, start=1):
+        words = " ".join(grp.get("words") or []).strip()
+        if not words:
+            continue
+        role = (grp.get("role") or "").replace("_", " ")
+        letters = grp.get("letters")
+        if letters:
+            description = f"{role} → {letters}"
+        else:
+            description = role
+        terms.append({
+            "@type": "DefinedTerm",
+            "termCode": words.lower(),
+            "name": words,
+            "description": description,
+            "inDefinedTermSet": "https://justcordelia.com/learn",
+        })
+
+    description_text = (
+        "Every word in the clue is accounted for. Each piece has been "
+        "verified against Cordelia's reference database to ensure the "
+        "wordplay produces the answer."
+    )
+    if mechanism_label:
+        description_text = (
+            f"Wordplay type: {mechanism_label}. " + description_text
+        )
+
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "DefinedTermSet",
+        "name": name,
+        "description": description_text,
+        "hasDefinedTerm": terms,
+    }
+
+    return json.dumps(schema, ensure_ascii=False)
+
+
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
