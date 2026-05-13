@@ -52,6 +52,8 @@ WORD_ROLE_CHOICES = (
     "deletion_source",
     "dbe_marker",
     "charade_joiner",
+    "literal_source",
+    "possessive_source",
     "unaccounted",
     # Letters-producing (verifier-derived from wordplay.category)
     "synonym",

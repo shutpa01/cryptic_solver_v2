@@ -248,7 +248,7 @@
                                     {% if w.role == 'unaccounted' %}bg-rose-50 text-rose-700
                                     {% elif w.source == 'manual' %}bg-emerald-50 text-emerald-700
                                     {% else %}bg-white text-gray-600{% endif %}">
-                            {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','reversal_source','deletion_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
+                            {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','reversal_source','deletion_source','literal_source','possessive_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
                             <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ choice }}</option>
                             {% endfor %}
                         </select>
