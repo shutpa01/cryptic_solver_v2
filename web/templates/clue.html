@@ -168,29 +168,20 @@
        Each role gets a colour class for consistent visual coding.
     #}
     {% if clue.role_groups %}
-    <div class="mt-3 rounded border border-slate-200 bg-white px-4 py-3">
-        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Word-by-word</p>
-        <div class="space-y-1 text-sm">
+    <div class="mt-4 rounded-lg border-2 border-slate-300 bg-slate-50 px-5 py-4 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900 mb-3">Word by word</h2>
+        <div class="divide-y divide-slate-200">
+            {# Roles fall into three colour families:
+               - structural (definition, link)
+               - indicators (any role ending in _indicator) — amber
+               - letters-producing pieces (wordplay.category values
+                 plus positional / reversal / deletion / anagram_fodder
+                 / hidden / synonym)
+               - flag colours (unaccounted, charade_joiner)
+            #}
             {% for grp in clue.role_groups %}
-            <div class="grid grid-cols-[10rem_auto] gap-x-4 items-baseline">
-                {# Roles fall into three colour families:
-                   - structural (definition, link, indicator)
-                   - letters-producing pieces (synonym, abbreviation,
-                     single_letter, roman_numeral, foreign_*, nato_phonetic,
-                     cricket, chemistry, musical, etc. — anything pulled
-                     from wordplay.category — plus positional / reversal /
-                     deletion / anagram_fodder / hidden)
-                   - flag colours (unaccounted, charade_joiner)
-                #}
-                {# Roles fall into three colour families:
-                   - structural (definition, link)
-                   - indicators (any role ending in _indicator) — amber
-                   - letters-producing pieces (wordplay.category values
-                     plus positional / reversal / deletion / anagram_fodder
-                     / hidden / synonym)
-                   - flag colours (unaccounted, charade_joiner)
-                #}
-                <div class="font-mono text-xs
+            <div class="grid grid-cols-[11rem_auto] gap-x-4 items-baseline py-2 first:pt-0 last:pb-0">
+                <div class="text-sm font-semibold
                     {% if grp.role == 'definition' %}text-green-700
                     {% elif grp.role == 'link' %}text-gray-400
                     {% elif grp.role.endswith('_indicator') or grp.role == 'indicator' %}text-amber-700
@@ -204,9 +195,9 @@
                     {% elif grp.role == 'unaccounted' %}text-rose-500
                     {% elif grp.role == 'synonym' or grp.role == 'synonym_source' %}text-blue-700
                     {% else %}text-blue-800{% endif %}">
-                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters %} → <span class="font-bold uppercase tracking-wider">{{ grp.letters }}</span>{% endif %}
+                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
                 </div>
-                <div class="text-gray-900">{{ grp.words | join(' ') }}</div>
+                <div class="text-base text-gray-900 font-medium">{{ grp.words | join(' ') }}</div>
             </div>
             {% endfor %}
         </div>
