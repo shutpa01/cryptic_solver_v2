@@ -485,11 +485,57 @@ def clue_page(slug):
         for i in range(len(answer_for_contrib))
         if not used_positions[i]
     )
-    # For hidden parses, the hidden span IS the answer — every
-    # hidden_source row contributes the answer letters collectively.
-    # Show the answer letters on the FIRST hidden_source row only so
-    # the column reads cleanly.
-    first_hidden_seen = False
+    # For hidden parses, derive per-word contribution by intersecting
+    # each hidden_source word's letter positions with the hidden span.
+    # E.g. INERTIA hidden in "Maître Nicolas" — "maitre" contributes
+    # AITRE, "nicolas" contributes NI; together AITRENI = answer
+    # reversed.
+    import unicodedata as _unicode_acc
+    def _ascii_fold(s):
+        return _unicode_acc.normalize("NFKD", s or "").encode(
+            "ascii", "ignore").decode("ascii")
+    clue_text_for_hidden = _ascii_fold(clue["clue_text"] or "")
+    expl_for_hidden = clue["ai_explanation"] or ""
+    hidden_match = _re_acc.search(
+        r'hidden(?:\s+reversed)?\s+in\s+["\']([^"\']+)["\']',
+        expl_for_hidden, _re_acc.IGNORECASE)
+    hidden_span_in_clue = None  # (start, end) over the stripped clue
+    if hidden_match:
+        span_raw = hidden_match.group(1)
+        span_text = _ascii_fold(span_raw)
+        span_letters = _re_acc.sub(r"[^a-z]", "", span_text.lower())
+        clue_stripped = _re_acc.sub(
+            r"[^a-z]", "", clue_text_for_hidden.lower())
+        pos = clue_stripped.find(span_letters)
+        if pos >= 0:
+            # The full source region is at [pos, pos + len(span_letters)).
+            # Inside the parse's span text, the answer letters are written
+            # UPPERCASE. Find the upper-letter slice within the span and
+            # narrow hidden_span_in_clue to that slice.
+            upper_indices = [
+                k for k, ch in enumerate(
+                    _re_acc.sub(r"[^A-Za-z]", "", span_text))
+                if ch.isupper()
+            ]
+            if upper_indices:
+                hidden_span_in_clue = (
+                    pos + upper_indices[0],
+                    pos + upper_indices[-1] + 1,
+                )
+            else:
+                hidden_span_in_clue = (pos, pos + len(span_letters))
+    # Build per-word letter-offset ranges in the stripped clue.
+    word_offsets = []  # list of (word_lower, start, end)
+    cursor = 0
+    clue_stripped_for_words = _re_acc.sub(
+        r"[^a-z]", "", clue_text_for_hidden.lower())
+    for tok in _re_acc.findall(
+            r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+            clue_text_for_hidden.lower().replace("’", "'")):
+        tok_letters = _re_acc.sub(r"[^a-z]", "", tok)
+        word_offsets.append((tok, cursor, cursor + len(tok_letters)))
+        cursor += len(tok_letters)
+
     for grp in role_groups:
         rl = grp.get("role") or ""
         L = grp.get("letters")
@@ -502,9 +548,24 @@ def clue_page(slug):
             else:
                 grp["contributes"] = None
         elif rl == "hidden_source":
-            if not first_hidden_seen:
-                grp["contributes"] = answer_for_contrib
-                first_hidden_seen = True
+            if not hidden_span_in_clue:
+                grp["contributes"] = None
+                continue
+            # Find the offset of this group's first word in the clue.
+            grp_word = grp["words"][0].lower()
+            word_range = next(
+                ((s, e) for (w, s, e) in word_offsets
+                 if w == grp_word), None)
+            if not word_range:
+                grp["contributes"] = None
+                continue
+            ws, we = word_range
+            hs, he = hidden_span_in_clue
+            ovl_start = max(ws, hs)
+            ovl_end = min(we, he)
+            if ovl_end > ovl_start:
+                contrib_letters = clue_stripped_for_words[ovl_start:ovl_end].upper()
+                grp["contributes"] = contrib_letters
             else:
                 grp["contributes"] = None
         else:
