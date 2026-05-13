@@ -308,6 +308,9 @@ def clue_page(slug):
     # display. The answer is rendered separately in the template (it's
     # already inline). Reveal buttons are gone — these now appear on
     # initial page load for both SEO and one-glance user experience.
+    # NOTE: the actual wordplay_type content is replaced below with
+    # mechanism_label (computed from role_groups) when available, so
+    # the page reads e.g. "CHARADE CONTAINER" instead of just "container".
     inline_hints = []
     for step_type in ("definition", "wordplay_type", "explanation"):
         content = get_hint_content(clue, step_type)
@@ -346,6 +349,50 @@ def clue_page(slug):
             })
     clue_dict["word_roles"] = word_role_rows
     clue_dict["role_groups"] = role_groups
+
+    # Auto-generate the mechanism label from the role groups.
+    # "Charade" is added when 2+ distinct pieces concatenate; each
+    # distinct indicator type (anagram, container, reversal, deletion,
+    # homophone, hidden, ...) contributes its name. Examples:
+    #   THREATS  : 2 pieces + container_indicator -> "CHARADE CONTAINER"
+    #   THEATRES : 1 piece + anagram_indicator     -> "ANAGRAM"
+    #   DESIREE  : 2 pieces, no indicator          -> "CHARADE"
+    #   PIECE    : 1 piece + homophone_indicator   -> "HOMOPHONE"
+    # Falls back to the stored wordplay_type (uppercased, underscores
+    # to spaces) when no role data is available.
+    def _mechanism_label(groups, fallback):
+        pieces = set()
+        indicator_types = []
+        for g in groups:
+            if g.get("piece_key") is not None:
+                pieces.add(g["piece_key"])
+            role = g.get("role") or ""
+            if role.endswith("_indicator"):
+                base = role[:-len("_indicator")]
+                if base and base not in indicator_types:
+                    indicator_types.append(base)
+        parts = []
+        if len(pieces) >= 2:
+            parts.append("charade")
+        parts.extend(indicator_types)
+        if not parts:
+            return (fallback or "").replace("_", " ").upper() or None
+        return " ".join(parts).replace("_", " ").upper()
+
+    clue_dict["mechanism_label"] = _mechanism_label(
+        role_groups, clue_dict.get("wordplay_type"),
+    )
+
+    # Replace the wordplay_type inline-hint content with the richer
+    # mechanism_label when we computed one. Falls back silently when
+    # no role data exists for the clue (mechanism_label is None or
+    # empty in that case).
+    if clue_dict["mechanism_label"]:
+        for h in inline_hints:
+            if h["type"] == "wordplay_type":
+                h["content"] = clue_dict["mechanism_label"]
+                h["is_mechanism_label"] = True
+                break
 
     # Puzzle context
     source = clue["source"]

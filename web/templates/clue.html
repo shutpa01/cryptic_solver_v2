@@ -127,7 +127,11 @@
                 {% if hint.type == 'definition' %}Definition{% elif hint.type == 'wordplay_type' %}Wordplay type{% else %}Explanation{% endif %}:
             </span>
             {% if hint.type == 'wordplay_type' %}
+            {% if hint.is_mechanism_label %}
+            <span class="font-medium tracking-wide">{{ hint.content }}</span>
+            {% else %}
             <span>{{ hint.content | wordplay_label }}</span>
+            {% endif %}
             {% else %}
             <span>{{ hint.content }}</span>
             {% endif %}
