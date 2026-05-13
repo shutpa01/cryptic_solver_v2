@@ -265,6 +265,61 @@ def edit_save(clue_id):
     return response_html
 
 
+@bp.route("/reverify-clue/<int:clue_id>", methods=["POST"])
+def reverify_clue(clue_id):
+    """Re-verify a single clue's existing parse with current DB state and
+    manual word-role assignments. Does NOT touch the stored parse text —
+    only updates structured_explanations.confidence based on the
+    verifier's verdict.
+    """
+    _require_admin()
+    from sonnet_pipeline.verify_explanation import ExplanationVerifier
+    db = get_admin_db()
+    clue = db.execute(
+        """SELECT c.id, c.clue_text, c.answer, c.definition,
+                  c.wordplay_type, c.ai_explanation,
+                  se.model_version
+           FROM clues c
+           LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           WHERE c.id = ?""",
+        (clue_id,),
+    ).fetchone()
+    if clue is None:
+        abort(404)
+    if not clue["ai_explanation"]:
+        return ('<span class="text-xs text-amber-700">No parse to verify</span>')
+    if (clue["model_version"] or "") in ("manual_edit", "manual_approve"):
+        return ('<span class="text-xs text-blue-700">Protected '
+                f'({clue["model_version"]}) — not re-verified</span>')
+    verifier = ExplanationVerifier()
+    result = verifier.verify(
+        clue["clue_text"], clue["answer"], clue["definition"],
+        clue["wordplay_type"], clue["ai_explanation"],
+        clue_id=clue_id, db_conn=db,
+    )
+    score = result.get("score", 0)
+    verdict = result.get("verdict", "FAIL")
+    confidence = score / 100.0
+    existing = db.execute(
+        "SELECT 1 FROM structured_explanations WHERE clue_id = ?",
+        (clue_id,)).fetchone()
+    if existing:
+        db.execute(
+            "UPDATE structured_explanations SET confidence = ? "
+            "WHERE clue_id = ?", (confidence, clue_id))
+    else:
+        db.execute(
+            "INSERT INTO structured_explanations "
+            "(clue_id, confidence, model_version) "
+            "VALUES (?, ?, 'reverified')", (clue_id, confidence))
+    db.commit()
+    tier_colour = {"HIGH": "emerald", "MEDIUM": "amber",
+                   "LOW": "orange", "FAIL": "rose"}.get(verdict, "slate")
+    return (f'<span class="text-xs text-{tier_colour}-700">'
+            f'{verdict} {score}</span>'
+            f'<script>setTimeout(function(){{ window.location.reload(); }}, 600);</script>')
+
+
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
 def rerun_clue(clue_id):
     """Re-run a clue through the pipeline and return result as HTMX fragment.
@@ -390,7 +445,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                     })
                     # Gate through verifier — V1 doesn't get automatic 1.0
                     _verifier = ExplanationVerifier()
-                    _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text, clue_id=clue_id)
+                    _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text, clue_id=clue_id, db_conn=db)
                     _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
                     _final_conf = _conf_map.get(_vresult["verdict"], 0.0)
                     db.execute("""
@@ -605,6 +660,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                 fresh_clue["definition"], fresh_clue["wordplay_type"],
                 fresh_clue["ai_explanation"],
                 clue_id=clue_id,
+                db_conn=db,
             )
             _ref = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
             for check in vresult.get("checks", []):
@@ -1178,6 +1234,7 @@ def reverify_puzzle(source, puzzle_number):
             clue["definition"], clue["wordplay_type"],
             clue["ai_explanation"],
             clue_id=clue["id"],
+            db_conn=db,
         )
 
         # Queue unverified pieces for DB+ review

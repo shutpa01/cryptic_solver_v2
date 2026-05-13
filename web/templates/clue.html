@@ -259,11 +259,22 @@
                 class="text-sm px-3 py-1.5 rounded border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium cursor-pointer">
             Edit
         </button>
+        <button hx-post="/admin/reverify-clue/{{ clue.id }}"
+                hx-target="#reverify-result-{{ clue.id }}"
+                hx-swap="innerHTML"
+                hx-indicator="#reverify-spinner-{{ clue.id }}"
+                class="text-sm px-3 py-1.5 rounded border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium cursor-pointer"
+                title="Re-run the verifier on this clue's existing parse with current DB + manual roles">
+            Re-verify
+        </button>
+        <span id="reverify-result-{{ clue.id }}" class="text-xs"></span>
+        <span id="reverify-spinner-{{ clue.id }}" class="htmx-indicator text-sm text-purple-500">...</span>
         <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#rerun-spinner-{{ clue.id }}"
-                class="text-sm px-3 py-1.5 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer">
+                class="text-sm px-3 py-1.5 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium cursor-pointer"
+                title="Re-solve from scratch via mechanical solvers (destructive)">
             Re-run
         </button>
         <span id="rerun-spinner-{{ clue.id }}" class="htmx-indicator text-sm text-sky-500">Running...</span>
