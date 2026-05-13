@@ -404,6 +404,20 @@ class ExplanationVerifier:
 
         expl = ai_explanation or ""
         claimed = {}  # word_index -> role
+        # Per-word letters and piece grouping. A piece is a unit of wordplay
+        # that contributes letters to the answer (a synonym, an abbreviation,
+        # a positional extract, a reversal source, a deletion source, an
+        # anagram fodder word, ...). Multiple clue words can belong to one
+        # piece (e.g. "US city" → LA). claimed_letters[i] is the letters
+        # contributed by the piece word i belongs to; claimed_piece[i] is
+        # an integer key shared by all words in the same piece.
+        claimed_letters = {}
+        claimed_piece = {}
+        _piece_counter = {"n": 0}
+
+        def _next_piece_key():
+            _piece_counter["n"] += 1
+            return _piece_counter["n"]
 
         # Quoted-value pattern: matches "..." OR '...' allowing the *other*
         # quote type inside (so synonym="queen's worker" captures full value).
@@ -417,10 +431,15 @@ class ExplanationVerifier:
             """Strip trailing 's possessive for matching equivalence."""
             return w[:-2] if w.endswith("'s") else w
 
-        def _claim_phrase(phrase, role):
+        def _claim_phrase(phrase, role, letters=None, piece_key=None):
             """Claim each word of `phrase` once against unclaimed clue words.
             Match is case-insensitive and possessive-tolerant
-            (lincolnshire matches lincolnshire's, and vice versa)."""
+            (lincolnshire matches lincolnshire's, and vice versa).
+
+            `letters` and `piece_key` are optional. When provided, every
+            successfully-claimed word records the letters its piece
+            contributes (e.g. 'LA') and the piece_key that groups it with
+            siblings sharing the same piece."""
             if not phrase:
                 return
             phrase_words = re.findall(
@@ -432,6 +451,10 @@ class ExplanationVerifier:
                         continue
                     if _norm(w) == pw_norm:
                         claimed[i] = role
+                        if letters is not None:
+                            claimed_letters[i] = letters.upper()
+                        if piece_key is not None:
+                            claimed_piece[i] = piece_key
                         break
 
         # 1. Definition phrase
@@ -464,6 +487,40 @@ class ExplanationVerifier:
                     if (self.definition_matches(w_clean, answer)
                             or self.is_synonym(w_clean, answer)):
                         _claim_phrase(w_clean, "definition")
+
+        # 1c. Letters-prefixed piece patterns: LETTERS (role=X) — captures
+        # both the letters the piece contributes to the answer AND the
+        # source words, grouping multi-word sources by piece_key. Run
+        # BEFORE the standalone steps so source words get tagged with
+        # letters + piece_key; the standalone steps below remain as a
+        # fallback for parses that omit the LETTERS prefix.
+        _letters_piece_patterns = [
+            (r"([A-Z']+|\w+)\s*\(\s*synonym\s*=\s*" + Q + r"\s*\)",
+             "synonym_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*synonym\s+of\s+" + Q + r"\s*\)",
+             "synonym_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*abbreviation\s*=\s*" + Q + r"\s*\)",
+             "abbreviation_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*abbreviation\s+of\s+" + Q + r"\s*\)",
+             "abbreviation_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*abbr\.?\s*(?:of\s+)?" + Q + r"\s*\)",
+             "abbreviation_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*(?:first|last|middle|outer|initial|"
+             r"final|odd|even|alternat(?:e|ing))\s+letters?\s+"
+             r"(?:of|in|from)\s+" + Q + r"\s*\)",
+             "positional_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*(?:reversal|reverse)\s+of\s+" + Q + r"\s*\)",
+             "reversal_source"),
+            (r"([A-Z']+|\w+)\s*\(\s*deletion\s*=\s*" + Q + r"\s*\)",
+             "deletion_source"),
+        ]
+        for pat, role in _letters_piece_patterns:
+            for m in re.finditer(pat, expl, re.IGNORECASE):
+                letters = m.group(1)
+                src = m.group(2) if m.group(2) is not None else m.group(3)
+                if src and letters:
+                    pk = _next_piece_key()
+                    _claim_phrase(src, role, letters=letters, piece_key=pk)
 
         # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
         for m in re.finditer(
@@ -602,6 +659,9 @@ class ExplanationVerifier:
             r"anagram\s+(?:of\s+)?(.+?)\s*=", expl, re.IGNORECASE)
         if ana_match:
             fodder_words = re.findall(r"\b[A-Z]+\b", ana_match.group(1))
+            # All fodder words share one piece_key since they're rearranged
+            # together to form a single piece of the answer.
+            fodder_piece_key = _next_piece_key() if fodder_words else None
             for fw in fodder_words:
                 fw_lower = fw.lower()
                 for i, w in enumerate(words):
@@ -609,6 +669,11 @@ class ExplanationVerifier:
                         continue
                     if _norm(w) == fw_lower:
                         claimed[i] = "anagram_fodder"
+                        # Each fodder word contributes its own letters
+                        # (uppercased). Display layer can choose whether
+                        # to show one row per fodder word or aggregate.
+                        claimed_letters[i] = fw.upper()
+                        claimed_piece[i] = fodder_piece_key
                         break
 
         # 9. Hidden span: hidden in "X" — claim clue words whose letters
@@ -642,14 +707,16 @@ class ExplanationVerifier:
         unaccounted = []
         classified = []
         for i, w in enumerate(words):
+            letters = claimed_letters.get(i)
+            piece_key = claimed_piece.get(i)
             if i in claimed:
-                classified.append((w, claimed[i]))
+                classified.append((w, claimed[i], letters, piece_key))
             elif w in LINK_WORDS:
                 link_words.append(w)
-                classified.append((w, "link"))
+                classified.append((w, "link", None, None))
             else:
                 unaccounted.append(w)
-                classified.append((w, "unaccounted"))
+                classified.append((w, "unaccounted", None, None))
 
         if unaccounted:
             summary = (f"{len(unaccounted)}/{len(words)} unaccounted: "
@@ -1663,25 +1730,31 @@ class ExplanationVerifier:
         try:
             coverage = self._classify_clue_words(
                 clue_text, expl, definition, answer=answer)
+            # _classify_clue_words now returns 4-tuples
+            # (word, role, letters, piece_key)
             classified = list(coverage["classified"])
 
             # Merge any manual rows from clue_word_roles, then persist
             # the auto classification. Manual rows override the auto
-            # role at the same word_index (matched by lowercased word).
+            # role + letters + piece_key at the same word_index
+            # (matched by lowercased word).
             if clue_id is not None:
                 try:
                     from sonnet_pipeline.word_roles_store import (
                         get_roles, write_auto_roles,
                     )
+                    # get_roles returns 6-tuples:
+                    # (word_index, word_text, role, source, letters, piece_key)
                     manual = [
-                        (idx, wt, r) for (idx, wt, r, s) in get_roles(clue_id)
-                        if s == "manual"
+                        row for row in get_roles(clue_id) if row[3] == "manual"
                     ]
-                    for idx, wt, role in manual:
+                    for idx, wt, role, _src, m_letters, m_piece in manual:
                         if 0 <= idx < len(classified):
-                            cur_word, _ = classified[idx]
+                            cur = classified[idx]
+                            cur_word = cur[0]
                             if cur_word.lower() == (wt or "").lower():
-                                classified[idx] = (cur_word, role)
+                                classified[idx] = (cur_word, role,
+                                                    m_letters, m_piece)
                     # Persist auto rows (write_auto_roles preserves manual)
                     write_auto_roles(clue_id, classified)
                 except Exception:
@@ -1689,7 +1762,7 @@ class ExplanationVerifier:
 
             # Recompute unaccounted from the (possibly merged) list so
             # manual overrides count as accounted.
-            unaccounted = [w for (w, r) in classified if r == "unaccounted"]
+            unaccounted = [c[0] for c in classified if c[1] == "unaccounted"]
             summary = coverage["summary"]
             if unaccounted != coverage["unaccounted"]:
                 summary = (

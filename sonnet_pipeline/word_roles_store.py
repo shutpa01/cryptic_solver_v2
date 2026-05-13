@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS clue_word_roles (
     word_text TEXT NOT NULL,
     role TEXT NOT NULL,
     source TEXT NOT NULL DEFAULT 'auto',
+    letters TEXT,
+    piece_key INTEGER,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (clue_id, word_index)
 )
@@ -41,21 +43,43 @@ _INDEX_DDL = (
     "ON clue_word_roles (clue_id)"
 )
 
+# Columns that may be missing on older instances of the table. ensure_table
+# adds them with ALTER TABLE on first use.
+_EXPECTED_COLUMNS = {"clue_id", "word_index", "word_text", "role", "source",
+                     "letters", "piece_key", "updated_at"}
+
 
 def ensure_table(conn=None):
-    """Create the table if missing. Pass an existing connection or omit
-    to use a short-lived one against the default DB."""
+    """Create the table if missing, or add new columns if it pre-dates them.
+    Pass an existing connection or omit to use a short-lived one."""
     own = conn is None
     if own:
-        conn = sqlite3.connect(str(CLUES_DB), timeout=10)
+        conn = sqlite3.connect(str(CLUES_DB), timeout=30)
     try:
         conn.execute(_DDL)
         conn.execute(_INDEX_DDL)
+        # Migrate older tables: add letters / piece_key if missing.
+        existing = {r[1] for r in conn.execute(
+            "PRAGMA table_info(clue_word_roles)").fetchall()}
+        if "letters" not in existing:
+            conn.execute("ALTER TABLE clue_word_roles ADD COLUMN letters TEXT")
+        if "piece_key" not in existing:
+            conn.execute("ALTER TABLE clue_word_roles ADD COLUMN piece_key INTEGER")
         if own:
             conn.commit()
     finally:
         if own:
             conn.close()
+
+
+def _normalise_classified(item):
+    """Accept either a (word, role) tuple or a longer
+    (word, role, letters, piece_key) tuple. Returns a 4-tuple."""
+    if len(item) >= 4:
+        return item[0], item[1], item[2], item[3]
+    if len(item) == 3:
+        return item[0], item[1], item[2], None
+    return item[0], item[1], None, None
 
 
 def write_auto_roles(clue_id, classified, conn=None):
@@ -64,14 +88,16 @@ def write_auto_roles(clue_id, classified, conn=None):
 
     Args:
         clue_id: integer clue id from clues.id
-        classified: list of (word_text, role) tuples in clue order
-                    (the 'classified' field returned by
-                    ExplanationVerifier._classify_clue_words).
+        classified: list of tuples. Each entry can be one of:
+            (word_text, role)
+            (word_text, role, letters)
+            (word_text, role, letters, piece_key)
+            Missing fields default to None.
         conn: optional open sqlite3.Connection; if None, opens its own.
     """
     own = conn is None
     if own:
-        conn = sqlite3.connect(str(CLUES_DB), timeout=10)
+        conn = sqlite3.connect(str(CLUES_DB), timeout=30)
     try:
         ensure_table(conn)
         # Look up which positions are manually-owned; leave them alone.
@@ -89,14 +115,15 @@ def write_auto_roles(clue_id, classified, conn=None):
             (clue_id,),
         )
         # Insert fresh auto rows, skipping positions claimed by manual rows.
-        for idx, (word_text, role) in enumerate(classified):
+        for idx, item in enumerate(classified):
             if idx in manual_positions:
                 continue
+            word_text, role, letters, piece_key = _normalise_classified(item)
             conn.execute(
                 "INSERT INTO clue_word_roles "
-                "(clue_id, word_index, word_text, role, source) "
-                "VALUES (?, ?, ?, ?, 'auto')",
-                (clue_id, idx, word_text, role),
+                "(clue_id, word_index, word_text, role, source, letters, piece_key) "
+                "VALUES (?, ?, ?, ?, 'auto', ?, ?)",
+                (clue_id, idx, word_text, role, letters, piece_key),
             )
         if own:
             conn.commit()
@@ -105,26 +132,31 @@ def write_auto_roles(clue_id, classified, conn=None):
             conn.close()
 
 
-def write_manual_role(clue_id, word_index, word_text, role, conn=None):
+def write_manual_role(clue_id, word_index, word_text, role,
+                      letters=None, piece_key=None, conn=None):
     """Write or overwrite a single word's role as a manual assignment.
 
     Use from the admin review UI when filling in unaccounted words or
     correcting a misclassified one. Manual rows survive future
     auto-write passes.
+
+    `letters` and `piece_key` are optional — leave as None for roles
+    that don't contribute letters (definition, link, indicator, ...).
     """
     own = conn is None
     if own:
-        conn = sqlite3.connect(str(CLUES_DB), timeout=10)
+        conn = sqlite3.connect(str(CLUES_DB), timeout=30)
     try:
         ensure_table(conn)
         conn.execute(
             "INSERT INTO clue_word_roles "
-            "(clue_id, word_index, word_text, role, source, updated_at) "
-            "VALUES (?, ?, ?, ?, 'manual', CURRENT_TIMESTAMP) "
+            "(clue_id, word_index, word_text, role, source, letters, piece_key, updated_at) "
+            "VALUES (?, ?, ?, ?, 'manual', ?, ?, CURRENT_TIMESTAMP) "
             "ON CONFLICT(clue_id, word_index) DO UPDATE SET "
             "role = excluded.role, word_text = excluded.word_text, "
-            "source = 'manual', updated_at = CURRENT_TIMESTAMP",
-            (clue_id, word_index, word_text, role),
+            "source = 'manual', letters = excluded.letters, "
+            "piece_key = excluded.piece_key, updated_at = CURRENT_TIMESTAMP",
+            (clue_id, word_index, word_text, role, letters, piece_key),
         )
         if own:
             conn.commit()
@@ -134,16 +166,16 @@ def write_manual_role(clue_id, word_index, word_text, role, conn=None):
 
 
 def get_roles(clue_id, conn=None):
-    """Return a list of (word_index, word_text, role, source) tuples
-    for one clue, ordered by word_index. Empty list if no rows or the
-    table doesn't exist yet."""
+    """Return a list of (word_index, word_text, role, source, letters, piece_key)
+    tuples for one clue, ordered by word_index. Empty list if no rows or
+    the table doesn't exist yet."""
     own = conn is None
     if own:
-        conn = sqlite3.connect(str(CLUES_DB), timeout=10)
+        conn = sqlite3.connect(str(CLUES_DB), timeout=30)
     try:
         try:
             rows = conn.execute(
-                "SELECT word_index, word_text, role, source "
+                "SELECT word_index, word_text, role, source, letters, piece_key "
                 "FROM clue_word_roles WHERE clue_id = ? "
                 "ORDER BY word_index",
                 (clue_id,),

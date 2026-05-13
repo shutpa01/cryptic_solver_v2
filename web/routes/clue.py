@@ -319,12 +319,33 @@ def clue_page(slug):
     # admin manual overrides. Empty list when no rows exist for the
     # clue: the template suppresses the section entirely so pages stay
     # visually consistent.
+    #
+    # get_roles returns 6-tuples ordered by word_index. We group
+    # consecutive words sharing the same piece_key into one display row
+    # (e.g. "US city" -> one row labelled "synonym → LA US city").
+    # Words with piece_key=None stay solo.
     from sonnet_pipeline.word_roles_store import get_roles as _get_word_roles
     word_roles = _get_word_roles(clue["id"])
-    clue_dict["word_roles"] = [
-        {"word_index": wi, "word_text": wt, "role": r, "source": s}
-        for (wi, wt, r, s) in word_roles
-    ]
+    role_groups = []
+    word_role_rows = []
+    for wi, wt, r, s, letters, piece_key in word_roles:
+        word_role_rows.append({
+            "word_index": wi, "word_text": wt, "role": r,
+            "source": s, "letters": letters, "piece_key": piece_key,
+        })
+        if (piece_key is not None and role_groups
+                and role_groups[-1]["piece_key"] == piece_key):
+            role_groups[-1]["words"].append(wt)
+        else:
+            role_groups.append({
+                "piece_key": piece_key,
+                "role": r,
+                "letters": letters,
+                "words": [wt],
+                "source": s,
+            })
+    clue_dict["word_roles"] = word_role_rows
+    clue_dict["role_groups"] = role_groups
 
     # Puzzle context
     source = clue["source"]
