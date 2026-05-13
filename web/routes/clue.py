@@ -304,6 +304,17 @@ def clue_page(slug):
     clue_dict["steps"] = steps
     clue_dict["token"] = generate_token(clue["id"]) if steps else None
 
+    # Pre-render definition / wordplay-type / explanation for inline
+    # display. The answer is rendered separately in the template (it's
+    # already inline). Reveal buttons are gone — these now appear on
+    # initial page load for both SEO and one-glance user experience.
+    inline_hints = []
+    for step_type in ("definition", "wordplay_type", "explanation"):
+        content = get_hint_content(clue, step_type)
+        if content:
+            inline_hints.append({"type": step_type, "content": content})
+    clue_dict["inline_hints"] = inline_hints
+
     # Puzzle context
     source = clue["source"]
     puzzle_number = clue["puzzle_number"]
