@@ -772,7 +772,10 @@ class ExplanationVerifier:
             for i, w in enumerate(words):
                 if i in claimed:
                     continue
-                if w and w in span_letters:
+                # Strip trailing 's so "pinochet's" matches a span whose
+                # letter-only form ("...pinochets...") has no apostrophe.
+                w_norm = _norm(w)
+                if w_norm and w_norm in span_letters:
                     claimed[i] = "hidden_source"
 
         # 10. DBE markers (single + multi-word phrases)
