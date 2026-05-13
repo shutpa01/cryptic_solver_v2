@@ -612,7 +612,26 @@ class ExplanationVerifier:
                     if derived:
                         role = derived
                 pk = _next_piece_key()
-                _claim_phrase(src, role, letters=letters, piece_key=pk)
+                # Anagram fodder needs per-word letters (each fodder word
+                # contributes its own letters to the anagram pool), so
+                # bypass _claim_phrase which would stamp the whole result
+                # onto every word.
+                if role == "anagram_fodder":
+                    src_words = re.findall(
+                        r"[a-zA-Z]+(?:'[a-zA-Z]+)?", src.lower())
+                    for sw in src_words:
+                        sw_norm = sw[:-2] if sw.endswith("'s") else sw
+                        for i, w in enumerate(words):
+                            if i in claimed:
+                                continue
+                            ww = w[:-2] if w.endswith("'s") else w
+                            if ww == sw_norm:
+                                claimed[i] = role
+                                claimed_letters[i] = sw.upper()
+                                claimed_piece[i] = pk
+                                break
+                else:
+                    _claim_phrase(src, role, letters=letters, piece_key=pk)
 
         # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
         for m in re.finditer(
@@ -667,10 +686,25 @@ class ExplanationVerifier:
                 expl, re.IGNORECASE):
             _claim_phrase(_qval(m), "reversal_source")
 
-        # 6. Deletion sources: deletion="X"
+        # 6. Deletion sources: deletion="X". When the form is the compound
+        # X (deletion="Y", ...) — i.e. the pre-paren LETTERS show what the
+        # source becomes after the deletion — capture those letters onto
+        # the source clue-word row so the contributes column has the
+        # post-deletion letters (e.g. pint → INT in "INT (deletion=\"PINT\",
+        # P dropped)"). This mirrors how the strict letters-piece pattern
+        # captures the simple case at section 1, but it tolerates extra
+        # content inside the parens that the strict pattern rejects.
         for m in re.finditer(
-                r"deletion\s*=\s*" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "deletion_source")
+                r"(?:([A-Z']+)\s*\(\s*)?deletion\s*=\s*" + Q,
+                expl, re.IGNORECASE):
+            pre_letters = m.group(1)
+            src = _qval(m)
+            if pre_letters:
+                pk = _next_piece_key()
+                _claim_phrase(src, "deletion_source",
+                              letters=pre_letters, piece_key=pk)
+            else:
+                _claim_phrase(src, "deletion_source")
 
         # 7. Indicator phrases: [type: "X"; type: "Y"; ...]
         # Multi-indicator brackets use ';' separators inside one [...] pair,

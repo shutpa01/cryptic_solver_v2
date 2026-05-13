@@ -452,6 +452,20 @@ def clue_page(slug):
     # blank rather than guess.
     answer_for_contrib = _re_acc.sub(
         r"[^A-Z]", "", (clue["answer"] or "").upper())
+    from web.coverage import (
+        post_op_letters as _post_op_letters,
+        effective_letters as _effective_letters,
+        deletion_target_letters as _deletion_target_letters,
+    )
+    _ai_expl_for_contrib = clue["ai_explanation"] or ""
+    # Identify letter groups consumed by a deletion clause in the
+    # explanation. Pieces whose letters match a deletion target are
+    # not contributions to the answer; they are the letter that was
+    # removed. Surface them in the contributes column with the
+    # brackets convention so the reader sees the deleted letter
+    # without it being counted as an addition.
+    _deletion_targets_remaining = list(
+        _deletion_target_letters(_ai_expl_for_contrib))
     non_anagram_letters = []
     anagram_groups = []
     for grp in role_groups:
@@ -460,15 +474,22 @@ def clue_page(slug):
         if rl == "anagram_fodder":
             anagram_groups.append(grp)
         elif L:
-            non_anagram_letters.append(L.upper())
+            eff = _effective_letters(L).upper()
+            if eff and eff in _deletion_targets_remaining:
+                grp["is_deletion_target"] = True
+                _deletion_targets_remaining.remove(eff)
+                continue
+            non_anagram_letters.append(eff)
     used_positions = [False] * len(answer_for_contrib)
-    # Track the actual contribution string per piece (may differ from
-    # piece_letters when wrapped in a reversal — synonym RUM contributes
-    # MUR to SAMURAI). We try original first, then reversed.
+    # piece_contributions maps source-letters → post-operation letters
+    # actually placed in the answer. Synonym RUM under a reversal claim
+    # contributes MUR to SAMURAI; synonym ADMIRE under a deletion claim
+    # contributes ADMIR to ADMIRAL. post_op_letters does the substitution.
     piece_contributions = {}
     for piece_letters in non_anagram_letters:
+        effective = _post_op_letters(piece_letters, _ai_expl_for_contrib)
         placed = False
-        for candidate in (piece_letters, piece_letters[::-1]):
+        for candidate in (effective, effective[::-1]):
             for i in range(len(answer_for_contrib) - len(candidate) + 1):
                 if all(not used_positions[i + j]
                        for j in range(len(candidate))) \
@@ -545,11 +566,11 @@ def clue_page(slug):
         rl = grp.get("role") or ""
         L = grp.get("letters")
         if rl == "anagram_fodder":
-            # Use the leftover only when its multiset matches the fodder.
             fodder_letters = _re_acc.sub(r"[^A-Z]", "", (L or "").upper())
-            if (fodder_letters
-                    and sorted(leftover) == sorted(fodder_letters)):
+            if len(grp["words"]) > 1 and fodder_letters and sorted(leftover) == sorted(fodder_letters):
                 grp["contributes"] = leftover
+            elif fodder_letters:
+                grp["contributes"] = fodder_letters
             else:
                 grp["contributes"] = None
         elif rl == "hidden_source":
@@ -579,11 +600,25 @@ def clue_page(slug):
                 grp["contributes"] = contrib_letters
             else:
                 grp["contributes"] = None
+        elif grp.get("is_deletion_target"):
+            # Deletion target piece — show its letters wrapped in
+            # brackets so the reader sees the deleted letter without it
+            # being counted as an addition to the answer.
+            L_eff = _effective_letters(L or "").upper()
+            grp["contributes"] = "(" + L_eff + ")" if L_eff else None
         else:
             # If the piece was actually placed reversed, show the reversed
             # form (the letters that landed in the answer).
-            grp["contributes"] = piece_contributions.get(
-                (L or "").upper(), L)
+            placed_contrib = piece_contributions.get(
+                _effective_letters(L or "").upper())
+            if placed_contrib is not None:
+                grp["contributes"] = placed_contrib
+            else:
+                wptype = (clue_dict.get("wordplay_type") or "").lower()
+                if wptype in ("homophone", "spoonerism") and L:
+                    grp["contributes"] = leftover or answer_for_contrib
+                else:
+                    grp["contributes"] = L
 
     # Render-time post-pass: surface a literal S piece sourced from a
     # possessive 's in the clue. The parser writes "+ S (from clue)" for
@@ -607,6 +642,7 @@ def clue_page(slug):
                 "piece_key": None,
                 "role": "possessive_source",
                 "letters": "S",
+                "contributes": "S",
                 "words": host_words,
                 "source": "synthetic",
             })
@@ -642,6 +678,13 @@ def clue_page(slug):
 
     clue_dict["mechanism_label"] = _mechanism_label(
         role_groups, clue_dict.get("wordplay_type"),
+    )
+
+    from web.coverage import coverage_warning as _coverage_warning
+    clue_dict["coverage_warning"] = _coverage_warning(
+        clue["id"], clue["answer"], clue_dict.get("wordplay_type"),
+        clue_dict.get("tier"),
+        ai_explanation=clue_dict.get("ai_explanation"),
     )
 
     # Replace the wordplay_type inline-hint content with the richer
@@ -724,6 +767,45 @@ def clue_page(slug):
     from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
+    role_choices = sorted([
+        # Structural
+        "definition",
+        "link",
+        "charade_joiner",
+        "dbe_marker",
+        "unaccounted",
+        # Source roles (clue word produces letters)
+        "synonym_source",
+        "abbreviation_source",
+        "positional_source",
+        "reversal_source",
+        "deletion_source",
+        "literal_source",
+        "letter_source",
+        "possessive_source",
+        "anagram_fodder",
+        "spoonerism_fodder",
+        "hidden_source",
+        # Mechanism indicators
+        "anagram_indicator",
+        "container_indicator",
+        "reversal_indicator",
+        "deletion_indicator",
+        "homophone_indicator",
+        "hidden_indicator",
+        "insertion_indicator",
+        "acrostic_indicator",
+        "parts_indicator",
+        "selection_indicator",
+        "alternating_indicator",
+        "spoonerism_indicator",
+        "charade_indicator",
+        "substitution_indicator",
+        "letter_position_indicator",
+        # Legacy generic indicator
+        "indicator",
+    ])
+
     response = make_response(render_template(
         "clue.html",
         clue=clue_dict,
@@ -733,5 +815,6 @@ def clue_page(slug):
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
         word_roles_schema=word_roles_schema,
+        role_choices=role_choices,
     ))
     return issue_session_cookie(response)

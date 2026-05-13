@@ -46,6 +46,7 @@ WORD_ROLE_CHOICES = (
     "link",
     "indicator",  # legacy generic; new code uses a specific *_indicator
     "anagram_fodder",
+    "spoonerism_fodder",
     "hidden_source",
     "positional_source",
     "reversal_source",
@@ -53,6 +54,7 @@ WORD_ROLE_CHOICES = (
     "dbe_marker",
     "charade_joiner",
     "literal_source",
+    "letter_source",
     "possessive_source",
     "letter_position_indicator",
     "unaccounted",
@@ -187,7 +189,10 @@ def set_word_role(clue_id, word_index):
         abort(400)
     from sonnet_pipeline.word_roles_store import write_manual_role
     write_manual_role(clue_id, word_index, word_text, role, letters=letters)
-    return '<span class="text-xs text-emerald-600">Saved</span>'
+    from flask import make_response
+    response = make_response('<span class="text-xs text-emerald-600">Saved</span>')
+    response.headers['HX-Refresh'] = 'true'
+    return response
 
 
 @bp.route("/edit/<int:clue_id>", methods=["GET"])

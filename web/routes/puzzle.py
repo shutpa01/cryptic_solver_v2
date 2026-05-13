@@ -50,12 +50,17 @@ def puzzle(source, puzzle_type, puzzle_number):
     # Split into across/down and attach tier info + tokens
     across = []
     down = []
+    from web.coverage import coverage_warning as _coverage_warning
     for clue in clues:
         tier, max_steps = compute_hint_tier(clue)
         steps = get_hint_steps(clue, tier=tier, is_admin=g.get("is_admin", False))
         clue_dict = dict(clue)
         clue_dict["tier"] = tier
         clue_dict["solve_source"] = compute_solve_source(clue)
+        clue_dict["coverage_warning"] = _coverage_warning(
+            clue["id"], clue["answer"], clue["wordplay_type"], tier,
+            ai_explanation=clue["ai_explanation"],
+        )
         clue_dict["max_steps"] = max_steps
         clue_dict["total_steps"] = len(steps)
         clue_dict["steps"] = steps

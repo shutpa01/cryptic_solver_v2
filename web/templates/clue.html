@@ -91,6 +91,12 @@
               title="{% if clue.tier == 'HIGH' %}I'm pretty confident I've nailed this one{% elif clue.tier == 'MEDIUM' %}I know the answer's right but I'm not 100% on the explanation{% elif clue.tier == 'LOW' %}Not too sure about the explanation on this one{% elif clue.tier == 'FAIL' %}This one beat me{% elif clue.tier == 'PENDING' %}I haven't looked at this one yet{% endif %}">
             {{ clue.tier }}
         </span>
+        {% if clue.coverage_warning %}
+        <span class="text-sm font-bold px-3 py-1 rounded bg-red-600 text-white shrink-0 border-2 border-red-800"
+              title="High score but the pieces shown do not account for every answer letter. Set the missing roles below and Re-verify.">
+            COVERAGE INCOMPLETE
+        </span>
+        {% endif %}
         {% else %}
         {% if clue.tier == 'HIGH' %}
         <span title="I'm pretty confident I've nailed this one"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
@@ -212,7 +218,7 @@
                     {% elif grp.role == 'unaccounted' %}text-rose-500
                     {% elif grp.role == 'synonym' or grp.role == 'synonym_source' %}text-blue-700
                     {% else %}text-blue-800{% endif %}">
-                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% elif grp.role == 'anagram_fodder' %}anagram fodder{% elif grp.role == 'possessive_source' %}possessive{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters and grp.role != 'anagram_fodder' %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
+                    {{ grp.role | replace('_', ' ') }}{% if grp.letters and grp.role != 'anagram_fodder' %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
                 </div>
                 <div class="text-sm">
                     {% if grp.contributes %}<span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.contributes }}</span>{% endif %}
@@ -228,7 +234,7 @@
        vertical list so the public layout stays clean. Each dropdown
        writes to clue_word_roles with source='manual' on change. #}
     {% if g.is_admin and clue.word_roles %}
-    <details class="mt-3">
+    <details class="mt-3" open>
         <summary class="text-xs text-gray-500 cursor-pointer hover:text-gray-700">Admin: word-role overrides</summary>
         <div class="mt-2 rounded border border-slate-200 bg-slate-50 px-4 py-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2 text-sm">
@@ -238,24 +244,30 @@
                         <span class="font-medium text-gray-900 truncate">{{ w.word_text }}</span>
                         <span id="role-saved-{{ clue.id }}-{{ w.word_index }}" class="text-xs shrink-0"></span>
                     </div>
-                    <form hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
-                          hx-target="#role-saved-{{ clue.id }}-{{ w.word_index }}"
-                          hx-swap="innerHTML"
-                          class="flex gap-1">
+                    <form class="flex gap-1">
                         <input type="hidden" name="word_text" value="{{ w.word_text }}">
-                        <select name="role" hx-trigger="change, blur"
+                        <select name="role"
+                                hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
+                                hx-target="#role-saved-{{ clue.id }}-{{ w.word_index }}"
+                                hx-swap="innerHTML"
+                                hx-trigger="change, blur"
+                                hx-include="closest form"
                                 class="text-xs border border-slate-300 rounded px-1 py-0.5 flex-1
                                     {% if w.role == 'unaccounted' %}bg-rose-50 text-rose-700
                                     {% elif w.source == 'manual' %}bg-emerald-50 text-emerald-700
                                     {% else %}bg-white text-gray-600{% endif %}">
-                            {% for choice in ['definition','synonym_source','abbreviation_source','positional_source','letter_position_indicator','reversal_source','deletion_source','literal_source','possessive_source','indicator','anagram_fodder','hidden_source','dbe_marker','link','charade_joiner','unaccounted'] %}
+                            {% for choice in role_choices %}
                             <option value="{{ choice }}" {% if choice == w.role %}selected{% endif %}>{{ choice.replace('_', ' ') }}</option>
                             {% endfor %}
                         </select>
                         <input type="text" name="letters"
                                value="{{ w.letters or '' }}"
                                placeholder="—"
+                               hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
+                               hx-target="#role-saved-{{ clue.id }}-{{ w.word_index }}"
+                               hx-swap="innerHTML"
                                hx-trigger="change, blur"
+                               hx-include="closest form"
                                class="text-xs border border-slate-300 rounded px-1 py-0.5 uppercase font-semibold w-16
                                   {% if w.source == 'manual' %}bg-emerald-50 text-emerald-800
                                   {% else %}bg-white text-gray-700{% endif %}">
