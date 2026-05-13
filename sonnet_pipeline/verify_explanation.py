@@ -466,8 +466,13 @@ class ExplanationVerifier:
         clue = clue_text or ""
         # Strip enumeration "(7)", "(3,4)", etc. before tokenising
         clue = re.sub(r"\s*\([\d,\-\s/]+\)\s*$", "", clue)
+        # Fold accented letters to ASCII before tokenising so "Maître"
+        # stays a single token ("maitre") instead of splitting into "ma"
+        # and "tre" at the î.
+        _clue_folded = unicodedata.normalize(
+            "NFKD", clue).encode("ascii", "ignore").decode("ascii")
         words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-                           clue.lower().replace("’", "'"))
+                           _clue_folded.lower().replace("’", "'"))
         if not words:
             return {"classified": [], "unaccounted": [], "link": [],
                     "summary": "no clue words"}
