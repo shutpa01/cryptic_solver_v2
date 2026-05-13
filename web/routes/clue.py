@@ -360,6 +360,32 @@ def clue_page(slug):
     clue_dict["word_roles"] = word_role_rows
     clue_dict["role_groups"] = role_groups
 
+    # Render-time post-pass: surface a literal S piece sourced from a
+    # possessive 's in the clue. The parser writes "+ S (from clue)" for
+    # the S contributed by a "...'s" token, but the classifier has already
+    # claimed that token under its primary role (typically synonym), so
+    # the S never gets its own row. We add a synthetic possessive row
+    # next to the host token so the word-by-word panel shows every piece
+    # the wordplay uses. No DB write — purely a display layer.
+    import re as _re
+    expl_text = clue_dict.get("ai_explanation") or ""
+    if _re.search(r"\bS\s*\(\s*from\s+clue\s*\)", expl_text):
+        possessive_indices = [
+            i for i, grp in enumerate(role_groups)
+            if any(w.endswith("'s") or w.endswith("’s")
+                   for w in grp["words"])
+        ]
+        if len(possessive_indices) == 1:
+            host_i = possessive_indices[0]
+            host_words = role_groups[host_i]["words"]
+            role_groups.insert(host_i + 1, {
+                "piece_key": None,
+                "role": "possessive_source",
+                "letters": "S",
+                "words": host_words,
+                "source": "synthetic",
+            })
+
     # Auto-generate the mechanism label from the role groups.
     # "Charade" is added when 2+ distinct pieces concatenate; each
     # distinct indicator type (anagram, container, reversal, deletion,
