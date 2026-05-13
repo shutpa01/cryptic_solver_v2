@@ -1866,7 +1866,7 @@ class ExplanationVerifier:
                     r"\(\s*(?:synonym|abbreviation|abbr\.?|first\s+letters?|"
                     r"last\s+letters?|middle\s+letters?|outer\s+letters?|"
                     r"initial|final|odd|even|alternat(?:e|ing)|"
-                    r"reversal|reverse|deletion)"
+                    r"reversal|reverse|deletion|anagram)"
                     r"\s*(?:=|\s+of)?\s*[\"']([^\"']+)[\"']",
                     re.IGNORECASE,
                 )
