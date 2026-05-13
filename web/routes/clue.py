@@ -439,6 +439,69 @@ def clue_page(slug):
     for i, row in enumerate(word_role_rows):
         row["accept_target"] = accept_by_index.get(i)
 
+    # Compute the per-piece "contributes" string — the actual letters
+    # each piece puts into the answer at its final position. For most
+    # pieces this equals letters (synonym MAN -> MAN, reversal MUR ->
+    # MUR). For anagram fodder the fodder is what goes IN; the
+    # contribution is the permutation that comes OUT in the answer
+    # (ASIA fodder for SAMURAI contributes SAAI — the answer letters
+    # left over after MUR is positioned). Heuristic: locate each
+    # non-anagram piece's letters as a contiguous run in the answer;
+    # remaining positions form the anagram contribution. If the
+    # leftover multiset doesn't match the fodder, leave contributes
+    # blank rather than guess.
+    answer_for_contrib = _re_acc.sub(
+        r"[^A-Z]", "", (clue["answer"] or "").upper())
+    non_anagram_letters = []
+    anagram_groups = []
+    for grp in role_groups:
+        rl = grp.get("role") or ""
+        L = grp.get("letters")
+        if rl == "anagram_fodder":
+            anagram_groups.append(grp)
+        elif L:
+            non_anagram_letters.append(L.upper())
+    used_positions = [False] * len(answer_for_contrib)
+    # Track the actual contribution string per piece (may differ from
+    # piece_letters when wrapped in a reversal — synonym RUM contributes
+    # MUR to SAMURAI). We try original first, then reversed.
+    piece_contributions = {}
+    for piece_letters in non_anagram_letters:
+        placed = False
+        for candidate in (piece_letters, piece_letters[::-1]):
+            for i in range(len(answer_for_contrib) - len(candidate) + 1):
+                if all(not used_positions[i + j]
+                       for j in range(len(candidate))) \
+                        and answer_for_contrib[i:i + len(candidate)] == candidate:
+                    for j in range(len(candidate)):
+                        used_positions[i + j] = True
+                    piece_contributions[piece_letters] = candidate
+                    placed = True
+                    break
+            if placed:
+                break
+    leftover = "".join(
+        answer_for_contrib[i]
+        for i in range(len(answer_for_contrib))
+        if not used_positions[i]
+    )
+    for grp in role_groups:
+        rl = grp.get("role") or ""
+        L = grp.get("letters")
+        if rl == "anagram_fodder":
+            # Use the leftover only when its multiset matches the fodder.
+            fodder_letters = _re_acc.sub(r"[^A-Z]", "", (L or "").upper())
+            if (fodder_letters
+                    and sorted(leftover) == sorted(fodder_letters)):
+                grp["contributes"] = leftover
+            else:
+                grp["contributes"] = None
+        else:
+            # If the piece was actually placed reversed, show the reversed
+            # form (the letters that landed in the answer).
+            grp["contributes"] = piece_contributions.get(
+                (L or "").upper(), L)
+
     # Render-time post-pass: surface a literal S piece sourced from a
     # possessive 's in the clue. The parser writes "+ S (from clue)" for
     # the S contributed by a "...'s" token, but the classifier has already
