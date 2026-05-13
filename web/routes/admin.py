@@ -34,6 +34,47 @@ def logout():
     return redirect(referrer)
 
 
+# Roles offered in the per-clue word-role dropdown on the clue page.
+# Must match values produced by ExplanationVerifier._classify_clue_words
+# plus charade_joiner (the manual-only role for charade positional words
+# like "putting"/"ahead"). Keep in sync with template choices.
+WORD_ROLE_CHOICES = (
+    "definition",
+    "synonym_source",
+    "abbreviation_source",
+    "positional_source",
+    "reversal_source",
+    "deletion_source",
+    "indicator",
+    "anagram_fodder",
+    "hidden_source",
+    "dbe_marker",
+    "link",
+    "charade_joiner",
+    "unaccounted",
+)
+
+
+@bp.route("/word-role/<int:clue_id>/<int:word_index>", methods=["POST"])
+def set_word_role(clue_id, word_index):
+    """Save a manual role override for a single clue word.
+
+    Returns a tiny "Saved" indicator that HTMX swaps in next to the
+    dropdown. The underlying row in clue_word_roles is written with
+    source='manual' and survives future verifier auto-classifications.
+    """
+    _require_admin()
+    role = (request.form.get("role") or "").strip()
+    word_text = (request.form.get("word_text") or "").strip()
+    if role not in WORD_ROLE_CHOICES:
+        abort(400)
+    if not word_text:
+        abort(400)
+    from sonnet_pipeline.word_roles_store import write_manual_role
+    write_manual_role(clue_id, word_index, word_text, role)
+    return '<span class="text-xs text-emerald-600">Saved</span>'
+
+
 @bp.route("/edit/<int:clue_id>", methods=["GET"])
 def edit_form(clue_id):
     """Return the inline edit form for a clue (HTMX fragment)."""
