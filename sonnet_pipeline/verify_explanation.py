@@ -120,6 +120,50 @@ class ExplanationVerifier:
         ).fetchone()
         return row is not None
 
+    def _verified_piece_role(self, source_phrase, letters):
+        """Return the most specific role for a (source, letters) piece.
+
+        Priority:
+          1. wordplay.category — the actual category string ('abbreviation',
+             'single_letter', 'roman_numeral', 'foreign_french', etc.).
+             If category is NULL we fall back to 'abbreviation' since the
+             wordplay table is the abbreviations registry.
+          2. 'synonym' if the pair is in synonyms_pairs or
+             definition_answers_augmented.
+          3. None — pair not in any DB table. Caller keeps the parse's
+             declared label so unverified claims aren't silently relabelled.
+
+        DBE-category rows are skipped so dbe markers don't masquerade as
+        letter-producing pieces.
+        """
+        if not source_phrase or not letters:
+            return None
+        s = source_phrase.lower().strip()
+        L = letters.upper().strip()
+        if not s or not L:
+            return None
+        row = self.ref.execute(
+            "SELECT category FROM wordplay "
+            "WHERE LOWER(indicator) = ? AND UPPER(substitution) = ? "
+            "AND (category IS NULL OR category != 'dbe') LIMIT 1",
+            (s, L),
+        ).fetchone()
+        if row:
+            return (row[0] or "abbreviation").strip()
+        row = self.ref.execute(
+            "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
+            (s, L),
+        ).fetchone()
+        if row:
+            return "synonym"
+        row = self.ref.execute(
+            "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND UPPER(answer) = ? LIMIT 1",
+            (s, L),
+        ).fetchone()
+        if row:
+            return "synonym"
+        return None
+
     def is_indicator(self, word, wordplay_type):
         """Check if word is a known indicator for the given type."""
         key = (word.lower(), wordplay_type.lower())
@@ -494,33 +538,46 @@ class ExplanationVerifier:
         # BEFORE the standalone steps so source words get tagged with
         # letters + piece_key; the standalone steps below remain as a
         # fallback for parses that omit the LETTERS prefix.
+        #
+        # For synonym / abbreviation patterns, the role is OVERRIDDEN by
+        # the DB-derived category if (source_phrase, letters) is found in
+        # the wordplay table (e.g. hospital → H is single_letter, not
+        # synonym). The parse's declared label is kept only when the DB
+        # has no entry for the pair. Positional / reversal / deletion
+        # are mechanical so we keep the pattern's label.
         _letters_piece_patterns = [
             (r"([A-Z']+|\w+)\s*\(\s*synonym\s*=\s*" + Q + r"\s*\)",
-             "synonym_source"),
+             "synonym_source", True),
             (r"([A-Z']+|\w+)\s*\(\s*synonym\s+of\s+" + Q + r"\s*\)",
-             "synonym_source"),
+             "synonym_source", True),
             (r"([A-Z']+|\w+)\s*\(\s*abbreviation\s*=\s*" + Q + r"\s*\)",
-             "abbreviation_source"),
+             "abbreviation_source", True),
             (r"([A-Z']+|\w+)\s*\(\s*abbreviation\s+of\s+" + Q + r"\s*\)",
-             "abbreviation_source"),
+             "abbreviation_source", True),
             (r"([A-Z']+|\w+)\s*\(\s*abbr\.?\s*(?:of\s+)?" + Q + r"\s*\)",
-             "abbreviation_source"),
+             "abbreviation_source", True),
             (r"([A-Z']+|\w+)\s*\(\s*(?:first|last|middle|outer|initial|"
              r"final|odd|even|alternat(?:e|ing))\s+letters?\s+"
              r"(?:of|in|from)\s+" + Q + r"\s*\)",
-             "positional_source"),
+             "positional_source", False),
             (r"([A-Z']+|\w+)\s*\(\s*(?:reversal|reverse)\s+of\s+" + Q + r"\s*\)",
-             "reversal_source"),
+             "reversal_source", False),
             (r"([A-Z']+|\w+)\s*\(\s*deletion\s*=\s*" + Q + r"\s*\)",
-             "deletion_source"),
+             "deletion_source", False),
         ]
-        for pat, role in _letters_piece_patterns:
+        for pat, default_role, allow_db_override in _letters_piece_patterns:
             for m in re.finditer(pat, expl, re.IGNORECASE):
                 letters = m.group(1)
                 src = m.group(2) if m.group(2) is not None else m.group(3)
-                if src and letters:
-                    pk = _next_piece_key()
-                    _claim_phrase(src, role, letters=letters, piece_key=pk)
+                if not (src and letters):
+                    continue
+                role = default_role
+                if allow_db_override:
+                    derived = self._verified_piece_role(src, letters)
+                    if derived:
+                        role = derived
+                pk = _next_piece_key()
+                _claim_phrase(src, role, letters=letters, piece_key=pk)
 
         # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
         for m in re.finditer(

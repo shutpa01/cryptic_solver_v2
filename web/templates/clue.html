@@ -159,22 +159,30 @@
         <div class="space-y-1 text-sm">
             {% for grp in clue.role_groups %}
             <div class="grid grid-cols-[10rem_auto] gap-x-4 items-baseline">
+                {# Roles fall into three colour families:
+                   - structural (definition, link, indicator)
+                   - letters-producing pieces (synonym, abbreviation,
+                     single_letter, roman_numeral, foreign_*, nato_phonetic,
+                     cricket, chemistry, musical, etc. — anything pulled
+                     from wordplay.category — plus positional / reversal /
+                     deletion / anagram_fodder / hidden)
+                   - flag colours (unaccounted, charade_joiner)
+                #}
                 <div class="font-mono text-xs
                     {% if grp.role == 'definition' %}text-green-700
                     {% elif grp.role == 'link' %}text-gray-400
                     {% elif grp.role == 'indicator' %}text-amber-700
                     {% elif grp.role == 'anagram_fodder' %}text-purple-700
                     {% elif grp.role == 'hidden_source' %}text-cyan-700
-                    {% elif grp.role == 'synonym_source' %}text-blue-700
-                    {% elif grp.role == 'abbreviation_source' %}text-blue-700
                     {% elif grp.role == 'positional_source' %}text-indigo-700
                     {% elif grp.role == 'reversal_source' %}text-rose-700
                     {% elif grp.role == 'deletion_source' %}text-orange-700
                     {% elif grp.role == 'charade_joiner' %}text-slate-500
                     {% elif grp.role == 'dbe_marker' %}text-teal-700
                     {% elif grp.role == 'unaccounted' %}text-rose-500
-                    {% else %}text-gray-500{% endif %}">
-                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% else %}{{ grp.role }}{% endif %}{% if grp.letters %} → <span class="font-bold uppercase tracking-wider">{{ grp.letters }}</span>{% endif %}
+                    {% elif grp.role == 'synonym' or grp.role == 'synonym_source' %}text-blue-700
+                    {% else %}text-blue-800{% endif %}">
+                    {% if grp.role == 'synonym_source' %}synonym{% elif grp.role == 'abbreviation_source' %}abbreviation{% elif grp.role == 'positional_source' %}letters{% elif grp.role == 'reversal_source' %}reversal{% elif grp.role == 'deletion_source' %}deletion{% elif grp.role == 'hidden_source' %}hidden{% else %}{{ grp.role | replace('_', ' ') }}{% endif %}{% if grp.letters %} → <span class="font-bold uppercase tracking-wider">{{ grp.letters }}</span>{% endif %}
                 </div>
                 <div class="text-gray-900">{{ grp.words | join(' ') }}</div>
             </div>

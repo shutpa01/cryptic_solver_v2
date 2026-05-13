@@ -34,24 +34,55 @@ def logout():
     return redirect(referrer)
 
 
-# Roles offered in the per-clue word-role dropdown on the clue page.
-# Must match values produced by ExplanationVerifier._classify_clue_words
-# plus charade_joiner (the manual-only role for charade positional words
-# like "putting"/"ahead"). Keep in sync with template choices.
+# Roles accepted in the per-clue word-role dropdown on the clue page.
+# Includes the verifier's structural labels (definition, link,
+# indicator, anagram_fodder, ...) plus charade_joiner plus the
+# DB-derived categories from the wordplay table that the verifier
+# now records directly (abbreviation, single_letter, roman_numeral,
+# nato_phonetic, cricket, chemistry, musical, foreign_*).
 WORD_ROLE_CHOICES = (
+    # Structural
     "definition",
-    "synonym_source",
-    "abbreviation_source",
-    "positional_source",
-    "reversal_source",
-    "deletion_source",
+    "link",
     "indicator",
     "anagram_fodder",
     "hidden_source",
+    "positional_source",
+    "reversal_source",
+    "deletion_source",
     "dbe_marker",
-    "link",
     "charade_joiner",
     "unaccounted",
+    # Letters-producing (verifier-derived)
+    "synonym",
+    "synonym_source",  # legacy alias retained
+    "abbreviation",
+    "abbreviation_source",  # legacy alias retained
+    "single_letter",
+    "double_letter",
+    "roman_numeral",
+    "nato_phonetic",
+    "cricket",
+    "chemistry",
+    "musical",
+    "name",
+    "shape",
+    "example",
+    "british_slang",
+    "slang",
+    "pronoun",
+    "reference",
+    "suffix",
+    "first_letter",
+    "substitution",
+    "foreign",
+    "foreign_french",
+    "foreign_german",
+    "foreign_spanish",
+    "foreign_italian",
+    "foreign_latin",
+    "cryptic_synonym",
+    "misc",
 )
 
 
