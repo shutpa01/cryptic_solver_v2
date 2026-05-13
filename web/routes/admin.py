@@ -340,7 +340,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                     })
                     # Gate through verifier — V1 doesn't get automatic 1.0
                     _verifier = ExplanationVerifier()
-                    _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text)
+                    _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text, clue_id=clue_id)
                     _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
                     _final_conf = _conf_map.get(_vresult["verdict"], 0.0)
                     db.execute("""
@@ -554,6 +554,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                 fresh_clue["clue_text"], fresh_clue["answer"],
                 fresh_clue["definition"], fresh_clue["wordplay_type"],
                 fresh_clue["ai_explanation"],
+                clue_id=clue_id,
             )
             _ref = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
             for check in vresult.get("checks", []):
@@ -1120,10 +1121,13 @@ def reverify_puzzle(source, puzzle_number):
             unchanged += 1
             continue
 
+        # Pass clue_id so word roles get persisted to clue_word_roles
+        # and any manual overrides are honoured in word_coverage.
         result = verifier.verify(
             clue["clue_text"], clue["answer"],
             clue["definition"], clue["wordplay_type"],
             clue["ai_explanation"],
+            clue_id=clue["id"],
         )
 
         # Queue unverified pieces for DB+ review
