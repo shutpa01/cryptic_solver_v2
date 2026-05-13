@@ -1326,10 +1326,13 @@ class ExplanationVerifier:
         # bracket trigger pulled the top-level check on charade/container
         # parses and tried to make the full answer an anagram of the
         # sub-piece fodder, producing false NOs.
-        _expl_no_parens = re.sub(r"\([^)]*\)", "", expl)
-        _toplevel_anagram = re.search(
-            r"\banagram\s+of\b", _expl_no_parens, re.IGNORECASE)
-        if wtype == "anagram" or _toplevel_anagram:
+        # The answer-equals-anagram-of-fodder check only makes sense when
+        # the top-level mechanism is itself anagram. For wtype container /
+        # charade / reversal / etc., a leading "anagram of X" describes
+        # how a sub-piece is built (e.g. SAMURAI's outer = anagram of
+        # ASIA, then contained with MUR). Firing the answer-anagram
+        # check there produces a false NO. Trust the declared wtype.
+        if wtype == "anagram":
             # Extract all uppercase letter groups between "anagram of" and "=".
             # Single-letter pieces (e.g. B from "B (abbreviation=\"black\")")
             # are included; their abbreviation source is validated separately
@@ -1340,7 +1343,17 @@ class ExplanationVerifier:
             # before the answer), not any intermediate `=` inside annotations
             # like `abbreviation="..."`. This is important for multi-piece
             # fodder like `OTTER + L (abbreviation="large") + WEIR`.
-            ana_section = re.search(r"anagram\s+(?:of\s+)?(.+)\s*=", expl)
+            # Stop the fodder capture at the first downstream operator
+            # delimiter (containing / with / +-charade-piece / [bracket /
+            # ; / comma). Without this the greedy .+ swallowed any later
+            # uppercase tokens inside a container or charade, turning
+            # "anagram of ASIA [...] containing MUR..." into fodder
+            # "ASIA MUR RUM RUM" and falsely flagging the anagram check.
+            ana_section = re.search(
+                r"anagram\s+(?:of\s+)?(.+?)"
+                r"(?:\s+containing\b|\s+with\b|\s*,|\s*;|\s*\[|\s*=)",
+                expl, re.IGNORECASE,
+            )
             if ana_section:
                 fodder_parts = re.findall(r"\b[A-Z]+\b", ana_section.group(1))
                 fodder = "".join(fodder_parts)
@@ -1619,6 +1632,7 @@ class ExplanationVerifier:
             r"|deletion\s*=\s*\""
             r"|anagram\s*=\s*\""
             r"|anagram\s+of\s+[\"']"
+            r"|reversal\s*=\s*\""
             r")",
             re.IGNORECASE,
         )
@@ -1828,8 +1842,24 @@ class ExplanationVerifier:
                 re.IGNORECASE,
             )
             for am in ann_pat.finditer(expl or ""):
+                ann_op = am.group(1).strip().lower()
                 ann_phrase = am.group(2).strip().lower()
                 if ann_phrase in indicator_tokens:
+                    addressed = True
+                    break
+                # Multi-word indicator phrase (e.g. "knocked back" as
+                # reversal) absorbs its constituent words for 7b. The
+                # bracket must itself be a DB-verified indicator of its
+                # named op_type — otherwise the words don't get a free
+                # pass. This stops 7b firing on "knocked" alone for
+                # deletion when the parse already accounts for "knocked
+                # back" as a reversal indicator. Single-word ann_phrases
+                # do not satisfy this branch — only genuine multi-word
+                # phrases.
+                ann_words = ann_phrase.split()
+                if (len(ann_words) >= 2
+                        and any(tok in ann_words for tok in indicator_tokens)
+                        and self.is_indicator(ann_phrase, ann_op)):
                     addressed = True
                     break
             # Also walk multi-annotation brackets [op_a: "X"; op_b: "Y"]
