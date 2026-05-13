@@ -176,12 +176,14 @@ def set_word_role(clue_id, word_index):
     _require_admin()
     role = (request.form.get("role") or "").strip()
     word_text = (request.form.get("word_text") or "").strip()
+    letters_raw = (request.form.get("letters") or "").strip().upper()
+    letters = letters_raw if letters_raw else None
     if role not in WORD_ROLE_CHOICES:
         abort(400)
     if not word_text:
         abort(400)
     from sonnet_pipeline.word_roles_store import write_manual_role
-    write_manual_role(clue_id, word_index, word_text, role)
+    write_manual_role(clue_id, word_index, word_text, role, letters=letters)
     return '<span class="text-xs text-emerald-600">Saved</span>'
 
 
