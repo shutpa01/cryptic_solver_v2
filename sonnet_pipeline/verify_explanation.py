@@ -1933,10 +1933,33 @@ class ExplanationVerifier:
             # (word, role, letters, piece_key)
             classified = list(coverage["classified"])
 
+            # Strict link-role rule (applied to AUTO classifications only;
+            # manual assignments below override it). A clue word can carry
+            # 'link' only when (a) the assembly check verified the pieces
+            # produce the answer, AND (b) no other clue word is
+            # unaccounted. Otherwise a candidate link might be hiding a
+            # missed piece — demote to 'unaccounted' so word_coverage
+            # surfaces the gap. Manual link assignments survive because
+            # they apply after this demotion.
+            assembly_verified = any(
+                c.get("check") == "assembly" and c.get("status") == "verified"
+                for c in checks
+            )
+            non_link_unaccounted = any(
+                c[1] == "unaccounted" for c in classified
+            )
+            if not assembly_verified or non_link_unaccounted:
+                classified = [
+                    (w, ("unaccounted" if r == "link" else r), L, pk)
+                    for (w, r, L, pk) in classified
+                ]
+
             # Merge any manual rows from clue_word_roles, then persist
             # the auto classification. Manual rows override the auto
             # role + letters + piece_key at the same word_index
-            # (matched by lowercased word).
+            # (matched by lowercased word) — including overriding the
+            # strict-link demotion above when the admin has explicitly
+            # said a word is a link.
             if clue_id is not None:
                 try:
                     from sonnet_pipeline.word_roles_store import (
