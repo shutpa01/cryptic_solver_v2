@@ -340,15 +340,20 @@ def clue_page(slug):
         if (piece_key is not None and role_groups
                 and role_groups[-1]["piece_key"] == piece_key):
             role_groups[-1]["words"].append(wt)
-            # Concatenate letters across the group so the row label shows
-            # the full piece (e.g. anagram fodder "A PRIME TV") rather
-            # than just the first word's contribution.
-            if letters:
+            # For anagram fodder each clue word contributes its own
+            # letters (A PRIME TV → A + PRIME + TV), so concatenate.
+            # For synonyms / abbreviations the piece value (e.g. QUE
+            # for "manuel's gag" → QUE) is shared by every word in the
+            # group, so leave the existing letters alone — concatenating
+            # would produce "QUE QUE".
+            if letters and r == "anagram_fodder":
                 if role_groups[-1].get("letters"):
                     role_groups[-1]["letters"] = (
                         role_groups[-1]["letters"] + " " + letters)
                 else:
                     role_groups[-1]["letters"] = letters
+            elif letters and not role_groups[-1].get("letters"):
+                role_groups[-1]["letters"] = letters
         else:
             role_groups.append({
                 "piece_key": piece_key,
