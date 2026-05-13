@@ -136,6 +136,23 @@
     </div>
     {% endif %}
 
+    {# Word-by-word breakdown — only rendered when clue_word_roles has
+       rows for this clue. If absent, the section disappears entirely so
+       pages without data stay visually consistent. #}
+    {% if clue.word_roles %}
+    <div class="mt-5 rounded border border-slate-200 bg-slate-50 px-4 py-3">
+        <p class="text-sm font-medium text-gray-600 mb-2">Word roles</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-1 text-sm">
+            {% for w in clue.word_roles %}
+            <div class="flex items-baseline gap-2">
+                <span class="font-medium text-gray-900">{{ w.word_text }}</span>
+                <span class="text-gray-500 text-xs">{{ w.role }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     {# Admin actions — separate row, admin only #}
     {% if g.is_admin %}
     <div id="explain-{{ clue.id }}" class="mt-4 flex flex-wrap gap-2 items-center">

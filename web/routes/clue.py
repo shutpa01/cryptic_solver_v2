@@ -315,6 +315,17 @@ def clue_page(slug):
             inline_hints.append({"type": step_type, "content": content})
     clue_dict["inline_hints"] = inline_hints
 
+    # Per-clue word roles — populated by the verifier (auto) plus any
+    # admin manual overrides. Empty list when no rows exist for the
+    # clue: the template suppresses the section entirely so pages stay
+    # visually consistent.
+    from sonnet_pipeline.word_roles_store import get_roles as _get_word_roles
+    word_roles = _get_word_roles(clue["id"])
+    clue_dict["word_roles"] = [
+        {"word_index": wi, "word_text": wt, "role": r, "source": s}
+        for (wi, wt, r, s) in word_roles
+    ]
+
     # Puzzle context
     source = clue["source"]
     puzzle_number = clue["puzzle_number"]
