@@ -564,6 +564,10 @@ class ExplanationVerifier:
              "reversal_source", False),
             (r"([A-Z']+|\w+)\s*\(\s*deletion\s*=\s*" + Q + r"\s*\)",
              "deletion_source", False),
+            (r"([A-Z']+|\w+)\s*\(\s*anagram\s*=\s*" + Q + r"\s*\)",
+             "anagram_fodder", False),
+            (r"([A-Z']+|\w+)\s*\(\s*anagram\s+of\s+" + Q + r"\s*\)",
+             "anagram_fodder", False),
         ]
         for pat, default_role, allow_db_override in _letters_piece_patterns:
             for m in re.finditer(pat, expl, re.IGNORECASE):
@@ -802,7 +806,7 @@ class ExplanationVerifier:
         }
 
     def verify(self, clue_text, answer, definition, wordplay_type,
-               ai_explanation, clue_id=None):
+               ai_explanation, clue_id=None, db_conn=None):
         """Run all mechanical checks on an explanation.
 
         Args:
@@ -811,6 +815,11 @@ class ExplanationVerifier:
                 word-coverage classification (so manually-assigned
                 roles count as accounted) AND the resulting auto
                 classification is persisted back.
+            db_conn: optional open sqlite3.Connection to clues_master.db.
+                When the caller is already holding a write transaction
+                on this DB, pass it here so word-roles persistence uses
+                the same connection instead of opening a second one
+                (which would self-deadlock on the write lock).
 
         Returns dict with:
             score: 0-100
@@ -1236,7 +1245,19 @@ class ExplanationVerifier:
                     "detail": "Spoonerism: fewer than two piece words found",
                 })
 
-        if wtype == "anagram" or "[anagram" in expl.lower():
+        # Top-level anagram check fires when wtype is anagram, OR when the
+        # explanation contains a top-level "anagram of" outside any piece-
+        # source parentheses. Bracket annotations like [anagram: "..."] do
+        # NOT trigger this check — they may sit on a sub-piece inside a
+        # charade or container, in which case the piece-level anagram check
+        # (CHECK 5f) handles verification. Without this restriction the
+        # bracket trigger pulled the top-level check on charade/container
+        # parses and tried to make the full answer an anagram of the
+        # sub-piece fodder, producing false NOs.
+        _expl_no_parens = re.sub(r"\([^)]*\)", "", expl)
+        _toplevel_anagram = re.search(
+            r"\banagram\s+of\b", _expl_no_parens, re.IGNORECASE)
+        if wtype == "anagram" or _toplevel_anagram:
             # Extract all uppercase letter groups between "anagram of" and "=".
             # Single-letter pieces (e.g. B from "B (abbreviation=\"black\")")
             # are included; their abbreviation source is validated separately
@@ -1453,6 +1474,37 @@ class ExplanationVerifier:
                 "detail": f"{source_letters} minus {removed_letters} = {result_letters}: {'MATCH' if del_ok else 'MISMATCH'}",
             })
 
+        # --- CHECK 5f: Anagram piece-source claims ---
+        # Formats: LETTERS (anagram="source")  or  LETTERS (anagram of "source")
+        # Verify that letters of source rearrange to letters of the piece, and
+        # that source appears in the clue. Same shape as CHECK 5b deletion.
+        anagram_piece_claims = re.findall(
+            r"(\w+)\s*\(\s*anagram\s*(?:=|of)\s*[\"']([^\"']+)[\"']\s*\)",
+            expl, re.IGNORECASE,
+        )
+        for letters, source_word in anagram_piece_claims:
+            letters_clean = re.sub(r"[^A-Z]", "", letters.upper())
+            source_clean = re.sub(r"[^A-Z]", "", source_word.upper())
+            if not (source_clean and letters_clean):
+                continue
+            multiset_ok = sorted(letters_clean) == sorted(source_clean)
+            src_in_clue = source_clean.lower() in re.sub(
+                r"[^a-z]", "", clue_text.lower())
+            ok = multiset_ok and src_in_clue
+            problems = []
+            if not multiset_ok:
+                problems.append(
+                    f"letters of '{letters}' do not anagram to letters "
+                    f"of '{source_word}'")
+            if not src_in_clue:
+                problems.append(f"source '{source_word}' not in clue")
+            checks.append({
+                "check": "anagram_source",
+                "status": "verified" if ok else "wrong",
+                "detail": (f"'{letters}' as anagram of '{source_word}': YES"
+                           if ok else "; ".join(problems)),
+            })
+
         # --- CHECK 5d: "X with deletion = Y" format ---
         # Format: ATONED (synonym="made up") with deletion = TONED
         with_del_match = re.search(
@@ -1493,6 +1545,8 @@ class ExplanationVerifier:
             r"|(?:reversal|reverse)\s+of\s+"
             r"|from\s+clue\b"
             r"|deletion\s*=\s*\""
+            r"|anagram\s*=\s*\""
+            r"|anagram\s+of\s+[\"']"
             r")",
             re.IGNORECASE,
         )
@@ -1815,7 +1869,8 @@ class ExplanationVerifier:
                     # get_roles returns 6-tuples:
                     # (word_index, word_text, role, source, letters, piece_key)
                     manual = [
-                        row for row in get_roles(clue_id) if row[3] == "manual"
+                        row for row in get_roles(clue_id, conn=db_conn)
+                        if row[3] == "manual"
                     ]
                     for idx, wt, role, _src, m_letters, m_piece in manual:
                         if 0 <= idx < len(classified):
@@ -1825,7 +1880,7 @@ class ExplanationVerifier:
                                 classified[idx] = (cur_word, role,
                                                     m_letters, m_piece)
                     # Persist auto rows (write_auto_roles preserves manual)
-                    write_auto_roles(clue_id, classified)
+                    write_auto_roles(clue_id, classified, conn=db_conn)
                 except Exception:
                     pass  # Persistence must never disrupt verification
 
