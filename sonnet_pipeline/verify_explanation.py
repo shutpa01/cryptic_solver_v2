@@ -1692,6 +1692,22 @@ class ExplanationVerifier:
                          for i in range(len(_clue_words) - 1)]
         _expl_lower = (expl or "").lower()
 
+        # Words the admin has manually assigned a role to via the
+        # clue_word_roles override UI. A manual role is an explicit human
+        # statement of how the word functions in this clue, so 7b should
+        # respect it instead of flagging the word as a hidden mechanism.
+        # Only consulted when clue_id is provided; otherwise empty.
+        _manually_roled = set()
+        if clue_id is not None:
+            try:
+                from sonnet_pipeline.word_roles_store import get_roles
+                for _row in get_roles(clue_id):
+                    # row: (word_index, word_text, role, source, letters, piece_key)
+                    if _row[3] == "manual" and _row[1]:
+                        _manually_roled.add(_row[1].lower())
+            except Exception:
+                pass  # missing table or import failure → fall back to empty
+
         for op_type in OPERATION_INDICATOR_REQUIREMENTS:
             req_type, _ = OPERATION_INDICATOR_REQUIREMENTS[op_type]
             if req_type in seen_op_checks:
@@ -1807,6 +1823,15 @@ class ExplanationVerifier:
                             if any(tok in w_lower for tok in indicator_tokens):
                                 addressed = True
                                 break
+            # (f): the admin has manually assigned a role to the indicator
+            # word via the clue_word_roles override UI. A manual role is an
+            # explicit human statement that overrides the auto-classification,
+            # so the word is by definition not a hidden mechanism — it has a
+            # known function (link, definition, etc.) in this clue.
+            if not addressed and _manually_roled:
+                if any(tok in _manually_roled for tok in indicator_tokens):
+                    addressed = True
+
             if addressed:
                 continue
 
