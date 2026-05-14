@@ -36,8 +36,13 @@ SCRAPER_SCRIPT = str(ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 DANWORD_SCRIPT = str(ROOT / "scraper" / "danword" / "danword_lookup.py")
 LOG_DIR = ROOT / "logs"
 
-# Pipeline sources — only those without blog coverage
-# Times/Guardian/Independent run manually after blogs post (cheaper via TFTT/FS+Haiku)
+# Sources to scrape every night (all five so puzzles appear in the dashboard).
+SCRAPE_SOURCES = ["telegraph", "dailymail", "times", "guardian", "independent"]
+
+# Sources to auto-solve overnight — only no-blog sources.
+# Times/Guardian/Independent are scraped above so they appear in the pipeline
+# dashboard, but the pipeline itself is triggered manually after blogs post
+# (cheaper via TFTT/FS+Haiku vs auto-running full Sonnet blind).
 SOLVE_SOURCES = ["telegraph", "dailymail"]
 
 
@@ -55,7 +60,7 @@ def run_scraper():
     it once per source. Failure of one source doesn't stop the other.
     """
     overall_ok = True
-    for source in SOLVE_SOURCES:
+    for source in SCRAPE_SOURCES:
         log(f"Step 1: Scraping {source}...")
         try:
             result = subprocess.run(
@@ -231,7 +236,7 @@ def main():
     # other puzzles are processed manually when blogs appear)
     if not args.skip_scraper:
         if args.dry_run:
-            log("[DRY RUN] Would scrape: " + ", ".join(SOLVE_SOURCES))
+            log("[DRY RUN] Would scrape: " + ", ".join(SCRAPE_SOURCES))
         else:
             run_scraper()
 

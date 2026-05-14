@@ -75,44 +75,120 @@ class ExplanationVerifier:
             w = row[0].lower().strip()
             self._indicators_by_word.setdefault(w, []).append((row[1], row[2]))
 
+    def _phrase_variants(self, phrase):
+        """Yield variants of a synonym/abbreviation source phrase for
+        lookup, to bridge the possessive-'s and punctuation mismatches.
+
+        When the DB has "oscar winner's" and the parse says "Oscar
+        winner" (or vice versa), or the DB has "areas for e g
+        football" and the parse says "Areas for e.g. football", or
+        the DB has "golf games of" and the parse says "games of golf"
+        (same content, different word order, both from cryptic
+        conventions), single-form lookup misses. We yield: as-is,
+        without/with trailing 's, with non-alpha stripped, and with
+        words sorted. Caller compares LOWER() so case is OK.
+        """
+        import re as _re
+        p = (phrase or "").strip()
+        if not p:
+            return
+        yield p
+        # 's tolerance
+        if p.lower().endswith("'s") or p.lower().endswith("’s"):
+            yield p[:-2]
+        else:
+            yield p + "'s"
+        # Strip non-alpha (turns "e.g." into "eg", "won't" into "wont")
+        stripped = _re.sub(r"[^A-Za-z ]", "", p)
+        stripped = _re.sub(r"\s+", " ", stripped).strip()
+        if stripped and stripped != p:
+            yield stripped
+        # Sort content words (handles different word order in DB vs parse)
+        tokens = _re.findall(r"[A-Za-z]+", p)
+        if len(tokens) > 1:
+            sorted_form = " ".join(sorted(t.lower() for t in tokens))
+            yield sorted_form
+
     def is_synonym(self, word, target):
         """Check if word -> target is a known synonym pair.
 
         Checks both synonyms_pairs and definition_answers_augmented,
-        in both directions.
+        in both directions. Tolerant of: trailing possessive 's,
+        punctuation in the source phrase, and word-order differences
+        for multi-word phrases (DB has "golf games of", parse says
+        "games of golf").
         """
+        import re as _re
         key = (word.lower(), target.lower())
         if key not in self._syn_cache:
-            w, t = word.lower(), target.lower()
+            t = target.lower()
             row = None
-            for w1, w2 in [(w, t), (t, w)]:
+            for w_variant in self._phrase_variants(word):
                 if row:
                     break
-                row = self.ref.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
-                    (w1, w2),
-                ).fetchone()
-                if not row:
+                w = w_variant.lower()
+                for w1, w2 in [(w, t), (t, w)]:
+                    if row:
+                        break
                     row = self.ref.execute(
-                        "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND LOWER(answer) = ? LIMIT 1",
+                        "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND LOWER(synonym) = ? LIMIT 1",
                         (w1, w2),
                     ).fetchone()
+                    if not row:
+                        row = self.ref.execute(
+                            "SELECT 1 FROM definition_answers_augmented WHERE LOWER(definition) = ? AND LOWER(answer) = ? LIMIT 1",
+                            (w1, w2),
+                        ).fetchone()
+            # Fallback: word-order tolerant match for multi-word
+            # phrases. Compare sorted alpha-only tokens between the
+            # parse phrase and each DB row that maps to/from target.
+            if not row:
+                parse_tokens = sorted(
+                    _re.findall(r"[a-z]+", word.lower()))
+                if len(parse_tokens) > 1:
+                    for tbl, w_col, t_col in [
+                        ("synonyms_pairs", "word", "synonym"),
+                        ("definition_answers_augmented", "definition", "answer"),
+                    ]:
+                        for direction in ((target,), ()):
+                            if row:
+                                break
+                            if direction:
+                                q = (f"SELECT {w_col} FROM {tbl} WHERE "
+                                     f"LOWER({t_col}) = ?")
+                                params = (direction[0].lower(),)
+                            else:
+                                q = (f"SELECT {t_col} FROM {tbl} WHERE "
+                                     f"LOWER({w_col}) = ?")
+                                params = (target.lower(),)
+                            for (cand,) in self.ref.execute(q, params):
+                                cand_tokens = sorted(
+                                    _re.findall(r"[a-z]+", (cand or "").lower()))
+                                if cand_tokens == parse_tokens:
+                                    row = True
+                                    break
             self._syn_cache[key] = row is not None
         return self._syn_cache[key]
 
     def is_abbreviation(self, word, letters):
-        """Check if word abbreviates to letters."""
+        """Check if word abbreviates to letters. Tolerant of trailing
+        possessive 's on the source word -- see is_synonym."""
         key = (word.lower(), letters.upper())
         if key not in self._abbr_cache:
-            row = self.ref.execute(
-                "SELECT 1 FROM wordplay WHERE LOWER(indicator) = ? AND UPPER(substitution) = ? LIMIT 1",
-                (word.lower(), letters.upper()),
-            ).fetchone()
-            if not row:
+            row = None
+            for w_variant in self._phrase_variants(word):
+                if row:
+                    break
+                w = w_variant.lower()
                 row = self.ref.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
-                    (word.lower(), letters.upper()),
+                    "SELECT 1 FROM wordplay WHERE LOWER(indicator) = ? AND UPPER(substitution) = ? LIMIT 1",
+                    (w, letters.upper()),
                 ).fetchone()
+                if not row:
+                    row = self.ref.execute(
+                        "SELECT 1 FROM synonyms_pairs WHERE LOWER(word) = ? AND UPPER(synonym) = ? LIMIT 1",
+                        (w, letters.upper()),
+                    ).fetchone()
             self._abbr_cache[key] = row is not None
         return self._abbr_cache[key]
 
@@ -265,8 +341,8 @@ class ExplanationVerifier:
         Scans single words and 2-word phrases against the indicators table.
         If required_subtypes is provided, also checks the subtype matches.
         """
-        clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-                                clue_text.lower().replace("’", "'"))
+        clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
+                                clue_text.lower().replace("’", "’"))
         # Single words
         for word in clue_words:
             entries = self._indicators_by_word.get(word, [])
@@ -471,8 +547,8 @@ class ExplanationVerifier:
         # and "tre" at the î.
         _clue_folded = unicodedata.normalize(
             "NFKD", clue).encode("ascii", "ignore").decode("ascii")
-        words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-                           _clue_folded.lower().replace("’", "'"))
+        words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
+                           _clue_folded.lower().replace("’", "’"))
         if not words:
             return {"classified": [], "unaccounted": [], "link": [],
                     "summary": "no clue words"}
@@ -514,11 +590,30 @@ class ExplanationVerifier:
             `letters` and `piece_key` are optional. When provided, every
             successfully-claimed word records the letters its piece
             contributes (e.g. 'LA') and the piece_key that groups it with
-            siblings sharing the same piece."""
+            siblings sharing the same piece.
+
+            STRICT MULTI-WORD GATE: when the claim is a synonym or
+            abbreviation of a multi-word source phrase and `letters` is
+            provided, require the FULL phrase to be in DB (via
+            is_synonym/is_abbreviation -- which already tolerate
+            trailing 's and punctuation) before claiming any of the
+            constituent words. Without this, a parse like RAIL
+            (synonym="water bird") whose DB only backs "bird" -> RAIL
+            would claim both "water" and "bird" as accounted, hiding
+            that "water" has no DB justification."""
             if not phrase:
                 return
             phrase_words = re.findall(
                 r"[a-zA-Z]+(?:'[a-zA-Z]+)?", phrase.lower())
+            if (len(phrase_words) > 1 and letters
+                    and role in ("synonym_source", "synonym",
+                                  "abbreviation_source", "abbreviation")):
+                if role in ("synonym_source", "synonym"):
+                    if not self.is_synonym(phrase, letters):
+                        return
+                else:
+                    if not self.is_abbreviation(phrase, letters):
+                        return
             for pw in phrase_words:
                 pw_norm = _norm(pw)
                 for i, w in enumerate(words):
@@ -600,6 +695,15 @@ class ExplanationVerifier:
             (r"([A-Z']+|\w+)\s*\(\s*anagram\s+of\s+" + Q + r"\s*\)",
              "anagram_fodder", False),
         ]
+        # Track source phrases that section 1 (the letters-piece
+        # patterns) has already seen. Section 2's bare-form synonym /
+        # abbreviation passes use this to skip phrases section 1
+        # already handled -- whether it claimed them or not. Without
+        # this skip, a parse like RAIL synonym="water bird" where
+        # section 1's strict gate refused to claim (DB miss for the
+        # full phrase) would be re-claimed by section 2's bare pass
+        # WITHOUT letters, silently masking the gap in word_coverage.
+        _section1_seen_phrases = set()
         for pat, default_role, allow_db_override in _letters_piece_patterns:
             for m in re.finditer(pat, expl, re.IGNORECASE):
                 letters = m.group(1)
@@ -632,14 +736,71 @@ class ExplanationVerifier:
                                 break
                 else:
                     _claim_phrase(src, role, letters=letters, piece_key=pk)
+                # Record the phrase as seen by section 1 so the
+                # bare-form pass below does not re-claim it without
+                # letters. Synonym/abbreviation only -- positional,
+                # reversal, deletion, anagram don't have a bare-form
+                # competing pass to worry about.
+                if role in ("synonym_source", "synonym",
+                            "abbreviation_source", "abbreviation"):
+                    _section1_seen_phrases.add(src.lower())
 
         # 2. Synonym sources: (synonym="X") and "synonym of \"X\""
+        # Nested form first: LETTERS synonym="X" appearing inside another
+        # piece's paren (e.g. `IRIS (deletion="IRISH", IRISH synonym="from
+        # Cork perhaps")` or `LEA (deletion="LEAP", LEAP synonym="bound")`).
+        # Without this, the inner phrase gets a synonym_source role but no
+        # letters / piece_key, so the word-by-word panel shows the source
+        # words without their contribution. Pattern requires whitespace
+        # before `synonym=` (not `(`), which excludes the paren-prefixed
+        # forms already handled by section 1.
+        _nested_claimed = set()
+        for m in re.finditer(
+                r"\b([A-Za-z']{2,})\s+synonym\s*=\s*" + Q,
+                expl, re.IGNORECASE):
+            nested_letters = m.group(1)
+            # Q adds groups (2)/(3) since group(1) is the LETTERS prefix
+            src = m.group(2) if m.group(2) is not None else m.group(3)
+            if not (nested_letters and src):
+                continue
+            pk = _next_piece_key()
+            _claim_phrase(src, "synonym_source",
+                          letters=nested_letters.upper(), piece_key=pk)
+            _nested_claimed.add(src.lower())
+        for m in re.finditer(
+                r"\b([A-Za-z']{2,})\s+synonym\s+of\s+" + Q,
+                expl, re.IGNORECASE):
+            nested_letters = m.group(1)
+            src = m.group(2) if m.group(2) is not None else m.group(3)
+            if not (nested_letters and src):
+                continue
+            pk = _next_piece_key()
+            _claim_phrase(src, "synonym_source",
+                          letters=nested_letters.upper(), piece_key=pk)
+            _nested_claimed.add(src.lower())
+        # Bare forms (no letters prefix) — skip phrases already
+        # handled by the nested pass above OR by section 1's
+        # letters-piece pattern. The latter is critical: when section
+        # 1's strict DB gate refuses to claim a multi-word phrase
+        # (e.g. "water bird" -> RAIL not in DB), the bare-form pass
+        # must not re-claim it without letters, which would mask the
+        # gap in word_coverage.
         for m in re.finditer(
                 r"synonym\s*=\s*" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "synonym_source")
+            src = _qval(m)
+            if src and src.lower() in _nested_claimed:
+                continue
+            if src and src.lower() in _section1_seen_phrases:
+                continue
+            _claim_phrase(src, "synonym_source")
         for m in re.finditer(
                 r"synonym\s+of\s+" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "synonym_source")
+            src = _qval(m)
+            if src and src.lower() in _nested_claimed:
+                continue
+            if src and src.lower() in _section1_seen_phrases:
+                continue
+            _claim_phrase(src, "synonym_source")
 
         # 2b. Literal "from clue" pieces — e.g. A (from clue) for a clue
         # that uses the literal letter 'a' as part of the wordplay. The
@@ -662,16 +823,29 @@ class ExplanationVerifier:
                     claimed_piece[i] = pk
                     break
 
-        # 3. Abbreviation sources
+        # 3. Abbreviation sources -- same section-1 skip as synonyms
+        # above. When section 1's letters-piece pattern has already
+        # seen the phrase (and possibly refused to claim it under the
+        # strict multi-word gate), do not re-claim it here without
+        # letters.
         for m in re.finditer(
                 r"abbreviation\s*=\s*" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "abbreviation_source")
+            src = _qval(m)
+            if src and src.lower() in _section1_seen_phrases:
+                continue
+            _claim_phrase(src, "abbreviation_source")
         for m in re.finditer(
                 r"abbreviation\s+of\s+" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "abbreviation_source")
+            src = _qval(m)
+            if src and src.lower() in _section1_seen_phrases:
+                continue
+            _claim_phrase(src, "abbreviation_source")
         for m in re.finditer(
                 r"abbr\.?\s*(?:of\s+)?" + Q, expl, re.IGNORECASE):
-            _claim_phrase(_qval(m), "abbreviation_source")
+            src = _qval(m)
+            if src and src.lower() in _section1_seen_phrases:
+                continue
+            _claim_phrase(src, "abbreviation_source")
 
         # 4. Positional sources: (first/last/middle/outer/etc. letter(s) of "X")
         for m in re.finditer(
@@ -925,7 +1099,11 @@ class ExplanationVerifier:
                         (only present if word_coverage check ran)
         """
         checks = []
-        answer_clean = (answer or "").upper().replace(" ", "")
+        # Strip all non-letters so hyphenated answers (BUMP-START),
+        # apostrophes, and other punctuation don't break the assembly
+        # regex comparison further down (which produces "BUMPSTART"
+        # from the parse pieces).
+        answer_clean = re.sub(r"[^A-Z]", "", (answer or "").upper())
 
         if not ai_explanation or not answer:
             return {"score": 0, "checks": [], "verdict": "FAIL"}
@@ -962,12 +1140,15 @@ class ExplanationVerifier:
         )
         for result_word, source_word in pieces:
             matched = self.is_synonym(source_word, result_word)
-            # Also try individual words from multi-word source
-            if not matched:
-                for w in source_word.lower().split():
-                    if len(w) > 2 and self.is_synonym(w, result_word):
-                        matched = True
-                        break
+            # STRICT: no per-word fallback. The full multi-word phrase
+            # must be in DB. Previously a fallback accepted the parse
+            # when any single content word of the source phrase mapped
+            # to the result, which let parses like RAIL synonym="water
+            # bird" score HIGH on the strength of "bird" alone being
+            # in DB, even though "water" had no DB backing. The
+            # strictness here pairs with the multi-word gate in
+            # _claim_phrase which stops the classifier claiming
+            # constituent words of a missing full phrase.
             # Single-letter "synonyms" not in DB are fabricated abbreviations — wrong
             if not matched and len(result_word.strip()) == 1:
                 checks.append({
@@ -1811,8 +1992,8 @@ class ExplanationVerifier:
         # the operation accidentally; here we catch the case where the
         # explanation hides it on purpose.
         # Build the set of clue words and 2-word phrases (used below).
-        _clue_words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-                                 (clue_text or "").lower().replace("’", "'"))
+        _clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
+                                 (clue_text or "").lower().replace("’", "’"))
         _clue_phrases = [_clue_words[i] + " " + _clue_words[i + 1]
                          for i in range(len(_clue_words) - 1)]
         _expl_lower = (expl or "").lower()
@@ -1939,8 +2120,19 @@ class ExplanationVerifier:
                     r"\s*(?:=|\s+of)?\s*[\"']([^\"']+)[\"']",
                     re.IGNORECASE,
                 )
+                # Nested form: `LETTERS synonym="phrase"` inside another
+                # piece paren (no opening paren before `synonym=`).
+                nested_pat = re.compile(
+                    r"\b[A-Za-z']{2,}\s+(?:synonym|abbreviation|abbr\.?)"
+                    r"\s*(?:=|\s+of)?\s*[\"']([^\"']+)[\"']",
+                    re.IGNORECASE,
+                )
                 source_words = set()
                 for sm in source_pat.finditer(expl or ""):
+                    for w in re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+                                         sm.group(1).lower()):
+                        source_words.add(w)
+                for sm in nested_pat.finditer(expl or ""):
                     for w in re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
                                          sm.group(1).lower()):
                         source_words.add(w)
@@ -1972,6 +2164,44 @@ class ExplanationVerifier:
             if not addressed and _manually_roled:
                 if any(tok in _manually_roled for tok in indicator_tokens):
                     addressed = True
+
+            # (g): the classifier has assigned the indicator-DB word a real
+            # mechanical role (hidden_source, anagram_fodder, positional_source,
+            # reversal_source, deletion_source, dbe_marker, or an indicator
+            # role for a DIFFERENT op-type). These are MECHANICAL classifications
+            # backed by their own verified checks (hidden_word, anagram, etc.),
+            # so 7b firing on the same word is a false positive.
+            #
+            # IMPORTANT: this path does NOT silence 7b when the word is
+            # classified as "definition" — that's the def-extension cheat path
+            # which is guarded separately by (e) requiring def_verified, and
+            # by the upstream edge-anchor validator in store helpers.
+            if not addressed:
+                try:
+                    _g_coverage = self._classify_clue_words(
+                        clue_text, expl, definition, answer=answer)
+                    _g_safe_roles = {
+                        "hidden_source", "anagram_fodder",
+                        "positional_source", "reversal_source",
+                        "deletion_source", "literal_source",
+                        "possessive_source", "dbe_marker",
+                    }
+                    for w, role, _L, _pk in _g_coverage.get("classified", []):
+                        if w in indicator_tokens and role in _g_safe_roles:
+                            addressed = True
+                            break
+                        # Also accept the word being claimed as an indicator
+                        # for a DIFFERENT op-type (e.g. "from" used as a
+                        # reversal indicator in the parse but also flagged by
+                        # 7b as anagram indicator — the reversal use is
+                        # legitimate).
+                        if (w in indicator_tokens
+                                and role.endswith("_indicator")
+                                and role != f"{req_type}_indicator"):
+                            addressed = True
+                            break
+                except Exception:
+                    pass  # 7b silencing must never disrupt verification
 
             if addressed:
                 continue
@@ -2031,8 +2261,20 @@ class ExplanationVerifier:
             # missed piece — demote to 'unaccounted' so word_coverage
             # surfaces the gap. Manual link assignments survive because
             # they apply after this demotion.
+            # Treat any of these as "the wordplay produced the answer"
+            # for the purpose of strict-link demotion. The verifier
+            # produces these check names instead of "assembly" for
+            # non-charade wtypes; without them in the list, a perfectly
+            # correct container/hidden/reversal/homophone/dd clue would
+            # have its auto-link words demoted to unaccounted, tanking
+            # the score for a single "of" or "and".
+            _assembly_eq_checks = (
+                "assembly", "container", "hidden_word", "reversal",
+                "homophone", "dd", "anagram",
+            )
             assembly_verified = any(
-                c.get("check") == "assembly" and c.get("status") == "verified"
+                c.get("check") in _assembly_eq_checks
+                and c.get("status") == "verified"
                 for c in checks
             )
             non_link_unaccounted = any(

@@ -362,6 +362,51 @@ def clue_page(slug):
                 "words": [wt],
                 "source": s,
             })
+    # Display normalisation: clue words that contribute a single letter
+    # to the answer all sit under the same display label, regardless of
+    # whether the underlying mechanism is positional (first letter of X),
+    # an abbreviation lookup (charge -> C), or a wordplay single_letter
+    # entry. Without this, "Relative in charge of sound" -> SONIC shows
+    # "in" as positional_source and "charge" as abbreviation -- visually
+    # inconsistent for two single-letter contributions. Apply only to
+    # display; auto/manual rows on disk keep their precise mechanical
+    # role.
+    _single_letter_eq = {"positional_source", "abbreviation",
+                         "abbreviation_source", "single_letter",
+                         "literal_source"}
+    for grp in role_groups:
+        if (grp.get("role") in _single_letter_eq
+                and grp.get("letters")
+                and len(grp["letters"]) == 1):
+            grp["role"] = "single_letter"
+    # For cryptic_definition clues, always show a single clean definition
+    # row in the word-by-word section (the verifier writes messy unaccounted
+    # rows for the cryptic-hint words which looks wrong). Also ensure the
+    # admin panel has at least one row so the Accept button can appear.
+    if (clue["wordplay_type"] or "") == "cryptic_definition" and clue["clue_text"]:
+        _cd_words = clue["clue_text"].split()
+        # Replace role_groups with a single clean "definition" row
+        role_groups = [{
+            "piece_key": None,
+            "role": "definition",
+            "letters": None,
+            "contributes": None,
+            "words": _cd_words,
+            "source": "synthetic",
+        }]
+        # Reclassify all word_role_rows as "definition" so the admin
+        # panel shows no "unaccounted" noise for CD clues.
+        for _r in word_role_rows:
+            _r["role"] = "definition"
+        if not word_role_rows:
+            word_role_rows = [{
+                "word_index": 0,
+                "word_text": _cd_words[0],
+                "role": "definition",
+                "source": "synthetic",
+                "letters": None,
+                "piece_key": None,
+            }]
     clue_dict["word_roles"] = word_role_rows
     clue_dict["role_groups"] = role_groups
 
@@ -377,16 +422,61 @@ def clue_page(slug):
     _PROJECT_ROOT = _Path(__file__).resolve().parent.parent.parent
     answer_clean_for_def = _re_acc.sub(
         r"[^A-Z]", "", (clue["answer"] or "").upper())
+
+    # Pre-scan the explanation for multi-word indicator brackets like
+    # [reversal: "looking back"]. For each, find the consecutive clue
+    # words that match the phrase and remember which row indices form
+    # the phrase. The piece-grouping loop below uses this to merge
+    # consecutive *_indicator rows that together carry a multi-word
+    # bracket, so the Accept button surfaces the multi-word phrase
+    # (e.g. "looking back" -> reversal) rather than the individual
+    # single-word constituents that may already each be in DB.
+    _ai_expl_for_groups = clue["ai_explanation"] or ""
+    _multiword_by_index = {}  # word_index -> first_index in phrase span
+    _ann_pat = _re_acc.compile(
+        r'[\[;]\s*(\w+(?:\s+\w+)?)\s*:\s*["\']([^"\']+)["\']',
+        _re_acc.IGNORECASE,
+    )
+    _lower_words = [
+        (row["word_text"] or "").lower() for row in word_role_rows
+    ]
+    for _m in _ann_pat.finditer(_ai_expl_for_groups):
+        _phrase_words = _re_acc.findall(
+            r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
+            _m.group(2).lower(),
+        )
+        if len(_phrase_words) < 2:
+            continue
+        # Locate the contiguous run of clue word indices matching the
+        # phrase. Use the first hit only.
+        for _start in range(len(_lower_words) - len(_phrase_words) + 1):
+            if all(_lower_words[_start + _j] == _phrase_words[_j]
+                   for _j in range(len(_phrase_words))):
+                for _j in range(len(_phrase_words)):
+                    _multiword_by_index[_start + _j] = _start
+                break
+
     piece_groups_for_accept = []
     cur = None
     for i, row in enumerate(word_role_rows):
         pk = row["piece_key"]
         rl = row["role"]
+        # Multi-word indicator merge: two consecutive *_indicator rows
+        # belong to the same group when they share a multi-word phrase
+        # span discovered above.
+        same_indicator_phrase = (
+            cur is not None
+            and rl and rl.endswith("_indicator")
+            and (cur.get("role") or "").endswith("_indicator")
+            and i in _multiword_by_index
+            and cur.get("_phrase_start") == _multiword_by_index[i]
+        )
         same_group = (
             cur is not None and (
                 (pk is not None and pk == cur["piece_key"])
                 or (pk is None and cur["piece_key"] is None
                     and rl == "definition" and cur["role"] == "definition")
+                or same_indicator_phrase
             )
         )
         if same_group:
@@ -395,13 +485,29 @@ def clue_page(slug):
             if cur:
                 piece_groups_for_accept.append(cur)
             cur = {"first_index": i, "piece_key": pk, "role": rl,
-                   "words": [row["word_text"]], "letters": row["letters"]}
+                   "words": [row["word_text"]], "letters": row["letters"],
+                   "_phrase_start": _multiword_by_index.get(i)}
     if cur:
         piece_groups_for_accept.append(cur)
 
     ref_acc = _sqlite3.connect(
         str(_PROJECT_ROOT / "data" / "cryptic_new.db"))
     accept_by_index = {}
+    # Try both the phrase as joined from clue words AND the form with
+    # the trailing possessive 's stripped (and vice versa). Without
+    # this, the DB might have "oscar winner's" while the parse uses
+    # "Oscar winner" (or vice versa) and the lookup misses on one
+    # side -- mirrors the verifier's _phrase_variants logic so the
+    # Accept button surfaces only when the pair is genuinely missing
+    # in both forms.
+    def _phrase_variants(p):
+        p = (p or "").strip()
+        yield p
+        if p.lower().endswith("'s") or p.lower().endswith("’s"):
+            yield p[:-2]
+        else:
+            yield p + "'s"
+
     for pg in piece_groups_for_accept:
         phrase = " ".join(pg["words"]).strip()
         role = pg["role"] or ""
@@ -409,22 +515,31 @@ def clue_page(slug):
         target = in_db = None
         if role in ("synonym", "synonym_source") and letters:
             target = ("synonym", phrase, letters.upper())
-            in_db = ref_acc.execute(
-                "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? "
-                "AND UPPER(synonym)=? LIMIT 1",
-                (phrase.lower(), letters.upper())).fetchone()
+            for ph in _phrase_variants(phrase):
+                if in_db:
+                    break
+                in_db = ref_acc.execute(
+                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? "
+                    "AND UPPER(synonym)=? LIMIT 1",
+                    (ph.lower(), letters.upper())).fetchone()
         elif role in ("abbreviation", "abbreviation_source") and letters:
             target = ("abbreviation", phrase, letters.upper())
-            in_db = ref_acc.execute(
-                "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? "
-                "AND UPPER(substitution)=? LIMIT 1",
-                (phrase.lower(), letters.upper())).fetchone()
+            for ph in _phrase_variants(phrase):
+                if in_db:
+                    break
+                in_db = ref_acc.execute(
+                    "SELECT 1 FROM wordplay WHERE LOWER(indicator)=? "
+                    "AND UPPER(substitution)=? LIMIT 1",
+                    (ph.lower(), letters.upper())).fetchone()
         elif role == "definition":
             target = ("definition", phrase, answer_clean_for_def)
-            in_db = ref_acc.execute(
-                "SELECT 1 FROM definition_answers_augmented "
-                "WHERE LOWER(definition)=? AND UPPER(answer)=? LIMIT 1",
-                (phrase.lower(), answer_clean_for_def)).fetchone()
+            for ph in _phrase_variants(phrase):
+                if in_db:
+                    break
+                in_db = ref_acc.execute(
+                    "SELECT 1 FROM definition_answers_augmented "
+                    "WHERE LOWER(definition)=? AND UPPER(answer)=? LIMIT 1",
+                    (ph.lower(), answer_clean_for_def)).fetchone()
         elif role.endswith("_indicator"):
             op_type = role[:-len("_indicator")]
             target = ("indicator", phrase, op_type)
@@ -434,7 +549,141 @@ def clue_page(slug):
                 (phrase.lower(), op_type.lower())).fetchone()
         if target and not in_db:
             accept_by_index[pg["first_index"]] = target
-    ref_acc.close()
+    # Secondary scan: surface Accept buttons for parse claims that
+    # the classifier's strict gate refused to claim (because the full
+    # multi-word phrase is not in DB). Without this, FRAIL's parse
+    # "RAIL (synonym='water bird')" leaves water/bird as unaccounted
+    # word_role_rows and the Accept button never appears -- the user
+    # has no way to add the enrichment from the clue page.
+    #
+    # Re-open the ref DB; we just closed it.
+    ref_acc = _sqlite3.connect(
+        str(_PROJECT_ROOT / "data" / "cryptic_new.db"))
+    try:
+        # Build a quick lookup so we can find the first clue-word
+        # index for any source-phrase word.
+        _lower_words_for_acc = [
+            (row["word_text"] or "").lower() for row in word_role_rows
+        ]
+        # Bracket-form indicator claims like [parts: "occasionally"]
+        # or [reversal: "looking back"]. Surface an Accept button on
+        # the first matching clue word if the phrase isn't in DB.
+        for _bm in _re_acc.finditer(
+                r'[\[;]\s*(\w+(?:\s+\w+)?)\s*:\s*["\']([^"\']+)["\']',
+                clue["ai_explanation"] or "",
+                _re_acc.IGNORECASE):
+            _op_type = _bm.group(1).strip().lower()
+            _phrase = _bm.group(2).strip()
+            if not _phrase:
+                continue
+            _r = ref_acc.execute(
+                "SELECT 1 FROM indicators WHERE LOWER(word)=? "
+                "AND LOWER(wordplay_type)=? LIMIT 1",
+                (_phrase.lower(), _op_type)).fetchone()
+            if _r:
+                continue
+            _phrase_tokens = _re_acc.findall(
+                r"[a-zA-Z]+(?:'[a-zA-Z]+)?", _phrase.lower())
+            if not _phrase_tokens:
+                continue
+            _first_tok = _phrase_tokens[0]
+            for _i, _lw in enumerate(_lower_words_for_acc):
+                if _lw == _first_tok:
+                    _existing = accept_by_index.get(_i)
+                    if (_existing is None
+                            or (len(_phrase_tokens) > 1
+                                and len(_existing[1].split()) == 1)):
+                        accept_by_index[_i] = (
+                            "indicator", _phrase, _op_type)
+                        # Remove any single-word entries the primary scan
+                        # set for the remaining tokens of this phrase.
+                        for _j, _pt in enumerate(_phrase_tokens[1:], 1):
+                            if _i + _j < len(_lower_words_for_acc):
+                                _e = accept_by_index.get(_i + _j)
+                                if _e and len(_e[1].split()) == 1:
+                                    del accept_by_index[_i + _j]
+                    break
+        for _pat, _kind in [
+            (r'(\w+)\s*\(\s*synonym\s*=\s*["\']([^"\']+)["\']\s*\)',
+             'synonym'),
+            (r'(\w+)\s*\(\s*synonym\s+of\s+["\']([^"\']+)["\']\s*\)',
+             'synonym'),
+            (r'(\w+)\s*\(\s*abbreviation\s*=\s*["\']([^"\']+)["\']\s*\)',
+             'abbreviation'),
+            (r'(\w+)\s*\(\s*abbreviation\s+of\s+["\']([^"\']+)["\']\s*\)',
+             'abbreviation'),
+            # Paren-less forms used inside deletion/container clauses, e.g.
+            # RAIT (deletion="RABBIT", BB dropped, RABBIT synonym="inferior cricketer")
+            (r'([A-Z]+)\s+synonym\s*=\s*["\']([^"\']+)["\']',
+             'synonym'),
+            (r'([A-Z]+)\s+abbreviation\s*=\s*["\']([^"\']+)["\']',
+             'abbreviation'),
+        ]:
+            for _cm in _re_acc.finditer(
+                    _pat, clue["ai_explanation"] or "",
+                    _re_acc.IGNORECASE):
+                _ltrs = _cm.group(1)
+                _src = _cm.group(2)
+                if not (_ltrs and _src):
+                    continue
+                # Letters must be uppercase (it's a piece value) and
+                # at least one letter -- skips matches inside narrative.
+                if not _re_acc.match(r"^[A-Z']+$", _ltrs):
+                    continue
+                # Skip if the source phrase has only one word -- the
+                # primary scan above already handles single-word
+                # claims via the synonym_source role.
+                _phrase_tokens = _re_acc.findall(
+                    r"[a-zA-Z]+(?:'[a-zA-Z]+)?", _src.lower())
+                if len(_phrase_tokens) < 2:
+                    continue
+                # DB lookup with the trailing-'s variants.
+                _hit = False
+                for _ph in _phrase_variants(_src):
+                    if _kind == 'synonym':
+                        r = ref_acc.execute(
+                            "SELECT 1 FROM synonyms_pairs WHERE "
+                            "LOWER(word)=? AND UPPER(synonym)=? LIMIT 1",
+                            (_ph.lower(), _ltrs.upper())).fetchone()
+                    else:
+                        r = ref_acc.execute(
+                            "SELECT 1 FROM wordplay WHERE "
+                            "LOWER(indicator)=? AND UPPER(substitution)=? "
+                            "LIMIT 1",
+                            (_ph.lower(), _ltrs.upper())).fetchone()
+                    if r:
+                        _hit = True
+                        break
+                if _hit:
+                    continue
+                # Locate the first clue word matching the start of the
+                # source phrase. Attach an accept_target there so the
+                # button appears on that word's admin row.
+                _first_tok = _phrase_tokens[0]
+                for _i, _lw in enumerate(_lower_words_for_acc):
+                    if _lw == _first_tok and _i not in accept_by_index:
+                        accept_by_index[_i] = (
+                            _kind, _src, _ltrs.upper())
+                        break
+    finally:
+        ref_acc.close()
+
+    # CD: surface Accept button for the full clue text → answer definition.
+    # The verifier's CD check requires this exact mapping in the DB.
+    if ((clue["wordplay_type"] or "") == "cryptic_definition"
+            and word_role_rows
+            and 0 not in accept_by_index):
+        _ref_cd = _sqlite3.connect(str(_PROJECT_ROOT / "data" / "cryptic_new.db"))
+        try:
+            _ct = (clue["clue_text"] or "").strip()
+            _cd_hit = _ref_cd.execute(
+                "SELECT 1 FROM definition_answers_augmented "
+                "WHERE LOWER(definition)=? AND UPPER(answer)=? LIMIT 1",
+                (_ct.lower(), answer_clean_for_def)).fetchone()
+            if not _cd_hit:
+                accept_by_index[0] = ("definition", _ct, answer_clean_for_def)
+        finally:
+            _ref_cd.close()
 
     for i, row in enumerate(word_role_rows):
         row["accept_target"] = accept_by_index.get(i)
@@ -556,8 +805,8 @@ def clue_page(slug):
     clue_stripped_for_words = _re_acc.sub(
         r"[^a-z]", "", clue_text_for_hidden.lower())
     for tok in _re_acc.findall(
-            r"[a-zA-Z]+(?:'[a-zA-Z]+)?",
-            clue_text_for_hidden.lower().replace("’", "'")):
+            r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
+            clue_text_for_hidden.lower().replace("’", "’")):
         tok_letters = _re_acc.sub(r"[^a-z]", "", tok)
         word_offsets.append((tok, cursor, cursor + len(tok_letters)))
         cursor += len(tok_letters)
@@ -624,9 +873,17 @@ def clue_page(slug):
     # possessive 's in the clue. The parser writes "+ S (from clue)" for
     # the S contributed by a "...'s" token, but the classifier has already
     # claimed that token under its primary role (typically synonym), so
-    # the S never gets its own row. We add a synthetic possessive row
-    # next to the host token so the word-by-word panel shows every piece
-    # the wordplay uses. No DB write — purely a display layer.
+    # the S never gets its own row.
+    #
+    # IMPORTANT (2026-05-14 fix): only surface the synthetic row if the
+    # S is genuinely part of the answer. Yesterday's unguarded version
+    # surfaced it whenever "S (from clue)" appeared in the parse,
+    # papering over wrong parses (e.g. RIBCAGE = RIB + CAGE has no
+    # trailing S, but the parse claimed "+ S (from clue)" and the
+    # renderer dutifully showed an S row, making the wrong parse look
+    # complete). The new guard sums the existing piece contribs and
+    # only adds the synthetic S when (sum + 'S') matches the answer
+    # multiset — i.e. the S really does belong.
     import re as _re
     expl_text = clue_dict.get("ai_explanation") or ""
     if _re.search(r"\bS\s*\(\s*from\s+clue\s*\)", expl_text):
@@ -636,16 +893,48 @@ def clue_page(slug):
                    for w in grp["words"])
         ]
         if len(possessive_indices) == 1:
-            host_i = possessive_indices[0]
-            host_words = role_groups[host_i]["words"]
-            role_groups.insert(host_i + 1, {
-                "piece_key": None,
-                "role": "possessive_source",
-                "letters": "S",
-                "contributes": "S",
-                "words": host_words,
-                "source": "synthetic",
-            })
+            # Sum existing piece contributions. Mirrors the coverage
+            # helper's logic: dedupe by piece_key, skip non-source roles,
+            # but include the contributes column when present so deletion
+            # post-op letters are correctly counted.
+            _seen_pk = set()
+            _existing = ""
+            for grp in role_groups:
+                rl = grp.get("role") or ""
+                if rl not in (
+                    "synonym", "synonym_source",
+                    "abbreviation", "abbreviation_source",
+                    "single_letter", "positional_source",
+                    "reversal_source", "deletion_source",
+                    "anagram_fodder", "literal_source",
+                ):
+                    continue
+                pk = grp.get("piece_key")
+                if pk is not None:
+                    if pk in _seen_pk:
+                        continue
+                    _seen_pk.add(pk)
+                # contributes is the post-op letters that land in
+                # the answer; fall back to letters when no contributes
+                # was computed (e.g. some hidden_source rows).
+                contrib = grp.get("contributes") or grp.get("letters") or ""
+                _existing += _re.sub(r"[^A-Z]", "", str(contrib).upper())
+            _ans_letters = _re.sub(
+                r"[^A-Z]", "", (clue["answer"] or "").upper())
+            # Only surface the synthetic row when adding S makes the
+            # piece-letter multiset equal the answer multiset.
+            if (sorted(_existing + "S") == sorted(_ans_letters)
+                    and sorted(_existing) != sorted(_ans_letters)):
+                host_i = possessive_indices[0]
+                host_words = role_groups[host_i]["words"]
+                role_groups.insert(host_i + 1, {
+                    "piece_key": None,
+                    "role": "possessive_source",
+                    "letters": "S",
+                    "contributes": "S",
+                    "words": host_words,
+                    "source": "synthetic",
+                })
 
     # Auto-generate the mechanism label from the role groups.
     # "Charade" is added when 2+ distinct pieces concatenate; each
@@ -796,6 +1085,7 @@ def clue_page(slug):
         "insertion_indicator",
         "acrostic_indicator",
         "parts_indicator",
+        "positional_indicator",
         "selection_indicator",
         "alternating_indicator",
         "spoonerism_indicator",

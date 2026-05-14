@@ -98,6 +98,7 @@ WORD_ROLE_CHOICES = (
     "insertion_indicator",
     "acrostic_indicator",
     "parts_indicator",
+    "positional_indicator",
     "selection_indicator",
     "alternating_indicator",
     "spoonerism_indicator",
@@ -386,9 +387,22 @@ def reverify_clue(clue_id):
     db.commit()
     tier_colour = {"HIGH": "emerald", "MEDIUM": "amber",
                    "LOW": "orange", "FAIL": "rose"}.get(verdict, "slate")
-    return (f'<span class="text-xs text-{tier_colour}-700">'
+    # Build a compact list of failing checks so the admin can see why
+    # without having to ask. Passing checks are omitted to keep it brief.
+    failed_lines = []
+    for ch in result.get("checks", []):
+        if ch.get("status") not in ("verified", "skipped"):
+            detail = ch.get("detail", "")
+            failed_lines.append(
+                f'<li class="text-rose-700">✗ {detail}</li>'
+            )
+    failed_html = (
+        f'<ul class="mt-1 text-xs list-none space-y-0.5">{"".join(failed_lines)}</ul>'
+        if failed_lines else ""
+    )
+    return (f'<span class="text-xs font-semibold text-{tier_colour}-700">'
             f'{verdict} {score}</span>'
-            f'<script>setTimeout(function(){{ window.location.reload(); }}, 600);</script>')
+            f'{failed_html}')
 
 
 @bp.route("/rerun/<int:clue_id>", methods=["POST"])
@@ -827,7 +841,7 @@ def approve_clue(clue_id):
     ).fetchone()
     if existing_se:
         db.execute(
-            "UPDATE structured_explanations SET confidence = ? WHERE clue_id = ?",
+            "UPDATE structured_explanations SET confidence = ?, model_version = 'manual_approve' WHERE clue_id = ?",
             (confidence, clue_id),
         )
     else:
