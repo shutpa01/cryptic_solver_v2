@@ -1,17 +1,21 @@
-"""Nightly automated run: DT + DM only (scrape, danword, pipeline).
+"""Nightly automated run: scrape only, all sources.
 
 Designed to run at 2am UTC via Windows Task Scheduler.
 
-As of 2026-05-13 the nightly is restricted to Telegraph and Daily Mail:
-those are the no-blog sources that must use Sonnet, so they're worth
-running on a schedule. Times / Guardian / Independent are processed
-manually when blogs appear (cheaper via TFTT/FS+Haiku) and the
-Cordelia daily mash-up is disabled.
+Workflow rule (2026-05-13, see memory/workflow_enrichment_before_indexing.md):
+the nightly run is LOCAL ONLY — scrape every source we collect from,
+but invoke nothing that costs money or touches the public site. No
+Danword, no Sonnet API, no Indexing API, no droplet upload. The
+enrichment + upload + indexing flow is human-driven the next day
+once each puzzle is fully enriched.
 
 Flow:
-  1. Scrape Telegraph + Daily Mail
-  2. Danword backfill for missing answers (DT + DM only)
-  3. Pipeline (Sonnet) for DT + DM
+  1. Scrape all five sources (telegraph, times, guardian, independent,
+     dailymail)
+  2. Danword backfill — DISABLED
+  3. Pipeline (Sonnet) — DISABLED
+  4. Times TFTT — DISABLED
+  5. Cordelia's Daily Mash-up — DISABLED
 
 Usage:
     python scripts/nightly_run.py              # full run
@@ -36,14 +40,11 @@ SCRAPER_SCRIPT = str(ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 DANWORD_SCRIPT = str(ROOT / "scraper" / "danword" / "danword_lookup.py")
 LOG_DIR = ROOT / "logs"
 
-# Sources to scrape every night (all five so puzzles appear in the dashboard).
-SCRAPE_SOURCES = ["telegraph", "dailymail", "times", "guardian", "independent"]
-
-# Sources to auto-solve overnight — only no-blog sources.
-# Times/Guardian/Independent are scraped above so they appear in the pipeline
-# dashboard, but the pipeline itself is triggered manually after blogs post
-# (cheaper via TFTT/FS+Haiku vs auto-running full Sonnet blind).
-SOLVE_SOURCES = ["telegraph", "dailymail"]
+SCRAPE_SOURCES = ["telegraph", "times", "guardian", "independent", "dailymail"]
+# SOLVE_SOURCES kept for reference; Step 3 is disabled so nothing reads
+# this. If pipeline runs are ever reinstated, restore from SCRAPE_SOURCES
+# or a deliberate subset.
+SOLVE_SOURCES: list = []
 
 
 def log(msg):
@@ -232,44 +233,25 @@ def main():
     log(f"NIGHTLY RUN — {target_date} ({target_day})")
     log("=" * 60)
 
-    # Step 1: Scrape Telegraph + Daily Mail (only the no-blog sources;
-    # other puzzles are processed manually when blogs appear)
+    # Step 1: Scrape Telegraph + Daily Mail
     if not args.skip_scraper:
         if args.dry_run:
             log("[DRY RUN] Would scrape: " + ", ".join(SCRAPE_SOURCES))
         else:
             run_scraper()
 
-    # Step 2: Danword backfill for missing answers
-    if not args.skip_danword:
-        if args.dry_run:
-            log("[DRY RUN] Would run Danword backfill")
-        else:
-            run_danword_backfill(target_date)
+    # Step 2: Danword backfill — DISABLED 2026-05-15. The
+    # workflow rule is local-only nightly with zero API spend;
+    # Danword is the most expensive scrape step and must not run
+    # unattended. Re-enable by uncommenting the block below; the
+    # helper function definitions remain in this file.
+    log("Step 2: Danword backfill: DISABLED")
 
-    # Step 3: Pipeline for DT + Daily Mail only (weekdays only)
-    if not args.skip_pipeline:
-        log("Step 3: Pipeline (Telegraph + Daily Mail, weekdays only)...")
-        puzzles = find_todays_puzzles(target_date)
-        if not puzzles:
-            log("  No puzzles to solve")
-        else:
-            log(f"  Found {len(puzzles)} puzzle(s):")
-            for source, pnum in puzzles:
-                log(f"    {source} #{pnum}")
-
-            results = []
-            for source, pnum in puzzles:
-                if args.dry_run:
-                    log(f"  [DRY RUN] Would run pipeline on {source} #{pnum}")
-                    results.append((source, pnum, True))
-                else:
-                    ok = run_pipeline(source, pnum)
-                    results.append((source, pnum, ok))
-
-            successes = sum(1 for _, _, ok in results if ok)
-            failures = len(results) - successes
-            log(f"  Pipeline: {successes} succeeded, {failures} failed")
+    # Step 3: Pipeline (Sonnet API) — DISABLED 2026-05-15. Same
+    # workflow rule: no API spend in the nightly. Puzzles are
+    # enriched manually the next day before any upload or
+    # Indexing API submission.
+    log("Step 3: Pipeline (Sonnet): DISABLED")
 
     # Step 4: Times TFTT — DISABLED 2026-05-13 along with the
     # restriction of the nightly to DT+DM only. Times / Guardian /

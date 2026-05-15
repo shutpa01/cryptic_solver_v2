@@ -492,12 +492,16 @@ def main():
     else:
         print("  None")
 
-    # Danword backfill for puzzles with missing answers
-    answerless = find_answerless_puzzles()
-    if answerless:
-        danword_results = run_danword_backfill(answerless)
-    else:
-        danword_results = []
+    # Danword backfill — DISABLED 2026-05-15 along with the
+    # nightly workflow becoming local-only. The find_answerless_*
+    # report still prints below so we know which puzzles have
+    # missing answers, but no Danword lookup runs unattended.
+    # Re-enable by uncommenting the three lines below.
+    # answerless = find_answerless_puzzles()
+    # if answerless:
+    #     danword_results = run_danword_backfill(answerless)
+    # else:
+    danword_results = []
 
     # Missing answers report
     missing_answers = find_missing_answers()
