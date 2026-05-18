@@ -341,8 +341,8 @@ class ExplanationVerifier:
         Scans single words and 2-word phrases against the indicators table.
         If required_subtypes is provided, also checks the subtype matches.
         """
-        clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
-                                clue_text.lower().replace("’", "’"))
+        clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:'[a-zA-Z]+)?",
+                                clue_text.lower().replace('\u2019', "'"))
         # Single words
         for word in clue_words:
             entries = self._indicators_by_word.get(word, [])
@@ -547,8 +547,8 @@ class ExplanationVerifier:
         # and "tre" at the î.
         _clue_folded = unicodedata.normalize(
             "NFKD", clue).encode("ascii", "ignore").decode("ascii")
-        words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
-                           _clue_folded.lower().replace("’", "’"))
+        words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:'[a-zA-Z]+)?",
+                           _clue_folded.lower().replace('\u2019', "'"))
         if not words:
             return {"classified": [], "unaccounted": [], "link": [],
                     "summary": "no clue words"}
@@ -1992,8 +1992,8 @@ class ExplanationVerifier:
         # the operation accidentally; here we catch the case where the
         # explanation hides it on purpose.
         # Build the set of clue words and 2-word phrases (used below).
-        _clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:’[a-zA-Z]+)?",
-                                 (clue_text or "").lower().replace("’", "’"))
+        _clue_words = re.findall(r"[a-zA-Z]+(?:&[a-zA-Z]+)*(?:'[a-zA-Z]+)?",
+                                 (clue_text or "").lower().replace('\u2019', "'"))
         _clue_phrases = [_clue_words[i] + " " + _clue_words[i + 1]
                          for i in range(len(_clue_words) - 1)]
         _expl_lower = (expl or "").lower()

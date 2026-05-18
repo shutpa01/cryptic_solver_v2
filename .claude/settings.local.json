@@ -49,7 +49,14 @@
       "WebFetch(domain:developers.cloudflare.com)",
       "WebFetch(domain:support.google.com)",
       "WebFetch(domain:developers.google.com)",
-      "PowerShell(New-ScheduledTaskAction *)"
+      "PowerShell(New-ScheduledTaskAction *)",
+      "PowerShell(python -X utf8 -c \"import json; d = json.load\\(open\\(r'C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\prototypes\\\\universal_form_v2\\\\runs\\\\catalog_v1.json'\\)\\); print\\('catalog entries:', len\\(d\\) if isinstance\\(d, list\\) else len\\(d.get\\('templates', d\\)\\)\\)\")",
+      "PowerShell(python -X utf8 -c \"import json; d = json.load\\(open\\(r'C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\prototypes\\\\universal_form_v2\\\\runs\\\\catalog_v1.json'\\)\\); print\\('top-level type:', type\\(d\\).__name__\\); print\\('keys:', list\\(d.keys\\(\\)\\) if isinstance\\(d, dict\\) else 'list len ' + str\\(len\\(d\\)\\)\\);\")",
+      "PowerShell(python -X utf8 -c \"import json; d = json.load\\(open\\(r'C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2\\\\prototypes\\\\universal_form_v2\\\\runs\\\\catalog_v1.json'\\)\\); print\\('version:', d['version']\\); print\\('verifier:', d['verifier']\\); print\\('total_clipboard_pass:', d['total_clipboard_pass']\\); print\\('source_runs:', d['source_runs']\\); print\\('source_shadow_db:', d['source_shadow_db']\\); print\\('entries:', len\\(d['entries']\\)\\);\")",
+      "PowerShell(Get-CimInstance *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(cd C:\\\\Users\\\\shute\\\\PycharmProjects\\\\cryptic_solver_V2; ls -Recurse -Depth 1 -Force backfill_ai_exp cryptic_taxonomy dashboard documents enrichment honeypot impressions logs memory prototypes runs scripts signature_solver sonnet_pipeline web 2>$null | ForEach-Object { if \\($_.PSIsContainer\\) { \"$\\($_.FullName\\)\" } else { \"$\\($_.FullName\\)\" } })",
+      "PowerShell(Get-ChildItem *)"
     ]
   },
   "hooks": {

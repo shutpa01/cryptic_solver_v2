@@ -604,19 +604,19 @@ def clue_page(slug):
                                     del accept_by_index[_i + _j]
                     break
         for _pat, _kind in [
-            (r'(\w+)\s*\(\s*synonym\s*=\s*["\']([^"\']+)["\']\s*\)',
+            (r'(\w+)\s*\(\s*synonym\s*=\s*["\']([^"]+)["\']\s*\)',
              'synonym'),
-            (r'(\w+)\s*\(\s*synonym\s+of\s+["\']([^"\']+)["\']\s*\)',
+            (r'(\w+)\s*\(\s*synonym\s+of\s+["\']([^"]+)["\']\s*\)',
              'synonym'),
-            (r'(\w+)\s*\(\s*abbreviation\s*=\s*["\']([^"\']+)["\']\s*\)',
+            (r'(\w+)\s*\(\s*abbreviation\s*=\s*["\']([^"]+)["\']\s*\)',
              'abbreviation'),
-            (r'(\w+)\s*\(\s*abbreviation\s+of\s+["\']([^"\']+)["\']\s*\)',
+            (r'(\w+)\s*\(\s*abbreviation\s+of\s+["\']([^"]+)["\']\s*\)',
              'abbreviation'),
             # Paren-less forms used inside deletion/container clauses, e.g.
             # RAIT (deletion="RABBIT", BB dropped, RABBIT synonym="inferior cricketer")
-            (r'([A-Z]+)\s+synonym\s*=\s*["\']([^"\']+)["\']',
+            (r'([A-Z]+)\s+synonym\s*=\s*["\']([^"]+)["\']',
              'synonym'),
-            (r'([A-Z]+)\s+abbreviation\s*=\s*["\']([^"\']+)["\']',
+            (r'([A-Z]+)\s+abbreviation\s*=\s*["\']([^"]+)["\']',
              'abbreviation'),
         ]:
             for _cm in _re_acc.finditer(
@@ -661,9 +661,13 @@ def clue_page(slug):
                 # button appears on that word's admin row.
                 _first_tok = _phrase_tokens[0]
                 for _i, _lw in enumerate(_lower_words_for_acc):
-                    if _lw == _first_tok and _i not in accept_by_index:
-                        accept_by_index[_i] = (
-                            _kind, _src, _ltrs.upper())
+                    if _lw == _first_tok:
+                        _existing = accept_by_index.get(_i)
+                        if (_existing is None
+                                or (len(_phrase_tokens) > 1
+                                    and len(_existing[1].split()) == 1)):
+                            accept_by_index[_i] = (
+                                _kind, _src, _ltrs.upper())
                         break
     finally:
         ref_acc.close()
@@ -865,7 +869,7 @@ def clue_page(slug):
             else:
                 wptype = (clue_dict.get("wordplay_type") or "").lower()
                 if wptype in ("homophone", "spoonerism") and L:
-                    grp["contributes"] = leftover or answer_for_contrib
+                    grp["contributes"] = _effective_letters(L or "").upper() or leftover or answer_for_contrib
                 else:
                     grp["contributes"] = L
 
@@ -1096,6 +1100,33 @@ def clue_page(slug):
         "indicator",
     ])
 
+    # Detect homophone pairs from the explanation that are missing from
+    # the homophones table and surface them as Accept buttons.
+    # Pattern: "ANSWER sounds like WORD" anywhere in the explanation.
+    import re as _re_hp
+    import sqlite3 as _sqlite3_hp
+    _homophone_accepts = []
+    _expl_for_hp = clue_dict.get("ai_explanation") or ""
+    _ref_hp = _sqlite3_hp.connect(
+        str(_Path(__file__).resolve().parent.parent.parent / "data" / "cryptic_new.db"),
+        timeout=5)
+    try:
+        for _m in _re_hp.finditer(
+                r"\b([A-Z]+)\s+sounds\s+like\s+([A-Z]+)\b", _expl_for_hp):
+            _answer_word = _m.group(1).lower()
+            _source_word = _m.group(2).lower()
+            _in_db = _ref_hp.execute(
+                "SELECT 1 FROM homophones WHERE "
+                "(LOWER(word)=? AND LOWER(homophone)=?) OR "
+                "(LOWER(word)=? AND LOWER(homophone)=?) LIMIT 1",
+                (_answer_word, _source_word, _source_word, _answer_word),
+            ).fetchone()
+            if not _in_db:
+                _homophone_accepts.append(
+                    (_m.group(1), _m.group(2)))  # (ANSWER, SOURCE) uppercase
+    finally:
+        _ref_hp.close()
+
     response = make_response(render_template(
         "clue.html",
         clue=clue_dict,
@@ -1106,5 +1137,6 @@ def clue_page(slug):
         breadcrumb_schema=breadcrumb_schema,
         word_roles_schema=word_roles_schema,
         role_choices=role_choices,
+        homophone_accepts=_homophone_accepts,
     ))
     return issue_session_cookie(response)

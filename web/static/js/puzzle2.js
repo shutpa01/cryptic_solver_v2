@@ -442,12 +442,9 @@ function _enterSolveMode() {
     document.querySelectorAll('[id^="hints-"]').forEach(function(el) {
         el.innerHTML = '';
     });
-    // Show solve inputs, hide "See X" ref clues
+    // Show solve inputs ("See X" ref clues stay visible — no input, just the label)
     document.querySelectorAll('.solve-input').forEach(function(el) {
         el.classList.remove('hidden');
-    });
-    document.querySelectorAll('.linked-ref').forEach(function(el) {
-        el.classList.add('hidden');
     });
     // Show progress and grid button
     document.getElementById('solve-progress').classList.remove('hidden');
@@ -476,12 +473,9 @@ function _exitSolveMode() {
     document.querySelectorAll('.solve-hide-badges').forEach(function(el) {
         el.style.display = '';
     });
-    // Hide solve inputs, show "See X" ref clues again
+    // Hide solve inputs
     document.querySelectorAll('.solve-input').forEach(function(el) {
         el.classList.add('hidden');
-    });
-    document.querySelectorAll('.linked-ref').forEach(function(el) {
-        el.classList.remove('hidden');
     });
     // Hide progress and grid button
     document.getElementById('solve-progress').classList.add('hidden');

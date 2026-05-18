@@ -97,6 +97,18 @@
             COVERAGE INCOMPLETE
         </span>
         {% endif %}
+        {% if clue.prev_url %}
+        <a href="{{ clue.prev_url }}"
+           class="text-sm px-3 py-1 rounded border-2 border-slate-500 bg-white text-slate-900 hover:bg-slate-100 font-semibold no-underline shrink-0">
+            ‹ Prev
+        </a>
+        {% endif %}
+        {% if clue.next_url %}
+        <a href="{{ clue.next_url }}"
+           class="text-sm px-3 py-1 rounded border-2 border-slate-500 bg-white text-slate-900 hover:bg-slate-100 font-semibold no-underline shrink-0">
+            Next ›
+        </a>
+        {% endif %}
         {% else %}
         {% if clue.tier == 'HIGH' %}
         <span title="I'm pretty confident I've nailed this one"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
@@ -184,11 +196,11 @@
 
        Each role gets a colour class for consistent visual coding.
     #}
-    {% if clue.role_groups %}
+    {% if clue.role_groups and clue.wordplay_type != 'unparsed' %}
     <div class="mt-4 rounded-lg border-2 border-slate-300 bg-slate-50 px-5 py-4 shadow-sm">
         <h2 class="text-lg font-bold text-slate-900 mb-1">Word by word</h2>
         <p class="text-sm text-slate-600 mb-3">Every word in the clue is accounted for. Each piece has been checked against Cordelia's reference database to ensure the wordplay actually produces the answer.</p>
-        <div class="grid grid-cols-[11rem_6rem_auto] gap-x-4 text-xs uppercase tracking-wider text-slate-500 font-semibold pb-2 border-b border-slate-300">
+        <div class="grid grid-cols-[11rem_minmax(6rem,10rem)_auto] gap-x-4 text-xs uppercase tracking-wider text-slate-500 font-semibold pb-2 border-b border-slate-300">
             <div>Role</div>
             <div>Contributes</div>
             <div>Source words</div>
@@ -203,7 +215,7 @@
                - flag colours (unaccounted, charade_joiner)
             #}
             {% for grp in clue.role_groups %}
-            <div class="grid grid-cols-[11rem_6rem_auto] gap-x-4 items-baseline py-2 first:pt-0 last:pb-0">
+            <div class="grid grid-cols-[11rem_minmax(6rem,10rem)_auto] gap-x-4 items-baseline py-2 first:pt-0 last:pb-0">
                 <div class="text-sm font-semibold
                     {% if grp.role == 'definition' %}text-green-700
                     {% elif grp.role == 'link' %}text-gray-400
@@ -221,7 +233,7 @@
                     {{ grp.role | replace('_', ' ') }}{% if grp.letters and grp.role != 'anagram_fodder' %} <span class="text-slate-400 font-normal">→</span> <span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.letters }}</span>{% endif %}
                 </div>
                 <div class="text-sm">
-                    {% if grp.contributes %}<span class="font-bold uppercase tracking-wider text-slate-900">{{ grp.contributes }}</span>{% endif %}
+                    {% if grp.contributes %}<span class="font-bold uppercase tracking-wider text-slate-900 break-all">{{ grp.contributes }}</span>{% endif %}
                 </div>
                 <div class="text-base text-gray-900 font-medium">{{ grp.words | join(' ') }}</div>
             </div>
@@ -282,7 +294,7 @@
                         <button type="submit"
                                 class="text-xs px-2 py-0.5 rounded border border-emerald-300 text-emerald-700 hover:bg-emerald-50 cursor-pointer w-full"
                                 title="Add ({{ w.accept_target[1] }} → {{ w.accept_target[2] }}) to {{ w.accept_target[0] }} DB">
-                            Accept {{ w.accept_target[0] }}: {{ w.accept_target[2] }}
+                            Accept {{ w.accept_target[0] }}: {{ w.accept_target[1] }} → {{ w.accept_target[2] }}
                         </button>
                     </form>
                     {% endif %}
@@ -296,18 +308,6 @@
     {# Admin actions — separate row, admin only #}
     {% if g.is_admin %}
     <div id="explain-{{ clue.id }}" class="mt-4 flex flex-wrap gap-2 items-center">
-        {% if clue.prev_url %}
-        <a href="{{ clue.prev_url }}"
-           class="text-sm px-3 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium no-underline">
-            ‹ Prev
-        </a>
-        {% endif %}
-        {% if clue.next_url %}
-        <a href="{{ clue.next_url }}"
-           class="text-sm px-3 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium no-underline">
-            Next ›
-        </a>
-        {% endif %}
         <button hx-get="/admin/edit/{{ clue.id }}"
                 hx-target="#hints-{{ clue.id }}"
                 hx-swap="innerHTML"
@@ -318,12 +318,25 @@
                 hx-target="#reverify-result-{{ clue.id }}"
                 hx-swap="innerHTML"
                 hx-indicator="#reverify-spinner-{{ clue.id }}"
+                hx-on::after-request="setTimeout(function(){ window.location.reload(); }, 1500)"
                 class="text-sm px-3 py-1.5 rounded border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium cursor-pointer"
                 title="Re-run the verifier on this clue's existing parse with current DB + manual roles">
             Re-verify
         </button>
         <span id="reverify-result-{{ clue.id }}" class="text-xs"></span>
         <span id="reverify-spinner-{{ clue.id }}" class="htmx-indicator text-sm text-purple-500">...</span>
+        {% for hp_answer, hp_source in homophone_accepts %}
+        <form hx-post="/admin/accept-enrichment/{{ clue.id }}/0"
+              hx-target="this" hx-swap="outerHTML" class="inline">
+            <input type="hidden" name="type" value="homophone">
+            <input type="hidden" name="word" value="{{ hp_answer }}">
+            <input type="hidden" name="letters" value="{{ hp_source }}">
+            <button type="submit"
+                    class="text-xs px-2 py-1 rounded border border-emerald-400 text-emerald-700 hover:bg-emerald-50 font-medium cursor-pointer">
+                Accept homophone: {{ hp_answer }} sounds like {{ hp_source }}
+            </button>
+        </form>
+        {% endfor %}
         <button hx-post="/admin/rerun/{{ clue.id }}?mechanical=1"
                 hx-target="#explain-{{ clue.id }}"
                 hx-swap="innerHTML"

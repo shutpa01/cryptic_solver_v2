@@ -219,7 +219,13 @@ def post_op_letters(source_letters, explanation):
 
 def coverage_warning(clue_id, answer, wordplay_type, tier,
                      ai_explanation=None, conn=None):
-    if tier != "HIGH":
+    # Run on every tier that has a parse: HIGH/MEDIUM/LOW. PENDING and
+    # FAIL clues have either no parse or a known-broken one, so the
+    # coverage badge would be redundant noise there. Earlier this gate
+    # only fired on HIGH, which let wrong-piece-sum parses (e.g. a
+    # MEDIUM-scoring RIB+CAGE+S claiming to make RIBCAGE) slip past
+    # unflagged.
+    if tier in ("PENDING", "FAIL"):
         return False
     if not _is_piece_based(wordplay_type):
         return False
@@ -264,13 +270,34 @@ def coverage_warning(clue_id, answer, wordplay_type, tier,
         piece_letters += re.sub(r"[^A-Z]", "", effective)
 
     # "X (from clue)" pieces — covers literal letters that have no
-    # standalone clue word, e.g. the S from a possessive 's.
+    # standalone clue word, e.g. the S from a possessive 's. Mirror
+    # the clue-page render guard added 2026-05-14: only count an
+    # "S (from clue)" piece when including it makes the multiset
+    # match the answer. Without this guard a parse over-claiming an
+    # extra S (e.g. RIB + CAGE + S = RIBCAGE) would have the
+    # coverage_warning badge fire even after the render suppresses
+    # the synthetic possessive row, because coverage was summing the
+    # spurious S regardless. Other "X (from clue)" letters (non-S)
+    # are still always counted.
     if ai_explanation:
         for m in re.finditer(
                 r"\b(\w+)\s*\(\s*from\s+clue\s*\)",
                 ai_explanation, re.IGNORECASE):
-            piece_letters += re.sub(
-                r"[^A-Z]", "", m.group(1).upper())
+            piece = re.sub(r"[^A-Z]", "", m.group(1).upper())
+            if piece == "S":
+                # Only include the S if including it helps coverage.
+                if (sorted(piece_letters + "S") == sorted(answer_letters)
+                        and sorted(piece_letters) != sorted(answer_letters)):
+                    piece_letters += "S"
+                # else: drop the spurious S; render does the same.
+            else:
+                # Only add if no letter in piece would exceed its count in
+                # the answer. Prevents double-counting when clue_word_roles
+                # already carries the same letters as this (from clue) piece.
+                combined = piece_letters + piece
+                if all(combined.count(ch) <= answer_letters.count(ch)
+                       for ch in set(piece)):
+                    piece_letters += piece
 
     # Subtract any letters named as deletion targets. The deletion
     # target is consumed by the deletion, so it must not count as an

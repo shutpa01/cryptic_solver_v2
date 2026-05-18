@@ -154,6 +154,11 @@ def accept_enrichment(clue_id, word_index):
                 "(word, wordplay_type, source) "
                 "VALUES (?, ?, 'admin_clue_page')",
                 (word, letters.lower()))
+        elif etype == "homophone":
+            ref.execute(
+                "INSERT OR IGNORE INTO homophones (word, homophone) "
+                "VALUES (?, ?)",
+                (word.lower(), letters.lower()))
         else:
             abort(400)
         ref.commit()
