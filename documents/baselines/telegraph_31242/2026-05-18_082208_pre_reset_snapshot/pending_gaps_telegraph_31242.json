@@ -1,0 +1,289 @@
+{
+  "source": "telegraph",
+  "puzzle": "31242",
+  "stats": {
+    "total": 30,
+    "assembled": 23,
+    "high": 23,
+    "medium": 0,
+    "low": 0,
+    "failed": 7,
+    "avg_score": 89.52173913043478
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "Better",
+      "letters": "FINER",
+      "answer": "FINGERPRINT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Better publish about head of government's digital ID",
+      "score": 85
+    },
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "remains",
+      "letters": "RESIDE",
+      "answer": "RESIDUE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "What remains of troops you heard breaching flank",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "postgraduate",
+      "letters": "AM",
+      "answer": "IMAM",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Religious leader's Mass supporting current postgraduate",
+      "score": 90
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Article",
+      "letters": "EL",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Militant",
+      "answer": "RADICAL",
+      "clue_number": "20",
+      "direction": "down",
+      "clue": "Militant section of placid army in retreat",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Prime minister",
+      "answer": "Gladstone",
+      "clue_number": "3",
+      "direction": "down",
+      "clue": "Prime minister sending lads to nearby houses",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Unconventional",
+      "answer": "free-spirited",
+      "clue_number": "11",
+      "direction": "down",
+      "clue": "Unconventional, suspect I prefer diets",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Uncultivated land",
+      "answer": "MOOR",
+      "clue_number": "13",
+      "direction": "across",
+      "clue": "Uncultivated land with space to the west",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Arrogant",
+      "answer": "OVERWEENING",
+      "clue_number": "15",
+      "direction": "across",
+      "clue": "Arrogant vow engineer breaks",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "digital ID",
+      "answer": "FINGERPRINT",
+      "clue_number": "18",
+      "direction": "across",
+      "clue": "Better publish about head of government's digital ID",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "people with no clothes on",
+      "answer": "NUDISTS",
+      "clue_number": "19",
+      "direction": "down",
+      "clue": "Detectives probing crazy people with no clothes on",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Set of expectations",
+      "answer": "CODE",
+      "clue_number": "21",
+      "direction": "across",
+      "clue": "Set of expectations about lyric poem",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "mathematician",
+      "answer": "Archimedes",
+      "clue_number": "22",
+      "direction": "across",
+      "clue": "Somehow reaches dim mathematician",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Unqualified",
+      "answer": "ABSOLUTE",
+      "clue_number": "24",
+      "direction": "across",
+      "clue": "Unqualified able seamen in front of old instrument",
+      "score": 87
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "plaster",
+      "answer": "STUCCO",
+      "clue_number": "25",
+      "direction": "across",
+      "clue": "Small company importing revolutionary wound plaster",
+      "score": 86
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Regularly see",
+      "answer": "go steady",
+      "clue_number": "26",
+      "direction": "across",
+      "clue": "Regularly see aged toys getting repaired",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "book",
+      "answer": "Psalms",
+      "clue_number": "27",
+      "direction": "across",
+      "clue": "Friend penning second manuscript for book",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "booze",
+      "answer": "ABSINTHE",
+      "clue_number": "4",
+      "direction": "across",
+      "clue": "Doctor bathes in booze",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Not combustible",
+      "answer": "FIREPROOF",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Not combustible if looking up concerning evidence",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dull,",
+      "answer": "PEDESTRIAN",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Dull, annoying person ringing editor then managed to grab the setter",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What remains",
+      "answer": "RESIDUE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "What remains of troops you heard breaching flank",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sheep's",
+      "answer": "RAM",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Sheep's memory",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Loud noise",
+      "answer": "CLANG",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Loud noise from family dog's bottom",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Wasted on the radio",
+      "answer": "BLUE",
+      "clue_number": "23",
+      "direction": "down",
+      "clue": "Wasted on the radio? That's indecent",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Boxer",
+      "answer": "BANTAMWEIGHT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Boxer and outlaw intoxicated, drinking in the morning with European",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Religious leader's",
+      "answer": "IMAM",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Religious leader's Mass supporting current postgraduate",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "composer",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    }
+  ]
+}

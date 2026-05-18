@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-05-18T08:23:34.208553",
+  "source": "telegraph",
+  "puzzle": "31242",
+  "counts_before": {
+    "clues": 30,
+    "structured_explanations_by_source": 23,
+    "pending_enrichments": 2,
+    "puzzle_grids": 1,
+    "indexing_submissions": 0,
+    "telegraph_clues": 0,
+    "api_explanations": 0,
+    "clue_word_roles": 148,
+    "structured_explanations_by_clue_id": 23
+  },
+  "counts_after": {
+    "clues": 0,
+    "structured_explanations_by_source": 0,
+    "pending_enrichments": 0,
+    "puzzle_grids": 0,
+    "indexing_submissions": 0,
+    "telegraph_clues": 0
+  }
+}

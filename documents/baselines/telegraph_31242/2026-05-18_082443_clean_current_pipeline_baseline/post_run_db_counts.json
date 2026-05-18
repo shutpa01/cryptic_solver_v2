@@ -1,0 +1,11 @@
+{
+  "clues": 30,
+  "has_solution_counts": {
+    "0": 7,
+    "1": 23
+  },
+  "structured_explanations": 20,
+  "pending_enrichments": 2,
+  "puzzle_grids": 1,
+  "clue_word_roles": 0
+}

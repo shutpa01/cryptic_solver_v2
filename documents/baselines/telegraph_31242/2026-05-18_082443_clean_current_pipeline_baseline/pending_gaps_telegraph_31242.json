@@ -1,0 +1,128 @@
+{
+  "source": "telegraph",
+  "puzzle": "31242",
+  "stats": {
+    "total": 30,
+    "assembled": 23,
+    "high": 23,
+    "medium": 0,
+    "low": 0,
+    "failed": 7,
+    "avg_score": 95.73913043478261
+  },
+  "gaps": [
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Article",
+      "letters": "EL",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "in",
+      "letters": "EL",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    },
+    {
+      "type": "abbreviation",
+      "table": "abbreviations",
+      "word": "Madrid",
+      "letters": "EL",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Not combustible",
+      "answer": "FIREPROOF",
+      "clue_number": "1",
+      "direction": "down",
+      "clue": "Not combustible if looking up concerning evidence",
+      "score": 80
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Dull,",
+      "answer": "PEDESTRIAN",
+      "clue_number": "12",
+      "direction": "across",
+      "clue": "Dull, annoying person ringing editor then managed to grab the setter",
+      "score": 81
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "What remains",
+      "answer": "RESIDUE",
+      "clue_number": "2",
+      "direction": "down",
+      "clue": "What remains of troops you heard breaching flank",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Sheep's",
+      "answer": "RAM",
+      "clue_number": "20",
+      "direction": "across",
+      "clue": "Sheep's memory",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Loud noise",
+      "answer": "CLANG",
+      "clue_number": "21",
+      "direction": "down",
+      "clue": "Loud noise from family dog's bottom",
+      "score": 100
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Boxer",
+      "answer": "BANTAMWEIGHT",
+      "clue_number": "5",
+      "direction": "down",
+      "clue": "Boxer and outlaw intoxicated, drinking in the morning with European",
+      "score": 90
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "Religious leader's",
+      "answer": "IMAM",
+      "clue_number": "6",
+      "direction": "down",
+      "clue": "Religious leader's Mass supporting current postgraduate",
+      "score": 86
+    },
+    {
+      "type": "definition",
+      "table": "definition_answers_augmented",
+      "definition": "composer",
+      "answer": "Elgar",
+      "clue_number": "8",
+      "direction": "down",
+      "clue": "Article in Madrid newspaper about composer",
+      "score": 85
+    }
+  ]
+}
