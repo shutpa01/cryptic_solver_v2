@@ -413,7 +413,57 @@ def _actionable_quality(results):
         pieces = ai.get("pieces", [])
         answer = r.get("answer", "?")
         answer_clean = re.sub(r"[^A-Z]", "", answer.upper())
-        for p in pieces:
+
+        skip_piece_indices = set()
+        i = 0
+        while i < len(pieces):
+            p0 = pieces[i]
+            mech0 = p0.get("mechanism", "")
+            letters0 = re.sub(r"[^A-Z]", "", (p0.get("letters") or "").strip().upper())
+            if mech0 not in ("synonym", "abbreviation") or len(letters0) > 3:
+                i += 1
+                continue
+
+            j = i + 1
+            while j < len(pieces):
+                pj = pieces[j]
+                if pj.get("mechanism", "") != mech0:
+                    break
+                letters_j = re.sub(r"[^A-Z]", "", (pj.get("letters") or "").strip().upper())
+                if letters_j != letters0:
+                    break
+                j += 1
+
+            if j - i > 1:
+                phrase_words = [
+                    (pieces[k].get("clue_word") or "").strip()
+                    for k in range(i, j)
+                    if (pieces[k].get("clue_word") or "").strip()
+                ]
+                phrase = " ".join(phrase_words).strip()
+                phrase_lower = phrase.lower().strip(".,;:!?\"'()-")
+                if phrase_lower and letters0 != answer_clean:
+                    phrase_type = "abbreviation" if len(letters0) <= 3 else "synonym"
+                    if not (_already_in_reference_db(phrase_type, phrase_lower, letters0)
+                            or _already_in_reference_db("synonym", phrase_lower, letters0)
+                            or _already_in_reference_db("abbreviation", phrase_lower, letters0)):
+                        db_gaps.append({
+                            "answer": answer,
+                            "clue_word": phrase,
+                            "letters": letters0,
+                            "table": "abbreviations" if phrase_type == "abbreviation" else "synonyms_pairs",
+                            "clue_number": r["clue_number"],
+                            "clue": r.get("clue", ""),
+                            "direction": r.get("direction", ""),
+                            "score": r.get("score", 0),
+                        })
+                        db_gap_clues.add(r["clue_number"])
+                    skip_piece_indices.update(range(i, j))
+            i = j
+
+        for piece_index, p in enumerate(pieces):
+            if piece_index in skip_piece_indices:
+                continue
             mech = p.get("mechanism", "")
             clue_word = (p.get("clue_word") or "").strip()
             letters = (p.get("letters") or "").strip().upper()
