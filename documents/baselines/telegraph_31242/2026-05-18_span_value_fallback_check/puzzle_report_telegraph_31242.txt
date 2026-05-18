@@ -1,0 +1,328 @@
+================================================================================
+PUZZLE QUALITY REPORT: telegraph #31242
+Generated: 2026-05-18 09:06:31
+Pipeline: Sonnet -> Assembler -> Enrichment Fallback
+================================================================================
+
+ASSEMBLY SUMMARY
+----------------------------------------
+  Total clues:      30
+  Assembled:        24/30 (80%)
+    Signature:      9
+    Sonnet:         0
+    DB Fallback:    0
+  Failed:           6
+
+CONFIDENCE SUMMARY
+----------------------------------------
+  High (80+):   24  20D, 3D, 23D, 11D, 13A, 15A, 18A, 19D, 21A, 22A, 24A, 25A, 26A, 27A, 4A, 1A, 1D, 12A, 2D, 20A, 21D, 5D, 6D, 8D
+  Medium (40-79): 0  
+  Low (<40):    0  
+  Failed:       6  10A, 14A, 16D, 17D, 7D, 9A
+  Average:      96/100
+
+COST: $0.0000 (Sonnet)
+
+================================================================================
+ACTIONABLE QUALITY REPORT
+================================================================================
+
+DB GAPS — add these to improve future solves (1 entries)
+------------------------------------------------------------
+  FORAGE: blacksmith's workshop -> FORGE  (missing from synonyms_pairs)
+
+TYPE MISMATCHES: none
+
+ANAGRAM FALLBACKS: none
+
+FABRICATED MAPPINGS: none
+
+CIRCULAR ASSEMBLIES: none
+
+UNVERIFIED EXPLANATIONS: none
+
+FAILED TO ASSEMBLE (6)
+------------------------------------------------------------
+  10. Reportedly requiring massaging = KNEADING
+  14. Need to pay poet, barely holding on to wife = OWE
+  16. Guesses friend enters sites getting renovated = ESTIMATES
+  17. Programmes in Georgia question occupying military dining hal = game shows
+  7. Group of three left one securing parking in capital = Tripoli
+  9. Rogue artist's still losing millions = RASCAL
+
+============================================================
+SCORECARD
+============================================================
+  CLEAN:  22/30  4A, 12A, 13A, 15A, 18A, 20A, 20A, 22A, 24A, 25A, 26A, 27A, 2D, 3D, 5D, 6D, 8D, 11D, 19D, 21D, 21D, 23D
+  DB gap:                1  1D
+  Failed:                6  9A, 10A, 14A, 7D, 16D, 17D
+
+QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+   20D  RADICAL       Militant section of placid army in retreat (7)
+                      ---  [HIGH]
+    3D  Gladstone     Prime minister sending lads to nearby houses (9)
+                      ---  [HIGH]
+   23D  BLUE          Wasted on the radio? That's indecent (4)
+                      ---  [HIGH]
+   11D  free-spirited  Unconventional, suspect I prefer diets (4-8)
+                      ---  [HIGH]
+   13A  MOOR          Uncultivated land with space to the west (4)
+                      ---  [HIGH]
+   15A  OVERWEENING   Arrogant vow engineer breaks (11)
+                      ---  [HIGH]
+   18A  FINGERPRINT   Better publish about head of government's digital ID (11)
+                      ---  [HIGH]
+   19D  NUDISTS       Detectives probing crazy people with no clothes on (7)
+                      ---  [HIGH]
+   21A  CODE          Set of expectations about lyric poem (4)
+                      ---  [HIGH]
+   22A  Archimedes    Somehow reaches dim mathematician (10)
+                      ---  [HIGH]
+   24A  ABSOLUTE      Unqualified able seamen in front of old instrument (8)
+                      ---  [HIGH]
+   25A  STUCCO        Small company importing revolutionary wound plaster (6)
+                      ---  [HIGH]
+   26A  go steady     Regularly see aged toys getting repaired (2,6)
+                      ---  [HIGH]
+   27A  Psalms        Friend penning second manuscript for book (6)
+                      ---  [HIGH]
+    4A  ABSINTHE      Doctor bathes in booze (8)
+                      ---  [HIGH]
+    1A  FORAGE        Search advanced into blacksmith's workshop (6)
+                      A (synonym of "advanced") + FORGE (synonym of "blacksmith's workshop") [container: "into"]; definition: "Search"  [HIGH]
+    1D  FIREPROOF     Not combustible if looking up concerning evidence (9)
+                      IF (synonym of "if") + RE (synonym of "concerning") + PROOF (synonym of "evidence") [reversal: "looking"]; definition: "Not combustible"  [HIGH]
+   12A  PEDESTRIAN    Dull, annoying person ringing editor then managed to grab the setter (10)
+                      AN (first letter of "annoying") + PE (first letter of "person") + RI (first letter of "ringing") + ED (synonym of "editor") reversed = DE + T (abbreviation of "the") [first letter: "then"] + S (first letter of "setter"); definition: "Dull,"  [HIGH]
+    2D  RESIDUE       What remains of troops you heard breaching flank (7)
+                      RESIDE (synonym of "remains") + U (synonym of "you"); definition: "What remains"  [HIGH]
+   20A  RAM           Sheep's memory (3)
+                      RAM (synonym of "Sheep's"); definition: "Sheep's"  [HIGH]
+   21D  CLANG         Loud noise from family dog's bottom (5)
+                      CLAN (synonym of "family") + G (last letter of "dog's") [last letter: "bottom"]; definition: "Loud noise"  [HIGH]
+    5D  BANTAMWEIGHT  Boxer and outlaw intoxicated, drinking in the morning with European (12)
+                      BAN (synonym of "outlaw") + T (abbreviation of "the") + AM (synonym of "morning") + WEIGHT (synonym of "in"); definition: "Boxer"  [HIGH]
+    6D  IMAM          Religious leader's Mass supporting current postgraduate (4)
+                      I (synonym of "current") + MA (synonym of "postgraduate") reversed = AM + M (synonym of "Mass"); definition: "Religious leader's"  [HIGH]
+    8D  Elgar         Article in Madrid newspaper about composer (5)
+                      EL (abbreviation of "Article") + EL (abbreviation of "in") + EL (abbreviation of "Madrid") + RAG (synonym of "newspaper") reversed = GAR [reversal: "about"] [reversal: "about"]; definition: "composer"  [HIGH]
+   10A  KNEADING      Reportedly requiring massaging (8)
+                      ---  [FAIL]
+   14A  OWE           Need to pay poet, barely holding on to wife (3)
+                      ---  [FAIL]
+   16D  ESTIMATES     Guesses friend enters sites getting renovated (9)
+                      ---  [FAIL]
+   17D  game shows    Programmes in Georgia question occupying military dining hall (4,5)
+                      ---  [FAIL]
+    7D  Tripoli       Group of three left one securing parking in capital (7)
+                      ---  [FAIL]
+    9A  RASCAL        Rogue artist's still losing millions (6)
+                      ---  [FAIL]
+
+================================================================================
+PER-CLUE DETAIL
+================================================================================
+
+  [HIGH] RADICAL  20D. Militant section of placid army in retreat
+  Answer: RADICAL
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden reversed in "p LACIDAR my"
+  ----------------------------------------------------------------------
+
+  [HIGH] Gladstone  3D. Prime minister sending lads to nearby houses
+  Answer: Gladstone
+  Tier: --- | Confidence: 100/100
+  Human explanation: hidden in "sendin GLADSTONE arby"
+  ----------------------------------------------------------------------
+
+  [HIGH] BLUE  23D. Wasted on the radio? That's indecent
+  Answer: BLUE
+  Tier: --- | Confidence: 100/100
+  Human explanation: Double definition
+  ----------------------------------------------------------------------
+
+  [HIGH] free-spirited  11D. Unconventional, suspect I prefer diets
+  Answer: free-spirited
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of I + PREFER + DIETS = FREE-SPIRITED [anagram: "suspect"]; definition: "Unconventional,"
+  ----------------------------------------------------------------------
+
+  [HIGH] MOOR  13A. Uncultivated land with space to the west
+  Answer: MOOR
+  Tier: --- | Confidence: 100/100
+  Human explanation: reverse of ROOM = MOOR; definition: "Uncultivated land"
+  ----------------------------------------------------------------------
+
+  [HIGH] OVERWEENING  15A. Arrogant vow engineer breaks
+  Answer: OVERWEENING
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of VOW + ENGINEER = OVERWEENING [anagram: "engineer"]; definition: "Arrogant"
+  ----------------------------------------------------------------------
+
+  [HIGH] FINGERPRINT  18A. Better publish about head of government's digital ID
+  Answer: FINGERPRINT
+  Tier: --- | Confidence: 100/100
+  Human explanation: G (abbreviation of "government's") inside FINER (synonym of "Better") + PRINT (synonym of "publish") = FINGERPRINT [container: "about"]; definition: "digital ID"
+  ----------------------------------------------------------------------
+
+  [HIGH] NUDISTS  19D. Detectives probing crazy people with no clothes on
+  Answer: NUDISTS
+  Tier: --- | Confidence: 100/100
+  Human explanation: DIS (synonym of "Detectives") inside NUTS (synonym of "crazy") = NUDISTS [container: "probing"]; definition: "people with no clothes on"
+  ----------------------------------------------------------------------
+
+  [HIGH] CODE  21A. Set of expectations about lyric poem
+  Answer: CODE
+  Tier: --- | Confidence: 100/100
+  Human explanation: C (abbreviation of "about") + ODE (synonym of "lyric poem") = CODE; definition: "Set of expectations"
+  ----------------------------------------------------------------------
+
+  [HIGH] Archimedes  22A. Somehow reaches dim mathematician
+  Answer: Archimedes
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of REACHES + DIM = ARCHIMEDES [anagram: "somehow"]; definition: "mathematician"
+  ----------------------------------------------------------------------
+
+  [HIGH] ABSOLUTE  24A. Unqualified able seamen in front of old instrument
+  Answer: ABSOLUTE
+  Tier: --- | Confidence: 100/100
+  Human explanation: S (first letter of "seamen") inside AB (abbreviation of "able") + O (abbreviation of "old") + LUTE (synonym of "old instrument") = ABSOLUTE [container: "in"]; definition: "Unqualified"
+  ----------------------------------------------------------------------
+
+  [HIGH] STUCCO  25A. Small company importing revolutionary wound plaster
+  Answer: STUCCO
+  Tier: --- | Confidence: 100/100
+  Human explanation: TUC (reversal of "wound") inside S (abbreviation of "Small") + CO (abbreviation of "company") = STUCCO [container: "importing"; reversal: "revolutionary"]; definition: "plaster"
+  ----------------------------------------------------------------------
+
+  [HIGH] go steady  26A. Regularly see aged toys getting repaired
+  Answer: go steady
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of AGED + TOYS = GO STEADY [anagram: "toys"]; definition: "Regularly see"
+  ----------------------------------------------------------------------
+
+  [HIGH] Psalms  27A. Friend penning second manuscript for book
+  Answer: Psalms
+  Tier: --- | Confidence: 100/100
+  Human explanation: S (abbreviation of "second") inside PAL (synonym of "Friend") + MS (abbreviation of "manuscript") = PSALMS [container: "penning"]; definition: "book"
+  ----------------------------------------------------------------------
+
+  [HIGH] ABSINTHE  4A. Doctor bathes in booze
+  Answer: ABSINTHE
+  Tier: --- | Confidence: 100/100
+  Human explanation: anagram of BATHES + IN = ABSINTHE [anagram: "doctor"]; definition: "booze"
+  ----------------------------------------------------------------------
+
+  [HIGH] FORAGE  1A. Search advanced into blacksmith's workshop
+  Answer: FORAGE
+  Tier: Signature | Confidence: 100/100
+  Definition: "Search"
+  Wordplay: charade + container
+  Explanation: A (synonym of "advanced") + FORGE (synonym of "blacksmith's workshop") [container: "into"]; definition: "Search"
+  ----------------------------------------------------------------------
+
+  [HIGH] FIREPROOF  1D. Not combustible if looking up concerning evidence
+  Answer: FIREPROOF
+  Tier: Signature | Confidence: 80/100
+  Definition: "Not combustible"
+  Wordplay: charade + reversal
+  Explanation: IF (synonym of "if") + RE (synonym of "concerning") + PROOF (synonym of "evidence") [reversal: "looking"]; definition: "Not combustible"
+  Checks: syn_'if'=if_unconfirmed_(real_=-20
+  ----------------------------------------------------------------------
+
+  [HIGH] PEDESTRIAN  12A. Dull, annoying person ringing editor then managed to grab the setter
+  Answer: PEDESTRIAN
+  Tier: Signature | Confidence: 81/100
+  Definition: "Dull,"
+  Wordplay: acrostic + charade
+  Explanation: AN (first letter of "annoying") + PE (first letter of "person") + RI (first letter of "ringing") + ED (synonym of "editor") reversed = DE + T (abbreviation of "the") [first letter: "then"] + S (first letter of "setter"); definition: "Dull,"
+  Checks: charade=+0
+  ----------------------------------------------------------------------
+
+  [HIGH] RESIDUE  2D. What remains of troops you heard breaching flank
+  Answer: RESIDUE
+  Tier: Signature | Confidence: 90/100
+  Definition: "What remains"
+  Wordplay: charade
+  Explanation: RESIDE (synonym of "remains") + U (synonym of "you"); definition: "What remains"
+  Checks: container=+0
+  ----------------------------------------------------------------------
+
+  [HIGH] RAM  20A. Sheep's memory
+  Answer: RAM
+  Tier: Signature | Confidence: 90/100
+  Definition: "Sheep's"
+  Wordplay: double_definition
+  Explanation: RAM (synonym of "Sheep's"); definition: "Sheep's"
+  Checks: charade=+0
+  ----------------------------------------------------------------------
+
+  [HIGH] CLANG  21D. Loud noise from family dog's bottom
+  Answer: CLANG
+  Tier: Signature | Confidence: 100/100
+  Definition: "Loud noise"
+  Wordplay: charade + parts
+  Explanation: CLAN (synonym of "family") + G (last letter of "dog's") [last letter: "bottom"]; definition: "Loud noise"
+  ----------------------------------------------------------------------
+
+  [HIGH] BANTAMWEIGHT  5D. Boxer and outlaw intoxicated, drinking in the morning with European
+  Answer: BANTAMWEIGHT
+  Tier: Signature | Confidence: 90/100
+  Definition: "Boxer"
+  Wordplay: charade
+  Explanation: BAN (synonym of "outlaw") + T (abbreviation of "the") + AM (synonym of "morning") + WEIGHT (synonym of "in"); definition: "Boxer"
+  Checks: charade=+0
+  ----------------------------------------------------------------------
+
+  [HIGH] IMAM  6D. Religious leader's Mass supporting current postgraduate
+  Answer: IMAM
+  Tier: Signature | Confidence: 86/100
+  Definition: "Religious leader's"
+  Wordplay: charade
+  Explanation: I (synonym of "current") + MA (synonym of "postgraduate") reversed = AM + M (synonym of "Mass"); definition: "Religious leader's"
+  Checks: charade=+0
+  ----------------------------------------------------------------------
+
+  [HIGH] Elgar  8D. Article in Madrid newspaper about composer
+  Answer: Elgar
+  Tier: Signature | Confidence: 85/100
+  Definition: "composer"
+  Wordplay: charade + reversal
+  Explanation: EL (abbreviation of "Article") + EL (abbreviation of "in") + EL (abbreviation of "Madrid") + RAG (synonym of "newspaper") reversed = GAR [reversal: "about"] [reversal: "about"]; definition: "composer"
+  Checks: charade=+0
+  ----------------------------------------------------------------------
+
+  [FAILED] KNEADING  10A. Reportedly requiring massaging
+  Answer: KNEADING
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+  [FAILED] OWE  14A. Need to pay poet, barely holding on to wife
+  Answer: OWE
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+  [FAILED] ESTIMATES  16D. Guesses friend enters sites getting renovated
+  Answer: ESTIMATES
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+  [FAILED] game shows  17D. Programmes in Georgia question occupying military dining hall
+  Answer: game shows
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+  [FAILED] Tripoli  7D. Group of three left one securing parking in capital
+  Answer: Tripoli
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+  [FAILED] RASCAL  9A. Rogue artist's still losing millions
+  Answer: RASCAL
+  Tier: --- | Confidence: 0/100
+  ----------------------------------------------------------------------
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,26 @@
+{
+  "source": "telegraph",
+  "puzzle": "31242",
+  "stats": {
+    "total": 30,
+    "assembled": 24,
+    "high": 24,
+    "medium": 0,
+    "low": 0,
+    "failed": 6,
+    "avg_score": 95.91666666666667
+  },
+  "gaps": [
+    {
+      "type": "synonym",
+      "table": "synonyms_pairs",
+      "word": "blacksmith's workshop",
+      "letters": "FORGE",
+      "answer": "FORAGE",
+      "clue_number": "1",
+      "direction": "across",
+      "clue": "Search advanced into blacksmith's workshop",
+      "score": 100
+    }
+  ]
+}

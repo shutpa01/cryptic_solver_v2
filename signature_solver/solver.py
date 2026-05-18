@@ -126,7 +126,8 @@ def _normalize_clue(text):
 
 def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                extra_synonyms=None, extra_indicators=None,
-               _dbe_already_attempted=False):
+               _dbe_already_attempted=False,
+               _span_value_already_attempted=False):
     """Solve a raw clue: extract definition candidates, then solve each.
 
     Tries grammar-guided triage first (fast, high precision) on each
@@ -268,7 +269,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                 if dbe_haiku_candidates:
                     new_sr = solve_clue(clue_text, answer, db, min_confidence,
                                          extra_catalog=extra_catalog,
-                                         extra_synonyms=dbe_haiku_candidates)
+                                         extra_synonyms=dbe_haiku_candidates,
+                                         _span_value_already_attempted=True)
                     if (new_sr is not None and new_sr.solved
                             and (best_sr is None
                                  or new_sr.confidence > best_sr.confidence)):
@@ -276,6 +278,42 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                         return new_sr
         except Exception:
             pass  # Any failure here just falls through to the existing fallback
+
+    # --- Answer-constrained span/value fallback ---
+    # GT2-style preservation exposes a useful pattern in failed container
+    # clues: if we know an inner atom and the answer, the missing outer shell
+    # can be derived mechanically. Haiku only validates the remaining phrase
+    # -> shell pair; the existing solver still has to verify the full parse
+    # through the normal extra_synonyms overlay.
+    if ((best_sr is None or not best_sr.high_confidence)
+            and not extra_synonyms
+            and not _span_value_already_attempted):
+        try:
+            from .container_span_value import (
+                find_container_span_value_suggestion,
+                span_suggestion_actually_used,
+            )
+            span_suggestion = find_container_span_value_suggestion(
+                clue_text, answer_clean, db, candidates)
+            if span_suggestion:
+                phrase, value = span_suggestion
+                injected = {phrase: [value]}
+                new_sr = solve_clue(
+                    clue_text, answer, db, min_confidence,
+                    extra_catalog=extra_catalog,
+                    extra_synonyms=injected,
+                    extra_indicators=extra_indicators,
+                    _dbe_already_attempted=True,
+                    _span_value_already_attempted=True)
+                if (new_sr is not None and new_sr.high_confidence
+                        and (best_sr is None
+                             or new_sr.confidence > best_sr.confidence)
+                        and span_suggestion_actually_used(
+                            new_sr, phrase, value)):
+                    new_sr.span_value_candidates = [span_suggestion]
+                    return new_sr
+        except Exception:
+            pass  # Experimental fallback must fail closed.
 
     # --- Indicator-enrichment fallback ---
     # If still nothing high-confidence AND we haven't already retried with
@@ -358,7 +396,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                                      extra_synonyms=(extra_synonyms or
                                                        dbe_haiku_candidates),
                                      extra_indicators=inj,
-                                     _dbe_already_attempted=True)
+                                     _dbe_already_attempted=True,
+                                     _span_value_already_attempted=True)
                 if (new_sr is not None and new_sr.high_confidence
                         and (best_sr is None
                              or new_sr.confidence > best_sr.confidence)
@@ -391,7 +430,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                                 extra_synonyms=(extra_synonyms or
                                                   dbe_haiku_candidates),
                                 extra_indicators=inj_pick,
-                                _dbe_already_attempted=True)
+                                _dbe_already_attempted=True,
+                                _span_value_already_attempted=True)
                             if (haiku_sr is not None
                                     and haiku_sr.high_confidence
                                     and _suggestion_actually_used(
@@ -429,7 +469,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                                          extra_synonyms=(extra_synonyms or
                                                            dbe_haiku_candidates),
                                          extra_indicators=inj,
-                                         _dbe_already_attempted=True)
+                                         _dbe_already_attempted=True,
+                                         _span_value_already_attempted=True)
                     if (new_sr is not None and new_sr.high_confidence
                             and (best_sr is None
                                  or new_sr.confidence > best_sr.confidence)
