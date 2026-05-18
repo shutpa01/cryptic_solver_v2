@@ -403,6 +403,7 @@ def _actionable_quality(results):
     # synonym/abbreviation mappings even when assembly can't verify them
     # Use direct DB lookup (not enrichment text) so Signature-solved clues are checked properly
     import sqlite3 as _sqlite3
+    from sonnet_pipeline.enrichment_gate import already_in_reference_db as _already_in_reference_db
     _cryptic_db_path = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\data\cryptic_new.db"
     _gap_conn = _sqlite3.connect(_cryptic_db_path, timeout=10)
 
@@ -473,10 +474,16 @@ def _actionable_quality(results):
                                     and letters_clean == _cw_upper[0] + _cw_upper[-1])):
                             continue  # positional extraction, not a real gap
 
+                    gap_type = "abbreviation" if len(letters_clean) <= 3 else "synonym"
+                    if (_already_in_reference_db(gap_type, clue_lower, letters_clean)
+                            or _already_in_reference_db("synonym", clue_lower, letters_clean)
+                            or _already_in_reference_db("abbreviation", clue_lower, letters_clean)):
+                        continue
+
                     db_gaps.append({
                         "answer": answer, "clue_word": clue_word,
                         "letters": letters_clean,
-                        "table": "abbreviations" if len(letters_clean) <= 3 else "synonyms_pairs",
+                        "table": "abbreviations" if gap_type == "abbreviation" else "synonyms_pairs",
                         "clue_number": r["clue_number"],
                         "clue": r.get("clue", ""),
                         "direction": r.get("direction", ""),
@@ -499,6 +506,8 @@ def _actionable_quality(results):
         if not ai_def:
             continue
         answer = r.get("answer", "?")
+        if _already_in_reference_db("definition", ai_def, answer):
+            continue
         def_gaps.append({
             "answer": answer, "definition": ai_def,
             "clue_number": r["clue_number"],
