@@ -262,10 +262,12 @@ def _get_phrase_values(words, db, answer_len):
     """Get (value, source_type) for a multi-word phrase."""
     phrase = ' '.join(_clean(w) for w in words)
     results = []
-    for s in db.get_synonyms(phrase, max_len=answer_len + 2):
-        results.append((s, 'synonym'))
-    for a in db.get_abbreviations(phrase):
+    abbreviations = set(db.get_abbreviations(phrase))
+    for a in abbreviations:
         results.append((a, 'abbreviation'))
+    for s in db.get_synonyms(phrase, max_len=answer_len + 2):
+        if s not in abbreviations:
+            results.append((s, 'synonym'))
     return results
 
 
@@ -297,63 +299,152 @@ def _try_anagram(wp_words, answer, db):
                 if sorted(remaining) == answer_sorted:
                     return _build_anagram_result(wp_words, word_letters, {i, j}, answer, db)
 
-    # Anagram with abbreviation substitution: some words contribute their
-    # abbreviation/synonym value instead of raw letters (e.g. "western"=W, "area"=A)
-    # Try substituting 1-2 words with their short DB values
+    # Substitution section: collect candidates by priority, return best.
+    # Priority 2: two adjacent words replaced by a single phrase DB value.
+    # Priority 1: one word replaced by its DB abbreviation or synonym.
+    # Priority 0: two words each replaced by their DB abbreviation or synonym.
+    # Plain exclusion paths above already returned if they fit, so we only
+    # reach here when raw letter totals do not match.
+    from itertools import combinations
+
     answer_len = len(answer)
-    short_vals = {}  # word_idx -> list of short values (1-2 chars)
-    for k in range(n):
-        vals = []
-        for val, src in _get_word_values(wp_words[k], db, answer_len):
-            if len(val) <= 2:
-                vals.append((val, src))
-        if vals:
-            short_vals[k] = vals
+    candidates = []  # list of (SolveResult, priority)
 
-    if short_vals:
-        from itertools import combinations
-        sub_indices = list(short_vals.keys())
+    # --- Priority 2: phrase substitution ---
+    # Try each adjacent pair as a single phrase DB lookup before any
+    # single-word substitutions.  _get_phrase_values handles multi-word
+    # synonym and abbreviation lookups.
+    for pi in range(n - 1):
+        pj = pi + 1
+        phrase_vals = _get_phrase_values(
+            [wp_words[pi], wp_words[pj]], db, answer_len)
+        for val, src in phrase_vals:
+            if len(val) > 3:
+                continue
+            others = [k for k in range(n) if k not in (pi, pj)]
+            for n_exc in range(0, len(others) + 1):
+                for exc_combo in combinations(others, n_exc):
+                    remaining = val + ''.join(
+                        word_letters[k] for k in range(n)
+                        if k not in (pi, pj) and k not in exc_combo
+                    )
+                    if sorted(remaining) != answer_sorted:
+                        continue
+                    # Build word_roles directly: phrase collapses to one entry.
+                    token = ABR_F if src == 'abbreviation' else SYN_F
+                    phrase_text = wp_words[pi] + ' ' + wp_words[pj]
+                    phrase_fodder = val + ''.join(
+                        word_letters[k] for k in range(n)
+                        if k not in (pi, pj) and k not in exc_combo
+                    )
+                    # Build word_roles in clue order.
+                    # At position pi insert the phrase entry; skip pj.
+                    word_roles = []
+                    for k in range(n):
+                        if k == pi:
+                            word_roles.append((phrase_text, token, val))
+                        elif k == pj:
+                            continue
+                        elif k in exc_combo:
+                            ind_types = db.get_indicator_types(_clean(wp_words[k]))
+                            is_ana = any(t == 'anagram' for t, _, _ in ind_types)
+                            if is_ana:
+                                word_roles.append((wp_words[k], ANA_I, None))
+                            else:
+                                word_roles.append((wp_words[k], LNK, None))
+                        else:
+                            word_roles.append((wp_words[k], ANA_F, word_letters[k]))
+                    has_indicator = any(t == ANA_I for _, t, _ in word_roles)
+                    non_ana_tokens = list(dict.fromkeys(
+                        t for _, t, _ in word_roles
+                        if t not in (ANA_F, ANA_I, LNK)
+                    ))
+                    if has_indicator:
+                        sig_tokens = [ANA_I, ANA_F] + non_ana_tokens
+                    else:
+                        sig_tokens = [ANA_F] + non_ana_tokens
+                    sig_tokens = list(dict.fromkeys(sig_tokens))
+                    explanation = 'Anagram of "%s" = %s' % (phrase_fodder, answer)
+                    sig = SignatureResult(sig_tokens, word_roles, [explanation])
+                    confidence = 85 if has_indicator else 70
+                    result = SolveResult(
+                        sig, confidence, [('anagram_charade', 0)], [], {})
+                    candidates.append((result, 2))
 
-        # Try 1 substitution
-        for si in sub_indices:
-            for sub_val, sub_src in short_vals[si]:
-                others = [k for k in range(n) if k != si]
-                for n_exc in range(0, len(others) + 1):
-                    for exc_combo in combinations(others, n_exc):
-                        remaining = sub_val + ''.join(
-                            word_letters[k] for k in range(n)
-                            if k != si and k not in exc_combo
-                        )
-                        if sorted(remaining) == answer_sorted:
-                            # Build result with substituted word
-                            modified_letters = list(word_letters)
-                            modified_letters[si] = sub_val
-                            return _build_anagram_result(
-                                wp_words, modified_letters, set(exc_combo), answer, db
+    # If any phrase substitution found, skip lower-priority searches.
+    if not candidates:
+        # --- Build single-word short value lookup ---
+        short_vals = {}
+        for k in range(n):
+            vals = []
+            for val, src in _get_word_values(wp_words[k], db, answer_len):
+                if len(val) <= 2:
+                    vals.append((val, src))
+            if vals:
+                short_vals[k] = vals
+
+        if short_vals:
+            sub_indices = list(short_vals.keys())
+
+            # --- Priority 1: one word substituted ---
+            for si in sub_indices:
+                for sub_val, sub_src in short_vals[si]:
+                    others = [k for k in range(n) if k != si]
+                    for n_exc in range(0, len(others) + 1):
+                        for exc_combo in combinations(others, n_exc):
+                            remaining = sub_val + ''.join(
+                                word_letters[k] for k in range(n)
+                                if k != si and k not in exc_combo
                             )
-
-        # Try 2 substitutions
-        if len(sub_indices) >= 2:
-            for s1, s2 in combinations(sub_indices, 2):
-                for v1, src1 in short_vals[s1]:
-                    for v2, src2 in short_vals[s2]:
-                        others = [k for k in range(n) if k not in (s1, s2)]
-                        for n_exc in range(0, len(others) + 1):
-                            for exc_combo in combinations(others, n_exc):
-                                remaining = v1 + v2 + ''.join(
-                                    word_letters[k] for k in range(n)
-                                    if k not in (s1, s2) and k not in exc_combo
+                            if sorted(remaining) == answer_sorted:
+                                modified_letters = list(word_letters)
+                                modified_letters[si] = sub_val
+                                override_token = (
+                                    ABR_F if sub_src == 'abbreviation' else SYN_F)
+                                result = _build_anagram_result(
+                                    wp_words, modified_letters,
+                                    set(exc_combo), answer, db,
+                                    word_overrides={si: (sub_val, override_token)},
                                 )
-                                if sorted(remaining) == answer_sorted:
-                                    modified_letters = list(word_letters)
-                                    modified_letters[s1] = v1
-                                    modified_letters[s2] = v2
-                                    return _build_anagram_result(
-                                        wp_words, modified_letters,
-                                        set(exc_combo), answer, db
-                                    )
+                                candidates.append((result, 1))
 
-    return None
+            # --- Priority 0: two words substituted ---
+            if len(sub_indices) >= 2:
+                for s1, s2 in combinations(sub_indices, 2):
+                    for v1, src1 in short_vals[s1]:
+                        for v2, src2 in short_vals[s2]:
+                            others = [k for k in range(n) if k not in (s1, s2)]
+                            for n_exc in range(0, len(others) + 1):
+                                for exc_combo in combinations(others, n_exc):
+                                    remaining = v1 + v2 + ''.join(
+                                        word_letters[k] for k in range(n)
+                                        if k not in (s1, s2)
+                                        and k not in exc_combo
+                                    )
+                                    if sorted(remaining) == answer_sorted:
+                                        modified_letters = list(word_letters)
+                                        modified_letters[s1] = v1
+                                        modified_letters[s2] = v2
+                                        tok1 = (
+                                            ABR_F if src1 == 'abbreviation'
+                                            else SYN_F)
+                                        tok2 = (
+                                            ABR_F if src2 == 'abbreviation'
+                                            else SYN_F)
+                                        result = _build_anagram_result(
+                                            wp_words, modified_letters,
+                                            set(exc_combo), answer, db,
+                                            word_overrides={
+                                                s1: (v1, tok1),
+                                                s2: (v2, tok2),
+                                            },
+                                        )
+                                        candidates.append((result, 0))
+
+    if not candidates:
+        return None
+    candidates.sort(key=lambda pair: pair[1], reverse=True)
+    return candidates[0][0]
 
 
 def _try_anagram_with_positional(wp_words, answer, db):
@@ -428,10 +519,17 @@ def _try_anagram_with_positional(wp_words, answer, db):
     return None
 
 
-def _build_anagram_result(wp_words, word_letters, excluded, answer, db):
+def _build_anagram_result(wp_words, word_letters, excluded, answer, db,
+                          word_overrides=None):
     """Build SolveResult for an anagram."""
     word_roles = []
-    fodder = ''.join(word_letters[k] for k in range(len(wp_words)) if k not in excluded)
+    fodder = ''.join(
+        (word_overrides[k][0]
+         if word_overrides and k in word_overrides
+         else word_letters[k])
+        for k in range(len(wp_words))
+        if k not in excluded
+    )
 
     for k, word in enumerate(wp_words):
         if k in excluded:
@@ -441,15 +539,27 @@ def _build_anagram_result(wp_words, word_letters, excluded, answer, db):
                 word_roles.append((word, ANA_I, None))
             else:
                 word_roles.append((word, LNK, None))
+        elif word_overrides and k in word_overrides:
+            override_val, override_token = word_overrides[k]
+            word_roles.append((word, override_token, override_val))
         else:
             word_roles.append((word, ANA_F, word_letters[k]))
 
     has_indicator = any(t == ANA_I for _, t, _ in word_roles)
+    non_ana_tokens = list(dict.fromkeys(
+        t for _, t, _ in word_roles
+        if t not in (ANA_F, ANA_I, LNK)
+    ))
+    operation = 'anagram_charade' if non_ana_tokens else 'anagram'
+    if has_indicator:
+        sig_tokens = [ANA_I, ANA_F] + non_ana_tokens
+    else:
+        sig_tokens = [ANA_F] + non_ana_tokens
+    sig_tokens = list(dict.fromkeys(sig_tokens))
     explanation = 'Anagram of "%s" = %s' % (fodder, answer)
-    sig = SignatureResult([ANA_I, ANA_F] if has_indicator else [ANA_F],
-                          word_roles, [explanation])
+    sig = SignatureResult(sig_tokens, word_roles, [explanation])
     confidence = 90 if has_indicator else 70
-    return SolveResult(sig, confidence, [('anagram', 0)], [], {})
+    return SolveResult(sig, confidence, [(operation, 0)], [], {})
 
 
 def _try_charade(wp_words, answer, db):

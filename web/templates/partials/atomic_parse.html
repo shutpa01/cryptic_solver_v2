@@ -1,0 +1,190 @@
+{# Designed WFW explanation path. Expects clue.atomic_wfw display data. #}
+{% set artifact = clue.atomic_artifact %}
+{% set wfw = clue.atomic_wfw %}
+{% set primary_op = wfw.operations[0] if wfw and wfw.operations else none %}
+{% set is_proven = wfw and wfw.status == 'wfw_proven' %}
+{% set piece1_roles = ['piece_0', 'outer', 'source', 'hidden_fodder', 'hidden_indicator', 'reversal_indicator', 'anagram_fodder', 'anagram_indicator'] %}
+{% set piece2_roles = ['piece_1', 'inner'] %}
+{% set dd_roles = ['dd_0', 'dd_1'] %}
+{% set piece3_roles = ['piece_2'] %}
+{% set piece4_roles = ['piece_3'] %}
+{% set piece5_roles = ['piece_4'] %}
+{% set piece1_indicator_roles = ['piece_0_positional_indicator'] %}
+{% set piece2_indicator_roles = ['piece_1_positional_indicator'] %}
+{% set piece3_indicator_roles = ['piece_2_positional_indicator'] %}
+{% set piece4_indicator_roles = ['piece_3_positional_indicator'] %}
+{% set piece5_indicator_roles = ['piece_4_positional_indicator'] %}
+{% if wfw %}
+<div class="mt-4 rounded-lg border-2 {% if is_proven %}border-teal-400 bg-teal-50{% else %}border-amber-400 bg-amber-50{% endif %} px-5 py-5 shadow-sm">
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b {% if is_proven %}border-teal-200{% else %}border-amber-200{% endif %} pb-3 mb-4">
+        <div>
+            <h2 class="text-xl font-bold text-slate-950">{% if is_proven %}How the clue works{% else %}WFW needs review{% endif %}</h2>
+            {% if primary_op and primary_op.detail %}
+            <p class="mt-1 text-base font-semibold text-slate-800">{{ primary_op.detail }}</p>
+            {% endif %}
+            {% if not is_proven and wfw.review_messages %}
+            <div class="mt-2 space-y-1 text-sm font-semibold text-amber-900">
+                {% for message in wfw.review_messages[:3] %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% elif not is_proven and wfw.objections %}
+            <p class="mt-1 text-sm font-semibold text-amber-900">{{ wfw.objections[:3] | join(', ') | replace('_', ' ') }}</p>
+            {% endif %}
+        </div>
+        {% if primary_op %}
+        <div class="rounded border-2 border-amber-500 bg-amber-100 px-4 py-2 text-center">
+            <div class="text-xs font-bold uppercase tracking-wide text-amber-900">{% if is_proven %}Wordplay Type{% else %}WFW Status{% endif %}</div>
+            <div class="text-lg font-extrabold text-slate-950">{% if is_proven %}{{ primary_op.operation | replace('_', ' ') | title }}{% else %}Review{% endif %}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-5">
+        <div class="mb-2 text-center text-sm font-bold uppercase tracking-wide text-slate-600">Answer</div>
+        <div class="flex w-full flex-nowrap justify-center gap-1">
+            {% for link in wfw.answer_links %}
+            <span class="inline-flex min-w-0 flex-1 flex-col items-center justify-center rounded border-2 px-1.5 py-2 text-slate-950
+                {% if link.source_role == 'definition' %}border-green-500
+                {% elif link.source_role == 'double_definition' %}border-sky-500
+                {% elif (link.source_role or '').endswith('indicator') %}border-amber-500
+                {% elif link.source_role in piece1_roles %}border-sky-500
+                {% elif link.source_role in piece2_roles %}border-pink-500
+                {% elif link.source_role in piece3_roles %}border-yellow-500
+                {% elif link.source_role in piece4_roles %}border-orange-500
+                {% elif link.source_role in piece5_roles %}border-purple-500
+                {% else %}border-slate-300{% endif %}"
+                  style="{% if link.source_role == 'definition' %}background-color:#bbf7d0;{% elif link.source_role == 'double_definition' %}background:linear-gradient(90deg,#bfdbfe 0 50%,#fbcfe8 50%);{% elif (link.source_role or '').endswith('indicator') %}background-color:#fde68a;{% elif link.source_role in piece1_roles %}background-color:#bfdbfe;{% elif link.source_role in piece2_roles %}background-color:#fbcfe8;{% elif link.source_role in piece3_roles %}background-color:#fef08a;{% elif link.source_role in piece4_roles %}background-color:#fed7aa;{% elif link.source_role in piece5_roles %}background-color:#ddd6fe;{% else %}background-color:#ffffff;{% endif %}"
+                  title="{{ link.source_text or '' }} -> {% if link.source_input_value %}{{ link.source_input_value }} -> {% endif %}{{ link.source_value or '' }}">
+                <span class="text-xl font-extrabold leading-none">{{ link.letter }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+        <div class="mb-2 text-center text-sm font-bold uppercase tracking-wide text-slate-600">Clue Breakdown</div>
+        <div class="flex flex-wrap justify-center gap-3">
+            {% for block in wfw.blocks %}
+            {% if block.kind != 'ASSEMBLY_BLOCK' %}
+            <span class="inline-flex min-w-28 flex-col items-center justify-center rounded border-2 px-4 py-3 text-center text-slate-950
+                {% if block.kind == 'DEF_BLOCK' %}border-green-500
+                {% elif block.role == 'container_indicator' %}border-sky-500
+                {% elif block.role == 'dd_0' %}border-sky-500
+                {% elif block.role == 'dd_1' %}border-pink-500
+                {% elif block.role in piece1_roles %}border-sky-500
+                {% elif block.role in piece2_roles %}border-pink-500
+                {% elif block.role in piece3_roles %}border-yellow-500
+                {% elif block.role in piece4_roles %}border-orange-500
+                {% elif block.role in piece5_roles %}border-purple-500
+                {% elif block.role in piece1_indicator_roles %}border-sky-500
+                {% elif block.role in piece2_indicator_roles %}border-pink-500
+                {% elif block.role in piece3_indicator_roles %}border-yellow-500
+                {% elif block.role in piece4_indicator_roles %}border-orange-500
+                {% elif block.role in piece5_indicator_roles %}border-purple-500
+                {% elif block.kind in ['RELATION_BLOCK', 'OP_BLOCK'] or (block.role or '').endswith('indicator') %}border-amber-500
+                {% elif block.role == 'source_review' %}border-rose-500
+                {% elif block.kind == 'LINK_BLOCK' %}border-slate-300
+                {% elif block.role == 'unaccounted' %}border-rose-500
+                {% else %}border-slate-300{% endif %}"
+                  style="{% if block.kind == 'DEF_BLOCK' %}background-color:#bbf7d0;{% elif block.role == 'dd_0' %}background-color:#bfdbfe;{% elif block.role == 'dd_1' %}background-color:#fbcfe8;{% elif block.role in piece1_roles or block.role in piece1_indicator_roles %}background-color:#bfdbfe;{% elif block.role in piece2_roles or block.role in piece2_indicator_roles %}background-color:#fbcfe8;{% elif block.role in piece3_roles or block.role in piece3_indicator_roles %}background-color:#fef08a;{% elif block.role in piece4_roles or block.role in piece4_indicator_roles %}background-color:#fed7aa;{% elif block.role in piece5_roles or block.role in piece5_indicator_roles %}background-color:#ddd6fe;{% elif block.kind in ['RELATION_BLOCK', 'OP_BLOCK'] or (block.role or '').endswith('indicator') %}background-color:#fde68a;{% elif block.role == 'source_review' %}background-color:#ffe4e6;{% elif block.kind == 'LINK_BLOCK' %}background-color:#f1f5f9;{% elif block.role == 'unaccounted' %}background-color:#ffe4e6;{% else %}background-color:#ffffff;{% endif %}">
+                <span class="text-base font-extrabold">{{ block.text }}</span>
+                {% if block.role == 'hidden_fodder' and wfw.hidden_segments %}
+                <span class="mt-2 inline-flex items-stretch justify-center font-mono text-sm font-extrabold tracking-wide text-slate-950">
+                    <span class="border border-slate-300 bg-white px-2 py-1">{{ wfw.hidden_segments.display_prefix or wfw.hidden_segments.prefix }}</span><span class="border-y border-sky-500 bg-sky-100 px-2 py-1 text-sky-950">{{ wfw.hidden_segments.display_hidden or wfw.hidden_segments.hidden }}</span><span class="border border-slate-300 bg-white px-2 py-1">{{ wfw.hidden_segments.display_suffix or wfw.hidden_segments.suffix }}</span>
+                </span>
+                {% if wfw.hidden_segments.reversed %}
+                <span class="mt-1 text-xs font-bold text-sky-950">read backwards</span>
+                {% endif %}
+                {% elif block.kind == 'DEF_BLOCK' %}
+                {% if block.role == 'inferred_definition' %}
+                <span class="mt-1 text-sm font-extrabold text-green-950">Definition needs evidence</span>
+                {% else %}
+                <span class="mt-1 text-sm font-extrabold text-green-950">Definition</span>
+                {% endif %}
+                {% elif block.role == 'dd_0' %}
+                <span class="mt-1 text-sm font-extrabold text-sky-950">Definition 1</span>
+                {% elif block.role == 'dd_1' %}
+                <span class="mt-1 text-sm font-extrabold text-pink-950">Definition 2</span>
+                {% elif block.input_value and block.value and block.input_value != block.value %}
+                <span class="mt-1 text-sm font-extrabold text-slate-950">
+                    {% if block.deleted_text %}
+                    {{ block.kept_prefix }}<span class="text-rose-700 line-through">{{ block.deleted_text }}</span>{{ block.kept_suffix }} &rarr; {{ block.value }}
+                    {% else %}
+                    {{ block.input_value }} &rarr; {{ block.value }}
+                    {% endif %}
+                </span>
+                {% elif block.value %}
+                <span class="mt-1 text-sm font-extrabold text-slate-950">{{ block.value }}</span>
+                {% elif block.kind == 'LINK_BLOCK' %}
+                <span class="mt-1 text-sm font-bold text-slate-700">{% if block.role == 'surface_gap' %}Surface needs review{% elif block.role == 'surface' %}Surface{% else %}Link{% endif %}</span>
+                {% elif block.role == 'source_review' %}
+                <span class="mt-1 text-sm font-bold text-rose-800" title="{{ block.evidence_reason or '' }}">{{ block.value }}</span>
+                {% elif block.role == 'unaccounted' %}
+                <span class="mt-1 text-sm font-bold text-rose-800">Needs WFW role</span>
+                {% elif block.role == 'container_indicator' %}
+                <span class="mt-1 text-sm font-extrabold text-sky-950">Container indicator</span>
+                {% elif block.role == 'hidden_indicator' %}
+                <span class="mt-1 text-sm font-extrabold text-sky-950">Hidden indicator</span>
+                {% elif block.role == 'anagram_indicator' %}
+                <span class="mt-1 text-sm font-extrabold text-amber-950">Anagram indicator</span>
+                {% elif block.role == 'homophone_indicator' %}
+                <span class="mt-1 text-sm font-extrabold text-amber-950">Homophone indicator</span>
+                {% elif block.role == 'reversal_indicator' and primary_op and primary_op.operation == 'hidden_reversed' %}
+                <span class="mt-1 text-sm font-extrabold text-sky-950">Reversal indicator</span>
+                {% elif block.role == 'reversal_indicator' %}
+                <span class="mt-1 text-sm font-extrabold text-amber-950">Reversal indicator</span>
+                {% elif block.role in piece1_indicator_roles or block.role in piece2_indicator_roles or block.role in piece3_indicator_roles or block.role in piece4_indicator_roles or block.role in piece5_indicator_roles %}
+                <span class="mt-1 text-sm font-extrabold text-slate-950">Position indicator</span>
+                {% elif 'deletion_indicator' in (block.role or '') %}
+                <span class="mt-1 text-sm font-extrabold text-amber-950">Delete letters</span>
+                {% elif (block.role or '').endswith('indicator') %}
+                <span class="mt-1 text-sm font-extrabold text-amber-950">{{ block.role | replace('_', ' ') | title }}</span>
+                {% endif %}
+            </span>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if g.is_admin and artifact %}
+    <details class="mt-4">
+        <summary class="text-xs text-teal-800 cursor-pointer hover:text-teal-950">Admin: preserved evidence</summary>
+        <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+            <div class="rounded border border-teal-100 bg-white px-3 py-2">
+                <div class="font-semibold text-slate-700">Annotations</div>
+                <div class="text-slate-500">{{ artifact.annotations | length }}</div>
+            </div>
+            <div class="rounded border border-teal-100 bg-white px-3 py-2">
+                <div class="font-semibold text-slate-700">GT2 bundles</div>
+                <div class="text-slate-500">{{ artifact.gt2_bundles | length }}</div>
+            </div>
+            <div class="rounded border border-teal-100 bg-white px-3 py-2">
+                <div class="font-semibold text-slate-700">Token parses</div>
+                <div class="text-slate-500">{{ artifact.token_parses | length }}</div>
+            </div>
+        </div>
+    </details>
+    {% endif %}
+    {% if g.is_admin and wfw.missing_enrichments %}
+    <details class="mt-4">
+        <summary class="text-xs text-teal-800 cursor-pointer hover:text-teal-950">Admin: WFW evidence gaps</summary>
+        <div class="mt-2 space-y-1 text-xs">
+            {% for gap in wfw.missing_enrichments %}
+            <div class="rounded border border-teal-100 bg-white px-3 py-2 text-slate-700">
+                {% if gap.type == 'definition' %}
+                definition: {{ gap.definition }} â†’ {{ gap.answer }}
+                {% elif gap.type == 'synonym' %}
+                synonym: {{ gap.word }} â†’ {{ gap.synonym }}
+                {% elif gap.type == 'purpose' %}
+                purpose: {{ gap.word }} - {{ gap.needed_evidence }}
+                {% else %}
+                {{ gap }}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </details>
+    {% endif %}
+</div>
+{% endif %}

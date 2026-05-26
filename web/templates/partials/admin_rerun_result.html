@@ -1,4 +1,9 @@
 {# Replaces the buttons row after admin re-run. Returns full button set. #}
+{% if evidence_artifact_id %}
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-2 py-1">
+    Evidence #{{ evidence_artifact_id }}
+</span>
+{% endif %}
 {% for s in steps %}
 <button hx-post="/reveal"
         hx-vals='{"token": "{{ token }}", "step": "{{ s.step }}"}'

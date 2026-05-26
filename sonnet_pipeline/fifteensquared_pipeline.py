@@ -87,7 +87,8 @@ def store_fifteensquared_result(conn, clue_id, parsed, score, definition,
 # ============================================================
 
 def run_fifteensquared_pipeline(source, puzzle_number, pub_date=None,
-                                write_db=False, no_fallback=False):
+                                write_db=False, no_fallback=False,
+                                atomic=False):
     """Run the fifteensquared pipeline for a Guardian or Independent puzzle."""
     from dotenv import load_dotenv
     load_dotenv()
@@ -284,6 +285,28 @@ def run_fifteensquared_pipeline(source, puzzle_number, pub_date=None,
     print("Cost: Haiku $%.4f" % haiku_cost)
     print("=" * 70)
 
+    if atomic and write_db:
+        _run_atomic_post_pass(source, puzzle_number)
+
+
+def _run_atomic_post_pass(source, puzzle_number):
+    from scripts.export_atomic_review_gaps import export_atomic_review_gaps
+    from scripts.run_atomic_parse_puzzle import run_atomic_parse
+
+    print()
+    print("-" * 70)
+    print("ATOMIC WFW - %s #%s" % (source, puzzle_number))
+    print("-" * 70)
+    summary = run_atomic_parse(source, str(puzzle_number))
+    print("run_id: %s" % summary["run_id"])
+    print("total: %s" % summary["total"])
+    print("complete: %s" % summary["complete"])
+    print("review: %s" % summary["review"])
+    if summary["review"]:
+        path, count = export_atomic_review_gaps(run_id=summary["run_id"])
+        print("atomic review export: %s (%d item%s)" % (
+            path, count, "" if count == 1 else "s"))
+
 
 def main():
     parser = argparse.ArgumentParser(description="fifteensquared Pipeline for Guardian/Independent")
@@ -293,6 +316,7 @@ def main():
     parser.add_argument("--write-db", action="store_true", help="Write results to clues_master.db")
     parser.add_argument("--dry-run", action="store_true", help="Parse and score only")
     parser.add_argument("--no-fallback", action="store_true", help="Skip Sonnet fallback")
+    parser.add_argument("--atomic", action="store_true", help="After the blog pipeline, write atomic WFW artifacts")
     args = parser.parse_args()
 
     run_fifteensquared_pipeline(
@@ -300,6 +324,7 @@ def main():
         pub_date=args.date,
         write_db=args.write_db,
         no_fallback=args.dry_run or args.no_fallback,
+        atomic=args.atomic,
     )
 
 

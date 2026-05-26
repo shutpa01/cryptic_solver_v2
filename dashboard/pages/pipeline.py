@@ -10,7 +10,7 @@ import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
-PYTHON = r"C:\Users\shute\PycharmProjects\AI_Solver\.venv\Scripts\python.exe"
+PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 
 
 def _check_tftt_available(puzzle_number):
@@ -170,16 +170,19 @@ def render():
 
         if batch_selected:
             st.info(f"{len(batch_selected)} puzzle(s) selected")
-            bcol1, bcol2, bcol3 = st.columns(3)
+            bcol1, bcol2, bcol3, bcol4 = st.columns(4)
             with bcol1:
                 batch_write_db = st.checkbox("Write to DB", value=True, key="batch_write_db")
             with bcol2:
                 batch_force = st.checkbox("Force fresh API calls", value=False, key="batch_force")
             with bcol3:
                 batch_partials = st.checkbox("Re-run partials", value=False, key="batch_partials")
+            with bcol4:
+                batch_atomic = st.checkbox("Atomic artifacts", value=True, key="batch_atomic")
 
             if st.button("Run Selected Puzzles", type="primary", key="run_batch"):
-                _run_batch(batch_selected, batch_write_db, batch_force, batch_partials)
+                _run_batch(batch_selected, batch_write_db, batch_force,
+                           batch_partials, batch_atomic)
     else:
         st.info("All puzzles with answers have been run through the pipeline.")
 
@@ -258,6 +261,7 @@ def render():
         write_db = st.checkbox("Write to DB", value=True)
         force_api = st.checkbox("Force fresh API calls", value=False)
         partials = st.checkbox("Re-run partials", value=False)
+        atomic = st.checkbox("Atomic artifacts", value=True)
 
     with col2:
         st.subheader("Run single clue")
@@ -335,6 +339,8 @@ def render():
 
         if use_blog:
             cmd = blog_cmd
+            if atomic:
+                cmd += ["--atomic"]
         else:
             cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review"]
 
@@ -353,6 +359,8 @@ def render():
                 cmd += ["--force"]
             if partials:
                 cmd += ["--partials"]
+            if atomic:
+                cmd += ["--atomic"]
 
         st.info(f"Running: `{' '.join(cmd)}`")
 
@@ -366,7 +374,6 @@ def render():
                     text=True,
                     encoding="utf-8",
                     errors="replace",
-                    timeout=1200,
                 )
                 if result.returncode == 0:
                     st.success("Pipeline completed successfully.")
@@ -375,13 +382,11 @@ def render():
                 output = result.stdout or "(no output)"
                 with st.expander("Output", expanded=True):
                     st.code(output[-5000:] if len(output) > 5000 else output)
-            except subprocess.TimeoutExpired:
-                st.error("Pipeline timed out after 20 minutes")
             except Exception as e:
                 st.error(f"Failed to run pipeline: {e}")
 
 
-def _run_batch(puzzles, write_db, force, partials):
+def _run_batch(puzzles, write_db, force, partials, atomic):
     """Run the pipeline on multiple puzzles sequentially."""
     total = len(puzzles)
     progress = st.progress(0, text=f"Starting batch run: {total} puzzle(s)")
@@ -412,6 +417,8 @@ def _run_batch(puzzles, write_db, force, partials):
 
         if use_blog:
             cmd = blog_cmd
+            if atomic:
+                cmd += ["--atomic"]
         else:
             cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review",
                    "--source", source, puzzle_number]
@@ -421,6 +428,8 @@ def _run_batch(puzzles, write_db, force, partials):
                 cmd += ["--force"]
             if partials:
                 cmd += ["--partials"]
+            if atomic:
+                cmd += ["--atomic"]
 
         try:
             result = subprocess.run(
@@ -431,13 +440,10 @@ def _run_batch(puzzles, write_db, force, partials):
                 text=True,
                 encoding="utf-8",
                 errors="replace",
-                timeout=1200,
             )
             ok = result.returncode == 0
             label = f"[BLOG] {result.stdout or ''}" if use_blog else (result.stdout or "")
             results.append((source, puzzle_number, ok, label))
-        except subprocess.TimeoutExpired:
-            results.append((source, puzzle_number, False, "TIMEOUT (20 min)"))
         except Exception as e:
             results.append((source, puzzle_number, False, str(e)))
 

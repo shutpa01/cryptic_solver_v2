@@ -2494,6 +2494,12 @@ class ExplanationVerifier:
 
         score = min(100, max(0, score))
 
+        # A cryptic definition is a human judgement about the whole clue's
+        # trick, not a mechanically assembled parse. Even when the clue text
+        # maps to the answer in the DB, it must not be auto-promoted to HIGH.
+        if wtype == "cryptic_definition":
+            score = min(score, 60)
+
         if score >= 70:
             verdict = "HIGH"
         elif score >= 50:

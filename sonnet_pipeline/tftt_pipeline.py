@@ -99,7 +99,11 @@ def fetch_tftt(puzzle_number):
 
     Uses cloudscraper to bypass Cloudflare bot challenge.
     """
-    import cloudscraper
+    try:
+        import cloudscraper
+    except ModuleNotFoundError:
+        print("  cloudscraper is not installed; skipping TFTT blog fetch")
+        return None
 
     sys.path.insert(0, os.path.join(BASE_DIR, "scraper", "timesforthetimes"))
     from timesforthetimes_scraper import parse_page
@@ -618,7 +622,8 @@ def store_tftt_result(conn, clue_id, parsed, score, definition_from_tftt, raw_ex
 # Main pipeline
 # ============================================================
 
-def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False):
+def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False,
+                      atomic=False):
     """Run the full TFTT pipeline for a Times puzzle."""
 
     print("=" * 70)
@@ -637,6 +642,8 @@ def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False):
                "--source", "times", str(puzzle_number)]
         if write_db:
             cmd.append("--write-db")
+        if atomic:
+            cmd.append("--atomic")
         result = subprocess.run(cmd, cwd=BASE_DIR)
         sys.exit(result.returncode)
 
@@ -807,6 +814,28 @@ def run_tftt_pipeline(puzzle_number, write_db=False, no_fallback=False):
     print("Cost: Haiku $%.4f" % haiku_cost)
     print("=" * 70)
 
+    if atomic and write_db:
+        _run_atomic_post_pass("times", puzzle_number)
+
+
+def _run_atomic_post_pass(source, puzzle_number):
+    from scripts.export_atomic_review_gaps import export_atomic_review_gaps
+    from scripts.run_atomic_parse_puzzle import run_atomic_parse
+
+    print()
+    print("-" * 70)
+    print("ATOMIC WFW - %s #%s" % (source, puzzle_number))
+    print("-" * 70)
+    summary = run_atomic_parse(source, str(puzzle_number))
+    print("run_id: %s" % summary["run_id"])
+    print("total: %s" % summary["total"])
+    print("complete: %s" % summary["complete"])
+    print("review: %s" % summary["review"])
+    if summary["review"]:
+        path, count = export_atomic_review_gaps(run_id=summary["run_id"])
+        print("atomic review export: %s (%d item%s)" % (
+            path, count, "" if count == 1 else "s"))
+
 
 def main():
     parser = argparse.ArgumentParser(description="TFTT Pipeline for Times puzzles")
@@ -814,12 +843,14 @@ def main():
     parser.add_argument("--write-db", action="store_true", help="Write results to clues_master.db")
     parser.add_argument("--dry-run", action="store_true", help="Parse and score only, no DB writes or Sonnet calls")
     parser.add_argument("--no-fallback", action="store_true", help="Skip Sonnet fallback for low scores")
+    parser.add_argument("--atomic", action="store_true", help="After the blog pipeline, write atomic WFW artifacts")
     args = parser.parse_args()
 
     run_tftt_pipeline(
         args.puzzle,
         write_db=args.write_db,
         no_fallback=args.dry_run or args.no_fallback,
+        atomic=args.atomic,
     )
 
 

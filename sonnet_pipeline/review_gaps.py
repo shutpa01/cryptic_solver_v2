@@ -49,6 +49,20 @@ def already_exists(conn, gap):
         ).fetchone()
         return row is not None
 
+    elif gap["type"] == "indicator":
+        row = conn.execute(
+            "SELECT 1 FROM indicators WHERE LOWER(word)=? AND LOWER(wordplay_type)=?",
+            (gap["word"].lower(), gap["letters"].lower())
+        ).fetchone()
+        return row is not None
+
+    elif gap["type"] == "homophone":
+        row = conn.execute(
+            "SELECT 1 FROM homophones WHERE LOWER(word)=? AND LOWER(homophone)=?",
+            (gap["word"].lower(), gap["letters"].lower())
+        ).fetchone()
+        return row is not None
+
     return False
 
 
@@ -70,6 +84,18 @@ def insert_gap(conn, gap):
             "VALUES (?, ?, 'abbreviation', 0, 'medium', 'pipeline')",
             (gap["word"].lower(), gap["letters"].upper())
         )
+    elif gap["type"] == "indicator":
+        conn.execute(
+            "INSERT INTO indicators (word, wordplay_type, source) VALUES (?, ?, ?)",
+            (gap["word"].lower(), gap["letters"].lower(), "pipeline_review")
+        )
+    elif gap["type"] == "homophone":
+        conn.execute(
+            "INSERT OR IGNORE INTO homophones (word, homophone) VALUES (?, ?)",
+            (gap["word"].lower(), gap["letters"].lower())
+        )
+    else:
+        raise ValueError("Unsupported enrichment type: %s" % gap["type"])
 
 
 def format_sql(gap):
@@ -92,7 +118,19 @@ def format_sql(gap):
             "    VALUES ('%s', '%s', 'abbreviation', 0, 'medium', 'pipeline')"
             % (gap["word"].lower(), gap["letters"].upper())
         )
-    return "-- unknown gap type: %s" % gap["type"]
+    elif gap["type"] == "indicator":
+        return (
+            "INSERT INTO indicators (word, wordplay_type, source)\n"
+            "    VALUES ('%s', '%s', 'pipeline_review')"
+            % (gap["word"].lower(), gap["letters"].lower())
+        )
+    elif gap["type"] == "homophone":
+        return (
+            "INSERT OR IGNORE INTO homophones (word, homophone)\n"
+            "    VALUES ('%s', '%s')"
+            % (gap["word"].lower(), gap["letters"].lower())
+        )
+    return "-- edit required before approval: unsupported gap type '%s'" % gap["type"]
 
 
 def format_clue_context(gap):
@@ -102,6 +140,52 @@ def format_clue_context(gap):
     ref = "%s%s" % (gap["clue_number"], d_char)
     return 'Clue %s: "%s" = %s (%d/100)' % (
         ref, gap.get("clue", "?"), gap["answer"], gap.get("score", 0))
+
+
+def edit_gap(gap):
+    """Interactively edit a pending enrichment suggestion in place."""
+    edited = dict(gap)
+    print("  Leave a field blank to keep the current value.")
+    current_type = edited.get("type", "")
+    try:
+        val = input("    Type [%s]: " % current_type).strip()
+    except EOFError:
+        val = ""
+    if val:
+        edited["type"] = val.lower()
+
+    if edited.get("type") == "definition":
+        word_key = "definition"
+        value_key = "answer"
+    else:
+        word_key = "word"
+        value_key = "letters"
+
+    current_word = edited.get(word_key) or edited.get("word") or edited.get("definition") or ""
+    try:
+        val = input("    Word/definition [%s]: " % current_word).strip()
+    except EOFError:
+        val = ""
+    if val:
+        edited[word_key] = val
+        if word_key == "word":
+            edited.pop("definition", None)
+        else:
+            edited.pop("word", None)
+
+    current_value = edited.get(value_key) or edited.get("letters") or edited.get("answer") or ""
+    try:
+        val = input("    Letters/answer/type [%s]: " % current_value).strip()
+    except EOFError:
+        val = ""
+    if val:
+        edited[value_key] = val
+        if value_key == "letters":
+            edited["letters"] = val
+        else:
+            edited["answer"] = val
+
+    return edited
 
 
 def _sync_definition(master_conn, clue_id, definition):
@@ -344,19 +428,31 @@ def main():
 
             print("[%d/%d] %s" % (i + 1, len(gaps), gap["type"].upper()))
             print("  %s" % format_clue_context(gap))
+            note = gap.get("note") or gap.get("summary")
+            if note:
+                print("  Note: %s" % note)
             print("  %s" % format_sql(gap))
 
             while True:
                 try:
-                    choice = input("  [y]es / [n]o / [q]uit > ").strip().lower()
+                    choice = input("  [y]es / [e]dit / [n]o / [q]uit > ").strip().lower()
                 except EOFError:
                     choice = "q"
                 if choice in ("y", "yes"):
-                    insert_gap(conn, gap)
-                    conn.commit()
-                    approved += 1
-                    print("  -> inserted")
-                    break
+                    try:
+                        insert_gap(conn, gap)
+                    except ValueError as exc:
+                        print("  -> %s; choose [e]dit first" % exc)
+                        continue
+                    else:
+                        conn.commit()
+                        approved += 1
+                        print("  -> inserted")
+                        break
+                elif choice in ("e", "edit"):
+                    gap = edit_gap(gap)
+                    print("  Updated suggestion:")
+                    print("  %s" % format_sql(gap))
                 elif choice in ("n", "no"):
                     skipped += 1
                     break

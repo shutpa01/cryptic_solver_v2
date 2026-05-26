@@ -351,9 +351,17 @@ def get_puzzle_clues(source, puzzle_number):
         """SELECT c.id, c.clue_number, c.direction, c.clue_text, c.enumeration,
                   c.answer, c.definition, c.wordplay_type, c.explanation, c.ai_explanation,
                   c.silly_award,
-                  se.components, se.confidence, se.model_version
+                  se.components, se.confidence, se.model_version,
+                  wfw.status AS wfw_status,
+                  wfw.proof_source AS wfw_proof_source
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           LEFT JOIN (
+               SELECT clue_id, MAX(id) AS latest_id
+               FROM wfw_proof_attempts
+               GROUP BY clue_id
+           ) latest_wfw ON latest_wfw.clue_id = c.id
+           LEFT JOIN wfw_proof_attempts wfw ON wfw.id = latest_wfw.latest_id
            WHERE c.source = ? AND c.puzzle_number = ?
            ORDER BY
                CASE c.direction WHEN 'across' THEN 0 WHEN 'down' THEN 1 ELSE 2 END,
@@ -441,6 +449,10 @@ def compute_hint_tier(clue):
     has_def = bool(clue["definition"])
     has_type = bool(clue["wordplay_type"])
     has_expl = _has_explanation(clue)
+    has_wfw = (
+        "wfw_status" in clue.keys()
+        and clue["wfw_status"] == "wfw_proven"
+    )
 
     if has_def and has_type and has_expl:
         max_steps = 4
@@ -448,11 +460,17 @@ def compute_hint_tier(clue):
         max_steps = 3
     elif has_def:
         max_steps = 2
+    elif has_wfw:
+        max_steps = 3
     else:
         max_steps = 0
 
+    mv = clue["model_version"] if "model_version" in clue.keys() else None
+    if has_wfw or mv == "manual_approve":
+        return "HIGH", max_steps
+
     # Tier based on pipeline confidence score (stored as 0-1 decimal in DB)
-    # Threshold aligned with verifier: HIGH >= 70, MEDIUM >= 40, LOW < 40
+    # Threshold: HIGH >= 70, MEDIUM >= 40, LOW < 40
     confidence = clue["confidence"] if "confidence" in clue.keys() else None
     if confidence is not None:
         # Normalise to 0-100 scale if stored as decimal
@@ -465,7 +483,6 @@ def compute_hint_tier(clue):
             return "LOW", max_steps
     else:
         # Distinguish "never run" from "ran but no confidence"
-        mv = clue["model_version"] if "model_version" in clue.keys() else None
         if mv is not None:
             return "FAIL", max_steps
         return "PENDING", max_steps
@@ -473,6 +490,8 @@ def compute_hint_tier(clue):
 
 def compute_solve_source(clue):
     """Return engine source label: S, SE, P, or fail."""
+    if "wfw_status" in clue.keys() and clue["wfw_status"] == "wfw_proven":
+        return "WFW"
     mv = clue["model_version"] if "model_version" in clue.keys() else None
     if mv is None:
         return "fail"
@@ -568,9 +587,17 @@ def get_clue_by_id(clue_id):
     """Fetch a full clue row with structured_explanations data, or None."""
     db = get_db()
     row = db.execute(
-        """SELECT c.*, se.components, se.confidence, se.model_version
+        """SELECT c.*, se.components, se.confidence, se.model_version,
+                  wfw.status AS wfw_status,
+                  wfw.proof_source AS wfw_proof_source
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           LEFT JOIN (
+               SELECT clue_id, MAX(id) AS latest_id
+               FROM wfw_proof_attempts
+               GROUP BY clue_id
+           ) latest_wfw ON latest_wfw.clue_id = c.id
+           LEFT JOIN wfw_proof_attempts wfw ON wfw.id = latest_wfw.latest_id
            WHERE c.id = ?""",
         (clue_id,),
     ).fetchone()

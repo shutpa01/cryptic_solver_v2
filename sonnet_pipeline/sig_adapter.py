@@ -921,3 +921,52 @@ def store_signature_result(conn, clue_id, sr, clue_text, answer, enriched=False)
             model_version, confidence,
             src, pnum, cnum
         ))
+
+    # If the signature solver succeeded through the WFW-native path, persist
+    # that WFW proof directly.  The old prose explanation remains legacy data;
+    # the clue page should render from wfw_proof_attempts.
+    if getattr(sr, "solver_authority", None) == "wfw_unified":
+        try:
+            from signature_solver.wfw_proof_store import write_wfw_proof_attempt
+            from signature_solver.wfw_unified_proof import (
+                build_wfw_proof_from_unified_result,
+            )
+            proof = build_wfw_proof_from_unified_result(
+                getattr(sr, "wfw_unified_result", None))
+            if proof is not None:
+                write_wfw_proof_attempt(
+                    clue_id, src, pnum, proof, conn=conn)
+        except Exception:
+            pass
+
+
+def store_signature_evidence(conn, clue_id, source, puzzle_number, sr,
+                             clue_text, answer,
+                             solver_version="signature_solver_pipeline:v1"):
+    """Persist evidence carried by a signature SolveResult.
+
+    This is separate from store_signature_result(): evidence is retained for
+    every solve attempt, not only high-confidence solved clues.
+    """
+    from signature_solver.atomic_parse_store import (
+        upsert_solve_result_pipeline_state,
+        write_solve_result_artifact,
+    )
+    from signature_solver.stage_context_store import write_solve_result_context
+
+    context_id = write_solve_result_context(
+        clue_id, source, puzzle_number, sr, conn=conn)
+    artifact_id = write_solve_result_artifact(
+        clue_id, clue_text, answer, sr, conn=conn,
+        solver_version=solver_version)
+    upsert_solve_result_pipeline_state(
+        clue_id, source, puzzle_number, clue_text, answer, sr, conn=conn,
+        solver_version=solver_version)
+    wfw_attempt_id = None
+
+    return {
+        "stage_context_id": context_id,
+        "atomic_artifact_id": artifact_id,
+        "pipeline_state_clue_id": clue_id,
+        "wfw_attempt_id": wfw_attempt_id,
+    }

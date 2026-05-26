@@ -26,6 +26,7 @@ from .solver import (
     resolve_cross_references, solve_clue, store_result,
     try_hidden, try_spoonerism_v2, try_double_definition,
 )
+from .clue_pipeline import run_clue_pipeline, run_signature_clue_pipeline
 # V1 mechanical solvers for enhanced Phase 0 + Phase 0.5
 from backfill_ai_exp.backfill_dd_hidden import (
     build_graph as _build_dd_graph,
@@ -49,7 +50,6 @@ from backfill_ai_exp.batch_v1_solver import (
 from .report import generate_report, _describe_assembly
 from .sig_adapter import (
     build_result_dict as sig_build_result_dict,
-    store_signature_result,
     SIG_OP_TO_TYPE,
 )
 from .sig_enrichment import (
@@ -161,7 +161,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     _dd_graph = _build_dd_graph(ref_db) if ref_db is not None else {}
 
     print("\n--- Phase 0: Mechanical hidden word check (definition-confirmed) ---")
-    for row in rows:
+    for row in ():
         cid, cnum, direction, clue, answer, enum, explanation = row
         answer_clean = clean(answer)
         if not answer_clean or len(answer_clean) < 3:
@@ -250,7 +250,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     # ================================================================
     spoonerism_count = 0
 
-    if ref_db is not None:
+    if False and ref_db is not None:
         for row in rows:
             cid, cnum, direction, clue, answer, enum, explanation = row
             if cid in hidden_solved_ids:
@@ -342,7 +342,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     dd_solved_ids = set()
     dd_count = 0
 
-    if ref_db is not None:
+    if False and ref_db is not None:
         for row in rows:
             cid, cnum, direction, clue, answer, enum, explanation = row
             if cid in hidden_solved_ids:
@@ -421,8 +421,8 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     mech_solved_ids = set()
     mech_count = 0
 
-    if ref_db is not None:
-        print("\n--- Phase 0.5: V1 mechanical solvers (definition required) ---")
+    if False and ref_db is not None:
+        print("\n--- Phase 0.5: disabled; V1 mechanical solvers run inside the unified clue pipeline ---")
         for row in rows:
             cid, cnum, direction, clue, answer, enum, explanation = row
             if cid in hidden_solved_ids or cid in dd_solved_ids:
@@ -600,9 +600,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     sig_medium = 0
 
     if ref_db is not None:
-        from signature_solver.solver import solve_clue as sig_solve_clue
-
-        print("\n--- Phase 1: Signature solver (mechanical, zero API cost) ---")
+        print("\n--- Phase 1: Unified clue pipeline (mechanical, zero API cost) ---")
         t0 = time.time()
 
         for row in rows:
@@ -610,41 +608,37 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             answer_clean = clean(answer)
 
             # Skip clues already solved by Phase 0/0.5 (hidden, spoonerism, DD, mechanical)
-            if cid in hidden_solved_ids or cid in dd_solved_ids or cid in mech_solved_ids:
-                continue
-
             # Skip cross-reference clues — S can't resolve them
             if re.search(r'\b\d+\s*(?:across|down|ac|dn)\b', clue, re.IGNORECASE):
                 continue
 
             try:
-                sr = sig_solve_clue(clue, answer_clean, ref_db)
+                pipeline_result = run_signature_clue_pipeline(
+                    conn, cid, source, puzzle, clue, answer,
+                    ref_db, write_db=write_db, store_solution=True)
+                sr = pipeline_result.solve_result
             except Exception as e:
-                print("  S error on %s: %s" % (cnum, e))
+                print("  Unified pipeline error on %s: %s" % (cnum, e))
                 continue
 
-            if sr.high_confidence:
-                sig_solved_ids.add(cid)
-                sig_high += 1
-                result_dict = sig_build_result_dict(
-                    sr, clue, answer, cnum, direction, enum, explanation
-                )
-                sig_results[cid] = result_dict
-                results.append(result_dict)
+            if pipeline_result.solved:
+                if pipeline_result.tier == "Signature":
+                    sig_solved_ids.add(cid)
+                    sig_high += 1
+                if pipeline_result.result_dict:
+                    sig_results[cid] = pipeline_result.result_dict
+                    results.append(pipeline_result.result_dict)
+                if write_db and hasattr(sr, 'definition') and sr.definition:
+                    try:
+                        from signature_solver.haiku_definition import queue_enrichment
+                        queue_enrichment(conn, sr.definition, answer, clue, source, puzzle)
+                    except Exception:
+                        pass
 
-                # Store to DB
-                if write_db:
-                    store_signature_result(conn, cid, sr, clue, answer)
-                    # Queue Haiku-discovered definitions for enrichment
-                    if hasattr(sr, 'definition') and sr.definition:
-                        try:
-                            from signature_solver.haiku_definition import queue_enrichment
-                            queue_enrichment(conn, sr.definition, answer, clue, source, puzzle)
-                        except Exception:
-                            pass
-
-                print("  [S HIGH %3d] %s. %s = %s" % (sr.confidence, cnum, clue[:50], answer))
-            elif sr.solved:
+                print("  [%s] %s. %s = %s" % (
+                    pipeline_result.tier or "PIPELINE", cnum, clue[:50],
+                    answer))
+            elif sr is not None and sr.solved:
                 sig_medium += 1
                 # Store medium result for potential Phase 3 upgrade
                 sig_results[cid] = sig_build_result_dict(
@@ -652,7 +646,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                 )
 
             # Store definition even when solve fails — useful for leftovers
-            if write_db and not sr.high_confidence and hasattr(sr, 'definition') and sr.definition:
+            if write_db and sr is not None and not sr.high_confidence and hasattr(sr, 'definition') and sr.definition:
                 conn.execute(
                     "UPDATE clues SET definition = ? WHERE id = ? AND definition IS NULL",
                     (sr.definition, cid))
@@ -677,7 +671,7 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
             # Unlike DBE candidates (queued unconditionally), indicators only
             # qualify when the chained retry produced a HIGH solve — that's
             # the proof the suggested (word, type, subtype) is right.
-            if (write_db and sr.high_confidence
+            if (write_db and sr is not None and sr.high_confidence
                     and hasattr(sr, 'suggested_indicators')
                     and sr.suggested_indicators):
                 try:
@@ -1127,7 +1121,6 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
     # ================================================================
     sig_re_solved = 0
     if ref_db is not None:
-        from signature_solver.solver import solve_clue as sig_solve_clue
         from signature_solver.catalog import CATALOG
 
         # Collect synonym/abbreviation/definition gaps from ALL results (P, TFTT, FS)
@@ -1189,8 +1182,14 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                     continue
 
                 try:
-                    sr = sig_solve_clue(clue, answer_clean, enriched_db,
-                                        extra_catalog=extra_catalog or None)
+                    pipeline_result = run_clue_pipeline(
+                        conn, cid, source, puzzle, cnum, direction, clue,
+                        answer, enum, explanation, enriched_db,
+                        dd_graph=_dd_graph,
+                        extra_catalog=extra_catalog or None,
+                        enriched=True, write_db=write_db,
+                        store_solution=True)
+                    sr = pipeline_result.solve_result
                 except Exception as e:
                     print("  [S+E ERROR] %s. %s: %s" % (cnum, clue[:40], e))
                     continue
@@ -1219,11 +1218,6 @@ def run_puzzle(source, puzzle, enricher, homo_engine, example_messages,
                             break
                     if not replaced:
                         results.append(new_result)
-
-                    # Overwrite DB
-                    if write_db:
-                        store_signature_result(conn, cid, sr, clue, answer, enriched=True)
-
                     print("  [S+E HIGH %3d] %s. %s = %s" % (
                         sr.confidence, cnum, clue[:50], answer))
 
@@ -1487,6 +1481,30 @@ def _run_manual_explanations(args):
         manual_entry_phase(args.source, puzzle, {})
 
 
+def _run_atomic_after_pipeline(args):
+    """Append atomic WFW artifacts and export review rows after the pipeline."""
+    from scripts.export_atomic_review_gaps import export_atomic_review_gaps
+    from scripts.run_atomic_parse_puzzle import run_atomic_parse
+
+    for puzzle in args.puzzles:
+        print()
+        print("-" * 80)
+        print("ATOMIC WFW - %s #%s" % (args.source, puzzle))
+        print("-" * 80)
+        summary = run_atomic_parse(args.source, puzzle)
+        print("run_id: %s" % summary["run_id"])
+        print("total: %s" % summary["total"])
+        print("complete: %s" % summary["complete"])
+        print("review: %s" % summary["review"])
+        if summary["review"]:
+            path, count = export_atomic_review_gaps(
+                run_id=summary["run_id"],
+                output_dir=args.output_dir,
+            )
+            print("atomic review export: %s (%d item%s)" % (
+                path, count, "" if count == 1 else "s"))
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Sonnet pipeline: Sonnet -> Assembler -> Fallback"
@@ -1509,6 +1527,8 @@ def main():
                         help="Skip menu: 1=Full Pipeline, 2=DB Additions, 3=Manual Explanations")
     parser.add_argument("--no-review", action="store_true", default=False,
                         help="Skip interactive gap review (for non-interactive/subprocess use)")
+    parser.add_argument("--atomic", action="store_true", default=False,
+                        help="After mode 1, write atomic WFW artifacts and export review items")
     args = parser.parse_args()
 
     # Single-clue mode: auto-detect source and puzzle from DB.
@@ -1594,6 +1614,8 @@ def main():
 
     if mode == 1:
         _run_full_pipeline(args)
+        if args.atomic:
+            _run_atomic_after_pipeline(args)
     elif mode == 2:
         _run_db_additions(args)
     elif mode == 3:

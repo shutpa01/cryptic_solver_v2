@@ -4,7 +4,17 @@ import re
 import sys
 from pathlib import Path
 
-from flask import Blueprint, abort, g, redirect, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 from web.db import get_admin_db, get_db
 
@@ -26,6 +36,116 @@ def _require_admin():
         abort(403)
 
 
+@bp.route("/stage-two/<int:clue_id>")
+def stage_two_casefile(clue_id):
+    """Plain inspection page for the read-only Stage Two case file."""
+    _require_admin()
+    db = get_db()
+    clue = db.execute(
+        """SELECT id, source, puzzle_number, publication_date, clue_number,
+                  direction, clue_text, enumeration, answer
+           FROM clues
+           WHERE id = ?""",
+        (clue_id,),
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    clue_dict = dict(clue)
+    clue_dict["stage_two_casefile"] = None
+    clue_dict["stage_two_casefile_error"] = None
+    try:
+        from signature_solver.stage_two_casefile import build_stage_two_casefile
+        ref_db = current_app.get_shared_ref_db()
+        casefile = build_stage_two_casefile(
+            clue["clue_text"],
+            clue["answer"],
+            ref_db,
+        )
+        clue_dict["stage_two_casefile"] = casefile.as_dict()
+    except Exception as exc:
+        clue_dict["stage_two_casefile_error"] = str(exc)
+
+    return render_template("admin_stage_two_casefile.html", clue=clue_dict)
+
+
+def _store_wfw_rerun_result(conn, clue_id, clue, sr, answer_clean):
+    """Persist a proven WFW result as the authoritative clue-page state."""
+    from signature_solver.wfw_proof_store import write_wfw_proof_attempt
+    from signature_solver.wfw_unified_proof import (
+        build_wfw_proof_from_unified_result,
+    )
+
+    proof = build_wfw_proof_from_unified_result(
+        getattr(sr, "wfw_unified_result", None))
+    if not proof or proof.get("status") != "wfw_proven":
+        return False
+
+    token_parse = proof.get("token_parse") or {}
+    blocks = token_parse.get("blocks") or []
+    definition = next(
+        (block.get("text") for block in blocks
+         if block.get("kind") == "DEF_BLOCK"),
+        None,
+    )
+    wordplay_type = token_parse.get("operation") or "wfw"
+    explanation = _wfw_explanation_summary(proof)
+
+    conn.execute(
+        """UPDATE clues
+           SET definition = ?, wordplay_type = ?, ai_explanation = ?,
+               has_solution = 1, reviewed = 1
+           WHERE id = ?""",
+        (definition, wordplay_type, explanation, clue_id),
+    )
+    conn.execute(
+        """INSERT INTO structured_explanations
+           (clue_id, definition_text, wordplay_types, components,
+            model_version, confidence, source, puzzle_number, clue_number,
+            created_at, updated_at)
+           VALUES (?, ?, ?, ?, 'wfw_unified', 1.0, ?, ?, ?,
+                   CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)""",
+        (
+            clue_id,
+            definition,
+            _json_dumps([wordplay_type]),
+            _json_dumps({
+                "source": "wfw_unified",
+                "proof_status": proof.get("status"),
+                "operation": wordplay_type,
+                "answer": answer_clean,
+            }),
+            clue["source"],
+            clue["puzzle_number"],
+            clue["clue_number"],
+        ),
+    )
+    row_id = write_wfw_proof_attempt(
+        clue_id, clue["source"], clue["puzzle_number"], proof, conn=conn)
+    if not row_id:
+        raise RuntimeError("WFW proof was not written")
+    return True
+
+
+def _json_dumps(value):
+    import json
+    return json.dumps(value, sort_keys=True)
+
+
+def _wfw_explanation_summary(proof):
+    token_parse = proof.get("token_parse") or {}
+    blocks = token_parse.get("blocks") or []
+    pieces = [
+        "%s -> %s" % (block.get("text") or "", block.get("value") or "")
+        for block in blocks
+        if block.get("kind") == "SOURCE_BLOCK"
+    ]
+    operation = token_parse.get("operation") or "wfw"
+    if pieces:
+        return "%s: %s" % (operation, "; ".join(pieces))
+    return operation
+
+
 @bp.route("/logout")
 def logout():
     """Clear admin session and redirect back."""
@@ -44,6 +164,7 @@ WORD_ROLE_CHOICES = (
     # Structural
     "definition",
     "link",
+    "surface",
     "indicator",  # legacy generic; new code uses a specific *_indicator
     "anagram_fodder",
     "spoonerism_fodder",
@@ -195,10 +316,302 @@ def set_word_role(clue_id, word_index):
         abort(400)
     from sonnet_pipeline.word_roles_store import write_manual_role
     write_manual_role(clue_id, word_index, word_text, role, letters=letters)
-    from flask import make_response
-    response = make_response('<span class="text-xs text-emerald-600">Saved</span>')
-    response.headers['HX-Refresh'] = 'true'
+    return '<span class="text-xs text-emerald-600">Saved</span>'
+
+
+@bp.route("/wfw-correction/<int:clue_id>", methods=["POST"])
+def save_wfw_correction(clue_id):
+    """Add human WFW facts to the reference DB, deduped.
+
+    This is deliberately not a proof writer.  The human action is to add the
+    missing crossword facts; the next solve/re-run must prove the clue using
+    the normal WFW path.
+    """
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        """SELECT id, source, puzzle_number, clue_text, answer
+           FROM clues
+           WHERE id = ?""",
+        (clue_id,),
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    entries = []
+    definition_text = (request.form.get("definition_text") or "").strip()
+    definition_answer = (
+        request.form.get("definition_answer") or clue["answer"] or ""
+    ).strip()
+    if definition_text and definition_answer:
+        entries.append({
+            "type": "definition",
+            "word": definition_text,
+            "value": definition_answer,
+        })
+
+    fact_type = (request.form.get("fact_type") or "").strip()
+    fact_word = (request.form.get("fact_word") or "").strip()
+    fact_value = (request.form.get("fact_value") or "").strip()
+    if fact_type and fact_word and fact_value:
+        entries.append({
+            "type": fact_type,
+            "word": fact_word,
+            "value": fact_value,
+        })
+
+    entries.extend(_parse_db_fact_lines(request.form.get("db_facts") or ""))
+
+    # Backwards compatibility for the earlier span-based form while we replace
+    # it: convert spans into DB facts instead of writing a sidecar proof.
+    definition_span = _parse_span(request.form.get("definition_span") or "")
+    pieces = _parse_manual_pieces(request.form.get("pieces") or "")
+    if definition_span or pieces:
+        entries.extend(_entries_from_span_form(
+            clue["clue_text"], clue["answer"], definition_span, pieces))
+
+    if not entries:
+        abort(400)
+
+    added, existing = _write_wfw_db_entries(entries)
+
+    # The page may have a stale WFW proof from before these facts were added.
+    # The user-facing truth after this action is the DB; the clue should be
+    # re-run to create a fresh proof.
+    try:
+        db.execute("DELETE FROM wfw_proof_attempts WHERE clue_id = ?", (clue_id,))
+    except Exception:
+        pass
+    db.commit()
+
+    from flask import current_app, make_response
+    for entry in added:
+        if hasattr(current_app, "patch_word_coverage_db"):
+            current_app.patch_word_coverage_db(
+                entry["type"], entry["word"], entry["value"])
+
+    parts = []
+    if added:
+        parts.append("%d added" % len(added))
+    if existing:
+        parts.append("%d already in DB" % len(existing))
+    msg = "WFW DB updated: " + ", ".join(parts)
+    response = make_response(
+        '<span class="text-xs text-emerald-700 font-semibold">%s. Now re-run the clue.</span>'
+        % _html_escape(msg)
+    )
     return response
+
+
+def _parse_span(value):
+    match = re.match(r"^\s*(\d+)\s*[-:,]\s*(\d+)\s*$", value or "")
+    if not match:
+        return None
+    start, end = int(match.group(1)), int(match.group(2))
+    if start < 0 or end <= start:
+        return None
+    return (start, end)
+
+
+def _parse_manual_pieces(value):
+    pieces = []
+    for raw_line in (value or "").replace(";", "\n").splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        match = re.match(
+            r"^\s*(\d+)\s*[-:,]\s*(\d+)\s*=\s*([A-Za-z -]+)"
+            r"(?:\s*/\s*([a-z_]+))?\s*$",
+            line,
+        )
+        if not match:
+            abort(400)
+        pieces.append({
+            "clue_span": (int(match.group(1)), int(match.group(2))),
+            "value": match.group(3).strip().upper(),
+            "mechanism": (match.group(4) or "synonym").strip(),
+        })
+    return pieces
+
+
+def _parse_db_fact_lines(value):
+    """Parse admin-entered WFW facts.
+
+    Accepted forms:
+      mount=RIDE
+      synonym: mount=RIDE
+      definition: sit across=BESTRIDE
+      abbreviation: west=W
+      indicator: returned=reversal
+      homophone: flour=flower
+    """
+    entries = []
+    for raw_line in (value or "").replace(";", "\n").splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        etype = "synonym"
+        if ":" in line:
+            prefix, rest = line.split(":", 1)
+            prefix = prefix.strip().lower().replace(" ", "_")
+            if prefix in ("synonym", "definition", "abbreviation",
+                          "indicator", "homophone"):
+                etype = prefix
+                line = rest.strip()
+        match = re.match(r"^(.+?)\s*(?:=|->|→)\s*(.+)$", line)
+        if not match:
+            abort(400)
+        entries.append({
+            "type": etype,
+            "word": match.group(1).strip(),
+            "value": match.group(2).strip(),
+        })
+    return entries
+
+
+def _entries_from_span_form(clue_text, answer, definition_span, pieces):
+    from signature_solver.wfw_atoms import build_wfw_atom_context
+    atom_context = build_wfw_atom_context(clue_text, answer)
+    entries = []
+    if definition_span is not None:
+        definition_text = _token_span_text(atom_context, definition_span)
+        if definition_text:
+            entries.append({
+                "type": "definition",
+                "word": definition_text,
+                "value": answer,
+            })
+    for piece in pieces:
+        source_text = _token_span_text(atom_context, piece["clue_span"])
+        if source_text:
+            entries.append({
+                "type": piece.get("mechanism") or "synonym",
+                "word": source_text,
+                "value": piece["value"],
+            })
+    return entries
+
+
+def _token_span_text(atom_context, span):
+    start, end = span
+    tokens = atom_context.clue_tokens[start:end]
+    return " ".join(token.text for token in tokens).strip()
+
+
+def _write_wfw_db_entries(entries):
+    import sqlite3
+    ref = sqlite3.connect(
+        str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=30)
+    added = []
+    existing = []
+    try:
+        for entry in entries:
+            normalised = _normalise_wfw_db_entry(entry)
+            if normalised is None:
+                continue
+            if _wfw_db_entry_exists(ref, normalised):
+                existing.append(normalised)
+                continue
+            _insert_wfw_db_entry(ref, normalised)
+            added.append(normalised)
+        ref.commit()
+    finally:
+        ref.close()
+    return added, existing
+
+
+def _normalise_wfw_db_entry(entry):
+    etype = (entry.get("type") or "synonym").strip().lower()
+    word = (entry.get("word") or "").strip()
+    value = (entry.get("value") or "").strip()
+    if etype not in ("synonym", "definition", "abbreviation",
+                     "indicator", "homophone"):
+        abort(400)
+    if not word or not value:
+        return None
+    if etype == "indicator":
+        value = value.lower().replace(" ", "_")
+    elif etype == "homophone":
+        word = word.lower()
+        value = value.lower()
+    else:
+        value = value.upper()
+    return {"type": etype, "word": word, "value": value}
+
+
+def _wfw_db_entry_exists(conn, entry):
+    etype, word, value = entry["type"], entry["word"], entry["value"]
+    if etype == "synonym":
+        return conn.execute(
+            "SELECT 1 FROM synonyms_pairs "
+            "WHERE LOWER(word)=LOWER(?) AND UPPER(synonym)=UPPER(?) "
+            "LIMIT 1",
+            (word, value),
+        ).fetchone() is not None
+    if etype == "definition":
+        return conn.execute(
+            "SELECT 1 FROM definition_answers_augmented "
+            "WHERE LOWER(definition)=LOWER(?) AND UPPER(answer)=UPPER(?) "
+            "LIMIT 1",
+            (word, value),
+        ).fetchone() is not None
+    if etype == "abbreviation":
+        return conn.execute(
+            "SELECT 1 FROM wordplay "
+            "WHERE LOWER(indicator)=LOWER(?) AND UPPER(substitution)=UPPER(?) "
+            "LIMIT 1",
+            (word, value),
+        ).fetchone() is not None
+    if etype == "indicator":
+        return conn.execute(
+            "SELECT 1 FROM indicators "
+            "WHERE LOWER(word)=LOWER(?) AND LOWER(wordplay_type)=LOWER(?) "
+            "LIMIT 1",
+            (word, value),
+        ).fetchone() is not None
+    if etype == "homophone":
+        return conn.execute(
+            "SELECT 1 FROM homophones "
+            "WHERE LOWER(word)=LOWER(?) AND LOWER(homophone)=LOWER(?) "
+            "LIMIT 1",
+            (word, value),
+        ).fetchone() is not None
+    return False
+
+
+def _insert_wfw_db_entry(conn, entry):
+    etype, word, value = entry["type"], entry["word"], entry["value"]
+    if etype == "synonym":
+        conn.execute(
+            "INSERT INTO synonyms_pairs (word, synonym, source) "
+            "VALUES (?, ?, 'admin_wfw_fact')",
+            (word.lower(), value.upper()),
+        )
+    elif etype == "definition":
+        conn.execute(
+            "INSERT INTO definition_answers_augmented "
+            "(definition, answer, source) VALUES (?, ?, 'admin_wfw_fact')",
+            (word.lower(), value.upper()),
+        )
+    elif etype == "abbreviation":
+        conn.execute(
+            "INSERT INTO wordplay "
+            "(indicator, substitution, category, confidence, notes) "
+            "VALUES (?, ?, 'abbreviation', 'high', 'admin_wfw_fact')",
+            (word.lower(), value.upper()),
+        )
+    elif etype == "indicator":
+        conn.execute(
+            "INSERT INTO indicators "
+            "(word, wordplay_type, confidence, source) "
+            "VALUES (?, ?, 'high', 'admin_wfw_fact')",
+            (word.lower(), value.lower()),
+        )
+    elif etype == "homophone":
+        conn.execute(
+            "INSERT INTO homophones (word, homophone) VALUES (?, ?)",
+            (word.lower(), value.lower()),
+        )
 
 
 @bp.route("/edit/<int:clue_id>", methods=["GET"])
@@ -362,8 +775,20 @@ def reverify_clue(clue_id):
     ).fetchone()
     if clue is None:
         abort(404)
+    wfw_reverify_error = None
+    try:
+        _write_manual_role_stage_three_for_clue(db, clue_id)
+        db.commit()
+    except Exception as exc:
+        wfw_reverify_error = str(exc)
     if not clue["ai_explanation"]:
-        return ('<span class="text-xs text-amber-700">No parse to verify</span>')
+        extra = (
+            ' <span class="text-xs text-rose-700">WFW reverify failed: %s</span>'
+            % wfw_reverify_error
+            if wfw_reverify_error else ""
+        )
+        return ('<span class="text-xs text-amber-700">No parse to verify</span>'
+                + extra)
     # manual_edit / manual_approve still re-verifies: the explanation
     # itself is never modified, only confidence is updated based on
     # current DB state and manual word-role overrides. Protection
@@ -376,7 +801,7 @@ def reverify_clue(clue_id):
     )
     score = result.get("score", 0)
     verdict = result.get("verdict", "FAIL")
-    confidence = score / 100.0
+    confidence = min(score / 100.0, 0.6)
     existing = db.execute(
         "SELECT 1 FROM structured_explanations WHERE clue_id = ?",
         (clue_id,)).fetchone()
@@ -395,6 +820,11 @@ def reverify_clue(clue_id):
     # Build a compact list of failing checks so the admin can see why
     # without having to ask. Passing checks are omitted to keep it brief.
     failed_lines = []
+    if wfw_reverify_error:
+        failed_lines.append(
+            '<li class="text-rose-700">WFW reverify failed: %s</li>'
+            % wfw_reverify_error
+        )
     for ch in result.get("checks", []):
         if ch.get("status") not in ("verified", "skipped"):
             detail = ch.get("detail", "")
@@ -426,7 +856,8 @@ def rerun_clue(clue_id):
         import traceback
         print(f"[RERUN OUTER] {e}")
         traceback.print_exc()
-        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e)
+        return _with_hx_refresh(
+            '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e))
 
 def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     _require_admin()
@@ -443,7 +874,8 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
 
     # Protect manually reviewed clues unless force is set
     if clue["reviewed"] == 1 and not force:
-        return '<div class="mt-2 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded px-2 py-1">Manually reviewed — use Force Re-run to override.</div>'
+        return _with_hx_refresh(
+            '<div class="mt-2 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded px-2 py-1">Manually reviewed — use Force Re-run to override.</div>')
 
     # Clear previous results
     db.execute(
@@ -455,27 +887,90 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
         "DELETE FROM structured_explanations WHERE clue_id = ?",
         (clue_id,),
     )
+    db.execute(
+        "DELETE FROM wfw_proof_attempts WHERE clue_id = ?",
+        (clue_id,),
+    )
     db.commit()
     print(f"[RERUN] Cleared clue {clue_id} ({clue_text[:40]}), mechanical_only={mechanical_only}")
 
     success = False
     message = ""
+    evidence_artifact_id = None
+    signature_pipeline_result = None
+    sr = None
+    unified_pipeline_ran = False
     import re as _re
     import json as _json
     from flask import current_app
+    from sonnet_pipeline.verify_explanation import ExplanationVerifier
 
     if answer and clue_text:
-        ref_db = current_app.get_shared_ref_db()
         answer_clean = _re.sub(r'[^A-Za-z]', '', answer).upper()
+        from sonnet_pipeline.word_roles_store import get_roles as _get_roles
+        manual_roles = [
+            row for row in _get_roles(clue_id, conn=db)
+            if row[3] == "manual"
+        ]
+
+    # Phase 0: WFW unified solver. DB facts should feed WFW first, and a
+    # successful WFW solve must be persisted as a WFW proof for the clue page.
+    if not success and not unified_pipeline_ran and answer and clue_text:
+        try:
+            from signature_solver.db import RefDB
+            from sonnet_pipeline.clue_pipeline import run_clue_pipeline
+
+            # Use a fresh DB view here. Admin rerun is explicitly a refresh
+            # action, so it should not depend on a long-lived Flask cache.
+            unified_pipeline_ran = True
+            signature_pipeline_result = run_clue_pipeline(
+                db, clue_id, source, puzzle_number, clue["clue_number"],
+                clue["direction"], clue_text, answer_clean,
+                clue["enumeration"], clue["ai_explanation"], RefDB(),
+                dd_graph=current_app.get_shared_dd_graph(),
+                manual_roles=manual_roles, write_db=True,
+                store_solution=True,
+                solver_version="admin_rerun_signature:v3")
+            sr = signature_pipeline_result.solve_result
+            evidence_artifact_id = signature_pipeline_result.evidence_ids.get(
+                "atomic_artifact_id")
+            db.commit()
+            if signature_pipeline_result.solved:
+                success = True
+            elif (sr and sr.high_confidence
+                    and getattr(sr, "solver_authority", None) == "wfw_unified"):
+                if not _store_wfw_rerun_result(
+                        db, clue_id, clue, sr, answer_clean):
+                    raise RuntimeError("WFW solve did not produce a proven proof")
+                db.commit()
+                success = True
+        except Exception as e:
+            import traceback
+            print(f"[RERUN WFW] Error: {e}")
+            traceback.print_exc()
+            return (
+                '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded '
+                'px-2 py-1">Unified pipeline error: %s</div>' % str(e)
+            )
 
     # ── MECHANICAL SOLVERS ──────────────────────────────────────────
     # Priority order: V1 solvers (best explanations) > Hidden/DD > Signature solver
     # V1 produces clear, user-facing explanations with source words shown.
     # Signature solver is the fallback — its explanations are opaque.
 
-    # Phase 1: V1 mechanical solvers (best explanations, zero API cost)
-    if not success and answer and clue_text:
+    if signature_pipeline_result is not None:
         try:
+            _write_manual_role_stage_three_for_clue(db, clue_id)
+            db.commit()
+        except Exception as e:
+            import traceback
+            print(f"[RERUN WFW MANUAL ROLES] Error: {e}")
+            traceback.print_exc()
+
+    # Phase 1: V1 mechanical solvers (best explanations, zero API cost)
+    if not success and not unified_pipeline_ran and answer and clue_text:
+        try:
+            from signature_solver.db import RefDB
             from backfill_ai_exp.batch_v1_solver import (
                 find_definition as v1_find_def,
                 solve_without_definition as v1_solve_no_def,
@@ -486,6 +981,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                 build_explanation_text as v1_build_expl,
             )
 
+            ref_db = RefDB()
             definition, remaining = v1_find_def(clue_text, answer_clean, ref_db)
 
             mech_result = None
@@ -536,7 +1032,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                     # Gate through verifier — V1 doesn't get automatic 1.0
                     _verifier = ExplanationVerifier()
                     _vresult = _verifier.verify(clue_text, answer, definition, mech_wtype, expl_text, clue_id=clue_id, db_conn=db)
-                    _conf_map = {"HIGH": 1.0, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
+                    _conf_map = {"HIGH": 0.6, "MEDIUM": 0.6, "LOW": 0.3, "FAIL": 0.0}
                     _final_conf = _conf_map.get(_vresult["verdict"], 0.0)
                     db.execute("""
                         INSERT OR REPLACE INTO structured_explanations
@@ -557,7 +1053,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             traceback.print_exc()
 
     # Phase 2: Hidden word + DD check (zero API cost)
-    if not success and answer and clue_text:
+    if not success and not unified_pipeline_ran and answer and clue_text:
         try:
             from backfill_ai_exp.backfill_dd_hidden import (
                 generate_dd_hypotheses,
@@ -584,7 +1080,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                     INSERT OR REPLACE INTO structured_explanations
                     (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
-                """, (clue_id, components, _json.dumps([op]), hidden_def, 1.0, "mechanical_hidden", source))
+                """, (clue_id, components, _json.dumps([op]), hidden_def, 0.6, "mechanical_hidden", source))
                 from sonnet_pipeline.report import _highlight_hidden
                 highlighted = _highlight_hidden(hiding_words, answer_clean[::-1] if op == "hidden_reversed" else answer_clean)
                 expl = 'hidden in "%s"' % highlighted
@@ -609,7 +1105,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
                         (clue_id, components, wordplay_types, definition_text, confidence, model_version, source)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                     """, (clue_id, components, _json.dumps(["double_definition"]),
-                          "Double definition", 1.0, "mechanical_dd", source))
+                          "Double definition", 0.6, "mechanical_dd", source))
                     db.execute("""
                         UPDATE clues SET wordplay_type = 'double_definition', definition = 'Double definition',
                         ai_explanation = 'Double definition', has_solution = 1
@@ -623,12 +1119,28 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             traceback.print_exc()
 
     # Phase 3: Signature solver (fallback — opaque explanations)
-    if not success and answer and clue_text:
+    if not success and not unified_pipeline_ran and answer and clue_text:
         try:
-            from signature_solver.solver import solve_clue as sig_solve_clue
             from sonnet_pipeline.sig_adapter import store_signature_result
 
-            sr = sig_solve_clue(clue_text, answer_clean, ref_db)
+            if sr is None:
+                from signature_solver.db import RefDB
+                from sonnet_pipeline.clue_pipeline import (
+                    run_clue_pipeline,
+                )
+                signature_pipeline_result = run_clue_pipeline(
+                    db, clue_id, source, puzzle_number, clue["clue_number"],
+                    clue["direction"], clue_text, answer_clean,
+                    clue["enumeration"], clue["ai_explanation"], RefDB(),
+                    dd_graph=current_app.get_shared_dd_graph(),
+                    manual_roles=manual_roles,
+                    write_db=True, store_solution=False,
+                    solver_version="admin_rerun_signature:v3")
+                sr = signature_pipeline_result.solve_result
+                evidence_artifact_id = (
+                    signature_pipeline_result.evidence_ids.get(
+                        "atomic_artifact_id")
+                )
             if sr and sr.high_confidence:
                 store_signature_result(db, clue_id, sr, clue_text, answer_clean)
                 success = True
@@ -638,7 +1150,19 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             traceback.print_exc()
 
     if mechanical_only and not success:
-        return '<div class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1">Mechanical solvers found no solution. Check DB pieces or try Re-run + Sonnet.</div>'
+        from flask import make_response
+        evidence_html = (
+            '<span class="text-xs font-semibold text-emerald-700 '
+            'bg-emerald-50 border border-emerald-200 rounded px-2 py-1">'
+            'Evidence #%s</span> ' % evidence_artifact_id
+            if evidence_artifact_id else ""
+        )
+        return make_response(
+            evidence_html
+            + '<div class="mt-2 text-xs text-amber-700 bg-amber-50 '
+            + 'border border-amber-200 rounded px-2 py-1">'
+            + 'Mechanical solvers found no solution. Check DB pieces or '
+            + 'try Re-run + Sonnet.</div>')
 
     # For Guardian/Independent, try fifteensquared (only if S didn't solve)
     if not success and source in ("guardian", "independent") and answer:
@@ -754,7 +1278,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             )
             _ref = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
             for check in vresult.get("checks", []):
-                if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation", "definition"):
+                if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation"):
                     m = re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", check["detail"])
                     if m:
                         word = m.group(1).strip().lower()
@@ -782,7 +1306,7 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
         pass  # Don't let gap collection failure block the re-run result
 
     # If nothing solved but we found a definition, store it anyway
-    if not success and answer and clue_text:
+    if not success and not unified_pipeline_ran and answer and clue_text:
         try:
             from signature_solver.solver import extract_definition_candidates, _normalize_clue
             ref_db = current_app.get_shared_ref_db()
@@ -810,15 +1334,26 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
         steps = get_hint_steps(clue, tier=new_tier, is_admin=True)
         new_token = generate_token(clue_id)
         solve_source = compute_solve_source(clue)
-        return render_template(
+        from flask import make_response
+        response = make_response(render_template(
             "partials/admin_rerun_result.html",
             clue=clue, tier=new_tier, steps=steps,
             token=new_token, solve_source=solve_source,
-        )
+            evidence_artifact_id=evidence_artifact_id,
+        ))
+        return response
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Render error: %s</div>' % str(e)
+        return _with_hx_refresh(
+            '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Render error: %s</div>' % str(e))
+
+
+def _with_hx_refresh(html):
+    from flask import make_response
+    response = make_response(html)
+    response.headers["HX-Refresh"] = "true"
+    return response
 
 
 @bp.route("/approve/<int:clue_id>", methods=["POST"])
@@ -1272,7 +1807,193 @@ def toggle_silly(clue_id):
     )
 
 
+def _build_manual_definition_candidates(answer, manual_roles, ref_db):
+    """Build definition candidates from consecutive definition manual roles.
+
+    For each consecutive run of words manually marked 'definition', check
+    whether RefDB contains that phrase -> answer. Return candidates with
+    boundary_status 'manual_definition' for DB hits or 'manual_definition_gap'
+    for missing DB facts.
+    """
+    def_entries = [
+        r for r in manual_roles if r.get("role") == "definition"
+    ]
+    if not def_entries:
+        return []
+
+    runs = []
+    current = [def_entries[0]]
+    for entry in def_entries[1:]:
+        if entry["index"] == current[-1]["index"] + 1:
+            current.append(entry)
+        else:
+            runs.append(current)
+            current = [entry]
+    runs.append(current)
+
+    candidates = []
+    for run in runs:
+        span = [run[0]["index"], run[-1]["index"] + 1]
+        text = " ".join(e["text"] for e in run)
+        db_hit = ref_db.is_definition_of(text, answer)
+        candidates.append({
+            "boundary_status": (
+                "manual_definition" if db_hit else "manual_definition_gap"
+            ),
+            "objections": [],
+            "span": span,
+            "text": text,
+            "missing_answer": None if db_hit else answer,
+        })
+    return candidates
+
+
+def _manual_roles_for_clue(db, clue_id):
+    rows = db.execute(
+        "SELECT word_index, word_text, role, letters "
+        "FROM clue_word_roles WHERE clue_id = ? ORDER BY word_index",
+        (clue_id,),
+    ).fetchall()
+    return [
+        {
+            "index": row["word_index"],
+            "text": row["word_text"],
+            "role": row["role"],
+            "letters": row["letters"],
+        }
+        for row in rows
+    ]
+
+
+def _casefile_from_stage_two_json(stage_two, clue):
+    from types import SimpleNamespace
+
+    return SimpleNamespace(
+        clue_text=stage_two.get("clue_text") or clue["clue_text"],
+        answer=stage_two.get("answer") or clue["answer"],
+        definition_candidates=tuple(
+            stage_two.get("definition_candidates") or ()),
+        grammar_phrases=tuple(stage_two.get("grammar_phrases") or ()),
+        source_candidates=tuple(stage_two.get("source_candidates") or ()),
+        operation_candidates=tuple(
+            stage_two.get("operation_candidates") or ()),
+        working_pairs=tuple(stage_two.get("working_pairs") or ()),
+        assemblies=tuple(stage_two.get("assemblies") or ()),
+        enrichment_candidates=tuple(
+            stage_two.get("enrichment_candidates") or ()),
+        unresolved_words=tuple(stage_two.get("unresolved_words") or ()),
+        status=stage_two.get("status") or "unknown",
+    )
+
+
+def _write_manual_role_stage_three_for_clue(db, clue_id):
+    """Write one manual-role-aware Stage Three proof from retained Stage Two."""
+    import json
+
+    from signature_solver.stage_three_proof import build_stage_three_proof
+    from signature_solver.wfw_proof_store import write_wfw_proof_attempt
+
+    row = db.execute(
+        """SELECT c.id, c.source, c.puzzle_number, c.clue_text, c.answer,
+                  cps.stage_two_json
+           FROM clues c
+           LEFT JOIN clue_pipeline_state cps ON cps.clue_id = c.id
+           WHERE c.id = ?""",
+        (clue_id,),
+    ).fetchone()
+    if row is None:
+        return {"status": "missing_clue"}
+    if not row["stage_two_json"]:
+        return {"status": "missing_stage_two"}
+
+    stage_two = json.loads(row["stage_two_json"])
+    casefile = _casefile_from_stage_two_json(stage_two, row)
+    casefile.manual_roles = _manual_roles_for_clue(db, clue_id)
+    ref_db = current_app.get_shared_ref_db()
+    casefile.manual_definition_candidates = (
+        _build_manual_definition_candidates(
+            casefile.answer, casefile.manual_roles, ref_db)
+    )
+
+    stage_three_proof = build_stage_three_proof(casefile).as_dict()
+    proof = dict(stage_three_proof)
+    proof["status"] = (
+        "wfw_proven" if stage_three_proof.get("status") == "PASS"
+        else "wfw_review"
+    )
+    proof["source"] = "stage_three_manual_roles"
+    proof_id = write_wfw_proof_attempt(
+        clue_id, row["source"], row["puzzle_number"], proof, conn=db)
+    db.execute(
+        """UPDATE clue_pipeline_state
+           SET stage_three_json = ?, updated_at = CURRENT_TIMESTAMP
+           WHERE clue_id = ?""",
+        (json.dumps(stage_three_proof, sort_keys=True), clue_id),
+    )
+    return {
+        "status": proof["status"],
+        "proof_id": proof_id,
+        "stage_three_status": stage_three_proof.get("status"),
+    }
+
+
 @bp.route("/reverify/<source>/<int:puzzle_number>", methods=["POST"])
+@bp.route("/atomic-reverify/<source>/<int:puzzle_number>", methods=["POST"])
+def atomic_reverify_puzzle(source, puzzle_number):
+    """Re-run Stage Three over retained puzzle enrichment.
+
+    This deliberately does not solve clues again.  It reads the current
+    Stage Two evidence package from clue_pipeline_state, applies the current
+    Stage Three proof gate, and records a fresh wfw_proof_attempt for display.
+    """
+    _require_admin()
+    db = get_admin_db()
+    rows = db.execute(
+        """SELECT c.id, c.clue_text, c.answer, cps.stage_two_json
+           FROM clues c
+           LEFT JOIN clue_pipeline_state cps ON cps.clue_id = c.id
+           WHERE c.source = ? AND c.puzzle_number = ?
+           ORDER BY c.direction, CAST(c.clue_number AS INTEGER), c.clue_number""",
+        (source, str(puzzle_number)),
+    ).fetchall()
+    if not rows:
+        return '<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">No clues found for this puzzle.</div>'
+
+    proven = 0
+    review = 0
+    missing = 0
+    errors = []
+    for row in rows:
+        if not row["stage_two_json"]:
+            missing += 1
+            continue
+        try:
+            result = _write_manual_role_stage_three_for_clue(db, row["id"])
+            if result.get("status") == "wfw_proven":
+                proven += 1
+            else:
+                review += 1
+        except Exception as exc:
+            errors.append("%s: %s" % (row["answer"], exc))
+    db.commit()
+
+    body = (
+        '<strong>WFW reverified from retained enrichment</strong>: '
+        f'{proven} proven, {review} review'
+    )
+    if missing:
+        body += f', {missing} missing retained Stage Two evidence'
+    if errors:
+        body += '<br><strong>Errors:</strong> ' + _html_escape(
+            '; '.join(errors[:5]))
+    return (
+        f'<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">'
+        f'{body}</div>'
+        f'<script>setTimeout(function(){{ window.location.reload(); }}, 2000);</script>'
+    )
+
+
+@bp.route("/legacy-reverify/<source>/<int:puzzle_number>", methods=["POST"])
 def reverify_puzzle(source, puzzle_number):
     """Re-run the mechanical verifier on all clues in a puzzle. Zero API cost.
 
@@ -1334,7 +2055,7 @@ def reverify_puzzle(source, puzzle_number):
 
         # Queue unverified pieces for DB+ review
         for check in result.get("checks", []):
-            if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation", "definition"):
+            if check["status"] == "unverifiable" and check["check"] in ("synonym", "abbreviation"):
                 import re as _re
                 m = _re.match(r"'(.+?)'\s*(?:=|->)\s*(\w+)", check["detail"])
                 if m:
@@ -1369,7 +2090,7 @@ def reverify_puzzle(source, puzzle_number):
                                 (gtype, word, letters, clue["answer"], clue["clue_text"], source, str(puzzle_number)))
                             gaps_queued += 1
 
-        new_confidence = result["score"] / 100.0
+        new_confidence = min(result["score"] / 100.0, 0.6)
         old_confidence = clue["old_confidence"]
 
         # Update or insert structured_explanations
@@ -1427,4 +2148,13 @@ def reverify_puzzle(source, puzzle_number):
         f'<div class="bg-teal-50 border border-teal-200 rounded p-3 text-teal-800 text-sm">'
         f'{body}</div>'
         f'<script>setTimeout(function(){{ window.location.reload(); }}, 2000);</script>'
+    )
+
+
+def _html_escape(text):
+    return (
+        (text or "")
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
     )

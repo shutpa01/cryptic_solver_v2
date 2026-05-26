@@ -84,6 +84,70 @@ class SolveResult:
         return "\n".join(lines)
 
 
+def _attach_gt2_evidence(sr, clue_text, answer_clean, db, candidates,
+                         clue_context=None, stage_one_context=None,
+                         wfw_result=None):
+    """Attach read-only GT2 evidence bundles to a SolveResult."""
+    if sr is None:
+        return sr
+    # If no wfw_result was passed in, build it now as evidence only.
+    # This runs after the legacy solve - it is evidence collection,
+    # not a solver. It must never return early or replace sr.
+    if wfw_result is None and stage_one_context is not None:
+        try:
+            from .wfw_unified_solver import solve_wfw_unified
+            wfw_result = solve_wfw_unified(
+                clue_text, answer_clean, db, assemble=False,
+                clue_context=clue_context,
+                stage_one_context=stage_one_context)
+        except Exception:
+            wfw_result = None
+    if wfw_result is not None:
+        sr.wfw_unified_result = wfw_result
+    if stage_one_context is not None:
+        sr.stage_one_context = stage_one_context
+        try:
+            from .stage_two_casefile import (
+                build_stage_two_casefile,
+                build_stage_two_from_solve_result,
+            )
+            from .stage_three_proof import build_stage_three_proof
+            if sr.high_confidence and sr.result is not None:
+                stage_two = build_stage_two_from_solve_result(
+                    clue_text, answer_clean, db, sr,
+                    stage_one_context=stage_one_context)
+            else:
+                stage_two = build_stage_two_casefile(
+                    clue_text, answer_clean, db,
+                    stage_one_context=stage_one_context)
+            sr.stage_two_casefile = stage_two
+            sr.stage_three_proof = build_stage_three_proof(stage_two)
+        except Exception:
+            pass
+    try:
+        from .gt2_candidate_generator import generate_gt2_evidence_bundles
+        sr.gt2_evidence_bundles = generate_gt2_evidence_bundles(
+            clue_text, answer_clean, db, candidates, solve_result=sr,
+            clue_context=clue_context)
+        if clue_context is not None:
+            sr.clue_context = clue_context
+        if clue_context is not None and sr.solved:
+            try:
+                from .token_parse_assembler import assemble_token_parses
+                sr.token_parses = assemble_token_parses(clue_context)
+                if sr.token_parses:
+                    from .wfw_formatter import format_token_parse_for_wfw
+                    sr.wfw_token_parses = [
+                        format_token_parse_for_wfw(clue_context, token_parse)
+                        for token_parse in sr.token_parses
+                    ]
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return sr
+
+
 def extract_definition_candidates(clue_words, answer, db, max_def_words=4):
     """Try definition candidates from both ends of the clue.
 
@@ -124,10 +188,84 @@ def _normalize_clue(text):
     return ascii_text
 
 
+def _solve_result_from_wfw(wfw_result, db):
+    """Adapt an authoritative WFW result to the legacy SolveResult shape."""
+    if wfw_result is None or not wfw_result.token_parses:
+        return None
+    materialised = [
+        assembly for assembly in getattr(wfw_result, "wfw_assemblies", ())
+        if getattr(assembly, "status", None) == "materialised"
+    ]
+    if not materialised:
+        return None
+
+    token_parse = wfw_result.token_parses[0]
+    if getattr(token_parse, "confidence", "") in (
+            "mechanically_verified_inferred_definition",
+            "mechanically_verified_surface_gaps",
+            "mechanically_verified_definition_gaps"):
+        return None
+    signature = ["WFW_%s" % token_parse.operation.upper()]
+    word_roles = []
+    for block in token_parse.blocks:
+        if block.kind == "ASSEMBLY_BLOCK":
+            continue
+        token = block.token or block.role or block.kind
+        word_roles.append((block.text, token, block.value))
+
+    detail = token_parse.operations[0].detail if token_parse.operations else (
+        "%s = %s" % (token_parse.operation, token_parse.answer))
+    sig_result = SignatureResult(signature, word_roles, [detail])
+
+    clue_context = getattr(wfw_result, "clue_context", None)
+    if clue_context is not None:
+        analyses, phrases = analyze_phrases(
+            clue_context.words, token_parse.answer, db)
+    else:
+        analyses, phrases = [], {}
+
+    sr = SolveResult(
+        sig_result,
+        95,
+        [
+            ("wfw_native_materialised", 95),
+            ("wfw_answer_letter_placements", 10),
+        ],
+        analyses,
+        phrases,
+    )
+    sr.definition = _definition_from_token_parse(token_parse)
+    sr.clue_context = clue_context
+    sr.stage_one_context = getattr(wfw_result, "stage_one_context", None)
+    sr.token_parses = tuple(wfw_result.token_parses)
+    sr.wfw_token_parses = tuple(wfw_result.wfw_displays)
+    sr.wfw_assemblies = tuple(wfw_result.wfw_assemblies)
+    sr.wfw_unified_result = wfw_result
+    sr.solver_authority = "wfw_unified"
+    return sr
+
+
+def _definition_from_token_parse(token_parse):
+    for block in token_parse.blocks:
+        if block.kind == "DEF_BLOCK":
+            return block.text
+    return None
+
+
+def _attach_wfw_record(sr, wfw_result):
+    """Keep the WFW record visible even when legacy fallback supplies result."""
+    if sr is not None and wfw_result is not None:
+        sr.wfw_unified_result = wfw_result
+        if not hasattr(sr, "solver_authority"):
+            sr.solver_authority = "legacy_with_wfw_evidence"
+    return sr
+
+
 def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                extra_synonyms=None, extra_indicators=None,
                _dbe_already_attempted=False,
-               _span_value_already_attempted=False):
+               _span_value_already_attempted=False,
+               manual_roles=None):
     """Solve a raw clue: extract definition candidates, then solve each.
 
     Tries grammar-guided triage first (fast, high precision) on each
@@ -160,10 +298,39 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
     if extra_indicators:
         db = db.with_extra_indicators(extra_indicators)
 
-    clue_words = _normalize_clue(clue_text).strip().split()
+    try:
+        from .clue_context import (
+            build_clue_context,
+            with_wordplay_annotations,
+        )
+        stage_one_context = build_clue_context(
+            clue_text, answer, db, annotate=False,
+            manual_roles=None)
+        clue_context = with_wordplay_annotations(stage_one_context, db)
+        if manual_roles:
+            from .clue_context import (
+                _manual_role_annotations,
+                with_added_annotations,
+            )
+            clue_context = with_added_annotations(
+                clue_context,
+                _manual_role_annotations(stage_one_context, manual_roles))
+        clue_words = clue_context.words
+    except Exception:
+        stage_one_context = None
+        clue_context = None
+        clue_words = _normalize_clue(clue_text).strip().split()
     answer_clean = answer.upper().replace(" ", "").replace("-", "")
 
-    candidates = extract_definition_candidates(clue_words, answer_clean, db)
+    if stage_one_context is not None and stage_one_context.definition_candidates:
+        candidates = [
+            candidate.as_legacy_tuple()
+            for candidate in stage_one_context.definition_candidates
+        ]
+    else:
+        candidates = extract_definition_candidates(clue_words, answer_clean, db)
+
+    wfw_result = None
 
     # Track whether the Haiku definition fallback has been consulted.
     # Two invocation points: (1) here, when RefDB returns no candidates
@@ -185,6 +352,8 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
         except Exception:
             pass
 
+    wfw_result = None
+
     best_sr = None
 
     # --- Grammar-guided triage (fast path) ---
@@ -200,7 +369,11 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                 if best_sr is None or gt_result.confidence > best_sr.confidence:
                     best_sr = gt_result
                 if gt_result.confidence >= 90:
-                    return best_sr
+                    return _attach_wfw_record(
+                        _attach_gt2_evidence(
+                            best_sr, clue_text, answer_clean, db, candidates,
+                            clue_context, stage_one_context),
+                        wfw_result)
 
         # No definition found or grammar failed with all candidates —
         # try full clue as wordplay (definition unknown)
@@ -222,7 +395,53 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
 
     # If grammar triage found a high-confidence result, return it
     if best_sr is not None and best_sr.confidence >= 80:
-        return best_sr
+        return _attach_wfw_record(
+            _attach_gt2_evidence(
+                best_sr, clue_text, answer_clean, db, candidates,
+                clue_context, stage_one_context),
+            wfw_result)
+
+    def _solve_with_overlay(extra_synonyms_for_try=None,
+                            extra_indicators_for_try=None):
+        """Bounded retry: test overlays without re-entering solve_clue."""
+        retry_db = db
+        if extra_synonyms_for_try:
+            retry_db = retry_db.with_extra_synonyms(extra_synonyms_for_try)
+        if extra_indicators_for_try:
+            retry_db = retry_db.with_extra_indicators(extra_indicators_for_try)
+
+        retry_best = None
+        try:
+            from .grammar_triage import grammar_triage
+            for retry_def, retry_wp in candidates:
+                gt_result = grammar_triage(
+                    clue_text, answer_clean, retry_db,
+                    def_phrase=retry_def, wp_words=retry_wp)
+                if gt_result and gt_result.confidence >= 80:
+                    gt_result.definition = retry_def
+                    if (retry_best is None
+                            or gt_result.confidence > retry_best.confidence):
+                        retry_best = gt_result
+        except Exception:
+            pass
+
+        for retry_def, retry_wp in candidates:
+            if (clue_words[:len(clue_words) - len(retry_wp)]
+                    == clue_words[:len(retry_def.split())]):
+                def_pos = 'start'
+            else:
+                def_pos = 'end'
+            sr_try = solve(
+                retry_wp, answer_clean, retry_db, min_confidence,
+                def_pos=def_pos, extra_catalog=extra_catalog)
+            if sr_try.solved:
+                sr_try.definition = retry_def
+                if (retry_best is None
+                        or sr_try.confidence > retry_best.confidence):
+                    retry_best = sr_try
+                if sr_try.high_confidence:
+                    break
+        return retry_best
 
     # --- Catalog-based solve (existing path) ---
     for def_phrase, wp_words in candidates:
@@ -267,51 +486,80 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                     if cands:
                         dbe_haiku_candidates[word] = cands
                 if dbe_haiku_candidates:
-                    new_sr = solve_clue(clue_text, answer, db, min_confidence,
-                                         extra_catalog=extra_catalog,
-                                         extra_synonyms=dbe_haiku_candidates,
-                                         _span_value_already_attempted=True)
+                    new_sr = _solve_with_overlay(
+                        extra_synonyms_for_try=dbe_haiku_candidates)
                     if (new_sr is not None and new_sr.solved
                             and (best_sr is None
                                  or new_sr.confidence > best_sr.confidence)):
                         new_sr.dbe_haiku_candidates = dbe_haiku_candidates
-                        return new_sr
+                        return _attach_wfw_record(
+                            _attach_gt2_evidence(
+                                new_sr, clue_text, answer_clean, db,
+                                candidates, clue_context, stage_one_context),
+                            getattr(new_sr, "wfw_unified_result", None)
+                            or wfw_result)
         except Exception:
             pass  # Any failure here just falls through to the existing fallback
 
-    # --- Answer-constrained span/value fallback ---
-    # GT2-style preservation exposes a useful pattern in failed container
-    # clues: if we know an inner atom and the answer, the missing outer shell
-    # can be derived mechanically. Haiku only validates the remaining phrase
-    # -> shell pair; the existing solver still has to verify the full parse
-    # through the normal extra_synonyms overlay.
+    # --- GT2 evidence-preserving candidate fallback ---
+    # GT2 emits candidate bundles with preserved source spans, operation
+    # attachments, answer-derived atoms, and explicit coverage gaps.  In this
+    # legacy fallback zone it can still supply scoped evidence overlays; any
+    # resulting solve keeps the WFW unified record attached.
     if ((best_sr is None or not best_sr.high_confidence)
             and not extra_synonyms
             and not _span_value_already_attempted):
         try:
-            from .container_span_value import (
-                find_container_span_value_suggestion,
-                span_suggestion_actually_used,
+            from .gt2_candidate_generator import (
+                bundle_actually_used,
+                generate_gt2_candidates,
             )
-            span_suggestion = find_container_span_value_suggestion(
-                clue_text, answer_clean, db, candidates)
-            if span_suggestion:
-                phrase, value = span_suggestion
-                injected = {phrase: [value]}
-                new_sr = solve_clue(
-                    clue_text, answer, db, min_confidence,
-                    extra_catalog=extra_catalog,
-                    extra_synonyms=injected,
-                    extra_indicators=extra_indicators,
-                    _dbe_already_attempted=True,
-                    _span_value_already_attempted=True)
-                if (new_sr is not None and new_sr.high_confidence
+            gt2_bundles = generate_gt2_candidates(
+                clue_text, answer_clean, db, candidates,
+                clue_context=clue_context)
+            for bundle in gt2_bundles[:1]:
+                new_sr = _solve_with_overlay(
+                    extra_synonyms_for_try=bundle.overlay_synonyms,
+                    extra_indicators_for_try=extra_indicators)
+                enriched_context = clue_context
+                token_parses = []
+                if clue_context is not None:
+                    try:
+                        from .clue_context import with_added_annotations
+                        from .gt2_candidate_generator import (
+                            annotations_from_bundle,
+                        )
+                        from .token_parse_assembler import assemble_token_parses
+                        bundle_annotations = annotations_from_bundle(bundle)
+                        enriched_context = with_added_annotations(
+                            clue_context, bundle_annotations)
+                        token_parses = assemble_token_parses(enriched_context)
+                    except Exception:
+                        enriched_context = clue_context
+                        token_parses = []
+                verified_by_legacy = (
+                    new_sr is not None and new_sr.high_confidence
+                    and bundle_actually_used(new_sr, bundle))
+                verified_by_atomic = bool(token_parses)
+                if (new_sr is not None
+                        and (verified_by_legacy or verified_by_atomic)
                         and (best_sr is None
-                             or new_sr.confidence > best_sr.confidence)
-                        and span_suggestion_actually_used(
-                            new_sr, phrase, value)):
-                    new_sr.span_value_candidates = [span_suggestion]
-                    return new_sr
+                             or verified_by_atomic
+                             or new_sr.confidence > best_sr.confidence)):
+                    new_sr.gt2_candidate_bundles = [bundle]
+                    new_sr.span_value_candidates = [
+                        (phrase, values[0])
+                        for phrase, values in bundle.overlay_synonyms.items()
+                        if values
+                    ]
+                    if token_parses:
+                        new_sr.token_parses = token_parses
+                    return _attach_wfw_record(
+                        _attach_gt2_evidence(
+                            new_sr, clue_text, answer_clean, db, candidates,
+                            enriched_context, stage_one_context),
+                        getattr(new_sr, "wfw_unified_result", None)
+                        or wfw_result)
         except Exception:
             pass  # Experimental fallback must fail closed.
 
@@ -388,16 +636,13 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
             rule_suggs = detect_missing_indicator(
                 wp_for_detection, answer_clean, db, used_indices)
 
-            for s in rule_suggs[:3]:
+            for s in rule_suggs[:1]:
                 inj = {s['indicator_word']:
                        [(s['indicator_type'], s['subtype'], 'medium')]}
-                new_sr = solve_clue(clue_text, answer, db, min_confidence,
-                                     extra_catalog=extra_catalog,
-                                     extra_synonyms=(extra_synonyms or
-                                                       dbe_haiku_candidates),
-                                     extra_indicators=inj,
-                                     _dbe_already_attempted=True,
-                                     _span_value_already_attempted=True)
+                new_sr = _solve_with_overlay(
+                    extra_synonyms_for_try=(extra_synonyms
+                                            or dbe_haiku_candidates),
+                    extra_indicators_for_try=inj)
                 if (new_sr is not None and new_sr.high_confidence
                         and (best_sr is None
                              or new_sr.confidence > best_sr.confidence)
@@ -424,14 +669,10 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                         if pick and pick in tied_subtypes and pick != s['subtype']:
                             inj_pick = {s['indicator_word']:
                                         [(s['indicator_type'], pick, 'medium')]}
-                            haiku_sr = solve_clue(
-                                clue_text, answer, db, min_confidence,
-                                extra_catalog=extra_catalog,
-                                extra_synonyms=(extra_synonyms or
-                                                  dbe_haiku_candidates),
-                                extra_indicators=inj_pick,
-                                _dbe_already_attempted=True,
-                                _span_value_already_attempted=True)
+                            haiku_sr = _solve_with_overlay(
+                                extra_synonyms_for_try=(extra_synonyms
+                                                        or dbe_haiku_candidates),
+                                extra_indicators_for_try=inj_pick)
                             if (haiku_sr is not None
                                     and haiku_sr.high_confidence
                                     and _suggestion_actually_used(
@@ -452,7 +693,12 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                     final_sr.suggested_indicators = [suggested_indicator]
                     if dbe_haiku_candidates:
                         final_sr.dbe_haiku_candidates = dbe_haiku_candidates
-                    return final_sr
+                    return _attach_wfw_record(
+                        _attach_gt2_evidence(
+                            final_sr, clue_text, answer_clean, db,
+                            candidates, clue_context, stage_one_context),
+                        getattr(final_sr, "wfw_unified_result", None)
+                        or wfw_result)
 
             # Pass 2: Haiku fallback. Only fire if rule-based produced
             # at least one fodder candidate (tells us what gap to fill).
@@ -461,16 +707,13 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                 hk_suggs = find_indicator_candidate(
                     clue_text, answer_clean,
                     top['fodder_word'], top['extract_value'])
-                for s in hk_suggs[:3]:
+                for s in hk_suggs[:1]:
                     inj = {s['indicator_word']:
                            [(s['indicator_type'], s['subtype'], 'medium')]}
-                    new_sr = solve_clue(clue_text, answer, db, min_confidence,
-                                         extra_catalog=extra_catalog,
-                                         extra_synonyms=(extra_synonyms or
-                                                           dbe_haiku_candidates),
-                                         extra_indicators=inj,
-                                         _dbe_already_attempted=True,
-                                         _span_value_already_attempted=True)
+                    new_sr = _solve_with_overlay(
+                        extra_synonyms_for_try=(extra_synonyms
+                                                or dbe_haiku_candidates),
+                        extra_indicators_for_try=inj)
                     if (new_sr is not None and new_sr.high_confidence
                             and (best_sr is None
                                  or new_sr.confidence > best_sr.confidence)
@@ -483,7 +726,12 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
                         new_sr.suggested_indicators = [suggested_indicator]
                         if dbe_haiku_candidates:
                             new_sr.dbe_haiku_candidates = dbe_haiku_candidates
-                        return new_sr
+                        return _attach_wfw_record(
+                            _attach_gt2_evidence(
+                                new_sr, clue_text, answer_clean, db,
+                                candidates, clue_context, stage_one_context),
+                            getattr(new_sr, "wfw_unified_result", None)
+                            or wfw_result)
         except Exception:
             pass  # Any failure here just falls through
 
@@ -556,7 +804,11 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
             pass
 
     if best_sr is not None:
-        return _attach_and_return(best_sr)
+        return _attach_wfw_record(
+            _attach_gt2_evidence(
+                _attach_and_return(best_sr), clue_text, answer_clean, db,
+                candidates, clue_context, stage_one_context),
+            wfw_result)
 
     # No definition candidate worked — fall back to best unsolved result
     if candidates:
@@ -564,13 +816,21 @@ def solve_clue(clue_text, answer, db, min_confidence=0, extra_catalog=None,
         sr = solve(wp_words, answer_clean, db, min_confidence=0,
                    extra_catalog=extra_catalog)
         sr.definition = def_phrase
-        return _attach_and_return(sr)
+        return _attach_wfw_record(
+            _attach_gt2_evidence(
+                _attach_and_return(sr), clue_text, answer_clean, db,
+                candidates, clue_context, stage_one_context),
+            wfw_result)
 
     # No definition candidates found at all — try full clue as wordplay
     sr = solve(clue_words, answer_clean, db, min_confidence=0,
                extra_catalog=extra_catalog)
     sr.definition = None
-    return _attach_and_return(sr)
+    return _attach_wfw_record(
+        _attach_gt2_evidence(
+            _attach_and_return(sr), clue_text, answer_clean, db, candidates,
+            clue_context, stage_one_context),
+        wfw_result)
 
 
 def solve(wordplay_words, answer, db, min_confidence=0, def_pos=None,

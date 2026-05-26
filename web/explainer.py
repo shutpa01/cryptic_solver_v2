@@ -100,6 +100,13 @@ def _ensure_api_explanations_table(conn):
     conn.commit()
 
 
+def _cap_human_only_cd_score(wordplay_type, score):
+    """Cryptic definitions require human judgement and must not score HIGH."""
+    if (wordplay_type or "").strip().lower() == "cryptic_definition":
+        return min(score or 0, 60)
+    return score or 0
+
+
 def _build_explanation_from_pieces(ai_output):
     """Build a human-readable explanation string from pipeline output.
 
@@ -264,9 +271,14 @@ def generate_explanation(clue_id):
                 clue_text, answer, definition or "",
                 wordplay_types[0], explanation_text,
             )
-            confidence = v_result["score"] / 100.0 if v_result else score / 100.0
+            score = _cap_human_only_cd_score(wordplay_types[0], score)
+            confidence_score = v_result["score"] if v_result else score
+            confidence_score = _cap_human_only_cd_score(
+                wordplay_types[0], confidence_score)
+            confidence = min(confidence_score / 100.0, 0.6)
         else:
-            confidence = score / 100.0
+            score = _cap_human_only_cd_score(wordplay_types[0], score)
+            confidence = min(score / 100.0, 0.6)
 
         # Build components dict (matching pipeline structure)
         components_dict = {
@@ -292,15 +304,11 @@ def generate_explanation(clue_id):
             ).fetchone()
             already_reviewed = current_reviewed and current_reviewed[0] in (1, 2)
             if not already_reviewed:
-                auto_reviewed = 1 if score >= 80 else 0
+                auto_reviewed = 0
             else:
                 auto_reviewed = current_reviewed[0]
 
-            if has_def and has_type and has_expl:
-                has_solution = 1
-            elif has_type and has_expl and score >= 80:
-                has_solution = 1
-            elif has_def or has_type:
+            if has_def or has_type or has_expl:
                 has_solution = 2
             else:
                 has_solution = 0

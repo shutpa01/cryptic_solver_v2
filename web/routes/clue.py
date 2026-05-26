@@ -17,7 +17,16 @@ Blueprint registration (already in web/__init__.py):
 
 import re
 
-from flask import Blueprint, render_template, request, abort, g, redirect, url_for
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from web.db import get_db
 from web.models import (
@@ -230,6 +239,81 @@ def enum_slug_to_new_id(slug):
     return None
 
 
+def _apply_manual_roles_to_wfw_display(wfw_display, manual_role_by_word_index,
+                                       token_index_to_word_index):
+    """Overlay admin word roles onto the WFW display blocks.
+
+    This is display state, not a DB fact and not a proof.  It lets review mark
+    words as definition/link/indicator/source/etc. and immediately see the
+    colour coding follow that role.
+    """
+    if not wfw_display or not manual_role_by_word_index:
+        return
+    stage_three_spans = wfw_display.get("proof_source") == "stage_three"
+    for block in wfw_display.get("blocks") or []:
+        span = block.get("span")
+        if not span or span[1] - span[0] != 1:
+            continue
+        word_index = (
+            span[0] if stage_three_spans
+            else token_index_to_word_index.get(span[0])
+        )
+        role_row = manual_role_by_word_index.get(word_index)
+        if not role_row:
+            continue
+        role = role_row.get("role") or block.get("role")
+        letters = role_row.get("letters")
+        block["role"] = _wfw_display_role(role)
+        block["kind"] = _wfw_display_kind(role, block.get("kind"))
+        if letters:
+            block["value"] = letters
+        elif (
+            role in {
+                "definition",
+                "link",
+                "surface",
+                "charade_joiner",
+                "indicator",
+            }
+            or role.endswith("_indicator")
+        ):
+            block["value"] = ""
+
+
+def _wfw_display_kind(role, fallback):
+    if role == "definition":
+        return "DEF_BLOCK"
+    if role == "link":
+        return "LINK_BLOCK"
+    if role == "surface":
+        return "LINK_BLOCK"
+    if role == "unaccounted":
+        return "REVIEW_BLOCK"
+    if role == "charade_joiner":
+        return "LINK_BLOCK"
+    if role == "indicator" or role.endswith("_indicator"):
+        return "OP_BLOCK"
+    return fallback or "SOURCE_BLOCK"
+
+
+def _wfw_display_role(role):
+    source_roles = {
+        "synonym", "synonym_source",
+        "abbreviation", "abbreviation_source",
+        "literal_source", "letter_source", "positional_source",
+        "reversal_source", "deletion_source", "hidden_source",
+        "single_letter", "double_letter", "roman_numeral",
+        "nato_phonetic", "cricket", "chemistry", "musical", "name",
+        "shape", "example", "british_slang", "slang", "pronoun",
+        "reference", "suffix", "first_letter", "substitution",
+        "foreign", "foreign_french", "foreign_german", "foreign_spanish",
+        "foreign_italian", "foreign_latin", "cryptic_synonym", "misc",
+    }
+    if role in source_roles:
+        return "source"
+    return role
+
+
 # ---------------------------------------------------------------------------
 # Route
 # ---------------------------------------------------------------------------
@@ -318,6 +402,101 @@ def clue_page(slug):
         if content:
             inline_hints.append({"type": step_type, "content": content})
     clue_dict["inline_hints"] = inline_hints
+
+    # WFW proof path. This is the new authority for whether the clue has a
+    # word-for-word proof. Legacy word roles are only a fallback when no WFW
+    # proof row exists yet.
+    try:
+        from signature_solver.wfw_proof_store import get_latest_wfw_proof_attempt
+        wfw_proof_attempt = get_latest_wfw_proof_attempt(clue_id)
+    except Exception:
+        wfw_proof_attempt = None
+    clue_dict["wfw_proof_attempt"] = wfw_proof_attempt
+    clue_dict["wfw_proven"] = (
+        wfw_proof_attempt is not None
+        and wfw_proof_attempt.get("status") == "wfw_proven"
+    )
+    clue_dict["wfw_display"] = None
+    try:
+        from signature_solver.wfw_display_adapter import (
+            display_from_missing_wfw,
+            display_from_stage_three_proof,
+            display_from_wfw_proof_attempt,
+        )
+        clue_dict["wfw_display"] = display_from_wfw_proof_attempt(
+            wfw_proof_attempt)
+        if clue_dict["wfw_display"] is None:
+            run_has_wfw = db.execute(
+                """SELECT 1
+                   FROM wfw_proof_attempts w
+                   JOIN clues c ON c.id = w.clue_id
+                   WHERE c.source = ?
+                     AND c.puzzle_number = ?
+                   LIMIT 1""",
+                (clue["source"], clue["puzzle_number"]),
+            ).fetchone()
+            if run_has_wfw:
+                clue_dict["wfw_display"] = display_from_missing_wfw(
+                    clue["clue_text"],
+                    clue["answer"],
+                    "missing_structured_proposal",
+                )
+    except Exception as exc:
+        clue_dict["wfw_display_error"] = str(exc)
+        clue_dict["wfw_display"] = None
+
+    clue_dict["stage_two_casefile"] = None
+    clue_dict["stage_two_casefile_error"] = None
+
+    # Old atomic evidence is retained for admin diagnostics only. It no
+    # longer decides whether a clue has WFW.
+    try:
+        from signature_solver.atomic_parse_store import get_latest_atomic_artifact
+        atomic_artifact = get_latest_atomic_artifact(clue_id)
+    except Exception:
+        atomic_artifact = None
+    clue_dict["atomic_artifact"] = atomic_artifact
+    clue_dict["atomic_review_item"] = None
+    clue_dict["atomic_wfw"] = clue_dict["wfw_display"]
+    try:
+        from signature_solver.wfw_atoms import build_wfw_atom_context
+        clue_dict["wfw_correction_tokens"] = [
+            token.as_dict()
+            for token in build_wfw_atom_context(
+                clue["clue_text"] or "", clue["answer"] or ""
+            ).clue_tokens
+            if token.kind == "word"
+        ]
+    except Exception:
+        clue_dict["wfw_correction_tokens"] = []
+    if atomic_artifact and g.get("is_admin", False):
+        try:
+            review_row = db.execute(
+                """SELECT status, review_type, summary, payload_json,
+                          created_at
+                   FROM atomic_parse_review_items
+                   WHERE artifact_id = ?
+                   ORDER BY created_at DESC, id DESC
+                   LIMIT 1""",
+                (atomic_artifact["id"],),
+            ).fetchone()
+        except Exception:
+            review_row = None
+        if review_row:
+            import json as _json_atomic
+            payload = None
+            if review_row["payload_json"]:
+                try:
+                    payload = _json_atomic.loads(review_row["payload_json"])
+                except Exception:
+                    payload = None
+            clue_dict["atomic_review_item"] = {
+                "status": review_row["status"],
+                "review_type": review_row["review_type"],
+                "summary": review_row["summary"],
+                "payload": payload or {},
+                "created_at": review_row["created_at"],
+            }
 
     # Per-clue word roles — populated by the verifier (auto) plus any
     # admin manual overrides. Empty list when no rows exist for the
@@ -409,6 +588,30 @@ def clue_page(slug):
             }]
     clue_dict["word_roles"] = word_role_rows
     clue_dict["role_groups"] = role_groups
+
+    manual_role_by_word_index = {
+        row["word_index"]: row
+        for row in word_role_rows
+        if row.get("source") == "manual"
+    }
+    wfw_role_rows = []
+    wfw_token_to_word_index = {}
+    for word_index, token in enumerate(clue_dict.get("wfw_correction_tokens") or []):
+        saved = manual_role_by_word_index.get(word_index, {})
+        token_index = token.get("index")
+        wfw_token_to_word_index[token_index] = word_index
+        wfw_role_rows.append({
+            "word_index": word_index,
+            "token_index": token_index,
+            "word_text": token.get("text") or "",
+            "role": saved.get("role") or "unaccounted",
+            "source": saved.get("source") or "wfw",
+            "letters": saved.get("letters"),
+        })
+    clue_dict["wfw_role_rows"] = wfw_role_rows
+    _apply_manual_roles_to_wfw_display(
+        clue_dict.get("atomic_wfw"), manual_role_by_word_index,
+        wfw_token_to_word_index)
 
     # Per-piece enrichment-needed flag for the admin override panel.
     # We walk word_role_rows, group multi-word pieces (by piece_key or
@@ -1064,6 +1267,7 @@ def clue_page(slug):
         # Structural
         "definition",
         "link",
+        "surface",
         "charade_joiner",
         "dbe_marker",
         "unaccounted",
