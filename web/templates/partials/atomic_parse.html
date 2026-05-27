@@ -69,6 +69,7 @@
             {% if block.kind != 'ASSEMBLY_BLOCK' %}
             <span class="inline-flex min-w-28 flex-col items-center justify-center rounded border-2 px-4 py-3 text-center text-slate-950
                 {% if block.kind == 'DEF_BLOCK' %}border-green-500
+                {% elif block.role in ['op_candidate', 'link_candidate'] %}border-slate-400
                 {% elif block.role == 'container_indicator' %}border-sky-500
                 {% elif block.role == 'dd_0' %}border-sky-500
                 {% elif block.role == 'dd_1' %}border-pink-500
@@ -87,7 +88,7 @@
                 {% elif block.kind == 'LINK_BLOCK' %}border-slate-300
                 {% elif block.role == 'unaccounted' %}border-rose-500
                 {% else %}border-slate-300{% endif %}"
-                  style="{% if block.kind == 'DEF_BLOCK' %}background-color:#bbf7d0;{% elif block.role == 'dd_0' %}background-color:#bfdbfe;{% elif block.role == 'dd_1' %}background-color:#fbcfe8;{% elif block.role in piece1_roles or block.role in piece1_indicator_roles %}background-color:#bfdbfe;{% elif block.role in piece2_roles or block.role in piece2_indicator_roles %}background-color:#fbcfe8;{% elif block.role in piece3_roles or block.role in piece3_indicator_roles %}background-color:#fef08a;{% elif block.role in piece4_roles or block.role in piece4_indicator_roles %}background-color:#fed7aa;{% elif block.role in piece5_roles or block.role in piece5_indicator_roles %}background-color:#ddd6fe;{% elif block.kind in ['RELATION_BLOCK', 'OP_BLOCK'] or (block.role or '').endswith('indicator') %}background-color:#fde68a;{% elif block.role == 'source_review' %}background-color:#ffe4e6;{% elif block.kind == 'LINK_BLOCK' %}background-color:#f1f5f9;{% elif block.role == 'unaccounted' %}background-color:#ffe4e6;{% else %}background-color:#ffffff;{% endif %}">
+                  style="{% if block.kind == 'DEF_BLOCK' %}background-color:#bbf7d0;{% elif block.role in ['op_candidate', 'link_candidate'] %}background-color:#f8fafc;{% elif block.role == 'dd_0' %}background-color:#bfdbfe;{% elif block.role == 'dd_1' %}background-color:#fbcfe8;{% elif block.role in piece1_roles or block.role in piece1_indicator_roles %}background-color:#bfdbfe;{% elif block.role in piece2_roles or block.role in piece2_indicator_roles %}background-color:#fbcfe8;{% elif block.role in piece3_roles or block.role in piece3_indicator_roles %}background-color:#fef08a;{% elif block.role in piece4_roles or block.role in piece4_indicator_roles %}background-color:#fed7aa;{% elif block.role in piece5_roles or block.role in piece5_indicator_roles %}background-color:#ddd6fe;{% elif block.kind in ['RELATION_BLOCK', 'OP_BLOCK'] or (block.role or '').endswith('indicator') %}background-color:#fde68a;{% elif block.role == 'source_review' %}background-color:#ffe4e6;{% elif block.kind == 'LINK_BLOCK' %}background-color:#f1f5f9;{% elif block.role == 'unaccounted' %}background-color:#ffe4e6;{% else %}background-color:#ffffff;{% endif %}">
                 <span class="text-base font-extrabold">{{ block.text }}</span>
                 {% if block.role == 'hidden_fodder' and wfw.hidden_segments %}
                 <span class="mt-2 inline-flex items-stretch justify-center font-mono text-sm font-extrabold tracking-wide text-slate-950">
@@ -122,6 +123,10 @@
                 <span class="mt-1 text-sm font-bold text-rose-800" title="{{ block.evidence_reason or '' }}">{{ block.value }}</span>
                 {% elif block.role == 'unaccounted' %}
                 <span class="mt-1 text-sm font-bold text-rose-800">Needs WFW role</span>
+                {% elif block.role == 'op_candidate' %}
+                <span class="mt-1 text-sm font-bold text-slate-700">Candidate {{ (block.candidate_role or 'operation') | replace('_', ' ') | title }}</span>
+                {% elif block.role == 'link_candidate' %}
+                <span class="mt-1 text-sm font-bold text-slate-700">Candidate Link</span>
                 {% elif block.role == 'container_indicator' %}
                 <span class="mt-1 text-sm font-extrabold text-sky-950">Container indicator</span>
                 {% elif block.role == 'hidden_indicator' %}

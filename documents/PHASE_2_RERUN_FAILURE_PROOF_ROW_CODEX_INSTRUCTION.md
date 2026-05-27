@@ -95,6 +95,13 @@ Replace with:
                         "clue_text": clue_text,
                         "answer": answer_clean,
                         "error": str(e),
+                        "checks": [
+                            {
+                                "name": "pipeline_failure",
+                                "status": "REVIEW",
+                                "detail": str(e),
+                            }
+                        ],
                     },
                     conn=db,
                 )
@@ -118,9 +125,16 @@ The proof record fields:
   schema: "stage_three_proof:v1" — marks the schema family.
   clue_text, answer: from the outer scope (already set before Phase 0).
   error: the str() representation of the pipeline exception.
+  checks: a one-element list containing a single pipeline_failure check.
+    The check has name "pipeline_failure", status "REVIEW", and detail
+    set to str(e). This gives the Stage Three display adapter a concrete
+    named check to render rather than an empty checks list, which could
+    produce an oddly blank WFW panel. Other Stage Three fields (blocks,
+    word_purposes, atomic_links, etc.) are absent; the adapter must
+    tolerate missing fields by treating them as empty collections.
 
 _normalise_proof in wfw_proof_store.py accepts any dict and sets default
-status and source if absent, so this minimal dict is sufficient. No StageThreeProof
+status and source if absent, so this dict is sufficient. No StageThreeProof
 dataclass is needed.
 
 conn=db is passed to write_wfw_proof_attempt so the write uses the same open

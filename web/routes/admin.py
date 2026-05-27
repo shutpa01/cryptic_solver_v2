@@ -36,6 +36,256 @@ def _require_admin():
         abort(403)
 
 
+def _render_evidence_partial(clue_id, db, structured_parse_errors=None):
+    """Render legacy graph evidence plus any structured parse for a clue."""
+    from signature_solver.manual_evidence_store import (
+        get_edges_for_clue,
+        get_nodes_for_clue,
+        get_structured_parse,
+    )
+    nodes = get_nodes_for_clue(clue_id, conn=db)
+    edges = get_edges_for_clue(clue_id, conn=db)
+    structured_parse = get_structured_parse(clue_id, conn=db)
+    return render_template(
+        "partials/manual_evidence_nodes.html",
+        clue_id=clue_id,
+        nodes=nodes,
+        edges=edges,
+        structured_parse=structured_parse,
+        structured_parse_errors=structured_parse_errors or [],
+    )
+
+
+def _structured_parse_summary(parse_dict):
+    """Return a compact human-readable explanation for a structured parse."""
+    pieces = parse_dict.get("pieces") or []
+    operations = parse_dict.get("operations") or []
+    piece_by_id = {piece.get("id"): piece for piece in pieces}
+    lines = []
+    for piece in pieces:
+        if piece.get("clue_text") or piece.get("letters"):
+            lines.append(
+                "%s -> %s"
+                % (piece.get("clue_text") or "piece", piece.get("letters") or "?")
+            )
+    for op in operations:
+        if (op.get("type") or "").lower() == "container":
+            outer = piece_by_id.get(op.get("outer_piece_id")) or {}
+            inner = piece_by_id.get(op.get("inner_piece_id")) or {}
+            lines.append(
+                "%s: %s around %s = %s"
+                % (
+                    op.get("clue_text") or "container",
+                    outer.get("letters") or "?",
+                    inner.get("letters") or "?",
+                    op.get("result") or parse_dict.get("answer") or "?",
+                )
+            )
+    return "; ".join(lines)
+
+
+def _queue_pending_enrichment(db, entry, clue):
+    etype = entry["type"]
+    word = entry["word"]
+    letters = entry["value"]
+    rejected = db.execute(
+        "SELECT 1 FROM rejected_enrichments "
+        "WHERE type=? AND LOWER(word)=LOWER(?) AND LOWER(letters)=LOWER(?)",
+        (etype, word, letters),
+    ).fetchone()
+    if rejected:
+        return False
+    existing_pending = db.execute(
+        "SELECT 1 FROM pending_enrichments "
+        "WHERE type=? AND LOWER(word)=LOWER(?) AND LOWER(letters)=LOWER(?)",
+        (etype, word, letters),
+    ).fetchone()
+    if existing_pending:
+        return False
+    db.execute(
+        """INSERT INTO pending_enrichments
+           (type, word, letters, answer, clue_text, source, puzzle_number)
+           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        (
+            etype,
+            word,
+            letters,
+            clue["answer"] or "",
+            clue["clue_text"] or "",
+            clue["source"] or "",
+            clue["puzzle_number"] or "",
+        ),
+    )
+    return True
+
+
+def _structured_parse_db_entries(parse_dict):
+    entries = []
+    pieces = parse_dict.get("pieces") or []
+    operations = parse_dict.get("operations") or []
+
+    piece_fodder = {}
+    for op in operations:
+        op_type = (op.get("type") or "").lower()
+        if op_type in ("reversal", "anagram"):
+            input_id = op.get("input_piece_id")
+            fodder = (op.get("fodder") or "").strip()
+            if input_id and fodder:
+                piece_fodder[input_id] = fodder
+
+    for piece in pieces:
+        rel = (piece.get("relationship") or "").lower()
+        word = (piece.get("clue_text") or "").strip()
+        pid = piece.get("id")
+        letters = piece_fodder.get(pid) or (piece.get("letters") or "").strip()
+        if not word or not letters:
+            continue
+        if rel == "synonym":
+            entries.append({"type": "synonym", "word": word, "value": letters})
+        elif rel == "abbreviation":
+            entries.append(
+                {"type": "abbreviation", "word": word, "value": letters}
+            )
+    for op in operations:
+        op_type = (op.get("type") or "").strip().lower()
+        word = (op.get("clue_text") or "").strip()
+        if op_type and word:
+            entries.append({"type": "indicator", "word": word, "value": op_type})
+    defn = parse_dict.get("definition") or {}
+    if defn.get("clue_text") and parse_dict.get("answer"):
+        entries.append({
+            "type": "definition",
+            "word": defn.get("clue_text"),
+            "value": parse_dict.get("answer"),
+        })
+    return entries
+
+
+def _audit_structured_parse_db_facts(db, clue, parse_dict, queue_missing=True):
+    import sqlite3 as _sqlite3
+    ref = _sqlite3.connect(str(PROJECT_ROOT / "data" / "cryptic_new.db"), timeout=10)
+    missing = []
+    queued = 0
+    try:
+        for entry in _structured_parse_db_entries(parse_dict):
+            normalised = _normalise_wfw_db_entry(entry)
+            if not normalised:
+                continue
+            if _wfw_db_entry_exists(ref, normalised):
+                continue
+            missing.append(normalised)
+            if queue_missing and _queue_pending_enrichment(db, normalised, clue):
+                queued += 1
+    finally:
+        ref.close()
+    return {"missing": missing, "queued": queued}
+
+
+def _write_structured_parse_db_facts(parse_dict):
+    entries = _structured_parse_db_entries(parse_dict)
+    return _write_wfw_db_entries(entries)
+
+
+def _apply_structured_parse_score_if_valid(db, clue_id):
+    """Score a structured parse only after structural and DB-fact checks."""
+    from signature_solver.manual_evidence_store import (
+        _validate_structured_parse,
+        get_structured_parse,
+    )
+    clue = db.execute(
+        """SELECT id, clue_text, answer, source, puzzle_number
+           FROM clues WHERE id = ?""",
+        (clue_id,)
+    ).fetchone()
+    if clue is None:
+        return None
+    parse_dict = get_structured_parse(clue_id, conn=db)
+    if not parse_dict:
+        return None
+    errors = _validate_structured_parse(parse_dict, clue["answer"] or "")
+    if errors:
+        return {"ok": False, "errors": errors}
+    audit = _audit_structured_parse_db_facts(
+        db, clue, parse_dict, queue_missing=False)
+    if audit["missing"]:
+        added_written, existing_written = _write_structured_parse_db_facts(
+            parse_dict
+        )
+        audit = _audit_structured_parse_db_facts(
+            db, clue, parse_dict, queue_missing=False)
+    if audit["missing"]:
+        se_row = db.execute(
+            "SELECT 1 FROM structured_explanations WHERE clue_id = ?",
+            (clue_id,),
+        ).fetchone()
+        if se_row:
+            db.execute(
+                """UPDATE structured_explanations
+                   SET confidence = 0.0,
+                       model_version = 'manual_structured_parse_needs_db'
+                   WHERE clue_id = ?""",
+                (clue_id,),
+            )
+        else:
+            db.execute(
+                """INSERT INTO structured_explanations
+                   (clue_id, confidence, model_version)
+                   VALUES (?, 0.0, 'manual_structured_parse_needs_db')""",
+                (clue_id,),
+            )
+        errors = [
+            "manual parse DB write failed: %s %s -> %s"
+            % (item["type"], item["word"], item["value"])
+            for item in audit["missing"]
+        ]
+        return {
+            "ok": False,
+            "errors": errors,
+            "missing": audit["missing"],
+            "queued": 0,
+            "added": added_written,
+            "existing": existing_written,
+        }
+
+    defn = parse_dict.get("definition") or {}
+    operations = parse_dict.get("operations") or []
+    wordplay_type = (
+        (operations[0].get("type") or "").lower()
+        if operations else "structured_parse"
+    )
+    explanation = _structured_parse_summary(parse_dict)
+    db.execute(
+        """UPDATE clues
+           SET definition = ?, wordplay_type = ?, ai_explanation = ?
+           WHERE id = ?""",
+        (
+            defn.get("clue_text") or "",
+            wordplay_type,
+            explanation,
+            clue_id,
+        ),
+    )
+    existing = db.execute(
+        "SELECT 1 FROM structured_explanations WHERE clue_id = ?",
+        (clue_id,),
+    ).fetchone()
+    if existing:
+        db.execute(
+            """UPDATE structured_explanations
+               SET confidence = 1.0, model_version = 'manual_structured_parse'
+               WHERE clue_id = ?""",
+            (clue_id,),
+        )
+    else:
+        db.execute(
+            """INSERT INTO structured_explanations
+               (clue_id, confidence, model_version)
+               VALUES (?, 1.0, 'manual_structured_parse')""",
+            (clue_id,),
+        )
+    return {"ok": True, "errors": [], "queued": 0}
+
+
 @bp.route("/stage-two/<int:clue_id>")
 def stage_two_casefile(clue_id):
     """Plain inspection page for the read-only Stage Two case file."""
@@ -167,6 +417,8 @@ WORD_ROLE_CHOICES = (
     "surface",
     "indicator",  # legacy generic; new code uses a specific *_indicator
     "anagram_fodder",
+    "container_frame",
+    "container_content_source",
     "spoonerism_fodder",
     "hidden_source",
     "positional_source",
@@ -310,12 +562,19 @@ def set_word_role(clue_id, word_index):
     word_text = (request.form.get("word_text") or "").strip()
     letters_raw = (request.form.get("letters") or "").strip().upper()
     letters = letters_raw if letters_raw else None
+    piece_key_raw = (request.form.get("piece_key") or "").strip()
+    try:
+        piece_key = int(piece_key_raw) if piece_key_raw else None
+    except (ValueError, TypeError):
+        piece_key = None
     if role not in WORD_ROLE_CHOICES:
         abort(400)
     if not word_text:
         abort(400)
     from sonnet_pipeline.word_roles_store import write_manual_role
-    write_manual_role(clue_id, word_index, word_text, role, letters=letters)
+    write_manual_role(
+        clue_id, word_index, word_text, role,
+        letters=letters, piece_key=piece_key)
     return '<span class="text-xs text-emerald-600">Saved</span>'
 
 
@@ -401,6 +660,623 @@ def save_wfw_correction(clue_id):
         % _html_escape(msg)
     )
     return response
+
+
+@bp.route("/manual-evidence/<int:clue_id>", methods=["POST"])
+def create_manual_evidence_node(clue_id):
+    """Create a manual evidence node for a clue."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    word_text = (request.form.get("word_text") or "").strip()
+    word_indices_raw = (request.form.get("word_indices") or "").strip()
+    node_type = (request.form.get("node_type") or "").strip()
+    role = (request.form.get("role") or "").strip() or None
+    raw_letters = (
+        (request.form.get("raw_letters") or "").strip().upper() or None
+    )
+    answer_positions_raw = (
+        request.form.get("answer_positions") or ""
+    ).strip()
+    group_id_raw = (request.form.get("group_id") or "").strip()
+
+    if node_type not in (
+        "source", "definition", "structural", "operator", "transform"
+    ):
+        abort(400)
+    if not word_text:
+        abort(400)
+
+    try:
+        word_indices = [
+            int(x.strip())
+            for x in word_indices_raw.split(",")
+            if x.strip()
+        ]
+    except (ValueError, TypeError):
+        word_indices = []
+    if not word_indices and node_type != "transform":
+        abort(400)
+
+    answer_positions = None
+    if answer_positions_raw:
+        try:
+            parsed = [
+                int(x.strip())
+                for x in answer_positions_raw.split(",")
+                if x.strip()
+            ]
+        except (ValueError, TypeError):
+            abort(400)
+        answer_positions = parsed or None
+
+    import json
+    payload_json_raw = (request.form.get("payload_json") or "").strip()
+    payload_json = None
+    if payload_json_raw:
+        try:
+            decoded = json.loads(payload_json_raw)
+            if not isinstance(decoded, dict):
+                abort(400)
+            payload_json = payload_json_raw
+        except (ValueError, TypeError):
+            abort(400)
+
+    group_id = None
+    if group_id_raw:
+        try:
+            group_id = int(group_id_raw)
+        except (ValueError, TypeError):
+            abort(400)
+        if group_id < 0 or group_id > 4:
+            abort(400)
+
+    from signature_solver.manual_evidence_store import write_node
+    write_node(
+        clue_id=clue_id,
+        node_type=node_type,
+        word_indices=word_indices,
+        word_text=word_text,
+        role=role,
+        raw_letters=raw_letters,
+        answer_positions=answer_positions,
+        group_id=group_id,
+        payload_json=payload_json,
+        conn=db,
+    )
+    db.commit()
+    return _render_evidence_partial(clue_id, db)
+
+
+@bp.route("/manual-evidence/<int:clue_id>/edge", methods=["POST"])
+def create_manual_evidence_edge(clue_id):
+    """Create a manual evidence edge between two existing nodes."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    from_node_id_raw = (request.form.get("from_node_id") or "").strip()
+    to_node_id_raw = (request.form.get("to_node_id") or "").strip()
+    edge_type = (request.form.get("edge_type") or "").strip()
+
+    if edge_type not in ("input_to", "output_of"):
+        abort(400)
+
+    try:
+        from_node_id = int(from_node_id_raw)
+        to_node_id = int(to_node_id_raw)
+    except (ValueError, TypeError):
+        abort(400)
+
+    from_row = db.execute(
+        "SELECT id, node_type FROM manual_evidence_nodes "
+        "WHERE id = ? AND clue_id = ?",
+        (from_node_id, clue_id),
+    ).fetchone()
+    to_row = db.execute(
+        "SELECT id, node_type FROM manual_evidence_nodes "
+        "WHERE id = ? AND clue_id = ?",
+        (to_node_id, clue_id),
+    ).fetchone()
+    if from_row is None or to_row is None:
+        abort(400)
+
+    from signature_solver.manual_evidence_store import (
+        _validate_edge_types,
+        write_edge,
+    )
+    if not _validate_edge_types(
+        from_row["node_type"], to_row["node_type"], edge_type
+    ):
+        abort(400)
+    write_edge(
+        clue_id=clue_id,
+        from_node_id=from_node_id,
+        to_node_id=to_node_id,
+        edge_type=edge_type,
+        conn=db,
+    )
+    db.commit()
+    return _render_evidence_partial(clue_id, db)
+
+
+@bp.route("/manual-evidence/edge/<int:edge_id>/delete", methods=["POST"])
+def delete_manual_evidence_edge(edge_id):
+    """Delete a manual evidence edge."""
+    _require_admin()
+    db = get_admin_db()
+    row = db.execute(
+        "SELECT clue_id FROM manual_evidence_edges WHERE id = ?",
+        (edge_id,),
+    ).fetchone()
+    if row is None:
+        abort(404)
+    clue_id = row["clue_id"]
+
+    from signature_solver.manual_evidence_store import delete_edge
+    delete_edge(edge_id, conn=db)
+    db.commit()
+    return _render_evidence_partial(clue_id, db)
+
+
+@bp.route("/manual-evidence/node/<int:node_id>/delete", methods=["POST"])
+def delete_manual_evidence_node(node_id):
+    """Delete a manual evidence node."""
+    _require_admin()
+    db = get_admin_db()
+    row = db.execute(
+        "SELECT clue_id FROM manual_evidence_nodes WHERE id = ?",
+        (node_id,),
+    ).fetchone()
+    if row is None:
+        abort(404)
+    clue_id = row["clue_id"]
+
+    from signature_solver.manual_evidence_store import delete_node
+    delete_node(node_id, conn=db)
+    db.commit()
+    return _render_evidence_partial(clue_id, db)
+
+
+@bp.route("/structured-parse/<int:clue_id>/container", methods=["POST"])
+def save_container_structured_parse(clue_id):
+    """Save a container structured parse submitted from the container form."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id, clue_text, answer FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    answer = (clue["answer"] or "").strip().upper()
+    clue_text = (clue["clue_text"] or "").strip()
+
+    def_text = (request.form.get("def_text") or "").strip()
+    p1_text = (request.form.get("p1_text") or "").strip()
+    p1_relationship = (request.form.get("p1_relationship") or "synonym").strip()
+    p1_letters = (request.form.get("p1_letters") or "").strip().upper()
+    p1_boxes_raw = (request.form.get("p1_answer_boxes") or "").strip()
+    p1_colour = (request.form.get("p1_colour") or "blue").strip().lower()
+    p2_text = (request.form.get("p2_text") or "").strip()
+    p2_relationship = (request.form.get("p2_relationship") or "synonym").strip()
+    p2_letters = (request.form.get("p2_letters") or "").strip().upper()
+    p2_boxes_raw = (request.form.get("p2_answer_boxes") or "").strip()
+    p2_colour = (request.form.get("p2_colour") or "pink").strip().lower()
+    op_text = (request.form.get("op_text") or "").strip()
+    op_outer = (request.form.get("op_outer") or "piece1").strip()
+    op_colour_raw = (request.form.get("op_colour") or "").strip().lower()
+
+    def parse_boxes(raw):
+        try:
+            return [int(x.strip()) for x in raw.split(",") if x.strip()]
+        except (ValueError, TypeError):
+            return []
+
+    p1_boxes = parse_boxes(p1_boxes_raw)
+    p2_boxes = parse_boxes(p2_boxes_raw)
+
+    from signature_solver.manual_evidence_store import (
+        _find_word_positions,
+        _validate_structured_parse,
+        write_structured_parse,
+    )
+
+    outer_piece_id = "piece1" if op_outer == "piece1" else "piece2"
+    inner_piece_id = "piece2" if op_outer == "piece1" else "piece1"
+    op_colour = op_colour_raw or (p1_colour if outer_piece_id == "piece1" else p2_colour)
+
+    parse_dict = {
+        "version": 1,
+        "clue_id": clue_id,
+        "answer": answer,
+        "source": "human",
+        "confidence": "verified",
+        "created_by": "admin",
+        "definition": {
+            "id": "def1",
+            "clue_text": def_text,
+            "clue_word_positions": _find_word_positions(def_text, clue_text),
+            "answer": answer,
+        },
+        "pieces": [
+            {
+                "id": "piece1",
+                "clue_text": p1_text,
+                "clue_word_positions": _find_word_positions(p1_text, clue_text),
+                "relationship": p1_relationship,
+                "letters": p1_letters,
+                "answer_boxes": p1_boxes,
+                "mapping": "positional",
+                "colour": p1_colour,
+            },
+            {
+                "id": "piece2",
+                "clue_text": p2_text,
+                "clue_word_positions": _find_word_positions(p2_text, clue_text),
+                "relationship": p2_relationship,
+                "letters": p2_letters,
+                "answer_boxes": p2_boxes,
+                "mapping": "positional",
+                "colour": p2_colour,
+            },
+        ],
+        "transform_pieces": [],
+        "operations": [
+            {
+                "id": "op1",
+                "clue_text": op_text,
+                "clue_word_positions": _find_word_positions(op_text, clue_text),
+                "type": "container",
+                "outer_piece_id": outer_piece_id,
+                "inner_piece_id": inner_piece_id,
+                "result": answer,
+                "colour": op_colour,
+            }
+        ],
+        "filler": [],
+    }
+
+    errors = _validate_structured_parse(parse_dict, answer)
+    if errors:
+        error_html = (
+            '<div id="manual-evidence-list-%d">'
+            '<p class="text-xs font-semibold text-red-600 mt-1">'
+            "Parse failed validation:</p>"
+            '<ul class="text-xs text-red-600 list-disc ml-4 mt-1">'
+            % clue_id
+        )
+        for err in errors:
+            error_html += "<li>%s</li>" % _html_escape(err)
+        error_html += "</ul></div>"
+        from flask import make_response
+        return make_response(error_html, 200)
+
+    write_structured_parse(
+        clue_id, parse_dict, source="human", status="verified", conn=db
+    )
+    structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+    db.commit()
+    return _render_evidence_partial(
+        clue_id,
+        db,
+        structured_parse_errors=(
+            structured_result.get("errors", [])
+            if structured_result and not structured_result.get("ok")
+            else []
+        ),
+    )
+
+
+@bp.route("/structured-parse/<int:clue_id>/source", methods=["POST"])
+def save_source_structured_parse(clue_id):
+    """Save a source-only structured parse with up to five coloured pieces."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id, clue_text, answer FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    answer = (clue["answer"] or "").strip().upper()
+    clue_text = (clue["clue_text"] or "").strip()
+    def_text = (request.form.get("source_def_text") or "").strip()
+    filler_text = (request.form.get("source_filler_text") or "").strip()
+
+    def parse_boxes(raw, label):
+        try:
+            return [int(x.strip()) for x in raw.split(",") if x.strip()]
+        except (ValueError, TypeError):
+            form_errors.append(
+                "%s answer boxes must be comma-separated numbers" % label
+            )
+            return []
+
+    from signature_solver.manual_evidence_store import (
+        _find_word_positions,
+        _validate_structured_parse,
+        write_structured_parse,
+    )
+
+    form_errors = []
+    pieces = []
+    for i in range(1, 6):
+        text = (request.form.get("s%d_text" % i) or "").strip()
+        relationship = (
+            request.form.get("s%d_relationship" % i) or "synonym"
+        ).strip()
+        letters = (request.form.get("s%d_letters" % i) or "").strip().upper()
+        boxes_raw = (request.form.get("s%d_answer_boxes" % i) or "").strip()
+        colour = (request.form.get("s%d_colour" % i) or "").strip().lower()
+        has_any = any((text, letters, boxes_raw))
+        if not has_any:
+            continue
+        if not text or not relationship or not letters or not boxes_raw or not colour:
+            form_errors.append(
+                "piece %d is incomplete: clue words, relationship, letters, "
+                "answer boxes, and colour are all required" % i
+            )
+            continue
+        boxes = parse_boxes(boxes_raw, "piece %d" % i)
+        pieces.append({
+            "id": "piece%d" % (len(pieces) + 1),
+            "clue_text": text,
+            "clue_word_positions": _find_word_positions(text, clue_text),
+            "relationship": relationship,
+            "letters": letters,
+            "answer_boxes": boxes,
+            "mapping": "positional",
+            "colour": colour,
+        })
+
+    if not pieces:
+        form_errors.append("add at least one piece")
+
+    filler = []
+    if filler_text:
+        for idx, item in enumerate(
+            [part.strip() for part in filler_text.split(";") if part.strip()],
+            1,
+        ):
+            filler.append({
+                "id": "fill%d" % idx,
+                "clue_text": item,
+                "clue_word_positions": _find_word_positions(item, clue_text),
+                "role": "link",
+            })
+
+    parse_dict = {
+        "version": 1,
+        "clue_id": clue_id,
+        "answer": answer,
+        "source": "human",
+        "confidence": "verified",
+        "created_by": "admin",
+        "definition": {
+            "id": "def1",
+            "clue_text": def_text,
+            "clue_word_positions": _find_word_positions(def_text, clue_text),
+            "answer": answer,
+        },
+        "pieces": pieces,
+        "transform_pieces": [],
+        "operations": [],
+        "filler": filler,
+    }
+
+    errors = form_errors + _validate_structured_parse(parse_dict, answer)
+    if errors:
+        error_html = (
+            '<div id="manual-evidence-list-%d">'
+            '<p class="text-xs font-semibold text-red-600 mt-1">'
+            "Parse failed validation:</p>"
+            '<ul class="text-xs text-red-600 list-disc ml-4 mt-1">'
+            % clue_id
+        )
+        for err in errors:
+            error_html += "<li>%s</li>" % _html_escape(err)
+        error_html += "</ul></div>"
+        from flask import make_response
+        return make_response(error_html, 200)
+
+    write_structured_parse(
+        clue_id, parse_dict, source="human", status="verified", conn=db
+    )
+    structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+    db.commit()
+    return _render_evidence_partial(
+        clue_id,
+        db,
+        structured_parse_errors=(
+            structured_result.get("errors", [])
+            if structured_result and not structured_result.get("ok")
+            else []
+        ),
+    )
+
+
+@bp.route("/structured-parse/<int:clue_id>/single-operation", methods=["POST"])
+def save_single_operation_structured_parse(clue_id):
+    """Save a one-piece reversal/anagram structured parse."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id, clue_text, answer FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    answer = (clue["answer"] or "").strip().upper()
+    clue_text = (clue["clue_text"] or "").strip()
+    def_text = (request.form.get("op_def_text") or "").strip()
+    piece_text = (request.form.get("op_piece_text") or "").strip()
+    piece_relationship = (
+        request.form.get("op_piece_relationship") or "synonym"
+    ).strip()
+    piece_letters = (
+        request.form.get("op_piece_letters") or ""
+    ).strip().upper()
+    piece_boxes_raw = (request.form.get("op_piece_boxes") or "").strip()
+    piece_colour = (
+        request.form.get("op_piece_colour") or "blue"
+    ).strip().lower()
+    op_type = (request.form.get("op_type") or "").strip().lower()
+    indicator_text = (request.form.get("op_indicator_text") or "").strip()
+    fodder = (request.form.get("op_fodder") or "").strip().upper()
+    indicator_colour = (
+        request.form.get("op_indicator_colour") or ""
+    ).strip().lower()
+    filler_text = (request.form.get("op_filler_text") or "").strip()
+
+    form_errors = []
+
+    def parse_boxes(raw, label):
+        try:
+            return [int(x.strip()) for x in raw.split(",") if x.strip()]
+        except (ValueError, TypeError):
+            form_errors.append(
+                "%s answer boxes must be comma-separated numbers" % label
+            )
+            return []
+
+    piece_fields = {
+        "clue words": piece_text,
+        "letters": piece_letters,
+        "answer boxes": piece_boxes_raw,
+    }
+    if any(piece_fields.values()) and not all(piece_fields.values()):
+        missing = [
+            label for label, value in piece_fields.items() if not value
+        ]
+        form_errors.append(
+            "piece is incomplete: missing %s" % ", ".join(missing)
+        )
+
+    if op_type not in ("reversal", "anagram"):
+        form_errors.append("op_type must be reversal or anagram")
+
+    piece_boxes = parse_boxes(piece_boxes_raw, "piece")
+
+    from signature_solver.manual_evidence_store import (
+        _find_word_positions,
+        _validate_structured_parse,
+        write_structured_parse,
+    )
+
+    filler = []
+    if filler_text:
+        for idx, item in enumerate(
+            [part.strip() for part in filler_text.split(";") if part.strip()],
+            1,
+        ):
+            filler.append({
+                "id": "fill%d" % idx,
+                "clue_text": item,
+                "clue_word_positions": _find_word_positions(item, clue_text),
+                "role": "link",
+            })
+
+    parse_dict = {
+        "version": 1,
+        "clue_id": clue_id,
+        "answer": answer,
+        "source": "human",
+        "confidence": "verified",
+        "created_by": "admin",
+        "definition": {
+            "id": "def1",
+            "clue_text": def_text,
+            "clue_word_positions": _find_word_positions(def_text, clue_text),
+            "answer": answer,
+        },
+        "pieces": [
+            {
+                "id": "piece1",
+                "clue_text": piece_text,
+                "clue_word_positions": _find_word_positions(
+                    piece_text, clue_text
+                ),
+                "relationship": piece_relationship,
+                "letters": piece_letters,
+                "answer_boxes": piece_boxes,
+                "mapping": "positional",
+                "colour": piece_colour,
+            }
+        ],
+        "transform_pieces": [],
+        "operations": [
+            {
+                "id": "op1",
+                "type": op_type,
+                "clue_text": indicator_text,
+                "clue_word_positions": _find_word_positions(
+                    indicator_text, clue_text
+                ),
+                "input_piece_id": "piece1",
+                "fodder": fodder,
+                "result": piece_letters,
+                "colour": indicator_colour,
+            }
+        ],
+        "filler": filler,
+    }
+
+    errors = form_errors + _validate_structured_parse(parse_dict, answer)
+    if errors:
+        error_html = (
+            '<div id="manual-evidence-list-%d">'
+            '<p class="text-xs font-semibold text-red-600 mt-1">'
+            "Parse failed validation:</p>"
+            '<ul class="text-xs text-red-600 list-disc ml-4 mt-1">'
+            % clue_id
+        )
+        for err in errors:
+            error_html += "<li>%s</li>" % _html_escape(err)
+        error_html += "</ul></div>"
+        from flask import make_response
+        return make_response(error_html, 200)
+
+    write_structured_parse(
+        clue_id, parse_dict, source="human", status="verified", conn=db
+    )
+    structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+    db.commit()
+    return _render_evidence_partial(
+        clue_id,
+        db,
+        structured_parse_errors=(
+            structured_result.get("errors", [])
+            if structured_result and not structured_result.get("ok")
+            else []
+        ),
+    )
+
+
+@bp.route("/structured-parse/<int:clue_id>/delete", methods=["POST"])
+def delete_structured_parse_route(clue_id):
+    """Delete the structured parse for a clue, leaving graph evidence alone."""
+    _require_admin()
+    db = get_admin_db()
+    clue = db.execute(
+        "SELECT id FROM clues WHERE id = ?", (clue_id,)
+    ).fetchone()
+    if clue is None:
+        abort(404)
+
+    from signature_solver.manual_evidence_store import delete_structured_parse
+    delete_structured_parse(clue_id, conn=db)
+    db.commit()
+    return _render_evidence_partial(clue_id, db)
 
 
 def _parse_span(value):
@@ -775,6 +1651,27 @@ def reverify_clue(clue_id):
     ).fetchone()
     if clue is None:
         abort(404)
+    structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+    if structured_result and structured_result.get("ok"):
+        db.commit()
+        return (
+            '<span class="text-xs font-semibold text-emerald-700">'
+            'HIGH 100</span>'
+            '<ul class="mt-1 text-xs list-none space-y-0.5">'
+            '<li class="text-emerald-700">Manual structured parse verified</li>'
+            '</ul>'
+        )
+    elif structured_result:
+        db.commit()
+        return (
+            '<span class="text-xs font-semibold text-amber-700">NEEDS DB</span>'
+            '<ul class="mt-1 text-xs list-none space-y-0.5">'
+            + "".join(
+                '<li class="text-amber-700">%s</li>' % _html_escape(err)
+                for err in structured_result.get("errors", [])
+            )
+            + "</ul>"
+        )
     wfw_reverify_error = None
     try:
         _write_manual_role_stage_three_for_clue(db, clue_id)
@@ -859,6 +1756,31 @@ def rerun_clue(clue_id):
         return _with_hx_refresh(
             '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded px-2 py-1">Error: %s</div>' % str(e))
 
+
+def _render_rerun_result(db, clue_id, evidence_artifact_id=None, notice=""):
+    from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
+    from web.routes.hints import generate_token
+    clue = get_clue_by_id(clue_id)
+    new_tier, _ = compute_hint_tier(clue)
+    steps = get_hint_steps(clue, tier=new_tier, is_admin=True)
+    new_token = generate_token(clue_id)
+    solve_source = compute_solve_source(clue)
+    from flask import make_response
+    response = make_response(
+        notice + render_template(
+            "partials/admin_rerun_result.html",
+            clue=clue,
+            tier=new_tier,
+            steps=steps,
+            token=new_token,
+            solve_source=solve_source,
+            evidence_artifact_id=evidence_artifact_id,
+        )
+    )
+    response.headers["HX-Refresh"] = "true"
+    return response
+
+
 def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     _require_admin()
 
@@ -871,6 +1793,34 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     puzzle_number = clue["puzzle_number"]
     answer = clue["answer"]
     clue_text = clue["clue_text"]
+
+    structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+    if structured_result and structured_result.get("ok") and not force:
+        db.commit()
+        return _render_rerun_result(
+            db,
+            clue_id,
+            evidence_artifact_id=None,
+            notice=(
+                '<div class="mt-2 text-xs text-emerald-700 bg-emerald-50 '
+                'border border-emerald-200 rounded px-2 py-1">'
+                'Manual structured parse is verified; automatic re-run skipped.'
+                '</div>'
+            ),
+        )
+    if structured_result and not structured_result.get("ok") and not force:
+        db.commit()
+        details = "".join(
+            '<li>%s</li>' % _html_escape(err)
+            for err in structured_result.get("errors", [])
+        )
+        return _with_hx_refresh(
+            '<div class="mt-2 text-xs text-amber-800 bg-amber-50 '
+            'border border-amber-200 rounded px-2 py-1">'
+            '<strong>Manual structured parse needs DB review first.</strong>'
+            '<ul class="list-disc ml-4 mt-1">%s</ul>'
+            '</div>' % details
+        )
 
     # Protect manually reviewed clues unless force is set
     if clue["reviewed"] == 1 and not force:
@@ -885,10 +1835,6 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     )
     db.execute(
         "DELETE FROM structured_explanations WHERE clue_id = ?",
-        (clue_id,),
-    )
-    db.execute(
-        "DELETE FROM wfw_proof_attempts WHERE clue_id = ?",
         (clue_id,),
     )
     db.commit()
@@ -948,6 +1894,30 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             import traceback
             print(f"[RERUN WFW] Error: {e}")
             traceback.print_exc()
+            try:
+                from signature_solver.wfw_proof_store import write_wfw_proof_attempt
+                write_wfw_proof_attempt(
+                    clue_id, source, puzzle_number,
+                    {
+                        "status": "wfw_review",
+                        "source": "stage_three_pipeline_failure",
+                        "schema": "stage_three_proof:v1",
+                        "clue_text": clue_text,
+                        "answer": answer_clean,
+                        "error": str(e),
+                        "checks": [
+                            {
+                                "name": "pipeline_failure",
+                                "status": "REVIEW",
+                                "detail": str(e),
+                            }
+                        ],
+                    },
+                    conn=db,
+                )
+                db.commit()
+            except Exception:
+                pass
             return (
                 '<div class="mt-2 text-xs text-red-600 bg-red-50 rounded '
                 'px-2 py-1">Unified pipeline error: %s</div>' % str(e)
@@ -1327,6 +2297,9 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
 
     # Return full button row matching the puzzle page layout
     try:
+        structured_result = _apply_structured_parse_score_if_valid(db, clue_id)
+        if structured_result and structured_result.get("ok"):
+            db.commit()
         from web.models import get_clue_by_id, compute_hint_tier, get_hint_steps, compute_solve_source
         from web.routes.hints import generate_token
         clue = get_clue_by_id(clue_id)
@@ -1850,7 +2823,7 @@ def _build_manual_definition_candidates(answer, manual_roles, ref_db):
 
 def _manual_roles_for_clue(db, clue_id):
     rows = db.execute(
-        "SELECT word_index, word_text, role, letters "
+        "SELECT word_index, word_text, role, letters, source, piece_key "
         "FROM clue_word_roles WHERE clue_id = ? ORDER BY word_index",
         (clue_id,),
     ).fetchall()
@@ -1860,9 +2833,227 @@ def _manual_roles_for_clue(db, clue_id):
             "text": row["word_text"],
             "role": row["role"],
             "letters": row["letters"],
+            "source": row["source"],
+            "piece_key": row["piece_key"],
         }
         for row in rows
     ]
+
+
+def _build_manual_assembly(manual_roles, answer, clue_words):
+    import re as _re
+    from collections import defaultdict
+
+    def _clean(s):
+        return _re.sub(r'[^A-Za-z]', '', s or '').upper()
+
+    manual_only = [r for r in manual_roles if r.get("source") == "manual"]
+
+    singles = [r for r in manual_only if r.get("piece_key") is None]
+    grouped = defaultdict(list)
+    for r in manual_only:
+        if r.get("piece_key") is not None:
+            grouped[r["piece_key"]].append(r)
+
+    pieces = []
+    for r in singles:
+        pieces.append({
+            "index": r["index"],
+            "span": [r["index"], r["index"] + 1],
+            "text": r["text"],
+            "role": r["role"],
+            "letters": r.get("letters") or "",
+        })
+    for key, rows in sorted(grouped.items()):
+        rows = sorted(rows, key=lambda r: r["index"])
+        role_set = {r.get("role") for r in rows}
+        if len(role_set) > 1:
+            print(f"[MANUAL_ASSEMBLY] piece_key={key} has inconsistent roles: {role_set}")
+            return None
+        indices = [r["index"] for r in rows]
+        if indices != list(range(indices[0], indices[-1] + 1)):
+            print(f"[MANUAL_ASSEMBLY] piece_key={key} has non-contiguous indices: {indices}")
+            return None
+        letters_set = {r.get("letters") or "" for r in rows}
+        if len(letters_set) > 1:
+            print(f"[MANUAL_ASSEMBLY] piece_key={key} has inconsistent letters: {letters_set}")
+            return None
+        pieces.append({
+            "index": rows[0]["index"],
+            "span": [rows[0]["index"], rows[-1]["index"] + 1],
+            "text": " ".join(r["text"] for r in rows),
+            "role": rows[0]["role"],
+            "letters": rows[0].get("letters") or "",
+        })
+    pieces.sort(key=lambda p: p["index"])
+
+    STRUCTURAL_ROLES = {
+        "definition", "link", "surface", "charade_joiner",
+        "anagram_indicator", "container_indicator", "reversal_indicator",
+        "deletion_indicator", "hidden_indicator", "homophone_indicator",
+        "first_letter_indicator", "last_letter_indicator",
+        "letter_position_indicator", "alternating_indicator",
+        "parts_indicator", "positional_indicator", "spoonerism_indicator",
+        "indicator",
+    }
+
+    piece_by_index = {}
+    for p in pieces:
+        for i in range(p["span"][0], p["span"][1]):
+            piece_by_index[i] = p
+
+    for i in range(len(clue_words)):
+        if i not in piece_by_index:
+            print(f"[MANUAL_ASSEMBLY] index {i} ({clue_words[i]}) has no manual row - incomplete")
+            return None
+        p = piece_by_index[i]
+        if p["role"] not in STRUCTURAL_ROLES and not p["letters"]:
+            print(f"[MANUAL_ASSEMBLY] piece '{p['text']}' role={p['role']} has no letters - incomplete")
+            return None
+
+    SOURCE_ROLES = {
+        "synonym", "synonym_source", "abbreviation", "abbreviation_source",
+        "single_letter", "double_letter", "roman_numeral", "nato_phonetic",
+        "container_frame", "container_content_source",
+        "literal_source", "letter_source", "positional_source",
+        "reversal_source", "deletion_source", "hidden_source",
+        "homophone_source", "first_letter", "pronoun", "name",
+        "cricket", "chemistry", "musical", "shape", "example",
+        "british_slang", "slang", "suffix", "reference",
+    }
+
+    seen_starts = set()
+    unique_pieces = []
+    for p in pieces:
+        if p["index"] not in seen_starts:
+            seen_starts.add(p["index"])
+            unique_pieces.append(p)
+
+    indicator_pieces = [
+        p for p in unique_pieces if p["role"] == "anagram_indicator"]
+    fodder_pieces = [p for p in unique_pieces if p["role"] == "anagram_fodder"]
+    container_pieces = [p for p in unique_pieces if p["role"] in {
+        "container_frame", "container_content_source", "container_indicator"}]
+    fixed_pieces = [
+        p for p in unique_pieces
+        if p["role"] in SOURCE_ROLES
+        and p["role"] not in {
+            "anagram_fodder", "container_frame", "container_content_source"}
+    ]
+
+    def _role_to_token(role):
+        if role in ("synonym", "synonym_source", "pronoun", "name",
+                    "literal_source", "example", "reference"):
+            return "SYN_F"
+        if role in ("abbreviation", "abbreviation_source", "single_letter",
+                    "double_letter", "roman_numeral", "nato_phonetic",
+                    "cricket", "chemistry", "musical", "shape",
+                    "british_slang", "slang", "suffix"):
+            return "ABR_F"
+        if role == "anagram_fodder":
+            return "ANA_F"
+        if role in ("positional_source", "letter_source", "first_letter"):
+            return "POS_F"
+        return "SYN_F"
+
+    if container_pieces:
+        print("[MANUAL_ASSEMBLY] container roles present - Phase 2 only")
+        return None
+
+    if not indicator_pieces and not fodder_pieces:
+        charade_letters = _clean("".join(p["letters"] for p in fixed_pieces))
+        if charade_letters == _clean(answer):
+            parts = []
+            for p in fixed_pieces:
+                parts.append({
+                    "text": p["text"],
+                    "span": p["span"],
+                    "value": _clean(p["letters"]),
+                    "token": _role_to_token(p["role"]),
+                    "evidence_status": "manual",
+                })
+            return {
+                "kind": "charade",
+                "status": "manual_fit",
+                "output": _clean(answer),
+                "parts": parts,
+            }
+        print(f"[MANUAL_ASSEMBLY] charade verification failed: "
+              f"{''.join(p['letters'] for p in fixed_pieces)!r} != {answer!r}")
+        return None
+
+    if indicator_pieces or fodder_pieces:
+        if not fodder_pieces:
+            print("[MANUAL_ASSEMBLY] anagram_indicator present but no "
+                  "anagram_fodder - cannot build anagram assembly")
+            return None
+
+        ans = _clean(answer)
+        fodder_letters = _clean("".join(p["letters"] for p in fodder_pieces))
+        fixed_letters = _clean("".join(p["letters"] for p in fixed_pieces))
+
+        if not fixed_letters:
+            if sorted(fodder_letters) == sorted(ans):
+                parts = []
+                for p in fodder_pieces:
+                    parts.append({
+                        "text": p["text"],
+                        "span": p["span"],
+                        "value": _clean(p["letters"]),
+                        "token": "ANA_F",
+                        "evidence_status": "manual",
+                    })
+                return {
+                    "kind": "anagram",
+                    "status": "manual_fit",
+                    "output": ans,
+                    "parts": parts,
+                }
+            print(f"[MANUAL_ASSEMBLY] pure anagram failed: "
+                  f"sorted({fodder_letters!r}) != sorted({ans!r})")
+            return None
+
+        flen = len(fixed_letters)
+        if ans[:flen] == fixed_letters:
+            remaining = ans[flen:]
+        elif ans[-flen:] == fixed_letters:
+            remaining = ans[:-flen]
+        else:
+            print(f"[MANUAL_ASSEMBLY] mixed anagram: fixed {fixed_letters!r} "
+                  f"is neither prefix nor suffix of {ans!r}")
+            return None
+
+        if sorted(fodder_letters) != sorted(remaining):
+            print(f"[MANUAL_ASSEMBLY] mixed anagram: sorted fodder "
+                  f"{sorted(fodder_letters)!r} != sorted remaining "
+                  f"{sorted(remaining)!r}")
+            return None
+
+        parts = []
+        for p in fixed_pieces:
+            parts.append({
+                "text": p["text"],
+                "span": p["span"],
+                "value": _clean(p["letters"]),
+                "token": _role_to_token(p["role"]),
+                "evidence_status": "manual",
+            })
+        for p in fodder_pieces:
+            parts.append({
+                "text": p["text"],
+                "span": p["span"],
+                "value": _clean(p["letters"]),
+                "token": "ANA_F",
+                "evidence_status": "manual",
+            })
+        return {
+            "kind": "mixed_anagram",
+            "status": "manual_fit",
+            "output": ans,
+            "parts": parts,
+        }
+
+    return None
 
 
 def _casefile_from_stage_two_json(stage_two, clue):
@@ -1909,11 +3100,19 @@ def _write_manual_role_stage_three_for_clue(db, clue_id):
     stage_two = json.loads(row["stage_two_json"])
     casefile = _casefile_from_stage_two_json(stage_two, row)
     casefile.manual_roles = _manual_roles_for_clue(db, clue_id)
+    _manual_only = [
+        r for r in casefile.manual_roles if r.get("source") == "manual"]
     ref_db = current_app.get_shared_ref_db()
     casefile.manual_definition_candidates = (
         _build_manual_definition_candidates(
-            casefile.answer, casefile.manual_roles, ref_db)
+            casefile.answer, _manual_only, ref_db)
     )
+    from signature_solver.stage_three_proof import _clue_words as _st3_clue_words
+    _clue_words_list = list(_st3_clue_words(casefile.clue_text))
+    _manual_assembly = _build_manual_assembly(
+        casefile.manual_roles, casefile.answer, _clue_words_list)
+    if _manual_assembly is not None:
+        casefile.manual_assembly = _manual_assembly
 
     stage_three_proof = build_stage_three_proof(casefile).as_dict()
     proof = dict(stage_three_proof)
@@ -1930,6 +3129,12 @@ def _write_manual_role_stage_three_for_clue(db, clue_id):
            WHERE clue_id = ?""",
         (json.dumps(stage_three_proof, sort_keys=True), clue_id),
     )
+    if _manual_assembly is not None and stage_three_proof.get("status") == "PASS":
+        db.execute(
+            "UPDATE clues SET reviewed = 1 WHERE id = ?",
+            (clue_id,),
+        )
+        db.commit()
     return {
         "status": proof["status"],
         "proof_id": proof_id,
@@ -2024,6 +3229,8 @@ def reverify_puzzle(source, puzzle_number):
     downgraded = 0
     unchanged = 0
     gaps_queued = 0
+    manual_structured = 0
+    manual_needs_db = 0
     upgraded_list = []
     downgraded_list = []
 
@@ -2041,6 +3248,33 @@ def reverify_puzzle(source, puzzle_number):
         # Never re-score manually approved clues
         if clue["se_model"] in MANUAL_MODELS:
             unchanged += 1
+            continue
+
+        structured_result = _apply_structured_parse_score_if_valid(
+            db, clue["id"])
+        if structured_result is not None:
+            old_confidence = clue["old_confidence"]
+            if structured_result.get("ok"):
+                manual_structured += 1
+                new_score = 100
+                if old_confidence is not None:
+                    old_score = (
+                        round(old_confidence * 100)
+                        if old_confidence <= 1 else old_confidence
+                    )
+                    if new_score > old_score:
+                        upgraded += 1
+                        upgraded_list.append(
+                            f'{clue["answer"]} {int(old_score)}->{new_score}')
+                    else:
+                        unchanged += 1
+                else:
+                    upgraded += 1
+                    upgraded_list.append(f'{clue["answer"]} NEW->{new_score}')
+            else:
+                manual_needs_db += 1
+                unchanged += 1
+                gaps_queued += structured_result.get("queued", 0)
             continue
 
         # Pass clue_id so word roles get persisted to clue_word_roles
@@ -2139,6 +3373,14 @@ def reverify_puzzle(source, puzzle_number):
     lines.append(f'<strong>{upgraded} upgraded</strong>, {unchanged} unchanged, {downgraded} downgraded out of {total} clues')
     if gaps_queued:
         lines.append(f'{gaps_queued} DB entries queued for review')
+    if manual_structured:
+        lines.append(
+            f'{manual_structured} manual structured parse(s) preserved at HIGH'
+        )
+    if manual_needs_db:
+        lines.append(
+            f'{manual_needs_db} manual structured parse(s) need DB review'
+        )
     if upgraded_list:
         lines.append('<strong>Upgraded:</strong> ' + ', '.join(upgraded_list))
     if downgraded_list:

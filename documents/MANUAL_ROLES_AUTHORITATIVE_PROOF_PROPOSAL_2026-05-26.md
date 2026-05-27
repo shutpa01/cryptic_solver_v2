@@ -1,0 +1,675 @@
+# Manual Roles Authoritative Proof — Design Proposal
+# Date: 2026-05-26 (revised v4 — piece_key grouping)
+
+## Purpose
+
+Manual word roles saved in clue_word_roles feed into Stage Three word_purposes
+and definition checking, but they do not yet produce authoritative assembly
+evidence. The solver's auto-detected assembly (which may be wrong) remains in
+control of proof["blocks"], proof["atomic_links"], and all assembly checks. This
+proposal defines how to fix that gap.
+
+The canonical failing clue is ENDEARED (clue_id 10069320). The correct parse is
+a container (END contains DEAR+E) but the solver finds a bad charade. No amount
+of manual role labelling currently changes the assembled proof.
+
+This is NOT a proposal to build a fully manual solver. Manual roles steer and
+override evidence when the solver fails, but the core solver remains primary.
+Solver improvements (Section 7) are separate.
+
+
+---
+
+## Confirmed Implementation Status
+
+The following is already in place and must NOT be re-implemented:
+
+  admin.py:
+    _manual_roles_for_clue — exists, reads clue_word_roles for a clue
+    _build_manual_definition_candidates — exists, checks RefDB for definition phrase
+    _write_manual_role_stage_three_for_clue — exists, attaches manual_roles and
+      manual_definition_candidates to casefile, calls build_stage_three_proof,
+      writes to wfw_proof_attempts and stage_three_json
+
+  stage_three_proof.py:
+    build_stage_three_proof — already reads manual_roles and manual_definition_candidates
+      from casefile via getattr; already passes both to _definition_check and _word_purposes
+    _definition_check — already accepts extra_candidates parameter
+    _accepted_definition_candidate — already accepts "manual_definition" boundary_status
+    _word_purposes — already accepts manual_roles and applies them as last fallback
+    _manual_roles_by_index, _purpose_for_manual_role — both present
+
+  RefDB:
+    is_definition_of(text, answer) — confirmed to exist in signature_solver/db.py
+
+The actual remaining gap: _write_manual_role_stage_three_for_clue never builds
+a manual assembly. It calls build_stage_three_proof with the auto-detected Stage
+Two assembly intact. Manual roles improve word_purposes only; the wrong assembly
+block layout and wrong atomic_links are untouched.
+
+Five further gaps are described in this revision (Sections 3.1–3.5 below).
+
+
+---
+
+## 1. Current Data Flow
+
+### 1.1 Where admin WFW roles are stored
+
+Table: clue_word_roles (managed by sonnet_pipeline/word_roles_store.py)
+
+Schema:
+  clue_id INTEGER
+  word_index INTEGER        -- zero-based index into clue words
+  word_text TEXT            -- the actual word at that index
+  role TEXT                 -- e.g. "container_indicator", "synonym_source"
+  source TEXT               -- "manual" or "auto"
+  letters TEXT              -- the value the word contributes, e.g. "END"
+  piece_key INTEGER         -- intended for grouping (currently unused in Stage Three)
+  updated_at TIMESTAMP
+  PRIMARY KEY (clue_id, word_index)
+
+### 1.2 Bug in _manual_roles_for_clue
+
+_manual_roles_for_clue currently returns ALL rows for a clue — both source="manual"
+and source="auto" — and does NOT include the source field in the returned dicts.
+
+This means _build_manual_assembly, if built naively, would consume auto-assigned
+roles and treat them as authoritative manual evidence. A bad auto role (e.g.
+energy → EN from a poor synonym match) could silently become a manual assembly
+part.
+
+Fix: _manual_roles_for_clue must:
+  (a) return source in each dict, AND
+  (b) return all rows (manual and auto), so _word_purposes continues to use both
+      for display — but _build_manual_assembly filters separately.
+
+_build_manual_assembly then filters: only rows with source="manual" participate
+in the assembly. source="auto" rows are ignored by the builder.
+
+### 1.3 What _write_manual_role_stage_three_for_clue already does
+
+  1. Reads clue_pipeline_state.stage_two_json for the clue
+  2. If stage_two_json is missing: returns {"status": "missing_stage_two"}
+  3. Calls _casefile_from_stage_two_json to build a SimpleNamespace casefile
+  4. Attaches casefile.manual_roles = _manual_roles_for_clue(db, clue_id)
+  5. Attaches casefile.manual_definition_candidates via _build_manual_definition_candidates
+  6. Calls build_stage_three_proof(casefile)
+  7. Writes to wfw_proof_attempts with source="stage_three_manual_roles"
+  8. Writes to clue_pipeline_state.stage_three_json
+
+### 1.4 What manual roles currently affect
+
+  word_purposes: YES. All rows (manual and auto) used as last fallback.
+  definition_evidence check: YES. Manual definition candidates accepted if in RefDB.
+  assembly: NO.
+  blocks: NO.
+  atomic_links: NO.
+
+
+---
+
+## 2. Root Cause
+
+There is a structural split between two layers in Stage Three:
+
+  Layer A — Assembly/Blocks/AtomicLinks:
+    Which words are sources, how letters map to the answer. Generated by _blocks()
+    and _atomic_links() from Stage Two assemblies. Manual roles have no effect.
+
+  Layer B — Word purposes and definition check:
+    Word-level annotations and definition acceptance. Already feeds from manual roles.
+
+The missing piece: a function that converts manual roles (source="manual" only)
+into a synthetic assembly dict. Five specific mechanics are also missing once
+the assembly is built (Sections 3.1–3.5).
+
+### 2.1 Why the solver finds the wrong parse for ENDEARED
+
+Clue: "Aim to limit expensive energy is made more attractive"
+Answer: ENDEARED
+Correct parse: END contains (DEAR + E) — EN(DEARE)D = ENDEARED
+
+The solver builds instead: DEAR + EN + DE = ENDEARED
+  (expensive→DEAR correct; energy→EN wrong; is→DE wrong)
+
+build_stage_two_casefile has no container assembly builder. _first_charade finds
+a concatenation that fits character-by-character; EN and DE pass the substring
+filter because they appear in ENDEARED.
+
+
+---
+
+## 3. Proposed Design
+
+### 3.0 New role values
+
+Two new role values are added to clue_word_roles and WORD_ROLE_CHOICES:
+
+  "container_frame"           — word whose letters form the outer shell (Aim→END)
+  "container_content_source"  — word whose letters go inside the frame (expensive→DEAR)
+
+"anagram_fodder" already exists in WORD_ROLE_CHOICES and is not new.
+
+Both new roles must be added to WORD_ROLE_CHOICES (or the equivalent accepted-role
+list used by set_word_role()) in the same phase as the assembly builder. Without this,
+set_word_role() will reject them and the admin cannot set them via the UI. This is
+not a deferred Phase 3 item.
+
+_purpose_for_manual_role() must also map both new roles → "answer_source":
+  "container_frame", "container_content_source" → "answer_source"
+
+"anagram_fodder" is confirmed NOT currently mapped — add "anagram_fodder" -> "answer_source".
+
+Without these mappings, _word_purposes() will fall through these words to
+"unresolved_purpose" regardless of what the assembly builder produces.
+
+### 3.1 Missing mechanic 1 — source enforcement and piece_key grouping
+
+Step A — filter to source="manual":
+
+  manual_only = [r for r in manual_roles if r.get("source") == "manual"]
+
+Rows with source="auto" are ignored entirely by the builder. Because
+clue_word_roles has a primary key of (clue_id, word_index), auto and manual rows
+cannot coexist at the same index — a manual correction replaces the auto row
+entirely. The filter is therefore a safety guard, not a workaround for coexistence.
+
+All subsequent checks (completeness, role collection, assembly verification) use
+manual_only, not manual_roles.
+
+Step B — group by piece_key into proof pieces:
+
+clue_word_roles is indexed per word. A multi-word source phrase like "That man → HE"
+has two rows (index 0 and index 1) that must be treated as one proof piece. piece_key
+is the grouping mechanism.
+
+Grouping rule:
+  - Rows with piece_key=None (or null): each row is its own piece (span = [index, index+1]).
+  - Rows with the same non-null piece_key: collected, sorted by word_index, and
+    merged into one piece:
+      text  = " ".join(row["word_text"] for row in group)
+      span  = [min(row["index"] for row in group), max(row["index"] for row in group) + 1]
+      value = group[0]["letters"]   # all rows in group carry same letters value
+      role  = group[0]["role"]      # all rows in group carry same role
+
+A group where rows carry different letters values is invalid — log a warning and
+return None.
+
+The completeness check and all assembly builders work on the resulting list of
+pieces, not on raw rows. Roles, letters, and spans are read from pieces.
+
+### 3.2 Missing mechanic 2 — anagram builder must distinguish fixed pieces from fodder
+
+The crude rule sorted(all_letters) == sorted(answer) does not work for mixed
+structures like HE + anagram(DATE) = HEATED. If all source letters are pooled
+together (HE + DATE), sorted produces ADEHLT which matches sorted(HEATED), giving
+a false positive for HEATED. Worse, it would accept HEDATE as a one-pool anagram.
+
+The correct model: fixed source pieces (synonym_source, abbreviation_source, etc.)
+contribute their letters verbatim in word-index order. anagram_fodder pieces
+contribute their letters to a pool that is anagrammed as a block.
+
+Anagram builder algorithm:
+  1. Separate manual_only roles into:
+       fixed_pieces: synonym_source, abbreviation_source, and other source roles
+                     that are NOT anagram_fodder. Letters appear verbatim.
+       fodder_pieces: anagram_fodder roles. Letters enter the anagram pool.
+  2. Concatenate fixed_pieces in word-index order: fixed_letters.
+  3. Concatenate fodder_pieces in word-index order: fodder_letters (to be anagrammed).
+  4. Determine the expected anagram output: the answer with fixed_letters removed.
+     Try treating fixed_pieces as a prefix and/or suffix:
+       For each split i where answer[:i] == fixed_prefix and answer[i+len_anagram:] == fixed_suffix:
+         if sorted(answer[i:i+len(fodder_letters)]) == sorted(fodder_letters): accept.
+  5. If a valid arrangement is found, build the assembly with fixed parts in order
+     and a combined anagram part for the fodder, status="manual_fit".
+
+For a pure anagram (all pieces are anagram_fodder, no fixed pieces):
+  sorted(fodder_letters) == sorted(answer) — same as before, but now correct because
+  there are no fixed pieces to accidentally pool.
+
+For HEATED ("That man before date affected with passion?"):
+  After grouping by piece_key:
+    piece 1: text="That man", span=[0,2], value=HE, role=synonym_source  (rows index 0 and 1, piece_key=1)
+    piece 2: text="date",     span=[3,4], value=DATE, role=anagram_fodder (row index 3, piece_key=2)
+    (before/affected/with/passion: structural/indicator/definition roles — exempt)
+  fixed_pieces: [piece 1, value=HE]
+  fodder_pieces: [piece 2, value=DATE]
+  fixed_letters = "HE", fodder_letters = "DATE", answer = "HEATED"
+  Try prefix: answer[:2] == "HE" ✓; remaining = "ATED"; sorted("ATED") == sorted("DATE") ✓
+  Result: kind="anagram", status="manual_fit", parts: [That man/HE (fixed), date/DATE (fodder)].
+
+### 3.3 Missing mechanic 3 — DEF_BLOCKs from manual definition candidates
+
+_blocks() currently emits DEF_BLOCKs only from casefile.definition_candidates
+(Stage Two). The manual_definition_candidates attached by _write_manual_role_stage_three_for_clue
+feed _definition_check (which produces the Stage Three check result) but do NOT
+feed _blocks(). This means:
+
+  - _definition_check may PASS (manual definition accepted)
+  - proof["blocks"] still contains the wrong/old DEF_BLOCK from Stage Two
+  - Colour coding shows the wrong definition span
+
+Fix: in _blocks(), after emitting DEF_BLOCKs from casefile.definition_candidates,
+also emit DEF_BLOCKs from casefile.manual_definition_candidates where:
+  (a) boundary_status == "manual_definition" (DB hit — accepted)
+  (b) the span is not already covered by a Stage Two DEF_BLOCK
+
+  _manual_def_candidates = tuple(
+      getattr(casefile, "manual_definition_candidates", None) or ())
+  existing_def_spans = {tuple(b["span"]) for b in emitted_def_blocks}
+  for candidate in _manual_def_candidates:
+      if candidate.get("boundary_status") == "manual_definition":
+          span = candidate.get("span")
+          if span and tuple(span) not in existing_def_spans:
+              yield {
+                  "kind": "DEF_BLOCK",
+                  "text": candidate.get("text", ""),
+                  "span": span,
+                  "value": casefile.answer,
+                  "status": "manual",
+              }
+
+Do NOT emit DEF_BLOCKs for boundary_status == "manual_definition_gap" — those
+are REVIEW candidates and should not appear as verified definition blocks.
+
+### 3.4 Missing mechanic 4 — completeness check needs clue word list
+
+_build_manual_assembly cannot reliably check that all wordplay words are covered
+unless it knows the full list of clue words. The manual_roles list may simply be
+missing rows for uncovered words, and the builder cannot tell missing-from-DB from
+never-assigned.
+
+Fix: pass clue_words to the builder:
+
+  _build_manual_assembly(manual_roles, answer, clue_words)
+
+Completeness check: for each index in range(len(clue_words)), the word must have
+a row in manual_only with EITHER a structural role (exempt from letters requirement)
+OR a source role with non-empty letters. If any word has no row in manual_only at
+all, the check fails and the builder returns None.
+
+Structural (exempt) roles:
+  definition, link, surface, charade_joiner, anagram_indicator, container_indicator,
+  reversal_indicator, deletion_indicator, hidden_indicator, homophone_indicator,
+  first_letter_indicator, last_letter_indicator, letter_position_indicator,
+  alternating_indicator, parts_indicator, positional_indicator, spoonerism_indicator.
+
+Source roles (must have non-empty letters):
+  synonym_source, abbreviation_source, container_frame, container_content_source,
+  anagram_fodder, literal_source, letter_source, roman_numeral, single_letter,
+  positional_source, reversal_source, deletion_source, hidden_source, homophone_source.
+
+How clue_words is provided: _write_manual_role_stage_three_for_clue passes
+casefile.clue_text through _clue_words() (the same tokeniser used by Stage Three)
+and passes the resulting list to _build_manual_assembly. No new DB query needed.
+
+### 3.5 Missing mechanic 5 — operation check wording debt (Phase 1 accepted debt)
+
+_operation_check, _operation_attachment_check, and _mechanism_rules_check only
+inspect casefile.working_pairs. For a manual container proof, these checks will
+produce messages like "no operation pair required" — which is technically true
+(no Stage Two working pair exists) but misleading because there IS a manual operation.
+
+This is accepted as Phase 1 wording debt. The checks return PASS (vacuously —
+no pairs, nothing to fail), which does not cause a false REVIEW. The misleading
+wording is a display issue, not a correctness blocker.
+
+Phase 2 option: inject synthetic working_pairs entries from the manual assembly
+into casefile so _operation_check sees them. This is not in scope for Phase 1.
+
+### 3.6 Source_evidence for manual assemblies
+
+_source_check() checks that assembly parts match Stage Two source_candidates or
+working_pairs. A manual part will not appear there, so source_evidence would fail.
+
+Fix: add an early branch in _source_check after the "if not assembly" branch:
+
+  if assembly.get("status") == "manual_fit":
+      return StageThreeCheck(
+          "source_evidence",
+          PASS,
+          "manual assembly mechanically verified by assembly builder",
+          list(assembly.get("parts", ())),
+      )
+
+Safe because _build_manual_assembly already verified the assembly mechanically.
+
+### 3.7 _assembly_check for containers
+
+_assembly_check() joins part values in order: END+DEAR+E = ENDDEARE ≠ ENDEARED.
+Accepting "manual_fit" status alone is not enough.
+
+Fix: for manual_fit assemblies, trust assembly["output"]:
+
+  if assembly.get("status") == "manual_fit":
+      if _clean_answer(assembly.get("output", "")) == answer:
+          return StageThreeCheck("answer_assembly", PASS,
+              "%s (manual) = %s" % (assembly.get("output", ""), answer))
+      return StageThreeCheck("answer_assembly", REVIEW,
+          "manual assembly output does not match answer")
+
+This branch fires before the existing part-joining logic.
+
+### 3.8 OP_BLOCKs for manual indicators
+
+_blocks() emits OP_BLOCKs only from working_pairs and operation_candidates. A
+manual "limit = container_indicator" will not produce any OP_BLOCK.
+
+Fix: add a final pass in _blocks() after the operation_candidates loop. For each
+row in casefile.manual_roles (via getattr, defensive) that has source="manual"
+and whose role maps to "operation_indicator" via _purpose_for_manual_role(), and
+whose span is not already in operation_spans:
+
+  yield {
+      "kind": "OP_BLOCK",
+      "role": entry.get("role"),
+      "text": entry.get("text", ""),
+      "span": [entry["index"], entry["index"] + 1],
+      "token": None,
+      "source": "manual_role",
+      "status": "verified",
+  }
+
+Emit status="verified" — the admin has explicitly classified this word.
+
+### 3.9 Container assembly format
+
+  {
+      "kind": "container",
+      "status": "manual_fit",
+      "output": "ENDEARED",
+      "parts": [
+          {"text": "Aim",       "span": [0,1], "value": "END",  "token": "SYN_F",
+           "container_role": "frame",   "evidence_status": "manual"},
+          {"text": "expensive", "span": [3,4], "value": "DEAR", "token": "SYN_F",
+           "container_role": "content", "evidence_status": "manual"},
+          {"text": "energy",    "span": [4,5], "value": "E",    "token": "ABR_F",
+           "container_role": "content", "evidence_status": "manual"},
+      ],
+  }
+
+### 3.10 _blocks() SOURCE_BLOCK extension for container_role
+
+  yield {
+      "kind": "SOURCE_BLOCK",
+      "role": "piece_%d" % idx,
+      "container_role": part.get("container_role"),   # None for non-containers
+      ... (other fields unchanged)
+  }
+
+### 3.11 _atomic_links() container branch
+
+For kind == "container":
+  frame_value   = joined letters of all frame parts
+  content_value = joined letters of all content parts
+  For each split i in range(len(frame_value) + 1):
+    if frame_value[:i] + content_value + frame_value[i:] == answer:
+      emit frame[0..i-1], then content, then frame[i..end]
+      break
+Use first valid split. Log a diagnostic if multiple splits exist.
+
+### 3.12 build_stage_three_proof: prefer manual_assembly
+
+  manual_assembly = getattr(casefile, "manual_assembly", None)
+  assembly = manual_assembly or _best_answer_fit_assembly(casefile.assemblies, answer)
+
+### 3.13 _write_manual_role_stage_three_for_clue changes
+
+After step 5, add:
+
+  clue_words = _clue_words(casefile.clue_text)   # same tokeniser as Stage Three
+  manual_assembly = _build_manual_assembly(
+      casefile.manual_roles, casefile.answer, clue_words)
+  if manual_assembly is not None:
+      casefile.manual_assembly = manual_assembly
+
+After writing the proof, if manual assembly was used AND proof status is PASS:
+  db.execute("UPDATE clues SET reviewed = 1 WHERE id = ?", (clue_id,))
+  db.commit()
+
+reviewed=1 is only set on PASS. A REVIEW proof (e.g. definition gap) does not
+lock the clue; the admin can reverify again after adding the DB fact.
+
+
+---
+
+## 4. Exact Files and Functions Needing Changes
+
+REMAINING changes only. Do not re-implement already-present code.
+
+### 4.1 web/routes/admin.py
+
+  WORD_ROLE_CHOICES (or set_word_role validation list):
+    Add "container_frame" and "container_content_source".
+    "anagram_fodder" already exists — confirm and do not duplicate.
+    Required in Phase 1 — not deferrable.
+
+  _manual_roles_for_clue:
+    Add source and piece_key to each returned dict.
+    Currently omits both.
+
+  _write_manual_role_stage_three_for_clue:
+    After step 5: call _build_manual_assembly with manual_roles, answer, clue_words.
+    If non-None: attach casefile.manual_assembly.
+    After writing proof: if manual_assembly used AND proof status PASS: set reviewed=1.
+
+  New function _build_manual_assembly(manual_roles, answer, clue_words):
+    Filter to source="manual" rows only.
+    Completeness check using clue_words (Section 3.4).
+    Charade, anagram (with fixed-vs-fodder distinction, Section 3.2), container builders.
+    Return dict or None.
+
+### 4.2 signature_solver/stage_three_proof.py
+
+  _purpose_for_manual_role:
+    Add "container_frame", "container_content_source" → "answer_source".
+    Confirm whether "anagram_fodder" is already mapped before changing.
+
+  _source_check:
+    Add early branch for manual_fit: return PASS immediately (Section 3.6).
+
+  _assembly_check:
+    Add branch for manual_fit: trust assembly["output"] (Section 3.7).
+
+  _blocks:
+    (a) Extend SOURCE_BLOCK yield with container_role (Section 3.10).
+    (b) Emit DEF_BLOCKs from accepted manual_definition_candidates (Section 3.3).
+    (c) Final pass emitting verified OP_BLOCKs from manual indicator roles (Section 3.8).
+
+  _atomic_links:
+    Container branch for kind == "container" (Section 3.11).
+
+  build_stage_three_proof:
+    Prefer manual_assembly from casefile (Section 3.12).
+
+### 4.3 No other files change in this phase.
+
+
+---
+
+## 5. Acceptance Tests
+
+### Test 1: ENDEARED manual container proof
+
+Setup — insert into clue_word_roles for clue_id 10069320 with source="manual":
+  0  Aim        container_frame          END
+  1  to         link                     (empty)
+  2  limit      container_indicator      (empty)
+  3  expensive  container_content_source DEAR
+  4  energy     container_content_source E
+  5  is         link                     (empty)
+  6  made       definition               (empty)
+  7  more       definition               (empty)
+  8  attractive definition               (empty)
+
+Trigger reverify.
+
+Expected:
+
+  _build_manual_assembly:
+    Filters to source="manual" rows (all rows here are manual).
+    Completeness check: all 9 indices covered, source roles have letters. ✓
+    Builds container assembly: EN+(DEARE)+D = ENDEARED (split 2). ✓
+
+  proof["blocks"]:
+    DEF_BLOCK: made/more/attractive span
+    SOURCE_BLOCK: Aim, value=END, container_role=frame
+    OP_BLOCK: limit, status=verified, source=manual_role
+    SOURCE_BLOCK: expensive, value=DEAR, container_role=content
+    SOURCE_BLOCK: energy, value=E, container_role=content
+    No SOURCE_BLOCK with value=EN or value=DE
+
+  proof["atomic_links"]: E→Aim/END/0, N→Aim/END/1, D→expensive/DEAR/0,
+    E→expensive/DEAR/1, A→expensive/DEAR/2, R→expensive/DEAR/3,
+    E→energy/E/0, D→Aim/END/2
+
+  proof["word_purposes"]:
+    Aim:        answer_source, verified (SOURCE_BLOCK)
+    to:         structural_separator, manual (manual role "link")
+    limit:      operation_indicator, verified (OP_BLOCK from manual indicator pass)
+    expensive:  answer_source, verified (SOURCE_BLOCK)
+    energy:     answer_source, verified (SOURCE_BLOCK)
+    is:         structural_separator, manual (manual role "link")
+    made:       definition_phrase_member, verified
+    more:       definition_phrase_member, verified
+    attractive: definition_phrase_member, verified
+
+  Stage Three checks:
+    answer_assembly: PASS (manual_fit branch trusts output field)
+    source_evidence: PASS (manual_fit early branch)
+    word_purpose_coverage: PASS
+    word_purpose_candidates: PASS
+    operation checks: PASS vacuously (no working_pairs) — wording debt accepted in Phase 1
+
+  clues.reviewed = 1 only if overall proof status == PASS.
+
+### Test 2: source enforcement after manual correction
+
+  clue_word_roles has primary key (clue_id, word_index), so auto and manual rows
+  cannot coexist at the same index. After the admin corrects energy (index 4),
+  the row is: source="manual", letters="E". The old source="auto" letters="EN" row
+  is gone (replaced by the write).
+
+  _build_manual_assembly filters to source="manual". The corrected row is included.
+  EN does not appear anywhere in the assembly or blocks — it was never in a manual row.
+
+### Test 3: Incomplete coverage — builder returns None
+
+  energy (index 4) has no row in clue_word_roles at all.
+  Completeness check: index 4 has no manual_only row → return None.
+  Stage Three uses Stage Two assembly. Manual roles still improve word_purposes.
+  reviewed=1 is NOT set.
+
+### Test 4: Mixed anagram — HE + anagram(DATE)
+
+  Clue 10069321: "That man before date affected with passion?" = HEATED
+  Manual rows (all source="manual"):
+    index 0  That      synonym_source   letters=HE    piece_key=1
+    index 1  man       synonym_source   letters=HE    piece_key=1
+    index 2  before    link             letters=      piece_key=None
+    index 3  date      anagram_fodder   letters=DATE  piece_key=2
+    index 4  affected  anagram_indicator letters=     piece_key=None
+    index 5  with      definition       letters=      piece_key=None
+    index 6  passion   definition       letters=      piece_key=None
+
+  _build_manual_assembly:
+    After grouping:
+      piece_key=1: text="That man", span=[0,2], value=HE, role=synonym_source
+      piece_key=2: text="date",     span=[3,4], value=DATE, role=anagram_fodder
+      (before/affected/with/passion: structural/indicator/definition — exempt from letters)
+    Completeness check: all 7 indices covered ✓
+    Anagram builder:
+      fixed_pieces: [That man → HE]; fodder_pieces: [date → DATE]
+      Try prefix HE: answer[:2]=="HE" ✓; sorted("DATE")==sorted("ATED") ✓
+      Builds: kind="anagram", output="HEATED", parts: [That man/HE (fixed), date/DATE (fodder)]
+
+  proof["word_purposes"]:
+    That:     answer_source, verified  (SOURCE_BLOCK, span [0,2])
+    man:      answer_source, verified  (SOURCE_BLOCK, span [0,2] — same block)
+    before:   structural_separator, manual
+    date:     answer_source, verified  (SOURCE_BLOCK)
+    affected: operation_indicator, verified (OP_BLOCK from manual indicator pass)
+    with:     definition_phrase_member, verified
+    passion:  definition_phrase_member, verified
+
+  Result: distinct from HEDATE-as-one-pool anagram. ✓
+
+### Test 5: Regression
+
+  test_stage_three_proof.py on all existing fixtures. All must pass. Casefiles
+  without manual_assembly attribute are unaffected.
+
+
+---
+
+## 6. Risks and Smallest Safe Path
+
+### Risk 1: Container atomic_links split ambiguity
+
+If multiple splits produce the answer, use the first. Log a diagnostic. Unit test
+the split computation before deploying.
+
+### Risk 2: _source_check early-exit too permissive
+
+Trusts the builder entirely. A builder bug could produce a PASS on bad evidence.
+Mitigation: focused unit tests for _build_manual_assembly covering bad inputs.
+
+### Risk 3: stage_two_json missing
+
+_write_manual_role_stage_three_for_clue already returns {"status": "missing_stage_two"}.
+User must run pipeline once first.
+
+### Risk 4: _clue_words tokeniser mismatch
+
+_clue_words used in completeness check must be the same tokeniser Stage Three uses
+for word_purposes. If they differ, the index mapping may be wrong. Use the same
+import from stage_three_proof.py directly.
+
+### Smallest Safe Implementation Path
+
+Phase 1 — Charade and mixed-anagram only (no container):
+  1. Add "container_frame" and "container_content_source" to WORD_ROLE_CHOICES;
+     confirm "anagram_fodder" already present.
+  2. Extend _purpose_for_manual_role with new roles.
+  3. Extend _manual_roles_for_clue to return source and piece_key.
+  4. Add _build_manual_assembly (charade + anagram with fixed-vs-fodder; no container).
+  5. Attach manual_assembly in _write_manual_role_stage_three_for_clue.
+  6. Modify build_stage_three_proof to prefer manual_assembly.
+  7. Add manual_fit early branch to _source_check.
+  8. Add manual_fit early branch to _assembly_check.
+  9. Add manual indicator OP_BLOCK pass to _blocks().
+  10. Emit manual DEF_BLOCKs in _blocks().
+  11. Add reviewed=1 on PASS only.
+  12. Verify with test_stage_three_proof.py and a known charade clue.
+  ENDEARED is NOT fixed in this phase.
+
+Phase 2 — Container:
+  1. Extend _build_manual_assembly with container kind.
+  2. Add container_role to SOURCE_BLOCK yield in _blocks().
+  3. Add container branch to _atomic_links().
+  4. Unit tests for container split computation.
+  5. Test ENDEARED via direct DB inserts.
+
+Phase 3 — Display adapter (separate instruction):
+  Visual distinction for container frame vs content blocks.
+
+
+---
+
+## 7. Future Solver Principle (Out of Scope)
+
+The automatic solver needs resource ownership with backtracking. Once a span is
+accepted as a fixed piece (e.g. "That man → HE"), it must not also be used as
+operation fodder. If the locked parse fails, release and retry.
+
+Illustration — clue_id 10069321:
+  "That man before date affected with passion?" = HEATED
+  Wrong: HEDATE as one anagram pool → HEATED
+  Correct: HE (fixed) + anagram(DATE) → HE + ATED = HEATED
+
+This is a structural solver gap requiring separate design and implementation.
+
+Note on verification case: gap messages include clue word_text as stored.
+Expected text in verification scripts must match actual case from the DB
+(e.g. "one in hawaii -> MAUI" lowercase if stored lowercase).

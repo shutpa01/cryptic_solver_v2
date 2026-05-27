@@ -69,7 +69,9 @@ class StageThreeProof:
 def build_stage_three_proof(casefile):
     """Return a PASS/REVIEW proof object for a StageTwoCaseFile."""
     answer = _clean_answer(casefile.answer)
-    assembly = _best_answer_fit_assembly(casefile.assemblies, answer)
+    manual_assembly = getattr(casefile, "manual_assembly", None)
+    assembly = manual_assembly or _best_answer_fit_assembly(
+        casefile.assemblies, answer)
     # Preserve Stage Two source and operation candidates in the proof.
     # A source candidate is "used" only when it matches a selected assembly
     # part by span and value; if both sides have tokens, the tokens must match.
@@ -204,16 +206,38 @@ def _accepted_definition_candidate(item):
     if (item.get("boundary_status") == "legacy_solver"
             and item.get("span_status") == "mapped"
             and item.get("span")):
-        return True
+        return _span_is_edge(item.get("span"), item.get("clue_word_count"))
     return item.get("boundary_status") in {
         "complete_edge_phrase",
         "edge_db_hit_no_larger_pos_phrase",
-        "non_edge_db_hit",
         "manual_definition",
     }
 
 
+def _span_is_edge(span, clue_word_count):
+    if not span or len(span) != 2:
+        return False
+    start, end = span
+    if start == 0:
+        return True
+    return clue_word_count is not None and end == clue_word_count
+
+
 def _assembly_check(answer, assembly, conditional_assemblies):
+    if assembly and assembly.get("status") == "manual_fit":
+        if _clean_answer(assembly.get("output", "")) == answer:
+            return StageThreeCheck(
+                "answer_assembly",
+                PASS,
+                "%s (manual) = %s" % (assembly.get("output", ""), answer),
+                assembly,
+            )
+        return StageThreeCheck(
+            "answer_assembly",
+            REVIEW,
+            "manual assembly output %r does not match answer %r" % (
+                assembly.get("output", ""), answer),
+        )
     if assembly:
         values = "".join(part.get("value", "") for part in assembly.get("parts", ()))
         clean_values = _clean_answer(values)
@@ -275,6 +299,13 @@ def _source_check(casefile, assembly):
             "source_evidence",
             REVIEW,
             "no complete assembly source list to verify",
+        )
+    if assembly.get("status") == "manual_fit":
+        return StageThreeCheck(
+            "source_evidence",
+            PASS,
+            "manual assembly mechanically verified by assembly builder",
+            list(assembly.get("parts", ())),
         )
     missing = [
         part for part in assembly.get("parts", ())
@@ -619,6 +650,7 @@ def _span_integrity_check(casefile, assembly):
     definition_spans = [
         tuple(item.get("span") or ())
         for item in casefile.definition_candidates
+        if _accepted_definition_candidate(item)
     ]
     part_spans = [
         tuple(part.get("span") or ())
@@ -920,18 +952,37 @@ def _best_answer_fit_assembly(assemblies, answer):
 def _blocks(casefile, assembly, conditional_assemblies):
     source_spans = set()
     operation_spans = set()
-    _defs = tuple(getattr(casefile, "definition_candidates", ()) or ())
+    _defs = tuple(
+        item for item in (getattr(casefile, "definition_candidates", ()) or ())
+        if _accepted_definition_candidate(item)
+    )
     _pairs = tuple(getattr(casefile, "working_pairs", ()) or ())
     _ops = tuple(getattr(casefile, "operation_candidates", ()) or ())
     _unresolved = tuple(getattr(casefile, "unresolved_words", ()) or ())
-    for definition in _defs:
+    _manual_def_spans = set()
+    for _mc in (getattr(casefile, "manual_definition_candidates", None) or ()):
+        if _mc.get("boundary_status") != "manual_definition":
+            continue
+        _mc_span = _mc.get("span")
+        if not _mc_span:
+            continue
         yield {
             "kind": "DEF_BLOCK",
-            "text": definition["text"],
-            "span": definition["span"],
+            "text": _mc.get("text", ""),
+            "span": _mc_span,
             "value": casefile.answer,
-            "status": "verified",
+            "status": "manual",
         }
+        _manual_def_spans.add(tuple(_mc_span))
+    if not _manual_def_spans:
+        for definition in _defs:
+            yield {
+                "kind": "DEF_BLOCK",
+                "text": definition["text"],
+                "span": definition["span"],
+                "value": casefile.answer,
+                "status": "verified",
+            }
     if assembly:
         for idx, part in enumerate(assembly.get("parts", ())):
             yield {
@@ -944,6 +995,7 @@ def _blocks(casefile, assembly, conditional_assemblies):
                 "derivation_kind": part.get("derivation_kind"),
                 "evidence_status": part.get("evidence_status"),
                 "evidence_reason": part.get("evidence_reason"),
+                "container_role": part.get("container_role"),
                 "status": "verified",
             }
             if part.get("span"):
@@ -1030,7 +1082,40 @@ def _blocks(casefile, assembly, conditional_assemblies):
             "status": "review",
             "requires": item.get("requires", ()),
         }
+    for _mr in (getattr(casefile, "manual_roles", None) or ()):
+        if _mr.get("source") != "manual":
+            continue
+        _mr_role = _mr.get("role", "")
+        if _purpose_for_manual_role(_mr_role) != "operation_indicator":
+            continue
+        _mr_span = (_mr["index"], _mr["index"] + 1)
+        if _mr_span in operation_spans:
+            continue
+        yield {
+            "kind": "OP_BLOCK",
+            "role": _mr_role,
+            "text": _mr.get("text", ""),
+            "span": list(_mr_span),
+            "token": None,
+            "source": "manual_role",
+            "status": "verified",
+        }
+        operation_spans.add(_mr_span)
+
+    _covered_indices = set()
+    for _sp in source_spans:
+        for _i in range(_sp[0], _sp[1]):
+            _covered_indices.add(_i)
+    for _sp in operation_spans:
+        for _i in range(_sp[0], _sp[1]):
+            _covered_indices.add(_i)
+    for _sp in _manual_def_spans:
+        for _i in range(_sp[0], _sp[1]):
+            _covered_indices.add(_i)
+
     for item in _unresolved:
+        if item.get("index") in _covered_indices:
+            continue
         yield {
             "kind": "REVIEW_BLOCK",
             "role": "unresolved",
@@ -1043,6 +1128,92 @@ def _blocks(casefile, assembly, conditional_assemblies):
 def _atomic_links(answer, assembly):
     if not assembly:
         return ()
+    if assembly.get("kind") == "mixed_anagram":
+        _parts = list(assembly.get("parts", ()))
+        _fixed_indexed = [
+            (pi, p) for pi, p in enumerate(_parts)
+            if p.get("token") != "ANA_F"
+        ]
+        _fodder_indexed = [
+            (pi, p) for pi, p in enumerate(_parts)
+            if p.get("token") == "ANA_F"
+        ]
+        _fixed_str = _clean_answer(
+            "".join(p.get("value", "") for _, p in _fixed_indexed))
+
+        _pool = []
+        for _pi_overall, _part in _fodder_indexed:
+            _val = _clean_answer(_part.get("value", ""))
+            for _si, _letter in enumerate(_val):
+                _pool.append({
+                    "letter": _letter,
+                    "source_text": _part.get("text", ""),
+                    "source_span": _part.get("span"),
+                    "source_role": "piece_%d" % _pi_overall,
+                    "source_value": _val,
+                    "source_value_index": _si,
+                    "used": False,
+                })
+
+        flen = len(_fixed_str)
+        if not _fixed_str:
+            _fixed_answer_start = 0
+            _fodder_answer_start = 0
+            _fodder_portion = answer
+            _fixed_indexed_to_emit = []
+        elif answer[:flen] == _fixed_str:
+            _fixed_answer_start = 0
+            _fodder_answer_start = flen
+            _fodder_portion = answer[flen:]
+            _fixed_indexed_to_emit = _fixed_indexed
+        elif answer[-flen:] == _fixed_str:
+            _fixed_answer_start = len(answer) - flen
+            _fodder_answer_start = 0
+            _fodder_portion = answer[:-flen]
+            _fixed_indexed_to_emit = _fixed_indexed
+        else:
+            return ()
+
+        _links = []
+        _ai = _fixed_answer_start
+        for _pi_overall, _part in _fixed_indexed_to_emit:
+            _val = _clean_answer(_part.get("value", ""))
+            for _si, _letter in enumerate(_val):
+                _links.append({
+                    "answer_index": _ai,
+                    "letter": _letter,
+                    "source_text": _part.get("text", ""),
+                    "source_span": _part.get("span"),
+                    "source_role": "piece_%d" % _pi_overall,
+                    "source_value": _val,
+                    "source_value_index": _si,
+                })
+                _ai += 1
+
+        for _offset, _aletter in enumerate(_fodder_portion):
+            _matched = None
+            for _entry in _pool:
+                if not _entry["used"] and _entry["letter"] == _aletter:
+                    _entry["used"] = True
+                    _matched = _entry
+                    break
+            if _matched is None:
+                return ()
+            _links.append({
+                "answer_index": _fodder_answer_start + _offset,
+                "letter": _aletter,
+                "source_text": _matched["source_text"],
+                "source_span": _matched["source_span"],
+                "source_role": _matched["source_role"],
+                "source_value": _matched["source_value"],
+                "source_value_index": _matched["source_value_index"],
+            })
+
+        _links.sort(key=lambda l: l["answer_index"])
+        if len(_links) != len(answer):
+            return ()
+        return tuple(_links)
+
     if assembly.get("kind") != "anagram":
         links = []
         answer_index = 0
@@ -1135,7 +1306,9 @@ def _purpose_for_manual_role(role):
                 "abbreviation_source", "nato_phonetic",
                 "literal_source", "letter_source", "roman_numeral",
                 "single_letter", "positional_source", "reversal_source",
-                "deletion_source", "hidden_source", "homophone_source"):
+                "deletion_source", "hidden_source", "homophone_source",
+                "container_frame", "container_content_source",
+                "anagram_fodder"):
         return "answer_source"
     if role in ("anagram_indicator", "reversal_indicator",
                 "container_indicator", "deletion_indicator",

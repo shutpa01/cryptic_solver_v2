@@ -183,7 +183,8 @@ def run_tests():
                for block in tijuana_display["blocks"])
     assert any(block["kind"] == "REVIEW_BLOCK"
                and block["text"] == "taken"
-               and block["role"] == "unaccounted"
+               and block["role"] == "op_candidate"
+               and block["candidate_role"] == "container_indicator"
                for block in tijuana_display["blocks"])
     assert any(item["type"] == "purpose"
                and item["word"] == "taken"
@@ -227,10 +228,28 @@ def run_tests():
         "Releases", "new", "actor", "Nicolas", "in", "America",
     ]
     assert uncages_display["blocks"][0]["kind"] == "DEF_BLOCK"
-    assert all(
-        block["role"] == "unaccounted"
-        for block in uncages_display["blocks"][1:]
-    )
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "new"
+               and block["role"] == "op_candidate"
+               and block["candidate_role"] == "anagram_indicator"
+               for block in uncages_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "in"
+               and block["role"] == "op_candidate"
+               and block["candidate_role"] == "container_indicator"
+               for block in uncages_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "actor"
+               and block["role"] == "unaccounted"
+               for block in uncages_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "Nicolas"
+               and block["role"] == "unaccounted"
+               for block in uncages_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "America"
+               and block["role"] == "unaccounted"
+               for block in uncages_display["blocks"])
 
     hasbeen_proof = build_stage_three_proof(build_stage_two_casefile(
         "One no longer relevant base sadly in western half of north London suburb",
@@ -255,6 +274,260 @@ def run_tests():
                and item["word"] == "north London suburb"
                and item["kind"] == "conditional_source_evidence"
                for item in hasbeen_display["missing_enrichments"])
+
+    donald_display = display_from_stage_three_proof({
+        "schema": "stage_three_proof:v1",
+        "status": "wfw_review",
+        "clue_text": "Cartoon character, old and troubled by love",
+        "answer": "DONALDDUCK",
+        "checks": [],
+        "word_purposes": [],
+        "atomic_links": [],
+        "blocks": [
+            {
+                "kind": "DEF_BLOCK",
+                "span": [1, 2],
+                "status": "verified",
+                "text": "character,",
+                "value": "DONALDDUCK",
+            },
+            {
+                "kind": "OP_BLOCK",
+                "role": "joiner",
+                "source": "word_analyzer",
+                "span": [3, 4],
+                "status": "candidate",
+                "text": "and",
+                "token": "LNK",
+            },
+            {
+                "kind": "OP_BLOCK",
+                "role": "operation",
+                "source": "word_analyzer",
+                "span": [4, 5],
+                "status": "candidate",
+                "text": "troubled",
+                "token": "ANA_I",
+            },
+            {
+                "kind": "OP_BLOCK",
+                "role": "joiner",
+                "source": "word_analyzer",
+                "span": [5, 6],
+                "status": "candidate",
+                "text": "by",
+                "token": "LNK",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unresolved",
+                "span": [0, 1],
+                "status": "review",
+                "text": "Cartoon",
+            },
+        ],
+    })
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "troubled"
+               and block["role"] == "op_candidate"
+               and block["candidate_role"] == "anagram_indicator"
+               for block in donald_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "and"
+               and block["role"] == "link_candidate"
+               and block["candidate_role"] == "joiner_indicator"
+               for block in donald_display["blocks"])
+    assert any(block["kind"] == "REVIEW_BLOCK"
+               and block["text"] == "by"
+               and block["role"] == "link_candidate"
+               and block["candidate_role"] == "joiner_indicator"
+               for block in donald_display["blocks"])
+    assert not any(block["text"] == "troubled"
+                   and block["role"] == "anagram_indicator"
+                   for block in donald_display["blocks"])
+
+    overlap_display = display_from_stage_three_proof({
+        "schema": "stage_three_proof:v1",
+        "status": "wfw_review",
+        "clue_text": "What UK constituencies have to call into question?",
+        "answer": "IMPEACH",
+        "checks": [],
+        "word_purposes": [],
+        "atomic_links": [],
+        "blocks": [
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unaccounted",
+                "span": [0, 1],
+                "status": "review",
+                "text": "What",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unaccounted",
+                "span": [1, 2],
+                "status": "review",
+                "text": "UK",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unaccounted",
+                "span": [2, 3],
+                "status": "review",
+                "text": "constituencies",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unaccounted",
+                "span": [3, 4],
+                "status": "review",
+                "text": "have",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "link_candidate",
+                "span": [4, 5],
+                "status": "candidate",
+                "text": "to",
+            },
+            {
+                "kind": "DEF_BLOCK",
+                "role": "inferred_definition",
+                "span": [4, 8],
+                "status": "candidate",
+                "text": "to call into question?",
+            },
+            {
+                "kind": "DEF_BLOCK",
+                "role": "inferred_definition",
+                "span": [5, 8],
+                "status": "candidate",
+                "text": "call into question?",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "op_candidate",
+                "candidate_role": "anagram_indicator",
+                "span": [6, 7],
+                "status": "candidate",
+                "text": "into",
+            },
+            {
+                "kind": "DEF_BLOCK",
+                "role": "inferred_definition",
+                "span": [7, 8],
+                "status": "candidate",
+                "text": "question?",
+            },
+        ],
+    })
+    spans = [
+        tuple(block["span"]) for block in overlap_display["blocks"]
+        if block.get("span") and len(block["span"]) == 2
+    ]
+    for idx, left in enumerate(spans):
+        for right in spans[idx + 1:]:
+            assert not (left[0] < right[1] and right[0] < left[1]), (
+                "overlapping display spans survived: %s and %s in %s"
+                % (left, right, overlap_display["blocks"])
+            )
+    overlap_texts = [block["text"] for block in overlap_display["blocks"]]
+    assert "to call into question?" not in overlap_texts
+    assert "call into question?" not in overlap_texts
+    assert overlap_texts.count("question?") <= 1
+    assert "to" in overlap_texts
+    assert "into" in overlap_texts
+
+    wren_display = display_from_stage_three_proof({
+        "schema": "stage_three_proof:v1",
+        "status": "REVIEW",
+        "clue_text": "Latest about caging rook and another bird ...",
+        "answer": "WREN",
+        "checks": [],
+        "word_purposes": [],
+        "atomic_links": [],
+        "blocks": [
+            {
+                "kind": "DEF_BLOCK",
+                "span": [6, 8],
+                "status": "verified",
+                "text": "bird ...",
+                "value": "WREN",
+            },
+            {
+                "kind": "DEF_BLOCK",
+                "span": [6, 7],
+                "status": "verified",
+                "text": "bird",
+                "value": "WREN",
+            },
+            {
+                "kind": "OP_BLOCK",
+                "role": "operation",
+                "span": [7, 8],
+                "status": "candidate",
+                "text": "...",
+                "token": "ANA_I",
+            },
+        ],
+    })
+    wren_words = [block["text"] for block in wren_display["blocks"]]
+    assert wren_words.count("bird") == 1
+    assert "bird ..." not in wren_words
+    assert "..." not in wren_words
+
+    repeated_word_display = display_from_stage_three_proof({
+        "schema": "stage_three_proof:v1",
+        "status": "REVIEW",
+        "clue_text": "Heavens! One or the other, just take one away!",
+        "answer": "ETHER",
+        "checks": [],
+        "atomic_links": [],
+        "blocks": [
+            {
+                "kind": "DEF_BLOCK",
+                "span": [0, 1],
+                "status": "verified",
+                "text": "Heavens!",
+                "value": "ETHER",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unresolved",
+                "span": [4, 5],
+                "status": "review",
+                "text": "other,",
+            },
+            {
+                "kind": "REVIEW_BLOCK",
+                "role": "unresolved",
+                "span": [5, 6],
+                "status": "review",
+                "text": "just",
+            },
+        ],
+        "word_purposes": [
+            {
+                "index": 1,
+                "purpose": "unresolved_purpose",
+                "status": "unresolved",
+                "text": "One",
+            },
+            {
+                "index": 7,
+                "purpose": "unresolved_purpose",
+                "status": "unresolved",
+                "text": "one",
+            },
+        ],
+    })
+    repeated_by_span = {
+        tuple(block["span"]): block["text"]
+        for block in repeated_word_display["blocks"]
+        if block.get("span")
+    }
+    assert repeated_by_span[(1, 2)] == "One"
+    assert repeated_by_span[(7, 8)] == "one"
 
     print("WFW display adapter regression passed")
     return True

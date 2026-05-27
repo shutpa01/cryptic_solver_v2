@@ -133,26 +133,47 @@ def _normalise_anagram_display_roles(blocks, answer_links):
 
 
 def _dedupe_stage_three_display_blocks(blocks):
-    """Remove duplicate display blocks that share the same token span.
+    """Remove duplicate/overlapping Stage Three display blocks.
 
     stage_three_proof._blocks can yield both an OP_BLOCK (from
     operation_candidates) and a REVIEW_BLOCK (from unresolved_words)
     for the same span.  When multiple blocks share a span, only the
     highest-priority one is kept.
 
-    Blocks with no span are always kept.  Display-only: does not affect
-    proof status, solver confidence, or stored evidence.
+    Stage Three can also emit punctuation-only candidates, or both
+    ``bird ...`` and ``bird`` for the same definition.  The clue page should
+    show each clue span once, so those display-only duplicates are collapsed
+    here without touching the stored proof. Repeated text at different spans
+    must be preserved.
+
+    It can also emit overlapping candidates such as ``to``, ``to call into
+    question?`` and ``question?``.  The display keeps a greedy non-overlapping
+    set so each clue word appears in at most one displayed block.  Display-only:
+    does not affect proof status, solver confidence, or stored evidence.
     """
+    def _word_key(block):
+        text = block.get("text") or ""
+        parts = re.findall(r"[A-Za-z0-9]+", text.lower())
+        return " ".join(parts)
+
+    def _punctuation_count(block):
+        text = block.get("text") or ""
+        return len(re.findall(r"[^A-Za-z0-9\s]", text))
+
     def _priority(block):
         kind = block.get("kind") or ""
         role = block.get("role") or ""
         if kind == "DEF_BLOCK":
+            return 40 if role == "inferred_definition" else 60
+        if kind == "SOURCE_BLOCK" and block.get("evidence_status") == "manual":
             return 100
         if kind == "SOURCE_BLOCK" and role == "source_review":
             return 90
         if kind == "SOURCE_BLOCK":
-            return 80
+            return 90
         if kind == "OP_BLOCK":
+            return 80
+        if role in ("op_candidate", "link_candidate"):
             return 70
         if role.endswith("_indicator"):
             return 70
@@ -161,23 +182,77 @@ def _dedupe_stage_three_display_blocks(blocks):
         if role == "review_separator_candidate":
             return 50
         if kind == "LINK_BLOCK":
-            return 30
-        if role == "unaccounted":
             return 10
+        if role == "unaccounted":
+            return 20
         return 20
 
-    seen = {}
+    def _span_tuple(block):
+        span = block.get("span")
+        if not isinstance(span, list) or len(span) != 2:
+            return None
+        start, end = span
+        if start is None or end is None or end <= start:
+            return None
+        return (start, end)
+
+    def _spans_overlap(left, right):
+        return left[0] < right[1] and right[0] < left[1]
+
+    def _span_len(block):
+        span = _span_tuple(block)
+        return span[1] - span[0] if span else 9999
+
+    def _better_block(left, right):
+        left_score = (
+            _priority(left),
+            -_span_len(left),
+            -_punctuation_count(left),
+            -len(left.get("text") or ""),
+        )
+        right_score = (
+            _priority(right),
+            -_span_len(right),
+            -_punctuation_count(right),
+            -len(right.get("text") or ""),
+        )
+        return left if left_score >= right_score else right
+
+    by_span = {}
     no_span = []
     for block in blocks:
-        span = block.get("span")
-        if not span or len(span) != 2:
+        if not _word_key(block):
+            continue
+        span = _span_tuple(block)
+        if not span:
             no_span.append(block)
             continue
-        key = tuple(span)
-        if key not in seen or _priority(block) > _priority(seen[key]):
-            seen[key] = block
+        if span not in by_span:
+            by_span[span] = block
+        else:
+            by_span[span] = _better_block(block, by_span[span])
 
-    blocks[:] = list(seen.values()) + no_span
+    span_blocks = list(by_span.values())
+    span_blocks.sort(
+        key=lambda block: (
+            -_priority(block),
+            _span_len(block),
+            _punctuation_count(block),
+            len(block.get("text") or ""),
+            _block_sort_key(block),
+        )
+    )
+
+    kept = []
+    kept_spans = []
+    for block in span_blocks:
+        span = _span_tuple(block)
+        if any(_spans_overlap(span, kept_span) for kept_span in kept_spans):
+            continue
+        kept.append(block)
+        kept_spans.append(span)
+
+    blocks[:] = kept + no_span
 
 
 def display_from_stage_three_proof(proof):
@@ -298,6 +373,7 @@ def _stage_three_display_block(block, idx, answer,
                                word_purpose_by_index=None):
     kind = block.get("kind") or "REVIEW_BLOCK"
     role = block.get("role")
+    candidate_role = None
     wp = None
     if kind == "DEF_BLOCK":
         role = role or "definition"
@@ -307,7 +383,15 @@ def _stage_three_display_block(block, idx, answer,
         else:
             role = role or "piece_%d" % idx
     elif kind == "OP_BLOCK":
-        role = _stage_three_indicator_role(block)
+        candidate_role = _stage_three_indicator_role(block)
+        if block.get("status") == "candidate":
+            kind = "REVIEW_BLOCK"
+            if block.get("token") == "LNK" or block.get("role") == "joiner":
+                role = "link_candidate"
+            else:
+                role = "op_candidate"
+        else:
+            role = candidate_role
     elif kind == "REVIEW_BLOCK":
         span = block.get("span")
         wp = None
@@ -337,6 +421,7 @@ def _stage_three_display_block(block, idx, answer,
             else block.get("value") or _review_block_hint(wp)
         ),
         "token": block.get("token"),
+        "candidate_role": candidate_role,
         "evidence_status": block.get("evidence_status"),
         "evidence_reason": block.get("evidence_reason"),
         "input_value": block.get("input_value") or "",

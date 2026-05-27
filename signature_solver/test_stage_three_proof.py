@@ -112,6 +112,77 @@ def run_tests():
     weak_definition = build_stage_three_proof(weak_definition_case)
     assert _check(weak_definition, "definition_evidence").status == REVIEW
 
+    non_edge_definition_case = SimpleNamespace(
+        clue_text="one answer here",
+        answer="AH",
+        definition_candidates=({
+            "text": "answer",
+            "span": (1, 2),
+            "wordplay_span": (0, 1),
+            "wordplay_text": "one",
+            "boundary_status": "non_edge_db_hit",
+            "objections": [],
+        },),
+        source_candidates=(),
+        working_pairs=(),
+        assemblies=({
+            "kind": "charade",
+            "status": "answer_fit",
+            "output": "AH",
+            "parts": ({
+                "kind": "source",
+                "text": "one",
+                "span": (0, 1),
+                "value": "A",
+            }, {
+                "kind": "source",
+                "text": "here",
+                "span": (2, 3),
+                "value": "H",
+            }),
+        },),
+        enrichment_candidates=(),
+        unresolved_words=(),
+    )
+    non_edge_definition = build_stage_three_proof(non_edge_definition_case)
+    assert _check(non_edge_definition, "definition_evidence").status == REVIEW
+    assert non_edge_definition.status == REVIEW
+    assert not any(
+        block["kind"] == "DEF_BLOCK"
+        and block["text"] == "answer"
+        for block in non_edge_definition.blocks
+    )
+
+    internal_legacy_definition_case = SimpleNamespace(
+        clue_text="Pound family rejected Bohemian Fifties poet",
+        answer="BEATNIK",
+        definition_candidates=({
+            "text": "Bohemian",
+            "span": (3, 4),
+            "span_status": "mapped",
+            "wordplay_span": None,
+            "wordplay_text": None,
+            "boundary_status": "legacy_solver",
+            "clue_word_count": 6,
+            "objections": [],
+        },),
+        source_candidates=(),
+        working_pairs=(),
+        assemblies=(),
+        enrichment_candidates=(),
+        unresolved_words=(),
+    )
+    internal_legacy_definition = build_stage_three_proof(
+        internal_legacy_definition_case)
+    assert _check(
+        internal_legacy_definition, "definition_evidence").status == REVIEW
+    assert internal_legacy_definition.status == REVIEW
+    assert not any(
+        block["kind"] == "DEF_BLOCK"
+        and block["text"] == "Bohemian"
+        for block in internal_legacy_definition.blocks
+    )
+
     out_of_order_case = SimpleNamespace(
         clue_text="Bee first",
         answer="AB",

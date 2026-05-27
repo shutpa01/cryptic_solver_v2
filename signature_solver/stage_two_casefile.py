@@ -345,6 +345,7 @@ def build_stage_two_from_solve_result(
             "wordplay_span": None,
             "wordplay_text": None,
             "boundary_status": "legacy_solver",
+            "clue_word_count": n_tokens,
             "objections": [],
         }]
     else:

@@ -1,0 +1,263 @@
+{# Manual evidence list.
+   Variables:
+     clue_id (int)
+     nodes (list of dicts) - legacy graph nodes
+     edges (list of dicts) - legacy graph edges
+     structured_parse (dict or None) - structured parse JSON if present #}
+<div id="manual-evidence-list-{{ clue_id }}">
+{% set edges = edges if edges is defined else [] %}
+{% set structured_parse = structured_parse if structured_parse is defined else none %}
+
+{% if structured_parse %}
+<p class="text-xs font-semibold text-teal-700 mt-1 mb-1">Saved structured parse</p>
+<div class="rounded border border-teal-100 bg-white px-3 py-2 space-y-1 text-xs">
+    {% if structured_parse_errors %}
+    <div class="rounded border border-amber-200 bg-amber-50 px-2 py-1 text-amber-800">
+        <p class="font-semibold">Saved, but DB facts need review</p>
+        <ul class="list-disc ml-4">
+            {% for err in structured_parse_errors %}
+            <li>{{ err }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if structured_parse.definition and structured_parse.definition.clue_text %}
+    <div class="flex items-center gap-2">
+        <span class="rounded bg-green-100 px-1.5 py-0.5 font-semibold text-green-700 shrink-0">definition</span>
+        <span class="font-medium text-gray-900">{{ structured_parse.definition.clue_text }}</span>
+        <span class="text-gray-400">=</span>
+        <span class="font-mono text-emerald-700">{{ structured_parse.answer }}</span>
+    </div>
+    {% endif %}
+
+    {% for piece in (structured_parse.pieces or []) %}
+    <div class="flex items-center gap-2">
+        {% if piece.colour == 'blue' %}
+        <span class="rounded bg-sky-100 px-1.5 py-0.5 font-semibold text-sky-700 shrink-0">{{ piece.colour }}</span>
+        {% elif piece.colour == 'pink' %}
+        <span class="rounded bg-pink-100 px-1.5 py-0.5 font-semibold text-pink-700 shrink-0">{{ piece.colour }}</span>
+        {% elif piece.colour == 'yellow' %}
+        <span class="rounded bg-yellow-100 px-1.5 py-0.5 font-semibold text-yellow-700 shrink-0">{{ piece.colour }}</span>
+        {% elif piece.colour == 'orange' %}
+        <span class="rounded bg-orange-100 px-1.5 py-0.5 font-semibold text-orange-700 shrink-0">{{ piece.colour }}</span>
+        {% elif piece.colour == 'purple' %}
+        <span class="rounded bg-purple-100 px-1.5 py-0.5 font-semibold text-purple-700 shrink-0">{{ piece.colour }}</span>
+        {% else %}
+        <span class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-600 shrink-0">piece</span>
+        {% endif %}
+        <span class="font-medium text-gray-900">{{ piece.clue_text }}</span>
+        <span class="text-gray-400">
+            {% if piece.relationship == 'synonym' %}synonym:
+            {% elif piece.relationship == 'abbreviation' %}abbrev:
+            {% elif piece.relationship == 'literal_letters' %}literal:
+            {% elif piece.relationship == 'initial_letters' %}initials:
+            {% elif piece.relationship == 'foreign' %}foreign:
+            {% elif piece.relationship == 'pronoun' %}name:
+            {% elif piece.relationship == 'single_letter' %}letter:
+            {% elif piece.relationship == 'hidden_letters' %}hidden:
+            {% else %}gives:{% endif %}
+        </span>
+        <span class="font-mono text-emerald-700">{{ piece.letters or '?' }}</span>
+        {% if piece.answer_boxes %}
+        <span class="text-gray-400">, boxes</span>
+        <span class="font-mono text-gray-700">{{ piece.answer_boxes | join(',') }}</span>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% for filler in (structured_parse.filler or []) %}
+    <div class="flex items-center gap-2">
+        <span class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-600 shrink-0">link/filler</span>
+        <span class="font-medium text-gray-900">{{ filler.clue_text }}</span>
+    </div>
+    {% endfor %}
+
+    {% for op in (structured_parse.operations or []) %}
+    <div class="flex items-center gap-2">
+        {% if op.colour == 'blue' %}
+        <span class="rounded bg-sky-100 px-1.5 py-0.5 font-semibold text-sky-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% elif op.colour == 'pink' %}
+        <span class="rounded bg-pink-100 px-1.5 py-0.5 font-semibold text-pink-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% elif op.colour == 'yellow' %}
+        <span class="rounded bg-yellow-100 px-1.5 py-0.5 font-semibold text-yellow-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% elif op.colour == 'orange' %}
+        <span class="rounded bg-orange-100 px-1.5 py-0.5 font-semibold text-orange-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% elif op.colour == 'purple' %}
+        <span class="rounded bg-purple-100 px-1.5 py-0.5 font-semibold text-purple-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% else %}
+        <span class="rounded bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-700 shrink-0">{{ op.type or 'operation' }}</span>
+        {% endif %}
+        <span class="font-medium text-gray-900">{{ op.clue_text }}</span>
+        <span class="text-gray-400">:</span>
+        {% if op.type == 'container' %}
+            {% set found = namespace(outer=none, inner=none) %}
+            {% for p in (structured_parse.pieces or []) %}
+                {% if p.id == op.outer_piece_id %}{% set found.outer = p %}{% endif %}
+                {% if p.id == op.inner_piece_id %}{% set found.inner = p %}{% endif %}
+            {% endfor %}
+            {% if found.outer and found.inner %}
+            <span class="font-mono text-sky-700">{{ found.outer.letters }}</span>
+            <span class="text-gray-400">around</span>
+            <span class="font-mono text-pink-700">{{ found.inner.letters }}</span>
+            <span class="text-gray-400">=</span>
+            <span class="font-mono text-emerald-700">{{ op.result or structured_parse.answer }}</span>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<form hx-post="/admin/structured-parse/{{ clue_id }}/delete"
+      hx-target="#manual-evidence-list-{{ clue_id }}"
+      hx-swap="outerHTML"
+      class="mt-1">
+    <button type="submit"
+            class="text-xs text-red-400 hover:text-red-600 cursor-pointer"
+            title="Delete this structured parse">
+        Delete structured parse
+    </button>
+</form>
+
+{% elif nodes %}
+<p class="text-xs font-semibold text-gray-500 mt-1 mb-1">Saved clue evidence</p>
+<ul class="space-y-1 mt-1">
+{% for node in nodes %}
+<li class="flex flex-wrap items-center gap-2 rounded border bg-white px-2 py-1.5 text-xs
+    {% if node.node_type == 'source' %}border-sky-200
+    {% elif node.node_type == 'definition' %}border-green-200
+    {% elif node.node_type == 'operator' %}border-amber-200
+    {% elif node.node_type == 'transform' %}border-violet-200
+    {% else %}border-slate-200{% endif %}">
+    <span class="font-mono text-gray-400 shrink-0" title="Reference number for connecting evidence">#{{ node.id }}</span>
+
+    {% if node.node_type == 'source' %}
+    <span class="rounded bg-sky-100 px-1.5 py-0.5 font-semibold text-sky-700 shrink-0">clue letters</span>
+    <span class="font-medium text-gray-900">{{ node.word_text }}</span>
+    {% if node.role %}
+    <span class="text-gray-500">
+        {% if node.role == 'synonym' %}means
+        {% elif node.role == 'abbreviation' %}abbreviates to
+        {% elif node.role == 'literal' %}gives
+        {% elif node.role == 'pronoun' %}stands for
+        {% elif node.role == 'foreign' %}translates to
+        {% else %}gives
+        {% endif %}
+    </span>
+    {% else %}
+    <span class="text-gray-500">gives</span>
+    {% endif %}
+    <span class="font-mono text-emerald-700">{{ node.raw_letters or '?' }}</span>
+
+    {% elif node.node_type == 'operator' %}
+    <span class="rounded bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-700 shrink-0">operation</span>
+    <span class="font-medium text-gray-900">{{ node.word_text }}</span>
+    <span class="text-gray-500">
+        {% if node.role == 'reversal' %}reverses letters
+        {% elif node.role == 'deletion' %}deletes letters
+        {% elif node.role == 'anagram' %}rearranges letters
+        {% elif node.role == 'container' %}puts one part inside another
+        {% else %}{{ node.role or 'operation' }}
+        {% endif %}
+    </span>
+
+    {% elif node.node_type == 'transform' %}
+    <span class="rounded bg-violet-100 px-1.5 py-0.5 font-semibold text-violet-700 shrink-0">operation result</span>
+    <span class="font-medium text-gray-900">{{ node.word_text or 'result' }}</span>
+    <span class="text-gray-500">makes</span>
+    <span class="font-mono text-emerald-700">{{ node.raw_letters or '?' }}</span>
+
+    {% elif node.node_type == 'definition' %}
+    <span class="rounded bg-green-100 px-1.5 py-0.5 font-semibold text-green-700 shrink-0">definition</span>
+    <span class="font-medium text-gray-900">{{ node.word_text }}</span>
+
+    {% elif node.node_type == 'structural' %}
+    <span class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-600 shrink-0">link/filler</span>
+    <span class="font-medium text-gray-900">{{ node.word_text }}</span>
+
+    {% else %}
+    <span class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-600 shrink-0">saved</span>
+    <span class="font-medium text-gray-900">{{ node.word_text }}</span>
+    {% endif %}
+
+    {% if node.answer_positions is not none %}
+    <span class="rounded bg-sky-50 px-1.5 py-0.5 font-mono text-sky-700">answer {{ node.answer_positions }}</span>
+    {% endif %}
+    {% if node.group_id is not none %}
+    <span class="rounded bg-violet-50 px-1.5 py-0.5 text-violet-700">colour {{ node.group_id }}</span>
+    {% endif %}
+    {% if node.word_indices %}
+    <span class="rounded bg-gray-50 px-1.5 py-0.5 text-gray-500">words {{ node.word_indices }}</span>
+    {% endif %}
+    {% if node.payload_json %}
+    <details class="text-gray-500">
+        <summary class="cursor-pointer hover:text-gray-700">extra details</summary>
+        <span class="font-mono text-[11px] text-orange-700">{{ node.payload_json }}</span>
+    </details>
+    {% endif %}
+    <form hx-post="/admin/manual-evidence/node/{{ node.id }}/delete"
+          hx-target="#manual-evidence-list-{{ clue_id }}"
+          hx-swap="outerHTML"
+          class="ml-auto">
+        <button type="submit"
+                class="text-red-400 hover:text-red-600 font-bold cursor-pointer"
+                title="Delete this saved evidence">x</button>
+    </form>
+</li>
+{% endfor %}
+</ul>
+
+{% if edges %}
+<p class="text-xs font-semibold text-gray-500 mt-3 mb-1">Saved connections</p>
+<ul class="space-y-1 mt-1">
+{% for edge in edges %}
+{% set from_label = namespace(text='#' ~ edge.from_node_id) %}
+{% set to_label = namespace(text='#' ~ edge.to_node_id) %}
+{% for node in nodes %}
+    {% if node.id == edge.from_node_id %}
+        {% if node.raw_letters %}
+            {% set from_label.text = node.word_text ~ ' -> ' ~ node.raw_letters %}
+        {% else %}
+            {% set from_label.text = node.word_text %}
+        {% endif %}
+    {% endif %}
+    {% if node.id == edge.to_node_id %}
+        {% if node.raw_letters %}
+            {% set to_label.text = node.word_text ~ ' -> ' ~ node.raw_letters %}
+        {% else %}
+            {% set to_label.text = node.word_text %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+<li class="flex flex-wrap items-center gap-2 rounded border border-gray-100 bg-white px-2 py-1 text-xs">
+    <span class="font-mono text-gray-400" title="Connection reference">#{{ edge.id }}</span>
+    {% if edge.edge_type == 'input_to' %}
+    <span class="font-medium text-gray-900">{{ from_label.text }}</span>
+    <span class="text-gray-500">feeds</span>
+    <span class="font-medium text-gray-900">{{ to_label.text }}</span>
+    {% elif edge.edge_type == 'output_of' %}
+    <span class="font-medium text-gray-900">{{ from_label.text }}</span>
+    <span class="text-gray-500">is the result of</span>
+    <span class="font-medium text-gray-900">{{ to_label.text }}</span>
+    {% else %}
+    <span class="font-medium text-gray-900">{{ from_label.text }}</span>
+    <span class="text-gray-500">connects to</span>
+    <span class="font-medium text-gray-900">{{ to_label.text }}</span>
+    {% endif %}
+    <form hx-post="/admin/manual-evidence/edge/{{ edge.id }}/delete"
+          hx-target="#manual-evidence-list-{{ clue_id }}"
+          hx-swap="outerHTML"
+          class="ml-auto">
+        <button type="submit"
+                class="text-red-400 hover:text-red-600 font-bold cursor-pointer"
+                title="Delete this connection">x</button>
+    </form>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% else %}
+<p class="text-xs text-gray-400 mt-1">No manual evidence recorded yet.</p>
+{% endif %}
+</div>

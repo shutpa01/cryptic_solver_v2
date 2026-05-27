@@ -282,6 +282,17 @@
                                class="text-xs border border-slate-300 rounded px-1 py-0.5 uppercase font-semibold w-16
                                   {% if w.source == 'manual' %}bg-emerald-50 text-emerald-800
                                   {% else %}bg-white text-gray-700{% endif %}">
+                        <input type="text" name="piece_key"
+                               value="{{ w.piece_key if w.piece_key is not none else '' }}"
+                               placeholder="#"
+                               hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
+                               hx-target="#role-saved-{{ clue.id }}-{{ w.word_index }}"
+                               hx-swap="innerHTML"
+                               hx-trigger="change, blur"
+                               hx-include="closest form"
+                               class="text-xs border border-slate-300 rounded px-1 py-0.5 w-8
+                                      text-center bg-white text-gray-700"
+                               title="Piece group number (same integer = same phrase piece)">
                     </form>
                     {% if w.accept_target %}
                     <form hx-post="/admin/accept-enrichment/{{ clue.id }}/{{ w.word_index }}"
@@ -321,7 +332,7 @@
                         <span class="font-semibold text-gray-900 truncate">{{ w.word_text }}</span>
                         <span id="wfw-role-saved-{{ clue.id }}-{{ w.word_index }}" class="text-xs shrink-0"></span>
                     </div>
-                    <form class="grid grid-cols-[1fr_4.5rem] gap-1">
+                    <form class="grid grid-cols-[1fr_4.5rem_2rem] gap-1">
                         <input type="hidden" name="word_text" value="{{ w.word_text }}">
                         <select name="role"
                                 hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
@@ -343,6 +354,17 @@
                                hx-trigger="change"
                                hx-include="closest form"
                                class="text-xs border border-slate-300 rounded px-1 py-0.5 uppercase font-semibold bg-white">
+                        <input type="text" name="piece_key"
+                               value="{{ w.piece_key if w.piece_key is not none else '' }}"
+                               placeholder="#"
+                               hx-post="/admin/word-role/{{ clue.id }}/{{ w.word_index }}"
+                               hx-target="#wfw-role-saved-{{ clue.id }}-{{ w.word_index }}"
+                               hx-swap="innerHTML"
+                               hx-trigger="change"
+                               hx-include="closest form"
+                               class="text-xs border border-slate-300 rounded px-1 py-0.5
+                                      text-center bg-white text-gray-700"
+                               title="Piece group number (same integer = same phrase piece)">
                     </form>
                 </div>
                 {% endfor %}
@@ -350,6 +372,624 @@
         </div>
     </details>
     {% endif %}
+
+    {# Admin: structured parse editor. JSON path is primary; graph controls are legacy. #}
+    <details class="mt-3">
+        <summary class="text-xs text-gray-500 cursor-pointer hover:text-gray-700">Admin: manual parse editor</summary>
+        <div class="mt-2 rounded border border-violet-200 bg-violet-50 px-4 py-3 space-y-4">
+            {% set mp = clue.manual_parse_form or {} %}
+            {% set clue_ref %}
+            <div class="rounded border border-slate-200 bg-slate-50 px-3 py-2">
+                <p class="text-xs font-semibold uppercase text-slate-500">Clue</p>
+                <p class="text-sm font-semibold text-slate-900">
+                    {{ clue.clue_text }}
+                    {% if clue.enumeration %}
+                    <span class="font-normal text-slate-500">({{ clue.enumeration }})</span>
+                    {% endif %}
+                </p>
+                {% if clue.answer %}
+                <p class="mt-1 text-xs text-slate-500">
+                    Answer: <span class="font-mono font-semibold text-slate-800">{{ clue.answer }}</span>
+                </p>
+                {% endif %}
+            </div>
+            {% endset %}
+            <details class="rounded border border-sky-200 bg-white/80">
+                <summary class="cursor-pointer px-3 py-2 text-xs font-semibold uppercase text-sky-700 hover:bg-sky-50">
+                    Charade parse editor
+                </summary>
+                <div class="grid grid-cols-1 gap-3 p-3">
+                {{ clue_ref | safe }}
+                <p class="text-xs text-slate-500">Use this when clue pieces are placed together to make the answer. Answer boxes are 1-based (first letter = 1).</p>
+            <form hx-post="/admin/structured-parse/{{ clue.id }}/source"
+                  hx-target="#manual-evidence-list-{{ clue.id }}"
+                  hx-swap="outerHTML"
+                  class="grid grid-cols-1 gap-3 text-sm">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Definition clue words
+                        <input name="source_def_text" placeholder="e.g. Bohemian" required
+                               value="{{ mp.source_def_text or mp.def_text or '' }}"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Optional filler/link words
+                        <input name="source_filler_text" placeholder="e.g. with; from"
+                               value="{{ mp.source_filler_text or '' }}"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2">
+                    {% for row in mp.source_rows %}
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Piece {{ row.row_num }} clue words
+                            <input name="s{{ row.row_num }}_text"
+                                   value="{{ row.text or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Relationship
+                            <select name="s{{ row.row_num }}_relationship"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                {% for choice in mp.relationship_choices %}
+                                <option value="{{ choice }}" {% if row.relationship == choice %}selected{% endif %}>{{ choice.replace('_', ' ') }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Letters produced
+                            <input name="s{{ row.row_num }}_letters"
+                                   value="{{ row.letters or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Answer boxes (1-based; first letter = 1)
+                            <input name="s{{ row.row_num }}_answer_boxes"
+                                   value="{{ row.answer_boxes or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Colour
+                            <select name="s{{ row.row_num }}_colour"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="blue" {% if row.colour == 'blue' %}selected{% endif %}>blue</option>
+                                <option value="pink" {% if row.colour == 'pink' %}selected{% endif %}>pink</option>
+                                <option value="yellow" {% if row.colour == 'yellow' %}selected{% endif %}>yellow</option>
+                                <option value="orange" {% if row.colour == 'orange' %}selected{% endif %}>orange</option>
+                                <option value="purple" {% if row.colour == 'purple' %}selected{% endif %}>purple</option>
+                            </select>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit"
+                        class="text-xs px-3 py-1.5 rounded border border-sky-500 bg-sky-50 text-sky-800 hover:bg-sky-100 cursor-pointer font-semibold w-fit">
+                    Save charade parse
+                </button>
+            </form>
+                </div>
+            </details>
+
+            <details class="rounded border border-amber-200 bg-white/80">
+                <summary class="cursor-pointer px-3 py-2 text-xs font-semibold uppercase text-amber-700 hover:bg-amber-50">
+                    Reversal / anagram parse editor
+                </summary>
+                <div class="grid grid-cols-1 gap-3 p-3">
+                {{ clue_ref | safe }}
+                <p class="text-xs text-slate-500">Use for clues where one source piece is reversed or anagrammed to give the answer. Fodder letters are what the clue word gives before the operation. Letters produced are what ends up in the answer boxes.</p>
+            <form hx-post="/admin/structured-parse/{{ clue.id }}/single-operation"
+                  hx-target="#manual-evidence-list-{{ clue.id }}"
+                  hx-swap="outerHTML"
+                  class="grid grid-cols-1 gap-3 text-sm">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Definition clue words
+                        <input name="op_def_text" placeholder="e.g. trap"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Optional filler/link words
+                        <input name="op_filler_text" placeholder="e.g. with; from"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Piece clue words
+                        <input name="op_piece_text" placeholder="e.g. part"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Relationship
+                        <select name="op_piece_relationship"
+                                class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                            <option value="synonym">synonym</option>
+                            <option value="abbreviation">abbreviation</option>
+                            <option value="literal_letters">literal letters</option>
+                            <option value="initial_letters">initial letters</option>
+                            <option value="foreign">foreign word</option>
+                            <option value="pronoun">pronoun/name</option>
+                            <option value="single_letter">single letter</option>
+                            <option value="hidden_letters">hidden letters</option>
+                        </select>
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Fodder letters
+                        <input name="op_fodder" placeholder="PART"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Letters produced
+                        <input name="op_piece_letters" placeholder="TRAP"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Answer boxes (1-based)
+                        <input name="op_piece_boxes" placeholder="1,2,3,4"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Piece colour
+                        <select name="op_piece_colour"
+                                class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                            <option value="blue">blue</option>
+                            <option value="pink">pink</option>
+                            <option value="yellow">yellow</option>
+                            <option value="orange">orange</option>
+                            <option value="purple">purple</option>
+                        </select>
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Operation type
+                        <select name="op_type"
+                                class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                            <option value="reversal">reversal</option>
+                            <option value="anagram">anagram</option>
+                        </select>
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Indicator words
+                        <input name="op_indicator_text" placeholder="e.g. rejected"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Indicator colour
+                        <select name="op_indicator_colour"
+                                class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                            <option value="blue">blue</option>
+                            <option value="pink">pink</option>
+                            <option value="yellow">yellow</option>
+                            <option value="orange">orange</option>
+                            <option value="purple">purple</option>
+                        </select>
+                    </label>
+                </div>
+
+                <button type="submit"
+                        class="text-xs px-3 py-1.5 rounded border border-amber-500 bg-amber-50 text-amber-800 hover:bg-amber-100 cursor-pointer font-semibold w-fit">
+                    Save reversal/anagram parse
+                </button>
+            </form>
+                </div>
+            </details>
+
+            <details class="rounded border border-teal-200 bg-white/80">
+                <summary class="cursor-pointer px-3 py-2 text-xs font-semibold uppercase text-teal-700 hover:bg-teal-50">
+                    Container parse editor
+                </summary>
+                <div class="grid grid-cols-1 gap-3 p-3">
+                {{ clue_ref | safe }}
+                <p class="text-xs text-slate-500">Enter clue phrases exactly as they appear. Answer boxes are 1-based (first letter = 1).</p>
+            <form hx-post="/admin/structured-parse/{{ clue.id }}/container"
+                  hx-target="#manual-evidence-list-{{ clue.id }}"
+                  hx-swap="outerHTML"
+                  class="grid grid-cols-1 gap-3 text-sm">
+
+                <div class="grid grid-cols-1 gap-1">
+                    <p class="text-xs font-semibold text-green-700">Definition</p>
+                    <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                        Clue words
+                        <input name="def_text" placeholder="e.g. Bird" required
+                               value="{{ mp.def_text or '' }}"
+                               class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 gap-1">
+                    <p class="text-xs font-semibold text-sky-700">Piece 1 (outer)</p>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Clue words
+                            <input name="p1_text" placeholder="e.g. female" required
+                                   value="{{ mp.p1_text or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Relationship
+                            <select name="p1_relationship"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="synonym" {% if mp.p1_relationship == 'synonym' %}selected{% endif %}>synonym</option>
+                                <option value="abbreviation" {% if mp.p1_relationship == 'abbreviation' %}selected{% endif %}>abbreviation</option>
+                                <option value="literal_letters" {% if mp.p1_relationship == 'literal_letters' %}selected{% endif %}>literal letters</option>
+                                <option value="initial_letters" {% if mp.p1_relationship == 'initial_letters' %}selected{% endif %}>initial letters</option>
+                                <option value="foreign" {% if mp.p1_relationship == 'foreign' %}selected{% endif %}>foreign word</option>
+                                <option value="pronoun" {% if mp.p1_relationship == 'pronoun' %}selected{% endif %}>pronoun/name</option>
+                                <option value="single_letter" {% if mp.p1_relationship == 'single_letter' %}selected{% endif %}>single letter</option>
+                                <option value="hidden_letters" {% if mp.p1_relationship == 'hidden_letters' %}selected{% endif %}>hidden letters</option>
+                            </select>
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Letters produced
+                            <input name="p1_letters" placeholder="SOW"
+                                   value="{{ mp.p1_letters or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Answer boxes (1-based)
+                            <input name="p1_answer_boxes" placeholder="1,6,7"
+                                   value="{{ mp.p1_answer_boxes or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Colour
+                            <select name="p1_colour"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="blue" {% if mp.p1_colour == 'blue' %}selected{% endif %}>blue</option>
+                                <option value="pink" {% if mp.p1_colour == 'pink' %}selected{% endif %}>pink</option>
+                                <option value="yellow" {% if mp.p1_colour == 'yellow' %}selected{% endif %}>yellow</option>
+                                <option value="orange" {% if mp.p1_colour == 'orange' %}selected{% endif %}>orange</option>
+                                <option value="purple" {% if mp.p1_colour == 'purple' %}selected{% endif %}>purple</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-1">
+                    <p class="text-xs font-semibold text-pink-700">Piece 2 (inner)</p>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Clue words
+                            <input name="p2_text" placeholder="e.g. fence" required
+                                   value="{{ mp.p2_text or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Relationship
+                            <select name="p2_relationship"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="synonym" {% if mp.p2_relationship == 'synonym' %}selected{% endif %}>synonym</option>
+                                <option value="abbreviation" {% if mp.p2_relationship == 'abbreviation' %}selected{% endif %}>abbreviation</option>
+                                <option value="literal_letters" {% if mp.p2_relationship == 'literal_letters' %}selected{% endif %}>literal letters</option>
+                                <option value="initial_letters" {% if mp.p2_relationship == 'initial_letters' %}selected{% endif %}>initial letters</option>
+                                <option value="foreign" {% if mp.p2_relationship == 'foreign' %}selected{% endif %}>foreign word</option>
+                                <option value="pronoun" {% if mp.p2_relationship == 'pronoun' %}selected{% endif %}>pronoun/name</option>
+                                <option value="single_letter" {% if mp.p2_relationship == 'single_letter' %}selected{% endif %}>single letter</option>
+                                <option value="hidden_letters" {% if mp.p2_relationship == 'hidden_letters' %}selected{% endif %}>hidden letters</option>
+                            </select>
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Letters produced
+                            <input name="p2_letters" placeholder="WALL"
+                                   value="{{ mp.p2_letters or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Answer boxes (1-based)
+                            <input name="p2_answer_boxes" placeholder="2,3,4,5"
+                                   value="{{ mp.p2_answer_boxes or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Colour
+                            <select name="p2_colour"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="pink" {% if mp.p2_colour == 'pink' %}selected{% endif %}>pink</option>
+                                <option value="blue" {% if mp.p2_colour == 'blue' %}selected{% endif %}>blue</option>
+                                <option value="yellow" {% if mp.p2_colour == 'yellow' %}selected{% endif %}>yellow</option>
+                                <option value="orange" {% if mp.p2_colour == 'orange' %}selected{% endif %}>orange</option>
+                                <option value="purple" {% if mp.p2_colour == 'purple' %}selected{% endif %}>purple</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-1">
+                    <p class="text-xs font-semibold text-amber-700">Container indicator</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Indicator words
+                            <input name="op_text" placeholder="e.g. going over"
+                                   value="{{ mp.op_text or '' }}"
+                                   class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            Indicator colour
+                            <select name="op_colour"
+                                    class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                <option value="blue" {% if mp.op_colour == 'blue' %}selected{% endif %}>blue</option>
+                                <option value="pink" {% if mp.op_colour == 'pink' %}selected{% endif %}>pink</option>
+                                <option value="yellow" {% if mp.op_colour == 'yellow' %}selected{% endif %}>yellow</option>
+                                <option value="orange" {% if mp.op_colour == 'orange' %}selected{% endif %}>orange</option>
+                                <option value="purple" {% if mp.op_colour == 'purple' %}selected{% endif %}>purple</option>
+                            </select>
+                        </label>
+                        <fieldset class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                            <legend class="text-xs font-semibold text-slate-700">Outer piece</legend>
+                            <label class="flex items-center gap-1 font-normal">
+                                <input type="radio" name="op_outer" value="piece1" {% if mp.op_outer != 'piece2' %}checked{% endif %}> Piece 1
+                            </label>
+                            <label class="flex items-center gap-1 font-normal">
+                                <input type="radio" name="op_outer" value="piece2" {% if mp.op_outer == 'piece2' %}checked{% endif %}> Piece 2
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="text-xs px-3 py-1.5 rounded border border-teal-500 bg-teal-50 text-teal-800 hover:bg-teal-100 cursor-pointer font-semibold w-fit">
+                    Save container parse
+                </button>
+            </form>
+                </div>
+            </details>
+
+            {% with clue_id=clue.id, nodes=clue.manual_evidence_nodes, edges=clue.manual_evidence_edges, structured_parse=clue.manual_structured_parse %}
+                {% include "partials/manual_evidence_nodes.html" %}
+            {% endwith %}
+
+            <details class="mt-2">
+                <summary class="text-xs text-slate-400 cursor-pointer hover:text-slate-600">Legacy graph editor (advanced)</summary>
+                <div class="mt-2 space-y-3">
+                    <form hx-post="/admin/manual-evidence/{{ clue.id }}"
+                          hx-target="#manual-evidence-list-{{ clue.id }}"
+                          hx-swap="outerHTML"
+                          hx-on::after-request="this.reset()"
+                          class="grid grid-cols-1 gap-2 text-sm rounded border border-sky-100 bg-white/80 p-3">
+                        <input type="hidden" name="node_type" value="source">
+                        <p class="text-xs font-semibold uppercase text-sky-700">Clue words give letters</p>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Clue words
+                                <input name="word_text" placeholder="CAT" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Word numbers (0-based)
+                                <input name="word_indices" placeholder="0 or 0,1" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Relationship
+                                <select name="role"
+                                        class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                    <option value="synonym">synonym</option>
+                                    <option value="abbreviation">abbreviation</option>
+                                    <option value="literal_source">literal letters</option>
+                                    <option value="pronoun">pronoun/name</option>
+                                    <option value="foreign">foreign word</option>
+                                </select>
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Gives
+                                <input name="raw_letters" placeholder="TOM"
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Answer positions (0-based)
+                                <input name="answer_positions" placeholder="3,4"
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                        </div>
+                        <div class="flex flex-wrap items-end gap-2">
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Colour
+                                <select name="group_id"
+                                        class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                    <option value="">none</option>
+                                    <option value="0">blue</option>
+                                    <option value="1">pink</option>
+                                    <option value="2">yellow</option>
+                                    <option value="3">orange</option>
+                                    <option value="4">purple</option>
+                                </select>
+                            </label>
+                            <button type="submit"
+                                    class="text-xs px-3 py-1 rounded border border-sky-400 text-sky-700 hover:bg-sky-50 cursor-pointer">
+                                Save clue letters
+                            </button>
+                        </div>
+                    </form>
+
+                    <form hx-post="/admin/manual-evidence/{{ clue.id }}"
+                          hx-target="#manual-evidence-list-{{ clue.id }}"
+                          hx-swap="outerHTML"
+                          hx-on::after-request="this.reset()"
+                          class="grid grid-cols-1 gap-2 text-sm rounded border border-amber-100 bg-white/80 p-3">
+                        <input type="hidden" name="node_type" value="operator">
+                        <p class="text-xs font-semibold uppercase text-amber-700">Clue words apply an operation</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Indicator words
+                                <input name="word_text" placeholder="BACKS" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Word numbers (0-based)
+                                <input name="word_indices" placeholder="1" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Operation
+                                <select name="role"
+                                        class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                    <option value="reversal">reverse</option>
+                                    <option value="deletion">delete letters</option>
+                                    <option value="anagram">rearrange</option>
+                                    <option value="container">put inside</option>
+                                </select>
+                            </label>
+                            <div class="flex items-end">
+                                <button type="submit"
+                                        class="text-xs px-3 py-1 rounded border border-amber-400 text-amber-700 hover:bg-amber-50 cursor-pointer">
+                                    Save operation
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form hx-post="/admin/manual-evidence/{{ clue.id }}"
+                          hx-target="#manual-evidence-list-{{ clue.id }}"
+                          hx-swap="outerHTML"
+                          hx-on::after-request="this.reset()"
+                          class="grid grid-cols-1 gap-2 text-sm rounded border border-violet-100 bg-white/80 p-3">
+                        <input type="hidden" name="node_type" value="transform">
+                        <p class="text-xs font-semibold uppercase text-violet-700">Operation result goes in the answer</p>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Result label
+                                <input name="word_text" placeholder="MOT" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Result letters
+                                <input name="raw_letters" placeholder="MOT"
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white uppercase font-mono text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Answer positions (0-based)
+                                <input name="answer_positions" placeholder="0,1,2"
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Colour
+                                <select name="group_id"
+                                        class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                    <option value="">none</option>
+                                    <option value="0">blue</option>
+                                    <option value="1">pink</option>
+                                    <option value="2">yellow</option>
+                                    <option value="3">orange</option>
+                                    <option value="4">purple</option>
+                                </select>
+                            </label>
+                            <div class="flex items-end">
+                                <button type="submit"
+                                        class="text-xs px-3 py-1 rounded border border-violet-400 text-violet-700 hover:bg-violet-50 cursor-pointer">
+                                    Save result
+                                </button>
+                            </div>
+                        </div>
+                        <details class="text-xs text-slate-500">
+                            <summary class="cursor-pointer">Extra operation details</summary>
+                            <textarea name="payload_json" rows="2" placeholder='{"delete_text": "ED"}'
+                                      class="mt-1 w-full rounded border border-slate-300 px-2 py-1 bg-white font-mono text-xs"></textarea>
+                        </details>
+                    </form>
+
+                    <form hx-post="/admin/manual-evidence/{{ clue.id }}"
+                          hx-target="#manual-evidence-list-{{ clue.id }}"
+                          hx-swap="outerHTML"
+                          hx-on::after-request="this.reset()"
+                          class="grid grid-cols-1 gap-2 text-sm rounded border border-green-100 bg-white/80 p-3">
+                        <p class="text-xs font-semibold uppercase text-green-700">Mark definition or filler</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Clue words
+                                <input name="word_text" placeholder="feature of cricket" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Word numbers (0-based)
+                                <input name="word_indices" placeholder="4,5,6" required
+                                       class="rounded border border-slate-300 px-2 py-1 bg-white font-normal text-xs">
+                            </label>
+                            <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                Mark as
+                                <select name="node_type"
+                                        class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                    <option value="definition">definition</option>
+                                    <option value="structural">link/filler/surface</option>
+                                </select>
+                            </label>
+                            <div class="flex items-end">
+                                <button type="submit"
+                                        class="text-xs px-3 py-1 rounded border border-green-400 text-green-700 hover:bg-green-50 cursor-pointer">
+                                    Save mark
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% set connectable = namespace(parts=0, operations=0) %}
+                    {% for node in clue.manual_evidence_nodes %}
+                        {% if node.node_type in ['source', 'transform'] %}
+                            {% set connectable.parts = connectable.parts + 1 %}
+                        {% elif node.node_type == 'operator' %}
+                            {% set connectable.operations = connectable.operations + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="grid grid-cols-1 gap-2 text-sm rounded border border-slate-200 bg-white/80 p-3">
+                        <p class="text-xs font-semibold uppercase text-slate-700">Connect clue letters, operation, and result</p>
+                        {% if connectable.parts and connectable.operations %}
+                        <form hx-post="/admin/manual-evidence/{{ clue.id }}/edge"
+                              hx-target="#manual-evidence-list-{{ clue.id }}"
+                              hx-swap="outerHTML"
+                              hx-on::after-request="this.reset()"
+                              class="grid grid-cols-1 gap-2">
+                            <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr_11rem] gap-2">
+                                <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                    This part
+                                    <select name="from_node_id"
+                                            class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                        {% for node in clue.manual_evidence_nodes %}
+                                        {% if node.node_type in ['source', 'transform'] %}
+                                        <option value="{{ node.id }}">#{{ node.id }} {{ node.word_text }}{% if node.raw_letters %} -> {{ node.raw_letters }}{% endif %}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                    To this operation
+                                    <select name="to_node_id"
+                                            class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                        {% for node in clue.manual_evidence_nodes %}
+                                        {% if node.node_type == 'operator' %}
+                                        <option value="{{ node.id }}">#{{ node.id }} {{ node.word_text }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label class="flex flex-col gap-1 text-xs font-semibold text-slate-700">
+                                    Connection type
+                                    <select name="edge_type"
+                                            class="rounded border border-slate-300 px-2 py-1 bg-white text-xs">
+                                        <option value="input_to">feeds into</option>
+                                        <option value="output_of">is result of</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button type="submit"
+                                    class="text-xs px-3 py-1 rounded border border-slate-400 text-slate-700 hover:bg-slate-50 cursor-pointer w-fit">
+                                Save connection
+                            </button>
+                        </form>
+                        {% else %}
+                        <p class="text-xs text-slate-400">Save at least one clue-letters entry and one operation to connect them.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </details>
+        </div>
+    </details>
 
     <details class="mt-3">
         <summary class="text-xs text-gray-500 cursor-pointer hover:text-gray-700">Admin: add WFW data</summary>

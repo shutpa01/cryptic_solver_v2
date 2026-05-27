@@ -318,6 +318,206 @@ def _wfw_display_role(role):
 # Route
 # ---------------------------------------------------------------------------
 
+def _manual_parse_form_defaults(clue, structured_parse, manual_nodes):
+    """Build defaults for the container editor from saved parse/evidence."""
+    colours = ["blue", "pink", "yellow", "orange", "purple"]
+    relationship_choices = [
+        "synonym",
+        "abbreviation",
+        "literal_letters",
+        "first_letter",
+        "last_letter",
+        "proper_noun",
+    ]
+
+    def _boxes_text(boxes):
+        return ",".join(str(x) for x in (boxes or []))
+
+    def _rel_for_form(value):
+        mapping = {
+            "literal_source": "literal_letters",
+            "literal": "literal_letters",
+            "initial_letters": "first_letter",
+            "first_letter": "first_letter",
+            "last_letter": "last_letter",
+            "foreign_word": "proper_noun",
+            "foreign": "proper_noun",
+            "pronoun": "proper_noun",
+            "name": "proper_noun",
+        }
+        return mapping.get(value or "", value or "synonym")
+
+    def _colour_from_group(group_id):
+        if group_id is None:
+            return ""
+        try:
+            return colours[int(group_id)]
+        except (ValueError, TypeError, IndexError):
+            return ""
+
+    def _legacy_boxes(node):
+        boxes = node.get("answer_positions") or []
+        letters = (node.get("raw_letters") or "").upper()
+        answer = re.sub(r"[^A-Za-z]", "", clue["answer"] or "").upper()
+        if not boxes or not letters or len(boxes) != len(letters) or not answer:
+            return boxes
+
+        def _matches(candidate):
+            for i, box in enumerate(candidate):
+                idx = box - 1
+                if idx < 0 or idx >= len(answer) or letters[i] != answer[idx]:
+                    return False
+            return True
+
+        if _matches(boxes):
+            return boxes
+        shifted = [box + 1 for box in boxes]
+        if _matches(shifted):
+            return shifted
+        return boxes
+
+    form = {
+        "relationship_choices": relationship_choices,
+        "def_text": clue["definition"] or "",
+        "source_def_text": clue["definition"] or "",
+        "source_filler_text": "",
+        "source_rows": [
+            {
+                "row_num": idx + 1,
+                "text": "",
+                "relationship": "synonym",
+                "letters": "",
+                "answer_boxes": "",
+                "colour": colours[idx],
+            }
+            for idx in range(5)
+        ],
+        "p1_text": "",
+        "p1_relationship": "synonym",
+        "p1_letters": "",
+        "p1_answer_boxes": "",
+        "p1_colour": "blue",
+        "p2_text": "",
+        "p2_relationship": "synonym",
+        "p2_letters": "",
+        "p2_answer_boxes": "",
+        "p2_colour": "pink",
+        "op_text": "",
+        "op_colour": "blue",
+        "op_outer": "piece1",
+    }
+
+    def _set_source_rows_from_pieces(pieces):
+        for idx, piece in enumerate((pieces or [])[:5]):
+            form["source_rows"][idx].update({
+                "text": piece.get("clue_text") or "",
+                "relationship": _rel_for_form(piece.get("relationship")),
+                "letters": piece.get("letters") or "",
+                "answer_boxes": _boxes_text(piece.get("answer_boxes")),
+                "colour": piece.get("colour") or colours[idx],
+            })
+
+    if structured_parse:
+        defn = structured_parse.get("definition") or {}
+        if defn.get("clue_text"):
+            form["def_text"] = defn["clue_text"]
+            form["source_def_text"] = defn["clue_text"]
+        pieces = structured_parse.get("pieces") or []
+        operations = structured_parse.get("operations") or []
+        _set_source_rows_from_pieces(pieces)
+        filler = structured_parse.get("filler") or []
+        if filler:
+            form["source_filler_text"] = "; ".join(
+                item.get("clue_text") or "" for item in filler
+                if item.get("clue_text")
+            )
+        for idx, piece in enumerate(pieces[:2], start=1):
+            prefix = "p%d" % idx
+            form[prefix + "_text"] = piece.get("clue_text") or ""
+            form[prefix + "_relationship"] = _rel_for_form(
+                piece.get("relationship"))
+            form[prefix + "_letters"] = piece.get("letters") or ""
+            form[prefix + "_answer_boxes"] = _boxes_text(
+                piece.get("answer_boxes"))
+            form[prefix + "_colour"] = piece.get("colour") or form[
+                prefix + "_colour"]
+        if operations:
+            op = operations[0]
+            form["op_text"] = op.get("clue_text") or ""
+            form["op_colour"] = op.get("colour") or form["op_colour"]
+            form["op_outer"] = (
+                "piece2"
+                if op.get("outer_piece_id") == "piece2"
+                else "piece1"
+            )
+        return form
+
+    definitions = [
+        n for n in manual_nodes if n.get("node_type") == "definition"
+    ]
+    if definitions:
+        form["def_text"] = definitions[0].get("word_text") or form["def_text"]
+        form["source_def_text"] = form["def_text"]
+
+    sources = [
+        n for n in manual_nodes
+        if n.get("node_type") == "source" and n.get("raw_letters")
+    ]
+    sources.sort(key=lambda n: n.get("id") or 0)
+    if len(sources) >= 2:
+        def _is_contiguous(node):
+            boxes = _legacy_boxes(node)
+            return boxes == list(range(min(boxes), max(boxes) + 1)) if boxes else True
+
+        # For containers, the outer piece often owns split boxes; make that
+        # Piece 1 when we can infer it from legacy evidence.
+        if _is_contiguous(sources[0]) and not _is_contiguous(sources[1]):
+            sources = [sources[1], sources[0]] + sources[2:]
+
+    for idx, node in enumerate(sources[:2], start=1):
+        prefix = "p%d" % idx
+        form[prefix + "_text"] = node.get("word_text") or ""
+        form[prefix + "_relationship"] = _rel_for_form(node.get("role"))
+        form[prefix + "_letters"] = node.get("raw_letters") or ""
+        form[prefix + "_answer_boxes"] = _boxes_text(_legacy_boxes(node))
+        form[prefix + "_colour"] = (
+            _colour_from_group(node.get("group_id"))
+            or form[prefix + "_colour"]
+        )
+
+    legacy_pieces = []
+    for idx, node in enumerate(sources[:5]):
+        legacy_pieces.append({
+            "clue_text": node.get("word_text") or "",
+            "relationship": _rel_for_form(node.get("role")),
+            "letters": node.get("raw_letters") or "",
+            "answer_boxes": _legacy_boxes(node),
+            "colour": (
+                _colour_from_group(node.get("group_id"))
+                or colours[idx]
+            ),
+        })
+    _set_source_rows_from_pieces(legacy_pieces)
+
+    filler_nodes = [
+        n for n in manual_nodes if n.get("node_type") == "structural"
+    ]
+    if filler_nodes:
+        form["source_filler_text"] = "; ".join(
+            n.get("word_text") or "" for n in filler_nodes if n.get("word_text")
+        )
+
+    operators = [
+        n for n in manual_nodes
+        if n.get("node_type") == "operator" and n.get("role") == "container"
+    ]
+    operators.sort(key=lambda n: n.get("id") or 0)
+    if operators:
+        form["op_text"] = operators[0].get("word_text") or ""
+    form["op_colour"] = form["p1_colour"] or form["op_colour"]
+    return form
+
+
 @bp.route("/clue/<slug>")
 @rate_limit(scope="clue_page", limit=60, window=60)
 def clue_page(slug):
@@ -444,6 +644,81 @@ def clue_page(slug):
     except Exception as exc:
         clue_dict["wfw_display_error"] = str(exc)
         clue_dict["wfw_display"] = None
+
+    # Manual evidence: load graph from DB and merge into wfw_display for admins.
+    # This is display-merge only (Slice 2). Public visitors are unaffected.
+    _manual_nodes = []
+    _manual_edges = []
+    _manual_structured_parse = None
+    if g.get("is_admin", False):
+        try:
+            from signature_solver.manual_evidence_store import (
+                get_graph_for_clue as _get_manual_graph,
+                get_structured_parse as _get_structured_parse,
+                merge_manual_into_display as _merge_manual_into_display,
+                merge_structured_parse_into_display as _merge_sp_into_display,
+            )
+            _manual_structured_parse = _get_structured_parse(clue_id)
+            _graph = _get_manual_graph(clue_id)
+            _manual_nodes = _graph["nodes"]
+            _manual_edges = _graph["edges"]
+        except Exception:
+            _manual_nodes = []
+            _manual_edges = []
+            _manual_structured_parse = None
+        if _manual_structured_parse is not None:
+            if clue_dict.get("wfw_display") is None:
+                clue_dict["wfw_display"] = {
+                    "status": "wfw_review",
+                    "blocks": [],
+                    "answer_links": [],
+                    "clue_text": clue["clue_text"] or "",
+                    "answer": clue["answer"] or "",
+                    "tokens": [],
+                    "operations": [],
+                    "review_messages": [
+                        "Manual structured parse - no automatic proof"
+                    ],
+                    "objections": [],
+                    "proof_source": "manual_only",
+                    "proof_row_id": None,
+                    "missing_enrichments": [],
+                }
+            _merge_sp_into_display(
+                clue_dict["wfw_display"],
+                _manual_structured_parse,
+                clue["answer"] or "",
+            )
+        elif _manual_nodes:
+            if clue_dict.get("wfw_display") is None:
+                clue_dict["wfw_display"] = {
+                    "status": "wfw_review",
+                    "blocks": [],
+                    "answer_links": [],
+                    "clue_text": clue["clue_text"] or "",
+                    "answer": clue["answer"] or "",
+                    "tokens": [],
+                    "operations": [],
+                    "review_messages": [
+                        "Manual evidence only - no automatic proof"
+                    ],
+                    "objections": [],
+                    "proof_source": "manual_only",
+                    "proof_row_id": None,
+                    "missing_enrichments": [],
+                }
+            _merge_manual_into_display(
+                clue_dict["wfw_display"],
+                _manual_nodes,
+                clue["answer"] or "",
+                manual_edges=_manual_edges,
+            )
+    clue_dict["manual_evidence_nodes"] = _manual_nodes
+    clue_dict["manual_evidence_edges"] = _manual_edges
+    clue_dict["manual_structured_parse"] = _manual_structured_parse
+    clue_dict["manual_parse_form"] = _manual_parse_form_defaults(
+        clue, _manual_structured_parse, _manual_nodes
+    )
 
     clue_dict["stage_two_casefile"] = None
     clue_dict["stage_two_casefile_error"] = None
@@ -607,6 +882,7 @@ def clue_page(slug):
             "role": saved.get("role") or "unaccounted",
             "source": saved.get("source") or "wfw",
             "letters": saved.get("letters"),
+            "piece_key": saved.get("piece_key"),
         })
     clue_dict["wfw_role_rows"] = wfw_role_rows
     _apply_manual_roles_to_wfw_display(
