@@ -45,6 +45,10 @@ SCRAPE_SOURCES = ["telegraph", "dailymail", "times", "guardian", "independent"]
 # (cheaper via TFTT/FS+Haiku vs auto-running full Sonnet blind).
 SOLVE_SOURCES = ["telegraph", "dailymail"]
 
+# Redesign mode — scrape only. Flip to True when redesign is complete.
+DANWORD_ENABLED = False
+PIPELINE_ENABLED = False
+
 
 def log(msg):
     ts = time.strftime("%H:%M:%S")
@@ -241,14 +245,18 @@ def main():
             run_scraper()
 
     # Step 2: Danword backfill for missing answers
-    if not args.skip_danword:
+    if not DANWORD_ENABLED:
+        log("Step 2: Danword backfill: DISABLED (redesign mode)")
+    elif not args.skip_danword:
         if args.dry_run:
             log("[DRY RUN] Would run Danword backfill")
         else:
             run_danword_backfill(target_date)
 
     # Step 3: Pipeline for DT + Daily Mail only (weekdays only)
-    if not args.skip_pipeline:
+    if not PIPELINE_ENABLED:
+        log("Step 3: Pipeline: DISABLED (redesign mode)")
+    elif not args.skip_pipeline:
         log("Step 3: Pipeline (Telegraph + Daily Mail, weekdays only)...")
         puzzles = find_todays_puzzles(target_date)
         if not puzzles:

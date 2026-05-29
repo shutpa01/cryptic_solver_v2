@@ -233,11 +233,14 @@ def coverage_warning(clue_id, answer, wordplay_type, tier,
             str(PROJECT_ROOT / "data" / "clues_master.db"))
         own_conn = True
     try:
-        rows = conn.execute(
-            "SELECT role, letters, piece_key FROM clue_word_roles "
-            "WHERE clue_id = ?",
-            (clue_id,),
-        ).fetchall()
+        try:
+            rows = conn.execute(
+                "SELECT role, letters, piece_key FROM clue_word_roles "
+                "WHERE clue_id = ?",
+                (clue_id,),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            rows = []
     finally:
         if own_conn:
             conn.close()
