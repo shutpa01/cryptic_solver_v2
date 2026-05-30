@@ -106,12 +106,11 @@ The data model allows both: a provenance entry may cover one slot or a span.
       |       - Double definition
       |     If solved, emit ParseResult with provenance. Done.
       |
-      +--> Grammar router:
-      |       POS-tag the atoms, map the shape to a RANKED list of catalog
-      |       templates worth trying (most likely first).
+      +--> Definition extraction: split off the edge definition, leaving the
+      |       wordplay words.
       |
       +--> Catalog engine (the core):
-      |       for each ranked template:
+      |       for each template (in built-in priority order):
       |         - lay atoms on slots (leftovers must be link/indicator, proximity-gated)
       |         - look up each fodder slot's candidate values from the DB
       |         - VERIFY by reconstruction -> returns a provenance map (or None)
@@ -119,7 +118,8 @@ The data model allows both: a provenance entry may cover one slot or a span.
       |       keep the best; accept at threshold.
       |
       +--> If nothing solves:
-              - Grammar flags likely Cryptic Definition -> label, do NOT attempt.
+              - CD check flags a likely Cryptic Definition -> label, do NOT attempt
+                (no def+wordplay split found AND no wordplay indicators present).
               - Otherwise: genuine gap -> Catalog-creation process (section 8).
       |
       v
@@ -133,8 +133,9 @@ hard leftovers, but it is not part of the core and not required.)
 ## 5. Components
 
 ### 5.1 Atomiser
-Single source of truth. Produces atoms + the answer letter-slot array. Handles
-contraction/possessive splitting. Revive the WFW atomiser.
+Single source of truth. Produces atoms + the answer letter-slot array. Built fresh,
+small and pure (core/atomiser.py); sub-word contraction/possessive splitting is a
+documented future extension.
 
 ### 5.2 Quick checks
 - Hidden: scan the atom letter-stream for the answer appearing contiguously (forward
@@ -143,11 +144,13 @@ contraction/possessive splitting. Revive the WFW atomiser.
 - Double definition: both ends define the answer via the DB. Kept as a dedicated
   engine. Emits provenance (each half -> whole answer, flagged as definition).
 
-### 5.3 Grammar router
-The repurposed grammar layer. Input: POS shape of the atoms. Output: a ranked list of
-candidate templates (operation + slot pattern). It does NOT solve; it narrows the
-search. The 166 learned POS->role patterns become this ranking. A clue shape with no
-viable template AND no wordplay indicators present is a candidate for the CD class.
+### 5.3 Grammar router — DROPPED
+A POS-shape router was planned to rank which templates to try first. Dropped: the
+catalog is already near-instant (no speed to gain), the catalog verifies every
+candidate (no correctness to gain), and the learned ranking proved thin and noisy.
+Removing it drops the spaCy dependency from the core path and makes grammar_triage
+fully deletable. The catalog engine just tries its templates in priority order. (See
+the build-order note in section 7.)
 
 ### 5.4 Catalog (single, consolidated)
 One catalog. Each entry: a slot pattern (F/I) + an operation + a frequency/priority.
@@ -229,24 +232,31 @@ Stages, in clue-flow order:
 1. Hidden-word check — the first thing a clue meets. DONE (core/hidden.py).
 2. Double definition. DONE (core/dd.py).
 3. Definition extraction — split the clue into a definition (at one end) and the
-   wordplay words, so the router and catalog work on the wordplay. DB check injected.
-   (NEXT.) Needed before stages 4-5 because they operate on the wordplay words.
-4. Grammar router — POS shape of the wordplay -> a ranked list of catalog templates
-   worth trying.
-5. Catalog engine — match -> verify -> score, emitting the record. Reuse the existing
+   wordplay words, so the catalog works on the wordplay. DB check injected.
+   DONE (core/definition.py).
+4. Catalog engine — match -> verify -> score, emitting the record. Reuse the existing
    matcher/verifier logic wrapped to emit records (do not rebuild the big matcher), and
-   consolidate the three catalogs into one here, coverage-driven.
-6. Cryptic-definition catch — when nothing above solves, classify CD (high precision)
+   consolidate the three catalogs into one here, coverage-driven. (NEXT.)
+5. Cryptic-definition catch — when nothing above solves, classify CD (high precision)
    versus a genuine leftover.
 
+DROPPED — grammar router. A POS-shape router to rank which templates to try was
+planned, but it earns nothing: the catalog matching is already near-instant (no speed
+to gain), the catalog verifies every candidate anyway (no correctness to gain), and the
+learned ranking proved thin and noisy (most clue shapes unseen; where seen, the top pick
+could be the wrong mechanism). Removing it also drops the spaCy dependency from the core
+path and makes the legacy grammar_triage file fully deletable (the router was its only
+surviving role). The catalog engine simply tries its templates in their built-in
+priority order and verifies.
+
 Then migrate and retire (only once the new pipeline covers the clues, measured):
-- Retire the Phase 0.5 V1 solvers and grammar-triage's structural tests once stages 4-5
-  demonstrably cover their clues (measured per-mechanism, especially homophone/acrostic).
+- Retire the Phase 0.5 V1 solvers and the whole grammar_triage file once stage 4
+  demonstrably covers their clues (measured per-mechanism, especially homophone/acrostic).
 - Remove the paid core fallbacks once coverage is acceptable without them.
 - Cut over run.py / solve_clue to the new pipeline; delete the orphaned files
   (section 12 dependency map and cleanup order).
 
-Stop-and-measure before retiring anything (stages 4-5) — that is where coverage could
+Stop-and-measure before retiring anything (stage 4) — that is where coverage could
 regress.
 
 ---
@@ -371,9 +381,9 @@ atomiser — locate it before reviving rather than rebuilding.)
 - signature_solver/db.py (RefDB) — kept; reads the same reference tables.
 - backfill_ai_exp/backfill_dd_hidden.py — kept; the hidden + DD quick checks; extended
   to emit provenance.
-- signature_solver/grammar_triage.py — SLIMMED to a router (POS shape -> ranked
-  templates). The structural tests (its own anagram/reversal/container/charade) are
-  removed; the POS-catalog ranking is what survives.
+- signature_solver/grammar_triage.py — now FULLY DELETED (moved out of "kept"). Its
+  structural tests were duplicates, and the router role it would have kept is dropped
+  (see section 7), so nothing of it survives.
 - signature_solver/matcher.py — kept; the operation verifiers, _lookup_slot and
   _verify_combo stay and are extended so each verifier returns a provenance map. The
   old-catalog matcher (match_signatures) folds into the single matcher.
