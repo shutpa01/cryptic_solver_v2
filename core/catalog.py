@@ -157,13 +157,42 @@ def _build_container(atoms, oi, outer_val, outer_mech, inner_placed, pos,
     return _finish(answer, pieces, provenance, "container")
 
 
+def _raw(atom):
+    return "".join(c for c in atom.text.upper() if c.isalpha())
+
+
+def solve_anagram(atoms, answer, lookup, is_link, indicator_types):
+    """The non-indicator, non-link words' letters rearrange to the whole answer.
+    Requires an anagram indicator. Provenance is span-level — the rearranged
+    letters are not separately sourced, so the whole answer is one entry."""
+    n = len(atoms)
+    if n < 1 or not answer:
+        return None
+    ana_idx = {i for i in range(n)
+               if "anagram" in (indicator_types(atoms[i].text) or set())}
+    if not ana_idx:
+        return None
+    fodder_idx = [i for i in range(n)
+                  if i not in ana_idx and not is_link(atoms[i].text)]
+    if not fodder_idx:
+        return None
+    letters = "".join(_raw(atoms[i]) for i in fodder_idx)
+    if sorted(letters) != sorted(answer):
+        return None
+    fodder_words = " ".join(atoms[i].surface for i in fodder_idx)
+    piece = Piece(atoms=[atoms[i].index for i in fodder_idx],
+                  source_text=fodder_words, value=answer,
+                  mechanism="anagram_fodder")
+    prov = [Provenance(0, len(answer), piece, "anagram", transform="anagram_of")]
+    return _finish(answer, [piece], prov, "anagram")
+
+
 def solve(atoms, answer, lookup, is_link, indicator_types=None):
-    """Try each operation assembler in turn (charade, then container)."""
-    pr = solve_charade(atoms, answer, lookup, is_link)
-    if pr is not None:
-        return pr
+    """Try each operation assembler. Indicator-gated operations (anagram,
+    container) run first; the permissive charade last."""
     if indicator_types is not None:
-        pr = solve_container(atoms, answer, lookup, is_link, indicator_types)
-        if pr is not None:
-            return pr
-    return None
+        for fn in (solve_anagram, solve_container):
+            pr = fn(atoms, answer, lookup, is_link, indicator_types)
+            if pr is not None:
+                return pr
+    return solve_charade(atoms, answer, lookup, is_link)
