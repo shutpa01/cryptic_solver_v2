@@ -115,3 +115,6 @@ _recovery_*/
 
 # One-off verifier comparison snapshots (baselines are kept, comparisons are not)
 /data/verifier_after_change*.json
+
+# Browser profile cache — never track
+.firefox_profile/
