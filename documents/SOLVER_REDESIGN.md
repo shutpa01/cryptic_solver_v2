@@ -226,24 +226,27 @@ Foundations (shared, built once, not stages a clue "passes"):
   every stage fills in. DONE (core/model.py).
 
 Stages, in clue-flow order:
-1. Hidden-word check — the first thing a clue meets. Built fresh in core/, emits a
-   record. (NEXT.)
-2. Double definition — fresh in core/, emits a record.
-3. Grammar router — POS shape -> a ranked list of catalog templates worth trying.
-4. Catalog engine — match -> verify -> score, emitting the record. Reuse the existing
+1. Hidden-word check — the first thing a clue meets. DONE (core/hidden.py).
+2. Double definition. DONE (core/dd.py).
+3. Definition extraction — split the clue into a definition (at one end) and the
+   wordplay words, so the router and catalog work on the wordplay. DB check injected.
+   (NEXT.) Needed before stages 4-5 because they operate on the wordplay words.
+4. Grammar router — POS shape of the wordplay -> a ranked list of catalog templates
+   worth trying.
+5. Catalog engine — match -> verify -> score, emitting the record. Reuse the existing
    matcher/verifier logic wrapped to emit records (do not rebuild the big matcher), and
    consolidate the three catalogs into one here, coverage-driven.
-5. Cryptic-definition catch — when nothing above solves, classify CD (high precision)
+6. Cryptic-definition catch — when nothing above solves, classify CD (high precision)
    versus a genuine leftover.
 
 Then migrate and retire (only once the new pipeline covers the clues, measured):
-- Retire the Phase 0.5 V1 solvers and grammar-triage's structural tests once stages 3-4
+- Retire the Phase 0.5 V1 solvers and grammar-triage's structural tests once stages 4-5
   demonstrably cover their clues (measured per-mechanism, especially homophone/acrostic).
 - Remove the paid core fallbacks once coverage is acceptable without them.
 - Cut over run.py / solve_clue to the new pipeline; delete the orphaned files
   (section 12 dependency map and cleanup order).
 
-Stop-and-measure before retiring anything (stages 3-4) — that is where coverage could
+Stop-and-measure before retiring anything (stages 4-5) — that is where coverage could
 regress.
 
 ---
