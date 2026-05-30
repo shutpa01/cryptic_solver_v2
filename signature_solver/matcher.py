@@ -492,7 +492,7 @@ def _lookup_slot(indices, token_type, span_size, words, analyses,
     # --- SYN_F for container: also accept container-outer synonyms ---
     if token_type == SYN_F and op in ("container", "container_charade",
                                        "anagram_container", "container_positional",
-                                       "container_reversal"):
+                                       "container_reversal", "container_multi_inner"):
         is_multi_piece = op == "container_charade"
         is_rev_container = op == "container_reversal"
         if span_size == 1:
@@ -605,6 +605,8 @@ def _verify_combo(op, entry, slot_values, slot_word_groups,
             result = _verify_container_reversal_combo(combo, answer)
         elif op == "container_charade":
             result = _verify_container_charade_combo(combo, answer)
+        elif op == "container_multi_inner":
+            result = _verify_container_multi_inner_combo(combo, answer)
         elif op == "anagram":
             if len(combo) == 1 and sorted(combo[0]) == sorted(answer):
                 result = combo
@@ -771,6 +773,31 @@ def _verify_container_charade_combo(combo, answer):
                     for perm in permutations(all_parts):
                         if "".join(perm) == answer:
                             return combo
+    return None
+
+
+def _verify_container_multi_inner_combo(combo, answer):
+    """3+ pieces: one is the outer (container); the rest concatenate to form
+    the inner, inserted into the outer at some position.
+
+    e.g. OBVIOUS around L + I = OB(LI)VIOUS = OBLIVIOUS.
+
+    Distinct from container_charade, where the extra pieces sit OUTSIDE the
+    container; here they form the inner that goes INSIDE it.
+    """
+    n = len(combo)
+    if n < 3:
+        return None
+    for i in range(n):
+        outer = combo[i]
+        remaining = [combo[k] for k in range(n) if k != i]
+        if len(remaining) > 4:
+            continue
+        for perm in permutations(remaining):
+            inner = "".join(perm)
+            for pos in range(1, len(outer)):
+                if outer[:pos] + inner + outer[pos:] == answer:
+                    return combo
     return None
 
 

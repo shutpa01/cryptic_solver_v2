@@ -302,6 +302,19 @@ def _build_explanation(op, pieces, answer, entry, indicators=None):
             return f'{inner_str} inside{ind_attr} {outer_str} = {answer}'
         return f'{" + ".join(part_strs)} = {answer}'
 
+    elif op == "container_multi_inner":
+        ind = op_inds.get(CON_I)
+        ind_attr = f' ["{ind}"]' if ind else ''
+        # Outer is the longest piece (it must wrap the joined inner pieces);
+        # the rest form the inner.
+        order = sorted(range(len(pieces)), key=lambda k: -len(pieces[k][2]))
+        outer_k = order[0] if pieces else 0
+        inner_strs = [part_strs[k] for k in range(len(pieces)) if k != outer_k]
+        if inner_strs:
+            return (f'{" + ".join(inner_strs)} inside{ind_attr} '
+                    f'{part_strs[outer_k]} = {answer}')
+        return f'{" + ".join(part_strs)} = {answer}'
+
     elif op == "container_reversal":
         con_ind = op_inds.get(CON_I)
         rev_ind = op_inds.get(REV_I)

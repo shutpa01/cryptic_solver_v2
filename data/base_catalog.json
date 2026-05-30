@@ -1,5 +1,10 @@
 [
   {
+    "pattern": ["F", "F", "F", "I"],
+    "operation": "container_multi_inner",
+    "count": 20
+  },
+  {
     "pattern": [
       "F",
       "F"
