@@ -213,27 +213,38 @@ Net: thousands of lines removed; no API in the core; one engine, one catalog.
 
 ---
 
-## 7. Build order (incremental, verified, reversible)
+## 7. Build order (strict processing order — the order a clue travels)
 
-Each step solves through the real path with output shown, and regression-checks that
-existing solves are unaffected, before the next step. No big-bang rewrite.
+Build the pipeline front to back, in the exact order a clue flows through it. Each
+stage takes the atomised clue and produces the same word-for-word record (section 3).
+Each stage is proved on real clues with output shown, and regression-/coverage-checked,
+before the next.
 
-1. Build/revive the atomiser and the answer letter-slot model; no behaviour change yet.
-2. Define the provenance contract and ParseResult; make the EXISTING catalog verifiers
-   emit provenance (additive — they already compute the placement). Verify a handful
-   of known solves now carry correct provenance.
-3. Add provenance to the hidden and DD engines.
-4. Build the grammar router (ranking into the existing catalog). Measure: does routing
-   preserve coverage while cutting work?
-5. Consolidate the three catalogs into one, coverage-driven (measure unique
-   contributions first; drop only what is provably redundant).
-6. Retire the Phase 0.5 V1 solvers once the catalog+router demonstrably covers their
-   clues (measured, per-mechanism, especially homophone/acrostic).
-7. Add the CD classifier.
-8. Remove the paid core fallbacks once coverage is acceptable without them; decide
-   whether to keep an optional, separated AI assist for leftovers.
+Foundations (shared, built once, not stages a clue "passes"):
+- F1. Atomiser — front-end input prep. DONE (core/atomiser.py).
+- F2. The provenance record (Piece / Provenance / ParseResult) — the shared output type
+  every stage fills in. DONE (core/model.py).
 
-Stop-and-measure between 4, 5, 6 — those are where coverage could regress.
+Stages, in clue-flow order:
+1. Hidden-word check — the first thing a clue meets. Built fresh in core/, emits a
+   record. (NEXT.)
+2. Double definition — fresh in core/, emits a record.
+3. Grammar router — POS shape -> a ranked list of catalog templates worth trying.
+4. Catalog engine — match -> verify -> score, emitting the record. Reuse the existing
+   matcher/verifier logic wrapped to emit records (do not rebuild the big matcher), and
+   consolidate the three catalogs into one here, coverage-driven.
+5. Cryptic-definition catch — when nothing above solves, classify CD (high precision)
+   versus a genuine leftover.
+
+Then migrate and retire (only once the new pipeline covers the clues, measured):
+- Retire the Phase 0.5 V1 solvers and grammar-triage's structural tests once stages 3-4
+  demonstrably cover their clues (measured per-mechanism, especially homophone/acrostic).
+- Remove the paid core fallbacks once coverage is acceptable without them.
+- Cut over run.py / solve_clue to the new pipeline; delete the orphaned files
+  (section 12 dependency map and cleanup order).
+
+Stop-and-measure before retiring anything (stages 3-4) — that is where coverage could
+regress.
 
 ---
 
