@@ -10,8 +10,8 @@ Injected, so core/ stays decoupled from any particular database:
     is_link(word_text)         -> bool                          # joining word
     indicator_types(word_text) -> set of wordplay-type strings  # e.g. {'container'}
 
-Done so far: charade, container, anagram, reversal, deletion. Other operations
-(homophone, acrostic) are added one assembler at a time.
+Done so far: charade, container, anagram, reversal, deletion, homophone,
+acrostic. Operations are added one assembler at a time.
 """
 
 from .model import Piece, Provenance, ParseResult
@@ -333,7 +333,79 @@ def solve_deletion(atoms, answer, lookup, is_link, indicator_types):
     return _finish(answer, [piece], prov, "deletion")
 
 
-def solve(atoms, answer, lookup, is_link, indicator_types=None):
+def solve_homophone(atoms, answer, lookup, is_link, indicator_types, sounds_like):
+    """A clue word SOUNDS like the whole answer. Requires a homophone indicator
+    ("we hear", "reportedly", "on the radio") and an injected `sounds_like`
+    lookup (word -> list of words it sounds like).
+
+    Scope (this slice): whole-answer, single source word — one wordplay word
+    whose homophone equals the answer. The wordplay reads aloud as the answer;
+    the answer is the spelling that reaches the grid.
+
+    Out of scope for now (future slices): a homophone of a SYNONYM of the source
+    word, a multi-word sound-alike phrase, and a homophone of just one piece
+    inside a larger charade.
+    """
+    n = len(atoms)
+    if n < 1 or not answer or sounds_like is None:
+        return None
+    hom_idx = {i for i in range(n)
+               if "homophone" in (indicator_types(atoms[i].text) or set())}
+    if not hom_idx:
+        return None
+    for i in range(n):
+        if i in hom_idx or is_link(atoms[i].text):
+            continue
+        atom = atoms[i]
+        if answer in {h.upper() for h in (sounds_like(atom.text) or [])}:
+            piece = Piece(atoms=[atom.index], source_text=atom.surface,
+                          value=answer, mechanism="homophone")
+            prov = [Provenance(0, len(answer), piece, "homophone",
+                               transform=f"sounds like \"{atom.surface}\"")]
+            return _finish(answer, [piece], prov, "homophone")
+    return None
+
+
+def solve_acrostic(atoms, answer, lookup, is_link, indicator_types):
+    """The first letters of consecutive words spell the answer. Requires an
+    acrostic indicator.
+
+    One word supplies one answer letter, so the provenance is per-letter — the
+    most granular account of any operation. Link words are KEPT as fodder here:
+    in an acrostic every word of the phrase contributes its initial, including
+    small joining words.
+
+    First-letter only. In this reference DB acrostic indicators are the
+    initial-letter kind ('first'/'initial'); the final-letter selectors
+    ("finally", "endings", "tails") are tagged 'parts', not 'acrostic', so a
+    last-letter reading is never licensed here. Supporting last-letter acrostics
+    (and non-edge letter selections like "second letters of") is a future slice
+    that needs its own indicator gate, not a coincidence fallback.
+    """
+    n = len(atoms)
+    if n < 1 or not answer:
+        return None
+    acro_idx = {i for i in range(n)
+                if "acrostic" in (indicator_types(atoms[i].text) or set())}
+    if not acro_idx:
+        return None
+    fodder = [atoms[i] for i in range(n) if i not in acro_idx and _raw(atoms[i])]
+    if len(fodder) != len(answer):
+        return None
+
+    if "".join(_raw(a)[0] for a in fodder) != answer:
+        return None
+    pieces, provenance = [], []
+    for idx, a in enumerate(fodder):
+        p = Piece(atoms=[a.index], source_text=a.surface,
+                  value=answer[idx], mechanism="first_letter")
+        pieces.append(p)
+        provenance.append(Provenance(idx, idx + 1, p, "acrostic",
+                                     transform="first_letter"))
+    return _finish(answer, pieces, provenance, "acrostic")
+
+
+def solve(atoms, answer, lookup, is_link, indicator_types=None, sounds_like=None):
     """Try each operation assembler. Indicator-gated operations run first, then
     the permissive charade.
 
@@ -345,8 +417,14 @@ def solve(atoms, answer, lookup, is_link, indicator_types=None):
     a true rearrangement, so anagram still handles real anagrams.
     """
     if indicator_types is not None:
-        for fn in (solve_reversal, solve_deletion, solve_anagram, solve_container):
+        for fn in (solve_reversal, solve_deletion, solve_acrostic,
+                   solve_anagram, solve_container):
             pr = fn(atoms, answer, lookup, is_link, indicator_types)
+            if pr is not None:
+                return pr
+        if sounds_like is not None:
+            pr = solve_homophone(atoms, answer, lookup, is_link,
+                                 indicator_types, sounds_like)
             if pr is not None:
                 return pr
     return solve_charade(atoms, answer, lookup, is_link)
