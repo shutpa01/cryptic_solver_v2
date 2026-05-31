@@ -10,8 +10,8 @@ Injected, so core/ stays decoupled from any particular database:
     is_link(word_text)         -> bool                          # joining word
     indicator_types(word_text) -> set of wordplay-type strings  # e.g. {'container'}
 
-Done so far: charade, container. Other operations (anagram, reversal, deletion,
-homophone, acrostic) are added one assembler at a time.
+Done so far: charade, container, anagram, reversal, deletion. Other operations
+(homophone, acrostic) are added one assembler at a time.
 """
 
 from .model import Piece, Provenance, ParseResult
@@ -179,6 +179,12 @@ def solve_anagram(atoms, answer, lookup, is_link, indicator_types):
     letters = "".join(_raw(atoms[i]) for i in fodder_idx)
     if sorted(letters) != sorted(answer):
         return None
+    if letters[::-1] == answer:
+        # An exact reversal of the fodder is a REVERSAL, never an anagram —
+        # a definitional rule, not a tie-break. Refuse it here even though an
+        # anagram indicator is present (many reversal words are also tagged as
+        # anagram indicators); the reversal assembler gives the honest label.
+        return None
     fodder_words = " ".join(atoms[i].surface for i in fodder_idx)
     piece = Piece(atoms=[atoms[i].index for i in fodder_idx],
                   source_text=fodder_words, value=answer,
@@ -187,11 +193,159 @@ def solve_anagram(atoms, answer, lookup, is_link, indicator_types):
     return _finish(answer, [piece], prov, "anagram")
 
 
+def solve_reversal(atoms, answer, lookup, is_link, indicator_types):
+    """The wordplay reads forward, then the whole thing is reversed to give the
+    answer.
+
+    Implemented by reusing the charade concatenation engine: if the fodder
+    concatenates (in clue order) to the *reversed* answer, then reversing that
+    concatenation yields the answer. Each forward piece occupying [s:e] of the
+    reversed-answer string therefore occupies answer[n-e:n-s] (its letters now
+    reversed). This covers a single reversed word and a reversed charade alike.
+
+    Two paths:
+
+    - Licensed: a reversal indicator is present. The fodder (everything else)
+      may be a single word or a charade and may use synonyms/abbreviations.
+
+    - Unlicensed: no reversal indicator, but an EXACT reversal is a reversal by
+      definition, never an anagram — so it must still be labelled a reversal
+      (the anagram assembler refuses exact reverses for the same reason). Kept
+      deliberately tight to avoid asserting a reversal on a coincidence: a
+      SINGLE clue word, spelled backwards using its OWN letters (raw, no
+      synonym), must equal the whole answer. A palindrome is identity, not a
+      reversal, so it is skipped.
+
+    Scope: the WHOLE answer is the reversal. A reversal of just one piece inside
+    a larger charade is a separate (future) slice.
+    """
+    n = len(atoms)
+    if n < 1 or not answer:
+        return None
+    nans = len(answer)
+    target = answer[::-1]
+    rev_idx = {i for i in range(n)
+               if "reversal" in (indicator_types(atoms[i].text) or set())}
+
+    placed = None
+    if rev_idx:
+        fodder = [atoms[i] for i in range(n)
+                  if i not in rev_idx and not is_link(atoms[i].text)]
+        if fodder:
+            placed = _assemble_concat(fodder, target, lookup, is_link, min_pieces=1)
+    elif answer != target:                       # skip palindromes (identity)
+        for atom in atoms:
+            if is_link(atom.text):
+                continue
+            raw = _raw(atom)
+            if raw and raw == target:
+                placed = [(0, nans, atom, raw, "raw")]
+                break
+
+    if placed is None:
+        return None
+
+    pieces, provenance = [], []
+    for start, end, atom, value, mech in placed:
+        p = Piece(atoms=[atom.index], source_text=atom.surface,
+                  value=value, mechanism=mech)
+        pieces.append(p)
+        # forward span [start:end] of reversed-answer -> answer[n-end:n-start]
+        provenance.append(Provenance(nans - end, nans - start, p,
+                                     "reversal", transform="reversed"))
+    return _finish(answer, pieces, provenance, "reversal")
+
+
+def _deletion_detail(value, f, b):
+    """Human description of an end-deletion: which letters were removed."""
+    parts = []
+    if f:
+        parts.append(f"'{value[:f]}' (start)")
+    if b:
+        parts.append(f"'{value[len(value) - b:]}' (end)")
+    return f"{value} minus " + " and ".join(parts)
+
+
+def solve_deletion(atoms, answer, lookup, is_link, indicator_types):
+    """A single source word's value, with letters trimmed from an end, is the
+    answer. Requires a deletion indicator.
+
+    Scope (this slice): the source is ONE content word (after the indicator and
+    any link words are set aside), and the deletion is END-anchored, removing up
+    to TWO letters in total — off the front (beheadment), the back (curtailment),
+    or one off each end — so the answer is a contiguous substring of the source
+    value. The smallest trim that works is chosen, giving the most conservative
+    account, and the two-letter cap keeps long synonyms from matching a
+    coincidental deep-interior substring.
+
+    Out of scope for now (separate future slices): removing three-plus letters,
+    deletion of an interior or named segment ("heartless", "without tea"), and a
+    deleted piece sitting inside a larger charade.
+    """
+    n = len(atoms)
+    if n < 1 or not answer:
+        return None
+    del_idx = {i for i in range(n)
+               if "deletion" in (indicator_types(atoms[i].text) or set())}
+    if not del_idx:
+        return None
+    fodder = [atoms[i] for i in range(n)
+              if i not in del_idx and not is_link(atoms[i].text)]
+    if len(fodder) != 1:
+        return None                 # multi-piece deletion is a future slice
+
+    atom = fodder[0]
+    alen = len(answer)
+    # Try every source value, every end-trim; prefer the smallest total trim.
+    best = None                      # (total_trim, value, mech, f, b)
+    seen_values = set()
+    for raw_value, mech in _all_values(atom, lookup):
+        # An end-deletion trims the letters of ONE solid word. Reject multi-word
+        # or punctuated source values ("at sea", "sea,"): otherwise a trim could
+        # coincidentally strip a whole word at a space boundary, which is not an
+        # honest letter-level deletion.
+        token = raw_value.strip()
+        if not token.isalpha():
+            continue
+        value = token.upper()
+        if (value, mech) in seen_values:
+            continue
+        seen_values.add((value, mech))
+        extra = len(value) - alen
+        if not (1 <= extra <= 2):
+            continue                 # remove 1-2 letters total; else not this slice
+        for f in range(0, extra + 1):
+            b = extra - f
+            if f == 0 and b == 0:
+                continue
+            if value[f:len(value) - b] == answer:
+                if best is None or extra < best[0]:
+                    best = (extra, value, mech, f, b)
+                break                # smallest f for this value found
+    if best is None:
+        return None
+
+    _, value, mech, f, b = best
+    piece = Piece(atoms=[atom.index], source_text=atom.surface,
+                  value=answer, mechanism=mech)   # value = surviving letters
+    prov = [Provenance(0, alen, piece, "deletion",
+                       transform=_deletion_detail(value, f, b))]
+    return _finish(answer, [piece], prov, "deletion")
+
+
 def solve(atoms, answer, lookup, is_link, indicator_types=None):
-    """Try each operation assembler. Indicator-gated operations (anagram,
-    container) run first; the permissive charade last."""
+    """Try each operation assembler. Indicator-gated operations run first, then
+    the permissive charade.
+
+    Order within the gated group is most-specific first. Reversal precedes
+    anagram deliberately: a reversal is one particular letter permutation, so an
+    anagram indicator (many reversal words are tagged as both) would otherwise
+    claim a clue whose answer is the exact reverse of its fodder. Reversal only
+    fires on that exact-reverse case — a genuine reversal — and returns None for
+    a true rearrangement, so anagram still handles real anagrams.
+    """
     if indicator_types is not None:
-        for fn in (solve_anagram, solve_container):
+        for fn in (solve_reversal, solve_deletion, solve_anagram, solve_container):
             pr = fn(atoms, answer, lookup, is_link, indicator_types)
             if pr is not None:
                 return pr
