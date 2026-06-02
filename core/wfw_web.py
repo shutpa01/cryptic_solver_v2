@@ -151,10 +151,12 @@ def _render_one(token):
     # Solve — this writes the Parse to the substrate of record (core.store).
     engine_registry.solve_clue_text(clue_text, answer, wiring(),
                                     source=src, puzzle_number=pnum, clue_id=clue_id)
-    # Render from the persisted Parse, not the in-memory one.
+    # Render from the persisted Parse AND the persisted atomisation, not the
+    # in-memory ones — so the page shows exactly what was preserved.
     conn = store.connect()
     try:
         parse = store.load_parse(conn, clue_id)
+        ctx = store.load_atoms(conn, clue_id) if parse is not None else None
     finally:
         conn.close()
     if parse is None:
@@ -163,7 +165,8 @@ def _render_one(token):
                 f'</div><p>Answer: <strong>{escape(answer)}</strong></p>'
                 f'<p class="warn">No engine claimed this clue '
                 f'(engines available: {escape(avail)}).</p></div>')
-    ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
+    if ctx is None:                  # row predates atom preservation -> re-atomise
+        ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
     screen = SCREENS.get(parse.solved_by)
     return screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
 

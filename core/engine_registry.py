@@ -154,7 +154,7 @@ def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
     _finalize_provisional(parse, ctx, wiring.get("store"), source, puzzle_number)
     if clue_id is not None:
         from core import store as wfw_store
-        wfw_store.persist(clue_id, parse)         # preserve the evidence
+        wfw_store.persist(clue_id, parse, ctx)    # preserve the parse + atomisation
     return parse, name
 
 

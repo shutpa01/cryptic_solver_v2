@@ -23,6 +23,7 @@ import os
 import sqlite3
 
 from core.wfw_model import Source, Link, Annotation, Parse
+from core.wfw_atoms import context_from_dict
 
 DEFAULT_DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                           "data", "clues_master.db")
@@ -38,6 +39,9 @@ CREATE TABLE IF NOT EXISTS wfw_solve (
     status      TEXT,            -- 'pass' | 'pending' | 'fail'
     confidence  INTEGER,
     warnings    TEXT,            -- JSON array of plain-English strings
+    atoms       TEXT,            -- JSON of the PRESERVED atomisation (WFWAtomContext
+                                 --   .as_dict): the exact atoms the provenance below
+                                 --   references, so rendering never re-atomises
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS wfw_piece (
@@ -68,23 +72,34 @@ def connect(db_path=None):
 
 def ensure_schema(conn):
     conn.executescript(SCHEMA)
+    # Additive migration for a wfw_solve created before the atoms column existed:
+    # ALTER ADD COLUMN is non-destructive (existing rows get NULL).
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(wfw_solve)")}
+    if "atoms" not in cols:
+        conn.execute("ALTER TABLE wfw_solve ADD COLUMN atoms TEXT")
     conn.commit()
 
 
-def save_parse(conn, clue_id, parse):
+def save_parse(conn, clue_id, parse, ctx=None):
     """Persist a solved clue's full Parse. Idempotent: a re-solve replaces this
     clue's prior rows rather than duplicating them. Pieces are preserved on FAIL
-    too — the whole point is that the evidence survives the call."""
+    too — the whole point is that the evidence survives the call.
+
+    `ctx` is the WFWAtomContext this parse was built from; when given, the whole
+    atomisation is preserved (serialised into wfw_solve.atoms) so the screen can
+    render from the exact stored atoms instead of re-atomising the clue text."""
     ensure_schema(conn)
     for table in ("wfw_solve", "wfw_piece", "wfw_link"):
         conn.execute("DELETE FROM %s WHERE clue_id = ?" % table, (clue_id,))
 
     conn.execute(
         "INSERT INTO wfw_solve (clue_id, clue_text, answer_text, operation, "
-        "solved_by, status, confidence, warnings) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        "solved_by, status, confidence, warnings, atoms) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (clue_id, parse.clue_text, parse.answer_text, parse.operation,
          parse.solved_by, parse.status, parse.confidence,
-         json.dumps(list(parse.warnings or []))))
+         json.dumps(list(parse.warnings or [])),
+         json.dumps(ctx.as_dict()) if ctx is not None else None))
 
     def _piece(role, ord_, text, value, mechanism, source, note, atom_ids):
         conn.execute(
@@ -160,11 +175,25 @@ def load_parse(conn, clue_id):
                  warnings=json.loads(warnings) if warnings else [])
 
 
-def persist(clue_id, parse, db_path=None):
+def load_atoms(conn, clue_id):
+    """Reconstruct the PRESERVED atomisation for this clue (the exact atoms the
+    stored provenance references), or None if none was stored (a row solved
+    before atom preservation). Lets the screen render from the preserved atoms
+    rather than re-running the atomiser."""
+    ensure_schema(conn)
+    row = conn.execute("SELECT atoms FROM wfw_solve WHERE clue_id = ?",
+                       (clue_id,)).fetchone()
+    if not row or not row[0]:
+        return None
+    return context_from_dict(json.loads(row[0]))
+
+
+def persist(clue_id, parse, ctx=None, db_path=None):
     """Convenience: open a short-lived connection, save the Parse, close. Used by
-    the solve path so every solve becomes durable the moment it is produced."""
+    the solve path so every solve becomes durable the moment it is produced.
+    `ctx` preserves the atomisation alongside the parse (see save_parse)."""
     conn = connect(db_path)
     try:
-        save_parse(conn, clue_id, parse)
+        save_parse(conn, clue_id, parse, ctx)
     finally:
         conn.close()

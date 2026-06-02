@@ -80,6 +80,33 @@ class WFWAtomContext:
         }
 
 
+def context_from_dict(d):
+    """Rebuild a WFWAtomContext from its as_dict() form — the exact inverse of
+    WFWAtomContext.as_dict(). This restores a PERSISTED atomisation without
+    re-running the atomiser, so the atoms (and their ids) the stored provenance
+    references are preserved verbatim even if the atomiser code later changes."""
+    def _atom(a):
+        return CharAtom(
+            atom_id=a["atom_id"], stream=a["stream"], index=a["index"],
+            char=a["char"], normalized=a["normalized"], kind=a["kind"],
+            letter_position=a.get("letter_position"))
+
+    def _tok(t):
+        return OriginalToken(
+            token_id=t["token_id"], stream=t["stream"], index=t["index"],
+            text=t["text"], start_atom=t["start_atom"], end_atom=t["end_atom"],
+            atom_ids=tuple(t["atom_ids"]), kind=t["kind"])
+
+    return WFWAtomContext(
+        clue_text=d.get("clue_text", ""),
+        answer_text=d.get("answer_text", ""),
+        clue_atoms=tuple(_atom(a) for a in d.get("clue_atoms", [])),
+        answer_atoms=tuple(_atom(a) for a in d.get("answer_atoms", [])),
+        clue_tokens=tuple(_tok(t) for t in d.get("clue_tokens", [])),
+        answer_tokens=tuple(_tok(t) for t in d.get("answer_tokens", [])),
+    )
+
+
 def build_wfw_atom_context(clue_text, answer_text):
     """Return stable character atoms and original tokens for clue and answer."""
     clue_atoms = atomize_characters("clue", clue_text, number_letters=False)
