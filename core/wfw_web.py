@@ -17,12 +17,14 @@ from flask import Flask, request
 from core import engine_registry
 from core import wfw_render
 from core import hidden_screen
+from core import dd_screen
 from core import admin_db
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
 # One base screen for every type; a type supplies only its specific changes.
-SCREENS = {"hidden": hidden_screen.render}
+SCREENS = {"hidden": hidden_screen.render, "dd": dd_screen.render}
+_ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition"}
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                   "data", "clues_master.db")
@@ -156,10 +158,11 @@ def _render_one(token):
     finally:
         conn.close()
     if parse is None:
+        avail = ", ".join(_ENGINE_LABELS.get(k, k) for k in SCREENS)
         return (f'<div class="wfw-card"><div class="wfw-clue">{escape(clue_text)}'
                 f'</div><p>Answer: <strong>{escape(answer)}</strong></p>'
-                f'<p class="warn">No engine solved this clue yet '
-                f'(engines available: hidden).</p></div>')
+                f'<p class="warn">No engine claimed this clue '
+                f'(engines available: {escape(avail)}).</p></div>')
     ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
     screen = SCREENS.get(parse.solved_by)
     return screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)

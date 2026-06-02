@@ -38,7 +38,7 @@ def _answer_letters(ctx):
     return "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
 
 
-def find_definitions(ctx, defines, max_window=5, extend=False,
+def find_definitions(ctx, defines, max_window=8, extend=False,
                      wordplay_indices=None):
     """All edge definition splits whose phrase `defines` the answer.
 

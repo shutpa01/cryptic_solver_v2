@@ -212,8 +212,9 @@ def solve_hidden(ctx, defines, indicator_types=None, is_link=None,
             return parse
         if best_fail is None:
             best_fail = parse
-    # No candidate passed: return the most-explained FAIL so the user still sees
-    # the pieces we got, with clear warnings — never a silent or invented solve.
+    # No candidate was a clean PASS: return the best PENDING (candidates are tried
+    # best-first, so this is the most-explained parse — run found, with whatever
+    # piece is still queued for enrichment clearly warned). Hidden never fails.
     return best_fail
 
 
@@ -333,16 +334,23 @@ def _maybe_add_edge_definition(ctx, parse):
 
 def _verify_hidden(ctx, parse):
     """Engine-level verification — rules SPECIFIC to hidden, run inside the
-    engine (no shared grand verifier). Sets parse.status to 'pass' (no warnings)
-    or 'fail' (with plain-English warnings). A hidden clue passes only when:
+    engine (no shared grand verifier).
 
-      1. the answer is a contiguous forward/reverse run of clue letters,
-      2. every clue word is accounted for,
-      3. a hidden indicator is present,
-      4. a definition is present,
-      5. every remaining word is a known link word.
+    The cascade rule (2026-06-02): finding the answer as a contiguous run of clue
+    letters is conclusive that the clue IS hidden, so hidden is TERMINAL whenever
+    it fires and NEVER returns 'fail'. The verdict is therefore two-state here:
 
-    On any failure we keep all the genuine pieces and explain what is wrong.
+      - 'pass'    when everything is DB-confirmed: contiguous run, every clue word
+                  accounted for, a DB-confirmed indicator, and a DB-confirmed
+                  definition.
+      - 'pending' when the run is found but a required piece is missing or only
+                  provisional (a queued enrichment candidate): no/provisional
+                  indicator, no/provisional definition, or unaccounted words.
+
+    (A clue with no contiguous run never reaches here — find_hidden returns None
+    and the cascade moves on; that absence is not a hidden 'fail'.)
+
+    On a pending verdict we keep all the genuine pieces and explain what is queued.
     """
     warnings = []
 
@@ -356,20 +364,26 @@ def _verify_hidden(ctx, parse):
         warnings.append("these clue words are unaccounted for: "
                         + ", ".join(repr(m) for m in missing))
 
-    # 3. a hidden indicator present.
-    if not any(a.role == "indicator" for a in parse.annotations):
+    # 3. a hidden indicator present and DB-confirmed.
+    indicators = [a for a in parse.annotations if a.role == "indicator"]
+    if not indicators:
         warnings.append("no hidden indicator found")
+    elif any(getattr(a, "source", "db") == "pending" for a in indicators):
+        warnings.append("the hidden indicator is provisional (queued for enrichment)")
 
-    # 4. a definition present.
+    # 4. a definition present and DB-confirmed.
     if parse.definition is None:
         warnings.append("no definition found")
+    elif getattr(parse.definition, "source", "db") == "pending":
+        warnings.append("the definition is provisional (queued for enrichment)")
 
     # 5. remaining words must be known link words — already enforced by
     #    classification (anything not host/def/indicator/link is 'unaccounted',
     #    caught by rule 2), so no separate check is needed here.
 
     parse.warnings = warnings
-    parse.status = "pass" if not warnings else "fail"
+    # Hidden never fails: a clean parse passes, any queueable gap is pending.
+    parse.status = "pass" if not warnings else "pending"
 
 
 def _is_contiguous_run(ctx, parse):

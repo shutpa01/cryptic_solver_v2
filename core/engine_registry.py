@@ -91,18 +91,22 @@ def make_db_wiring():
     # fallback: they are read off the clue's own leftover words and queued.)
     store = None
     define_fallback = None
+    ai_is_definition = None
     try:
         from core.pending_store import PendingStore
         store = PendingStore()
         from core import ai_definition, definition_fallback
         define_fallback = definition_fallback.make_fallback(
             ai_definition.define, store)
+        from core import ai_synonym
+        ai_is_definition = ai_synonym.is_definition_of   # narrow DD half-check
     except Exception:
         pass
 
     return {"db": db, "defines": defines,
             "indicator_types": indicator_types, "is_link": is_link,
-            "define_fallback": define_fallback, "store": store}
+            "define_fallback": define_fallback,
+            "ai_is_definition": ai_is_definition, "store": store}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
@@ -114,23 +118,44 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     `clue_id`, when given, makes the solve DURABLE: the final Parse (PASS or FAIL)
     is persisted as the substrate of record (core.store), so it survives the call
     and the screen can render straight from the DB."""
-    store = wiring.get("store")
-
-    # HIDDEN — built. Triggered by the hidden run; simplest, tried first.
+    # HIDDEN — triggered by the hidden run; simplest, tried first. Finding the
+    # answer as a contiguous run is conclusive that the clue is hidden, so hidden
+    # is TERMINAL whenever it fires (verdict pass or pending — it never fails). No
+    # run -> it returns None and the cascade falls through.
     from core.hidden_engine import solve_hidden
-    parse = solve_hidden(ctx, wiring["defines"],
-                         indicator_types=wiring["indicator_types"],
-                         is_link=wiring["is_link"],
-                         define_fallback=wiring.get("define_fallback"))
-    if parse is not None:
-        _finalize_provisional(parse, ctx, store, source, puzzle_number)
-        if clue_id is not None:
-            from core import store as wfw_store
-            wfw_store.persist(clue_id, parse)     # preserve the evidence
-        return parse, "hidden"
+    ph = solve_hidden(ctx, wiring["defines"],
+                      indicator_types=wiring["indicator_types"],
+                      is_link=wiring["is_link"],
+                      define_fallback=wiring.get("define_fallback"))
+    if ph is not None:
+        return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
 
-    # (future engines register below, in clue-flow order)
+    # DOUBLE DEFINITION — two definitions, no wordplay; gated grammar shape +
+    # DB-confirm-one-half + narrow Haiku on the other. A pass (both DB) or pending
+    # (one half queued) STOPS here. A DD fail (one real definition, no confirmable
+    # second) does not stop the cascade.
+    from core.dd_engine import solve_dd
+    pd = solve_dd(ctx, wiring["defines"], is_link=wiring["is_link"],
+                  indicator_types=wiring["indicator_types"],
+                  ai_is_definition=wiring.get("ai_is_definition"))
+    if pd is not None and pd.status in ("pass", "pending"):
+        return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
+
+    # Nothing stopped the cascade. No engine follows DD yet, so return the most
+    # complete FAIL we have so the evidence is still shown (a future engine would
+    # slot in here and a DD fail would fall through to it).
+    if pd is not None:
+        return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
     return None, None
+
+
+def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
+    """Queue any provisional pieces, persist the final Parse, return it."""
+    _finalize_provisional(parse, ctx, wiring.get("store"), source, puzzle_number)
+    if clue_id is not None:
+        from core import store as wfw_store
+        wfw_store.persist(clue_id, parse)         # preserve the evidence
+    return parse, name
 
 
 def _finalize_provisional(parse, ctx, store, source, puzzle_number):
@@ -138,10 +163,11 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
     final. Central here so every engine gets it for free."""
     if store is None:
         return
-    from core import definition_fallback, indicator_enrichment
+    from core import definition_fallback, indicator_enrichment, dd_enrichment
     definition_fallback.finalize(parse, ctx, store, source, puzzle_number)
     indicator_enrichment.finalize_indicators(parse, ctx, store, source,
                                              puzzle_number)
+    dd_enrichment.finalize_dd(parse, ctx, store, source, puzzle_number)
 
 
 def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,

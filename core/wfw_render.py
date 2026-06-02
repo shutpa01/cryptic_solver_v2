@@ -1,7 +1,7 @@
 """Render a WFW Parse as the clue page — the shared BASE screen for every type.
 
 Visual tone: a clean, high-contrast "modern app" card. A header (coloured
-clue-type badge + PASS/FAIL), the clue line with the used letters lit in place,
+clue-type badge + PASS/PENDING/FAIL), the clue line with the used letters lit in place,
 bold rounded answer tiles, and a word-by-word breakdown laid out as an ALIGNED
 two-column grid (a solid colour-coded role pill, then the content) so every row
 lines up. Pure: takes a core.wfw_model.Parse and returns an HTML fragment.
@@ -122,16 +122,20 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
                 and getattr(parse.definition, "source", "db") == "pending")
     prov_ann = any(getattr(a, "source", "db") == "pending"
                    for a in parse.annotations)
+    prov_src = any(getattr(s, "source", "db") == "pending"
+                   for s in parse.sources)
     prov = ""
-    if prov_def or prov_ann:
+    if prov_def or prov_ann or prov_src:
         prov = ('<div class="wfw-banner wfw-banner-prov">A provisional piece '
                 '(highlighted "provisional") is queued for verification &mdash; '
                 'provisional until enriched.</div>')
 
     warns = ""
-    if getattr(parse, "status", "pass") != "pass" and parse.warnings:
+    status = getattr(parse, "status", "pass")
+    if status != "pass" and parse.warnings:
         items = "".join("<li>%s</li>" % escape(w) for w in parse.warnings)
-        warns = '<div class="wfw-banner wfw-banner-warn"><ul>%s</ul></div>' % items
+        cls = "wfw-banner-warn" if status == "fail" else "wfw-banner-pending"
+        warns = '<div class="wfw-banner %s"><ul>%s</ul></div>' % (cls, items)
 
     return ('<div class="wfw-card">%s'
             '<div class="wfw-clue">%s</div>'
@@ -142,8 +146,11 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
 
 
 def _verdict_badge(parse):
-    if getattr(parse, "status", "pass") == "pass":
+    status = getattr(parse, "status", "pass")
+    if status == "pass":
         return '<span class="wfw-verdict pass">&#10003; PASS</span>'
+    if status == "pending":
+        return '<span class="wfw-verdict pending">&#8226; PENDING</span>'
     return '<span class="wfw-verdict fail">&#10007; FAIL</span>'
 
 
@@ -177,6 +184,8 @@ def _render_breakdown(parse, src_fg, src_fill):
         content = ('%s <span class="wfw-arrow">&rarr;</span> '
                    '<strong class="wfw-val">%s</strong>'
                    % (escape(s.text), escape(s.value)))
+        if getattr(s, "source", "db") == "pending":
+            content += ' <span class="wfw-prov">provisional</span>'
         rows.append(_row(_first_index(s.clue_atom_ids), label, style, content))
 
     if parse.definition:
@@ -224,6 +233,7 @@ PAGE_CSS = """
   .wfw-verdict { font-size:.78rem; font-weight:800; letter-spacing:.05em;
                  padding:.35rem .7rem; border-radius:999px; color:#fff; }
   .wfw-verdict.pass { background:#16a34a; }
+  .wfw-verdict.pending { background:#d97706; }
   .wfw-verdict.fail { background:#dc2626; }
   .wfw-clue { font-size:1.4rem; line-height:1.6; margin-bottom:1.1rem;
               color:var(--ink); font-weight:500; }
@@ -252,9 +262,10 @@ PAGE_CSS = """
   .wfw-banner { margin-top:1rem; border-radius:10px; padding:.65rem .85rem;
                 font-size:.92rem; line-height:1.45; }
   .wfw-banner-prov { background:#fffbeb; border:1px solid #fcd34d; color:#92600a; }
+  .wfw-banner-pending { background:#fffbeb; border:1px solid #fcd34d; color:#92600a; }
   .wfw-banner-warn { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; }
-  .wfw-banner-warn ul { margin:0; padding-left:1.2rem; }
-  .wfw-banner-warn li { margin:.15rem 0; }
+  .wfw-banner-pending ul, .wfw-banner-warn ul { margin:0; padding-left:1.2rem; }
+  .wfw-banner-pending li, .wfw-banner-warn li { margin:.15rem 0; }
 """
 
 

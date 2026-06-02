@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS wfw_solve (
     answer_text TEXT,
     operation   TEXT,
     solved_by   TEXT,
-    status      TEXT,            -- 'pass' | 'fail'
+    status      TEXT,            -- 'pass' | 'pending' | 'fail'
     confidence  INTEGER,
     warnings    TEXT,            -- JSON array of plain-English strings
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP

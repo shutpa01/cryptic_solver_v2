@@ -79,7 +79,13 @@ class Parse:
     operation: str = ""                            # top-level operation label
     confidence: int = 0
     solved_by: str = ""                            # hidden | dd | catalog | cd
-    status: str = "pass"                           # 'pass' | 'fail' (engine verdict)
+    status: str = "pass"                           # 'pass' | 'pending' | 'fail'
+                                                   #   pass    = fully DB-verified
+                                                   #   pending = fully parsed but hangs
+                                                   #             on a queued enrichment
+                                                   #   fail    = substantial evidence,
+                                                   #             not enough even with
+                                                   #             enrichment (engine verdict)
     warnings: list = field(default_factory=list)   # list[str], plain-English on fail
 
     def answer_letters(self) -> str:
