@@ -423,6 +423,7 @@ atomiser — locate it before reviving rather than rebuilding.)
 ### New DB objects (from section 10)
 - tables: catalog_templates, clue_provenance.
 - columns on structured_explanations: solved_by, template_id.
+- table: puzzle_render — the per-puzzle render-switch flag (section 13).
 
 ---
 
@@ -473,4 +474,37 @@ orphans that delete safely.
 
 Rule throughout: disconnect (remove the call site) -> run the pipeline + regression-check
 existing solves -> delete -> commit. Never delete a file that is still wired in.
+
+---
+
+## 13. Transition: per-puzzle render switch (decided 2026-06-02)
+
+During transition the old and new systems coexist. The switch between the legacy
+clue page and the new per-type screens is per PUZZLE, never per clue, so a puzzle
+never shows a mix of legacy and new clue pages.
+
+- Granularity. The unit of cutover is a whole puzzle, identified by
+  (source, puzzle_number) — e.g. telegraph 31179.
+- The flag. Running a puzzle through the new system sets a per-puzzle flag: a row
+  keyed by (source, puzzle_number) in a puzzle_render table. The clue-page route
+  reads this flag FIRST and renders the ENTIRE puzzle with one renderer — the new
+  per-type screens if flagged, otherwise the legacy page (structured_explanations
+  / clue_word_roles). The flag lives wherever the new substrate lives (today the
+  wfw_* tables in clues_master.db; a shadow DB if/when the substrate moves there).
+- No fallback within a flagged puzzle. Once a puzzle is flagged "new", every clue
+  in it renders the new page, INCLUDING clues the new engines could not solve —
+  those show as fail/unsolved in the new style. They do NOT fall back to the
+  legacy parse, because per-clue fallback would reintroduce the mixed-page state
+  this rule exists to prevent.
+- The flag is a coverage gate / sign-off, not an automatic side effect of a run.
+  A puzzle is flagged only once its new-system run has been reviewed and covers it
+  well enough that the new page is an improvement for ALL its clues, not a
+  regression on any. So setting the flag is a deliberate act, distinct from merely
+  having solved the clues.
+- Entry point. Setting the flag implies a PUZZLE-LEVEL run (solve every clue in the
+  puzzle, review, then flag). The current core/ path solves one clue id at a time;
+  the puzzle-run wrapper plus the flag-set is a new transition-time piece.
+- Relation to sections 7 and 10. This refines the global reader-cutover described
+  there: during transition, readers switch per puzzle via the flag, and the global
+  cutover is simply the end state once every live puzzle has been flagged.
 
