@@ -18,13 +18,23 @@ from core import engine_registry
 from core import wfw_render
 from core import hidden_screen
 from core import dd_screen
+from core import charade_screen
+from core import anagram_screen
+from core import anagram_charade_screen
 from core import admin_db
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
 # One base screen for every type; a type supplies only its specific changes.
-SCREENS = {"hidden": hidden_screen.render, "dd": dd_screen.render}
-_ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition"}
+# Keyed by the fine clue-type (parse.operation) first, then the engine name
+# (parse.solved_by) — catalog operations share solved_by="catalog" but each has
+# its own screen, so dispatch must key on the operation.
+SCREENS = {"hidden": hidden_screen.render, "dd": dd_screen.render,
+           "charade": charade_screen.render, "anagram": anagram_screen.render,
+           "anagram_charade": anagram_charade_screen.render}
+_ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
+                  "charade": "charade", "anagram": "anagram",
+                  "anagram_charade": "anagram + charade"}
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                   "data", "clues_master.db")
@@ -161,14 +171,23 @@ def _render_one(token):
         conn.close()
     if parse is None:
         avail = ", ".join(_ENGINE_LABELS.get(k, k) for k in SCREENS)
-        return (f'<div class="wfw-card"><div class="wfw-clue">{escape(clue_text)}'
+        return (_cid_label(clue_id)
+                + f'<div class="wfw-card"><div class="wfw-clue">{escape(clue_text)}'
                 f'</div><p>Answer: <strong>{escape(answer)}</strong></p>'
                 f'<p class="warn">No engine claimed this clue '
                 f'(engines available: {escape(avail)}).</p></div>')
     if ctx is None:                  # row predates atom preservation -> re-atomise
         ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
-    screen = SCREENS.get(parse.solved_by)
-    return screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
+    screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
+    card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
+    return _cid_label(clue_id) + card
+
+
+def _cid_label(clue_id):
+    """A small 'CLUE ID n' line above each card, so we can reference what we test."""
+    return ('<div style="font-size:.8rem;font-weight:700;color:#64748b;'
+            'letter-spacing:.06em;margin:1.2rem 0 -.5rem">CLUE ID %d</div>'
+            % clue_id)
 
 
 def _page(body):

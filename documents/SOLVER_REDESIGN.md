@@ -345,10 +345,25 @@ catalog_templates:
   This is the WFW substrate persisted: render straight from it.
 - clue_word_roles (per-word) is subsumed by the per-letter provenance; keep it only as
   a derived view if anything still needs word-level.
-- Record the solver path on structured_explanations: add solved_by
-  ('hidden' | 'dd' | 'catalog' | 'cd') and template_id (FK to catalog_templates when
-  the catalog solved it). This fixes the current "can't tell what matched" gap and
-  enables per-template coverage measurement.
+- Record the solver path on every solve: solved_by ('hidden' | 'dd' | 'catalog' |
+  'cd') and template_id (FK to catalog_templates when a catalog signature solved it).
+  This fixes the current "can't tell what matched" gap and enables per-template
+  coverage measurement.
+- CLUE <-> SIGNATURE CROSS-REFERENCE (DECIDED 2026-06-02, IMPLEMENTED 2026-06-03).
+  Every clue must record WHICH catalog signature solved it, cross-referenced to the
+  clue id, and this must be queryable locally. Concretely:
+  - The catalog (catalog_templates / catalog_template_slots) lives in clues_master.db,
+    NOT cryptic_new.db — so the catalog and the solve records sit in one DB and the
+    clue->signature link is a local FK/join, not a cross-database reference. This
+    overrides the reference-data instinct to keep the catalog in cryptic_new.db.
+  - The link is the column wfw_solve.template_id (the new WFW substrate of record;
+    see core/store.py wfw_solve/wfw_piece/wfw_link). It is the FK to
+    catalog_templates.id; NULL when no catalog signature solved the clue (hidden, dd,
+    cd, or a catalog FAIL). The catalog engine writes it on every solve; load_parse
+    restores it. So clue id -> signature is `SELECT signature FROM catalog_templates
+    JOIN wfw_solve ON catalog_templates.id = wfw_solve.template_id WHERE clue_id = ?`.
+  (Note: the legacy structured_explanations table is NOT where this is recorded; the
+  WFW substrate wfw_solve is. structured_explanations belongs to the old pipeline.)
 - model_version stays but is no longer the attribution of record; solved_by +
   template_id are. The redesign must write attribution that a later pass does not
   silently overwrite (the last-writer-wins problem from the AS-IS doc).

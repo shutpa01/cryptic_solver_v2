@@ -21,6 +21,41 @@ def _nlp():
     return _NLP
 
 
+def pos_tags(words):
+    """Coarse spaCy POS, one tag per input word, ALIGNED to `words`.
+
+    spaCy may split a word we keep whole (a contraction: "I'd" -> "I" + "'d"), so we
+    align spaCy's tokens back to our words by consuming tokens until their letters
+    cover each word, taking a content tag from the group where present. Returns []
+    if spaCy is unavailable or the alignment fails (caller falls back to no POS).
+    """
+    import re
+    if not words:
+        return []
+    try:
+        doc = list(_nlp()(" ".join(words)))
+    except Exception:
+        return []
+
+    def alnum(s):
+        return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+    content = {"VERB", "NOUN", "ADJ", "PROPN", "NUM", "ADV"}
+    tags, si = [], 0
+    for w in words:
+        target = alnum(w)
+        group, acc = [], ""
+        while si < len(doc) and len(acc) < len(target):
+            group.append(doc[si])
+            acc += alnum(doc[si].text)
+            si += 1
+        if acc != target or not group:
+            return []                          # alignment broke -> no POS
+        pos = next((t.pos_ for t in group if t.pos_ in content), group[0].pos_)
+        tags.append(pos)
+    return tags if len(tags) == len(words) else []
+
+
 def extend_definition_indices(clue_words, def_indices, wordplay_indices):
     """Grow a confirmed definition outward toward the wordplay.
 

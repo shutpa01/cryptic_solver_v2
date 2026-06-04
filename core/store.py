@@ -36,6 +36,10 @@ CREATE TABLE IF NOT EXISTS wfw_solve (
     answer_text TEXT,
     operation   TEXT,
     solved_by   TEXT,
+    template_id INTEGER,         -- FK to catalog_templates: WHICH signature solved
+                                 --   this clue (the clue<->signature cross-reference,
+                                 --   local because the catalog lives in this same DB).
+                                 --   NULL when no catalog signature solved it.
     status      TEXT,            -- 'pass' | 'pending' | 'fail'
     confidence  INTEGER,
     warnings    TEXT,            -- JSON array of plain-English strings
@@ -77,6 +81,8 @@ def ensure_schema(conn):
     cols = {r[1] for r in conn.execute("PRAGMA table_info(wfw_solve)")}
     if "atoms" not in cols:
         conn.execute("ALTER TABLE wfw_solve ADD COLUMN atoms TEXT")
+    if "template_id" not in cols:
+        conn.execute("ALTER TABLE wfw_solve ADD COLUMN template_id INTEGER")
     conn.commit()
 
 
@@ -94,11 +100,11 @@ def save_parse(conn, clue_id, parse, ctx=None):
 
     conn.execute(
         "INSERT INTO wfw_solve (clue_id, clue_text, answer_text, operation, "
-        "solved_by, status, confidence, warnings, atoms) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "solved_by, template_id, status, confidence, warnings, atoms) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (clue_id, parse.clue_text, parse.answer_text, parse.operation,
-         parse.solved_by, parse.status, parse.confidence,
-         json.dumps(list(parse.warnings or [])),
+         parse.solved_by, getattr(parse, "template_id", None), parse.status,
+         parse.confidence, json.dumps(list(parse.warnings or [])),
          json.dumps(ctx.as_dict()) if ctx is not None else None))
 
     def _piece(role, ord_, text, value, mechanism, source, note, atom_ids):
@@ -133,11 +139,12 @@ def load_parse(conn, clue_id):
     ensure_schema(conn)
     head = conn.execute(
         "SELECT clue_text, answer_text, operation, solved_by, status, "
-        "confidence, warnings FROM wfw_solve WHERE clue_id = ?",
+        "confidence, warnings, template_id FROM wfw_solve WHERE clue_id = ?",
         (clue_id,)).fetchone()
     if head is None:
         return None
-    clue_text, answer_text, operation, solved_by, status, confidence, warnings = head
+    (clue_text, answer_text, operation, solved_by, status, confidence,
+     warnings, template_id) = head
 
     pieces = conn.execute(
         "SELECT role, ord, text, value, mechanism, source, note, atom_ids "
@@ -168,11 +175,13 @@ def load_parse(conn, clue_id):
     links = [Link(answer_pos=r[0], source_index=r[1], operation=r[2],
                   clue_atom_id=r[3], transform=r[4]) for r in link_rows]
 
-    return Parse(clue_text=clue_text, answer_text=answer_text, sources=sources,
-                 links=links, annotations=annotations, definition=definition,
-                 operation=operation, confidence=confidence or 0,
-                 solved_by=solved_by, status=status or "pass",
-                 warnings=json.loads(warnings) if warnings else [])
+    parse = Parse(clue_text=clue_text, answer_text=answer_text, sources=sources,
+                  links=links, annotations=annotations, definition=definition,
+                  operation=operation, confidence=confidence or 0,
+                  solved_by=solved_by, status=status or "pass",
+                  warnings=json.loads(warnings) if warnings else [])
+    parse.template_id = template_id      # the signature cross-reference (may be None)
+    return parse
 
 
 def load_atoms(conn, clue_id):

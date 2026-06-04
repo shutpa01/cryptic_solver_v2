@@ -10,6 +10,25 @@ DB wiring is injected once (RefDB), kept out of the pure engines.
 """
 
 from core.wfw_atoms import build_wfw_atom_context
+from core import inflect, contractions
+
+
+def _match_variants(text):
+    """All forms to try when matching a clue word/phrase against the DB: its regular
+    inflections (plural/verb), plus contraction/possessive base + expansions (each
+    also inflected). Deduped, original first. The single place the inflection and
+    contraction rules combine (memory: feedback-inflection-match)."""
+    out = []
+
+    def add(t):
+        for v in inflect.phrase_variants(t):
+            if v not in out:
+                out.append(v)
+
+    add(text)
+    for f in contractions.forms(text):
+        add(f)
+    return out
 
 
 def make_db_wiring():
@@ -23,50 +42,75 @@ def make_db_wiring():
     cryptic_db = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                               "data", "cryptic_new.db")
 
-    def _live_defines(phrase, answer):
-        """Direct lookup of definition_answers_augmented, so a definition just
-        accepted in the dashboard is seen WITHOUT reloading the in-memory RefDB
-        (which is a startup snapshot). Same normalisation as is_definition_of."""
-        ac = answer.upper().replace(" ", "").replace("-", "")
-        pc = phrase.lower().strip(".,;:!?\"'()-").strip()
-        conn = sqlite3.connect(cryptic_db, timeout=30)
+    # Memo caches (per wiring). The definition stage probes the DB O(windows) times
+    # per clue and inflection multiplies that, while the live definition query is a
+    # full-table scan; without caching the page becomes unusably slow. Trade-off: a
+    # dashboard add is not seen until the wiring (server) is rebuilt — acceptable
+    # for the true-test tool, which already restarts on code change.
+    _cache_def, _cache_ind, _cache_look = {}, {}, {}
+
+    # Live indexes, built ONCE at wiring time by a single scan of each table, so the
+    # per-clue lookups (probed O(windows) times, multiplied by inflection variants)
+    # are O(1) dict hits instead of full-table scans — the scan-per-call was making
+    # a single clue take tens of seconds. Same startup-snapshot staleness as RefDB.
+    def _norm_def(text):
+        return (text or "").lower().strip(".,;:!?\"'()-").strip()
+
+    def _norm_ans(text):
+        return (text or "").upper().replace(" ", "").replace("-", "")
+
+    _live_def_index, _live_ind_index = {}, {}
+    try:
+        _c = sqlite3.connect(cryptic_db, timeout=30)
         try:
-            rows = conn.execute(
-                "SELECT definition FROM definition_answers_augmented "
-                "WHERE UPPER(REPLACE(REPLACE(answer,' ',''),'-','')) = ?",
-                (ac,)).fetchall()
+            for ans, dfn in _c.execute(
+                    "SELECT answer, definition FROM definition_answers_augmented"):
+                if ans and dfn:
+                    _live_def_index.setdefault(_norm_ans(ans), set()).add(_norm_def(dfn))
+            for wd, wt in _c.execute(
+                    "SELECT word, wordplay_type FROM indicators"):
+                if wd and wt:
+                    _live_ind_index.setdefault(wd.lower().strip(), set()).add(wt)
         finally:
-            conn.close()
-        for (d,) in rows:
-            if d and d.lower().strip(".,;:!?\"'()-").strip() == pc:
-                return True
-        return False
+            _c.close()
+    except Exception:
+        _live_def_index, _live_ind_index = {}, {}
+
+    def _live_defines(phrase, answer):
+        """O(1) check against the prebuilt definition index (same data and
+        normalisation as the old per-call scan of definition_answers_augmented)."""
+        return _norm_def(phrase) in _live_def_index.get(_norm_ans(answer), ())
+
+    def _defines_exact(phrase, answer):
+        key = (phrase, answer)
+        if key in _cache_def:
+            return _cache_def[key]
+        r = False
+        try:
+            r = bool(db.is_definition_of(phrase, answer))
+        except Exception:
+            r = False
+        if not r:
+            try:
+                r = _live_defines(phrase, answer)
+            except Exception:
+                r = False
+        _cache_def[key] = r
+        return r
 
     def defines(phrase, answer):
-        try:
-            if db.is_definition_of(phrase, answer):
-                return True
-        except Exception:
-            pass
-        try:
-            return _live_defines(phrase, answer)
-        except Exception:
-            return False
+        # Inflection- and contraction-aware: a clue word matches its regular
+        # inflections and its contraction/possessive base+expansions.
+        return any(_defines_exact(v, answer) for v in _match_variants(phrase))
 
     def _live_indicator_types(word):
-        """Direct lookup of the indicators table, so an indicator just accepted in
-        the dashboard is seen WITHOUT reloading the in-memory RefDB snapshot."""
-        w = word.lower().strip()
-        conn = sqlite3.connect(cryptic_db, timeout=30)
-        try:
-            rows = conn.execute(
-                "SELECT DISTINCT wordplay_type FROM indicators WHERE LOWER(word)=?",
-                (w,)).fetchall()
-        finally:
-            conn.close()
-        return {r[0] for r in rows if r[0]}
+        """O(1) check against the prebuilt indicator index (same data as the old
+        per-call scan of the indicators table)."""
+        return set(_live_ind_index.get(word.lower().strip(), ()))
 
-    def indicator_types(word):
+    def _indicator_types_exact(word):
+        if word in _cache_ind:
+            return _cache_ind[word]
         types = set()
         try:
             types = {t for t, _, _ in db.get_indicator_types(word)}
@@ -77,13 +121,63 @@ def make_db_wiring():
                 types |= _live_indicator_types(word)
             except Exception:
                 pass
+        _cache_ind[word] = types
         return types
+
+    def indicator_types(word):
+        # Inflection- and contraction-aware. Union the types over the variants.
+        types = set()
+        for v in _match_variants(word):
+            types |= _indicator_types_exact(v)
+        return types
+
+    def is_dbe(word):
+        """A definition-by-example indicator ('perhaps', 'possibly', 'maybe', ...).
+        Inflection/contraction-aware via indicator_types."""
+        return "definition by example" in (indicator_types(word) or set())
 
     def is_link(word):
         try:
             return db.is_link_word(word)
         except Exception:
             return False
+
+    def _lookup_exact(word, answer):
+        key = (word, answer)
+        if key in _cache_look:
+            return _cache_look[key]
+        out = []
+        try:
+            for s in db.get_synonyms_substring_of(word, answer):
+                out.append((s, "synonym"))
+        except Exception:
+            pass
+        try:
+            au = answer.upper()
+            for a in db.get_abbreviations(word):
+                if a and a in au:
+                    out.append((a, "abbreviation"))
+        except Exception:
+            pass
+        _cache_look[key] = out
+        return out
+
+    def lookup(word, answer):
+        """(value, mechanism) options for a wordplay word that are substrings of
+        the answer — the answer-aware, UNCAPPED candidate set the catalog engines
+        consume. Synonyms and abbreviations from RefDB; the word's own raw letters
+        are added by each engine. No cap (the answer itself is the filter).
+
+        Inflection- and contraction-aware: variants of the word are looked up too,
+        so a DB synonym stored under a plural/verb/base form is found.
+        """
+        out, seen = [], set()
+        for v in _match_variants(word):
+            for val, mech in _lookup_exact(v, answer):
+                if (val, mech) not in seen:
+                    seen.add((val, mech))
+                    out.append((val, mech))
+        return out
 
     # AI definition fallback (the one AI touch-point), built only if available —
     # its absence simply means no fallback, never a crash. The store is the live
@@ -103,10 +197,27 @@ def make_db_wiring():
     except Exception:
         pass
 
-    return {"db": db, "defines": defines,
+    # Catalog signatures, read once into memory (design §4: the engines are
+    # catalog-DRIVEN). Loaded here with the rest of the wiring and injected, so the
+    # engines stay pure and DB-decoupled. Absence simply means no catalog match.
+    try:
+        from core.catalog_loader import (load_charade_templates,
+                                         load_anagram_templates,
+                                         load_anagram_charade_templates)
+        charade_templates = load_charade_templates()
+        anagram_templates = load_anagram_templates()
+        anagram_charade_templates = load_anagram_charade_templates()
+    except Exception:
+        charade_templates = anagram_templates = anagram_charade_templates = []
+
+    return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
             "define_fallback": define_fallback,
-            "ai_is_definition": ai_is_definition, "store": store}
+            "ai_is_definition": ai_is_definition, "store": store,
+            "is_dbe": is_dbe,
+            "charade_templates": charade_templates,
+            "anagram_templates": anagram_templates,
+            "anagram_charade_templates": anagram_charade_templates}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
@@ -141,12 +252,110 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     if pd is not None and pd.status in ("pass", "pending"):
         return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
 
-    # Nothing stopped the cascade. No engine follows DD yet, so return the most
-    # complete FAIL we have so the evidence is still shown (a future engine would
-    # slot in here and a DD fail would fall through to it).
-    if pd is not None:
-        return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
+    # ANAGRAM — catalog-driven, WORDPLAY-ONLY. The definition stage (here) decides
+    # the split; the engine is handed only the wordplay and never sees the
+    # definition. Indicator-gated and exact-letter, so high precision — tried before
+    # charade. A pass or pending stops here.
+    from core.anagram_engine import solve_anagram
+    pa = _solve_wordplay_engine(ctx, wiring, solve_anagram,
+                                wiring.get("anagram_templates") or [])
+    if pa is not None and pa.status in ("pass", "pending"):
+        return _finish(pa, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CHARADE — the catalog spine, tried after DD. Catalog-DRIVEN: it walks the
+    # mined charade signatures (injected as wiring["charade_templates"]) in
+    # priority order. A pass or pending stops here. Definition (incl. the shared
+    # Haiku fallback) and the synonym/abbreviation lookup come from the wiring; a
+    # provisional definition makes it pending and is queued by _finish.
+    from core.charade_engine import solve_charade
+    pc = solve_charade(ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+                       wiring.get("charade_templates") or [],
+                       define_fallback=wiring.get("define_fallback"),
+                       is_dbe=wiring.get("is_dbe"))
+    if pc is not None and pc.status in ("pass", "pending"):
+        return _finish(pc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
+    # pure engines (it is more specific). A pass or pending stops here.
+    from core.anagram_charade_engine import solve_anagram_charade
+    pac = solve_anagram_charade(ctx, wiring["defines"], wiring["lookup"],
+                                wiring["is_link"], wiring["indicator_types"],
+                                wiring.get("anagram_charade_templates") or [],
+                                define_fallback=wiring.get("define_fallback"),
+                                is_dbe=wiring.get("is_dbe"))
+    if pac is not None and pac.status in ("pass", "pending"):
+        return _finish(pac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # Nothing produced a clean stop. Return the genuinely MOST COMPLETE fail so the
+    # richest evidence is shown — measured (status, answer letters explained, clue
+    # words accounted, fewest warnings), NOT by engine order.
+    candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
+                                      (pac, "catalog")) if p is not None]
+    if candidates:
+        parse, name = _most_complete(candidates, ctx)
+        return _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id)
     return None, None
+
+
+def _solve_wordplay_engine(ctx, wiring, engine_fn, templates):
+    """Run a WORDPLAY-ONLY catalog engine under the definition stage.
+
+    The definition is decided HERE, never by the engine: for each candidate edge
+    definition the definition stage proposes, hand the engine ONLY the wordplay
+    tokens. When the engine returns a clean wordplay parse, attach that definition
+    and fold it into the verdict (a provisional definition makes it pending). The
+    engine never sees or chooses the definition. Returns the first PASS, else the
+    best parse found, else None.
+    """
+    from core.definition_engine import find_definitions, dbe_annotation
+    from core.wfw_model import Source
+    if not templates:
+        return None
+    splits = list(find_definitions(ctx, wiring["defines"],
+                                   define_fallback=wiring.get("define_fallback"),
+                                   is_dbe=wiring.get("is_dbe")))
+    if not splits:
+        return None
+    best = None
+    for split in splits:
+        parse = engine_fn(ctx, split.wordplay_tokens, wiring["is_link"],
+                          wiring["indicator_types"], templates)
+        if parse is None:
+            continue
+        parse.definition = Source(clue_atom_ids=split.def_atom_ids,
+                                  text=split.phrase, value=ctx.answer_text,
+                                  mechanism="definition", source=split.source)
+        dbe = dbe_annotation(split)            # by-example marker, kept out of wordplay
+        if dbe is not None:
+            parse.annotations = list(parse.annotations) + [dbe]
+        if parse.status != "fail":                  # wordplay clean -> fold in def
+            if split.source == "pending":
+                parse.status = "pending"
+                parse.warnings = list(parse.warnings) + [
+                    "the definition is provisional (queued for enrichment)"]
+            else:
+                parse.status = "pass"
+        if parse.status == "pass":
+            return parse
+        if best is None:
+            best = parse
+    return best
+
+
+def _most_complete(candidates, ctx):
+    """Pick the parse that explains the most, by a measured key (not engine order):
+    status rank, then answer letters linked, then clue words accounted, then fewest
+    warnings. `candidates` is a non-empty list of (parse, engine_name)."""
+    word_total = sum(1 for t in ctx.clue_tokens if t.kind == "word")
+
+    def key(item):
+        parse, _ = item
+        status_rank = {"pass": 2, "pending": 1, "fail": 0}.get(parse.status, 0)
+        linked = len({l.answer_pos for l in parse.links})
+        accounted = word_total - len(parse.unexplained_words(ctx))
+        return (status_rank, linked, accounted, -len(parse.warnings))
+
+    return max(candidates, key=key)
 
 
 def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):

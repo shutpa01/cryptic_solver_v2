@@ -28,6 +28,11 @@ class DefinitionSplit:
     wordplay_tokens: list = field(default_factory=list)   # remaining word tokens
     wordplay_atom_ids: tuple = ()                          # their char atom ids
     source: str = "db"                                     # 'db' or 'pending'
+    dbe_tokens: list = field(default_factory=list)        # definition-by-example
+                                                          #   indicator word(s) ("perhaps",
+                                                          #   "possibly") peeled off the
+                                                          #   wordplay edge by the def
+    by_example: bool = False                              # the definition is by example
 
 
 def _word_tokens(ctx):
@@ -39,7 +44,7 @@ def _answer_letters(ctx):
 
 
 def find_definitions(ctx, defines, max_window=8, extend=False,
-                     wordplay_indices=None):
+                     wordplay_indices=None, define_fallback=None, is_dbe=None):
     """All edge definition splits whose phrase `defines` the answer.
 
     Tries the longest edge windows first (a longer real definition beats a
@@ -51,6 +56,15 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
     DB could not confirm on their own (e.g. "mountains" -> "in the mountains" for
     ANDEAN). `wordplay_indices` (word positions that carry a wordplay role) are
     never absorbed; pass them when known so the extent stops at the wordplay.
+
+    `define_fallback`, when supplied, is the shared Haiku definition fallback
+    (core.definition_fallback.make_fallback): a callable define_fallback(ctx) ->
+    DefinitionSplit | None. It is consulted ONLY when the reference DB confirms
+    NO definition, and the split it returns is flagged source='pending' so the
+    engine renders it provisionally and the registry queues it for enrichment.
+    This lives here, in the one definition stage, so every engine that calls it
+    inherits the fallback without re-implementing it. (Hidden/DD do not pass it
+    and so are unaffected — they keep their own existing handling.)
     """
     words = _word_tokens(ctx)
     answer = _answer_letters(ctx)
@@ -70,9 +84,64 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
         if defines(phrase, answer):
             out.append(_split_from_indices(words, set(range(n - size, n)), "end"))
 
+    # Haiku fallback — ONLY on a complete DB miss. Provisional, queued downstream.
+    if not out and define_fallback is not None:
+        fb = define_fallback(ctx)
+        if fb is not None:
+            out = [fb]
+
     if extend and out:
         out = [_extend_split(words, s, wordplay_indices) for s in out]
+
+    # Definition-by-example: a DBE indicator ("perhaps", "possibly") sitting on the
+    # wordplay edge next to the definition is peeled off here — it marks the
+    # definition as by-example and must not be left for the wordplay to grab as an
+    # operation indicator (memory: feedback-definition-by-example).
+    if is_dbe is not None:
+        out = [_peel_dbe(words, s, is_dbe) for s in out]
     return out
+
+
+def dbe_annotation(split):
+    """The Annotation for a split's definition-by-example indicator, or None — the
+    one place engines build it, so the DBE marker is recorded consistently and the
+    word is accounted (kept out of the wordplay)."""
+    from core.wfw_model import Annotation
+    toks = getattr(split, "dbe_tokens", None)
+    if not toks:
+        return None
+    return Annotation(
+        clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+        text=" ".join(t.text for t in toks),
+        role="indicator", note="definition by example")
+
+
+def _peel_dbe(words, split, is_dbe):
+    """Peel a definition-by-example indicator off the wordplay edge adjacent to the
+    definition, recording it on the split (dbe_tokens, by_example). Keeps >=1
+    wordplay word; a no-op when the adjacent word is not a DBE indicator."""
+    if not split.def_indices or len(split.wordplay_tokens) < 2:
+        return split
+    def_idx = set(split.def_indices)
+    n = len(words)
+    adj = (max(def_idx) + 1) if split.where == "start" else (min(def_idx) - 1)
+    if adj < 0 or adj >= n or adj in def_idx:
+        return split
+    tok = words[adj]
+    try:
+        if not is_dbe(tok.text):
+            return split
+    except Exception:
+        return split
+    new_wp = [t for t in split.wordplay_tokens if t is not tok]
+    if not new_wp:
+        return split
+    return DefinitionSplit(
+        phrase=split.phrase, where=split.where, def_atom_ids=split.def_atom_ids,
+        def_indices=split.def_indices, def_tokens=split.def_tokens,
+        wordplay_tokens=new_wp,
+        wordplay_atom_ids=tuple(aid for t in new_wp for aid in t.atom_ids),
+        source=split.source, dbe_tokens=[tok], by_example=True)
 
 
 def _extend_split(words, split, wordplay_indices):

@@ -41,6 +41,7 @@ _TYPE_LABEL = {
     "charade": "Charade",
     "container": "Container",
     "anagram": "Anagram",
+    "anagram_charade": "Anagram + charade",
     "reversal": "Reversal",
     "deletion": "Deletion",
     "acrostic": "Acrostic",
@@ -197,7 +198,10 @@ def _render_breakdown(parse, src_fg, src_fill):
                          escape(parse.definition.text) + prov))
 
     for a in parse.annotations:
-        if a.role == "indicator":
+        if a.role == "indicator" and getattr(a, "note", "") == "definition by example":
+            style = "background:#2563eb;color:#fff"
+            label = "By example"
+        elif a.role == "indicator":
             style = "background:#7c3aed;color:#fff"
             label = "Indicator"
         else:

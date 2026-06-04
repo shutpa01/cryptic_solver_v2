@@ -174,6 +174,13 @@ def tokenize_original(stream, atoms):
             i += 1
             kind = atom.kind
         group = atoms[start:i]
+        # A run of only hyphen/quote characters (a standalone dash " – " used as a
+        # clue separator, or a lone quote) is NOT a word — it is punctuation. Only a
+        # group containing a letter or digit is a word ("well-known", "that's"); this
+        # keeps lone dashes from becoming stray "word" tokens that strand as
+        # unaccounted and break fodder contiguity.
+        if kind == "word" and not any(a.kind in ("letter", "digit") for a in group):
+            kind = "punctuation"
         index = len(tokens)
         tokens.append(OriginalToken(
             token_id="%s_tok_%04d" % (stream, index),
