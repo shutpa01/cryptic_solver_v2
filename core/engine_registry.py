@@ -47,7 +47,7 @@ def make_db_wiring():
     # full-table scan; without caching the page becomes unusably slow. Trade-off: a
     # dashboard add is not seen until the wiring (server) is rebuilt — acceptable
     # for the true-test tool, which already restarts on code change.
-    _cache_def, _cache_ind, _cache_look = {}, {}, {}
+    _cache_def, _cache_ind, _cache_look, _cache_lookall = {}, {}, {}, {}
 
     # Live indexes, built ONCE at wiring time by a single scan of each table, so the
     # per-clue lookups (probed O(windows) times, multiplied by inflection variants)
@@ -162,6 +162,40 @@ def make_db_wiring():
         _cache_look[key] = out
         return out
 
+    def _lookup_all_exact(word):
+        out = []
+        try:
+            for s in db.get_synonyms(word):
+                v = (s or "").upper()
+                if v:
+                    out.append((v, "synonym"))
+        except Exception:
+            pass
+        try:
+            for a in db.get_abbreviations(word):
+                v = (a or "").upper()
+                if v:
+                    out.append((v, "abbreviation"))
+        except Exception:
+            pass
+        return out
+
+    def lookup_all(word):
+        """(value, mechanism) options for a word with NO substring filter — the
+        container engine needs an OUTER value (e.g. SANDS) that is split around the
+        inner and so is NOT a contiguous substring of the answer. Inflection/
+        contraction-aware; cached."""
+        if word in _cache_lookall:
+            return _cache_lookall[word]
+        out, seen = [], set()
+        for v in _match_variants(word):
+            for val, mech in _lookup_all_exact(v):
+                if (val, mech) not in seen:
+                    seen.add((val, mech))
+                    out.append((val, mech))
+        _cache_lookall[word] = out
+        return out
+
     def lookup(word, answer):
         """(value, mechanism) options for a wordplay word that are substrings of
         the answer — the answer-aware, UNCAPPED candidate set the catalog engines
@@ -214,7 +248,7 @@ def make_db_wiring():
             "indicator_types": indicator_types, "is_link": is_link,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
-            "is_dbe": is_dbe,
+            "is_dbe": is_dbe, "lookup_all": lookup_all,
             "charade_templates": charade_templates,
             "anagram_templates": anagram_templates,
             "anagram_charade_templates": anagram_charade_templates}
@@ -286,11 +320,23 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     if pac is not None and pac.status in ("pass", "pending"):
         return _finish(pac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ANAGRAM+CONTAINER — compound: a container where one component is an anagram
+    # (SANDWICHES, EXHORT). Gated on BOTH a container and an anagram indicator, so it
+    # fires rarely and does not contend with the simpler engines.
+    from core.anagram_container_engine import solve_anagram_container
+    paco = solve_anagram_container(ctx, wiring["defines"], wiring["lookup_all"],
+                                   wiring["is_link"], wiring["indicator_types"],
+                                   define_fallback=wiring.get("define_fallback"),
+                                   is_dbe=wiring.get("is_dbe"))
+    if paco is not None and paco.status in ("pass", "pending"):
+        return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # Nothing produced a clean stop. Return the genuinely MOST COMPLETE fail so the
     # richest evidence is shown — measured (status, answer letters explained, clue
     # words accounted, fewest warnings), NOT by engine order.
     candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
-                                      (pac, "catalog")) if p is not None]
+                                      (pac, "catalog"), (paco, "catalog"))
+                  if p is not None]
     if candidates:
         parse, name = _most_complete(candidates, ctx)
         return _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id)

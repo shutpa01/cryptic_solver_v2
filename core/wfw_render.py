@@ -42,6 +42,7 @@ _TYPE_LABEL = {
     "container": "Container",
     "anagram": "Anagram",
     "anagram_charade": "Anagram + charade",
+    "anagram_container": "Anagram + container",
     "reversal": "Reversal",
     "deletion": "Deletion",
     "acrostic": "Acrostic",

@@ -21,6 +21,7 @@ from core import dd_screen
 from core import charade_screen
 from core import anagram_screen
 from core import anagram_charade_screen
+from core import anagram_container_screen
 from core import admin_db
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
@@ -31,10 +32,12 @@ from core.wfw_atoms import build_wfw_atom_context
 # its own screen, so dispatch must key on the operation.
 SCREENS = {"hidden": hidden_screen.render, "dd": dd_screen.render,
            "charade": charade_screen.render, "anagram": anagram_screen.render,
-           "anagram_charade": anagram_charade_screen.render}
+           "anagram_charade": anagram_charade_screen.render,
+           "anagram_container": anagram_container_screen.render}
 _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "charade": "charade", "anagram": "anagram",
-                  "anagram_charade": "anagram + charade"}
+                  "anagram_charade": "anagram + charade",
+                  "anagram_container": "anagram + container"}
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                   "data", "clues_master.db")
