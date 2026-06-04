@@ -275,17 +275,6 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     if ph is not None:
         return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
 
-    # DOUBLE DEFINITION — two definitions, no wordplay; gated grammar shape +
-    # DB-confirm-one-half + narrow Haiku on the other. A pass (both DB) or pending
-    # (one half queued) STOPS here. A DD fail (one real definition, no confirmable
-    # second) does not stop the cascade.
-    from core.dd_engine import solve_dd
-    pd = solve_dd(ctx, wiring["defines"], is_link=wiring["is_link"],
-                  indicator_types=wiring["indicator_types"],
-                  ai_is_definition=wiring.get("ai_is_definition"))
-    if pd is not None and pd.status in ("pass", "pending"):
-        return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
-
     # ANAGRAM — catalog-driven, WORDPLAY-ONLY. The definition stage (here) decides
     # the split; the engine is handed only the wordplay and never sees the
     # definition. Indicator-gated and exact-letter, so high precision — tried before
@@ -330,6 +319,17 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
                                    is_dbe=wiring.get("is_dbe"))
     if paco is not None and paco.status in ("pass", "pending"):
         return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
+    # Haiku half) is softer than the catalog engines, which reconstruct the answer
+    # exactly; running it first let it intercept catalog clues. So the precise engines
+    # claim first and DD catches only the residue. A pass/pending stops here.
+    from core.dd_engine import solve_dd
+    pd = solve_dd(ctx, wiring["defines"], is_link=wiring["is_link"],
+                  indicator_types=wiring["indicator_types"],
+                  ai_is_definition=wiring.get("ai_is_definition"))
+    if pd is not None and pd.status in ("pass", "pending"):
+        return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
 
     # Nothing produced a clean stop. Return the genuinely MOST COMPLETE fail so the
     # richest evidence is shown — measured (status, answer letters explained, clue
