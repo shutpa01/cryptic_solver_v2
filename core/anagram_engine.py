@@ -33,35 +33,19 @@ from collections import Counter
 from itertools import combinations
 
 from core import contractions, grammar
+from core.wordplay import (FUNCTION_POS, GLUE_POS, raw, is_anagram_indicator)
 from core.wfw_model import Source, Link, Annotation, Parse
-
-# Function-word POS — never the operative indicator; peeled from an indicator run
-# and accepted as links in a connective run.
-FUNCTION_POS = {"ADP", "PART", "AUX", "DET", "CCONJ", "SCONJ"}
-# Allowed in a no-indicator connective/glue run ("found in" = VERB + ADP).
-GLUE_POS = FUNCTION_POS | {"VERB", "ADV"}
-
-
-def _raw(text):
-    return "".join(c for c in (text or "").upper() if c.isalpha())
 
 
 def _answer_letters(ctx):
     return "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
 
 
-def _is_anag_indicator(text, indicator_types):
-    try:
-        return "anagram" in (indicator_types(text) or set())
-    except Exception:
-        return False
-
-
 def _fodder_letters(tokens):
-    """The fodder's letters as written, and the contraction-stripped fallback —
-    so a possessive "Lionel's" can contribute LIONEL, not LIONELS."""
-    as_written = [_raw(t.text) for t in tokens]
-    stripped = [_raw(contractions.strip_suffixes(t.text)) for t in tokens]
+    """Per-token fodder letters as written and contraction-stripped — a possessive
+    "Lionel's" can contribute LIONEL, not LIONELS."""
+    as_written = [raw(t.text) for t in tokens]
+    stripped = [raw(contractions.strip_suffixes(t.text)) for t in tokens]
     return as_written, stripped
 
 
@@ -73,15 +57,22 @@ def _segment(words, pos, i, j, is_link, indicator_types):
     runs = [r for r in (list(range(0, i)), list(range(j, n))) if r]
 
     def is_ind(k):
-        return _is_anag_indicator(words[k].text, indicator_types)
+        return is_anagram_indicator(words[k].text, indicator_types)
 
     def is_fn(k):
         return (is_link and is_link(words[k].text)) or (pos[k] in FUNCTION_POS)
 
     indicator_runs = [r for r in runs if any(is_ind(k) for k in r)]
-    if len(indicator_runs) != 1:
+    if len(indicator_runs) == 1:
+        ind_run, provisional = indicator_runs[0], False
+    elif not indicator_runs and len(runs) == 1:
+        # MISSING-INDICATOR FALLBACK (memory: feedback-definition-by-example sibling):
+        # the anagram is proven by the letter-match and the definition is found, yet
+        # no DB-confirmed indicator is present. With exactly ONE leftover run, it MUST
+        # be the indicator — accept it PROVISIONALLY and queue it for enrichment.
+        ind_run, provisional = runs[0], True
+    else:
         return None
-    ind_run = indicator_runs[0]
 
     link_idx, unacc_idx = [], []
     # Peel OUTER function words off the indicator run (they are links); keep the
@@ -94,7 +85,9 @@ def _segment(words, pos, i, j, is_link, indicator_types):
         link_idx.append(ind_run[hi])
         hi -= 1
     core = ind_run[lo:hi + 1]
-    if not any(is_ind(k) for k in core):
+    if not core:
+        return None
+    if not provisional and not any(is_ind(k) for k in core):
         return None                              # peeled the indicator away
 
     # Other runs are connective glue: function/connective words -> links; a stray
@@ -111,7 +104,8 @@ def _segment(words, pos, i, j, is_link, indicator_types):
     indicator = [words[k] for k in core]
     links = [words[k] for k in sorted(link_idx)]
     unaccounted = [words[k] for k in sorted(unacc_idx)]
-    return indicator, links, unaccounted
+    source = "pending" if provisional else "db"
+    return indicator, links, unaccounted, source
 
 
 def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None):
@@ -123,7 +117,7 @@ def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None
     n = len(words)
     if len(answer) < 3 or n < 2:
         return None
-    if any(_raw(t.text) == answer for t in words):
+    if any(raw(t.text) == answer for t in words):
         return None                              # self-anagram
 
     pos = grammar.pos_tags([t.text for t in words]) or [None] * n
@@ -149,8 +143,8 @@ def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None
                 kept = [words[k] for k in span if k not in exclset]
                 if not kept:
                     continue
-                as_written = [_raw(t.text) for t in kept]
-                stripped = [_raw(contractions.strip_suffixes(t.text)) for t in kept]
+                as_written = [raw(t.text) for t in kept]
+                stripped = [raw(contractions.strip_suffixes(t.text)) for t in kept]
                 if sorted("".join(as_written)) == sorted(answer):
                     tl = as_written
                 elif sorted("".join(stripped)) == sorted(answer):
@@ -170,9 +164,9 @@ def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None
         seg = _segment(words, pos, i, j, is_link, indicator_types)
         if seg is None:
             continue
-        indicator_tokens, link_tokens, unaccounted = seg
+        indicator_tokens, link_tokens, unaccounted, ind_source = seg
         parse = _build(ctx, answer, fodder, token_letters, indicator_tokens,
-                       link_tokens + interior_links, unaccounted)
+                       link_tokens + interior_links, unaccounted, ind_source)
         if parse.status == "pass":
             return parse
         if best is None:
@@ -181,10 +175,12 @@ def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None
 
 
 def _build(ctx, answer, fodder_tokens, token_letters, indicator_tokens, link_tokens,
-           unaccounted):
+           unaccounted, ind_source="db"):
     """Assemble the wordplay Parse (definition attached by the caller). One Source
     per fodder word (value = the letters it contributes, possibly stripped), each a
-    colour; every answer letter is assigned to a fodder word that supplied it."""
+    colour; every answer letter is assigned to a fodder word that supplied it.
+    `ind_source` is 'pending' when the indicator was supplied by the missing-indicator
+    fallback (queued for enrichment, makes the parse pending)."""
     sources, remaining = [], []
     for t, raw in zip(fodder_tokens, token_letters):
         remaining.append([len(sources), Counter(raw)])
@@ -205,7 +201,7 @@ def _build(ctx, answer, fodder_tokens, token_letters, indicator_tokens, link_tok
     annotations = [Annotation(
         clue_atom_ids=tuple(aid for t in indicator_tokens for aid in t.atom_ids),
         text=" ".join(t.text for t in indicator_tokens),
-        role="indicator", note="anagram indicator")]
+        role="indicator", note="anagram indicator", source=ind_source)]
     for t in link_tokens:
         annotations.append(Annotation(clue_atom_ids=t.atom_ids, text=t.text,
                                       role="link", note="link word"))
@@ -216,14 +212,16 @@ def _build(ctx, answer, fodder_tokens, token_letters, indicator_tokens, link_tok
         definition=None, operation="anagram", solved_by="catalog")
     parse.template_id = None
     parse.matched_signature = None
-    _verify_wordplay(parse, indicator_tokens, unaccounted)
+    _verify_wordplay(parse, indicator_tokens, unaccounted, ind_source)
     return parse
 
 
-def _verify_wordplay(parse, indicator_tokens, unaccounted):
+def _verify_wordplay(parse, indicator_tokens, unaccounted, ind_source="db"):
     """Verdict on the WORDPLAY only (the caller folds in the definition):
-      pass — full letter coverage, an indicator present, every word accounted.
-      fail — a wordplay word is unaccounted (surfaced honestly).
+      pass    — full letter coverage, a confirmed indicator, every word accounted.
+      pending — as pass, but the indicator is provisional (missing-indicator fallback,
+                queued for enrichment).
+      fail    — a wordplay word is unaccounted (surfaced honestly).
     """
     warnings = []
     if not parse.is_complete():
@@ -233,5 +231,13 @@ def _verify_wordplay(parse, indicator_tokens, unaccounted):
     if unaccounted:
         warnings.append("these wordplay words are unaccounted for: "
                         + ", ".join(repr(t.text) for t in unaccounted))
-    parse.warnings = warnings
-    parse.status = "pass" if not warnings else "fail"
+    if unaccounted or not indicator_tokens or not parse.is_complete():
+        parse.warnings = warnings
+        parse.status = "fail"
+    elif ind_source == "pending":
+        parse.warnings = ["the anagram indicator is provisional (queued for "
+                          "enrichment)"]
+        parse.status = "pending"
+    else:
+        parse.warnings = []
+        parse.status = "pass"

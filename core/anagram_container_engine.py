@@ -18,24 +18,17 @@ decided upstream (def_pos). Per-piece colour (the outer's two segments share its
 colour). Pure and DB-decoupled.
 """
 
-from core import contractions, grammar
+from core import grammar
+from core.wordplay import GLUE_POS, fodder_letter_forms, adjacent_run
 from core.wfw_model import Source, Link, Annotation, Parse
 
 _VALUE_MECH = ("synonym", "abbreviation")
-FUNCTION_POS = {"ADP", "PART", "AUX", "DET", "CCONJ", "SCONJ"}
-GLUE_POS = FUNCTION_POS | {"VERB", "ADV"}
 MAX_RUN = 5
-
-
-def _raw(text):
-    return "".join(c for c in (text or "").upper() if c.isalpha())
 
 
 def _run_letters(words, a, b):
     """As-written and contraction-stripped letters of words[a:b]."""
-    aw = "".join(_raw(words[k].text) for k in range(a, b))
-    st = "".join(_raw(contractions.strip_suffixes(words[k].text)) for k in range(a, b))
-    return [s for s in (aw, st) if s]
+    return fodder_letter_forms(words[a:b])
 
 
 def _run_values(words, a, b, lookup_all):
@@ -80,6 +73,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
         return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
 
     runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)]
+    best = None     # a confirmed (db) placement wins; provisional kept only as fallback
 
     # Enumerate the insertion: inner = answer[p:p+L], outer = answer[:p]+answer[p+L:].
     for p in range(0, N):
@@ -114,10 +108,20 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
                         # (a word like "about" is tagged both, but here it is one or
                         # the other). Pick a container word, then anagram words that
                         # are not it; the rest must be links.
+                        anag_run = (ia, ib) if inner_anag else (oa, ob)
                         for c in con_caps:
                             ana = [k for k in ana_caps if k != c]
+                            ana_source = "db"
                             if not ana:
-                                continue
+                                # MISSING-INDICATOR FALLBACK: a container indicator is
+                                # present and the anagram is proven by its letters, so
+                                # the residue word adjacent to the anagram component is
+                                # the anagram indicator — accept it provisionally.
+                                ana = [k for k in adjacent_run(
+                                    residue, anag_run[0], anag_run[1]) if k != c]
+                                if not ana:
+                                    continue
+                                ana_source = "pending"
                             spoken = {c} | set(ana)
                             links, ok = [], True
                             for k in residue:
@@ -129,10 +133,16 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
                                     ok = False
                                     break
                             if ok:
-                                return {"p": p, "L": L, "inner": (ia, ib),
-                                        "outer": (oa, ob), "inner_anag": inner_anag,
-                                        "con": [c], "ana": ana, "links": links}
-    return None
+                                placement = {"p": p, "L": L, "inner": (ia, ib),
+                                             "outer": (oa, ob),
+                                             "inner_anag": inner_anag, "con": [c],
+                                             "ana": ana, "ana_source": ana_source,
+                                             "links": links}
+                                if ana_source == "db":
+                                    return placement     # confirmed — best, stop
+                                if best is None:
+                                    best = placement     # provisional — keep as fallback
+    return best
 
 
 def _build(ctx, split, words, answer, pl):
@@ -181,7 +191,8 @@ def _build(ctx, split, words, answer, pl):
     for k in pl["ana"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="indicator",
-                                      note="anagram indicator"))
+                                      note="anagram indicator",
+                                      source=pl.get("ana_source", "db")))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",
@@ -212,8 +223,16 @@ def _verify(ctx, parse):
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
         warnings.append("the definition is provisional (queued for enrichment)")
+    if any(a.role == "indicator" and getattr(a, "source", "db") == "pending"
+           for a in parse.annotations):
+        warnings.append("the anagram indicator is provisional (queued for enrichment)")
     parse.warnings = warnings
-    parse.status = "pass" if not warnings else ("fail" if missing else "pending")
+    if not warnings:
+        parse.status = "pass"
+    elif missing or parse.definition is None:
+        parse.status = "fail"
+    else:
+        parse.status = "pending"
 
 
 def solve_anagram_container(ctx, defines, lookup_all, is_link, indicator_types,

@@ -375,10 +375,14 @@ def _solve_wordplay_engine(ctx, wiring, engine_fn, templates):
         if dbe is not None:
             parse.annotations = list(parse.annotations) + [dbe]
         if parse.status != "fail":                  # wordplay clean -> fold in def
-            if split.source == "pending":
+            # Pending if EITHER the wordplay is provisional (a missing-indicator
+            # fallback left the indicator pending) OR the definition is provisional.
+            wordplay_pending = parse.status == "pending"
+            if split.source == "pending" or wordplay_pending:
                 parse.status = "pending"
-                parse.warnings = list(parse.warnings) + [
-                    "the definition is provisional (queued for enrichment)"]
+                if split.source == "pending":
+                    parse.warnings = list(parse.warnings) + [
+                        "the definition is provisional (queued for enrichment)"]
             else:
                 parse.status = "pass"
         if parse.status == "pass":

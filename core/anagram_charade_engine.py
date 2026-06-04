@@ -20,24 +20,12 @@ Definition decided upstream (def_pos). Per-piece colour. Pure and DB-decoupled.
 """
 
 from core import contractions, grammar
+from core.wordplay import GLUE_POS, raw, is_anagram_indicator, adjacent_run
 from core.wfw_model import Source, Link, Annotation, Parse
 
 _VALUE_MECH = ("synonym", "abbreviation")
-FUNCTION_POS = {"ADP", "PART", "AUX", "DET", "CCONJ", "SCONJ"}
-GLUE_POS = FUNCTION_POS | {"VERB", "ADV"}
 MAX_VALUE_WORDS = 4        # a synonym/abbreviation piece spans up to this many words
 MAX_ANAG_WORDS = 6         # an anagram fodder spans up to this many words
-
-
-def _raw(text):
-    return "".join(c for c in (text or "").upper() if c.isalpha())
-
-
-def _is_anag_indicator(text, indicator_types):
-    try:
-        return "anagram" in (indicator_types(text) or set())
-    except Exception:
-        return False
 
 
 def _assemble(answer, words, postags, lookup, is_link, indicator_types):
@@ -47,7 +35,7 @@ def _assemble(answer, words, postags, lookup, is_link, indicator_types):
     n, N = len(words), len(answer)
 
     def is_ind(k):
-        return _is_anag_indicator(words[k].text, indicator_types)
+        return is_anagram_indicator(words[k].text, indicator_types)
 
     def residue_link(k):
         return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
@@ -58,8 +46,17 @@ def _assemble(answer, words, postags, lookup, is_link, indicator_types):
         if not any(m != "anagram_fodder" for _, _, m, _ in pieces):
             return None                              # need a non-anagram piece too
         indicator = [k for k in skipped if is_ind(k)]
+        source = "db"
         if not indicator:
-            return None                              # an anagram needs an indicator
+            # MISSING-INDICATOR FALLBACK: the anagram piece is proven by its letters,
+            # so the residue word(s) ADJACENT to it must be the indicator even if the
+            # DB doesn't know it yet — accept provisionally and queue for enrichment.
+            anag = next(((a, b) for a, b, m, _ in pieces if m == "anagram_fodder"),
+                        None)
+            indicator = adjacent_run(skipped, anag[0], anag[1]) if anag else []
+            if not indicator:
+                return None
+            source = "pending"
         links = []
         for k in skipped:
             if k in indicator:
@@ -68,11 +65,12 @@ def _assemble(answer, words, postags, lookup, is_link, indicator_types):
                 links.append(k)
             else:
                 return None                          # a content word unaccounted
-        return {"pieces": pieces, "indicator": indicator, "links": links}
+        return {"pieces": pieces, "indicator": sorted(indicator), "links": links,
+                "indicator_source": source}
 
     def anag_letter_forms(a, b):
-        as_written = "".join(_raw(words[k].text) for k in range(a, b))
-        stripped = "".join(_raw(contractions.strip_suffixes(words[k].text))
+        as_written = "".join(raw(words[k].text) for k in range(a, b))
+        stripped = "".join(raw(contractions.strip_suffixes(words[k].text))
                            for k in range(a, b))
         return [f for f in (as_written, stripped) if f]
 
@@ -133,7 +131,8 @@ def _build(ctx, split, words, placement):
     annotations = [Annotation(
         clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in ind_toks),
-        role="indicator", note="anagram indicator")]
+        role="indicator", note="anagram indicator",
+        source=placement.get("indicator_source", "db"))]
     for k in placement["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",
@@ -164,10 +163,13 @@ def _verify(ctx, parse):
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
         warnings.append("the definition is provisional (queued for enrichment)")
+    if any(a.role == "indicator" and getattr(a, "source", "db") == "pending"
+           for a in parse.annotations):
+        warnings.append("the anagram indicator is provisional (queued for enrichment)")
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
-    elif missing:
+    elif missing or parse.definition is None:
         parse.status = "fail"
     else:
         parse.status = "pending"
