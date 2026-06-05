@@ -187,13 +187,19 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
     place the typed slots on the wordplay (gaps -> links, classified last), fill by
     role, verify the pieces concatenate to the answer.
 
-    Among PASSing placements, prefer the one with the FEWEST residue (link) words —
-    i.e. the parse that accounts for the most clue words as pieces, breaking ties by
-    signature priority (templates are iterated in priority order, so the earlier wins
-    a tie). This stops a coarser signature from dropping a content word that POS
-    mis-tags as a link (e.g. "beastly home" -> SETT: minimise-residue keeps the
-    two-word piece instead of dropping "beastly"). A zero-residue pass is optimal and
-    returns immediately. Else the best non-pass parse; else a fail-evidence parse."""
+    Among PASSing placements, pick by this key (lower is better):
+      1. FEWEST residue (link) words — account for the most clue words as pieces, so
+         a coarser signature can't drop a content word a POS mis-tags as a link
+         (e.g. "beastly home" -> SETT keeps the two-word piece, not dropping
+         "beastly");
+      2. then MOST literal pieces — when a piece reads as either a literal (its own
+         letters) or a synonym/abbreviation, prefer the literal (e.g. GEMINI "in" ->
+         IN reads Literal, matching the corpus). Label-only: the clue passes
+         identically, only the mechanism label changes;
+      3. then signature priority (templates iterated in priority order, so an equal
+         key keeps the earlier — higher-priority — template).
+    A zero-residue all-literal pass is optimal and returns immediately. Else the best
+    non-pass parse; else a fail-evidence parse."""
     from core.definition_engine import find_definitions
 
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
@@ -215,7 +221,7 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
     if not prepared:
         return None
 
-    best_pass, best_pass_residue, best_other = None, None, None
+    best_pass, best_key, best_other = None, None, None
     for template in templates:                       # priority order
         for split, words, postags in prepared:
             parse = _try_template(ctx, answer, template, split, words, postags,
@@ -224,10 +230,12 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
                 continue
             if parse.status == "pass":
                 residue = sum(1 for a in parse.annotations if a.role == "link")
-                if best_pass is None or residue < best_pass_residue:
-                    best_pass, best_pass_residue = parse, residue
-                    if residue == 0:
-                        return parse             # cannot account for more words
+                literals = sum(1 for s in parse.sources if s.mechanism == "raw")
+                key = (residue, -literals)           # fewer links, then more literals
+                if best_key is None or key < best_key:
+                    best_pass, best_key = parse, key
+                    if residue == 0 and literals == len(parse.sources):
+                        return parse                 # nothing could beat this key
             elif best_other is None:
                 best_other = parse
     if best_pass is not None:
