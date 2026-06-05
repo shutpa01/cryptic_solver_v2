@@ -254,7 +254,8 @@ def make_db_wiring():
             "anagram_charade_templates": anagram_charade_templates}
 
 
-def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
+def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
+          charade_solve=None):
     """Run the clue through every engine that exists, return (parse, engine_name)
     for the first that solves, or (None, None).
 
@@ -262,7 +263,10 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     provisional piece can be queued under them for your review-by-source.
     `clue_id`, when given, makes the solve DURABLE: the final Parse (PASS or FAIL)
     is persisted as the substrate of record (core.store), so it survives the call
-    and the screen can render straight from the DB."""
+    and the screen can render straight from the DB.
+    `charade_solve` overrides the charade engine (default = the catalog-driven
+    signature engine); the A/B harness passes the legacy evidence engine here to
+    compare the full cascade both ways."""
     # HIDDEN — triggered by the hidden run; simplest, tried first. Finding the
     # answer as a contiguous run is conclusive that the clue is hidden, so hidden
     # is TERMINAL whenever it fires (verdict pass or pending — it never fails). No
@@ -285,13 +289,15 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None):
     if pa is not None and pa.status in ("pass", "pending"):
         return _finish(pa, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
-    # CHARADE — the catalog spine, tried after DD. Catalog-DRIVEN: it walks the
-    # mined charade signatures (injected as wiring["charade_templates"]) in
-    # priority order. A pass or pending stops here. Definition (incl. the shared
-    # Haiku fallback) and the synonym/abbreviation lookup come from the wiring; a
-    # provisional definition makes it pending and is queued by _finish.
-    from core.charade_engine import solve_charade
-    pc = solve_charade(ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+    # CHARADE — the catalog spine. Catalog-DRIVEN: it walks the mined charade
+    # signatures (injected as wiring["charade_templates"]) in priority order, places
+    # the typed slots on the wordplay (gaps -> links classified last), fills role-pure
+    # (SYN_F/ABR_F/LIT_F), and verifies the pieces concatenate to the answer. A pass
+    # or pending stops here. Default = core.charade_signature_engine; the A/B harness
+    # can pass the legacy evidence engine via `charade_solve`.
+    if charade_solve is None:
+        from core.charade_signature_engine import solve_charade as charade_solve
+    pc = charade_solve(ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
                        wiring.get("charade_templates") or [],
                        define_fallback=wiring.get("define_fallback"),
                        is_dbe=wiring.get("is_dbe"))
@@ -430,8 +436,8 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
 
 
 def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
-                    clue_id=None):
+                    clue_id=None, charade_solve=None):
     ctx = build_wfw_atom_context(clue_text, answer)
     parse, name = solve(ctx, wiring, source=source, puzzle_number=puzzle_number,
-                        clue_id=clue_id)
+                        clue_id=clue_id, charade_solve=charade_solve)
     return ctx, parse, name
