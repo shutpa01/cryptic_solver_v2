@@ -255,7 +255,7 @@ def make_db_wiring():
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
-          charade_solve=None):
+          charade_solve=None, anagram_solve=None):
     """Run the clue through every engine that exists, return (parse, engine_name)
     for the first that solves, or (None, None).
 
@@ -264,9 +264,9 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     `clue_id`, when given, makes the solve DURABLE: the final Parse (PASS or FAIL)
     is persisted as the substrate of record (core.store), so it survives the call
     and the screen can render straight from the DB.
-    `charade_solve` overrides the charade engine (default = the catalog-driven
-    signature engine); the A/B harness passes the legacy evidence engine here to
-    compare the full cascade both ways."""
+    `charade_solve` / `anagram_solve` override those engines (default = the
+    catalog-driven signature engines); the A/B harness passes the legacy evidence
+    engine here to compare the full cascade both ways."""
     # HIDDEN — triggered by the hidden run; simplest, tried first. Finding the
     # answer as a contiguous run is conclusive that the clue is hidden, so hidden
     # is TERMINAL whenever it fires (verdict pass or pending — it never fails). No
@@ -279,13 +279,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if ph is not None:
         return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
 
-    # ANAGRAM — catalog-driven, WORDPLAY-ONLY. The definition stage (here) decides
-    # the split; the engine is handed only the wordplay and never sees the
-    # definition. Indicator-gated and exact-letter, so high precision — tried before
-    # charade. A pass or pending stops here.
-    from core.anagram_engine import solve_anagram
-    pa = _solve_wordplay_engine(ctx, wiring, solve_anagram,
-                                wiring.get("anagram_templates") or [])
+    # ANAGRAM — catalog-DRIVEN: walks the mined anagram signatures (ANA_F fodder +
+    # optional ANA_I indicator) in priority order, placing slots on the wordplay with
+    # interior-link exclusion in the fodder and gaps -> links classified last. Tried
+    # before charade (indicator-gated, exact-letter, high precision). A pass/pending
+    # stops here. Default = core.anagram_signature_engine; the A/B harness can pass
+    # the legacy evidence engine via `anagram_solve`.
+    if anagram_solve is None:
+        from core.anagram_signature_engine import solve_anagram as anagram_solve
+    pa = anagram_solve(ctx, wiring["defines"], wiring["is_link"],
+                       wiring["indicator_types"], wiring.get("anagram_templates") or [],
+                       define_fallback=wiring.get("define_fallback"),
+                       is_dbe=wiring.get("is_dbe"))
     if pa is not None and pa.status in ("pass", "pending"):
         return _finish(pa, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -436,8 +441,9 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
 
 
 def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
-                    clue_id=None, charade_solve=None):
+                    clue_id=None, charade_solve=None, anagram_solve=None):
     ctx = build_wfw_atom_context(clue_text, answer)
     parse, name = solve(ctx, wiring, source=source, puzzle_number=puzzle_number,
-                        clue_id=clue_id, charade_solve=charade_solve)
+                        clue_id=clue_id, charade_solve=charade_solve,
+                        anagram_solve=anagram_solve)
     return ctx, parse, name
