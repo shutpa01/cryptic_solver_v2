@@ -29,23 +29,31 @@ operation substrate. Definition decided upstream. Pure and DB-decoupled.
 """
 
 from core import grammar
-from core.wordplay import GLUE_POS
+from core.wordplay import GLUE_POS, raw
 from core.wfw_model import Source, Link, Annotation, Parse
 
 
 # A charade slot's role dictates the ONLY mechanism allowed to fill it — the
 # constraint that makes the breakdown true rather than coincidental, and the source
 # of the displayed label (NOT a guess from which table a value fell out of).
+#   SYN_F -> a synonym; ABR_F -> an abbreviation; LIT_F -> the word's OWN letters
+#   (a literal, e.g. "in" -> IN). A literal is safe here ONLY because a signature
+#   pins which slot is the literal — there is no free raw-tiling of arbitrary words.
 ROLE_MECHANISM = {
     "SYN_F": "synonym",
     "ABR_F": "abbreviation",
+    "LIT_F": "raw",
 }
 
 
 def _role_candidates(role, phrase, answer, lookup):
-    """Values that may fill a slot of `role`, drawn from `phrase`. Answer-aware and
-    UNCAPPED but ROLE-PURE: a SYN_F slot accepts only synonyms, an ABR_F slot only
-    abbreviations. The word's own raw letters are not a candidate."""
+    """Values that may fill a slot of `role`, drawn from `phrase`. ROLE-PURE: a SYN_F
+    slot accepts only synonyms, an ABR_F slot only abbreviations, a LIT_F slot only
+    the phrase's own letters. The placement still requires the value to land at the
+    exact answer position, so a literal is constrained, not a wildcard."""
+    if role == "LIT_F":
+        lit = raw(phrase)
+        return [lit] if lit else []
     mech_wanted = ROLE_MECHANISM.get(role)
     if mech_wanted is None:
         return []
