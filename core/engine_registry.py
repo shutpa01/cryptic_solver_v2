@@ -250,14 +250,17 @@ def make_db_wiring():
         from core.catalog_loader import (load_charade_templates,
                                          load_anagram_templates,
                                          load_anagram_charade_templates,
-                                         load_anagram_container_templates)
+                                         load_anagram_container_templates,
+                                         load_container_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
         anagram_container_templates = load_anagram_container_templates()
+        container_templates = load_container_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
+        container_templates = []
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
@@ -268,7 +271,8 @@ def make_db_wiring():
             "charade_templates": charade_templates,
             "anagram_templates": anagram_templates,
             "anagram_charade_templates": anagram_charade_templates,
-            "anagram_container_templates": anagram_container_templates}
+            "anagram_container_templates": anagram_container_templates,
+            "container_templates": container_templates}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
@@ -354,11 +358,14 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
-    # R, TACTICS=TICS around ACT). Gated on a container indicator + exact reconstruction,
-    # so it fires precisely and only after the simpler engines have passed.
-    from core.container_engine import solve_container
+    # R, TACTICS=TICS around ACT). Catalog-DRIVEN (signature engine, seeded from working
+    # solves); insertion-aware (the verifier resolves which value run is outer vs inner).
+    # Gated on a container indicator + exact reconstruction. Gaps -> preserved
+    # fail-evidence for the separate signature process.
+    from core.container_signature_engine import solve_container
     pcon = solve_container(ctx, wiring["defines"], wiring["lookup_all"],
                            wiring["is_link"], wiring["indicator_types"],
+                           wiring.get("container_templates") or [],
                            define_fallback=wiring.get("define_fallback"),
                            is_dbe=wiring.get("is_dbe"))
     if pcon is not None and pcon.status in ("pass", "pending"):

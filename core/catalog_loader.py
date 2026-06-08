@@ -107,3 +107,8 @@ def load_anagram_charade_templates(db_path=None):
 def load_anagram_container_templates(db_path=None):
     """The anagram+container signatures, priority order (seeded from working solves)."""
     return load_templates(operation="anagram_container", db_path=db_path)
+
+
+def load_container_templates(db_path=None):
+    """The plain container signatures, priority order (seeded from working solves)."""
+    return load_templates(operation="container", db_path=db_path)
