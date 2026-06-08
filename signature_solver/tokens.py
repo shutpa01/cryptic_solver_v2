@@ -114,6 +114,8 @@ LINK_WORDS = {
     # Words that are also indicators but frequently serve as links
     # (both roles coexist — matcher picks whichever fits the pattern)
     "wanting", "needing", "requiring", "made",
+    # Charade-join connectives ("X meeting Y" = X next to Y)
+    "meeting",
     # Surface words that carry no cryptic role
     "soft",
 }

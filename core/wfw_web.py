@@ -33,7 +33,9 @@ from core.wfw_atoms import build_wfw_atom_context
 SCREENS = {"hidden": hidden_screen.render, "dd": dd_screen.render,
            "charade": charade_screen.render, "anagram": anagram_screen.render,
            "anagram_charade": anagram_charade_screen.render,
-           "anagram_container": anagram_container_screen.render}
+           "anagram_container": anagram_container_screen.render,
+           "container": anagram_container_screen.render,
+           "container_charade": anagram_container_screen.render}
 _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "charade": "charade", "anagram": "anagram",
                   "anagram_charade": "anagram + charade",
@@ -51,6 +53,16 @@ def wiring():
     if _WIRING is None:
         _WIRING = engine_registry.make_db_wiring()
     return _WIRING
+
+
+def reload_wiring():
+    """Drop the cached wiring and rebuild it, so reference-DB edits made since
+    startup are picked up WITHOUT restarting the server. The wiring snapshots the
+    whole reference DB into memory at build time (RefDB + live indexes + catalog),
+    which is why an edit is otherwise invisible until a restart."""
+    global _WIRING
+    _WIRING = None
+    return wiring()
 
 
 def _load_clue(clue_id):
@@ -82,6 +94,18 @@ def index():
     return _page(_body(raw))
 
 
+@app.route("/reload", methods=["POST"])
+def reload_route():
+    """Rebuild the in-memory DB snapshot, then re-run clues. `only` (a single id,
+    from a per-clue button) re-runs just that clue; otherwise `id` (the carried
+    list, from the global button) re-runs them all."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    reload_wiring()
+    notice = '<div class="wfw-notice">Reference DB reloaded from disk.</div>'
+    return _page(notice + _body(only or raw))
+
+
 @app.route("/admin", methods=["POST"])
 def admin():
     raw = (request.form.get("id") or "").strip()
@@ -103,12 +127,31 @@ def admin():
     return _page(notice + _body(raw))
 
 
+RELOAD_FORM = """
+<form method="post" action="/reload" style="display:inline-block;margin:0 0 1rem">
+  <input type="hidden" name="id" value="{cid}">
+  <button class="wfw-reload" title="Rebuild the in-memory DB snapshot from disk, then re-run the clue(s) above">&#8635; Reload DB &amp; re-run all</button>
+</form>
+"""
+
+
 def _body(raw):
-    body = FORM.format(cid=escape(raw, quote=True)) + _admin_panel(raw)
+    cid = escape(raw, quote=True)
+    body = FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid) + _admin_panel(raw)
     tokens = [t for t in raw.replace(",", " ").split() if t]
     for token in tokens:
         body += _render_one(token)
     return body
+
+
+def _reload_clue_button(clue_id):
+    """A per-clue button: reload the DB snapshot and re-run JUST this clue."""
+    return (
+        '<form method="post" action="/reload" style="margin:.4rem 0 0">'
+        '<input type="hidden" name="only" value="%d">'
+        '<button class="wfw-reload wfw-reload-clue" title="Rebuild the DB snapshot '
+        'from disk, then re-run only this clue">&#8635; Reload DB &amp; re-run this '
+        'clue</button></form>' % clue_id)
 
 
 def _admin_panel(raw):
@@ -178,12 +221,13 @@ def _render_one(token):
                 + f'<div class="wfw-card"><div class="wfw-clue">{escape(clue_text)}'
                 f'</div><p>Answer: <strong>{escape(answer)}</strong></p>'
                 f'<p class="warn">No engine claimed this clue '
-                f'(engines available: {escape(avail)}).</p></div>')
+                f'(engines available: {escape(avail)}).</p></div>'
+                + _reload_clue_button(clue_id))
     if ctx is None:                  # row predates atom preservation -> re-atomise
         ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
     screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
     card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
-    return _cid_label(clue_id) + card
+    return _cid_label(clue_id) + card + _reload_clue_button(clue_id)
 
 
 def _cid_label(clue_id):
@@ -217,6 +261,11 @@ def _page(body):
   .wfw-af button {{ font-size:.95rem; padding:.3rem .8rem; border-radius:6px;
              border:1px solid #2563eb; background:#2563eb; color:#fff;
              cursor:pointer; }}
+  .wfw-reload {{ font-size:1rem; padding:.3rem .9rem; border-radius:6px;
+             border:1px solid #0d9488; background:#0d9488; color:#fff;
+             cursor:pointer; margin-left:.5rem; }}
+  .wfw-reload-clue {{ font-size:.85rem; padding:.25rem .7rem; margin-left:0;
+             background:#0f766e; border-color:#0f766e; }}
 </style></head><body>
   <p class="wfw-tag">word-for-word true test &middot; real clues, all engines</p>
   {body}

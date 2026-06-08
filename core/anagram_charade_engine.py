@@ -166,6 +166,8 @@ def _verify(ctx, parse):
     if any(a.role == "indicator" and getattr(a, "source", "db") == "pending"
            for a in parse.annotations):
         warnings.append("the anagram indicator is provisional (queued for enrichment)")
+    if any(getattr(s, "source", "db") == "pending" for s in parse.sources):
+        warnings.append("a wordplay piece is provisional (queued for enrichment)")
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
@@ -175,27 +177,15 @@ def _verify(ctx, parse):
         parse.status = "pending"
 
 
-def solve_anagram_charade(ctx, defines, lookup, is_link, indicator_types,
-                          templates=None, define_fallback=None, is_dbe=None):
-    """Full anagram+charade solve — evidence-driven (no preassigned links).
-    `templates` accepted for call-site compatibility but unused. Returns the first
-    clean PASS, else the best parse found, else None."""
-    from core.definition_engine import find_definitions
-
-    answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
-    if len(answer) < 3:
-        return None
-    splits = list(find_definitions(ctx, defines, define_fallback=define_fallback,
-                                   is_dbe=is_dbe))
-    if not splits:
-        return None
-
+def _attempt(ctx, answer, splits, lookup, is_link, indicator_types):
+    """One sweep over the splits with a given `lookup`. First clean PASS, else the
+    first non-pass parse, else None."""
     best = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 2:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
+        postags = grammar.wordplay_pos_tags(ctx, words)
         placement = _assemble(answer, words, postags, lookup, is_link,
                               indicator_types)
         if placement is None:
@@ -205,4 +195,41 @@ def solve_anagram_charade(ctx, defines, lookup, is_link, indicator_types,
             return parse
         if best is None:
             best = parse
+    return best
+
+
+def solve_anagram_charade(ctx, defines, lookup, is_link, indicator_types,
+                          templates=None, define_fallback=None, is_dbe=None,
+                          suggest_piece=None):
+    """Full anagram+charade solve — evidence-driven (no preassigned links).
+    `templates` accepted for call-site compatibility but unused. Returns the first
+    clean PASS, else the best parse found, else None.
+
+    Two-pass, gated like the charade engine: pass 1 is reference-DB only (unchanged);
+    only when it finds no PASS does pass 2 offer each unresolved value phrase to Haiku
+    (core.piece_fallback), filling a synonym piece PROVISIONALLY so the parse comes
+    back pending and the piece is queued for enrichment."""
+    from core.definition_engine import find_definitions
+    from core import piece_fallback
+
+    answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
+    if len(answer) < 3:
+        return None
+    splits = list(find_definitions(ctx, defines, define_fallback=define_fallback,
+                                   is_dbe=is_dbe))
+    if not splits:
+        return None
+
+    best = _attempt(ctx, answer, splits, lookup, is_link, indicator_types)
+    if best is not None and best.status in ("pass", "pending"):
+        return best                       # DB-grounded solve; no AI needed
+
+    if suggest_piece is not None:
+        aug, ai_values = piece_fallback.augmented_lookup(lookup, suggest_piece)
+        ai_best = _attempt(ctx, answer, splits, aug, is_link, indicator_types)
+        if ai_best is not None:
+            piece_fallback.mark_provisional(ai_best, ai_values)
+            _verify(ctx, ai_best)
+            if ai_best.status in ("pass", "pending"):
+                return ai_best
     return best

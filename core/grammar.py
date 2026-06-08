@@ -56,6 +56,28 @@ def pos_tags(words):
     return tags if len(tags) == len(words) else []
 
 
+def wordplay_pos_tags(ctx, wordplay_tokens):
+    """POS tags for `wordplay_tokens`, tagged in the FULL clue's grammatical context.
+
+    The type engines must NOT tag the stripped wordplay fragment on its own: removing
+    the definition changes a boundary word's part of speech — e.g. "gets" is a VERB in
+    "...the fellow gets bandage" (a connective) but reads as a NOUN once "bandage" is
+    gone, which wrongly rejects it as an unaccounted content word and blocks assembly.
+    So tag the whole clue ONCE here and return each wordplay token's tag by its position
+    in the clue. The wordplay tokens are the same token objects as the clue's, so the
+    mapping is by identity. Falls back to None tags if tagging/alignment fails (callers
+    already treat None as "no POS").
+
+    This is the ONE place wordplay POS is derived, so a future tagging fix lands here
+    and every engine inherits it (the engines just call this instead of pos_tags)."""
+    clue_words = [t for t in ctx.clue_tokens if t.kind == "word"]
+    full = pos_tags([t.text for t in clue_words])
+    if len(full) != len(clue_words):
+        return [None] * len(wordplay_tokens)
+    pos_by_id = {id(t): full[i] for i, t in enumerate(clue_words)}
+    return [pos_by_id.get(id(t)) for t in wordplay_tokens]
+
+
 def extend_definition_indices(clue_words, def_indices, wordplay_indices):
     """Grow a confirmed definition outward toward the wordplay.
 

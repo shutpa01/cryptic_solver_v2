@@ -68,7 +68,7 @@ def _prepare(ctx, defines, define_fallback, is_dbe):
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if not words:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
+        postags = grammar.wordplay_pos_tags(ctx, words)
         out.append((split, words, postags))
     return out
 

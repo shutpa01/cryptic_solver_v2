@@ -231,7 +231,7 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 1:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
+        postags = grammar.wordplay_pos_tags(ctx, words)
         prepared.append((split, words, postags))
     if not prepared:
         return None
@@ -251,4 +251,69 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
                         return parse
             elif best_other is None:
                 best_other = parse
-    return best_pass or best_other
+    if best_pass is not None:
+        return best_pass
+    if best_other is not None:
+        return best_other
+    # No signature instantiated. Do NOT return None and discard what was found —
+    # preserve the evidence (design §2 / §5.9) so the gap is visible and the separate
+    # signature-creation process has the fodder to work from.
+    return _build_fail_evidence(ctx, answer, prepared[0][0])
+
+
+def _build_fail_evidence(ctx, answer, split):
+    """Preserve the evidence when no anagram signature instantiated. A FAIL asserts
+    nothing about structure, so it assigns NO indicator/link roles by elimination
+    (feedback-no-role-on-fail). It keeps the definition and surfaces the anagram-fodder
+    candidate: the contiguous run of wordplay words whose letters anagram to the WHOLE
+    answer (preferred), or failing that the longest run anagramming to a span — marked
+    a candidate, not a committed piece."""
+    from core.definition_engine import dbe_annotation
+    definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
+                        value=ctx.answer_text, mechanism="definition",
+                        source=split.source)
+    words = [t for t in split.wordplay_tokens if t.kind == "word"]
+    sources = []
+    cand = _fodder_candidate(words, answer)
+    if cand is not None:
+        a, b, letters = cand
+        toks = words[a:b]
+        sources.append(Source(
+            clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+            text=" ".join(t.text for t in toks), value=letters,
+            mechanism="anagram_fodder"))
+    warnings = ["no anagram signature matched this clue "
+                "(the fodder below is a candidate, not a placement)"]
+    dbe = dbe_annotation(split)
+    annotations = [dbe] if dbe is not None else []
+    return Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
+                 sources=sources, links=[], annotations=annotations,
+                 definition=definition, operation="anagram", solved_by="catalog",
+                 status="fail", warnings=warnings)
+
+
+def _fodder_candidate(words, answer):
+    """The contiguous run of wordplay words whose letters anagram to the WHOLE answer
+    (preferred, longest such run), else the longest run anagramming to a span of the
+    answer (sorted-equal, not an exact reversal). Returns (start, end, letters) or
+    None. Pure evidence — no placement asserted."""
+    n, N = len(words), len(answer)
+    whole, span_best = None, None
+    for a in range(n):
+        for b in range(a + 1, n + 1):
+            for fl in _fodder_forms(words, a, b):
+                L = len(fl)
+                if L < 3 or L > N:
+                    continue
+                key = sorted(fl)
+                if L == N and key == sorted(answer) and answer[::-1] != fl:
+                    if whole is None or (b - a) > (whole[1] - whole[0]):
+                        whole = (a, b, answer)
+                    continue
+                for start in range(0, N - L + 1):
+                    sp = answer[start:start + L]
+                    if sorted(sp) == key and sp[::-1] != fl:
+                        if span_best is None or L > len(span_best[2]):
+                            span_best = (a, b, sp)
+                        break
+    return whole or span_best

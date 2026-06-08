@@ -46,7 +46,9 @@ _PROMPT = (
     "without the brackets.\n"
     "- If the whole clue defines the answer with no separate wordplay (a "
     "cryptic definition), reply exactly NONE.\n"
-    "Reply with ONLY the definition phrase, or NONE.\n\n"
+    "CRITICAL: Output the definition phrase ALONE on a single line — nothing "
+    "else. No explanation, no reasoning, no working, no 'Let me', no labels, no "
+    "quotation marks. Just the phrase, or the single word NONE.\n\n"
     "Clue: %s\nAnswer: %s"
 )
 
@@ -57,14 +59,20 @@ def define(clue_text, answer):
     try:
         resp = _client().messages.create(
             model=HAIKU_MODEL,
-            max_tokens=40,
+            max_tokens=64,
             temperature=0,
             messages=[{"role": "user",
                        "content": _PROMPT % (clue_text, answer)}],
         )
-        text = resp.content[0].text.strip().strip('"\'').strip()
+        text = resp.content[0].text.strip()
     except Exception:
         return None
-    if not text or text.upper() == "NONE":
+    # Robustness: if the model rambled despite the instruction, keep only the
+    # first non-empty line and strip any "Label: " preamble / quotes.
+    line = next((ln.strip() for ln in text.splitlines() if ln.strip()), "")
+    if ":" in line and len(line.split(":", 1)[0]) <= 12:
+        line = line.split(":", 1)[1].strip()
+    line = line.strip().strip('"\'').strip()
+    if not line or line.upper() == "NONE":
         return None
-    return text
+    return line

@@ -101,6 +101,40 @@ class PendingStore:
         return self._queue("indicator", phrase, wp_type, answer, clue_text,
                            source, puzzle_number)
 
+    # --- synonyms (the Haiku wordplay-piece fallback) -------------------------
+    # A synonym row is type='synonym', word=the clue word/phrase, letters=the
+    # value it produces (e.g. 'little part' -> 'BIT'); Accept -> _add_synonym
+    # inserts it into synonyms_pairs. Reuse/reject are keyed by (word, value).
+
+    def pending_synonym(self, word, answer):
+        """The value already queued for this clue word + answer, if any (so a
+        re-run reuses it instead of paying Haiku again). Most recent wins."""
+        conn = self._conn()
+        try:
+            row = conn.execute(
+                "SELECT letters FROM pending_enrichments "
+                "WHERE type='synonym' AND word=? AND answer=? "
+                "ORDER BY id DESC LIMIT 1", (word, answer)).fetchone()
+        finally:
+            conn.close()
+        return row[0] if row else None
+
+    def is_rejected_synonym(self, word, value):
+        conn = self._conn()
+        try:
+            row = conn.execute(
+                "SELECT 1 FROM rejected_enrichments "
+                "WHERE type='synonym' AND word=? AND letters=?",
+                (word, value)).fetchone()
+        finally:
+            conn.close()
+        return row is not None
+
+    def queue_synonym(self, word, value, answer, clue_text,
+                      source=None, puzzle_number=None):
+        return self._queue("synonym", word, value, answer, clue_text,
+                           source, puzzle_number)
+
     def _queue(self, etype, word, letters, answer, clue_text,
                source, puzzle_number):
         pn = None

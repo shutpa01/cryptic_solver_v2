@@ -90,6 +90,15 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
         if fb is not None:
             out = [fb]
 
+    # NO-DEFINITION FLOOR — when NEITHER the DB nor Haiku supplies a definition, offer
+    # every edge window as an UNCONFIRMED definition (source='pending'). The engine that
+    # reconstructs the answer from the REST proves the leftover edge IS the definition:
+    # so a solvable wordplay is still shown (pending) and the residue edge is queued for
+    # you to add, instead of the whole clue vanishing. Only fires on a total def miss, so
+    # it never changes a confirmed solve.
+    if not out:
+        out = _residue_edge_splits(words, max_window)
+
     if extend and out:
         out = [_extend_split(words, s, wordplay_indices) for s in out]
 
@@ -116,32 +125,93 @@ def dbe_annotation(split):
         role="indicator", note="definition by example")
 
 
-def _peel_dbe(words, split, is_dbe):
-    """Peel a definition-by-example indicator off the wordplay edge adjacent to the
-    definition, recording it on the split (dbe_tokens, by_example). Keeps >=1
-    wordplay word; a no-op when the adjacent word is not a DBE indicator."""
-    if not split.def_indices or len(split.wordplay_tokens) < 2:
-        return split
-    def_idx = set(split.def_indices)
-    n = len(words)
-    adj = (max(def_idx) + 1) if split.where == "start" else (min(def_idx) - 1)
-    if adj < 0 or adj >= n or adj in def_idx:
-        return split
-    tok = words[adj]
+_DBE_MAX_WORDS = 3       # longest DBE indicator phrase to peel ("for example" = 2)
+
+
+def _is_dbe_phrase(is_dbe, phrase):
     try:
-        if not is_dbe(tok.text):
-            return split
+        return bool(is_dbe(phrase))
     except Exception:
+        return False
+
+
+def _peel_dbe(words, split, is_dbe):
+    """Peel a definition-by-example indicator ("perhaps", "say", "for example", "e g",
+    ...) sitting at the boundary between the definition and the wordplay, recording it
+    on the split (dbe_tokens, by_example) so it is accounted as a by-example marker and
+    not handed to the wordplay as an operation indicator (memory:
+    feedback-definition-by-example).
+
+    Two positions are handled, both at the definition's wordplay-facing edge:
+      A. the indicator was ABSORBED INTO the definition window — its inner-edge word(s)
+         (e.g. "skeletons perhaps" | British -> def "skeletons" + DBE "perhaps");
+      B. the indicator sits in the WORDPLAY adjacent to the definition (e.g.
+         skeletons | "e g" British -> def "skeletons" + DBE "e g").
+    Multi-word indicators ("for example", "e g") are matched, longest first. Always
+    leaves >=1 definition word and >=1 wordplay word; a no-op when the boundary word(s)
+    are not a DBE indicator."""
+    if not split.def_indices:
         return split
-    new_wp = [t for t in split.wordplay_tokens if t is not tok]
-    if not new_wp:
+    def_idx = sorted(split.def_indices)
+    def_set = set(def_idx)
+    n = len(words)
+
+    # --- Case A: DBE indicator is the definition's inner-edge run -------------------
+    # start-def: inner edge = the LAST def words; end-def: the FIRST def words.
+    inner = list(reversed(def_idx)) if split.where == "start" else list(def_idx)
+    for k in range(min(_DBE_MAX_WORDS, len(def_idx) - 1), 0, -1):
+        peel = sorted(inner[:k])
+        if peel != list(range(peel[0], peel[-1] + 1)):
+            continue                              # must be a contiguous run
+        phrase = " ".join(words[i].text for i in peel)
+        if _is_dbe_phrase(is_dbe, phrase):
+            new_def = [i for i in def_idx if i not in set(peel)]
+            if new_def:
+                return _dbe_split(words, split, new_def,
+                                  [words[i] for i in peel])
+
+    # --- Case B: DBE indicator on the wordplay edge adjacent to the definition ------
+    if len(split.wordplay_tokens) < 2:
         return split
+    wp_ids = {id(t) for t in split.wordplay_tokens}
+    for k in range(_DBE_MAX_WORDS, 0, -1):
+        if split.where == "start":
+            idxs = sorted(max(def_idx) + j for j in range(1, k + 1))
+        else:
+            idxs = sorted(min(def_idx) - j for j in range(1, k + 1))
+        if idxs[0] < 0 or idxs[-1] >= n or set(idxs) & def_set:
+            continue
+        toks = [words[i] for i in idxs]
+        if not all(id(t) in wp_ids for t in toks):
+            continue
+        phrase = " ".join(t.text for t in toks)
+        if _is_dbe_phrase(is_dbe, phrase):
+            peeled = {id(t) for t in toks}
+            new_wp = [t for t in split.wordplay_tokens if id(t) not in peeled]
+            if new_wp:
+                return DefinitionSplit(
+                    phrase=split.phrase, where=split.where,
+                    def_atom_ids=split.def_atom_ids, def_indices=split.def_indices,
+                    def_tokens=split.def_tokens, wordplay_tokens=new_wp,
+                    wordplay_atom_ids=tuple(aid for t in new_wp for aid in t.atom_ids),
+                    source=split.source, dbe_tokens=toks, by_example=True)
+    return split
+
+
+def _dbe_split(words, split, new_def_idx, dbe_toks):
+    """A split with the definition shrunk to new_def_idx and dbe_toks recorded as the
+    by-example marker (the peeled words are NOT returned to the wordplay)."""
+    new_def_idx = sorted(new_def_idx)
+    new_def_tokens = [words[i] for i in new_def_idx]
     return DefinitionSplit(
-        phrase=split.phrase, where=split.where, def_atom_ids=split.def_atom_ids,
-        def_indices=split.def_indices, def_tokens=split.def_tokens,
-        wordplay_tokens=new_wp,
-        wordplay_atom_ids=tuple(aid for t in new_wp for aid in t.atom_ids),
-        source=split.source, dbe_tokens=[tok], by_example=True)
+        phrase=" ".join(t.text for t in new_def_tokens),
+        where=split.where,
+        def_atom_ids=tuple(aid for t in new_def_tokens for aid in t.atom_ids),
+        def_indices=tuple(new_def_idx),
+        def_tokens=new_def_tokens,
+        wordplay_tokens=split.wordplay_tokens,
+        wordplay_atom_ids=split.wordplay_atom_ids,
+        source=split.source, dbe_tokens=dbe_toks, by_example=True)
 
 
 def _extend_split(words, split, wordplay_indices):
@@ -173,6 +243,24 @@ def extend_definition(ctx, split, used_atom_ids):
     wp_idx = {i for i, t in enumerate(words)
               if any(aid in used for aid in t.atom_ids)}
     return _extend_split(words, split, wp_idx)
+
+
+def _residue_edge_splits(words, max_window=8):
+    """Every edge-window definition candidate (both edges, longest first), marked
+    source='pending'. The NO-DEFINITION FLOOR: handed to the engines only when no real
+    definition was found, so the one whose REST reconstructs the answer surfaces the
+    leftover edge as the (provisional) definition. Leaves >=1 wordplay word."""
+    n = len(words)
+    if n < 2:
+        return []
+    upper = min(max_window, n - 1)
+    out = []
+    for size in range(upper, 0, -1):
+        out.append(_split_from_indices(words, set(range(size)), "start",
+                                       source="pending"))
+        out.append(_split_from_indices(words, set(range(n - size, n)), "end",
+                                       source="pending"))
+    return out
 
 
 def _split_from_indices(words, def_indices, where, source="db"):

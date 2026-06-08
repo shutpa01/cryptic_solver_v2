@@ -220,6 +220,8 @@ def make_db_wiring():
     store = None
     define_fallback = None
     ai_is_definition = None
+    suggest_piece = None
+    value_check = None
     try:
         from core.pending_store import PendingStore
         store = PendingStore()
@@ -228,6 +230,16 @@ def make_db_wiring():
             ai_definition.define, store)
         from core import ai_synonym
         ai_is_definition = ai_synonym.is_definition_of   # narrow DD half-check
+        from core import ai_piece, piece_fallback
+        # Haiku wordplay-piece fallback: suggests a missing synonym piece, used
+        # PROVISIONALLY (-> pending) and queued for enrichment. The pending state is
+        # the design for AI-suggested material (feedback-haiku-in-enrichment).
+        suggest_piece = piece_fallback.make_piece_fallback(
+            ai_piece.suggest_piece, store)
+        # Haiku value check (yes/no against a KNOWN target) for engines whose value
+        # target is fixed — the container's value component (its outer is not a
+        # substring of the answer, so suggest_piece's 'guess letters' model can't apply).
+        value_check = piece_fallback.make_value_check(ai_piece.could_produce, store)
     except Exception:
         pass
 
@@ -237,21 +249,26 @@ def make_db_wiring():
     try:
         from core.catalog_loader import (load_charade_templates,
                                          load_anagram_templates,
-                                         load_anagram_charade_templates)
+                                         load_anagram_charade_templates,
+                                         load_anagram_container_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
+        anagram_container_templates = load_anagram_container_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
+        anagram_container_templates = []
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
             "is_dbe": is_dbe, "lookup_all": lookup_all,
+            "suggest_piece": suggest_piece, "value_check": value_check,
             "charade_templates": charade_templates,
             "anagram_templates": anagram_templates,
-            "anagram_charade_templates": anagram_charade_templates}
+            "anagram_charade_templates": anagram_charade_templates,
+            "anagram_container_templates": anagram_container_templates}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
@@ -305,31 +322,58 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     pc = charade_solve(ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
                        wiring.get("charade_templates") or [],
                        define_fallback=wiring.get("define_fallback"),
-                       is_dbe=wiring.get("is_dbe"))
+                       is_dbe=wiring.get("is_dbe"))   # DB-only; AI recovery runs later
     if pc is not None and pc.status in ("pass", "pending"):
         return _finish(pc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
-    # pure engines (it is more specific). A pass or pending stops here.
-    from core.anagram_charade_engine import solve_anagram_charade
+    # pure engines (it is more specific). A pass or pending stops here. Catalog-DRIVEN
+    # (signature engine); catalog gaps (multi-word slots not yet mined) become preserved
+    # fail-evidence for the separate signature-creation process, not free-tiled.
+    from core.anagram_charade_signature_engine import solve_anagram_charade
     pac = solve_anagram_charade(ctx, wiring["defines"], wiring["lookup"],
                                 wiring["is_link"], wiring["indicator_types"],
                                 wiring.get("anagram_charade_templates") or [],
                                 define_fallback=wiring.get("define_fallback"),
-                                is_dbe=wiring.get("is_dbe"))
+                                is_dbe=wiring.get("is_dbe"))   # DB-only; AI later
     if pac is not None and pac.status in ("pass", "pending"):
         return _finish(pac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM+CONTAINER — compound: a container where one component is an anagram
-    # (SANDWICHES, EXHORT). Gated on BOTH a container and an anagram indicator, so it
-    # fires rarely and does not contend with the simpler engines.
-    from core.anagram_container_engine import solve_anagram_container
+    # (SANDWICHES, EXHORT). Catalog-DRIVEN (signature engine, seeded from working
+    # solves); insertion-aware. Gaps -> preserved fail-evidence for the separate
+    # signature process. (The deferred AI recovery below still routes through the
+    # evidence engine's yes/no value check.)
+    from core.anagram_container_signature_engine import solve_anagram_container
     paco = solve_anagram_container(ctx, wiring["defines"], wiring["lookup_all"],
                                    wiring["is_link"], wiring["indicator_types"],
+                                   wiring.get("anagram_container_templates") or [],
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if paco is not None and paco.status in ("pass", "pending"):
         return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
+    # R, TACTICS=TICS around ACT). Gated on a container indicator + exact reconstruction,
+    # so it fires precisely and only after the simpler engines have passed.
+    from core.container_engine import solve_container
+    pcon = solve_container(ctx, wiring["defines"], wiring["lookup_all"],
+                           wiring["is_link"], wiring["indicator_types"],
+                           define_fallback=wiring.get("define_fallback"),
+                           is_dbe=wiring.get("is_dbe"))
+    if pcon is not None and pcon.status in ("pass", "pending"):
+        return _finish(pcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CONTAINER+CHARADE — a charade where one piece is a container (LURCHER = LURE around
+    # CH + R). Tried after the plain container (it is more general / less constrained);
+    # gated on a container indicator. A pass/pending stops here.
+    from core.container_charade_engine import solve_container_charade
+    pccc = solve_container_charade(ctx, wiring["defines"], wiring["lookup_all"],
+                                   wiring["is_link"], wiring["indicator_types"],
+                                   define_fallback=wiring.get("define_fallback"),
+                                   is_dbe=wiring.get("is_dbe"))
+    if pccc is not None and pccc.status in ("pass", "pending"):
+        return _finish(pccc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
@@ -342,11 +386,49 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pd is not None and pd.status in ("pass", "pending"):
         return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
 
+    # AI PIECE RECOVERY — runs ONLY now that every DB-grounded engine above has failed,
+    # so a provisional Haiku piece can never intercept a clue a later DB engine solves
+    # cleanly (the same reason DD runs last). Re-try the piece-capable engines WITH the
+    # Haiku suggester; a solve here is PENDING (provisional pieces) and queued for
+    # enrichment. Skipped when no suggester is wired (tests / batch set it to None).
+    sp = wiring.get("suggest_piece")
+    if sp is not None:
+        from core.charade_signature_engine import solve_charade as _sig_charade
+        pcr = _sig_charade(ctx, wiring["defines"], wiring["lookup"],
+                           wiring["is_link"], wiring.get("charade_templates") or [],
+                           define_fallback=wiring.get("define_fallback"),
+                           is_dbe=wiring.get("is_dbe"), suggest_piece=sp)
+        if pcr is not None and pcr.status in ("pass", "pending"):
+            return _finish(pcr, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        pacr = solve_anagram_charade(ctx, wiring["defines"], wiring["lookup"],
+                                     wiring["is_link"], wiring["indicator_types"],
+                                     wiring.get("anagram_charade_templates") or [],
+                                     define_fallback=wiring.get("define_fallback"),
+                                     is_dbe=wiring.get("is_dbe"), suggest_piece=sp)
+        if pacr is not None and pacr.status in ("pass", "pending"):
+            return _finish(pacr, "catalog", ctx, wiring, source, puzzle_number,
+                           clue_id)
+        vc = wiring.get("value_check")
+        if vc is not None:
+            # AI recovery uses the EVIDENCE container engine's yes/no value check (the
+            # signature engine's AI path is a follow-up); only fires after all DB
+            # engines failed, so it never intercepts a clean DB solve.
+            from core.anagram_container_engine import \
+                solve_anagram_container as _ev_container
+            pacor = _ev_container(
+                ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+                wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+                is_dbe=wiring.get("is_dbe"), could_produce=vc)
+            if pacor is not None and pacor.status in ("pass", "pending"):
+                return _finish(pacor, "catalog", ctx, wiring, source, puzzle_number,
+                               clue_id)
+
     # Nothing produced a clean stop. Return the genuinely MOST COMPLETE fail so the
     # richest evidence is shown — measured (status, answer letters explained, clue
     # words accounted, fewest warnings), NOT by engine order.
     candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
-                                      (pac, "catalog"), (paco, "catalog"))
+                                      (pac, "catalog"), (paco, "catalog"),
+                                      (pcon, "catalog"), (pccc, "catalog"))
                   if p is not None]
     if candidates:
         parse, name = _most_complete(candidates, ctx)
@@ -433,10 +515,12 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
     final. Central here so every engine gets it for free."""
     if store is None:
         return
-    from core import definition_fallback, indicator_enrichment, dd_enrichment
+    from core import (definition_fallback, indicator_enrichment, dd_enrichment,
+                      piece_fallback)
     definition_fallback.finalize(parse, ctx, store, source, puzzle_number)
     indicator_enrichment.finalize_indicators(parse, ctx, store, source,
                                              puzzle_number)
+    piece_fallback.finalize_pieces(parse, ctx, store, source, puzzle_number)
     dd_enrichment.finalize_dd(parse, ctx, store, source, puzzle_number)
 
 

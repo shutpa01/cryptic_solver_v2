@@ -46,11 +46,16 @@ ROLE_MECHANISM = {
 }
 
 
-def _role_candidates(role, phrase, answer, lookup):
+def _role_candidates(role, phrase, answer, lookup, suggest_piece=None):
     """Values that may fill a slot of `role`, drawn from `phrase`. ROLE-PURE: a SYN_F
     slot accepts only synonyms, an ABR_F slot only abbreviations, a LIT_F slot only
     the phrase's own letters. The placement still requires the value to land at the
-    exact answer position, so a literal is constrained, not a wildcard."""
+    exact answer position, so a literal is constrained, not a wildcard.
+
+    `suggest_piece`, when supplied (the Haiku piece fallback), is consulted ONLY for a
+    SYNONYM slot the DB could not fill — the answer is known, so it asks what letters
+    `phrase` produces. Its value is PROVISIONAL: the caller marks the piece pending and
+    queues it for enrichment, so it never becomes a silent pass."""
     if role == "LIT_F":
         lit = raw(phrase)
         return [lit] if lit else []
@@ -63,15 +68,25 @@ def _role_candidates(role, phrase, answer, lookup):
         if mech == mech_wanted and v and v in answer and v not in seen:
             out.append(v)
             seen.add(v)
+    # Haiku fallback for a missing SYNONYM piece. Consulted when the DB gave NOTHING,
+    # OR only weak single-letter candidates — a stray 1-letter synonym (often junk)
+    # must not suppress the real multi-letter piece (e.g. flirting->T blocking ->WINKS).
+    if suggest_piece is not None and mech_wanted == "synonym" and (
+            not out or all(len(v) == 1 for v in out)):
+        v = (suggest_piece(phrase, answer) or "").upper()
+        if v and v in answer and v not in out:
+            out.append(v)
     return out
 
 
-def _place(slots, words, answer, postags, lookup, is_link):
+def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None):
     """Place the typed slots onto disjoint word-runs in clue order (gaps allowed),
     filling each by role so the pieces concatenate to EXACTLY the answer; classify
     the gap words as links LAST. Returns {pieces, links} or None.
 
     pieces: [(start, end, role, value)] in slot order. links: gap word indices.
+    `suggest_piece` (optional) lets a synonym slot the DB can't fill be filled by a
+    provisional Haiku suggestion — see _role_candidates.
     """
     n, N = len(words), len(answer)
     nslots = len(slots)
@@ -97,7 +112,8 @@ def _place(slots, words, answer, postags, lookup, is_link):
         nw = slot.n_words
         for j in range(wi, n - nw + 1):           # slot starts at j; wi..j are gaps
             phrase = " ".join(words[k].text for k in range(j, j + nw))
-            for val in _role_candidates(slot.role, phrase, answer, lookup):
+            for val in _role_candidates(slot.role, phrase, answer, lookup,
+                                        suggest_piece):
                 if answer.startswith(val, pos):
                     r = dfs(si + 1, j + nw, pos + len(val),
                             pieces + [(j, j + nw, slot.role, val)],
@@ -109,7 +125,8 @@ def _place(slots, words, answer, postags, lookup, is_link):
     return dfs(0, 0, 0, [], [])
 
 
-def _try_template(ctx, answer, template, split, words, postags, lookup, is_link):
+def _try_template(ctx, answer, template, split, words, postags, lookup, is_link,
+                  suggest_piece=None):
     """Instantiate one signature on one definition split. Parse or None."""
     if split.where != template.def_pos:
         return None
@@ -117,25 +134,37 @@ def _try_template(ctx, answer, template, split, words, postags, lookup, is_link)
         return None
     if any(s.role not in ROLE_MECHANISM for s in template.slots):
         return None                              # role this engine can't fill
-    placement = _place(template.slots, words, answer, postags, lookup, is_link)
+    placement = _place(template.slots, words, answer, postags, lookup, is_link,
+                       suggest_piece)
     if placement is None:
         return None
-    return _build(ctx, split, words, placement, template)
+    return _build(ctx, split, words, placement, template, lookup)
 
 
-def _build(ctx, split, words, placement, template):
-    """Assemble the wfw_model.Parse from a matched, placed signature."""
+def _build(ctx, split, words, placement, template, lookup):
+    """Assemble the wfw_model.Parse from a matched, placed signature. A SYNONYM piece
+    whose value is NOT a DB synonym for its phrase was supplied by the Haiku piece
+    fallback — it is marked source='pending' so the parse goes pending and the piece
+    is queued for enrichment (never a silent pass)."""
     from core.definition_engine import dbe_annotation
+    answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     sources, links, pos = [], [], 0
     for si, (a, b, role, value) in enumerate(placement["pieces"]):
         toks = words[a:b]
+        phrase = " ".join(t.text for t in toks)
+        origin = "db"
+        if role == "SYN_F":
+            db_vals = {(v or "").upper() for v, m in lookup(phrase, answer)
+                       if m == "synonym"}
+            if value not in db_vals:        # came from the Haiku fallback
+                origin = "pending"
         sources.append(Source(
             clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-            text=" ".join(t.text for t in toks), value=value,
-            mechanism=ROLE_MECHANISM[role]))
+            text=phrase, value=value,
+            mechanism=ROLE_MECHANISM[role], source=origin))
         for _ in value:
             pos += 1
             links.append(Link(answer_pos=pos, source_index=si,
@@ -180,8 +209,38 @@ def _verify_charade(ctx, parse):
         parse.status = "pending"
 
 
+def _search(ctx, answer, templates, prepared, lookup, is_link, suggest_piece,
+            stop_pending=False):
+    """One sweep of the catalog over the prepared splits. Returns the best
+    (best_pass, best_pending, best_other) by the residue/literals key. When
+    `stop_pending` (the Haiku recovery pass), return as soon as a PENDING placement
+    is found — one provisional solve is enough and it bounds the Haiku calls."""
+    best_pass = best_pending = best_other = None
+    pass_key = pend_key = None
+    for template in templates:
+        for split, words, postags in prepared:
+            parse = _try_template(ctx, answer, template, split, words, postags,
+                                  lookup, is_link, suggest_piece)
+            if parse is None:
+                continue
+            residue = sum(1 for a in parse.annotations if a.role == "link")
+            literals = sum(1 for s in parse.sources if s.mechanism == "raw")
+            key = (residue, -literals)
+            if parse.status == "pass":
+                if pass_key is None or key < pass_key:
+                    best_pass, pass_key = parse, key
+            elif parse.status == "pending":
+                if pend_key is None or key < pend_key:
+                    best_pending, pend_key = parse, key
+                if stop_pending:
+                    return best_pass, best_pending, best_other
+            elif best_other is None:
+                best_other = parse
+    return best_pass, best_pending, best_other
+
+
 def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None,
-                  is_dbe=None):
+                  is_dbe=None, suggest_piece=None):
     """Full charade solve — catalog-driven. Walk the charade signatures in priority
     order; for each, try every confirmed definition split at the signature's def edge:
     place the typed slots on the wordplay (gaps -> links, classified last), fill by
@@ -216,33 +275,32 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 2:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
+        postags = grammar.wordplay_pos_tags(ctx, words)
         prepared.append((split, words, postags))
     if not prepared:
         return None
 
-    best_pass, best_key, best_other = None, None, None
-    for template in templates:                       # priority order
-        for split, words, postags in prepared:
-            parse = _try_template(ctx, answer, template, split, words, postags,
-                                  lookup, is_link)
-            if parse is None:
-                continue
-            if parse.status == "pass":
-                residue = sum(1 for a in parse.annotations if a.role == "link")
-                literals = sum(1 for s in parse.sources if s.mechanism == "raw")
-                key = (residue, -literals)           # fewer links, then more literals
-                if best_key is None or key < best_key:
-                    best_pass, best_key = parse, key
-                    if residue == 0 and literals == len(parse.sources):
-                        return parse                 # nothing could beat this key
-            elif best_other is None:
-                best_other = parse
-    if best_pass is not None:
-        return best_pass
-    if best_other is not None:
-        return best_other
+    # Pass 1 — reference DB only (unchanged behaviour; no AI). A pass or a pending
+    # (e.g. a provisional definition) is a DB-grounded solve and wins outright.
+    bp, bpend, bo = _search(ctx, answer, templates, prepared, lookup, is_link, None)
+    if bp is not None:
+        return bp
+    if bpend is not None:
+        return bpend
 
+    # Pass 2 — Haiku piece fallback, ONLY because the DB pass found nothing. A clue
+    # word the DB cannot resolve is offered to Haiku; the value it suggests fills a
+    # synonym slot PROVISIONALLY, so the placement comes back as pending (the piece is
+    # source='pending') and is queued for enrichment. Gated like the definition
+    # fallback: a miss, never a routine cost.
+    if suggest_piece is not None:
+        _, apend, _ = _search(ctx, answer, templates, prepared, lookup, is_link,
+                              suggest_piece, stop_pending=True)
+        if apend is not None:
+            return apend
+
+    if bo is not None:
+        return bo
     return _build_fail_evidence(ctx, answer, prepared[0][0], lookup)
 
 

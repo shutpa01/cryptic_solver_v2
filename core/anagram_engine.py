@@ -120,7 +120,7 @@ def solve_anagram(ctx, wordplay_tokens, is_link, indicator_types, templates=None
     if any(raw(t.text) == answer for t in words):
         return None                              # self-anagram
 
-    pos = grammar.pos_tags([t.text for t in words]) or [None] * n
+    pos = grammar.wordplay_pos_tags(ctx, words)
 
     # Candidate fodder runs: contiguous, longest first (more words as fodder leaves
     # the cleanest indicator), then by position. Must leave room for an indicator.

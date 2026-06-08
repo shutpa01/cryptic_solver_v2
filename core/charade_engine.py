@@ -151,7 +151,7 @@ def solve_charade(ctx, defines, lookup, is_link, templates=None,
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 2:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
+        postags = grammar.wordplay_pos_tags(ctx, words)
         placement = _assemble(answer, words, postags, lookup, is_link)
         if placement is None:
             continue

@@ -53,8 +53,15 @@ def _produces(words, a, b, target, lookup_all):
     return ways
 
 
-def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
-    """Find outer/inner runs + insertion. Returns a placement or None."""
+def _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
+              could_produce=None):
+    """Find outer/inner runs + insertion. Returns a placement or None.
+
+    `could_produce(phrase, value) -> bool`, when supplied, lets the VALUE component be
+    confirmed by Haiku for a placement that is otherwise fully valid (anagram side
+    letter-proven, indicators present, residue all links) but whose value run the DB
+    cannot resolve. The AI is asked only at that final gate, so the call count stays
+    tiny. Such a placement is provisional (value_source='pending')."""
     n, N = len(words), len(answer)
 
     def has(text, kind):
@@ -86,20 +93,30 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
                 continue
             for (ia, ib) in runs:
                 inner_ways = _produces(words, ia, ib, inner, lookup_all)
-                if not inner_ways:
+                # DB-only: both runs must produce their target via the DB, so prune a
+                # dead inner run early (the speed-critical path). In AI mode the value
+                # run may have no DB way, so we cannot prune here.
+                if could_produce is None and not inner_ways:
                     continue
                 for (oa, ob) in runs:
                     if not (ob <= ia or oa >= ib):    # runs must be disjoint
                         continue
                     outer_ways = _produces(words, oa, ob, outer, lookup_all)
-                    if not outer_ways:
+                    if could_produce is None and not outer_ways:
                         continue
-                    # exactly one component is an anagram, the other a DB value
+                    # Exactly one component is an anagram (letter-proven), the other a
+                    # value — a DB synonym/abbreviation, or (could_produce given) one
+                    # Haiku confirms at the final gate.
                     for inner_anag in (True, False):
-                        need_in = "anag" if inner_anag else "value"
-                        need_out = "value" if inner_anag else "anag"
-                        if need_in not in inner_ways or need_out not in outer_ways:
-                            continue
+                        anag_ways = inner_ways if inner_anag else outer_ways
+                        if "anag" not in anag_ways:
+                            continue                  # anagram side must letter-match
+                        val_ways = outer_ways if inner_anag else inner_ways
+                        val_run = (oa, ob) if inner_anag else (ia, ib)
+                        val_target = outer if inner_anag else inner
+                        db_value = "value" in val_ways
+                        if not db_value and could_produce is None:
+                            continue                  # DB-only: a DB value is required
                         used = set(range(ia, ib)) | set(range(oa, ob))
                         residue = [k for k in range(n) if k not in used]
                         con_caps = [k for k in residue if is_con(k)]
@@ -132,16 +149,28 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
                                 else:
                                     ok = False
                                     break
-                            if ok:
-                                placement = {"p": p, "L": L, "inner": (ia, ib),
-                                             "outer": (oa, ob),
-                                             "inner_anag": inner_anag, "con": [c],
-                                             "ana": ana, "ana_source": ana_source,
-                                             "links": links}
-                                if ana_source == "db":
-                                    return placement     # confirmed — best, stop
-                                if best is None:
-                                    best = placement     # provisional — keep as fallback
+                            if not ok:
+                                continue
+                            # Value source: a DB hit, else ask Haiku ONCE for this
+                            # otherwise-valid placement (the tight gate bounding AI).
+                            if db_value:
+                                value_source = "db"
+                            else:
+                                phrase = " ".join(words[k].text
+                                                  for k in range(*val_run))
+                                if not could_produce(phrase, val_target):
+                                    continue
+                                value_source = "pending"
+                            placement = {"p": p, "L": L, "inner": (ia, ib),
+                                         "outer": (oa, ob),
+                                         "inner_anag": inner_anag, "con": [c],
+                                         "ana": ana, "ana_source": ana_source,
+                                         "value_source": value_source,
+                                         "links": links}
+                            if ana_source == "db" and value_source == "db":
+                                return placement     # fully confirmed — stop
+                            if best is None:
+                                best = placement     # provisional — keep as fallback
     return best
 
 
@@ -167,6 +196,10 @@ def _build(ctx, split, words, answer, pl):
         clue_atom_ids=tuple(aid for t in inner_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in inner_toks), value=inner,
         mechanism="anagram_fodder" if inner_anag else "synonym")
+    # The VALUE component (the non-anagram side) is provisional when Haiku, not the DB,
+    # confirmed it — mark it pending so the parse goes pending and it is queued.
+    if pl.get("value_source") == "pending":
+        (outer_src if inner_anag else inner_src).source = "pending"
     # source order in clue order, for stable colour
     if oa < ia:
         sources = [outer_src, inner_src]; OUT, IN = 0, 1
@@ -226,6 +259,8 @@ def _verify(ctx, parse):
     if any(a.role == "indicator" and getattr(a, "source", "db") == "pending"
            for a in parse.annotations):
         warnings.append("the anagram indicator is provisional (queued for enrichment)")
+    if any(getattr(s, "source", "db") == "pending" for s in parse.sources):
+        warnings.append("a wordplay piece is provisional (queued for enrichment)")
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
@@ -236,9 +271,15 @@ def _verify(ctx, parse):
 
 
 def solve_anagram_container(ctx, defines, lookup_all, is_link, indicator_types,
-                            templates=None, define_fallback=None, is_dbe=None):
+                            templates=None, define_fallback=None, is_dbe=None,
+                            could_produce=None):
     """Full anagram+container solve — evidence-driven. Returns the first clean PASS,
-    else the best parse, else None."""
+    else the best parse, else None.
+
+    `could_produce` (the Haiku value check) is passed only by the registry's deferred
+    AI-recovery stage; with it, a placement whose value component the DB cannot resolve
+    can be confirmed provisionally (-> pending, queued). DB-only behaviour (the inline
+    cascade call) is unchanged because could_produce defaults to None."""
     from core.definition_engine import find_definitions
 
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
@@ -254,8 +295,9 @@ def solve_anagram_container(ctx, defines, lookup_all, is_link, indicator_types,
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 3:
             continue
-        postags = grammar.pos_tags([t.text for t in words]) or [None] * len(words)
-        pl = _assemble(answer, words, postags, lookup_all, is_link, indicator_types)
+        postags = grammar.wordplay_pos_tags(ctx, words)
+        pl = _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
+                       could_produce)
         if pl is None:
             continue
         parse = _build(ctx, split, words, answer, pl)
@@ -263,4 +305,62 @@ def solve_anagram_container(ctx, defines, lookup_all, is_link, indicator_types,
             return parse
         if best is None:
             best = parse
+    if best is not None:
+        return best
+    # No container placement found. Do NOT return None and discard what was found —
+    # preserve the evidence (design §2 / §5.9): keep the definition and the anagram-
+    # fodder candidate so the gap is visible and nothing is silently lost.
+    return _build_fail_evidence(ctx, answer, splits[0])
+
+
+def _build_fail_evidence(ctx, answer, split):
+    """Preserve the evidence when no anagram+container placement was found. A FAIL
+    asserts nothing about structure, so it assigns NO roles by elimination
+    (feedback-no-role-on-fail). Keeps the definition and surfaces the anagram-fodder
+    candidate: the longest contiguous run of wordplay words whose letters anagram to a
+    span of the answer — marked a candidate, not a committed piece."""
+    from core.definition_engine import dbe_annotation
+    definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
+                        value=ctx.answer_text, mechanism="definition",
+                        source=split.source)
+    words = [t for t in split.wordplay_tokens if t.kind == "word"]
+    sources = []
+    cand = _fodder_candidate(words, answer)
+    if cand is not None:
+        a, b, letters = cand
+        toks = words[a:b]
+        sources.append(Source(
+            clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+            text=" ".join(t.text for t in toks), value=letters,
+            mechanism="anagram_fodder"))
+    dbe = dbe_annotation(split)
+    annotations = [dbe] if dbe is not None else []
+    return Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
+                 sources=sources, links=[], annotations=annotations,
+                 definition=definition, operation="anagram_container",
+                 solved_by="catalog", status="fail",
+                 warnings=["no anagram+container placement matched this clue "
+                           "(the fodder below is a candidate, not a placement)"])
+
+
+def _fodder_candidate(words, answer):
+    """The longest contiguous run of wordplay words whose letters (as written, or
+    contraction-stripped) anagram to a span of the answer (sorted-equal, not an exact
+    reversal). Returns (start, end, span_letters) or None. Pure evidence — no
+    placement asserted."""
+    n, N = len(words), len(answer)
+    best = None
+    for a in range(n):
+        for b in range(a + 1, n + 1):
+            for fl in fodder_letter_forms(words[a:b]):
+                L = len(fl)
+                if L < 3 or L > N:
+                    continue
+                key = sorted(fl)
+                for start in range(0, N - L + 1):
+                    sp = answer[start:start + L]
+                    if sorted(sp) == key and sp[::-1] != fl:
+                        if best is None or L > len(best[2]):
+                            best = (a, b, sp)
+                        break
     return best
