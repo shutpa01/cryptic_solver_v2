@@ -117,3 +117,13 @@ def load_container_templates(db_path=None):
 def load_container_charade_templates(db_path=None):
     """The container+charade signatures, priority order (seeded from working solves)."""
     return load_templates(operation="container_charade", db_path=db_path)
+
+
+def load_reversal_templates(db_path=None):
+    """The plain reversal signatures, priority order (seeded from working solves)."""
+    return load_templates(operation="reversal", db_path=db_path)
+
+
+def load_reversal_charade_templates(db_path=None):
+    """The reversal+charade signatures, priority order (seeded from working solves)."""
+    return load_templates(operation="reversal_charade", db_path=db_path)

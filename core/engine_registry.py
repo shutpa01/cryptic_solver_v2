@@ -252,18 +252,24 @@ def make_db_wiring():
                                          load_anagram_charade_templates,
                                          load_anagram_container_templates,
                                          load_container_templates,
-                                         load_container_charade_templates)
+                                         load_container_charade_templates,
+                                         load_reversal_templates,
+                                         load_reversal_charade_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
         anagram_container_templates = load_anagram_container_templates()
         container_templates = load_container_templates()
         container_charade_templates = load_container_charade_templates()
+        reversal_templates = load_reversal_templates()
+        reversal_charade_templates = load_reversal_charade_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
         container_templates = []
         container_charade_templates = []
+        reversal_templates = []
+        reversal_charade_templates = []
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
@@ -276,7 +282,9 @@ def make_db_wiring():
             "anagram_charade_templates": anagram_charade_templates,
             "anagram_container_templates": anagram_container_templates,
             "container_templates": container_templates,
-            "container_charade_templates": container_charade_templates}
+            "container_charade_templates": container_charade_templates,
+            "reversal_templates": reversal_templates,
+            "reversal_charade_templates": reversal_charade_templates}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
@@ -390,12 +398,13 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         return _finish(pccc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
-    # rev(TRAMS)). Evidence-driven, single-piece, answer-driven (target = reverse(answer),
-    # one DB membership test). Tried after the container family; gated on a reversal
-    # indicator. Multi-piece reverse-of-charade is reversal_charade, a separate engine.
-    from core.reversal_engine import solve_reversal
+    # rev(TRAMS)). Catalog-DRIVEN (signature engine); single-piece, answer-driven (the fodder
+    # run's DB value must equal reverse(answer)). Tried after the container family; gated on a
+    # reversal indicator. Multi-piece reverse-of-charade is reversal_charade, a separate engine.
+    from core.reversal_signature_engine import solve_reversal
     prev = solve_reversal(ctx, wiring["defines"], wiring["lookup_all"],
                           wiring["is_link"], wiring["indicator_types"],
+                          wiring.get("reversal_templates") or [],
                           define_fallback=wiring.get("define_fallback"),
                           is_dbe=wiring.get("is_dbe"))
     if prev is not None and prev.status in ("pass", "pending"):
@@ -403,11 +412,13 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
 
     # REVERSAL+CHARADE — a charade where the reversal applies (one piece reversed, e.g.
     # AFAR = A + rev(RAF); or the whole charade reversed, e.g. ERATO = rev(ARE)+rev(OT)).
-    # Evidence-driven, order-free tiler with >=1 reversed piece, answer-driven. Tried after
-    # the plain reversal (more general / multi-piece); gated on a reversal indicator.
-    from core.reversal_charade_engine import solve_reversal_charade
+    # Catalog-DRIVEN (signature engine): the slots fix which pieces are reversed (REV_F) vs
+    # forward (SYN_F); the reconstructor tiles the answer answer-driven. Tried after the plain
+    # reversal (more general / multi-piece); gated on a reversal indicator.
+    from core.reversal_charade_signature_engine import solve_reversal_charade
     prevc = solve_reversal_charade(ctx, wiring["defines"], wiring["lookup_all"],
                                    wiring["is_link"], wiring["indicator_types"],
+                                   wiring.get("reversal_charade_templates") or [],
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if prevc is not None and prevc.status in ("pass", "pending"):
