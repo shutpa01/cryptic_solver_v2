@@ -10,7 +10,7 @@ DB wiring is injected once (RefDB), kept out of the pure engines.
 """
 
 from core.wfw_atoms import build_wfw_atom_context
-from core import inflect, contractions
+from core import inflect, contractions, literals
 
 
 def _match_variants(text):
@@ -184,7 +184,12 @@ def make_db_wiring():
         """(value, mechanism) options for a word with NO substring filter — the
         container engine needs an OUTER value (e.g. SANDS) that is split around the
         inner and so is NOT a contiguous substring of the answer. Inflection/
-        contraction-aware; cached."""
+        contraction-aware; cached.
+
+        Adds a curated LITERAL value (mechanism 'raw') when `word` is a short
+        function word read as its own letters (it -> IT): an additive source the
+        DB lacks, gated to core.literals.LITERAL_WORDS. Only the container family
+        accepts 'raw'; other consumers filter it out, so this is inert for them."""
         if word in _cache_lookall:
             return _cache_lookall[word]
         out, seen = [], set()
@@ -193,6 +198,10 @@ def make_db_wiring():
                 if (val, mech) not in seen:
                     seen.add((val, mech))
                     out.append((val, mech))
+        lit = literals.literal_value(word)
+        if lit and (lit, "raw") not in seen:
+            seen.add((lit, "raw"))
+            out.append((lit, "raw"))
         _cache_lookall[word] = out
         return out
 

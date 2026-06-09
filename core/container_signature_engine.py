@@ -16,11 +16,25 @@ Evidence preserved on a miss (design §2). Definition decided upstream. Pure and
 DB-decoupled. This is the signature-driven replacement for the evidence container engine.
 """
 
-from core import grammar
+from core import grammar, literals
 from core.wordplay import GLUE_POS
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+# A value piece may be a DB synonym/abbreviation OR a curated literal (a short
+# function word read as its own letters, e.g. "it" -> IT; core.literals). The literal
+# is gated to the lexicon and still bound by exact reconstruction below, so it is a
+# constrained candidate, not a wildcard.
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
+
+
+def _piece_mechanism(toks, value):
+    """Label a placed value piece: 'raw' when it is the curated literal of its
+    (single-word) phrase, else 'synonym' (the engine does not further split
+    synonym vs abbreviation in display)."""
+    phrase = " ".join(t.text for t in toks)
+    if literals.literal_value(phrase) == value:
+        return "raw"
+    return "synonym"
 
 
 def _is_con_indicator(text, indicator_types):
@@ -152,11 +166,11 @@ def _build(ctx, split, words, answer, placement, template):
     outer_src = Source(
         clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in outer_toks), value=outer_val,
-        mechanism="synonym")
+        mechanism=_piece_mechanism(outer_toks, outer_val))
     inner_src = Source(
         clue_atom_ids=tuple(aid for t in inner_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in inner_toks), value=inner_val,
-        mechanism="synonym")
+        mechanism=_piece_mechanism(inner_toks, inner_val))
     # stable colour: sources in clue order
     if outer_run[0] < inner_run[0]:
         sources = [outer_src, inner_src]; OUT, IN = 0, 1

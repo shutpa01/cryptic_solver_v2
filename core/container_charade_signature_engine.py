@@ -18,11 +18,23 @@ signature), so it is additive/deterministic. Evidence preserved on a miss (desig
 Definition decided upstream. Pure and DB-decoupled.
 """
 
-from core import grammar
+from core import grammar, literals
 from core.wordplay import GLUE_POS
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+# A value piece may be a DB synonym/abbreviation OR a curated literal (a short function
+# word read as its own letters; core.literals). Gated to the lexicon and bound by exact
+# reconstruction, so a constrained candidate, not a wildcard.
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
+
+
+def _piece_mechanism(toks, value):
+    """Label a placed value piece: 'raw' when it is the curated literal of its
+    (single-word) phrase, else 'synonym'."""
+    phrase = " ".join(t.text for t in toks)
+    if literals.literal_value(phrase) == value:
+        return "raw"
+    return "synonym"
 
 
 def _is_con_indicator(text, indicator_types):
@@ -194,7 +206,8 @@ def _build(ctx, split, words, answer, placement, template):
             si = len(sources)
             sources.append(Source(
                 clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-                text=" ".join(t.text for t in toks), value=v, mechanism="synonym"))
+                text=" ".join(t.text for t in toks), value=v,
+                mechanism=_piece_mechanism(toks, v)))
             for off in range(len(v)):
                 links.append(Link(answer_pos=spos + off + 1, source_index=si,
                                   operation="container_charade", clue_atom_id=None))
@@ -207,12 +220,12 @@ def _build(ctx, split, words, answer, placement, template):
             sources.append(Source(
                 clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
                 text=" ".join(t.text for t in outer_toks), value=OUT,
-                mechanism="synonym"))
+                mechanism=_piece_mechanism(outer_toks, OUT)))
             i_si = len(sources)
             sources.append(Source(
                 clue_atom_ids=tuple(aid for t in inner_toks for aid in t.atom_ids),
                 text=" ".join(t.text for t in inner_toks), value=IN,
-                mechanism="synonym"))
+                mechanism=_piece_mechanism(inner_toks, IN)))
             for off in range(L):
                 in_inner = p <= off < p + Li
                 links.append(Link(answer_pos=spos + off + 1,
