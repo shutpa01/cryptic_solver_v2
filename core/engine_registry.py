@@ -251,16 +251,19 @@ def make_db_wiring():
                                          load_anagram_templates,
                                          load_anagram_charade_templates,
                                          load_anagram_container_templates,
-                                         load_container_templates)
+                                         load_container_templates,
+                                         load_container_charade_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
         anagram_container_templates = load_anagram_container_templates()
         container_templates = load_container_templates()
+        container_charade_templates = load_container_charade_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
         container_templates = []
+        container_charade_templates = []
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
@@ -272,7 +275,8 @@ def make_db_wiring():
             "anagram_templates": anagram_templates,
             "anagram_charade_templates": anagram_charade_templates,
             "anagram_container_templates": anagram_container_templates,
-            "container_templates": container_templates}
+            "container_templates": container_templates,
+            "container_charade_templates": container_charade_templates}
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
@@ -372,11 +376,14 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         return _finish(pcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER+CHARADE — a charade where one piece is a container (LURCHER = LURE around
-    # CH + R). Tried after the plain container (it is more general / less constrained);
-    # gated on a container indicator. A pass/pending stops here.
-    from core.container_charade_engine import solve_container_charade
+    # CH + R). Catalog-DRIVEN (signature engine; the container pair is marked CNT_F in the
+    # signature, charade pieces SYN_F); the reconstructor tiles the answer with the charade
+    # pieces + one container span in any order. Tried after the plain container (more
+    # general); gated on a container indicator. Gaps -> preserved fail-evidence.
+    from core.container_charade_signature_engine import solve_container_charade
     pccc = solve_container_charade(ctx, wiring["defines"], wiring["lookup_all"],
                                    wiring["is_link"], wiring["indicator_types"],
+                                   wiring.get("container_charade_templates") or [],
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if pccc is not None and pccc.status in ("pass", "pending"):
