@@ -401,6 +401,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if prev is not None and prev.status in ("pass", "pending"):
         return _finish(prev, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # REVERSAL+CHARADE — a charade where the reversal applies (one piece reversed, e.g.
+    # AFAR = A + rev(RAF); or the whole charade reversed, e.g. ERATO = rev(ARE)+rev(OT)).
+    # Evidence-driven, order-free tiler with >=1 reversed piece, answer-driven. Tried after
+    # the plain reversal (more general / multi-piece); gated on a reversal indicator.
+    from core.reversal_charade_engine import solve_reversal_charade
+    prevc = solve_reversal_charade(ctx, wiring["defines"], wiring["lookup_all"],
+                                   wiring["is_link"], wiring["indicator_types"],
+                                   define_fallback=wiring.get("define_fallback"),
+                                   is_dbe=wiring.get("is_dbe"))
+    if prevc is not None and prevc.status in ("pass", "pending"):
+        return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
     # exactly; running it first let it intercept catalog clues. So the precise engines
