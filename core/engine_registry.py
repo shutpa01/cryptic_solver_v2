@@ -389,6 +389,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pccc is not None and pccc.status in ("pass", "pending"):
         return _finish(pccc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
+    # rev(TRAMS)). Evidence-driven, single-piece, answer-driven (target = reverse(answer),
+    # one DB membership test). Tried after the container family; gated on a reversal
+    # indicator. Multi-piece reverse-of-charade is reversal_charade, a separate engine.
+    from core.reversal_engine import solve_reversal
+    prev = solve_reversal(ctx, wiring["defines"], wiring["lookup_all"],
+                          wiring["is_link"], wiring["indicator_types"],
+                          define_fallback=wiring.get("define_fallback"),
+                          is_dbe=wiring.get("is_dbe"))
+    if prev is not None and prev.status in ("pass", "pending"):
+        return _finish(prev, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
     # exactly; running it first let it intercept catalog clues. So the precise engines
