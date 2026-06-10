@@ -191,6 +191,12 @@ def solve_hidden(ctx, defines, indicator_types=None, is_link=None,
         # definition instead of being stranded (ANDEAN -> "in the mountains").
         if split is not None and parse.definition is not None:
             _extend_parse_definition(ctx, parse, split)
+        # REVERSED hidden ONLY: account the reversal indicator ("up", "elevated", "on
+        # reflection") that the hidden-only passes leave stranded. Gated to the reversed
+        # operation so forward hidden is byte-for-byte unchanged; runs before the edge-
+        # definition and link steps so a multi-word reversal phrase is taken whole.
+        if parse.operation == "hidden_reversed":
+            _classify_reversal_indicator(ctx, parse, indicator_types)
         # Edge-anchored definition: indicator pinned but no DB definition -> the
         # single contiguous run of real leftover words at a clue EDGE IS the
         # definition (provisional, queued); then re-consolidate the indicator.
@@ -263,6 +269,53 @@ def _classify_multiword_indicator(ctx, parse, indicator_types):
                     clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
                     text=" ".join(t.text for t in toks),
                     role="indicator", note="hidden indicator"))
+                return
+
+
+def _classify_reversal_indicator(ctx, parse, indicator_types):
+    """A REVERSED hidden (operation 'hidden_reversed') carries a REVERSAL indicator
+    ("up", "elevated", "on reflection", "in retreat") on top of the hidden indicator.
+    Every other indicator pass only recognises 'hidden'-typed words, so the reversal
+    indicator is left unaccounted and the clue cannot pass — and adding it to the DB
+    did nothing because nothing queried 'reversal'. This recogniser fills that gap.
+
+    Scans contiguous runs of STILL-UNACCOUNTED words, LONGEST first, and attaches the
+    first whose joined phrase the DB types as 'reversal' (so 'on reflection' is taken
+    whole, not split). Additive and GATED to the reversed case by the caller — forward
+    hidden never reaches here, so its behaviour is unchanged. Runs BEFORE link
+    classification so the phrase's function words are still free to join it."""
+    if indicator_types is None:
+        return
+    from core.wfw_model import Annotation
+    words = [t for t in ctx.clue_tokens if t.kind == "word"]
+    accounted = set(parse.sources[0].clue_atom_ids)
+    if parse.definition:
+        accounted.update(parse.definition.clue_atom_ids)
+    for a in parse.annotations:
+        accounted.update(a.clue_atom_ids)
+    leftset = {i for i, t in enumerate(words)
+               if not any(aid in accounted for aid in t.atom_ids)}
+    if not leftset:
+        return
+
+    def is_rev(text):
+        try:
+            return "reversal" in (indicator_types(text) or set())
+        except Exception:
+            return False
+
+    n = len(words)
+    for length in range(len(leftset), 0, -1):
+        for start in range(0, n - length + 1):
+            run = list(range(start, start + length))
+            if not all(i in leftset for i in run):
+                continue
+            phrase = " ".join(words[i].text for i in run)
+            if is_rev(phrase):
+                toks = [words[i] for i in run]
+                parse.annotations.append(Annotation(
+                    clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+                    text=phrase, role="indicator", note="reversal indicator"))
                 return
 
 
