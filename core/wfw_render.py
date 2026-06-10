@@ -156,6 +156,28 @@ def _verdict_badge(parse):
     return '<span class="wfw-verdict fail">&#10007; FAIL</span>'
 
 
+# The indicator's precise type, read off the note each engine records, with a colour.
+_IND_TYPES = ("anagram", "container", "insertion", "reversal", "deletion",
+              "hidden", "homophone", "acrostic")
+_IND_COLOUR = {"anagram": "#7c3aed", "container": "#0e7490", "reversal": "#b45309",
+               "deletion": "#be185d", "hidden": "#92600a", "homophone": "#4d7c0f",
+               "acrostic": "#5b21b6", "indicator": "#7c3aed"}
+
+
+def _indicator_label(note):
+    """(pill label, extra detail) for an indicator annotation, from its note. Gives the
+    PRECISE type — 'Container indicator', 'Reversal indicator', 'Deletion indicator' (+ the
+    deletion sub-type as detail) — instead of a bare 'Indicator'."""
+    n = (note or "").lower()
+    if n.startswith("deletion:"):                  # "deletion: behead (drops the ...)"
+        return "Deletion indicator", note.split(":", 1)[1].strip()
+    for t in _IND_TYPES:
+        if t in n:
+            disp = "Container" if t == "insertion" else t.capitalize()
+            return disp + " indicator", ""
+    return "Indicator", ""
+
+
 def _first_index(atom_ids):
     """Sort key: the position of a span's first clue character."""
     nums = []
@@ -192,34 +214,42 @@ def _render_breakdown(parse, src_fg, src_fill):
 
     if parse.definition:
         prov = ""
-        if getattr(parse.definition, "source", "db") == "pending":
+        _dsrc = getattr(parse.definition, "source", "db")
+        if _dsrc == "pending":
             prov = ' <span class="wfw-prov">provisional</span>'
+        elif _dsrc == "manual":
+            prov = ' <span class="wfw-prov">manual (not in DB)</span>'
         rows.append(_row(_first_index(parse.definition.clue_atom_ids),
                          "Definition", "background:#2563eb;color:#fff",
                          escape(parse.definition.text) + prov))
 
     for a in parse.annotations:
-        if a.role == "indicator" and getattr(a, "note", "") == "definition by example":
+        note = getattr(a, "note", "") or ""
+        content = escape(a.text)
+        if a.role == "indicator" and note == "definition by example":
             style = "background:#2563eb;color:#fff"
             label = "By example"
         elif a.role == "indicator":
-            style = "background:#7c3aed;color:#fff"
-            label = "Indicator"
+            # PRECISE indicator type, not a bare "Indicator" — read off the note the
+            # engine recorded ("container indicator", "reversal indicator", "deletion:
+            # behead ...", "anagram indicator", "hidden indicator").
+            label, detail = _indicator_label(note)
+            style = "background:%s;color:#fff" % _IND_COLOUR.get(label.split()[0].lower(),
+                                                                "#7c3aed")
+            if detail:                       # e.g. the deletion sub-type
+                content += ' <span class="wfw-emuted">&mdash; %s</span>' % escape(detail)
         elif a.role == "deletion":
             # a NAMED deleted piece (the removed letters come from this clue word):
             # show "bishop -> B (Deleted)". The removed letters follow the arrow in note.
             style = "background:#b91c1c;color:#fff"
             label = "Deleted"
-        else:
-            style = "background:#64748b;color:#fff"
-            label = "Link"
-        content = escape(a.text)
-        if a.role == "deletion":
-            note = getattr(a, "note", "") or ""
             removed = note.split("→")[-1].strip() if "→" in note else ""
             if removed:
                 content += (' <span class="wfw-arrow">&rarr;</span> '
                             '<strong class="wfw-val">%s</strong>' % escape(removed))
+        else:
+            style = "background:#64748b;color:#fff"
+            label = "Link"
         if getattr(a, "source", "db") == "pending":
             content += ' <span class="wfw-prov">provisional</span>'
         rows.append(_row(_first_index(a.clue_atom_ids), label, style, content))

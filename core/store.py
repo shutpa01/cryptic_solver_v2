@@ -184,6 +184,33 @@ def load_parse(conn, clue_id):
     return parse
 
 
+def set_status(conn, clue_id, status):
+    """Manually override a clue's stored verdict (pass / pending / fail). Persists in
+    wfw_solve; the screen renders it until the clue is re-solved."""
+    ensure_schema(conn)
+    conn.execute("UPDATE wfw_solve SET status = ? WHERE clue_id = ?",
+                 (status, clue_id))
+    conn.commit()
+
+
+def set_manual_definition(conn, clue_id, text, answer):
+    """Set a DISPLAY-ONLY definition (no reference-DB write, no checks) — for &lit
+    clues where the whole clue is both the definition and the wordplay. Updates the
+    stored definition piece (mechanism/source 'manual'), inserting one if absent. The
+    atom span is left empty (the text is shown, the clue line is not re-highlighted)."""
+    ensure_schema(conn)
+    n = conn.execute(
+        "UPDATE wfw_piece SET text = ?, value = ?, mechanism = 'manual', "
+        "source = 'manual', atom_ids = '[]' WHERE clue_id = ? AND role = 'definition'",
+        (text, answer, clue_id)).rowcount
+    if n == 0:
+        conn.execute(
+            "INSERT INTO wfw_piece (clue_id, role, ord, text, value, mechanism, "
+            "source, note, atom_ids) VALUES (?, 'definition', 0, ?, ?, 'manual', "
+            "'manual', '', '[]')", (clue_id, text, answer))
+    conn.commit()
+
+
 def load_atoms(conn, clue_id):
     """Reconstruct the PRESERVED atomisation for this clue (the exact atoms the
     stored provenance references), or None if none was stored (a row solved
