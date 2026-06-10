@@ -205,10 +205,21 @@ def _render_breakdown(parse, src_fg, src_fill):
         elif a.role == "indicator":
             style = "background:#7c3aed;color:#fff"
             label = "Indicator"
+        elif a.role == "deletion":
+            # a NAMED deleted piece (the removed letters come from this clue word):
+            # show "bishop -> B (Deleted)". The removed letters follow the arrow in note.
+            style = "background:#b91c1c;color:#fff"
+            label = "Deleted"
         else:
             style = "background:#64748b;color:#fff"
             label = "Link"
         content = escape(a.text)
+        if a.role == "deletion":
+            note = getattr(a, "note", "") or ""
+            removed = note.split("→")[-1].strip() if "→" in note else ""
+            if removed:
+                content += (' <span class="wfw-arrow">&rarr;</span> '
+                            '<strong class="wfw-val">%s</strong>' % escape(removed))
         if getattr(a, "source", "db") == "pending":
             content += ' <span class="wfw-prov">provisional</span>'
         rows.append(_row(_first_index(a.clue_atom_ids), label, style, content))

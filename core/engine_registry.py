@@ -433,6 +433,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if prevc is not None and prevc.status in ("pass", "pending"):
         return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # DELETION — a plain deletion (the whole answer is one DB value with letters removed).
+    # EVIDENCE-DRIVEN, two honestly-attributed forms: POSITIONAL (a fused/position-noun
+    # indicator fixes which letters go: TAU = curtail(TAUT)) and NAMED (the removed letters
+    # are a DB value of another word: LOTTO = BLOTTO - B[bishop]). Answer-driven, gated on a
+    # genuine deletion indicator. Tried after the reversal family; not yet signature-driven.
+    from core.deletion_engine import solve_deletion
+    pdel = solve_deletion(ctx, wiring["defines"], wiring["lookup_all"],
+                          wiring["is_link"], wiring["indicator_types"],
+                          define_fallback=wiring.get("define_fallback"),
+                          is_dbe=wiring.get("is_dbe"))
+    if pdel is not None and pdel.status in ("pass", "pending"):
+        return _finish(pdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
     # exactly; running it first let it intercept catalog clues. So the precise engines
