@@ -32,12 +32,18 @@ def _match_variants(text):
 
 
 def make_db_wiring():
-    """Build the injected predicates from the live RefDB. Returns a dict the
-    engines consume. Imported lazily so pure tests need no DB."""
+    """Build the injected predicates from the reference DB. Returns a dict the
+    engines consume. Imported lazily so pure tests need no DB.
+
+    Uses core.live_db.LiveDB — every lookup is a live indexed query (via the
+    normalized-key columns) instead of preloading the whole ~1.7M-row reference DB
+    into RAM. Start is ~instant, nothing big is held in memory (no long-session
+    crash), and a freshly-added entry is seen at once. Verified 40/40 identical to
+    the old RefDB preload (core/_run_live_batch.py)."""
     import os
     import sqlite3
-    from signature_solver.db import RefDB
-    db = RefDB()
+    from core.live_db import LiveDB
+    db = LiveDB()
 
     cryptic_db = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                               "data", "cryptic_new.db")
