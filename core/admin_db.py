@@ -13,6 +13,8 @@ Each adder returns a short status string for the UI.
 import os
 import sqlite3
 
+from signature_solver.db import _normalize_key   # LiveDB matches on this normalized key
+
 CRYPTIC_DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                           "data", "cryptic_new.db")
 MASTER_DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -81,8 +83,8 @@ def add_definition(definition, answer):
                         (definition, answer)).fetchone():
             return "Already present: %r → %s" % (definition, answer)
         conn.execute("INSERT INTO definition_answers_augmented "
-                     "(definition, answer, source) VALUES (?, ?, 'admin')",
-                     (definition, answer))
+                     "(definition, answer, source, norm_def) VALUES (?, ?, 'admin', ?)",
+                     (definition, answer, _normalize_key(definition)))
         conn.commit()
         return "Added definition: %r → %s" % (definition, answer)
     finally:
@@ -99,8 +101,8 @@ def add_synonym(word, synonym):
         if conn.execute("SELECT 1 FROM synonyms_pairs WHERE word=? AND synonym=?",
                         (word, synonym)).fetchone():
             return "Already present: %r = %r" % (word, synonym)
-        conn.execute("INSERT INTO synonyms_pairs (word, synonym, source) "
-                     "VALUES (?, ?, 'admin')", (word, synonym))
+        conn.execute("INSERT INTO synonyms_pairs (word, synonym, source, norm_word) "
+                     "VALUES (?, ?, 'admin', ?)", (word, synonym, _normalize_key(word)))
         conn.commit()
         return "Added synonym: %r = %r (note: not used by the hidden engine yet)" % (
             word, synonym)
@@ -120,8 +122,9 @@ def add_indicator(word, wordplay_type):
                         (word, wp)).fetchone():
             return "Already present: %r (%s)" % (word, wp)
         conn.execute("INSERT INTO indicators "
-                     "(word, wordplay_type, subtype, confidence, source) "
-                     "VALUES (?, ?, NULL, 'high', 'admin')", (word, wp))
+                     "(word, wordplay_type, subtype, confidence, source, norm_word) "
+                     "VALUES (?, ?, NULL, 'high', 'admin', ?)",
+                     (word, wp, _normalize_key(word)))
         conn.commit()
         return "Added indicator: %r (%s)" % (word, wp)
     finally:
