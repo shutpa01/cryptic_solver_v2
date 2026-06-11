@@ -22,7 +22,7 @@ Definition decided upstream (def_pos / find_definitions). Per-piece colour. Pure
 DB-decoupled; evidence-preserving on a fail (no roles assigned).
 """
 
-from core import grammar
+from core import grammar, literals
 from core.wordplay import GLUE_POS
 from core.wfw_model import Source, Link, Annotation, Parse
 
@@ -36,7 +36,7 @@ def _assemble(answer, words, postags, lookup, is_link):
     n, N = len(words), len(answer)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def finalize(pieces, skipped):
         if len(pieces) < 2:
@@ -66,6 +66,14 @@ def _assemble(answer, words, postags, lookup, is_link):
                             skipped)
                     if r:
                         return r
+            # a curated literal: a short function word read as its own letters
+            # (it -> IT), gated to core.literals so it is not a raw-letter wildcard.
+            lit = literals.literal_value(phrase)
+            if lit and answer.startswith(lit, pos):
+                r = dfs(i + k, pos + len(lit), pieces + [(i, i + k, "raw", lit)],
+                        skipped)
+                if r:
+                    return r
         # skip word i (residue candidate — validated LAST in finalize)
         return dfs(i + 1, pos, pieces, skipped + [i])
 
