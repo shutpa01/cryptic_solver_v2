@@ -53,7 +53,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
         return "reversal" in ty
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     if not any(is_rev(k) for k in range(n)):
         return None                                   # gate: need a reversal indicator

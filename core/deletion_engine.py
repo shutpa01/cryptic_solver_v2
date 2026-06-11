@@ -55,7 +55,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
     n = len(words)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     runs = sorted([(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)],
                   key=lambda r: -(r[1] - r[0]))

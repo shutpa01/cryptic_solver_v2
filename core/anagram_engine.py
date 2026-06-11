@@ -60,7 +60,7 @@ def _segment(words, pos, i, j, is_link, indicator_types):
         return is_anagram_indicator(words[k].text, indicator_types)
 
     def is_fn(k):
-        return (is_link and is_link(words[k].text)) or (pos[k] in FUNCTION_POS)
+        return (is_link and is_link(words[k].text))
 
     indicator_runs = [r for r in runs if any(is_ind(k) for k in r)]
     if len(indicator_runs) == 1:
@@ -96,7 +96,7 @@ def _segment(words, pos, i, j, is_link, indicator_types):
         if r is ind_run:
             continue
         for k in r:
-            if (is_link and is_link(words[k].text)) or pos[k] in GLUE_POS:
+            if (is_link and is_link(words[k].text)):
                 link_idx.append(k)
             else:
                 unacc_idx.append(k)

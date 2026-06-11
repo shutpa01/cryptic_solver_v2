@@ -85,7 +85,7 @@ def _place(slots, words, answer, postags, lookup_all, is_link, indicator_types):
     nslots = len(slots)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def finalize(assigned, gap_idxs):
         pieces_spec = [(r, role == "REV_F") for r, role in assigned

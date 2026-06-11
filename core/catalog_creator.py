@@ -79,7 +79,7 @@ def _discover_charade(answer, words, postags, split, lookup, is_link):
     n, N = len(words), len(answer)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def role_values(a, b):
         phrase = " ".join(words[k].text for k in range(a, b))
@@ -129,7 +129,7 @@ def _discover_anagram(answer, words, postags, split, is_link, indicator_types):
     n, N = len(words), len(answer)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def is_ind(k):
         return is_anagram_indicator(words[k].text, indicator_types)

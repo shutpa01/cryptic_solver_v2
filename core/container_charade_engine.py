@@ -58,7 +58,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
         return "container" in ty or "insertion" in ty
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     all_runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)]
     val_cache = {}

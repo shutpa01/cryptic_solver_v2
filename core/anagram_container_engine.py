@@ -77,7 +77,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
         return has(words[k].text, "anagram")
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)]
     best = None     # a confirmed (db) placement wins; provisional kept only as fallback

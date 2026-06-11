@@ -33,7 +33,7 @@ def is_anagram_indicator(text, indicator_types):
 def is_link_or_glue(text, pos_tag, is_link):
     """A residue word that is a function/connective word (link-eligible): a known
     link word, or a function / VERB / ADV part of speech."""
-    return bool(is_link and is_link(text)) or (pos_tag in GLUE_POS)
+    return bool(is_link and is_link(text))
 
 
 def anagram_indicator_source(tokens, indicator_types):
