@@ -347,6 +347,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if ph is not None:
         return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ACROSTIC — initial/final-letter selection. Answer-driven (the selected letters
+    # must EXACTLY spell the answer) and indicator-gated, so it is highly specific and
+    # cannot intercept another type (0 false positives measured over 1,500 non-acrostic
+    # clues). Tried right after hidden — both are precise letter-level mechanisms — so a
+    # genuine acrostic (even one mis-tagged charade in the corpus) is claimed before the
+    # looser charade engine. Abstains (None) on anything that is not a clean acrostic.
+    from core.acrostic_engine import solve_acrostic
+    pacro = solve_acrostic(ctx, wiring["defines"], wiring["is_link"],
+                           wiring["indicator_types"],
+                           define_fallback=wiring.get("define_fallback"),
+                           is_dbe=wiring.get("is_dbe"))
+    if pacro is not None and pacro.status in ("pass", "pending"):
+        return _finish(pacro, "acrostic", ctx, wiring, source, puzzle_number, clue_id)
+
     # ANAGRAM — catalog-DRIVEN: walks the mined anagram signatures (ANA_F fodder +
     # optional ANA_I indicator) in priority order, placing slots on the wordplay with
     # interior-link exclusion in the fodder and gaps -> links classified last. Tried
