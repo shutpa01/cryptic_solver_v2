@@ -95,11 +95,19 @@ def word_variants(word):
 
 
 def phrase_variants(text):
-    """Variants of a (possibly multi-word) phrase, inflecting the HEAD (last word).
+    """Variants of a (possibly multi-word) phrase, inflecting EACH word in turn.
 
-    The morphological head of a definition/indicator phrase is its last word, so
-    "is to suffer" -> "is to suffers" etc. A single word just yields its own
-    variants. The original text is always first.
+    The word that carries number/tense in a phrase is not always the last one — in a
+    phrasal verb like "refers to" it is the FIRST word ("refers"), with "to" last and
+    uninflectable. Inflecting only the last word left "refers to" and "refer to" as
+    unrelated, breaking the singular<->plural rule. So we inflect each position
+    independently (one word changed at a time, never the cross-product), giving
+    "refers to" -> "refer to" / "referring to" / "referred to", and "names cite" ->
+    "name cite" etc. The original text is always first; single words are unchanged.
+
+    One-at-a-time (not the full product) keeps the set small and avoids inventing
+    multi-word nonsense; function words still yield only themselves, so "to"/"in" add
+    nothing.
     """
     text = (text or "").strip()
     if not text:
@@ -108,9 +116,9 @@ def phrase_variants(text):
     if len(parts) == 1:
         return word_variants(parts[0])
     out = [text]
-    head, prefix = parts[-1], parts[:-1]
-    for v in word_variants(head):
-        cand = " ".join(prefix + [v])
-        if cand not in out:
-            out.append(cand)
+    for i, w in enumerate(parts):
+        for v in word_variants(w):
+            cand = " ".join(parts[:i] + [v] + parts[i + 1:])
+            if cand not in out:
+                out.append(cand)
     return out

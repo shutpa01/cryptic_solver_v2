@@ -48,6 +48,16 @@ def make_db_wiring():
     cryptic_db = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                               "data", "cryptic_new.db")
 
+    # Fill any blank normalized-key columns (e.g. rows hand-added in DB Browser),
+    # so the live lookups — which key off that tidied column for speed — can see them
+    # after a reload. Only NULL rows are touched, so it is cheap; the fast-lookup
+    # design is unchanged. Best-effort: never fatal to wiring build.
+    try:
+        from core.norm_backfill import backfill_null_norm_keys
+        backfill_null_norm_keys(cryptic_db)
+    except Exception:
+        pass
+
     # Memo caches (per wiring). The definition stage probes the DB O(windows) times
     # per clue and inflection multiplies that, while the live definition query is a
     # full-table scan; without caching the page becomes unusably slow. Trade-off: a
@@ -107,7 +117,16 @@ def make_db_wiring():
     def defines(phrase, answer):
         # Inflection- and contraction-aware: a clue word matches its regular
         # inflections and its contraction/possessive base+expansions.
-        return any(_defines_exact(v, answer) for v in _match_variants(phrase))
+        #
+        # WORD-INTEGRITY GUARD: a variant may only confirm the phrase if it still
+        # contains ALL the phrase's words. A variant that DROPS a word (fewer words
+        # than the phrase) can never confirm it — otherwise a multi-word block gets
+        # stamped DB-confirmed off a shorter match ("Virtuoso's vocal" via "virtuoso").
+        # Changing a word's ending (suffers->suffer) keeps the count and is allowed;
+        # a contraction EXPANSION (he's->he is) adds words and is allowed.
+        nwords = len(phrase.split())
+        return any(_defines_exact(v, answer) for v in _match_variants(phrase)
+                   if len(v.split()) >= nwords)
 
     def _live_indicator_types(word):
         """O(1) check against the prebuilt indicator index (same data as the old
@@ -147,6 +166,23 @@ def make_db_wiring():
             return db.is_link_word(word)
         except Exception:
             return False
+
+    def phrase_synonyms(phrase):
+        # Inflection-aware synonyms for the homophone source lookup: try the phrase
+        # AND its per-word singular/plural variants, so a clue's "refers to" also
+        # finds a "refer to" row and vice versa (the singular/plural rule, which the
+        # legacy synonym lookup applies only to the whole string). Gated downstream by
+        # the sound match, so widening here cannot pass a non-homophone.
+        out, seen = [], set()
+        for v in _match_variants(phrase):
+            try:
+                for s in db.get_synonyms(v):
+                    if s not in seen:
+                        seen.add(s)
+                        out.append(s)
+            except Exception:
+                pass
+        return out
 
     def _lookup_exact(word, answer):
         key = (word, answer)
@@ -288,6 +324,8 @@ def make_db_wiring():
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
+            "sounds_like": db.get_homophones, "synonyms_of": phrase_synonyms,
+            "sounds_alike": db.sounds_alike,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
             "is_dbe": is_dbe, "lookup_all": lookup_all,
@@ -360,6 +398,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                            is_dbe=wiring.get("is_dbe"))
     if pacro is not None and pacro.status in ("pass", "pending"):
         return _finish(pacro, "acrostic", ctx, wiring, source, puzzle_number, clue_id)
+
+    # HOMOPHONE — the whole answer SOUNDS like a source word (or its synonym), gated on
+    # a homophone indicator. Answer-driven (the source's homophone must EQUAL the answer)
+    # and indicator-gated, so highly specific. Span-level provenance ("sounds like X").
+    # Tried with the other precise gated mechanisms (hidden/acrostic), before the catalog
+    # spine. Only the plain whole-answer form; the compound/phonetic ("I lash"->EYELASH)
+    # form is a separate, signature-based engine not built. Abstains (None) otherwise.
+    from core.homophone_engine import solve_homophone
+    phom = solve_homophone(ctx, wiring["defines"], wiring["is_link"],
+                           wiring["indicator_types"], wiring["sounds_alike"],
+                           wiring["synonyms_of"],
+                           define_fallback=wiring.get("define_fallback"),
+                           is_dbe=wiring.get("is_dbe"))
+    if phom is not None and phom.status in ("pass", "pending"):
+        return _finish(phom, "homophone", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM — catalog-DRIVEN: walks the mined anagram signatures (ANA_F fodder +
     # optional ANA_I indicator) in priority order, placing slots on the wordplay with

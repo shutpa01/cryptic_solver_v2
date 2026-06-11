@@ -208,6 +208,18 @@ def _render_breakdown(parse, src_fg, src_fill):
         content = ('%s <span class="wfw-arrow">&rarr;</span> '
                    '<strong class="wfw-val">%s</strong>'
                    % (escape(s.text), escape(s.value)))
+        # Homophone via a SYNONYM: the clue word does not itself sound like the
+        # answer — its synonym does. Surface that intermediate word so the
+        # explanation is complete ("appearance = air; air sounds like HEIR"),
+        # never implying the clue word is the sound-alike. The synonym is carried
+        # on the link transform ('sounds like "air"').
+        if s.mechanism == "homophone":
+            tr = next((l.transform for l in parse.links
+                       if l.source_index == si and l.transform), None)
+            snd = tr.split('"')[1] if tr and '"' in tr else None
+            if snd and snd.lower() != s.text.lower():
+                content += (' <span class="wfw-emuted">&mdash; via &ldquo;%s&rdquo;'
+                            ' (synonym)</span>' % escape(snd))
         if getattr(s, "source", "db") == "pending":
             content += ' <span class="wfw-prov">provisional</span>'
         rows.append(_row(_first_index(s.clue_atom_ids), label, style, content))

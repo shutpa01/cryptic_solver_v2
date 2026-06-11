@@ -28,6 +28,13 @@ def _default_path():
                         "data", "cryptic_new.db")
 
 
+def _pron_key(phonemes):
+    """Normalised pronunciation key: ARPABET phonemes with the stress digits removed,
+    so 'L IH1 S T' and 'L IH0 S T' compare equal. Exact (rhotic) match — the British
+    non-rhotic adjustment (dropping a post-vowel R for fort/fought) is a later step."""
+    return " ".join(ph.rstrip("012") for ph in (phonemes or "").split())
+
+
 class LiveDB:
     """RefDB's lookups, on demand, no preload."""
 
@@ -35,6 +42,7 @@ class LiveDB:
         self.path = db_path or _default_path()
         self._conn = sqlite3.connect(self.path, check_same_thread=False, timeout=30)
         self._cs, self._csl, self._ca, self._ci, self._ch = {}, {}, {}, {}, {}
+        self._cp = {}                       # pronunciation cache (CMUdict phonemes)
 
     # normalization shared with RefDB so keys match the loaded behaviour exactly.
     def _word_variants(self, word):
@@ -112,6 +120,36 @@ class LiveDB:
                     seen.add(hu); out.append(hu)
         self._ch[word] = out
         return out
+
+    # --- pronunciations (CMUdict phonemes) -------------------------------------------
+    def get_pronunciation(self, word):
+        """List of phoneme strings (raw ARPABET) for the word, via the live table."""
+        if word in self._cp:
+            return self._cp[word]
+        out, seen = [], set()
+        for v in self._word_variants(word):
+            for (p,) in self._conn.execute(
+                    "SELECT phonemes FROM pronunciations WHERE norm_word=?", (v,)):
+                p = (p or "").strip()
+                if p and p not in seen:
+                    seen.add(p); out.append(p)
+        self._cp[word] = out
+        return out
+
+    def sounds_alike(self, word, target):
+        """True if `word` is pronounced the same as `target`. Judged primarily by the
+        CMUdict pronunciations (broad coverage), with the curated homophones table as a
+        supplement for pairs CMUdict lacks. Stress is ignored; the match is exact."""
+        # curated table (the small hand-built supplement), in either direction
+        tclean = "".join(c for c in (target or "").upper() if c.isalpha())
+        if tclean and tclean in [h.replace(" ", "") for h in self.get_homophones(word)]:
+            return True
+        # pronunciation match
+        kw = {_pron_key(p) for p in self.get_pronunciation(word)}
+        if not kw:
+            return False
+        kt = {_pron_key(p) for p in self.get_pronunciation(target)}
+        return bool(kw & kt)
 
     # --- definitions (both directions, via the live synonym lookup) ------------------
     def is_definition_of(self, phrase, answer):

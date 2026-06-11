@@ -26,6 +26,7 @@ from core import engine_registry
 from core import wfw_render
 from core import hidden_screen
 from core import acrostic_screen
+from core import homophone_screen
 from core import dd_screen
 from core import charade_screen
 from core import anagram_screen
@@ -36,6 +37,7 @@ from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
 SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
+           "homophone": homophone_screen.render,
            "dd": dd_screen.render,
            "charade": charade_screen.render, "anagram": anagram_screen.render,
            "anagram_charade": anagram_charade_screen.render,

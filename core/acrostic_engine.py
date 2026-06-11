@@ -21,6 +21,7 @@ screen, core/acrostic_screen.py.
 """
 
 from core import selection
+from core import engine_common
 from core.wfw_model import Source, Link, Annotation, Parse
 
 _MODE_MECHANISM = {"first": "first_letter", "last": "last_letter"}
@@ -83,31 +84,9 @@ def _find_indicator(words, residue_pos, indicator_types):
     """The acrostic indicator among the leftover words: the LONGEST contiguous run of
     leftover positions whose joined phrase the DB types 'acrostic' (so "at first" is
     taken whole). Returns the list of word positions, or None (no acrostic indicator
-    -> the engine abstains; acrostic is gated)."""
-    def is_acro(text):
-        try:
-            return "acrostic" in (indicator_types(text) or set())
-        except Exception:
-            return False
-    groups, run = [], []
-    for p in sorted(residue_pos):
-        if run and p == run[-1] + 1:
-            run.append(p)
-        else:
-            if run:
-                groups.append(run)
-            run = [p]
-    if run:
-        groups.append(run)
-    best = None
-    for g in groups:
-        for length in range(len(g), 0, -1):
-            for s in range(0, len(g) - length + 1):
-                seg = g[s:s + length]
-                if is_acro(" ".join(words[i].text for i in seg)):
-                    if best is None or length > len(best):
-                        best = seg
-    return best
+    -> the engine abstains; acrostic is gated). Delegates to the shared primitive."""
+    return engine_common.find_typed_run(words, residue_pos, indicator_types,
+                                        "acrostic", min_length=1)
 
 
 def _build(ctx, answer, split, words, run, sel, mode, residue_pos, is_link,
@@ -162,14 +141,13 @@ def _verify(ctx, parse):
     n_letters = sum(1 for a in ctx.answer_atoms if a.kind == "letter")
     if len(parse.links) != n_letters:
         warnings.append("not every answer letter has a source")
+    w_unaccounted = engine_common.unaccounted_words_warning(ctx, parse)
+    if w_unaccounted:
+        warnings.append(w_unaccounted)
     missing = parse.unexplained_words(ctx)
-    if missing:
-        warnings.append("these clue words are unaccounted for: "
-                        + ", ".join(repr(m) for m in missing))
-    if parse.definition is None:
-        warnings.append("no definition found")
-    elif getattr(parse.definition, "source", "db") == "pending":
-        warnings.append("the definition is provisional (queued for enrichment)")
+    w_def = engine_common.definition_warning(parse)
+    if w_def:
+        warnings.append(w_def)
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"

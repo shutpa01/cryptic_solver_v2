@@ -43,18 +43,25 @@ def forms(text):
     """Base + expansion forms for a token carrying an apostrophe suffix; [] if none.
 
     "Lionel's" -> ["Lionel", "Lionel is", "Lionel has"]. The original is excluded.
-    Operates on a single token; a no-op for multi-word text without an apostrophe.
+
+    Strips only the apostrophe SUFFIX from its own word and KEEPS any words that
+    follow it: "Virtuoso's vocal" -> ["Virtuoso vocal", "Virtuoso is vocal",
+    "Virtuoso has vocal"], never "Virtuoso". Dropping the trailing word would let a
+    multi-word phrase be confirmed off its first word alone — the bug this avoids.
     """
     i = _apostrophe_index(text)
     if i <= 0:
         return []
-    head = text[:i]
-    tail = text[i + 1:].lower()
+    head = text[:i]                                # word(s) up to the apostrophe
     if not head:
         return []
-    out = [head]                                   # base: drop the apostrophe suffix
-    for e in _EXPANSIONS.get(tail, ()):
-        out.append(head + " " + e)
+    rest = text[i + 1:]                            # the suffix, plus any trailing words
+    j = rest.find(" ")
+    suffix = (rest if j < 0 else rest[:j]).lower()  # the apostrophe suffix only
+    trailing = "" if j < 0 else rest[j:]            # following words, with leading space
+    out = [head + trailing]                        # base: drop only the suffix, keep words
+    for e in _EXPANSIONS.get(suffix, ()):
+        out.append(head + " " + e + trailing)
     return out
 
 

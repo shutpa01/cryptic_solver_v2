@@ -14,6 +14,7 @@ this engine (per the per-clue-type UI rule). No universal renderer.
 """
 
 from core.wfw_model import Source, Link, Parse
+from core import engine_common
 
 
 def _letter_atoms(atoms):
@@ -228,11 +229,7 @@ def _leftover_word_indices(ctx, parse):
     """Word positions not yet accounted for by the host, the definition, or an
     existing annotation — the only place a fallback indicator may be carved."""
     words = [t for t in ctx.clue_tokens if t.kind == "word"]
-    accounted = set(parse.sources[0].clue_atom_ids)
-    if parse.definition:
-        accounted.update(parse.definition.clue_atom_ids)
-    for a in parse.annotations:
-        accounted.update(a.clue_atom_ids)
+    accounted = engine_common.accounted_atom_ids(parse)
     return {i for i, t in enumerate(words)
             if not any(aid in accounted for aid in t.atom_ids)}
 
@@ -249,11 +246,7 @@ def _classify_multiword_indicator(ctx, parse, indicator_types):
         return
     from core.wfw_model import Annotation
     words = [t for t in ctx.clue_tokens if t.kind == "word"]
-    accounted = set(parse.sources[0].clue_atom_ids)
-    if parse.definition:
-        accounted.update(parse.definition.clue_atom_ids)
-    for a in parse.annotations:
-        accounted.update(a.clue_atom_ids)
+    accounted = engine_common.accounted_atom_ids(parse)
     leftset = {i for i, t in enumerate(words)
                if not any(aid in accounted for aid in t.atom_ids)}
     n = len(words)
@@ -288,11 +281,7 @@ def _classify_reversal_indicator(ctx, parse, indicator_types):
         return
     from core.wfw_model import Annotation
     words = [t for t in ctx.clue_tokens if t.kind == "word"]
-    accounted = set(parse.sources[0].clue_atom_ids)
-    if parse.definition:
-        accounted.update(parse.definition.clue_atom_ids)
-    for a in parse.annotations:
-        accounted.update(a.clue_atom_ids)
+    accounted = engine_common.accounted_atom_ids(parse)
     leftset = {i for i, t in enumerate(words)
                if not any(aid in accounted for aid in t.atom_ids)}
     if not leftset:
@@ -414,10 +403,9 @@ def _verify_hidden(ctx, parse):
         warnings.append("the answer is not a single unbroken run of clue letters")
 
     # 2. every clue word accounted for.
-    missing = parse.unexplained_words(ctx)
-    if missing:
-        warnings.append("these clue words are unaccounted for: "
-                        + ", ".join(repr(m) for m in missing))
+    w_unaccounted = engine_common.unaccounted_words_warning(ctx, parse)
+    if w_unaccounted:
+        warnings.append(w_unaccounted)
 
     # 3. a hidden indicator present and DB-confirmed.
     indicators = [a for a in parse.annotations if a.role == "indicator"]
@@ -427,10 +415,9 @@ def _verify_hidden(ctx, parse):
         warnings.append("the hidden indicator is provisional (queued for enrichment)")
 
     # 4. a definition present and DB-confirmed.
-    if parse.definition is None:
-        warnings.append("no definition found")
-    elif getattr(parse.definition, "source", "db") == "pending":
-        warnings.append("the definition is provisional (queued for enrichment)")
+    w_def = engine_common.definition_warning(parse)
+    if w_def:
+        warnings.append(w_def)
 
     # 5. remaining words must be known link words — already enforced by
     #    classification (anything not host/def/indicator/link is 'unaccounted',
@@ -521,7 +508,7 @@ def _classify_indicator(ctx, parse, indicator_types, is_link):
                         changed = True
 
     by_index = {t.index: t for t in leftovers}
-    for group in _contiguous_groups(sorted(indicator_idx)):
+    for group in engine_common.contiguous_groups(sorted(indicator_idx)):
         toks = [by_index[i] for i in group]
         parse.annotations.append(Annotation(
             clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
@@ -532,36 +519,8 @@ def _classify_indicator(ctx, parse, indicator_types, is_link):
 def _classify_links(ctx, parse, is_link):
     """After the definition is grown, classify whatever still remains: a link
     word if the data confirms it, otherwise left unexplained (surfaced honestly,
-    never relabelled by elimination)."""
-    from core.wfw_model import Annotation
-
-    accounted = set(parse.sources[0].clue_atom_ids)
-    if parse.definition:
-        accounted.update(parse.definition.clue_atom_ids)
-    for a in parse.annotations:
-        accounted.update(a.clue_atom_ids)
-
-    for t in (w for w in ctx.clue_tokens if w.kind == "word"):
-        if any(aid in accounted for aid in t.atom_ids):
-            continue
-        if is_link and is_link(t.text):
-            parse.annotations.append(Annotation(
-                clue_atom_ids=t.atom_ids, text=t.text,
-                role="link", note="link word"))
-        # else: no role found — left unexplained for honest surfacing.
-
-
-def _contiguous_groups(indices):
-    """Group a sorted list of ints into runs of consecutive values."""
-    groups, run = [], []
-    for i in indices:
-        if run and i == run[-1] + 1:
-            run.append(i)
-        else:
-            if run:
-                groups.append(run)
-            run = [i]
-    if run:
-        groups.append(run)
-    return groups
+    never relabelled by elimination). Shared with every other engine via
+    engine_common.classify_links (the unaccounted return is unused here — hidden
+    surfaces a gap through verification, it does not abstain)."""
+    engine_common.classify_links(ctx, parse, is_link)
 
