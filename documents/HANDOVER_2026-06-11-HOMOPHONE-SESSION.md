@@ -93,7 +93,21 @@ DB changes (data/cryptic_new.db, backed up twice daily):
 - 0 false homophone claims over 240 non-homophone clues.
 - engine_common refactor byte-identical for hidden + acrostic.
 
-## 4. KNOWN REMAINING PROBLEMS (honest)
+## 4. KNOWN REMAINING PROBLEMS
+
+0. **EVIDENCE PRESERVATION VIOLATED — fix first.** The homophone engine returns None
+   (abstains, stores NOTHING) on its commonest failure: a clue WITH a homophone indicator
+   and a definition but no source whose sound matches (i.e. a missing synonym/sound — most
+   real failures). `_try_split` finds no source, `best_pending` stays None, the engine
+   returns None, and the cascade only persists on pass/pending — so the near-miss (indicator
+   found, definition found, source missing) is LOST. This breaks the evidence-preservation
+   rule that is in SOLVER_REDESIGN.md and memory and that the user treats as vital. FIX: when
+   the engine has the indicator + definition but no matching source, build a `fail` parse
+   recording those pieces and naming the missing sound/synonym, AND ensure the cascade stores
+   it — the cascade tail (engine_registry.py ~line 600, `_most_complete`) collects fail
+   candidates from the catalog engines but homophone is NOT in that list, so add it. Mirror how
+   anagram/container preserve fail-evidence. Build a mechanical check (a test that fails if any
+   engine abstains without storing evidence) so this cannot silently regress again.
 1. **Singular/plural rule only partially applied.** The shared legacy synonym/homophone/
    abbreviation lookup `RefDB._word_variants` (signature_solver/db.py) does ONLY simple
    plural stripping — no -ed/-ing, no per-word phrase inflection. Every engine except the
@@ -107,7 +121,8 @@ DB changes (data/cryptic_new.db, backed up twice daily):
 3. **Homophone yield ~18%** — most fail on missing synonym/sound data (data gaps), not
    engine logic. Multi-word sources need the synonym present (REST needs "take forcible
    control" = wrest).
-4. **Nothing committed.** All on branch redesign, working tree only.
+4. **Commit state.** The work is committed as f63482a1 on branch `redesign` (NOT pushed).
+   This handover edit (adding problem 0) is itself uncommitted.
 
 ## 5. RULES THE NEXT THREAD MUST FOLLOW
 - Questions are not instructions. Propose, then wait.
