@@ -38,7 +38,7 @@ def _assemble(answer, words, postags, lookup, is_link, indicator_types):
         return is_anagram_indicator(words[k].text, indicator_types)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def finalize(pieces, skipped):
         if not any(m == "anagram_fodder" for _, _, m, _ in pieces):
@@ -94,8 +94,10 @@ def _assemble(answer, words, postags, lookup, is_link, indicator_types):
             for k in range(1, min(MAX_ANAG_WORDS, n - i) + 1):
                 for fl in anag_letter_forms(i, i + k):
                     span = answer[pos:pos + len(fl)]
+                    # a real anagram REARRANGES: reject the identity (is->IS) and an
+                    # exact reversal — neither is an anagram.
                     if len(span) == len(fl) and sorted(span) == sorted(fl) \
-                            and span[::-1] != fl:        # exact reversal isn't anagram
+                            and span != fl and span[::-1] != fl:
                         r = dfs(i + k, pos + len(fl), True,
                                 pieces + [(i, i + k, "anagram_fodder", span)],
                                 skipped)
