@@ -320,17 +320,15 @@ def _classify_reversal_indicator(ctx, parse, indicator_types):
 
 
 def _consolidate_single_run_indicator(ctx, parse, indicator_types):
-    """The indicator is the grammatically-bound PHRASE, never a fragment. When the
-    region left after the host and the definition is a SINGLE contiguous run of
-    words, that whole run IS the indicator — "Contents of", "It's part of",
-    "confined by" — not just the one sub-word that happens to be in the DB.
-
-    Replaces any per-token indicator pieces in that run with one annotation. It is
-    DB-CONFIRMED (source 'db') when the phrase or any of its words is a known hidden
-    indicator; otherwise PROVISIONAL (source 'pending') and queued for enrichment
-    as a whole phrase. A multi-run region (e.g. TIGER, where the
-    indicator and a link word sit on opposite sides of the host) is left to the
-    per-token indicator/link classification."""
+    """Record a DB-known multi-word hidden-indicator PHRASE as one annotation when the
+    whole leftover run (after host + definition) is exactly that phrase — e.g. an
+    enriched "contents of". It fires ONLY when the entire run's joined text is typed
+    'hidden' in the DB; it does NOT grab the run because one word in it is a known
+    indicator, and it does NOT invent a provisional indicator from an untyped run
+    (both were role-by-elimination). When the run is not a known phrase it does
+    nothing, leaving the per-token indicator pass (which grows across adjacent
+    hidden-typed words) and the link/unaccounted classification to do the honest job.
+    A multi-run region is left to the per-token pass."""
     from core.wfw_model import Annotation
     words = [t for t in ctx.clue_tokens if t.kind == "word"]
     host = set(parse.sources[0].clue_atom_ids)
@@ -345,12 +343,18 @@ def _consolidate_single_run_indicator(ctx, parse, indicator_types):
     toks = [words[i] for i in region]
     phrase = " ".join(t.text for t in toks)
 
-    def _has_hidden(text):
-        try:
-            return "hidden" in (indicator_types(text) or set())
-        except Exception:
-            return False
-    confirmed = _has_hidden(phrase) or any(_has_hidden(t.text) for t in toks)
+    # Only consolidate when the WHOLE leftover run is itself a DB-known hidden
+    # indicator phrase. Never grab the run on the strength of a single known word,
+    # and never invent an indicator from an untyped run — that is role-by-elimination
+    # (feedback-no-role-on-fail / links-from-list-only). When the phrase is not known,
+    # do nothing: the per-token indicator pass (which already grows across adjacent
+    # hidden-typed words) keeps the words the DB types, and the link / unaccounted
+    # classification handles the rest honestly.
+    try:
+        if "hidden" not in (indicator_types(phrase) or set()):
+            return
+    except Exception:
+        return
 
     region_atoms = {aid for t in toks for aid in t.atom_ids}
     parse.annotations = [a for a in parse.annotations
@@ -358,9 +362,7 @@ def _consolidate_single_run_indicator(ctx, parse, indicator_types):
                                  and any(aid in region_atoms for aid in a.clue_atom_ids))]
     parse.annotations.append(Annotation(
         clue_atom_ids=tuple(sorted(region_atoms)),
-        text=phrase, role="indicator",
-        note="hidden indicator" if confirmed else "hidden indicator (candidate)",
-        source="db" if confirmed else "pending"))
+        text=phrase, role="indicator", note="hidden indicator", source="db"))
 
 
 def _maybe_add_edge_definition(ctx, parse):
