@@ -56,10 +56,19 @@ _WIRING = None
 
 
 def wiring():
+    """The full wiring, AI ON. Used only for an explicit per-clue re-run, so AI is
+    on-demand, never part of a batch solve."""
     global _WIRING
     if _WIRING is None:
         _WIRING = engine_registry.make_db_wiring()
     return _WIRING
+
+
+def batch_wiring():
+    """DB-only view of the wiring (every AI touch-point nulled) for batch solving, so
+    running a whole puzzle makes zero AI calls and is instant. Shares the full
+    wiring's DB connection and caches, so it is free to build each call."""
+    return engine_registry.db_only(wiring())
 
 
 def reload_wiring():
@@ -112,7 +121,10 @@ def reload_route():
     only = (request.form.get("only") or "").strip()
     reload_wiring()
     notice = '<div class="wfw-notice">Reference DB reloaded from disk.</div>'
-    return _page(notice + _body(raw, resolve_only={only} if only else None),
+    # A per-clue re-run (only set) is an explicit on-demand action -> AI on. A
+    # re-run-all (no only) is a batch -> DB-only, no AI.
+    return _page(notice + _body(raw, resolve_only={only} if only else None,
+                                ai=bool(only)),
                  scroll_to=only)
 
 
@@ -143,7 +155,9 @@ def enrich():
     if pid and not msg.startswith(("Definition and", "Word and", "Indicator word")):
         admin_db.delete_pending(pid)               # accepted -> leave the queue
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    return _page(notice + _body(raw, resolve_only={only} if only else None),
+    # Approving an enrichment then re-solving that one clue is an on-demand action.
+    return _page(notice + _body(raw, resolve_only={only} if only else None,
+                                ai=bool(only)),
                  scroll_to=only)
 
 
@@ -211,22 +225,26 @@ def _do_add(form):
     return "Unknown add."
 
 
-def _body(raw, resolve_only=None):
+def _body(raw, resolve_only=None, ai=False):
     """Render the page body. `resolve_only` None -> re-solve every clue; a set ->
-    re-solve only those ids, render the rest from their stored result."""
+    re-solve only those ids, render the rest from their stored result. `ai` True
+    uses the full AI wiring for the re-solve (per-clue, on demand); False uses the
+    DB-only batch wiring so a whole-puzzle run makes no AI calls."""
     cid = escape(raw, quote=True)
     body = FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
     tokens = [t for t in raw.replace(",", " ").split() if t]
     for token in tokens:
         resolve = resolve_only is None or token in resolve_only
-        body += _render_one(token, raw, resolve)
+        body += _render_one(token, raw, resolve, ai=ai)
     return body
 
 
-def _render_one(token, raw_list, resolve=True):
+def _render_one(token, raw_list, resolve=True, ai=False):
     """Render one clue card: the breakdown, its enrichment rows, its admin panel,
     and a per-clue reload button. Re-solves the clue only when `resolve` is True;
-    otherwise it renders from the stored parse so a batch survives a single re-run."""
+    otherwise it renders from the stored parse so a batch survives a single re-run.
+    `ai` True uses the full AI wiring (per-clue, on demand); False uses the DB-only
+    batch wiring."""
     try:
         clue_id = int(token)
     except ValueError:
@@ -236,7 +254,8 @@ def _render_one(token, raw_list, resolve=True):
         return f'<p class="warn">No clue with id {clue_id}.</p>'
     clue_text, answer, src, pnum = row
     if resolve:
-        engine_registry.solve_clue_text(clue_text, answer, wiring(),
+        w = wiring() if ai else batch_wiring()
+        engine_registry.solve_clue_text(clue_text, answer, w,
                                         source=src, puzzle_number=pnum, clue_id=clue_id)
     conn = store.connect()
     try:

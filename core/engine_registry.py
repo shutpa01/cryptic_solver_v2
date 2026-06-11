@@ -302,6 +302,26 @@ def make_db_wiring():
             "reversal_charade_templates": reversal_charade_templates}
 
 
+# The wiring keys that drive an AI (Haiku/Sonnet) call. A batch run nulls these
+# so a whole-puzzle solve makes ZERO network calls and is instant; AI fires only on
+# an explicit per-clue re-run (see db_only).
+_AI_KEYS = ("define_fallback", "suggest_piece", "value_check", "ai_is_definition")
+
+
+def db_only(wiring):
+    """A DB-only VIEW of a wiring: same DB predicates and caches, every AI
+    touch-point nulled. Shallow copy, so it shares the live DB connection and the
+    memo caches with the full wiring — building it is free. Used for batch solving
+    so a whole puzzle never makes an AI call; the full wiring (AI on) is used only
+    when the user re-runs a single clue on demand."""
+    if wiring is None:
+        return None
+    w = dict(wiring)
+    for k in _AI_KEYS:
+        w[k] = None
+    return w
+
+
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
           charade_solve=None, anagram_solve=None):
     """Run the clue through every engine that exists, return (parse, engine_name)
@@ -451,6 +471,12 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                           is_dbe=wiring.get("is_dbe"))
     if pdel is not None and pdel.status in ("pass", "pending"):
         return _finish(pdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # (No free-tiling fallback. The cascade is signature-first: a clue with no matching
+    # signature falls through to DD and then to the most-complete fail — it is NOT
+    # free-tiled. The free-tiling evidence pass was removed because it produced
+    # letter-correct but fabricated attributions, e.g. MANITOBA's "I <- on" — pinning a
+    # value onto a word that does not produce it, which a signature must never allow.)
 
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
