@@ -8,11 +8,41 @@ suffering).
 
 Deliberately CONSERVATIVE: only regular -s/-es/-ies, -ed, -ing transforms, with a
 minimum length guard, so we do not over-match the way a full stemmer would (short
-words, "is"->"i"). Generated variants that are not real words simply never match a
-DB row, so they are harmless; the only job here is to also offer the real variants.
+words, "is"->"i"). A generated variant must be a genuine inflection of the SAME
+word — it must never wander into a DIFFERENT word. The earlier assumption that
+"invented forms never match a DB row, so they are harmless" was FALSE and caused a
+fabricated letter source: appending "-es" to "on" produced "ones" — which is one+s,
+a form of "one", not of "on" — and "ones" IS a DB row (ones=I, ones=FLAT), so those
+values were wrongly attributed to "on" (MANITOBA's "I <- on", INFLATION's "FLAT <-
+on"). See memory feedback-no-derived-answer-letters. The fix: each suffix is only
+applied where it is a valid English inflection of the word, so the bridge stays
+within one word.
 """
 
 _MIN = 3        # do not strip a word down shorter than this
+# Endings after which the plural / 3rd-person "-es" is the correct suffix (box->boxes,
+# pass->passes, buzz->buzzes, church->churches, dish->dishes, go->goes). Elsewhere the
+# plural is "-s" (one->ones), so appending "-es" would invent a different word.
+_ES_ENDINGS = ("s", "x", "z", "ch", "sh", "o")
+
+# Closed-class function words DO NOT inflect (no plural / verb forms), so generating
+# "-s/-es/-ed/-ing" forms for them only invents forms of OTHER words and imports their
+# DB values — the same fabricated-letter breach as on->"ones" (feedback-no-derived-
+# answer-letters), e.g. us->"uses"/"used" (forms of "use"). These get NO variants but
+# themselves. Deliberately EXCLUDES words with a common verb/noun sense (up, out, off,
+# over, under, down, round, near, will, can, may, are, be, ...) so a real inflection is
+# never blocked; only unambiguous function words are listed.
+_FUNCTION_WORDS = frozenset("""
+a an the this that these those
+i me my mine myself we us our ours ourselves you your yours yourself yourselves
+he him his himself she her hers herself it its itself they them their theirs themselves
+who whom whose which what
+of to in on at by for with from into onto upon about above below beneath beside between
+beyond against across among amongst before after behind during despite except inside
+outside toward towards until unto via within without throughout through
+and or but nor so yet as if than because although though while whilst whereas unless
+whether since not no
+""".split())
 
 
 def word_variants(word):
@@ -20,6 +50,8 @@ def word_variants(word):
     w = (word or "").lower().strip()
     if not w:
         return []
+    if w in _FUNCTION_WORDS:        # function words do not inflect — no variants but self
+        return [w]
     out = [w]
 
     def add(x):
@@ -34,7 +66,8 @@ def word_variants(word):
     if w.endswith("s") and not w.endswith("ss") and len(w) > _MIN:
         add(w[:-1])                     # suffers -> suffer
     add(w + "s")                        # suffer -> suffers
-    add(w + "es")                       # box -> boxes
+    if w.endswith(_ES_ENDINGS):
+        add(w + "es")                   # box -> boxes (NOT on -> "ones")
     if w.endswith("y") and len(w) > 2:
         add(w[:-1] + "ies")             # party -> parties
 
