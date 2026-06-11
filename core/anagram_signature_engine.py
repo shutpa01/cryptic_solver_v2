@@ -47,7 +47,7 @@ def _place(slots, words, answer, postags, is_link, indicator_types):
     nslots = len(slots)
 
     def residue_link(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in GLUE_POS)
+        return (is_link and is_link(words[k].text))
 
     def is_ind_word(k):
         return is_anagram_indicator(words[k].text, indicator_types)
@@ -258,7 +258,7 @@ def _fodder_anchored(ctx, answer, words, postags, defines, is_link, indicator_ty
     n = len(words)
 
     def is_fn(k):
-        return (is_link and is_link(words[k].text)) or (postags[k] in FUNCTION_POS)
+        return (is_link and is_link(words[k].text))
 
     def is_ind(k):
         return is_anagram_indicator(words[k].text, indicator_types)
@@ -343,8 +343,21 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    from core.definition_engine import _split_from_indices
+    allwords = [t for t in ctx.clue_tokens if t.kind == "word"]
+    alltexts = [t.text for t in allwords]
     prepared = []
     for split in splits:
+        # Keep a grammatically-bound multi-word definition WHOLE (spaCy subtree) before
+        # anything is split off as wordplay — so "Avoided dealing with" stays the
+        # definition instead of leaking "dealing"/"with" into the indicator/links.
+        def_atoms = set(split.def_atom_ids)
+        def_idx = {i for i, t in enumerate(allwords)
+                   if any(aid in def_atoms for aid in t.atom_ids)}
+        grown = grammar.phrase_extent(alltexts, def_idx)
+        if grown and grown != def_idx:
+            split = _split_from_indices(allwords, grown, split.where,
+                                        source=split.source)
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 1:
             continue
