@@ -58,8 +58,36 @@ def _link_region_has_indicator(mid, indicator_types):
     return False
 
 
+def _half_defines(tokens, answer, defines, is_dbe):
+    """Does this token span define the answer — directly, or with a single
+    definition-by-example indicator ("possibly", "say", "perhaps") stripped from its
+    leading or trailing edge? Returns (ok, def_tokens, dbe_tokens): the tokens that
+    form the actual definition, and the DBE indicator token(s) peeled off (empty when
+    none).
+
+    The DIRECT match is tried FIRST, so a half that already defines is never
+    re-interpreted — existing DD behaviour is unchanged. This only adds a path for a
+    half whose definition is by example, e.g. SIDE = "team" + "Possibly left" ("left"
+    is possibly a SIDE). A leading OR trailing single DBE word is handled (multi-word
+    DBE phrases like "for example" are a later extension)."""
+    phrase = " ".join(t.text for t in tokens)
+    if defines(phrase, answer):
+        return True, tokens, []
+    if is_dbe is None or len(tokens) < 2:
+        return False, tokens, []
+    if is_dbe(tokens[0].text):                          # "Possibly left" -> "left"
+        rest = tokens[1:]
+        if defines(" ".join(t.text for t in rest), answer):
+            return True, rest, [tokens[0]]
+    if is_dbe(tokens[-1].text):                         # "left say" -> "left"
+        rest = tokens[:-1]
+        if defines(" ".join(t.text for t in rest), answer):
+            return True, rest, [tokens[-1]]
+    return False, tokens, []
+
+
 def solve_dd(ctx, defines, is_link=None, indicator_types=None,
-             ai_is_definition=None):
+             ai_is_definition=None, is_dbe=None):
     words = [t for t in ctx.clue_tokens if t.kind == "word"]
     n = len(words)
     if n < 2:
@@ -68,13 +96,15 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
     if not answer:
         return None
 
-    # All full-coverage splits: left = words[:i], optional link words, right.
-    both = []        # (i, j, left, right, mid) where both halves DB-define
-    one = []         # (i, j, left, right, mid, db_side) exactly one DB-defines
+    # All full-coverage splits: left = words[:i], optional link words, right. Each
+    # half "defines" either directly OR via a definition-by-example indicator stripped
+    # from its edge (so "Possibly left" counts as a definition, with "Possibly" a DBE
+    # marker and "left" the definition).
+    both = []        # (mid, l_def, l_dbe, r_def, r_dbe) where both halves define
+    one = []         # (mid, db_side, other_toks, def_toks, dbe_toks) one defines
     for i in range(1, n):
         left = words[:i]
-        lp = " ".join(t.text for t in left)
-        l_db = defines(lp, answer)
+        l_ok, l_def, l_dbe = _half_defines(left, answer, defines, is_dbe)
         for j in range(i, n):
             mid = words[i:j]
             if mid and not all(is_link and is_link(t.text) for t in mid):
@@ -82,18 +112,20 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
             right = words[j:]
             if not right:
                 continue
-            rp = " ".join(t.text for t in right)
-            r_db = defines(rp, answer)
-            if l_db and r_db:
-                both.append((i, j, left, right, mid))
-            elif l_db != r_db:
-                one.append((i, j, left, right, mid, "left" if l_db else "right"))
+            r_ok, r_def, r_dbe = _half_defines(right, answer, defines, is_dbe)
+            if l_ok and r_ok:
+                both.append((mid, l_def, l_dbe, r_def, r_dbe))
+            elif l_ok != r_ok:
+                if l_ok:
+                    one.append((mid, "left", right, l_def, l_dbe))
+                else:
+                    one.append((mid, "right", left, r_def, r_dbe))
 
     if both:
         # Prefer the cleanest: fewest link words, then the most balanced split.
-        i, j, left, right, mid = min(
-            both, key=lambda c: (len(c[4]), abs(len(c[2]) - len(c[3]))))
-        return _build(ctx, answer, left, right, mid, "db", "db")
+        mid, l_def, l_dbe, r_def, r_dbe = min(
+            both, key=lambda c: (len(c[0]), abs(len(c[1]) - len(c[3]))))
+        return _build(ctx, mid, (l_def, l_dbe, "db"), (r_def, r_dbe, "db"))
 
     # One half confirmed. Keep only DD-shaped candidates: those with no operative
     # wordplay indicator in the link region between the halves. If none remain the
@@ -101,21 +133,19 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
     if not one:
         return None
     shaped = [c for c in one
-              if not _link_region_has_indicator(c[4], indicator_types)]
+              if not _link_region_has_indicator(c[0], indicator_types)]
     if not shaped:
         return None
     # Try the most promising candidates (fewest link words, longest other half),
     # asking Haiku about the unconfirmed half. Cap the spend.
-    shaped.sort(key=lambda c: (len(c[4]),
-                               -len((c[3] if c[5] == "left" else c[2]))))
+    shaped.sort(key=lambda c: (len(c[0]), -len(c[2])))
     if ai_is_definition is None:
         return None                     # cannot consult Haiku -> make no claim
     asked = set()
     calls = 0
     considered = False                  # got at least one definite YES/NO back
-    for i, j, left, right, mid, db_side in shaped:
-        other = right if db_side == "left" else left
-        phrase = " ".join(t.text for t in other)
+    for mid, db_side, other_toks, def_toks, dbe_toks in shaped:
+        phrase = " ".join(t.text for t in other_toks)
         if phrase in asked:
             continue
         if calls >= MAX_AI_CALLS:
@@ -124,9 +154,11 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
         calls += 1
         verdict = ai_is_definition(phrase, answer)   # True | False | None
         if verdict:
-            lflag = "db" if db_side == "left" else "pending"
-            rflag = "db" if db_side == "right" else "pending"
-            return _build(ctx, answer, left, right, mid, lflag, rflag)
+            confirmed = (def_toks, dbe_toks, "db")
+            other = (other_toks, [], "pending")
+            lhalf, rhalf = ((confirmed, other) if db_side == "left"
+                            else (other, confirmed))
+            return _build(ctx, mid, lhalf, rhalf)
         if verdict is False:
             considered = True           # a definite NO -> enrichment was considered
         # verdict is None -> the check could not be made; not a considered verdict.
@@ -135,22 +167,30 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
     # never considered it, so we ABSTAIN (None) rather than persist a durable FAIL
     # on a verdict we never obtained — a later run resolves it.
     if considered:
-        return _build_one_def_fail(ctx, answer, shaped[0])
+        mid, db_side, other_toks, def_toks, dbe_toks = shaped[0]
+        return _build_one_def_fail(ctx, mid, def_toks, dbe_toks)
     return None
 
 
-def _build_one_def_fail(ctx, answer, candidate):
-    """Build the FAIL parse for a DD-shaped clue where exactly one half is a
-    DB-confirmed definition and the other cannot be confirmed. Record the one real
-    definition, mark any joining words, and leave the unconfirmable half
+def _dbe_annotations(dbe_tokens):
+    """One 'definition by example' indicator annotation per stripped DBE word, so the
+    word is accounted (unexplained_words) and rendered as a By-example marker, exactly
+    like the wordplay path's dbe_annotation."""
+    return [Annotation(clue_atom_ids=t.atom_ids, text=t.text, role="indicator",
+                       note="definition by example") for t in dbe_tokens]
+
+
+def _build_one_def_fail(ctx, mid, def_toks, dbe_toks):
+    """Build the FAIL parse for a DD-shaped clue where exactly one half is a confirmed
+    definition and the other cannot be confirmed. Record the one real definition (and
+    any DBE marker it carried), mark joining words, and leave the unconfirmable half
     unaccounted so _verify_dd surfaces it honestly as a FAIL."""
-    i, j, left, right, mid, db_side = candidate
-    confirmed = left if db_side == "left" else right
-    src = Source(clue_atom_ids=tuple(a for t in confirmed for a in t.atom_ids),
-                 text=" ".join(t.text for t in confirmed), value=ctx.answer_text,
+    src = Source(clue_atom_ids=tuple(a for t in def_toks for a in t.atom_ids),
+                 text=" ".join(t.text for t in def_toks), value=ctx.answer_text,
                  mechanism="definition", source="db")
     annotations = [Annotation(clue_atom_ids=t.atom_ids, text=t.text,
                               role="link", note="link word") for t in mid]
+    annotations += _dbe_annotations(dbe_toks)
     parse = Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
                   sources=[src], links=[], annotations=annotations,
                   definition=None, operation="double_definition", solved_by="dd")
@@ -158,15 +198,20 @@ def _build_one_def_fail(ctx, answer, candidate):
     return parse
 
 
-def _build(ctx, answer, left, right, mid, lflag, rflag):
-    def _src(toks, flag):
-        return Source(clue_atom_ids=tuple(a for t in toks for a in t.atom_ids),
-                      text=" ".join(t.text for t in toks), value=ctx.answer_text,
+def _build(ctx, mid, lhalf, rhalf):
+    """Build a DD parse. Each half is (def_tokens, dbe_tokens, flag): the definition
+    Source covers def_tokens only; any DBE marker peeled from the half is recorded as a
+    by-example annotation so it is accounted and labelled."""
+    def _src(half):
+        def_toks, _dbe, flag = half
+        return Source(clue_atom_ids=tuple(a for t in def_toks for a in t.atom_ids),
+                      text=" ".join(t.text for t in def_toks), value=ctx.answer_text,
                       mechanism="definition", source=flag)
     annotations = [Annotation(clue_atom_ids=t.atom_ids, text=t.text,
                               role="link", note="link word") for t in mid]
+    annotations += _dbe_annotations(lhalf[1]) + _dbe_annotations(rhalf[1])
     parse = Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
-                  sources=[_src(left, lflag), _src(right, rflag)],
+                  sources=[_src(lhalf), _src(rhalf)],
                   links=[], annotations=annotations, definition=None,
                   operation="double_definition", solved_by="dd")
     _verify_dd(ctx, parse)

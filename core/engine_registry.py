@@ -459,7 +459,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     from core.dd_engine import solve_dd
     pd = solve_dd(ctx, wiring["defines"], is_link=wiring["is_link"],
                   indicator_types=wiring["indicator_types"],
-                  ai_is_definition=wiring.get("ai_is_definition"))
+                  ai_is_definition=wiring.get("ai_is_definition"),
+                  is_dbe=wiring.get("is_dbe"))
     if pd is not None and pd.status in ("pass", "pending"):
         return _finish(pd, "dd", ctx, wiring, source, puzzle_number, clue_id)
 
