@@ -1,8 +1,10 @@
-"""Take a checkpointed backup of clues_master.db and cryptic_new.db.
+"""Take a checkpointed backup of the cryptic DBs and the gilts portfolio DB.
 
-Backups land in OneDrive (off-repo, cloud-synced) and rotate to keep
-the most recent 10 of each database. Uses SQLite's online .backup API
-so the copy is consistent even if the source has an active WAL.
+Backs up clues_master.db, cryptic_new.db (cryptic solver) and the gilts_scraper
+gilts.db. Backups land in OneDrive (off-repo, cloud-synced) and are retained for
+one month (older copies are pruned, but the newest of each is always kept). Uses
+SQLite's online .backup API so the copy is consistent even if the source has an
+active WAL.
 
 Usage:
     python scripts/backup_dbs.py
@@ -21,8 +23,9 @@ BACKUP_DIR = Path(r"C:\Users\shute\OneDrive\DB Backup")
 DBS = [
     REPO / "data" / "clues_master.db",
     REPO / "data" / "cryptic_new.db",
+    Path(r"C:\Users\shute\PycharmProjects\gilts_scraper\data\gilts.db"),
 ]
-KEEP_N = 14
+RETENTION_DAYS = 31
 
 
 def latest_backup(dbname):
@@ -44,17 +47,22 @@ def take_backup(src_path, ts):
     return dst_path
 
 
-def rotate(dbname, keep_n=KEEP_N):
-    """Delete oldest backups so only keep_n remain."""
+def rotate(dbname, retention_days=RETENTION_DAYS):
+    """Delete backups older than `retention_days`, but always keep the newest one
+    (so a paused job never leaves a DB with zero backups)."""
     matches = sorted(BACKUP_DIR.glob(f"{dbname}_*.db"))
-    excess = matches[:-keep_n] if len(matches) > keep_n else []
-    for f in excess:
-        try:
-            f.unlink()
-        except OSError as e:
-            print(f"  warning: could not delete {f.name}: {e}",
-                  file=sys.stderr)
-    return len(excess)
+    cutoff = datetime.now() - timedelta(days=retention_days)
+    removed = 0
+    for f in matches[:-1]:        # everything except the most recent
+        mtime = datetime.fromtimestamp(f.stat().st_mtime)
+        if mtime < cutoff:
+            try:
+                f.unlink()
+                removed += 1
+            except OSError as e:
+                print(f"  warning: could not delete {f.name}: {e}",
+                      file=sys.stderr)
+    return removed
 
 
 def main():
