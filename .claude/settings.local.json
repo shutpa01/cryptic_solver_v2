@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(*)",
+      "PowerShell(*)",
       "WebFetch(domain:fifteensquared.net)",
       "WebSearch",
       "WebFetch(domain:www.fifteensquared.net)",
@@ -49,7 +50,17 @@
       "WebFetch(domain:developers.cloudflare.com)",
       "WebFetch(domain:support.google.com)",
       "WebFetch(domain:developers.google.com)",
-      "PowerShell(New-ScheduledTaskAction *)"
+      "PowerShell(New-ScheduledTaskAction *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "WebFetch(domain:www.justetf.com)",
+      "WebFetch(domain:www.dividenddata.co.uk)",
+      "WebFetch(domain:www.dividendmax.com)",
+      "WebFetch(domain:www.hl.co.uk)",
+      "PowerShell(Get-CimInstance *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Start-Process -FilePath \"python\" -ArgumentList \"app.py\" -WorkingDirectory \"C:\\\\Users\\\\shute\\\\PycharmProjects\\\\gilts_scraper\" -WindowStyle Hidden; Start-Sleep -Seconds 3; $c = Get-NetTCPConnection -LocalPort 5100 -State Listen -ErrorAction SilentlyContinue; if \\($c\\) { \"Listening on 5100, PID $\\($c.OwningProcess\\)\" } else { \"Did not come up on 5100\" })",
+      "PowerShell(Stop-Process *)",
+      "PowerShell(git *)"
     ]
   },
   "hooks": {
