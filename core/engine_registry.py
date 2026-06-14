@@ -325,7 +325,7 @@ def make_db_wiring():
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "is_link": is_link,
             "sounds_like": db.get_homophones, "synonyms_of": phrase_synonyms,
-            "sounds_alike": db.sounds_alike,
+            "sounds_alike": db.sounds_alike, "pronounce": db.get_pronunciation,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
             "is_dbe": is_dbe, "lookup_all": lookup_all,
@@ -410,6 +410,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                             is_dbe=wiring.get("is_dbe"))
     if ppal is not None and ppal.status in ("pass", "pending"):
         return _finish(ppal, "palindrome", ctx, wiring, source, puzzle_number, clue_id)
+
+    # SPOONERISM — the answer's two syllables with their onsets transposed sound like a
+    # source phrase (HAIRSHIRT <-> SHARE HURT). Phonetic + answer-driven, gated on a
+    # Spooner indicator, so it only fires on Spooner clues and cannot intercept anything
+    # else. Two-word content pairs each word's synonyms (class+stadium -> rank+bowl);
+    # otherwise abstains. Needs pronunciations, so it sits after the other gated mechanisms.
+    from core.spoonerism_engine import solve_spoonerism
+    pspoon = solve_spoonerism(ctx, wiring["defines"], wiring["is_link"],
+                              wiring["pronounce"], wiring["synonyms_of"],
+                              is_dbe=wiring.get("is_dbe"))
+    if pspoon is not None and pspoon.status in ("pass", "pending"):
+        return _finish(pspoon, "spoonerism", ctx, wiring, source, puzzle_number, clue_id)
 
     # HOMOPHONE — the whole answer SOUNDS like a source word (or its synonym), gated on
     # a homophone indicator. Answer-driven (the source's homophone must EQUAL the answer)
