@@ -173,6 +173,42 @@ def _letter_match(cand, word):
     return len(w) == len(cand) and w[:1] == cand[:1] and _skel(w) == _skel(cand)
 
 
+def _grow_definition(ctx, def_atom_ids, role_atom_ids):
+    """Fold adjacent words that are grammatical DEPENDENTS of the definition span into
+    the definition, so a noun phrase like "little gem" (little is an amod of gem) stays
+    one definition. Walks outward from the def edge and STOPS at the first word that is a
+    role word (source / indicator / link) or not a dependent — so it can never run into
+    the wordplay. Returns the grown set of clue-word atom_ids."""
+    from core import grammar
+    allwords = [t for t in ctx.clue_tokens if t.kind == "word"]
+    try:
+        doc = grammar._parse(" ".join(t.text for t in allwords))
+    except Exception:
+        return set(def_atom_ids)
+    if len(doc) != len(allwords):
+        return set(def_atom_ids)
+    defset, roleset = set(def_atom_ids), set(role_atom_ids)
+    atoms = [set(t.atom_ids) for t in allwords]
+    def_idx = {i for i, a in enumerate(atoms) if a & defset}
+    role_idx = {i for i, a in enumerate(atoms) if a & roleset}
+    if not def_idx:
+        return set(def_atom_ids)
+    keep = set(def_idx)
+    changed = True
+    while changed:
+        changed = False
+        lo, hi = min(keep), max(keep)
+        for adj in (lo - 1, hi + 1):
+            if 0 <= adj < len(doc) and adj not in keep and adj not in role_idx \
+                    and doc[adj].head.i in keep:
+                keep.add(adj)
+                changed = True
+    out = set()
+    for i in keep:
+        out |= atoms[i]
+    return out
+
+
 def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
     """Answer-driven. We KNOW the answer, so we don't parse clue structure — the answer's
     transposed sounds/letters tell us the source, and we find the clue word(s) whose
@@ -274,6 +310,26 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
                       'to sound like the answer'])
 
     src_pos = {p for p, _ in pieces}
+    link_pos = [p for p in region
+                if p not in src_pos and is_link and is_link(words[p].text)]
+
+    # Grow the definition to absorb an adjacent grammatically-bound modifier (little ->
+    # "little gem"), so it is part of the definition, not relabelled a link by elimination.
+    role_atoms = set()
+    for p, _ in pieces:
+        role_atoms.update(words[p].atom_ids)
+    for t in ind_toks:
+        role_atoms.update(t.atom_ids)
+    for p in link_pos:
+        role_atoms.update(words[p].atom_ids)
+    grown = _grow_definition(ctx, split.def_atom_ids, role_atoms)
+    allwords = [t for t in ctx.clue_tokens if t.kind == "word"]
+    def_words = [t for t in allwords if set(t.atom_ids) & grown]
+    definition = Source(
+        clue_atom_ids=tuple(aid for t in def_words for aid in t.atom_ids),
+        text=" ".join(t.text for t in def_words), value=ctx.answer_text,
+        mechanism="definition", source=split.source)
+
     ind_ann = Annotation(
         clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in ind_toks), role="indicator",
@@ -281,11 +337,10 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
     sources = [Source(clue_atom_ids=words[p].atom_ids, text=words[p].text, value=v,
                       mechanism="synonym", source="db") for p, v in pieces]
     annotations = [ind_ann]
-    for p in region:
-        if p not in src_pos:
-            annotations.append(Annotation(clue_atom_ids=words[p].atom_ids,
-                                          text=words[p].text, role="link",
-                                          note="link word"))
+    for p in link_pos:
+        annotations.append(Annotation(clue_atom_ids=words[p].atom_ids,
+                                      text=words[p].text, role="link",
+                                      note="link word"))
     parse = Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
                   sources=sources, links=[], annotations=annotations,
                   definition=definition, operation="spoonerism",
