@@ -158,7 +158,8 @@ def _verdict_badge(parse):
 
 # The indicator's precise type, read off the note each engine records, with a colour.
 _IND_TYPES = ("anagram", "container", "insertion", "reversal", "deletion",
-              "hidden", "homophone", "acrostic")
+              "hidden", "homophone", "acrostic", "palindrome", "spoonerism",
+              "selection")
 _IND_COLOUR = {"anagram": "#7c3aed", "container": "#0e7490", "reversal": "#b45309",
                "deletion": "#be185d", "hidden": "#92600a", "homophone": "#4d7c0f",
                "acrostic": "#5b21b6", "indicator": "#7c3aed"}
@@ -171,6 +172,10 @@ def _indicator_label(note):
     n = (note or "").lower()
     if n.startswith("deletion:"):                  # "deletion: behead (drops the ...)"
         return "Deletion indicator", note.split(":", 1)[1].strip()
+    if n.startswith("spoonerism:"):                # "spoonerism: BARRED HACK -> HARDBACK"
+        return "Spoonerism indicator", note.split(":", 1)[1].strip()
+    if n.startswith("selection ("):               # "selection (first)"
+        return "Selection indicator", note[note.find("(") + 1:note.find(")")].strip()
     for t in _IND_TYPES:
         if t in n:
             disp = "Container" if t == "insertion" else t.capitalize()
