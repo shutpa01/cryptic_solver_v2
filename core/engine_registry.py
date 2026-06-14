@@ -618,9 +618,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                 return _finish(pacor, "catalog", ctx, wiring, source, puzzle_number,
                                clue_id)
 
-    # Nothing produced a clean stop. Return the genuinely MOST COMPLETE fail so the
-    # richest evidence is shown — measured (status, answer letters explained, clue
-    # words accounted, fewest warnings), NOT by engine order.
+    # Nothing produced a clean stop. The GATED engines (spoonerism / palindrome /
+    # acrostic) only return a parse when their indicator actually fired, so a non-None
+    # fail from one means the clue IS that type — its evidence (the indicator + the
+    # attempted reading) is the relevant thing to SHOW, ahead of a generic anagram/charade
+    # fodder guess that knows nothing about the indicator. Preserve it (design: never drop
+    # fail evidence; the indicator must survive).
+    for p, n in ((pspoon, "spoonerism"), (ppal, "palindrome"), (pacro, "acrostic")):
+        if p is not None:
+            return _finish(p, n, ctx, wiring, source, puzzle_number, clue_id)
+
+    # Otherwise return the genuinely MOST COMPLETE fail so the richest evidence is shown
+    # — measured (status, answer letters explained, clue words accounted, fewest
+    # warnings), NOT by engine order.
     candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
                                       (pac, "catalog"), (paco, "catalog"),
                                       (pcon, "catalog"), (pccc, "catalog"))
