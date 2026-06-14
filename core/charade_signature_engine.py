@@ -39,10 +39,15 @@ from core.wfw_model import Source, Link, Annotation, Parse
 #   SYN_F -> a synonym; ABR_F -> an abbreviation; LIT_F -> the word's OWN letters
 #   (a literal, e.g. "in" -> IN). A literal is safe here ONLY because a signature
 #   pins which slot is the literal — there is no free raw-tiling of arbitrary words.
+#   SEL_F -> a letter-SELECTION from one word (house "originally" -> H), licensed by
+#   a selection indicator. Like a literal it takes the word's own letters, but only the
+#   subset a named rule picks (first/last/middle/outer/alternate/...), and ONLY when an
+#   indicator licenses that rule — so it is gated, not a free raw-tiling.
 ROLE_MECHANISM = {
     "SYN_F": "synonym",
     "ABR_F": "abbreviation",
     "LIT_F": "raw",
+    "SEL_F": "selection",
 }
 
 
@@ -79,29 +84,45 @@ def _role_candidates(role, phrase, answer, lookup, suggest_piece=None):
     return out
 
 
-def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None):
+def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None,
+           ctx=None, sel=None):
     """Place the typed slots onto disjoint word-runs in clue order (gaps allowed),
     filling each by role so the pieces concatenate to EXACTLY the answer; classify
-    the gap words as links LAST. Returns {pieces, links} or None.
+    the gap words LAST. Returns {pieces, links, indicator} or None.
 
-    pieces: [(start, end, role, value)] in slot order. links: gap word indices.
+    pieces: [(start, end, role, value, extra)] in slot order; extra is None except for
+    a SEL_F piece, where it is {"atom_ids": (...), "rule": ...} carrying the selected
+    letters' provenance. links: gap word indices. indicator: the selection indicator's
+    word indices (accounted, never a link).
+
     `suggest_piece` (optional) lets a synonym slot the DB can't fill be filled by a
     provisional Haiku suggestion — see _role_candidates.
+    `sel`, when given, is (rule, indicator_indices) for the SEL_F slots: those indices
+    are accounted as the licensing indicator (not links), and a SEL_F slot is filled by
+    core.selection.select_span(word, rule) — answer-driven, so only a selection that
+    reproduces the exact answer span at its position is kept.
     """
+    from core.selection import select_span
     n, N = len(words), len(answer)
     nslots = len(slots)
+    sel_rule, sel_ind = (sel if sel else (None, ()))
+    sel_ind = set(sel_ind)
 
     def residue_link(k):
         return (is_link and is_link(words[k].text))
 
     def finalize(pieces, gap_idxs):
-        links = []
+        links, indicator = [], []
         for k in gap_idxs:
-            if residue_link(k):
+            if k in sel_ind:
+                indicator.append(k)
+            elif residue_link(k):
                 links.append(k)
             else:
                 return None                  # a content word unaccounted -> reject
-        return {"pieces": pieces, "links": links}
+        if not sel_ind <= set(indicator):
+            return None                      # the licensed indicator must be accounted
+        return {"pieces": pieces, "links": links, "indicator": sorted(indicator)}
 
     def dfs(si, wi, pos, pieces, gaps):
         if si == nslots:
@@ -111,12 +132,26 @@ def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None):
         slot = slots[si]
         nw = slot.n_words
         for j in range(wi, n - nw + 1):           # slot starts at j; wi..j are gaps
+            if any(k in sel_ind for k in range(j, j + nw)):
+                continue                          # never build a piece from the indicator
+            if slot.role == "SEL_F":
+                if nw != 1 or ctx is None or sel_rule is None:
+                    continue                      # selection is one word, indicator-gated
+                for value, atom_ids in select_span(ctx, words[j], sel_rule):
+                    if answer.startswith(value, pos):
+                        r = dfs(si + 1, j + nw, pos + len(value),
+                                pieces + [(j, j + nw, "SEL_F", value,
+                                           {"atom_ids": atom_ids, "rule": sel_rule})],
+                                gaps + list(range(wi, j)))
+                        if r:
+                            return r
+                continue
             phrase = " ".join(words[k].text for k in range(j, j + nw))
             for val in _role_candidates(slot.role, phrase, answer, lookup,
                                         suggest_piece):
                 if answer.startswith(val, pos):
                     r = dfs(si + 1, j + nw, pos + len(val),
-                            pieces + [(j, j + nw, slot.role, val)],
+                            pieces + [(j, j + nw, slot.role, val, None)],
                             gaps + list(range(wi, j)))
                     if r:
                         return r
@@ -134,11 +169,21 @@ def _try_template(ctx, answer, template, split, words, postags, lookup, is_link,
         return None
     if any(s.role not in ROLE_MECHANISM for s in template.slots):
         return None                              # role this engine can't fill
-    placement = _place(template.slots, words, answer, postags, lookup, is_link,
-                       suggest_piece)
-    if placement is None:
-        return None
-    return _build(ctx, split, words, placement, template, lookup)
+    # SEL_F slots need a licensing selection indicator; gather the options (rule +
+    # indicator words) and try each. No SEL_F slot -> the single no-selection attempt.
+    sel_options = [None]
+    if any(s.role == "SEL_F" for s in template.slots):
+        from core.selection_indicators import find_indicators
+        inds = find_indicators(words)
+        if not inds:
+            return None                          # selection requires an indicator
+        sel_options = inds
+    for sel in sel_options:
+        placement = _place(template.slots, words, answer, postags, lookup, is_link,
+                           suggest_piece, ctx=ctx, sel=sel)
+        if placement is not None:
+            return _build(ctx, split, words, placement, template, lookup)
+    return None
 
 
 def _build(ctx, split, words, placement, template, lookup):
@@ -152,9 +197,22 @@ def _build(ctx, split, words, placement, template, lookup):
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     sources, links, pos = [], [], 0
-    for si, (a, b, role, value) in enumerate(placement["pieces"]):
+    for si, (a, b, role, value, extra) in enumerate(placement["pieces"]):
         toks = words[a:b]
         phrase = " ".join(t.text for t in toks)
+        if role == "SEL_F":
+            # The piece is the selected letters; reference ONLY their atoms (so the
+            # render lights exactly the taken letters) and pin each answer letter to
+            # the clue character it was taken from (§5.5 per-letter provenance).
+            sel_atom_ids = extra["atom_ids"]
+            sources.append(Source(clue_atom_ids=sel_atom_ids, text=phrase,
+                                  value=value, mechanism=ROLE_MECHANISM[role]))
+            for ci in range(len(value)):
+                pos += 1
+                links.append(Link(
+                    answer_pos=pos, source_index=si, operation="charade",
+                    clue_atom_id=sel_atom_ids[ci] if ci < len(sel_atom_ids) else None))
+            continue
         origin = "db"
         if role == "SYN_F":
             db_vals = {(v or "").upper() for v, m in lookup(phrase, answer)
@@ -172,6 +230,14 @@ def _build(ctx, split, words, placement, template, lookup):
     annotations = [Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
                               role="link", note="link word")
                    for k in placement["links"]]
+    ind_idx = placement.get("indicator") or []
+    if ind_idx:
+        rule = next((x["rule"] for (_, _, r, _, x) in placement["pieces"]
+                     if r == "SEL_F" and x), None)
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in ind_idx for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in ind_idx),
+            role="indicator", note="selection indicator (%s)" % (rule or "selection")))
     dbe = dbe_annotation(split)
     if dbe is not None:
         annotations.append(dbe)
