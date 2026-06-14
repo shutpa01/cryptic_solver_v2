@@ -58,16 +58,15 @@ def _value_candidates(words, a, b, lookup_all):
     return out
 
 
-def _verify_insertion(words, run_a, run_b, answer, lookup_all):
-    """Reconstruct the answer as an insertion of the two value runs.
+def _verify_insertion(run_a, run_b, vals_a, vals_b, answer):
+    """Reconstruct the answer as an insertion of the two value runs, given each run's
+    candidate value strings (a DB lookup for SYN_F/ABR_F, a letter selection for SEL_F).
 
     Returns (a_is_outer, p, Li, outer_val, inner_val) or None:
       inner occupies answer[p:p+Li]; outer = answer[:p]+answer[p+Li:].
       a_is_outer True  -> run_a is the outer, run_b the inner.
       a_is_outer False -> run_b is the outer, run_a the inner."""
     N = len(answer)
-    vals_a = _value_candidates(words, run_a[0], run_a[1], lookup_all)
-    vals_b = _value_candidates(words, run_b[0], run_b[1], lookup_all)
     for a_is_outer, outer_vals, inner_vals in ((True, vals_a, vals_b),
                                                (False, vals_b, vals_a)):
         for OUT in outer_vals:
@@ -84,33 +83,58 @@ def _verify_insertion(words, run_a, run_b, answer, lookup_all):
     return None
 
 
-def _place(slots, words, answer, postags, lookup_all, is_link, indicator_types):
+def _place(slots, words, answer, postags, lookup_all, is_link, indicator_types,
+           ctx=None, sel=None):
     """Assign each slot a consecutive word-run in clue order (gaps allowed), validate
     the CON_I slot, classify gaps as links LAST, then verify the insertion.
-    Returns {run_a, run_b, con_i, links, insertion} or None."""
+    Returns {run_a, run_b, role_a, role_b, con_i, links, sel_indicator, sel_rule,
+    insertion} or None.
+
+    `sel`, when given, is (rule, indicator_indices) for a SEL_F value run: those words
+    are accounted as the licensing selection indicator (not links), and a SEL_F run's
+    candidate values come from core.selection.select_span(word, rule) — answer-driven,
+    so only a selection that completes the insertion to the exact answer is kept."""
+    from core.selection import select_span
     n = len(words)
     nslots = len(slots)
+    sel_rule, sel_ind = (sel if sel else (None, ()))
+    sel_ind = set(sel_ind)
 
     def residue_link(k):
         return (is_link and is_link(words[k].text))
 
+    def run_values(run, role):
+        if role == "SEL_F":
+            if (run[1] - run[0]) != 1 or ctx is None or sel_rule is None:
+                return []
+            return [s for s, _ in select_span(ctx, words[run[0]], sel_rule)]
+        return _value_candidates(words, run[0], run[1], lookup_all)
+
     def finalize(assigned, gap_idxs):
-        val_runs = [r for r, role in assigned if role in ("SYN_F", "ABR_F")]
+        val_runs = [(r, role) for r, role in assigned
+                    if role in ("SYN_F", "ABR_F", "SEL_F")]
         if len(val_runs) != 2:
             return None
         con_i = [k for r, role in assigned if role == "CON_I" for k in range(*r)]
-        links = []
+        links, indicator = [], []
         for k in gap_idxs:
-            if residue_link(k):
+            if k in sel_ind:
+                indicator.append(k)
+            elif residue_link(k):
                 links.append(k)
             else:
                 return None                          # a content word unaccounted
-        run_a, run_b = val_runs
-        ins = _verify_insertion(words, run_a, run_b, answer, lookup_all)
+        if not sel_ind <= set(indicator):
+            return None                              # licensed indicator must be accounted
+        (run_a, role_a), (run_b, role_b) = val_runs
+        ins = _verify_insertion(run_a, run_b, run_values(run_a, role_a),
+                                run_values(run_b, role_b), answer)
         if ins is None:
             return None
-        return {"run_a": run_a, "run_b": run_b, "con_i": sorted(con_i),
-                "links": sorted(links), "insertion": ins}
+        return {"run_a": run_a, "run_b": run_b, "role_a": role_a, "role_b": role_b,
+                "con_i": sorted(con_i), "links": sorted(links),
+                "sel_indicator": sorted(indicator), "sel_rule": sel_rule,
+                "insertion": ins}
 
     def dfs(si, wi, assigned, gaps):
         if si == nslots:
@@ -119,6 +143,8 @@ def _place(slots, words, answer, postags, lookup_all, is_link, indicator_types):
         nw = slot.n_words
         for j in range(wi, n - nw + 1):
             run = (j, j + nw)
+            if any(k in sel_ind for k in range(*run)):
+                continue                             # never build a piece from the indicator
             if slot.role == "CON_I" and not any(
                     _is_con_indicator(words[k].text, indicator_types)
                     for k in range(*run)):
@@ -139,17 +165,26 @@ def _try_template(ctx, answer, template, split, words, postags, lookup_all, is_l
     if template.fodder_word_count > len(words):
         return None
     roles = [s.role for s in template.slots]
-    if not set(roles) <= {"SYN_F", "ABR_F", "CON_I"}:
+    if not set(roles) <= {"SYN_F", "ABR_F", "CON_I", "SEL_F"}:
         return None
-    if sum(roles.count(r) for r in ("SYN_F", "ABR_F")) != 2:
+    if sum(roles.count(r) for r in ("SYN_F", "ABR_F", "SEL_F")) != 2:
         return None
     if roles.count("CON_I") < 1:
         return None
-    placement = _place(template.slots, words, answer, postags, lookup_all, is_link,
-                       indicator_types)
-    if placement is None:
-        return None
-    return _build(ctx, split, words, answer, placement, template)
+    # A SEL_F value run needs a licensing selection indicator; try each (rule + words).
+    sel_options = [None]
+    if "SEL_F" in roles:
+        from core.selection_indicators import find_indicators
+        inds = find_indicators(words)
+        if not inds:
+            return None
+        sel_options = inds
+    for sel in sel_options:
+        placement = _place(template.slots, words, answer, postags, lookup_all, is_link,
+                           indicator_types, ctx=ctx, sel=sel)
+        if placement is not None:
+            return _build(ctx, split, words, answer, placement, template)
+    return None
 
 
 def _build(ctx, split, words, answer, placement, template):
@@ -159,18 +194,34 @@ def _build(ctx, split, words, answer, placement, template):
     a_is_outer, p, L, outer_val, inner_val = placement["insertion"]
     run_a = placement["run_a"]
     run_b = placement["run_b"]
-    outer_run, inner_run = (run_a, run_b) if a_is_outer else (run_b, run_a)
+    role_a = placement.get("role_a")
+    role_b = placement.get("role_b")
+    outer_run, inner_run, outer_role, inner_role = (
+        (run_a, run_b, role_a, role_b) if a_is_outer
+        else (run_b, run_a, role_b, role_a))
     outer_toks = words[outer_run[0]:outer_run[1]]
     inner_toks = words[inner_run[0]:inner_run[1]]
 
-    outer_src = Source(
-        clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
-        text=" ".join(t.text for t in outer_toks), value=outer_val,
-        mechanism=_piece_mechanism(outer_toks, outer_val))
-    inner_src = Source(
-        clue_atom_ids=tuple(aid for t in inner_toks for aid in t.atom_ids),
-        text=" ".join(t.text for t in inner_toks), value=inner_val,
-        mechanism=_piece_mechanism(inner_toks, inner_val))
+    def _value_source(toks, role, value):
+        """A value piece. A SEL_F piece is the letters SELECTED from its single word;
+        reference only those letters' atoms (so the render lights exactly the taken
+        letters) and label it a selection."""
+        if role == "SEL_F":
+            from core.selection import select_span
+            atom_ids = next((aid for s, aid in
+                             select_span(ctx, toks[0], placement.get("sel_rule"))
+                             if s == value), None)
+            return Source(
+                clue_atom_ids=atom_ids or tuple(aid for t in toks for aid in t.atom_ids),
+                text=" ".join(t.text for t in toks), value=value,
+                mechanism="selection")
+        return Source(
+            clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+            text=" ".join(t.text for t in toks), value=value,
+            mechanism=_piece_mechanism(toks, value))
+
+    outer_src = _value_source(outer_toks, outer_role, outer_val)
+    inner_src = _value_source(inner_toks, inner_role, inner_val)
     # stable colour: sources in clue order
     if outer_run[0] < inner_run[0]:
         sources = [outer_src, inner_src]; OUT, IN = 0, 1
@@ -188,6 +239,13 @@ def _build(ctx, split, words, answer, placement, template):
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="indicator",
                                       note="container indicator"))
+    sel_ind_idx = placement.get("sel_indicator") or []
+    if sel_ind_idx:
+        rule = placement.get("sel_rule")
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in sel_ind_idx for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in sel_ind_idx),
+            role="indicator", note="selection indicator (%s)" % (rule or "selection")))
     for k in placement["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",
