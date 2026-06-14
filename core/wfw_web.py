@@ -32,6 +32,7 @@ from core import charade_screen
 from core import anagram_screen
 from core import anagram_charade_screen
 from core import anagram_container_screen
+from core import palindrome_screen
 from core import admin_db
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
@@ -43,11 +44,13 @@ SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
            "anagram_charade": anagram_charade_screen.render,
            "anagram_container": anagram_container_screen.render,
            "container": anagram_container_screen.render,
-           "container_charade": anagram_container_screen.render}
+           "container_charade": anagram_container_screen.render,
+           "palindrome": palindrome_screen.render}
 _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "charade": "charade", "anagram": "anagram",
                   "anagram_charade": "anagram + charade",
-                  "anagram_container": "anagram + container"}
+                  "anagram_container": "anagram + container",
+                  "palindrome": "palindrome"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "reversal", "deletion",
               "acrostic", "homophone", "charade"]

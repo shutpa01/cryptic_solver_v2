@@ -399,6 +399,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pacro is not None and pacro.status in ("pass", "pending"):
         return _finish(pacro, "acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
+    # PALINDROME — the whole answer reads the same both ways (SAGAS, ROTOR). Answer-driven
+    # (answer == reverse) and gated on a palindrome indicator; the wordplay produces no
+    # letters of its own. Tried with the other precise gated mechanisms. A palindrome
+    # answer cannot be a meaningful reversal of a DIFFERENT word, so it cannot intercept a
+    # genuine reversal clue. Abstains (None) on anything that is not a clean palindrome.
+    from core.palindrome_engine import solve_palindrome
+    ppal = solve_palindrome(ctx, wiring["defines"], wiring["is_link"],
+                            define_fallback=wiring.get("define_fallback"),
+                            is_dbe=wiring.get("is_dbe"))
+    if ppal is not None and ppal.status in ("pass", "pending"):
+        return _finish(ppal, "palindrome", ctx, wiring, source, puzzle_number, clue_id)
+
     # HOMOPHONE — the whole answer SOUNDS like a source word (or its synonym), gated on
     # a homophone indicator. Answer-driven (the source's homophone must EQUAL the answer)
     # and indicator-gated, so highly specific. Span-level provenance ("sounds like X").
