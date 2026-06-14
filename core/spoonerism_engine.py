@@ -121,6 +121,18 @@ def _source_matches(s1, s2, pairs, pronounce):
     return any((a, b) in pairs for a in k1 for b in k2)
 
 
+def _sound_synonyms(word, targets, synonyms_of, pronounce):
+    """[(synonym, [matching_keys])] for the word itself and its SINGLE-WORD synonyms
+    whose pronunciation key is in `targets` (a set of transposed answer-half sounds).
+    No cap — every synonym is considered, only those that sound right are kept."""
+    out = []
+    for s in [word] + [x for x in (synonyms_of(word) or []) if len(x.split()) == 1]:
+        hit = [k for k in {_key(p.split()) for p in pronounce(s)} if k in targets]
+        if hit:
+            out.append((s, hit))
+    return out
+
+
 def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
     """Find the two-word source (clue phrase or its DB synonym) that transposes to the
     answer; classify the rest as links. Returns a Parse, or None if the leftovers do not
@@ -141,16 +153,20 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
     pieces = None                 # [(tokens, source_value)] — the displayed synonyms
     s1 = s2 = None
     if len(cwords) == 2:
-        o1 = [cwords[0]] + [s for s in (synonyms_of(cwords[0]) or [])
-                            if len(s.split()) == 1][:80]
-        o2 = [cwords[1]] + [s for s in (synonyms_of(cwords[1]) or [])
-                            if len(s.split()) == 1][:80]
-        for a in o1:
-            for b in o2:
-                if _source_matches(a, b, pairs, pronounce):
-                    pieces = [([content_toks[0]], a.upper()),
-                              ([content_toks[1]], b.upper())]
-                    s1, s2 = a, b
+        # Filter each word's synonyms by the answer's target sounds (NO arbitrary cap —
+        # the needed synonym can be the 120th, so capping silently loses it). Each side
+        # keeps only synonyms that already sound like a transposed half of the answer,
+        # then the pair is accepted iff together they form one of the swap pairs.
+        t1 = {a for a, _ in pairs}
+        t2 = {b for _, b in pairs}
+        c1cands = _sound_synonyms(cwords[0], t1, synonyms_of, pronounce)
+        c2cands = _sound_synonyms(cwords[1], t2, synonyms_of, pronounce)
+        for s1v, k1s in c1cands:
+            for s2v, k2s in c2cands:
+                if any((a, b) in pairs for a in k1s for b in k2s):
+                    pieces = [([content_toks[0]], s1v.upper()),
+                              ([content_toks[1]], s2v.upper())]
+                    s1, s2 = s1v, s2v
                     break
             if pieces:
                 break
