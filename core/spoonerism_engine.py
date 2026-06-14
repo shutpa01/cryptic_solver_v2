@@ -134,58 +134,59 @@ def _sound_synonyms(word, targets, synonyms_of, pronounce):
 
 
 def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
-    """Find the two-word source (clue phrase or its DB synonym) that transposes to the
-    answer; classify the rest as links. Returns a Parse, or None if the leftovers do not
-    resolve to a clean source + links."""
-    region = [p for p in range(len(words)) if p not in ind_set]
-    link_pos = [p for p in region if is_link and is_link(words[p].text)]
-    content = [p for p in region if p not in link_pos]
-    if not content:
-        return None
-    content_toks = [words[p] for p in content]
-    cwords = [t.text for t in content_toks]
-    source_phrase = " ".join(cwords)
+    """Answer-driven. We KNOW the answer, so we don't parse the clue's structure: the
+    answer's transposed sounds (`pairs`) tell us the two source sounds, and we just find
+    ANY two wordplay words whose synonyms supply them, in EITHER order (coffins->CASKET +
+    depot->BASE for BASKETCASE). Order and connecting words don't matter; the leftover
+    wordplay words are links. Returns a Parse (pass / pending / fail)."""
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
+    region = [p for p in range(len(words)) if p not in ind_set]
+    tall = {x for ab in pairs for x in ab}
 
-    # Find the two source words (each a content word or its single-word synonym) whose
-    # transposed onsets sound like the answer, and RECORD which clue word maps to which,
-    # so the breakdown can show the derivation (excluded->BARRED, journalist->HACK).
-    pieces = None                 # [(tokens, source_value)] — the displayed synonyms
-    s1 = s2 = None
-    if len(cwords) == 2:
-        # Filter each word's synonyms by the answer's target sounds (NO arbitrary cap —
-        # the needed synonym can be the 120th, so capping silently loses it). Each side
-        # keeps only synonyms that already sound like a transposed half of the answer,
-        # then the pair is accepted iff together they form one of the swap pairs.
-        t1 = {a for a, _ in pairs}
-        t2 = {b for _, b in pairs}
-        c1cands = _sound_synonyms(cwords[0], t1, synonyms_of, pronounce)
-        c2cands = _sound_synonyms(cwords[1], t2, synonyms_of, pronounce)
-        for s1v, k1s in c1cands:
-            for s2v, k2s in c2cands:
-                if any((a, b) in pairs for a in k1s for b in k2s):
-                    pieces = [([content_toks[0]], s1v.upper()),
-                              ([content_toks[1]], s2v.upper())]
-                    s1, s2 = s1v, s2v
+    # each region word -> its sound-matching synonyms (the word itself + single-word syns)
+    cand = {}
+    for p in region:
+        c = _sound_synonyms(words[p].text, tall, synonyms_of, pronounce)
+        if c:
+            cand[p] = c
+
+    # two distinct region words whose synonym sounds form a swap pair (first, second)
+    match = None                   # (pos_first, val_first, pos_second, val_second)
+    ks = list(cand)
+    for i in ks:
+        for j in ks:
+            if i == j:
+                continue
+            for vi, kis in cand[i]:
+                for vj, kjs in cand[j]:
+                    if any((a, b) in pairs for a in kis for b in kjs):
+                        match = (i, vi, j, vj)
+                        break
+                if match:
                     break
-            if pieces:
+            if match:
                 break
-    if pieces is None:            # one-word content whose synonym is a two-word phrase
-        for syn in [source_phrase] + list(synonyms_of(source_phrase) or []):
-            sw = syn.split()
-            if len(sw) == 2 and _source_matches(sw[0], sw[1], pairs, pronounce):
-                pieces = [(content_toks, ("%s %s" % (sw[0], sw[1])).upper())]
-                s1, s2 = sw
+        if match:
+            break
+
+    # one-word source whose synonym is a two-word phrase (commiserate -> "share hurt")
+    phrase = None
+    if match is None:
+        for p in region:
+            for syn in (synonyms_of(words[p].text) or []):
+                sw = syn.split()
+                if len(sw) == 2 and _source_matches(sw[0], sw[1], pairs, pronounce):
+                    phrase = (p, sw[0], sw[1])
+                    break
+            if phrase:
                 break
 
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
-    ind_toks = [words[i] for i in sorted(ind_set)]
+    ind_toks = [words[k] for k in sorted(ind_set)]
 
-    if pieces is None:
-        warnings = ['spoonerism indicator present but no two-word source (the wordplay '
-                    'or its synonym) transposes to sound like the answer']
+    if match is None and phrase is None:
         ind_ann = Annotation(
             clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
             text=" ".join(t.text for t in ind_toks), role="indicator",
@@ -193,23 +194,34 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
         return Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
                      sources=[], links=[], annotations=[ind_ann],
                      definition=definition, operation="spoonerism",
-                     solved_by="spoonerism", status="fail", warnings=warnings)
+                     solved_by="spoonerism", status="fail",
+                     warnings=['spoonerism indicator present but no source in the clue '
+                               'transposes to sound like the answer'])
 
-    # The indicator carries the transposition so the breakdown reads
-    # "Spoonerism indicator — BARRED HACK -> HARDBACK".
+    if match is not None:
+        pf, vf, ps, vs = match
+        s_first, s_second = vf, vs           # the transposed-source order (for the detail)
+        src = sorted([(pf, vf), (ps, vs)])   # display in clue order
+        src_pos = {pf, ps}
+    else:
+        p, a, b = phrase
+        s_first, s_second = a, b
+        src = [(p, "%s %s" % (a, b))]
+        src_pos = {p}
+
     ind_ann = Annotation(
         clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in ind_toks), role="indicator",
-        note="spoonerism: %s %s → %s" % (s1.upper(), s2.upper(), answer))
-    sources = [Source(clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-                      text=" ".join(t.text for t in toks), value=val,
-                      mechanism="synonym", source="db")
-               for toks, val in pieces]
+        note="spoonerism: %s %s → %s" % (s_first.upper(), s_second.upper(), answer))
+    sources = [Source(clue_atom_ids=words[p].atom_ids, text=words[p].text,
+                      value=v.upper(), mechanism="synonym", source="db")
+               for p, v in src]
     annotations = [ind_ann]
-    for p in link_pos:
-        annotations.append(Annotation(clue_atom_ids=words[p].atom_ids,
-                                      text=words[p].text, role="link",
-                                      note="link word"))
+    for p in region:
+        if p not in src_pos:
+            annotations.append(Annotation(clue_atom_ids=words[p].atom_ids,
+                                          text=words[p].text, role="link",
+                                          note="link word"))
     parse = Parse(clue_text=ctx.clue_text, answer_text=ctx.answer_text,
                   sources=sources, links=[], annotations=annotations,
                   definition=definition, operation="spoonerism",
