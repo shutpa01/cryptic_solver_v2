@@ -247,6 +247,7 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
 
     pieces = None              # [((s, e), source_value)] -> breakdown rows
     detail = None              # "SOURCE -> ANSWER" for the indicator row
+    literal_spans = set()      # span(s) shown as a literal (the fixed middle "A")
     tall = {x for ab in pairs for x in ab}
 
     # 1) PHONEME: two disjoint spans whose single-word synonyms' sounds form a swap pair.
@@ -319,6 +320,41 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
             if pieces:
                 break
 
+    # 4) FIXED-MIDDLE "A": the answer is P1 + "A" + P2 and the onsets of P1/P2 swap around
+    #    a fixed middle "A" (a common form: BUST·A·GUT <-> GUST·A·BUTT). The middle "a" is a
+    #    literal supplied by a clue "a"; the two outer sources match spans either side.
+    if pieces is None:
+        a_words = [p for p in region
+                   if "".join(c for c in words[p].text.lower() if c.isalpha()) == "a"]
+        for k in range(1, len(answer) - 1):
+            if answer[k] != "A":
+                continue
+            o1, r1 = _onset_rest_letters(answer[:k])
+            o2, r2 = _onset_rest_letters(answer[k + 1:])
+            if not (o1 and r1 and o2 and r2):
+                continue
+            s1, s2 = o2 + r1, o1 + r2
+            m1 = {sp: v for sp in spans
+                  if (v := next((x for x in _span_syns(*sp) if _letter_match(s1, x)), None))}
+            m2 = {sp: v for sp in spans
+                  if (v := next((x for x in _span_syns(*sp) if _letter_match(s2, x)), None))}
+            for A in m1:
+                for B in m2:
+                    if A == B or _overlap(A, B):
+                        continue
+                    ap = next((p for p in a_words
+                               if not (A[0] <= p <= A[1]) and not (B[0] <= p <= B[1])), None)
+                    if ap is None:
+                        continue
+                    pieces = [(A, m1[A].upper()), ((ap, ap), "A"), (B, m2[B].upper())]
+                    literal_spans = {(ap, ap)}
+                    detail = "%s A %s → %s" % (m1[A].upper(), m2[B].upper(), answer)
+                    break
+                if pieces:
+                    break
+            if pieces:
+                break
+
     ind_toks = [words[k] for k in sorted(ind_set)]
     if pieces is None:                                # never abstain on a Spooner clue
         return Parse(
@@ -362,7 +398,8 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
         note="spoonerism: %s" % detail)
     sources = [Source(
         clue_atom_ids=tuple(aid for k in range(s, e + 1) for aid in words[k].atom_ids),
-        text=_phrase(s, e), value=v, mechanism="synonym", source="db")
+        text=_phrase(s, e), value=v,
+        mechanism="raw" if (s, e) in literal_spans else "synonym", source="db")
         for (s, e), v in pieces]
     annotations = [ind_ann]
     for p in link_pos:
