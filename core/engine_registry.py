@@ -13,11 +13,19 @@ from core.wfw_atoms import build_wfw_atom_context
 from core import inflect, contractions, literals
 
 
+def _norm_apostrophe(text):
+    """Curly apostrophes/quotes -> straight, so a clue's "that's"/"Spooner's" (typeset
+    with U+2019) matches the DB, which stores the straight form. Telegraph clues use the
+    curly form throughout, so without this every possessive/contraction silently misses."""
+    return (text or "").replace("’", "'").replace("‘", "'")
+
+
 def _match_variants(text):
     """All forms to try when matching a clue word/phrase against the DB: its regular
     inflections (plural/verb), plus contraction/possessive base + expansions (each
     also inflected). Deduped, original first. The single place the inflection and
     contraction rules combine (memory: feedback-inflection-match)."""
+    text = _norm_apostrophe(text)
     out = []
 
     def add(t):
@@ -163,7 +171,7 @@ def make_db_wiring():
 
     def is_link(word):
         try:
-            return db.is_link_word(word)
+            return db.is_link_word(_norm_apostrophe(word))
         except Exception:
             return False
 
