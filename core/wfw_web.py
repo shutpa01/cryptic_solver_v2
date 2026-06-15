@@ -53,7 +53,8 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "anagram_charade": "anagram + charade",
                   "anagram_container": "anagram + container",
                   "palindrome": "palindrome",
-                  "spoonerism": "spoonerism"}
+                  "spoonerism": "spoonerism",
+                  "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "reversal", "deletion",
               "acrostic", "homophone", "charade"]

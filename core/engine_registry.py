@@ -571,6 +571,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pdel is not None and pdel.status in ("pass", "pending"):
         return _finish(pdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # SUBSTITUTION — a base value with one clued letter replaced by another (INSOLENCE =
+    # IN SILENCE with one[I] -> love[O]). Both letters come from the wordplay table; gated
+    # on a substitution indicator and answer-driven, so it cannot fabricate. Whole-answer
+    # form only for now. Tried after the deletion family, before DD.
+    from core.substitution_engine import solve_substitution
+    psub = solve_substitution(ctx, wiring["defines"], wiring["lookup"],
+                              wiring["synonyms_of"], wiring["is_link"],
+                              define_fallback=wiring.get("define_fallback"),
+                              is_dbe=wiring.get("is_dbe"))
+    if psub is not None and psub.status in ("pass", "pending"):
+        return _finish(psub, "substitution", ctx, wiring, source, puzzle_number, clue_id)
+
     # (No free-tiling fallback. The cascade is signature-first: a clue with no matching
     # signature falls through to DD and then to the most-complete fail — it is NOT
     # free-tiled. The free-tiling evidence pass was removed because it produced
