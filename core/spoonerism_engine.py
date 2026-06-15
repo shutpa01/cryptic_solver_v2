@@ -167,10 +167,13 @@ def _letter_splits(answer):
 
 
 def _letter_match(cand, word):
-    """`word` equals the transposed source string `cand` up to homophone vowels: same
-    consonant skeleton, same first letter, same length."""
+    """`word` equals the transposed source string `cand` up to homophone VOWELS: same
+    consonant skeleton and same first letter. Length is NOT required equal — the vowels
+    are exactly the homophone-variable part (sped ~ SPEAD, here ~ HEAR), so forcing equal
+    length would reject genuine sound matches. The consonant skeleton + first letter keep
+    it tight."""
     w = "".join(c for c in word.upper() if c.isalpha())
-    return len(w) == len(cand) and w[:1] == cand[:1] and _skel(w) == _skel(cand)
+    return bool(w) and w[:1] == cand[:1] and _skel(w) == _skel(cand)
 
 
 def _grow_definition(ctx, def_atom_ids, role_atom_ids):
@@ -245,6 +248,13 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
     def _overlap(a, b):
         return not (a[1] < b[0] or b[1] < a[0])
 
+    def _unaccounted(span_positions):
+        """Region words not covered by the source spans and not in the link list — a
+        clean parse leaves none, so prefer the assignment that minimises this (covers
+        "moved fast" rather than leaving "fast" over)."""
+        return sum(1 for p in region if p not in span_positions
+                   and not (is_link and is_link(words[p].text)))
+
     pieces = None              # [((s, e), source_value)] -> breakdown rows
     detail = None              # "SOURCE -> ANSWER" for the indicator row
     literal_spans = set()      # span(s) shown as a literal (the fixed middle "A")
@@ -260,22 +270,21 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
                 lst.append((v, ks))
         if lst:
             sound[sp] = lst
+    best = None        # (key, pieces, detail) — prefer fewest unaccounted, then coverage
     for A in sound:
         for B in sound:
             if A == B or _overlap(A, B):
                 continue
-            for v1, k1s in sound[A]:
-                for v2, k2s in sound[B]:
-                    if any((a, b) in pairs for a in k1s for b in k2s):
-                        pieces = [(A, v1.upper()), (B, v2.upper())]
-                        detail = "%s %s → %s" % (v1.upper(), v2.upper(), answer)
-                        break
-                if pieces:
-                    break
-            if pieces:
-                break
-        if pieces:
-            break
+            mv = next(((v1, v2) for v1, k1s in sound[A] for v2, k2s in sound[B]
+                       if any((a, b) in pairs for a in k1s for b in k2s)), None)
+            if mv:
+                sp = set(range(A[0], A[1] + 1)) | set(range(B[0], B[1] + 1))
+                key = (_unaccounted(sp), -len(sp))
+                if best is None or key < best[0]:
+                    best = (key, [(A, mv[0].upper()), (B, mv[1].upper())],
+                            "%s %s → %s" % (mv[0].upper(), mv[1].upper(), answer))
+    if best is not None:
+        pieces, detail = best[1], best[2]
 
     # 2) PHONEME phrase: one span whose two-word synonym transposes (commiserate ->
     #    "share hurt").
@@ -309,15 +318,18 @@ def _build(ctx, pairs, split, words, ind_set, is_link, pronounce, synonyms_of):
             m2 = {sp: v for sp in spans
                   if (v := next((x for x in _span_syns(*sp)
                                  if _letter_match(src2, x)), None))}
+            best = None
             for A in m1:
                 for B in m2:
-                    if A != B and not _overlap(A, B):
-                        pieces = [(A, m1[A].upper()), (B, m2[B].upper())]
-                        detail = "%s %s → %s" % (m1[A].upper(), m2[B].upper(), answer)
-                        break
-                if pieces:
-                    break
-            if pieces:
+                    if A == B or _overlap(A, B):
+                        continue
+                    sp = set(range(A[0], A[1] + 1)) | set(range(B[0], B[1] + 1))
+                    key = (_unaccounted(sp), -len(sp))
+                    if best is None or key < best[0]:
+                        best = (key, [(A, m1[A].upper()), (B, m2[B].upper())],
+                                "%s %s → %s" % (m1[A].upper(), m2[B].upper(), answer))
+            if best is not None:
+                pieces, detail = best[1], best[2]
                 break
 
     # 4) FIXED-MIDDLE "A": the answer is P1 + "A" + P2 and the onsets of P1/P2 swap around
