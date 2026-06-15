@@ -29,6 +29,7 @@ from core import acrostic_screen
 from core import homophone_screen
 from core import dd_screen
 from core import charade_screen
+from core import charade_homophone_screen
 from core import anagram_screen
 from core import anagram_charade_screen
 from core import anagram_container_screen
@@ -46,12 +47,14 @@ SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
            "anagram_container": anagram_container_screen.render,
            "container": anagram_container_screen.render,
            "container_charade": anagram_container_screen.render,
+           "charade_homophone": charade_homophone_screen.render,
            "palindrome": palindrome_screen.render,
            "spoonerism": spoonerism_screen.render}
 _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "charade": "charade", "anagram": "anagram",
                   "anagram_charade": "anagram + charade",
                   "anagram_container": "anagram + container",
+                  "charade_homophone": "charade + homophone",
                   "palindrome": "palindrome",
                   "spoonerism": "spoonerism",
                   "substitution": "substitution"}
@@ -132,10 +135,11 @@ def reload_route():
     only = (request.form.get("only") or "").strip()
     reload_wiring()
     notice = '<div class="wfw-notice">Reference DB reloaded from disk.</div>'
-    # A per-clue re-run (only set) is an explicit on-demand action -> AI on. A
-    # re-run-all (no only) is a batch -> DB-only, no AI.
+    # A per-clue re-run is DB-only by default (fast); the AI fallback runs only when the
+    # "with AI fallback" box is ticked. A re-run-all (no only) is always DB-only.
+    use_ai = bool(only) and bool(request.form.get("ai"))
     return _page(notice + _body(raw, resolve_only={only} if only else None,
-                                ai=bool(only)),
+                                ai=use_ai),
                  scroll_to=only)
 
 
@@ -146,9 +150,13 @@ def admin():
     raw = (request.form.get("id") or "").strip()
     only = (request.form.get("only") or "").strip()
     msg = _do_add(request.form)
-    # No reload_wiring here: definitions/indicators are seen on the re-solve via the
-    # wiring's LIVE DB check, so the effect shows at once without the costly ~1GB RefDB
-    # rebuild. A new SYNONYM (RefDB-snapshotted) needs the per-clue "Reload DB & re-run".
+    # Rebuild the wiring so the just-added piece is actually seen on the re-solve.
+    # The wiring memoises lookups AND prebuilds the definition/indicator indexes at
+    # build time, so without a rebuild the stale (failing) cached result sticks — this
+    # was why a freshly-added piece left the clue showing its prior failure. With LiveDB
+    # the rebuild is cheap (no ~1GB preload): it drops the caches and re-scans, and
+    # backfill_null_norm_keys tidies the new row's normalized key so the live query finds it.
+    reload_wiring()
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only={only} if only else None),
                  scroll_to=only)
@@ -157,18 +165,20 @@ def admin():
 @app.route("/enrich", methods=["POST"])
 def enrich():
     """Approve one queued enrichment: write the (possibly edited) values to the
-    reference DB, drop it from the queue, then re-solve just that clue. Same as /admin
-    re the live-vs-reload trade-off (no RefDB rebuild here)."""
+    reference DB, drop it from the queue, then re-solve just that clue. Rebuilds the
+    wiring (see /admin) so the approved piece is seen, then re-solves DB-only."""
     raw = (request.form.get("id") or "").strip()
     only = (request.form.get("only") or "").strip()
     pid = (request.form.get("pending_id") or "").strip()
     msg = _do_add(request.form)
     if pid and not msg.startswith(("Definition and", "Word and", "Indicator word")):
         admin_db.delete_pending(pid)               # accepted -> leave the queue
+    # Rebuild the wiring so the approved piece is seen on the re-solve (see /admin).
+    reload_wiring()
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    # Approving an enrichment then re-solving that one clue is an on-demand action.
-    return _page(notice + _body(raw, resolve_only={only} if only else None,
-                                ai=bool(only)),
+    # DB-only re-solve: the piece is now in the reference DB, so it should solve
+    # mechanically. AI fallback is opt-in via the per-clue "Reload DB & re-run" box.
+    return _page(notice + _body(raw, resolve_only={only} if only else None),
                  scroll_to=only)
 
 
@@ -416,7 +426,11 @@ def _reload_clue_button(clue_id, raw_list):
         '<input type="hidden" name="id" value="%s">'
         '<input type="hidden" name="only" value="%d">'
         '<button class="wfw-reload wfw-reload-clue" title="Rebuild the DB snapshot, '
-        'then re-run only this clue">&#8635; Reload DB &amp; re-run this clue</button>'
+        'then re-run only this clue (DB-only unless AI fallback is ticked)">'
+        '&#8635; Reload DB &amp; re-run this clue</button>'
+        '<label style="font-size:.8rem;margin-left:.6rem" '
+        'title="Run the AI piece fallback too (slower). Off = fast DB-only re-run.">'
+        '<input type="checkbox" name="ai" value="on"> with AI fallback</label>'
         '</form>' % (escape(raw_list, quote=True), clue_id))
 
 

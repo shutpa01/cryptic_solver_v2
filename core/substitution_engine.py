@@ -15,28 +15,21 @@ base screen (the substitution detail is carried on the indicator).
 from core import engine_common
 from core.wfw_model import Source, Annotation, Parse
 
-# Curated substitution indicators (the reference table carries only "becomes"/"replacing").
-_SUB_INDICATORS = {
-    "acquiring", "acquires", "gaining", "gains", "getting", "gets", "taking", "takes",
-    "replacing", "replaces", "replaced", "becomes", "become", "instead", "ousting",
-    "ousts", "supplanting", "supplants", "succeeding", "succeeds", "swapping", "swaps",
-    "substituting", "substitutes", "supersedes", "superseding",
-}
-
-
 def _norm(text):
     return "".join(c for c in text.lower() if c.isalpha())
 
 
-def solve_substitution(ctx, defines, lookup, synonyms_of, is_link,
+def solve_substitution(ctx, defines, lookup, synonyms_of, is_link, indicator_types,
                        define_fallback=None, is_dbe=None):
     """Whole-answer substitution. Abstains (None) unless a substitution indicator is
     present and some base value, with one clued letter swapped for another clued letter,
     equals the answer. Returns a Parse (pass / pending) or None.
 
-    The base comes from `synonyms_of` (UNFILTERED — the pre-substitution form is not a
-    substring of the answer, so the answer-filtered `lookup` would miss it); the swapped
-    single letters come from `lookup` (they do appear in the answer)."""
+    The substitution indicator is read from the DB via `indicator_types` (formerly a
+    hardcoded set here). The base comes from `synonyms_of` (UNFILTERED — the
+    pre-substitution form is not a substring of the answer, so the answer-filtered
+    `lookup` would miss it); the swapped single letters come from `lookup` (they do
+    appear in the answer)."""
     from core.definition_engine import find_definitions
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
     if len(answer) < 3:
@@ -48,7 +41,8 @@ def solve_substitution(ctx, defines, lookup, synonyms_of, is_link,
     best = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
-        parse = _try_split(ctx, answer, split, words, lookup, synonyms_of, is_link)
+        parse = _try_split(ctx, answer, split, words, lookup, synonyms_of, is_link,
+                           indicator_types)
         if parse is None:
             continue
         if parse.status == "pass":
@@ -63,9 +57,10 @@ def _single_letters(word, answer, lookup):
     return {(v or "").upper() for v, m in lookup(word, answer) if len(v or "") == 1}
 
 
-def _try_split(ctx, answer, split, words, lookup, synonyms_of, is_link):
+def _try_split(ctx, answer, split, words, lookup, synonyms_of, is_link, indicator_types):
     N = len(answer)
-    ind = [i for i, t in enumerate(words) if _norm(t.text) in _SUB_INDICATORS]
+    ind = [i for i, t in enumerate(words)
+           if "substitution" in (indicator_types(t.text) or set())]
     if not ind:
         return None                                  # gated: needs a substitution indicator
     letter = {i: _single_letters(words[i].text, answer, lookup)

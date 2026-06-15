@@ -164,6 +164,21 @@ def make_db_wiring():
             types |= _indicator_types_exact(v)
         return types
 
+    def deletion_subtypes(word):
+        """DB deletion subtypes for a word/phrase — the deletion indicator vocabulary,
+        read live from the `indicators` table (formerly a hardcoded set in deletion.py).
+        A NULL/blank subtype maps to 'general' (a plain removal). Inflection/contraction-
+        aware so 'releases' finds a 'release' row and vice versa."""
+        out = set()
+        for v in _match_variants(word):
+            try:
+                for wtype, sub, _ in db.get_indicator_types(v):
+                    if wtype == "deletion":
+                        out.add(((sub or "").strip().lower()) or "general")
+            except Exception:
+                pass
+        return out
+
     def is_dbe(word):
         """A definition-by-example indicator ('perhaps', 'possibly', 'maybe', ...).
         Inflection/contraction-aware via indicator_types."""
@@ -281,6 +296,7 @@ def make_db_wiring():
     ai_is_definition = None
     suggest_piece = None
     value_check = None
+    suggest_hom = None
     try:
         from core.pending_store import PendingStore
         store = PendingStore()
@@ -299,6 +315,11 @@ def make_db_wiring():
         # target is fixed — the container's value component (its outer is not a
         # substring of the answer, so suggest_piece's 'guess letters' model can't apply).
         value_check = piece_fallback.make_value_check(ai_piece.could_produce, store)
+        # Homophone-aware piece fallback for the charade+homophone HOM_F slot: a
+        # missing-synonym homophone source named for enrichment (the SOUND is
+        # re-verified in the engine, never taken on the model's word).
+        suggest_hom = piece_fallback.make_homophone_piece_fallback(
+            ai_piece.suggest_homophone_source, store)
     except Exception:
         pass
 
@@ -313,7 +334,8 @@ def make_db_wiring():
                                          load_container_templates,
                                          load_container_charade_templates,
                                          load_reversal_templates,
-                                         load_reversal_charade_templates)
+                                         load_reversal_charade_templates,
+                                         load_charade_homophone_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
@@ -322,6 +344,7 @@ def make_db_wiring():
         container_charade_templates = load_container_charade_templates()
         reversal_templates = load_reversal_templates()
         reversal_charade_templates = load_reversal_charade_templates()
+        charade_homophone_templates = load_charade_homophone_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
@@ -329,15 +352,19 @@ def make_db_wiring():
         container_charade_templates = []
         reversal_templates = []
         reversal_charade_templates = []
+        charade_homophone_templates = []
 
     return {"db": db, "defines": defines, "lookup": lookup,
-            "indicator_types": indicator_types, "is_link": is_link,
+            "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
+            "is_link": is_link,
             "sounds_like": db.get_homophones, "synonyms_of": phrase_synonyms,
             "sounds_alike": db.sounds_alike, "pronounce": db.get_pronunciation,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
             "is_dbe": is_dbe, "lookup_all": lookup_all,
             "suggest_piece": suggest_piece, "value_check": value_check,
+            "suggest_hom": suggest_hom,
+            "charade_homophone_templates": charade_homophone_templates,
             "charade_templates": charade_templates,
             "anagram_templates": anagram_templates,
             "anagram_charade_templates": anagram_charade_templates,
@@ -351,7 +378,8 @@ def make_db_wiring():
 # The wiring keys that drive an AI (Haiku/Sonnet) call. A batch run nulls these
 # so a whole-puzzle solve makes ZERO network calls and is instant; AI fires only on
 # an explicit per-clue re-run (see db_only).
-_AI_KEYS = ("define_fallback", "suggest_piece", "value_check", "ai_is_definition")
+_AI_KEYS = ("define_fallback", "suggest_piece", "value_check", "ai_is_definition",
+            "suggest_hom")
 
 
 def db_only(wiring):
@@ -442,9 +470,25 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                            wiring["indicator_types"], wiring["sounds_alike"],
                            wiring["synonyms_of"],
                            define_fallback=wiring.get("define_fallback"),
-                           is_dbe=wiring.get("is_dbe"))
+                           is_dbe=wiring.get("is_dbe"), pronounce=wiring.get("pronounce"))
     if phom is not None and phom.status in ("pass", "pending"):
         return _finish(phom, "homophone", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CHARADE + HOMOPHONE — a charade with one homophone piece (MIDDLEWEIGHT = MIDDLE +
+    # sounds-like WAIT). Catalog-driven and homophone-indicator gated; the HOM_F slot
+    # resolves an answer span by sound (the other pieces are ordinary SYN_F/ABR_F). A
+    # missing-synonym homophone source is named PENDING for enrichment (suggest_hom,
+    # AI-off in batch). Tried after the plain homophone, before the catalog spine.
+    from core.charade_homophone_signature_engine import solve_charade_homophone
+    phomc = solve_charade_homophone(
+        ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+        wiring["indicator_types"], wiring.get("charade_homophone_templates") or [],
+        wiring["sounds_alike"], wiring["synonyms_of"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"),
+        suggest_hom=wiring.get("suggest_hom"))
+    if phomc is not None and phomc.status in ("pass", "pending"):
+        return _finish(phomc, "charade_homophone", ctx, wiring, source,
+                       puzzle_number, clue_id)
 
     # ANAGRAM — catalog-DRIVEN: walks the mined anagram signatures (ANA_F fodder +
     # optional ANA_I indicator) in priority order, placing slots on the wordplay with
@@ -565,7 +609,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # genuine deletion indicator. Tried after the reversal family; not yet signature-driven.
     from core.deletion_engine import solve_deletion
     pdel = solve_deletion(ctx, wiring["defines"], wiring["lookup_all"],
-                          wiring["is_link"], wiring["indicator_types"],
+                          wiring["is_link"], wiring["deletion_subtypes"],
                           define_fallback=wiring.get("define_fallback"),
                           is_dbe=wiring.get("is_dbe"))
     if pdel is not None and pdel.status in ("pass", "pending"):
@@ -578,6 +622,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     from core.substitution_engine import solve_substitution
     psub = solve_substitution(ctx, wiring["defines"], wiring["lookup"],
                               wiring["synonyms_of"], wiring["is_link"],
+                              wiring["indicator_types"],
                               define_fallback=wiring.get("define_fallback"),
                               is_dbe=wiring.get("is_dbe"))
     if psub is not None and psub.status in ("pass", "pending"):
@@ -653,7 +698,9 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # warnings), NOT by engine order.
     candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
                                       (pac, "catalog"), (paco, "catalog"),
-                                      (pcon, "catalog"), (pccc, "catalog"))
+                                      (pcon, "catalog"), (pccc, "catalog"),
+                                      (phom, "homophone"),
+                                      (phomc, "charade_homophone"))
                   if p is not None]
     if candidates:
         parse, name = _most_complete(candidates, ctx)
@@ -746,6 +793,7 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
     indicator_enrichment.finalize_indicators(parse, ctx, store, source,
                                              puzzle_number)
     piece_fallback.finalize_pieces(parse, ctx, store, source, puzzle_number)
+    piece_fallback.finalize_homophone_pieces(parse, ctx, store, source, puzzle_number)
     dd_enrichment.finalize_dd(parse, ctx, store, source, puzzle_number)
 
 

@@ -49,9 +49,53 @@ _OP_NOTE = {
 }
 
 
-def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
+def _contiguous_groups(idxs):
+    """Maximal runs of consecutive integers within the sorted index list."""
+    groups, cur = [], []
+    for k in idxs:
+        if cur and k == cur[-1] + 1:
+            cur.append(k)
+        else:
+            if cur:
+                groups.append(cur)
+            cur = [k]
+    if cur:
+        groups.append(cur)
+    return groups
+
+
+def _indicator_runs(words, residue_idx, del_subtypes):
+    """Every DB-typed deletion indicator run among the residue — ALL contiguous sub-runs
+    (<= MAX_RUN words), not just the longest, so a specific op carried by a component word
+    is never masked by a longer phrase the DB types generically ("without leader" is typed
+    generic, but its "leader" still pins behead). Returns a list of (seg, spec_ops,
+    is_generic):
+      seg        = the run's word indices.
+      spec_ops   = canonical ops the run names (DB subtype in SUBTYPE_OP) — a co-present
+                   generic subtype does NOT suppress them ('mostly' = {general, tail} still
+                   pins curtail).
+      is_generic = the run carries a generic subtype (general/removal/deletion/NULL): a
+                   plain removal whose removed letters are NAMED by another word (Form B).
+    No hardcoded vocabulary — the words and their sub-typing live entirely in the DB."""
+    out = []
+    for group in _contiguous_groups(sorted(residue_idx)):
+        L = len(group)
+        for length in range(1, min(MAX_RUN, L) + 1):
+            for s in range(0, L - length + 1):
+                seg = group[s:s + length]
+                subs = del_subtypes(" ".join(words[k].text for k in seg))
+                if not subs:
+                    continue
+                spec = {deletion.SUBTYPE_OP[x] for x in subs if x in deletion.SUBTYPE_OP}
+                generic = any(x not in deletion.SUBTYPE_OP for x in subs)
+                out.append((seg, spec, generic))
+    return out
+
+
+def _assemble(answer, words, postags, lookup_all, is_link, del_subtypes):
     """Find the deletion (Form A or Form B) that yields the answer. Returns a placement
-    or None. Longest fodder first (fewest leftovers)."""
+    or None. Longest fodder first (fewest leftovers). The deletion indicator and which
+    letters it removes come from the DB (see _indicator_runs)."""
     n = len(words)
 
     def residue_link(k):
@@ -66,23 +110,34 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
             continue
         src_idx = set(range(a, b))
         residue0 = [k for k in range(n) if k not in src_idx]
-        res_items = [(k, words[k].text) for k in residue0]
+        ind_runs = _indicator_runs(words, residue0, del_subtypes)
+        ind_all = {k for seg, _, _ in ind_runs for k in seg}
 
-        # FORM A — positional indicator fixes the op
-        op, ind_set = deletion.positional_op(res_items)
-        if op:
-            for (V, mech) in values:
-                if len(V) <= len(answer):
-                    continue
-                if deletion.apply_op(op, V) == answer:
-                    links = [k for k in residue0 if k not in ind_set]
-                    if all(residue_link(k) for k in links):
-                        return {"form": "A", "run": (a, b), "value": V, "mech": mech,
-                                "op": op, "ind": sorted(ind_set), "links": links}
+        # FORM A — a positional indicator pins the op. The WHOLE deletion expression (every
+        # deletion-typed residue word, e.g. "without"+"leader") is the indicator; the rest
+        # must be links. Answer-driven among the pinned ops.
+        pinned = {op for _, spec, _ in ind_runs for op in spec}
+        ops = set(pinned)
+        if {"behead", "curtail"} <= ops:                # two ends named -> drop both
+            ops.add("outer")
+        if ops:
+            links = [k for k in residue0 if k not in ind_all]
+            if all(residue_link(k) for k in links):
+                for (V, mech) in values:
+                    if len(V) <= len(answer):
+                        continue
+                    for op in ops:
+                        if deletion.apply_op(op, V) == answer:
+                            return {"form": "A", "run": (a, b), "value": V, "mech": mech,
+                                    "op": op, "ind": sorted(ind_all), "links": links}
 
-        # FORM B — removed letters NAMED by another run, generic removal word marks the cut
-        rem_all = deletion.is_removal(res_items)
-        if rem_all:
+        # FORM B — removed letters NAMED by another run; a GENERIC removal run marks the cut.
+        # The named source may itself be a deletion-typed word (it is used here as a value,
+        # e.g. "right" -> R), so only the chosen removal run is reserved as the indicator.
+        for seg, _, is_generic in ind_runs:
+            if not is_generic:
+                continue
+            rem_idx = set(seg)
             for (V, mech) in values:
                 if len(V) <= len(answer):
                     continue
@@ -90,21 +145,18 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
                 if not cut_runs:
                     continue
                 for (na, nb) in runs:
-                    if set(range(na, nb)) & src_idx:
+                    nset = set(range(na, nb))
+                    if nset & src_idx or nset & rem_idx:
                         continue
                     nvals = {v for v, _ in _run_values(words, na, nb, lookup_all)}
                     R = next((r for r in cut_runs if r in nvals), None)
                     if R is None:
                         continue
-                    used = src_idx | set(range(na, nb))
-                    rind = sorted(k for k in rem_all if k not in used)
-                    if not rind:
-                        continue                       # need a removal word as the indicator
-                    ind = set(rind)
-                    links = [k for k in range(n) if k not in used and k not in ind]
+                    used = src_idx | nset | rem_idx
+                    links = [k for k in range(n) if k not in used]
                     if all(residue_link(k) for k in links):
                         return {"form": "B", "run": (a, b), "value": V, "mech": mech,
-                                "removed": R, "named": (na, nb), "ind": sorted(ind),
+                                "removed": R, "named": (na, nb), "ind": sorted(rem_idx),
                                 "links": links}
     return None
 
@@ -181,10 +233,12 @@ def _verify(ctx, parse):
         parse.status = "pending"
 
 
-def solve_deletion(ctx, defines, lookup_all, is_link, indicator_types,
+def solve_deletion(ctx, defines, lookup_all, is_link, del_subtypes,
                    templates=None, define_fallback=None, is_dbe=None):
     """Full plain-deletion solve — evidence-driven. First clean PASS, else best parse,
-    else None. (`templates` accepted for call-site compatibility, unused for now.)"""
+    else None. `del_subtypes(phrase)` returns the DB deletion subtypes for a phrase (the
+    indicator vocabulary, formerly hardcoded, now read from the DB). (`templates` accepted
+    for call-site compatibility, unused for now.)"""
     from core.definition_engine import find_definitions
 
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
@@ -200,7 +254,7 @@ def solve_deletion(ctx, defines, lookup_all, is_link, indicator_types,
         if len(words) < 2:
             continue
         postags = grammar.wordplay_pos_tags(ctx, words)
-        pl = _assemble(answer, words, postags, lookup_all, is_link, indicator_types)
+        pl = _assemble(answer, words, postags, lookup_all, is_link, del_subtypes)
         if pl is None:
             continue
         parse = _build(ctx, split, words, answer, pl)

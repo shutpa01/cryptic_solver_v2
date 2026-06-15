@@ -2,110 +2,38 @@
 
 A deletion clue forms a piece by REMOVING letters from a source string: the source is
 either a DB value (LOATH = synonym of "unwilling", minus L -> OATH) or a word's own
-raw letters (BUGATTI emptied -> BI). This module is the PURE, DB-free core: given a
-source string it yields the candidate results of each deletion sub-type, and maps
-indicator words to the specific sub-type they signal. The engines layer DB lookup and
-answer-matching on top — this file never touches the DB and has no answer in it, so it
-is trivially testable.
+raw letters (BUGATTI emptied -> BI). This module is the PURE, DB-free MATH core: given a
+source string it yields the candidate results of each deletion sub-type. It holds NO
+indicator vocabulary — which words signal a deletion (and which letters they remove) is
+read from the DB `indicators` table by core.deletion_engine. `SUBTYPE_OP` maps a DB
+deletion `subtype` onto the canonical op the math here applies.
 
 Sub-types (canonical op names), all observed in real clues:
   behead     drop the first letter      AGAIN -> GAIN     (beheaded, headless, topless)
   curtail    drop the last letter       TAUT  -> TAU      (endless, curtailed, reduced)
-  outer      drop BOTH end letters      CHOPIN-> HOPI     (shaving, "stripped" of outer)
+  outer      drop BOTH end letters       CHOPIN-> HOPI     (shaving, "stripped" of outer)
   heartless  drop the one central letter BANAL-> BAAL     (heartless, gutless)   [odd len]
   empty      keep ONLY first + last     BUGATTI-> BI      (empty, emptied, hollow)
   internal   drop one interior letter   (generic; an indicator that names no sub-type)
 
 "remove a named substring" (LOATH-L, DELIBERATES-RATE) is NOT enumerated here — it is
 answer-driven in the engine (the removed run is derived from source vs target and then
-validated as a DB value of another clue word). Use `removed_run(source, target)` for it.
+validated as a DB value of another clue word). Use `removed_runs(source, target)` for it.
 
 ANSWER-DRIVEN / OOM-safe: `candidates` is O(L) per source (a handful of ops + L interior
 deletions), L<20. The engine enumerates a fodder run's bounded DB values, never a product.
 """
 
-# FUSED indicators — a single word/phrase that encodes BOTH the removal and WHICH letters
-# go, so it pins one op on its own. (lowercased)
-FUSED_OP = {
-    "behead": frozenset({
-        "beheaded", "headless", "topless", "decapitated", "leaderless", "uncapped"}),
-    "curtail": frozenset({
-        "curtailed", "endless", "tailless", "docked", "clipped", "truncated",
-        "unfinished", "incomplete", "mostly", "almost", "nearly", "largely"}),
-    "outer": frozenset({
-        "shaved", "shelled", "peeled", "husked", "skinned", "topped and tailed"}),
-    "heartless": frozenset({
-        "heartless", "gutless", "coreless", "hollow"}),
-    "empty": frozenset({
-        "empty", "emptied", "hollowed out", "evacuated", "gutted"}),
+# DB deletion `subtype` -> canonical op. Generic subtypes (general / removal / deletion /
+# NULL) map to NO specific op: they mark a plain removal whose removed letters are NAMED
+# by another clue word (Form B), handled answer-driven in the engine.
+SUBTYPE_OP = {
+    "head": "behead", "first": "behead",
+    "tail": "curtail", "last": "curtail",
+    "ends": "outer", "outer": "outer",
+    "middle": "heartless",
+    "empty": "empty",
 }
-
-# POSITION nouns — a noun naming WHICH letters, paired with a removal word to form an
-# indicator ("without LEADER" = behead, "losing HEART" = heartless). op -> nouns.
-POSITION_NOUN = {
-    "behead": frozenset({
-        "head", "heading", "leader", "leading", "top", "topping", "start", "starting",
-        "beginning", "front", "fronting", "opener", "opening", "lead", "capital",
-        "introduction", "first", "initial", "header", "crown"}),
-    "curtail": frozenset({
-        "tail", "tailing", "end", "ending", "bottom", "rear", "back", "foot",
-        "finish", "finishing", "close", "butt", "last", "rump", "extremity"}),
-    "heartless": frozenset({
-        "heart", "centre", "center", "core", "middle", "gut", "guts", "interior",
-        "innards", "inside"}),
-    "outer": frozenset({
-        "ends", "extremes", "edges", "sides", "exterior", "outsides", "extremities"}),
-}
-
-# REMOVAL words — verbs/particles that signal a deletion but not which letters (they pair
-# with a position noun, OR name the removed letters via another clue word = Form B).
-REMOVAL_WORDS = frozenset({
-    "without", "losing", "loses", "lose", "lost", "missing", "miss", "dropping",
-    "drops", "drop", "dropped", "off", "leaving", "leave", "leaves", "left",
-    "shedding", "sheds", "shed", "removing", "removed", "removes", "remove", "gone",
-    "cut", "cutting", "cuts", "discard", "discarding", "discards", "discarded",
-    "ousting", "ousts", "ousted", "shunning", "shuns", "shunned", "abandoning",
-    "abandons", "omitting", "omits", "minus", "less", "lacking", "lacks", "knocked",
-    "evicting", "banishing", "excluding", "rejecting", "sacrificing", "ditching",
-    "no", "not", "free", "rid", "out", "unwrapped", "stripped", "skimmed",
-})
-
-
-def positional_op(items):
-    """The deletion op signalled POSITIONALLY by the candidate indicator words, with the
-    indices that form the indicator. `items` is [(idx, text)]. Returns (op, set_of_idx)
-    or (None, set()). A FUSED word pins its op; otherwise a removal word PLUS a position
-    noun gives the noun's op (first+last nouns together -> outer). A bare removal word
-    with no position noun returns None (that is Form B's job, not a positional op)."""
-    low = [(i, (t or "").lower()) for i, t in items]
-    joined = " ".join(t for _, t in low)
-    for op, words in FUSED_OP.items():
-        for i, t in low:
-            if t in words:
-                return op, {i}
-        for ph in words:
-            if " " in ph and ph in joined:
-                return op, {i for i, t in low if t in ph.split()}
-    rverb = {i for i, t in low if t in REMOVAL_WORDS}
-    nouns = {}
-    for op, ns in POSITION_NOUN.items():
-        for i, t in low:
-            if t in ns:
-                nouns.setdefault(op, set()).add(i)
-    if rverb and nouns:
-        ops = set(nouns)
-        if {"behead", "curtail"} <= ops:               # "top and bottom" -> both ends
-            idx = set().union(*nouns.values()) | rverb
-            return "outer", idx
-        op = "outer" if "outer" in ops else next(iter(ops))
-        return op, nouns[op] | rverb
-    return None, set()
-
-
-def is_removal(items):
-    """Indices of any plain removal word among `items` (for Form B, where the removed
-    letters are NAMED by another clue word and a generic removal word marks the cut)."""
-    return {i for i, t in items if (t or "").lower() in REMOVAL_WORDS}
 
 
 def apply_op(op, source):
@@ -146,20 +74,6 @@ _OP_FUNCS = {
     "heartless": heartless,
     "empty": empty,
 }
-
-
-def ops_for_indicators(indicator_texts):
-    """The canonical op set signalled by the given indicator words/phrases. A specific
-    indicator pins its op(s); a generic deletion indicator allows ALL ops; unknown ->
-    empty set. `indicator_texts` is an iterable of raw clue strings (any case)."""
-    texts = {(t or "").strip().lower() for t in indicator_texts}
-    ops = set()
-    for op, words in INDICATOR_OPS.items():
-        if texts & words:
-            ops.add(op)
-    if texts & GENERIC_INDICATORS:
-        ops |= set(_OP_FUNCS)            # generic: every op is admissible
-    return ops
 
 
 def candidates(source, ops=None):
