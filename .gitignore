@@ -118,3 +118,12 @@ _recovery_*/
 
 # Browser profile cache — never track
 .firefox_profile/
+
+# root-level scratch / A-B output artifacts (perf: keep out of git status)
+/_*
+
+# core/ scratch + A-B / mine / seed / diag scripts (underscore prefix marks throwaway)
+core/_*
+
+# WFW preview HTML dumps (one-off render snapshots)
+/wfw_*.html
