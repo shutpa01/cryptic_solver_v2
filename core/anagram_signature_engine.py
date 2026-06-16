@@ -87,7 +87,11 @@ def _place(slots, words, answer, postags, is_link, indicator_types):
         ind_slots = [p for p in placed if p[2] == "ANA_I"]
         indicator = []
         for (ia, ib, _) in ind_slots:
-            if not any(is_ind_word(k) for k in range(ia, ib)):
+            # Confirm the indicator at the word OR phrase level — a multi-word indicator
+            # ("could make") is not a per-word indicator, only as the whole phrase.
+            if not (any(is_ind_word(k) for k in range(ia, ib))
+                    or is_anagram_indicator(
+                        " ".join(words[k].text for k in range(ia, ib)), indicator_types)):
                 return None                          # ANA_I run not a confirmed indicator
             indicator.extend(range(ia, ib))
         links = []

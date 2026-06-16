@@ -868,6 +868,20 @@ def _most_complete(candidates, ctx):
 def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
     """Queue any provisional pieces, persist the final Parse, return it."""
     _finalize_provisional(parse, ctx, wiring.get("store"), source, puzzle_number)
+    # AUTO SIGNATURE-CREATION: a clue that fully PASSED but matched NO catalog signature
+    # was solved by the fallback — its decomposition is a shape the catalog is missing.
+    # File it so the catalog matches this shape directly next time. Gated on the wiring
+    # flag (only interactive/page routes opt in; internal verify/regression solves do
+    # not) and on a full pass (the rule: never file a provisional/pending parse). Never
+    # let filing break a solve.
+    if (wiring.get("auto_signature") and parse is not None
+            and parse.status == "pass"
+            and getattr(parse, "matched_signature", None) is None):
+        try:
+            from core.catalog_creator import auto_file_signature
+            auto_file_signature(ctx.clue_text, ctx.answer_text, wiring)
+        except Exception:
+            pass
     if clue_id is not None:
         from core import store as wfw_store
         wfw_store.persist(clue_id, parse, ctx)    # preserve the parse + atomisation

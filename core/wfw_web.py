@@ -75,6 +75,10 @@ def wiring():
     global _WIRING
     if _WIRING is None:
         _WIRING = engine_registry.make_db_wiring()
+        # Interactive/page routes file a new catalog signature whenever a clue fully
+        # passes via the fallback (no catalog match). Shared with batch_wiring (a shallow
+        # copy), so page and clue both grow the catalog.
+        _WIRING["auto_signature"] = True
     return _WIRING
 
 

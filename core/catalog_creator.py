@@ -167,7 +167,9 @@ def _discover_anagram(answer, words, postags, split, is_link, indicator_types):
                     irun = list(range(ia, ib))
                     if any(fa <= k < fb for k in irun):
                         continue                    # disjoint from fodder span
-                    if not any(is_ind(k) for k in irun):
+                    if not (any(is_ind(k) for k in irun)
+                            or is_anagram_indicator(
+                                " ".join(words[k].text for k in irun), indicator_types)):
                         continue
                     used = set(span) | set(irun)
                     rest = [k for k in range(n) if k not in used]
@@ -249,16 +251,19 @@ def backup_catalog(con):
         con.execute("CREATE TABLE %s_bak_creator AS SELECT * FROM %s" % (t, t))
 
 
-def add_signature(cand, note, db_path=None):
+def add_signature(cand, note, db_path=None, backup=True, origin="hand_added"):
     """Insert the candidate's signature (+ slots) into the catalog. Returns the
-    new template id, or None if it already exists. Backs the catalog up first."""
+    new template id, or None if it already exists. Backs the catalog up first unless
+    backup=False (the auto path files many in succession; git is the backup there).
+    `origin` tags the row ('hand_added' for the CLI, 'auto' for the solve hook)."""
     sig = _signature_str(cand)
     con = sqlite3.connect(db_path or _CLUES_DB)
     try:
         if con.execute("SELECT 1 FROM catalog_templates WHERE signature=?",
                        (sig,)).fetchone():
             return None
-        backup_catalog(con)
+        if backup:
+            backup_catalog(con)
         tid = con.execute("SELECT COALESCE(MAX(id),0)+1 "
                           "FROM catalog_templates").fetchone()[0]
         sid = con.execute("SELECT COALESCE(MAX(id),0)+1 "
@@ -269,7 +274,7 @@ def add_signature(cand, note, db_path=None):
             "INSERT INTO catalog_templates(id,operation,signature,def_pos,count,"
             "priority,origin,active,version,created_at,notes) "
             "VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-            (tid, cand["operation"], sig, cand["def_pos"], 1, pri, "hand_added", 1,
+            (tid, cand["operation"], sig, cand["def_pos"], 1, pri, origin, 1,
              1, "2026-06-05", note))
         for pos, (role, nw) in enumerate(zip(cand["roles"], cand["n_words"])):
             con.execute("INSERT INTO catalog_template_slots(id,template_id,position,"
@@ -279,6 +284,27 @@ def add_signature(cand, note, db_path=None):
         return tid
     finally:
         con.close()
+
+
+def auto_file_signature(clue_text, answer, wiring,
+                        note="auto-filed from a solved clue"):
+    """File the best DB-backed signature a SOLVED clue implies, if the catalog lacks it.
+    Additive and de-duped by signature string, so it can never alter an existing
+    decomposition or yield a wrong answer (a catalog match must still spell the answer).
+    Returns the filed signature string, or None (nothing new, or only literal-leaning
+    candidates — those usually mean a missing DB entry, not a missing shape). Safe to
+    call on every fully-passed clue; used by the auto signature-creation hook."""
+    try:
+        cands = discover(clue_text, answer, wiring)
+    except Exception:
+        return None
+    for cand in cands:                       # best (lowest _score) first
+        if cand["operation"] == "charade" and all(r == "LIT_F" for r in cand["roles"]):
+            continue                         # wholly literal -> likely a DB gap, not a shape
+        tid = add_signature(cand, note=note, backup=False, origin="auto")
+        if tid is not None:
+            return _signature_str(cand)      # filed a new shape
+    return None                              # every candidate already in the catalog
 
 
 def verify(clue_text, answer, wiring):
