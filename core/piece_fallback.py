@@ -39,6 +39,55 @@ def make_piece_fallback(ai_suggest, store):
     return suggest_piece
 
 
+def make_homophone_piece_fallback(ai_suggest_hom, store):
+    """Build `suggest_hom(phrase, span) -> source_word|None` for the HOM_F slot: the
+    word that sounds like the real-word answer letters `span` AND can mean `phrase`
+    (went, ROAD -> RODE). The engine RE-VERIFIES the sound against the pronunciation
+    dictionary before using it, so this never asserts the sound itself. A word a
+    reviewer already rejected as a synonym of `phrase` is suppressed. Returns None if
+    no Haiku caller is available, so the fallback is simply absent."""
+    if ai_suggest_hom is None:
+        return None
+    cache = {}
+
+    def suggest_hom(phrase, span):
+        key = ((phrase or "").lower().strip(), (span or "").upper())
+        if key in cache:
+            return cache[key]
+        w = (ai_suggest_hom(phrase, span) or "").upper() or None
+        if w and store is not None and store.is_rejected_synonym(phrase, w):
+            w = None
+        cache[key] = w
+        return w
+
+    return suggest_hom
+
+
+def finalize_homophone_pieces(parse, ctx, store, source=None, puzzle_number=None):
+    """Run AFTER the parse is final. Queue each PROVISIONAL homophone piece's missing
+    synonym (its .enrich_synonym = (phrase, source_word)) to the enrichment dashboard as
+    type='synonym' — the homophone source->span sound is already dictionary-confirmed,
+    so the synonym phrase->source is the only gap. If a reviewer already rejected it,
+    fail the parse honestly. No-op for DB-confirmed pieces."""
+    if store is None or parse is None:
+        return
+    for src in list(getattr(parse, "sources", [])):
+        if getattr(src, "source", "db") != "pending" or src.mechanism != "homophone":
+            continue
+        pair = getattr(src, "enrich_synonym", None)
+        if not pair:
+            continue
+        phrase, word = pair
+        if store.is_rejected_synonym(phrase, word):
+            msg = "homophone source %r -> %s was rejected by a reviewer" % (phrase, word)
+            if msg not in parse.warnings:
+                parse.warnings = list(parse.warnings) + [msg]
+            parse.status = "fail"
+        else:
+            store.queue_synonym(phrase, word, parse.answer_text,
+                                ctx.clue_text, source, puzzle_number)
+
+
 def _norm(text):
     return " ".join((text or "").lower().split())
 

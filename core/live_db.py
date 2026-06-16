@@ -43,6 +43,7 @@ class LiveDB:
         self._conn = sqlite3.connect(self.path, check_same_thread=False, timeout=30)
         self._cs, self._csl, self._ca, self._ci, self._ch = {}, {}, {}, {}, {}
         self._cp = {}                       # pronunciation cache (CMUdict phonemes)
+        self._link = None                   # link_words set, loaded once from the table
 
     # normalization shared with RefDB so keys match the loaded behaviour exactly.
     def _word_variants(self, word):
@@ -165,8 +166,13 @@ class LiveDB:
         return False
 
     def is_link_word(self, word):
-        from signature_solver.tokens import LINK_WORDS
-        return word.lower().strip() in LINK_WORDS
+        # Link words now live in the link_words table (data/cryptic_new.db), editable
+        # without a code change. Loaded once into memory; membership is the same
+        # lower/strip check as before.
+        if self._link is None:
+            self._link = {(r[0] or "").lower().strip()
+                          for r in self._conn.execute("SELECT word FROM link_words")}
+        return word.lower().strip() in self._link
 
     def is_real_word(self, word):
         # Confidence-only (does NOT affect pass/fail, which is reconstruction-based).

@@ -127,3 +127,10 @@ def load_reversal_templates(db_path=None):
 def load_reversal_charade_templates(db_path=None):
     """The reversal+charade signatures, priority order (seeded from working solves)."""
     return load_templates(operation="reversal_charade", db_path=db_path)
+
+
+def load_charade_homophone_templates(db_path=None):
+    """The charade+homophone signatures, priority order (authored from the clean
+    batch). A charade whose pieces concatenate to the answer, one piece a HOM_F
+    homophone (an answer span sounding like a clue word/synonym)."""
+    return load_templates(operation="charade_homophone", db_path=db_path)

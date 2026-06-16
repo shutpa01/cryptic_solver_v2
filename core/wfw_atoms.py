@@ -7,6 +7,7 @@ answer placements must reference.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -63,6 +64,9 @@ class WFWAtomContext:
     answer_atoms: tuple[CharAtom, ...]
     clue_tokens: tuple[OriginalToken, ...]
     answer_tokens: tuple[OriginalToken, ...]
+    direction: Optional[str] = None    # 'across' | 'down' | None (unknown). Carried so
+                                       # orientation-dependent indicators (e.g. a down-only
+                                       # charade-positional like 'supporting') can gate on it.
 
     @property
     def answer_letter_atoms(self):
@@ -77,6 +81,7 @@ class WFWAtomContext:
             "answer_atoms": [atom.as_dict() for atom in self.answer_atoms],
             "clue_tokens": [token.as_dict() for token in self.clue_tokens],
             "answer_tokens": [token.as_dict() for token in self.answer_tokens],
+            "direction": self.direction,
         }
 
 
@@ -104,11 +109,16 @@ def context_from_dict(d):
         answer_atoms=tuple(_atom(a) for a in d.get("answer_atoms", [])),
         clue_tokens=tuple(_tok(t) for t in d.get("clue_tokens", [])),
         answer_tokens=tuple(_tok(t) for t in d.get("answer_tokens", [])),
+        direction=d.get("direction"),
     )
 
 
-def build_wfw_atom_context(clue_text, answer_text):
-    """Return stable character atoms and original tokens for clue and answer."""
+def build_wfw_atom_context(clue_text, answer_text, direction=None):
+    """Return stable character atoms and original tokens for clue and answer.
+
+    `direction` ('across' | 'down' | None), when known, is carried on the context so
+    orientation-dependent indicators can gate on it (e.g. a down-only charade-positional
+    indicator). None means unknown — such indicators then simply do not fire."""
     clue_atoms = atomize_characters("clue", clue_text, number_letters=False)
     answer_atoms = atomize_characters("answer", answer_text,
                                       number_letters=True)
@@ -119,6 +129,7 @@ def build_wfw_atom_context(clue_text, answer_text):
         answer_atoms=answer_atoms,
         clue_tokens=tokenize_original("clue", clue_atoms),
         answer_tokens=tokenize_original("answer", answer_atoms),
+        direction=(direction or None),
     )
 
 

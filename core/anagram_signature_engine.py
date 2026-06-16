@@ -355,6 +355,18 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
         def_idx = {i for i, t in enumerate(allwords)
                    if any(aid in def_atoms for aid in t.atom_ids)}
         grown = grammar.phrase_extent(alltexts, def_idx)
+        # The extent is GRAMMATICAL, so it would absorb a word that modifies the
+        # definition seed even when that word is the ANAGRAM INDICATOR (e.g. "running
+        # shoes": "running" modifies "shoes" but IS the indicator). Never let the
+        # definition swallow this engine's own operator — keep it for the wordplay.
+        # (Seed words in def_idx are always retained.)
+        def _is_anag_ind(i):
+            try:
+                return "anagram" in (indicator_types(allwords[i].text) or set())
+            except Exception:
+                return False
+        if grown:
+            grown = {i for i in grown if i in def_idx or not _is_anag_ind(i)}
         if grown and grown != def_idx:
             split = _split_from_indices(allwords, grown, split.where,
                                         source=split.source)

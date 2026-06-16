@@ -101,3 +101,43 @@ def could_produce(phrase, value):
     except Exception:
         return False
     return text.startswith("YES")
+
+
+_HOM_PROMPT = (
+    "In a cryptic crossword's wordplay, some answer letters are a HOMOPHONE: they "
+    "sound like a different word, and that word is a synonym of a clue word. The answer "
+    "letters \"%s\" sound like a word that means \"%s\". Give that single word.\n"
+    "- It must SOUND like \"%s\" and be able to mean \"%s\".\n"
+    "- Reply with ONLY the word in uppercase, or exactly NONE if there is none."
+)
+
+
+def suggest_homophone_source(phrase, span):
+    """Homophone-aware piece assist. Given a clue word/phrase and the real-word answer
+    letters `span` it must sound like, ask Haiku for the SOUND SOURCE — the word that
+    sounds like `span` AND can mean `phrase` (e.g. phrase='went', span='ROAD' -> RODE).
+
+    The companion to suggest_piece for the HOM_F slot, whose missing DB fact is the
+    synonym phrase->source (the homophone source->span is dictionary-confirmed by the
+    caller, never taken on the model's word). Returns the uppercase word, or None. The
+    word is NOT required to be a substring of the answer (it is a different spelling —
+    that is the whole point of a homophone)."""
+    phrase = (phrase or "").strip()
+    span = (span or "").strip().upper()
+    if not phrase or not span:
+        return None
+    try:
+        resp = _client().messages.create(
+            model=HAIKU_MODEL,
+            max_tokens=12,
+            temperature=0,
+            messages=[{"role": "user",
+                       "content": _HOM_PROMPT % (span, phrase, span, phrase)}],
+        )
+        text = resp.content[0].text.strip().upper()
+    except Exception:
+        return None
+    word = "".join(ch for ch in text if ch.isalpha())
+    if not word or word == "NONE":
+        return None
+    return word

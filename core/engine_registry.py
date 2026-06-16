@@ -83,7 +83,7 @@ def make_db_wiring():
     def _norm_ans(text):
         return (text or "").upper().replace(" ", "").replace("-", "")
 
-    _live_def_index, _live_ind_index = {}, {}
+    _live_def_index, _live_ind_index, _subst_index = {}, {}, {}
     try:
         _c = sqlite3.connect(cryptic_db, timeout=30)
         try:
@@ -95,10 +95,18 @@ def make_db_wiring():
                     "SELECT word, wordplay_type FROM indicators"):
                 if wd and wt:
                     _live_ind_index.setdefault(wd.lower().strip(), set()).add(wt)
+            # The small dedicated substitutions table (original_word -> substitution,
+            # e.g. times->X, artists->RA): folded into all_values so the anagram-
+            # substitution engine can draw a fodder letter from ANY table, not just one.
+            for ow, sub in _c.execute(
+                    "SELECT original_word, substitution FROM substitutions"):
+                if ow and sub:
+                    _subst_index.setdefault(ow.lower().strip(), []).append(
+                        (sub.strip().upper(), "substitution"))
         finally:
             _c.close()
     except Exception:
-        _live_def_index, _live_ind_index = {}, {}
+        _live_def_index, _live_ind_index, _subst_index = {}, {}, {}
 
     def _live_defines(phrase, answer):
         """O(1) check against the prebuilt definition index (same data and
@@ -175,6 +183,22 @@ def make_db_wiring():
                 for wtype, sub, _ in db.get_indicator_types(v):
                     if wtype == "deletion":
                         out.add(((sub or "").strip().lower()) or "general")
+            except Exception:
+                pass
+        return out
+
+    def charade_positional_subtypes(word):
+        """Charade-positional subtypes for a word/phrase — the re-ordering indicator
+        vocabulary, read live from the `indicators` table (wordplay_type
+        'charade_positional'): 'after'/'before' (any clue) and 'after_down'/'before_down'
+        (down clues only). A NULL/blank subtype is skipped (order cannot be inferred), so
+        a legacy untyped row never drives a re-order. Inflection/contraction-aware."""
+        out = set()
+        for v in _match_variants(word):
+            try:
+                for wtype, sub, _ in db.get_indicator_types(v):
+                    if wtype == "charade_positional" and sub and sub.strip():
+                        out.add(sub.strip().lower())
             except Exception:
                 pass
         return out
@@ -270,6 +294,23 @@ def make_db_wiring():
         _cache_lookall[word] = out
         return out
 
+    def all_values(word):
+        """Every (value, mechanism) a word can take, across ALL tables — synonyms,
+        abbreviations and curated literals (via lookup_all) PLUS the substitutions table.
+        Used by the anagram-substitution engine, which deduces the EXACT residual letters
+        it needs, so a permissive multi-table source is safe (the residual match filters)."""
+        out, seen = [], set()
+        for val, mech in lookup_all(word):
+            if (val, mech) not in seen:
+                seen.add((val, mech))
+                out.append((val, mech))
+        for v in _match_variants(word):
+            for pair in _subst_index.get(v.lower().strip(), ()):
+                if pair not in seen:
+                    seen.add(pair)
+                    out.append(pair)
+        return out
+
     def lookup(word, answer):
         """(value, mechanism) options for a wordplay word that are substrings of
         the answer — the answer-aware, UNCAPPED candidate set the catalog engines
@@ -356,12 +397,13 @@ def make_db_wiring():
 
     return {"db": db, "defines": defines, "lookup": lookup,
             "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
+            "charade_positional_subtypes": charade_positional_subtypes,
             "is_link": is_link,
             "sounds_like": db.get_homophones, "synonyms_of": phrase_synonyms,
             "sounds_alike": db.sounds_alike, "pronounce": db.get_pronunciation,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
-            "is_dbe": is_dbe, "lookup_all": lookup_all,
+            "is_dbe": is_dbe, "lookup_all": lookup_all, "all_values": all_values,
             "suggest_piece": suggest_piece, "value_check": value_check,
             "suggest_hom": suggest_hom,
             "charade_homophone_templates": charade_homophone_templates,
@@ -505,6 +547,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pa is not None and pa.status in ("pass", "pending"):
         return _finish(pa, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ANAGRAM (SUBSTITUTION) — an anagram whose fodder has one SUBSTITUTED word (Oscar->O,
+    # then anagram). The plain anagram above uses raw clue letters only, so it cannot see
+    # this; here the residual (answer letters minus the raw bulk) is deduced and matched to
+    # a short value of the held-out word from ANY table. Gated on an anagram indicator,
+    # answer-driven. Tried right after the plain anagram (same family), before charade.
+    from core.anagram_substitution_engine import solve_anagram_substitution
+    pasub = solve_anagram_substitution(
+        ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
+        wiring["is_link"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pasub is not None and pasub.status in ("pass", "pending"):
+        return _finish(pasub, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CHARADE — the catalog spine. Catalog-DRIVEN: it walks the mined charade
     # signatures (injected as wiring["charade_templates"]) in priority order, places
     # the typed slots on the wordplay (gaps -> links classified last), fills role-pure
@@ -519,6 +574,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                        is_dbe=wiring.get("is_dbe"))   # DB-only; AI recovery runs later
     if pc is not None and pc.status in ("pass", "pending"):
         return _finish(pc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CHARADE (POSITIONAL) — a charade whose pieces are RE-ORDERED by a positional
+    # indicator ("School following second-class old" = B+O+SCH = BOSCH). The plain charade
+    # above assembles only in clue order, so it cannot reach a re-ordered answer; this
+    # engine fires only when it has not, is GATED on a charade-positional indicator, and is
+    # ANSWER-DRIVEN (the pivoted pieces must concatenate to the exact answer). Isolated
+    # engine; the plain charade engine is untouched. A pass/pending stops here; a fail
+    # (indicator fired but no assembly) is preserved as evidence below.
+    from core.charade_positional_engine import solve_charade_positional
+    ppos = solve_charade_positional(
+        ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+        wiring["charade_positional_subtypes"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if ppos is not None and ppos.status in ("pass", "pending"):
+        return _finish(ppos, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
     # pure engines (it is more specific). A pass or pending stops here. Catalog-DRIVEN
@@ -697,6 +767,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # — measured (status, answer letters explained, clue words accounted, fewest
     # warnings), NOT by engine order.
     candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
+                                      (ppos, "catalog"),
                                       (pac, "catalog"), (paco, "catalog"),
                                       (pcon, "catalog"), (pccc, "catalog"),
                                       (phom, "homophone"),
@@ -798,8 +869,9 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
 
 
 def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
-                    clue_id=None, charade_solve=None, anagram_solve=None):
-    ctx = build_wfw_atom_context(clue_text, answer)
+                    clue_id=None, charade_solve=None, anagram_solve=None,
+                    direction=None):
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
     parse, name = solve(ctx, wiring, source=source, puzzle_number=puzzle_number,
                         clue_id=clue_id, charade_solve=charade_solve,
                         anagram_solve=anagram_solve)

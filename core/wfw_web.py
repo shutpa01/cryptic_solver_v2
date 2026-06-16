@@ -97,7 +97,7 @@ def _load_clue(clue_id):
     conn = sqlite3.connect(DB)
     try:
         return conn.execute(
-            "SELECT clue_text, answer, source, puzzle_number "
+            "SELECT clue_text, answer, source, puzzle_number, direction "
             "FROM clues WHERE id = ?", (clue_id,)).fetchone()
     finally:
         conn.close()
@@ -273,11 +273,12 @@ def _render_one(token, raw_list, resolve=True, ai=False):
     row = _load_clue(clue_id)
     if row is None:
         return f'<p class="warn">No clue with id {clue_id}.</p>'
-    clue_text, answer, src, pnum = row
+    clue_text, answer, src, pnum, direction = row
     if resolve:
         w = wiring() if ai else batch_wiring()
         engine_registry.solve_clue_text(clue_text, answer, w,
-                                        source=src, puzzle_number=pnum, clue_id=clue_id)
+                                        source=src, puzzle_number=pnum, clue_id=clue_id,
+                                        direction=direction)
     conn = store.connect()
     try:
         parse = store.load_parse(conn, clue_id)
