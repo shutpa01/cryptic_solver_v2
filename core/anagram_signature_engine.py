@@ -401,7 +401,12 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
                 return False
         if grown:
             grown = {i for i in grown if i in def_idx or not _is_anag_ind(i)}
-        if grown and grown != def_idx:
+        # A definition is a CONTIGUOUS span. If removing an INTERIOR anagram indicator
+        # from the grown extent left a gap (e.g. "no top [generating] urges" -> the
+        # non-contiguous "no top urges"), the grow is not a valid definition — keep the
+        # original split rather than emit a non-contiguous definition.
+        contiguous = bool(grown) and grown == set(range(min(grown), max(grown) + 1))
+        if grown and contiguous and grown != def_idx:
             split = _split_from_indices(allwords, grown, split.where,
                                         source=split.source)
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
