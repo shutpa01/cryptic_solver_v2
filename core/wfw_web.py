@@ -93,6 +93,26 @@ def reload_wiring():
     return wiring()
 
 
+def apply_add_to_wiring(form):
+    """Fold a just-added reference entry into the CACHED wiring incrementally, instead
+    of reload_wiring() (which rebuilds everything and rescans a 643k-row table). It is
+    the same cached wiring the page run uses, so a clue-level add stays as fast as
+    solving one clue. Falls back to a full reload if the wiring predates invalidate()."""
+    inv = wiring().get("invalidate")
+    if not inv:
+        reload_wiring()
+        return
+    kind = form.get("kind")
+    if kind == "definition":
+        inv("definition", definition=form.get("definition"), answer=form.get("answer"))
+    elif kind == "synonym":
+        inv("synonym", word=form.get("word"), synonym=form.get("synonym"))
+    elif kind == "indicator":
+        inv("indicator", word=form.get("word"), wordplay_type=form.get("type"))
+    else:
+        reload_wiring()
+
+
 def _load_clue(clue_id):
     conn = sqlite3.connect(DB)
     try:
@@ -150,13 +170,12 @@ def admin():
     raw = (request.form.get("id") or "").strip()
     only = (request.form.get("only") or "").strip()
     msg = _do_add(request.form)
-    # Rebuild the wiring so the just-added piece is actually seen on the re-solve.
-    # The wiring memoises lookups AND prebuilds the definition/indicator indexes at
-    # build time, so without a rebuild the stale (failing) cached result sticks — this
-    # was why a freshly-added piece left the clue showing its prior failure. With LiveDB
-    # the rebuild is cheap (no ~1GB preload): it drops the caches and re-scans, and
-    # backfill_null_norm_keys tidies the new row's normalized key so the live query finds it.
-    reload_wiring()
+    # Fold the just-added piece into the cached wiring INCREMENTALLY (drop the affected
+    # caches + patch the prebuilt index with the one new entry) instead of rebuilding
+    # everything — the rebuild rescanned a 643k-row table, which is why a clue-level add
+    # was slow. The adders write the normalized-key columns, so the live query sees the
+    # new row at once; this just clears the stale cached (failing) result.
+    apply_add_to_wiring(request.form)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only={only} if only else None),
                  scroll_to=only)
@@ -173,8 +192,9 @@ def enrich():
     msg = _do_add(request.form)
     if pid and not msg.startswith(("Definition and", "Word and", "Indicator word")):
         admin_db.delete_pending(pid)               # accepted -> leave the queue
-    # Rebuild the wiring so the approved piece is seen on the re-solve (see /admin).
-    reload_wiring()
+    # Fold the approved piece into the cached wiring incrementally (see /admin) — no
+    # full rebuild / 643k-row rescan.
+    apply_add_to_wiring(request.form)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     # DB-only re-solve: the piece is now in the reference DB, so it should solve
     # mechanically. AI fallback is opt-in via the per-clue "Reload DB & re-run" box.

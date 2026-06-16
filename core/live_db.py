@@ -45,6 +45,15 @@ class LiveDB:
         self._cp = {}                       # pronunciation cache (CMUdict phonemes)
         self._link = None                   # link_words set, loaded once from the table
 
+    def clear_caches(self):
+        """Drop the per-word memo caches so the next lookup re-reads from disk. Used
+        after a single reference-DB add instead of rebuilding the whole instance — the
+        sqlite connection already sees another connection's committed rows, so a fresh
+        query returns the just-added entry. The link-word set is left intact (these
+        adds never touch link_words)."""
+        for c in (self._cs, self._csl, self._ca, self._ci, self._ch, self._cp):
+            c.clear()
+
     # normalization shared with RefDB so keys match the loaded behaviour exactly.
     def _word_variants(self, word):
         return RefDB._word_variants(word)

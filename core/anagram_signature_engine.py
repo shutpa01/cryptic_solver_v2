@@ -294,25 +294,55 @@ def _fodder_anchored(ctx, answer, words, postags, defines, is_link, indicator_ty
             # (a link like "causing" can look like an indicator). Don't guess — abstain.
             return None
     else:                                    # fodder at an edge: one leftover run holds both
-        side = right or left
-        from_fodder = side if right else list(reversed(side))   # nearest-to-fodder first
-        # indicator = content adjacent to the fodder, up to the first link boundary; the
-        # function word(s) there are links; the remaining content is the definition.
-        i = 0
-        while i < len(from_fodder) and is_fn(from_fodder[i]):
-            links.append(from_fodder[i]); i += 1
-        ind = []
-        while i < len(from_fodder) and not is_fn(from_fodder[i]):
-            ind.append(from_fodder[i]); i += 1
-        while i < len(from_fodder) and is_fn(from_fodder[i]):
-            links.append(from_fodder[i]); i += 1
-        rest = from_fodder[i:]
-        dcore, dl = peel(rest); links += dl
-        ind_idx, def_idx = ind, dcore
+        # The leftover (in clue order) holds the definition at the FAR edge from the fodder
+        # and the indicator adjacent to it. Place the boundary using the DEFINITION LOOKUP
+        # (the strong signal we already have) rather than a function-word boundary that may
+        # not exist — e.g. "Rugby leader possibly | could make" is all content words, so the
+        # old link-boundary scan swallowed everything into the indicator and left no
+        # definition. Search boundaries (LONGEST definition first) for one whose far side is
+        # a confirmed definition; the near side is then the indicator (provisional if the DB
+        # does not confirm it).
+        side = right or left                 # leftover run, in clue order
+        fodder_at_left = not left            # fodder precedes the leftover -> ind is nearest
+        chosen = None
+        for d in range(len(side) - 1, 0, -1):    # definition length, longest first
+            if fodder_at_left:               # def at far end (suffix); ind = prefix
+                def_part, ind_part = side[len(side) - d:], side[:len(side) - d]
+            else:                            # def at far start (prefix); ind = suffix
+                def_part, ind_part = side[:d], side[d:]
+            dcore, dl = peel(def_part)
+            icore, il = peel(ind_part)
+            if not dcore or not icore:
+                continue
+            if not defines(" ".join(words[x].text for x in sorted(dcore)), answer):
+                continue
+            chosen = (dcore, icore, dl + il)
+            break                            # longest confirmed definition wins
+        if chosen is not None:
+            dcore, icore, extra_links = chosen
+            links += extra_links
+            ind_idx, def_idx = icore, dcore
+        else:
+            # No definition-confirmed boundary: fall back to the original function-word
+            # heuristic (a link-word boundary with a not-yet-DB-confirmed definition).
+            from_fodder = side if right else list(reversed(side))
+            i = 0
+            while i < len(from_fodder) and is_fn(from_fodder[i]):
+                links.append(from_fodder[i]); i += 1
+            ind = []
+            while i < len(from_fodder) and not is_fn(from_fodder[i]):
+                ind.append(from_fodder[i]); i += 1
+            while i < len(from_fodder) and is_fn(from_fodder[i]):
+                links.append(from_fodder[i]); i += 1
+            rest = from_fodder[i:]
+            dcore, dl = peel(rest); links += dl
+            ind_idx, def_idx = ind, dcore
 
     if not ind_idx or not def_idx:
         return None
-    ind_confirmed = any(is_ind(k) for k in ind_idx)
+    ind_confirmed = (any(is_ind(k) for k in ind_idx)
+                     or is_anagram_indicator(
+                         " ".join(words[k].text for k in sorted(ind_idx)), indicator_types))
     def_idx = sorted(def_idx)
     def_phrase = " ".join(words[k].text for k in def_idx)
     def_confirmed = defines(def_phrase, answer)

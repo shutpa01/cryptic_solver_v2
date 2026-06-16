@@ -395,7 +395,28 @@ def make_db_wiring():
         reversal_charade_templates = []
         charade_homophone_templates = []
 
-    return {"db": db, "defines": defines, "lookup": lookup,
+    def invalidate(kind=None, word=None, synonym=None, definition=None, answer=None,
+                   wordplay_type=None):
+        """Fold a SINGLE reference-DB add into this live wiring WITHOUT a full rebuild.
+        The adders (core.admin_db) write the normalized-key columns the live queries
+        match on, so all that is stale after an add is the in-memory caching: drop the
+        memo + per-word caches (the next lookup re-reads the just-written row) and patch
+        the two prebuilt indexes with just the new entry. No 643k-row rescan, no LiveDB
+        reconnect — a clue-level add costs the same as solving one clue."""
+        for _c in (_cache_def, _cache_ind, _cache_look, _cache_lookall):
+            _c.clear()
+        try:
+            db.clear_caches()
+        except Exception:
+            pass
+        if kind == "definition" and answer and definition:
+            _live_def_index.setdefault(_norm_ans(answer), set()).add(
+                _norm_def(definition))
+        elif kind == "indicator" and word and wordplay_type:
+            _live_ind_index.setdefault(word.lower().strip(), set()).add(
+                (wordplay_type or "").strip().lower())
+
+    return {"db": db, "defines": defines, "lookup": lookup, "invalidate": invalidate,
             "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
             "charade_positional_subtypes": charade_positional_subtypes,
             "is_link": is_link,
