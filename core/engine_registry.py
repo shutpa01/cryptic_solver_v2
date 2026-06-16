@@ -498,6 +498,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pacro is not None and pacro.status in ("pass", "pending"):
         return _finish(pacro, "acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ALTERNATION — every-other-letter selection over a contiguous word run read as one
+    # letter stream ("sordid play" -> ODDLY). Answer-driven (the selected letters must
+    # EXACTLY spell the answer) and indicator-gated, the sibling of acrostic; tried right
+    # after it. Abstains (None) on anything that is not a clean alternation.
+    from core.alternation_engine import solve_alternation
+    palt = solve_alternation(ctx, wiring["defines"], wiring["is_link"],
+                             wiring["indicator_types"],
+                             define_fallback=wiring.get("define_fallback"),
+                             is_dbe=wiring.get("is_dbe"))
+    if palt is not None and palt.status in ("pass", "pending"):
+        return _finish(palt, "alternation", ctx, wiring, source, puzzle_number, clue_id)
+
     # PALINDROME — the whole answer reads the same both ways (SAGAS, ROTOR). Answer-driven
     # (answer == reverse) and gated on a palindrome indicator; the wordplay produces no
     # letters of its own. Tried with the other precise gated mechanisms. A palindrome
