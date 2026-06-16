@@ -650,6 +650,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if paco is not None and paco.status in ("pass", "pending"):
         return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CONTAINER+DELETION — a compound: build a container (one DB value inserted into
+    # another, the inner optionally a small charade), then a deletion trims the result to
+    # the answer ("old spades in the last shed" = OS in THE -> TOSHE, shed last -> TOSH).
+    # Answer-driven (final string must EQUAL the answer) and gated on BOTH a container and
+    # a deletion indicator, so it fires only on the genuine compound — tried before the
+    # plain container/deletion engines, which cannot reach it.
+    from core.container_deletion_engine import solve_container_deletion
+    pcd = solve_container_deletion(ctx, wiring["defines"], wiring["lookup_all"],
+                                   wiring["is_link"], wiring["indicator_types"],
+                                   wiring["deletion_subtypes"],
+                                   define_fallback=wiring.get("define_fallback"),
+                                   is_dbe=wiring.get("is_dbe"))
+    if pcd is not None and pcd.status in ("pass", "pending"):
+        return _finish(pcd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
     # R, TACTICS=TICS around ACT). Catalog-DRIVEN (signature engine, seeded from working
     # solves); insertion-aware (the verifier resolves which value run is outer vs inner).
