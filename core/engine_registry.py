@@ -665,6 +665,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcd is not None and pcd.status in ("pass", "pending"):
         return _finish(pcd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE+DELETION — a charade where ONE piece is a deletion (EX + HORTS, where HORTS
+    # = SHORTS 'no top'). Answer-driven; the deletion piece's pre-deletion value is
+    # reconstructed from the answer and checked by membership (literal first). Gated on a
+    # deletion indicator; tried before the plain charade/deletion engines.
+    from core.charade_deletion_engine import solve_charade_deletion
+    pchd = solve_charade_deletion(ctx, wiring["defines"], wiring["lookup_all"],
+                                  wiring["is_link"], wiring["indicator_types"],
+                                  wiring["deletion_subtypes"],
+                                  define_fallback=wiring.get("define_fallback"),
+                                  is_dbe=wiring.get("is_dbe"))
+    if pchd is not None and pchd.status in ("pass", "pending"):
+        return _finish(pchd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
     # R, TACTICS=TICS around ACT). Catalog-DRIVEN (signature engine, seeded from working
     # solves); insertion-aware (the verifier resolves which value run is outer vs inner).
