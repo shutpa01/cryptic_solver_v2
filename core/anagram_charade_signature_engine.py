@@ -351,8 +351,18 @@ def _build_fail_evidence(ctx, answer, split, lookup, indicator_types):
     tokens = [t for t in split.wordplay_tokens if t.kind == "word"]
     sources, unresolved = [], []
 
-    # Value candidates: per word, a synonym/abbreviation that sits inside the answer.
-    for token in tokens:
+    # Anagram-fodder candidate FIRST: the longest contiguous run whose letters anagram to a
+    # span of the answer. Words INSIDE it are accounted as fodder, so they must be excluded
+    # from the value/unaccounted check below — otherwise a fodder word is shown as fodder
+    # AND reported unaccounted (the contradiction this fixes).
+    anag = _anagram_fodder_candidate(tokens, answer)
+    fodder_idx = set(range(anag[0], anag[1])) if anag is not None else set()
+
+    # Value candidates: per NON-fodder word, a synonym/abbreviation that sits inside the
+    # answer. A word with neither a value nor a fodder role is genuinely unaccounted.
+    for i, token in enumerate(tokens):
+        if i in fodder_idx:
+            continue                              # accounted as anagram fodder below
         cand = None
         for value, mech in lookup(token.text, answer):
             v = (value or "").upper()
@@ -365,9 +375,6 @@ def _build_fail_evidence(ctx, answer, split, lookup, indicator_types):
         else:
             unresolved.append(token.text)
 
-    # Anagram-fodder candidate: the longest contiguous run whose letters anagram to a
-    # span of the answer. Surfaced as evidence only (no position committed, no roles).
-    anag = _anagram_fodder_candidate(tokens, answer)
     if anag is not None:
         a, b, letters = anag
         toks = tokens[a:b]
