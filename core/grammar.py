@@ -126,6 +126,23 @@ def phrase_extent(clue_words, def_indices):
             if doc[adj].head.i in keep:          # adj depends on the span -> same phrase
                 keep.add(adj)
                 changed = True
+
+    # TRIM a DANGLING edge the grow added: a preposition/conjunction whose own object lies
+    # OUTSIDE the span leaves an incomplete phrase — "A term" grows to "A term [for]" when
+    # "for"'s object "Oxbridge" can't be reached. Seed words are never trimmed; a complete
+    # phrase (intransitive "dealing with", whose "with" has no out-of-span child) is kept.
+    seed = set(def_indices)
+    _DANGLE = {"ADP", "CCONJ", "SCONJ", "PART"}
+    changed = True
+    while changed and len(keep) > 1:
+        changed = False
+        for edge in (max(keep), min(keep)):
+            if edge in seed or doc[edge].pos_ not in _DANGLE:
+                continue
+            if any(ch.i not in keep for ch in doc[edge].children):
+                keep.discard(edge)
+                changed = True
+                break
     return keep
 
 
