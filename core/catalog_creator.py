@@ -186,6 +186,78 @@ def _discover_anagram(answer, words, postags, split, is_link, indicator_types):
     return out
 
 
+def _discover_reversal_charade(answer, words, split, lookup_all, is_link,
+                               indicator_types):
+    """Yield reversal_charade candidates: a left-to-right tiling of `answer` by role-pure
+    pieces (SYN_F/ABR_F forward, exactly ONE REV_F reversed), with a reversal indicator
+    (REV_I) among the leftovers and the remaining leftovers as links."""
+    from core.engine_common import find_typed_run
+    n, N = len(words), len(answer)
+
+    def is_rev(k):
+        try:
+            return "reversal" in (indicator_types(words[k].text) or set())
+        except Exception:
+            return False
+
+    def residue_link(k):
+        return bool(is_link and is_link(words[k].text))
+
+    if not any(is_rev(k) for k in range(n)):
+        return
+
+    def run_roles(a, b):
+        phrase = " ".join(words[k].text for k in range(a, b))
+        out, seen = [], set()
+        for val, mech in lookup_all(phrase):
+            role = _MECH_ROLE.get(mech)
+            v = (val or "").upper()
+            if role and v and (role, v) not in seen:
+                seen.add((role, v))
+                out.append((role, v))
+        return out
+
+    found = []
+
+    def dfs(wi, pos, pieces, gaps, used_rev):
+        if pos == N:
+            found.append((list(pieces), sorted(gaps + list(range(wi, n))), used_rev))
+            return
+        if wi >= n:
+            return
+        for k in range(1, min(MAX_PIECE_WORDS, n - wi) + 1):
+            for role, val in run_roles(wi, wi + k):
+                if answer.startswith(val, pos):
+                    dfs(wi + k, pos + len(val),
+                        pieces + [(wi, wi + k, role, val)], gaps, used_rev)
+                if not used_rev:
+                    rv = val[::-1]
+                    if rv != val and answer.startswith(rv, pos):
+                        dfs(wi + k, pos + len(rv),
+                            pieces + [(wi, wi + k, "REV_F", val)], gaps, True)
+        dfs(wi + 1, pos, pieces, gaps + [wi], used_rev)
+
+    dfs(0, 0, [], [], False)
+    for pieces, gaps, used_rev in found:
+        if not used_rev or len(pieces) < 2:
+            continue
+        rev_run = find_typed_run(words, gaps, indicator_types, "reversal", min_length=1)
+        if rev_run is None:
+            continue
+        rev_set = set(rev_run)
+        if not all(residue_link(g) for g in gaps if g not in rev_set):
+            continue
+        slot_items = [(a, b, role) for (a, b, role, _v) in pieces]
+        slot_items.append((rev_run[0], rev_run[-1] + 1, "REV_I"))
+        slot_items.sort()
+        yield {"operation": "reversal_charade",
+               "roles": [r for _, _, r in slot_items],
+               "n_words": [b - a for a, b, _ in slot_items],
+               "def_pos": split.where, "pieces": pieces, "rev_run": rev_run,
+               "links": [g for g in gaps if g not in rev_set],
+               "split": split, "words": words}
+
+
 def _signature_str(cand):
     parts = []
     for role, nw in zip(cand["roles"], cand["n_words"]):
@@ -214,6 +286,9 @@ def discover(clue_text, answer, wiring):
         if len(words) >= 2:
             cands += list(_discover_charade(answer_l, words, postags, split,
                                             wiring["lookup"], wiring["is_link"]))
+            cands += list(_discover_reversal_charade(
+                answer_l, words, split, wiring["lookup_all"], wiring["is_link"],
+                wiring["indicator_types"]))
         cands += _discover_anagram(answer_l, words, postags, split,
                                    wiring["is_link"], wiring["indicator_types"])
     by_sig = {}
@@ -232,6 +307,12 @@ def render_candidate(cand):
         for a, b, role, val in cand["pieces"]:
             text = " ".join(words[k].text for k in range(a, b))
             lines.append("  %-6s %r -> %s" % (role, text, val))
+    elif cand["operation"] == "reversal_charade":
+        for a, b, role, val in cand["pieces"]:
+            text = " ".join(words[k].text for k in range(a, b))
+            arrow = "%s (reversed)" % val if role == "REV_F" else val
+            lines.append("  %-6s %r -> %s" % (role, text, arrow))
+        lines.append("  REV_I  %r" % " ".join(words[k].text for k in cand["rev_run"]))
     else:
         fod = " ".join(words[k].text for k in cand["fodder_idx"])
         ind = " ".join(words[k].text for k in cand["indicator_idx"])
@@ -305,6 +386,57 @@ def auto_file_signature(clue_text, answer, wiring,
         if tid is not None:
             return _signature_str(cand)      # filed a new shape
     return None                              # every candidate already in the catalog
+
+
+_OP_TEMPLATE_KEY = {
+    "charade": "charade_templates",
+    "anagram": "anagram_templates",
+    "reversal_charade": "reversal_charade_templates",
+}
+
+
+def auto_discover_and_file(ctx, wiring, solve_fn):
+    """The GENERAL loop, STRICT — only record a signature that is PROVEN correct.
+
+    For a clue the catalog could not solve, discover the decompositions its bits imply; for
+    each, append the implied signature to the IN-MEMORY catalog (not the DB) and re-solve
+    through the real cascade. ONLY if that yields a CLEAN PASS *via this signature* — every
+    piece a confirmed DB value, a recognised indicator, a DB-confirmed definition, the
+    letters spelling the answer exactly, every word accounted — is the signature written to
+    the catalog. Otherwise nothing is filed and the in-memory trial is removed: the clue
+    stays unsolved. No false signature is ever created, even briefly.
+
+    `solve_fn(ctx, wiring)` re-solves without persisting. Returns (parse, engine_name) on a
+    verified solve, else None. Extends to a new operation via its discoverer + templates key."""
+    try:
+        cands = discover(ctx.clue_text, ctx.answer_text, wiring)
+    except Exception:
+        return None
+    from core.catalog_loader import Template, Slot
+    for cand in cands:
+        if cand["operation"] == "charade" and all(r == "LIT_F" for r in cand["roles"]):
+            continue                             # wholly literal -> likely a DB gap
+        key = _OP_TEMPLATE_KEY.get(cand["operation"])
+        if not (key and isinstance(wiring.get(key), list)):
+            continue
+        sig = _signature_str(cand)
+        slots = tuple(Slot(position=i, role=r, n_words=nw)
+                      for i, (r, nw) in enumerate(zip(cand["roles"], cand["n_words"])))
+        tmpl = Template(id=-1, operation=cand["operation"], signature=sig,
+                        def_pos=cand["def_pos"], count=1, priority=10 ** 6, slots=slots)
+        wiring[key].append(tmpl)                 # TRIAL: in-memory only, DB untouched
+        try:
+            rparse, rname = solve_fn(ctx, wiring)
+        except Exception:
+            rparse, rname = None, None
+        # Keep ONLY a clean PASS produced by THIS signature (a pending/fail proves nothing).
+        if (rparse is not None and rparse.status == "pass"
+                and getattr(rparse, "matched_signature", None) == sig):
+            add_signature(cand, note="auto: verified clean solve the catalog lacked",
+                          backup=False, origin="auto")   # NOW it is proven -> commit
+            return rparse, rname
+        wiring[key].pop()                        # unproven -> leave the catalog untouched
+    return None
 
 
 def verify(clue_text, answer, wiring):

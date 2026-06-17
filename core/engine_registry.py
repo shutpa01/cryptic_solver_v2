@@ -950,4 +950,24 @@ def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
     parse, name = solve(ctx, wiring, source=source, puzzle_number=puzzle_number,
                         clue_id=clue_id, charade_solve=charade_solve,
                         anagram_solve=anagram_solve)
+    # GENERAL AUTO-SIGNATURE LOOP: the catalog could not solve it, but if the clue's bits
+    # PROVABLY assemble to the answer, create the missing signature and solve. The signature
+    # is written ONLY when it produces a verified clean pass (see auto_discover_and_file).
+    # Gated on the wiring flag; never lets discovery break a solve.
+    if (wiring.get("auto_signature")
+            and (parse is None or parse.status not in ("pass", "pending"))):
+        try:
+            from core.catalog_creator import auto_discover_and_file
+            result = auto_discover_and_file(
+                ctx, wiring,
+                lambda c, wr: solve(c, wr, source=source, puzzle_number=puzzle_number,
+                                    charade_solve=charade_solve,
+                                    anagram_solve=anagram_solve))   # no clue_id: no persist
+            if result is not None:
+                parse, name = result
+                if clue_id is not None:
+                    from core import store as wfw_store
+                    wfw_store.persist(clue_id, parse, ctx)
+        except Exception:
+            pass
     return ctx, parse, name
