@@ -258,6 +258,81 @@ def _discover_reversal_charade(answer, words, split, lookup_all, is_link,
                "split": split, "words": words}
 
 
+def _discover_anagram_charade(answer, words, split, lookup_all, is_link, indicator_types):
+    """Yield anagram_charade candidates: a left-to-right tiling of `answer` by role-pure
+    pieces (SYN_F/ABR_F forward, exactly ONE ANA_F anagram piece — a run whose letters
+    anagram an answer span), with an anagram indicator (ANA_I) among the leftovers and the
+    remaining leftovers as links."""
+    from core.engine_common import find_typed_run
+    from core.wordplay import raw
+    n, N = len(words), len(answer)
+
+    def is_ana(k):
+        try:
+            return "anagram" in (indicator_types(words[k].text) or set())
+        except Exception:
+            return False
+
+    def residue_link(k):
+        return bool(is_link and is_link(words[k].text))
+
+    if not any(is_ana(k) for k in range(n)):
+        return
+
+    def run_roles(a, b):
+        phrase = " ".join(words[k].text for k in range(a, b))
+        out, seen = [], set()
+        for val, mech in lookup_all(phrase):
+            role = _MECH_ROLE.get(mech)
+            v = (val or "").upper()
+            if role and v and (role, v) not in seen:
+                seen.add((role, v))
+                out.append((role, v))
+        return out
+
+    found = []
+
+    def dfs(wi, pos, pieces, gaps, used_ana):
+        if pos == N:
+            found.append((list(pieces), sorted(gaps + list(range(wi, n))), used_ana))
+            return
+        if wi >= n:
+            return
+        for k in range(1, min(MAX_PIECE_WORDS, n - wi) + 1):
+            for role, val in run_roles(wi, wi + k):
+                if answer.startswith(val, pos):
+                    dfs(wi + k, pos + len(val),
+                        pieces + [(wi, wi + k, role, val)], gaps, used_ana)
+            if not used_ana:
+                fl = raw(" ".join(words[x].text for x in range(wi, wi + k)))
+                if len(fl) >= 2 and pos + len(fl) <= N:
+                    seg = answer[pos:pos + len(fl)]
+                    if sorted(seg) == sorted(fl) and seg != fl:    # anagram, not identity
+                        dfs(wi + k, pos + len(fl),
+                            pieces + [(wi, wi + k, "ANA_F", seg)], gaps, True)
+        dfs(wi + 1, pos, pieces, gaps + [wi], used_ana)
+
+    dfs(0, 0, [], [], False)
+    for pieces, gaps, used_ana in found:
+        if not used_ana or len(pieces) < 2:
+            continue
+        ana_run = find_typed_run(words, gaps, indicator_types, "anagram", min_length=1)
+        if ana_run is None:
+            continue
+        ana_set = set(ana_run)
+        if not all(residue_link(g) for g in gaps if g not in ana_set):
+            continue
+        # The anagram indicator is RESIDUE in this engine (found among the gaps in
+        # finalize), NOT a slot — so the signature is just the typed pieces (no ANA_I).
+        slot_items = sorted((a, b, role) for (a, b, role, _v) in pieces)
+        yield {"operation": "anagram_charade",
+               "roles": [r for _, _, r in slot_items],
+               "n_words": [b - a for a, b, _ in slot_items],
+               "def_pos": split.where, "pieces": pieces, "ana_run": ana_run,
+               "links": [g for g in gaps if g not in ana_set],
+               "split": split, "words": words}
+
+
 def _signature_str(cand):
     parts = []
     for role, nw in zip(cand["roles"], cand["n_words"]):
@@ -287,6 +362,9 @@ def discover(clue_text, answer, wiring):
             cands += list(_discover_charade(answer_l, words, postags, split,
                                             wiring["lookup"], wiring["is_link"]))
             cands += list(_discover_reversal_charade(
+                answer_l, words, split, wiring["lookup_all"], wiring["is_link"],
+                wiring["indicator_types"]))
+            cands += list(_discover_anagram_charade(
                 answer_l, words, split, wiring["lookup_all"], wiring["is_link"],
                 wiring["indicator_types"]))
         cands += _discover_anagram(answer_l, words, postags, split,
@@ -392,6 +470,7 @@ _OP_TEMPLATE_KEY = {
     "charade": "charade_templates",
     "anagram": "anagram_templates",
     "reversal_charade": "reversal_charade_templates",
+    "anagram_charade": "anagram_charade_templates",
 }
 
 
