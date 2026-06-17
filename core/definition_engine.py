@@ -97,7 +97,9 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
     # you to add, instead of the whole clue vanishing. Only fires on a total def miss, so
     # it never changes a confirmed solve.
     if not out:
-        out = _residue_edge_splits(words, max_window)
+        from core import grammar
+        postags = grammar.pos_tags([t.text for t in words])
+        out = _residue_edge_splits(words, max_window, postags)
 
     if extend and out:
         out = [_extend_split(words, s, wordplay_indices) for s in out]
@@ -245,21 +247,48 @@ def extend_definition(ctx, split, used_atom_ids):
     return _extend_split(words, split, wp_idx)
 
 
-def _residue_edge_splits(words, max_window=8):
-    """Every edge-window definition candidate (both edges, longest first), marked
-    source='pending'. The NO-DEFINITION FLOOR: handed to the engines only when no real
-    definition was found, so the one whose REST reconstructs the answer surfaces the
-    leftover edge as the (provisional) definition. Leaves >=1 wordplay word."""
+# A definition is a coherent phrase: it may not DANGLE on a linking/function word at
+# either end, nor be made up only of function words. (A leading determiner is fine —
+# "A term" — so DET is barred at the end but allowed at the start.)
+_DEF_BAD_END = frozenset({"ADP", "CCONJ", "SCONJ", "PART", "DET"})
+_DEF_BAD_START = frozenset({"ADP", "CCONJ", "SCONJ", "PART"})
+_DEF_FUNC = frozenset({"ADP", "PART", "AUX", "DET", "CCONJ", "SCONJ"})
+
+
+def _def_span_grammatical(postags, lo, hi):
+    """True if the definition span words[lo:hi] is a grammatically plausible phrase: it does
+    not dangle on a linking/function word at either edge and is not entirely function words
+    ("A term for", "for Oxbridge festival", "A" are rejected). Best-effort: with no POS
+    (postags empty) everything passes, preserving prior behaviour."""
+    if not postags:
+        return True
+    span = postags[lo:hi]
+    if not span:
+        return False
+    if span[-1] in _DEF_BAD_END or span[0] in _DEF_BAD_START:
+        return False
+    return not all(p in _DEF_FUNC for p in span)
+
+
+def _residue_edge_splits(words, max_window=8, postags=None):
+    """Every GRAMMATICALLY-PLAUSIBLE edge-window definition candidate (both edges, longest
+    first), marked source='pending'. The NO-DEFINITION FLOOR: handed to the engines only
+    when no real definition was found, so the one whose REST reconstructs the answer
+    surfaces the leftover edge as the (provisional) definition. Windows that do not read as
+    a coherent phrase are dropped so a nonsense definition is never proposed. Leaves >=1
+    wordplay word."""
     n = len(words)
     if n < 2:
         return []
     upper = min(max_window, n - 1)
     out = []
     for size in range(upper, 0, -1):
-        out.append(_split_from_indices(words, set(range(size)), "start",
-                                       source="pending"))
-        out.append(_split_from_indices(words, set(range(n - size, n)), "end",
-                                       source="pending"))
+        if _def_span_grammatical(postags, 0, size):
+            out.append(_split_from_indices(words, set(range(size)), "start",
+                                           source="pending"))
+        if _def_span_grammatical(postags, n - size, n):
+            out.append(_split_from_indices(words, set(range(n - size, n)), "end",
+                                           source="pending"))
     return out
 
 
