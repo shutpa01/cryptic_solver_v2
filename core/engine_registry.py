@@ -721,6 +721,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pchd is not None and pchd.status in ("pass", "pending"):
         return _finish(pchd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + NAMED-LETTER DELETION — a charade where ONE piece is a value with a SPECIFIC
+    # named letter removed, the removed letter a VERIFIED wordplay-table value of another
+    # word (CAREEN = CAR + EVEN["even"] losing V["volume"]). Unlike charade_deletion (a
+    # positional first/last/outer/middle removal), the deleted letter is named, so nothing is
+    # invented. Gated on a deletion indicator; answer-driven. Tried after positional
+    # charade+deletion.
+    from core.charade_named_deletion_engine import solve_charade_named_deletion
+    pcnd = solve_charade_named_deletion(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["all_values"],
+        wiring["is_link"], wiring["indicator_types"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcnd is not None and pcnd.status in ("pass", "pending"):
+        return _finish(pcnd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CHARADE+HOLLOW — a charade where ONE piece is a hollowed word: its outer shell only
     # (first+last, the inside emptied), AMEER = AM + E[xercis]E + R. The charade+deletion
     # engine cannot do this (its backward reconstruction restores only a bounded affix, not
