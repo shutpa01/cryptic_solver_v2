@@ -877,6 +877,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pamus is not None and pamus.status in ("pass", "pending"):
         return _finish(pamus, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ANAGRAM + DELETION — an anagram whose fodder has letters REMOVED before the anagram:
+    # a NAMED letter (EDELWEISS = anag of SEEDS+WHILE - H["hard","missing"]) or a CURTAILED
+    # fodder word (BESMEAR = anag of BRA + SEEM["seems almost"]). The mirror of the
+    # substitution engines (fodder minus removed = answer). Gated on BOTH an anagram and a
+    # deletion indicator, the deleted/curtailed word ADJACENT to the deletion indicator, and
+    # answer-driven (exact). Run LATE with the other modified-fodder anagram readings.
+    from core.anagram_deletion_engine import solve_anagram_deletion
+    pad = solve_anagram_deletion(
+        ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
+        wiring["is_link"], deletion_subtypes=wiring.get("deletion_subtypes"),
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pad is not None and pad.status in ("pass", "pending"):
+        return _finish(pad, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
     # exactly; running it first let it intercept catalog clues. So the precise engines
