@@ -95,7 +95,11 @@ def solve_anagram_deletion(ctx, defines, value_lookup, indicator_types, is_link,
         for d in del_words:
             # the deletion indicator word `d`; its neighbours are the deleted/curtailed word
             for nbr in (d - 1, d + 1):
-                if nbr < 0 or nbr >= n or nbr in del_words or is_anag(nbr):
+                # a neighbour may name the deleted letter or be the curtailed fodder word;
+                # it MAY also be anagram-typed (e.g. "new" = both an anagram word and the
+                # abbreviation N), so do NOT exclude it for that — the answer-driven match
+                # and the anag-indicator exclusion disambiguate.
+                if nbr < 0 or nbr >= n or nbr in del_words:
                     continue
                 # --- MECHANISM A: nbr NAMES the removed letters (its abbreviation) ---
                 for rv in _del_values(words[nbr].text, value_lookup):
@@ -129,8 +133,12 @@ def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_del, is_link_w,
     apply the deletion, allow <= _MAX_SUBS substitutions, and require the resulting
     multiset to equal the answer EXACTLY. Returns a PASS/pending parse or None."""
     from itertools import combinations
-    # an anagram indicator run is required somewhere; pick the first contiguous anag run.
-    anag_run = _first_run(range(n), is_anag)
+    # an anagram indicator run is required somewhere; pick the first contiguous anag run that
+    # is NOT the deletion indicator or the named/curtailed word (a word like "new" can be
+    # typed both 'anagram' AND give an abbreviation N — when it is the deleted letter it must
+    # not also be claimed as the anagram indicator).
+    excl = {del_idx, named_idx, curtail_idx}
+    anag_run = _first_run(range(n), lambda k: is_anag(k) and k not in excl)
     if anag_run is None:
         return None
     reserved = set(anag_run) | {del_idx}
