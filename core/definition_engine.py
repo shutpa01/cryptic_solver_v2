@@ -43,8 +43,24 @@ def _answer_letters(ctx):
     return "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
 
 
+def andlit_split(ctx):
+    """The &lit (all-in-one) split: the WHOLE clue is BOTH the definition AND the
+    wordplay. def and wordplay overlap on every word, so an answer-driven wordplay
+    engine (acrostic / alternation / ...) can use every word as fodder while the whole
+    clue stands as the definition. source='pending' — the wordplay is verified
+    mechanically, but 'the surface ALSO reads as a definition' is a human judgement, so
+    an &lit is never auto-confirmed (the same rule as a cryptic definition)."""
+    words = _word_tokens(ctx)
+    atoms = tuple(aid for t in words for aid in t.atom_ids)
+    return DefinitionSplit(
+        phrase=ctx.clue_text, where="all", def_atom_ids=atoms,
+        def_indices=tuple(range(len(words))), def_tokens=list(words),
+        wordplay_tokens=list(words), wordplay_atom_ids=atoms, source="andlit")
+
+
 def find_definitions(ctx, defines, max_window=8, extend=False,
-                     wordplay_indices=None, define_fallback=None, is_dbe=None):
+                     wordplay_indices=None, define_fallback=None, is_dbe=None,
+                     andlit=False):
     """All edge definition splits whose phrase `defines` the answer.
 
     Tries the longest edge windows first (a longer real definition beats a
@@ -110,7 +126,56 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
     # operation indicator (memory: feedback-definition-by-example).
     if is_dbe is not None:
         out = [_peel_dbe(words, s, is_dbe) for s in out]
+        # A DBE marker can also sit INSIDE the wordplay, attached to a fodder word
+        # ("evergreen, say" -> TREE by example), not just at the definition edge. Offer
+        # ADDITIONAL splits with such a marker peeled (the unpeeled split is kept, so a
+        # clue where the word is real fodder is unaffected). Engines account the marker via
+        # dbe_annotation(split), exactly as for a definition-edge DBE.
+        extra = []
+        for s in out:
+            extra += _peel_wordplay_dbe(words, s, is_dbe)
+        out = out + extra
+
+    # &lit (all-in-one): offer the whole-clue overlap split so a clue whose wordplay IS
+    # its definition can solve. Only when NO DB-confirmed edge definition exists (a
+    # confirmed edge def means it is an ordinary clue, not &lit). Added LAST so a genuine
+    # edge-def solve is always preferred; the &lit split is pending, so it never
+    # auto-confirms. Opt-in (andlit=True) per engine — only the precise, answer-driven,
+    # indicator-gated engines should accept it.
+    if andlit and not any(s.source == "db" for s in out):
+        out = out + [andlit_split(ctx)]
     return out
+
+
+def _peel_wordplay_dbe(words, split, is_dbe):
+    """Variant splits with ONE contiguous definition-by-example run peeled from INSIDE the
+    wordplay and recorded on dbe_tokens. Additive: returns a list (possibly empty); the
+    caller keeps the original. Skipped when the split already carries a DBE marker (the
+    definition-edge case, handled by _peel_dbe). Always leaves >=1 wordplay word."""
+    wp = split.wordplay_tokens
+    if not wp or len(wp) < 2 or getattr(split, "dbe_tokens", None):
+        return []
+    variants, seen = [], set()
+    m = len(wp)
+    for k in range(_DBE_MAX_WORDS, 0, -1):
+        for i in range(0, m - k + 1):
+            run = wp[i:i + k]
+            if not _is_dbe_phrase(is_dbe, " ".join(t.text for t in run)):
+                continue
+            new_wp = wp[:i] + wp[i + k:]
+            if not new_wp:
+                continue
+            key = tuple(id(t) for t in run)
+            if key in seen:
+                continue
+            seen.add(key)
+            variants.append(DefinitionSplit(
+                phrase=split.phrase, where=split.where,
+                def_atom_ids=split.def_atom_ids, def_indices=split.def_indices,
+                def_tokens=split.def_tokens, wordplay_tokens=new_wp,
+                wordplay_atom_ids=tuple(aid for t in new_wp for aid in t.atom_ids),
+                source=split.source, dbe_tokens=list(run), by_example=True))
+    return variants
 
 
 def dbe_annotation(split):

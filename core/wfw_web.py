@@ -16,6 +16,7 @@ screen (the others render from their already-stored result).
 Run:  python -m core.wfw_web      then open  http://127.0.0.1:5099/
 """
 
+import re
 import sqlite3
 import os
 from html import escape
@@ -113,18 +114,78 @@ def apply_add_to_wiring(form):
         inv("synonym", word=form.get("word"), synonym=form.get("synonym"))
     elif kind == "indicator":
         inv("indicator", word=form.get("word"), wordplay_type=form.get("type"))
+    elif kind == "link":
+        inv("link", word=form.get("word"))
     else:
         reload_wiring()
+
+
+def _norm_phrase(s):
+    """Loose normalisation for matching a typed definition to a clue edge phrase:
+    lowercase, punctuation -> space, collapse whitespace. So "Grain Kilns",
+    "grain kilns" and a token like "kilns," all compare equal."""
+    return " ".join(re.sub(r"[^0-9a-z]+", " ", (s or "").lower()).split())
+
+
+def _forced_wiring(w, forced_text):
+    """A shallow copy of wiring whose `defines` confirms ONLY the pinned phrase, so
+    find_definitions yields exactly that edge split and every other word is left to the
+    wordplay. The cached global wiring is never mutated (we copy, like db_only). The
+    Haiku/floor fallback never fires because this `defines` already supplies a split."""
+    target = _norm_phrase(forced_text)
+
+    def defines(*a):                       # called as defines(phrase, answer)
+        return bool(a) and _norm_phrase(a[0]) == target
+
+    w2 = dict(w)
+    w2["defines"] = defines
+    return w2
+
+
+def _forced_def_for(clue_id):
+    conn = store.connect()
+    try:
+        return store.get_forced_definition(conn, clue_id)
+    finally:
+        conn.close()
 
 
 def _load_clue(clue_id):
     conn = sqlite3.connect(DB)
     try:
         return conn.execute(
-            "SELECT clue_text, answer, source, puzzle_number, direction "
+            "SELECT clue_text, answer, source, puzzle_number, direction, enumeration "
             "FROM clues WHERE id = ?", (clue_id,)).fetchone()
     finally:
         conn.close()
+
+
+def enum_space(answer, enumeration):
+    """Re-insert word breaks into a (possibly spaceless) answer using the clue's
+    enumeration, so the page shows 'ALL IN GOOD TIME (3,2,4,4)' rather than the
+    concatenated 'ALLINGOODTIME' with a derived '(13)'. A comma in the enumeration is a
+    space, a hyphen a hyphen. Returns the answer UNCHANGED when the letter count does not
+    match the enumeration total (so it can never corrupt an answer), or when there is only
+    one part. Idempotent: re-spacing an already-spaced answer yields the same string."""
+    if not answer or not enumeration:
+        return answer
+    nums = re.findall(r"\d+", enumeration)
+    if len(nums) < 2:
+        return answer
+    seps = re.findall(r"[^\d()\s]+", enumeration)      # separators between the numbers
+    letters = [c for c in answer if c.isalpha()]
+    if sum(int(n) for n in nums) != len(letters):
+        return answer
+    parts, i = [], 0
+    for n in nums:
+        n = int(n)
+        parts.append("".join(letters[i:i + n]))
+        i += n
+    out = parts[0]
+    for k in range(1, len(parts)):
+        sep = seps[k - 1] if k - 1 < len(seps) else ","
+        out += ("-" if "-" in sep else " ") + parts[k]
+    return out
 
 
 FORM = """
@@ -259,6 +320,55 @@ def setdef():
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
 
+@app.route("/forcedef", methods=["POST"])
+def forcedef():
+    """Pin one clue's definition to the typed phrase and RE-SOLVE it (DB-only unless AI
+    ticked). Unlike /setdef (display only), this re-runs the cascade with `defines`
+    confirming only that edge phrase, so the wordplay must account for every other word.
+    The pin persists (survives later re-runs) until cleared."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    text = (request.form.get("definition") or "").strip()
+    use_ai = bool(request.form.get("ai"))
+    msg = "No clue/definition."
+    if only and text:
+        row = _load_clue(int(only))
+        answer = row[1] if row else ""
+        conn = store.connect()
+        try:
+            store.set_forced_definition(conn, int(only), text)
+        finally:
+            conn.close()
+        # Pinning a definition is a human assertion that it IS the definition — so PERSIST
+        # it to the reference DB (definition_answers_augmented), not just this one clue, so
+        # defines() knows it everywhere and a future re-run needs no pin. Fold it into the
+        # cached wiring so the re-solve below already sees it.
+        addmsg = admin_db.add_definition(text, answer)
+        apply_add_to_wiring({"kind": "definition", "definition": text, "answer": answer})
+        msg = "Definition pinned to %r, added to DB (%s); clue re-solved." % (text, addmsg)
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only={only} if only else None, ai=use_ai),
+                 scroll_to=only)
+
+
+@app.route("/clearforcedef", methods=["POST"])
+def clearforcedef():
+    """Remove a clue's pinned definition and re-solve it with the normal definition stage."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    msg = "No clue."
+    if only:
+        conn = store.connect()
+        try:
+            store.clear_forced_definition(conn, int(only))
+        finally:
+            conn.close()
+        msg = "Pinned definition cleared; clue re-solved normally."
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only={only} if only else None),
+                 scroll_to=only)
+
+
 def _do_add(form):
     kind = form.get("kind")
     if kind == "definition":
@@ -267,6 +377,8 @@ def _do_add(form):
         return admin_db.add_synonym(form.get("word"), form.get("synonym"))
     if kind == "indicator":
         return admin_db.add_indicator(form.get("word"), form.get("type"))
+    if kind == "link":
+        return admin_db.add_link_word(form.get("word"))
     return "Unknown add."
 
 
@@ -297,9 +409,15 @@ def _render_one(token, raw_list, resolve=True, ai=False):
     row = _load_clue(clue_id)
     if row is None:
         return f'<p class="warn">No clue with id {clue_id}.</p>'
-    clue_text, answer, src, pnum, direction = row
+    clue_text, answer, src, pnum, direction, enumeration = row
+    # Space the answer per the clue's enumeration (ALLINGOODTIME -> ALL IN GOOD TIME), so a
+    # fresh solve stores the spaced form and the displayed enumeration is (3,2,4,4) not (13).
+    answer = enum_space(answer, enumeration)
+    forced = _forced_def_for(clue_id)
     if resolve:
         w = wiring() if ai else batch_wiring()
+        if forced:
+            w = _forced_wiring(w, forced)      # pin the definition; rest -> wordplay
         engine_registry.solve_clue_text(clue_text, answer, w,
                                         source=src, puzzle_number=pnum, clue_id=clue_id,
                                         direction=direction)
@@ -309,6 +427,12 @@ def _render_one(token, raw_list, resolve=True, ai=False):
         ctx = store.load_atoms(conn, clue_id) if parse is not None else None
     finally:
         conn.close()
+    # FIX THE PAST TOO: stored parses solved before this fix carry the spaceless answer, so
+    # re-space at render time (idempotent for freshly-solved clues). Only parse.answer_text
+    # matters for the displayed enumeration/answer; ctx is a frozen dataclass and its
+    # answer_text is not used by the answer/enumeration rendering.
+    if parse is not None:
+        parse.answer_text = enum_space(parse.answer_text, enumeration)
 
     if parse is None:
         note = ("No engine claimed this clue." if resolve
@@ -322,8 +446,23 @@ def _render_one(token, raw_list, resolve=True, ai=False):
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
         card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
 
+    forced_banner = ""
+    if forced:
+        cw = _norm_phrase(clue_text).split()
+        tw = _norm_phrase(forced).split()
+        is_edge = bool(tw) and (cw[:len(tw)] == tw or cw[-len(tw):] == tw)
+        if is_edge:
+            forced_banner = ('<div class="wfw-notice wfw-forced">Definition pinned to '
+                             '<strong>%s</strong> &mdash; wordplay must cover the rest.'
+                             '</div>' % escape(forced))
+        else:
+            forced_banner = ('<div class="wfw-notice wfw-forced-bad">Pinned definition '
+                             '<strong>%s</strong> is not a start/end phrase of this clue, '
+                             'so it cannot take. Clear it or retype the exact edge words.'
+                             '</div>' % escape(forced))
+
     status = parse.status if parse is not None else "fail"
-    return (_cid_label(clue_id) + card
+    return (_cid_label(clue_id) + forced_banner + card
             + _enrichment_block(clue_text, answer, clue_id, raw_list)
             + _clue_controls(clue_id, raw_list, status)
             + _clue_admin_panel(clue_id, raw_list)
@@ -331,13 +470,20 @@ def _render_one(token, raw_list, resolve=True, ai=False):
 
 
 def _clue_controls(clue_id, raw_list, status):
-    """Per-clue manual controls: override the verdict, and set a display-only
-    definition (no DB write) for &lit clues. Both re-render from store, so they are
-    not overwritten unless the clue is explicitly re-run."""
+    """Per-clue manual controls: override the verdict, set a display-only definition
+    (no DB write) for &lit clues, and PIN the definition + re-solve (the real override
+    when the definition stage grabbed too many words). All re-render from store, so they
+    are not overwritten unless the clue is explicitly re-run."""
     h = _hidden(raw_list, clue_id)
     opts = "".join('<option value="%s"%s>%s</option>'
                    % (s, " selected" if s == status else "", s)
                    for s in ("pass", "pending", "fail"))
+    forced = _forced_def_for(clue_id)
+    clear_btn = ""
+    if forced:
+        clear_btn = (f'<form method="post" action="/clearforcedef" class="wfw-cform">{h}'
+                     f'<span class="wfw-ctl-l">Pinned: <em>{escape(forced)}</em></span>'
+                     '<button>Clear pin &amp; re-solve</button></form>')
     return (
         '<div class="wfw-ctl">'
         f'<form method="post" action="/setstatus" class="wfw-cform">{h}'
@@ -347,6 +493,12 @@ def _clue_controls(clue_id, raw_list, status):
         '<span class="wfw-ctl-l">Definition (display only)</span>'
         '<input name="definition" placeholder="type to display, not added to DB">'
         '<button>Set</button></form>'
+        f'<form method="post" action="/forcedef" class="wfw-cform">{h}'
+        '<span class="wfw-ctl-l">Pin definition &amp; re-solve</span>'
+        '<input name="definition" placeholder="exact edge words, e.g. kilns">'
+        '<label class="wfw-ai"><input type="checkbox" name="ai" value="1">AI</label>'
+        '<button>Pin &amp; re-solve</button></form>'
+        f'{clear_btn}'
         '</div>')
 
 
@@ -430,6 +582,12 @@ def _clue_admin_panel(clue_id, raw_list):
     <span class="wfw-af-l">Indicator</span>
     <input name="word" placeholder="a little">
     <select name="type">{opts}</select>
+    <button>Add</button>
+  </form>
+  <form method="post" action="/admin" class="wfw-af">
+    <input type="hidden" name="kind" value="link">{h}
+    <span class="wfw-af-l">Link word</span>
+    <input name="word" placeholder="joining word, e.g. has">
     <button>Add</button>
   </form>
   <form method="post" action="/admin" class="wfw-af">

@@ -28,7 +28,7 @@ _MODE_MECHANISM = {"first": "first_letter", "last": "last_letter"}
 
 
 def solve_acrostic(ctx, defines, is_link, indicator_types, define_fallback=None,
-                   is_dbe=None):
+                   is_dbe=None, andlit=False):
     """Full acrostic solve. Walk each confirmed definition split; in its wordplay,
     look for a contiguous run of N words (N = answer length) whose first (or last)
     letters spell the answer exactly, with an acrostic indicator among the leftover
@@ -39,7 +39,7 @@ def solve_acrostic(ctx, defines, is_link, indicator_types, define_fallback=None,
     if len(answer) < 3 or indicator_types is None:
         return None
     splits = list(find_definitions(ctx, defines, define_fallback=define_fallback,
-                                   is_dbe=is_dbe))
+                                   is_dbe=is_dbe, andlit=andlit))
     if not splits:
         return None
     best_pending = None

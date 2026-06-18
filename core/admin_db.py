@@ -110,6 +110,26 @@ def add_synonym(word, synonym):
         conn.close()
 
 
+def add_link_word(word):
+    """Add a joining/link word to the link_words table (cryptic_new.db). A link word is
+    glue an engine may skip between pieces (e.g. 'has' in 'X has Y'); it carries no
+    letters. Deduped case-insensitively; source 'admin'."""
+    word = (word or "").strip()
+    if not word:
+        return "Link word is required."
+    conn = _conn()
+    try:
+        if conn.execute("SELECT 1 FROM link_words WHERE lower(word)=lower(?)",
+                        (word,)).fetchone():
+            return "Already a link word: %r" % word
+        conn.execute("INSERT INTO link_words (word, source, notes) "
+                     "VALUES (?, 'admin', 'added via clue admin panel')", (word,))
+        conn.commit()
+        return "Added link word: %r" % word
+    finally:
+        conn.close()
+
+
 def add_indicator(word, wordplay_type):
     word = (word or "").strip()
     wp = (wordplay_type or "").strip().lower()

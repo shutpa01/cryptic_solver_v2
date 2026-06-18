@@ -67,6 +67,10 @@ CREATE TABLE IF NOT EXISTS wfw_link (
     clue_atom_id TEXT,
     transform    TEXT
 );
+CREATE TABLE IF NOT EXISTS wfw_forced_def (
+    clue_id INTEGER PRIMARY KEY,   -- a human override: SOLVE this clue with the
+    text    TEXT                   --   definition pinned to exactly this edge phrase,
+);                                 --   so the wordplay must account for the rest.
 """
 
 
@@ -208,6 +212,35 @@ def set_manual_definition(conn, clue_id, text, answer):
             "INSERT INTO wfw_piece (clue_id, role, ord, text, value, mechanism, "
             "source, note, atom_ids) VALUES (?, 'definition', 0, ?, ?, 'manual', "
             "'manual', '', '[]')", (clue_id, text, answer))
+    conn.commit()
+
+
+def set_forced_definition(conn, clue_id, text):
+    """Pin this clue's definition to exactly `text` for SOLVING (not display): the
+    re-solve wraps `defines` to confirm only this edge phrase, so the wordplay engines
+    must reconstruct the answer from every other word. Persists until cleared, so the
+    override survives later re-runs. Unlike set_manual_definition (display only), this
+    changes what the cascade actually does."""
+    ensure_schema(conn)
+    conn.execute(
+        "INSERT INTO wfw_forced_def (clue_id, text) VALUES (?, ?) "
+        "ON CONFLICT(clue_id) DO UPDATE SET text = excluded.text",
+        (clue_id, text))
+    conn.commit()
+
+
+def get_forced_definition(conn, clue_id):
+    """The human-pinned definition for this clue, or None."""
+    ensure_schema(conn)
+    row = conn.execute("SELECT text FROM wfw_forced_def WHERE clue_id = ?",
+                       (clue_id,)).fetchone()
+    return row[0] if row else None
+
+
+def clear_forced_definition(conn, clue_id):
+    """Drop the pinned definition so the clue solves with the normal definition stage."""
+    ensure_schema(conn)
+    conn.execute("DELETE FROM wfw_forced_def WHERE clue_id = ?", (clue_id,))
     conn.commit()
 
 

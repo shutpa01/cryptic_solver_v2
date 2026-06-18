@@ -12,8 +12,17 @@ from functools import lru_cache
 
 
 def _normalize_key(text):
-    """Strip all punctuation from a lookup key, keeping only alphanumeric + spaces."""
-    return re.sub(r"[^a-z0-9 ]", "", text.lower().strip()).strip()
+    """Normalise a lookup key so equivalent spellings collapse to the same string.
+
+    Word-joining punctuation (hyphens, dashes, slashes) becomes a SPACE — so
+    'second-class' and 'second class' map to the same key (previously the hyphen was
+    deleted, giving 'secondclass', which silently failed to match the DB's 'second
+    class'). Other punctuation (apostrophes, full stops) is stripped so "U.S." -> 'us'
+    and possessive handling in _word_variants is unaffected. Runs of whitespace
+    collapse to one. Result: lowercase alphanumerics separated by single spaces."""
+    text = re.sub(r"[-‐-―/]+", " ", text.lower())
+    text = re.sub(r"[^a-z0-9 ]", "", text)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 class RefDB:
@@ -60,6 +69,17 @@ class RefDB:
             sub = substitution.strip().upper()
             if sub and sub not in self.abbreviations[w]:
                 self.abbreviations[w].append(sub)
+
+        # --- Link words: sourced from the link_words table (migrated out of the
+        # hardcoded tokens.LINK_WORDS so the list is editable as data, not code) ---
+        self.link_words = set()
+        try:
+            for (lw,) in conn.execute("SELECT word FROM link_words"):
+                lw = (lw or "").lower().strip()
+                if lw:
+                    self.link_words.add(lw)
+        except sqlite3.Error:
+            pass
 
         # --- Synonyms: word -> list of synonyms (uppercase) ---
         self.synonyms = {}
@@ -293,9 +313,8 @@ class RefDB:
         return False
 
     def is_link_word(self, word):
-        """Check if word is a common link word."""
-        from .tokens import LINK_WORDS
-        return word.lower().strip() in LINK_WORDS
+        """Check if word is a common link word (from the link_words table)."""
+        return word.lower().strip() in self.link_words
 
     def is_real_word(self, word):
         """Check if word appears in our wordlist (known English words).

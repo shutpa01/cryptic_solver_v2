@@ -333,6 +333,89 @@ def _discover_anagram_charade(answer, words, split, lookup_all, is_link, indicat
                "split": split, "words": words}
 
 
+def _discover_container(answer, words, split, lookup_all, is_link, indicator_types, ctx):
+    """Yield container candidates: TWO value runs and a CON_I (container/insertion)
+    indicator run such that one value inserted into the other spells `answer`.
+
+    A value run is a DB synonym/abbreviation (SYN_F / ABR_F) OR a single-word letter
+    SELECTION (SEL_F) licensed by a selection indicator ("Hops finally" -> S). Leftover
+    words must be links or the selection indicator. Mirrors container_signature_engine so
+    only shapes the engine can instantiate are proposed; auto_discover_and_file then
+    verifies each through the real engine before anything is filed."""
+    from core.selection import select_span
+    from core.selection_indicators import find_indicators
+    from core.container_signature_engine import _is_con_indicator, _verify_insertion
+    n, N = len(words), len(answer)
+
+    def residue_link(k):
+        return bool(is_link and is_link(words[k].text))
+
+    sel_inds = find_indicators(words)                 # [(rule, (idx, ...)), ...]
+    sel_ind_pos = {i for _r, idxs in sel_inds for i in idxs}
+
+    # Candidate value runs: (a, b, role, [value strings]).
+    vruns = []
+    for a in range(n):
+        for b in range(a + 1, min(a + MAX_PIECE_WORDS, n) + 1):
+            phrase = " ".join(words[k].text for k in range(a, b))
+            by_role = {}
+            for val, mech in lookup_all(phrase):
+                role = _MECH_ROLE.get(mech)
+                v = (val or "").upper()
+                if role and v:
+                    by_role.setdefault(role, [])
+                    if v not in by_role[role]:
+                        by_role[role].append(v)
+            for role, vs in by_role.items():
+                vruns.append((a, b, role, vs))
+            if b - a == 1:                            # SEL_F: one word, licensed elsewhere
+                for rule, idxs in sel_inds:
+                    if a in idxs:
+                        continue                      # the source word is not the indicator
+                    svals = [s for s, _ in select_span(ctx, words[a], rule)]
+                    if svals:
+                        vruns.append((a, b, "SEL_F", svals))
+
+    seen = set()
+    for i in range(len(vruns)):
+        for j in range(i + 1, len(vruns)):
+            a1, b1, role1, vals1 = vruns[i]
+            a2, b2, role2, vals2 = vruns[j]
+            if not (b1 <= a2 or b2 <= a1):            # value runs must be disjoint
+                continue
+            if _verify_insertion((a1, b1), (a2, b2), vals1, vals2, answer) is None:
+                continue
+            used_val = set(range(a1, b1)) | set(range(a2, b2))
+            for ca in range(n):
+                for cb in range(ca + 1, min(ca + MAX_RUN, n) + 1):
+                    crun = range(ca, cb)
+                    if any(k in used_val for k in crun):
+                        continue
+                    if not any(_is_con_indicator(words[k].text, indicator_types)
+                               for k in crun):
+                        continue
+                    used = used_val | set(crun)
+                    residue = [k for k in range(n) if k not in used]
+                    if not all(residue_link(k) or k in sel_ind_pos for k in residue):
+                        continue
+                    if "SEL_F" in (role1, role2) and not (sel_ind_pos & set(residue)):
+                        continue                      # a SEL_F needs its licensing indicator
+                    slot_items = sorted([(a1, b1, role1), (a2, b2, role2),
+                                         (ca, cb, "CON_I")])
+                    roles = tuple(r for _, _, r in slot_items)
+                    nwords = tuple(b - a for a, b, _ in slot_items)
+                    key = (roles, nwords, split.where)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    yield {"operation": "container", "roles": list(roles),
+                           "n_words": list(nwords), "def_pos": split.where,
+                           "pieces": [(a1, b1, role1, vals1[0]),
+                                      (a2, b2, role2, vals2[0])],
+                           "links": [k for k in residue if k not in sel_ind_pos],
+                           "split": split, "words": words}
+
+
 def _signature_str(cand):
     parts = []
     for role, nw in zip(cand["roles"], cand["n_words"]):
@@ -367,6 +450,9 @@ def discover(clue_text, answer, wiring):
             cands += list(_discover_anagram_charade(
                 answer_l, words, split, wiring["lookup_all"], wiring["is_link"],
                 wiring["indicator_types"]))
+            cands += list(_discover_container(
+                answer_l, words, split, wiring["lookup_all"], wiring["is_link"],
+                wiring["indicator_types"], ctx))
         cands += _discover_anagram(answer_l, words, postags, split,
                                    wiring["is_link"], wiring["indicator_types"])
     by_sig = {}
@@ -471,6 +557,7 @@ _OP_TEMPLATE_KEY = {
     "anagram": "anagram_templates",
     "reversal_charade": "reversal_charade_templates",
     "anagram_charade": "anagram_charade_templates",
+    "container": "container_templates",
 }
 
 

@@ -39,6 +39,12 @@ def _match_variants(text):
     return out
 
 
+# Possessive-S: a possessive clue word "X's" can contribute a literal S to its value
+# (gang's = POSSE + S = POSSES). Module-level toggle so a before/after regression can
+# isolate its effect; ON by default.
+POSSESSIVE_S = True
+
+
 def make_db_wiring():
     """Build the injected predicates from the reference DB. Returns a dict the
     engines consume. Imported lazily so pure tests need no DB.
@@ -269,6 +275,33 @@ def make_db_wiring():
             pass
         return out
 
+    def _is_possessive(word):
+        """True for a possessive 'X's' — the apostrophe-s can contribute a literal S to
+        the value (gang's = POSSE + S = POSSES). Only the singular possessive adds an S;
+        a plural possessive (ladies') already ends in s, so it is excluded."""
+        w = (word or "").replace("’", "'").strip().lower()
+        return len(w) > 2 and w.endswith("'s")
+
+    def _add_possessive_s(word, pairs, seen, answer=None):
+        """Append val+'S' for each synonym/abbreviation in `pairs` when `word` is a
+        possessive. When `answer` is given (the substring-filtered lookup), only keep a
+        variant that is a substring of the answer. Mutates/extends a copy and returns it."""
+        if not POSSESSIVE_S or not _is_possessive(word):
+            return pairs
+        out = list(pairs)
+        au = (answer or "").upper()
+        for val, mech in list(pairs):
+            if mech not in ("synonym", "abbreviation"):
+                continue
+            sv = (val + "S", mech)
+            if sv in seen:
+                continue
+            if answer is not None and sv[0] not in au:
+                continue
+            seen.add(sv)
+            out.append(sv)
+        return out
+
     def lookup_all(word):
         """(value, mechanism) options for a word with NO substring filter — the
         container engine needs an OUTER value (e.g. SANDS) that is split around the
@@ -291,6 +324,7 @@ def make_db_wiring():
         if lit and (lit, "raw") not in seen:
             seen.add((lit, "raw"))
             out.append((lit, "raw"))
+        out = _add_possessive_s(word, out, seen)   # gang's -> ... + POSSES
         _cache_lookall[word] = out
         return out
 
@@ -326,6 +360,7 @@ def make_db_wiring():
                 if (val, mech) not in seen:
                     seen.add((val, mech))
                     out.append((val, mech))
+        out = _add_possessive_s(word, out, seen, answer)   # gang's -> ... + POSSES
         return out
 
     # AI definition fallback (the one AI touch-point), built only if available —
@@ -415,6 +450,11 @@ def make_db_wiring():
         elif kind == "indicator" and word and wordplay_type:
             _live_ind_index.setdefault(word.lower().strip(), set()).add(
                 (wordplay_type or "").strip().lower())
+        elif kind == "link" and word:
+            try:
+                db.note_link_word(word)
+            except Exception:
+                pass
 
     return {"db": db, "defines": defines, "lookup": lookup, "invalidate": invalidate,
             "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
@@ -424,6 +464,8 @@ def make_db_wiring():
             "sounds_alike": db.sounds_alike, "pronounce": db.get_pronunciation,
             "define_fallback": define_fallback,
             "ai_is_definition": ai_is_definition, "store": store,
+            "try_andlit": True,        # offer the &lit (all-in-one) reading to opted-in
+                                       #   engines (acrostic ...): whole clue = def = wordplay
             "is_dbe": is_dbe, "lookup_all": lookup_all, "all_values": all_values,
             "suggest_piece": suggest_piece, "value_check": value_check,
             "suggest_hom": suggest_hom,
@@ -494,7 +536,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     pacro = solve_acrostic(ctx, wiring["defines"], wiring["is_link"],
                            wiring["indicator_types"],
                            define_fallback=wiring.get("define_fallback"),
-                           is_dbe=wiring.get("is_dbe"))
+                           is_dbe=wiring.get("is_dbe"),
+                           andlit=wiring.get("try_andlit", False))
     if pacro is not None and pacro.status in ("pass", "pending"):
         return _finish(pacro, "acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -678,6 +721,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pchd is not None and pchd.status in ("pass", "pending"):
         return _finish(pchd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE+HOLLOW — a charade where ONE piece is a hollowed word: its outer shell only
+    # (first+last, the inside emptied), AMEER = AM + E[xercis]E + R. The charade+deletion
+    # engine cannot do this (its backward reconstruction restores only a bounded affix, not
+    # an arbitrary removed middle); this stage matches the shell FORWARD. Gated on a hollow
+    # ('empty' sub-type) deletion indicator. Tried with the charade+deletion family.
+    from core.charade_hollow_engine import solve_charade_hollow
+    pchh = solve_charade_hollow(ctx, wiring["defines"], wiring["lookup_all"],
+                                wiring["is_link"], wiring["indicator_types"],
+                                wiring["deletion_subtypes"],
+                                define_fallback=wiring.get("define_fallback"),
+                                is_dbe=wiring.get("is_dbe"))
+    if pchh is not None and pchh.status in ("pass", "pending"):
+        return _finish(pchh, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
     # R, TACTICS=TICS around ACT). Catalog-DRIVEN (signature engine, seeded from working
     # solves); insertion-aware (the verifier resolves which value run is outer vs inner).
@@ -706,6 +763,32 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pccc is not None and pccc.status in ("pass", "pending"):
         return _finish(pccc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CONTAINER-OF-CHARADE — an OUTER DB value wrapped around an INNER that is itself a
+    # charade of 2+ DB values (LIMESTONE = LONE around IM+EST). The mirror of the
+    # container+charade above: there the charade is outside one container piece; here the
+    # whole answer is one container whose inner is the charade. Tried after both, gated on a
+    # container indicator + exact reconstruction. Gaps -> preserved fail-evidence.
+    from core.container_inner_charade_engine import solve_container_inner_charade
+    pcic = solve_container_inner_charade(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pcic is not None and pcic.status in ("pass", "pending"):
+        return _finish(pcic, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CONTAINER-OF-ACROSTIC — an OUTER DB value wrapped around an INNER formed by acrostic
+    # letter-selection (MESCAL = MEAL around S,C = initials of "Served Cold"). The container
+    # engines insert a DB value and the acrostic engine spells the whole answer; neither
+    # inserts an acrostic. Answer-driven, gated on BOTH a container and an acrostic
+    # indicator. Tried with the container family. Gaps -> preserved fail-evidence.
+    from core.container_acrostic_engine import solve_container_acrostic
+    pca = solve_container_acrostic(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pca is not None and pca.status in ("pass", "pending"):
+        return _finish(pca, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
     # rev(TRAMS)). Catalog-DRIVEN (signature engine); single-piece, answer-driven (the fodder
     # run's DB value must equal reverse(answer)). Tried after the container family; gated on a
@@ -732,6 +815,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    is_dbe=wiring.get("is_dbe"))
     if prevc is not None and prevc.status in ("pass", "pending"):
         return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # REVERSAL + CONTAINER — an outer DB value wrapping an inner DB value that is REVERSED
+    # before insertion (ARABS = AS around reverse(BAR)). The plain container inserts values
+    # as-is and the reversal engines concatenate; neither covers a reversed inner inside a
+    # container. Evidence-driven, gated on BOTH a container and a reversal indicator, and
+    # answer-driven (exact reconstruction), so it cannot intercept another type. Tried after
+    # the reversal family, before deletion.
+    from core.reversal_container_engine import solve_reversal_container
+    prevcon = solve_reversal_container(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if prevcon is not None and prevcon.status in ("pass", "pending"):
+        return _finish(prevcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # DELETION — a plain deletion (the whole answer is one DB value with letters removed).
     # EVIDENCE-DRIVEN, two honestly-attributed forms: POSITIONAL (a fused/position-noun
@@ -764,6 +861,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # free-tiled. The free-tiling evidence pass was removed because it produced
     # letter-correct but fabricated attributions, e.g. MANITOBA's "I <- on" — pinning a
     # value onto a word that does not produce it, which a signature must never allow.)
+
+    # ANAGRAM + MULTIPLE SUBSTITUTIONS — an anagram whose fodder mixes a literal with TWO OR
+    # MORE substituted words (SCIROCCO = anag of CIRCS + O[ld] + [firm]CO). The single-sub
+    # engine holds out one word; this one supplies the residual from >=2 short, genuine
+    # substitutions, treating a leftover container/link word as inert. Run LATE (here, with
+    # DD): it is a LOOSER reading than the precise compound engines (anagram+charade,
+    # anagram+container), so they must claim first or it mis-attributes their clues as plain
+    # anagrams. Gated on an anagram indicator, answer-driven.
+    from core.anagram_multi_substitution_engine import solve_anagram_multi_substitution
+    pamus = solve_anagram_multi_substitution(
+        ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
+        wiring["is_link"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pamus is not None and pamus.status in ("pass", "pending"):
+        return _finish(pamus, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
@@ -813,6 +925,16 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
             if pacor is not None and pacor.status in ("pass", "pending"):
                 return _finish(pacor, "catalog", ctx, wiring, source, puzzle_number,
                                clue_id)
+
+    # CRYPTIC DEFINITION — the LAST resort: no wordplay engine and not DD. If the WHOLE
+    # clue is a recorded definition of the answer (scraped or hand-entered), treat it as a
+    # cryptic definition. A CD has nothing to reconstruct, so it is NEVER auto-confirmed —
+    # always 'pending', promoted to 'pass' only by a human (UI verdict override).
+    from core.cryptic_definition_engine import solve_cryptic_definition
+    pcd = solve_cryptic_definition(ctx, wiring["defines"],
+                                   comment=wiring.get("cd_comment"))
+    if pcd is not None and pcd.status in ("pass", "pending"):
+        return _finish(pcd, "cd", ctx, wiring, source, puzzle_number, clue_id)
 
     # Nothing produced a clean stop. The GATED engines (spoonerism / palindrome /
     # acrostic) only return a parse when their indicator actually fired, so a non-None

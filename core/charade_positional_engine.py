@@ -43,7 +43,9 @@ _SUBTYPE_ORDER = {
     "before_down": ("natural", True),
 }
 
-_MAX_PIECE_WORDS = 3        # a charade piece spans at most this many clue words
+_MAX_PIECE_WORDS = 4        # a charade piece spans at most this many clue words
+                            # (4 so a long fodder synonym like "Scot's sound of surprise"
+                            #  -> OCH can be one piece; still answer-driven, so no fabrication)
 _MAX_IND_WORDS = 2          # a positional indicator spans at most this many words
 
 

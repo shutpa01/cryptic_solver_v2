@@ -84,41 +84,31 @@ PARTS_SUBTYPE_TO_TOKEN = {
 }
 
 # Common link words that connect definition to wordplay or pieces to each other.
-# STRICT: only words that are NEVER indicators or fodder belong here.
-# Do NOT add: "up/back/out/about" (indicators), "some" (hidden ind),
-# "say" (hom ind), "not" (del ind), "into/put/has/have/had" (con ind),
-# "one" (abbreviation), "may/will" (ambiguous).
-LINK_WORDS = {
-    # Prepositions / conjunctions
-    "for", "with", "in", "to", "of", "from", "by", "after", "before",
-    "on", "at", "and", "but", "then", "that", "or",
-    "under", "over", "above", "below", "beside", "between",
-    "through", "into", "upon", "across", "among",
-    # Articles
-    "a", "an", "the",
-    # Auxiliary verbs / copula
-    "is", "be", "being", "been", "was", "were", "are",
-    # Pronouns / demonstratives
-    "it", "its", "this", "that's", "thats",
-    # Conditionals / connectives
-    "if", "once", "while",
-    # Conjunctions / adverbs
-    "as", "so", "when", "where", "yet", "here", "thus", "hence", "which",
-    # Result words (already had most)
-    "giving", "making", "producing", "getting", "providing", "creating",
-    "showing", "becoming", "yielding",
-    # NOTE: "perhaps", "maybe", "possibly", "say", "for example", "for one",
-    # "for instance", "example", "in particular" are DBE (definition-by-example)
-    # markers, NOT link words. Treating them as LNK silently swallows them
-    # before the DBE substitution-licensing logic can act on them.
-    # Words that are also indicators but frequently serve as links
-    # (both roles coexist — matcher picks whichever fits the pattern)
-    "wanting", "needing", "requiring", "made",
-    # Charade-join connectives ("X meeting Y" = X next to Y)
-    "meeting",
-    # Surface words that carry no cryptic role
-    "soft",
-}
+# These NOW LIVE IN THE DB — the link_words table in data/cryptic_new.db — so the
+# list is editable as data, not code (migrated by core/_migrate_link_words.py). Edit
+# the table (e.g. remove "over", which is really an indicator) and restart; no code
+# change. LiveDB.is_link_word / RefDB.is_link_word read the table directly; this
+# module attribute is loaded from the same table for any remaining importer.
+def _load_link_words():
+    """The link words, read from the link_words table. Empty set if the table/DB is
+    unavailable (callers then simply find no link words — never a crash at import)."""
+    import os
+    import sqlite3
+    path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                        "data", "cryptic_new.db")
+    try:
+        conn = sqlite3.connect(path, timeout=30)
+        try:
+            return {(w or "").lower().strip()
+                    for (w,) in conn.execute("SELECT word FROM link_words")
+                    if w and w.strip()}
+        finally:
+            conn.close()
+    except sqlite3.Error:
+        return set()
+
+
+LINK_WORDS = _load_link_words()
 
 # Definition-by-example markers. When one of these is adjacent to a clue
 # word, the cryptic convention is that the word stands for an EXAMPLE in a

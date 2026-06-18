@@ -70,8 +70,12 @@ def definition_warning(parse):
     is present and DB-confirmed. Identical wording across engines."""
     if parse.definition is None:
         return "no definition found"
-    if getattr(parse.definition, "source", "db") == "pending":
+    src = getattr(parse.definition, "source", "db")
+    if src == "pending":
         return "the definition is provisional (queued for enrichment)"
+    if src == "andlit":
+        return ("&lit: the whole clue is both the definition and the wordplay "
+                "(confirm the definition reading)")
     return None
 
 

@@ -183,6 +183,13 @@ class LiveDB:
                           for r in self._conn.execute("SELECT word FROM link_words")}
         return word.lower().strip() in self._link
 
+    def note_link_word(self, word):
+        """Fold a just-added link word into the in-memory set, so a clue-level add is
+        seen without a LiveDB reconnect. If the set is not yet loaded, the next
+        is_link_word() reads it fresh from the table (which now has the new row)."""
+        if self._link is not None:
+            self._link.add((word or "").lower().strip())
+
     def is_real_word(self, word):
         # Confidence-only (does NOT affect pass/fail, which is reconstruction-based).
         # Permissive live stub; a precise wordlist could be a live EXISTS query later.

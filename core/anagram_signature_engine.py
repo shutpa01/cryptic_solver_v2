@@ -385,6 +385,11 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
         # Keep a grammatically-bound multi-word definition WHOLE (spaCy subtree) before
         # anything is split off as wordplay — so "Avoided dealing with" stays the
         # definition instead of leaking "dealing"/"with" into the indicator/links.
+        # CONSTRAINT: the grow may only be ACCEPTED when the grown phrase is ITSELF a
+        # confirmed definition (defines() True). A grammatical grow the DB does not
+        # confirm fabricates a definition (e.g. "kilns" -> "grain kilns", swallowing the
+        # wordplay fodder "grain") — we must never grow a definition and present it as
+        # fixed, so an unconfirmed grow is discarded and the confirmed seed is kept.
         def_atoms = set(split.def_atom_ids)
         def_idx = {i for i, t in enumerate(allwords)
                    if any(aid in def_atoms for aid in t.atom_ids)}
@@ -407,8 +412,10 @@ def solve_anagram(ctx, defines, is_link, indicator_types, templates,
         # original split rather than emit a non-contiguous definition.
         contiguous = bool(grown) and grown == set(range(min(grown), max(grown) + 1))
         if grown and contiguous and grown != def_idx:
-            split = _split_from_indices(allwords, grown, split.where,
-                                        source=split.source)
+            grown_phrase = " ".join(allwords[i].text for i in sorted(grown))
+            if defines(grown_phrase, answer):       # only keep a CONFIRMED grow
+                split = _split_from_indices(allwords, grown, split.where,
+                                            source=split.source)
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 1:
             continue
