@@ -33,6 +33,17 @@ from core.wfw_model import Source, Annotation, Parse
 
 MAX_AI_CALLS = 2       # cap Haiku spend per clue
 
+# Words that join the two halves of a double definition but are not general link words
+# (so they are NOT added to the link table, which would shift the definition stage). Used
+# ONLY here, in the DD gap between the two halves: "criticism, LIKE soldiers..." Both
+# halves must still DB-define and DD runs last, so this cannot fabricate a solve.
+_DD_CONNECTORS = {"like", "as"}
+
+
+def _dd_gap_ok(token, is_link):
+    t = (token.text or "").strip().lower()
+    return t in _DD_CONNECTORS or bool(is_link and is_link(token.text))
+
 
 def _answer_letters(ctx):
     return "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
@@ -107,8 +118,8 @@ def solve_dd(ctx, defines, is_link=None, indicator_types=None,
         l_ok, l_def, l_dbe = _half_defines(left, answer, defines, is_dbe)
         for j in range(i, n):
             mid = words[i:j]
-            if mid and not all(is_link and is_link(t.text) for t in mid):
-                continue                      # gap must be link words only
+            if mid and not all(_dd_gap_ok(t, is_link) for t in mid):
+                continue                      # gap must be link words / DD connectors only
             right = words[j:]
             if not right:
                 continue
