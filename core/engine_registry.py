@@ -905,6 +905,17 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pad is not None and pad.status in ("pass", "pending"):
         return _finish(pad, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # ANAGRAM CONTAINING A SELECTED LETTER — an anagram of a fodder run with a single first/
+    # last letter inserted (OYSTER = anag(STORY) containing E["beginning to emerge"], "in").
+    # Triple-gated (anagram + container + first/last-letter indicator), answer-driven, so it
+    # cannot intercept a plain anagram. Run with the other modified-fodder anagram readings.
+    from core.anagram_insert_letter_engine import solve_anagram_insert_letter
+    pail = solve_anagram_insert_letter(
+        ctx, wiring["defines"], wiring["indicator_types"], wiring["is_link"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pail is not None and pail.status in ("pass", "pending"):
+        return _finish(pail, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
     # exactly; running it first let it intercept catalog clues. So the precise engines
