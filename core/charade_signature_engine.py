@@ -85,7 +85,7 @@ def _role_candidates(role, phrase, answer, lookup, suggest_piece=None):
 
 
 def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None,
-           ctx=None, sel=None):
+           ctx=None, sel=None, allow_gap=False):
     """Place the typed slots onto disjoint word-runs in clue order (gaps allowed),
     filling each by role so the pieces concatenate to EXACTLY the answer; classify
     the gap words LAST. Returns {pieces, links, indicator} or None.
@@ -118,8 +118,10 @@ def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None,
                 indicator.append(k)
             elif residue_link(k):
                 links.append(k)
-            else:
-                return None                  # a content word unaccounted -> reject
+            elif not allow_gap:
+                return None                  # clean: a content word unaccounted -> reject
+            # allow_gap: leave it unaccounted (not a link/indicator); _verify_charade
+            # reports it by name, surfacing the near-solve instead of a bare FAIL.
         if not sel_ind <= set(indicator):
             return None                      # the licensed indicator must be accounted
         return {"pieces": pieces, "links": links, "indicator": sorted(indicator)}
@@ -161,7 +163,7 @@ def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None,
 
 
 def _try_template(ctx, answer, template, split, words, postags, lookup, is_link,
-                  suggest_piece=None):
+                  suggest_piece=None, allow_gap=False):
     """Instantiate one signature on one definition split. Parse or None."""
     if split.where != template.def_pos:
         return None
@@ -180,7 +182,7 @@ def _try_template(ctx, answer, template, split, words, postags, lookup, is_link,
         sel_options = inds
     for sel in sel_options:
         placement = _place(template.slots, words, answer, postags, lookup, is_link,
-                           suggest_piece, ctx=ctx, sel=sel)
+                           suggest_piece, ctx=ctx, sel=sel, allow_gap=allow_gap)
         if placement is not None:
             return _build(ctx, split, words, placement, template, lookup)
     return None
@@ -276,17 +278,22 @@ def _verify_charade(ctx, parse):
 
 
 def _search(ctx, answer, templates, prepared, lookup, is_link, suggest_piece,
-            stop_pending=False):
+            stop_pending=False, allow_gap=False):
     """One sweep of the catalog over the prepared splits. Returns the best
     (best_pass, best_pending, best_other) by the residue/literals key. When
     `stop_pending` (the Haiku recovery pass), return as soon as a PENDING placement
-    is found — one provisional solve is enough and it bounds the Haiku calls."""
+    is found — one provisional solve is enough and it bounds the Haiku calls.
+
+    `allow_gap` (the near-solve pass) lets a placement keep an unaccounted content word;
+    those come back status=fail and are collected as best_other, preferring the assembly
+    that leaves the FEWEST words unaccounted — so a complete answer blocked only by a
+    stray connector is surfaced WITH its pieces, not hidden behind a bare FAIL."""
     best_pass = best_pending = best_other = None
-    pass_key = pend_key = None
+    pass_key = pend_key = other_key = None
     for template in templates:
         for split, words, postags in prepared:
             parse = _try_template(ctx, answer, template, split, words, postags,
-                                  lookup, is_link, suggest_piece)
+                                  lookup, is_link, suggest_piece, allow_gap=allow_gap)
             if parse is None:
                 continue
             residue = sum(1 for a in parse.annotations if a.role == "link")
@@ -300,6 +307,10 @@ def _search(ctx, answer, templates, prepared, lookup, is_link, suggest_piece,
                     best_pending, pend_key = parse, key
                 if stop_pending:
                     return best_pass, best_pending, best_other
+            elif allow_gap:
+                okey = (len(parse.unexplained_words(ctx)),) + key
+                if other_key is None or okey < other_key:
+                    best_other, other_key = parse, okey
             elif best_other is None:
                 best_other = parse
     return best_pass, best_pending, best_other
@@ -364,6 +375,16 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
                               suggest_piece, stop_pending=True)
         if apend is not None:
             return apend
+
+    # Pass 3 — NEAR-SOLVE: a COMPLETE DB-grounded assembly blocked only by an unaccounted
+    # word (e.g. a connector missing from link_words, like "get" in SWORDSTICK). Surface
+    # it WITH its pieces and the word named (_verify_charade lists it) instead of a bare
+    # FAIL that hides the answer. Only runs because Pass 1/2 found no clean solve, so it
+    # can never override a real pass/pending.
+    _, _, bg = _search(ctx, answer, templates, prepared, lookup, is_link, None,
+                       allow_gap=True)
+    if bg is not None:
+        return bg
 
     if bo is not None:
         return bo

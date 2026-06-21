@@ -71,6 +71,11 @@ CREATE TABLE IF NOT EXISTS wfw_forced_def (
     clue_id INTEGER PRIMARY KEY,   -- a human override: SOLVE this clue with the
     text    TEXT                   --   definition pinned to exactly this edge phrase,
 );                                 --   so the wordplay must account for the rest.
+CREATE TABLE IF NOT EXISTS wfw_filler (
+    clue_id INTEGER NOT NULL,      -- per-clue SURFACE FILLER: setter padding with no
+    word    TEXT NOT NULL,         --   cryptic role, tagged here ONLY (never link_words);
+    PRIMARY KEY (clue_id, word)    --   accounted in the solve like a link, this clue alone.
+);
 """
 
 
@@ -241,6 +246,36 @@ def clear_forced_definition(conn, clue_id):
     """Drop the pinned definition so the clue solves with the normal definition stage."""
     ensure_schema(conn)
     conn.execute("DELETE FROM wfw_forced_def WHERE clue_id = ?", (clue_id,))
+    conn.commit()
+
+
+def add_clue_filler(conn, clue_id, word):
+    """Tag a word as SURFACE FILLER for THIS clue only — setter padding with no cryptic
+    role. Accounted in the solve like a link, but stored per-clue here and NEVER written
+    to the shared link_words table (so common words like 'get'/'will' can't pollute it)."""
+    ensure_schema(conn)
+    w = (word or "").strip().lower()
+    if w:
+        conn.execute("INSERT OR IGNORE INTO wfw_filler (clue_id, word) VALUES (?, ?)",
+                     (clue_id, w))
+        conn.commit()
+
+
+def get_clue_filler(conn, clue_id):
+    """The set of surface-filler words tagged for this clue (lower-cased)."""
+    ensure_schema(conn)
+    return {r[0] for r in conn.execute(
+        "SELECT word FROM wfw_filler WHERE clue_id = ?", (clue_id,))}
+
+
+def clear_clue_filler(conn, clue_id, word=None):
+    """Untag one filler word, or all of this clue's filler when word is None."""
+    ensure_schema(conn)
+    if word is None:
+        conn.execute("DELETE FROM wfw_filler WHERE clue_id = ?", (clue_id,))
+    else:
+        conn.execute("DELETE FROM wfw_filler WHERE clue_id = ? AND word = ?",
+                     (clue_id, (word or "").strip().lower()))
     conn.commit()
 
 

@@ -62,6 +62,19 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "reversal", "deletion",
               "acrostic", "homophone", "charade"]
+# Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
+# has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
+# is what the code reads, the label is the clear descriptor shown to the user (the DB
+# names like "head"/"middle"/"empty" are counter-intuitive on their own).
+_IND_SUBTYPES = {
+    "deletion": [("", "— no sub-type —"),
+                 ("head", "remove first letter (behead)"),
+                 ("tail", "remove last letter (curtail)"),
+                 ("ends", "remove outer letters"),
+                 ("middle", "remove middle letter"),
+                 ("empty", "hollow — remove inner letters"),
+                 ("general", "letters named by another word")],
+}
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                   "data", "clues_master.db")
@@ -150,12 +163,36 @@ def _forced_def_for(clue_id):
         conn.close()
 
 
+def _filler_for(clue_id):
+    conn = store.connect()
+    try:
+        return store.get_clue_filler(conn, clue_id)
+    finally:
+        conn.close()
+
+
+def _filler_wiring(w, filler_words):
+    """A shallow copy of wiring whose is_link ALSO returns True for this clue's tagged
+    SURFACE-FILLER words, so every engine accounts them like a link — but only for this
+    clue (the tags live in wfw_filler, never the shared link_words table). The cached
+    global wiring is never mutated (we copy, like _forced_wiring / db_only)."""
+    fil = {(x or "").strip().lower() for x in (filler_words or ())}
+    orig = w["is_link"]
+
+    def is_link(word):
+        return (word or "").strip().lower() in fil or bool(orig(word))
+
+    w2 = dict(w)
+    w2["is_link"] = is_link
+    return w2
+
+
 def _load_clue(clue_id):
     conn = sqlite3.connect(DB)
     try:
         return conn.execute(
-            "SELECT clue_text, answer, source, puzzle_number, direction, enumeration "
-            "FROM clues WHERE id = ?", (clue_id,)).fetchone()
+            "SELECT clue_text, answer, source, puzzle_number, direction, enumeration, "
+            "clue_number FROM clues WHERE id = ?", (clue_id,)).fetchone()
     finally:
         conn.close()
 
@@ -351,6 +388,43 @@ def forcedef():
                  scroll_to=only)
 
 
+@app.route("/setfiller", methods=["POST"])
+def setfiller():
+    """Tag a word as SURFACE FILLER for THIS clue (setter padding, no cryptic role) and
+    re-solve it. The tag lives only on this clue (wfw_filler) and is NEVER written to the
+    shared link_words table, so common words like 'get'/'will' can't pollute links. The
+    re-solve accounts the word like a link for this clue, so a near-solve becomes a pass."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    word = (request.form.get("word") or "").strip()
+    msg = "No clue/word."
+    if only and word:
+        conn = store.connect()
+        try:
+            store.add_clue_filler(conn, int(only), word)
+        finally:
+            conn.close()
+        msg = "Tagged %r as surface filler (this clue only, not added to link words)." % word
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only={only} if only else None), scroll_to=only)
+
+
+@app.route("/clearfiller", methods=["POST"])
+def clearfiller():
+    """Untag a surface-filler word on this clue and re-solve."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    word = (request.form.get("word") or "").strip()
+    if only:
+        conn = store.connect()
+        try:
+            store.clear_clue_filler(conn, int(only), word or None)
+        finally:
+            conn.close()
+    notice = '<div class="wfw-notice">Surface-filler tag removed; clue re-solved.</div>'
+    return _page(notice + _body(raw, resolve_only={only} if only else None), scroll_to=only)
+
+
 @app.route("/clearforcedef", methods=["POST"])
 def clearforcedef():
     """Remove a clue's pinned definition and re-solve it with the normal definition stage."""
@@ -376,7 +450,8 @@ def _do_add(form):
     if kind == "synonym":
         return admin_db.add_synonym(form.get("word"), form.get("synonym"))
     if kind == "indicator":
-        return admin_db.add_indicator(form.get("word"), form.get("type"))
+        return admin_db.add_indicator(form.get("word"), form.get("type"),
+                                      form.get("subtype"))
     if kind == "link":
         return admin_db.add_link_word(form.get("word"))
     return "Unknown add."
@@ -409,15 +484,18 @@ def _render_one(token, raw_list, resolve=True, ai=False):
     row = _load_clue(clue_id)
     if row is None:
         return f'<p class="warn">No clue with id {clue_id}.</p>'
-    clue_text, answer, src, pnum, direction, enumeration = row
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
     # Space the answer per the clue's enumeration (ALLINGOODTIME -> ALL IN GOOD TIME), so a
     # fresh solve stores the spaced form and the displayed enumeration is (3,2,4,4) not (13).
     answer = enum_space(answer, enumeration)
     forced = _forced_def_for(clue_id)
+    filler = _filler_for(clue_id)
     if resolve:
         w = wiring() if ai else batch_wiring()
         if forced:
             w = _forced_wiring(w, forced)      # pin the definition; rest -> wordplay
+        if filler:
+            w = _filler_wiring(w, filler)      # account this clue's surface-filler words
         engine_registry.solve_clue_text(clue_text, answer, w,
                                         source=src, puzzle_number=pnum, clue_id=clue_id,
                                         direction=direction)
@@ -433,6 +511,24 @@ def _render_one(token, raw_list, resolve=True, ai=False):
     # answer_text is not used by the answer/enumeration rendering.
     if parse is not None:
         parse.answer_text = enum_space(parse.answer_text, enumeration)
+
+    # SURFACE FILLER is a HUMAN OVERRIDE, never a clean pass: if this clue passed only
+    # because a tagged filler word was accounted (used as a link), force PENDING so it
+    # gets human approval. Persisted (set_status) so the work-list never counts it a pass.
+    if filler and parse is not None and parse.status == "pass":
+        fil = {(x or "").strip().lower() for x in filler}
+        used = sorted({(a.text or "").strip().lower() for a in (parse.annotations or [])
+                       if getattr(a, "role", "") == "link"} & fil)
+        if used:
+            parse.status = "pending"
+            parse.warnings = list(getattr(parse, "warnings", None) or []) + [
+                "accounted by surface-filler tag (provisional — needs approval): "
+                + ", ".join(used)]
+            conn2 = store.connect()
+            try:
+                store.set_status(conn2, clue_id, "pending")
+            finally:
+                conn2.close()
 
     if parse is None:
         note = ("No engine claimed this clue." if resolve
@@ -462,7 +558,14 @@ def _render_one(token, raw_list, resolve=True, ai=False):
                              '</div>' % escape(forced))
 
     status = parse.status if parse is not None else "fail"
-    return (_cid_label(clue_id) + forced_banner + card
+    unaccounted = []
+    if parse is not None and ctx is not None:
+        try:
+            unaccounted = list(parse.unexplained_words(ctx))
+        except Exception:
+            unaccounted = []
+    return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
+            + _filler_block(clue_id, raw_list, unaccounted, filler)
             + _enrichment_block(clue_text, answer, clue_id, raw_list)
             + _clue_controls(clue_id, raw_list, status)
             + _clue_admin_panel(clue_id, raw_list)
@@ -506,6 +609,37 @@ def _hidden(raw_list, clue_id):
     return ('<input type="hidden" name="id" value="%s">'
             '<input type="hidden" name="only" value="%d">'
             % (escape(raw_list, quote=True), clue_id))
+
+
+def _filler_block(clue_id, raw_list, unaccounted, tagged):
+    """Per-clue SURFACE-FILLER controls. Each currently-unaccounted clue word gets a
+    button to tag it as filler (accounted for THIS clue only, never written to the shared
+    link_words table); each already-tagged word gets an untag button. Renders nothing when
+    there's neither — so a clean pass stays clutter-free."""
+    tagged = {(t or "").strip().lower() for t in (tagged or ())}
+    show = [w for w in (unaccounted or []) if (w or "").strip().lower() not in tagged]
+    if not show and not tagged:
+        return ""
+    h = _hidden(raw_list, clue_id)
+
+    def btn(action, word, label, bg):
+        return ('<form method="post" action="%s" style="display:inline-block;margin:.15rem 0">'
+                '%s<input type="hidden" name="word" value="%s">'
+                '<button class="wfw-reload wfw-reload-clue" style="background:%s;'
+                'border-color:%s;margin-left:.4rem">%s</button></form>'
+                % (action, h, escape(word, quote=True), bg, bg, label))
+
+    out = ['<div class="wfw-notice" style="background:#faf5ff;border:1px solid #d8b4fe">'
+           '<b>Surface filler</b> &mdash; setter padding with no cryptic role; tag for THIS '
+           'clue only (never added to link words):']
+    for w in show:
+        out.append(btn('/setfiller', w, '&#43; mark &ldquo;%s&rdquo; filler' % escape(w),
+                       '#9333ea'))
+    for w in sorted(tagged):
+        out.append(btn('/clearfiller', w, '&#215; untag &ldquo;%s&rdquo;' % escape(w),
+                       '#94a3b8'))
+    out.append('</div>')
+    return "".join(out)
 
 
 def _enrichment_block(clue_text, answer, clue_id, raw_list):
@@ -567,6 +701,8 @@ def _clue_admin_panel(clue_id, raw_list):
     carries the batch id list + this clue id, so the add re-solves just this clue."""
     h = _hidden(raw_list, clue_id)
     opts = "".join('<option value="%s">%s</option>' % (t, t) for t in _IND_TYPES)
+    sub_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
+                       for v, lab in _IND_SUBTYPES["deletion"])
     return f"""
 <details class="wfw-admin">
   <summary>Add to reference DB</summary>
@@ -581,7 +717,8 @@ def _clue_admin_panel(clue_id, raw_list):
     <input type="hidden" name="kind" value="indicator">{h}
     <span class="wfw-af-l">Indicator</span>
     <input name="word" placeholder="a little">
-    <select name="type">{opts}</select>
+    <select name="type" onchange="var s=this.form.querySelector('select[name=subtype]'); var d=this.value=='deletion'; s.style.display=d?'':'none'; if(!d)s.selectedIndex=0;">{opts}</select>
+    <select name="subtype" style="display:none" title="deletion sub-type — what gets removed">{sub_opts}</select>
     <button>Add</button>
   </form>
   <form method="post" action="/admin" class="wfw-af">
@@ -601,6 +738,191 @@ def _clue_admin_panel(clue_id, raw_list):
 """
 
 
+# ---- atom-level hand-solver (atomised) ----------------------------------------
+_HS_CSS = ("<style>"
+           ".hs-catom{display:inline-flex;align-items:center;justify-content:center;"
+           "min-width:1.3rem;height:2rem;border:1px solid #cbd5e1;border-radius:6px;"
+           "font-family:'SF Mono','Courier New',monospace;font-weight:700;cursor:pointer;"
+           "background:#fff}"
+           ".hs-gap{display:inline-block;width:.7rem}"
+           ".hs-atom{display:inline-flex;align-items:center;justify-content:center;"
+           "min-width:2.2rem;height:2.4rem;margin:.15rem;border:2px solid #cbd5e1;"
+           "border-radius:9px;font-weight:800;font-family:'SF Mono','Courier New',monospace;"
+           "background:#fff}"
+           ".hs-row{margin:.8rem 0}</style>")
+
+HANDSOLVE_JS = """
+function initHS(root, clueId, seed){
+ const PAL=['#fca5a5','#fcd34d','#86efac','#93c5fd','#c4b5fd','#f9a8d4','#a5f3fc','#fdba74','#d9f99d','#f5d0fe'];
+ const catoms=Array.from(root.querySelectorAll('.hs-catom'));
+ const aatoms=Array.from(root.querySelectorAll('.hs-atom'));
+ const piecesDiv=root.querySelector('.hs-pieces');
+ const result=root.querySelector('.hs-result');
+ let pieces=(seed.pieces||[]).map(function(p){return {text:p.text,value:p.value,mech:p.mech||'',atoms:new Set(p.atoms||[]),pos:new Set(),def:false};});
+ if(seed.def){pieces.push({text:seed.def.text,value:'',mech:'definition',atoms:new Set(seed.def.atoms||[]),pos:new Set(),def:true});}
+ let active=-1; let selClue=new Set(); let selAns=new Set();
+ function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+ function col(i){return PAL[i%PAL.length];}
+ function atomEl(aid){return catoms.find(function(x){return x.dataset.aid===aid;});}
+ function pcAtom(aid){for(let i=0;i<pieces.length;i++){if(pieces[i].atoms.has(aid))return i;}return -1;}
+ function pcPos(p){for(let i=0;i<pieces.length;i++){if(pieces[i].pos.has(p))return i;}return -1;}
+ function letters(aids){return aids.map(function(aid){var c=atomEl(aid);return c?c.textContent:'';}).join('').toUpperCase().replace(/[^A-Z]/g,'');}
+ function pieceVal(pc){return pc.value||letters(Array.from(pc.atoms));}
+ function draw(){
+  catoms.forEach(function(a){var aid=a.dataset.aid;var pi=pcAtom(aid);
+   a.style.background=pi>=0?(pieces[pi].def?'#cbd5e1':col(pi)):(selClue.has(aid)?'#1d4ed8':'#fff');
+   a.style.color=(selClue.has(aid)&&pi<0)?'#fff':'#0f172a';
+   a.style.outline=(pi>=0&&pi===active)?'2px solid #1d4ed8':'none';});
+  aatoms.forEach(function(a){var p=+a.dataset.pos;var pi=pcPos(p);
+   a.style.background=pi>=0?col(pi):(selAns.has(p)?'#1d4ed8':'#fff');
+   a.style.color=(selAns.has(p)&&pi<0)?'#fff':'#0f172a';
+   a.style.outline=(pi>=0&&pi===active)?'2px solid #1d4ed8':'none';});
+  piecesDiv.innerHTML=pieces.map(function(pc,i){
+   var aps=Array.from(pc.pos).sort(function(a,b){return a-b;}).join(',');
+   var lbl; if(pc.def){lbl='DEF: '+esc(pc.text||letters(Array.from(pc.atoms)));}
+   else if(pc.text){lbl=esc(pc.text)+' &rarr; '+esc(pieceVal(pc));}
+   else {lbl=esc(pieceVal(pc))+' (literal)';}
+   return '<span class="hs-chip" data-i="'+i+'" style="display:inline-block;cursor:pointer;background:'+(pc.def?'#e5e7eb':col(i))+';border:'+(i===active?'2px solid #1d4ed8':'1px solid #94a3b8')+';border-radius:6px;padding:.2rem .5rem;margin:.15rem;font-weight:700">'+lbl+(aps?(' @'+aps):'')+'</span>';
+  }).join('')+'<div style="margin-top:.5rem"><button class="hs-lit" style="font-size:.8rem">link selected clue + answer atoms (literal)</button> <button class="hs-rm" style="font-size:.8rem;margin-left:.3rem">remove active piece</button></div>';
+  Array.from(piecesDiv.querySelectorAll('.hs-chip')).forEach(function(ch){ch.onclick=function(){var i=+ch.dataset.i;active=(active===i)?-1:i;selClue.clear();selAns.clear();draw();};});
+  piecesDiv.querySelector('.hs-lit').onclick=function(){
+   if(!selClue.size||!selAns.size){alert('Select the clue atoms AND the answer atoms they make, then press this.');return;}
+   pieces.push({text:'',value:letters(Array.from(selClue)),mech:'literal',atoms:new Set(selClue),pos:new Set(selAns),def:false});selClue.clear();selAns.clear();active=-1;draw();};
+  piecesDiv.querySelector('.hs-rm').onclick=function(){if(active>=0){pieces.splice(active,1);active=-1;selClue.clear();selAns.clear();draw();}};
+ }
+ catoms.forEach(function(a){a.addEventListener('click',function(){
+  var aid=a.dataset.aid;var owner=pcAtom(aid);
+  if(active>=0){ if(pieces[active].atoms.has(aid))pieces[active].atoms.delete(aid); else if(owner<0)pieces[active].atoms.add(aid); }
+  else { if(owner>=0)return; if(selClue.has(aid))selClue.delete(aid); else selClue.add(aid); }
+  draw();});});
+ aatoms.forEach(function(a){a.addEventListener('click',function(){
+  var p=+a.dataset.pos;var owner=pcPos(p);
+  if(active>=0){ if(pieces[active].pos.has(p))pieces[active].pos.delete(p); else if(owner<0)pieces[active].pos.add(p); }
+  else { if(owner>=0)return; if(selAns.has(p))selAns.delete(p); else selAns.add(p); }
+  draw();});});
+ root.querySelector('.hs-verify').onclick=function(){result.innerHTML='<i>Verify (the gate) is wired next.</i>';};
+ draw();
+}
+"""
+
+HANDSOLVE_FORM = """
+<form method="get" action="/handsolve" style="margin:1rem 0;font-family:system-ui">
+  <label>Clue ID(s) / range:
+    <input name="id" value="{cid}" placeholder="e.g. 10074740  or  10074740-10074745"
+           style="font-size:1.1rem;padding:.3rem;width:24rem">
+  </label>
+  <button style="font-size:1.1rem;padding:.3rem .9rem">Hand-solve</button>
+</form>
+"""
+
+
+def _parse_hs_ids(raw, cap=40):
+    """Clue ids from the box: comma/space separated, A-B = inclusive range, capped."""
+    ids = []
+    for tok in raw.replace(",", " ").split():
+        if "-" in tok:
+            a, _, b = tok.partition("-")
+            if a.isdigit() and b.isdigit():
+                ids.extend(range(int(a), int(b) + 1)); continue
+        if tok.isdigit():
+            ids.append(int(tok))
+    seen, out = set(), []
+    for i in ids:
+        if i not in seen:
+            seen.add(i); out.append(i)
+        if len(out) >= cap:
+            break
+    return out
+
+
+def _handsolve_block(clue_id):
+    """One clue's hand-solve canvas. CARRIES ACROSS the candidate pieces the cascade
+    already found (the same ones the clue page shows, read from the stored parse), plus
+    the clue character-atoms (each selectable, so the possessive 's can be peeled) and the
+    answer letter-atoms."""
+    row = _load_clue(clue_id)
+    if row is None:
+        return f'<p class="warn">No clue with id {clue_id}.</p>'
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    # CARRY ACROSS: the candidate pieces + definition the cascade already found.
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+    finally:
+        conn.close()
+    seed_pieces, seed_def = [], None
+    if parse is not None:
+        for s in (parse.sources or []):
+            seed_pieces.append({"text": s.text, "value": s.value,
+                                "mech": getattr(s, "mechanism", "") or "",
+                                "atoms": list(getattr(s, "clue_atom_ids", []) or [])})
+        if parse.definition is not None:
+            seed_def = {"text": parse.definition.text,
+                        "atoms": list(getattr(parse.definition, "clue_atom_ids", []) or [])}
+    if seed_pieces or seed_def:
+        carried = ''                         # shown as the interactive chips below
+    else:
+        carried = ('<div class="hs-row"><i>No stored solve for this clue yet &mdash; run it '
+                   'on the main page first to carry its pieces across.</i></div>')
+    import json as _json
+    seed_json = _json.dumps({"pieces": seed_pieces, "def": seed_def})
+    wordof, wi = {}, 0                       # atom_id -> index of the word it belongs to
+    for t in ctx.clue_tokens:
+        if t.kind == "word":
+            for aid in t.atom_ids:
+                wordof[aid] = wi
+            wi += 1
+    cbits = []
+    for a in ctx.clue_atoms:
+        if a.kind == "space":
+            cbits.append('<span class="hs-gap"></span>')
+        else:
+            cbits.append('<span class="hs-catom" data-aid="%s" data-word="%d">%s</span>'
+                         % (a.atom_id, wordof.get(a.atom_id, -1), escape(a.char)))
+    atiles = "".join('<span class="hs-atom" data-pos="%d">%s</span>'
+                     % (a.letter_position, escape(a.char))
+                     for a in ctx.answer_atoms if a.kind == "letter")
+    rid = "hs-%d" % clue_id
+    return (_cid_label(clue_id, src, pnum, cnum, direction)
+            + f'<div id="{rid}" class="hs-block" style="margin-bottom:2rem">'
+            + f'<div class="wfw-clue" style="font-size:1.1rem;margin:.3rem 0">'
+              f'{escape(clue_text)}</div>'
+            + carried
+            + '<div class="hs-row"><b>Clue atoms</b>:<br>' + "".join(cbits) + '</div>'
+            + '<div class="hs-row"><b>Pieces from the solver</b> &mdash; click one to select '
+              'it, then click the answer atoms it makes:</div>'
+            + '<div class="hs-pieces"></div>'
+            + '<div class="hs-row"><b>Answer</b>:<br>' + atiles + '</div>'
+            + '<div class="hs-row" style="font-size:.85rem;color:#475569">'
+              '<b>Derivative piece</b> (e.g. Tea&rarr;CHA): click its chip, then the answer '
+              'atoms it makes. <b>Literal letters</b> (e.g. RADE from <i>grader</i>): with no '
+              'chip selected, click the clue atoms and the answer atoms they make, then press '
+              '&ldquo;link selected clue + answer atoms&rdquo;. With a chip active, click its '
+              'clue atoms to add/remove them (to peel a letter like the &rsquo;s).</div>'
+            + '<div class="hs-row"><button class="hs-verify wfw-reload" '
+              'style="background:#16a34a;border-color:#16a34a">Verify</button></div>'
+            + '<div class="hs-result" style="margin-top:1rem"></div>'
+            + '</div>'
+            + f'<script>initHS(document.getElementById("{rid}"), {clue_id}, {seed_json});</script>')
+
+
+@app.route("/handsolve")
+def handsolve_route():
+    """Atom-level hand-solver for one clue or several (id box / A-B range)."""
+    raw = (request.args.get("id") or "").strip()
+    ids = _parse_hs_ids(raw)
+    body = _HS_CSS + HANDSOLVE_FORM.format(cid=escape(raw, quote=True))
+    if not ids:
+        return _page(body + '<p class="warn">Enter one or more clue ids, '
+                            'e.g. 10074740 or 10074740-10074745.</p>')
+    body += "<script>" + HANDSOLVE_JS + "</script>"
+    for cid in ids:
+        body += _handsolve_block(cid)
+    return _page(body)
+
+
 def _reload_clue_button(clue_id, raw_list):
     """Per-clue button: reload the DB snapshot and re-run JUST this clue, keeping the
     rest of the batch on screen."""
@@ -614,13 +936,26 @@ def _reload_clue_button(clue_id, raw_list):
         '<label style="font-size:.8rem;margin-left:.6rem" '
         'title="Run the AI piece fallback too (slower). Off = fast DB-only re-run.">'
         '<input type="checkbox" name="ai" value="on"> with AI fallback</label>'
-        '</form>' % (escape(raw_list, quote=True), clue_id))
+        '</form>'
+        '<a href="/handsolve?id=%d" class="wfw-reload wfw-reload-clue" '
+        'style="display:inline-block;text-decoration:none;background:#7c3aed;'
+        'border-color:#7c3aed;margin:.4rem 0" '
+        'title="Open the atom-level hand-solver for this clue">'
+        '&#9998; Hand-solve</a>' % (escape(raw_list, quote=True), clue_id, clue_id))
 
 
-def _cid_label(clue_id):
+def _cid_label(clue_id, source=None, puzzle_number=None, clue_number=None, direction=None):
+    bits = []
+    if source or puzzle_number:
+        bits.append((((str(source).upper() + " ") if source else "")
+                     + (str(puzzle_number) if puzzle_number else "")).strip())
+    if clue_number:
+        dirtxt = (" " + str(direction).upper()) if direction else ""
+        bits.append(str(clue_number) + dirtxt)
+    pub = "".join(" &middot; " + escape(b) for b in bits if b)
     return ('<div id="clue-%d" style="font-size:.8rem;font-weight:700;color:#64748b;'
             'letter-spacing:.06em;margin:1.2rem 0 -.5rem;scroll-margin-top:.6rem">'
-            'CLUE ID %d</div>' % (clue_id, clue_id))
+            'CLUE ID %d%s</div>' % (clue_id, clue_id, pub))
 
 
 def _page(body, scroll_to=None):
