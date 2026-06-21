@@ -6,61 +6,57 @@ LICENSES the rule: "house originally" -> H is a first-letter selection ONLY beca
 selection is a fabrication (any word yields a first/middle/alternate run), so the
 charade/container engines must find a matching indicator before filling a SEL slot.
 
-Kept deliberately conservative: only words/phrases that unambiguously mean a letter
-selection. Ambiguous words (head, top, start, heart, inside, sides) are EXCLUDED for
-now — they double as content words and other engines' indicators, and a false match
-would let selection hijack a clue. The map is the single gate; widen it only on
-evidence.
+DB-DRIVEN (was a hardcoded word list — the same anti-pattern deletion/substitution had
+before their conversion). The wiring registers a `rules` provider (see
+engine_registry.selection_rules) that reads the indicators table; SUBTYPE_RULE maps a DB
+(wordplay_type, subtype) to a selection rule. Add/curate selection indicators in the DB,
+never here.
 """
 
-# rule -> the single-word indicators that license it.
-_SINGLE = {
-    "first":         {"originally", "initially", "primarily", "firstly",
-                      "first", "leading", "opening"},
-    "last":          {"ultimately", "finally", "lastly", "latterly"},
-    "outer":         {"outskirts", "borders", "extremes", "bounds", "limits"},
-    "middle":        {"essentially", "centrally"},
-    "alternate":     {"occasionally", "regularly", "alternately",
-                      "periodically", "oddly", "evenly"},
-    "remove_middle": {"heartless"},
+# DB (wordplay_type, subtype) -> selection rule. Only SELECTION (keep) subtypes — the
+# matching deletion subtypes (first_delete, last_delete, outer_delete, center_delete,
+# tail_delete) are REMOVALS and deliberately excluded.
+SUBTYPE_RULE = {
+    ("acrostic", "initial"):        "first",
+    ("acrostic", "first"):          "first",
+    ("parts", "first_use"):         "first",
+    ("parts", "last_use"):          "last",
+    ("parts", "last"):              "last",
+    ("parts", "outer_use"):         "outer",
+    ("parts", "center_use"):        "middle",
+    ("parts", "alternate"):         "alternate",
+    ("parts", "even"):              "alternate",
+    ("parts", "odd"):               "alternate",
+    ("selection", "last_letter"):   "last",
+    ("selection", "outside_letters"): "outer",
 }
 
-# rule -> multi-word indicator phrases (matched as a contiguous run, lower-cased).
-_PHRASES = {
-    "first":     [("at", "first"), ("to", "start"), ("to", "begin")],
-    "last":      [("at", "last"), ("at", "the", "end")],
-    "outer":     [("outer", "limits"), ("on", "the", "edges")],
-    "middle":    [("at", "heart"), ("at", "the", "centre"),
-                  ("at", "the", "center")],
-    "alternate": [("now", "and", "then"), ("every", "other"),
-                  ("at", "intervals"), ("from", "time", "to", "time")],
-}
-
-# Reverse single-word index for O(1) lookup.
-_WORD_RULE = {w: rule for rule, words in _SINGLE.items() for w in words}
+# Provider set by the wiring: rules_for(text) -> set of selection rules the DB licenses
+# for that word/phrase (inflection-aware). None until wired (find_indicators then empty).
+_RULES_PROVIDER = None
 
 
-def _norm(text):
-    return "".join(c for c in text.lower() if c.isalpha())
+def set_rules_provider(fn):
+    global _RULES_PROVIDER
+    _RULES_PROVIDER = fn
 
 
-def find_indicators(words):
-    """[(rule, (idx, ...)), ...] — every selection indicator in `words` (a list of
-    token objects with .text), each with the word indices it occupies. Multi-word
-    phrases are matched as contiguous runs and reported before single words so the
-    caller prefers the longer match. Empty when none."""
-    norms = [_norm(t.text) for t in words]
-    out = []
-    # multi-word phrases first (longer, more specific)
-    for rule, phrases in _PHRASES.items():
-        for phrase in phrases:
-            L = len(phrase)
-            for i in range(len(norms) - L + 1):
-                if tuple(norms[i:i + L]) == phrase:
+def find_indicators(words, max_run=4):
+    """[(rule, (idx, ...)), ...] — every selection indicator in `words` (token objects
+    with .text), each with the word indices it occupies. Contiguous runs (phrases) and
+    single words are matched against the DB-driven provider. Empty when none / unwired."""
+    provider = _RULES_PROVIDER
+    if provider is None:
+        return []
+    texts = [t.text for t in words]
+    n = len(texts)
+    out, seen = [], set()
+    for L in range(min(max_run, n), 0, -1):           # longer phrases first
+        for i in range(n - L + 1):
+            phrase = " ".join(texts[i:i + L])
+            for rule in (provider(phrase) or ()):
+                key = (rule, i, i + L)
+                if key not in seen:
+                    seen.add(key)
                     out.append((rule, tuple(range(i, i + L))))
-    # single words
-    for i, w in enumerate(norms):
-        rule = _WORD_RULE.get(w)
-        if rule is not None:
-            out.append((rule, (i,)))
     return out

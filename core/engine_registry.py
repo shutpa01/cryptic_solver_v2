@@ -78,6 +78,7 @@ def make_db_wiring():
     # dashboard add is not seen until the wiring (server) is rebuilt — acceptable
     # for the true-test tool, which already restarts on code change.
     _cache_def, _cache_ind, _cache_look, _cache_lookall = {}, {}, {}, {}
+    _cache_sel = {}
 
     # Live indexes, built ONCE at wiring time by a single scan of each table, so the
     # per-clue lookups (probed O(windows) times, multiplied by inflection variants)
@@ -208,6 +209,31 @@ def make_db_wiring():
             except Exception:
                 pass
         return out
+
+    def selection_rules(word):
+        """DB-licensed letter-SELECTION rules for a word/phrase (first/last/outer/middle/
+        alternate), read live from the indicators table via selection_indicators.
+        SUBTYPE_RULE. Inflection/contraction-aware. Replaces the old hardcoded word list
+        in core.selection_indicators (the same anti-pattern deletion/substitution shed)."""
+        if word in _cache_sel:
+            return _cache_sel[word]
+        from core import selection_indicators
+        out = set()
+        for v in _match_variants(word):
+            try:
+                for wtype, sub, _ in db.get_indicator_types(v):
+                    rule = selection_indicators.SUBTYPE_RULE.get(
+                        (wtype, (sub or "").strip().lower()))
+                    if rule:
+                        out.add(rule)
+            except Exception:
+                pass
+        _cache_sel[word] = out
+        return out
+
+    # selection_indicators.find_indicators reads this provider instead of a hardcoded list
+    from core import selection_indicators as _sel_ind
+    _sel_ind.set_rules_provider(selection_rules)
 
     def is_dbe(word):
         """A definition-by-example indicator ('perhaps', 'possibly', 'maybe', ...).
@@ -411,7 +437,8 @@ def make_db_wiring():
                                          load_container_charade_templates,
                                          load_reversal_templates,
                                          load_reversal_charade_templates,
-                                         load_charade_homophone_templates)
+                                         load_charade_homophone_templates,
+                                         load_deletion_templates)
         charade_templates = load_charade_templates()
         anagram_templates = load_anagram_templates()
         anagram_charade_templates = load_anagram_charade_templates()
@@ -421,6 +448,7 @@ def make_db_wiring():
         reversal_templates = load_reversal_templates()
         reversal_charade_templates = load_reversal_charade_templates()
         charade_homophone_templates = load_charade_homophone_templates()
+        deletion_templates = load_deletion_templates()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
@@ -429,6 +457,7 @@ def make_db_wiring():
         reversal_templates = []
         reversal_charade_templates = []
         charade_homophone_templates = []
+        deletion_templates = []
 
     def invalidate(kind=None, word=None, synonym=None, definition=None, answer=None,
                    wordplay_type=None):
@@ -438,7 +467,7 @@ def make_db_wiring():
         memo + per-word caches (the next lookup re-reads the just-written row) and patch
         the two prebuilt indexes with just the new entry. No 643k-row rescan, no LiveDB
         reconnect — a clue-level add costs the same as solving one clue."""
-        for _c in (_cache_def, _cache_ind, _cache_look, _cache_lookall):
+        for _c in (_cache_def, _cache_ind, _cache_look, _cache_lookall, _cache_sel):
             _c.clear()
         try:
             db.clear_caches()
@@ -477,7 +506,8 @@ def make_db_wiring():
             "container_templates": container_templates,
             "container_charade_templates": container_charade_templates,
             "reversal_templates": reversal_templates,
-            "reversal_charade_templates": reversal_charade_templates}
+            "reversal_charade_templates": reversal_charade_templates,
+            "deletion_templates": deletion_templates}
 
 
 # The wiring keys that drive an AI (Haiku/Sonnet) call. A batch run nulls these
@@ -502,7 +532,7 @@ def db_only(wiring):
 
 
 def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
-          charade_solve=None, anagram_solve=None):
+          charade_solve=None, anagram_solve=None, deletion_solve=None):
     """Run the clue through every engine that exists, return (parse, engine_name)
     for the first that solves, or (None, None).
 
@@ -849,9 +879,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # indicator fixes which letters go: TAU = curtail(TAUT)) and NAMED (the removed letters
     # are a DB value of another word: LOTTO = BLOTTO - B[bishop]). Answer-driven, gated on a
     # genuine deletion indicator. Tried after the reversal family; not yet signature-driven.
-    from core.deletion_engine import solve_deletion
-    pdel = solve_deletion(ctx, wiring["defines"], wiring["lookup_all"],
+    # CATALOG-DRIVEN by the GENERIC verifier (core.signature_verifier): it reads each
+    # deletion recipe's persisted assembly+structure and drives the composable operation
+    # engines (pos_delete / named_delete) + the 'single' assembly. This is the first clue
+    # type on the operation/assembly architecture (documents/OPERATION_ASSEMBLY_SCHEMA.md);
+    # it reproduced the deletion signature engine 3000/3000 identical, which is itself
+    # proven == the bespoke engine. The bespoke core.deletion_engine is retired from the
+    # cascade (kept for its _build/_verify helpers + as the A/B override via deletion_solve);
+    # core.deletion_signature_engine is superseded (kept for _del_ops, used by the verifier).
+    if deletion_solve is None:
+        from core.signature_verifier import solve_deletion as deletion_solve
+    pdel = deletion_solve(ctx, wiring["defines"], wiring["lookup_all"],
                           wiring["is_link"], wiring["deletion_subtypes"],
+                          templates=wiring.get("deletion_templates"),
                           define_fallback=wiring.get("define_fallback"),
                           is_dbe=wiring.get("is_dbe"))
     if pdel is not None and pdel.status in ("pass", "pending"):
@@ -1106,11 +1146,11 @@ def _finalize_provisional(parse, ctx, store, source, puzzle_number):
 
 def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
                     clue_id=None, charade_solve=None, anagram_solve=None,
-                    direction=None):
+                    deletion_solve=None, direction=None):
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
     parse, name = solve(ctx, wiring, source=source, puzzle_number=puzzle_number,
                         clue_id=clue_id, charade_solve=charade_solve,
-                        anagram_solve=anagram_solve)
+                        anagram_solve=anagram_solve, deletion_solve=deletion_solve)
     # GENERAL AUTO-SIGNATURE LOOP: the catalog could not solve it, but if the clue's bits
     # PROVABLY assemble to the answer, create the missing signature and solve. The signature
     # is written ONLY when it produces a verified clean pass (see auto_discover_and_file).
@@ -1123,7 +1163,8 @@ def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
                 ctx, wiring,
                 lambda c, wr: solve(c, wr, source=source, puzzle_number=puzzle_number,
                                     charade_solve=charade_solve,
-                                    anagram_solve=anagram_solve))   # no clue_id: no persist
+                                    anagram_solve=anagram_solve,
+                                    deletion_solve=deletion_solve))   # no clue_id: no persist
             if result is not None:
                 parse, name = result
                 if clue_id is not None:
