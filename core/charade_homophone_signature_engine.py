@@ -269,6 +269,12 @@ def _verify(ctx, parse):
                         "(queued for enrichment)")
     if any(getattr(s, "source", "db") == "pending" for s in parse.sources):
         warnings.append("a homophone piece is provisional (queued for enrichment)")
+    from core import role_validity
+    bad = role_validity.unbacked_roles(parse)
+    if bad:
+        parse.warnings = warnings + bad
+        parse.status = "fail"
+        return
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"

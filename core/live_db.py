@@ -76,6 +76,25 @@ class LiveDB:
                     au = (a or "").strip().upper()
                     if au and au not in seen:
                         seen.add(au); out.append(au)
+            # BIDIRECTIONAL: ALSO match the clue word against the VALUE column and return the
+            # key (synonym -> word; answer -> definition). synonyms_pairs is NOT stored
+            # symmetrically, so this reverse pass is required EVEN WHEN the forward pass found
+            # something — e.g. 'bubbles' has forward synonyms, yet ('lather','bubbles') is
+            # stored only one way, so bubbles->LATHER is reachable only in reverse. Cheap via
+            # the COLLATE NOCASE value-column indexes (synonyms_pairs.synonym, def_aug.answer).
+            for v in self._word_variants(word):
+                for (wd,) in self._conn.execute(
+                        "SELECT word FROM synonyms_pairs "
+                        "WHERE synonym=? COLLATE NOCASE", (v,)):
+                    su = (wd or "").strip().upper()
+                    if su and su not in seen:
+                        seen.add(su); out.append(su)
+                for (d,) in self._conn.execute(
+                        "SELECT definition FROM definition_answers_augmented "
+                        "WHERE answer=? COLLATE NOCASE", (v,)):   # answer -> definition
+                    du = (d or "").strip().upper()
+                    if du and du not in seen:
+                        seen.add(du); out.append(du)
             self._cs[word] = out
             base = out
         if max_len is None:
@@ -101,6 +120,14 @@ class LiveDB:
                 su = (sub or "").strip().upper()
                 if su and su not in seen:
                     seen.add(su); out.append(su)
+        if not out:                       # BIDIRECTIONAL: forward (norm_ind) found nothing,
+            for v in self._word_variants(word):   # so match the value (substitution) -> indicator
+                for (ind,) in self._conn.execute(
+                        "SELECT indicator FROM wordplay WHERE substitution=? COLLATE NOCASE AND "
+                        "(category IS NULL OR category != 'dbe')", (v,)):
+                    iu = (ind or "").strip().upper()
+                    if iu and iu not in seen:
+                        seen.add(iu); out.append(iu)
         self._ca[word] = out
         return out
 
@@ -128,6 +155,13 @@ class LiveDB:
                 hu = (h or "").strip().upper()
                 if hu and hu not in seen:
                     seen.add(hu); out.append(hu)
+        if not out:                       # BIDIRECTIONAL: match the homophone value -> word
+            for v in self._word_variants(word):
+                for (wd,) in self._conn.execute(
+                        "SELECT word FROM homophones WHERE homophone=? COLLATE NOCASE", (v,)):
+                    wu = (wd or "").strip().upper()
+                    if wu and wu not in seen:
+                        seen.add(wu); out.append(wu)
         self._ch[word] = out
         return out
 

@@ -423,6 +423,8 @@ def _verify_hidden(ctx, parse):
     #    classification (anything not host/def/indicator/link is 'unaccounted',
     #    caught by rule 2), so no separate check is needed here.
 
+    from core import role_validity
+    warnings += role_validity.unbacked_roles(parse)   # indicator/links must be DB-backed
     parse.warnings = warnings
     # Hidden never fails: a clean parse passes, any queueable gap is pending.
     parse.status = "pass" if not warnings else "pending"

@@ -75,45 +75,75 @@ def _assemble(ctx, answer, split, words, indicator_types, is_link):
     first_inds = [k for k in range(n) if is_first_ind(k)]
     first_inds += [i for r, idxs in sel if r == "first" for i in idxs]
     last_inds = [i for r, idxs in sel if r == "last" for i in idxs]
-    if not first_inds and not last_inds:
+
+    # ALTERNATION selection indicators (REENACT: "regularly" -> alternate letters)
+    alt_inds = [k for k in range(n) if {"alternating", "alternate"} & types(k)]
+    alt_inds += [i for r, idxs in sel if r == "alternate" for i in idxs]
+    if not (first_inds or last_inds or alt_inds):
         return None
 
     ans_sorted = sorted(answer)
-    # try each fodder run + each source word + first/last selected letter
+
+    def try_inner(fodder, fraw, source_idxs, value, mech, note, ind_pool):
+        """Common path: the inner selection `value` (from `source_idxs`) inserted into the
+        anagram of `fodder`. Answer-driven; accounts every word; returns a Parse or None."""
+        srcset = set(source_idxs)
+        if not value or len(fraw) + len(value) != len(answer):
+            return None
+        if sorted(fraw + value) != ans_sorted:
+            return None
+        sel_idx = next((i for i in ind_pool
+                        if i not in set(fodder) and i not in srcset), None)
+        if sel_idx is None:
+            return None
+        pl = _account(n, fodder, srcset, anag, con, sel_idx, is_con, is_link, words)
+        if pl is None:
+            return None
+        return _build(ctx, answer, split, words, fodder, sorted(srcset), value, mech,
+                      note, pl)
+
     for a in range(n):
         for b in range(a + 1, min(a + MAX_FODDER, n) + 1):
             fodder = list(range(a, b))
             fraw = "".join(raw(words[k].text) for k in fodder)
-            if not fraw or len(fraw) + 1 != len(answer):
+            if not fraw:
                 continue
+            # (1) single first/last letter of one word
             for sk in range(n):
                 if a <= sk < b:
-                    continue                        # source word not in the fodder
+                    continue
                 wl = raw(words[sk].text)
                 if not wl:
                     continue
                 for mode, inds in (("first", first_inds), ("last", last_inds)):
                     if not inds:
                         continue
-                    L = wl[0] if mode == "first" else wl[-1]
-                    if sorted(fraw + L) != ans_sorted:
-                        continue
-                    # the selection indicator: nearest of `inds` that is not fodder/source
-                    sel_idx = next((i for i in inds if not (a <= i < b) and i != sk), None)
-                    if sel_idx is None:
-                        continue
-                    pl = _account(n, fodder, sk, anag, con, sel_idx, is_con, is_link, words)
-                    if pl is None:
-                        continue
-                    return _build(ctx, answer, split, words, fodder, sk, L, mode,
-                                  pl, indicator_types)
+                    r = try_inner(fodder, fraw, [sk],
+                                  wl[0] if mode == "first" else wl[-1],
+                                  "first_letter" if mode == "first" else "last_letter",
+                                  "%s-letter indicator" % mode, inds)
+                    if r is not None:
+                        return r
+            # (2) alternation (every-other letter) of a contiguous word run
+            if alt_inds:
+                for c in range(n):
+                    for d in range(c + 1, min(c + 4, n) + 1):
+                        run = list(range(c, d))
+                        if any(a <= k < b for k in run):
+                            continue                  # disjoint from the fodder
+                        rraw = "".join(raw(words[k].text) for k in run)
+                        for stream in (rraw[0::2], rraw[1::2]):
+                            r = try_inner(fodder, fraw, run, stream, "alternation",
+                                          "alternation indicator", alt_inds)
+                            if r is not None:
+                                return r
     return None
 
 
-def _account(n, fodder, sk, anag, con, sel_idx, is_con, is_link, words):
-    """Assign every clue word a role: fodder, source(sk), anagram indicator, container
+def _account(n, fodder, source_idxs, anag, con, sel_idx, is_con, is_link, words):
+    """Assign every clue word a role: fodder, inner source(s), anagram indicator, container
     indicator, selection indicator, or link. A bare unaccounted word -> reject."""
-    used = set(fodder) | {sk, sel_idx}
+    used = set(fodder) | set(source_idxs) | {sel_idx}
     anag_run = [k for k in anag if k not in used]
     if not anag_run:
         return None
@@ -132,7 +162,7 @@ def _account(n, fodder, sk, anag, con, sel_idx, is_con, is_link, words):
     return {"anag": anag_run, "con": con_run, "sel": sel_idx, "links": links}
 
 
-def _build(ctx, answer, split, words, fodder, sk, L, mode, pl, indicator_types):
+def _build(ctx, answer, split, words, fodder, source_idxs, value, mech, note, pl):
     from core.definition_engine import dbe_annotation
     sources, remaining = [], []
     for k in fodder:
@@ -140,12 +170,11 @@ def _build(ctx, answer, split, words, fodder, sk, L, mode, pl, indicator_types):
         remaining.append([len(sources), Counter(wl)])
         sources.append(Source(clue_atom_ids=words[k].atom_ids, text=words[k].text,
                               value=wl, mechanism="anagram_fodder"))
-    # the selected letter as its own source
-    sel_src_i = len(sources)
-    remaining.append([sel_src_i, Counter(L)])
-    sources.append(Source(clue_atom_ids=words[sk].atom_ids, text=words[sk].text,
-                          value=L, mechanism=("first_letter" if mode == "first"
-                                              else "last_letter")))
+    # the inner selection (one letter, or an alternation run) as its own source
+    remaining.append([len(sources), Counter(value)])
+    sources.append(Source(
+        clue_atom_ids=tuple(aid for k in source_idxs for aid in words[k].atom_ids),
+        text=" ".join(words[k].text for k in source_idxs), value=value, mechanism=mech))
     links = []
     for pos_i, ch in enumerate(answer, start=1):
         si = 0
@@ -168,7 +197,7 @@ def _build(ctx, answer, split, words, fodder, sk, L, mode, pl, indicator_types):
                                       role="indicator", note="container indicator"))
     annotations.append(Annotation(
         clue_atom_ids=words[pl["sel"]].atom_ids, text=words[pl["sel"]].text,
-        role="indicator", note="%s-letter indicator" % mode))
+        role="indicator", note=note))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
                                       role="link", note="link word"))
@@ -195,6 +224,12 @@ def _verify(ctx, parse):
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
         warnings.append("the definition is provisional (queued for enrichment)")
+    from core import role_validity
+    bad = role_validity.unbacked_roles(parse)
+    if bad:
+        parse.warnings = warnings + bad
+        parse.status = "fail"
+        return
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"

@@ -132,10 +132,12 @@ def _try_template(ctx, answer, template, split, words, postags, is_link,
                        indicator_types)
     if placement is None:
         return None
-    return _build(ctx, answer, split, words, placement, template)
+    return _build(ctx, answer, split, words, placement, template,
+                  indicator_types=indicator_types, is_link=is_link)
 
 
-def _build(ctx, answer, split, words, placement, template):
+def _build(ctx, answer, split, words, placement, template,
+           indicator_types=None, is_link=None):
     """Assemble the Parse: one Source per fodder word (colour), each answer letter
     attributed to a fodder word that supplied it; indicator + links as annotations."""
     from core.definition_engine import dbe_annotation
@@ -192,11 +194,13 @@ def _build(ctx, answer, split, words, placement, template):
                   definition=definition, operation="anagram", solved_by="catalog")
     parse.template_id = template.id if template is not None else None
     parse.matched_signature = template.signature if template is not None else None
-    _verify(ctx, parse, bool(ind_toks), ind_confirmed)
+    _verify(ctx, parse, bool(ind_toks), ind_confirmed,
+            indicator_types=indicator_types, is_link=is_link)
     return parse
 
 
-def _verify(ctx, parse, has_indicator, ind_confirmed=True):
+def _verify(ctx, parse, has_indicator, ind_confirmed=True,
+            indicator_types=None, is_link=None):
     warnings = []
     if not parse.is_complete():
         warnings.append("the answer letters are not fully covered by the fodder")
@@ -208,6 +212,18 @@ def _verify(ctx, parse, has_indicator, ind_confirmed=True):
         warnings.append("no anagram indicator found")
     elif not ind_confirmed:
         warnings.append("the anagram indicator is provisional (queued for enrichment)")
+    # DB-VALIDITY: every recorded role must be DB-backed (no role assigned by elimination).
+    # The recorded indicator is the SPAN as written ("ordered way"); it must itself be a DB
+    # anagram indicator, and every link must be a DB link word. A part that is not DB-backed
+    # is fabrication, not a solve.
+    bad_roles = []
+    for a in parse.annotations:
+        if a.role == "indicator" and indicator_types is not None and \
+                not is_anagram_indicator(a.text, indicator_types):
+            bad_roles.append("indicator %r is not a DB anagram indicator" % a.text)
+        elif a.role == "link" and is_link is not None and not is_link(a.text):
+            bad_roles.append("link word %r is not a DB link word" % a.text)
+    warnings += bad_roles
     if parse.definition is None:
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
@@ -215,7 +231,7 @@ def _verify(ctx, parse, has_indicator, ind_confirmed=True):
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
-    elif missing or not has_indicator or not parse.is_complete():
+    elif missing or not has_indicator or not parse.is_complete() or bad_roles:
         parse.status = "fail"
     else:
         parse.status = "pending"
@@ -327,15 +343,20 @@ def _fodder_anchored(ctx, answer, words, postags, defines, is_link, indicator_ty
             links += extra_links
             ind_idx, def_idx = icore, dcore
         else:
-            # No definition-confirmed boundary: fall back to the original function-word
-            # heuristic (a link-word boundary with a not-yet-DB-confirmed definition).
+            # No DB-confirmed definition boundary. The indicator must STILL be DB-verified —
+            # NEVER assigned by elimination. Take ONLY the DB anagram-indicator word(s)
+            # adjacent to the fodder; everything beyond them is the definition (provisional
+            # if the DB lacks it). If no DB indicator sits next to the fodder, ABSTAIN — we
+            # do not invent an indicator out of content words.
             from_fodder = side if right else list(reversed(side))
             i = 0
             while i < len(from_fodder) and is_fn(from_fodder[i]):
                 links.append(from_fodder[i]); i += 1
             ind = []
-            while i < len(from_fodder) and not is_fn(from_fodder[i]):
+            while i < len(from_fodder) and is_ind(from_fodder[i]):
                 ind.append(from_fodder[i]); i += 1
+            if not ind:
+                return None                      # no DB-verified indicator -> abstain
             while i < len(from_fodder) and is_fn(from_fodder[i]):
                 links.append(from_fodder[i]); i += 1
             rest = from_fodder[i:]
@@ -361,7 +382,8 @@ def _fodder_anchored(ctx, answer, words, postags, defines, is_link, indicator_ty
         def_tokens=[words[k] for k in def_idx],
         wordplay_tokens=[words[k] for k in range(n) if k not in def_idx],
         source="db" if def_confirmed else "pending")
-    return _build(ctx, answer, split, words, placement, None)
+    return _build(ctx, answer, split, words, placement, None,
+                  indicator_types=indicator_types, is_link=is_link)
 
 
 def solve_anagram(ctx, defines, is_link, indicator_types, templates,

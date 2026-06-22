@@ -558,6 +558,11 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     `charade_solve` / `anagram_solve` override those engines (default = the
     catalog-driven signature engines); the A/B harness passes the legacy evidence
     engine here to compare the full cascade both ways."""
+    # Install the DB predicates for this solve so every engine's _verify can DB-validate
+    # the roles it records (no role assigned by elimination — core.role_validity).
+    from core import role_validity
+    role_validity.set_predicates(wiring["indicator_types"], wiring["is_link"])
+
     # HIDDEN — triggered by the hidden run; simplest, tried first. Finding the
     # answer as a contiguous run is conclusive that the clue is hidden, so hidden
     # is TERMINAL whenever it fires (verdict pass or pending — it never fails). No

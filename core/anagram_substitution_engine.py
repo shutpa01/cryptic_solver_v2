@@ -47,10 +47,11 @@ _MECH_PREF = {"abbreviation": 0, "substitution": 1, "raw": 2, "synonym": 3}
 
 
 def _build(ctx, answer, split, words, bulk_idx, sub_i, sub_value, sub_mech,
-           ind_idx):
+           ind_idx, link_idx=()):
     """Assemble the Parse. `bulk_idx` are the raw fodder words; `sub_i` the substituted
     word with value `sub_value` (mechanism `sub_mech`); `ind_idx` the anagram indicator
-    words. Each answer letter is attributed (anagram_of) to whichever source still has it."""
+    words; `link_idx` the interior link words (accounted, not fodder). Each answer letter is
+    attributed (anagram_of) to whichever source still has it."""
     from core.definition_engine import dbe_annotation
 
     sources, remaining = [], []
@@ -83,6 +84,9 @@ def _build(ctx, answer, split, words, bulk_idx, sub_i, sub_value, sub_mech,
         clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in ind_toks), role="indicator",
         note="anagram indicator", source="db")]
+    for k in link_idx:
+        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
+                                      role="link", note="link word"))
     dbe = dbe_annotation(split)
     if dbe is not None:
         annotations.append(dbe)
@@ -106,6 +110,12 @@ def _verify(ctx, parse):
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
         warnings.append("the definition is provisional (queued for enrichment)")
+    from core import role_validity
+    bad = role_validity.unbacked_roles(parse)
+    if bad:
+        parse.warnings = warnings + bad
+        parse.status = "fail"
+        return
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
@@ -153,7 +163,12 @@ def solve_anagram_substitution(ctx, defines, value_lookup, indicator_types, is_l
                 ind_idx = list(range(ia, ib))
                 if not all(k in ind_words for k in ind_idx):
                     continue
-                content = [k for k in range(len(words)) if k not in set(ind_idx)]
+                content_all = [k for k in range(len(words)) if k not in set(ind_idx)]
+                # interior LINK words are not fodder — account them as links, not letters
+                # ("with" in "Small lass with pert bust" = STRAPLESS). Without this the bulk
+                # picks up W,I,H and never matches the answer.
+                link_idx = [k for k in content_all if is_link and is_link(words[k].text)]
+                content = [k for k in content_all if k not in set(link_idx)]
                 if len(content) < 2:                   # need substituted + >=1 bulk word
                     continue
                 for sub_i in content:
@@ -184,7 +199,7 @@ def solve_anagram_substitution(ctx, defines, value_lookup, indicator_types, is_l
                         # mislabel (or steal) a plain anagram.
                         if vv and Counter(vv) == residual and Counter(vv) != raw_sub:
                             parse = _build(ctx, answer, split, words, bulk_idx, sub_i,
-                                           vv, mech, ind_idx)
+                                           vv, mech, ind_idx, link_idx)
                             if parse.status not in ("pass", "pending"):
                                 continue
                             status_rank = 2 if parse.status == "pass" else 1

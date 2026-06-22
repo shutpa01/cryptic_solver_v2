@@ -258,6 +258,9 @@ def _verify_dd(ctx, parse):
     if len(ids) == 2 and ids[0] & ids[1]:
         warnings.append("the two definitions overlap")
 
+    from core import role_validity
+    warnings += role_validity.unbacked_roles(parse)   # links/indicators must be DB-backed
+
     if warnings:
         parse.warnings = warnings
         parse.status = "fail"

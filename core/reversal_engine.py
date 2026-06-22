@@ -138,6 +138,12 @@ def _verify(ctx, parse):
         warnings.append("no definition found")
     elif getattr(parse.definition, "source", "db") == "pending":
         warnings.append("the definition is provisional (queued for enrichment)")
+    from core import role_validity
+    bad = role_validity.unbacked_roles(parse)
+    if bad:
+        parse.warnings = warnings + bad
+        parse.status = "fail"
+        return
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"

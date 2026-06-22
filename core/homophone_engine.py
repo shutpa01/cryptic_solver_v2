@@ -145,7 +145,7 @@ def _try_split(ctx, answer, split, words, is_link, indicator_types, sounds_alike
         if mech is None:
             continue
         leftover = [i for i in region if i not in set(src_idxs)]
-        if not all(is_link and is_link(words[i].text) for i in leftover):
+        if not _leftover_all_links(words, leftover, is_link):
             continue                             # an unaccounted content word
         parse = _build(ctx, answer, split, words, src_idxs, mech, ind_pos, leftover)
         if parse is None:
@@ -197,6 +197,20 @@ def _build_fail_evidence(ctx, split, words, ind_pos, region):
                  sources=[], links=[], annotations=annotations,
                  definition=definition, operation="homophone",
                  solved_by="homophone", status="fail", warnings=warnings)
+
+
+def _leftover_all_links(words, leftover, is_link):
+    """Every leftover word is a link — checked at PHRASE level over contiguous runs, so a
+    multi-word connector the DB types as a link ("to get") is recognised even when a single
+    word of it ("get") is not a link on its own. Mirrors dd_engine / charade_deletion."""
+    if not is_link:
+        return not leftover
+    for run in engine_common.contiguous_groups(sorted(leftover)):
+        phrase = " ".join(words[i].text for i in run)
+        if is_link(phrase) or all(is_link(words[i].text) for i in run):
+            continue
+        return False
+    return True
 
 
 def _contiguous_subruns(positions):
@@ -260,6 +274,12 @@ def _verify(ctx, parse):
     w_def = engine_common.definition_warning(parse)
     if w_def:
         warnings.append(w_def)
+    from core import role_validity
+    bad = role_validity.unbacked_roles(parse)
+    if bad:
+        parse.warnings = warnings + bad
+        parse.status = "fail"
+        return
     parse.warnings = warnings
     if not warnings:
         parse.status = "pass"
