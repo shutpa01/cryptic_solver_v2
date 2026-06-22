@@ -883,6 +883,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pca is not None and pca.status in ("pass", "pending"):
         return _finish(pca, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # NESTED CONTAINER — a container inside a container (VACUUM = VAM["5am"] around
+    # [CU["Copper"] around U["university"]]; FALLENANGEL = FL["Florida"] around
+    # [ALLEGE["claim"] around NAN["relative"]]). The plain container engines insert ONE
+    # value into another; this is a DOUBLE insertion (three DB values, two genuine wraps).
+    # Requires >=2 container indicators, so it cannot intercept a single-container clue.
+    # Answer-driven; returns PASS-only so it never displaces a simpler engine's pending/
+    # fail. Tried with the container family.
+    from core.nested_container_engine import solve_nested_container
+    pnc = solve_nested_container(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pnc is not None and pnc.status in ("pass", "pending"):
+        return _finish(pnc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
     # rev(TRAMS)). Catalog-DRIVEN (signature engine); single-piece, answer-driven (the fodder
     # run's DB value must equal reverse(answer)). Tried after the container family; gated on a
