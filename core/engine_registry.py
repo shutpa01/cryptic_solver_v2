@@ -742,6 +742,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if paco is not None and paco.status in ("pass", "pending"):
         return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + ANAGRAM-CONTAINER — a charade with one anagram-container piece (DOGFIGHT =
+    # D["Day"] + [anag("fog hit") "awful" containing G "hiding"], G = first of "Germany's"
+    # via "leader"). The plain anagram-container above builds the whole answer as one
+    # [anag ∋ value]; it has no charade prefix/suffix. This requires >=1 plain charade piece
+    # AND exactly one anagram-container span, so it cannot intercept a plain charade or a
+    # plain anagram-container. Gated on BOTH an anagram and a container indicator;
+    # answer-driven. The inserted value may itself be a first/last-letter selection.
+    from core.charade_anagram_container_engine import solve_charade_anagram_container
+    pcac = solve_charade_anagram_container(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["selection_rules"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcac is not None and pcac.status in ("pass", "pending"):
+        return _finish(pcac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CONTAINER+DELETION — a compound: build a container (one DB value inserted into
     # another, the inner optionally a small charade), then a deletion trims the result to
     # the answer ("old spades in the last shed" = OS in THE -> TOSHE, shed last -> TOSH).
@@ -895,6 +910,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if prevc is not None and prevc.status in ("pass", "pending"):
         return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # SELECTION + REVERSAL CHARADE — a charade mixing a letter-SELECTION piece and a
+    # REVERSED piece (TRAIL = T[end of "account"] + RAIL[reverse of LIAR "storyteller"]).
+    # charade_signature does selection (SEL_F) and reversal_charade does reversal (REV_F),
+    # but neither combines them in one charade. Requires >=1 selection AND >=1 reversal, so
+    # it cannot intercept a plain charade, reversal_charade, or selection charade (the
+    # earlier engines claim those). Gated on BOTH a reversal and a selection indicator,
+    # answer-driven. Tried right after the reversal_charade family.
+    from core.selection_reversal_charade_engine import solve_selection_reversal_charade
+    psrc = solve_selection_reversal_charade(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if psrc is not None and psrc.status in ("pass", "pending"):
+        return _finish(psrc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # REVERSAL + CONTAINER — an outer DB value wrapping an inner DB value that is REVERSED
     # before insertion (ARABS = AS around reverse(BAR)). The plain container inserts values
     # as-is and the reversal engines concatenate; neither covers a reversed inner inside a
@@ -945,6 +975,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                               is_dbe=wiring.get("is_dbe"))
     if psub is not None and psub.status in ("pass", "pending"):
         return _finish(psub, "substitution", ctx, wiring, source, puzzle_number, clue_id)
+
+    # LOCATED SUBSTITUTION — a synonym base with its FIRST or LAST letter replaced by a
+    # clued value (DRESSES = TRESSES["Hair"], initial letter cut, D["diamonds"] instead).
+    # The plain substitution above swaps two clued letters anywhere; it cannot reach a
+    # removal at a LOCATED position whose removed letter is named only by a position
+    # indicator ("initially"). Gated on BOTH a substitution indicator and a first/last
+    # selection indicator, answer-driven. Tried right after the plain substitution.
+    from core.located_substitution_engine import solve_located_substitution
+    plsub = solve_located_substitution(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["synonyms_of"],
+        wiring["is_link"], wiring["indicator_types"], wiring["selection_rules"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if plsub is not None and plsub.status in ("pass", "pending"):
+        return _finish(plsub, "substitution", ctx, wiring, source, puzzle_number, clue_id)
 
     # (No free-tiling fallback. The cascade is signature-first: a clue with no matching
     # signature falls through to DD and then to the most-complete fail — it is NOT
