@@ -605,6 +605,64 @@ def auto_discover_and_file(ctx, wiring, solve_fn):
     return None
 
 
+def _parse_summary(parse):
+    """One-line-per-piece review text of a verified parse (for the approval queue)."""
+    lines = []
+    if parse.definition is not None:
+        lines.append("def: %s" % parse.definition.text)
+    for s in parse.sources:
+        lines.append("%s -> %s (%s)" % (s.text, s.value, s.mechanism))
+    for a in parse.annotations:
+        if getattr(a, "role", "") == "indicator":
+            lines.append("[%s: %s]" % (a.note, a.text))
+    return "\n".join(lines)
+
+
+def auto_discover_and_queue(ctx, wiring, solve_fn, clue_id=None, created_at="2026-06-22"):
+    """Like auto_discover_and_file, but QUEUE the proven signature for human approval
+    instead of filing it. Same strict gate: a candidate is only queued if, trialled
+    in-memory, it produces a CLEAN PASS via its own signature through the real cascade.
+    The catalog is NOT changed (the clue stays unsolved until the signature is approved).
+    Returns the queued signature string, or None. De-duped against catalog + queue +
+    rejected via signature_queue.is_known."""
+    from core import signature_queue
+    try:
+        cands = discover(ctx.clue_text, ctx.answer_text, wiring)
+    except Exception:
+        return None
+    from core.catalog_loader import Template, Slot
+    for cand in cands:
+        if cand["operation"] == "charade" and all(r == "LIT_F" for r in cand["roles"]):
+            continue                             # wholly literal -> likely a DB gap
+        key = _OP_TEMPLATE_KEY.get(cand["operation"])
+        if not (key and isinstance(wiring.get(key), list)):
+            continue
+        sig = _signature_str(cand)
+        if signature_queue.is_known(sig):        # already catalogued / queued / rejected
+            continue
+        slots = tuple(Slot(position=i, role=r, n_words=nw)
+                      for i, (r, nw) in enumerate(zip(cand["roles"], cand["n_words"])))
+        tmpl = Template(id=-1, operation=cand["operation"], signature=sig,
+                        def_pos=cand["def_pos"], count=1, priority=10 ** 6, slots=slots)
+        wiring[key].append(tmpl)                  # TRIAL: in-memory only, DB untouched
+        try:
+            rparse, _ = solve_fn(ctx, wiring)
+        except Exception:
+            rparse = None
+        wiring[key].pop()                         # always remove the trial; we only QUEUE
+        if (rparse is not None and rparse.status == "pass"
+                and getattr(rparse, "matched_signature", None) == sig):
+            cand_min = {"signature": sig, "operation": cand["operation"],
+                        "roles": cand["roles"], "n_words": cand["n_words"],
+                        "def_pos": cand["def_pos"]}
+            qid = signature_queue.queue(
+                cand_min, clue_id, ctx.clue_text,
+                ctx.answer_text, _parse_summary(rparse), created_at)
+            if qid is not None:
+                return sig
+    return None
+
+
 def verify(clue_text, answer, wiring):
     """Re-solve through the REAL cascade; return (status, engine, signature, parse)."""
     from core.engine_registry import solve_clue_text

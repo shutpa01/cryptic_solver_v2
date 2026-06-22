@@ -89,10 +89,11 @@ def wiring():
     global _WIRING
     if _WIRING is None:
         _WIRING = engine_registry.make_db_wiring()
-        # Interactive/page routes file a new catalog signature whenever a clue fully
-        # passes via the fallback (no catalog match). Shared with batch_wiring (a shallow
-        # copy), so page and clue both grow the catalog.
-        _WIRING["auto_signature"] = True
+        # QUEUE-FOR-APPROVAL (not auto-file): a discovered signature is queued for human
+        # approval rather than written straight to the catalog. auto_signature (auto-file)
+        # is deliberately OFF; the per-clue re-run turns on auto_signature_queue (see
+        # _render_one), so discovery only pays its cost on an explicit single-clue re-run.
+        _WIRING["auto_signature"] = False
     return _WIRING
 
 
@@ -261,8 +262,39 @@ def reload_route():
     # "with AI fallback" box is ticked. A re-run-all (no only) is always DB-only.
     use_ai = bool(only) and bool(request.form.get("ai"))
     return _page(notice + _body(raw, resolve_only={only} if only else None,
-                                ai=use_ai),
+                                ai=use_ai, discover=bool(only)),
                  scroll_to=only)
+
+
+@app.route("/approvesig", methods=["POST"])
+def approvesig():
+    """Approve a queued auto-discovered signature: file it into the catalog and reload
+    the wiring so it is live, then re-render."""
+    from core import signature_queue
+    raw = (request.form.get("id") or "").strip()
+    sid = (request.form.get("sig_id") or "").strip()
+    msg = "No signature id."
+    if sid:
+        tid, info = signature_queue.approve(int(sid))
+        if tid is not None:
+            reload_wiring()                       # make the new signature live
+            msg = "Approved signature %s (template %s); catalog reloaded." % (info, tid)
+        else:
+            msg = "Could not approve: %s" % info
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only=set()))
+
+
+@app.route("/rejectsig", methods=["POST"])
+def rejectsig():
+    """Reject a queued auto-discovered signature (remembered so it is not re-queued)."""
+    from core import signature_queue
+    raw = (request.form.get("id") or "").strip()
+    sid = (request.form.get("sig_id") or "").strip()
+    if sid:
+        signature_queue.reject(int(sid))
+    notice = '<div class="wfw-notice">Signature rejected.</div>'
+    return _page(notice + _body(raw, resolve_only=set()))
 
 
 @app.route("/admin", methods=["POST"])
@@ -457,26 +489,71 @@ def _do_add(form):
     return "Unknown add."
 
 
-def _body(raw, resolve_only=None, ai=False):
+def _signature_queue_html():
+    """Global banner: auto-DISCOVERED catalog signatures awaiting approval (queue for
+    approval). Each row shows the proposed signature, the clue that triggered it, and the
+    verified would-be parse, with Approve (-> file into the catalog) / Reject."""
+    from core import signature_queue
+    try:
+        rows = signature_queue.list_pending()
+    except Exception:
+        return ""
+    if not rows:
+        return ""
+    items = []
+    for r in rows:
+        parse = escape(r["parse_text"] or "").replace("\n", "<br>")
+        items.append(
+            '<div class="wfw-erow" style="align-items:flex-start">'
+            '<span class="wfw-etype" style="background:#6d28d9">SIGNATURE</span>'
+            '<div style="flex:1">'
+            '<code>%s</code><br>'
+            '<span class="tag">from %s [%s] %s</span>'
+            '<div style="margin:.25rem 0;font-size:.85rem;color:#444">%s</div>'
+            '</div>'
+            '<form method="post" action="/approvesig" style="display:inline">'
+            '<input type="hidden" name="sig_id" value="%d">'
+            '<input type="hidden" name="id" value="%s">'
+            '<button>Approve</button></form>'
+            '<form method="post" action="/rejectsig" style="display:inline">'
+            '<input type="hidden" name="sig_id" value="%d">'
+            '<input type="hidden" name="id" value="%s">'
+            '<button>Reject</button></form>'
+            '</div>'
+            % (escape(r["signature"]), escape(str(r["clue_id"])),
+               escape(r["answer"] or ""), escape(r["clue_text"] or ""), parse,
+               r["id"], "", r["id"], ""))
+    return ('<div class="wfw-enrich" style="background:#f5f3ff;border-color:#ddd6fe">'
+            '<div class="wfw-enrich-h" style="color:#5b21b6">'
+            'Signatures discovered &mdash; awaiting approval (%d)</div>%s</div>'
+            % (len(rows), "".join(items)))
+
+
+def _body(raw, resolve_only=None, ai=False, discover=False):
     """Render the page body. `resolve_only` None -> re-solve every clue; a set ->
     re-solve only those ids, render the rest from their stored result. `ai` True
     uses the full AI wiring for the re-solve (per-clue, on demand); False uses the
-    DB-only batch wiring so a whole-puzzle run makes no AI calls."""
+    DB-only batch wiring so a whole-puzzle run makes no AI calls. `discover` True turns
+    on the auto-signature DISCOVERY+QUEUE for the re-solved clue(s) (the per-clue re-run)."""
     cid = escape(raw, quote=True)
-    body = FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
+    # Render the clue cards FIRST (a per-clue re-run may discover + queue a signature
+    # during the solve), THEN build the queue banner so it reflects anything just queued.
+    cards = ""
     tokens = [t for t in raw.replace(",", " ").split() if t]
     for token in tokens:
         resolve = resolve_only is None or token in resolve_only
-        body += _render_one(token, raw, resolve, ai=ai)
-    return body
+        cards += _render_one(token, raw, resolve, ai=ai, discover=discover)
+    return (FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
+            + _signature_queue_html() + cards)
 
 
-def _render_one(token, raw_list, resolve=True, ai=False):
+def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     """Render one clue card: the breakdown, its enrichment rows, its admin panel,
     and a per-clue reload button. Re-solves the clue only when `resolve` is True;
     otherwise it renders from the stored parse so a batch survives a single re-run.
     `ai` True uses the full AI wiring (per-clue, on demand); False uses the DB-only
-    batch wiring."""
+    batch wiring. `discover` True enables auto-signature DISCOVERY+QUEUE for this clue
+    (used on the per-clue re-run, where the ~2s discovery cost is acceptable)."""
     try:
         clue_id = int(token)
     except ValueError:
@@ -496,6 +573,9 @@ def _render_one(token, raw_list, resolve=True, ai=False):
             w = _forced_wiring(w, forced)      # pin the definition; rest -> wordplay
         if filler:
             w = _filler_wiring(w, filler)      # account this clue's surface-filler words
+        if discover:
+            w = dict(w)
+            w["auto_signature_queue"] = True   # discover + queue a signature if it fails
         engine_registry.solve_clue_text(clue_text, answer, w,
                                         source=src, puzzle_number=pnum, clue_id=clue_id,
                                         direction=direction)
@@ -512,21 +592,20 @@ def _render_one(token, raw_list, resolve=True, ai=False):
     if parse is not None:
         parse.answer_text = enum_space(parse.answer_text, enumeration)
 
-    # SURFACE FILLER is a HUMAN OVERRIDE, never a clean pass: if this clue passed only
-    # because a tagged filler word was accounted (used as a link), force PENDING so it
-    # gets human approval. Persisted (set_status) so the work-list never counts it a pass.
+    # SURFACE FILLER: tagging a word as filler IS the human approval. So a clue that
+    # assembles cleanly once its tagged filler word is accounted is a genuine PASS — not
+    # forced to pending. The approval persists in the DB: the tag lives in wfw_filler and
+    # the pass is re-derived from it on every solve (and persisted to wfw_solve), so it
+    # survives reloads. A clue still pending for ANOTHER reason (e.g. a provisional
+    # definition) keeps that pending verdict — only the filler word itself is approved here.
     if filler and parse is not None and parse.status == "pass":
         fil = {(x or "").strip().lower() for x in filler}
         used = sorted({(a.text or "").strip().lower() for a in (parse.annotations or [])
                        if getattr(a, "role", "") == "link"} & fil)
         if used:
-            parse.status = "pending"
-            parse.warnings = list(getattr(parse, "warnings", None) or []) + [
-                "accounted by surface-filler tag (provisional — needs approval): "
-                + ", ".join(used)]
             conn2 = store.connect()
             try:
-                store.set_status(conn2, clue_id, "pending")
+                store.set_status(conn2, clue_id, "pass")   # persist the approved pass
             finally:
                 conn2.close()
 

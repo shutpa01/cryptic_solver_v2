@@ -55,41 +55,45 @@ def word_variants(word):
     out = [w]
 
     def add(x):
-        if x and len(x) >= 2 and x not in out:
+        # A DERIVED variant must be at least _MIN letters. A shorter "stem" is almost
+        # always a malformed strip, not a real inflection — e.g. stripping "-ed" off
+        # "used" yields "us", which is not the base ("use") and spuriously matches the
+        # abbreviation us->US. The word itself is always kept (out starts with w).
+        if x and len(x) >= _MIN and x not in out:
             out.append(x)
 
-    # plural / 3rd-person singular: -s / -es / -ies
+    # 1) STRIP an already-inflected input toward its base (singular / infinitive).
+    #    Exactly one plural form applies, so these are mutually exclusive (an -ies word
+    #    also ends -es and -s; without elif it produced "parti"/"partie" junk too).
     if w.endswith("ies") and len(w) > 4:
         add(w[:-3] + "y")               # parties -> party
-    if w.endswith("es") and len(w) > _MIN + 1:
+    elif w.endswith("es") and len(w) > _MIN + 1:
         add(w[:-2])                     # boxes -> box, passes -> pass
-    if w.endswith("s") and not w.endswith("ss") and len(w) > _MIN:
+    elif w.endswith("s") and not w.endswith("ss") and len(w) > _MIN:
         add(w[:-1])                     # suffers -> suffer
-    add(w + "s")                        # suffer -> suffers
-    if w.endswith(_ES_ENDINGS):
-        add(w + "es")                   # box -> boxes (NOT on -> "ones")
-    if w.endswith("y") and len(w) > 2:
-        add(w[:-1] + "ies")             # party -> parties
-
-    # -ing
     if w.endswith("ing") and len(w) > _MIN + 1:
-        base = w[:-3]
-        add(base)                       # suffering -> suffer
-        add(base + "e")                 # making -> make
-    else:
-        add(w + "ing")                  # suffer -> suffering
-        if w.endswith("e") and len(w) > 2:
-            add(w[:-1] + "ing")         # make -> making
-
-    # -ed
+        add(w[:-3])                     # suffering -> suffer
+        add(w[:-3] + "e")               # making -> make
     if w.endswith("ed") and len(w) > _MIN:
-        base = w[:-2]
-        add(base)                       # suffered -> suffer
-        add(w[:-1])                     # used -> use
-    else:
-        add(w + "ed")                   # suffer -> suffered
-        if w.endswith("e") and len(w) > 2:
+        add(w[:-2])                     # suffered -> suffer
+        add(w[:-1])                     # used -> use ("us" is dropped by add's _MIN guard)
+
+    # 2) BUILD forward forms ONLY from a BASE-like word — never STACK a suffix on a word
+    #    that is already a plural / -ed / -ing form. Stacking is what produced "useds"
+    #    (used+s) and "useding" (used+ing).
+    if not w.endswith(("s", "ed", "ing")):
+        if w.endswith("y") and len(w) > 2 and w[-2] not in "aeiou":
+            add(w[:-1] + "ies")         # party -> parties (consonant + y)
+        elif w.endswith(_ES_ENDINGS):
+            add(w + "es")               # box -> boxes (NOT on -> "ones")
+        else:
+            add(w + "s")                # suffer -> suffers, use -> uses, boy -> boys
+        if w.endswith("e"):
+            add(w[:-1] + "ing")         # make -> making
             add(w + "d")                # use -> used
+        else:
+            add(w + "ing")              # suffer -> suffering
+            add(w + "ed")               # suffer -> suffered
 
     return out
 

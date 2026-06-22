@@ -35,6 +35,21 @@ SUBTYPE_OP = {
     "empty": "empty",
 }
 
+# A letter-LOCATION selection rule (from core.selection_indicators) -> the deletion op
+# that DROPS the located letter(s). This is the bridge for the location/operation split:
+# a location indicator ("start"/"front" = first letter; "end"/"last" = last letter) names
+# WHICH letters go, but it NEVER licenses a deletion on its own — a separate operation word
+# (off / losing / demolished / ...) must also be present. ('outer' keeps the ends in a
+# selection, but in a deletion the located ends are what's removed, hence 'outer'.)
+LOC_DELOP = {"first": "behead", "last": "curtail", "outer": "outer", "middle": "heartless"}
+
+
+def loc_drop_ops(rules):
+    """The deletion ops a set of location-selection rules license (first->behead, ...).
+    Empty when `rules` has no positional rule. Used by the deletion-compound engines to let
+    a location word pin which letters a co-present operation word removes."""
+    return {LOC_DELOP[r] for r in (rules or ()) if r in LOC_DELOP}
+
 
 def apply_op(op, source):
     """Result of deletion op `op` on `source`, or None."""

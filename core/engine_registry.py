@@ -263,7 +263,12 @@ def make_db_wiring():
                 pass
         return out
 
-    def _lookup_exact(word, answer):
+    # NOTE: abbreviations are NOT looked up here — they are form-specific (an abbreviation
+    # is a fixed convention tied to an exact word, e.g. us->US, starting->S), so inflecting
+    # them only leaks a different word's value onto the clue word (start -> "starting" -> S).
+    # Synonyms ARE inflected (semantic equivalence across forms). The abbreviation lookup
+    # runs ONCE on the original word in lookup()/lookup_all().
+    def _lookup_syn_exact(word, answer):
         key = (word, answer)
         if key in _cache_look:
             return _cache_look[key]
@@ -273,17 +278,10 @@ def make_db_wiring():
                 out.append((s, "synonym"))
         except Exception:
             pass
-        try:
-            au = answer.upper()
-            for a in db.get_abbreviations(word):
-                if a and a in au:
-                    out.append((a, "abbreviation"))
-        except Exception:
-            pass
         _cache_look[key] = out
         return out
 
-    def _lookup_all_exact(word):
+    def _lookup_all_syn_exact(word):
         out = []
         try:
             for s in db.get_synonyms(word):
@@ -292,10 +290,17 @@ def make_db_wiring():
                     out.append((v, "synonym"))
         except Exception:
             pass
+        return out
+
+    def _abbreviations(word, answer=None):
+        """Abbreviations for the EXACT word (apostrophe-normalised, NO inflection variants).
+        When `answer` is given, keep only those that appear in it (the substring filter)."""
+        out = []
+        au = (answer or "").upper()
         try:
-            for a in db.get_abbreviations(word):
+            for a in db.get_abbreviations(_norm_apostrophe(word)):
                 v = (a or "").upper()
-                if v:
+                if v and (answer is None or v in au):
                     out.append((v, "abbreviation"))
         except Exception:
             pass
@@ -341,11 +346,15 @@ def make_db_wiring():
         if word in _cache_lookall:
             return _cache_lookall[word]
         out, seen = [], set()
-        for v in _match_variants(word):
-            for val, mech in _lookup_all_exact(v):
+        for v in _match_variants(word):                 # synonyms: inflection-aware
+            for val, mech in _lookup_all_syn_exact(v):
                 if (val, mech) not in seen:
                     seen.add((val, mech))
                     out.append((val, mech))
+        for val, mech in _abbreviations(word):          # abbreviations: exact word only
+            if (val, mech) not in seen:
+                seen.add((val, mech))
+                out.append((val, mech))
         lit = literals.literal_value(word)
         if lit and (lit, "raw") not in seen:
             seen.add((lit, "raw"))
@@ -381,11 +390,15 @@ def make_db_wiring():
         so a DB synonym stored under a plural/verb/base form is found.
         """
         out, seen = [], set()
-        for v in _match_variants(word):
-            for val, mech in _lookup_exact(v, answer):
+        for v in _match_variants(word):                 # synonyms: inflection-aware
+            for val, mech in _lookup_syn_exact(v, answer):
                 if (val, mech) not in seen:
                     seen.add((val, mech))
                     out.append((val, mech))
+        for val, mech in _abbreviations(word, answer):  # abbreviations: exact word only
+            if (val, mech) not in seen:
+                seen.add((val, mech))
+                out.append((val, mech))
         out = _add_possessive_s(word, out, seen, answer)   # gang's -> ... + POSSES
         return out
 
@@ -488,6 +501,7 @@ def make_db_wiring():
     return {"db": db, "defines": defines, "lookup": lookup, "invalidate": invalidate,
             "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
             "charade_positional_subtypes": charade_positional_subtypes,
+            "selection_rules": selection_rules,
             "is_link": is_link,
             "sounds_like": db.get_homophones, "synonyms_of": phrase_synonyms,
             "sounds_alike": db.sounds_alike, "pronounce": db.get_pronunciation,
@@ -734,7 +748,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    wiring["is_link"], wiring["indicator_types"],
                                    wiring["deletion_subtypes"],
                                    define_fallback=wiring.get("define_fallback"),
-                                   is_dbe=wiring.get("is_dbe"))
+                                   is_dbe=wiring.get("is_dbe"),
+                                   loc_rules=wiring.get("selection_rules"))
     if pcd is not None and pcd.status in ("pass", "pending"):
         return _finish(pcd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -747,7 +762,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                   wiring["is_link"], wiring["indicator_types"],
                                   wiring["deletion_subtypes"],
                                   define_fallback=wiring.get("define_fallback"),
-                                  is_dbe=wiring.get("is_dbe"))
+                                  is_dbe=wiring.get("is_dbe"),
+                                  loc_rules=wiring.get("selection_rules"))
     if pchd is not None and pchd.status in ("pass", "pending"):
         return _finish(pchd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -819,6 +835,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         is_dbe=wiring.get("is_dbe"))
     if pcic is not None and pcic.status in ("pass", "pending"):
         return _finish(pcic, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CONTAINER-WITH-CHARADE-OUTER — the MIRROR of container-of-charade: an OUTER that is
+    # itself a charade of 2+ DB values, wrapped around a single INNER value (DUB = (D+B)
+    # around U; "Germany"=D, "Britain"=B, "university"=U, "in"=insertion). The plain
+    # container needs a single-value outer and container_inner_charade puts the charade on
+    # the INNER; neither covers a two-piece outer. Answer-driven, gated on a container
+    # indicator. Tried with the container family. Gaps -> preserved fail-evidence.
+    from core.container_outer_charade_engine import solve_container_outer_charade
+    pcoc = solve_container_outer_charade(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pcoc is not None and pcoc.status in ("pass", "pending"):
+        return _finish(pcoc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-OF-ACROSTIC — an OUTER DB value wrapped around an INNER formed by acrostic
     # letter-selection (MESCAL = MEAL around S,C = initials of "Served Cold"). The container
@@ -893,7 +923,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                           wiring["is_link"], wiring["deletion_subtypes"],
                           templates=wiring.get("deletion_templates"),
                           define_fallback=wiring.get("define_fallback"),
-                          is_dbe=wiring.get("is_dbe"))
+                          is_dbe=wiring.get("is_dbe"),
+                          loc_rules=wiring.get("selection_rules"))
     if pdel is not None and pdel.status in ("pass", "pending"):
         return _finish(pdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -1170,6 +1201,25 @@ def solve_clue_text(clue_text, answer, wiring, source=None, puzzle_number=None,
                 if clue_id is not None:
                     from core import store as wfw_store
                     wfw_store.persist(clue_id, parse, ctx)
+        except Exception:
+            pass
+
+    # AUTO-SIGNATURE QUEUE: like the loop above, but instead of FILING the discovered
+    # signature it QUEUES the proven shape for human approval (signature_queue). The
+    # catalog is untouched and the clue stays unsolved until the signature is approved.
+    # Gated on its own flag so interactive routes can opt in without auto-writing the
+    # catalog. Never lets discovery break a solve.
+    if (wiring.get("auto_signature_queue")
+            and (parse is None or parse.status not in ("pass", "pending"))):
+        try:
+            from core.catalog_creator import auto_discover_and_queue
+            auto_discover_and_queue(
+                ctx, wiring,
+                lambda c, wr: solve(c, wr, source=source, puzzle_number=puzzle_number,
+                                    charade_solve=charade_solve,
+                                    anagram_solve=anagram_solve,
+                                    deletion_solve=deletion_solve),
+                clue_id=clue_id)
         except Exception:
             pass
     return ctx, parse, name

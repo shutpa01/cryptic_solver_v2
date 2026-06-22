@@ -391,37 +391,115 @@ def solve_charade(ctx, defines, lookup, is_link, templates, define_fallback=None
     return _build_fail_evidence(ctx, answer, prepared[0][0], lookup)
 
 
+_FAIL_MAX_RUN = 4
+
+
+def _best_partial_tiling(answer, words, lookup):
+    """Best ANSWER-DRIVEN partial cover of `answer` by the wordplay `words`.
+
+    Unlike a per-word value dump, this places pieces COHERENTLY: each piece is a
+    contiguous run of clue words whose DB value equals the answer SEGMENT at the
+    position it is placed, laid left-to-right in clue order (the charade order).
+    Answer positions that nothing covers are left as gaps, and clue words that no
+    piece uses are left unaccounted — so the result reads as one consistent partial
+    assembly (e.g. AS + [T missing] + RIDE), never AS+S+AS.
+
+    Maximises answer letters covered, then clue words accounted, then fewest pieces.
+    Returns a list of placements (wi_start, wi_end, value, mechanism, pos0) where pos0
+    is the 0-based answer offset the piece starts at."""
+    N, n = len(answer), len(words)
+    runcache = {}
+
+    def run_values(wi, L):
+        key = (wi, L)
+        if key not in runcache:
+            phrase = " ".join(words[k].text for k in range(wi, wi + L))
+            vals, seen = [], set()
+            for value, mech in lookup(phrase, answer):
+                v = (value or "").upper()
+                if v and v not in seen:
+                    seen.add(v)
+                    vals.append((v, mech))
+            runcache[key] = vals
+        return runcache[key]
+
+    memo = {}
+
+    def rank(t):
+        return (t[0], t[1], -t[2])           # covered letters, words used, -pieces
+
+    def search(pos, wi):
+        if pos >= N or wi >= n:
+            return (0, 0, 0, [])
+        key = (pos, wi)
+        if key in memo:
+            return memo[key]
+        # Try PLACING a piece at wi first, so an equal-coverage tie prefers using the
+        # current (leftmost) word over skipping it — the natural left-to-right charade
+        # reading ("since -> AS" beats a later "that -> AS").
+        best = (0, 0, 0, [])
+        for L in range(1, min(_FAIL_MAX_RUN, n - wi) + 1):
+            for v, mech in run_values(wi, L):
+                if answer.startswith(v, pos):
+                    sub = search(pos + len(v), wi + L)
+                    cand = (len(v) + sub[0], L + sub[1], 1 + sub[2],
+                            [(wi, wi + L, v, mech, pos)] + sub[3])
+                    if rank(cand) > rank(best):
+                        best = cand
+        skip = search(pos, wi + 1)           # leave word wi unaccounted
+        if rank(skip) > rank(best):
+            best = skip
+        gap = search(pos + 1, wi)            # leave answer position pos uncovered
+        if rank(gap) > rank(best):
+            best = gap
+        memo[key] = best
+        return best
+
+    return search(0, 0)[3]
+
+
 def _build_fail_evidence(ctx, answer, split, lookup):
     """Preserve the evidence when no signature instantiated: keep the definition and
-    show, for each wordplay word, a candidate value it COULD contribute. A FAIL
-    asserts nothing about structure, so it assigns NO roles — function words are left
-    unaccounted, never relabelled links by elimination (feedback-no-role-on-fail)."""
+    show the BEST ANSWER-DRIVEN PARTIAL ASSEMBLY (coherent pieces placed at their answer
+    positions), with the unexplained answer letters and unaccounted clue words named.
+    A FAIL still asserts nothing about indicators/links — it assigns NO link/indicator
+    roles, so words are left unaccounted, never relabelled by elimination
+    (feedback-no-role-on-fail)."""
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
-    sources, unresolved = [], []
-    for token in split.wordplay_tokens:
-        cands = []
-        for value, mech in lookup(token.text, answer):
-            v = (value or "").upper()
-            if v and v in answer and v not in {c for c, _ in cands}:
-                cands.append((v, mech))
-        if cands:
-            value, mech = cands[0]
-            sources.append(Source(clue_atom_ids=token.atom_ids, text=token.text,
-                                  value=value, mechanism=mech))
-        else:
-            unresolved.append(token.text)
+    words = [t for t in split.wordplay_tokens if t.kind == "word"]
+    placement = _best_partial_tiling(answer, words, lookup)
+
+    sources, links, used = [], [], set()
+    for (a, b, value, mech, pos0) in placement:
+        toks = words[a:b]
+        si = len(sources)
+        sources.append(Source(
+            clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
+            text=" ".join(t.text for t in toks), value=value, mechanism=mech))
+        for i in range(len(value)):
+            links.append(Link(answer_pos=pos0 + i + 1, source_index=si,
+                              operation="charade"))
+        used.update(range(a, b))
+
+    covered = {l.answer_pos for l in links}
+    missing = [(i + 1, answer[i]) for i in range(len(answer)) if (i + 1) not in covered]
+    unaccounted = [words[k].text for k in range(len(words)) if k not in used]
+
     warnings = ["no charade signature matched this clue "
-                "(pieces below are candidates, not a placement)"]
-    if unresolved:
+                "(best partial assembly shown — not a confirmed placement)"]
+    if missing:
+        warnings.append("answer letters not explained: "
+                        + ", ".join("%s (position %d)" % (ch, p) for p, ch in missing))
+    if unaccounted:
         warnings.append("these clue words are unaccounted for: "
-                        + ", ".join(repr(u) for u in unresolved))
+                        + ", ".join(repr(u) for u in unaccounted))
     from core.definition_engine import dbe_annotation
     dbe = dbe_annotation(split)
     annotations = [dbe] if dbe is not None else []
     return Parse(
         clue_text=ctx.clue_text, answer_text=ctx.answer_text,
-        sources=sources, links=[], annotations=annotations,
+        sources=sources, links=links, annotations=annotations,
         definition=definition, operation="charade", solved_by="catalog",
         status="fail", warnings=warnings)

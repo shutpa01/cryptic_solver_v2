@@ -35,8 +35,14 @@ _OP_ORDER = ["curtail", "behead", "heartless", "outer"]
 
 def solve_container_deletion(ctx, defines, lookup_all, is_link, indicator_types,
                              deletion_subtypes, templates=None, define_fallback=None,
-                             is_dbe=None):
-    """Full container+deletion solve. First clean PASS, else best parse, else None."""
+                             is_dbe=None, loc_rules=None):
+    """Full container+deletion solve. First clean PASS, else best parse, else None.
+
+    `loc_rules` (selection_rules) supports the location/operation split: a letter-location
+    word ("capital"/"opening" = first letter) that sits with a genuine deletion operation
+    word ("short"/"shed") is accounted as part of the deletion and pins which letters drop —
+    it never licenses a deletion alone (that is enforced by removing such words' deletion
+    typing from the DB)."""
     from core.definition_engine import find_definitions
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
     if len(answer) < 3:
@@ -51,7 +57,7 @@ def solve_container_deletion(ctx, defines, lookup_all, is_link, indicator_types,
         if len(words) < 3:
             continue
         parse = _assemble(ctx, answer, split, words, lookup_all, is_link,
-                          indicator_types, deletion_subtypes)
+                          indicator_types, deletion_subtypes, loc_rules)
         if parse is not None:
             if parse.status == "pass":
                 return parse
@@ -151,7 +157,7 @@ def _del_list(op, items):
 
 
 def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
-              deletion_subtypes):
+              deletion_subtypes, loc_rules=None):
     n = len(words)
 
     def types(k):
@@ -166,12 +172,31 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     def is_del(k):
         return "deletion" in types(k)
 
+    def loc_ops(k):
+        """The deletion ops the word's letter-location rules license (first->behead, ...);
+        empty for a non-location word or when no rules provider is wired."""
+        if not loc_rules:
+            return set()
+        try:
+            return deletion.loc_drop_ops(loc_rules(words[k].text))
+        except Exception:
+            return set()
+
+    def is_loc(k):
+        return bool(loc_ops(k))
+
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
 
     if not any(is_con(k) for k in range(n)) or not any(is_del(k) for k in range(n)):
         return None                              # GATE: both ops' indicators required
     ops = _del_ops(words, deletion_subtypes, is_del)
+    # LOCATION/OPERATION split: a location word pins which letters drop, but only because a
+    # genuine deletion operation word is present (the gate above guarantees one). Fold its
+    # op in so "short of capital" (general 'short' + location 'capital') can behead.
+    for k in range(n):
+        if not is_con(k) and not is_del(k):
+            ops |= loc_ops(k)
     if not ops:
         return None
 
@@ -212,7 +237,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                                 continue
                             parse = _build(ctx, answer, split, words, (oa, ob), outer,
                                            vals, (ia, ib), inner, I, p, L, op,
-                                           is_con, is_del, residue_link)
+                                           is_con, is_del, residue_link, is_loc)
                             if parse is None:
                                 continue
                             if parse.status == "pass":
@@ -223,7 +248,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
 
 
 def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, I, p, L,
-           op, is_con, is_del, residue_link):
+           op, is_con, is_del, residue_link, is_loc=None):
     n = len(words)
     oa, ob = outer_run
     ia, ib = inner_run
@@ -233,9 +258,14 @@ def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, 
     dele = [k for k in residue if is_del(k) and k not in con]
     if not con or not dele:
         return None
+    # A letter-location word in the residue ("capital"/"opening") is part of the deletion
+    # expression (it names which letters the operation word removes), not unaccounted
+    # content. Accounted only because a genuine deletion operation word (dele) is present.
+    loc = [k for k in residue if is_loc and is_loc(k) and k not in con and k not in dele]
+    loc_set = set(loc)
     links = []
     for k in residue:
-        if k in con or k in dele:
+        if k in con or k in dele or k in loc_set:
             continue
         if residue_link(k):
             links.append(k)
@@ -286,6 +316,10 @@ def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, 
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="indicator",
                                       note="deletion indicator (%s)" % op))
+    for k in loc:
+        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
+                                      text=words[k].text, role="indicator",
+                                      note="deletion location indicator (%s)" % op))
     for k in links:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",

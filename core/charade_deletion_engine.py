@@ -32,8 +32,13 @@ _OP_ORDER = ["behead", "curtail", "outer", "heartless"]
 
 def solve_charade_deletion(ctx, defines, lookup_all, is_link, indicator_types,
                            deletion_subtypes, templates=None, define_fallback=None,
-                           is_dbe=None):
-    """Full charade+deletion solve. First clean PASS, else best parse, else None."""
+                           is_dbe=None, loc_rules=None):
+    """Full charade+deletion solve. First clean PASS, else best parse, else None.
+
+    `loc_rules` (selection_rules) supports the location/operation split: a letter-location
+    word ("opening"/"leader" = first letter) that sits with a genuine deletion operation
+    word ("shed"/"demolished") is accounted as part of the deletion and pins which letters
+    drop — it never licenses a deletion alone."""
     from core.definition_engine import find_definitions
     answer = "".join(a.normalized for a in ctx.answer_atoms if a.kind == "letter")
     if len(answer) < 3:
@@ -48,7 +53,7 @@ def solve_charade_deletion(ctx, defines, lookup_all, is_link, indicator_types,
         if len(words) < 2:
             continue
         parse = _assemble(ctx, answer, split, words, lookup_all, is_link,
-                          indicator_types, deletion_subtypes)
+                          indicator_types, deletion_subtypes, loc_rules)
         if parse is not None:
             if parse.status == "pass":
                 return parse
@@ -88,7 +93,7 @@ def _ordered_values(lookup_all, phrase):
 
 
 def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
-              deletion_subtypes):
+              deletion_subtypes, loc_rules=None):
     n, N = len(words), len(answer)
 
     def types(k):
@@ -99,6 +104,19 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
 
     def is_del(k):
         return "deletion" in types(k)
+
+    def loc_ops(k):
+        """The deletion ops the word's letter-location rules license (first->behead, ...);
+        empty for a non-location word or when no rules provider is wired."""
+        if not loc_rules:
+            return set()
+        try:
+            return deletion.loc_drop_ops(loc_rules(words[k].text))
+        except Exception:
+            return set()
+
+    def is_loc(k):
+        return bool(loc_ops(k))
 
     def is_glue(k):
         # a leftover word is acceptable as charade glue if it is a link or ANY indicator
@@ -121,6 +139,12 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                 ops.add(op); named = True
         if not named:
             ops |= {"behead", "curtail"}
+    # LOCATION/OPERATION split: a location word pins which letters drop, accounted only
+    # because a genuine deletion operation word is present (the gate guarantees one). Fold
+    # its op in so "after opening shed" (general 'shed' + location 'opening') can behead.
+    for k in range(n):
+        if not is_del(k):
+            ops |= loc_ops(k)
     ops = [o for o in _OP_ORDER if o in ops]
     if not ops:
         return None
@@ -142,7 +166,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         if pos == N:
             return _finalize(ctx, answer, split, words, pieces,
                              gaps + list(range(wi, n)), is_del, is_glue,
-                             is_link, indicator_types)
+                             is_link, indicator_types, is_loc)
         if wi >= n:
             return None
         # skip wi as a gap (glue / link / indicator)
@@ -177,7 +201,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
 
 
 def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
-              indicator_types):
+              indicator_types, is_loc=None):
     if not any(p[3] == "deletion" for p in pieces) or len(pieces) < 2:
         return None
     del_gaps = [g for g in gaps if is_del(g)]
@@ -223,13 +247,15 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
     annotations = []
     for g in gaps:
         if is_del(g):
-            note = "deletion indicator"
+            note, role = "deletion indicator", "indicator"
+        elif is_loc and is_loc(g):
+            # a location word is part of the deletion expression (it names which letters
+            # the operation word removes), accounted because a deletion indicator is present
+            note, role = "deletion location indicator", "indicator"
         elif is_link and is_link(words[g].text):
-            note = "link word"
+            note, role = "link word", "link"
         else:
-            note = "charade indicator"
-        role = "indicator" if is_del(g) or not (is_link and is_link(words[g].text)) \
-            else "link"
+            note, role = "charade indicator", "indicator"
         annotations.append(Annotation(clue_atom_ids=words[g].atom_ids,
                                       text=words[g].text, role=role, note=note))
 
