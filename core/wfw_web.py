@@ -1003,36 +1003,48 @@ _FORCE_IND_TYPES = ("acrostic", "alternation", "anagram", "container", "deletion
                     "hidden", "homophone", "insertion", "reversal", "selection")
 
 
+# mechanism -> friendly role label shown in the grid
+_MECH_LABEL = {"synonym": "synonym", "abbreviation": "abbreviation",
+               "first_letter": "first letter", "last_letter": "last letter",
+               "selection": "selection", "anagram_fodder": "anagram fodder",
+               "raw": "literal", "homophone": "homophone"}
+
+
 def _word_roles(ctx, parse, filler_set):
-    """Map each clue WORD to the role the stored parse gives it. Returns a list of
-    dicts {idx, text, role, detail} in clue order. Role is derived by atom-id
-    membership: definition / piece (mechanism) / indicator / link / filler / '-'."""
-    # atom_id -> (role, detail)
+    """Map each clue WORD to the role the stored parse gives it. Returns a list of dicts
+    {idx, text, role, label, value} in clue order, where `role` is the colour category
+    (definition/piece/indicator/link/filler/none), `label` is what to show, and `value`
+    is the letters the piece produced (e.g. D, TORS) — so the synonym IS shown."""
+    # atom_id -> (role, label, value)
     amap = {}
     if parse is not None:
         if parse.definition is not None:
             for aid in (parse.definition.clue_atom_ids or ()):
-                amap[aid] = ("definition", "")
+                amap[aid] = ("definition", "definition", "")
         for s in (parse.sources or []):
             mech = getattr(s, "mechanism", "") or ""
+            label = _MECH_LABEL.get(mech, mech or "piece")
+            val = (getattr(s, "value", "") or "")
             for aid in (s.clue_atom_ids or ()):
-                amap[aid] = ("piece", mech)
+                amap[aid] = ("piece", label, val)
         for a in (parse.annotations or []):
+            note = getattr(a, "note", "") or a.role
             for aid in (a.clue_atom_ids or ()):
-                amap[aid] = (a.role, getattr(a, "note", "") or "")
+                amap[aid] = (a.role, note, "")
     out, wi = [], 0
     fil = {(x or "").strip().lower() for x in (filler_set or ())}
     for t in ctx.clue_tokens:
         if t.kind != "word":
             continue
-        role, detail = "—", ""
+        role, label, value = "none", "—", ""
         for aid in t.atom_ids:
             if aid in amap:
-                role, detail = amap[aid]
+                role, label, value = amap[aid]
                 break
-        if role == "—" and (t.text or "").strip().lower() in fil:
-            role, detail = "filler", "surface filler"
-        out.append({"idx": wi, "text": t.text, "role": role, "detail": detail})
+        if role == "none" and (t.text or "").strip().lower() in fil:
+            role, label = "filler", "filler"
+        out.append({"idx": wi, "text": t.text, "role": role,
+                    "label": label, "value": value})
         wi += 1
     return out
 
@@ -1050,6 +1062,7 @@ def _rolegrid_block(clue_id):
     try:
         parse = store.load_parse(conn, clue_id)
         filler = store.get_clue_filler(conn, clue_id)
+        forced = store.get_forced_definition(conn, clue_id)
         forced_ind = store.get_forced_indicators(conn, clue_id)
         frozen = store.is_frozen(conn, clue_id)
     finally:
@@ -1060,96 +1073,135 @@ def _rolegrid_block(clue_id):
          '<input type="hidden" name="only" value="%d">'
          % (escape(str(clue_id), quote=True), clue_id))
 
-    # the grid: a checkbox per word (to select a contiguous span) + its current role
-    # One form wraps the word checkboxes; two submit buttons (formaction) act on the same
-    # selected span — force an indicator (per-clue) or add a DB entry (global enrichment).
-    grid = ['<table class="rg-tbl"><tr><th></th><th>word</th><th>current role</th></tr>']
+    # Word table: tick the word(s), see each one's current role + the value it produced.
+    grid = ['<table class="rg-tbl">'
+            '<tr><th>pick</th><th>word</th><th>role</th><th>makes</th></tr>']
     for r in rows:
-        det = (" <span class='rg-det'>%s</span>" % escape(r["detail"])) if r["detail"] else ""
+        val = ('<span class="rg-val">%s</span>' % escape(r["value"])) if r["value"] else ""
         grid.append(
-            '<tr><td><input type="checkbox" name="w" value="%d"></td>'
-            '<td class="rg-word">%s</td><td class="rg-role rg-%s">%s%s</td></tr>'
-            % (r["idx"], escape(r["text"]),
-               escape(r["role"].split()[0] if r["role"] else "x"),
-               escape(r["role"]), det))
+            '<tr><td class="rg-pick"><input type="checkbox" name="w" value="%d" '
+            'form="rg-set-%d"></td>'
+            '<td class="rg-word">%s</td>'
+            '<td class="rg-role rg-%s">%s</td>'
+            '<td>%s</td></tr>'
+            % (r["idx"], clue_id, escape(r["text"]), escape(r["role"]),
+               escape(r["label"]), val))
     grid.append("</table>")
 
     type_opts = "".join('<option value="%s">%s</option>' % (t, t)
                         for t in _FORCE_IND_TYPES)
-    # mechanism options for the "add to DB" action (the enrichment / fodder path)
-    mech_opts = "".join('<option value="%s">%s</option>' % (k, lbl) for k, lbl in (
-        ("synonym", "synonym fodder (type its value)"),
-        ("definition", "definition (the selected words define the answer)"),
-        ("indicator", "indicator (added to DB globally)"),
-        ("link", "link word")))
-    span_form = (
-        '<form method="post" class="rg-spanform">%s'
-        '<input type="hidden" name="answer" value="%s">'
-        '<div class="rg-act"><span class="rg-l">With the selected words &mdash; '
-        'FORCE an indicator (this clue only):</span>'
-        '<select name="wptype">%s</select>'
-        '<button formaction="/forceind">Force indicator &amp; re-solve</button></div>'
-        '<div class="rg-act"><span class="rg-l">&mdash; or ADD to the reference DB '
-        '(applies everywhere):</span>'
-        '<select name="kind">%s</select>'
-        '<input name="value" placeholder="value, e.g. TOD (for synonym)" size="16">'
-        '<select name="type" title="indicator type (when adding an indicator)">%s</select>'
-        '<button formaction="/gridadd">Add to DB &amp; re-solve</button></div>'
-        '</form>'
-        % (h, escape(answer, quote=True), type_opts, mech_opts, type_opts))
+    # ONE control: tick word(s) above, choose a role, Apply. Alphabetical roles.
+    set_form = (
+        '<form method="post" action="/gridrole" id="rg-set-%d" class="rg-set">%s'
+        '<div class="rg-setrow"><b>Set the ticked word(s) to:</b>'
+        '<select name="role" class="rg-rolesel">'
+        '<option value="definition">definition</option>'
+        '<option value="filler">filler (no cryptic role)</option>'
+        '<option value="indicator">indicator&hellip;</option>'
+        '<option value="synonym">synonym (give its value)&hellip;</option>'
+        '</select>'
+        '<span class="rg-cond rg-cond-indicator">of type <select name="wptype">%s</select>'
+        '</span>'
+        '<span class="rg-cond rg-cond-synonym">= <input name="value" '
+        'placeholder="value, e.g. TOD" size="14"></span>'
+        '<button>Apply &amp; re-solve</button></div>'
+        '<div class="rg-note">definition &amp; indicator are set for <i>this clue only</i>; '
+        'a synonym value is added to the reference DB (used everywhere).</div>'
+        '</form>' % (clue_id, h, type_opts))
 
-    cur = ""
-    if forced_ind:
-        items = "".join(
-            '<li>%s &rarr; <b>%s</b> '
+    # Current overrides on this clue, each with a one-click clear.
+    cur_items = []
+    if forced:
+        cur_items.append(
+            'definition pinned to <b>%s</b> '
+            '<form method="post" action="/clearforcedef" class="rg-inline">%s'
+            '<button class="rg-x">clear</button></form>' % (escape(forced), h))
+    for p, t in forced_ind:
+        cur_items.append(
+            'indicator <b>%s</b> = %s '
             '<form method="post" action="/clearforceind" class="rg-inline">%s'
             '<input type="hidden" name="phrase" value="%s">'
-            '<button class="rg-x">clear</button></form></li>'
-            % (escape(p), escape(t), h, escape(p, quote=True))
-            for p, t in forced_ind)
-        cur = '<div class="rg-cur"><b>Forced indicators:</b><ul>%s</ul></div>' % items
+            '<button class="rg-x">clear</button></form>'
+            % (escape(p), escape(t), h, escape(p, quote=True)))
+    for w in sorted(filler):
+        cur_items.append(
+            'filler <b>%s</b> '
+            '<form method="post" action="/clearfiller" class="rg-inline">%s'
+            '<input type="hidden" name="word" value="%s">'
+            '<button class="rg-x">clear</button></form>' % (escape(w), h,
+                                                            escape(w, quote=True)))
+    cur = ('<div class="rg-cur"><b>Overrides on this clue:</b> '
+           + " &nbsp;·&nbsp; ".join(cur_items) + '</div>') if cur_items else ""
 
     unforce = ""
     if frozen:
-        unforce = ('<form method="post" action="/unforce" class="rg-form">%s'
-                   '<span class="rg-l">&#128274; FROZEN — forced pass, will not revert</span>'
-                   '<button>Unforce &amp; re-solve</button></form>' % h)
+        unforce = ('<div class="rg-frozen">&#128274; FROZEN — forced pass, will not revert. '
+                   '<form method="post" action="/unforce" class="rg-inline">%s'
+                   '<button class="rg-x">unforce &amp; re-solve</button></form></div>' % h)
 
     return (
         _cid_label(clue_id, src, pnum, cnum, direction)
         + '<div class="rg-block">'
-        + '<div class="wfw-clue rg-clue">%s</div>' % escape(clue_text)
-        + '<div class="rg-status rg-%s">%s &mdash; %s</div>'
+        + '<div class="rg-clue">%s</div>' % escape(clue_text)
+        + '<div class="rg-status rg-st-%s">%s — %s</div>'
           % (status, escape(answer), status.upper())
+        + unforce
         + "".join(grid)
-        + span_form + cur + unforce
+        + set_form + cur
         + '</div>')
 
 
 _RG_CSS = """<style>
-.rg-block{border:1px solid #cbd5e1;border-radius:8px;padding:1rem;margin:.6rem 0 2rem;
-  font-family:system-ui}
-.rg-clue{font-size:1.15rem;margin:.2rem 0 .6rem}
-.rg-status{font-weight:600;margin:.2rem 0 .8rem;letter-spacing:.05em}
-.rg-status.rg-pass{color:#16a34a}.rg-status.rg-fail{color:#dc2626}
-.rg-status.rg-pending{color:#d97706}
-.rg-tbl{border-collapse:collapse;margin:.4rem 0}
-.rg-tbl th{text-align:left;font-size:.75rem;color:#64748b;font-weight:600;padding:.2rem .6rem}
-.rg-tbl td{padding:.2rem .6rem;border-top:1px solid #f1f5f9}
-.rg-word{font-weight:600}
-.rg-role{font-size:.85rem;color:#475569}
-.rg-role.rg-definition{color:#0369a1}.rg-role.rg-indicator{color:#7c3aed}
-.rg-role.rg-piece{color:#16a34a}.rg-role.rg-link{color:#94a3b8}
-.rg-role.rg-filler{color:#94a3b8}
-.rg-det{color:#94a3b8;font-size:.8rem}
-.rg-form{margin:.6rem 0;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.rg-spanform{margin:.6rem 0;border-top:1px solid #e2e8f0;padding-top:.6rem}
-.rg-act{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}
-.rg-l{font-size:.85rem;color:#475569}
-.rg-cur{margin:.6rem 0;font-size:.9rem}.rg-cur ul{margin:.3rem 0;padding-left:1.2rem}
+.rg-block{border:1px solid #94a3b8;border-radius:8px;padding:1.1rem 1.2rem;
+  margin:.6rem 0 2rem;font-family:system-ui;color:#0f172a;font-size:1rem}
+.rg-clue{font-size:1.3rem;font-weight:600;margin:.2rem 0 .5rem;color:#0f172a}
+.rg-status{font-size:1.1rem;font-weight:700;margin:.2rem 0 .9rem;letter-spacing:.04em}
+.rg-status.rg-st-pass{color:#15803d}.rg-status.rg-st-fail{color:#b91c1c}
+.rg-status.rg-st-pending{color:#b45309}
+.rg-tbl{border-collapse:collapse;margin:.4rem 0 1rem;font-size:1rem}
+.rg-tbl th{text-align:left;font-size:.8rem;color:#334155;font-weight:700;
+  padding:.25rem .8rem;border-bottom:2px solid #cbd5e1}
+.rg-tbl td{padding:.35rem .8rem;border-top:1px solid #e2e8f0;color:#0f172a}
+.rg-pick{text-align:center}.rg-tbl input[type=checkbox]{width:1.1rem;height:1.1rem}
+.rg-word{font-weight:700;font-size:1.05rem}
+.rg-role{font-weight:600}
+.rg-role.rg-definition{color:#0369a1}
+.rg-role.rg-indicator{color:#7c3aed}
+.rg-role.rg-piece{color:#15803d}
+.rg-role.rg-link{color:#64748b}
+.rg-role.rg-filler{color:#64748b}
+.rg-role.rg-none{color:#b91c1c}
+.rg-val{font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;
+  background:#f1f5f9;padding:.05rem .4rem;border-radius:4px;color:#0f172a}
+.rg-set{margin:.6rem 0;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;
+  padding:.7rem .9rem}
+.rg-setrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:1rem}
+.rg-rolesel{font-size:1rem;padding:.2rem}
+.rg-set select,.rg-set input{font-size:1rem;padding:.2rem .3rem}
+.rg-set button{font-size:1rem;padding:.3rem .9rem;background:#0d9488;color:#fff;
+  border:1px solid #0d9488;border-radius:6px;cursor:pointer}
+.rg-cond{display:none;align-items:center;gap:.3rem}
+.rg-note{font-size:.85rem;color:#475569;margin-top:.5rem}
+.rg-cur{margin:.7rem 0;font-size:.95rem;color:#0f172a}
+.rg-frozen{margin:.4rem 0 .8rem;font-size:1rem;font-weight:600;color:#b45309}
 .rg-inline{display:inline}
-.rg-x{font-size:.7rem;padding:.05rem .4rem}
-</style>"""
+.rg-x{font-size:.75rem;padding:.1rem .45rem;cursor:pointer}
+</style>
+<script>
+// show the conditional field (type / value) only for the chosen role
+document.addEventListener('change', function(e){
+  if(!e.target.classList || !e.target.classList.contains('rg-rolesel')) return;
+  var form=e.target.closest('form'), role=e.target.value;
+  form.querySelectorAll('.rg-cond').forEach(function(c){ c.style.display='none'; });
+  var show=form.querySelector('.rg-cond-'+role);
+  if(show) show.style.display='inline-flex';
+});
+// set the initial state on load
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.rg-rolesel').forEach(function(s){
+    s.dispatchEvent(new Event('change',{bubbles:true})); });
+});
+</script>"""
 
 ROLEGRID_FORM = ('<form method="get" action="/rolegrid" style="margin:1rem 0;'
                  'font-family:system-ui">'
@@ -1168,6 +1220,71 @@ def rolegrid_route():
     for cid in ids:
         body += _rolegrid_block(cid)
     return _page(body)
+
+
+@app.route("/gridrole", methods=["POST"])
+def gridrole_route():
+    """Set the ticked clue words to a role from the role grid, then re-solve. One entry
+    point dispatching by `role`:
+      definition -> pin this clue's definition to the span (per-clue, store.forced_def)
+      indicator  -> force the span as an indicator of `wptype` (per-clue, forced_indicator)
+      filler     -> tag each ticked word as surface filler (per-clue)
+      synonym    -> add `span = value` to the reference DB (global) — the FOX->TOD case
+    """
+    only = (request.form.get("only") or "").strip()
+    role = (request.form.get("role") or "").strip().lower()
+    wptype = (request.form.get("wptype") or "").strip().lower()
+    value = (request.form.get("value") or "").strip()
+    widxs = sorted(int(x) for x in request.form.getlist("w") if x.isdigit())
+    msg = "Tick one or more words first."
+    if only and widxs:
+        row = _load_clue(int(only))
+        contiguous = _contiguous(widxs)
+        phrase = _span_phrase(row[0], row[4], widxs) if row is not None else ""
+        if not phrase:
+            msg = "Could not read the selected words."
+        elif role in ("definition", "indicator", "synonym") and not contiguous:
+            msg = "For a %s the ticked words must be contiguous (one phrase)." % role
+        elif role == "definition":
+            conn = store.connect()
+            try:
+                store.set_forced_definition(conn, int(only), phrase)
+            finally:
+                conn.close()
+            _resolve_one(int(only))
+            msg = "Definition set to %r (this clue); re-solved." % phrase
+        elif role == "indicator" and wptype in _FORCE_IND_TYPES:
+            conn = store.connect()
+            try:
+                store.add_forced_indicator(conn, int(only), phrase, wptype)
+            finally:
+                conn.close()
+            _resolve_one(int(only))
+            msg = "Forced %r as a %s indicator (this clue); re-solved." % (phrase, wptype)
+        elif role == "filler":
+            conn = store.connect()
+            try:
+                for i in widxs:
+                    store.add_clue_filler(conn, int(only), _span_phrase(row[0], row[4], [i]))
+            finally:
+                conn.close()
+            _resolve_one(int(only))
+            msg = "Tagged %r as filler (this clue); re-solved." % phrase
+        elif role == "synonym" and value:
+            add_form = {"kind": "synonym", "word": phrase, "synonym": value}
+            addmsg = _do_add(add_form)
+            apply_add_to_wiring(add_form)
+            _resolve_one(int(only))
+            msg = "Added synonym %r = %r to the reference DB; re-solved. (%s)" % (
+                phrase, value, addmsg)
+        elif role == "synonym":
+            msg = "Type the synonym value (e.g. TOD) before applying."
+        else:
+            msg = "Choose a role (and its type/value) before applying."
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
+    body += _rolegrid_block(int(only)) if only else ""
+    return _page(notice + body)
 
 
 @app.route("/forceind", methods=["POST"])
