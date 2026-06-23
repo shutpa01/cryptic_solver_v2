@@ -715,6 +715,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if ppos is not None and ppos.status in ("pass", "pending"):
         return _finish(ppos, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + ACROSTIC — a charade where ONE piece is a multi-word acrostic (DOCTORS =
+    # DOC[first of Ducks Observed Crossing, "firstly"] + TORS[rocky hills]). The acrostic
+    # engine only spells the WHOLE answer; the charade's SEL_F takes letters from a single
+    # word. This builds the first/last letter of a RUN of words as one charade piece.
+    # Requires >=1 acrostic piece AND >=1 plain piece (can't intercept a pure acrostic or a
+    # plain charade); gated on an acrostic indicator; answer-driven; PASS-only.
+    from core.charade_acrostic_engine import solve_charade_acrostic
+    pcac2 = solve_charade_acrostic(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pcac2 is not None and pcac2.status in ("pass", "pending"):
+        return _finish(pcac2, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
     # pure engines (it is more specific). A pass or pending stops here. Catalog-DRIVEN
     # (signature engine); catalog gaps (multi-word slots not yet mined) become preserved
@@ -897,6 +911,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         is_dbe=wiring.get("is_dbe"))
     if pnc is not None and pnc.status in ("pass", "pending"):
         return _finish(pnc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # REVERSED-OUTER CONTAINER — a container whose OUTER is a reversed synonym, wrapped
+    # around a charade inner (EMPEROR = EOR[caviar->ROE, "flipping"] around MPER[MP+ER],
+    # "tucked into"). reversal_container reverses the INNER; container_inner_charade has a
+    # plain outer; neither reverses the outer. Gated on BOTH a reversal and a container
+    # indicator (multi-word aware), answer-driven, PASS-only.
+    from core.reversed_outer_container_engine import solve_reversed_outer_container
+    proc = solve_reversed_outer_container(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if proc is not None and proc.status in ("pass", "pending"):
+        return _finish(proc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
     # rev(TRAMS)). Catalog-DRIVEN (signature engine); single-piece, answer-driven (the fodder
