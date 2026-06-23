@@ -188,12 +188,15 @@ def _finalize(ctx, answer, split, words, pieces, gaps, namer_used, is_del, is_gl
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
                         value=ctx.answer_text, mechanism="definition", source=split.source)
     annotations = []
-    # the deletion: name which letter was removed, from which word
+    # the deletion: name which letter was removed, from which word. The source word is the
+    # VALUE that supplies the removed letter (whiskey -> W), NOT an operation indicator, so
+    # it carries role="deletion" (as the plain deletion engine does) — labelling it
+    # "indicator" made role_validity reject every named deletion (whiskey is no indicator).
     for (a, b, seg, kind, vfull, namer) in pieces:
         if kind == "named_del":
             nk, L = namer
             annotations.append(Annotation(
-                clue_atom_ids=words[nk].atom_ids, text=words[nk].text, role="indicator",
+                clue_atom_ids=words[nk].atom_ids, text=words[nk].text, role="deletion",
                 note="deleted letters: %s" % L))
     for g in gaps:
         if g == namer_used:
