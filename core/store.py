@@ -76,6 +76,12 @@ CREATE TABLE IF NOT EXISTS wfw_filler (
     word    TEXT NOT NULL,         --   cryptic role, tagged here ONLY (never link_words);
     PRIMARY KEY (clue_id, word)    --   accounted in the solve like a link, this clue alone.
 );
+CREATE TABLE IF NOT EXISTS wfw_forced_indicator (
+    clue_id INTEGER NOT NULL,      -- per-clue FORCED INDICATOR: a contiguous span the
+    phrase  TEXT NOT NULL,         --   human pins as an indicator of `wptype`, this clue
+    wptype  TEXT NOT NULL,         --   ONLY (never the shared indicators table). Looked up
+    PRIMARY KEY (clue_id, phrase, wptype)  --   as a PHRASE; makes a multi-word indicator
+);                                 --   (e.g. 'picked up') valid without per-word typing.
 """
 
 
@@ -276,6 +282,38 @@ def clear_clue_filler(conn, clue_id, word=None):
     else:
         conn.execute("DELETE FROM wfw_filler WHERE clue_id = ? AND word = ?",
                      (clue_id, (word or "").strip().lower()))
+    conn.commit()
+
+
+def add_forced_indicator(conn, clue_id, phrase, wptype):
+    """Pin a contiguous span as an indicator of `wptype` for THIS clue only — stored here,
+    NEVER written to the shared indicators table. Looked up as a phrase, so a multi-word
+    indicator (e.g. 'picked up') is valid even when a component word isn't typed that way."""
+    ensure_schema(conn)
+    p = (phrase or "").strip()
+    t = (wptype or "").strip().lower()
+    if p and t:
+        conn.execute("INSERT OR IGNORE INTO wfw_forced_indicator "
+                     "(clue_id, phrase, wptype) VALUES (?, ?, ?)", (clue_id, p, t))
+        conn.commit()
+
+
+def get_forced_indicators(conn, clue_id):
+    """[(phrase, wptype), ...] forced indicators for this clue (possibly empty)."""
+    ensure_schema(conn)
+    return [(r[0], r[1]) for r in conn.execute(
+        "SELECT phrase, wptype FROM wfw_forced_indicator WHERE clue_id = ?", (clue_id,))]
+
+
+def clear_forced_indicator(conn, clue_id, phrase=None):
+    """Drop one forced indicator (any type for that phrase), or all of this clue's when
+    phrase is None."""
+    ensure_schema(conn)
+    if phrase is None:
+        conn.execute("DELETE FROM wfw_forced_indicator WHERE clue_id = ?", (clue_id,))
+    else:
+        conn.execute("DELETE FROM wfw_forced_indicator WHERE clue_id = ? AND phrase = ?",
+                     (clue_id, (phrase or "").strip()))
     conn.commit()
 
 

@@ -141,21 +141,6 @@ def _norm_phrase(s):
     return " ".join(re.sub(r"[^0-9a-z]+", " ", (s or "").lower()).split())
 
 
-def _forced_wiring(w, forced_text):
-    """A shallow copy of wiring whose `defines` confirms ONLY the pinned phrase, so
-    find_definitions yields exactly that edge split and every other word is left to the
-    wordplay. The cached global wiring is never mutated (we copy, like db_only). The
-    Haiku/floor fallback never fires because this `defines` already supplies a split."""
-    target = _norm_phrase(forced_text)
-
-    def defines(*a):                       # called as defines(phrase, answer)
-        return bool(a) and _norm_phrase(a[0]) == target
-
-    w2 = dict(w)
-    w2["defines"] = defines
-    return w2
-
-
 def _forced_def_for(clue_id):
     conn = store.connect()
     try:
@@ -170,22 +155,6 @@ def _filler_for(clue_id):
         return store.get_clue_filler(conn, clue_id)
     finally:
         conn.close()
-
-
-def _filler_wiring(w, filler_words):
-    """A shallow copy of wiring whose is_link ALSO returns True for this clue's tagged
-    SURFACE-FILLER words, so every engine accounts them like a link — but only for this
-    clue (the tags live in wfw_filler, never the shared link_words table). The cached
-    global wiring is never mutated (we copy, like _forced_wiring / db_only)."""
-    fil = {(x or "").strip().lower() for x in (filler_words or ())}
-    orig = w["is_link"]
-
-    def is_link(word):
-        return (word or "").strip().lower() in fil or bool(orig(word))
-
-    w2 = dict(w)
-    w2["is_link"] = is_link
-    return w2
 
 
 def _load_clue(clue_id):
@@ -569,10 +538,11 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     filler = _filler_for(clue_id)
     if resolve:
         w = wiring() if ai else batch_wiring()
-        if forced:
-            w = _forced_wiring(w, forced)      # pin the definition; rest -> wordplay
-        if filler:
-            w = _filler_wiring(w, filler)      # account this clue's surface-filler words
+        # Apply this clue's manual role overrides (filler + forced definition + forced
+        # indicator) via the single shared helper — the same forces, now also applied on
+        # the batch/A-B paths. No-op when the clue has none, so behaviour is unchanged.
+        from core import clue_overrides
+        w = clue_overrides.apply_forced_overrides(w, clue_id)
         if discover:
             w = dict(w)
             w["auto_signature_queue"] = True   # discover + queue a signature if it fails
