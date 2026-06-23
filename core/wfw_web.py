@@ -444,6 +444,27 @@ def clearforcedef():
                  scroll_to=only)
 
 
+@app.route("/unforce", methods=["POST"])
+def unforce_route():
+    """Admin UNFORCE: drop ALL of this clue's manual overrides (filler / pinned definition /
+    forced indicator) and lift the freeze, then re-solve from scratch. The ONLY way a frozen
+    forced pass is allowed to change."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    msg = "No clue."
+    if only:
+        conn = store.connect()
+        try:
+            store.unforce(conn, int(only))
+        finally:
+            conn.close()
+        msg = ("Unforced clue %s — all manual overrides cleared and freeze lifted; "
+               "re-solved from scratch." % only)
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only={only} if only else None),
+                 scroll_to=only)
+
+
 def _do_add(form):
     kind = form.get("kind")
     if kind == "definition":
@@ -636,8 +657,20 @@ def _clue_controls(clue_id, raw_list, status):
         clear_btn = (f'<form method="post" action="/clearforcedef" class="wfw-cform">{h}'
                      f'<span class="wfw-ctl-l">Pinned: <em>{escape(forced)}</em></span>'
                      '<button>Clear pin &amp; re-solve</button></form>')
+    conn = store.connect()
+    try:
+        frozen = store.is_frozen(conn, clue_id)
+    finally:
+        conn.close()
+    unforce_btn = ""
+    if frozen:
+        unforce_btn = (
+            f'<form method="post" action="/unforce" class="wfw-cform">{h}'
+            '<span class="wfw-ctl-l">&#128274; FROZEN (forced pass &mdash; will not revert)'
+            '</span><button>Unforce &amp; re-solve</button></form>')
     return (
         '<div class="wfw-ctl">'
+        f'{unforce_btn}'
         f'<form method="post" action="/setstatus" class="wfw-cform">{h}'
         f'<span class="wfw-ctl-l">Status</span><select name="status">{opts}</select>'
         '<button>Set</button></form>'

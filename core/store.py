@@ -82,6 +82,12 @@ CREATE TABLE IF NOT EXISTS wfw_forced_indicator (
     wptype  TEXT NOT NULL,         --   ONLY (never the shared indicators table). Looked up
     PRIMARY KEY (clue_id, phrase, wptype)  --   as a PHRASE; makes a multi-word indicator
 );                                 --   (e.g. 'picked up') valid without per-word typing.
+CREATE TABLE IF NOT EXISTS wfw_frozen (
+    clue_id INTEGER PRIMARY KEY    -- FROZEN: a forced clue that reached a clean PASS. Its
+);                                 --   stored parse is authoritative; save_parse refuses to
+                                   --   DOWNGRADE it (never reverts to fail on a later run);
+                                   --   only admin unforce clears it. Separate table so it
+                                   --   survives save_parse's delete+reinsert of wfw_solve.
 """
 
 
@@ -108,8 +114,15 @@ def save_parse(conn, clue_id, parse, ctx=None):
 
     `ctx` is the WFWAtomContext this parse was built from; when given, the whole
     atomisation is preserved (serialised into wfw_solve.atoms) so the screen can
-    render from the exact stored atoms instead of re-atomising the clue text."""
+    render from the exact stored atoms instead of re-atomising the clue text.
+
+    FREEZE GUARANTEE: a FROZEN clue (a forced clue that reached a clean PASS) is never
+    DOWNGRADED — a later re-solve that does not pass is discarded, so the stored forced
+    pass survives any subsequent run. Only admin unforce (clear_frozen) lifts it. And a
+    clean PASS for a clue that carries any manual override auto-freezes it here."""
     ensure_schema(conn)
+    if parse.status != "pass" and is_frozen(conn, clue_id):
+        return                                   # never revert a frozen forced pass
     for table in ("wfw_solve", "wfw_piece", "wfw_link"):
         conn.execute("DELETE FROM %s WHERE clue_id = ?" % table, (clue_id,))
 
@@ -145,6 +158,52 @@ def save_parse(conn, clue_id, parse, ctx=None):
             "clue_atom_id, transform) VALUES (?, ?, ?, ?, ?, ?)",
             (clue_id, l.answer_pos, l.source_index, l.operation,
              l.clue_atom_id, l.transform))
+    # Auto-freeze: a clean PASS for a clue carrying any manual override is the human's
+    # forced solution — freeze it so it can never later revert.
+    if parse.status == "pass" and _has_overrides(conn, clue_id):
+        set_frozen(conn, clue_id)
+    conn.commit()
+
+
+def is_frozen(conn, clue_id):
+    """True if this clue is frozen (a forced pass that must never be downgraded)."""
+    ensure_schema(conn)
+    return conn.execute("SELECT 1 FROM wfw_frozen WHERE clue_id = ?",
+                        (clue_id,)).fetchone() is not None
+
+
+def set_frozen(conn, clue_id):
+    """Mark a clue frozen. Idempotent. (Commit handled by the caller / save_parse.)"""
+    ensure_schema(conn)
+    conn.execute("INSERT OR IGNORE INTO wfw_frozen (clue_id) VALUES (?)", (clue_id,))
+
+
+def clear_frozen(conn, clue_id):
+    """Lift the freeze (admin unforce), so the clue solves normally again."""
+    ensure_schema(conn)
+    conn.execute("DELETE FROM wfw_frozen WHERE clue_id = ?", (clue_id,))
+    conn.commit()
+
+
+def _has_overrides(conn, clue_id):
+    """True if this clue carries any manual override (filler / forced def / forced
+    indicator) — i.e. a human has forced something on it."""
+    for q in ("SELECT 1 FROM wfw_filler WHERE clue_id = ?",
+              "SELECT 1 FROM wfw_forced_def WHERE clue_id = ?",
+              "SELECT 1 FROM wfw_forced_indicator WHERE clue_id = ?"):
+        if conn.execute(q, (clue_id,)).fetchone() is not None:
+            return True
+    return False
+
+
+def unforce(conn, clue_id):
+    """Admin UNFORCE: drop ALL of this clue's manual overrides and lift the freeze, so the
+    next solve evaluates it from scratch. The ONLY way a frozen verdict changes."""
+    ensure_schema(conn)
+    conn.execute("DELETE FROM wfw_filler WHERE clue_id = ?", (clue_id,))
+    conn.execute("DELETE FROM wfw_forced_def WHERE clue_id = ?", (clue_id,))
+    conn.execute("DELETE FROM wfw_forced_indicator WHERE clue_id = ?", (clue_id,))
+    conn.execute("DELETE FROM wfw_frozen WHERE clue_id = ?", (clue_id,))
     conn.commit()
 
 
