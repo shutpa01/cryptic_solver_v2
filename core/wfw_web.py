@@ -1132,49 +1132,50 @@ def _rolegrid_block(clue_id):
             pass
         return out
 
-    # Word table: tick the word(s); see each one's current role, the value it produced in the
-    # solve, and what the reference DB holds for it.
+    # ONE editable form: every word has a role dropdown defaulted to "keep" (showing the
+    # role the solver gave it). You change only the wrong ones, then Apply once. Adjacent
+    # words set to the same role form one phrase; a synonym value is reused from what is
+    # already known (the "makes"/"DB has" columns) so you rarely type one.
+    ind_opts = "".join('<option value="indicator:%s">indicator — %s</option>' % (v, lbl)
+                       for v, lbl in _FORCE_IND_OPTIONS)
+
+    def role_select(idx, current_label):
+        return (
+            '<select name="role_%d" form="gridapply-%d" class="rg-rsel">'
+            '<option value="keep" selected>keep (%s)</option>'
+            '<option value="definition">definition</option>'
+            '%s'
+            '<option value="synonym">synonym</option>'
+            '<option value="link">link word</option>'
+            '<option value="filler">filler</option>'
+            '</select>' % (idx, clue_id, escape(current_label or "—"), ind_opts))
+
     grid = ['<table class="rg-tbl">'
-            '<tr><th>pick</th><th>word</th><th>role</th><th>makes</th>'
-            '<th>DB has</th></tr>']
+            '<tr><th>word</th><th>role</th><th>value<br><span class="rg-th2">'
+            '(synonym only, if new)</span></th><th>makes</th><th>DB has</th></tr>']
     for r in rows:
         val = ('<span class="rg-val">%s</span>' % escape(r["value"])) if r["value"] else ""
         dbv = db_values(r["text"])
         dbcell = ('<span class="rg-dbv">%s</span>'
                   % escape(", ".join(dbv))) if dbv else '<span class="rg-dbnone">—</span>'
         grid.append(
-            '<tr><td class="rg-pick"><input type="checkbox" name="w" value="%d" '
-            'form="rg-set-%d"></td>'
-            '<td class="rg-word">%s</td>'
-            '<td class="rg-role rg-%s">%s</td>'
+            '<tr><td class="rg-word">%s</td>'
+            '<td>%s</td>'
+            '<td><input name="val_%d" form="gridapply-%d" size="10"></td>'
             '<td>%s</td><td>%s</td></tr>'
-            % (r["idx"], clue_id, escape(r["text"]), escape(r["role"]),
-               escape(r["label"]), val, dbcell))
+            % (escape(r["text"]), role_select(r["idx"], r["label"]),
+               r["idx"], clue_id, val, dbcell))
     grid.append("</table>")
 
-    type_opts = "".join('<option value="%s">%s</option>' % (v, lbl)
-                        for v, lbl in _FORCE_IND_OPTIONS)
-    # ONE control: tick word(s) above, choose a role, Apply. Alphabetical roles.
     set_form = (
-        '<form method="post" action="/gridrole" id="rg-set-%d" class="rg-set">%s'
-        '<div class="rg-setrow"><b>Set the ticked word(s) to:</b>'
-        '<select name="role" class="rg-rolesel">'
-        '<option value="definition">definition</option>'
-        '<option value="filler">filler (no cryptic role)</option>'
-        '<option value="indicator">indicator&hellip;</option>'
-        '<option value="synonym">synonym (give its value)&hellip;</option>'
-        '</select>'
-        '<span class="rg-cond rg-cond-indicator">of type <select name="wptype">%s</select>'
-        '</span>'
-        '<span class="rg-cond rg-cond-synonym">= <input name="value" '
-        'placeholder="value, e.g. TOD" size="14"></span>'
-        '<button>Apply &amp; re-solve</button></div>'
-        '<div class="rg-note">Tick one word, or several adjacent words for a phrase '
-        '(e.g. a multi-word definition, indicator, or synonym). definition &amp; indicator '
-        'are set for <i>this clue only</i>; a synonym value is added to the reference DB '
-        '(used everywhere) &mdash; tick the discovered word plus any extra words to add a '
-        'longer synonym.</div>'
-        '</form>' % (clue_id, h, type_opts))
+        '<form method="post" action="/gridapply" id="gridapply-%d" class="rg-set">%s'
+        '<div class="rg-setrow"><button class="rg-apply">Apply &amp; re-solve</button>'
+        '<span class="rg-note">Change only the dropdowns that are wrong, then click once. '
+        'Adjacent words with the same role become one phrase (e.g. set &ldquo;some&rdquo; to '
+        'synonym next to a discovered &ldquo;girls&rdquo; to make &ldquo;some girls&rdquo;). '
+        'A synonym value is reused from &ldquo;makes/DB has&rdquo; &mdash; only type one if '
+        'those are empty.</span></div>'
+        '</form>' % (clue_id, h))
 
     # Current overrides on this clue, each with a one-click clear.
     cur_items = []
@@ -1253,6 +1254,9 @@ _RG_CSS = """<style>
 .rg-set select,.rg-set input{font-size:1rem;padding:.2rem .3rem}
 .rg-set button{font-size:1rem;padding:.3rem .9rem;background:#0d9488;color:#fff;
   border:1px solid #0d9488;border-radius:6px;cursor:pointer}
+.rg-rsel{font-size:.95rem;padding:.2rem}
+.rg-apply{font-size:1.05rem!important;font-weight:600;padding:.45rem 1.2rem!important}
+.rg-th2{font-weight:400;color:#94a3b8;font-size:.75rem}
 .rg-cond{display:none;align-items:center;gap:.3rem}
 .rg-note{font-size:.85rem;color:#475569;margin-top:.5rem}
 .rg-cur{margin:.7rem 0;font-size:.95rem;color:#0f172a}
@@ -1362,6 +1366,101 @@ def gridrole_route():
         else:
             msg = "Choose a role (and its type/value) before applying."
     return _grid_redirect(only, msg)
+
+
+@app.route("/gridapply", methods=["POST"])
+def gridapply_route():
+    """Apply ALL role choices from the grid at once, then re-solve ONCE. Each word carries a
+    role_<idx> (default 'keep'); adjacent words with the SAME role form one phrase. A synonym
+    value is taken from val_<idx> if typed, else REUSED from a known DB value of the word(s)
+    that is a substring of the answer (so an existing synonym is extended without retyping)."""
+    only = (request.form.get("only") or "").strip()
+    if not only:
+        return _grid_redirect("", "No clue.")
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _grid_redirect(only, "No clue.")
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    ctx = build_wfw_atom_context(clue_text, enum_space(answer, enumeration),
+                                 direction=direction)
+    words = [t.text for t in ctx.clue_tokens if t.kind == "word"]
+    n = len(words)
+    roles = [(request.form.get("role_%d" % i) or "keep").strip() for i in range(n)]
+    vals = [(request.form.get("val_%d" % i) or "").strip() for i in range(n)]
+
+    # group consecutive words sharing the same non-keep role into one phrase
+    groups, i = [], 0
+    while i < n:
+        if roles[i] == "keep":
+            i += 1
+            continue
+        j = i
+        while j + 1 < n and roles[j + 1] == roles[i]:
+            j += 1
+        groups.append((roles[i], list(range(i, j + 1))))
+        i = j + 1
+
+    ans_letters = "".join(c for c in (answer or "").upper() if c.isalpha())
+    la = batch_wiring()["lookup_all"]
+
+    def reuse_value(idxs):
+        """The longest already-known DB value (synonym/abbr) of any word in the group that
+        is a substring of the answer — i.e. the synonym the grid already shows."""
+        best = ""
+        for k in idxs:
+            try:
+                for v, m in la(words[k]):
+                    v = (v or "").upper()
+                    if (m in ("synonym", "abbreviation") and v and v in ans_letters
+                            and len(v) > len(best)):
+                        best = v
+            except Exception:
+                pass
+        return best
+
+    msgs, need = [], []
+    conn = store.connect()
+    try:
+        for role, idxs in groups:
+            phrase = " ".join(words[k] for k in idxs)
+            if role == "definition":
+                store.set_forced_definition(conn, cid, phrase)
+                msgs.append("definition = %r" % phrase)
+            elif role.startswith("indicator:"):
+                wptype = role[len("indicator:"):]
+                if wptype in _FORCE_IND_TYPES:
+                    store.add_forced_indicator(conn, cid, phrase, wptype)
+                    label = dict(_FORCE_IND_OPTIONS).get(wptype, wptype)
+                    msgs.append("%r = %s indicator" % (phrase, label))
+            elif role == "filler":
+                for k in idxs:
+                    store.add_clue_filler(conn, cid, words[k])
+                msgs.append("%r = filler" % phrase)
+            elif role == "link":
+                _do_add({"kind": "link", "word": phrase})
+                apply_add_to_wiring({"kind": "link", "word": phrase})
+                msgs.append("%r = link word" % phrase)
+            elif role == "synonym":
+                v = next((vals[k] for k in idxs if vals[k]), "") or reuse_value(idxs)
+                if v:
+                    v = v.upper()
+                    _do_add({"kind": "synonym", "word": phrase, "synonym": v})
+                    apply_add_to_wiring({"kind": "synonym", "word": phrase, "synonym": v})
+                    msgs.append("%r = %s (synonym)" % (phrase, v))
+                else:
+                    need.append(phrase)
+    finally:
+        conn.close()
+    _resolve_one(cid)
+    parts = []
+    if msgs:
+        parts.append("Applied: " + "; ".join(msgs))
+    if need:
+        parts.append("type a value for synonym(s): " + ", ".join("%r" % p for p in need))
+    if not msgs and not need:
+        parts.append("No changes")
+    return _grid_redirect(only, " — ".join(parts) + "; re-solved.")
 
 
 @app.route("/forceind", methods=["POST"])
