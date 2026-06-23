@@ -21,7 +21,7 @@ import sqlite3
 import os
 from html import escape
 
-from flask import Flask, request
+from flask import Flask, request, redirect
 
 from core import engine_registry
 from core import wfw_render
@@ -81,6 +81,18 @@ DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
 
 app = Flask(__name__)
 _WIRING = None
+
+
+import time as _time
+BOOT_ID = _time.strftime("%H:%M:%S", _time.localtime())   # changes on every server restart
+
+
+def _grid_redirect(only, msg=""):
+    """Post/Redirect/Get: after a grid action, redirect to the canonical grid GET so the
+    URL is clean (/rolegrid, not /gridrole), a refresh won't resubmit, and the page is
+    re-rendered fresh from one code path."""
+    from urllib.parse import quote
+    return redirect("/rolegrid?id=%s&notice=%s" % (only, quote(msg)))
 
 
 @app.after_request
@@ -432,6 +444,9 @@ def clearfiller():
             store.clear_clue_filler(conn, int(only), word or None)
         finally:
             conn.close()
+    if request.form.get("surface") == "grid":
+        _resolve_one(int(only)) if only else None
+        return _grid_redirect(only, "Surface-filler tag removed; re-solved.")
     notice = '<div class="wfw-notice">Surface-filler tag removed; clue re-solved.</div>'
     return _page(notice + _body(raw, resolve_only={only} if only else None), scroll_to=only)
 
@@ -449,6 +464,9 @@ def clearforcedef():
         finally:
             conn.close()
         msg = "Pinned definition cleared; clue re-solved normally."
+    if request.form.get("surface") == "grid":
+        _resolve_one(int(only)) if only else None
+        return _grid_redirect(only, msg)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only={only} if only else None),
                  scroll_to=only)
@@ -470,6 +488,9 @@ def unforce_route():
             conn.close()
         msg = ("Unforced clue %s — all manual overrides cleared and freeze lifted; "
                "re-solved from scratch." % only)
+    if request.form.get("surface") == "grid":
+        _resolve_one(int(only)) if only else None
+        return _grid_redirect(only, msg)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only={only} if only else None),
                  scroll_to=only)
@@ -1089,6 +1110,7 @@ def _rolegrid_block(clue_id):
     rows = _word_roles(ctx, parse, filler)
     h = ('<input type="hidden" name="id" value="%s">'
          '<input type="hidden" name="only" value="%d">'
+         '<input type="hidden" name="surface" value="grid">'
          % (escape(str(clue_id), quote=True), clue_id))
 
     # Per-word DB values (synonyms/abbreviations the reference DB holds for that word), so a
@@ -1264,8 +1286,14 @@ ROLEGRID_FORM = ('<form method="get" action="/rolegrid" style="margin:1rem 0;'
 def rolegrid_route():
     """Role-grid hand-solver for one clue (or several, comma/space/range separated)."""
     raw = (request.args.get("id") or "").strip()
+    notice = (request.args.get("notice") or "").strip()
     ids = _parse_hs_ids(raw)
-    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(raw, quote=True))
+    marker = ('<div style="font-size:.75rem;color:#94a3b8;margin:.3rem 0">'
+              'hand-solver build %s</div>' % escape(BOOT_ID))
+    head = marker
+    if notice:
+        head += '<div class="wfw-notice">%s</div>' % escape(notice)
+    body = _RG_CSS + head + ROLEGRID_FORM.format(cid=escape(raw, quote=True))
     if not ids:
         return _page(body + '<p class="warn">Enter a clue id, e.g. 10075290.</p>')
     for cid in ids:
@@ -1333,10 +1361,7 @@ def gridrole_route():
             msg = "Type the synonym value (e.g. TOD) before applying."
         else:
             msg = "Choose a role (and its type/value) before applying."
-    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
-    body += _rolegrid_block(int(only)) if only else ""
-    return _page(notice + body)
+    return _grid_redirect(only, msg)
 
 
 @app.route("/forceind", methods=["POST"])
@@ -1363,14 +1388,9 @@ def forceind_route():
                        % (phrase, wptype))
         elif not _contiguous(widxs):
             msg = "Selected words must be contiguous (one phrase)."
-    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    # re-render the role grid for this clue (re-solve happens on the main solve path; here
-    # we just re-render the grid, which reads the freshly-applied override on next /reload).
-    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
-    # trigger a re-solve so the new force takes effect immediately, then show the grid
-    _resolve_one(int(only)) if only else None
-    body += _rolegrid_block(int(only)) if only else ""
-    return _page(notice + body)
+        else:
+            _resolve_one(int(only))
+    return _grid_redirect(only, msg)
 
 
 @app.route("/gridadd", methods=["POST"])
@@ -1409,10 +1429,7 @@ def gridadd_route():
                 msg = "Added (%s) for %r: %s; clue re-solved." % (kind, phrase, msg)
     elif widxs and not _contiguous(widxs):
         msg = "Selected words must be contiguous (one phrase)."
-    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
-    body += _rolegrid_block(int(only)) if only else ""
-    return _page(notice + body)
+    return _grid_redirect(only, msg)
 
 
 @app.route("/clearforceind", methods=["POST"])
@@ -1427,10 +1444,7 @@ def clearforceind_route():
         finally:
             conn.close()
         _resolve_one(int(only))
-    notice = '<div class="wfw-notice">Forced indicator cleared; re-solved.</div>'
-    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
-    body += _rolegrid_block(int(only)) if only else ""
-    return _page(notice + body)
+    return _grid_redirect(only, "Forced indicator cleared; re-solved.")
 
 
 def _contiguous(idxs):
