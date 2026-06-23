@@ -990,6 +990,251 @@ def _handsolve_block(clue_id):
             + f'<script>initHS(document.getElementById("{rid}"), {clue_id}, {seed_json});</script>')
 
 
+# ---------------------------------------------------------------------------------
+# ROLE-GRID hand-solver (the redesign's hand-solver; supersedes the atom one above).
+# v1 (incremental): DISPLAY each clue word with the role the current solver assigned,
+# and let the admin FORCE AN INDICATOR (a contiguous span -> a chosen indicator type),
+# which is the one role-primitive the page did not already have (force-definition and
+# filler exist). Fodder assignment + inline enrichment are follow-ups.
+# ---------------------------------------------------------------------------------
+
+# DB indicator types offered when forcing an indicator (alphabetical).
+_FORCE_IND_TYPES = ("acrostic", "alternation", "anagram", "container", "deletion",
+                    "hidden", "homophone", "insertion", "reversal", "selection")
+
+
+def _word_roles(ctx, parse, filler_set):
+    """Map each clue WORD to the role the stored parse gives it. Returns a list of
+    dicts {idx, text, role, detail} in clue order. Role is derived by atom-id
+    membership: definition / piece (mechanism) / indicator / link / filler / '-'."""
+    # atom_id -> (role, detail)
+    amap = {}
+    if parse is not None:
+        if parse.definition is not None:
+            for aid in (parse.definition.clue_atom_ids or ()):
+                amap[aid] = ("definition", "")
+        for s in (parse.sources or []):
+            mech = getattr(s, "mechanism", "") or ""
+            for aid in (s.clue_atom_ids or ()):
+                amap[aid] = ("piece", mech)
+        for a in (parse.annotations or []):
+            for aid in (a.clue_atom_ids or ()):
+                amap[aid] = (a.role, getattr(a, "note", "") or "")
+    out, wi = [], 0
+    fil = {(x or "").strip().lower() for x in (filler_set or ())}
+    for t in ctx.clue_tokens:
+        if t.kind != "word":
+            continue
+        role, detail = "—", ""
+        for aid in t.atom_ids:
+            if aid in amap:
+                role, detail = amap[aid]
+                break
+        if role == "—" and (t.text or "").strip().lower() in fil:
+            role, detail = "filler", "surface filler"
+        out.append({"idx": wi, "text": t.text, "role": role, "detail": detail})
+        wi += 1
+    return out
+
+
+def _rolegrid_block(clue_id):
+    """One clue's role grid: the words listed vertically with their current roles, the
+    forced-indicator control, current forces, and (if frozen) the unforce control."""
+    row = _load_clue(clue_id)
+    if row is None:
+        return f'<p class="warn">No clue with id {clue_id}.</p>'
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+        filler = store.get_clue_filler(conn, clue_id)
+        forced_ind = store.get_forced_indicators(conn, clue_id)
+        frozen = store.is_frozen(conn, clue_id)
+    finally:
+        conn.close()
+    status = parse.status if parse is not None else "fail"
+    rows = _word_roles(ctx, parse, filler)
+    h = ('<input type="hidden" name="id" value="%s">'
+         '<input type="hidden" name="only" value="%d">'
+         % (escape(str(clue_id), quote=True), clue_id))
+
+    # the grid: a checkbox per word (to select a contiguous span) + its current role
+    grid = ['<table class="rg-tbl"><tr><th></th><th>word</th><th>current role</th></tr>']
+    for r in rows:
+        det = (" <span class='rg-det'>%s</span>" % escape(r["detail"])) if r["detail"] else ""
+        grid.append(
+            '<tr><td><input type="checkbox" name="w" value="%d" form="forceind-%d"></td>'
+            '<td class="rg-word">%s</td><td class="rg-role rg-%s">%s%s</td></tr>'
+            % (r["idx"], clue_id, escape(r["text"]),
+               escape(r["role"].split()[0] if r["role"] else "x"),
+               escape(r["role"]), det))
+    grid.append("</table>")
+
+    type_opts = "".join('<option value="%s">%s</option>' % (t, t)
+                        for t in _FORCE_IND_TYPES)
+    force_form = (
+        '<form method="post" action="/forceind" id="forceind-%d" class="rg-form">%s'
+        '<span class="rg-l">Force selected words as indicator of type</span>'
+        '<select name="wptype">%s</select>'
+        '<button>Force indicator &amp; re-solve</button></form>'
+        % (clue_id, h, type_opts))
+
+    cur = ""
+    if forced_ind:
+        items = "".join(
+            '<li>%s &rarr; <b>%s</b> '
+            '<form method="post" action="/clearforceind" class="rg-inline">%s'
+            '<input type="hidden" name="phrase" value="%s">'
+            '<button class="rg-x">clear</button></form></li>'
+            % (escape(p), escape(t), h, escape(p, quote=True))
+            for p, t in forced_ind)
+        cur = '<div class="rg-cur"><b>Forced indicators:</b><ul>%s</ul></div>' % items
+
+    unforce = ""
+    if frozen:
+        unforce = ('<form method="post" action="/unforce" class="rg-form">%s'
+                   '<span class="rg-l">&#128274; FROZEN — forced pass, will not revert</span>'
+                   '<button>Unforce &amp; re-solve</button></form>' % h)
+
+    return (
+        _cid_label(clue_id, src, pnum, cnum, direction)
+        + '<div class="rg-block">'
+        + '<div class="wfw-clue rg-clue">%s</div>' % escape(clue_text)
+        + '<div class="rg-status rg-%s">%s &mdash; %s</div>'
+          % (status, escape(answer), status.upper())
+        + "".join(grid)
+        + force_form + cur + unforce
+        + '</div>')
+
+
+_RG_CSS = """<style>
+.rg-block{border:1px solid #cbd5e1;border-radius:8px;padding:1rem;margin:.6rem 0 2rem;
+  font-family:system-ui}
+.rg-clue{font-size:1.15rem;margin:.2rem 0 .6rem}
+.rg-status{font-weight:600;margin:.2rem 0 .8rem;letter-spacing:.05em}
+.rg-status.rg-pass{color:#16a34a}.rg-status.rg-fail{color:#dc2626}
+.rg-status.rg-pending{color:#d97706}
+.rg-tbl{border-collapse:collapse;margin:.4rem 0}
+.rg-tbl th{text-align:left;font-size:.75rem;color:#64748b;font-weight:600;padding:.2rem .6rem}
+.rg-tbl td{padding:.2rem .6rem;border-top:1px solid #f1f5f9}
+.rg-word{font-weight:600}
+.rg-role{font-size:.85rem;color:#475569}
+.rg-role.rg-definition{color:#0369a1}.rg-role.rg-indicator{color:#7c3aed}
+.rg-role.rg-piece{color:#16a34a}.rg-role.rg-link{color:#94a3b8}
+.rg-role.rg-filler{color:#94a3b8}
+.rg-det{color:#94a3b8;font-size:.8rem}
+.rg-form{margin:.6rem 0;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.rg-l{font-size:.85rem;color:#475569}
+.rg-cur{margin:.6rem 0;font-size:.9rem}.rg-cur ul{margin:.3rem 0;padding-left:1.2rem}
+.rg-inline{display:inline}
+.rg-x{font-size:.7rem;padding:.05rem .4rem}
+</style>"""
+
+ROLEGRID_FORM = ('<form method="get" action="/rolegrid" style="margin:1rem 0;'
+                 'font-family:system-ui">'
+                 '<input name="id" value="{cid}" placeholder="clue id" size="12">'
+                 '<button>Open role grid</button></form>')
+
+
+@app.route("/rolegrid")
+def rolegrid_route():
+    """Role-grid hand-solver for one clue (or several, comma/space/range separated)."""
+    raw = (request.args.get("id") or "").strip()
+    ids = _parse_hs_ids(raw)
+    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(raw, quote=True))
+    if not ids:
+        return _page(body + '<p class="warn">Enter a clue id, e.g. 10075290.</p>')
+    for cid in ids:
+        body += _rolegrid_block(cid)
+    return _page(body)
+
+
+@app.route("/forceind", methods=["POST"])
+def forceind_route():
+    """Force a contiguous span of clue words to be an indicator of the chosen type, for
+    THIS clue only, then re-solve. Stored in wfw_forced_indicator (never the shared
+    indicators table); applied via clue_overrides on every solve path."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    wptype = (request.form.get("wptype") or "").strip().lower()
+    widxs = sorted(int(x) for x in request.form.getlist("w") if x.isdigit())
+    msg = "Select one or more contiguous words and a type."
+    if only and wptype and widxs and wptype in _FORCE_IND_TYPES:
+        row = _load_clue(int(only))
+        if row is not None and _contiguous(widxs):
+            phrase = _span_phrase(row[0], row[4], widxs)
+            if phrase:
+                conn = store.connect()
+                try:
+                    store.add_forced_indicator(conn, int(only), phrase, wptype)
+                finally:
+                    conn.close()
+                msg = ("Forced %r as a %s indicator (this clue only); re-solved."
+                       % (phrase, wptype))
+        elif not _contiguous(widxs):
+            msg = "Selected words must be contiguous (one phrase)."
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    # re-render the role grid for this clue (re-solve happens on the main solve path; here
+    # we just re-render the grid, which reads the freshly-applied override on next /reload).
+    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
+    # trigger a re-solve so the new force takes effect immediately, then show the grid
+    _resolve_one(int(only)) if only else None
+    body += _rolegrid_block(int(only)) if only else ""
+    return _page(notice + body)
+
+
+@app.route("/clearforceind", methods=["POST"])
+def clearforceind_route():
+    """Remove one forced indicator (by phrase) and re-solve."""
+    only = (request.form.get("only") or "").strip()
+    phrase = (request.form.get("phrase") or "").strip()
+    if only and phrase:
+        conn = store.connect()
+        try:
+            store.clear_forced_indicator(conn, int(only), phrase)
+        finally:
+            conn.close()
+        _resolve_one(int(only))
+    notice = '<div class="wfw-notice">Forced indicator cleared; re-solved.</div>'
+    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
+    body += _rolegrid_block(int(only)) if only else ""
+    return _page(notice + body)
+
+
+def _contiguous(idxs):
+    return bool(idxs) and idxs == list(range(idxs[0], idxs[0] + len(idxs)))
+
+
+def _span_phrase(clue_text, direction, widxs):
+    """The surface phrase for the given word indices (clue order)."""
+    ctx = build_wfw_atom_context(clue_text, "X", direction=direction)
+    words = [t.text for t in ctx.clue_tokens if t.kind == "word"]
+    if not widxs or widxs[-1] >= len(words):
+        return ""
+    return " ".join(words[i] for i in widxs)
+
+
+def _resolve_one(clue_id):
+    """Re-solve a single clue through the cascade (DB-only) WITH its overrides applied, and
+    persist — so a freshly-forced role takes effect immediately. Mirrors the page's solve
+    path (batch wiring + clue_overrides). Best-effort; never raises to the route."""
+    try:
+        row = _load_clue(clue_id)
+        if row is None:
+            return
+        clue_text, answer, src, pnum, direction, enumeration, cnum = row
+        answer = enum_space(answer, enumeration)
+        from core import clue_overrides
+        w = clue_overrides.apply_forced_overrides(batch_wiring(), clue_id)
+        engine_registry.solve_clue_text(clue_text, answer, w, source=src,
+                                        puzzle_number=pnum, clue_id=clue_id,
+                                        direction=direction)
+    except Exception:
+        pass
+
+
 @app.route("/handsolve")
 def handsolve_route():
     """Atom-level hand-solver for one clue or several (id box / A-B range)."""
@@ -1019,11 +1264,17 @@ def _reload_clue_button(clue_id, raw_list):
         'title="Run the AI piece fallback too (slower). Off = fast DB-only re-run.">'
         '<input type="checkbox" name="ai" value="on"> with AI fallback</label>'
         '</form>'
+        '<a href="/rolegrid?id=%d" class="wfw-reload wfw-reload-clue" '
+        'style="display:inline-block;text-decoration:none;background:#0d9488;'
+        'border-color:#0d9488;margin:.4rem 0" '
+        'title="Open the role-grid hand-solver for this clue">'
+        '&#9776; Hand-solver</a>'
         '<a href="/handsolve?id=%d" class="wfw-reload wfw-reload-clue" '
         'style="display:inline-block;text-decoration:none;background:#7c3aed;'
-        'border-color:#7c3aed;margin:.4rem 0" '
-        'title="Open the atom-level hand-solver for this clue">'
-        '&#9998; Hand-solve</a>' % (escape(raw_list, quote=True), clue_id, clue_id))
+        'border-color:#7c3aed;margin:.4rem 0 .4rem .4rem" '
+        'title="Open the (legacy) atom-level hand-solver for this clue">'
+        '&#9998; Atoms</a>'
+        % (escape(raw_list, quote=True), clue_id, clue_id, clue_id))
 
 
 def _cid_label(clue_id, source=None, puzzle_number=None, clue_number=None, direction=None):
