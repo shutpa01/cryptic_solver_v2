@@ -1061,25 +1061,42 @@ def _rolegrid_block(clue_id):
          % (escape(str(clue_id), quote=True), clue_id))
 
     # the grid: a checkbox per word (to select a contiguous span) + its current role
+    # One form wraps the word checkboxes; two submit buttons (formaction) act on the same
+    # selected span — force an indicator (per-clue) or add a DB entry (global enrichment).
     grid = ['<table class="rg-tbl"><tr><th></th><th>word</th><th>current role</th></tr>']
     for r in rows:
         det = (" <span class='rg-det'>%s</span>" % escape(r["detail"])) if r["detail"] else ""
         grid.append(
-            '<tr><td><input type="checkbox" name="w" value="%d" form="forceind-%d"></td>'
+            '<tr><td><input type="checkbox" name="w" value="%d"></td>'
             '<td class="rg-word">%s</td><td class="rg-role rg-%s">%s%s</td></tr>'
-            % (r["idx"], clue_id, escape(r["text"]),
+            % (r["idx"], escape(r["text"]),
                escape(r["role"].split()[0] if r["role"] else "x"),
                escape(r["role"]), det))
     grid.append("</table>")
 
     type_opts = "".join('<option value="%s">%s</option>' % (t, t)
                         for t in _FORCE_IND_TYPES)
-    force_form = (
-        '<form method="post" action="/forceind" id="forceind-%d" class="rg-form">%s'
-        '<span class="rg-l">Force selected words as indicator of type</span>'
+    # mechanism options for the "add to DB" action (the enrichment / fodder path)
+    mech_opts = "".join('<option value="%s">%s</option>' % (k, lbl) for k, lbl in (
+        ("synonym", "synonym fodder (type its value)"),
+        ("definition", "definition (the selected words define the answer)"),
+        ("indicator", "indicator (added to DB globally)"),
+        ("link", "link word")))
+    span_form = (
+        '<form method="post" class="rg-spanform">%s'
+        '<input type="hidden" name="answer" value="%s">'
+        '<div class="rg-act"><span class="rg-l">With the selected words &mdash; '
+        'FORCE an indicator (this clue only):</span>'
         '<select name="wptype">%s</select>'
-        '<button>Force indicator &amp; re-solve</button></form>'
-        % (clue_id, h, type_opts))
+        '<button formaction="/forceind">Force indicator &amp; re-solve</button></div>'
+        '<div class="rg-act"><span class="rg-l">&mdash; or ADD to the reference DB '
+        '(applies everywhere):</span>'
+        '<select name="kind">%s</select>'
+        '<input name="value" placeholder="value, e.g. TOD (for synonym)" size="16">'
+        '<select name="type" title="indicator type (when adding an indicator)">%s</select>'
+        '<button formaction="/gridadd">Add to DB &amp; re-solve</button></div>'
+        '</form>'
+        % (h, escape(answer, quote=True), type_opts, mech_opts, type_opts))
 
     cur = ""
     if forced_ind:
@@ -1105,7 +1122,7 @@ def _rolegrid_block(clue_id):
         + '<div class="rg-status rg-%s">%s &mdash; %s</div>'
           % (status, escape(answer), status.upper())
         + "".join(grid)
-        + force_form + cur + unforce
+        + span_form + cur + unforce
         + '</div>')
 
 
@@ -1126,6 +1143,8 @@ _RG_CSS = """<style>
 .rg-role.rg-filler{color:#94a3b8}
 .rg-det{color:#94a3b8;font-size:.8rem}
 .rg-form{margin:.6rem 0;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.rg-spanform{margin:.6rem 0;border-top:1px solid #e2e8f0;padding-top:.6rem}
+.rg-act{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}
 .rg-l{font-size:.85rem;color:#475569}
 .rg-cur{margin:.6rem 0;font-size:.9rem}.rg-cur ul{margin:.3rem 0;padding-left:1.2rem}
 .rg-inline{display:inline}
@@ -1181,6 +1200,48 @@ def forceind_route():
     body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
     # trigger a re-solve so the new force takes effect immediately, then show the grid
     _resolve_one(int(only)) if only else None
+    body += _rolegrid_block(int(only)) if only else ""
+    return _page(notice + body)
+
+
+@app.route("/gridadd", methods=["POST"])
+def gridadd_route():
+    """Inline enrichment from the role grid: ADD a reference-DB entry for the selected span
+    (synonym/definition/indicator/link), then re-solve. Reuses the proven _do_add +
+    apply_add_to_wiring path (same as /admin), so the add is global and visible at once.
+    This is the FOX->TOD flow: select the word, choose 'synonym fodder', type TOD, add."""
+    only = (request.form.get("only") or "").strip()
+    kind = (request.form.get("kind") or "").strip().lower()
+    value = (request.form.get("value") or "").strip()
+    wptype = (request.form.get("type") or "").strip().lower()
+    answer = (request.form.get("answer") or "").strip()
+    widxs = sorted(int(x) for x in request.form.getlist("w") if x.isdigit())
+    msg = "Select one or more contiguous words, a kind, and (where needed) a value."
+    if only and kind and widxs and _contiguous(widxs):
+        row = _load_clue(int(only))
+        phrase = _span_phrase(row[0], row[4], widxs) if row is not None else ""
+        if phrase:
+            add_form = None
+            if kind == "synonym" and value:
+                add_form = {"kind": "synonym", "word": phrase, "synonym": value}
+            elif kind == "definition":
+                add_form = {"kind": "definition", "definition": phrase, "answer": answer}
+            elif kind == "indicator" and wptype:
+                add_form = {"kind": "indicator", "word": phrase, "type": wptype,
+                            "subtype": ""}
+            elif kind == "link":
+                add_form = {"kind": "link", "word": phrase}
+            if add_form is None:
+                msg = "Missing a required value for that kind (e.g. the synonym value)."
+            else:
+                msg = _do_add(add_form)
+                apply_add_to_wiring(add_form)
+                _resolve_one(int(only))
+                msg = "Added (%s) for %r: %s; clue re-solved." % (kind, phrase, msg)
+    elif widxs and not _contiguous(widxs):
+        msg = "Selected words must be contiguous (one phrase)."
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    body = _RG_CSS + ROLEGRID_FORM.format(cid=escape(only, quote=True))
     body += _rolegrid_block(int(only)) if only else ""
     return _page(notice + body)
 
