@@ -998,9 +998,17 @@ def _handsolve_block(clue_id):
 # filler exist). Fodder assignment + inline enrichment are follow-ups.
 # ---------------------------------------------------------------------------------
 
-# DB indicator types offered when forcing an indicator (alphabetical).
-_FORCE_IND_TYPES = ("acrostic", "alternation", "anagram", "container", "deletion",
-                    "hidden", "homophone", "insertion", "reversal", "selection")
+# Indicator types offered when forcing an indicator: (value, label). Positional ones carry
+# their subtype encoded 'charade_positional:after' (clue_overrides splits it).
+_FORCE_IND_OPTIONS = (
+    ("anagram", "anagram"), ("container", "container"), ("insertion", "insertion"),
+    ("reversal", "reversal"), ("deletion", "deletion"), ("hidden", "hidden"),
+    ("homophone", "homophone"), ("acrostic", "acrostic"),
+    ("alternation", "alternation"), ("selection", "selection"),
+    ("charade_positional:after", "positional — after"),
+    ("charade_positional:before", "positional — before"),
+)
+_FORCE_IND_TYPES = frozenset(v for v, _ in _FORCE_IND_OPTIONS)
 
 
 # mechanism -> friendly role label shown in the grid
@@ -1073,23 +1081,47 @@ def _rolegrid_block(clue_id):
          '<input type="hidden" name="only" value="%d">'
          % (escape(str(clue_id), quote=True), clue_id))
 
-    # Word table: tick the word(s), see each one's current role + the value it produced.
+    # Per-word DB values (synonyms/abbreviations the reference DB holds for that word), so a
+    # freshly-added synonym is VISIBLE here even when the clue does not fully solve yet.
+    w_db = batch_wiring()
+    lookup_all = w_db["lookup_all"]
+
+    def db_values(word):
+        seen, out = set(), []
+        try:
+            for v, m in lookup_all(word):
+                v = (v or "").upper()
+                if m in ("synonym", "abbreviation") and v and v not in seen:
+                    seen.add(v)
+                    out.append(v)
+                if len(out) >= 10:
+                    break
+        except Exception:
+            pass
+        return out
+
+    # Word table: tick the word(s); see each one's current role, the value it produced in the
+    # solve, and what the reference DB holds for it.
     grid = ['<table class="rg-tbl">'
-            '<tr><th>pick</th><th>word</th><th>role</th><th>makes</th></tr>']
+            '<tr><th>pick</th><th>word</th><th>role</th><th>makes</th>'
+            '<th>DB has</th></tr>']
     for r in rows:
         val = ('<span class="rg-val">%s</span>' % escape(r["value"])) if r["value"] else ""
+        dbv = db_values(r["text"])
+        dbcell = ('<span class="rg-dbv">%s</span>'
+                  % escape(", ".join(dbv))) if dbv else '<span class="rg-dbnone">—</span>'
         grid.append(
             '<tr><td class="rg-pick"><input type="checkbox" name="w" value="%d" '
             'form="rg-set-%d"></td>'
             '<td class="rg-word">%s</td>'
             '<td class="rg-role rg-%s">%s</td>'
-            '<td>%s</td></tr>'
+            '<td>%s</td><td>%s</td></tr>'
             % (r["idx"], clue_id, escape(r["text"]), escape(r["role"]),
-               escape(r["label"]), val))
+               escape(r["label"]), val, dbcell))
     grid.append("</table>")
 
-    type_opts = "".join('<option value="%s">%s</option>' % (t, t)
-                        for t in _FORCE_IND_TYPES)
+    type_opts = "".join('<option value="%s">%s</option>' % (v, lbl)
+                        for v, lbl in _FORCE_IND_OPTIONS)
     # ONE control: tick word(s) above, choose a role, Apply. Alphabetical roles.
     set_form = (
         '<form method="post" action="/gridrole" id="rg-set-%d" class="rg-set">%s'
@@ -1105,8 +1137,11 @@ def _rolegrid_block(clue_id):
         '<span class="rg-cond rg-cond-synonym">= <input name="value" '
         'placeholder="value, e.g. TOD" size="14"></span>'
         '<button>Apply &amp; re-solve</button></div>'
-        '<div class="rg-note">definition &amp; indicator are set for <i>this clue only</i>; '
-        'a synonym value is added to the reference DB (used everywhere).</div>'
+        '<div class="rg-note">Tick one word, or several adjacent words for a phrase '
+        '(e.g. a multi-word definition, indicator, or synonym). definition &amp; indicator '
+        'are set for <i>this clue only</i>; a synonym value is added to the reference DB '
+        '(used everywhere) &mdash; tick the discovered word plus any extra words to add a '
+        'longer synonym.</div>'
         '</form>' % (clue_id, h, type_opts))
 
     # Current overrides on this clue, each with a one-click clear.
@@ -1139,9 +1174,12 @@ def _rolegrid_block(clue_id):
                    '<form method="post" action="/unforce" class="rg-inline">%s'
                    '<button class="rg-x">unforce &amp; re-solve</button></form></div>' % h)
 
+    back = ('<div class="rg-back"><a href="/?id=%d">&larr; back to clue page</a></div>'
+            % clue_id)
     return (
         _cid_label(clue_id, src, pnum, cnum, direction)
         + '<div class="rg-block">'
+        + back
         + '<div class="rg-clue">%s</div>' % escape(clue_text)
         + '<div class="rg-status rg-st-%s">%s — %s</div>'
           % (status, escape(answer), status.upper())
@@ -1173,6 +1211,9 @@ _RG_CSS = """<style>
 .rg-role.rg-none{color:#b91c1c}
 .rg-val{font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;
   background:#f1f5f9;padding:.05rem .4rem;border-radius:4px;color:#0f172a}
+.rg-dbv{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;color:#334155}
+.rg-dbnone{color:#cbd5e1}
+.rg-back{margin:0 0 .5rem}.rg-back a{color:#0d9488;text-decoration:none;font-weight:600}
 .rg-set{margin:.6rem 0;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;
   padding:.7rem .9rem}
 .rg-setrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:1rem}
@@ -1260,7 +1301,8 @@ def gridrole_route():
             finally:
                 conn.close()
             _resolve_one(int(only))
-            msg = "Forced %r as a %s indicator (this clue); re-solved." % (phrase, wptype)
+            label = dict(_FORCE_IND_OPTIONS).get(wptype, wptype)
+            msg = "Forced %r as a %s indicator (this clue); re-solved." % (phrase, label)
         elif role == "filler":
             conn = store.connect()
             try:

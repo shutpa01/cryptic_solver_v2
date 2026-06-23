@@ -72,16 +72,37 @@ def apply_forced_overrides(wiring, clue_id):
         w["defines"] = defines
 
     if forced_ind:
-        norm_forced = [(_norm_phrase(p), t) for p, t in forced_ind]
+        # A forced indicator's type may be a plain wordplay_type (e.g. 'reversal') OR a
+        # positional one encoded 'charade_positional:after' — split off the subtype.
+        norm_forced = []                       # (norm_phrase, base_type, subtype_or_None)
+        for p, t in forced_ind:
+            base, _, sub = (t or "").partition(":")
+            norm_forced.append((_norm_phrase(p), base, sub or None))
         orig_types = wiring["indicator_types"]
 
         def indicator_types(text, _forced=norm_forced, _orig=orig_types):
             types = set(_orig(text) or ())
             key = _norm_phrase(text)
-            for p, t in _forced:
+            for p, base, _sub in _forced:
                 if key == p:
-                    types.add(t)
+                    types.add(base)            # the base wordplay_type (DB-recognised)
             return types
         w["indicator_types"] = indicator_types
+
+        # Positional indicators are read via charade_positional_subtypes, not
+        # indicator_types — so a forced 'charade_positional:after' must also surface there.
+        pos_forced = [(p, sub) for p, base, sub in norm_forced
+                      if base == "charade_positional" and sub]
+        if pos_forced and wiring.get("charade_positional_subtypes") is not None:
+            orig_pos = wiring["charade_positional_subtypes"]
+
+            def charade_positional_subtypes(text, _forced=pos_forced, _orig=orig_pos):
+                subs = set(_orig(text) or ())
+                key = _norm_phrase(text)
+                for p, sub in _forced:
+                    if key == p:
+                        subs.add(sub)
+                return subs
+            w["charade_positional_subtypes"] = charade_positional_subtypes
 
     return w
