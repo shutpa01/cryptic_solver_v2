@@ -83,6 +83,16 @@ app = Flask(__name__)
 _WIRING = None
 
 
+@app.after_request
+def _no_cache(resp):
+    """Never let the browser serve a stale page — this is an admin tool that changes on
+    every edit, and a cached page made it look like code changes 'did nothing'."""
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    resp.headers["Expires"] = "0"
+    return resp
+
+
 def wiring():
     """The full wiring, AI ON. Used only for an explicit per-clue re-run, so AI is
     on-demand, never part of a batch solve."""
