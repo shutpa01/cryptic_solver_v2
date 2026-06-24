@@ -74,10 +74,21 @@ def apply_forced_overrides(wiring, clue_id):
     if forced_ind:
         # A forced indicator's type may be a plain wordplay_type (e.g. 'reversal') OR a
         # positional one encoded 'charade_positional:after' — split off the subtype.
+        is_link_fn = w.get("is_link") or wiring["is_link"]   # effective (filler-aware)
         norm_forced = []                       # (norm_phrase, base_type, subtype_or_None)
         for p, t in forced_ind:
             base, _, sub = (t or "").partition(":")
-            norm_forced.append((_norm_phrase(p), base, sub or None))
+            sub = sub or None
+            full = _norm_phrase(p)
+            norm_forced.append((full, base, sub))
+            # An engine may peel LINK words out of a multi-word indicator and record only
+            # the content core (e.g. "now and again" -> recorded "now again", "and" a link).
+            # Register that link-stripped form too, so role-validity recognises whichever
+            # form the engine records as the SAME forced indicator. Scoped to this clue's
+            # wiring and only ADDS the forced type (mirrors the full-phrase behaviour below).
+            stripped = " ".join(wd for wd in full.split() if not is_link_fn(wd))
+            if stripped and stripped != full:
+                norm_forced.append((stripped, base, sub))
         orig_types = wiring["indicator_types"]
 
         def indicator_types(text, _forced=norm_forced, _orig=orig_types):

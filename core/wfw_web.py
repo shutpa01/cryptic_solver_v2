@@ -90,9 +90,18 @@ BOOT_ID = _time.strftime("%H:%M:%S", _time.localtime())   # changes on every ser
 def _grid_redirect(only, msg=""):
     """Post/Redirect/Get: after a grid action, redirect to the canonical grid GET so the
     URL is clean (/rolegrid, not /gridrole), a refresh won't resubmit, and the page is
-    re-rendered fresh from one code path."""
+    re-rendered fresh from one code path. Preserves the CLUTCH context (`from`, the
+    clue-page id-string this clue was opened within) submitted by the grid form, so the
+    "back to clue page" link still returns to the whole clutch after an action."""
     from urllib.parse import quote
-    return redirect("/rolegrid?id=%s&notice=%s" % (only, quote(msg)))
+    extra = ""
+    try:
+        frm = (request.form.get("from") or request.args.get("from") or "").strip()
+    except Exception:
+        frm = ""
+    if frm:
+        extra = "&from=%s" % quote(frm, safe="")
+    return redirect("/rolegrid?id=%s&notice=%s%s" % (only, quote(msg), extra))
 
 
 @app.after_request
@@ -238,7 +247,10 @@ RELOAD_FORM = """
 @app.route("/")
 def index():
     raw = (request.args.get("id") or "").strip()
-    return _page(_body(raw))                       # fresh run: solve all
+    # Render from the STORE and re-solve only clues never solved before — a plain page
+    # load / back-from-hand-solver is instant and does not re-run the whole clutch. Use
+    # the Reload buttons to force a fresh solve (per-clue or whole-puzzle).
+    return _page(_body(raw, fill_missing=True))
 
 
 @app.route("/reload", methods=["POST"])
@@ -550,19 +562,42 @@ def _signature_queue_html():
             % (len(rows), "".join(items)))
 
 
-def _body(raw, resolve_only=None, ai=False, discover=False):
+def _stored_parse_ids(tokens):
+    """The subset of these clue ids that ALREADY have a stored parse (a wfw_solve row),
+    in ONE query — so the clue page can render them from the store instead of re-running
+    the cascade. Non-numeric tokens are ignored."""
+    ids = [int(t) for t in tokens if t.isdigit()]
+    if not ids:
+        return set()
+    conn = store.connect()
+    try:
+        q = ("SELECT clue_id FROM wfw_solve WHERE clue_id IN (%s)"
+             % ",".join("?" * len(ids)))
+        return {r[0] for r in conn.execute(q, ids)}
+    finally:
+        conn.close()
+
+
+def _body(raw, resolve_only=None, ai=False, discover=False, fill_missing=False):
     """Render the page body. `resolve_only` None -> re-solve every clue; a set ->
-    re-solve only those ids, render the rest from their stored result. `ai` True
-    uses the full AI wiring for the re-solve (per-clue, on demand); False uses the
-    DB-only batch wiring so a whole-puzzle run makes no AI calls. `discover` True turns
-    on the auto-signature DISCOVERY+QUEUE for the re-solved clue(s) (the per-clue re-run)."""
+    re-solve only those ids, render the rest from their stored result. `fill_missing`
+    True -> render every clue from the STORE and re-solve ONLY clues that have no stored
+    parse yet (the default for a plain page load / back-navigation, so an already-solved
+    clutch is instant and nothing is needlessly re-run); takes precedence over
+    `resolve_only`. `ai` True uses the full AI wiring for the re-solve (per-clue, on
+    demand); False uses the DB-only batch wiring so a whole-puzzle run makes no AI calls.
+    `discover` True turns on the auto-signature DISCOVERY+QUEUE for the re-solved clue(s)."""
     cid = escape(raw, quote=True)
     # Render the clue cards FIRST (a per-clue re-run may discover + queue a signature
     # during the solve), THEN build the queue banner so it reflects anything just queued.
     cards = ""
     tokens = [t for t in raw.replace(",", " ").split() if t]
+    stored = _stored_parse_ids(tokens) if fill_missing else set()
     for token in tokens:
-        resolve = resolve_only is None or token in resolve_only
+        if fill_missing:
+            resolve = not (token.isdigit() and int(token) in stored)  # only never-solved
+        else:
+            resolve = resolve_only is None or token in resolve_only
         cards += _render_one(token, raw, resolve, ai=ai, discover=discover)
     return (FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
             + _signature_queue_html() + cards)
@@ -1058,8 +1093,14 @@ def _word_roles(ctx, parse, filler_set):
     amap = {}
     if parse is not None:
         if parse.definition is not None:
+            # A guessed (source='pending') definition is shown as "unidentified definition"
+            # here too, so the grid never presents the floor's edge guess as confirmed
+            # (memory: definition-floor-redesign). Role category stays 'definition'.
+            _dlabel = ("unidentified definition"
+                       if getattr(parse.definition, "source", "db") == "pending"
+                       else "definition")
             for aid in (parse.definition.clue_atom_ids or ()):
-                amap[aid] = ("definition", "definition", "")
+                amap[aid] = ("definition", _dlabel, "")
         for s in (parse.sources or []):
             mech = getattr(s, "mechanism", "") or ""
             label = _MECH_LABEL.get(mech, mech or "piece")
@@ -1088,9 +1129,14 @@ def _word_roles(ctx, parse, filler_set):
     return out
 
 
-def _rolegrid_block(clue_id):
+def _rolegrid_block(clue_id, back_raw=None):
     """One clue's role grid: the words listed vertically with their current roles, the
-    forced-indicator control, current forces, and (if frozen) the unforce control."""
+    forced-indicator control, current forces, and (if frozen) the unforce control.
+
+    `back_raw` is the id-string of the CLUTCH this clue was opened within (space-joined
+    ids). The "back to clue page" link returns to that whole clutch, anchored to THIS
+    clue (#clue-<id>), so solving one clue in a batch does not collapse the view to a
+    single clue. Defaults to this clue alone when opened on its own."""
     row = _load_clue(clue_id)
     if row is None:
         return f'<p class="warn">No clue with id {clue_id}.</p>'
@@ -1111,7 +1157,9 @@ def _rolegrid_block(clue_id):
     h = ('<input type="hidden" name="id" value="%s">'
          '<input type="hidden" name="only" value="%d">'
          '<input type="hidden" name="surface" value="grid">'
-         % (escape(str(clue_id), quote=True), clue_id))
+         '<input type="hidden" name="from" value="%s">'
+         % (escape(str(clue_id), quote=True), clue_id,
+            escape(back_raw or str(clue_id), quote=True)))
 
     # Per-word DB values (synonyms/abbreviations the reference DB holds for that word), so a
     # freshly-added synonym is VISIBLE here even when the clue does not fully solve yet.
@@ -1207,12 +1255,33 @@ def _rolegrid_block(clue_id):
                    '<form method="post" action="/unforce" class="rg-inline">%s'
                    '<button class="rg-x">unforce &amp; re-solve</button></form></div>' % h)
 
-    back = ('<div class="rg-back"><a href="/?id=%d">&larr; back to clue page</a></div>'
-            % clue_id)
+    from urllib.parse import quote
+    back_id = back_raw if back_raw else str(clue_id)
+    back_q = quote(back_id, safe="")
+    back = ('<div class="rg-back"><a href="/?id=%s#clue-%d">'
+            '&larr; back to clue page</a></div>' % (back_q, clue_id))
+    # PREV/NEXT within the hand solver: step through the CLUTCH (the `from` context)
+    # without leaving the role grid. Shown only when this clue sits in a clutch of >1.
+    nav = ""
+    clutch_ids = _parse_hs_ids(back_id)
+    if clue_id in clutch_ids and len(clutch_ids) > 1:
+        pos = clutch_ids.index(clue_id)
+
+        def _arrow(nid, label):
+            if nid is None:
+                return '<span class="rg-nav rg-nav-off">%s</span>' % label
+            return ('<a class="rg-nav" href="/rolegrid?id=%d&amp;from=%s">%s</a>'
+                    % (nid, back_q, label))
+        prev_id = clutch_ids[pos - 1] if pos > 0 else None
+        next_id = clutch_ids[pos + 1] if pos < len(clutch_ids) - 1 else None
+        nav = ('<div class="rg-navrow">%s<span class="rg-navpos">%d of %d</span>%s</div>'
+               % (_arrow(prev_id, "&larr; prev clue"), pos + 1, len(clutch_ids),
+                  _arrow(next_id, "next clue &rarr;")))
     return (
         _cid_label(clue_id, src, pnum, cnum, direction)
         + '<div class="rg-block">'
         + back
+        + nav
         + '<div class="rg-clue">%s</div>' % escape(clue_text)
         + '<div class="rg-status rg-st-%s">%s — %s</div>'
           % (status, escape(answer), status.upper())
@@ -1247,6 +1316,12 @@ _RG_CSS = """<style>
 .rg-dbv{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;color:#334155}
 .rg-dbnone{color:#cbd5e1}
 .rg-back{margin:0 0 .5rem}.rg-back a{color:#0d9488;text-decoration:none;font-weight:600}
+.rg-navrow{display:flex;align-items:center;gap:1rem;margin:0 0 .6rem;font-size:1rem}
+.rg-nav{color:#0d9488;text-decoration:none;font-weight:700;padding:.25rem .7rem;
+  border:1px solid #0d9488;border-radius:6px}
+.rg-nav:hover{background:#0d9488;color:#fff}
+.rg-nav-off{color:#cbd5e1;border-color:#e2e8f0;cursor:default}
+.rg-navpos{color:#64748b;font-size:.85rem}
 .rg-set{margin:.6rem 0;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;
   padding:.7rem .9rem}
 .rg-setrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:1rem}
@@ -1291,6 +1366,7 @@ def rolegrid_route():
     """Role-grid hand-solver for one clue (or several, comma/space/range separated)."""
     raw = (request.args.get("id") or "").strip()
     notice = (request.args.get("notice") or "").strip()
+    back_from = (request.args.get("from") or "").strip()   # the clue-page CLUTCH, if any
     ids = _parse_hs_ids(raw)
     marker = ('<div style="font-size:.75rem;color:#94a3b8;margin:.3rem 0">'
               'hand-solver build %s</div>' % escape(BOOT_ID))
@@ -1300,8 +1376,13 @@ def rolegrid_route():
     body = _RG_CSS + head + ROLEGRID_FORM.format(cid=escape(raw, quote=True))
     if not ids:
         return _page(body + '<p class="warn">Enter a clue id, e.g. 10075290.</p>')
+    # Back link returns to the CLUTCH this clue was opened within: the `from` clue-page
+    # id-string when present (so opening ONE clue from a clutch still returns to the
+    # whole clutch), else the ids rendered here. Carried through grid POSTs via `from`.
+    back_ids = _parse_hs_ids(back_from) if back_from else ids
+    back_raw = " ".join(str(i) for i in (back_ids or ids))
     for cid in ids:
-        body += _rolegrid_block(cid)
+        body += _rolegrid_block(cid, back_raw=back_raw)
     return _page(body)
 
 
@@ -1596,6 +1677,8 @@ def handsolve_route():
 def _reload_clue_button(clue_id, raw_list):
     """Per-clue button: reload the DB snapshot and re-run JUST this clue, keeping the
     rest of the batch on screen."""
+    from urllib.parse import quote
+    _frm = quote(raw_list or "", safe="")     # carry the CLUTCH into the role grid
     return (
         '<form method="post" action="/reload" style="margin:.4rem 0 0">'
         '<input type="hidden" name="id" value="%s">'
@@ -1607,7 +1690,7 @@ def _reload_clue_button(clue_id, raw_list):
         'title="Run the AI piece fallback too (slower). Off = fast DB-only re-run.">'
         '<input type="checkbox" name="ai" value="on"> with AI fallback</label>'
         '</form>'
-        '<a href="/rolegrid?id=%d" class="wfw-reload wfw-reload-clue" '
+        '<a href="/rolegrid?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
         'style="display:inline-block;text-decoration:none;background:#0d9488;'
         'border-color:#0d9488;margin:.4rem 0" '
         'title="Open the role-grid hand-solver for this clue">'
@@ -1617,7 +1700,7 @@ def _reload_clue_button(clue_id, raw_list):
         'border-color:#7c3aed;margin:.4rem 0 .4rem .4rem" '
         'title="Open the (legacy) atom-level hand-solver for this clue">'
         '&#9998; Atoms</a>'
-        % (escape(raw_list, quote=True), clue_id, clue_id, clue_id))
+        % (escape(raw_list, quote=True), clue_id, clue_id, _frm, clue_id))
 
 
 def _cid_label(clue_id, source=None, puzzle_number=None, clue_number=None, direction=None):

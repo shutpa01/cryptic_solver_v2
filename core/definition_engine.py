@@ -15,7 +15,21 @@ Decoupled from any particular database: the caller injects
 (live wiring passes the reference DB's check; tests pass a fake).
 """
 
+import os
+
 from dataclasses import dataclass, field
+
+# The NO-DEFINITION FLOOR (provisional longest-edge "definition" offered when neither the DB
+# nor Haiku confirms one) is ON by default. It only ever produces source='pending' splits,
+# so it can never create or destroy a confirmed PASS. Two safeguards (added 2026-06-24) keep
+# it honest instead of letting it fabricate nonsense:
+#   - a floor (source='pending') definition is DROPPED from any FAIL parse in
+#     engine_registry._finish, so a "forced definition with no wordplay" is never shown;
+#   - on a KEPT near-solve (status 'pending') the floor guess renders as "unidentified
+#     definition - not confirmed", never as if it were the real definition.
+# A hand-set (forced) definition is source='manual' and is never touched by the floor.
+# Set env DEF_FLOOR=0 to turn the floor off (used to A/B this change).
+_DEF_FLOOR_ENABLED = os.environ.get("DEF_FLOOR", "1") == "1"
 
 
 @dataclass
@@ -112,7 +126,7 @@ def find_definitions(ctx, defines, max_window=8, extend=False,
     # so a solvable wordplay is still shown (pending) and the residue edge is queued for
     # you to add, instead of the whole clue vanishing. Only fires on a total def miss, so
     # it never changes a confirmed solve.
-    if not out:
+    if not out and _DEF_FLOOR_ENABLED:
         from core import grammar
         postags = grammar.pos_tags([t.text for t in words])
         out = _residue_edge_splits(words, max_window, postags)

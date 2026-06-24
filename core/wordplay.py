@@ -7,6 +7,8 @@ one place. The TYPE-SPECIFIC assembly (how each clue type tiles or inserts) stay
 its own engine, per the isolated-engines rule; only these common helpers are shared.
 """
 
+import unicodedata
+
 from core import contractions
 
 # Function-word parts of speech — never an operative indicator or fodder piece;
@@ -17,8 +19,13 @@ GLUE_POS = FUNCTION_POS | frozenset({"VERB", "ADV"})
 
 
 def raw(text):
-    """The uppercase alphabetic letters of `text`."""
-    return "".join(c for c in (text or "").upper() if c.isalpha())
+    """The uppercase alphabetic letters of `text`, with diacritics FOLDED to their base
+    letter (cryptic convention: gratiné -> GRATINE, Señor -> SENOR), so accented fodder
+    and pieces letter-match the answer. Strict no-op for plain ASCII text: NFKD leaves
+    unaccented characters unchanged, and only combining marks are dropped."""
+    decomposed = unicodedata.normalize("NFKD", text or "")
+    return "".join(c for c in decomposed.upper()
+                   if c.isalpha() and not unicodedata.combining(c))
 
 
 def is_anagram_indicator(text, indicator_types):

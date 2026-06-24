@@ -572,8 +572,18 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                       indicator_types=wiring["indicator_types"],
                       is_link=wiring["is_link"],
                       define_fallback=wiring.get("define_fallback"))
+    hidden_fallback = None
     if ph is not None:
-        return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
+        if ph.status == "pass":
+            return _finish(ph, "hidden", ctx, wiring, source, puzzle_number, clue_id)
+        # A hidden PENDING is NOT terminal (it was: a coincidental contiguous run with no
+        # confirmed hidden indicator / unaccounted words — e.g. INN inside "sINNing" —
+        # used to pre-empt every later engine and block a forced alternation). Hold it as a
+        # LAST-RESORT fallback and let the cascade continue, so a more specific engine (a
+        # forced/indicator-gated alternation, acrostic, anagram, ...) can claim the clue.
+        # Returned at the end only if nothing better solves it, so out-of-box behaviour is
+        # unchanged (the hidden pending is still what shows when no other engine fires).
+        hidden_fallback = ph
 
     # ACROSTIC — initial/final-letter selection. Answer-driven (the selected letters
     # must EXACTLY spell the answer) and indicator-gated, so it is highly specific and
@@ -1143,6 +1153,14 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # attempted reading) is the relevant thing to SHOW, ahead of a generic anagram/charade
     # fodder guess that knows nothing about the indicator. Preserve it (design: never drop
     # fail evidence; the indicator must survive).
+    # A demoted hidden PENDING is preserved as the result UNLESS a pass/pending engine
+    # already claimed the clue earlier (in which case we returned before reaching here).
+    # Placed BEFORE the gated fail-evidence so a hidden pending can only be SUPERSEDED by a
+    # genuine pass/pending, never DOWNGRADED to a fail; for clues no between-engine claims,
+    # behaviour is identical to the old hidden-first cascade (the hidden pending still shows).
+    if hidden_fallback is not None:
+        return _finish(hidden_fallback, "hidden", ctx, wiring, source, puzzle_number, clue_id)
+
     for p, n in ((pspoon, "spoonerism"), (ppal, "palindrome"), (pacro, "acrostic")):
         if p is not None:
             return _finish(p, n, ctx, wiring, source, puzzle_number, clue_id)
@@ -1230,6 +1248,18 @@ def _most_complete(candidates, ctx):
 
 def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
     """Queue any provisional pieces, persist the final Parse, return it."""
+    # FLOOR GUARD: a GUESSED definition (source='pending' — the no-definition floor edge
+    # guess or the Haiku fallback) must NEVER be shown on a FAIL. On a fail the wordplay did
+    # not reconstruct the answer, so a guessed edge is a "forced definition with no wordplay"
+    # (e.g. ROSEOLA: half the clue claimed as the definition). Drop it — and its now-stale
+    # "provisional" warning — BEFORE _finalize_provisional, so the nonsense def is neither
+    # shown nor queued for enrichment. A DB ('db') or hand-set ('manual') definition is kept;
+    # only the guess is removed, and only on a fail (pending/pass near-solves keep theirs).
+    if (parse is not None and parse.status == "fail" and parse.definition is not None
+            and getattr(parse.definition, "source", "db") == "pending"):
+        parse.definition = None
+        parse.warnings = [w for w in parse.warnings
+                          if "definition is provisional" not in w]
     _finalize_provisional(parse, ctx, wiring.get("store"), source, puzzle_number)
     # AUTO SIGNATURE-CREATION: a clue that fully PASSED but matched NO catalog signature
     # was solved by the fallback — its decomposition is a shape the catalog is missing.

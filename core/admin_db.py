@@ -130,22 +130,30 @@ def add_link_word(word):
         conn.close()
 
 
-def add_indicator(word, wordplay_type):
+def add_indicator(word, wordplay_type, subtype=None):
     word = (word or "").strip()
     wp = (wordplay_type or "").strip().lower()
+    sub = (subtype or "").strip().lower() or None
     if not word or not wp:
         return "Indicator word and type are both required."
+    label = "%s%s" % (wp, ("/" + sub) if sub else "")
     conn = _conn()
     try:
-        if conn.execute("SELECT 1 FROM indicators WHERE word=? AND "
-                        "wordplay_type=? AND subtype IS NULL",
-                        (word, wp)).fetchone():
-            return "Already present: %r (%s)" % (word, wp)
+        if sub is None:
+            dup = conn.execute("SELECT 1 FROM indicators WHERE word=? AND "
+                               "wordplay_type=? AND subtype IS NULL",
+                               (word, wp)).fetchone()
+        else:
+            dup = conn.execute("SELECT 1 FROM indicators WHERE word=? AND "
+                               "wordplay_type=? AND subtype=?",
+                               (word, wp, sub)).fetchone()
+        if dup:
+            return "Already present: %r (%s)" % (word, label)
         conn.execute("INSERT INTO indicators "
                      "(word, wordplay_type, subtype, confidence, source, norm_word) "
-                     "VALUES (?, ?, NULL, 'high', 'admin', ?)",
-                     (word, wp, _normalize_key(word)))
+                     "VALUES (?, ?, ?, 'high', 'admin', ?)",
+                     (word, wp, sub, _normalize_key(word)))
         conn.commit()
-        return "Added indicator: %r (%s)" % (word, wp)
+        return "Added indicator: %r (%s)" % (word, label)
     finally:
         conn.close()

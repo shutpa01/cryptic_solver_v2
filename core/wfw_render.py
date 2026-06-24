@@ -232,14 +232,20 @@ def _render_breakdown(parse, src_fg, src_fill):
         rows.append(_row(_first_index(s.clue_atom_ids), label, style, content))
 
     if parse.definition:
-        prov = ""
         _dsrc = getattr(parse.definition, "source", "db")
+        def_label, def_style, prov = "Definition", "background:#2563eb;color:#fff", ""
         if _dsrc == "pending":
-            prov = ' <span class="wfw-prov">provisional</span>'
+            # The no-definition floor (or Haiku) GUESSED this edge — the DB has not confirmed
+            # it. Never present a guess as the real definition: label it "unidentified" and
+            # badge it "not confirmed", with a muted (slate) pill instead of the confident
+            # blue (memory: definition-floor-redesign).
+            def_label = "Unidentified definition"
+            def_style = "background:#64748b;color:#fff"
+            prov = ' <span class="wfw-prov">not confirmed</span>'
         elif _dsrc == "manual":
             prov = ' <span class="wfw-prov">manual (not in DB)</span>'
         rows.append(_row(_first_index(parse.definition.clue_atom_ids),
-                         "Definition", "background:#2563eb;color:#fff",
+                         def_label, def_style,
                          escape(parse.definition.text) + prov))
 
     for a in parse.annotations:

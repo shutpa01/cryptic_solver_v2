@@ -13,6 +13,7 @@ at the end. A slot's n_words is how many consecutive clue words form that one
 piece (SYN_F(2w) = a two-word synonym).
 """
 
+import json
 import os
 import sqlite3
 from dataclasses import dataclass
@@ -34,6 +35,8 @@ class Template:
     count: int           # frequency in the mining corpus
     priority: int        # rank within the operation (1 = most frequent)
     slots: tuple         # tuple[Slot], in clue order
+    assembly: str = None      # 'single' | 'charade' | 'container' (operation/assembly schema)
+    structure: dict = None    # nested pieces/operations referencing slot indices (parsed JSON)
 
     @property
     def fodder_word_count(self) -> int:
@@ -56,8 +59,12 @@ def load_templates(operation=None, db_path=None, active_only=True):
     path = db_path or _default_db_path()
     conn = sqlite3.connect(path, timeout=30)
     try:
-        tq = ("SELECT id, operation, signature, def_pos, count, priority "
-              "FROM catalog_templates")
+        # assembly/structure are added by the operation/assembly migration; read them
+        # only if present so the loader works against a pre-migration catalog too.
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(catalog_templates)")}
+        extra = ", assembly, structure" if {"assembly", "structure"} <= cols else ""
+        tq = ("SELECT id, operation, signature, def_pos, count, priority" + extra +
+              " FROM catalog_templates")
         clauses, params = [], []
         if operation is not None:
             clauses.append("operation = ?")
@@ -81,11 +88,15 @@ def load_templates(operation=None, db_path=None, active_only=True):
             Slot(position=position, role=role, n_words=n_words or 1))
 
     templates = []
-    for tid, op, sig, def_pos, count, priority in rows:
+    for row in rows:
+        tid, op, sig, def_pos, count, priority = row[:6]
+        assembly = row[6] if extra else None
+        structure = json.loads(row[7]) if (extra and row[7]) else None
         slots = tuple(slots_by_template.get(tid, []))
         templates.append(Template(id=tid, operation=op, signature=sig,
                                    def_pos=def_pos, count=count or 0,
-                                   priority=priority or 0, slots=slots))
+                                   priority=priority or 0, slots=slots,
+                                   assembly=assembly, structure=structure))
     return templates
 
 
@@ -134,3 +145,12 @@ def load_charade_homophone_templates(db_path=None):
     batch). A charade whose pieces concatenate to the answer, one piece a HOM_F
     homophone (an answer span sounding like a clue word/synonym)."""
     return load_templates(operation="charade_homophone", db_path=db_path)
+
+
+def load_deletion_templates(db_path=None):
+    """The plain-deletion signatures, priority order (operation 'deletion'). A recipe here
+    records the full structure: a base slot (SYN_F/ABR_F), a DEL_I deletion-indicator slot,
+    and — for a named deletion — a REM_F removed-letters source slot, plus the definition
+    edge. The verifier reads the deletion op from the indicator's DB sub-type and executes
+    it. (Supersedes the 4 thin 'del' rows, which recorded only the fodder shape.)"""
+    return load_templates(operation="deletion", db_path=db_path)
